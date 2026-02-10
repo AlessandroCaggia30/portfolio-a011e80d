@@ -1,0 +1,329 @@
+\documentclass[9pt,a4paper,twoside]{rho-class/rho}
+\usepackage[english]{babel}
+\let\bibhang\relax
+
+
+\setbool{rho-abstract}{true} % Set false to hide the abstract
+\setbool{corres-info}{true} % Set false to hide the corresponding author 
+\usepackage{xcolor}
+\usepackage{soul}
+\definecolor{lightblue}{RGB}{135, 206, 250}
+\usepackage{graphicx}  % in preamble
+\usepackage{fancyhdr}
+\usepackage{changepage}  % or geometry
+\usepackage{graphicx}    % for resizebox
+\usepackage{xcolor}
+
+\usepackage{soul,color}
+\usepackage{tabularx}
+\definecolor{issue}{RGB}{220,50,47}       % red
+\definecolor{example}{RGB}{0,150,0}      % green
+\definecolor{intuition}{RGB}{108,113,196} % purple
+\definecolor{solution}{RGB}{38,139,210}    % blue
+\usepackage{amsmath}  % in preamble
+
+%----------------------------------------------------------
+% TITLE
+%----------------------------------------------------------
+
+\title{AP: Duflo (2001)}
+
+%----------------------------------------------------------
+% AUTHORS AND AFFILIATIONS
+%----------------------------------------------------------
+
+\author{Alessandro Caggia}
+
+%----------------------------------------------------------
+% DATES
+%----------------------------------------------------------
+
+\dates{June 2025}
+
+%----------------------------------------------------------
+% FOOTER INFORMATION
+%----------------------------------------------------------
+
+\institution{Bocconi University}
+\theday{} %\today
+
+%----------------------------------------------------------
+% ABSTRACT
+%----------------------------------------------------------
+
+
+\begin{abstract}
+\end{abstract}
+
+
+
+\newcommand{\citeyearcomma}[1]{\citeauthor{#1}, \citeyear{#1}}
+
+\begin{document}
+    \maketitle
+    \thispagestyle{plain}
+    \linenumbers
+
+
+%----------------------------------------------------------
+
+
+\section{Robust Standard Errors}
+
+\begin{itemize}
+    \item A typical strategy in applied work is to report \textbf{heteroskedasticity-robust standard errors} for OLS regressions (``robust'' option in Stata).
+    \item Estimator for the variance of the asymptotic distribution of the OLS estimator that is \textbf{(asymptotically) consistent both under homo- and heteroskedasticity.}
+\end{itemize}
+
+\vspace{1em}
+\noindent \textbf{Under homoskedasticity:}
+\begin{itemize}
+    \item OLS standard errors are not only \textbf{consistent}, but also the \textbf{best linear unbiased estimate} (BLUE, most efficient).
+    \item Therefore, it is not recommended to use the ``robust'' ones.
+\end{itemize}
+
+\vspace{1em}
+\noindent \textbf{Under heteroskedasticity:}
+\begin{itemize}
+    \item OLS estimator of standard errors is \textbf{inconsistent}, but the ``robust'' one is consistent.
+    \item When the regression approximates a non-linear CEF, we have heteroskedastic errors in general, so better to use the robust one. Eg As soon as the dependent variable is not a continuous variable (e.g. binary), the CEF is not linear (easy proof). Then you will have, \textbf{by construction}, heteroskedastic errors.
+\end{itemize}
+
+\vspace{1em}
+\begin{itemize}
+    \item Since we do not know the CEF or form of heteroskedasticity, \textbf{in large samples it is safer to use robust standard errors.}
+    \item But, both the OLS and the robust estimators are \textbf{biased in small samples}, and the robust ones can be \textbf{more biased}.
+    \item \textbf{Conservative strategy:} use the larger of OLS (conventional) and robust standard errors, typically the robust ones.
+\end{itemize}
+
+
+
+\section{Clustering and the Moulton Factor}
+
+\begin{itemize}
+    \item With large samples, we do not need to care too much about heteroskedasticity.
+    
+    \item However, \textbf{clustering (group structures) can affect standard errors substantially}, even with large samples.
+    \begin{itemize}
+        \item \textit{\small E.g., we randomize at the school level, but outcomes are measured at the student level.}
+        \item \textit{\small Clustering impacts the off-diagonal terms in the variance-covariance matrix of errors.} Basically you have a block diagonal matrix: \textbf{correlation within groups}, but \textbf{no correlation across groups}! This affecs the error term. Obs are no longer iid. You udnerestimate standard errors. yo uoverestiamte the precision of your esitmator (the idea is that the true variabilty in rela workd is higer, and it is as if you have lower than relanumber of observatiosn to learn from the data)
+    \end{itemize}
+    
+    \item \textbf{Failure to control for within-cluster error correlation} can lead to:
+    \begin{itemize}
+        \item Misleadingly small standard errors,
+        \item Inflated $t$-statistics,
+        \item Falsely small $p$-values.
+    \end{itemize}
+    
+    \item If we assume that \textbf{non-diagonal terms in the variance-covariance matrix are constant}, we can compute the exact bias and derive a correction: the \textbf{Moulton factor}.
+\end{itemize}
+
+
+\begin{frame}{Model for Clustered Observations}
+\[
+Y_{ig} = \beta_0 + \beta_1 X_{g} + e_{ig}
+\]
+\begin{itemize}
+    \item $g=1,\ldots,G$ groups. Covariates $X$ vary at group level.
+    \item Test scores in the same school are correlated $\Rightarrow$ errors $e_{ig}$ are correlated.
+    \item $\mathbb{E}(e_{ig} e_{jg}) = \rho_e \sigma^2 \neq 0$, about two observations i and j within the same group g. 
+    \item where considering a \textbf{Random effects model:} $e_{ig} = v_g + \eta_{ig}$, so we can decopmose the observation i error as the sum of a group level error and an individual level error. The idea is putting all of the correlation among individuals beonging to the same clusetr in this term and assume $\eta_{ig}$ is hmoskedastic and uncorrelated across individauls, if yo udo dthis you find $\beta_1$ 
+    \item \textbf{Intraclass correlation coefficient:}
+    \[
+    \rho_e = \frac{\sigma_v^2}{\sigma_v^2 + \sigma_\eta^2}
+    \]
+    This measure how similar are observation within a class. 
+    
+    \item Interpretation
+    \begin{itemize}
+        \item If \( \sigma_v^2 = 0 \Rightarrow \rho_e = 0 \) \\
+        All variance is from individual noise \(\Rightarrow\) No within-group correlation.
+        
+        \item If \( \sigma_\eta^2 = 0 \Rightarrow \rho_e = 1 \) \\
+        All individuals in a cluster have the same error \(\Rightarrow\) Perfect intra-cluster correlation.
+    \end{itemize}
+    
+    \item Implications for Standard Errors
+    
+    \begin{itemize}
+        \item When \( \rho_e > 0 \), individuals in the same group are not independent.
+        \item If you ignore this and assume i.i.d. errors:
+        \begin{itemize}
+            \item Your standard errors will be too small.
+            \item You overstate precision, leading to over-rejection of null hypotheses.
+        \end{itemize}
+    \end{itemize}
+
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Moulton Factor}
+\[
+\sqrt{ \frac{V(\hat{\beta}_1)}{V_c(\hat{\beta}_1)} } = \sqrt{1 + (n - 1)\rho_e}
+\]
+\begin{itemize}
+    \item $V(\hat{\beta}_1)$: correct variance, $V_c(\hat{\beta}_1)$: conventional variance ignoring clustering.
+    \item $n$: average group size.
+    \item \textbf{Bias increases with group size $n$ and $\rho_e$}.
+    \item as soon as rho is hreater than zero and rgoup have mroe than 2 observations yo uhaev true standard errors $>$ those asusmed udner homoskedasticityò.
+    \item if rho is equal to zero true se are euql to hooskeedastij ones
+    \item When $\rho_e = 1$, bias factor $= \sqrt{n}$. With rho = 1, \textbf{the bias is of size n.} No additional info from more observations in same group.So,  n observations within a cluster are not adding any independent information. But if you mistakenly treat them as n independent observations, you overestimate the information by a factor of n. All errors within group are exactly the same, thus their outcome should be the same, and more observations do not provide any additional information! you get nor info by observing dierent usnits within the same group, you ahve actually n oabservaiton = n number of hroup. 
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{General Moulton Factor}
+The covariates play a key role in the generalized Moulton correction because the bias from clustering depends not only on the correlation of the errors within groups, but also on the correlation of the covariates within groups.
+\[
+\sqrt{ \frac{V(\hat{\beta}_1)}{V_c(\hat{\beta}_1)} } = \sqrt{1 + \left( \frac{V(n_g)}{E(n_g)} + E(n_g) - 1 \right) \rho_e \rho_X }
+\]
+\begin{itemize}
+    \item $\rho_X$: intraclass correlation of $X$.
+    \item Formula adapts if $n_g$ not constant (different group sizes). 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Correcting Clustered SE: 5 Approaches}
+\begin{enumerate}
+    \item \textbf{Parametric}: use Moulton formula. Mouoto correciton is a pramatric rule to corect for itnraclass correlaiton.  THE CORREITON IS TRIVIAL, SVEGLIA GUARDA LA OFMULA SU ED APPLICALA!
+    \item \textbf{Cluster SE}: flexible. Consistent if $G$ (number of groups) is large.
+    \item \textbf{Group Averages}: most conservatve startegy: constraint myself to running a reg at the groups levels (throuw away all incdividual level ifnormaiton). \textcolor{red}{ISSUE, SCREENSHOT!}
+    \item \textbf{GLS or MLE}: One would estimate the parameters of the error correlation model, and estimate the original model by feasible generalized least squares. Not robust to wrong specifications. 
+    \item \textbf{Block Bootstrap}: resample clusters, compute $\hat{\beta}_1^{(b)}$, and estimate variance across $B$ bootstrap samples. Need to do bootstrap with blocks to keep in all bootstrap sampels the group structure!
+\end{enumerate}
+\end{frame}
+
+
+\begin{frame}{When to Use Cluster Option in Stata?}
+\begin{itemize}
+    \item Must have a random sample of clusters from a super-population with large $G$ (BASICALLY, LERGE NUMEBR OF GROUPS).
+    \item With regressor randomized \textbf{within clusters} $\Rightarrow$ clustering not needed.
+    \item With regressor randomized\textbf{ at cluster level} $\Rightarrow$ \textbf{must cluster}.
+\end{itemize}
+\end{frame}
+
+
+
+\section{Bootstrapping}
+\begin{enumerate}
+\item \textbf{Block (or pairs) Bootstrap}: re-sample entire clusters instead of individuals. Do the following steps $B$ times (recommended $B \geq 400$):
+\begin{enumerate}
+    \item[0.1] Form $G$ clusters based on $(y_i, x_i)$ by resampling with replacement $G$ times from the original sample of clusters.
+    \item[0.2] Compute $B$ estimates, one $\hat{\beta}_i$, for each bootstrap sample. Compute the variance of the $B$ estimates.
+\end{enumerate}
+
+\item \textbf{Problem}: does not have much better properties than cluster option. But, you can use it for methods when that option is not available.
+\end{enumerate}
+Resampling technique that can be used as an alternative to inference based on asymptotic formulas.\\
+Draw repeatedly from your sample of N observations, as if it were the population.\\
+Get the bootstrap sampling distribution as the distribution of the estimator across the different draws.\\
+The bootstrap can be useful when we do not have asymptotic formulas for the estimator, or for ”asymptotic refinements” (i.e. reduction in finite sample \\bias for consistent estimators).
+
+
+
+
+\section{Serial Correlation}
+
+\subsection{Serial Correlation in Panels and DID Models}
+
+Suppose the treatment \( d_{ts} \) varies at the state level and over time, and we have individual-level data:
+\[
+y_{its} = \gamma d_{ts} + x'_{its} \delta + \alpha_s + \delta_t + u_{its}
+\]
+
+\begin{itemize}
+    \item \textbf{Key concern:} with serial correlation in errors \textit{over time within states}, we must adjust standard errors for:
+    \begin{itemize}
+        \item group correlation (individuals in the same state),
+        \item and serial correlation (within a state over time).
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{Cases}
+\begin{enumerate}
+    \item \textbf{Serial correlation but no group correlation}:\\
+    Use robust SEs or ARIMA-based methods to model serial correlation directly.
+
+    \item \textbf{No serial correlation, but group correlation within states} (e.g., shocks independent over time but correlated within state):\\
+    Cluster SEs at the group*time level.
+
+    \item \textbf{Both serial correlation (within state) and group correlation:}\\
+    Cluster at the \textbf{group level} (e.g., state), as a conservative and recommended approach. Because serial correlation cannot be ignored, you must collapse to the state level, which gives you fewer clusters (bigger clusters less fun).
+\end{enumerate}
+
+\textbf{Important:} \textcolor{red}{We need a \emph{large number of groups} to estimate intra-cluster correlations over time reliably}.
+
+\subsection{What to Cluster Over?}
+\begin{itemize}
+    \item Individuals often reside in subregions within larger regions.
+    \item \textbf{Recommendation:} cluster at the \textbf{region} level (Cameron and Miller, 2015).
+    \item Clustering at subregion level is incorrect if regressors or errors are correlated across subregions within the same region.
+    \item \textbf{Practical strategy:} start clustering at the lowest level, try higher levels, and stop when standard errors stabilize.
+    \item \textit{Note:} larger clusters tend to have higher standard errors due to greater average n.
+\end{itemize}
+
+\subsection{Small Number of Clusters}
+\begin{itemize}
+    \item Clustered SEs: t-statistic converges to \( N(0,1) \) only as \( G \to \infty \).
+    \item With finite \( G \): inference should be based on a t-distribution with \( G - 1 \) degrees of freedom.
+    \item \textbf{Donald and Lang (2007)}: if there are \( K \) regressors invariant within cluster (take same values), use t-distribution with \( G - K \) degrees of freedom.
+    \item With few clusters, SEs are downward biased even with clustering $\rightarrow$ over-rejection of the null.
+    \item Empirical rule: clustering at group level is typically safe if \( G \geq 50 \) and cluster sizes are similar.
+\end{itemize}
+
+\subsection{Fixes for Few Clusters}
+What if less than 50 clusters? 
+\subsubsection*{1. Bias-Corrected Cluster-Robust Variance}
+Cluster generalization of HC2/HC3 heteroskedasticity-robust formulas. Helps, but doesn’t fully eliminate bias or over-rejection.
+
+\subsubsection*{2. Cluster Bootstrap with Asymptotic Refinement (e.g., Wild Cluster Bootstrap)}
+\begin{enumerate}
+    \item Estimate unrestricted model, get \( \hat{\beta}_k \) and t-stat.
+    \item Re-estimate under \( \hat{\beta}_k = 0 \) ⇒ get restricted \( \tilde{\beta} \), residuals \( \tilde{u} \).
+    \item Do \( B \) bootstrap replications:
+    \[
+    y^{b}_{ig} = X_{ig} \tilde{\beta} + \tilde{u} \cdot v_g^b
+    \]
+    where \( v_g^b = \pm 1 \), randomly assigned per cluster. \textcolor{red}{boh}.
+    \item Estimate t-statistic for each bootstrap draw.
+    \item Compute p-value = share of draws with bootstrapped t-stat $>$ original.
+    \item In Stata: use \texttt{cgmwildboot} or \texttt{boottest}.
+\end{enumerate}
+
+
+
+\section*{Randomization Inference}
+
+\begin{itemize}
+    \item Instead of drawing samples from a super population, we can draw from repeatedly sampling the treatment assignment.
+    
+    \item Define your statistic (e.g. difference in means between treatment and control) and derive its exact distribution by calculating the test statistic under each possible permutation of treatment allocation.
+    
+    \item Assume you have a sample with 18 units, 9 assigned to treatment, you have \( \binom{18}{9} = \frac{18!}{9! \cdot 9!} = 48{,}620 \) different possible assignment vectors, get one statistic for each.
+    
+    \item We ask how likely it is to observe a value of the test statistic as large as the one observed: count how many of the 48{,}620 test statistics have a value larger than the one observed.
+    
+    \item Let’s say it is true for 1{,}500 of them, then your Exact p-value is \( \frac{1500}{48620} = 0.03 \), and you can reject the null of no difference in means at the 97\% level.
+    
+    \item If the number of permutations is very large, you can calculate the statistic for a random sub-sample of permutations and get close to exact p-values.
+\end{itemize}
+
+\vspace{1em}
+
+\subsection*{Stata Implementation: \texttt{ritest}}
+
+\begin{itemize}
+    \item \texttt{ritest} (Hess, 2017 Stata Journal), \texttt{ssc install ritest}
+    
+    \item \texttt{ritest treatment \_b[treatment], reps(1000) seed(1111) cluster(id): reg Y treatment, cluster(id)}
+\end{itemize}
+
+
+
+
+
+\end{document}
+

@@ -1,0 +1,990 @@
+\documentclass[9pt,a4paper,twoside]{rho-class/rho}
+\usepackage[english]{babel}
+\let\bibhang\relax
+%\usepackage{natbib}
+
+\setbool{rho-abstract}{true} % Set false to hide the abstract
+\setbool{corres-info}{true} % Set false to hide the corresponding author 
+\usepackage{xcolor}
+\usepackage{soul}
+\definecolor{lightblue}{RGB}{135, 206, 250}
+\usepackage{graphicx}  % in preamble
+\usepackage{fancyhdr}
+\usepackage{changepage}  % or geometry
+\usepackage{graphicx}    % for resizebox
+\usepackage{xcolor}
+
+
+%----------------------------------------------------------
+% TITLE
+%----------------------------------------------------------
+
+\title{The Potential Outcome Framework}
+
+%----------------------------------------------------------
+% AUTHORS AND AFFILIATIONS
+%----------------------------------------------------------
+
+\author{Alessandro Caggia}
+
+%----------------------------------------------------------
+% DATES
+%----------------------------------------------------------
+
+\dates{June 2025}
+
+%----------------------------------------------------------
+% FOOTER INFORMATION
+%----------------------------------------------------------
+
+\institution{Bocconi University}
+\theday{June 04, 2026} %\today
+
+%----------------------------------------------------------
+% ABSTRACT
+%----------------------------------------------------------
+
+
+\begin{abstract}
+\end{abstract}
+
+
+
+\newcommand{\citeyearcomma}[1]{\citeauthor{#1}, \citeyear{#1}}
+
+\begin{document}
+	
+    \maketitle
+    \thispagestyle{plain}
+    \linenumbers
+
+
+%----------------------------------------------------------
+
+
+
+
+
+\section*{Plan for Research}
+
+\begin{enumerate}
+\item What is the \textcolor{red}{\textbf{Causal relationship}} of interest?
+\item What is the \textcolor{blue}{\textbf{Ideal Experiment}} to capture it? 
+\item What is the \textcolor{green}{\textbf{identification strategy}}? that is, how to use what you have to actually approximate 2? eg. you have an exogenous Source of Variation (DiD, RD etc)
+\item What is your \textcolor{orange}{\textbf{mode of statistical inference}}? what is the population of interest? what is the sample? What assumptions for SE?
+
+\end{enumerate}
+
+
+\section*{Causality}
+\begin{itemize}
+\item Definition \textbf{in terms of \textcolor{red}{counterfactual}}: difference between the direct effect of that cause and the state that would have been observed had that specific intervention not taken place (the counterfactual).
+
+\item \textbf{Correlation does not imply causation}: we can define correlation based on the joint distribution of two variables but for causation we need further assumptions (think at OVB).
+
+\end{itemize}
+
+To define causality, three possible structures:
+
+\begin{itemize}
+\item A. Potential Outcomes model (Rubin 1974)
+\item B. Structral model
+\item C. Granger Sims causality: views causality as a prediciton property
+\end{itemize}
+
+\section{The Potential Outcome Framework }
+\textbf{Causality is tied to an action applied to some units} (eg treatment is a job training program).\footnote{Note: careful in distinguishing actions form attributes (e.g. gender).}
+\begin{itemize}
+    \item We primarily consider settings with \textcolor{blue}{\textbf{2 actions}}:
+    \begin{itemize}
+        \item \( D_i = 1 \) if exposed to the treatment, 
+        \item \( D_i = 0 \) if exposed to no treatment (control).
+    \end{itemize}
+    
+    \item For each individual \( i \), there are \textcolor{violet}{\textbf{two Potential Outcomes}}:
+    \begin{itemize}
+        \item \( Y_{1i} \): potential outcome if individual \( i \) is treated (\( D_i = 1 \)).\footnote{This has not to be a single value, as you will see in the following example it could be two values or a distribution of values)}
+        \item \( Y_{0i} \): potential outcome if individual \( i \) is not treated (\( D_i = 0 \)).\footnote{Remark: 1 vs 0 has nothing to do with time!} 
+    \end{itemize}
+    
+    \item We define the \textcolor{orange}{\textbf{Individual Causal (or Treatment) Effect}} of \( D \) as: $Y_{1i} - Y_{0i}.$
+    
+    \item Switching equation: 
+    \[
+    Y_i = Y_{0i} + (Y_{1i} - Y_{0i}) D_i.
+    \]
+\end{itemize}
+
+
+\subsubsection*{SUTVA}
+\begin{itemize}
+\item \textcolor{violet}{\textbf{The potential outcomes for any unit do not vary with the treatments assigned to other units (ie no spillovers). }}
+
+\item \textbf{Strong behavioral assumption} that rules out social interactions, peer effects, network effects and many types of general equilibrium (GE) effects and other spillovers.
+
+\item Possible workaround: when spillovers are an important part of the analysis, we can choose a more aggregate ”unit”, e.g. one school, or school class instead of one student.
+\end{itemize}
+
+
+\subsection*{Example}
+\begin{itemize}
+    \item Effect of taking an aspirin on having a headache.
+    \item Actions: \( D_i = 1 \) if aspirin, \( D_i = 0 \) if no aspirin
+    \item Unit: individual \( i \)
+    \item Outcome:
+    \begin{itemize}
+        \item \( Y_i = Y_{1i} \): headache (\( Y_{1i} = 1 \)) or no headache (\( Y_{1i} = 0 \)).\\
+        {\sethlcolor{violet!10}\hl{Only observed if took an aspirin.}}
+        \item \( Y_i = Y_{0i} \): headache (\( Y_{0i} = 1 \)) or no headache (\( Y_{0i} = 0 \)).\\
+        {\sethlcolor{violet!10}\hl{Only observed if did not take an aspirin.}}
+    \end{itemize}
+    \item Individual Causal Effect: \( Y_{1i} - Y_{0i} \in \{-1, 0, 1\} \)
+    \vspace{-0.5em}
+        \begin{flushleft}
+        \resizebox{0.45\textwidth}{!}{%
+        \begin{tabular}{@{}llccc@{}}
+        & & \( Y_{1i} \) & \( Y_{0i} \) & \( Y_{1i} - Y_{0i} \) \\
+        \midrule
+        1 & Headache gone only if you take aspirin     & 0 & 1 & -1 \\
+        2 & Headache not gone even if you take aspirin & 1 & 1 & 0 \\
+        3 & Headache gone even without aspirin         & 0 & 0 & 0 \\
+        4 & Headache gone only if no aspirin taken     & 1 & 0 & 1 \\
+        \bottomrule
+    \end{tabular}
+    }
+    \end{flushleft}
+
+
+\end{itemize}
+\vspace{0.5em}
+
+
+
+\subsection{ATE, ATT, ATNT}
+ In practice, we have multiple units (i = 1...N) and \textbf{we want to study aggregate casual effects}. Aggregate the individual causal effects to get:
+   \begin{itemize} 
+    \item {\sethlcolor{blue!10}\hl{\textbf{ATE (Average Treatment Effect)}}}:
+    \[
+    \text{ATE} = \mathbb{E}(Y_{1i} - Y_{0i}) = \mathbb{E}(Y_{1i}) - \mathbb{E}(Y_{0i})
+    \]
+    {\sethlcolor{violet!10}\hl{for every individual}} one takes the difference in potential outcomes.
+    \item {\sethlcolor{blue!10}\hl{\textbf{ATT (Average Treatment Effect on the Treated)}}}:
+    \[
+    \text{ATT} = \mathbb{E}(Y_{1i} - Y_{0i} \mid D_i = 1) = \mathbb{E}(Y_{1i} \mid D_i = 1) - \mathbb{E}(Y_{0i} \mid D_i = 1)
+    \]
+    takes the difference in potential outcomes only for treated individuals! (more infra: we will have to reconstruct just the counterfactual outcome when untreated $y_0$ from the control group)
+    \item {\sethlcolor{blue!10}\hl{\textbf{ATNT (Average Treatment Effect on the Non-Treated)}}}:
+    \[
+    \text{ATNT} = \mathbb{E}(Y_{1i} - Y_{0i} \mid D_i = 0) = \mathbb{E}(Y_{1i} \mid D_i = 0) - \mathbb{E}(Y_{0i} \mid D_i = 0)
+    \]
+    This represents the average difference, for non-treated individuals, between their counterfactual outcome under treatment (unobserved) and their observed outcome under no treatment.
+    
+    \item If we could observe both \( Y_{1i} \) and \( Y_{0i} \) for all units:
+    \[
+    \text{ATE} = \frac{1}{N} \sum_{i=1}^{N} (Y_{1i} - Y_{0i}), \quad 
+    \text{ATT} = \frac{1}{N_{D=1}} \sum_{i : D_i = 1} (Y_{1i} - Y_{0i})
+    \]
+
+    \item We can also focus on more general functionals of potential outcomes (e.g., medians, percentiles, quantiles).
+
+\end{itemize}
+
+
+
+\subsection{Fundamental problem of causal inference}
+Above we made a crucial, and unrealistic, underlying assumption: \textbf{for the same individual, we assumed to have both the outcomes when treated and when not treated}. \textbf{BUT}, in practice, \textbf{we only observe one of \( Y_{1i} \) or \( Y_{0i} \) for each unit}, this is \textbf{equivalent to missing data problem}. Hence, we cannot directly estimate the individual Treatment Effect because we only see one potential outcome for each individual, and we cannot use the formulas above for the ATE and ATT. For example, for a treated individual we only observe \( Y_{1i} \), whereas \( Y_{0i} \) is the unobserved Counterfactual (what would have been the outcome if not treated).
+
+
+
+\subsection{Solving the fundamental problem of causal inference}
+\begin{itemize}
+\item We have a population of N units: i=1,...,N.
+\item \textbf{The problem:} we never observe both \( Y_{1i} \) and \( Y_{0i} \) for the same individual — only one of them is observed depending on treatment status \( D_i \). 
+
+    \item A common first approach is to compare group means:
+     
+    \begin{adjustwidth}{-1em}{}
+    \resizebox{0.95\linewidth}{!}{%
+    $\begin{aligned}
+    \mathbb{E}(Y_i \mid D_i = 1) - \mathbb{E}(Y_i \mid D_i = 0)
+    &= \mathbb{E}(Y_{1i} \mid D_i = 1) - \mathbb{E}(Y_{0i} \mid D_i = 0) \\
+    &= \textcolor{blue}{\underbrace{\mathbb{E}(Y_{1i} \mid D_i = 1) - \mathbb{E}(Y_{0i} \mid D_i = 1)}_{\text{ATT}}} \\
+    &\quad + \textcolor{red}{\underbrace{\mathbb{E}(Y_{0i} \mid D_i = 1) - \mathbb{E}(Y_{0i} \mid D_i = 0)}_{\text{Selection Bias}}}
+    \end{aligned}$%
+    }
+    \end{adjustwidth}
+
+    - To get to the first step we used the switching equation: if \( D_i = 1 \) $\rightarrow$ \( Y_{i} = Y_{1i} \)\\
+    - To get to the second step you added and subtracted $\mathbb{E}(Y_{0i} \mid D_i = 1)$
+
+    \item The root of the problem is \textcolor{red}{\textbf{Selection Bias}}: the observed control group may not be a valid counterfactual for the treated group.
+    \begin{itemize}
+    \item \textbf{The fact is that you don't have the outcome the treated would have had hadn't been treated}  \textcolor{blue}{\(\mathbb{E}(Y_{0i} \mid D_i =1)\)}. \textbf{You use as counterfactual the outcome of the control}, but if this does not correctly mimic the characteristics of the treated group you have selection bias.
+    \item For example, treated individuals may have self-selected into treatment due to the fact they had higher benefits from treatment ( ATT $>$ ATE). 
+    \end{itemize}
+
+
+\end{itemize}
+
+
+
+
+
+\subsection{Relationshp between the ATT and the ATE}
+What is the relation between ATT and ATE?
+{\small
+\begin{align*}
+   ATE &= \scriptstyle \mathbb{E}(Y_{1i} - Y_{0i}) \\
+                   &= \scriptstyle \mathbb{E}[\mathbb{E}(Y_{1i} - Y_{0i} \mid D_i)]  \quad \text{\scriptsize(by LIE)} \\
+                   &= \scriptstyle \mathbb{P}(D_i = 1) \cdot \mathbb{E}(Y_{1i} - Y_{0i} \mid D_i = 1) + \mathbb{P}(D_i = 0) \cdot \mathbb{E}(Y_{1i} - Y_{0i} \mid D_i = 0) \\
+                   &= \scriptstyle \gamma ATT + (1 - \gamma) ATNT
+\end{align*}}
+
+\noindent Comment: the ATE is a weighted average of the ATT and the ATNT with the weights ($\gamma$) being determined by the fraction of the population being treated. \\
+
+\noindent Useful to express ATT in terms of ATE and treatment effect heterogeneity $(ATT - ATNT)$:
+\[
+  ATT = ATE + (1 - \gamma)(ATT - ATNT)
+\]
+
+\noindent Comment: The formula above recomposes the ATT! So the TE on the Treated is already there, while the TE on the fraction of the non-Treated is corrected by adding the gap they have with respect to the non-Treated.
+
+\vspace{1.5em} 
+\noindent Hence now we can recognize that \textbf{our initial simple difference in means is equal to}:
+{\small
+\begin{align*}
+   \mathbb{E}(Y_i \mid D_i = 1) - \mathbb{E}(Y_i \mid D_i = 0)
+  &= ATT + \text{SelectionBias} \\
+  &= ATE + \underbrace{(1 - \gamma)(ATT - ATNT)}_{\text{Treatment Effect heterogeneity}} + \text{ SelB}
+\end{align*}}
+
+\noindent Comment: Even with no selection bias, recovery of ATE requires equal treatment effects across treated and non-treated: \( ATT = ATNT \). So we need both the absence of \textit{a priori} and \textit{a posteriori} differences! This is solved by randomization (for the same reasons why selection bias is solved by randomization), see below!
+
+
+
+\subsection{Random Assignment}
+ \textcolor{green}{\textbf{To solve this problem}}, we need to impose the following crucial assumption:
+    \begin{itemize}
+        \item \textcolor{green}{\textbf{Random Assignment}}: treatment is independent of potential outcomes.
+        \[
+        (Y_{1i}, Y_{0i}) \perp\!\!\!\perp D_i
+        \]
+    
+    \item Here the idea is that \textbf{the control group has now the exact same composition as the treatment group}. So the baseline outcome y0 of treated individuals will be the same as the baseline outcome y0 of treated individuals: \[ \mathbb{E}(Y_{0i} \mid D_i = 1) = \mathbb{E}(Y_{0i} \mid D_i = 0)\]
+    \item {\footnotesize An (extra) logic step further: think again at the formulas above for the ATE and the ATT. 
+    \begin{itemize}
+        \item Now for the ATE we will need to assign to each individual in the treatment group the counterfactual outcome y0 extracted from a (similar) individual in he control group. And to each individual in the control group we will assign the counterfactual outcome y1 extracted from a similar individial on the treatment group.
+        \item for the ATT we will just consider the outcome y1 of treated individuals and subtract their counterfactual outocme extracted from the outocome y0 of (similar) individuals in the control group.
+        \item for the ATNT we will just consider the outcome y0 of control individuals and subtract it to the counterfactual outocme y1 extracted from the outcome y1 of (similar) individuals in the treatment group.
+    \end{itemize}}
+
+       \item \textbf{Random Assignment solves the selection problem} by guaranteeing:
+      \[
+      D_i \perp (Y_{0i}, Y_{1i}) \quad \Rightarrow \quad 
+      \mathbb{E}(Y_{0i} \mid D_i = 1) = \mathbb{E}(Y_{0i} \mid D_i = 0)
+      \]
+      So, the naive difference in means equals the true treatment effect:
+    \begin{align*}
+      \mathbb{E}(Y_i \mid D_i = 1) - \mathbb{E}(Y_i \mid D_i = 0)
+      &= \mathbb{E}(Y_{1i} \mid D_i = 1) - \mathbb{E}(Y_{0i} \mid D_i = 1) \\
+      &= \mathbb{E}(Y_{1i} - Y_{0i} \mid D_i = 1) = ATT
+    \end{align*}
+        \textbf{Moreover, given independence}: 
+        
+      \[
+      ATT = \mathbb{E}(Y_{1i} - Y_{0i} \mid D_i = 1 ) = \mathbb{E}(Y_{1i} - Y_{0i}) = ATE
+      \]
+    \end{itemize}
+
+    
+\subsubsection*{Example}
+
+\begin{itemize}
+  \item $D_i = 1$ if individual has a bank account. $Y_i$: total savings.
+  
+  \item If we compare individuals with and without a bank account:
+  \[
+  \mathbb{E}(Y_i \mid D_i = 1) - \mathbb{E}(Y_i \mid D_i = 0).
+  \]
+  
+  \item We will not get the ATT (the causal effect of interest) if
+  \[
+  \mathbb{E}(Y_{0i} \mid D_i = 1) - \mathbb{E}(Y_{0i} \mid D_i = 0) > 0.
+  \]
+  
+  \item \textbf{Selection bias}: those with a bank account ($D_i = 1$) have a priori higher savings than those who do not, and would have had more savings even without a bank account ($Y_{0i}$) than those without one ($D_i = 0$).
+    
+  \item As $\mathbb{E}(Y_{0i} \mid D_i = 1)$ is unobservable we need assumptions or methods (e.g. matching, IV, RCT) to ensure:
+  \[
+  \mathbb{E}(Y_{0i} \mid D_i = 1) = \mathbb{E}(Y_{0i} \mid D_i = 0).
+  \]
+\end{itemize}
+
+\subsubsection*{More on Random assignment }
+\begin{itemize}
+  \item The key requirement is that Treated and Control units must be comparable. 
+  Hence, understanding the \textbf{assignment mechanism}—i.e., the rule that determines treatment status—is fundamental.
+
+  \item In most observational settings, the assignment mechanism is unknown or uncontrolled. 
+  An important exception is the \textbf{Randomized Control Trial (RCT)}, which ensures a well-behaved assignment via randomization. RCTs satisfy the following properties:
+  \begin{itemize}
+      \item \textbf{Unconfounded Assignment}: the treatment is independent of potential outcomes.
+      \item \textbf{Probabilistic Assignment}: every unit has a positive probability of receiving either treatment status (no deterministic assignment).
+      \item \textbf{Individualistic Assignment}: the treatment probability of one unit does not depend on the characteristics or outcomes of other units.
+  \end{itemize}
+
+
+
+\end{itemize}
+
+
+
+
+
+\section{Statistical Inference}
+Now that you have run your experiment, is time to run statistical inference! 
+
+\subsection{Neyman Inference}
+
+\begin{itemize}
+  \item We use statistical inference to calculate standard errors, confidence intervals, and conduct hypothesis testing.
+  \item Standard approach: \textbf{Neyman's repeated sampling framework}, where:
+  \begin{itemize}
+    \item Sampling is assumed to be drawm from an infinite \textbf{super-population}.
+    \item \textbf{Uncertainty} (variance) arises from this sampling process (no uncertainty if we had the full population). The concept is that \textbf{the true parameter is fixed}, and the \textbf{uncertanity we face is driven by the fact that we are analysing a subsample from a population}. 
+  \end{itemize}
+  \item To derive standard errors, we rely on the \textbf{CLT} and construct confidence intervals using the normal distribution (\underline{for n large enough the sampling distribution of each sample mean} \underline{(mean of T vs mean of C) converges to a normal distribution!}) 
+  \end{itemize}
+
+\subsection{Randomization Inference}
+
+\begin{itemize}
+  \item Idea: Different perspective, uncertainty comes from the fact that we only observe one assignment realization, while many others were possible.
+
+  \item Randomization inference becomes possible under the \textbf{sharp null hypothesis}:
+  \[
+  H_0: Y_{1i} = Y_{0i} \quad \text{for all } i
+  \]
+  That is, treatment has \textbf{no effect on any unit}. Hence, under this hypothesis, each unit's outcome is invariant to the treatment status:
+ 
+ \item \textbf{Simulate} counterfactual scenarios by:
+  \begin{enumerate}
+    \item \textbf{Plot their distribution of the observed outcomes} \( Y_1, \dots, Y_N \) in the particular treatment realization you had.
+    \item \textbf{Build the counterfactual} 
+    \begin{itemize}
+        \item 2a. \textbf{Re-randomize the treatment assignments} \( D_i \) according to the known experimental design (e.g., randomization with fixed number treated)
+        \item 2b.\textbf{ Recompute the test statistic} (e.g., difference in means) under each simulated assignment;
+    \end{itemize}
+    \item \textbf{Building the randomization distribution} of the statistic under the null;
+    \item \textbf{Comparing} the observed test statistic ( in 1.)  to this null distribution (in 3.) to compute the \( p \)-value.
+  \end{enumerate}
+      
+
+    \begin{table}[h!]
+      \centering
+      {\small
+      \scalebox{0.7}{%
+      \begin{tabular}{c|c|c|c|c|c|c}
+      \toprule
+      \textbf{Unit \(i\)} & \textbf{Observed \(D_i\)} & \textbf{Observed \(Y_i\)} & \textbf{\(D_i^*\)} & \textbf{\(Y_i^*\)} & \textbf{\(D_i^{**}\)} & \textbf{\(Y_i^{**}\)} \\
+      \midrule
+      1 & 1 & 4 & 0 & 4 & 0 & 4 \\
+      2 & 1 & 6 & 1 & 6 & 0 & 6 \\
+      3 & 0 & 2 & 1 & 2 & 1 & 2 \\
+      4 & 0 & 5 & 0 & 5 & 1 & 5 \\
+      5 & 1 & 3 & 1 & 3 & 1 & 3 \\
+      6 & 0 & 1 & 0 & 1 & 0 & 1 \\
+      \midrule
+      \multicolumn{2}{l}{\textbf{Means (Observed \( D_i \))}} & \multicolumn{1}{l}{ } & 
+      \multicolumn{1}{l}{Treated: 1,2,5} & \( \bar{Y}_T = 4.33 \) & Control: 3,4,6 & \( \bar{Y}_C = 2.67 \) \\
+      \multicolumn{6}{r}{\textbf{ATE} = \( \mathbf{+1.67} \)} \\
+      \midrule
+      \multicolumn{2}{l}{\textbf{Means (\( D_i^* \))}} & \multicolumn{1}{l}{ } & 
+      \multicolumn{1}{l}{Treated: 2,3,5} & \( \bar{Y}_T = 3.67 \) & Control: 1,4,6 & \( \bar{Y}_C = 3.33 \) \\
+      \multicolumn{6}{r}{\textbf{ATE} = \( \mathbf{+0.33} \)} \\
+      \midrule
+      \multicolumn{2}{l}{\textbf{Means (\( D_i^{**} \))}} & \multicolumn{1}{l}{ } & 
+      \multicolumn{1}{l}{Treated: 3,4,5} & \( \bar{Y}_T = 3.33 \) & Control: 1,2,6 & \( \bar{Y}_C = 3.67 \) \\
+      \multicolumn{6}{r}{\textbf{ATE} = \( \mathbf{-0.33} \)} \\
+      \bottomrule
+      \end{tabular}%
+      }}
+    \end{table}
+    \footnotesize{Remark: what changes from one column to the outher is not the outcomes but the composition of the treated and control groups.
+
+    \vspace{1em}
+    
+  \item \textbf{Key Insight:} Under the sharp null \( H_0 \), outcomes are invariant to treatment, so we can treat them as known constants and generate the entire distribution of the test statistic using only variation in \( D_i \). So the following is possible because we assume we have the same counterfactual outcomes and we are just redrawing treatment.
+
+  \item This makes randomization inference a \textbf{nonparametric} (not assuming any parametric distribution for the outcomes (e.g., normality, linearity)) method for hypothesis testing, justified by our sharp null hypothesis.
+
+\item \textbf{In small samples}, randomization inference is often preferred for valid exact \( p \)-values, or at least should be reported alongside parametric results to show robustness.
+
+\end{itemize}
+
+
+
+
+
+\section{Regression Analysis of Experiments}
+
+\begin{itemize}
+  \item We can estimate treatment effects either:
+  \begin{itemize}
+    \item Non-parametrically: by comparing conditional means (up to now);
+    \item Parametrically: using a regression framework.
+  \end{itemize}
+
+  \item Define the observed outcome as:
+  \[
+  Y_i = Y_{0i} + (Y_{1i} - Y_{0i}) D_i
+  \]
+
+  \item Assume a constant treatment effect: \( \rho = Y_{1i} - Y_{0i} \) and define:
+  \[
+  \alpha = \mathbb{E}(Y_{0i}), \quad \eta_i = Y_{0i} - \mathbb{E}(Y_{0i})
+  \]
+  take the expected value and define $\eta_i$ in a way to center the regression residuals around 0
+  leading to the regression model:
+  \[
+  Y_i = \alpha + \rho D_i + \eta_i
+  \]
+
+  \item From this regression, the expected difference in outcomes between treated and control is:
+  \[
+  \mathbb{E}(Y_i \mid D_i = 1) - \mathbb{E}(Y_i \mid D_i = 0) = \rho + \mathbb{E}(\eta_i \mid D_i = 1) - \mathbb{E}(\eta_i \mid D_i = 0)
+  \]
+  \item This shows: \textbf{Selection Bias = correlation between \(D_i\) and \(\eta_i\)}. Another (microeconometric) way to frame the problem of endogeneity! Imagine: OVB creates Selection Bias
+  \item only if the assumption above holds we can interpret $\rho$ as the causal effect of D on Y. $\rho$ = ATT = ATEy
+  \item In correctly implemented randomized experiments, this condition holds \textbf{by design}, so OLS recovers the causal effect.
+
+\end{itemize}
+
+
+\subsection{Do you need controls in your RCT regression?}
+
+
+\begin{itemize}
+  \item \textbf{In theory:} \textbf{Randomization ensures independence between treatment assignment and any covariate}. So:
+  \begin{itemize}
+    \item The treatment should be independent of any control variable, thus it is not necessary to include controls in order to get an unbiased estimate for the treatment effect (think of condition for omitted variable bias: treatment is now independent form any other covariate!).;
+  \end{itemize}
+
+  \item \textbf{In practice:} You must \textbf{check whether randomization actually balanced the covariates}. To verify:
+  \begin{enumerate}
+    \item \sethlcolor{blue!10}\hl{\textbf{Conduct balance tests}}: compare pre-treatment covariate means in treatment vs. control groups. \textit{Remark: expect differences to be statistically significant at 5\% level in 5\% of cases (1 out of 20 variables) due to false positives.}
+    \item \sethlcolor{blue!10}\hl{\textbf{Run a joint F-test}} to check if covariates jointly predict treatment.
+    \item \sethlcolor{blue!10}\hl{\textbf{Check whether including controls changes the coefficient on}} \(D\). It shouldn't under successful randomization.
+    \item \sethlcolor{blue!10}\hl{\textbf{Robustness Rule:}} You should \textbf{always include controls for unbalanced variables} to absorb bias and improve credibility.
+  \end{enumerate}
+
+
+  \item \textbf{Why include controls if there is no imbalance?}
+  \begin{itemize}
+    \item If covariates help predict \(Y\), they reduce residual variance:
+    \[
+    \text{If } \sigma^2_{Y \mid D, X} < \sigma^2_{Y \mid D}, \text{ then precision increases.}
+    \]
+    \item But  in general after the first few covariates, gains in precision diminish sd those covariates are weakly related to \(Y\).
+  \end{itemize}
+
+  Remark: \textbf{Never include controls that might be affected by the treatment}. They would capture part of the effect of interest and including them would bias the results. Eg effect of being in the back of the class on grades. You are in the back of the class, you feel less pressure by prof, you use more the pc, you get lower grade. If you control for pc you stop the transition channel {\sethlcolor{blue!10}\hl{(will anlayse individuals at the same level of pc use!)}}.
+
+\end{itemize}
+
+
+\subsection{Interacting Covariates with the Treatment Dummy}
+
+\begin{itemize}
+  \item In addition to including covariates linearly, we can interact them with the treatment dummy \(D_i\).
+  
+  \item This is useful when we expect the association between covariates and the outcome to vary by treatment status (i.e., heterogeneous covariate effects).
+
+  \item These interactions allow the covariate slopes to differ across treatment and control, potentially improving the precision of the treatment effect estimate as well. 
+
+  \item A useful specification is:
+  \[
+  Y_i = \alpha + \rho D_i + X_i \beta + D_i (X_i - \overline{X}) \gamma + \eta_i
+  \]
+  where:
+  \begin{itemize}
+    \item \(X_i\) is a vector of covariates,
+    \item \((X_i - \overline{X})\) is mean-centered (demeaned) to ensure \(\rho\) is interpretable as the average treatment effect (ATE)$^1$,
+    \item \(D_i (X_i - \overline{X})\) allows covariate effects to vary with treatment.
+  \end{itemize}
+  $^1$\textbf{Remark:} If we use the raw (non-demeaned) interaction \( D_i X_i \), the coefficient \(\hat{\rho}\) reflects the treatment effect only for the special case when \( X_i = 0 \). In this case, to recover the ATE we would need to adjust \(\hat{\rho}\) by adding the average effect of the interaction term: $\text{ATE} = \hat{\rho} + \hat{\gamma} \cdot \overline{X}$. By demeaning \(X_i\), the average of the interaction term \( D_i (X_i - \overline{X}) \) is zero by construction, so \(\hat{\rho}\) directly estimates the ATE without further correction.
+
+\end{itemize}
+
+
+\subsection{Randomization Techniques}
+
+Randomization is a critical component of experimental design. It ensures that treatment assignment is independent of potential outcomes and covariates.
+
+\subsubsection{How do we actually randomize?}
+
+\begin{itemize}
+  \item Randomization can be conducted \textbf{privately} (e.g., via random number generators) \textbf{or publicly} (e.g., via lotteries). Trade-offs, e.g., lotteries, are better to create trust, but they let people know they are treated.
+  \item Several techniques are available to improve covariate balance:
+    
+    \begin{enumerate}
+      \item \textcolor{blue}{\textbf{Pure Randomization (Single Draw)}}: Assign units randomly. By chance, imbalances may occur (e.g., 1 in 10 covariates may differ at the 10\% significance level).
+      
+      \item \textcolor{green}{\textbf{Stratification (Blocking)}}: Divide units into strata based on key covariates (e.g., baseline outcomes, gender, location), then randomize within each stratum. This is to increase the likelihood covariates are balanced (10 females-90 males, randomizing globally could have 5-45. Randomize within stratum: sample 5 on 10 and then 45 on 90). Issue: if you create too many subcategories you don't have enough T and C for each subgroup.
+      
+      \item \textcolor{orange}{\textbf{Pair-wise Matching}}: Form pairs based on similarity in covariates; assign one unit in each pair to treatment and the other to control.
+      
+      \item \textcolor{red}{\textbf{Re-randomization methods}}: Repeat randomization many times and select the one with the best covariate balance:
+      \begin{itemize}
+        \item Redraw if any covariate shows imbalance (e.g., \( p < 0.05 \)).
+        \item Choose the draw minimizing (between) the worst t-statistic from regressors (within) on treatment.
+      \end{itemize}
+      Lost internal validity: your sample is no longer a random draw from the population \(\Rightarrow\) No longer Neyman inference, need adjustments.
+    \end{enumerate}
+
+\end{itemize}
+
+\subsubsection{Which randomization method is better?}
+
+
+
+\begin{itemize}
+  \item Athey and Imbens (2016) recommend \textbf{stratified randomization} as superior, especially when covariates are predictive of outcomes (i.e., we really need balance around those covariates).
+  \item Stratification should be done \textit{ex-ante} to improve balance, rather than relying on regression adjustment \textit{ex-post}.
+
+  \item If:
+    \begin{itemize}
+      \item Covariates are weak predictors of outcomes.
+      \item Sample size is large (\( > 300 \))
+    \end{itemize}
+    Then balancing on them does not matter much (quite obvious)
+\end{itemize}
+
+\subsubsection{Randomization recommendations (Bruhn \& McKenzie, 2009):}
+\begin{itemize}
+  \item The method of randomization affects which covariates to control for later: there is no true variability in sample draws; the sample is synthetic and we need to fix se. To do this, we add controls to resort to within-group comparisons. 
+    \begin{itemize}
+      \item \textit{Stratification:} include strata dummies in regressions (not for bias, actually we statifies just to give balance). 
+      \item \textit{Pair-wise matching:} include matching variables in reg.
+      \item \textit{Re-randomization:} include all variables for which balance was checked to decide whether to re-randomize.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Clustered Randomized Experiments}
+\begin{itemize}
+  \item When spillovers are possible (e.g., peer effects), it is better to randomize at a more aggregate level, ie the \textbf{cluster level}.
+  \item Instead of assigning treatment randomly to units within a cluster, we assign treatment to entire clusters. All units within a cluster receive the same treatment.
+  \item Then, econometric analysis can be done:
+    \begin{itemize}
+      \item At the cluster level (preferred for inference).
+      \item At the individual level, using cluster-robust standard errors.
+    \end{itemize}
+\end{itemize}
+
+
+\subsection{Power Computation}
+
+How large a sample do we need in order to detect a meaningful effect with high probability? That is, how much will I be able to learn from this experiment? Power computation! Suppose we aim to estimate the effect of a randomly assigned treatment \( D_i \) on an outcome \( Y_i \) using:
+
+\[
+Y_i = \alpha + \delta D_i + \eta_i,
+\]
+
+\vspace{1em}
+\noindent \textbf{Power computation }
+\begin{itemize}
+  \item \textbf{Power:} If the true effect is \( \delta \), what is the probability of getting an estimate big enough to reject \( \delta = 0 \) (reject when false)?
+  
+  \item To achieve a power of \( 1 - \beta \) at a confidence level \( \alpha \), we need the true effect to be such as (see image below):
+
+  \[
+  \delta / SE(\hat{\delta}) > (t_\beta + t_{\alpha/2})
+  \]
+
+  \item Then, the minimum detectable effect (MDE) is:
+  \[
+  \delta_{MDE} = (t_\beta + t_{\alpha/2})\cdot  SE(\hat{\delta}) = (t_\beta + t_{\alpha/2}) \cdot \sqrt{\frac{\sigma^2}{P(1-P)N}}.
+  \]
+
+This tells us that we will be able to detect a smaller effect size if:
+\begin{itemize}
+  \item Power increases with sample size \(N\),
+  \item Power is maximized when \( P = 0.5 \) (equal-sized treatment and control),
+  \item Power increases when error variance \( \sigma^2 \) is smaller. High error variance means unexplained noise in the data. 
+\end{itemize}
+
+
+
+\end{itemize}
+
+\vspace{2em}
+\noindent \textbf{Remark}: why $\delta / SE(\hat{\delta}) > (t_\beta + t_{\alpha/2})$
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{power.png}
+    \label{fig:enter-label}
+\end{figure}
+
+
+\begin{itemize}
+  \item Upper panel assumes \( H_0 \) is true (ATE = 0).
+  \begin{itemize}
+    \item To control the Type I error at a rate of \( \alpha \), we reject \( H_0 \) only if the absolute value of the observed t-statistic is equal to or larger than the critical value \( t_{\alpha/2} \).
+  \end{itemize}
+
+  \item Bottom panel assumes \( H_0 \) is false (ATE = \( \delta \)).
+  \begin{itemize}
+    \item The power to detect an effect of size \( \delta \) is the fraction of the area under the distribution that falls to the right of \( t_{\alpha/2} \).
+    \item In that region we correctly reject the null hypothesis.
+    \item We limit the Type II error to some \( \beta > \alpha \) (and then power is \( 1 - \beta \)), such $\beta$ will be characterized by some $t_\beta$.
+    \item the $\delta$ plotted in the bottom panel is exaclty the MDE! The MDE is the smallest value for which we can correctly reject \( H_0 \) with probability \( 1 - \beta \) at a significance level \( \alpha \).
+\end{itemize}
+\end{itemize}
+
+\subsubsection{Interpretation of Minimum Detectable Effect (MDE)}
+
+\begin{itemize}
+  \item If we aim at power \( 1 - \beta = 0.8 \) with confidence level \( \alpha = 0.05 \)
+  \item Then, the minimum detectable effect is:
+  \[
+    \delta_{MDE} = 2.8 \times \frac{\sigma}{\sqrt{P(1 - P)N}}
+  \]
+  
+  \item If \(P = 0.5\), and \(N = 1000\), we can detect an effect of \(0.18\sigma\), i.e., 0.18 standard deviations of the outcome.
+
+  \item Is 0.18 standard deviations a meaningful effect size? It depends on the ratio between the mean and standard deviation of the outcome!
+
+  \item Example 1: If the ratio is 1 (e.g., mean and sd of employment rate are both 0.5), the effect is 18\% of the mean (or 9 percentage points), which seems large.
+
+  \item Example 2: If the ratio is 2 (e.g., mean = 100, sd = 50), then $0.18\sigma$ = 9, which is only 9\% of the mean. This may not seem like a large effect.
+\end{itemize}
+
+
+
+
+\subsubsection{Required Sample Size:}
+
+we want to kwnot what is the required smapel size to detect a pre-specified effect \( \delta_0 \), we rearrange the MDE formula:
+
+\[
+N > (t_\beta + t_{\alpha/2})^2 \cdot \frac{\sigma^2}{\delta_0^2 P(1 - P)}.
+\]
+
+Take $(t_\beta + t_{\alpha/2})^2 = 2.8^2$, $P = 0.5$, $1 - \beta = 0.8$, if tge effect is of 2 dollars with variance $\sigma^2 = 100$:
+
+\[
+N > (2.8)^2 \cdot \frac{100}{4 \cdot 0.5 \cdot 0.5} = 784.
+\]
+
+\textbf{Interpretation:} We need at least 784 observations to detect a 2 dollar effect with 80\% power at the 5\% significance level.
+
+
+
+
+
+
+
+
+
+\section{Internal Validity and Its Threats}
+
+
+\begin{itemize}
+  \item \textbf{Internal Validity}: ability of a study to estimate causal effects within the study sample.
+  \item \textbf{External Validity}: ability to generalize results beyond the study sample.
+  \item To maximize both, randomization should ideally be performed in two stages:
+  \begin{enumerate}
+    \item Take a random sample from the population of interest (maximize external validity).
+    \item Randomly allocate part of the sample to the treatment group and part to the control group (guarantees internal validity).
+  \end{enumerate}
+
+\end{itemize}
+
+
+\subsection{Main Threats to Internal Validity}
+An experiment eliminates the most important threats to internal validity in non-experimental settings (e.g. omitted variable bias). Yet, randomization is not a panacea. 
+
+\begin{itemize}
+  \item \textbf{Attrition:} Some individuals drop out of the sample after assignment.
+  \item \textbf{Partial Compliance:} Some treated individuals do not receive treatment, or some controls receive it.
+  \item \textbf{Externalities:} Spillovers across units (e.g., treated individuals affect control individuals).
+  \item \textbf{Experimental Effects:} Subjects may change behavior due to being observed (Hawthorne/Henry effects).
+  \item \textbf{Data Mining:} Testing many hypotheses without proper correction can lead to spurious findings.
+\end{itemize}
+These are also threats to non-experimental settings, except maybe experimental effects.
+
+\subsubsection{Attrition and Its Implications}
+\subsubsection*{A. Intuition}
+\begin{itemize}
+  \item If \textbf{random (unrelated to treatment)}: only reduces statistical power.
+  \item If \textbf{correlated with treatment or outcomes} (e.g., low-benefit individuals drop out), introduces \textbf{attrition bias}.
+\end{itemize}
+
+\subsubsection*{B. See it in the model}
+\begin{itemize}
+  \item \( R_{1i}, R_{0i} \): \underline{potential response} indicators if the same individual is treated or controlled.
+  \item switching eq: \( R_i = R_{0i} + D_i(R_{1i} - R_{0i}) \)
+  \item \( Y_i \) is only observed if \( R_i = 1 \). Meaning that, clearly, I can observe outcomes only of those who respond. 
+  \item Suppose \( D_i \perp (Y_{0i}, Y_{1i}, R_{0i}, R_{1i}) \). This means treatment is randomly assigned and independent of both potential outcomes and potential response behavior.
+
+    \item However, the above could actually be violated. Outcomes and response can still be correlated: the issue arises \emph{ex post}, after treatment is assigned. That is, the treatment itself may not affect average response rates, but eg:
+    
+    \begin{enumerate}
+      \item Individuals assigned to the control group may choose not to respond; and
+      \item The probability of responding may depend on potential outcomes (e.g., people with lower \(Y_{0i}\) are less likely to respond if assigned to control).
+    \end{enumerate}
+    
+    Even though treatment is randomly assigned, the \textbf{composition of respondents across groups may differ}, leading to biased comparisons unless response is also independent of outcomes.
+    
+
+  \item What you observe: \( \Delta = \mathbb{E}[Y_i \mid D_i = 1, R_i = 1] - \mathbb{E}[Y_i \mid D_i = 0, R_i = 1] \). Then by the switching equation:
+      
+    {\small
+    \[
+    \begin{aligned}
+    \Delta &= \underbrace{\mathbb{E}[Y_{1i} \mid R_{1i} = 1]}_{\text{Treated who responds}} 
+    - \mathbb{E}[Y_{0i} \mid R_{0i} = 1] \\
+    &= \underbrace{\mathbb{E}[Y_{1i} \mid R_{1i} = 1] 
+    - \mathbb{E}[Y_{0i} \mid R_{1i} = 1]}_{\text{ATT on respondents when treated}} 
+    + \underbrace{\left( 
+    \mathbb{E}[Y_{0i} \mid R_{1i} = 1] 
+    - \mathbb{E}[Y_{0i} \mid R_{0i} = 1] 
+    \right)}_{\text{Differential response across treat arms bias}}
+    \end{aligned}
+    \]
+    }
+
+
+    where second equation adds and subtract that term to give economic meaning. Note we have assumed the experiemtn has been successfull, so we have no selection bias. 
+    \textbf{Two problems:}
+\begin{enumerate}
+  \item \( \underbrace{\mathbb{E}[Y_{1i} - Y_{0i}]}_{\text{Overall Outcome}} \neq \underbrace{\mathbb{E}[Y_{1i} - Y_{0i} \mid R_{1i} = 1]}_{\text{outcome just for respondents}} \) threatens External validity: not generalizable to the whole population, as these are only those who responded. 
+  \item Treatment induces different units to respond: \( \mathbb{E}[Y_{0i} \mid R_{1i} = 1] \neq \mathbb{E}[Y_{0i} \mid R_{0i} = 1] \), Internal validity: I may be estimating the wrong treatment effect if the baseline outcome of treated respondent is different from the baseline outcome of control respondents. So in the Control you have eg less respondents and those who are responding less are individuals with lower outcomes (would create downwards bias). 
+\end{enumerate}
+\end{itemize}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{responsnse.png}
+    \label{fig:enter-label}
+\end{figure}
+
+\subsubsection*{C. Reasons for attrition}
+\begin{itemize}
+  \item Question not clear for T = 0, they don0t understand, what if those who don't understand have different outocmes? (non-natives?) 
+  \item t = 1 has more up to date contact (updated the email)
+  \item unhappy to be in the control group!
+\end{itemize}
+*note always need systematically different outcomes (or is it just an issue of power)!
+
+\subsubsection*{D. Suggestions}
+
+
+\begin{enumerate}
+  \item \textcolor{violet}{\textbf{Present the attrition rate}} in control vs treatment.
+  \item  \textcolor{violet}{\textbf{Compare baseline characteristics}} of attritors vs non-attritors. 
+  \item  \textcolor{violet}{\textbf{Run a regression}}:
+  \[
+  \text{Attritor}_i = \alpha + \beta D_i + \gamma X_i + \delta (D_i \cdot X_i) + \varepsilon_i
+  \]
+  and test significance: 
+    \begin{itemize}
+        \item Coefficient on treatment evidence of differential attrition between treatment arms.
+        \item Interaction Tests whether the relationship between covariates and attrition differs by treatment status. That is: do certain subgroups drop out more in treatment than in control?
+    \end{itemize}
+  
+  \item \textbf{If attrition is related to treatment}, apply:
+  \begin{itemize}
+    \item Parametric methods: model attrition using covariates (control for).
+    \item Non-parametric methods: \textbf{bounding approaches}. However note: Bounds are going to be uninformative if attrition is very large.
+  \end{itemize}
+\end{enumerate}
+
+
+
+\subsubsection*{E. Bounding Methods: Manski Bounds (Binary Outcomes: eg employed 1, unemployed 0)}
+\begin{itemize}
+    \item facile facile: la ripossta è 1 (emplyed) o 0 (unemployed). ti hanno risposto solo l'80\% ed hai una media di 0.4. LB: assumi il restante 20\% abbia tutta 0. UB: oppure tutto 1.
+    \item focus on the effects on the treated for the moment
+  \item Your expected valye is, reasonably, a weighted average of the outcome of the reposndnets  and the outcome of non reponsnents. $\mathbb{E}[R \mid D = 1]$ is the share of respondents among the treated:
+
+  \begin{align}
+\mathbb{E}[Y \mid D = 1] = \; & \mathbb{E}[R \mid D = 1] \, \mathbb{E}[Y \mid D = 1, R = 1] \notag \\
+\end{align}
+
+  \item \( \mathbb{E}[Y \mid D = 1, R = 0] \) is \textbf{unobserved}, but bounded: \( 0 \leq \mathbb{E}[Y \mid D = 1, R = 0] \leq 1 \)
+  \item Thus, bound $\mathbb{E}[Y \mid D = 1]$. So trivial: see the expression [1] above, the dummy takes 0,1. So worst case scenario all the unobserved share is multiplied by an expectaiton of y equal to 0 (LB), best case sceanrio all the unobserved share is multiplied by an expectation of y equal to 1.
+
+  \item Provides ATE bounds. ATE no longer point identified but set identified. 
+\end{itemize}
+
+\subsubsection*{Bounding Methods: Lee Bounds (for Continuous or Unbounded Outcomes)}
+\begin{itemize}
+\item Suppose treatment increases the probability of response (suppose response rate is 10\% higher in the treated group). Then \textbf{the treated sample may include people who would have not responded if assigned to control}. So the treated sample includes people for which you do not have a valid counterfactual in the control group. 
+\item Lee bounds(non-binary): trim the treatment group to only those who would have responded in the control group. 
+
+  \item Two assumptions:
+  \begin{itemize}
+    \item Extra 10\% are those with \textbf{highest} 5\% and \textbf{lowest} 5\% outcomes: drop top (bottom) 5\% from treated. ATT: 
+  \end{itemize}
+\item We take them out from the treated mean to set-identify $\mathbb{E}[Y_1 \mid  R_0 = 1]$
+  \[
+  \mathbb{E}[Y_1 \mid R_0 = 1] \in \left[\mathbb{E}[Y \mid D=1, R=1, Y \leq p_{95}], \, \mathbb{E}[Y \mid D=1, R=1, Y \geq p_5]\right]
+  \]
+  \item Look at the CI above, the more you trim (the more the difference in response rate or the larger the \% you trim) the larger the CI (the first CI element is the lower bound, because it is the expected value with the top 5\% out, the second element is the upper bound, because you are removing the worst 5\%). So the idea is that the lower bound gets lower and the upper bound gets larger. \\
+  Remark: another option could have been to predict the probability of response on covariates, etc. 
+\end{itemize}
+
+\subsubsection{Partial compliance}
+
+\paragraph{Definition}
+\begin{itemize}
+  \item When only a fraction of the individuals who are offered the treatment take it up.
+  \item Or, when some members of the control group manage to get the treatment.
+  \item Default case in "encouragement" designs, individuals randomly encouraged to take treatment. Randomization affects the probability of getting treatment, not the treatment itself.
+\end{itemize}
+
+\paragraph{Solutions}
+\begin{itemize}
+  \item Focus on the \textit{Intention-To-Treat} (ITT) effect:
+  \begin{itemize}
+    \item Compare all treated \textit{assigned} to treatment to all controls \textit{assigned} to no-treatment.
+    \item Effect of being offered treatment.
+  \end{itemize}
+  
+  \item Try to estimate the ATE instead of the ITT?
+  \begin{itemize}
+    \item We will see that we can use the dummy for being offered treatment as an Instrumental Variable (IV) for treatment, but retrieves LATE. 
+  \end{itemize}
+  
+  \item We can use bound analysis (partial identification) to provide bounds for the ATE (assumptions of TE on Compliers and NT: e.g., you estimate proportions from actual take-up rates and then you impose assumptions on the outcomes e.g., Manski bounds ).
+\end{itemize}
+
+\paragraph{How does Partial Compliance affect power?}
+\begin{itemize}
+  \item Assume that only a fraction \( c \) of the treatment group receives the treatment, and a fraction \( d \) of the control group receives it.
+  \item Then:
+  \[
+  \delta_{MDE} = 2.8 \cdot \frac{1}{c - d} \cdot \frac{\sigma}{\sqrt{P(1 - P)N}}
+  \]
+  \item With \( P = 0.5 \), and \( N = 1000 \), with \( c - d = 1 \), we can detect an effect of \( 0.18\sigma \).
+  \item If \( c - d = 0.5 \), we can detect an effect of only \( 0.36\sigma \).
+  \item To ensure the same MDE, the sample size under 50\% partial compliance would be almost 4 times larger than the sample under \textbf{full compliance (no linear relationship!)}. Why? recall you have to put N out of the sq root.
+\end{itemize}
+
+
+\subsubsection{Externalities / spillovers}
+
+Individuals in the control group might be affected by the treatment.  
+Examples: vaccines, imitation effects.
+
+SUTVA is violated: the potential outcome of each individual depends on the vector of allocations to treatment and comparison groups.
+
+\begin{itemize}
+  \item One solution: randomize at a level that allows capturing externalities (e.g., school level instead of individual level).
+  \item Smart design used leveraging the violation of the SUTVA: compare adoption of fertilizer among the friends of treated farmers to that of the friends of control farmers.
+  \item Actually could be interesting for research: to study peer effects, randomly assign individuals to different peer groups (e.g., Moving to Opportunity experiment in the US).
+\end{itemize}
+
+
+
+\subsubsection{Experimental Effects (intrinsic to experiments)}
+
+The evaluation itself may lead individuals to change their behavior: experimenter effects. Example: farmers working harder in the experimental plot with randomly allocated fertilizer than in the rest of their farm.
+
+\begin{itemize}
+\item If the behavioral change is in the treatment group, we call it ”Hawthorne Effect” (e.g., observed workers exhibit higher productivity).
+\item If in the control group: ”John Henry Effect.”(Legendary American Steel driver, when he heard his output was being compared with that of a steam drill, he worked harder to outperform the machine; he died in the process).
+\item funny to try PLACEBO TESTS!
+\item how to fight these effects? justify saying they are not very strong, OR INDUCE them and bound their strength (eg through placebo)!
+
+\end{itemize}
+
+
+
+
+
+\subsubsection{Data Mining: P-hacking when Studying Heterogeneity of Impact}
+
+
+\begin{itemize}
+\item Underlying Issue: As for balancing: if you estimate many treatment effects (and interactions) you may have significance by chance (false positives)... and then you report just the significant!
+\item If we estimate the treatment effects for many different subgroups we need to \textbf{correct p-values for multiple testing.}
+\item Extra Good Practices: 
+\begin{itemize}
+    \item write \textbf{pre-analsyis plan}
+    \item Stratify before randomizing: be sure there are no imbalances across characteristics in T and C group. Pre-randomization stratification ensures balance in key subgroups, thus Increasing power to detect true heterogeneity.
+    \item Avoid complex modeling to recover unbiased ATE. MAKE ANALYSSI SIMPLER AND MORE CREDIBLE Recall: One argument in favor of randomization is that everyone will get the same result and the researcher is bounded by the ex-ante design (no need to choose method, variables, specification).
+    \item study heterogeneity with machine learning causal forest. Non parametric (no linear form, normality etc): 1) flexible (no functional form assumed for treatemtn efeftc), 2) algoritmic discovery (he does the job, no manipulation), data drievn learning
+\end{itemize}
+
+
+
+\end{itemize}
+
+
+
+\subsubsection{External Validity}
+
+\begin{itemize}
+ 
+  
+  \item Concerns about external validity are more relevant when there is significant \textbf{treatment effect heterogeneity} (cross-country analysis).
+
+  \item \textbf{Generalization / Extrapolation} of results may not be reliable if:
+  \begin{itemize}
+    \item \textbf{Issue of scalability}
+    \item It is difficult to \textbf{extrapolate results to other populations} (e.g., will poor farmers in Uganda respond like those in South America?).
+  \end{itemize}
+  \item One approach to improve external validity is to \textbf{accumulate evidence across different settings and locations}. 
+  
+  \item Another approach is to \textbf{account for differences in the distribution of characteristics} across settings that may drive treatment effect heterogeneity. Effect: So you see which characteristics are driving the treatment effect heterogeneity, then you can try to successfully predict the ATE on a training sample of which you know the values for those characteristics + the ATE (works)
+
+  \item \textbf{Behavioral theory} can guide whether and how results should be extrapolated to new contexts.
+   \item In general, randomized evaluations cannot capture \textbf{general equilibrium effects}. These effects may be observed if the unit of observation is large enough (e.g., country, state, or city).
+
+\end{itemize}
+
+
+
+
+
+
+\section{Natural Experiments}
+
+\subsection{Idea}
+
+\begin{itemize}
+  \item The exogenous source of variation comes from a randomly assigned variable that can be used as an instrument for treatment.
+  \item Classic examples: Vietnam draft lottery to study military service effects, Mariel boatlift for immigration impacts, changes in divorce laws, etc.
+  \item These settings mimic random assignment, enabling causal inference without explicit experimental control.
+    \item \textbf{Threats to internal validity} increase:
+    \begin{itemize}
+      \item policy endogeneity (to an area (unobervabels)-> affects treatemtn and outcome),
+      \item omitted variable bias (Suppose we estimate the effect of a health insurance reform but do not control for baseline regional health infrastructure),
+      \item outcome trends (DId with wrong pretrends),
+      \item simultaneity (A government might increase subsidies for schools in response to declining test scores),
+      \item sample selection (f only a non-random subset of the population is observed or affected by the treatment, estimates will not be representative or causal.).
+    \end{itemize}
+
+  \item Similar challenges as RCTs regarding \textbf{external validity}, with one key difference: natural experiments typically do not require informed consent.
+  \item Rosenzweig and Wolpin (2000) emphasize “\textit{natural natural experiments}” — those that rely solely on natural exogenous events, not policy changes or institutional assignments.
+\end{itemize}
+
+\subsection{Debate}
+
+\begin{itemize}
+  \item Natural experiments and quasi-experimental methods are central to the so-called “\textbf{credibility revolution}” in microeconomics.
+  \item Critics argue that \textbf{overenthusiasm} for these methods can lead to oversimplified claims — e.g., reliance on single-equation models with robust standard errors without deeper understanding.
+\end{itemize}
+
+
+
+
+
+
+
+        
+\end{document}

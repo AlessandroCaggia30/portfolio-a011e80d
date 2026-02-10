@@ -1,0 +1,124 @@
+/* === Base === */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --blue:#003366;
+  --text:#2d2d2d;
+  --bg:#fafafa;
+  --border:#e0e0e0;
+  --muted:#666;
+}
+
+html{font-size:16px;scroll-behavior:smooth}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color:var(--text);
+  background:var(--bg);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* === Layout === */
+.container{
+  max-width:720px;
+  margin:0 auto;
+  padding:2rem 1.5rem 4rem;
+}
+
+/* === Typography === */
+h1{font-size:1.8rem;font-weight:700;color:var(--blue);margin-bottom:.25rem}
+h2{font-size:1.3rem;font-weight:600;color:var(--blue);margin:2.5rem 0 .75rem;padding-bottom:.35rem;border-bottom:2px solid var(--border)}
+h3{font-size:1.05rem;font-weight:600;margin:1.5rem 0 .4rem}
+p{margin-bottom:.8rem}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+small,.muted{color:var(--muted);font-size:.9rem}
+
+/* === Nav === */
+nav{
+  border-bottom:1px solid var(--border);
+  padding:.75rem 0;
+  margin-bottom:2rem;
+  display:flex;
+  flex-wrap:wrap;
+  gap:.5rem 1.25rem;
+  align-items:center;
+}
+nav a{font-size:.95rem;font-weight:500}
+nav a.active{border-bottom:2px solid var(--blue)}
+
+/* === Header === */
+.header{margin-bottom:.5rem}
+.tagline{color:var(--muted);font-size:1.05rem;margin-bottom:.75rem}
+.contact-links{display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;font-size:.9rem;margin-bottom:1rem}
+
+/* === Cards === */
+.card{
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:1.25rem 1.5rem;
+  margin-bottom:1.5rem;
+  background:#fff;
+}
+.card h3{margin-top:0}
+
+.tags{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0}
+.tag{
+  background:#e8eef4;
+  color:var(--blue);
+  font-size:.78rem;
+  padding:.15rem .55rem;
+  border-radius:3px;
+  font-weight:500;
+}
+
+.links{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:.6rem;font-size:.9rem}
+.links a::before{content:"↓ "}
+
+/* === Figures === */
+.figures{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:.75rem;
+  margin:1rem 0;
+}
+.figures img{
+  width:100%;
+  border:1px solid var(--border);
+  border-radius:4px;
+}
+.figures.single{grid-template-columns:1fr}
+.fig-caption{font-size:.8rem;color:var(--muted);text-align:center;margin-top:.2rem}
+
+/* === CV embed === */
+.pdf-embed{
+  width:100%;
+  height:80vh;
+  border:1px solid var(--border);
+  border-radius:4px;
+}
+
+/* === Course list === */
+.course{margin-bottom:1.25rem}
+.course h3{margin-bottom:.2rem}
+.course p{margin-bottom:.15rem}
+
+/* === Footer === */
+footer{
+  margin-top:3rem;
+  padding-top:1rem;
+  border-top:1px solid var(--border);
+  font-size:.8rem;
+  color:var(--muted);
+}
+
+/* === Responsive === */
+@media(max-width:600px){
+  .container{padding:1.25rem 1rem 3rem}
+  h1{font-size:1.5rem}
+  h2{font-size:1.15rem}
+  .figures{grid-template-columns:1fr}
+  nav{gap:.4rem 1rem}
+  .pdf-embed{height:60vh}
+}

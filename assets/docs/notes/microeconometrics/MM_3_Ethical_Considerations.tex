@@ -1,0 +1,341 @@
+\documentclass[9pt,a4paper,twoside]{rho-class/rho}
+\usepackage[english]{babel}
+\let\bibhang\relax
+%\usepackage{natbib}
+
+\setbool{rho-abstract}{true} % Set false to hide the abstract
+\setbool{corres-info}{true} % Set false to hide the corresponding author 
+\usepackage{xcolor}
+\usepackage{soul}
+\definecolor{lightblue}{RGB}{135, 206, 250}
+\usepackage{graphicx}  % in preamble
+\usepackage{fancyhdr}
+\usepackage{changepage}  % or geometry
+\usepackage{graphicx}    % for resizebox
+\usepackage{xcolor}
+
+
+%----------------------------------------------------------
+% TITLE
+%----------------------------------------------------------
+
+\title{Ethics}
+
+%----------------------------------------------------------
+% AUTHORS AND AFFILIATIONS
+%----------------------------------------------------------
+
+\author{Alessandro Caggia}
+
+%----------------------------------------------------------
+% DATES
+%----------------------------------------------------------
+
+\dates{June 2025}
+
+%----------------------------------------------------------
+% FOOTER INFORMATION
+%----------------------------------------------------------
+
+\institution{Bocconi University}
+\theday{June 04, 2026} %\today
+
+%----------------------------------------------------------
+% ABSTRACT
+%----------------------------------------------------------
+
+
+\begin{abstract}
+\end{abstract}
+
+
+
+\newcommand{\citeyearcomma}[1]{\citeauthor{#1}, \citeyear{#1}}
+
+\begin{document}
+	
+    \maketitle
+    \thispagestyle{plain}
+    \linenumbers
+
+
+%----------------------------------------------------------
+\section{Challenges of Conducting RCTs}
+
+\subsection{Overview}
+\begin{itemize}
+  \item \textbf{Need:}
+  \begin{enumerate}
+    \item \textbf{Ethical approval} (IRB)
+    \item \textbf{Selecting implementing partners} and securing funding
+    \item Ensuring \textbf{high-quality data collection} and minimizing attrition
+    \item Conducting rigorous {data analysis}
+  \end{enumerate}
+\end{itemize}
+
+\subsection{When is IRB Approval Mandatory?}
+
+  \begin{itemize}
+    \item \textbf{Human subjects} involved
+    \item \textbf{Personal data} used (e.g. GDPR in Europe)
+  \end{itemize}
+  \item Must \textbf{de-identify} and \textbf{securely store data}
+
+
+\section{Ethical Considerations}
+
+\subsection{Is it Ethical to Randomize?}
+\begin{itemize}
+  \item \textbf{Acceptable if:}
+  \begin{itemize}
+    \item \textbf{Oversubscription} does not reduce total treated
+    \item \textbf{Insufficient funds} to treat all
+    \item We do not know if the \textbf{treatment is beneficial or neutral} (and we do not know which subgroup will benefit more). (sure non negative :) )
+    \item \textbf{Cost-benefit analysis}: cost for the sample $<<<$ benefits for society
+  \end{itemize}
+  \item \textbf{Unacceptable if:}
+  \begin{itemize}
+    \item \textbf{High certainty of benefit} to everyone
+    \item \textbf{High certainty of benefit to a specific known group} (we can randomize for other subgroups)
+  \end{itemize}
+\end{itemize}
+
+\subsection{Belmont Report and US IRBs}
+\begin{itemize}
+  \item Ethical research in the US is guided by \textbf{Belmont Report (1978)}:
+  \begin{itemize}
+    \item \textbf{Inform participants} about risks/benefits
+    \item Ensure \textbf{voluntary participation} (\textbf{informed consent})
+    \item \textbf{Minimize harm} and weight to benefits
+    \item \textbf{Justify deception} (only if risks are minimal and costs from informing large)
+  \end{itemize}
+
+\end{itemize}
+
+\subsection{Informed Consent and Participation Bias}
+\begin{itemize}
+  \item Only participants who give \textbf{informed consent} can be included
+  \item Leads to \textit{\textbf{participation bias}} if participants differ from non-participants
+  \item \textbf{ATE estimate conditional on participation}, not generalizable (Internal validity is fine and ATE is causal, but no external validity)
+  \item \textbf{Compare baseline traits} of participants vs non-participants.
+\end{itemize}
+
+
+
+\section{Implementing Partners}
+
+\begin{itemize}
+  \item Criteria:
+  \begin{itemize}
+    \item Large enough scale
+    \item Commitment to learning and intervention
+  \end{itemize}
+  Important to have a member of the research team on the field
+\end{itemize}
+
+\subsection{Partner Types}
+\begin{itemize}
+  \item \textbf{Government}: Access to administrative data; BUT beware elections and political cycles + strong political pressures (assess gov program... pressure to give positive results). try ot have indpeenndent funding
+  \item \textbf{NGOs}: Common in development economics
+  \item \textbf{Firms}: Useful in organizational economics (how firms are structured and how these structures affect economic outcomes.)
+  \item \textbf{Self-implementation}: Risk of low external validity
+\end{itemize}
+
+\subsection{Convincing Partners to Randomize}
+\begin{enumerate}
+  \item \textbf{Oversubscription}: Lottery when D $>$ S
+  \item \textbf{Random Phase-In}:  random group receives the treatment in the first year, and in the following years other groups are incorporated (deworming project in primary schools). Issues: i) control group might be affected by expectations of treatment, ii) difficult to measure long term effects
+  \item \textbf{Encouragement Design}: Randomize encouragement (e.g. subsidies). Issue you esitmate ITT, need other assumptions for ATE
+\end{enumerate}
+
+\section{Common Field Issues}
+
+\subsection{General Challenges and power calculation issues}
+Underpowered Studies: when statistical power is low, we cannot claim that the intervention does not work even if we cannot reject that the treatment effect is 0. \\ \textbf{Common causes:}
+\begin{itemize}
+\item \textbf{"Failing in the field"}: implementing partner tells you he espects 10\% effect. you decide given N. tru effect is way smaller (or don't find or need way higher N)
+  \item \textbf{Poor take-up} (media campaign may fail)
+  \item \textbf{Poor implementation} 
+    \item \textbf{No power calculations }or under-budgeting
+    \item \textbf{Attrition} 
+    \item \textbf{Ignoring outcome variance}, note that with high variance variables you get lower standardized effect sizes. Decreases when we can control for variables that predict the outcome (e.g., baseline outcome) or have more than one measure of the outcome (less measurement error)
+    \item \textbf{study of subgroups reduces the effective sample size} (in very specific subgorup you may have few T and C) 
+    \item \textbf{Unexpectedly high costs}
+\end{itemize}
+
+
+
+\subsection{Noncompliance}
+\begin{itemize}
+  \item Recommended: pilot to assess take-up
+  \item Can restrict randomization to likely compliers, usually these are actually the relevant group (trade-off with external validity)
+  \item Tools to increase Take-up are context-specific
+\end{itemize}
+
+\subsection{Attrition}
+\begin{itemize}
+
+  \item \textbf{Prevention strategies:}
+  \begin{itemize}
+    \item \textbf{Flexible surveys} (time, location), \textbf{plan several visits}
+    \item \textbf{Collect contact info + alternate contacts}
+    \item \textbf{Provide incentives}
+    \item Bounds are going to be uninformative if attrition is very large and differential across treatment arms
+    \item If treatment and control groups have different response rates, estimates may be biased. one possible startegy: Compare only those in treatment and control who respond after same call effort
+  \end{itemize}
+\end{itemize}
+
+\subsection{Data Collection and Quality}
+\begin{itemize}
+  \item \textbf{Pilot questionnaire (cognitive interviews). Check questions are understood, survey is not too long, key questions are not at the end, as-much-as-possible homogeneous questionnaire btw treatment and control groups, etc.}
+  \item \textbf{Pilot fieldwork} (first week slow): go slow the first week and see how it goes
+  \item \textbf{Monitor survey collection}:
+  \begin{itemize}
+    \item \textbf{Track missing data}
+    \item \textbf{Back-check at least 10\% of answers} 
+  \end{itemize}
+\end{itemize}
+
+\section{Data Analysis}
+\subsection{Best Practices}
+\begin{itemize}
+  \item \textbf{Register} experiment (e.g. AEA registry)
+  \item \textbf{Pre-analysis plan (PAP)}:
+  \begin{itemize}
+    \item \textbf{Define outcomes, model, covariates, regressions, transformations}
+    \item \textbf{Include all planned subgroup analyses}
+    \item Reduces flexibility, but boosts credibility
+  \end{itemize}
+  \item \textbf{Data and Code Sharing}
+\end{itemize}
+
+
+
+
+\section{Application: Jensen (2012)}
+
+\subsection{Research Question and Motivation}
+\begin{itemize}
+  \item \textbf{Question}: Do labor market opportunities for women affect marriage and fertility decisions?
+  \item \textbf{Importance}:
+  \begin{itemize}
+    \item Helps explain why women in developing countries leave school early, marry, and have children at young ages.
+    \item Sheds light on high fertility rates in low-income settings.
+  \end{itemize}
+  \item \textbf{Expected mechanism}: More job opportunities $\Rightarrow$ higher opportunity cost of early marriage/childbearing $\Rightarrow$ delays in those decisions. But what if high value woman $\Rightarrow$ more demanded by men? 
+\end{itemize}
+
+\subsection{Why a Field Experiment is Needed}
+\begin{itemize}
+  \item \textbf{Omitted Variable Bias}: Women with job opportunities may also differ in unobservables like wealth, ability, or ambition, all charactetistics affecting marriage decisions fertility. 
+  \item \textbf{Reverse Causality}: Women who plan to delay marriage may also seek more job opportunities. Or women who antiicate marriage may be discriminated by employers. 
+  \item \textbf{Location Selection Bias}: Comparing areas with high vs low job access may be biased by correlated area traits (e.g., school quality, income) all factors possiblt related ot marriage adn feritly.
+\end{itemize}
+
+\subsection{Intervention Design}
+\begin{itemize}
+\item Context: rural India, very low employment opportunities
+  \item \textbf{Randomization}: 160 villages randomized — 80 to treatment, 80 to control.
+  \item \textbf{No stratification}.
+  \item \textbf{Treatment}: three years of recruiting services to women in randomly selected rural areas to increase awareness of job opportunities. Details: 
+  \begin{itemize}
+  \item secondary school , english known, computer skills
+    \item Basically only young girls (18-24) had those qualifications. Plus, 
+  \end{itemize}
+
+\end{itemize}
+
+\subsection{Findings}
+\begin{itemize}
+  \item \textbf{First Stage}: Women aged 15–21 in treated villages were more likely to work in BPO jobs or work at all vs. control.
+  \begin{itemize}
+      \item \textbf{Human Capital Investments}:
+  \begin{itemize}
+    \item Increased school enrollment for younger girls.
+    \item Higher BMI (indicator of parental investment). they are investing in girls. how do we know they are not simply getting richer? placebo on boys
+  \end{itemize}
+  \end{itemize}
+  \item \textbf{Causal effect: Marriage and Fertility}:
+  \begin{itemize}
+    \item Delayed marriage and childbearing
+  \end{itemize}
+\end{itemize}
+
+\subsection{Empirical Specification}
+\begin{itemize}
+  \item \textbf{Main Specification}:
+  \[
+    Y_i = \beta_0 + \beta_1 \cdot Treatment_i + \varepsilon_i
+  \]
+  \item \textbf{With Controls}:
+  \[
+    Y_i = \beta_0 + \beta_1 \cdot Treatment_i + \sum_j \gamma_j X_{ij} + \varepsilon_i
+  \]
+  where \( X \) includes parental education, household expenditures, family size, and age dummies.
+  \item \textbf{Change Specification}: this absorbes time invariant unobserved heyerogeneity
+  \[
+    \Delta Y_i = \beta_0 + \beta_1 \cdot Treatment_i + \varepsilon_i
+  \]
+  \item cluster at the village level
+  \item Controls and change-specifications were moved to the appendi, why? no need in good RCT. they can help in precision. 
+\end{itemize}
+
+\subsection{Balance Checks and Internal Validity}
+\begin{itemize}
+  \item Table 1: tests for baseline balance between treatment and control.
+  \item Report F-test for joint significance of covariates explaining treatment assignment: p-value = 0.77 $\Rightarrow$ no significant imbalance.
+\end{itemize}
+
+\subsection{Robustness}
+\begin{itemize}
+  \item Nice placebo test: no treatment effect for men or older women.
+\end{itemize}
+
+\subsection{Threats to Internal Validity}
+\subsubsection{Attrition}
+\begin{itemize}
+  \item Similar attrition rates across treatment and control 
+  \item Check baseline characteristcs of attrictos: Attrition mostly driven by migration of younger, poorer, landless households. 
+  \item \textbf{Interact baseline covariates with treatment to test if interactions jointly predict attrition:  suggest aattrition is differential and correlated with treatment}!  
+  \item Use of IPW confirms robustness
+\end{itemize}
+
+\subsubsection{Partial Compliance}
+\begin{itemize}
+  \item Treatment defined as exposure to village-level intervention. Randomization was at village level.
+  \item All treated villages received the recruiter visit. SO there was no partical compliance
+  \item No control villages were visited. SO there was no partical compliance
+\end{itemize}
+
+\subsubsection{Externalities}
+\begin{itemize}
+\item Where to look: Since the unit of randomization is village, spillovers across villages (e.g., control village individuals learning about BPO opportunities from treated village individuals) violate the Stable Unit Treatment Value Assumption (SUTVA). Treatment is assigned at the village level: Entire villages were randomized into treatment or control. All women in treated villages are considered treated, regardless of whether they attended info sessions.
+  \item Spillovers: refer to control individuals (in control villages) possibly being influenced by treated neighbors (e.g., via word-of-mouth or attending nearby sessions).
+  \item Would expect downward bias.
+  \item ery few control group women worked in BPO. 
+  \item In such setting, it is interesting to check spilloevrs at the village level also for the marriage market. if marriage marke tis not village level bu broader: women from T village don't marry, Men in T billage loook for women in C village 
+\end{itemize}
+
+
+\subsection{Alternative Mechanisms}
+\begin{itemize}
+  \item Carefully tested other channels:
+  \begin{itemize}
+    \item Not driven by 1) household income effects or 2) time reallocation by adults (1 The intervention did not increase total household expenditure, indicating no significant household income gain, 2) adutls work more or less and affect girls (role model or  opposite: somebody needs to take care of the hosue)). 
+    \item Cannot fully rule out effects via teachers (e.g., more encouragement to girls); what if treatment lead teachers to incentivise girl to 1) study to work and 2) postpone marrigae
+  \end{itemize}
+  \item what other mechanisms could explain the observed results?
+  Nicolò: decline in fertility is a mechanical effect from elevating community and working more
+\end{itemize}
+
+\subsection{External Validity}
+\begin{itemize}
+  \item Findings apply mainly to white-collar BPO jobs: safe, non-manual, socially acceptable.
+  \item We are in India
+  \item However, the role of information about job availability can matter in many contexts.
+\end{itemize}
+
+
+
+
+\end{document}

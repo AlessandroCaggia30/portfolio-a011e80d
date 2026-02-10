@@ -1,0 +1,229 @@
+\documentclass[9pt,a4paper,twoside]{rho-class/rho}
+\usepackage[english]{babel}
+\let\bibhang\relax
+%\usepackage{natbib}
+
+\setbool{rho-abstract}{true} % Set false to hide the abstract
+\setbool{corres-info}{true} % Set false to hide the corresponding author 
+\usepackage{xcolor}
+\usepackage{soul}
+\definecolor{lightblue}{RGB}{135, 206, 250}
+\usepackage{graphicx}  % in preamble
+\usepackage{fancyhdr}
+\usepackage{changepage}  % or geometry
+\usepackage{graphicx}    % for resizebox
+\usepackage{xcolor}
+
+
+%----------------------------------------------------------
+% TITLE
+%----------------------------------------------------------
+
+\title{Structural Models}
+
+%----------------------------------------------------------
+% AUTHORS AND AFFILIATIONS
+%----------------------------------------------------------
+
+\author{Alessandro Caggia}
+
+%----------------------------------------------------------
+% DATES
+%----------------------------------------------------------
+
+\dates{June 2025}
+
+%----------------------------------------------------------
+% FOOTER INFORMATION
+%----------------------------------------------------------
+
+\institution{Bocconi University}
+\theday{June 04, 2026} %\today
+
+%----------------------------------------------------------
+% ABSTRACT
+%----------------------------------------------------------
+
+
+\begin{abstract}
+\end{abstract}
+
+
+
+\newcommand{\citeyearcomma}[1]{\citeauthor{#1}, \citeyear{#1}}
+
+\begin{document}
+	
+    \maketitle
+    \thispagestyle{plain}
+    \linenumbers
+
+
+%----------------------------------------------------------
+
+
+
+
+
+
+\section{Causality in Structural Models}
+
+\subsection{General Setup}
+
+\begin{itemize}
+  \item Say that after solving a model comprising a system of equaitons (eg supply and Demand funcitons) you end up with an equation for $Y$, say $Y = F(x_1, x_2, \dots, x_n)$
+  \item Now we are interested in the \textbf{Causal effect}, the response of $Y$ to a \textit{ceteris paribus} change in one variable. If we can vary the ``cause" $x_j$ independently, then:
+  \[
+  \frac{\partial Y}{\partial x_j} = F_j'(x_1, x_2, \dots, x_n)
+  \]
+  \item This is the marginal causal effect of $x_j$ on $Y$.
+  \item If we assume linear equation: $Y = \beta X + \varepsilon$, we can use OLS to recover the parameter of interest. 
+  \item Under proper identification, $\beta_j = \frac{\partial \mathbb{E}[Y]}{\partial x_j}$ can be interpreted causally and $\beta_j$ is called a structural parameter as it is derived from a structural model.
+\end{itemize}
+
+\subsection{Interrelated Causes and Endogeneity}
+
+\begin{itemize}
+  \item When causes are interrelated, causal effect still exists but is harder to identify.
+  \item Example: Demand and Supply
+  \[
+  \begin{aligned}
+  Y^d &= Y^d(P^d, Z^d, U^d) \\
+  Y^s &= Y^s(P^s, Z^s, U^s)
+  \end{aligned}
+  \]
+  \item If $P^d$ and $P^s$ could be varied exogenously:
+  \[
+  \frac{\partial Y^d}{\partial P^d}, \quad \frac{\partial Y^s}{\partial P^s}
+  \]
+  would be causal effects.
+  \item But in equilibrium: $P^d = P^s = P$, $Y^d = Y^s = Y$. So you do not specifically observe the two equaitons above!
+  \item You are now observing an equilirbium point / a series of equilibriu points (say $(Y,P$)) that is JOINTLY determined by S and D,
+  \item The relaiton between y adn p that you are observing is totally ininformative as you have 2 unobservables (D and S) determining jus tone observable: price may be determined by a symultaneous shift in D amd supply.
+  \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.55\linewidth]{Structural Model.png}
+      \label{fig:enter-label}
+  \end{figure}
+  \item So causal interpretation of $\frac{\partial Y}{\partial P}$ is invalid due to endogeneity (simultaneity bias).
+  \item You want to isolate shifts in D or S
+\end{itemize}
+
+\subsection{Using Exogenous Variation: Reduced Form}
+
+\begin{itemize}
+  \item If we can vary $Z^d$ and/or $Z^s$ exogenously, we can recover causal effects (IV style).
+  \item Reduced form (endogenous as a function of exogenous variables):
+  \[
+  \begin{aligned}
+  Y &= Y(Z^d, U^d, Z^s, U^s) \\
+  P &= P(Z^d, U^d, Z^s, U^s)
+  \end{aligned}
+  \]
+  \item If $Z^s$ affects $P$ and can be exogenously varied (no effect on $Z^d, U^d, U^s$), we can identify causal effect of $Z^s$ on $P$ and $Y$.
+  \item idea is shiftng the suppyll curve while keeping the demand curve fixed
+  \item Reduced Form Causal Effects of $Z^s$ on P and Y (ceteris paribus):
+  \[
+  \frac{\partial Y}{\partial Z^s}, \quad \frac{\partial P}{\partial Z^s}
+  \]
+\end{itemize}
+
+\section{Structural Model: Concrete Example}
+
+\subsection{Model Setup}
+
+\begin{itemize}
+  \item Structural equations:
+  \[
+  \begin{aligned}
+  Y^d &= \beta_0 + \beta_1 P^d + U \\
+  Y^s &= P^s - Z
+  \end{aligned}
+  \]
+  \item In equilibrium: $P^d = P^s = P$, $Y^d = Y^s = Y$
+  \item Structural form:
+  \[
+  \begin{aligned}
+  Y &= \beta_0 + \beta_1 P + U \\
+  P &= Y + Z
+  \end{aligned}
+  \]
+  we cannot identify the structural coefficient $\beta_1$ representing the ceteris paribus marginal effect of $P^d$ on $Y^d$
+\end{itemize}
+
+
+\subsection{Solving the System}
+
+\begin{itemize}
+    \item Assumption: U and Z are independent!
+  \item Solve the system, reduced form of the model:
+  \begin{align*}
+    Y &= \frac{\beta_0}{1 - \beta_1} + \frac{\beta_1}{1 - \beta_1} Z + \frac{U}{1 - \beta_1} \\
+    P &= \frac{\beta_0}{1 - \beta_1} + \frac{1}{1 - \beta_1} Z + \frac{U}{1 - \beta_1}
+    \end{align*}
+  \item Let $\gamma_0 = \frac{\beta_0}{1 - \beta_1}, \gamma_1 = \frac{\beta_1}{1 - \beta_1}, \gamma_2 = \frac{1}{1 - \beta_1}$
+  \item Reduced form causal effects:
+  \[
+  \frac{\partial Y}{\partial Z^s} = \gamma_1, \quad \frac{\partial P}{\partial Z^s} = \gamma_2
+  \]
+  \item Recover structural parameter of interest from the reduced parameters:
+  \[
+  \frac{\partial Y^d}{\partial P^d} = \beta_1 = \frac{\partial Y / \partial Z^s}{\partial P / \partial Z^sw}
+  \]
+  The Exogenous variation in Supply allowed you to find the slope of Demand
+\end{itemize}
+
+\subsection*{Interpretation}
+
+\begin{itemize}
+  \item $\gamma_1 = \frac{\beta_1}{1 - \beta_1}$ is causal effect of $Z^s$ on $Y$.
+  \item Reduced form coefficient is the composition of two effects:
+  \[
+    \frac{\partial Y}{\partial Z} = \frac{\partial Y^s}{\partial P^s} \cdot \frac{\partial P}{\partial Z}
+    = \beta_1 \cdot \frac{1}{1 - \beta_1}.
+   \]
+Z is the exogenous variable generating the change in Y, while P is the intermediate cause.
+\end{itemize}
+
+\section{Structural Models: Other Examples}
+
+\subsection{Identifying the Supply Slope}
+
+\begin{itemize}
+  \item New model:
+  \[
+  \begin{aligned}
+  Y^d &= \beta_0 + \beta_1 P^d + Z + U \\
+  Y^s &= \beta_2 P^s
+  \end{aligned}
+  \]
+  \item Goal: identify $\beta_2$
+  \item You can identify the slope of supply BECAUSE you have exogenous shocks in Demand!
+\end{itemize}
+
+\section{Structural Approach and Potential Outcomes}
+
+\begin{itemize}
+\item Assumptions needed to identify $\beta$ in a structural equation are equivalent to potential outcome assumptions.
+  \item Structural equation $Y_i = \beta D_i + \varepsilon_i$ 
+  \begin{itemize}
+  \item Assumes homogeneous $\beta$ (guarantees no treatemtnegfect heteroegenity)
+  \item Selection bias arises if $D_i$ is correlated with $\varepsilon_i$  (some unobserved characteristics are correlated with the treatement assignment)
+  \end{itemize}
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

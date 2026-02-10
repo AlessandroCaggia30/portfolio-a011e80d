@@ -1,0 +1,853 @@
+\documentclass[9pt,a4paper,twoside]{rho-class/rho}
+\usepackage[english]{babel}
+\let\bibhang\relax
+%\usepackage{natbib}
+
+\setbool{rho-abstract}{true} % Set false to hide the abstract
+\setbool{corres-info}{true} % Set false to hide the corresponding author 
+\usepackage{xcolor}
+\usepackage{soul}
+\definecolor{lightblue}{RGB}{135, 206, 250}
+\usepackage{graphicx}  % in preamble
+\usepackage{fancyhdr}
+\usepackage{changepage}  % or geometry
+\usepackage{graphicx}    % for resizebox
+\usepackage{xcolor}
+
+\usepackage{soul,color}
+\definecolor{issue}{RGB}{220,50,47}       % red
+\definecolor{example}{RGB}{0,150,0}      % green
+\definecolor{intuition}{RGB}{108,113,196} % purple
+\definecolor{solution}{RGB}{38,139,210}    % blue
+\usepackage{amsmath}  % in preamble
+
+%----------------------------------------------------------
+% TITLE
+%----------------------------------------------------------
+
+\title{Causal Forest}
+
+%----------------------------------------------------------
+% AUTHORS AND AFFILIATIONS
+%----------------------------------------------------------
+
+\author{Alessandro Caggia}
+
+%----------------------------------------------------------
+% DATES
+%----------------------------------------------------------
+
+\dates{June 2025}
+
+%----------------------------------------------------------
+% FOOTER INFORMATION
+%----------------------------------------------------------
+
+\institution{Bocconi University}
+\theday{} %\today
+
+%----------------------------------------------------------
+% ABSTRACT
+%----------------------------------------------------------
+
+
+\begin{abstract}
+\end{abstract}
+
+
+
+\newcommand{\citeyearcomma}[1]{\citeauthor{#1}, \citeyear{#1}}
+
+\begin{document}
+    \maketitle
+    \thispagestyle{plain}
+    \linenumbers
+
+\section{Introduction}
+
+\subsection{The Big Picture}
+
+\begin{itemize}
+  \item Our goal in this lecture is to estimate heterogeneous treatment effects based on $X$.
+  \item We would like to recover the full distribution of the ATE$(x)$:
+  \[
+  \mathbb{E}(Y_{i1} - Y_{i0} \mid X_i = x)
+  \]
+  \item Traditional Heterogeneity Analysis focuses on a few covariates, ideally pre-specified based on theoretical grounds. It just runs OLS with interactions or splits the samples in subgroups (as done up to now).
+
+  \item Machine Learning tools provide more flexible non-parametric estimators that allow us to find the most important sources of heterogeneity based on \textbf{ALL} available baseline covariates (and all their interactions).
+  \begin{itemize}
+    \item \textit{No theory, no econ intuition. Just a plan to explore the data. Some form of structured data mining.}
+  \end{itemize}
+  \item We can detect unexpected sources of heterogeneity without the risk of p-hacking or data mining.
+\end{itemize}
+
+A causal forest allows us to estimate heterogeneous causal e↵ects without any restriction on the number of covariates. The method can be used to explore any previously conducted RCT in order to discover subpopulations with high or low treatment e↵ects (+ CIs)
+\subsection{Basic Concepts}
+
+\begin{itemize}
+  \item We want to select covariates that maximize \textbf{treatment heterogeneity}.
+  \item  What we have ahead:
+  \begin{itemize}
+    \item Classification and Regression Trees (CART) 
+    \item Random Forests 
+    \item Causal Trees 
+    \item Causal Forests 
+  \end{itemize}
+
+\end{itemize}
+
+
+\section{Classification and Regression Trees (CART)}
+
+\subsection{Classification Trees}
+
+\begin{itemize}
+  \item \textbf{General classification problem:}
+  \textbf{Notation:}
+\begin{itemize}
+  \item Let $x = (x_1, x_2, \dots) \in \mathcal{X}$ be a vector of measurements (features).
+  \item Assume $J$ different possible classes.
+\end{itemize}
+\item \textbf{Definition: Classifier}: A classifier is a function $d(x)$ defined on $\mathcal{X}$ such that for every $x$, $d(x) \in \{1, 2, \dots, J\}$.
+  \item Classification Trees are designed for \textbf{categorical response variables}.
+\end{itemize}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{Classfiication_trees.png}
+    \label{fig:enter-label}
+\end{figure}
+
+
+\subsection{Tree Classifiers}
+
+\begin{itemize}
+  \item Tree classifiers recursively split subsets of $\mathcal{X}$ into two descendant subsets (partition the space)
+  \item Internal nodes represent decision splits (split the data along the way), terminal nodes contain final predicted class labels (e.g., 1, 2).
+  \item Splits are formed based on conditions on $x_i \in x = (x_1, x_2, \dots)$.
+  \item \textit{Note: If you use a dummy 0/1 variable, you can still use it in the left-hand side (LHS) even if you arleady used it in the RHS. There's still variation!}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{tree_classifier.png}
+    \label{fig:enter-label}
+\end{figure}
+
+\textbf{Terminal nodes:}
+\begin{itemize}
+  \item Objective: form \textbf{homogeneous} subgroups (pure classes) while maximizing external heterogeneity or obtain at least n objects.
+\end{itemize}
+
+\subsection{Tree Structured Classifiers}
+
+\begin{itemize}
+  \item Constructing a tree requires:
+  \begin{enumerate}
+    \item Dividing $\mathcal{X}$ into distinct, non-overlapping regions (select the splits and declare a termina lnode).
+    \item Assigning each terminal node to a class.
+  \end{enumerate}
+  \item Select splits to increase ``purity'' of resulting subsets with respect ro the purity of the parent subset.
+\end{itemize}
+
+\textbf{Steps:}
+\begin{itemize}
+  \item Define impurity metric (e.g., GINI)
+  \item For every possible split: compute impurity reduction (objects whitin the subset are purer).
+  \item Choose split that improves impurity most.
+  \item Assign each terminal node $t$ to a class $j_0$ such that:
+  \[
+  p(j_0 \mid t) = \max_j p(j \mid t)
+  \]
+  \item \textit{You assign a node to the most frequent class in that node: this reduces classification error.}
+\end{itemize}
+
+\textbf{Additional notes:}
+\begin{itemize}
+\item Split the full dataset. Imagine you have 4 independent dummy variables. First, split the data based on the values of the first variable \( x_1 \) (e.g., dummy: 0 or 1). Compute the degree of purity in each resulting subset (left and right). Check how much the overall purity increases due to the split.
+
+Try this for all 4 variables and select the one that leads to the highest increase in purity — this variable will be used at the first node.
+
+Then, repeat the same procedure for the second level: in each of the two resulting subsets, consider the remaining variables for the next split.
+
+For example, imagine that in the left subset the best split is on \( x_2 \), and in the right subset it is on \( x_4 \). Then, in the left subtree you are left with \( x_3, x_4 \), and in the right subtree with \( x_2, x_3 \).
+
+
+
+\textbf{Remark:} As the sample size increases, you can explore all combinations of variable splits.\\
+\textbf{Remark:} The structure of the tree will reveal which variables are the most important for prediction.
+
+\end{itemize}
+
+
+
+\begin{itemize}
+  \item Same tree logic as classification, but terminal node value is the \textbf{mean} of THE OUTCOME (Y) observations.
+  \item \textbf{Example:} Predict log-salary of baseball players based on years played and hits.
+\end{itemize}
+
+\vspace{1em}
+\textbf{Explanation:}
+\begin{itemize}
+  \item Each leaf gives the average outcome of all observations in that region.
+  \item Final group classification is an average: he leafs are created for group members to be similar, while maximizing the differences across groups.
+\end{itemize}
+
+
+
+
+\begin{itemize}
+  \item The tree shown has:
+    \begin{itemize}
+      \item 2 internal nodes (splits),
+      \item 3 terminal nodes (leaves).
+    \end{itemize}
+  \item Within each leaf: prediction = mean of observed outcome.
+  \item Tree partitions data into:
+  \[
+  \begin{aligned}
+    R_1 &= \{x \mid \text{Years} < 4.5\} \\
+    R_2 &= \{x \mid \text{Years} \geq 4.5, \text{Hits} < 117.5\} \\
+    R_3 &= \{x \mid \text{Years} \geq 4.5, \text{Hits} \geq 117.5\}
+  \end{aligned}
+  \]
+\end{itemize}
+
+\subsection{Regression Trees: Visualization}
+
+\begin{itemize}
+  \item Left plot: visual partition of $x = (\text{Years}, \text{Hits})$ space (distributional).
+
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{reg_trees_visualization.png}
+    \label{fig:enter-label}
+\end{figure}
+
+\textit{Note: Even if observations are close in covariates, average outcomes across leaves can differ a lot.}
+
+
+\subsection{Regression Trees: Tree Construction}
+
+\begin{itemize}
+  \item Goal: Estimate regression functions flexibly with fovus on strong out of smaple predictive power!
+  \item Two main steps:
+    \begin{enumerate}
+      \item Divide space $x = (x_1, \dots, x_p)$ into $J$ non-overlapping regions $R_1, \dots, R_J$
+      \item Predict average of $Y$ in each $R_j$
+    \end{enumerate}
+  \item Theoretical research focuses on best way to construct the $R_j$. See below for more
+\end{itemize}
+
+
+
+\begin{itemize}
+  \item At each step, select a predictor $x_j$ and a cutpoint $s$ to split the space:
+  \[
+  \{x \mid x_j < s\} \quad \text{and} \quad \{x \mid x_j \geq s\}
+  \]
+  so as to minimize the Residual Sum of Squares (RSS).
+
+  \item Consider \textbf{all} predictors $x_1, \dots, x_p$ and \textbf{all} possible split values $s$ for each.
+
+  \item \textbf{Formally:} For each pair $(j, s)$, define (one varaibles is used to create two splits):
+  \[
+  R_1(j,s) = \{x \mid x_j < s\}, \quad R_2(j,s) = \{x \mid x_j \geq s\}
+  \]
+  Then choose $j$ and $s$ that minimize:
+  \[
+  \sum_{i:x_i \in R_1(j,s)} (y_i - \hat{y}_{R_1})^2 + \sum_{i:x_i \in R_2(j,s)} (y_i - \hat{y}_{R_2})^2
+  \]
+  \item $\hat{y}_{R_k}$ is the mean of $y_i$ in region $R_k$ ($k = 1,2$).
+
+  \item \textit{You can reuse the same variable later with different cutoffs, e.g., $x_1 < 5$, then $x_1 < 10$.}
+
+  \item \textit{The higher a variable appears in the tree and the more often it is used, the more important it is for prediction.}
+
+  \item \textbf{Procedure:}
+  \begin{itemize}
+    \item Start at the top
+    \item Recurse: split data within each resulting node using same logic.
+    \item Continue until stopping rule is met (e.g., region size $\leq$ 5 obs).
+  \end{itemize}
+
+  \item Final prediction for any $x$ is the mean outcome $\hat{y}_{R_j}$ in the region $x$ falls into.
+
+
+\end{itemize}
+
+
+\begin{itemize}
+  \item \textbf{The goal} is to minimize forecast error \textbf{within each region} — so that observations in the same leaf are similar (i.e., more homogeneous).
+  \item Trees are built \textbf{top-down} using a greedy method called \textbf{recursive binary splitting}:
+  \begin{itemize}
+    \item At each step, choose the split that gives the largest reduction in RSS.
+    \item We do not consider future splits — local optimal choice only.
+  \end{itemize}
+  \item \textbf{Splits are univariate:} only one covariate is used per split.
+\end{itemize}
+
+\subsubsection{visualization}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{visualizaiotn_advanced.png}
+    \label{fig:enter-label}
+\end{figure}
+
+
+final nodes represent the partition representatiun un the x1 x2 space even though we have been recursive in the sense that at every stage of the construction of the tree we have concisdered only one variable  in the end the whole tree structure allows for very complex and flexible interactions between variables. see left: the interaction terms are super different depending on what is the joint distribution (the values of) x1 and x2. imagine in 3D is the outcome, how complex it can be! for every portion you can haev a differnt outcome! in the linear regresison case you would have a plane with a given angle (the coeff)
+
+
+\subsection{Overfitting}
+
+\begin{itemize}
+  \item The tree algorithm tends to overfit the data — it splits the sample many times, fitting noise.
+  \item Outcome: good predictions (low bias) on training data, but poor generalization (high variance) on test data.
+    \begin{itemize}
+      \item This is what they call "overfitting".
+    \end{itemize}
+  \item A smaller tree (fewer regions $R_1, \ldots, R_J$) yields:
+    \begin{itemize}
+      \item lower variance but
+      \item increased bias: classic bias-variance tradeoff.
+    \end{itemize}
+  \item \textbf{Two solutions:}
+  \begin{enumerate}
+    \item Build a smaller tree directly (more conservative split threshold, i.e., require large reduction in RSS).  
+    \textit{Problem: may miss late “good” splits if early ones were “bad”.}
+    \item Solution to the above: Build a large tree, then \textbf{prune} it by cutting back splits that don’t reduce test error much. From the bottom put together splits that in the end are not so important to reduce the bias. This avoids you to lose important steps.  You cut the internal node along all its internal branches. 
+    \textit{This avoids losing important splits too early while only keeps those that really reduce errror in the data (and are not just due to idyosincrasy of a ery small subset of the data), but you may lose a lot in terms of bias}
+    \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.5\linewidth]{pruning.png}
+            \label{fig:enter-label}
+        \end{figure}
+    
+    
+  \end{enumerate}
+\end{itemize}
+
+
+\subsection{Pruning (reduce complexity of the model)}
+
+\begin{itemize}
+  \item \textbf{Goal:} Avoid overfitting by selecting a simpler subtree that balances fit and complexity.
+
+  \item \textbf Grow a large, fully expanded tree $T_0$ (possibly overfitting).
+
+  \item \textbf{AIM:} Generate a subtree $T \subset T_0$ by pruning $T_0$ backward merging terminal nodes such that this subtree has the lowest test error rate.
+
+  \item \textbf{HOW:} We select the optimal subtree $T \subset T_0$ by minimizing, given a fixed T, the penalized training error (as for lasso):
+  \[
+  \sum_{m=1}^{|T|} \sum_{i:x_i \in R_m} (y_i - \hat{y}_{R_m})^2 + \alpha |T| \tag{2}
+  \]
+  T is the number of terminal nodes. If that termianl node does not help, cut it! this is recursive, so you cut first layer of erminal nodes, then second layer ets
+  \item \textbf{Interpretation of terms:}
+  \begin{itemize}
+    \item $|T|$: number of terminal nodes (i.e., model complexity).
+    \item $R_m$: region (leaf) corresponding to terminal node $m$.
+    \item $\hat{y}_{R_m}$: mean response in region $R_m$.
+    \item $\alpha$: tuning parameter penalizing complexity.
+  \end{itemize}
+
+  \item \textbf{Tuning $\alpha$:}
+  \begin{itemize}
+    \item $\alpha = 0$: no complexity penalty → select $T = T_0$
+    \item $\alpha \uparrow$: increasing penalty → smaller tree
+
+  \item \textbf{Model selection:}
+  \begin{itemize}
+    \item Use \textbf{cross-validation} to choose the value of $\alpha$ that yields the lowest \textbf{test error}.
+\end{itemize}
+  \end{itemize}
+\end{itemize}
+
+
+\subsection{Regression Trees vs. Linear Models}
+
+A \textbf{smooth} function vs.\ a \textbf{step} function:
+
+\begin{align*}
+\text{Regression model:} \quad & f(X) = \beta_0 + \sum_{j=1}^p X_j \beta_j \\
+\text{Regression tree:} \quad & f(X) = \sum_{m=1}^M c_m \cdot \mathbb{1}(X \in R_m)
+\end{align*}
+
+\vspace{0.5em}
+
+\textit{Interpretation:}
+\begin{itemize}
+  \item The regression model fits a continuous linear surface.
+  \item The tree partitions the space into subregions \( R_m \), assigning the average outcome \( c_m \) in each.
+  \item Each indicator \( \mathbb{1}(X \in R_m) \) behaves like a dummy, assigning a given average to elements in that region.
+\end{itemize}
+
+\textbf{Which model is better? It depends:}
+\begin{itemize}
+  \item If the true relationship is well approximated by a linear model, linear regression performs better.
+  \begin{figure}[H]
+            \centering
+      \includegraphics[width=0.5\linewidth]{1.png}
+      \label{fig:enter-label}
+  \end{figure}
+  \begin{figure}
+          \centering
+          \includegraphics[width=0.5\linewidth]{2.png}
+          \label{fig:enter-label}
+      \end{figure}
+  \item In highly non-linear, complex cases, trees may capture structure better.
+  \item Estimating \textbf{test error} helps decide — trees may overfit more easily due to high variance (and perform poorly in test set) ut sometimes there may be other considerations as well, such as interpretability or visualization.
+  \item Tradeoff: regression = stable but possibly misspecified; tree = flexible but unstable.
+\end{itemize}
+
+\vspace{0.5em}
+\textit{Extra notes:} If the relationship is linear, trees introduce unnecessary complexity. Trees are more sensitive to outliers, which can create overfitting.
+
+
+
+
+\subsection*{Advantages and Disadvantages of Trees}
+
+\paragraph{Advantages}
+\begin{itemize}
+  \item \textcolor{blue}{For small trees: easy to explain, interpret and visualize.}
+  \item \textcolor{violet}{Some argue: decision trees mirror human decision-making more closely.}
+\end{itemize}
+
+\vspace{1em}
+
+\paragraph{Disadvantages}
+\begin{itemize}
+  \item Hard to incorporate established theory into the algorithm.
+  \item Interpretability shrinks with tree size (It’s harder to isolate the effect of any single variable $X_j$ on the output $Y$).
+  \item Trees can be very non-robust (high variance). Small change in the data can cause a large change in the tree.
+\end{itemize}
+
+
+
+
+\section{Bagging and Random Forests}
+\subsection*{Bagging (Bootstrap Aggregation)}
+
+\begin{itemize}
+  \item \textbf{Goal:} Improve predictive performance by aggregating many decision trees.
+  \item \textbf{Idea:} Average over many fitted models to reduce variance and improve generalization.
+  \item \textbf{Procedure:}
+  \begin{itemize}
+    \item Draw \( B \) bootstrap samples (with replacement) from the training set.
+    \item Puild separate predictions using each sample
+    \item Predict by averaging the predictions across all \( B \) trees. Algorithms make a number of passes over the data. The ultimate results of interest are the collection of all the results from all passes.
+  \end{itemize}
+
+  \item \textbf{The number of trees \( B \)} is not a critical tuning parameter: large \( B \) does not lead to overfitting (obv).
+  \item In practice: choose \( B \) large enough for prediction error to stabilize.
+\end{itemize}
+
+\subsection*{Why Bagging Works (Berk, 2008)}
+
+\begin{itemize}
+  \item Averaging over fitted values reduces overfitting. The average cancels out the results shaped by idiosyncratic features 8outliers) of the data.
+  \item Bias-variance trade-off is improved: combining trees reduces variance without increasing bias.
+  \begin{itemize}
+\item \textbf{Each tree:} high variance, low bias (Decision trees su↵er from high variance: if we split the training data randomly into two parts and fit a decision tree to each half, we could obtain quite di↵erent results)
+  \item \textbf{Bagged prediction:} low variance, low bias.
+
+  \end{itemize}
+  \item Sharp decision boundaries from individual trees are smoothed (we take a bounddaty that is an average).
+\end{itemize}
+
+\subsection*{Limitations of Bagging}
+
+\begin{itemize}
+  \item If a strong predictor dominates the data, it will appear in the top split of many trees.
+  \item All trees may look similar, leading to highly correlated predictions.
+  \item Averaging highly correlated trees does not reduce variance effectively.
+
+\end{itemize}
+
+
+
+
+
+\subsection{Random Forests}
+\subsubsection{Trees Variability}
+
+\begin{itemize}
+
+  \item \textbf{Random Forests} (Breiman, 2001) provide a way to \textit{de-correlate the trees}.
+  
+  \item \textbf{As in bagging:} we build a number of decision trees on bootstrapped training samples.
+  
+  \item \textbf{However,} when building the trees, at each split:
+  \begin{itemize}
+    \item A \textbf{random sample of \( m \)} predictors is drawn from the full set of \( p \) predictors.
+    \item The split is only allowed to consider these \( m \) predictors.
+    \item A new random sample of predictors is drawn at each split.
+  \end{itemize}
+
+  \item \textbf{Hence:} by building a random forest, the algorithm is not allowed to consider all available predictors at each split. This reduces correlation between trees.
+\end{itemize}
+
+noteice for m = p, random forest = bagging. Using a small value of m will typically be helpful when we have a
+large number of correlated predictors
+
+\subsubsection*{Solution: Variable Importance via RSS Reduction}
+
+\textbf{Goal:} Assign a \textbf{score of predictability} to each predictor to quantify its contribution to prediction accuracy (also called ``variable importance'').
+
+\begin{itemize}
+  \item Use the \textbf{RSS} (Residual Sum of Squares), as defined in Equation (1).
+
+  \item \textbf{Method:} For each tree, at every node, record the total reduction in RSS that results from splits using a specific predictor. Then:
+  \begin{itemize}
+    \item Aggregate these reductions over all $B$ trees in the forest.
+    \item The result is the \textbf{total contribution of that predictor} to decreasing prediction error.
+    \item A \textbf{large value} indicates the predictor is important for reducing RSS and thus for accurate prediction.
+    \item The variable has played an important role in building the model (in reducing the RSS).
+  \end{itemize}
+
+  \item Trick: Set all scores \textbf{relative to the largest} one:
+  \begin{itemize}
+    \item Most important variable = 100.
+    \item Other variables scaled accordingly (e.g., 50 means ``50\% as important as th emost importatn one''). The idea is that it is difficult to interpret the reducion in teh RSS so you express the imrptant ce of all vars as a fracitonf of the imprtance of the avraibel with the highest score
+    \item Useful for interpretation and visualization.
+  \end{itemize}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{V_importance.png}
+    \caption{Enter Caption}
+    \label{fig:enter-label}
+\end{figure}
+
+
+
+
+
+
+
+\section{HERE THE FOCUS CHANGES! Heterogeneous Treatment Effects}
+THE FOCUS NOW IS ON CAUSALITY
+
+
+\subsection{Motivation and Setup}
+\begin{itemize}
+  \item Until now, the goal was to predict the outcome $Y$.We have seen how regression trees produce a partition of the population according to covariates, whereby all units in a partition receive the same prediction.
+  \item Now we shift to causal inference: estimating heterogeneosu \textbf{treatment effects} based on covariates. We want to study the dsitribtion of the TEs across subgroups that we haev not predefined. We want to let the algo find the subgroups that will maximize the variance of the ATE across subgroups. 
+  \item \textbf{Athey and Imbens (2016)} build on regression trees to estimate \textbf{heterogeneous treatment effects (HTEs)} using covariates.
+\begin{itemize}
+  \item A tree is built such that each leaf contains both treated and untreated observations
+  \item conditional on the lead the treatmetn is randoly assigned (needs unconfoudedness), we have put togetehr T and G with very similar covariaets as a result of the leaf geenration process (a sort of matching)
+  \item As they are in the same leaf, their characteristics are very similar (CIA)– as if they were randomly assigned to treatment and control groups (based on unconfoundedness). This is the ATEx fo each leaf, we haev mno counterfactual and we are usign a matched contorl (what the treatemtn iunit would have had as outcome under t0). 
+  \item HTEs are then estimated \textbf{within leaves} as the difference in average outcomes between treated and control.
+  \item This gives a \textit{matching estimator}: each leaf matches similar units with different treatments.
+  \item They estimate heterogeneous treatment effects across leaves, while the treatment effects are uniform within leaves. 
+\end{itemize}
+\end{itemize}
+
+\subsection{Causal Trees: Objectives}
+\begin{itemize}
+  \item Two key objectives:
+    \begin{enumerate}
+      \item Estimate heterogeneity in causal effects (experimental or observational).
+      \item Conduct valid inference about differences in treatment effects across subgroups (p-acking not solved by agnostic commitment to causal trees (better than pre-analysis plan)) + about inference effort to compute the SE. In comparison to prediction-based approaches, we are interested in preserving the validity of confidence intervals constructed on treatment effects within subgroups
+    \end{enumerate}
+  \item Especially useful when:
+    \begin{itemize}
+      \item Many covariates, fewer observations; Imagine yuou need to find if a large numebr of covariaets as an eheteogenoeus treatemnt effect (or th einteracoitn of many covariates). Already with 10 dummies, you have 1024 possible combinaitons. Causal trees  automatically identify covariates that explain treatment effect heterogeneity.No need to pre-specify interactions or manually stratify.
+      \item Functional form of treatment effect unknown.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Causal Tree Estimator: Notation}
+\begin{itemize}
+  \item $\Pi$: a tree (that is, a partiotion of the feature space)
+  \item $\#(\Pi)$: Number of leaves.
+  \item $\ell(x,\Pi)$: Leaf containing $x$. This defiens the ampping leaf (numbered) - covariate. 
+  \item Hence we can write: $\Pi = \{ \ell_1, \dots, \ell_{\#(\Pi)} \}, \quad \text{with} \quad \bigcup_{j=1}^{\#(\Pi)} \ell_j = \mathcal{X}$
+  \item $D_i \in \{0,1\}$: Treatment indicator.
+  \item $\mathcal{S} = \mathcal{S}_{\text{treat}} \cup \mathcal{S}_{\text{control}}$: Training sample.
+  \item Triplet for each observation: $(Y_i^{obs}, X_i, D_i)$.
+\end{itemize}
+
+\subsection{Estimation}
+\begin{itemize}
+  \item Given a tree P, define for all X and treatment levels D the population average outcome:
+  \[
+    \mu(D, X; \Pi) = \mathbb{E}[Y_i \mid D_i = D, X_i \in \ell(X;\Pi)]
+  \]
+  \item Estimate (the average of the outcome for observations with the same T status and with covariates that will make them fall into the leaf selected by those values x of the covs):
+  \[
+    \hat{\mu}(D, X; \mathcal{S}, \Pi) = \frac{1}{\#\{i \in \mathcal{S}_D : X_i \in \ell(X; \Pi)\}} \sum_{i \in \mathcal{S}_D : X_i \in \ell(X;\Pi)} Y_i^{obs}
+  \]
+  \item CATE:
+  \begin{itemize}
+  \item Denote by $\tau(X; \Pi)$ the ATE conditional on a given tree, which is given by:
+  \[
+    \tau(X; \Pi) \equiv \mathbb{E}[Y_{1i} - Y_{0i} \mid X_i \in \ell(X; \Pi)] = \mu_1(X; \Pi) - \mu_0(X; \Pi)
+  \]
+
+  \item \textbf{With its estimated counterpart}:
+  \[
+    \hat{\tau}(X; \Pi) \equiv \hat{\mu}(D=1, X; \mathcal{S}, \Pi) - \hat{\mu}(D=0, X; \mathcal{S}, \Pi)
+  \]
+  \item \textit{ATE estimate is the difference in the estimated average of the outcome of the treated and controls in the same leaf.}
+  
+  \item \textit{Note: Everything is conditional on $\Pi$, i.e., on the tree structure (the partitioning).}
+
+
+\end{itemize}
+
+
+
+\begin{itemize}
+
+  \item \textit{Note:} The idea of adding more homogeneous treatment effects (TEs) within each leaf is complex because we do \textbf{not observe individual treatment effects (ITEs)}. 
+  
+  \item \textbf{Key implication:} To approximate this goal, we try to \textbf{minimize the variance of the ATE estimate} = Obtain \textbf{precise ATE estimates} with low standard errors $\rightarrow$  the variance of the ATE depends on the outcome variance in the treated and control groups = A well-formed leaf will have low standard errors if the variance of outcomes is small for both treated and control observations in that leaf.
+  \end{itemize}
+
+  \item \textbf{Interpretation:} Wanting homogeneous treatment effects within leaves serves a dual purpose:
+  \begin{itemize}
+    \item From a \textbf{microeconometrics perspective}: increases the \textbf{statistical power} of the analysis by improving precision (power = probability of detecting a true effect). If the variance is low in T and C easier to detect treatment effect.
+    \item From a \textbf{machine learning perspective}: aligns with the goal of \textbf{minimizing prediction error} within each leaf.
+  \end{itemize}
+\end{itemize}
+
+
+
+
+\subsection{Splitting Criterion: EMSE}
+\begin{itemize}
+  \item We need to give the tree a criterion for splitting $\rightarrow$ Partitioning criterion is set to maximize heterogeneity \textbf{across leaves} and minimize variance \textbf{within leaves} (want low bias).
+  \item Objective
+\[
+\widehat{\textcolor{orange}{\text{EMSE}}_{\tau}}(\mathcal{S}^{\text{tr}}, N^{\text{est}}, \Pi) \equiv 
+\underbrace{
+\textcolor{black}{\frac{1}{N^{\text{tr}}}} \sum_{i \in \mathcal{S}^{\text{tr}}} \textcolor{blue}{\hat{\tau}^2(X_i; \mathcal{S}^{\text{tr}}, \Pi)}
+}_{\text{\textcolor{blue}{rewards heterogeneity across leaves}}}
+-
+\underbrace{
+\left( \frac{1}{N^{\text{tr}}} + \frac{1}{N^{\text{est}}} \right)
+\sum_{\ell \in \Pi}
+\left(
+\frac{\textcolor{red}{S^2_{\mathcal{S}^{\text{tr}}_{\text{treat}}}(\ell)}}{p}
++ 
+\frac{\textcolor{red}{S^2_{\mathcal{S}^{\text{tr}}_{\text{control}}}(\ell)}}{1-p}
+\right)
+}_{\text{\textcolor{red}{penalizes variance within each leaf}}}
+\]
+
+\vspace{1em}
+
+\noindent
+\textbf{Where:}
+\begin{itemize}
+\item $N^{tr}$ is the train sample
+  \item $p = \dfrac{N_{\text{treat}}}{N}$ is the share of treated units.
+  \item $S^2_{\mathcal{S}^{\text{tr}}_w}$ is the within-leaf variance of treatment effect estimates.
+  \item $\sum_{i \in \mathcal{S}^{\text{tr}}} \textcolor{blue}{\hat{\tau}^2(X_i; \mathcal{S}^{\text{tr}}, \Pi)}$: \textcolor{blue}{rewards heterogeneity across leaves}.
+  \item $\textcolor{red}{S^2_{\mathcal{S}^{\text{tr}}_w}(\ell)}$: \textcolor{red}{penalizes variance within each leaf}.
+\end{itemize}
+
+\vspace{1em}
+
+\noindent
+\textbf{Interpretation:}
+\begin{itemize}
+  \item The \textcolor{blue}{blue term} grows when the estimated ATEs differ strongly across leaves.
+  \item The \textcolor{red}{red term} grows when there's high variance in treatment effects \textit{within} leaves.
+  \item Goal: maximize heterogeneity across leaves, minimize noise within each leaf (precision).
+\end{itemize}
+
+
+
+\end{itemize}
+
+\subsection{Causal Tree: Honesty}
+The point is that bagging uses  the full data!
+\begin{itemize}
+    \item So far we have split the data in training ($N^{tr}$) and test data ($N^{test}$)
+    
+    \item Many existing machine learning methods cannot be used for constructing confidence intervals because methods are ``adaptive'' -- they use the training data for model selection and estimation. The model dpedens on the data compositon you rsample, the jey advantage: use data as much as you can to learn. Issue: when talking about the statistical uncertainty of the estiamted parameter, you also ened to build in the fact that there is uncertianty related to the smapel that has affected the first step!
+    
+    \item Spurious correlation b/w covariates and outcomes affects the selected model. This leads to bias, which disappears only slowly with growing sample size    
+    \item Athey and Imbens (2016) propose an alternative approach they refer to as \textbf{honesty} within the training sample
+
+\end{itemize}
+
+\vspace{1em}
+
+\textbf{Definition: Honesty}
+
+A model is ``honest'' if it does not use the same information for \textbf{selecting the model structure} (grow a tree) as for \textbf{estimation} given a model structure.
+
+\begin{itemize}
+   
+    \item \textit{\small $\Rightarrow$ instead of splitting my initial sample into training and test samples, I am willing to pay the cost of ½ the training sample by introducing a sample used for estimation.}
+
+\end{itemize}
+
+\vspace{1em}
+
+\begin{itemize}
+    \item We further split the training sample into two parts:
+    \begin{enumerate}
+        \item $N^{tr}$ observations for model selection: used to construct the tree (splitting, cross-validation, etc.)
+        \item $N^{est}$ observations for estimating the treatment effects within each leaf
+    \end{enumerate}
+
+\end{itemize}
+
+
+
+\section{Causal Forest}
+
+\begin{itemize}
+    \item \textbf{The honest causal forest} is a random forest made up of honest causal trees
+    \begin{itemize}
+        \item \textit{\small Causal forests are \textbf{also a way to limit the risk of overfitting}, together with causal trees!}
+    \end{itemize}
+    
+    \item The random forest part is as before (bagging, picking a subset of predictors, averaging across many trees, etc.)
+    
+    \item The main contribution of Wager and Athey (2018) is an \textbf{asymptotic normality theory} for causal forest predictions which enables statistical inference
+    
+    \item We can then obtain confidence intervals, p-values, etc.
+\end{itemize}
+
+\vspace{1em}
+
+\noindent The method is analogous to random forests: Generate $B$ causal trees and average their predictions such that
+\[
+\hat{\tau}(x) = \frac{1}{B} \sum_{b=1}^{B} \hat{\tau}(x; \Pi_b)
+\]
+\begin{itemize}
+    \item \textit{\small The best predictor of the TE for an obs with values of covariates $x$ will be an average over all the $B$ trees of this prediction.}
+    \item \textit{\small $\Rightarrow$ obs with given values of $X$ ($x$) will have $B$ predictions in each tree $\Rightarrow$ you average those out.}
+\end{itemize}
+
+\vspace{0.5em}
+
+\noindent Under some standard assumptions for consistency:
+\[
+\frac{\hat{\tau}(x) - \tau(x)}{\sqrt{\mathrm{Var}[\hat{\tau}(x)]}} \Rightarrow \mathcal{N}(0,1)
+\]
+\begin{itemize}
+    \item \textit{\small Asymptotic distribution of the ATE estimator in causal forests.}
+\end{itemize}
+
+\noindent and the asymptotic variance of causal forests can be accurately estimated.
+
+\vspace{2em}
+\subsection*{Causal Forests: Details}
+
+\noindent Previously learned concepts (regression trees $\rightarrow$ random forests) all apply to causal trees $\rightarrow$ causal forests:
+
+\begin{itemize}
+    \item A \textbf{causal tree can be visualized}, but a \textbf{causal forest cannot} --- \textbf{variable importance graphs} help investigate the role of single predictors
+    \begin{itemize}
+        \item \textit{\small Important to do this to understand sources of TEH!}
+    \end{itemize}
+    
+    \item Similar to random forests, the advantage over a single tree is that it is \textbf{not always clear what the ``best'' causal tree is}
+    
+    \item By \textbf{averaging the treatment effects of many trees}, we \textbf{reduce variance and smooth sharp decision boundaries}
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section*{Supplementary Concepts}
+
+\subsection*{Prediction vs Inference}
+
+\begin{itemize}
+  \item Machine learning and microeconometrics are different worlds.
+  \item In statistical learning:
+    \begin{itemize}
+      \item Independent variables $X$: called \textit{input variables}, \textit{features}, or \textit{predictors}.
+      \item Dependent variable $Y$: often called \textit{output} or \textit{response}.
+    \end{itemize}
+  \item Statistics $\rightarrow$ \textbf{Prediction}, Economics $\rightarrow$ \textbf{Inference}.
+  \item Assume $Y = f(X)$:
+    \begin{itemize}
+      \item \textbf{Prediction:} Predict $\hat{Y} = \hat{f}(X)$ where $\hat{f}$ is trained to make accurate predictions. The form of $\hat{f}$ is not important.
+      \item \textbf{Inference:} We care about understanding how $Y$ changes with $X$, so we examine $\hat{f}$ itself. Prediction is a secondary concern.
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Machine-Learning ML Terminology}
+
+\begin{itemize}
+  \item Models are \textit{trained}, not estimated.
+  \item Prediction problems:
+    \begin{itemize}
+      \item \textbf{Supervised learning:} Observe both $X$ and $Y$ (e.g., regression/classification).
+      \item \textbf{Unsupervised learning:} Only $X$ is observed, goal is to discover structure in $X$ (e.g., clustering, NLP).
+      \item \textit{Note: You discover the structure with an “underlying” $Y$.}
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Some Notation: Data}
+
+\begin{itemize}
+  \item To avoid overfitting: fit on training set, test on independent data.
+  \item Distinction:
+    \begin{itemize}
+      \item \textbf{Training data} ($N^{tr}$): used to estimate $\hat{f}$.
+      \item \textbf{Test data} ($N^{test}$): used to evaluate $\hat{f}$.
+    \end{itemize}
+  \item Compare $\hat{Y}^{tr}$ with $Y^{test}$ using an error function.
+  \begin{itemize}
+    \item \textbf{Overfitting:} Low error on training, high error on test.
+    \item \textit{Intuition:} If a model works too hard to fit idiosyncratic patterns in training data that happen dby chance, those patterns likely won’t generalize.
+  \end{itemize}
+\end{itemize}
+
+
+\section*{Appenidx}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{c.png}
+    \caption{Enter Caption}
+        \label{fig:enter-label}
+\end{figure}
+
+\begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{f.png}
+        \caption{Enter Caption}
+        \label{fig:enter-label}
+    \end{figure}
+
+\section{Bagging and Random Forests}
+\subsection*{Out-of-Bag}
+
+\noindent \textbf{Out-of-Bag Error Estimation:}
+
+\begin{itemize}
+    \item With bagging and random forests, trees are repeatedly fit to (bootstrapped) subsets
+    \item Assume that on average, each bagged tree makes use of around $2/3$ of the observations
+    \item The remaining $1/3$ are out-of-bag (OOB) observations
+    \item Predict the single response for the $i$th observation using each of the trees in which that observation was OOB by averaging the $B/3$ predictions for $i$th observation
+    \item Compute OOB MSE over the single responses of all observations
+\end{itemize}
+
+
+
+\end{document}

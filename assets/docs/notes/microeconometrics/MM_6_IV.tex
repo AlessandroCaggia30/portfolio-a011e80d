@@ -1,0 +1,1089 @@
+\documentclass[9pt,a4paper,twoside]{rho-class/rho}
+\usepackage[english]{babel}
+\let\bibhang\relax
+
+
+\setbool{rho-abstract}{true} % Set false to hide the abstract
+\setbool{corres-info}{true} % Set false to hide the corresponding author 
+\usepackage{xcolor}
+\usepackage{soul}
+\definecolor{lightblue}{RGB}{135, 206, 250}
+\usepackage{graphicx}  % in preamble
+\usepackage{fancyhdr}
+\usepackage{changepage}  % or geometry
+\usepackage{graphicx}    % for resizebox
+\usepackage{xcolor}
+
+\usepackage{soul,color}
+\usepackage{tabularx}
+\definecolor{issue}{RGB}{220,50,47}       % red
+\definecolor{example}{RGB}{0,150,0}      % green
+\definecolor{intuition}{RGB}{108,113,196} % purple
+\definecolor{solution}{RGB}{38,139,210}    % blue
+\usepackage{amsmath}  % in preamble
+
+%----------------------------------------------------------
+% TITLE
+%----------------------------------------------------------
+
+\title{Instrumental Variables}
+
+%----------------------------------------------------------
+% AUTHORS AND AFFILIATIONS
+%----------------------------------------------------------
+
+\author{Alessandro Caggia}
+
+%----------------------------------------------------------
+% DATES
+%----------------------------------------------------------
+
+\dates{June 2025}
+
+%----------------------------------------------------------
+% FOOTER INFORMATION
+%----------------------------------------------------------
+
+\institution{Bocconi University}
+\theday{} %\today
+
+%----------------------------------------------------------
+% ABSTRACT
+%----------------------------------------------------------
+
+
+\begin{abstract}
+\end{abstract}
+
+
+
+\newcommand{\citeyearcomma}[1]{\citeauthor{#1}, \citeyear{#1}}
+
+\begin{document}
+    \maketitle
+    \thispagestyle{plain}
+    \linenumbers
+
+
+%----------------------------------------------------------
+
+\textcolor{violet}{MONOTONICITY IS REQUIRED TO EXTARCT THE LATE UNDER HETEROGENOUS TE, IF YOU HAVE HOMOEGNEOUS TE THE EFFECT YOU ARE FINDING IS ALREADY THE ATE }
+\section{Instrumental Variables}
+
+\subsection{Introduction}
+
+\begin{itemize}
+  \item What if CIA (selection on observables) does not hold? (eg when individuals select themselves into treatment based on \textbf{unobservable characteristics} that are correlated with outcomes).
+  \begin{itemize}
+      \item IV has been traditionally used to correct for measurement error and to recover structural parameters (remember the demand and supply example from class 1).
+      \item IV can be used to solve the omitted selection variable bias problem.
+  \end{itemize}
+\end{itemize}
+
+\subsubsection*{For now assume Homogeneous Treatment Effects}
+
+\begin{itemize}
+  \item Assume the treatment effect is constant: \( Y_{1i} - Y_{0i} = \gamma \).
+  \item Observable: \( Y_i = Y_{0i} + D_i \cdot \gamma = \gamma_0 + \gamma D_i + \varepsilon_i \).
+  \begin{itemize}
+  \item Where \( \gamma_0 = \mathbb{E}(Y_{0i}) \), \( \varepsilon_i = Y_{0i} - \mathbb{E}(Y_{0i}) \).
+  \end{itemize}
+  \item This is basically a simple regression model with a constant slope.
+\end{itemize}
+
+
+\subsection{IV Definition}
+
+\begin{itemize}
+  \item We want to find a way to recover the required lack of correlation between the error term and \( D \).
+  \item Classic Conditions for a variable \( Z \) to be a Valid instrument:
+  \begin{itemize}
+    \item \textbf{Relevance:} \( \mathrm{Cov}(Z, D) \ne 0 \)\\
+    the instrument has to capture part of the variation of the (endogenous) treatment variable.
+    \item \textbf{Exogeneity} implies two different assumptions:
+    \begin{itemize}
+      \item \textbf{Randomness:} \( \mathrm{Cov}(Z, \varepsilon) = \mathrm{Cov}(Z, Y_0) = 0 \)\\
+      the instrument should be as good as randomly allocated.
+      \item \textbf{Exclusion Restriction:} \( \delta = 0 \) in the regression of \( Y \) on \( Z \) controlling for \( D \): \\       
+        \( Y_i = \gamma_0 + \gamma D_i + \delta Z_i + \varepsilon_i \) \\
+        the instrument can only affect the outcome through its effect on \( D \).
+    \item We need both: Even if \( Z \) is randomly assigned, the exclusion restriction might not hold: \( Z \) can affect \( Y \) through channels different from \( D \).
+    \end{itemize}
+  \end{itemize}
+  
+\end{itemize}
+
+\vspace{1em}
+
+
+\subsubsection{Testing the Conditions}
+
+\begin{itemize}
+  \item We can test for \textbf{Relevance}, since we observe both \( Z \) and \( D \).
+  
+    \item \textbf{Exclusion Restriction:} This condition cannot be tested directly because it would require knowing the true causal effect \( \gamma \). Why? So through our instrument \( Z \) we estimate:
+    \[
+    Y_i = \gamma_0 + \gamma D_i + \delta Z_i + \varepsilon_i
+    \]
+    We might think that if \( \delta = 0 \), the exclusion restriction is satisfied. But this is incorrect. Nothing says that your are effectively capturing the exogenous component of the endogenous variable D! 
+    \begin{itemize}
+    \item Suppose \( D \) is endogenous because it is correlated with some unobserved confounder \( E \) st \( D \to E \to Y \). 
+    \item If \( Z \) is still correlated with the same unobserved variable \( E \), which causes the endogeneity of \( D \), then \( Z \to E \to Y \) remains an open backdoor path.  \textbf{BUT} Crucially, controlling for \( D \), we block or mask this effect mechanically (or better, there is this possibility that \textbf{makes the whole untestable}). SO \textcolor{violet}{if the endogenous channel is the same we see no effect on delta}. Key idea: (1) We want to eliminate the confounding path \( D \leftarrow E \to Y \), so we use \( Z \to D \to Y \). (2) But if \( Z \to E \to Y \), the instrument is invalid. \textcolor{violet}{it is usign the same exact endogeous channel you wanted to cut!}
+    \item That's why we say that we want Z to affect Y though D only! and this is more deep than it seems\footnote{Nothing prevents us from saying: D is affecting y through observable and unobservable channels. we use Z so that we rule out the unobservable channels (if it is truly exogenous). Now D is affecting y direcly if we control for the observables. Then the instrument becomes truly exogenous (is just capturing the direct effect of D on Y) only if you control for the observables. so that \( \mathbb{E}(u_0 \mid X, Z) = 0, \ \mathbb{E}(u_1 \mid X, Z) = 0 \)}.
+    \end{itemize}
+    
+
+
+  \end{itemize}
+
+    
+
+
+
+\subsection{Identification of the IV Estimator}
+
+If \( Z \) is a valid instrument, we can identify the ATE (which in the homogeneous case is equal to the ATT, and to the individual treatment effect):
+
+\begin{enumerate}
+  \item Remember for OLS, we have:
+  \[
+    \gamma^{OLS} = \frac{\text{cov}(Y, D)}{\text{var}(D)}
+  \]
+  The idea is that we replace the endogenous variable by its linear projection on an instrumental variable. For a binary \( Z \), with no covariates, the IV recovers \( \gamma \) as:
+  \[
+    \gamma^{IV} = \frac{\text{cov}(Y, Z)}{\text{cov}(D, Z)}
+  \]
+  We only use the variability in \( D \) induced by \( Z \). Numerator: how much Y varies with the exogenous component Z. before at denominator: variation in D, now we have exogenous variation in D generated by z (but this clearly shrinks the variation in the z hence the effective sample size)
+
+
+
+\item Identify \( = \text{cov}(D, Z)/\text{var}(Z) = \delta_1 \) from the \textbf{First Stage}:
+\begin{itemize}
+  \item For a binary \( Z \), with no covariates.
+  \item Model: \( Y_i = \gamma_0 + \gamma D_i + \varepsilon_i \)
+  \item Let: \( D_i = \delta_0 + \delta_1 Z_i + \nu_i \) $\leftarrow$ The first Stage
+  \item We can identify \( \delta_1 \) from a regression of \( D \) on \( Z \), which we call the First Stage. The relevance assumption is equivalent to assuming \( \delta_1 \ne 0 \), and if the only channel to y has to be D, then Z must be correlated with D. 
+\end{itemize}
+
+\item Identify  \(  \text{cov}(Y, Z)/\text{var}(Z) = \gamma \delta_1 \) from the \textbf{Reduced form}:
+
+  \[
+  \begin{aligned}
+    Y_i &= \gamma_0 + \gamma (\delta_0 + \delta_1 Z_i + \nu_i) + \varepsilon_i \\
+        &= (\gamma_0 + \gamma \delta_0) + (\gamma \delta_1) Z_i + (\gamma \nu_i + \varepsilon_i)
+  \end{aligned}
+  \]
+  Since \( \text{cov}(Z_i, \nu_i) = 0 \) by construction, and \( \text{cov}(Z_i, \varepsilon_i) = 0 \) by assumption, we can identify \( \gamma \delta_1 \) from the reduced-form regression of \( Y \) on \( Z \).
+
+  \item Finally, recalling 1. , we can write the Wald ratio estimator \( \gamma^{IV} \):
+  \[
+    \gamma^{IV} = \frac{\text{cov}(Y, Z)}{\text{cov}(D, Z)} 
+    = \frac{\text{cov}(Y, Z)/\text{var}(Z)}{\text{cov}(D, Z)/\text{var}(Z)} 
+    = \frac{\gamma \delta_1}{\delta_1} = \gamma
+  \]
+  Note \( \delta_1 \ne 0 \) is essential for identification. 
+\end{enumerate}
+
+
+
+\subsection{Estimation 2SLS}
+
+\begin{itemize}  
+  \item Steps:
+  \begin{enumerate}
+    \item Regress \( D \) on \( Z \), get \( \hat{D} = \hat{\delta}_0 + \hat{\delta}_1 Z_i \)
+    \item Regress \( Y \) on \( \hat{D} \), that is: \( Y_i = \gamma_0 + \gamma (\hat{\delta}_0 + \hat{\delta}_1 Z_i) + \varepsilon_{2i} \)
+  \end{enumerate}
+  
+  \item From the second step:
+  \[
+  \gamma = \frac{\text{cov}(Y, \hat{D})}{\text{var}(\hat{D})}
+  = \frac{\text{cov}(Y, \hat{\delta}_0 + \hat{\delta}_1 Z_i)}{\text{var}(\hat{\delta}_0 + \hat{\delta}_1 Z_i)}
+  = \frac{\hat{\delta}_1 \, \text{cov}(Y, Z_i)}{\hat{\delta}_1^2 \, \text{var}(Z_i)}
+  = \frac{\widehat{\gamma \delta_1}}{\hat{\delta}_1}
+  \]
+  
+  \item In practice, we estimate the two steps jointly to correct for the errors in estimating \( \delta_1 \) and \( \delta_0 \), which are used as regressors in the second step.
+
+\end{itemize}
+
+
+\subsection{OLS vs. IV}
+\begin{itemize}
+
+\item In economics, we usually find larger IV estimates and se to be \textbf{larger than OLS estimates}. If the instrument is too weak, or if the instrument is slightly endogenous, it might be better not to use it (other issues are heterogeneous treatment effects or measurement errors).
+
+
+\begin{itemize}
+ \item The OLS estimator converges in probability to:
+  \[
+  \frac{\text{cov}(Y, D)}{\text{var}(D)}
+  = \frac{\text{cov}(\gamma_0 + \gamma D + \varepsilon, D)}{\sigma_D^2}
+  = \gamma + \frac{\text{cov}(\varepsilon, D)}{\sigma_D^2} 
+  \]
+
+  \item Whereas, the IV estimator converges to:
+  \[
+  \frac{\text{cov}(Y, Z)}{\text{cov}(D, Z)}
+  = \frac{\text{cov}(\gamma_0 + \gamma D + \varepsilon, Z)}{\text{cov}(D, Z)}
+  = \gamma + \frac{\text{cov}(\varepsilon, Z)}{\text{cov}(D, Z)}
+  \]
+
+  \begin{itemize}
+      \item The numerator is exogeneity, with full exogeneity there is no bias. Recall:
+              
+        \begin{itemize}
+          \item Inconsistency in OLS is due to nonzero \( \text{corr}(\varepsilon, D) \).
+          
+          \item Valid IV guarantees a consistent estimation since:  
+          \[
+          \text{corr}(\varepsilon, Z) = 0
+          \]
+                  
+        \end{itemize}
+
+      \item \textcolor{violet}{the denominator is the first stage, if there is exogeneity, this amplifies asymptotic bias!} (makes sense: recall the den is a scale up !). This is WHY even a slightly endogenous instrument  with \( \text{corr}(\varepsilon, Z) < \text{corr}(\varepsilon, D) \) may be worse than the no instrument scenario.
+          
+  \end{itemize}
+\end{itemize}
+
+\item Additionally, Weak instruments also lead to \textbf{large standard errors}.
+\begin{itemize}
+
+  \item   WHY THIS? The asymptotic variance of the normalized IV estimator in the binary case is:
+  \[
+    \text{Avar} \left( \sqrt{N}(\hat{\gamma}^{IV} - \gamma) \right) = 
+    \frac{\sigma_\varepsilon^2}{\sigma_D^2 (\text{corr}(Z, D))^2}
+  \]
+
+  \item The weaker the instrument, the higher the asymptotic se.
+\end{itemize}
+\end{itemize}
+
+
+
+
+\subsection{Adding Covariates in the General Model}
+\subsubsection{Thoeretical framework}
+\begin{itemize}
+  \item We augment our models with controls and heterogeneous treatment effects based on that controls. We also allow for different gains based on unobserved factors \( u_1, u_0 \). \color{gray}{The potential outcomes when treated or when controlled are then:}
+\[
+\color{gray}{Y_0 = \mu_0 + \beta_0 (x - \mu_x) + u_0,} \qquad
+\color{gray}{Y_1 = \mu_1 + \beta_1 (x - \mu_x) + u_1}
+\]
+
+\begin{itemize}
+  \item \color{gray}{\( \mu_0 = \mathbb{E}(Y_0), \ \mu_1 = \mathbb{E}(Y_1), \ \mu_x = \mathbb{E}(x) \)}
+\end{itemize}
+
+We can re-express the observed outcome:
+\[
+\begin{aligned}
+\color{gray}{Y} & \color{gray}{= Y_0 + D(Y_1 - Y_0)} \\
+  &\color{gray}{= \mu_0 + (x - \mu_x)\beta_0 + u_0 + D(\mu_1 - \mu_0)} \\
+  &\quad \color{gray}{+ D(x - \mu_x)(\beta_1 - \beta_0) + D(u_1 - u_0)} \\
+\color{black}
+Y &\color{black}{= \alpha_0 + \gamma D + x \beta_0 + u_0 + D(x - \mu_x)\delta + D(u_1 - u_0)}
+\end{aligned}
+\]
+
+  \item \color{black}{\( D(u_1 - u_0) \) captures the interaction between treatment and unobserables from treatment. 
+\end{itemize}
+
+
+\subsubsection{Step by step expansion}
+\begin{itemize}
+    \item Use an instrument to capture the exogenous component of the endogenous regressor: \( \mathbb{E}(u_0 \mid Z) = 0, \ \mathbb{E}(u_1 \mid Z) = 0 \).
+    \item To start, we keep the constant treatment effect assumption, then \( \delta = \beta_1 - \beta_0 = 0 \) and \( u_1 = u_0 \).
+  
+  \item Then:
+  \begin{align*}
+  Y &= Y_0 + D_i (Y_1 - Y_0) \\
+    &= \alpha_0 + \gamma D + x \beta_0 + u_0 + D(x - \mu_x)\delta + D(u_1 - u_0) \\
+    &= \alpha_0 + \gamma D + x \beta_0 + u_0
+  \end{align*}
+  \item Just use 2SLS as above with instrument Z)
+  \item Identification and 2SLS as above!
+
+\end{itemize}
+
+\subsubsection{Heterogeneous Treatments Effects Based on \( X \)}
+Background:
+\begin{itemize}
+  \item Back to our model, where we allow heterogeneity based on \( X \)
+  \item Now we allow for \( \delta \) not to be 0, but we still assume \( u_1 = u_0 \):
+  \begin{align*}
+  Y &= \alpha_0 + \gamma D + X \beta_0 + D(X - \mu_x)\delta + u_0
+  \end{align*}
+
+  \item Use as instruments: \( ( Z, Z(X - \overline{X})) \). Basically we are saying that we need to instrument also the interaction term. 
+  \item   ATEx: \( \widehat{\gamma}(X) = \widehat{\gamma} + \widehat{\gamma}_{X D}(X_i - \overline{X}) \)
+  \item The ATE (evaluated at the means) is just \( \widehat{\gamma} \)
+\end{itemize}
+
+
+\subsection{Multiple Instruments}
+
+\begin{itemize}
+  
+  \item \textbf{2SLS strategy:}
+  \begin{enumerate}
+    \item Regress \( D \) on \( Z_1, Z_2, \dots, Z_K, X \), get:
+    \[
+    \widehat{D} = \widehat{\delta}_0 + \widehat{\delta}_1 Z_{1i} + \widehat{\delta}_2 Z_{2i} + \dots + \widehat{\delta}_K Z_{Ki} + \widehat{\delta}_x X_i
+    \]
+    \item Regress \( Y \) on \( \widehat{D}, X \)
+  \end{enumerate}
+  
+  \item \texttt{ivregress 2sls Y X (D = Z1 Z2 \dots ZK)}
+\end{itemize}
+
+\subsection{Multiple Endogenous Variables}
+
+\begin{itemize}
+  \item The intuition is the same: we will have one first stage for each endogenous variable.
+  
+  \item We need as many instruments as endogenous variables. For example, with \( D_1 \) and \( D_2 \) endogenous, and two instruments.
+  
+  \item \textbf{2SLS strategy:}
+  \begin{itemize}
+    \item[1a.] Regress \( D_1 \) on \( Z_1, Z_2, X \), get:
+    \[
+    \widehat{D}_1 = \widehat{\delta}_0 + \widehat{\delta}_1 Z_{1i} + \widehat{\delta}_2 Z_{2i} + \widehat{\delta}_x X_i
+    \]
+    \item[1b.] Regress \( D_2 \) on \( Z_1, Z_2, X \), get:
+    \[
+    \widehat{D}_2 = \widehat{\rho}_0 + \widehat{\rho}_1 Z_{1i} + \widehat{\rho}_2 Z_{2i} + \widehat{\rho}_x X_i
+    \]
+    \item[2.] Regress \( Y \) on \( \widehat{D}_1, \widehat{D}_2, X \)
+  \end{itemize}
+  
+  \item \texttt{ivregress 2sls Y X (D1 D2 = Z1 Z2)}
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{IV with heterogeneous treatement effects}
+
+\begin{itemize}  
+  \item Will be assuming binary treatment ($D$) and binary instrument ($Z$). 
+  \item $Z$ is a dummy for being assigned to treatment, an instrument for actual treatment $D$.
+\end{itemize}
+
+\subsection{Potentital outcome frameworks Causality}
+\subsubsection{Objects of Interest}
+There are three core causal effects in this setup:
+\begin{enumerate}
+  \item \textcolor{purple}{\textbf{The Casual Effect of $Z$ on $D$} (First Stage)}: the effect of the instrument on treatment.
+  \item \textcolor{purple}{\textbf{The Causal Effect of $Z$ on $Y$} (Reduced Form)}: this is the \textbf{Intention-to-Treat (ITT)} effect — the effect of the instrument on the outcome.
+  \item \textcolor{purple}{\textbf{The Causal Effect of $D$ on $Y$} (Treatment Effect)}
+\end{enumerate}
+
+
+
+\subsubsection{Potential Outcomes}
+We now consider the outcome as a function of both the treatment received and the treatment assignment:
+\[
+Y_i(D_i, Z_i)
+\]
+
+This means each unit has \textbf{four potential outcomes}, not just two. 
+\[
+\begin{aligned}
+Y_{11} &= Y(D=1, Z=1) \quad &\text{Assigned and treated} \\
+Y_{01} &= Y(D=0, Z=1) \quad &\text{Assigned and not treated} \\
+Y_{10} &= Y(D=1, Z=0) \quad &\text{Not assigned but treated} \\
+Y_{00} &= Y(D=0, Z=0) \quad &\text{Not assigned and not treated}
+\end{aligned}
+\]
+
+This generalization:
+\begin{itemize}
+  \item \textbf{Imposes SUTVA}: each unit’s potential outcome depends only on its own $(D_i, Z_i)$.
+  \item \textbf{Does not impose exclusion restriction}: we allow $Z$ to have a direct effect on $Y$, \textit{beyond its effect through $D$} but expands the framework to model all combinations of assignment and compliance.
+\end{itemize}
+
+
+
+
+
+\subsubsection{Potenital Treatment statuses }
+
+\textbf{Key Idea:} 
+\textcolor{violet}{Every person has two potential treatment statuses, what they would do if assigned and if not assigned}:
+\[
+D_{1i} \text{ (if assigned, } Z_i = 1), \quad D_{0i} \text{ (if not assigned, } Z_i = 0)
+\]
+But we only observe one; this is a switching equation expanded to account for heterogeneous compliance behavior:
+\[
+D_i = D_{0i}(1 - Z_i) + D_{1i}Z_i = D_{0i} + Z_i(D_{1i} - D_{0i})
+\]
+Note that there are two potential treatment statuses that are a \textbf{function of the treatment assignment + individual preferences}. 
+\begin{itemize}
+  \item The term \( D_{1i} - D_{0i} \equiv \delta_{1i} \) has a i because it captures how an individual reacts to assignment: can take values 1, -1 and 0.
+  \item This reaction may vary across individuals — we allow \textbf{heterogeneous compliance}.
+  \item Thus: \( D_i = \delta_0 + \delta_{1i}Z_i \). Eg always takers have $d_{0i}$ equal to 1 so that even if Zi is zero they have treatment. 
+\end{itemize}
+
+This allows us to classify individuals as:
+\begin{itemize}
+  \item \textbf{Compliers}: $D_{1i} = 1$, $D_{0i} = 0$, they \hl{switch} and they follow the assigment (comply)
+  \item \textbf{Always-takers}: $D_{1i} = 1$, $D_{0i} = 1$
+  \item \textbf{Never-takers}: $D_{1i} = 0$, $D_{0i} = 0$, even if assigned it may decide not to take up
+  \item \textbf{Defiers}: $D_{1i} = 0$, $D_{0i} = 1$, they \hl{switch} and they always do the opposite than what they are assigned to do
+\end{itemize}
+
+
+\subsubsection{Observed treatment compliance and treatment assignment}
+
+\textbf{Key Idea:} In IV designs, we only observe treatment \( D_i \) and assignment \( Z_i \), not the underlying type (complier, defier, etc.).  
+This creates a \textbf{missing data problem}: we observe only one realization of the potential outcomes and compliance types.
+
+\vspace{0.5em}
+
+\noindent \textit{Example:} If an individual has \( Z_i = 0 \) and \( D_i = 0 \), they could be either a: \textbf{Never-Taker} \( (D_{1i} = 0, D_{0i} = 0) \), or a \textbf{Complier} \( (D_{1i} = 1, D_{0i} = 0) \). 
+
+\vspace{1em}
+
+\noindent \textbf{Observed Typology Table (based on observed \((Z_i, D_i)\)):}
+
+\[
+\begin{array}{c|c|c}
+ & Z_i = 0 & Z_i = 1 \\
+\hline
+D_i = 0 & \text{Never-Taker or Complier} & \text{Never-Taker or Defier} \\
+D_i = 1 & \text{Always-Taker or Defier} & \text{Always-Taker or Complier} \\
+\end{array}
+\]
+
+
+\subsubsection{Observed Outcome}
+
+\textbf{Rationale:}  
+To identify causal effects using an instrumental variable (IV), we must understand how treatment and outcome relate to assignment. 
+\begin{itemize}
+    \item \textbf{Derive the observed outcome \( Y_i \)}! \textbf{The outcome depends on the treatment assignment and the take-up type}. 
+    \item \textbf{Out of 4 potential outcomes for each individual you have just 2 depending on whether he was assigned to treatment or not} (if assigned to treatment, either he complies or not!):  
+\end{itemize}
+\[
+Y_i = Y_i(0, Z_i) + D_i\left[Y_i(1, Z_i) - Y_i(0, Z_i)\right]
+\]
+
+\textbf{Substitute \( D_i = D_{0i} + Z_i(D_{1i} - D_{0i}) \):}
+\begin{equation} \label{eq:potential_decomposition}
+\begin{aligned}
+\textcolor{blue}{Y_i} =\ &\textcolor{orange}{Y_i(0, Z_i)} 
++ \textcolor{teal}{D_{0i} \cdot \left[Y_i(1, Z_i) - Y_i(0, Z_i)\right]} \\
+&+ \textcolor{purple}{Z_i(D_{1i} - D_{0i}) \cdot \left[Y_i(1, Z_i) - Y_i(0, Z_i)\right]}
+\end{aligned}
+\tag*{\fbox{\textcolor{black}{*}}}
+\end{equation}
+
+\begin{itemize}
+  \item \textcolor{orange}{\textbf{Baseline outcome:}} potential outcome when untreated, \( Y_i(0, Z_i) \). Either the outcome of compliers when unassigned to treatmenr or of never taket when assigned. 
+  \item \textcolor{teal}{\textbf{Baseline selection effect:}} applies when \(D_{0i} = 1 \), i.e. for the always takers 
+  \item \textcolor{purple}{\textbf{Instrument-induced effect:}} shift for those whose potenital otucome is truly affected by the treatment assignment \textbf{this is where identification comes from}.
+\end{itemize}
+
+% Define the custom colors
+\definecolor{teblue}{RGB}{0, 102, 204}  % or any RGB you prefer
+\definecolor{tered}{RGB}{204, 0, 0}
+
+\newcommand{\TEblue}{\textcolor{teblue}{\boxed{\text{TE}}}}
+\newcommand{\TEred}{\textcolor{tered}{\boxed{\text{TE}}}}
+
+\textbf{Not convinced by the above? see it in practice! }
+
+\vspace{1em}
+
+\textbf{For those with \(Z_i = 1\):} (from the eq above)
+
+\begin{itemize}
+
+    \item \textbf{A complier} will have:
+    \[
+    Y_i = Y_i(0,1) + 0 + \TEblue
+    \]
+    the first term is just the baseline outocme of somebody that does not take up the treatment. You have to realize this is a stratified building to identify the three group sin the 6 situations. where \(\TEblue\) is the exogenous treatment effect — the instrument activates this.
+
+    \item \textbf{An always-taker (AT)} will have:
+    \[
+    Y_i = Y_i(0,1) + \TEred
+    \]
+    where \(\TEred\) is not exogenously triggered by the instrument (they would take treatment anyway).
+
+    \item \textbf{A never-taker (NT)} will have:
+    \[
+    Y_i = Y_i(0,1)
+    \]
+
+    \item \textbf{A defier} will have:
+    \[
+    Y_i = Y_i(0,1) + \TEred - \TEblue
+    \]
+    where:
+    \begin{itemize}
+        \item \(\TEred\) is taken even when not assigned (like an AT),
+        \item then \(-\TEblue\) subtracts the part that is lost when the instrument is activated — going against assignment.
+    \end{itemize}
+\end{itemize}
+
+
+\textbf{Key:} \textcolor{violet}{As you can clearly understand the only source of variation generate by the exogenous instrument on the treatemtn is the varaition generatedon compliers and defiers \(\TEblue\)}. so it is just the effect of compliers biased downwards by the effect of defiers!
+
+
+\vspace{1em}
+
+\subsection{Identification of ITT}
+
+\subsubsection{Assumption 1: SUTVA (Stable Unit Treatment Value Assumption)}
+
+\begin{itemize}
+    \item \textbf{SUTVA}: allows us to write the causal effect for each unit independently from potential assignments, treatments, and outcomes of \textbf{other units}. Without SUTVA, causal inference is not possible because cross-unit spillovers would contaminate the potential outcome definition.
+    
+    \item Implies:
+    \[
+    D_i(Z) = D_i(Z_i) \quad \text{and} \quad Y_i(D, Z) = Y_i(D_i, Z_i)
+    \]
+    \begin{itemize}
+        \item \( D_i(Z) \) only depends on unit \( i \)'s own assignment \( Z_i \).
+        \item \( Y_i(D, Z) \) only depends on unit \( i \)'s own treatment \( D_i \) and assignment \( Z_i \).
+    \end{itemize}
+\end{itemize}
+
+
+
+\subsubsection{Assumption 2: Random Assignment of Instrument}
+
+\begin{itemize}
+    \item \textbf{Random Assignment:} The instrument \( Z_i \) is \textbf{independent} of the full vector of potential treatment statuses and potential outcomes:
+    \[
+    Z_i \perp \left(D_{0i}, D_{1i}, Y_i(D_{0i}, 0), Y_i(D_{1i}, 1)\right)
+    \]
+    \item In words: the instrument (e.g., treatment assignment) is randomly assigned and thus unrelated to unobserved determinants of treatment take-up or outcomes.
+
+    \item This is a \textbf{stronger assumption} than classical IV exogeneity (which only required \( Z \perp Y_0 \)). 
+
+    \item \textbf{Why this matters:} Because individuals self-select into treatment, we cannot assume that treatment is randomly assigned. We only assume the assignment \( Z_i \) is.
+    \end{itemize}
+
+\subsubsection{ITT}
+\textbf{Assumption 1 and 2 allow to give causal interpreation to :}
+    \begin{itemize}
+        \item \textcolor{purple}{The causal effect of \( Z \) on \( D \)} \textbf{First Stage (Effect of \( Z \) on \( D \))}:
+        \begin{center}
+        \scalebox{0.9}{$
+        \begin{aligned}
+        \mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0]
+        &= \mathbb{E}[D_{1i} \mid Z_i = 1] - \mathbb{E}[D_{0i} \mid Z_i = 0] \\
+        &= \mathbb{E}[D_{1i} - D_{0i}]
+        = \frac{\mathrm{Cov}(D_i, Z_i)}{\mathrm{Var}(Z_i)}
+        \end{aligned}
+        $}
+        \end{center}
+        \item This recovers the causal effect of assignment on treatment take-up (logic of assumption is easy). This foundamentally means that the treatment assignment is affecting the treatment take up! 
+        \item \textcolor{purple}{The causal effect of \( Z \) on \( D \)}.  \textbf{Reduced Form (Effect of \( Z \) on \( Y \))}: the ITT
+
+    \begin{center}
+    \scalebox{0.8}{$
+    \begin{aligned}
+    \mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0]
+    &= \mathbb{E}[Y_i(D_{1i}, 1) \mid Z_i = 1] - \mathbb{E}[Y_i(D_{0i}, 0) \mid Z_i = 0] \\
+    &= \mathbb{E}[Y_i(D_{1i}, 1)] - \mathbb{E}[Y_i(D_{0i}, 0)]
+    = \frac{\mathrm{Cov}(Y_i, Z_i)}{\mathrm{Cov}(D_i, Z_i)}
+    \end{aligned}
+    $}
+    \end{center}
+    
+    \item Combining the two object above you can get the Wald/Iv estimator: 
+
+\[
+\frac{\mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0]}{\mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0]}
+= \frac{\mathrm{Cov}(Y_i, Z_i)}{\mathrm{Cov}(D_i, Z_i)}
+\]
+  \begin{itemize}
+    \item \textbf{Numerator:} ITT (Intention-To-Treat effect)
+    \item \textbf{Denominator:} First Stage (Effect of \( Z \) on treatment take-up)
+  \end{itemize}    
+\end{itemize}
+  \[
+  \text{\fcolorbox{red!70!black}{red!15}{\strut But, can we interpret this IV estimand \textcolor{purple}{The causal effect of \( D \) on \( Y \)}?}}
+  \]
+
+
+\subsection{Extra Required Classical Assumptions }
+Necessary for Causal interpretation (classical)
+
+\subsubsection{Assumption 3: Exclusion Restriction}
+
+\begin{itemize}
+  \item \textbf{Exclusion Restriction:} The instrument \( Z_i \) affects the outcome \( Y_i \) only through the treatment \( D_i \). 
+  \item Formally:
+  \[
+  Y_i(D_i, 0) = Y_i(D_i, 1) = Y_i(D_i)
+  \]
+  \textcolor{violet}{Intuition: the channel through which the assignment is affecting the outcome is just the actual take up D.}
+  \item In this context, this implies that:
+  \[
+   Y_{10i} = Y_{11i} = Y_{1i}, \quad  Y_{01i} = Y_{00i} = Y_{0i}
+  \] 
+  Second, we can write the causal effect of D on Y as: 
+  \(
+  Y_{1i} - Y_{0i}
+  \)
+  \item We can rewrite the observed outcome as (finally):
+  \begin{align*}
+  Y_i &= Y_i(0, Z_i) + D_i \left[ Y_i(1, Z_i) - Y_i(0, Z_i) \right] \\
+      &= Y_{0i} + D_i (Y_{1i} - Y_{0i}) \\
+      &= \alpha_0 + \gamma_i D_i + \nu_i
+  \end{align*}
+
+  \item Where the first equation comes from equation $[*]$ above!
+
+  \item \textbf{Interpretation:} Differently than classical models, here individual-specific (heterogeneous) treatment effect \( \gamma_i \).
+\end{itemize}
+
+
+
+• Assumption 3: implies that this causal effect is 0 for always-takers and never-takers (if Z does not affect D, the effect on Y should be 0).
+
+
+
+\subsubsection{Assumption 4: Relevance}
+
+\begin{itemize}
+  \item \textbf{Relevance:} The instrument \( Z_i \) must have a non-zero causal effect on the treatment \( D_i \).
+  \item Formally:
+  \[
+\mathbb{E}(D_{1i}) - \mathbb{E}(D_{0i}) \ne 0 \quad \text{or equiv} \quad \Pr(D_{1i} = 1) \ne \Pr(D_{0i} = 1)
+\]
+
+  \item This ensures the instrument moves the probability of treatment — it is equivalent to a non-zero first stage in the structural model.
+    \item recall we haev two potenital treatment statuses: \[
+D_{1i} \text{ (if assigned, } Z_i = 1), \quad D_{0i} \text{ (if not assigned, } Z_i = 0)
+\]
+  \item \textbf{But:} We never observe both \( D_{1i} \) and \( D_{0i} \) for the same individual — only one is revealed depending on \( Z_i \). This is the classic missing data problem in causal inference.
+  
+  \item Therefore, we estimate this difference at the group level:
+  \[
+  \mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0] = \mathbb{E}(D_{1i}) - \mathbb{E}(D_{0i})
+  \]
+  under the assumption that \( Z_i \perp (D_{1i}, D_{0i}) \) (random assignment).
+  
+  
+\end{itemize}
+• Assumption 4: ensures that for compliers and /or defiers there will be a causal effect of Z on D.
+
+
+\subsubsection{IV Estimator, with assumptions 3 and 4}
+\begin{itemize}
+\item The Iv estiamtor is written as: 
+\[
+\frac{\mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0]}{\mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0]}
+= \frac{\mathrm{Cov}(Y_i, Z_i)}{\mathrm{Cov}(D_i, Z_i)}
+\]
+  \item \textbf{The numerator is:}\footnote{\begin{itemize}
+  \item From equation (*), we can write the observed outcome as:
+  \begin{equation} \label{eq:star}
+  Y_i = Y_i(0, Z_i) + D_{0i} \cdot \left[Y_i(1, Z_i) - Y_i(0, Z_i)\right]
+  + Z_i(D_{1i} - D_{0i}) \cdot \left[Y_i(1, Z_i) - Y_i(0, Z_i)\right]
+  \end{equation}
+
+  \item By Assumption 3:
+  \[
+  Y_i = Y_{0i} + D_{0i}(Y_{1i} - Y_{0i}) + Z_i(D_{1i} - D_{0i})(Y_{1i} - Y_{0i})
+  \]
+
+  \item Take expectations conditional on \( Z_i \) and by Assumption 2:
+  \begin{align*}
+  \mathbb{E}(Y_i \mid Z_i) &= \mathbb{E}(Y_{0i} \mid Z_i) + \mathbb{E}[D_{0i}(Y_{1i} - Y_{0i}) \mid Z_i] \\
+  &\quad + Z_i \cdot \mathbb{E}[(D_{1i} - D_{0i})(Y_{1i} - Y_{0i}) \mid Z_i] \\
+  &= \mathbb{E}(Y_{0i}) + \mathbb{E}[D_{0i}(Y_{1i} - Y_{0i})] + Z_i \cdot \mathbb{E}[(D_{1i} - D_{0i})(Y_{1i} - Y_{0i})]
+  \end{align*}
+
+
+  \item Then:
+  \begin{align*}
+  \mathbb{E}(Y_i \mid Z_i = 1) &= \mathbb{E}(Y_{0i}) + \mathbb{E}[D_{0i}(Y_{1i} - Y_{0i})] + \mathbb{E}[(D_{1i} - D_{0i})(Y_{1i} - Y_{0i})] \\
+  \mathbb{E}(Y_i \mid Z_i = 0) &= \mathbb{E}(Y_{0i}) + \mathbb{E}[D_{0i}(Y_{1i} - Y_{0i})]
+  \end{align*}
+
+  \item Subtracting:
+  \[
+  \mathbb{E}(Y_i \mid Z_i = 1) - \mathbb{E}(Y_i \mid Z_i = 0) 
+  = \mathbb{E}[(D_{1i} - D_{0i})(Y_{1i} - Y_{0i})]
+  \]
+  \end{itemize}}
+  \[
+  \text{Cov}(Y_i, Z_i) = \mathbb{E}(Y_i \mid Z_i = 1) - \mathbb{E}(Y_i \mid Z_i = 0) = \mathbb{E}[(D_{1i} - D_{0i})(Y_{1i} - Y_{0i})]
+  \]
+
+  \item \textbf{The Denominator} (by assumption 2):
+  \[
+  \text{Cov}(D_i, Z_i) = \mathbb{E}(D_i \mid Z_i = 1) - \mathbb{E}(D_i \mid Z_i = 0) 
+  = \mathbb{E}(D_{1i}) - \mathbb{E}(D_{0i})
+  \]
+  This is the First Stage, nonzero by Assumption A4: Relevance
+  \item \textbf{Therefore, the IV Wald estimand is:}
+  \[
+  \gamma^{IV} = \frac{\text{Cov}(Y_i, Z_i)}{\text{Cov}(D_i, Z_i)} 
+  = \frac{\mathbb{E}[(D_{1i} - D_{0i})(Y_{1i} - Y_{0i})]}{\mathbb{E}(D_{1i} - D_{0i})}
+  \]
+  \end{itemize}
+
+
+\paragraph{What's going on?} The exogenous instrument captures variability generated by the group of compliers and defiers, \( D_{1i} - D_{0i} \) (so it is a weighted average just of compliers and defiers).
+
+
+\[
+  \text{\fcolorbox{red!70!black}{red!15}{\strut But, can we interpret this IV estimand as the causal eff of \( D \) on \( Y \)? FOR  COMPLIERS}}
+  \]
+  
+\subsubsection{Assumption 5 Monotonicity}
+\begin{itemize}
+    \item \textbf{Need monotonicity assumption:} \( D_{1i} \geq D_{0i} \;\forall i \Rightarrow \text{no defiers} \Rightarrow D_{1i} - D_{0i} \in \{0,1\} \)
+  \item Without monotonicity, the IV estimator mixes effects with opposite signs, possibly leading to cancellation or undefined ratios.
+  \item Monotonicity is untestable (obv)
+\end{itemize}
+
+
+\subsubsection{Finally, the LATE}
+
+
+  \[
+  \mathbb{E}[(D_{1i} - D_{0i})(Y_{1i} - Y_{0i})] = 
+  \mathbb{E}[Y_{1i} - Y_{0i} \mid \text{Compliers}] \cdot \Pr(\text{Compliers})
+  \tag{$\star$}
+\]
+
+  and
+  \[
+  \mathbb{E}(D_{1i} - D_{0i}) =\ Pr(D_{1i} - D_{0i} = 1 ) \Pr(\text{Compliers})
+  \]
+
+  \item So our initial expression (lhs):
+  \[
+  \gamma^{IV} = \frac{\mathbb{E}[(D_{1i} - D_{0i})(Y_{1i} - Y_{0i})]}{\mathbb{E}(D_{1i} - D_{0i})}
+  = \mathbb{E}[Y_{1i} - Y_{0i} \mid \text{Compliers}]
+  \]
+
+  \item \textbf{Conclusion:} \begin{itemize}[leftmargin=*]
+
+  \item With monotonicity, IV identifies the \textbf{Local Average Treatment Effect (LATE)}: defined for \emph{compliers}—units whose treatment status changes because of the instrument.
+        \begin{itemize}
+            \item Vietnam draft example: a man who serves if drafted and does not serve otherwise.
+        \end{itemize}
+
+  \item \textbf{Problem}: LATE may lack external validity because the complier group is instrument-specific.  
+        \begin{itemize}
+            \item LATE can still be policy-relevant (eg for scale up). 
+            \item If different instruments produce similar IV estimates despite reaching different complier subpopulations, treatment effects are likely homogeneous.
+        \end{itemize}
+
+\end{itemize}
+
+
+\subsection{How to Identify Compliers:}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.37\linewidth]{defff.png}
+    \label{fig:enter-label}
+\end{figure}
+
+\begin{itemize}
+\item You cannot simply see who among the z = 1 has a d = 1 bc there are always takers inside!!!
+  \item We identify \textbf{Always-Takers (AT)} in $Z = 0$ and \textbf{Never-Takers (NT)} in $Z = 1$.
+  
+  \item From these two groups, we identify \textbf{Compliers} in $Z = 1$, and then also in $Z = 0$, as well as \textbf{AT} in $Z = 1$.
+  
+  \item As we identify \textbf{Compliers} in $Z = 1$, we can identify \textbf{NT} in $Z = 0$.
+\end{itemize}
+
+
+
+
+\section{Back to ATE, ATT and ATNT}
+
+
+
+\begin{itemize}[label=\textcolor{blue}{$\blacktriangleright$}]
+    \item Under homogeneous treatment effects, IV identifies the ATE, which would be equal to the LATE since all groups would have the same effect.
+    \item Under heterogeneous treatment effects, the ATE is a weighted average of the treatment effects for the four groups in the table.
+    \item The ATT is a weighted average of the effect for compliers and always takers (st $D = 1$). 
+    \item The ATNT is a weighted average of the effect for compliers and never takers (st $D = 0$).
+\end{itemize}
+
+
+\subsection{Example, and LATE and external validity: When LATE becomes more than LATE!}
+\subsubsection{Angrist \& Evans (1998): Fertility \(\rightarrow\) Mother’s Income}
+Will see two methodolgoies, Both are exogenous, but they are different: multiple second births are a shock. Same sex of first two children increases the likelihood.
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Objective \& Setup}
+  Goal: Estimate the causal effect of the number of children on the mother's labor market outcome (e.g., hours worked, employment).
+    \begin{itemize}[leftmargin=*]
+      \item Treatment \(D\): Having a third child (\(\#\text{kids}=3\) vs.\ 2).
+      \item Outcome \(Y\): Mother’s labor income or labor‐market participation.
+      \item Endogeneity: the endogeous variable is the total numebr of children. Mothers self‐select based on unobserved preferences or abilities (poorer have mroe children). 
+    \end{itemize}
+  \item \textbf{Instrument (\(Z\))}  
+    \begin{enumerate}[leftmargin=*]
+      \item \textbf{Twin at Second Birth}
+        \begin{itemize}[leftmargin=*]
+          \item \(Z=1\) if second birth yields twins; \(Z=0\) if singleton.
+          \item \emph{First Stage}: Twin induces “+1 child,” (multiple second birth leads to more kids than planned.) so
+            \[
+              Z=1 \;\Longrightarrow\; D=3 \quad\text{with high p;}
+              \quad
+              Z=0 \;\Longrightarrow\; D=2
+            \]
+            T group: Mothers who had twins at second birth $\rightarrow$ 3 kids\\
+            C group: Mothers who had singleton at second birth $\rightarrow$ 2 kids
+          \item \emph{Exclusion Threats}:
+          So the idea is that having twins does not affect female labor force participation through channels different than the number of children itself. Having twins does not directly affect mother's labor (BUT is not just having a child more: i) this +1 is coupled with another +1, economics of scale and it costs less (bring toghetr to school, same nap time), ii) the plus one arrives with another +1! a double birth can have health stress consequencees (that a plus one simply does not have)), except via increasing the number of children.
+            \begin{itemize}[leftmargin=*]
+              \item Health stress from twin pregnancy may directly reduce labor supply.
+              \item Simultaneous infant care differs from sequential births beyond “one more child.”
+              \item Twins share resources, lowering per‐child cost, possibly affecting work decisions.
+            \end{itemize}
+          \item \emph{Randomness}: Twin occurrence is quasi‐random conditional on maternal age and observables.
+          \item \emph{Compliance Types}:
+            \begin{itemize}[leftmargin=*]
+              \item \emph{Always‐takers}: Mothers who would have \(\ge3\) children regardless.
+              \item \emph{Never‐takers}: None, since any twin birth yields \(\ge3\) children.
+              \item \emph{Compliers}: Would have stopped at two if singleton, but have three when twins occur.
+            \end{itemize}
+          \item \emph{LATE}: Remark, you will estiamte LATE: Compliers = Women who have a third child only because they had twins at second birth (i.e., would have stopped at two otherwise).
+            \[
+              \mathbb{E}[\,Y(3) - Y(2)\mid \text{Compliers}\,].
+            \]
+            No never‐takers \(\implies\) ATNT \(=\) LATE; IV estimates the average effect for mothers who would stop at two absent twins.
+        \end{itemize}
+
+      \item \textbf{Same‐Sex First Two Children}
+        \begin{itemize}[leftmargin=*]
+          \item \(Z=1\) if first two births are same sex; \(Z=0\) if mixed.
+          \item \emph{First Stage}: Parents preferring mixed‐sex set more likely to have a third when first two are same‐sex:
+            \[
+              Z=1 \;\Longrightarrow\; \Pr(D\ge3)\uparrow;
+              \quad
+              Z=0 \;\Longrightarrow\; \Pr(D\ge3)\downarrow.
+            \]
+          \item \emph{Exclusion Threats}:
+          So the idea is that having two boys or two girls rather than already mixed does not affect female labor force participation through channels different than the number of children itself (twins is random, gender if child is random). BUT what if two girls are more demanding one girl and one boy? 2. less costly to dress two girls (buy same stuff)). The channel would not be prompting a third child.
+            \begin{itemize}[leftmargin=*]
+              \item Parental preferences or SES may correlate with both sex‐composition and labor outcomes.
+              \item Cost differences of raising two boys vs.\ two girls may affect labor supply separately.
+            \end{itemize}
+          \item \emph{Randomness}: Child sex is random at conception.
+          \item \emph{Compliance Types}:
+            \begin{itemize}[leftmargin=*]
+              \item \emph{Compliers}: Have a third only if first two are same‐sex.
+              \item \emph{Defiers}: Negligible—parents who prefer same‐sex sets and would stop if first two match.
+            \end{itemize}
+          \item \emph{LATE}:
+            \[
+              \mathbb{E}[\,Y(3) - Y(2)\mid \text{Compliers}\,].
+            \]
+        \end{itemize}
+    \end{enumerate}
+\end{itemize}
+
+A note on external validity: the instrument strength varies significantly across countries. Controlling for maternal age, education, religion, etc. aligns compliance strata to generalize estimates. 
+
+\subsubsection{Oreopoulos (2006): Schooling \(\rightarrow\) Income}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Objective \& Setup}
+    \begin{itemize}[leftmargin=*]
+      \item Treatment \(D\): Completing an extra year of schooling (stay until age 15 vs.\ leave at 14).
+      \item Outcome \(Y\): Later earnings.
+      \item Endogeneity: Clearly, ability and family background confound observational estimates.
+    \end{itemize}
+  \item \textbf{Instruments (\(Z\))}
+    \begin{enumerate}[leftmargin=*]
+      \item \textbf{Quarter‐of‐Birth (QOB)}
+        \begin{itemize}[leftmargin=*]
+          \item Entry rule: Children must be age 6 by January 1 to start grade 1 that September.
+          \item Early‐quarter births (Jan–Mar) enter younger, reach dropout age (16) earlier than late‐quarter (Oct–Dec). The earliest you can tur 16 the earliest you can drop. 
+          \item \emph{First Stage}: Early‐quarter \(\Longrightarrow\) fewer compulsory years; late‐quarter \(\Longrightarrow\) more years.
+          \item \emph{Exclusion}: Instruments affect earnings only via additional schooling. Changes in compulsory schooling laws or quarter of birth: no direct effect of the laws or the quarter of birth on earnings. 1. Law changign when schoos sichaneg affects only time at school and the enring of poeple just through time at school. 2. le being born in Q1 vs Q4 should not directly affect earnings, except by changing how much school you attend. (BUT. Seasonal variation in (besides time spent in school...) prenatal: nutrition, exposure to infections, and quality of prenatal care all vary across seasons, potentially affecting child development. As a result, birth date can correlate with various individual traits. For instance, it may relate to mental health (e.g., seasonal affective disorders or prenatal stress), personality (e.g., age-at-school-entry effects on confidence or leadership), and parental socioeconomic status (e.g., lower-income families may have higher birth rates in certain seasons ).
+          \item \emph{Monotonicity}: No student reduces schooling when instrument induces staying longer.
+          \item \emph{Randomness}: Birth quarter or policy‐cutoff timing is exogenous. Exact birth dates are random events. (BUT. parental planning may influence timing: wealthier or more educated parents may schedule births to avoid winter (seasonal avriation in parents).
+    Then this would also vilate exlusion restriciotn (richer stay more).
+          \item \emph{Compliance Types}:
+            \begin{itemize}[leftmargin=*]
+              \item \emph{Compliers}: Stay one extra year only because birth quarter forces it; would drop out earlier otherwise.
+              \item \emph{Always‐takers}: Would stay regardless of QOB.
+              \item \emph{Never‐takers}: None; monotonicity holds (no one drops out earlier if forced to stay).
+            \end{itemize}
+          \item \emph{LATE}:
+            \[
+              \mathbb{E}[\,Y(s+1) - Y(s)\mid \text{Compliers}\,],
+            \]
+            return to an extra year for those induced by QOB.
+      
+          \item \emph{LATE \& ATNT}: With no never‐takers, ATNT = LATE. IV estimates return to one extra year for would-be dropouts at 14. COMPLIERS REPRESENT THE WHOLE SET OF NON-TREATED! SO THE ATNT! (RECALL IN RUBIN MODEL FORMULA FOR ATT)
+        \end{itemize}
+    \end{enumerate}
+
+
+
+  \item \textbf{External Validity}
+    \begin{itemize}[leftmargin=*]
+      \item In countries with weaker CSL enforcement, never‐takers exist, so LATE \(\neq\) ATNT.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Draft lottery as an instrument for serving in the military}
+\textbf{First stage:} Those drafted are more likely to serve in the military.\\
+
+\textbf{Exclusion restriction:} Draft is random, no direct effect of being drafted on earnings regardless of the channel of going to war. BUT people can choose to get more education or training to avoid serving if drafted (and this affects earnings!) thus violating the exclusion restriction. Randomness: Draft lottery is random by design, if there is no manipulation (possibly conditional on observable covariates X). Some groups may have a higher likelihood of being drafted. For example, year of birth may influence likelihood → important to consider these X's.
+
+
+
+\subsubsection{Dupas et al.\ (2018): Bank Account \(\rightarrow\) Savings}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Objective \& Setup}
+    \begin{itemize}[leftmargin=*]
+      \item Treatment \(D\): Having a formal bank account.
+      \item Outcome \(Y\): Total savings.
+      \item Endogeneity: Self‐selection into accounts based on unobserved saving propensity, access, or trust.
+    \end{itemize}
+  \item \textbf{Instrument (\(Z\))}  
+    \begin{itemize}[leftmargin=*]
+      \item Randomized offer of a free bank account (no fees, assisted opening).
+      \item \emph{First Stage}: \(Z=1\) greatly increases \(\Pr(D=1)\); \(Z=0\) leaves \(\Pr(D=1)\approx0\) due to fees/barriers.
+      \item \emph{Exclusion Threats}:
+        \begin{itemize}[leftmargin=*]
+          \item Offer is randomized, uncorrelated with baseline savings preferences.
+          \item Offer itself does not include any “encouragement to save” beyond account access.
+        \end{itemize}
+      \item \emph{Randomness}: Random assignment ensures exogeneity.
+      \item \emph{Compliance Types}:
+        \begin{itemize}[leftmargin=*]
+          \item \emph{Always‐takers}: None—before offer, nearly no account opening due to costs.
+          \item \emph{Never‐takers}: Refuse free account despite offer.
+          \item \emph{Compliers}: Open account if and only if offered.
+        \end{itemize}
+      \item \emph{LATE \& ATT}: No always-takers \(\implies\) LATE = ATT. IV identifies the average effect of an account on savings for all treated (compliers). COMPLIERS REPRESENT THE WHOLE SET OF TREATED! SO THE ATT! (RECALL IN RUBIN MODEL FORMULA FOR ATT)
+    \end{itemize}
+
+  \item \textbf{Assumptions}
+    \begin{enumerate}[leftmargin=*]
+      \item \emph{Relevance}: Free‐account offer sharply increases take‐up.
+      \item \emph{Exogeneity}: Random assignment of offer ensures no correlation with unobserved determinants of savings.
+      \item \emph{Exclusion}: Offer influences savings only through account opening.
+    \end{enumerate}
+\end{itemize}
+
+
+
+
+
+
+
+
+\section{Weak Instruments in Practice}
+
+\begin{itemize}
+    \item \textbf{Simple rule of thumb:} instruments are strong if the F-statistic for joint significance of the IVs in the first stage is larger than 10 
+    
+    \item Procedure: Regress the treatment variable \( D \) on all instruments \( Z \) and controls \( X \), and run an F-test on \emph{only} the coefficients of \( Z \).
+    
+    \item Stock and Yogo provide critical values for weak IV tests, which depend on sample size, number of instruments, and covariates (available via \texttt{ivreg2} output).
+
+\end{itemize}
+
+
+\section{No Defiers Assumption}
+
+\begin{itemize}
+    \item \textbf{Definition:} A defier is someone who acts in the opposite direction of the instrument’s encouragement. Example: does not want a third child if the sex of the first two is the same, but wants one if they differ.
+    
+    \item Suppose some parents want exactly two boys or two girls:
+    \begin{itemize}
+        \item If they have two daughters (or two sons), they stop.
+        \item If they have one boy and one girl, they try for a third.
+        \item In this case, they are defiers relative to the same-sex instrument.
+    \end{itemize}
+\end{itemize}
+
+\section{Identifying Compliers}
+
+\subsection{Complier Definition and Size}
+
+\begin{itemize}
+  \item It is not possible to identify which individual is a complier.
+  \item But we can estimate the \textbf{size of the complier group}:
+  \[
+  \Pr(D_{1i} - D_{0i} = 1) = \mathbb{E}[D_{1i} - D_{0i}] = \mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0]
+  \]
+\end{itemize}
+
+\subsection{Control Complier Mean (CCM)}
+
+\begin{itemize}
+  \item Always report the outcome mean in the control group in OLS to have perception of the magnitude.
+  \item LATE = mean difference between treated and control compliers.
+  \item For IV, the relevant comparison is the \textbf{Control Complier Mean (CCM)}: expected outcome for compliers in the control group.
+\end{itemize}
+
+
+BUT I can 1) estimate the share of always takers by looking at the ctonrols who took up, 2) estimate never takers by looking at those assigned to treatment that did not take up. Then, I am left just with the share of compliers.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{kdhd.png}
+    \label{fig:enter-label}
+\end{figure}
+
+
+
+\subsection{Defiers and Monotonicity}
+skip rec unusefull 
+
+
+
+\section{Fuzzy DID}
+
+\subsection{Theoretical Problem Identified}
+
+This is an IV with inside two DIDs:
+\[
+\text{Wald-DID}
+=
+\frac{\Delta Y^{\text{treated}} - \Delta Y^{\text{control}}}
+     {\Delta D^{\text{treated}} - \Delta D^{\text{control}}}
+\]
+Causality. 
+\begin{itemize}
+\item  Under constant treatment effects, refer to the (5) assumptions listed above (coming from the IV) + Parallel trends (coming from DiD) (actually parallel trends is equivalent to randomness).
+\item However, under heterogeneous treatment effects, LATE is identified only if BOTH:
+\begin{itemize}
+  \item Stable percentage of treatment units in control group (i.e., $\Delta D^{\text{control}} \neq 0$), or treatment effect on treatment switchers should be the same across groups.
+  \item Stable treatment effect over time (common trend in $Y(1)$).
+\end{itemize}
+\end{itemize}
+
+**Rationale of those assumptions:** if TEs are heterogeneous we need the conditions above or we confound heterogeneity with the effects the assumptions are blocking.
+
+\subsection{How They Solve the Problem}
+
+Wald-TC (Time-Corrected): Constructs a counterfactual trend in outcomes using units whose treatment status does not change (always treated or always untreated).
+
+
+\end{document}
+
