@@ -3788,7 +3788,7 @@ function processLatexCommands(text) {
 
     // Restore math blocks
     mathBlocks.forEach((block, i) => {
-        result = result.replace(`%%LTXM${i}%%`, block);
+        result = result.replace(`%%LTXM${i}%%`, () => block);
     });
 
     return result;
@@ -3837,7 +3837,7 @@ function formatContent(text) {
     processed = restoreFormattingMarkers(processed);
 
     latexBlocks.forEach((block, i) => {
-        processed = processed.replace(`%%LATEX${i}%%`, block);
+        processed = processed.replace(`%%LATEX${i}%%`, () => block);
     });
     return processed;
 }
@@ -4887,16 +4887,19 @@ function formatForObsidian(text) {
                     throwOnError: false
                 });
                 if (block.type === 'display') {
-                    result = result.replace(`%%MATH${i}%%`, `<div class="katex-display">${rendered}</div>`);
+                    const html = `<div class="katex-display">${rendered}</div>`;
+                    result = result.replace(`%%MATH${i}%%`, () => html);
                 } else {
-                    result = result.replace(`%%MATH${i}%%`, rendered);
+                    result = result.replace(`%%MATH${i}%%`, () => rendered);
                 }
             } else {
                 // Fallback if KaTeX not loaded
-                result = result.replace(`%%MATH${i}%%`, `<code>$${escapeHtml(block.content)}$</code>`);
+                const fb = `<code>$${escapeHtml(block.content)}$</code>`;
+                result = result.replace(`%%MATH${i}%%`, () => fb);
             }
         } catch (e) {
-            result = result.replace(`%%MATH${i}%%`, `<code class="math-error">$${escapeHtml(block.content)}$</code>`);
+            const err = `<code class="math-error">$${escapeHtml(block.content)}$</code>`;
+            result = result.replace(`%%MATH${i}%%`, () => err);
         }
     });
 
