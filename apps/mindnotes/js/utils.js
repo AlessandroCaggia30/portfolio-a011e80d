@@ -72,6 +72,51 @@ function $$$(selector, context = document) {
     return context.querySelectorAll(selector);
 }
 
+// ==================== LATEX HELPERS ====================
+
+/**
+ * Normalize LaTeX display/inline delimiters to $$/$ form
+ * Converts \[...\] → $$...$$ and \(...\) → $...$
+ * @param {string} text - Raw text with LaTeX delimiters
+ * @returns {string} Text with normalized delimiters
+ */
+function normalizeLatexDelimiters(text) {
+    // \[...\] → $$...$$ (display math)
+    text = text.replace(/\\\[([\s\S]*?)\\\]/g, (m, inner) => `$$${inner}$$`);
+    // \(...\) → $...$ (inline math)
+    text = text.replace(/\\\(([\s\S]*?)\\\)/g, (m, inner) => `$${inner}$`);
+    return text;
+}
+
+/**
+ * Convert common LaTeX structural commands to markdown/HTML equivalents.
+ * Call AFTER math blocks have been extracted to placeholders.
+ * @param {string} text - Text with math already extracted
+ * @returns {string} Text with LaTeX commands converted to markdown
+ */
+function processLatexCommands(text) {
+    // Sections → markdown headings
+    text = text.replace(/\\section\*?\{([^}]*)\}/g, '# $1');
+    text = text.replace(/\\subsection\*?\{([^}]*)\}/g, '## $1');
+    text = text.replace(/\\subsubsection\*?\{([^}]*)\}/g, '### $1');
+
+    // Text formatting
+    text = text.replace(/\\textbf\{([^}]*)\}/g, '**$1**');
+    text = text.replace(/\\textit\{([^}]*)\}/g, '*$1*');
+    text = text.replace(/\\emph\{([^}]*)\}/g, '*$1*');
+    text = text.replace(/\\underline\{([^}]*)\}/g, '<u>$1</u>');
+
+    // List environments
+    text = text.replace(/\\begin\{itemize\}/g, '');
+    text = text.replace(/\\end\{itemize\}/g, '');
+    text = text.replace(/\\begin\{enumerate\}/g, '');
+    text = text.replace(/\\end\{enumerate\}/g, '');
+    text = text.replace(/[ \t]*\\item\[([^\]]*)\]\s*/g, '- $1 ');
+    text = text.replace(/[ \t]*\\item\s*/g, '- ');
+
+    return text;
+}
+
 // ==================== CONTENT FORMATTING ====================
 
 /**
@@ -81,6 +126,9 @@ function $$$(selector, context = document) {
  * @returns {string} Formatted HTML
  */
 function formatContent(text) {
+    // Normalize LaTeX delimiters (\[...\] → $$...$$, \(...\) → $...$)
+    text = normalizeLatexDelimiters(text);
+
     // Store LaTeX blocks to preserve them
     const latexBlocks = [];
 
@@ -95,6 +143,9 @@ function formatContent(text) {
             latexBlocks.push(match);
             return `%%LATEX${latexBlocks.length - 1}%%`;
         });
+
+    // Process LaTeX structural commands (after math is safely extracted)
+    processed = processLatexCommands(processed);
 
     // Escape HTML first for security, then apply formatting
     processed = escapeHtml(processed)
@@ -134,7 +185,9 @@ function renderMath(element) {
         renderMathInElement(element, {
             delimiters: [
                 { left: '$$', right: '$$', display: true },
-                { left: '$', right: '$', display: false }
+                { left: '\\[', right: '\\]', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false }
             ],
             throwOnError: false
         });

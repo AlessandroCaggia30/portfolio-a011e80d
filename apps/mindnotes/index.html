@@ -3674,6 +3674,15 @@ function $(id) {
     return document.getElementById(id);
 }
 
+// Normalize LaTeX display/inline delimiters to $$/$ form
+function normalizeLatexDelimiters(text) {
+    // \[...\] → $$...$$ (display math)
+    text = text.replace(/\\\[([\s\S]*?)\\\]/g, (m, inner) => `$$${inner}$$`);
+    // \(...\) → $...$ (inline math)
+    text = text.replace(/\\\(([\s\S]*?)\\\)/g, (m, inner) => `$${inner}$`);
+    return text;
+}
+
 // Process LaTeX document commands into markdown equivalents
 function processLatexCommands(text) {
     if (!text) return text;
@@ -3755,8 +3764,11 @@ function processLatexCommands(text) {
 function formatContent(text) {
     if (!text) return '';
 
+    // Normalize LaTeX delimiters (\[...\] → $$...$$, \(...\) → $...$)
+    text = normalizeLatexDelimiters(String(text));
+
     const latexBlocks = [];
-    let processed = String(text)
+    let processed = text
         .replace(/\$\$([\s\S]*?)\$\$/g, (match) => {
             latexBlocks.push(match);
             return `%%LATEX${latexBlocks.length - 1}%%`;
@@ -3765,6 +3777,9 @@ function formatContent(text) {
             latexBlocks.push(match);
             return `%%LATEX${latexBlocks.length - 1}%%`;
         });
+
+    // Process LaTeX structural commands (after math is safely extracted)
+    processed = processLatexCommands(processed);
 
     processed = escapeHtml(processed);
 
@@ -3795,7 +3810,9 @@ function renderMath(element) {
         renderMathInElement(element, {
             delimiters: [
                 { left: '$$', right: '$$', display: true },
-                { left: '$', right: '$', display: false }
+                { left: '\\[', right: '\\]', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false }
             ],
             throwOnError: false
         });
@@ -3945,6 +3962,9 @@ function formatNodePreview(text) {
     // Skip leading empty lines
     let trimmedText = String(text).replace(/^[\s\n]*/, '');
     if (!trimmedText) return '';
+
+    // Normalize LaTeX delimiters (\[...\] → $$...$$, \(...\) → $...$)
+    trimmedText = normalizeLatexDelimiters(trimmedText);
 
     // Process LaTeX document commands into markdown
     trimmedText = processLatexCommands(trimmedText);
@@ -4737,6 +4757,9 @@ function updatePreview() {
  * Renders math with KaTeX for live preview
  */
 function formatForObsidian(text) {
+    // Normalize LaTeX delimiters (\[...\] → $$...$$, \(...\) → $...$)
+    text = normalizeLatexDelimiters(text);
+
     // Store all math to protect from formatting
     const mathBlocks = [];
 
@@ -5382,7 +5405,8 @@ function renderObsidianPreview() {
             .replace(/\\\)/g, '$');
         html = formatContentWithEditableFormulas(cleaned);
     } else {
-        const processed = format === 'latex' ? processLatexCommands(content) : content;
+        let normalized = normalizeLatexDelimiters(content);
+        const processed = format === 'latex' ? processLatexCommands(normalized) : normalized;
         html = formatContentWithEditableFormulas(processed);
     }
 
@@ -5448,6 +5472,9 @@ function formatContentWithEditableFormulas(text) {
 
 // Parse content into segments of text and formulas with positions
 function parseContentSegments(text) {
+    // Normalize LaTeX delimiters (\[...\] → $$...$$, \(...\) → $...$)
+    text = normalizeLatexDelimiters(text);
+
     const segments = [];
     let lastEnd = 0;
 
