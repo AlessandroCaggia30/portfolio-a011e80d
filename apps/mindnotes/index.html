@@ -3683,6 +3683,15 @@ function normalizeLatexDelimiters(text) {
     return text;
 }
 
+// Restore color markers to HTML span elements (call after escapeHtml + markdown)
+function restoreColorMarkers(text) {
+    text = text.replace(/%%TCLR:([^%]*)%%/g, '<span style="color:$1">');
+    text = text.replace(/%%\/TCLR%%/g, '</span>');
+    text = text.replace(/%%CBOX:([^%]*)%%/g, '<span style="background-color:$1;padding:2px 4px;border-radius:2px">');
+    text = text.replace(/%%\/CBOX%%/g, '</span>');
+    return text;
+}
+
 // Process LaTeX document commands into markdown equivalents
 function processLatexCommands(text) {
     if (!text) return text;
@@ -3700,6 +3709,19 @@ function processLatexCommands(text) {
         mathBlocks.push(m);
         return `%%LTXM${mathBlocks.length - 1}%%`;
     });
+
+    // Color commands → markers FIRST (before other commands to avoid nested brace issues)
+    result = result.replace(/\\textcolor\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}/g,
+        (m, color, content) => `%%TCLR:${color}%%${content}%%/TCLR%%`);
+    result = result.replace(/\\colorbox\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}/g,
+        (m, color, content) => `%%CBOX:${color}%%${content}%%/CBOX%%`);
+
+    // Theorem-like environments
+    result = result.replace(/\\begin\{(theorem|lemma|proposition|corollary|definition|remark|example|assumption)\}\s*/g,
+        (m, env) => `\n**${env.charAt(0).toUpperCase() + env.slice(1)}.** `);
+    result = result.replace(/\\end\{(theorem|lemma|proposition|corollary|definition|remark|example|assumption)\}\s*/g, '\n');
+    result = result.replace(/\\begin\{proof\}\s*/g, '\n*Proof.* ');
+    result = result.replace(/\\end\{proof\}\s*/g, ' ◻\n');
 
     // Environments - remove begin/end markers
     result = result.replace(/\\begin\{(itemize|enumerate|description)\}\s*/g, '\n');
@@ -3799,6 +3821,9 @@ function formatContent(text) {
         .replace(/^# (.+)$/gm, '<h2>$1</h2>')
         .replace(/\n/g, '<br>');
 
+    // Restore color markers → HTML spans
+    processed = restoreColorMarkers(processed);
+
     latexBlocks.forEach((block, i) => {
         processed = processed.replace(`%%LATEX${i}%%`, block);
     });
@@ -3814,7 +3839,37 @@ function renderMath(element) {
                 { left: '$', right: '$', display: false },
                 { left: '\\(', right: '\\)', display: false }
             ],
-            throwOnError: false
+            throwOnError: false,
+            macros: {
+                "\\R": "\\mathbb{R}",
+                "\\N": "\\mathbb{N}",
+                "\\Z": "\\mathbb{Z}",
+                "\\Q": "\\mathbb{Q}",
+                "\\C": "\\mathbb{C}",
+                "\\F": "\\mathbb{F}",
+                "\\E": "\\mathbb{E}",
+                "\\P": "\\mathbb{P}",
+                "\\1": "\\mathbb{1}",
+                "\\eps": "\\varepsilon",
+                "\\Var": "\\operatorname{Var}",
+                "\\Cov": "\\operatorname{Cov}",
+                "\\Corr": "\\operatorname{Corr}",
+                "\\rank": "\\operatorname{rank}",
+                "\\tr": "\\operatorname{tr}",
+                "\\diag": "\\operatorname{diag}",
+                "\\supp": "\\operatorname{supp}",
+                "\\sgn": "\\operatorname{sgn}",
+                "\\argmax": "\\operatorname*{arg\\,max}",
+                "\\argmin": "\\operatorname*{arg\\,min}",
+                "\\plim": "\\operatorname*{plim}",
+                "\\d": "\\mathrm{d}",
+                "\\norm": "\\left\\|#1\\right\\|",
+                "\\abs": "\\left|#1\\right|",
+                "\\inner": "\\langle #1, #2 \\rangle",
+                "\\floor": "\\left\\lfloor #1 \\right\\rfloor",
+                "\\ceil": "\\left\\lceil #1 \\right\\rceil",
+                "\\ind": "\\mathbb{1}"
+            }
         });
     }
 }
@@ -4005,7 +4060,7 @@ function formatNodePreview(text) {
             .replace(/\*([^*]+?)\*/g, '<em>$1</em>')
             .replace(/`([^`]+?)`/g, '<code>$1</code>')
             .replace(/\n/g, '<br>');
-        return escaped;
+        return restoreColorMarkers(escaped);
     }).join('');
 
     return processed;
@@ -5458,6 +5513,7 @@ function formatContentWithEditableFormulas(text) {
                 .replace(/\*([^*]+?)\*/g, '<em>$1</em>')
                 .replace(/`([^`]+?)`/g, '<code>$1</code>')
                 .replace(/\n/g, '<br>');
+            formatted = restoreColorMarkers(formatted);
 
             if (seg.text.trim()) {
                 html += `<span class="detail-text" data-seg-idx="${idx}">${formatted}</span>`;

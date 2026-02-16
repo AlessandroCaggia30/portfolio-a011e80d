@@ -91,29 +91,93 @@ function normalizeLatexDelimiters(text) {
 /**
  * Convert common LaTeX structural commands to markdown/HTML equivalents.
  * Call AFTER math blocks have been extracted to placeholders.
+ * Color commands (\textcolor, \colorbox) are converted to %%TCLR%% markers
+ * that must be restored later with restoreColorMarkers() after HTML escaping.
  * @param {string} text - Text with math already extracted
  * @returns {string} Text with LaTeX commands converted to markdown
  */
 function processLatexCommands(text) {
+    if (!text) return text;
+    if (!text.includes('\\')) return text;
+
+    // Color commands → markers FIRST (before other commands to avoid nested brace issues)
+    // Handles one level of nested braces in content: \textcolor{blue}{\textbf{text}}
+    text = text.replace(/\\textcolor\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}/g,
+        (m, color, content) => `%%TCLR:${color}%%${content}%%/TCLR%%`);
+    text = text.replace(/\\colorbox\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}/g,
+        (m, color, content) => `%%CBOX:${color}%%${content}%%/CBOX%%`);
+
+    // Environments
+    text = text.replace(/\\begin\{(itemize|enumerate|description)\}\s*/g, '\n');
+    text = text.replace(/\\end\{(itemize|enumerate|description)\}\s*/g, '\n');
+    text = text.replace(/\\begin\{(center|quote|quotation|abstract|document|figure|table|verbatim)\}\s*/g, '\n');
+    text = text.replace(/\\end\{(center|quote|quotation|abstract|document|figure|table|verbatim)\}\s*/g, '\n');
+
+    // Theorem-like environments
+    text = text.replace(/\\begin\{(theorem|lemma|proposition|corollary|definition|remark|example|assumption)\}\s*/g,
+        (m, env) => `\n**${env.charAt(0).toUpperCase() + env.slice(1)}.** `);
+    text = text.replace(/\\end\{(theorem|lemma|proposition|corollary|definition|remark|example|assumption)\}\s*/g, '\n');
+    text = text.replace(/\\begin\{proof\}\s*/g, '\n*Proof.* ');
+    text = text.replace(/\\end\{proof\}\s*/g, ' ◻\n');
+
+    // List items
+    text = text.replace(/[ \t]*\\item\[([^\]]*)\]\s*/g, '\n- $1 ');
+    text = text.replace(/[ \t]*\\item\s*/g, '\n- ');
+
     // Sections → markdown headings
-    text = text.replace(/\\section\*?\{([^}]*)\}/g, '# $1');
-    text = text.replace(/\\subsection\*?\{([^}]*)\}/g, '## $1');
-    text = text.replace(/\\subsubsection\*?\{([^}]*)\}/g, '### $1');
+    text = text.replace(/\\section\*?\{([^}]*)\}/g, '\n# $1\n');
+    text = text.replace(/\\subsection\*?\{([^}]*)\}/g, '\n## $1\n');
+    text = text.replace(/\\subsubsection\*?\{([^}]*)\}/g, '\n### $1\n');
+    text = text.replace(/\\paragraph\*?\{([^}]*)\}/g, '\n**$1** ');
 
     // Text formatting
     text = text.replace(/\\textbf\{([^}]*)\}/g, '**$1**');
     text = text.replace(/\\textit\{([^}]*)\}/g, '*$1*');
     text = text.replace(/\\emph\{([^}]*)\}/g, '*$1*');
-    text = text.replace(/\\underline\{([^}]*)\}/g, '<u>$1</u>');
+    text = text.replace(/\\texttt\{([^}]*)\}/g, '`$1`');
+    text = text.replace(/\\underline\{([^}]*)\}/g, '$1');
+    text = text.replace(/\\textsc\{([^}]*)\}/g, '$1');
 
-    // List environments
-    text = text.replace(/\\begin\{itemize\}/g, '');
-    text = text.replace(/\\end\{itemize\}/g, '');
-    text = text.replace(/\\begin\{enumerate\}/g, '');
-    text = text.replace(/\\end\{enumerate\}/g, '');
-    text = text.replace(/[ \t]*\\item\[([^\]]*)\]\s*/g, '- $1 ');
-    text = text.replace(/[ \t]*\\item\s*/g, '- ');
+    // URLs and links
+    text = text.replace(/\\href\{([^}]*)\}\{([^}]*)\}/g, '$2 ($1)');
+    text = text.replace(/\\url\{([^}]*)\}/g, '$1');
 
+    // Line breaks and spacing
+    text = text.replace(/\\\\/g, '\n');
+    text = text.replace(/\\bigskip\s*/g, '\n\n');
+    text = text.replace(/\\medskip\s*/g, '\n');
+    text = text.replace(/\\smallskip\s*/g, '\n');
+    text = text.replace(/\\[hv]space\*?\{[^}]*\}/g, ' ');
+    text = text.replace(/\\noindent\s*/g, '');
+    text = text.replace(/\\par\b\s*/g, '\n\n');
+    text = text.replace(/\\newline\s*/g, '\n');
+    text = text.replace(/\\newpage\s*/g, '\n');
+    text = text.replace(/\\clearpage\s*/g, '\n');
+
+    // Misc commands
+    text = text.replace(/\\centering\s*/g, '');
+    text = text.replace(/\\maketitle\s*/g, '');
+    text = text.replace(/\\tableofcontents\s*/g, '');
+    text = text.replace(/\\footnote\{([^}]*)\}/g, ' ($1)');
+    text = text.replace(/\\label\{[^}]*\}/g, '');
+    text = text.replace(/\\ref\{([^}]*)\}/g, '[$1]');
+    text = text.replace(/\\cite\{([^}]*)\}/g, '[$1]');
+
+    // Clean up multiple blank lines
+    text = text.replace(/\n{3,}/g, '\n\n');
+
+    return text;
+}
+
+/**
+ * Restore color markers (%%TCLR%%, %%CBOX%%) to HTML span elements.
+ * Call AFTER escapeHtml and markdown formatting.
+ */
+function restoreColorMarkers(text) {
+    text = text.replace(/%%TCLR:([^%]*)%%/g, '<span style="color:$1">');
+    text = text.replace(/%%\/TCLR%%/g, '</span>');
+    text = text.replace(/%%CBOX:([^%]*)%%/g, '<span style="background-color:$1;padding:2px 4px;border-radius:2px">');
+    text = text.replace(/%%\/CBOX%%/g, '</span>');
     return text;
 }
 
@@ -168,6 +232,9 @@ function formatContent(text) {
         // Line breaks
         .replace(/\n/g, '<br>');
 
+    // Restore color markers → HTML spans (after escaping so they aren't escaped)
+    processed = restoreColorMarkers(processed);
+
     // Restore LaTeX blocks
     latexBlocks.forEach((block, i) => {
         processed = processed.replace(`%%LATEX${i}%%`, block);
@@ -189,7 +256,37 @@ function renderMath(element) {
                 { left: '$', right: '$', display: false },
                 { left: '\\(', right: '\\)', display: false }
             ],
-            throwOnError: false
+            throwOnError: false,
+            macros: {
+                "\\R": "\\mathbb{R}",
+                "\\N": "\\mathbb{N}",
+                "\\Z": "\\mathbb{Z}",
+                "\\Q": "\\mathbb{Q}",
+                "\\C": "\\mathbb{C}",
+                "\\F": "\\mathbb{F}",
+                "\\E": "\\mathbb{E}",
+                "\\P": "\\mathbb{P}",
+                "\\1": "\\mathbb{1}",
+                "\\eps": "\\varepsilon",
+                "\\Var": "\\operatorname{Var}",
+                "\\Cov": "\\operatorname{Cov}",
+                "\\Corr": "\\operatorname{Corr}",
+                "\\rank": "\\operatorname{rank}",
+                "\\tr": "\\operatorname{tr}",
+                "\\diag": "\\operatorname{diag}",
+                "\\supp": "\\operatorname{supp}",
+                "\\sgn": "\\operatorname{sgn}",
+                "\\argmax": "\\operatorname*{arg\\,max}",
+                "\\argmin": "\\operatorname*{arg\\,min}",
+                "\\plim": "\\operatorname*{plim}",
+                "\\d": "\\mathrm{d}",
+                "\\norm": "\\left\\|#1\\right\\|",
+                "\\abs": "\\left|#1\\right|",
+                "\\inner": "\\langle #1, #2 \\rangle",
+                "\\floor": "\\left\\lfloor #1 \\right\\rfloor",
+                "\\ceil": "\\left\\lceil #1 \\right\\rceil",
+                "\\ind": "\\mathbb{1}"
+            }
         });
     }
 }
