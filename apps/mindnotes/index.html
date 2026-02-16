@@ -2349,15 +2349,118 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
     transform: translateX(-50%) translateY(0);
 }
 
+/* Subject Selection Screen */
+.subject-screen {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--bg);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.subject-screen.hidden { display: none; }
+
+.subject-screen-inner {
+    text-align: center;
+    max-width: 800px;
+    padding: 40px;
+}
+
+.subject-screen-inner h1 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+}
+
+.subject-screen-inner h1 span { color: var(--accent); }
+
+.subject-screen-inner > p {
+    color: var(--text2);
+    font-size: 16px;
+    margin-bottom: 40px;
+}
+
+.subject-grid {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.subject-card {
+    width: 260px;
+    padding: 36px 28px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: center;
+}
+
+.subject-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent);
+    box-shadow: 0 8px 32px rgba(108, 92, 231, 0.15);
+}
+
+.subject-card .subject-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    display: block;
+}
+
+.subject-card .subject-name {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+}
+
+.back-to-subjects-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text2);
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-right: 8px;
+    transition: all 0.2s;
+}
+
+.back-to-subjects-btn:hover {
+    background: var(--accent);
+    color: var(--text);
+    border-color: var(--accent);
+}
+
     </style>
 </head>
 <body>
-    <div class="app">
+    <div id="subjectScreen" class="subject-screen">
+        <div class="subject-screen-inner">
+            <h1><span>M</span>indNotes</h1>
+            <p>Select a subject</p>
+            <div id="subjectGrid" class="subject-grid"></div>
+        </div>
+    </div>
+
+    <div class="app" style="display:none;">
         <!-- Sidebar Toggle (outside sidebar so it's always visible) -->
         <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">&#9664;</button>
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
+                <button class="back-to-subjects-btn" onclick="backToSubjects()" title="Back to subjects">&#8592;</button>
                 <span><span style="color:var(--accent)">M</span>indNotes</span>
                 <div class="header-actions">
                     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
@@ -2914,8 +3017,15 @@ const State = {
     draggedSidebarItem: null,
     draggedSidebarType: null,  // 'topic' or 'subtopic'
     // Delete confirmation state
-    lastDeletePress: null
+    lastDeletePress: null,
+    // Current subject
+    currentSubject: null
 };
+
+const SUBJECTS = [
+    { id: 'adv-math', name: 'Advanced Mathematics', icon: '\u2211', dataKey: 'mindnotes_advmath', seedFile: 'data.json' },
+    { id: 'adv-micro', name: 'Advanced Microeconometrics', icon: '\uD83D\uDCCA', dataKey: 'mindnotes_advmicro', seedFile: null }
+];
 
 // ==================== FSRS SPACED REPETITION ALGORITHM ====================
 
@@ -3277,13 +3387,55 @@ function initDB() {
 }
 
 async function loadData() {
+    const dataKey = State.currentSubject ? State.currentSubject.dataKey : 'mindnotes2';
+    const seedFile = State.currentSubject ? State.currentSubject.seedFile : 'data.json';
+
     try {
         if (!db) await initDB();
+
+        // One-time migration: move old 'mindnotes2' data to 'mindnotes_advmath'
+        if (dataKey === 'mindnotes_advmath') {
+            const oldData = await new Promise((resolve, reject) => {
+                const tx = db.transaction(STORE_NAME, 'readonly');
+                const store = tx.objectStore(STORE_NAME);
+                const request = store.get('mindnotes2');
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+            if (oldData) {
+                // Check if advmath key already exists
+                const existingAdvMath = await new Promise((resolve, reject) => {
+                    const tx = db.transaction(STORE_NAME, 'readonly');
+                    const store = tx.objectStore(STORE_NAME);
+                    const request = store.get('mindnotes_advmath');
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = () => reject(request.error);
+                });
+                if (!existingAdvMath) {
+                    await new Promise((resolve, reject) => {
+                        const tx = db.transaction(STORE_NAME, 'readwrite');
+                        const store = tx.objectStore(STORE_NAME);
+                        const request = store.put(oldData, 'mindnotes_advmath');
+                        request.onsuccess = () => resolve();
+                        request.onerror = () => reject(request.error);
+                    });
+                    // Remove old key
+                    await new Promise((resolve, reject) => {
+                        const tx = db.transaction(STORE_NAME, 'readwrite');
+                        const store = tx.objectStore(STORE_NAME);
+                        const request = store.delete('mindnotes2');
+                        request.onsuccess = () => resolve();
+                        request.onerror = () => reject(request.error);
+                    });
+                    console.log('Migrated mindnotes2 -> mindnotes_advmath');
+                }
+            }
+        }
 
         const data = await new Promise((resolve, reject) => {
             const tx = db.transaction(STORE_NAME, 'readonly');
             const store = tx.objectStore(STORE_NAME);
-            const request = store.get('mindnotes2');
+            const request = store.get(dataKey);
             request.onsuccess = () => resolve(request.result);
             request.onerror = () => reject(request.error);
         });
@@ -3293,26 +3445,26 @@ async function loadData() {
             if (!State.data.trash) State.data.trash = [];
             const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
             State.data.trash = State.data.trash.filter(item => item.deletedAt > thirtyDaysAgo);
-            console.log('Loaded from IndexedDB, topics:', State.data.topics.length);
+            console.log('Loaded from IndexedDB (' + dataKey + '), topics:', State.data.topics.length);
         } else {
             // Try migrating from localStorage
-            const oldData = localStorage.getItem('mindnotes2');
+            const oldData = localStorage.getItem(dataKey);
             if (oldData) {
                 State.data = JSON.parse(oldData);
                 if (!State.data.trash) State.data.trash = [];
                 await saveData();
-                localStorage.removeItem('mindnotes2');
+                localStorage.removeItem(dataKey);
                 console.log('Migrated from localStorage to IndexedDB');
-            } else {
-                // Try loading bundled data.json
+            } else if (seedFile) {
+                // Try loading bundled seed file
                 try {
-                    const resp = await fetch('data.json');
+                    const resp = await fetch(seedFile);
                     if (resp.ok) {
                         const backup = await resp.json();
                         State.data = backup.data || backup;
                         if (!State.data.trash) State.data.trash = [];
                         await saveData();
-                        console.log('Loaded from bundled data.json');
+                        console.log('Loaded from bundled ' + seedFile);
                     } else {
                         State.data = createDefaultData();
                         console.log('No saved data, using defaults');
@@ -3321,11 +3473,15 @@ async function loadData() {
                     State.data = createDefaultData();
                     console.log('No saved data, using defaults');
                 }
+            } else {
+                // No seed file — start empty
+                State.data = { topics: [], trash: [] };
+                console.log('Starting with empty data for ' + dataKey);
             }
         }
     } catch (e) {
         console.error('IndexedDB load error:', e);
-        State.data = createDefaultData();
+        State.data = seedFile ? createDefaultData() : { topics: [], trash: [] };
     }
 
     // Re-render after async load
@@ -3336,13 +3492,14 @@ async function loadData() {
 }
 
 async function saveData() {
+    const dataKey = State.currentSubject ? State.currentSubject.dataKey : 'mindnotes2';
     try {
         if (!db) await initDB();
 
         await new Promise((resolve, reject) => {
             const tx = db.transaction(STORE_NAME, 'readwrite');
             const store = tx.objectStore(STORE_NAME);
-            const request = store.put(State.data, 'mindnotes2');
+            const request = store.put(State.data, dataKey);
             request.onsuccess = () => resolve();
             request.onerror = () => reject(request.error);
         });
@@ -3365,11 +3522,17 @@ function importFromJson() {
 
         try {
             const text = await file.text();
-            const importedData = JSON.parse(text);
+            let importedData = JSON.parse(text);
+
+            // Support wrapped backup format { data: { topics: [...] } }
+            if (!importedData.topics && importedData.data) {
+                importedData = importedData.data;
+            }
 
             // Validate structure
             if (!importedData.topics || !Array.isArray(importedData.topics)) {
-                showToast('Invalid data format');
+                console.error('Import rejected. Keys found:', Object.keys(importedData));
+                showToast('Invalid data format — expected "topics" array');
                 return;
             }
 
@@ -7385,6 +7548,45 @@ function loadTheme() {
     $('themeToggle').textContent = savedTheme === 'light' ? '☀️' : '🌙';
 }
 
+// ==================== SUBJECT SELECTION ====================
+
+function showSubjectScreen() {
+    const grid = $('subjectGrid');
+    grid.innerHTML = '';
+    SUBJECTS.forEach(subject => {
+        const card = document.createElement('div');
+        card.className = 'subject-card';
+        card.onclick = () => selectSubject(subject);
+        card.innerHTML = '<span class="subject-icon">' + subject.icon + '</span>' +
+                         '<span class="subject-name">' + subject.name + '</span>';
+        grid.appendChild(card);
+    });
+    $('subjectScreen').classList.remove('hidden');
+    document.querySelector('.app').style.display = 'none';
+}
+
+async function selectSubject(subject) {
+    State.currentSubject = subject;
+    $('subjectScreen').classList.add('hidden');
+    document.querySelector('.app').style.display = '';
+    await loadData();
+    updateFlashcardStats();
+    updateTrashCount();
+}
+
+async function backToSubjects() {
+    // Save current data before switching
+    if (State.currentSubject) {
+        await saveData();
+    }
+    // Reset state
+    State.data = { topics: [], trash: [] };
+    State.currentSubtopic = null;
+    State.selectedNode = null;
+    State.currentSubject = null;
+    showSubjectScreen();
+}
+
 // ==================== APP.JS ====================
 async function initApp() {
     initCanvasRefs();
@@ -7394,10 +7596,7 @@ async function initApp() {
     initDetailImageInput();
 
     loadTheme();
-    await loadData(); // loadData handles rendering after load
-
-    updateFlashcardStats();
-    updateTrashCount();
+    showSubjectScreen();
 
     // Auto-save when title changes in detail panel
     const detailTitle = $('detailTitle');
