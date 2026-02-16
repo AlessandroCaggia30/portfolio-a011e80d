@@ -3871,24 +3871,28 @@ function formatNodePreview(text) {
     let formulaIndex = 0;
     const formulas = [];
 
-    // Replace display math $$...$$ with editable spans
+    // Replace display math $$...$$ with $-free placeholders first
     let processed = trimmedText.replace(/\$\$([\s\S]*?)\$\$/g, (match, inner) => {
         formulas.push({ full: match, inner: inner, display: true });
-        return `<span class="editable-formula" data-formula-idx="${formulaIndex++}" data-display="true">$$${inner}$$</span>`;
+        return `%%FORMULA${formulaIndex++}%%`;
     });
 
-    // Replace inline math $...$ with editable spans
+    // Replace inline math $...$ with $-free placeholders
     processed = processed.replace(/\$([^\$\n]+?)\$/g, (match, inner) => {
         formulas.push({ full: match, inner: inner, display: false });
-        return `<span class="editable-formula" data-formula-idx="${formulaIndex++}" data-display="false">$${inner}$</span>`;
+        return `%%FORMULA${formulaIndex++}%%`;
     });
 
     // Now escape and format the rest
-    // Split by formula spans, escape non-formula parts
-    const parts = processed.split(/(<span class="editable-formula"[^>]*>.*?<\/span>)/g);
+    // Split by formula placeholders, escape non-formula parts
+    const parts = processed.split(/(%%FORMULA\d+%%)/g);
     processed = parts.map(part => {
-        if (part.startsWith('<span class="editable-formula"')) {
-            return part; // Keep formula spans as-is
+        const placeholderMatch = part.match(/^%%FORMULA(\d+)%%$/);
+        if (placeholderMatch) {
+            const idx = parseInt(placeholderMatch[1]);
+            const f = formulas[idx];
+            const delim = f.display ? '$$' : '$';
+            return `<span class="editable-formula" data-formula-idx="${idx}" data-display="${f.display}">${delim}${f.inner}${delim}</span>`;
         }
         // Escape and format non-formula text
         let escaped = escapeHtml(part);
