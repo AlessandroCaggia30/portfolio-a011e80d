@@ -3692,6 +3692,15 @@ function restoreColorMarkers(text) {
     return text;
 }
 
+// Restore formatting markers to HTML elements (call after escapeHtml)
+function restoreFormattingMarkers(text) {
+    text = text.replace(/%%B%%/g, '<strong>').replace(/%%\/B%%/g, '</strong>');
+    text = text.replace(/%%I%%/g, '<em>').replace(/%%\/I%%/g, '</em>');
+    text = text.replace(/%%TT%%/g, '<code>').replace(/%%\/TT%%/g, '</code>');
+    text = text.replace(/%%U%%/g, '<u>').replace(/%%\/U%%/g, '</u>');
+    return text;
+}
+
 // Process LaTeX document commands into markdown equivalents
 function processLatexCommands(text) {
     if (!text) return text;
@@ -3730,7 +3739,8 @@ function processLatexCommands(text) {
     result = result.replace(/\\end\{(center|quote|quotation|abstract|document|figure|table|verbatim)\}\s*/g, '\n');
 
     // List items
-    result = result.replace(/\\item\b\s*/g, '\n- ');
+    result = result.replace(/[ \t]*\\item\[([^\]]*)\]\s*/g, '\n- $1 ');
+    result = result.replace(/[ \t]*\\item\s*/g, '\n- ');
 
     // Sections
     result = result.replace(/\\section\*?\{([^}]*)\}/g, '\n# $1\n');
@@ -3738,12 +3748,13 @@ function processLatexCommands(text) {
     result = result.replace(/\\subsubsection\*?\{([^}]*)\}/g, '\n### $1\n');
     result = result.replace(/\\paragraph\*?\{([^}]*)\}/g, '\n**$1** ');
 
-    // Text formatting
-    result = result.replace(/\\textbf\{([^}]*)\}/g, '**$1**');
-    result = result.replace(/\\textit\{([^}]*)\}/g, '*$1*');
-    result = result.replace(/\\emph\{([^}]*)\}/g, '*$1*');
-    result = result.replace(/\\texttt\{([^}]*)\}/g, '`$1`');
-    result = result.replace(/\\underline\{([^}]*)\}/g, '$1');
+    // Text formatting → markers (survive escapeHtml and segment splitting)
+    result = result.replace(/\\textbf\{([^}]*)\}/g, '%%B%%$1%%/B%%');
+    result = result.replace(/\\textit\{([^}]*)\}/g, '%%I%%$1%%/I%%');
+    result = result.replace(/\\emph\{([^}]*)\}/g, '%%I%%$1%%/I%%');
+    result = result.replace(/\\texttt\{([^}]*)\}/g, '%%TT%%$1%%/TT%%');
+    result = result.replace(/\\underline\{([^}]*)\}/g, '%%U%%$1%%/U%%');
+    result = result.replace(/\\textsc\{([^}]*)\}/g, '$1');
 
     // URLs and links
     result = result.replace(/\\href\{([^}]*)\}\{([^}]*)\}/g, '$2 ($1)');
@@ -3821,8 +3832,9 @@ function formatContent(text) {
         .replace(/^# (.+)$/gm, '<h2>$1</h2>')
         .replace(/\n/g, '<br>');
 
-    // Restore color markers → HTML spans
+    // Restore all markers → HTML elements
     processed = restoreColorMarkers(processed);
+    processed = restoreFormattingMarkers(processed);
 
     latexBlocks.forEach((block, i) => {
         processed = processed.replace(`%%LATEX${i}%%`, block);
@@ -4050,7 +4062,7 @@ function formatNodePreview(text) {
             const delim = f.display ? '$$' : '$';
             return `<span class="editable-formula" data-formula-idx="${idx}" data-display="${f.display}">${delim}${f.inner}${delim}</span>`;
         }
-        // Escape and format non-formula text
+        // Escape and apply markdown formatting (LaTeX commands already processed above)
         let escaped = escapeHtml(part);
         escaped = escaped
             .replace(/==(.+?)==/g, '<span class="hl-yellow">$1</span>')
@@ -4060,8 +4072,12 @@ function formatNodePreview(text) {
             .replace(/\*([^*]+?)\*/g, '<em>$1</em>')
             .replace(/`([^`]+?)`/g, '<code>$1</code>')
             .replace(/\n/g, '<br>');
-        return restoreColorMarkers(escaped);
+        return escaped;
     }).join('');
+
+    // Restore markers that span across parts → HTML elements
+    processed = restoreColorMarkers(processed);
+    processed = restoreFormattingMarkers(processed);
 
     return processed;
 }
@@ -5503,7 +5519,7 @@ function formatContentWithEditableFormulas(text) {
             html += seg.display ? `$$${seg.inner}$$` : `$${seg.inner}$`;
             html += `</span>`;
         } else {
-            // Text segment - make it editable, keep inline
+            // Text segment - escape and apply markdown formatting
             let formatted = escapeHtml(seg.text);
             formatted = formatted
                 .replace(/==(.+?)==/g, '<span class="hl-yellow">$1</span>')
@@ -5512,8 +5528,11 @@ function formatContentWithEditableFormulas(text) {
                 .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*([^*]+?)\*/g, '<em>$1</em>')
                 .replace(/`([^`]+?)`/g, '<code>$1</code>')
+                .replace(/^- (.+)$/gm, '<li>$1</li>')
+                .replace(/^### (.+)$/gm, '<h4>$1</h4>')
+                .replace(/^## (.+)$/gm, '<h3>$1</h3>')
+                .replace(/^# (.+)$/gm, '<h2>$1</h2>')
                 .replace(/\n/g, '<br>');
-            formatted = restoreColorMarkers(formatted);
 
             if (seg.text.trim()) {
                 html += `<span class="detail-text" data-seg-idx="${idx}">${formatted}</span>`;
@@ -5522,6 +5541,10 @@ function formatContentWithEditableFormulas(text) {
             }
         }
     });
+
+    // Restore markers that span across segments → HTML elements
+    html = restoreColorMarkers(html);
+    html = restoreFormattingMarkers(html);
 
     return html;
 }
