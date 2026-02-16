@@ -56,7 +56,7 @@ const State = {
  * Load data from localStorage
  * Creates default data if none exists
  */
-function loadData() {
+async function loadData() {
     const saved = localStorage.getItem('mindnotes2');
     if (saved) {
         State.data = JSON.parse(saved);
@@ -67,8 +67,20 @@ function loadData() {
         State.data.trash = State.data.trash.filter(item => item.deletedAt > thirtyDaysAgo);
         saveData();
     } else {
-        // Create default data with example content
-        State.data = createDefaultData();
+        // Try to load bundled data from data.json
+        try {
+            const resp = await fetch('data.json');
+            if (resp.ok) {
+                const backup = await resp.json();
+                State.data = backup.data || backup;
+                if (!State.data.trash) State.data.trash = [];
+                saveData();
+            } else {
+                State.data = createDefaultData();
+            }
+        } catch (e) {
+            State.data = createDefaultData();
+        }
     }
 }
 
