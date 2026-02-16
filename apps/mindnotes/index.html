@@ -3674,6 +3674,84 @@ function $(id) {
     return document.getElementById(id);
 }
 
+// Process LaTeX document commands into markdown equivalents
+function processLatexCommands(text) {
+    if (!text) return text;
+    if (!text.includes('\\')) return text;
+
+    let result = text;
+
+    // Preserve math blocks first
+    const mathBlocks = [];
+    result = result.replace(/\$\$([\s\S]*?)\$\$/g, (m) => {
+        mathBlocks.push(m);
+        return `%%LTXM${mathBlocks.length - 1}%%`;
+    });
+    result = result.replace(/\$([^\$\n]+?)\$/g, (m) => {
+        mathBlocks.push(m);
+        return `%%LTXM${mathBlocks.length - 1}%%`;
+    });
+
+    // Environments - remove begin/end markers
+    result = result.replace(/\\begin\{(itemize|enumerate|description)\}\s*/g, '\n');
+    result = result.replace(/\\end\{(itemize|enumerate|description)\}\s*/g, '\n');
+    result = result.replace(/\\begin\{(center|quote|quotation|abstract|document|figure|table|verbatim)\}\s*/g, '\n');
+    result = result.replace(/\\end\{(center|quote|quotation|abstract|document|figure|table|verbatim)\}\s*/g, '\n');
+
+    // List items
+    result = result.replace(/\\item\b\s*/g, '\n- ');
+
+    // Sections
+    result = result.replace(/\\section\*?\{([^}]*)\}/g, '\n# $1\n');
+    result = result.replace(/\\subsection\*?\{([^}]*)\}/g, '\n## $1\n');
+    result = result.replace(/\\subsubsection\*?\{([^}]*)\}/g, '\n### $1\n');
+    result = result.replace(/\\paragraph\*?\{([^}]*)\}/g, '\n**$1** ');
+
+    // Text formatting
+    result = result.replace(/\\textbf\{([^}]*)\}/g, '**$1**');
+    result = result.replace(/\\textit\{([^}]*)\}/g, '*$1*');
+    result = result.replace(/\\emph\{([^}]*)\}/g, '*$1*');
+    result = result.replace(/\\texttt\{([^}]*)\}/g, '`$1`');
+    result = result.replace(/\\underline\{([^}]*)\}/g, '$1');
+
+    // URLs and links
+    result = result.replace(/\\href\{([^}]*)\}\{([^}]*)\}/g, '$2 ($1)');
+    result = result.replace(/\\url\{([^}]*)\}/g, '$1');
+
+    // Line breaks
+    result = result.replace(/\\\\/g, '\n');
+
+    // Spacing and layout commands
+    result = result.replace(/\\[hv]space\*?\{[^}]*\}/g, ' ');
+    result = result.replace(/\\noindent\s*/g, '');
+    result = result.replace(/\\par\b\s*/g, '\n\n');
+    result = result.replace(/\\newline\s*/g, '\n');
+    result = result.replace(/\\newpage\s*/g, '\n');
+    result = result.replace(/\\clearpage\s*/g, '\n');
+    result = result.replace(/\\bigskip\s*/g, '\n');
+    result = result.replace(/\\medskip\s*/g, '\n');
+    result = result.replace(/\\smallskip\s*/g, '\n');
+
+    // Misc commands
+    result = result.replace(/\\centering\s*/g, '');
+    result = result.replace(/\\maketitle\s*/g, '');
+    result = result.replace(/\\tableofcontents\s*/g, '');
+    result = result.replace(/\\footnote\{([^}]*)\}/g, ' ($1)');
+    result = result.replace(/\\label\{[^}]*\}/g, '');
+    result = result.replace(/\\ref\{([^}]*)\}/g, '[$1]');
+    result = result.replace(/\\cite\{([^}]*)\}/g, '[$1]');
+
+    // Clean up multiple blank lines
+    result = result.replace(/\n{3,}/g, '\n\n');
+
+    // Restore math blocks
+    mathBlocks.forEach((block, i) => {
+        result = result.replace(`%%LTXM${i}%%`, block);
+    });
+
+    return result;
+}
+
 function formatContent(text) {
     if (!text) return '';
 
@@ -3867,6 +3945,9 @@ function formatNodePreview(text) {
     // Skip leading empty lines
     let trimmedText = String(text).replace(/^[\s\n]*/, '');
     if (!trimmedText) return '';
+
+    // Process LaTeX document commands into markdown
+    trimmedText = processLatexCommands(trimmedText);
 
     let formulaIndex = 0;
     const formulas = [];
@@ -4635,8 +4716,9 @@ function updatePreview() {
         // Obsidian format: show formatted text ready for Obsidian
         box.innerHTML = formatForObsidian(text);
     } else {
-        // LaTeX format: render with KaTeX
-        box.innerHTML = formatContent(text);
+        // LaTeX format: process LaTeX commands, then render with KaTeX
+        const processed = processLatexCommands(text);
+        box.innerHTML = formatContent(processed);
         renderMath(box);
     }
 
@@ -5300,7 +5382,8 @@ function renderObsidianPreview() {
             .replace(/\\\)/g, '$');
         html = formatContentWithEditableFormulas(cleaned);
     } else {
-        html = formatContentWithEditableFormulas(content);
+        const processed = format === 'latex' ? processLatexCommands(content) : content;
+        html = formatContentWithEditableFormulas(processed);
     }
 
     // Render inline images
