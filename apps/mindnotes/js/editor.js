@@ -196,6 +196,82 @@ function insertTemplate(type) {
     insertFormat('$' + templates[type], '$');
 }
 
+// ==================== ADVANCED MACRO ====================
+
+/**
+ * Toggle the advanced macro dropdown
+ */
+function toggleAdvancedMacro() {
+    const dd = $('advancedMacroDropdown');
+    dd.classList.toggle('open');
+}
+
+/**
+ * Insert an advanced LaTeX macro
+ * @param {string} type - Macro type
+ */
+function insertAdvancedMacro(type) {
+    const macros = {
+        // Calculus
+        sum: '\\sum_{i=1}^{n} a_i',
+        prod: '\\prod_{i=1}^{n} a_i',
+        limit: '\\lim_{x \\to \\infty} f(x)',
+        deriv: '\\frac{d}{dx} f(x)',
+        partial: '\\frac{\\partial f}{\\partial x}',
+        doubleint: '\\iint_{D} f(x,y) \\, dA',
+        oint: '\\oint_{C} \\mathbf{F} \\cdot d\\mathbf{r}',
+        taylor: 'f(x) = \\sum_{n=0}^{\\infty} \\frac{f^{(n)}(a)}{n!}(x-a)^n',
+        // Linear Algebra
+        matrix2: '\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}',
+        matrix3: '\\begin{pmatrix} a & b & c \\\\ d & e & f \\\\ g & h & i \\end{pmatrix}',
+        det: '\\det\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}',
+        norm: '\\left\\| \\mathbf{v} \\right\\|',
+        innerp: '\\langle \\mathbf{u}, \\mathbf{v} \\rangle',
+        cases: '\\begin{cases} f(x) & \\text{if } x \\geq 0 \\\\ g(x) & \\text{if } x < 0 \\end{cases}',
+        // Sets & Logic
+        set: '\\{ x \\in S \\mid P(x) \\}',
+        forall: '\\forall \\, x \\in S, \\; P(x)',
+        exists: '\\exists \\, x \\in S \\text{ s.t. } P(x)',
+        setops: 'A \\cup B \\cap C \\subseteq D',
+        // Probability & Stats
+        expectation: '\\mathbb{E}[X] = \\sum_{x} x \\, P(X=x)',
+        variance: '\\text{Var}(X) = \\mathbb{E}[X^2] - (\\mathbb{E}[X])^2',
+        prob: 'P(A \\mid B) = \\frac{P(B \\mid A) P(A)}{P(B)}',
+        normal: 'X \\sim \\mathcal{N}(\\mu, \\sigma^2)',
+        binom: '\\binom{n}{k} = \\frac{n!}{k!(n-k)!}',
+        // Economics
+        lagrangian: '\\mathcal{L} = U(x_1, x_2) - \\lambda (p_1 x_1 + p_2 x_2 - I)',
+        solow: '\\dot{k} = s f(k) - (n + g + \\delta) k',
+        euler: 'u\'(c_t) = \\beta (1 + r_{t+1}) u\'(c_{t+1})',
+        islm: '\\begin{cases} Y = C(Y-T) + I(r) + G & \\text{(IS)} \\\\ \\frac{M}{P} = L(r, Y) & \\text{(LM)} \\end{cases}',
+        phillips: '\\pi_t = \\pi_t^e - \\alpha (u_t - u_n) + \\varepsilon_t',
+        bellman: 'V(k) = \\max_{c} \\left\\{ u(c) + \\beta V(k\') \\right\\}',
+        elasticity: '\\varepsilon = \\frac{\\partial Q}{\\partial P} \\cdot \\frac{P}{Q}',
+        cobb_douglas: 'Y = A K^{\\alpha} L^{1-\\alpha}',
+        budget: 'p_1 x_1 + p_2 x_2 \\leq I',
+        fisher: '(1 + i) = (1 + r)(1 + \\pi)',
+        // Environments
+        align: '\\begin{aligned} a &= b + c \\\\ &= d + e \\end{aligned}',
+        system: '\\begin{cases} x + y = 1 \\\\ 2x - y = 3 \\end{cases}',
+        vector: '\\begin{pmatrix} x_1 \\\\ x_2 \\\\ x_3 \\end{pmatrix}',
+        underbrace: '\\underbrace{a + b + c}_{\\text{sum}}',
+        theorem: '\\text{Theorem}',
+        proof: '\\text{Proof}'
+    };
+
+    if (macros[type]) {
+        if (type === 'theorem') {
+            insertFormat('\\begin{theorem}\n', '\n\\end{theorem}');
+        } else if (type === 'proof') {
+            insertFormat('\\begin{proof}\n', '\n\\end{proof}');
+        } else {
+            insertFormat('$$\n' + macros[type] + '\n', '$$');
+        }
+    }
+
+    $('advancedMacroDropdown').classList.remove('open');
+}
+
 // ==================== PREVIEW ====================
 
 /**

@@ -56,7 +56,7 @@ const State = {
  * Load data from localStorage
  * Creates default data if none exists
  */
-async function loadData() {
+function loadData() {
     const saved = localStorage.getItem('mindnotes2');
     if (saved) {
         State.data = JSON.parse(saved);
@@ -67,20 +67,8 @@ async function loadData() {
         State.data.trash = State.data.trash.filter(item => item.deletedAt > thirtyDaysAgo);
         saveData();
     } else {
-        // Try to load bundled data from data.json
-        try {
-            const resp = await fetch('data.json');
-            if (resp.ok) {
-                const backup = await resp.json();
-                State.data = backup.data || backup;
-                if (!State.data.trash) State.data.trash = [];
-                saveData();
-            } else {
-                State.data = createDefaultData();
-            }
-        } catch (e) {
-            State.data = createDefaultData();
-        }
+        // Create default data with example content
+        State.data = createDefaultData();
     }
 }
 
@@ -138,6 +126,45 @@ function createDefaultData() {
                 },
                 { id: '1.2', name: 'Linear Transformations', nodes: [] },
                 { id: '1.3', name: 'Eigenvalues', nodes: [] }
+            ]
+        },
+        {
+            id: '2',
+            name: 'Advanced Macroeconomics',
+            subtopics: [
+                {
+                    id: '2.1',
+                    name: 'GDP & National Accounts',
+                    nodes: [
+                        {
+                            id: 'macro_n1',
+                            title: 'GDP Identity',
+                            content: 'The **national income identity**:\n\n$$Y = C + I + G + NX$$\n\nwhere $C$ = consumption, $I$ = investment, $G$ = government spending, $NX$ = net exports.',
+                            x: 5100,
+                            y: 5100,
+                            flashcard: true,
+                            images: [],
+                            links: ['macro_n2']
+                        },
+                        {
+                            id: 'macro_n2',
+                            title: 'Growth Accounting',
+                            content: 'The **Solow residual** decomposes output growth:\n\n$$\\frac{\\dot{Y}}{Y} = \\frac{\\dot{A}}{A} + \\alpha \\frac{\\dot{K}}{K} + (1-\\alpha)\\frac{\\dot{L}}{L}$$\n\nwhere $A$ = TFP, $K$ = capital, $L$ = labor, $\\alpha$ = capital share.',
+                            x: 5350,
+                            y: 5100,
+                            flashcard: true,
+                            images: [],
+                            links: []
+                        }
+                    ]
+                },
+                { id: '2.2', name: 'Solow Growth Model', nodes: [] },
+                { id: '2.3', name: 'Monetary Policy', nodes: [] },
+                { id: '2.4', name: 'Fiscal Policy', nodes: [] },
+                { id: '2.5', name: 'Business Cycles (RBC)', nodes: [] },
+                { id: '2.6', name: 'New Keynesian Models', nodes: [] },
+                { id: '2.7', name: 'International Macro', nodes: [] },
+                { id: '2.8', name: 'Consumption & Savings', nodes: [] }
             ]
         }],
         trash: []
