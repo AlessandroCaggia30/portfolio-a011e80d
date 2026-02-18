@@ -3806,6 +3806,8 @@ function restoreFormattingMarkers(text) {
     text = text.replace(/%%I%%/g, '<em>').replace(/%%\/I%%/g, '</em>');
     text = text.replace(/%%TT%%/g, '<code>').replace(/%%\/TT%%/g, '</code>');
     text = text.replace(/%%U%%/g, '<u>').replace(/%%\/U%%/g, '</u>');
+    text = text.replace(/%%SZ:([^%]*)%%/g, '<span style="font-size:$1">');
+    text = text.replace(/%%\/SZ%%/g, '</span>');
     return text;
 }
 
@@ -3832,6 +3834,13 @@ function processLatexCommands(text) {
         (m, color, content) => `%%TCLR:${color}%%${content}%%/TCLR%%`);
     result = result.replace(/\\colorbox\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}/g,
         (m, color, content) => `%%CBOX:${color}%%${content}%%/CBOX%%`);
+
+    // Font size commands: {\Large text}, {\large text}, etc.
+    const sizeMap = { tiny: '0.6em', scriptsize: '0.7em', footnotesize: '0.8em', small: '0.9em',
+        large: '1.15em', Large: '1.3em', LARGE: '1.5em', huge: '1.8em', Huge: '2em' };
+    const sizeNames = Object.keys(sizeMap).join('|');
+    result = result.replace(new RegExp(`\\{\\\\(${sizeNames})\\s+((?:[^{}]|\\{[^{}]*\\})*)\\}`, 'g'),
+        (m, size, content) => `%%SZ:${sizeMap[size] || '1em'}%%${content}%%/SZ%%`);
 
     // Theorem-like environments (with optional [title])
     result = result.replace(/\\begin\{(theorem|lemma|proposition|corollary|definition|remark|example|assumption|conjecture|axiom|notation|exercise|problem|solution|claim|fact|observation)\}\[([^\]]*)\]\s*/g,
@@ -5811,6 +5820,11 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
             (m, color, content) => `%%TCLR:${color}%%${content}%%/TCLR%%`);
         pre = pre.replace(/\\colorbox\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}/g,
             (m, color, content) => `%%CBOX:${color}%%${content}%%/CBOX%%`);
+        const sizeMap = { tiny: '0.6em', scriptsize: '0.7em', footnotesize: '0.8em', small: '0.9em',
+            large: '1.15em', Large: '1.3em', LARGE: '1.5em', huge: '1.8em', Huge: '2em' };
+        const sizeNames = Object.keys(sizeMap).join('|');
+        pre = pre.replace(new RegExp(`\\{\\\\(${sizeNames})\\s+((?:[^{}]|\\{[^{}]*\\})*)\\}`, 'g'),
+            (m, size, content) => `%%SZ:${sizeMap[size] || '1em'}%%${content}%%/SZ%%`);
         tmpMath.forEach((b, i) => { pre = pre.replace(`\x00M${i}\x00`, () => b); });
         text = pre;
     }
@@ -5829,7 +5843,7 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
 
     // Build HTML with editable spans for each segment
     let html = '';
-    const colorMarkerRe = /(%%TCLR:[^%]*%%|%%\/TCLR%%|%%CBOX:[^%]*%%|%%\/CBOX%%)/g;
+    const colorMarkerRe = /(%%TCLR:[^%]*%%|%%\/TCLR%%|%%CBOX:[^%]*%%|%%\/CBOX%%|%%SZ:[^%]*%%|%%\/SZ%%)/g;
     segments.forEach((seg, idx) => {
         if (seg.type === 'formula') {
             // Formula segment - render with KaTeX markers
