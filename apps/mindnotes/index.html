@@ -3845,7 +3845,7 @@ function processLatexCommands(text) {
 
     // Nested lists: single pass with depth tracking for proper indentation
     let listDepth = 0;
-    result = result.replace(/\\begin\{(itemize|enumerate|description)\}(\[[^\]]*\])?\s*|\\end\{(itemize|enumerate|description)\}\s*|\n*[ \t]*\\item(?:\[([^\]]*)\])?\s*/g,
+    result = result.replace(/\n*\\begin\{(itemize|enumerate|description)\}(\[[^\]]*\])?\s*|\\end\{(itemize|enumerate|description)\}\s*|\n*[ \t]*\\item(?:\[([^\]]*)\])?\s*/g,
         (match, beginEnv, beginOpt, endEnv, itemLabel) => {
             if (beginEnv) {
                 listDepth++;
