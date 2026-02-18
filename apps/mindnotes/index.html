@@ -3843,9 +3843,24 @@ function processLatexCommands(text) {
     result = result.replace(/\\begin\{proof\}\s*/g, '\n*Proof.* ');
     result = result.replace(/\\end\{proof\}\s*/g, ' ◻\n');
 
-    // Environments - remove begin/end markers
-    result = result.replace(/\\begin\{(itemize|enumerate|description)\}(\[[^\]]*\])?\s*/g, '\n');
-    result = result.replace(/\\end\{(itemize|enumerate|description)\}\s*/g, '\n');
+    // Nested lists: single pass with depth tracking for proper indentation
+    let listDepth = 0;
+    result = result.replace(/\\begin\{(itemize|enumerate|description)\}(\[[^\]]*\])?\s*|\\end\{(itemize|enumerate|description)\}\s*|\n*[ \t]*\\item(?:\[([^\]]*)\])?\s*/g,
+        (match, beginEnv, beginOpt, endEnv, itemLabel) => {
+            if (beginEnv) {
+                listDepth++;
+                return '';
+            } else if (endEnv) {
+                listDepth--;
+                return listDepth === 0 ? '\n' : '';
+            } else {
+                const indent = '  '.repeat(Math.max(0, listDepth - 1));
+                if (itemLabel !== undefined) {
+                    return `\n${indent}- **${itemLabel}** `;
+                }
+                return `\n${indent}- `;
+            }
+        });
     result = result.replace(/\\begin\{(center|quote|quotation|abstract|document|figure|table|verbatim|flushleft|flushright|minipage|multicols|wrapfigure)\}(\{[^}]*\})*\s*/g, '\n');
     result = result.replace(/\\end\{(center|quote|quotation|abstract|document|figure|table|verbatim|flushleft|flushright|minipage|multicols|wrapfigure)\}\s*/g, '\n');
 
@@ -3887,9 +3902,7 @@ function processLatexCommands(text) {
     result = result.replace(/\\author\{([^}]*)\}/g, '\n*$1*\n');
     result = result.replace(/\\date\{([^}]*)\}/g, '\n$1\n');
 
-    // List items (consume preceding newlines to avoid double <br> between items)
-    result = result.replace(/\n*[ \t]*\\item\[([^\]]*)\]\s*/g, '\n- **$1** ');
-    result = result.replace(/\n*[ \t]*\\item\s*/g, '\n- ');
+    // (List items handled above in the nested list pass)
 
     // Sections
     result = result.replace(/\\chapter\*?\{([^}]*)\}/g, '\n# $1\n');
@@ -3992,14 +4005,17 @@ function formatContent(text) {
         .replace(/\*([^*]+?)\*/g, '<em>$1</em>')
         .replace(/`([^`]+?)`/g, '<code>$1</code>')
         .replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>')
-        .replace(/^- (.+)$/gm, '<li>$1</li>')
+        .replace(/^( *)- (.+)$/gm, (m, sp, content) => {
+            const lvl = Math.floor(sp.length / 2);
+            return lvl > 0 ? `<li style="margin-left:${lvl * 24}px">${content}</li>` : `<li>${content}</li>`;
+        })
         .replace(/^(\d+)\. (.+)$/gm, '<li>$2</li>')
         .replace(/^### (.+)$/gm, '<h4>$1</h4>')
         .replace(/^## (.+)$/gm, '<h3>$1</h3>')
         .replace(/^# (.+)$/gm, '<h2>$1</h2>')
         .replace(/^---$/gm, '<hr>')
         .replace(/\n/g, '<br>')
-        .replace(/<\/li><br><li>/g, '</li><li>');
+        .replace(/<\/li><br><li/g, '</li><li');
 
     // Restore all markers → HTML elements
     processed = restoreColorMarkers(processed);
@@ -5830,12 +5846,15 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
                 .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*([^*]+?)\*/g, '<em>$1</em>')
                 .replace(/`([^`]+?)`/g, '<code>$1</code>')
-                .replace(/^- (.+)$/gm, '<li>$1</li>')
+                .replace(/^( *)- (.+)$/gm, (m, sp, content) => {
+                    const lvl = Math.floor(sp.length / 2);
+                    return lvl > 0 ? `<li style="margin-left:${lvl * 24}px">${content}</li>` : `<li>${content}</li>`;
+                })
                 .replace(/^### (.+)$/gm, '<h4>$1</h4>')
                 .replace(/^## (.+)$/gm, '<h3>$1</h3>')
                 .replace(/^# (.+)$/gm, '<h2>$1</h2>')
                 .replace(/\n/g, '<br>')
-                .replace(/<\/li><br><li>/g, '</li><li>');
+                .replace(/<\/li><br><li/g, '</li><li');
 
             // Emit color markers OUTSIDE detail-text spans so the resulting
             // <span style="color:..."> properly wraps across multiple segments
