@@ -679,7 +679,7 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 .node-preview .katex-display { margin: 4px 0; display: inline; }
 .node-preview p { margin: 0; display: inline; }
 .node-preview br { content: " "; }
-.node-preview strong { font-weight: 700; color: var(--text); }
+.node-preview strong { font-weight: 700; color: inherit; }
 .node-preview em { font-style: italic; }
 .node-preview code {
     background: rgba(108, 92, 231, 0.15);
@@ -1242,7 +1242,7 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
     font-style: italic;
 }
 
-.live-preview strong { color: var(--text); }
+.live-preview strong { color: inherit; }
 
 .live-preview .katex-display {
     margin: 20px 0;
@@ -5780,6 +5780,23 @@ function startFullContentEdit() {
 function formatContentWithEditableFormulas(text, applyLatexCommands) {
     if (!text) return '';
 
+    // Pre-process color commands BEFORE segment parsing.
+    // \textcolor{red}{text $math$ text} spans across math blocks, so if we parse
+    // segments first the command gets split and processLatexCommands can't match it.
+    // Convert to markers here; markers don't contain $ so they survive segment parsing.
+    if (applyLatexCommands) {
+        const tmpMath = [];
+        let pre = text;
+        pre = pre.replace(/\$\$([\s\S]*?)\$\$/g, m => { tmpMath.push(m); return `\x00M${tmpMath.length-1}\x00`; });
+        pre = pre.replace(/\$([^\$\n]+?)\$/g, m => { tmpMath.push(m); return `\x00M${tmpMath.length-1}\x00`; });
+        pre = pre.replace(/\\textcolor\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}/g,
+            (m, color, content) => `%%TCLR:${color}%%${content}%%/TCLR%%`);
+        pre = pre.replace(/\\colorbox\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}/g,
+            (m, color, content) => `%%CBOX:${color}%%${content}%%/CBOX%%`);
+        tmpMath.forEach((b, i) => { pre = pre.replace(`\x00M${i}\x00`, () => b); });
+        text = pre;
+    }
+
     // Parse content into segments: text and formulas (math is protected)
     const segments = parseContentSegments(text);
 
@@ -5794,6 +5811,7 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
 
     // Build HTML with editable spans for each segment
     let html = '';
+    const colorMarkerRe = /(%%TCLR:[^%]*%%|%%\/TCLR%%|%%CBOX:[^%]*%%|%%\/CBOX%%)/g;
     segments.forEach((seg, idx) => {
         if (seg.type === 'formula') {
             // Formula segment - render with KaTeX markers
@@ -5816,8 +5834,17 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
                 .replace(/^# (.+)$/gm, '<h2>$1</h2>')
                 .replace(/\n/g, '<br>');
 
+            // Emit color markers OUTSIDE detail-text spans so the resulting
+            // <span style="color:..."> properly wraps across multiple segments
             if (seg.text.trim()) {
-                html += `<span class="detail-text" data-seg-idx="${idx}">${formatted}</span>`;
+                const parts = formatted.split(colorMarkerRe);
+                parts.forEach(part => {
+                    if (part && part.match(colorMarkerRe)) {
+                        html += part; // Marker emitted outside span
+                    } else if (part) {
+                        html += `<span class="detail-text" data-seg-idx="${idx}">${part}</span>`;
+                    }
+                });
             } else {
                 html += formatted; // Empty/whitespace - don't wrap
             }
