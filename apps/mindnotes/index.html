@@ -4007,7 +4007,7 @@ function formatContent(text) {
         .replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>')
         .replace(/^( *)- (.+)$/gm, (m, sp, content) => {
             const lvl = Math.floor(sp.length / 2);
-            return lvl > 0 ? `<li style="margin-left:${lvl * 24}px">${content}</li>` : `<li>${content}</li>`;
+            return lvl > 0 ? `<li style="margin-left:${(lvl + 1) * 24}px">${content}</li>` : `<li>${content}</li>`;
         })
         .replace(/^(\d+)\. (.+)$/gm, '<li>$2</li>')
         .replace(/^### (.+)$/gm, '<h4>$1</h4>')
@@ -5848,7 +5848,7 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
                 .replace(/`([^`]+?)`/g, '<code>$1</code>')
                 .replace(/^( *)- (.+)$/gm, (m, sp, content) => {
                     const lvl = Math.floor(sp.length / 2);
-                    return lvl > 0 ? `<li style="margin-left:${lvl * 24}px">${content}</li>` : `<li>${content}</li>`;
+                    return lvl > 0 ? `<li style="margin-left:${(lvl + 1) * 24}px">${content}</li>` : `<li>${content}</li>`;
                 })
                 .replace(/^### (.+)$/gm, '<h4>$1</h4>')
                 .replace(/^## (.+)$/gm, '<h3>$1</h3>')
