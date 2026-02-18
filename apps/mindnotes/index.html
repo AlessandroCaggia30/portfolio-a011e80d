@@ -2137,6 +2137,52 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
     color: var(--text);
 }
 
+.advanced-macro-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 6px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    z-index: 500;
+    width: 280px;
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+.advanced-macro-dropdown.open { display: block; }
+.macro-section { margin-bottom: 10px; }
+.macro-section:last-child { margin-bottom: 0; }
+.macro-section-title {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text2);
+    padding: 4px 6px;
+    margin-bottom: 4px;
+}
+.macro-section button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 7px 10px;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-size: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.1s;
+}
+.macro-section button:hover {
+    background: rgba(108, 92, 231, 0.2);
+    color: var(--accent2);
+}
+
 .editor-main {
     display: flex;
     flex: 1;
@@ -2798,14 +2844,75 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
                     </div>
                     <div class="toolbar-sep"></div>
                     <div class="toolbar-group">
-                        <button type="button" class="toolbar-btn" onclick="insertFormat('\n- ','')" title="List">•</button>
+                        <button type="button" class="toolbar-btn" onclick="insertFormat('\n- ','')" title="Bullet List">•</button>
+                        <button type="button" class="toolbar-btn" onclick="insertFormat('\n1. ','')" title="Numbered List">1.</button>
                         <button type="button" class="toolbar-btn" onclick="insertFormat('\n> ','')" title="Quote">"</button>
+                        <button type="button" class="toolbar-btn" onclick="insertFormat('\n---\n','')" title="Horizontal Rule">―</button>
+                    </div>
+                    <div class="toolbar-sep"></div>
+                    <div class="toolbar-group">
+                        <button type="button" class="toolbar-btn" onclick="insertFormat('\n# ','')" title="Heading 1">H1</button>
+                        <button type="button" class="toolbar-btn" onclick="insertFormat('\n## ','')" title="Heading 2">H2</button>
+                        <button type="button" class="toolbar-btn" onclick="insertFormat('\n### ','')" title="Heading 3">H3</button>
                     </div>
                     <div class="toolbar-sep"></div>
                     <div class="toolbar-group">
                         <button type="button" class="toolbar-btn" onclick="insertTemplate('frac')" title="Fraction">½</button>
                         <button type="button" class="toolbar-btn" onclick="insertTemplate('sqrt')" title="Square root">√</button>
                         <button type="button" class="toolbar-btn" onclick="insertTemplate('int')" title="Integral">∫</button>
+                    </div>
+                    <div class="toolbar-sep"></div>
+                    <div class="toolbar-group" style="position:relative;">
+                        <button type="button" class="toolbar-btn" onclick="toggleAdvancedMacro()" title="Advanced Macro">𝑓𝑥</button>
+                        <div class="advanced-macro-dropdown" id="advancedMacroDropdown">
+                            <div class="macro-section">
+                                <div class="macro-section-title">Calculus</div>
+                                <button onclick="insertAdvancedMacro('sum')">∑ Sum</button>
+                                <button onclick="insertAdvancedMacro('prod')">∏ Product</button>
+                                <button onclick="insertAdvancedMacro('limit')">lim Limit</button>
+                                <button onclick="insertAdvancedMacro('deriv')">d/dx Derivative</button>
+                                <button onclick="insertAdvancedMacro('partial')">∂ Partial</button>
+                                <button onclick="insertAdvancedMacro('doubleint')">∬ Double Int</button>
+                                <button onclick="insertAdvancedMacro('taylor')">Taylor Series</button>
+                            </div>
+                            <div class="macro-section">
+                                <div class="macro-section-title">Linear Algebra</div>
+                                <button onclick="insertAdvancedMacro('matrix2')">2×2 Matrix</button>
+                                <button onclick="insertAdvancedMacro('matrix3')">3×3 Matrix</button>
+                                <button onclick="insertAdvancedMacro('det')">|A| Determinant</button>
+                                <button onclick="insertAdvancedMacro('cases')">{ Cases</button>
+                            </div>
+                            <div class="macro-section">
+                                <div class="macro-section-title">Probability &amp; Stats</div>
+                                <button onclick="insertAdvancedMacro('expectation')">E[X]</button>
+                                <button onclick="insertAdvancedMacro('variance')">Var(X)</button>
+                                <button onclick="insertAdvancedMacro('prob')">P(A|B)</button>
+                                <button onclick="insertAdvancedMacro('normal')">N(μ,σ²)</button>
+                                <button onclick="insertAdvancedMacro('binom')">C(n,k)</button>
+                            </div>
+                            <div class="macro-section">
+                                <div class="macro-section-title">Economics</div>
+                                <button onclick="insertAdvancedMacro('lagrangian')">L Lagrangian</button>
+                                <button onclick="insertAdvancedMacro('solow')">Solow Model</button>
+                                <button onclick="insertAdvancedMacro('euler')">Euler Equation</button>
+                                <button onclick="insertAdvancedMacro('islm')">IS-LM</button>
+                                <button onclick="insertAdvancedMacro('phillips')">Phillips Curve</button>
+                                <button onclick="insertAdvancedMacro('bellman')">Bellman Eq</button>
+                                <button onclick="insertAdvancedMacro('elasticity')">Elasticity</button>
+                                <button onclick="insertAdvancedMacro('cobb_douglas')">Cobb-Douglas</button>
+                                <button onclick="insertAdvancedMacro('budget')">Budget Constraint</button>
+                                <button onclick="insertAdvancedMacro('fisher')">Fisher Equation</button>
+                            </div>
+                            <div class="macro-section">
+                                <div class="macro-section-title">Environments</div>
+                                <button onclick="insertAdvancedMacro('align')">= Align</button>
+                                <button onclick="insertAdvancedMacro('system')">System</button>
+                                <button onclick="insertAdvancedMacro('vector')">Vector</button>
+                                <button onclick="insertAdvancedMacro('underbrace')">⏟ Brace</button>
+                                <button onclick="insertAdvancedMacro('theorem')">Theorem</button>
+                                <button onclick="insertAdvancedMacro('proof')">Proof</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="toolbar-sep"></div>
                     <div class="toolbar-group">
@@ -3024,7 +3131,8 @@ const State = {
 
 const SUBJECTS = [
     { id: 'adv-math', name: 'Advanced Mathematics', icon: '\u2211', dataKey: 'mindnotes_advmath', seedFile: 'data.json' },
-    { id: 'adv-micro', name: 'Advanced Microeconometrics', icon: '\uD83D\uDCCA', dataKey: 'mindnotes_advmicro', seedFile: null }
+    { id: 'adv-micro', name: 'Advanced Microeconometrics', icon: '\uD83D\uDCCA', dataKey: 'mindnotes_advmicro', seedFile: null },
+    { id: 'adv-macro', name: 'Advanced Macroeconomics', icon: '\uD83C\uDF10', dataKey: 'mindnotes_advmacro', seedFile: null }
 ];
 
 // ==================== FSRS SPACED REPETITION ALGORITHM ====================
@@ -3725,40 +3833,91 @@ function processLatexCommands(text) {
     result = result.replace(/\\colorbox\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}/g,
         (m, color, content) => `%%CBOX:${color}%%${content}%%/CBOX%%`);
 
-    // Theorem-like environments
-    result = result.replace(/\\begin\{(theorem|lemma|proposition|corollary|definition|remark|example|assumption)\}\s*/g,
+    // Theorem-like environments (with optional [title])
+    result = result.replace(/\\begin\{(theorem|lemma|proposition|corollary|definition|remark|example|assumption|conjecture|axiom|notation|exercise|problem|solution|claim|fact|observation)\}\[([^\]]*)\]\s*/g,
+        (m, env, title) => `\n**${env.charAt(0).toUpperCase() + env.slice(1)} (${title}).** `);
+    result = result.replace(/\\begin\{(theorem|lemma|proposition|corollary|definition|remark|example|assumption|conjecture|axiom|notation|exercise|problem|solution|claim|fact|observation)\}\s*/g,
         (m, env) => `\n**${env.charAt(0).toUpperCase() + env.slice(1)}.** `);
-    result = result.replace(/\\end\{(theorem|lemma|proposition|corollary|definition|remark|example|assumption)\}\s*/g, '\n');
+    result = result.replace(/\\end\{(theorem|lemma|proposition|corollary|definition|remark|example|assumption|conjecture|axiom|notation|exercise|problem|solution|claim|fact|observation)\}\s*/g, '\n');
+    result = result.replace(/\\begin\{proof\}\[([^\]]*)\]\s*/g, '\n*Proof ($1).* ');
     result = result.replace(/\\begin\{proof\}\s*/g, '\n*Proof.* ');
     result = result.replace(/\\end\{proof\}\s*/g, ' ◻\n');
 
     // Environments - remove begin/end markers
-    result = result.replace(/\\begin\{(itemize|enumerate|description)\}\s*/g, '\n');
+    result = result.replace(/\\begin\{(itemize|enumerate|description)\}(\[[^\]]*\])?\s*/g, '\n');
     result = result.replace(/\\end\{(itemize|enumerate|description)\}\s*/g, '\n');
-    result = result.replace(/\\begin\{(center|quote|quotation|abstract|document|figure|table|verbatim)\}\s*/g, '\n');
-    result = result.replace(/\\end\{(center|quote|quotation|abstract|document|figure|table|verbatim)\}\s*/g, '\n');
+    result = result.replace(/\\begin\{(center|quote|quotation|abstract|document|figure|table|verbatim|flushleft|flushright|minipage|multicols|wrapfigure)\}(\{[^}]*\})*\s*/g, '\n');
+    result = result.replace(/\\end\{(center|quote|quotation|abstract|document|figure|table|verbatim|flushleft|flushright|minipage|multicols|wrapfigure)\}\s*/g, '\n');
+
+    // Tabular
+    result = result.replace(/\\begin\{tabular\}\{[^}]*\}\s*/g, '\n');
+    result = result.replace(/\\end\{tabular\}\s*/g, '\n');
+    result = result.replace(/\\hline\s*/g, '');
+    result = result.replace(/\\toprule\s*/g, '');
+    result = result.replace(/\\midrule\s*/g, '');
+    result = result.replace(/\\bottomrule\s*/g, '');
+    result = result.replace(/\\cline\{[^}]*\}\s*/g, '');
+    result = result.replace(/\\multicolumn\{[^}]*\}\{[^}]*\}\{([^}]*)\}/g, '$1');
+
+    // Algorithm/pseudocode
+    result = result.replace(/\\begin\{(algorithm|algorithmic|lstlisting|minted)\}(\[[^\]]*\])?\s*/g, '\n```\n');
+    result = result.replace(/\\end\{(algorithm|algorithmic|lstlisting|minted)\}\s*/g, '\n```\n');
+    result = result.replace(/\\caption\{([^}]*)\}/g, '\n**$1**\n');
+
+    // TikZ → graceful fallback
+    result = result.replace(/\\begin\{tikzpicture\}[\s\S]*?\\end\{tikzpicture\}/g, '\n[TikZ diagram]\n');
+
+    // Equation environments → $$ for KaTeX
+    result = result.replace(/\\begin\{(equation|displaymath)\}\*?\s*/g, '\n$$');
+    result = result.replace(/\\end\{(equation|displaymath)\}\*?\s*/g, '$$\n');
+
+    // Preamble commands (strip)
+    result = result.replace(/\\documentclass(\[[^\]]*\])?\{[^}]*\}\s*/g, '');
+    result = result.replace(/\\usepackage(\[[^\]]*\])?\{[^}]*\}\s*/g, '');
+    result = result.replace(/\\newcommand\{[^}]*\}(\[[^\]]*\])?\{[^}]*\}\s*/g, '');
+    result = result.replace(/\\renewcommand\{[^}]*\}(\[[^\]]*\])?\{[^}]*\}\s*/g, '');
+    result = result.replace(/\\DeclareMathOperator\*?\{[^}]*\}\{[^}]*\}\s*/g, '');
+    result = result.replace(/\\theoremstyle\{[^}]*\}\s*/g, '');
+    result = result.replace(/\\newtheorem\{[^}]*\}(\[[^\]]*\])?\{[^}]*\}(\[[^\]]*\])?\s*/g, '');
+    result = result.replace(/\\setlength\{[^}]*\}\{[^}]*\}\s*/g, '');
+    result = result.replace(/\\pagestyle\{[^}]*\}\s*/g, '');
+
+    // Title/author/date
+    result = result.replace(/\\title\{([^}]*)\}/g, '\n# $1\n');
+    result = result.replace(/\\author\{([^}]*)\}/g, '\n*$1*\n');
+    result = result.replace(/\\date\{([^}]*)\}/g, '\n$1\n');
 
     // List items
-    result = result.replace(/[ \t]*\\item\[([^\]]*)\]\s*/g, '\n- $1 ');
+    result = result.replace(/[ \t]*\\item\[([^\]]*)\]\s*/g, '\n- **$1** ');
     result = result.replace(/[ \t]*\\item\s*/g, '\n- ');
 
     // Sections
+    result = result.replace(/\\chapter\*?\{([^}]*)\}/g, '\n# $1\n');
     result = result.replace(/\\section\*?\{([^}]*)\}/g, '\n# $1\n');
     result = result.replace(/\\subsection\*?\{([^}]*)\}/g, '\n## $1\n');
     result = result.replace(/\\subsubsection\*?\{([^}]*)\}/g, '\n### $1\n');
     result = result.replace(/\\paragraph\*?\{([^}]*)\}/g, '\n**$1** ');
+    result = result.replace(/\\subparagraph\*?\{([^}]*)\}/g, '\n**$1** ');
 
-    // Text formatting → markers (survive escapeHtml and segment splitting)
+    // Text formatting → markers
     result = result.replace(/\\textbf\{([^}]*)\}/g, '%%B%%$1%%/B%%');
     result = result.replace(/\\textit\{([^}]*)\}/g, '%%I%%$1%%/I%%');
     result = result.replace(/\\emph\{([^}]*)\}/g, '%%I%%$1%%/I%%');
     result = result.replace(/\\texttt\{([^}]*)\}/g, '%%TT%%$1%%/TT%%');
     result = result.replace(/\\underline\{([^}]*)\}/g, '%%U%%$1%%/U%%');
     result = result.replace(/\\textsc\{([^}]*)\}/g, '$1');
+    result = result.replace(/\\textrm\{([^}]*)\}/g, '$1');
+    result = result.replace(/\\mbox\{([^}]*)\}/g, '$1');
+    result = result.replace(/\\fbox\{([^}]*)\}/g, '[$1]');
 
     // URLs and links
     result = result.replace(/\\href\{([^}]*)\}\{([^}]*)\}/g, '$2 ($1)');
     result = result.replace(/\\url\{([^}]*)\}/g, '$1');
+
+    // Cross-references
+    result = result.replace(/\\eqref\{([^}]*)\}/g, '([$1])');
+    result = result.replace(/\\autoref\{([^}]*)\}/g, '[$1]');
+    result = result.replace(/\\cref\{([^}]*)\}/g, '[$1]');
 
     // Line breaks
     result = result.replace(/\\\\/g, '\n');
@@ -3766,22 +3925,30 @@ function processLatexCommands(text) {
     // Spacing and layout commands
     result = result.replace(/\\[hv]space\*?\{[^}]*\}/g, ' ');
     result = result.replace(/\\noindent\s*/g, '');
+    result = result.replace(/\\indent\s*/g, '');
     result = result.replace(/\\par\b\s*/g, '\n\n');
     result = result.replace(/\\newline\s*/g, '\n');
     result = result.replace(/\\newpage\s*/g, '\n');
     result = result.replace(/\\clearpage\s*/g, '\n');
-    result = result.replace(/\\bigskip\s*/g, '\n');
+    result = result.replace(/\\bigskip\s*/g, '\n\n');
     result = result.replace(/\\medskip\s*/g, '\n');
     result = result.replace(/\\smallskip\s*/g, '\n');
+    result = result.replace(/\\phantom\{[^}]*\}/g, ' ');
+    result = result.replace(/~\s*/g, ' ');
 
     // Misc commands
     result = result.replace(/\\centering\s*/g, '');
     result = result.replace(/\\maketitle\s*/g, '');
     result = result.replace(/\\tableofcontents\s*/g, '');
+    result = result.replace(/\\appendix\s*/g, '\n# Appendix\n');
     result = result.replace(/\\footnote\{([^}]*)\}/g, ' ($1)');
     result = result.replace(/\\label\{[^}]*\}/g, '');
+    result = result.replace(/\\tag\{([^}]*)\}/g, '');
     result = result.replace(/\\ref\{([^}]*)\}/g, '[$1]');
-    result = result.replace(/\\cite\{([^}]*)\}/g, '[$1]');
+    result = result.replace(/\\cite(\[[^\]]*\])?\{([^}]*)\}/g, '[$2]');
+    result = result.replace(/\\nocite\{[^}]*\}/g, '');
+    result = result.replace(/\\index\{[^}]*\}/g, '');
+    result = result.replace(/\\protect\s*/g, '');
 
     // Clean up multiple blank lines
     result = result.replace(/\n{3,}/g, '\n\n');
@@ -3830,6 +3997,7 @@ function formatContent(text) {
         .replace(/^### (.+)$/gm, '<h4>$1</h4>')
         .replace(/^## (.+)$/gm, '<h3>$1</h3>')
         .replace(/^# (.+)$/gm, '<h2>$1</h2>')
+        .replace(/^---$/gm, '<hr>')
         .replace(/\n/g, '<br>');
 
     // Restore all markers → HTML elements
@@ -3852,35 +4020,81 @@ function renderMath(element) {
                 { left: '\\(', right: '\\)', display: false }
             ],
             throwOnError: false,
+            strict: false,
+            trust: true,
             macros: {
-                "\\R": "\\mathbb{R}",
-                "\\N": "\\mathbb{N}",
-                "\\Z": "\\mathbb{Z}",
-                "\\Q": "\\mathbb{Q}",
-                "\\C": "\\mathbb{C}",
-                "\\F": "\\mathbb{F}",
-                "\\E": "\\mathbb{E}",
-                "\\P": "\\mathbb{P}",
-                "\\1": "\\mathbb{1}",
-                "\\eps": "\\varepsilon",
-                "\\Var": "\\operatorname{Var}",
-                "\\Cov": "\\operatorname{Cov}",
-                "\\Corr": "\\operatorname{Corr}",
-                "\\rank": "\\operatorname{rank}",
-                "\\tr": "\\operatorname{tr}",
-                "\\diag": "\\operatorname{diag}",
-                "\\supp": "\\operatorname{supp}",
-                "\\sgn": "\\operatorname{sgn}",
-                "\\argmax": "\\operatorname*{arg\\,max}",
-                "\\argmin": "\\operatorname*{arg\\,min}",
+                // Number sets
+                "\\R": "\\mathbb{R}", "\\N": "\\mathbb{N}", "\\Z": "\\mathbb{Z}",
+                "\\Q": "\\mathbb{Q}", "\\C": "\\mathbb{C}", "\\F": "\\mathbb{F}",
+                "\\E": "\\mathbb{E}", "\\P": "\\mathbb{P}", "\\1": "\\mathbb{1}",
+                "\\ind": "\\mathbb{1}", "\\Rn": "\\mathbb{R}^{#1}",
+                // Greek shortcuts
+                "\\eps": "\\varepsilon", "\\vphi": "\\varphi", "\\vtheta": "\\vartheta",
+                // Operators
+                "\\Var": "\\operatorname{Var}", "\\Cov": "\\operatorname{Cov}",
+                "\\Corr": "\\operatorname{Corr}", "\\MSE": "\\operatorname{MSE}",
+                "\\Bias": "\\operatorname{Bias}", "\\rank": "\\operatorname{rank}",
+                "\\tr": "\\operatorname{tr}", "\\diag": "\\operatorname{diag}",
+                "\\supp": "\\operatorname{supp}", "\\sgn": "\\operatorname{sgn}",
+                "\\im": "\\operatorname{im}", "\\ker": "\\operatorname{ker}",
+                "\\dom": "\\operatorname{dom}", "\\ran": "\\operatorname{ran}",
+                "\\span": "\\operatorname{span}", "\\proj": "\\operatorname{proj}",
+                "\\grad": "\\operatorname{grad}", "\\curl": "\\operatorname{curl}",
+                "\\divg": "\\operatorname{div}", "\\adj": "\\operatorname{adj}",
+                "\\lcm": "\\operatorname{lcm}", "\\ord": "\\operatorname{ord}",
+                "\\Aut": "\\operatorname{Aut}", "\\Hom": "\\operatorname{Hom}",
+                "\\End": "\\operatorname{End}", "\\Id": "\\operatorname{Id}",
+                "\\GL": "\\operatorname{GL}", "\\SL": "\\operatorname{SL}",
+                // Starred operators
+                "\\argmax": "\\operatorname*{arg\\,max}", "\\argmin": "\\operatorname*{arg\\,min}",
                 "\\plim": "\\operatorname*{plim}",
-                "\\d": "\\mathrm{d}",
-                "\\norm": "\\left\\|#1\\right\\|",
-                "\\abs": "\\left|#1\\right|",
+                "\\esssup": "\\operatorname*{ess\\,sup}", "\\essinf": "\\operatorname*{ess\\,inf}",
+                // Calculus
+                "\\d": "\\mathrm{d}", "\\dd": "\\,\\mathrm{d}",
+                "\\dv": "\\frac{\\mathrm{d} #1}{\\mathrm{d} #2}",
+                "\\pdv": "\\frac{\\partial #1}{\\partial #2}",
+                // Delimiters
+                "\\norm": "\\left\\|#1\\right\\|", "\\abs": "\\left|#1\\right|",
                 "\\inner": "\\langle #1, #2 \\rangle",
                 "\\floor": "\\left\\lfloor #1 \\right\\rfloor",
                 "\\ceil": "\\left\\lceil #1 \\right\\rceil",
-                "\\ind": "\\mathbb{1}"
+                "\\set": "\\left\\{#1\\right\\}", "\\paren": "\\left(#1\\right)",
+                "\\brak": "\\left[#1\\right]", "\\ang": "\\left\\langle #1 \\right\\rangle",
+                // Probability & Statistics
+                "\\Prob": "\\mathbb{P}\\left(#1\\right)",
+                "\\Exp": "\\mathbb{E}\\left[#1\\right]",
+                "\\given": "\\,\\middle|\\,",
+                "\\iid": "\\overset{\\text{iid}}{\\sim}",
+                "\\dto": "\\overset{d}{\\to}", "\\pto": "\\overset{p}{\\to}",
+                "\\asto": "\\overset{a.s.}{\\to}",
+                "\\Normal": "\\mathcal{N}", "\\Binomial": "\\operatorname{Bin}",
+                "\\Poisson": "\\operatorname{Pois}", "\\Uniform": "\\operatorname{Unif}",
+                // Economics
+                "\\Lagr": "\\mathcal{L}", "\\Hamilt": "\\mathcal{H}",
+                "\\Bellman": "\\mathcal{V}", "\\elast": "\\varepsilon",
+                "\\profit": "\\Pi",
+                "\\mc": "\\mathrm{MC}", "\\mr": "\\mathrm{MR}",
+                "\\ac": "\\mathrm{AC}", "\\avc": "\\mathrm{AVC}",
+                "\\gdp": "\\mathrm{GDP}", "\\gnp": "\\mathrm{GNP}",
+                "\\cpi": "\\mathrm{CPI}", "\\tfp": "\\mathrm{TFP}",
+                // Arrows & relations
+                "\\into": "\\hookrightarrow", "\\onto": "\\twoheadrightarrow",
+                "\\iso": "\\cong", "\\defeq": "\\coloneqq",
+                // Text shortcuts
+                "\\st": "\\text{ s.t. }", "\\where": "\\text{ where }",
+                "\\with": "\\text{ with }", "\\and": "\\text{ and }",
+                "\\orr": "\\text{ or }", "\\iif": "\\text{ if }",
+                "\\ow": "\\text{ otherwise}",
+                // Decorations
+                "\\ol": "\\overline{#1}", "\\ul": "\\underline{#1}",
+                "\\wh": "\\widehat{#1}", "\\wt": "\\widetilde{#1}",
+                "\\ob": "\\overbrace{#1}", "\\ub": "\\underbrace{#1}",
+                // Vectors & matrices
+                "\\vv": "\\mathbf{#1}", "\\mat": "\\mathbf{#1}",
+                "\\T": "^{\\mathsf{T}}", "\\inv": "^{-1}",
+                // Misc
+                "\\qed": "\\blacksquare",
+                "\\Re": "\\operatorname{Re}", "\\Im": "\\operatorname{Im}"
             }
         });
     }
@@ -4797,6 +5011,65 @@ function insertTemplate(type) {
     };
     insertFormat('$' + templates[type], '$');
 }
+
+function toggleAdvancedMacro() {
+    $('advancedMacroDropdown').classList.toggle('open');
+}
+
+function insertAdvancedMacro(type) {
+    const macros = {
+        // Calculus
+        sum: '\\sum_{i=1}^{n} a_i',
+        prod: '\\prod_{i=1}^{n} a_i',
+        limit: '\\lim_{x \\to \\infty} f(x)',
+        deriv: '\\frac{d}{dx} f(x)',
+        partial: '\\frac{\\partial f}{\\partial x}',
+        doubleint: '\\iint_{D} f(x,y) \\, dA',
+        taylor: 'f(x) = \\sum_{n=0}^{\\infty} \\frac{f^{(n)}(a)}{n!}(x-a)^n',
+        // Linear Algebra
+        matrix2: '\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}',
+        matrix3: '\\begin{pmatrix} a & b & c \\\\ d & e & f \\\\ g & h & i \\end{pmatrix}',
+        det: '\\det\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}',
+        cases: '\\begin{cases} f(x) & \\text{if } x \\geq 0 \\\\ g(x) & \\text{if } x < 0 \\end{cases}',
+        // Probability & Stats
+        expectation: '\\mathbb{E}[X] = \\sum_{x} x \\, P(X=x)',
+        variance: '\\text{Var}(X) = \\mathbb{E}[X^2] - (\\mathbb{E}[X])^2',
+        prob: 'P(A \\mid B) = \\frac{P(B \\mid A) P(A)}{P(B)}',
+        normal: 'X \\sim \\mathcal{N}(\\mu, \\sigma^2)',
+        binom: '\\binom{n}{k} = \\frac{n!}{k!(n-k)!}',
+        // Economics
+        lagrangian: '\\mathcal{L} = U(x_1, x_2) - \\lambda (p_1 x_1 + p_2 x_2 - I)',
+        solow: '\\dot{k} = s f(k) - (n + g + \\delta) k',
+        euler: 'u\'(c_t) = \\beta (1 + r_{t+1}) u\'(c_{t+1})',
+        islm: '\\begin{cases} Y = C(Y-T) + I(r) + G & \\text{(IS)} \\\\ \\frac{M}{P} = L(r, Y) & \\text{(LM)} \\end{cases}',
+        phillips: '\\pi_t = \\pi_t^e - \\alpha (u_t - u_n) + \\varepsilon_t',
+        bellman: 'V(k) = \\max_{c} \\left\\{ u(c) + \\beta V(k\') \\right\\}',
+        elasticity: '\\varepsilon = \\frac{\\partial Q}{\\partial P} \\cdot \\frac{P}{Q}',
+        cobb_douglas: 'Y = A K^{\\alpha} L^{1-\\alpha}',
+        budget: 'p_1 x_1 + p_2 x_2 \\leq I',
+        fisher: '(1 + i) = (1 + r)(1 + \\pi)',
+        // Environments
+        align: '\\begin{aligned} a &= b + c \\\\ &= d + e \\end{aligned}',
+        system: '\\begin{cases} x + y = 1 \\\\ 2x - y = 3 \\end{cases}',
+        vector: '\\begin{pmatrix} x_1 \\\\ x_2 \\\\ x_3 \\end{pmatrix}',
+        underbrace: '\\underbrace{a + b + c}_{\\text{sum}}'
+    };
+    if (type === 'theorem') {
+        insertFormat('\\begin{theorem}\n', '\n\\end{theorem}');
+    } else if (type === 'proof') {
+        insertFormat('\\begin{proof}\n', '\n\\end{proof}');
+    } else if (macros[type]) {
+        insertFormat('$$\n' + macros[type] + '\n', '$$');
+    }
+    $('advancedMacroDropdown').classList.remove('open');
+}
+
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.advanced-macro-dropdown') && !e.target.closest('[onclick*="toggleAdvancedMacro"]')) {
+        var dd = $('advancedMacroDropdown');
+        if (dd) dd.classList.remove('open');
+    }
+});
 
 function updatePreview() {
     const text = $('nodeContent').value;
