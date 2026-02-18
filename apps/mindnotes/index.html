@@ -4247,25 +4247,23 @@ function formatNodePreview(text) {
     // Normalize LaTeX delimiters (\[...\] → $$...$$, \(...\) → $...$)
     trimmedText = normalizeLatexDelimiters(trimmedText);
 
-    // Process LaTeX document commands into markdown
-    trimmedText = processLatexCommands(trimmedText);
-
     let formulaIndex = 0;
     const formulas = [];
 
-    // Replace display math $$...$$ with $-free placeholders first
+    // Extract math blocks FIRST (before processLatexCommands touches \textcolor etc.)
     let processed = trimmedText.replace(/\$\$([\s\S]*?)\$\$/g, (match, inner) => {
         formulas.push({ full: match, inner: inner, display: true });
         return `%%FORMULA${formulaIndex++}%%`;
     });
 
-    // Replace inline math $...$ with $-free placeholders
     processed = processed.replace(/\$([^\$\n]+?)\$/g, (match, inner) => {
         formulas.push({ full: match, inner: inner, display: false });
         return `%%FORMULA${formulaIndex++}%%`;
     });
 
-    // Now escape and format the rest
+    // Process LaTeX commands on text only (math is safely in placeholders)
+    processed = processLatexCommands(processed);
+
     // Split by formula placeholders, escape non-formula parts
     const parts = processed.split(/(%%FORMULA\d+%%)/g);
     processed = parts.map(part => {
@@ -5080,9 +5078,9 @@ function updatePreview() {
         // Obsidian format: show formatted text ready for Obsidian
         box.innerHTML = formatForObsidian(text);
     } else {
-        // LaTeX format: process LaTeX commands, then render with KaTeX
-        const processed = processLatexCommands(text);
-        box.innerHTML = formatContent(processed);
+        // LaTeX format: formatContent handles LaTeX commands internally
+        // (it extracts math blocks FIRST, then processes \textcolor etc.)
+        box.innerHTML = formatContent(text);
         renderMath(box);
     }
 
@@ -5753,8 +5751,7 @@ function renderObsidianPreview() {
         html = formatContentWithEditableFormulas(cleaned);
     } else {
         let normalized = normalizeLatexDelimiters(content);
-        const processed = format === 'latex' ? processLatexCommands(normalized) : normalized;
-        html = formatContentWithEditableFormulas(processed);
+        html = formatContentWithEditableFormulas(normalized, format === 'latex');
     }
 
     // Render inline images
@@ -5780,11 +5777,20 @@ function startFullContentEdit() {
 }
 
 // Format content with editable segments (formulas and text) for detail panel
-function formatContentWithEditableFormulas(text) {
+function formatContentWithEditableFormulas(text, applyLatexCommands) {
     if (!text) return '';
 
-    // Parse content into segments: text and formulas
+    // Parse content into segments: text and formulas (math is protected)
     const segments = parseContentSegments(text);
+
+    // Process LaTeX structural commands only on TEXT segments (not math)
+    if (applyLatexCommands) {
+        segments.forEach(seg => {
+            if (seg.type === 'text') {
+                seg.text = processLatexCommands(seg.text);
+            }
+        });
+    }
 
     // Build HTML with editable spans for each segment
     let html = '';
