@@ -3887,9 +3887,9 @@ function processLatexCommands(text) {
     result = result.replace(/\\author\{([^}]*)\}/g, '\n*$1*\n');
     result = result.replace(/\\date\{([^}]*)\}/g, '\n$1\n');
 
-    // List items
-    result = result.replace(/[ \t]*\\item\[([^\]]*)\]\s*/g, '\n- **$1** ');
-    result = result.replace(/[ \t]*\\item\s*/g, '\n- ');
+    // List items (consume preceding newlines to avoid double <br> between items)
+    result = result.replace(/\n*[ \t]*\\item\[([^\]]*)\]\s*/g, '\n- **$1** ');
+    result = result.replace(/\n*[ \t]*\\item\s*/g, '\n- ');
 
     // Sections
     result = result.replace(/\\chapter\*?\{([^}]*)\}/g, '\n# $1\n');
@@ -3998,7 +3998,8 @@ function formatContent(text) {
         .replace(/^## (.+)$/gm, '<h3>$1</h3>')
         .replace(/^# (.+)$/gm, '<h2>$1</h2>')
         .replace(/^---$/gm, '<hr>')
-        .replace(/\n/g, '<br>');
+        .replace(/\n/g, '<br>')
+        .replace(/<\/li><br><li>/g, '</li><li>');
 
     // Restore all markers → HTML elements
     processed = restoreColorMarkers(processed);
@@ -4283,7 +4284,8 @@ function formatNodePreview(text) {
             .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
             .replace(/\*([^*]+?)\*/g, '<em>$1</em>')
             .replace(/`([^`]+?)`/g, '<code>$1</code>')
-            .replace(/\n/g, '<br>');
+            .replace(/\n/g, '<br>')
+            .replace(/<\/li><br><li>/g, '</li><li>');
         return escaped;
     }).join('');
 
@@ -5832,7 +5834,8 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
                 .replace(/^### (.+)$/gm, '<h4>$1</h4>')
                 .replace(/^## (.+)$/gm, '<h3>$1</h3>')
                 .replace(/^# (.+)$/gm, '<h2>$1</h2>')
-                .replace(/\n/g, '<br>');
+                .replace(/\n/g, '<br>')
+                .replace(/<\/li><br><li>/g, '</li><li>');
 
             // Emit color markers OUTSIDE detail-text spans so the resulting
             // <span style="color:..."> properly wraps across multiple segments
