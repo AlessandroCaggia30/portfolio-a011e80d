@@ -5825,6 +5825,9 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
         const sizeNames = Object.keys(sizeMap).join('|');
         pre = pre.replace(new RegExp(`\\{\\\\(${sizeNames})\\s+((?:[^{}]|\\{[^{}]*\\})*)\\}`, 'g'),
             (m, size, content) => `%%SZ:${sizeMap[size] || '1em'}%%${content}%%/SZ%%`);
+        // Strip math labels from \item (e.g. \item[$\bullet$] → \item)
+        // Math inside brackets breaks segment parsing since $...$ becomes a formula boundary
+        pre = pre.replace(/\\item\s*\[[^\]]*\x00M\d+\x00[^\]]*\]/g, '\\item');
         tmpMath.forEach((b, i) => { pre = pre.replace(`\x00M${i}\x00`, () => b); });
         text = pre;
     }
