@@ -4172,16 +4172,29 @@ function renderCanvas() {
     svg.innerHTML = '';
     if (!State.currentSubtopic) return;
 
-    State.currentSubtopic.nodes.forEach(node => {
-        node.links?.forEach(targetId => {
-            const target = State.currentSubtopic.nodes.find(n => n.id === targetId);
-            if (target) drawLink(node, target);
-        });
-    });
+    console.log('renderCanvas: rendering', State.currentSubtopic.nodes.length, 'nodes');
 
     State.currentSubtopic.nodes.forEach(node => {
-        createNodeElement(node);
+        try {
+            node.links?.forEach(targetId => {
+                const target = State.currentSubtopic.nodes.find(n => n.id === targetId);
+                if (target) drawLink(node, target);
+            });
+        } catch (e) {
+            console.error('Error drawing links for node', node.id, e);
+        }
     });
+
+    let rendered = 0;
+    State.currentSubtopic.nodes.forEach(node => {
+        try {
+            createNodeElement(node);
+            rendered++;
+        } catch (e) {
+            console.error('Error creating node element', node.id, node.title, e);
+        }
+    });
+    console.log('renderCanvas: successfully rendered', rendered, '/', State.currentSubtopic.nodes.length, 'nodes');
 }
 
 function renderLinks() {
