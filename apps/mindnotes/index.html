@@ -3597,6 +3597,19 @@ async function loadData() {
     if (State.data.topics.length && State.data.topics[0].subtopics.length) {
         selectSubtopic(State.data.topics[0], State.data.topics[0].subtopics[0]);
     }
+
+    // Debug: verify canvas visibility after rendering
+    requestAnimationFrame(() => {
+        const wRect = canvasWrapper.getBoundingClientRect();
+        const cRect = canvas.getBoundingClientRect();
+        const nodes = canvas.querySelectorAll('.node');
+        const firstNode = nodes[0];
+        const firstRect = firstNode ? firstNode.getBoundingClientRect() : null;
+        console.log('DEBUG canvas-wrapper:', {w: wRect.width, h: wRect.height, display: getComputedStyle(canvasWrapper).display});
+        console.log('DEBUG canvas:', {w: cRect.width, h: cRect.height, transform: canvas.style.transform});
+        console.log('DEBUG nodes in DOM:', nodes.length, 'first node rect:', firstRect);
+        if (firstNode) console.log('DEBUG first node style:', {left: firstNode.style.left, top: firstNode.style.top, display: getComputedStyle(firstNode).display, visibility: getComputedStyle(firstNode).visibility, opacity: getComputedStyle(firstNode).opacity});
+    });
 }
 
 async function saveData() {
@@ -8153,6 +8166,7 @@ async function selectSubject(subject) {
     State.currentSubject = subject;
     $('subjectScreen').classList.add('hidden');
     document.querySelector('.app').style.display = '';
+    switchView('notes');
     await loadData();
     updateFlashcardStats();
     updateTrashCount();
