@@ -4179,14 +4179,32 @@ function renderCanvas() {
     svg.innerHTML = '';
     if (!State.currentSubtopic) return;
 
-    const badPos = State.currentSubtopic.nodes.filter(n => typeof n.x !== 'number' || typeof n.y !== 'number' || isNaN(n.x) || isNaN(n.y));
-    if (badPos.length) console.warn('renderCanvas:', badPos.length, 'nodes had missing/invalid positions — fixed');
-    console.log('renderCanvas: rendering', State.currentSubtopic.nodes.length, 'nodes');
+    // Fix nodes with missing positions — lay them out in a grid
+    const nodes = State.currentSubtopic.nodes;
+    const badNodes = nodes.filter(n => !Number.isFinite(n.x) || !Number.isFinite(n.y));
+    if (badNodes.length) {
+        // Find existing positioned nodes to determine a good starting area
+        const goodNodes = nodes.filter(n => Number.isFinite(n.x) && Number.isFinite(n.y));
+        let startX = 4800, startY = 4800;
+        if (goodNodes.length) {
+            startX = Math.min(...goodNodes.map(n => n.x));
+            startY = Math.max(...goodNodes.map(n => n.y)) + 200;
+        }
+        const cols = Math.ceil(Math.sqrt(badNodes.length));
+        badNodes.forEach((node, i) => {
+            node.x = startX + (i % cols) * 250;
+            node.y = startY + Math.floor(i / cols) * 150;
+            node.width = node.width || 200;
+            node.height = node.height || 100;
+        });
+        console.warn('renderCanvas: auto-positioned', badNodes.length, 'nodes missing coordinates');
+        debouncedSaveData();
+    }
 
-    State.currentSubtopic.nodes.forEach(node => {
+    nodes.forEach(node => {
         try {
             node.links?.forEach(targetId => {
-                const target = State.currentSubtopic.nodes.find(n => n.id === targetId);
+                const target = nodes.find(n => n.id === targetId);
                 if (target) drawLink(node, target);
             });
         } catch (e) {
@@ -4194,16 +4212,13 @@ function renderCanvas() {
         }
     });
 
-    let rendered = 0;
-    State.currentSubtopic.nodes.forEach(node => {
+    nodes.forEach(node => {
         try {
             createNodeElement(node);
-            rendered++;
         } catch (e) {
             console.error('Error creating node element', node.id, node.title, e);
         }
     });
-    console.log('renderCanvas: successfully rendered', rendered, '/', State.currentSubtopic.nodes.length, 'nodes');
 }
 
 function renderLinks() {
@@ -4238,10 +4253,6 @@ function calculatePreviewLines(height) {
 }
 
 function createNodeElement(node) {
-    // Ensure valid position — default to center of canvas if missing
-    if (typeof node.x !== 'number' || isNaN(node.x)) node.x = 5000 + Math.random() * 200;
-    if (typeof node.y !== 'number' || isNaN(node.y)) node.y = 5000 + Math.random() * 200;
-
     const el = document.createElement('div');
     el.className = 'node' + (State.selectedNode?.id === node.id ? ' selected' : '');
     el.dataset.id = node.id;
