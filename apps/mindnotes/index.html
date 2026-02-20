@@ -561,6 +561,7 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
     left: -5000px;
     top: -5000px;
     cursor: grab;
+    transform-origin: 50% 50%;
 }
 
 .canvas.grabbing { cursor: grabbing; }
@@ -3597,19 +3598,6 @@ async function loadData() {
     if (State.data.topics.length && State.data.topics[0].subtopics.length) {
         selectSubtopic(State.data.topics[0], State.data.topics[0].subtopics[0]);
     }
-
-    // Debug: verify canvas visibility after rendering
-    requestAnimationFrame(() => {
-        const wRect = canvasWrapper.getBoundingClientRect();
-        const cRect = canvas.getBoundingClientRect();
-        const nodes = canvas.querySelectorAll('.node');
-        const firstNode = nodes[0];
-        const firstRect = firstNode ? firstNode.getBoundingClientRect() : null;
-        console.log('DEBUG canvas-wrapper:', {w: wRect.width, h: wRect.height, display: getComputedStyle(canvasWrapper).display});
-        console.log('DEBUG canvas:', {w: cRect.width, h: cRect.height, transform: canvas.style.transform});
-        console.log('DEBUG nodes in DOM:', nodes.length, 'first node rect:', firstRect);
-        if (firstNode) console.log('DEBUG first node style:', {left: firstNode.style.left, top: firstNode.style.top, display: getComputedStyle(firstNode).display, visibility: getComputedStyle(firstNode).visibility, opacity: getComputedStyle(firstNode).opacity});
-    });
 }
 
 async function saveData() {
@@ -4181,6 +4169,12 @@ function initCanvasRefs() {
 }
 
 function renderCanvas() {
+    // Use direct DOM to ensure we have the right element
+    const c = document.getElementById('canvas');
+    if (c && c !== canvas) canvas = c;
+    const s = document.getElementById('linksSvg');
+    if (s && s !== svg) svg = s;
+
     canvas.querySelectorAll('.node').forEach(n => n.remove());
     svg.innerHTML = '';
     if (!State.currentSubtopic) return;
@@ -4871,18 +4865,25 @@ function handleWheelZoom(e) {
 
 function updateTransform() {
     // Guard against NaN/invalid values
-    if (isNaN(State.pan.x) || isNaN(State.pan.y) || isNaN(State.zoom)) {
-        console.error('updateTransform: invalid values', {pan: State.pan, zoom: State.zoom});
+    if (!Number.isFinite(State.pan.x) || !Number.isFinite(State.pan.y) || !Number.isFinite(State.zoom) || State.zoom <= 0) {
+        console.error('updateTransform: invalid values, resetting', {pan: {...State.pan}, zoom: State.zoom});
         State.pan = { x: 0, y: 0 };
         State.zoom = 1;
     }
-    canvas.style.transform = `translate(${State.pan.x}px, ${State.pan.y}px) scale(${State.zoom})`;
+    const t = `translate(${State.pan.x}px, ${State.pan.y}px) scale(${State.zoom})`;
+    // Use direct DOM lookup as safeguard against stale reference
+    const c = document.getElementById('canvas');
+    if (c) c.style.transform = t;
+    if (canvas && canvas !== c) canvas.style.transform = t;
     $('canvasBg').style.backgroundPosition = `${State.pan.x}px ${State.pan.y}px`;
     $('canvasBg').style.backgroundSize = `${40 * State.zoom}px ${40 * State.zoom}px`;
     $('zoomLevel').textContent = Math.round(State.zoom * 100) + '%';
 }
 
 function fitView() {
+    // Ensure references are current
+    if (!canvasWrapper) canvasWrapper = document.getElementById('canvasWrapper');
+
     if (!State.currentSubtopic?.nodes.length) {
         State.pan = { x: 0, y: 0 };
         State.zoom = 1;
@@ -4891,7 +4892,7 @@ function fitView() {
     }
 
     const nodes = State.currentSubtopic.nodes.filter(n =>
-        typeof n.x === 'number' && typeof n.y === 'number' && !isNaN(n.x) && !isNaN(n.y));
+        Number.isFinite(n.x) && Number.isFinite(n.y));
     if (!nodes.length) {
         State.pan = { x: 0, y: 0 };
         State.zoom = 1;
@@ -4905,17 +4906,19 @@ function fitView() {
     const maxY = Math.max(...nodes.map(n => n.y)) + 60;
 
     const rect = canvasWrapper.getBoundingClientRect();
-    const padding = 100;
 
     // If wrapper has no dimensions, defer fitView
     if (rect.width === 0 || rect.height === 0) {
-        console.warn('fitView: canvasWrapper has zero dimensions, deferring');
-        requestAnimationFrame(() => fitView());
+        console.warn('fitView: wrapper has zero dimensions, deferring');
+        setTimeout(() => fitView(), 100);
         return;
     }
 
-    const scaleX = (rect.width - padding * 2) / (maxX - minX);
-    const scaleY = (rect.height - padding * 2) / (maxY - minY);
+    const padding = 100;
+    const rangeX = maxX - minX || 1;
+    const rangeY = maxY - minY || 1;
+    const scaleX = (rect.width - padding * 2) / rangeX;
+    const scaleY = (rect.height - padding * 2) / rangeY;
     State.zoom = Math.min(scaleX, scaleY, 1.5);
     State.zoom = Math.max(State.zoom, 0.3);
 
@@ -4925,8 +4928,7 @@ function fitView() {
     State.pan.x = rect.width / 2 - (centerX - 5000) * State.zoom;
     State.pan.y = rect.height / 2 - (centerY - 5000) * State.zoom;
 
-    console.log('fitView:', {wrapperSize: [rect.width, rect.height], nodeRange: [minX, maxX, minY, maxY], zoom: State.zoom, pan: {...State.pan}});
-
+    console.log('fitView:', {wrapper: [Math.round(rect.width), Math.round(rect.height)], zoom: State.zoom.toFixed(2), pan: [Math.round(State.pan.x), Math.round(State.pan.y)]});
     updateTransform();
 }
 
@@ -6759,11 +6761,32 @@ function toggleTopic(header) {
 
 function selectSubtopic(topic, subtopic) {
     State.currentSubtopic = subtopic;
+    State.selectedNode = null;
+    $('detailPanel').classList.remove('open');
     renderSidebar();
     renderCanvas();
-    closeDetail();
-    // Delay fitView to ensure layout is complete
-    requestAnimationFrame(() => fitView());
+    // Use rAF to ensure DOM is laid out before fitting view
+    requestAnimationFrame(() => {
+        fitView();
+        // Verify nodes are visible, force reset if not
+        const wrapper = canvasWrapper.getBoundingClientRect();
+        const firstNode = canvas.querySelector('.node');
+        if (firstNode && wrapper.width > 0) {
+            const nr = firstNode.getBoundingClientRect();
+            const inView = nr.right > wrapper.left && nr.left < wrapper.right &&
+                           nr.bottom > wrapper.top && nr.top < wrapper.bottom;
+            if (!inView) {
+                console.warn('Nodes not visible after fitView, forcing reset');
+                State.zoom = 0.5;
+                const nodes = State.currentSubtopic.nodes;
+                const cx = nodes.reduce((s, n) => s + n.x, 0) / nodes.length;
+                const cy = nodes.reduce((s, n) => s + n.y, 0) / nodes.length;
+                State.pan.x = wrapper.width / 2 - (cx - 5000) * State.zoom;
+                State.pan.y = wrapper.height / 2 - (cy - 5000) * State.zoom;
+                updateTransform();
+            }
+        }
+    });
 }
 
 let currentTopicForSubtopic = null;
