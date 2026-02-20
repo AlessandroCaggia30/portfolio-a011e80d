@@ -4172,6 +4172,8 @@ function renderCanvas() {
     svg.innerHTML = '';
     if (!State.currentSubtopic) return;
 
+    const badPos = State.currentSubtopic.nodes.filter(n => typeof n.x !== 'number' || typeof n.y !== 'number' || isNaN(n.x) || isNaN(n.y));
+    if (badPos.length) console.warn('renderCanvas:', badPos.length, 'nodes had missing/invalid positions — fixed');
     console.log('renderCanvas: rendering', State.currentSubtopic.nodes.length, 'nodes');
 
     State.currentSubtopic.nodes.forEach(node => {
@@ -4229,6 +4231,10 @@ function calculatePreviewLines(height) {
 }
 
 function createNodeElement(node) {
+    // Ensure valid position — default to center of canvas if missing
+    if (typeof node.x !== 'number' || isNaN(node.x)) node.x = 5000 + Math.random() * 200;
+    if (typeof node.y !== 'number' || isNaN(node.y)) node.y = 5000 + Math.random() * 200;
+
     const el = document.createElement('div');
     el.className = 'node' + (State.selectedNode?.id === node.id ? ' selected' : '');
     el.dataset.id = node.id;
@@ -4865,7 +4871,15 @@ function fitView() {
         return;
     }
 
-    const nodes = State.currentSubtopic.nodes;
+    const nodes = State.currentSubtopic.nodes.filter(n =>
+        typeof n.x === 'number' && typeof n.y === 'number' && !isNaN(n.x) && !isNaN(n.y));
+    if (!nodes.length) {
+        State.pan = { x: 0, y: 0 };
+        State.zoom = 1;
+        updateTransform();
+        return;
+    }
+
     const minX = Math.min(...nodes.map(n => n.x));
     const maxX = Math.max(...nodes.map(n => n.x)) + 200;
     const minY = Math.min(...nodes.map(n => n.y));
