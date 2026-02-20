@@ -3594,6 +3594,34 @@ async function loadData() {
     }
 
     // Re-render after async load
+    // One-time cleanup: remove unlinked notes from Maximization subtopic
+    if (!localStorage.getItem('mindnotes_cleanup_unlinked_done')) {
+        State.data.topics.forEach(topic => {
+            topic.subtopics.forEach(sub => {
+                if (sub.name.toLowerCase().includes('maximization')) {
+                    const allIds = new Set(sub.nodes.map(n => n.id));
+                    const linkedIds = new Set();
+                    sub.nodes.forEach(node => {
+                        if (node.links && node.links.length) {
+                            linkedIds.add(node.id);
+                            node.links.forEach(lid => { if (allIds.has(lid)) linkedIds.add(lid); });
+                        }
+                    });
+                    const unlinked = sub.nodes.filter(n => !linkedIds.has(n.id));
+                    if (unlinked.length) {
+                        console.log('Cleanup: moving', unlinked.length, 'unlinked notes from', sub.name, 'to trash');
+                        unlinked.forEach(n => {
+                            State.data.trash.push({ ...n, deletedAt: Date.now(), fromTopic: topic.name, fromSubtopic: sub.name });
+                        });
+                        sub.nodes = sub.nodes.filter(n => linkedIds.has(n.id));
+                        saveData();
+                    }
+                }
+            });
+        });
+        localStorage.setItem('mindnotes_cleanup_unlinked_done', '1');
+    }
+
     renderSidebar();
     if (State.data.topics.length && State.data.topics[0].subtopics.length) {
         selectSubtopic(State.data.topics[0], State.data.topics[0].subtopics[0]);
