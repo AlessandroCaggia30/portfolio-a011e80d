@@ -4857,6 +4857,12 @@ function handleWheelZoom(e) {
 }
 
 function updateTransform() {
+    // Guard against NaN/invalid values
+    if (isNaN(State.pan.x) || isNaN(State.pan.y) || isNaN(State.zoom)) {
+        console.error('updateTransform: invalid values', {pan: State.pan, zoom: State.zoom});
+        State.pan = { x: 0, y: 0 };
+        State.zoom = 1;
+    }
     canvas.style.transform = `translate(${State.pan.x}px, ${State.pan.y}px) scale(${State.zoom})`;
     $('canvasBg').style.backgroundPosition = `${State.pan.x}px ${State.pan.y}px`;
     $('canvasBg').style.backgroundSize = `${40 * State.zoom}px ${40 * State.zoom}px`;
@@ -4888,6 +4894,13 @@ function fitView() {
     const rect = canvasWrapper.getBoundingClientRect();
     const padding = 100;
 
+    // If wrapper has no dimensions, defer fitView
+    if (rect.width === 0 || rect.height === 0) {
+        console.warn('fitView: canvasWrapper has zero dimensions, deferring');
+        requestAnimationFrame(() => fitView());
+        return;
+    }
+
     const scaleX = (rect.width - padding * 2) / (maxX - minX);
     const scaleY = (rect.height - padding * 2) / (maxY - minY);
     State.zoom = Math.min(scaleX, scaleY, 1.5);
@@ -4898,6 +4911,8 @@ function fitView() {
 
     State.pan.x = rect.width / 2 - (centerX - 5000) * State.zoom;
     State.pan.y = rect.height / 2 - (centerY - 5000) * State.zoom;
+
+    console.log('fitView:', {wrapperSize: [rect.width, rect.height], nodeRange: [minX, maxX, minY, maxY], zoom: State.zoom, pan: {...State.pan}});
 
     updateTransform();
 }
@@ -6734,7 +6749,8 @@ function selectSubtopic(topic, subtopic) {
     renderSidebar();
     renderCanvas();
     closeDetail();
-    fitView();
+    // Delay fitView to ensure layout is complete
+    requestAnimationFrame(() => fitView());
 }
 
 let currentTopicForSubtopic = null;
