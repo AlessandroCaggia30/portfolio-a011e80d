@@ -4179,25 +4179,35 @@ function renderCanvas() {
     svg.innerHTML = '';
     if (!State.currentSubtopic) return;
 
-    // Fix nodes with missing positions — lay them out in a grid
+    // Fix nodes with missing or invalid positions — lay them out in a grid
     const nodes = State.currentSubtopic.nodes;
-    const badNodes = nodes.filter(n => !Number.isFinite(n.x) || !Number.isFinite(n.y));
+    // Log positions for debugging
+    const positionSummary = {};
+    nodes.forEach(n => {
+        const key = `${Math.round(n.x || 0)},${Math.round(n.y || 0)}`;
+        positionSummary[key] = (positionSummary[key] || 0) + 1;
+    });
+    console.log('Node positions:', positionSummary);
+
+    // A node is "bad" if: not finite, or at (0,0), or outside usable canvas area (500-9500)
+    const isGoodPos = n => Number.isFinite(n.x) && Number.isFinite(n.y) && n.x > 500 && n.y > 500 && n.x < 9500 && n.y < 9500;
+    const badNodes = nodes.filter(n => !isGoodPos(n));
+    const goodNodes = nodes.filter(n => isGoodPos(n));
+
     if (badNodes.length) {
-        // Find existing positioned nodes to determine a good starting area
-        const goodNodes = nodes.filter(n => Number.isFinite(n.x) && Number.isFinite(n.y));
         let startX = 4800, startY = 4800;
         if (goodNodes.length) {
             startX = Math.min(...goodNodes.map(n => n.x));
-            startY = Math.max(...goodNodes.map(n => n.y)) + 200;
+            startY = Math.max(...goodNodes.map(n => n.y + (n.height || 100))) + 200;
         }
         const cols = Math.ceil(Math.sqrt(badNodes.length));
         badNodes.forEach((node, i) => {
-            node.x = startX + (i % cols) * 250;
-            node.y = startY + Math.floor(i / cols) * 150;
+            node.x = startX + (i % cols) * 280;
+            node.y = startY + Math.floor(i / cols) * 180;
             node.width = node.width || 200;
             node.height = node.height || 100;
         });
-        console.warn('renderCanvas: auto-positioned', badNodes.length, 'nodes missing coordinates');
+        console.warn('renderCanvas: auto-positioned', badNodes.length, '/', nodes.length, 'nodes with bad coordinates');
         debouncedSaveData();
     }
 
