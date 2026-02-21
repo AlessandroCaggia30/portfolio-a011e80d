@@ -1234,6 +1234,8 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 .live-preview h4 { font-size: 17px; font-weight: 600; }
 
 .live-preview li { margin-left: 24px; margin-bottom: 6px; }
+.live-preview-content .md-bullet { margin-left: 24px; }
+.latex-hfill { display: inline-block; min-width: 3em; }
 
 .live-preview blockquote {
     border-left: 4px solid var(--accent);
@@ -3837,6 +3839,7 @@ function restoreFormattingMarkers(text) {
     text = text.replace(/%%U%%/g, '<u>').replace(/%%\/U%%/g, '</u>');
     text = text.replace(/%%SZ:([^%]*)%%/g, '<span style="font-size:$1">');
     text = text.replace(/%%\/SZ%%/g, '</span>');
+    text = text.replace(/%%HFILL%%/g, '<span class="latex-hfill"></span>');
     return text;
 }
 
@@ -3974,6 +3977,7 @@ function processLatexCommands(text) {
     result = result.replace(/\\\\/g, '\n');
 
     // Spacing and layout commands
+    result = result.replace(/\\hfill\b\s*/g, '%%HFILL%%');
     result = result.replace(/\\[hv]space\*?\{[^}]*\}/g, ' ');
     result = result.replace(/\\noindent\s*/g, '');
     result = result.replace(/\\indent\s*/g, '');
@@ -5926,6 +5930,12 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
             (m, color, content) => `%%TCLR:${color}%%${content}%%/TCLR%%`);
         pre = pre.replace(/\\colorbox\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}/g,
             (m, color, content) => `%%CBOX:${color}%%${content}%%/CBOX%%`);
+        // Text formatting commands that may span across math blocks
+        pre = pre.replace(/\\textbf\{((?:[^{}]|\{[^{}]*\})*)\}/g, (m, c) => `%%B%%${c}%%/B%%`);
+        pre = pre.replace(/\\textit\{((?:[^{}]|\{[^{}]*\})*)\}/g, (m, c) => `%%I%%${c}%%/I%%`);
+        pre = pre.replace(/\\emph\{((?:[^{}]|\{[^{}]*\})*)\}/g, (m, c) => `%%I%%${c}%%/I%%`);
+        pre = pre.replace(/\\texttt\{((?:[^{}]|\{[^{}]*\})*)\}/g, (m, c) => `%%TT%%${c}%%/TT%%`);
+        pre = pre.replace(/\\underline\{((?:[^{}]|\{[^{}]*\})*)\}/g, (m, c) => `%%U%%${c}%%/U%%`);
         const sizeMap = { tiny: '0.6em', scriptsize: '0.7em', footnotesize: '0.8em', small: '0.9em',
             large: '1.15em', Large: '1.3em', LARGE: '1.5em', huge: '1.8em', Huge: '2em' };
         const sizeNames = Object.keys(sizeMap).join('|');
@@ -5952,7 +5962,7 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
 
     // Build HTML with editable spans for each segment
     let html = '';
-    const colorMarkerRe = /(%%TCLR:[^%]*%%|%%\/TCLR%%|%%CBOX:[^%]*%%|%%\/CBOX%%|%%SZ:[^%]*%%|%%\/SZ%%)/g;
+    const colorMarkerRe = /(%%TCLR:[^%]*%%|%%\/TCLR%%|%%CBOX:[^%]*%%|%%\/CBOX%%|%%SZ:[^%]*%%|%%\/SZ%%|%%B%%|%%\/B%%|%%I%%|%%\/I%%|%%TT%%|%%\/TT%%|%%U%%|%%\/U%%|%%HFILL%%)/g;
     segments.forEach((seg, idx) => {
         if (seg.type === 'formula') {
             // Formula segment - render with KaTeX markers
@@ -5971,13 +5981,13 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
                 .replace(/`([^`]+?)`/g, '<code>$1</code>')
                 .replace(/^( *)- (.+)$/gm, (m, sp, content) => {
                     const lvl = Math.floor(sp.length / 2);
-                    return lvl > 0 ? `<li style="margin-left:${(lvl + 1) * 24}px">${content}</li>` : `<li>${content}</li>`;
+                    const ml = lvl > 0 ? ` style="margin-left:${lvl * 24}px"` : '';
+                    return `<span class="md-bullet"${ml}>\u2022</span> ${content}`;
                 })
                 .replace(/^### (.+)$/gm, '<h4>$1</h4>')
                 .replace(/^## (.+)$/gm, '<h3>$1</h3>')
                 .replace(/^# (.+)$/gm, '<h2>$1</h2>')
-                .replace(/\n/g, '<br>')
-                .replace(/<\/li><br><li/g, '</li><li');
+                .replace(/\n/g, '<br>');
 
             // Emit color markers OUTSIDE detail-text spans so the resulting
             // <span style="color:..."> properly wraps across multiple segments
