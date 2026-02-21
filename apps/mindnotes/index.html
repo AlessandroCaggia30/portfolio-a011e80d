@@ -2492,6 +2492,36 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
     border-color: var(--accent);
 }
 
+.link-type-menu {
+    position: fixed;
+    z-index: 10000;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 6px;
+    display: flex;
+    gap: 4px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+.link-type-menu button {
+    background: none;
+    border: 1px solid transparent;
+    color: var(--text);
+    font-size: 18px;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+}
+.link-type-menu button:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
     </style>
 </head>
 <body>
@@ -3595,6 +3625,13 @@ async function loadData() {
         State.data = seedFile ? createDefaultData() : { topics: [], trash: [] };
     }
 
+    // Migrate old string links to {target, type} objects
+    State.data.topics.forEach(topic => {
+        topic.subtopics.forEach(sub => {
+            sub.nodes.forEach(node => normalizeLinks(node));
+        });
+    });
+
     // Re-render after async load
     // One-time cleanup: remove unlinked notes from Maximization subtopic
     if (!localStorage.getItem('mindnotes_cleanup_unlinked_done')) {
@@ -3606,7 +3643,7 @@ async function loadData() {
                     sub.nodes.forEach(node => {
                         if (node.links && node.links.length) {
                             linkedIds.add(node.id);
-                            node.links.forEach(lid => { if (allIds.has(lid)) linkedIds.add(lid); });
+                            node.links.forEach(l => { const lid = getLinkTarget(l); if (allIds.has(lid)) linkedIds.add(lid); });
                         }
                     });
                     const unlinked = sub.nodes.filter(n => !linkedIds.has(n.id));
@@ -3788,6 +3825,28 @@ function findNodeLocation(nodeId) {
 
 function generateId() {
     return Date.now().toString();
+}
+
+// ==================== LINK HELPERS ====================
+function normalizeLinks(node) {
+    if (!node.links) { node.links = []; return; }
+    node.links = node.links.map(link => {
+        if (typeof link === 'string') return { target: link, type: 'both' };
+        return link;
+    });
+}
+
+function getLinkTarget(link) {
+    return typeof link === 'string' ? link : link.target;
+}
+
+function getLinkType(link) {
+    return typeof link === 'string' ? 'both' : (link.type || 'both');
+}
+
+function findLinkTo(node, targetId) {
+    if (!node.links) return null;
+    return node.links.find(l => getLinkTarget(l) === targetId) || null;
 }
 
 // ==================== UTILS.JS ====================
@@ -4243,11 +4302,12 @@ function renderCanvas() {
         debouncedSaveData();
     }
 
+    ensureSvgArrowDefs();
     nodes.forEach(node => {
         try {
-            node.links?.forEach(targetId => {
-                const target = nodes.find(n => n.id === targetId);
-                if (target) drawLink(node, target);
+            node.links?.forEach(link => {
+                const target = nodes.find(n => n.id === getLinkTarget(link));
+                if (target) drawLink(node, target, getLinkType(link));
             });
         } catch (e) {
             console.error('Error drawing links for node', node.id, e);
@@ -4265,10 +4325,11 @@ function renderCanvas() {
 
 function renderLinks() {
     svg.innerHTML = '';
+    ensureSvgArrowDefs();
     State.currentSubtopic?.nodes.forEach(node => {
-        node.links?.forEach(targetId => {
-            const target = State.currentSubtopic.nodes.find(n => n.id === targetId);
-            if (target) drawLink(node, target);
+        node.links?.forEach(link => {
+            const target = State.currentSubtopic.nodes.find(n => n.id === getLinkTarget(link));
+            if (target) drawLink(node, target, getLinkType(link));
         });
     });
     if (State.linkLine) svg.appendChild(State.linkLine);
@@ -4699,13 +4760,92 @@ function handleLinkingClick(el, node) {
 function completeLinking(targetNode) {
     if (!State.linkingNode.links) State.linkingNode.links = [];
 
-    if (!State.linkingNode.links.includes(targetNode.id)) {
-        State.linkingNode.links.push(targetNode.id);
-        saveData();
-        showToast('Link created!');
-    } else {
+    // Check if link already exists
+    if (findLinkTo(State.linkingNode, targetNode.id)) {
         showToast('Link already exists');
+        document.querySelectorAll('.node').forEach(n => n.classList.remove('linking-source', 'link-target'));
+        State.linkingNode = null;
+        renderCanvas();
+        return;
     }
+
+    // Show link type popup near target node
+    showLinkTypeMenu(State.linkingNode, targetNode);
+}
+
+function showLinkTypeMenu(sourceNode, targetNode) {
+    hideLinkTypeMenu();
+    const targetEl = document.querySelector(`.node[data-id="${targetNode.id}"]`);
+    if (!targetEl) return;
+    const rect = targetEl.getBoundingClientRect();
+
+    const menu = document.createElement('div');
+    menu.className = 'link-type-menu';
+    menu.id = 'linkTypeMenu';
+
+    const types = [
+        { type: 'both', label: '↔', title: 'Both directions' },
+        { type: 'forward', label: '→', title: 'Forward (source → target)' },
+        { type: 'backward', label: '←', title: 'Backward (target → source)' }
+    ];
+
+    types.forEach(t => {
+        const btn = document.createElement('button');
+        btn.textContent = t.label;
+        btn.title = t.title;
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            createDirectionalLink(sourceNode, targetNode, t.type);
+        });
+        menu.appendChild(btn);
+    });
+
+    document.body.appendChild(menu);
+
+    // Position near target node
+    const menuW = 130;
+    let left = rect.left + rect.width / 2 - menuW / 2;
+    let top = rect.top - 54;
+    if (top < 4) top = rect.bottom + 6;
+    if (left < 4) left = 4;
+    if (left + menuW > window.innerWidth) left = window.innerWidth - menuW - 4;
+    menu.style.left = left + 'px';
+    menu.style.top = top + 'px';
+
+    // Close on outside click or Escape
+    setTimeout(() => {
+        const closeHandler = (e) => {
+            if (!e.target.closest('#linkTypeMenu')) {
+                hideLinkTypeMenu();
+                cancelLinking();
+                document.removeEventListener('click', closeHandler);
+                document.removeEventListener('keydown', escHandler);
+            }
+        };
+        const escHandler = (e) => {
+            if (e.key === 'Escape') {
+                hideLinkTypeMenu();
+                cancelLinking();
+                document.removeEventListener('click', closeHandler);
+                document.removeEventListener('keydown', escHandler);
+            }
+        };
+        document.addEventListener('click', closeHandler);
+        document.addEventListener('keydown', escHandler);
+    }, 0);
+}
+
+function hideLinkTypeMenu() {
+    const menu = document.getElementById('linkTypeMenu');
+    if (menu) menu.remove();
+}
+
+function createDirectionalLink(sourceNode, targetNode, linkType) {
+    hideLinkTypeMenu();
+    if (!sourceNode.links) sourceNode.links = [];
+    sourceNode.links.push({ target: targetNode.id, type: linkType });
+    saveData();
+    showToast('Link created!');
 
     document.querySelectorAll('.node').forEach(n => n.classList.remove('linking-source', 'link-target'));
     State.linkingNode = null;
@@ -4714,6 +4854,7 @@ function completeLinking(targetNode) {
 
 function cancelLinking() {
     if (State.linkingNode) {
+        hideLinkTypeMenu();
         document.querySelectorAll('.node').forEach(n => n.classList.remove('linking-source', 'link-target'));
         State.linkingNode = null;
         showToast('Linking cancelled');
@@ -4787,7 +4928,31 @@ function endDragging() {
     }
 }
 
-function drawLink(from, to) {
+function ensureSvgArrowDefs() {
+    if (svg.querySelector('defs#arrowDefs')) return;
+    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+    defs.id = 'arrowDefs';
+    const colors = { normal: '#6c5ce7', selected: '#e74c3c' };
+    Object.entries(colors).forEach(([key, color]) => {
+        const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+        marker.setAttribute('id', 'arrow-' + key);
+        marker.setAttribute('viewBox', '0 0 10 10');
+        marker.setAttribute('refX', '10');
+        marker.setAttribute('refY', '5');
+        marker.setAttribute('markerWidth', '8');
+        marker.setAttribute('markerHeight', '8');
+        marker.setAttribute('orient', 'auto-start-reverse');
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', 'M 0 0 L 10 5 L 0 10 z');
+        path.setAttribute('fill', color);
+        marker.appendChild(path);
+        defs.appendChild(marker);
+    });
+    svg.insertBefore(defs, svg.firstChild);
+}
+
+function drawLink(from, to, linkType) {
+    linkType = linkType || 'both';
     const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     group.style.cursor = 'pointer';
     group.style.pointerEvents = 'all';
@@ -4799,15 +4964,47 @@ function drawLink(from, to) {
     const toW = to.width || 160;
     const toH = to.height || 70;
 
-    const x1 = from.x + fromW / 2;
-    const y1 = from.y + fromH / 2;
-    const x2 = to.x + toW / 2;
-    const y2 = to.y + toH / 2;
+    const cx1 = from.x + fromW / 2;
+    const cy1 = from.y + fromH / 2;
+    const cx2 = to.x + toW / 2;
+    const cy2 = to.y + toH / 2;
+
+    // Offset endpoints so arrows sit at node edge, not center
+    const dx = cx2 - cx1;
+    const dy = cy2 - cy1;
+    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+    const ux = dx / dist;
+    const uy = dy / dist;
+    const offset = 12; // arrow marker size padding
+
+    // Clip to rectangle edge of each node
+    function clipToRect(cx, cy, hw, hh, dirX, dirY) {
+        // dirX, dirY point outward from center
+        const absDx = Math.abs(dirX), absDy = Math.abs(dirY);
+        if (absDx < 0.0001 && absDy < 0.0001) return { x: cx, y: cy };
+        const tx = absDx > 0.0001 ? hw / absDx : Infinity;
+        const ty = absDy > 0.0001 ? hh / absDy : Infinity;
+        const t = Math.min(tx, ty);
+        return { x: cx + dirX * t, y: cy + dirY * t };
+    }
+
+    const p1 = clipToRect(cx1, cy1, fromW / 2, fromH / 2, ux, uy);
+    const p2 = clipToRect(cx2, cy2, toW / 2, toH / 2, -ux, -uy);
+
+    // Further offset for arrow markers
+    const hasStartArrow = linkType === 'both' || linkType === 'backward';
+    const hasEndArrow = linkType === 'both' || linkType === 'forward';
+    const x1 = p1.x + (hasStartArrow ? ux * offset : 0);
+    const y1 = p1.y + (hasStartArrow ? uy * offset : 0);
+    const x2 = p2.x - (hasEndArrow ? ux * offset : 0);
+    const y2 = p2.y - (hasEndArrow ? uy * offset : 0);
 
     // Check if this link is selected
     const isSelected = State.selectedLink &&
         ((State.selectedLink.fromId === from.id && State.selectedLink.toId === to.id) ||
          (State.selectedLink.fromId === to.id && State.selectedLink.toId === from.id));
+
+    const markerSuffix = isSelected ? 'selected' : 'normal';
 
     // Invisible wide line for easier clicking (hit area)
     const hitArea = document.createElementNS('http://www.w3.org/2000/svg', 'line');
@@ -4828,6 +5025,11 @@ function drawLink(from, to) {
     line.setAttribute('stroke', isSelected ? '#e74c3c' : '#6c5ce7');
     line.setAttribute('stroke-width', isSelected ? '3' : '1.5');
     line.setAttribute('stroke-opacity', isSelected ? '1' : '0.6');
+
+    // Apply arrow markers based on link type
+    if (hasEndArrow) line.setAttribute('marker-end', `url(#arrow-${markerSuffix})`);
+    if (hasStartArrow) line.setAttribute('marker-start', `url(#arrow-${markerSuffix})`);
+
     group.appendChild(line);
 
     // Click handler to select link
@@ -4863,10 +5065,10 @@ function deleteSelectedLink() {
 
     // Remove link from both nodes (links can be stored in either direction)
     if (fromNode && fromNode.links) {
-        fromNode.links = fromNode.links.filter(id => id !== toId);
+        fromNode.links = fromNode.links.filter(l => getLinkTarget(l) !== toId);
     }
     if (toNode && toNode.links) {
-        toNode.links = toNode.links.filter(id => id !== fromId);
+        toNode.links = toNode.links.filter(l => getLinkTarget(l) !== fromId);
     }
 
     State.selectedLink = null;
@@ -5104,7 +5306,7 @@ function deleteSelectedNode() {
     });
 
     State.currentSubtopic.nodes.forEach(n => {
-        n.links = n.links?.filter(id => id !== State.selectedNode.id) || [];
+        n.links = n.links?.filter(l => getLinkTarget(l) !== State.selectedNode.id) || [];
     });
 
     State.currentSubtopic.nodes = State.currentSubtopic.nodes.filter(n => n.id !== State.selectedNode.id);
@@ -5714,15 +5916,27 @@ function openDetail(node) {
 
     // Update links list
     const linksList = $('linksListDetail');
-    const linkedNodes = [
-        ...node.links.map(id => State.currentSubtopic.nodes.find(n => n.id === id)).filter(Boolean),
-        ...State.currentSubtopic.nodes.filter(n => n.links?.includes(node.id))
-    ];
-    const unique = [...new Map(linkedNodes.map(n => [n.id, n])).values()];
+    const linkedMap = new Map();
+    // Outgoing links from this node
+    node.links.forEach(link => {
+        const tid = getLinkTarget(link);
+        const tn = State.currentSubtopic.nodes.find(n => n.id === tid);
+        if (tn) linkedMap.set(tid, { node: tn, dir: getLinkType(link) === 'forward' ? '→' : getLinkType(link) === 'backward' ? '←' : '↔' });
+    });
+    // Incoming links from other nodes
+    State.currentSubtopic.nodes.forEach(n => {
+        n.links?.forEach(link => {
+            if (getLinkTarget(link) === node.id && !linkedMap.has(n.id)) {
+                const t = getLinkType(link);
+                linkedMap.set(n.id, { node: n, dir: t === 'forward' ? '←' : t === 'backward' ? '→' : '↔' });
+            }
+        });
+    });
+    const unique = [...linkedMap.values()];
 
     linksList.innerHTML = unique.length
-        ? unique.map(n =>
-            `<span class="link-item" onclick="selectNode(State.currentSubtopic.nodes.find(x=>x.id==='${n.id}'))">${escapeHtml(n.title)}</span>`
+        ? unique.map(item =>
+            `<span class="link-item" onclick="selectNode(State.currentSubtopic.nodes.find(x=>x.id==='${item.node.id}'))">${item.dir} ${escapeHtml(item.node.title)}</span>`
         ).join('')
         : '<span style="color:var(--text2)">No links</span>';
 }
@@ -7397,7 +7611,7 @@ function deleteSelectedNodes() {
 
             // Remove links to this node
             State.currentSubtopic.nodes.forEach(n => {
-                n.links = n.links?.filter(linkId => linkId !== id) || [];
+                n.links = n.links?.filter(l => getLinkTarget(l) !== id) || [];
             });
         }
     });
@@ -7601,14 +7815,14 @@ function moveSelectedNodesToSubtopic(topicId, subtopicId) {
         if (idx !== -1) {
             const node = State.currentSubtopic.nodes.splice(idx, 1)[0];
             // Remove links to other nodes that aren't being moved
-            node.links = node.links?.filter(linkId => State.selectedNodes.includes(linkId)) || [];
+            node.links = node.links?.filter(l => State.selectedNodes.includes(getLinkTarget(l))) || [];
             nodesToMove.push(node);
         }
     });
 
     // Also update links in remaining nodes
     State.currentSubtopic.nodes.forEach(node => {
-        node.links = node.links?.filter(linkId => !State.selectedNodes.includes(linkId)) || [];
+        node.links = node.links?.filter(l => !State.selectedNodes.includes(getLinkTarget(l))) || [];
     });
 
     // Add to target
