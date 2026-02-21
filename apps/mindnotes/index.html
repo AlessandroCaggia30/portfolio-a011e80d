@@ -4282,6 +4282,11 @@ function calculateTitleSize(width, height) {
     return fontSize;
 }
 
+function calculatePreviewSize(width, height) {
+    const size = Math.max(width || 160, height || 80);
+    return Math.max(12, 12 + (size - 160) * 0.02);
+}
+
 // Calculate preview line clamp based on node height
 function calculatePreviewLines(height) {
     const h = height || 60;
@@ -4326,7 +4331,7 @@ function createNodeElement(node) {
             ).join('')}
         </div>
         <div class="node-title" style="font-size:${titleSize}px">${escapeHtml(node.title || 'Untitled')}</div>
-        <div class="node-preview" style="-webkit-line-clamp:${previewLines}">${formattedPreview}</div>
+        <div class="node-preview" style="-webkit-line-clamp:${previewLines};font-size:${calculatePreviewSize(node.width, node.height)}px">${formattedPreview}</div>
         <div class="resize-handle"></div>
     `;
 
@@ -4658,7 +4663,8 @@ function attachResizeHandler(el, node) {
             const titleSize = calculateTitleSize(w, h);
             titleEl.style.fontSize = titleSize + 'px';
 
-            // Update preview lines dynamically during resize
+            // Update preview size and lines dynamically during resize
+            previewEl.style.fontSize = calculatePreviewSize(w, h) + 'px';
             const previewLines = calculatePreviewLines(h);
             previewEl.style.webkitLineClamp = previewLines;
         }
