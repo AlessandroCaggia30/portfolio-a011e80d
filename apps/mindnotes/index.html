@@ -579,7 +579,7 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
     background: var(--bg2);
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 16px 18px 20px;
+    padding: 16px 18px 28px;
     width: 160px;
     height: 80px;
     cursor: pointer;
@@ -5044,16 +5044,86 @@ function drawLink(from, to, linkType) {
 function selectLink(fromId, toId) {
     // Deselect node if any
     State.selectedNode = null;
-    // Toggle selection if clicking same link
+    // If clicking an already-selected link, show direction picker
     if (State.selectedLink &&
         ((State.selectedLink.fromId === fromId && State.selectedLink.toId === toId) ||
          (State.selectedLink.fromId === toId && State.selectedLink.toId === fromId))) {
-        State.selectedLink = null;
-    } else {
-        State.selectedLink = { fromId, toId };
+        showLinkDirectionPicker(State.selectedLink.fromId, State.selectedLink.toId);
+        return;
     }
+    State.selectedLink = { fromId, toId };
     renderCanvas();
-    showToast(State.selectedLink ? 'Link selected - press Delete to remove' : 'Link deselected');
+    showToast('Link selected - click again to change direction, Delete to remove');
+}
+
+function showLinkDirectionPicker(fromId, toId) {
+    hideLinkTypeMenu();
+    const fromNode = State.currentSubtopic.nodes.find(n => n.id === fromId);
+    const toNode = State.currentSubtopic.nodes.find(n => n.id === toId);
+    if (!fromNode || !toNode) return;
+
+    // Find which node owns this link
+    let ownerNode = fromNode, link = findLinkTo(fromNode, toId);
+    if (!link) { ownerNode = toNode; link = findLinkTo(toNode, fromId); }
+    if (!link) return;
+
+    // Position popup at midpoint of the link in screen coords
+    const rect = canvasWrapper.getBoundingClientRect();
+    const fW = fromNode.width || 160, fH = fromNode.height || 70;
+    const tW = toNode.width || 160, tH = toNode.height || 70;
+    const midX = ((fromNode.x + fW/2 + toNode.x + tW/2) / 2 - 5000) * State.zoom + State.pan.x + rect.left;
+    const midY = ((fromNode.y + fH/2 + toNode.y + tH/2) / 2 - 5000) * State.zoom + State.pan.y + rect.top;
+
+    const menu = document.createElement('div');
+    menu.className = 'link-type-menu';
+    menu.id = 'linkTypeMenu';
+
+    const currentType = getLinkType(link);
+    const types = [
+        { type: 'both', label: '↔', title: 'Both directions' },
+        { type: 'forward', label: '→', title: 'Forward' },
+        { type: 'backward', label: '←', title: 'Backward' }
+    ];
+
+    types.forEach(t => {
+        const btn = document.createElement('button');
+        btn.textContent = t.label;
+        btn.title = t.title;
+        if (t.type === currentType) btn.style.background = 'var(--accent)';
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            link.type = t.type;
+            hideLinkTypeMenu();
+            saveData();
+            renderCanvas();
+            showToast('Link direction changed');
+        });
+        menu.appendChild(btn);
+    });
+
+    document.body.appendChild(menu);
+    const menuW = 130;
+    menu.style.left = Math.max(4, Math.min(midX - menuW/2, window.innerWidth - menuW - 4)) + 'px';
+    menu.style.top = (midY - 54) + 'px';
+
+    setTimeout(() => {
+        const closeHandler = (e) => {
+            if (!e.target.closest('#linkTypeMenu')) {
+                hideLinkTypeMenu();
+                document.removeEventListener('click', closeHandler);
+                document.removeEventListener('keydown', escHandler);
+            }
+        };
+        const escHandler = (e) => {
+            if (e.key === 'Escape') {
+                hideLinkTypeMenu();
+                document.removeEventListener('click', closeHandler);
+                document.removeEventListener('keydown', escHandler);
+            }
+        };
+        document.addEventListener('click', closeHandler);
+        document.addEventListener('keydown', escHandler);
+    }, 0);
 }
 
 function deleteSelectedLink() {
