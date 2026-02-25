@@ -3787,22 +3787,26 @@ async function setupAutosaveDirectory() {
     const dataKey = State.currentSubject ? State.currentSubject.dataKey : null;
     if (!dataKey || !AUTOSAVE_SUBJECTS[dataKey]) return;
 
-    if (!window.showSaveFilePicker) {
+    if (!window.showOpenFilePicker) {
         alert('Your browser does not support the File System Access API. Please use Chrome or Edge.');
         return;
     }
 
     try {
-        const subjectName = AUTOSAVE_SUBJECTS[dataKey].replace(/\s+/g, '_').toLowerCase();
-        const handle = await window.showSaveFilePicker({
+        const [handle] = await window.showOpenFilePicker({
             id: 'autosave-' + dataKey,
             startIn: 'desktop',
-            suggestedName: `mindnotes_${subjectName}_backup.json`,
             types: [{
                 description: 'JSON Backup',
                 accept: { 'application/json': ['.json'] }
             }]
         });
+        // Request write permission so we can auto-save to this file
+        const perm = await handle.requestPermission({ mode: 'readwrite' });
+        if (perm !== 'granted') {
+            updateAutosaveUI(dataKey, 'error', 'Write permission denied');
+            return;
+        }
         autosaveFileHandles[dataKey] = handle;
         await storeAutosaveHandle(dataKey, handle);
         updateAutosaveUI(dataKey, 'connected', 'Backup: ' + handle.name);
@@ -3844,7 +3848,7 @@ async function initAutosaveForSubject(dataKey) {
         return;
     }
 
-    if (!window.showSaveFilePicker) {
+    if (!window.showOpenFilePicker) {
         updateAutosaveUI(dataKey, '', 'Browser does not support file backup');
         return;
     }
@@ -3856,7 +3860,7 @@ async function initAutosaveForSubject(dataKey) {
         const bannerEl = document.getElementById('autosaveBanner');
         const statusEl = document.getElementById('autosaveStatus');
         if (bannerEl) {
-            bannerEl.textContent = '💾 Click to choose a backup file for ' + AUTOSAVE_SUBJECTS[dataKey];
+            bannerEl.textContent = '💾 Click to select a .json backup file for ' + AUTOSAVE_SUBJECTS[dataKey];
             bannerEl.classList.add('visible');
         }
         if (statusEl) {
