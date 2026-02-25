@@ -2586,7 +2586,7 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
                 <span id="syncStatusText">Connected</span>
             </div>
             <div class="autosave-banner" id="autosaveBanner" onclick="setupAutosaveDirectory()">
-                💾 Click to enable local file backup
+                💾 Click to choose a backup file
             </div>
             <div class="autosave-status" id="autosaveStatus" onclick="setupAutosaveDirectory()" title="Click to change backup directory">
                 <span class="autosave-dot"></span>
@@ -3729,13 +3729,13 @@ async function saveData() {
 }
 
 // ==================== FILE SYSTEM AUTOSAVE ====================
-// Uses File System Access API to write backup JSON to local directories.
-// Configured directories: Advanced Macro, Advanced Micro on Desktop.
+// Uses File System Access API to write backup JSON to a local file.
+// User picks a .json file; the app overwrites it on every save.
 
 let autosaveDB = null;
 const AUTOSAVE_DB_NAME = 'mindnotes_autosave';
 const AUTOSAVE_STORE_NAME = 'dir_handles';
-let autosaveDirHandles = {}; // dataKey -> FileSystemDirectoryHandle
+let autosaveFileHandles = {}; // dataKey -> FileSystemFileHandle
 
 const AUTOSAVE_SUBJECTS = {
     'mindnotes_advmacro': 'Advanced Macro',
@@ -3787,18 +3787,23 @@ async function setupAutosaveDirectory() {
     const dataKey = State.currentSubject ? State.currentSubject.dataKey : null;
     if (!dataKey || !AUTOSAVE_SUBJECTS[dataKey]) return;
 
-    if (!window.showDirectoryPicker) {
+    if (!window.showSaveFilePicker) {
         alert('Your browser does not support the File System Access API. Please use Chrome or Edge.');
         return;
     }
 
     try {
-        const handle = await window.showDirectoryPicker({
+        const subjectName = AUTOSAVE_SUBJECTS[dataKey].replace(/\s+/g, '_').toLowerCase();
+        const handle = await window.showSaveFilePicker({
             id: 'autosave-' + dataKey,
-            mode: 'readwrite',
-            startIn: 'desktop'
+            startIn: 'desktop',
+            suggestedName: `mindnotes_${subjectName}_backup.json`,
+            types: [{
+                description: 'JSON Backup',
+                accept: { 'application/json': ['.json'] }
+            }]
         });
-        autosaveDirHandles[dataKey] = handle;
+        autosaveFileHandles[dataKey] = handle;
         await storeAutosaveHandle(dataKey, handle);
         updateAutosaveUI(dataKey, 'connected', 'Backup: ' + handle.name);
         // Immediately write a backup
@@ -3818,7 +3823,7 @@ async function restoreAutosaveHandle(dataKey) {
 
         const perm = await handle.requestPermission({ mode: 'readwrite' });
         if (perm === 'granted') {
-            autosaveDirHandles[dataKey] = handle;
+            autosaveFileHandles[dataKey] = handle;
             updateAutosaveUI(dataKey, 'connected', 'Backup: ' + handle.name);
             return true;
         }
@@ -3839,7 +3844,7 @@ async function initAutosaveForSubject(dataKey) {
         return;
     }
 
-    if (!window.showDirectoryPicker) {
+    if (!window.showSaveFilePicker) {
         updateAutosaveUI(dataKey, '', 'Browser does not support file backup');
         return;
     }
@@ -3851,7 +3856,7 @@ async function initAutosaveForSubject(dataKey) {
         const bannerEl = document.getElementById('autosaveBanner');
         const statusEl = document.getElementById('autosaveStatus');
         if (bannerEl) {
-            bannerEl.textContent = '💾 Click to enable local file backup for ' + AUTOSAVE_SUBJECTS[dataKey];
+            bannerEl.textContent = '💾 Click to choose a backup file for ' + AUTOSAVE_SUBJECTS[dataKey];
             bannerEl.classList.add('visible');
         }
         if (statusEl) {
@@ -3881,7 +3886,7 @@ function updateAutosaveUI(dataKey, status, text) {
 
 let autosaveWriteTimer = null;
 function autoSaveToFileSystem(dataKey, data) {
-    if (!autosaveDirHandles[dataKey]) return;
+    if (!autosaveFileHandles[dataKey]) return;
 
     // Debounce file writes to max once per 2 seconds
     clearTimeout(autosaveWriteTimer);
@@ -3891,7 +3896,7 @@ function autoSaveToFileSystem(dataKey, data) {
 }
 
 async function _writeAutosaveFile(dataKey, data) {
-    const handle = autosaveDirHandles[dataKey];
+    const handle = autosaveFileHandles[dataKey];
     if (!handle) return;
 
     try {
@@ -3903,44 +3908,12 @@ async function _writeAutosaveFile(dataKey, data) {
         };
         const json = JSON.stringify(backup, null, 2);
 
-        // Write latest backup (always overwritten)
-        const latestHandle = await handle.getFileHandle('latest_backup.json', { create: true });
-        const latestWritable = await latestHandle.createWritable();
-        await latestWritable.write(json);
-        await latestWritable.close();
+        const writable = await handle.createWritable();
+        await writable.write(json);
+        await writable.close();
 
-        // Write hourly snapshot (one per hour max)
         const now = new Date();
-        const hourKey = now.toISOString().slice(0, 13).replace(/[T]/g, '_').replace(/[-]/g, '');
-        const lastHourKey = localStorage.getItem('autosave_hour_' + dataKey);
-        if (lastHourKey !== hourKey) {
-            const tsName = 'backup_' + hourKey + '.json';
-            const tsHandle = await handle.getFileHandle(tsName, { create: true });
-            const tsWritable = await tsHandle.createWritable();
-            await tsWritable.write(json);
-            await tsWritable.close();
-            localStorage.setItem('autosave_hour_' + dataKey, hourKey);
-
-            // Clean up old hourly snapshots (keep last 48)
-            try {
-                const files = [];
-                for await (const entry of handle.values()) {
-                    if (entry.kind === 'file' && entry.name.startsWith('backup_') && entry.name.endsWith('.json')) {
-                        files.push(entry.name);
-                    }
-                }
-                files.sort();
-                while (files.length > 48) {
-                    const old = files.shift();
-                    await handle.removeEntry(old);
-                }
-            } catch (cleanupErr) {
-                // Non-critical, ignore cleanup errors
-            }
-        }
-
         updateAutosaveUI(dataKey, 'connected', 'Backup: ' + handle.name + ' (saved ' + now.toLocaleTimeString() + ')');
-        console.log('Autosaved to file system: ' + handle.name);
     } catch (e) {
         console.warn('File system autosave failed:', e);
         updateAutosaveUI(dataKey, 'error', 'Backup write failed — click to reconfigure');
