@@ -6538,6 +6538,9 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
                 .replace(/^( *)- (.+)$/gm, (m, sp, content) => {
                     const lvl = Math.floor(sp.length / 2);
                     const ml = lvl > 0 ? ` style="margin-left:${(lvl + 1) * 24}px"` : '';
+                    // Restore markers inside bullet so color-splitting doesn't break the span
+                    content = restoreColorMarkers(content);
+                    content = restoreFormattingMarkers(content);
                     return `<span class="md-bullet"${ml}>\u2022 ${content}</span>`;
                 })
                 .replace(/^### (.+)$/gm, '<h4>$1</h4>')
