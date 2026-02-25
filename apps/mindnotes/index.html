@@ -4151,6 +4151,17 @@ function restoreColorMarkers(text) {
     return text;
 }
 
+// Restore bullet-item markers to HTML elements (call after escapeHtml)
+function restoreBulletMarkers(text) {
+    text = text.replace(/%%BITEM:(\d+)%%/g, (m, depth) => {
+        const d = parseInt(depth);
+        const ml = d > 0 ? ` style="margin-left:${(d + 1) * 24}px"` : '';
+        return `<span class="md-bullet"${ml}>\u2022 `;
+    });
+    text = text.replace(/%%\/BITEM%%/g, '</span>');
+    return text;
+}
+
 // Restore formatting markers to HTML elements (call after escapeHtml)
 function restoreFormattingMarkers(text) {
     text = text.replace(/%%B%%/g, '<strong>').replace(/%%\/B%%/g, '</strong>');
@@ -6502,6 +6513,50 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
         pre = pre.replace(/\\item\s*\[[^\]]*\x00M\d+\x00[^\]]*\]/g, '\\item');
         tmpMath.forEach((b, i) => { pre = pre.replace(`\x00M${i}\x00`, () => b); });
         text = pre;
+
+        // Process \begin{itemize/enumerate/description}, \end{...}, \item into
+        // markers BEFORE segment parsing so bullet items properly span across
+        // inline math (otherwise the bullet regex only captures one text segment).
+        {
+            let ld = 0;
+            const ios = []; // tracks whether an item is open at each depth
+            text = text.replace(
+                /\n*[ \t]*\\begin\{(itemize|enumerate|description)\}(\[[^\]]*\])?\s*|\n*[ \t]*\\end\{(itemize|enumerate|description)\}\s*|\n*[ \t]*\\item(?:\[([^\]]*)\])?\s*/g,
+                (match, beginEnv, beginOpt, endEnv, itemLabel) => {
+                    if (beginEnv) {
+                        let r = '';
+                        if (ios.length > 0 && ios[ios.length - 1]) {
+                            r = '%%/BITEM%%';
+                            ios[ios.length - 1] = false;
+                        }
+                        ld++;
+                        ios.push(false);
+                        return r;
+                    } else if (endEnv) {
+                        let r = '';
+                        if (ios.length > 0 && ios[ios.length - 1]) {
+                            r = '%%/BITEM%%';
+                        }
+                        ios.pop();
+                        ld = Math.max(0, ld - 1);
+                        return r;
+                    } else {
+                        // \item outside a list env → leave for processLatexCommands
+                        if (ld === 0) return match;
+                        let r = '';
+                        if (ios.length > 0 && ios[ios.length - 1]) {
+                            r = '%%/BITEM%%';
+                        }
+                        const depth = Math.max(0, ld - 1);
+                        r += `%%BITEM:${depth}%%`;
+                        if (itemLabel !== undefined) {
+                            r += `**${itemLabel}** `;
+                        }
+                        if (ios.length > 0) ios[ios.length - 1] = true;
+                        return r;
+                    }
+                });
+        }
     }
 
     // Parse content into segments: text and formulas (math is protected)
@@ -6518,7 +6573,7 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
 
     // Build HTML with editable spans for each segment
     let html = '';
-    const colorMarkerRe = /(%%TCLR:[^%]*%%|%%\/TCLR%%|%%CBOX:[^%]*%%|%%\/CBOX%%|%%SZ:[^%]*%%|%%\/SZ%%|%%B%%|%%\/B%%|%%I%%|%%\/I%%|%%TT%%|%%\/TT%%|%%U%%|%%\/U%%|%%HFILL%%)/g;
+    const colorMarkerRe = /(%%TCLR:[^%]*%%|%%\/TCLR%%|%%CBOX:[^%]*%%|%%\/CBOX%%|%%SZ:[^%]*%%|%%\/SZ%%|%%B%%|%%\/B%%|%%I%%|%%\/I%%|%%TT%%|%%\/TT%%|%%U%%|%%\/U%%|%%HFILL%%|%%BITEM:\d+%%|%%\/BITEM%%)/g;
     segments.forEach((seg, idx) => {
         if (seg.type === 'formula') {
             // Formula segment - render with KaTeX markers
@@ -6567,6 +6622,7 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
     });
 
     // Restore markers that span across segments → HTML elements
+    html = restoreBulletMarkers(html);
     html = restoreColorMarkers(html);
     html = restoreFormattingMarkers(html);
 
