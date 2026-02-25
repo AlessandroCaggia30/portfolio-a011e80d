@@ -3736,6 +3736,7 @@ let autosaveDB = null;
 const AUTOSAVE_DB_NAME = 'mindnotes_autosave';
 const AUTOSAVE_STORE_NAME = 'dir_handles';
 let autosaveFileHandles = {}; // dataKey -> FileSystemFileHandle
+let autosaveHistoryHandles = {}; // dataKey -> FileSystemDirectoryHandle (version history folder)
 
 const AUTOSAVE_SUBJECTS = {
     'mindnotes_advmacro': 'Advanced Macro',
@@ -3793,6 +3794,7 @@ async function setupAutosaveDirectory() {
     }
 
     try {
+        // Step 1: Pick the main backup .json file
         const [handle] = await window.showOpenFilePicker({
             id: 'autosave-' + dataKey,
             startIn: 'desktop',
@@ -3801,7 +3803,6 @@ async function setupAutosaveDirectory() {
                 accept: { 'application/json': ['.json'] }
             }]
         });
-        // Request write permission so we can auto-save to this file
         const perm = await handle.requestPermission({ mode: 'readwrite' });
         if (perm !== 'granted') {
             updateAutosaveUI(dataKey, 'error', 'Write permission denied');
@@ -3809,6 +3810,22 @@ async function setupAutosaveDirectory() {
         }
         autosaveFileHandles[dataKey] = handle;
         await storeAutosaveHandle(dataKey, handle);
+
+        // Step 2: Pick the version history folder
+        try {
+            alert('Now pick a folder for version history (hourly snapshots, last 7 days).');
+            const dirHandle = await window.showDirectoryPicker({
+                id: 'autosave-history-' + dataKey,
+                mode: 'readwrite',
+                startIn: 'desktop'
+            });
+            autosaveHistoryHandles[dataKey] = dirHandle;
+            await storeAutosaveHandle(dataKey + '_history', dirHandle);
+        } catch (dirErr) {
+            // User skipped history folder — that's OK, main backup still works
+            if (dirErr.name !== 'AbortError') console.warn('History folder setup skipped:', dirErr);
+        }
+
         updateAutosaveUI(dataKey, 'connected', 'Backup: ' + handle.name);
         // Immediately write a backup
         autoSaveToFileSystem(dataKey, State.data);
@@ -3829,6 +3846,18 @@ async function restoreAutosaveHandle(dataKey) {
         if (perm === 'granted') {
             autosaveFileHandles[dataKey] = handle;
             updateAutosaveUI(dataKey, 'connected', 'Backup: ' + handle.name);
+
+            // Also restore history folder handle if available
+            try {
+                const dirHandle = await getStoredAutosaveHandle(dataKey + '_history');
+                if (dirHandle) {
+                    const dirPerm = await dirHandle.requestPermission({ mode: 'readwrite' });
+                    if (dirPerm === 'granted') {
+                        autosaveHistoryHandles[dataKey] = dirHandle;
+                    }
+                }
+            } catch (hErr) { /* history folder not set up — OK */ }
+
             return true;
         }
         return false;
@@ -3912,11 +3941,43 @@ async function _writeAutosaveFile(dataKey, data) {
         };
         const json = JSON.stringify(backup, null, 2);
 
+        // Write latest backup to the main file
         const writable = await handle.createWritable();
         await writable.write(json);
         await writable.close();
 
+        // Write hourly snapshot to history folder (max 1 per hour, keep 30)
         const now = new Date();
+        const histDir = autosaveHistoryHandles[dataKey];
+        if (histDir) {
+            const hourKey = now.toISOString().slice(0, 13).replace('T', '_').replace(/-/g, '');
+            const lastHourKey = localStorage.getItem('autosave_hour_' + dataKey);
+            if (lastHourKey !== hourKey) {
+                try {
+                    const snapName = 'backup_' + hourKey + '.json';
+                    const snapHandle = await histDir.getFileHandle(snapName, { create: true });
+                    const snapWritable = await snapHandle.createWritable();
+                    await snapWritable.write(json);
+                    await snapWritable.close();
+                    localStorage.setItem('autosave_hour_' + dataKey, hourKey);
+
+                    // Clean up: keep max 30 snapshots, delete oldest
+                    const files = [];
+                    for await (const entry of histDir.values()) {
+                        if (entry.kind === 'file' && entry.name.startsWith('backup_') && entry.name.endsWith('.json')) {
+                            files.push(entry.name);
+                        }
+                    }
+                    files.sort();
+                    while (files.length > 30) {
+                        await histDir.removeEntry(files.shift());
+                    }
+                } catch (snapErr) {
+                    console.warn('History snapshot failed:', snapErr);
+                }
+            }
+        }
+
         updateAutosaveUI(dataKey, 'connected', 'Backup: ' + handle.name + ' (saved ' + now.toLocaleTimeString() + ')');
     } catch (e) {
         console.warn('File system autosave failed:', e);
