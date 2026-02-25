@@ -2522,6 +2522,39 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
     border-color: var(--accent);
 }
 
+/* Autosave status indicator */
+.autosave-status {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    font-size: 11px;
+    color: var(--text2);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+}
+.autosave-status:hover { background: var(--bg2); }
+.autosave-status.active { display: flex; }
+.autosave-status .autosave-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #666;
+    flex-shrink: 0;
+}
+.autosave-status.connected .autosave-dot { background: #4ade80; }
+.autosave-status.error .autosave-dot { background: #f87171; }
+.autosave-banner {
+    display: none;
+    padding: 8px 12px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
+.autosave-banner:hover { filter: brightness(1.1); }
+.autosave-banner.visible { display: block; }
+
     </style>
 </head>
 <body>
@@ -2551,6 +2584,13 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
             <div class="sync-status" id="syncStatus">
                 <span class="dot"></span>
                 <span id="syncStatusText">Connected</span>
+            </div>
+            <div class="autosave-banner" id="autosaveBanner" onclick="setupAutosaveDirectory()">
+                💾 Click to enable local file backup
+            </div>
+            <div class="autosave-status" id="autosaveStatus" onclick="setupAutosaveDirectory()" title="Click to change backup directory">
+                <span class="autosave-dot"></span>
+                <span id="autosaveStatusText">File backup: off</span>
             </div>
             <div class="search-bar">
                 <input type="text" class="search-input" id="searchInput" placeholder="Search all notes..." oninput="performSearch(this.value)">
@@ -3680,12 +3720,233 @@ async function saveData() {
             request.onerror = () => reject(request.error);
         });
 
-        // Data saved successfully
+        // Trigger file system autosave (non-blocking)
+        autoSaveToFileSystem(dataKey, State.data);
     } catch (e) {
         console.error('IndexedDB save error:', e);
         alert('Error saving: ' + e.message);
     }
 }
+
+// ==================== FILE SYSTEM AUTOSAVE ====================
+// Uses File System Access API to write backup JSON to local directories.
+// Configured directories: Advanced Macro, Advanced Micro on Desktop.
+
+let autosaveDB = null;
+const AUTOSAVE_DB_NAME = 'mindnotes_autosave';
+const AUTOSAVE_STORE_NAME = 'dir_handles';
+let autosaveDirHandles = {}; // dataKey -> FileSystemDirectoryHandle
+
+const AUTOSAVE_SUBJECTS = {
+    'mindnotes_advmacro': 'Advanced Macro',
+    'mindnotes_advmicro': 'Advanced Micro'
+};
+
+function initAutosaveDB() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(AUTOSAVE_DB_NAME, 1);
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => { autosaveDB = request.result; resolve(autosaveDB); };
+        request.onupgradeneeded = (e) => {
+            const database = e.target.result;
+            if (!database.objectStoreNames.contains(AUTOSAVE_STORE_NAME)) {
+                database.createObjectStore(AUTOSAVE_STORE_NAME);
+            }
+        };
+    });
+}
+
+async function getAutosaveDB() {
+    if (!autosaveDB) await initAutosaveDB();
+    return autosaveDB;
+}
+
+async function storeAutosaveHandle(dataKey, handle) {
+    const adb = await getAutosaveDB();
+    return new Promise((resolve, reject) => {
+        const tx = adb.transaction(AUTOSAVE_STORE_NAME, 'readwrite');
+        const store = tx.objectStore(AUTOSAVE_STORE_NAME);
+        const request = store.put(handle, dataKey);
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+    });
+}
+
+async function getStoredAutosaveHandle(dataKey) {
+    const adb = await getAutosaveDB();
+    return new Promise((resolve, reject) => {
+        const tx = adb.transaction(AUTOSAVE_STORE_NAME, 'readonly');
+        const store = tx.objectStore(AUTOSAVE_STORE_NAME);
+        const request = store.get(dataKey);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+async function setupAutosaveDirectory() {
+    const dataKey = State.currentSubject ? State.currentSubject.dataKey : null;
+    if (!dataKey || !AUTOSAVE_SUBJECTS[dataKey]) return;
+
+    if (!window.showDirectoryPicker) {
+        alert('Your browser does not support the File System Access API. Please use Chrome or Edge.');
+        return;
+    }
+
+    try {
+        const handle = await window.showDirectoryPicker({
+            id: 'autosave-' + dataKey,
+            mode: 'readwrite',
+            startIn: 'desktop'
+        });
+        autosaveDirHandles[dataKey] = handle;
+        await storeAutosaveHandle(dataKey, handle);
+        updateAutosaveUI(dataKey, 'connected', 'Backup: ' + handle.name);
+        // Immediately write a backup
+        autoSaveToFileSystem(dataKey, State.data);
+    } catch (e) {
+        if (e.name !== 'AbortError') {
+            console.error('Autosave setup error:', e);
+            updateAutosaveUI(dataKey, 'error', 'Backup setup failed');
+        }
+    }
+}
+
+async function restoreAutosaveHandle(dataKey) {
+    try {
+        const handle = await getStoredAutosaveHandle(dataKey);
+        if (!handle) return false;
+
+        const perm = await handle.requestPermission({ mode: 'readwrite' });
+        if (perm === 'granted') {
+            autosaveDirHandles[dataKey] = handle;
+            updateAutosaveUI(dataKey, 'connected', 'Backup: ' + handle.name);
+            return true;
+        }
+        return false;
+    } catch (e) {
+        console.warn('Could not restore autosave handle for ' + dataKey + ':', e);
+        return false;
+    }
+}
+
+async function initAutosaveForSubject(dataKey) {
+    if (!AUTOSAVE_SUBJECTS[dataKey]) {
+        // Not a subject that needs file backup
+        const statusEl = document.getElementById('autosaveStatus');
+        const bannerEl = document.getElementById('autosaveBanner');
+        if (statusEl) statusEl.classList.remove('active');
+        if (bannerEl) bannerEl.classList.remove('visible');
+        return;
+    }
+
+    if (!window.showDirectoryPicker) {
+        updateAutosaveUI(dataKey, '', 'Browser does not support file backup');
+        return;
+    }
+
+    // Try to restore a previously saved handle
+    const restored = await restoreAutosaveHandle(dataKey);
+    if (!restored) {
+        // Show banner prompting user to set up
+        const bannerEl = document.getElementById('autosaveBanner');
+        const statusEl = document.getElementById('autosaveStatus');
+        if (bannerEl) {
+            bannerEl.textContent = '💾 Click to enable local file backup for ' + AUTOSAVE_SUBJECTS[dataKey];
+            bannerEl.classList.add('visible');
+        }
+        if (statusEl) {
+            statusEl.classList.add('active');
+            statusEl.querySelector('#autosaveStatusText').textContent = 'File backup: not configured';
+        }
+    } else {
+        const bannerEl = document.getElementById('autosaveBanner');
+        if (bannerEl) bannerEl.classList.remove('visible');
+    }
+}
+
+function updateAutosaveUI(dataKey, status, text) {
+    const statusEl = document.getElementById('autosaveStatus');
+    const bannerEl = document.getElementById('autosaveBanner');
+    if (!statusEl) return;
+
+    statusEl.classList.remove('connected', 'error');
+    statusEl.classList.add('active');
+    if (status) statusEl.classList.add(status);
+    statusEl.querySelector('#autosaveStatusText').textContent = text;
+
+    if (status === 'connected' && bannerEl) {
+        bannerEl.classList.remove('visible');
+    }
+}
+
+let autosaveWriteTimer = null;
+function autoSaveToFileSystem(dataKey, data) {
+    if (!autosaveDirHandles[dataKey]) return;
+
+    // Debounce file writes to max once per 2 seconds
+    clearTimeout(autosaveWriteTimer);
+    autosaveWriteTimer = setTimeout(() => {
+        _writeAutosaveFile(dataKey, data);
+    }, 2000);
+}
+
+async function _writeAutosaveFile(dataKey, data) {
+    const handle = autosaveDirHandles[dataKey];
+    if (!handle) return;
+
+    try {
+        const backup = {
+            exportDate: new Date().toISOString(),
+            subject: AUTOSAVE_SUBJECTS[dataKey] || dataKey,
+            dataKey: dataKey,
+            data: data
+        };
+        const json = JSON.stringify(backup, null, 2);
+
+        // Write latest backup (always overwritten)
+        const latestHandle = await handle.getFileHandle('latest_backup.json', { create: true });
+        const latestWritable = await latestHandle.createWritable();
+        await latestWritable.write(json);
+        await latestWritable.close();
+
+        // Write hourly snapshot (one per hour max)
+        const now = new Date();
+        const hourKey = now.toISOString().slice(0, 13).replace(/[T]/g, '_').replace(/[-]/g, '');
+        const lastHourKey = localStorage.getItem('autosave_hour_' + dataKey);
+        if (lastHourKey !== hourKey) {
+            const tsName = 'backup_' + hourKey + '.json';
+            const tsHandle = await handle.getFileHandle(tsName, { create: true });
+            const tsWritable = await tsHandle.createWritable();
+            await tsWritable.write(json);
+            await tsWritable.close();
+            localStorage.setItem('autosave_hour_' + dataKey, hourKey);
+
+            // Clean up old hourly snapshots (keep last 48)
+            try {
+                const files = [];
+                for await (const entry of handle.values()) {
+                    if (entry.kind === 'file' && entry.name.startsWith('backup_') && entry.name.endsWith('.json')) {
+                        files.push(entry.name);
+                    }
+                }
+                files.sort();
+                while (files.length > 48) {
+                    const old = files.shift();
+                    await handle.removeEntry(old);
+                }
+            } catch (cleanupErr) {
+                // Non-critical, ignore cleanup errors
+            }
+        }
+
+        updateAutosaveUI(dataKey, 'connected', 'Backup: ' + handle.name + ' (saved ' + now.toLocaleTimeString() + ')');
+        console.log('Autosaved to file system: ' + handle.name);
+    } catch (e) {
+        console.warn('File system autosave failed:', e);
+        updateAutosaveUI(dataKey, 'error', 'Backup write failed — click to reconfigure');
+    }
+}
+// ==================== END FILE SYSTEM AUTOSAVE ====================
 
 // Import data from JSON file
 function importFromJson() {
@@ -4812,13 +5073,15 @@ function showLinkTypeMenu(sourceNode, targetNode) {
     menu.style.left = left + 'px';
     menu.style.top = top + 'px';
 
-    // Close on outside click or Escape
+    // Close on outside mousedown or Escape
+    // Use mousedown instead of click so the current click chain
+    // (mousedown→mouseup→click) doesn't immediately close the menu
     setTimeout(() => {
         const closeHandler = (e) => {
             if (!e.target.closest('#linkTypeMenu')) {
                 hideLinkTypeMenu();
                 cancelLinking();
-                document.removeEventListener('click', closeHandler);
+                document.removeEventListener('mousedown', closeHandler);
                 document.removeEventListener('keydown', escHandler);
             }
         };
@@ -4826,11 +5089,11 @@ function showLinkTypeMenu(sourceNode, targetNode) {
             if (e.key === 'Escape') {
                 hideLinkTypeMenu();
                 cancelLinking();
-                document.removeEventListener('click', closeHandler);
+                document.removeEventListener('mousedown', closeHandler);
                 document.removeEventListener('keydown', escHandler);
             }
         };
-        document.addEventListener('click', closeHandler);
+        document.addEventListener('mousedown', closeHandler);
         document.addEventListener('keydown', escHandler);
     }, 0);
 }
@@ -8542,6 +8805,8 @@ async function selectSubject(subject) {
     await loadData();
     updateFlashcardStats();
     updateTrashCount();
+    // Initialize file system autosave for this subject
+    initAutosaveForSubject(subject.dataKey);
 }
 
 async function backToSubjects() {
