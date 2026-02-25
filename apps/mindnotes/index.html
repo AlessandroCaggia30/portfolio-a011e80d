@@ -6537,7 +6537,7 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
                 .replace(/`([^`]+?)`/g, '<code>$1</code>')
                 .replace(/^( *)- (.+)$/gm, (m, sp, content) => {
                     const lvl = Math.floor(sp.length / 2);
-                    const ml = lvl > 0 ? ` style="margin-left:${lvl * 24}px"` : '';
+                    const ml = lvl > 0 ? ` style="margin-left:${(lvl + 1) * 24}px"` : '';
                     return `<span class="md-bullet"${ml}>\u2022</span> ${content}`;
                 })
                 .replace(/^### (.+)$/gm, '<h4>$1</h4>')
