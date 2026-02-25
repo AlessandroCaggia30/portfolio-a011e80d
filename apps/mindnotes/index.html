@@ -4240,7 +4240,7 @@ function processLatexCommands(text) {
     const sizeMap = { tiny: '0.6em', scriptsize: '0.7em', footnotesize: '0.8em', small: '0.9em',
         large: '1.15em', Large: '1.3em', LARGE: '1.5em', huge: '1.8em', Huge: '2em' };
     const sizeNames = Object.keys(sizeMap).join('|');
-    result = result.replace(new RegExp(`\\{\\\\(${sizeNames})\\s+((?:[^{}]|\\{[^{}]*\\})*)\\}`, 'g'),
+    result = result.replace(new RegExp(`\\{\\\\(${sizeNames})\\s*((?:[^{}]|\\{[^{}]*\\})*)\\}`, 'g'),
         (m, size, content) => `%%SZ:${sizeMap[size] || '1em'}%%${content}%%/SZ%%`);
 
     // Theorem-like environments (with optional [title])
@@ -6544,7 +6544,7 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
         const sizeMap = { tiny: '0.6em', scriptsize: '0.7em', footnotesize: '0.8em', small: '0.9em',
             large: '1.15em', Large: '1.3em', LARGE: '1.5em', huge: '1.8em', Huge: '2em' };
         const sizeNames = Object.keys(sizeMap).join('|');
-        pre = pre.replace(new RegExp(`\\{\\\\(${sizeNames})\\s+((?:[^{}]|\\{[^{}]*\\})*)\\}`, 'g'),
+        pre = pre.replace(new RegExp(`\\{\\\\(${sizeNames})\\s*((?:[^{}]|\\{[^{}]*\\})*)\\}`, 'g'),
             (m, size, content) => `%%SZ:${sizeMap[size] || '1em'}%%${content}%%/SZ%%`);
         // Strip math labels from \item (e.g. \item[$\bullet$] → \item)
         // Math inside brackets breaks segment parsing since $...$ becomes a formula boundary
