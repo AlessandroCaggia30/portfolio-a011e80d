@@ -3740,7 +3740,8 @@ let autosaveHistoryHandles = {}; // dataKey -> FileSystemDirectoryHandle (versio
 
 const AUTOSAVE_SUBJECTS = {
     'mindnotes_advmacro': 'Advanced Macro',
-    'mindnotes_advmicro': 'Advanced Micro'
+    'mindnotes_advmicro': 'Advanced Micro',
+    'mindnotes_advmath': 'Advanced Math'
 };
 
 function initAutosaveDB() {
@@ -3903,6 +3904,10 @@ async function initAutosaveForSubject(dataKey) {
 }
 
 function updateAutosaveUI(dataKey, status, text) {
+    // Only update UI if we're still viewing the subject this update is for
+    const currentKey = State.currentSubject ? State.currentSubject.dataKey : null;
+    if (currentKey !== dataKey) return;
+
     const statusEl = document.getElementById('autosaveStatus');
     const bannerEl = document.getElementById('autosaveBanner');
     if (!statusEl) return;
