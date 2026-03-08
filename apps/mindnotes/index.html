@@ -6557,6 +6557,17 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
         tmpMath.forEach((b, i) => { pre = pre.replace(`\x00M${i}\x00`, () => b); });
         text = pre;
 
+        // Convert markdown-style bullets (- text) to BITEM markers BEFORE
+        // segment parsing so they span across inline math and keep indentation.
+        // Must run before \begin{itemize} processing so \item lines aren't
+        // double-matched.  Only match lines that don't start with \begin/\end/\item.
+        text = text.replace(/^( *)- (.+)/gm, (m, sp, content) => {
+            // Skip if this looks like it's inside a LaTeX list env (handled below)
+            if (/^\s*\\(item|begin|end)\b/.test(m)) return m;
+            const depth = Math.floor(sp.length / 2);
+            return `%%BITEM:${depth}%%${content}%%/BITEM%%`;
+        });
+
         // Process \begin{itemize/enumerate/description}, \end{...}, \item into
         // markers BEFORE segment parsing so bullet items properly span across
         // inline math (otherwise the bullet regex only captures one text segment).
@@ -6633,14 +6644,6 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
                 .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*([^*]+?)\*/g, '<em>$1</em>')
                 .replace(/`([^`]+?)`/g, '<code>$1</code>')
-                .replace(/^( *)- (.+)$/gm, (m, sp, content) => {
-                    const lvl = Math.floor(sp.length / 2);
-                    const ml = lvl > 0 ? ` style="margin-left:${(lvl + 1) * 24}px"` : '';
-                    // Restore markers inside bullet so color-splitting doesn't break the span
-                    content = restoreColorMarkers(content);
-                    content = restoreFormattingMarkers(content);
-                    return `<span class="md-bullet"${ml}>\u2022 ${content}</span>`;
-                })
                 .replace(/^### (.+)$/gm, '<h4>$1</h4>')
                 .replace(/^## (.+)$/gm, '<h3>$1</h3>')
                 .replace(/^# (.+)$/gm, '<h2>$1</h2>')
