@@ -2492,6 +2492,47 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
     border-color: var(--accent);
 }
 
+.save-now-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text2);
+    padding: 4px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-right: 8px;
+    transition: all 0.2s;
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.save-now-btn.unsaved {
+    opacity: 1;
+    pointer-events: auto;
+    border-color: var(--orange);
+    color: var(--orange);
+    animation: pulse-save 2s infinite;
+}
+
+.save-now-btn.unsaved:hover {
+    background: var(--orange);
+    color: #000;
+}
+
+.save-now-btn.just-saved {
+    opacity: 1;
+    border-color: var(--green);
+    color: var(--green);
+    pointer-events: none;
+}
+
+@keyframes pulse-save {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
 .link-type-menu {
     position: fixed;
     z-index: 10000;
@@ -2573,6 +2614,7 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <button class="back-to-subjects-btn" onclick="backToSubjects()" title="Back to subjects">&#8592;</button>
+                <button class="save-now-btn" id="saveNowBtn" onclick="manualSave()" title="Save changes">Save</button>
                 <span><span style="color:var(--accent)">M</span>indNotes</span>
                 <div class="header-actions">
                     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
@@ -3656,7 +3698,7 @@ async function loadData() {
             if (oldData) {
                 State.data = JSON.parse(oldData);
                 if (!State.data.trash) State.data.trash = [];
-                await saveData();
+                await _commitSave();
                 localStorage.removeItem(dataKey);
                 console.log('Migrated from localStorage to IndexedDB');
             } else if (seedFile) {
@@ -3667,7 +3709,7 @@ async function loadData() {
                         const backup = await resp.json();
                         State.data = backup.data || backup;
                         if (!State.data.trash) State.data.trash = [];
-                        await saveData();
+                        await _commitSave();
                         console.log('Loaded from bundled ' + seedFile);
                     } else {
                         State.data = createDefaultData();
@@ -3716,7 +3758,7 @@ async function loadData() {
                             State.data.trash.push({ ...n, deletedAt: Date.now(), fromTopic: topic.name, fromSubtopic: sub.name });
                         });
                         sub.nodes = sub.nodes.filter(n => linkedIds.has(n.id));
-                        saveData();
+                        _commitSave();
                     }
                 }
             });
@@ -3730,7 +3772,26 @@ async function loadData() {
     }
 }
 
-async function saveData() {
+// Dirty flag: tracks whether there are unsaved changes
+let _dataIsDirty = false;
+
+function markDirty() {
+    if (!_dataIsDirty) {
+        _dataIsDirty = true;
+        const btn = document.getElementById('saveNowBtn');
+        if (btn) {
+            btn.classList.add('unsaved');
+            btn.classList.remove('just-saved');
+            btn.textContent = 'Save*';
+        }
+    }
+}
+
+function hasUnsavedChanges() {
+    return _dataIsDirty;
+}
+
+async function _commitSave() {
     const dataKey = State.currentSubject ? State.currentSubject.dataKey : 'mindnotes2';
     try {
         if (!db) await initDB();
@@ -3745,10 +3806,34 @@ async function saveData() {
 
         // Trigger file system autosave (non-blocking)
         autoSaveToFileSystem(dataKey, State.data);
+
+        _dataIsDirty = false;
+        const btn = document.getElementById('saveNowBtn');
+        if (btn) {
+            btn.classList.remove('unsaved');
+            btn.classList.add('just-saved');
+            btn.textContent = 'Saved';
+            setTimeout(() => {
+                btn.classList.remove('just-saved');
+                btn.textContent = 'Save';
+            }, 1500);
+        }
     } catch (e) {
         console.error('IndexedDB save error:', e);
         alert('Error saving: ' + e.message);
     }
+}
+
+async function manualSave() {
+    if (_dataIsDirty) {
+        await _commitSave();
+        showToast('Changes saved!');
+    }
+}
+
+// saveData() now just marks dirty instead of writing
+async function saveData() {
+    markDirty();
 }
 
 // ==================== FILE SYSTEM AUTOSAVE ====================
@@ -4067,7 +4152,7 @@ function importFromJson() {
                 if (!State.data.trash) State.data.trash = [];
             }
 
-            saveData();
+            _commitSave();
             renderSidebar();
             updateFlashcardStats();
 
@@ -7504,6 +7589,17 @@ function toggleTopic(header) {
 }
 
 function selectSubtopic(topic, subtopic) {
+    // If switching away from current subtopic with unsaved changes, ask to save
+    if (State.currentSubtopic && State.currentSubtopic.id !== subtopic.id && hasUnsavedChanges()) {
+        const answer = confirm('You have unsaved changes. Save before switching?');
+        if (answer) {
+            _commitSave();
+        } else {
+            _dataIsDirty = false;
+            const btn = document.getElementById('saveNowBtn');
+            if (btn) { btn.classList.remove('unsaved'); btn.textContent = 'Save'; }
+        }
+    }
     State.currentSubtopic = subtopic;
     State.selectedNode = null;
     $('detailPanel').classList.remove('open');
@@ -7837,7 +7933,7 @@ function restoreFromBackup(event) {
                 loadTheme();
             }
 
-            saveData();
+            _commitSave();
             renderSidebar();
             updateFlashcardStats();
 
@@ -8416,7 +8512,7 @@ async function downloadFromCloud() {
         }
 
         State.data = decrypted;
-        saveData();
+        _commitSave();
         State.syncId = id;
         localStorage.setItem('mindnotes_syncId', State.syncId);
 
@@ -8942,9 +9038,16 @@ async function selectSubject(subject) {
 }
 
 async function backToSubjects() {
-    // Save current data before switching
-    if (State.currentSubject) {
-        await saveData();
+    // Ask to save if there are unsaved changes
+    if (hasUnsavedChanges()) {
+        const answer = confirm('You have unsaved changes. Save before leaving?');
+        if (answer) {
+            await _commitSave();
+        } else {
+            _dataIsDirty = false;
+            const btn = document.getElementById('saveNowBtn');
+            if (btn) { btn.classList.remove('unsaved'); btn.textContent = 'Save'; }
+        }
     }
     // Reset state
     State.data = { topics: [], trash: [] };
