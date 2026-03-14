@@ -2617,7 +2617,6 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
                 <button class="save-now-btn" id="saveNowBtn" onclick="manualSave()" title="Save changes">Save</button>
                 <span><span style="color:var(--accent)">M</span>indNotes</span>
                 <div class="header-actions">
-                    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
                     <button class="sync-btn" onclick="downloadLocalBackup()" title="Save Local Backup">💾</button>
                     <button class="sync-btn" onclick="importFromJson()" title="Import JSON">📥</button>
                     <button class="sync-btn" id="syncBtn" onclick="openSyncModal()" title="Cloud Sync">☁️</button>
@@ -8981,31 +8980,9 @@ async function copyExport() {
     showToast(success ? 'Notes copied to clipboard!' : 'Failed to copy');
 }
 
-function toggleTheme() {
-    const html = document.documentElement;
-    const currentTheme = html.getAttribute('data-theme');
-    const newTheme = currentTheme === 'light' ? null : 'light';
-
-    if (newTheme) {
-        html.setAttribute('data-theme', newTheme);
-    } else {
-        html.removeAttribute('data-theme');
-    }
-
-    localStorage.setItem('mindnotes_theme', newTheme || 'dark');
-    $('themeToggle').textContent = newTheme === 'light' ? '☀️' : '🌙';
-}
-
 function loadTheme() {
-    const savedTheme = localStorage.getItem('mindnotes_theme') || 'dark';
-
-    if (savedTheme === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-    } else {
-        document.documentElement.removeAttribute('data-theme');
-    }
-
-    $('themeToggle').textContent = savedTheme === 'light' ? '☀️' : '🌙';
+    // Always use light theme
+    document.documentElement.setAttribute('data-theme', 'light');
 }
 
 // ==================== SUBJECT SELECTION ====================
