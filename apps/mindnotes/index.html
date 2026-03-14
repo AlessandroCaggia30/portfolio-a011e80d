@@ -3205,7 +3205,7 @@ const State = {
 const SUBJECTS = [
     { id: 'adv-math', name: 'Advanced Mathematics', icon: '\u2211', dataKey: 'mindnotes_advmath', seedFile: 'data.json' },
     { id: 'adv-micro', name: 'Advanced Microeconometrics', icon: '\uD83D\uDCCA', dataKey: 'mindnotes_advmicro', seedFile: null },
-    { id: 'adv-macro', name: 'Advanced Macroeconomics', icon: '\uD83C\uDF10', dataKey: 'mindnotes_advmacro', seedFile: null }
+    { id: 'adv-macro', name: 'Advanced Macroeconomics', icon: '\uD83C\uDF10', dataKey: 'mindnotes_advmacro', seedFile: 'data_advmacro.json', seedVersion: 1 }
 ];
 
 // ==================== FSRS SPACED REPETITION ALGORITHM ====================
@@ -3621,12 +3621,35 @@ async function loadData() {
             request.onerror = () => reject(request.error);
         });
 
-        if (data) {
+        // Check if seed file has been updated (version-based refresh)
+        const seedVersion = State.currentSubject ? State.currentSubject.seedVersion : null;
+        const storedSeedVersion = seedVersion ? localStorage.getItem(dataKey + '_seedVersion') : null;
+        const needsSeedRefresh = seedVersion && storedSeedVersion !== String(seedVersion);
+
+        if (data && !needsSeedRefresh) {
             State.data = data;
             if (!State.data.trash) State.data.trash = [];
             const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
             State.data.trash = State.data.trash.filter(item => item.deletedAt > thirtyDaysAgo);
             console.log('Loaded from IndexedDB (' + dataKey + '), topics:', State.data.topics.length);
+        } else if (needsSeedRefresh && seedFile) {
+            // Seed file updated — reload from seed
+            try {
+                const resp = await fetch(seedFile);
+                if (resp.ok) {
+                    const backup = await resp.json();
+                    State.data = backup.data || backup;
+                    if (!State.data.trash) State.data.trash = [];
+                    await saveData();
+                    localStorage.setItem(dataKey + '_seedVersion', String(seedVersion));
+                    console.log('Refreshed from updated seed ' + seedFile + ' (v' + seedVersion + ')');
+                } else if (data) {
+                    State.data = data;
+                    if (!State.data.trash) State.data.trash = [];
+                }
+            } catch (e2) {
+                if (data) { State.data = data; if (!State.data.trash) State.data.trash = []; }
+            }
         } else {
             // Try migrating from localStorage
             const oldData = localStorage.getItem(dataKey);
