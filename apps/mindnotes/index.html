@@ -1469,9 +1469,10 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
     flex: 1;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     padding: 40px;
     text-align: center;
+    overflow-y: auto;
 }
 
 .flashcards-view.active, .quiz-view.active { display: flex; }
@@ -3713,14 +3714,40 @@ async function loadData() {
             State.data.trash = State.data.trash.filter(item => item.deletedAt > thirtyDaysAgo);
             console.log('Loaded from IndexedDB (' + dataKey + '), topics:', State.data.topics.length);
         } else if (needsSeedRefresh && seedFile) {
-            // Seed file updated — reload from seed
+            // Seed file updated — merge seed into existing data (preserve user flashcard flags & FSRS state)
             try {
                 const resp = await fetch(seedFile);
                 if (resp.ok) {
                     const backup = await resp.json();
-                    State.data = backup.data || backup;
+                    const seedData = backup.data || backup;
+                    if (data) {
+                        // Merge: add new topics/subtopics/nodes from seed, but keep user's existing nodes intact
+                        seedData.topics.forEach(seedTopic => {
+                            const existingTopic = data.topics.find(t => t.name === seedTopic.name);
+                            if (existingTopic) {
+                                seedTopic.subtopics.forEach(seedSub => {
+                                    const existingSub = existingTopic.subtopics.find(s => s.name === seedSub.name);
+                                    if (existingSub) {
+                                        // Add only new nodes (by id) — don't overwrite existing
+                                        seedSub.nodes.forEach(seedNode => {
+                                            if (!existingSub.nodes.some(n => n.id === seedNode.id)) {
+                                                existingSub.nodes.push(seedNode);
+                                            }
+                                        });
+                                    } else {
+                                        existingTopic.subtopics.push(seedSub);
+                                    }
+                                });
+                            } else {
+                                data.topics.push(seedTopic);
+                            }
+                        });
+                        State.data = data;
+                    } else {
+                        State.data = seedData;
+                    }
                     if (!State.data.trash) State.data.trash = [];
-                    await saveData();
+                    await _commitSave();
                     localStorage.setItem(dataKey + '_seedVersion', String(seedVersion));
                     console.log('Refreshed from updated seed ' + seedFile + ' (v' + seedVersion + ')');
                 } else if (data) {
@@ -8694,7 +8721,7 @@ function renderRetentionChart() {
     const placeholder = $('chartPlaceholder');
     const reviews = State.reviewHistory;
 
-    if (reviews.length < 2) {
+    if (reviews.length === 0) {
         canvas.style.display = 'none';
         placeholder.style.display = 'block';
         return;
@@ -8725,7 +8752,19 @@ function renderRetentionChart() {
 
     ctx.clearRect(0, 0, w, h);
 
-    if (days.length < 2) return;
+    // Single day: show a summary instead of a line chart
+    if (days.length < 2) {
+        const ret = retentions[0];
+        const total = dailyStats[days[0]].total;
+        const correct = dailyStats[days[0]].correct;
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text2').trim();
+        ctx.font = '13px -apple-system, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(`Today: ${correct}/${total} correct (${ret}% retention)`, w / 2, h / 2 - 10);
+        ctx.font = '11px -apple-system, sans-serif';
+        ctx.fillText('Review on more days to see a trend chart', w / 2, h / 2 + 15);
+        return;
+    }
 
     // Draw grid
     ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--border').trim();
@@ -8975,8 +9014,8 @@ function rateFlashcard(rating) {
     }
     localStorage.setItem('mindnotes_reviews', JSON.stringify(State.reviewHistory));
 
-    // Save data
-    saveData();
+    // Commit immediately — don't just mark dirty, because a page refresh would lose reviews
+    _commitSave();
 
     // Move to next card
     session.currentIndex++;
