@@ -3501,11 +3501,16 @@ const FSRS = {
             });
         });
 
-        // Sort: new cards first, then by due date
+        // Sort by snippet number (e.g. "1.1.2 Title" → [1,1,2])
         dueCards.sort((a, b) => {
-            if (a.node.fsrs.state === 'new' && b.node.fsrs.state !== 'new') return -1;
-            if (a.node.fsrs.state !== 'new' && b.node.fsrs.state === 'new') return 1;
-            return new Date(a.node.fsrs.dueDate) - new Date(b.node.fsrs.dueDate);
+            const numsA = parseSnippetNumber(a.node.title);
+            const numsB = parseSnippetNumber(b.node.title);
+            for (let i = 0; i < Math.max(numsA.length, numsB.length); i++) {
+                const na = numsA[i] ?? -1;
+                const nb = numsB[i] ?? -1;
+                if (na !== nb) return na - nb;
+            }
+            return 0;
         });
 
         return dueCards;
@@ -8833,8 +8838,28 @@ function getAllFlashcards(data) {
         });
     });
 
-    console.log('getAllFlashcards: found', allCards.length, 'cards across all topics');
+    // Sort by numeric prefix in title (e.g. "1.1.2 Definition" → [1,1,2])
+    allCards.sort((a, b) => {
+        const numsA = parseSnippetNumber(a.node.title);
+        const numsB = parseSnippetNumber(b.node.title);
+        for (let i = 0; i < Math.max(numsA.length, numsB.length); i++) {
+            const na = numsA[i] ?? -1;
+            const nb = numsB[i] ?? -1;
+            if (na !== nb) return na - nb;
+        }
+        return 0;
+    });
+
+    console.log('getAllFlashcards: found', allCards.length, 'cards, sorted by snippet number');
     return allCards;
+}
+
+// Extract numeric prefix like "1.1.2" from a title → [1, 1, 2]
+function parseSnippetNumber(title) {
+    if (!title) return [Infinity];
+    const match = title.match(/^(\d+(?:\.\d+)*)/);
+    if (!match) return [Infinity]; // no number → sort to end
+    return match[1].split('.').map(Number);
 }
 
 // Topological sort: nodes that are prerequisites (linked TO) come first
