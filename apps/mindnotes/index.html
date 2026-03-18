@@ -1633,7 +1633,7 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 600px;
+    max-width: 900px;
     margin-bottom: 30px;
 }
 
@@ -1675,7 +1675,7 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 
 .fc-card-container {
     width: 100%;
-    max-width: 600px;
+    max-width: 900px;
     margin-bottom: 30px;
 }
 
@@ -1683,7 +1683,7 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
     background: var(--bg2);
     border: 1px solid var(--border);
     border-radius: 16px;
-    padding: 30px;
+    padding: 30px 40px;
     min-height: 300px;
     display: flex;
     flex-direction: column;
@@ -1706,8 +1706,6 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 .fc-card-content {
     color: var(--text);
     line-height: 1.6;
-    max-height: 150px;
-    overflow: hidden;
 }
 
 .fc-card-back {
@@ -1718,9 +1716,10 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 
 .fc-card-answer {
     color: var(--text);
-    line-height: 1.6;
-    max-height: 200px;
+    line-height: 1.8;
+    max-height: 60vh;
     overflow-y: auto;
+    font-size: 15px;
 }
 
 .fc-card-info {
@@ -2528,6 +2527,45 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
     pointer-events: none;
 }
 
+.autosave-toggle-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text2);
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-right: 4px;
+    transition: all 0.2s;
+    opacity: 0.7;
+}
+
+.autosave-toggle-btn:hover {
+    opacity: 1;
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.autosave-toggle-btn.active {
+    opacity: 1;
+    border-color: var(--green);
+    color: var(--green);
+    background: rgba(0, 184, 148, 0.1);
+}
+
+.autosave-toggle-btn.active::after {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    margin-left: 5px;
+    animation: pulse-save 2s infinite;
+}
+
 @keyframes pulse-save {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.6; }
@@ -2615,6 +2653,7 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
             <div class="sidebar-header">
                 <button class="back-to-subjects-btn" onclick="backToSubjects()" title="Back to subjects">&#8592;</button>
                 <button class="save-now-btn" id="saveNowBtn" onclick="manualSave()" title="Save changes">Save</button>
+                <button class="autosave-toggle-btn" id="autosaveToggleBtn" onclick="togglePeriodicAutosave()" title="Toggle periodic autosave (every 30s)">Auto</button>
                 <span><span style="color:var(--accent)">M</span>indNotes</span>
                 <div class="header-actions">
                     <button class="sync-btn" onclick="downloadLocalBackup()" title="Save Local Backup">💾</button>
@@ -3833,6 +3872,34 @@ async function manualSave() {
 // saveData() now just marks dirty instead of writing
 async function saveData() {
     markDirty();
+}
+
+// ==================== PERIODIC AUTOSAVE ====================
+let periodicAutosaveInterval = null;
+
+function togglePeriodicAutosave() {
+    const btn = document.getElementById('autosaveToggleBtn');
+    if (periodicAutosaveInterval) {
+        // Turn off
+        clearInterval(periodicAutosaveInterval);
+        periodicAutosaveInterval = null;
+        btn.classList.remove('active');
+        btn.textContent = 'Auto';
+        showToast('Autosave disabled');
+    } else {
+        // Turn on — save every 30 seconds if dirty
+        periodicAutosaveInterval = setInterval(async () => {
+            if (_dataIsDirty) {
+                await _commitSave();
+                console.log('Periodic autosave triggered');
+            }
+        }, 30000);
+        btn.classList.add('active');
+        btn.textContent = 'Auto';
+        showToast('Autosave enabled (every 30s)');
+        // Also save immediately if dirty
+        if (_dataIsDirty) _commitSave();
+    }
 }
 
 // ==================== FILE SYSTEM AUTOSAVE ====================
@@ -8706,41 +8773,85 @@ function renderRetentionChart() {
 
 function getAllFlashcards(data) {
     const allCards = [];
+    // Iterate in topic/subtopic order (natural curriculum order)
     data.topics.forEach(topic => {
         topic.subtopics.forEach(sub => {
-            sub.nodes.forEach(node => {
-                if (node.flashcard) {
-                    FSRS.initCard(node);
-                    allCards.push({
-                        node,
-                        topic: topic.name,
-                        subtopic: sub.name,
-                        topicId: topic.id,
-                        subtopicId: sub.id
-                    });
-                }
+            // Within each subtopic, topological sort by links:
+            // nodes that are linked FROM others are prerequisites → show first
+            const flashcardNodes = sub.nodes.filter(n => n.flashcard);
+            const sorted = topologicalSortNodes(flashcardNodes);
+
+            sorted.forEach(node => {
+                FSRS.initCard(node);
+                allCards.push({
+                    node,
+                    topic: topic.name,
+                    subtopic: sub.name,
+                    topicId: topic.id,
+                    subtopicId: sub.id
+                });
             });
         });
     });
 
-    // Shuffle for variety
-    for (let i = allCards.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [allCards[i], allCards[j]] = [allCards[j], allCards[i]];
+    console.log('getAllFlashcards: found', allCards.length, 'cards across all topics');
+    return allCards;
+}
+
+// Topological sort: nodes that are prerequisites (linked TO) come first
+function topologicalSortNodes(nodes) {
+    if (nodes.length <= 1) return [...nodes];
+
+    const nodeMap = new Map(nodes.map(n => [n.id, n]));
+    const inDegree = new Map(nodes.map(n => [n.id, 0]));
+    const adjacency = new Map(nodes.map(n => [n.id, []]));
+
+    // Build graph: if A links to B, A depends on B (B is prerequisite)
+    // So edge direction: B → A (B should come before A)
+    nodes.forEach(node => {
+        (node.links || []).forEach(link => {
+            const targetId = getLinkTarget(link);
+            if (nodeMap.has(targetId)) {
+                // targetId is a prerequisite of node.id
+                adjacency.get(targetId).push(node.id);
+                inDegree.set(node.id, (inDegree.get(node.id) || 0) + 1);
+            }
+        });
+    });
+
+    // Kahn's algorithm
+    const queue = [];
+    inDegree.forEach((deg, id) => { if (deg === 0) queue.push(id); });
+
+    const sorted = [];
+    while (queue.length > 0) {
+        const id = queue.shift();
+        sorted.push(nodeMap.get(id));
+        (adjacency.get(id) || []).forEach(next => {
+            inDegree.set(next, inDegree.get(next) - 1);
+            if (inDegree.get(next) === 0) queue.push(next);
+        });
     }
 
-    return allCards;
+    // Append any remaining nodes (cycles) in original order
+    nodes.forEach(n => {
+        if (!sorted.includes(n)) sorted.push(n);
+    });
+
+    return sorted;
 }
 
 function startFlashcards(mode = 'optimal') {
     let cards;
 
     if (mode === 'all') {
-        // Get ALL flashcard-marked cards
+        // Get ALL flashcard-marked cards (not just due ones)
         cards = getAllFlashcards(State.data);
+        console.log('Starting ALL flashcards mode:', cards.length, 'cards');
     } else {
         // Get only due cards (optimal spacing)
         cards = FSRS.getDueCards(State.data);
+        console.log('Starting OPTIMAL mode:', cards.length, 'due cards');
     }
 
     if (cards.length === 0) {
@@ -8800,9 +8911,18 @@ function showCurrentFlashcard() {
     if (format === 'obsidian') {
         formattedContent = formatForObsidian(content);
     } else {
-        formattedContent = formatContent(escapeHtml(content));
+        // formatContent already escapes HTML internally — don't double-escape
+        formattedContent = formatContent(content);
     }
     $('fcCardAnswer').innerHTML = formattedContent;
+
+    // Also show images if any
+    if (node.images && Array.isArray(node.images) && node.images.length > 0) {
+        const imagesHtml = node.images.map((img, i) =>
+            `<img src="${img}" alt="Image ${i+1}" style="max-width:100%;border-radius:8px;margin:10px 0;">`
+        ).join('');
+        $('fcCardAnswer').innerHTML += imagesHtml;
+    }
 
     // Render math
     renderMath($('fcCardContent'));
