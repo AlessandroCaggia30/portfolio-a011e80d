@@ -2796,8 +2796,8 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
                 <div class="header-actions">
                     <button class="sync-btn" onclick="downloadLocalBackup()" title="Save Local Backup (JSON)">💾</button>
                     <button class="sync-btn" onclick="importFromJson()" title="Import JSON">📥</button>
-                    <button class="sync-btn" onclick="downloadSnippetsTex()" title="Download .tex">📄↓</button>
-                    <button class="sync-btn" onclick="uploadSnippetsTex()" title="Import .tex">📄↑</button>
+                    <button class="sync-btn" onclick="downloadSnippetsTex()" title="Download .tex" style="font-size:11px;width:auto;padding:0 8px;">.tex↓</button>
+                    <button class="sync-btn" onclick="uploadSnippetsTex()" title="Import .tex" style="font-size:11px;width:auto;padding:0 8px;">.tex↑</button>
                     <button class="sync-btn" id="syncBtn" onclick="openSyncModal()" title="Cloud Sync">☁️</button>
                 </div>
             </div>
@@ -8960,8 +8960,8 @@ function onSnippetsTexInput() {
 }
 
 function downloadSnippetsTex() {
-    const tex = $('snippetsTexEditor').value;
-    if (!tex) { showToast('No TeX content to download'); return; }
+    const tex = State.data.snippetsTex || $('snippetsTexEditor').value;
+    if (!tex) { showToast('No TeX content — import a .tex file first'); return; }
     const blob = new Blob([tex], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -8983,11 +8983,15 @@ function uploadSnippetsTex() {
         if (!file) return;
         const text = await file.text();
 
-        // Store and show
+        // Store
         State.data.snippetsTex = text;
-        $('snippetsTexEditor').value = text;
-        $('snippetsView').classList.add('has-tex');
         saveData();
+
+        // Update UI if snippets view elements exist
+        const editor = $('snippetsTexEditor');
+        if (editor) editor.value = text;
+        const view = $('snippetsView');
+        if (view) view.classList.add('has-tex');
 
         // Sync to node data
         const changed = applySnippetsTexToData(text);
