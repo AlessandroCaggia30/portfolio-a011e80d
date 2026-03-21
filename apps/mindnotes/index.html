@@ -9098,31 +9098,49 @@ function renderSnippetsPreview() {
     if (emptyState) emptyState.style.display = 'none';
     if (frame) frame.style.display = 'block';
 
-    // Build a self-contained HTML page that uses LaTeX.js web component
-    // The <latex-js> custom element handles all parsing and rendering
-    const escapedTex = tex
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
+    // Encode TeX as base64 to avoid any escaping issues
+    const texB64 = btoa(unescape(encodeURIComponent(tex)));
 
     const html = `<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
-    <script type="module">
-        import { LaTeXJSComponent } from "https://cdn.jsdelivr.net/npm/latex.js@0.12.6/dist/latex.mjs";
-        customElements.define("latex-js", LaTeXJSComponent);
-    <\/script>
     <style>
-        body { margin: 0; padding: 0; }
-        latex-js { display: block; padding: 10px 20px; }
+        body { margin: 0; padding: 20px 30px; font-family: "Computer Modern Serif", "Latin Modern Roman", Georgia, serif; line-height: 1.6; color: #333; }
+        .compile-status { padding: 12px; background: #e8f4fd; border-radius: 8px; font-size: 13px; color: #1a5276; margin-bottom: 16px; }
+        .compile-error { padding: 12px; background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; font-size: 13px; margin-bottom: 16px; }
     </style>
 </head>
 <body>
-    <latex-js baseURL="https://cdn.jsdelivr.net/npm/latex.js@0.12.6/dist/"
-             hyphenate="false">
-${escapedTex}
-    </latex-js>
+    <div id="status" class="compile-status">Compiling LaTeX...</div>
+    <div id="output"></div>
+    <script type="module">
+        try {
+            const { parse, HtmlGenerator } = await import("https://cdn.jsdelivr.net/npm/latex.js@0.12.6/dist/latex.mjs");
+
+            const texB64 = "${texB64}";
+            const tex = decodeURIComponent(escape(atob(texB64)));
+
+            const generator = new HtmlGenerator({ hyphenate: false });
+            const compiled = parse(tex, { generator: generator });
+
+            // Add styles
+            const styles = compiled.stylesAndScripts("https://cdn.jsdelivr.net/npm/latex.js@0.12.6/dist/");
+            document.head.appendChild(styles);
+
+            // Add rendered content
+            const fragment = compiled.domFragment();
+            document.getElementById("output").appendChild(fragment);
+            document.getElementById("status").remove();
+        } catch (e) {
+            console.error("LaTeX.js error:", e);
+            const status = document.getElementById("status");
+            status.className = "compile-error";
+            status.innerHTML = "<strong>Compilation error:</strong> " + e.message +
+                "<br><small>LaTeX.js supports standard LaTeX but not all packages. " +
+                "Unsupported commands: \\\\usepackage with custom .sty, TikZ, etc.</small>";
+        }
+    <\/script>
 </body>
 </html>`;
 
