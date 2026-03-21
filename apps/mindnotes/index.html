@@ -1511,10 +1511,15 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 .snippets-view.active { display: flex; }
 
 .snippets-pdf-pane {
-    flex: 0 0 60%;
+    flex: 1;
     height: 100%;
-    border-right: 1px solid var(--border);
     background: var(--bg);
+    position: relative;
+}
+
+.snippets-view.has-tex .snippets-pdf-pane {
+    flex: 0 0 60%;
+    border-right: 1px solid var(--border);
 }
 
 .snippets-pdf-pane iframe,
@@ -1545,11 +1550,15 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 
 .snippets-tex-pane {
     flex: 1;
-    display: flex;
+    display: none;
     flex-direction: column;
     height: 100%;
     background: var(--bg2);
     min-width: 0;
+}
+
+.snippets-view.has-tex .snippets-tex-pane {
+    display: flex;
 }
 
 .snippets-tex-header {
@@ -3099,18 +3108,22 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
             <!-- Snippets View -->
             <div class="snippets-view" id="snippetsView">
                 <div class="snippets-pdf-pane">
-                    <iframe id="snippetsPdf" src="all_snippets.pdf" type="application/pdf"></iframe>
+                    <div style="position:absolute;top:10px;right:10px;z-index:10;display:flex;gap:6px;" id="snippetsToolbar">
+                        <button onclick="uploadSnippetsTex()" style="padding:6px 14px;background:var(--bg2);border:1px solid var(--border);color:var(--text);border-radius:8px;cursor:pointer;font-size:12px;font-weight:500;box-shadow:0 2px 8px rgba(0,0,0,0.1);" title="Import a .tex file to show alongside the PDF">Import .tex</button>
+                    </div>
+                    <iframe id="snippetsPdf" src="all_snippets.pdf" type="application/pdf" style="width:100%;height:100%;border:none;"></iframe>
                 </div>
                 <div class="snippets-tex-pane">
                     <div class="snippets-tex-header">
                         <span>all_snippets.tex</span>
                         <div class="tex-actions">
-                            <button onclick="downloadSnippetsTex()" title="Download .tex file">Download .tex</button>
-                            <button onclick="uploadSnippetsTex()" title="Upload .tex file">Upload .tex</button>
+                            <button onclick="downloadSnippetsTex()" title="Download .tex file">Download</button>
+                            <button onclick="uploadSnippetsTex()" title="Replace with another .tex file">Replace</button>
+                            <button onclick="closeSnippetsTex()" title="Close TeX panel">Close</button>
                         </div>
                     </div>
                     <textarea class="snippets-tex-editor" id="snippetsTexEditor"
-                              placeholder="LaTeX content will appear here..."
+                              placeholder="LaTeX content..."
                               oninput="onSnippetsTexInput()" spellcheck="false"></textarea>
                 </div>
             </div>
@@ -8867,64 +8880,48 @@ function switchView(view) {
 }
 
 // ==================== SNIPPETS VIEW ====================
-// The TeX in the snippets editor is generated FROM the node data and edits
-// flow BACK to the nodes. Each snippet is delimited by markers so we can
-// map edits 1:1.
+// The TeX file is user-provided (imported), stored in State.data.snippetsTex.
+// Edits to the TeX sync back to the node data via snippet markers.
+// No TeX panel is shown until a .tex file is imported.
 
-const SNIPPET_SEPARATOR = '\n%% --- SNIPPET ---\n';
-const SNIPPET_HEADER_RE = /^%% \[(\S+)\] (.+)$/; // %% [nodeId] Title
+const SNIPPET_SEPARATOR_RE = /\n%% --- SNIPPET ---\n/;
+const SNIPPET_HEADER_RE = /^%% \[(\S+)\] (.+)$/m;
 
-// Build TeX from all nodes, sorted by snippet number in title
-function buildSnippetsTex() {
-    const allNodes = [];
-    State.data.topics.forEach(topic => {
-        topic.subtopics.forEach(sub => {
-            sub.nodes.forEach(node => {
-                allNodes.push({ node, topic: topic.name, subtopic: sub.name });
-            });
-        });
-    });
+function loadSnippetsTex() {
+    const view = $('snippetsView');
+    if (State.data.snippetsTex) {
+        view.classList.add('has-tex');
+        $('snippetsTexEditor').value = State.data.snippetsTex;
+    } else {
+        view.classList.remove('has-tex');
+    }
+}
 
-    // Sort by numeric prefix in title
-    allNodes.sort((a, b) => {
-        const na = parseSnippetNumber(a.node.title);
-        const nb = parseSnippetNumber(b.node.title);
-        for (let i = 0; i < Math.max(na.length, nb.length); i++) {
-            const x = na[i] ?? -1, y = nb[i] ?? -1;
-            if (x !== y) return x - y;
-        }
-        return 0;
-    });
-
-    return allNodes.map(({ node, topic, subtopic }) => {
-        const header = `%% [${node.id}] ${node.title || 'Untitled'}`;
-        const meta = `%% Topic: ${topic} > ${subtopic}`;
-        return header + '\n' + meta + '\n' + (node.content || '');
-    }).join(SNIPPET_SEPARATOR);
+function closeSnippetsTex() {
+    $('snippetsView').classList.remove('has-tex');
 }
 
 // Parse the TeX back into per-node content and update State.data
 function applySnippetsTexToData(texContent) {
-    // Split by separator
-    const blocks = texContent.split(SNIPPET_SEPARATOR);
+    const blocks = texContent.split(SNIPPET_SEPARATOR_RE);
     let changed = 0;
 
     blocks.forEach(block => {
         const lines = block.split('\n');
-        if (lines.length < 2) return;
+        if (lines.length < 1) return;
 
-        // First line: %% [nodeId] Title
+        // Find header line: %% [nodeId] Title
         const headerMatch = lines[0].match(SNIPPET_HEADER_RE);
         if (!headerMatch) return;
 
         const nodeId = headerMatch[1];
-        // Skip the meta line (%% Topic: ...)
+        // Skip header and optional meta line
         let contentStart = 1;
         if (lines[1] && lines[1].startsWith('%% Topic:')) contentStart = 2;
 
         const newContent = lines.slice(contentStart).join('\n');
 
-        // Find the node in State.data and update
+        // Find the node and update
         for (const topic of State.data.topics) {
             for (const sub of topic.subtopics) {
                 const node = sub.nodes.find(n => n.id === nodeId);
@@ -8941,31 +8938,31 @@ function applySnippetsTexToData(texContent) {
 
     if (changed > 0) {
         saveData();
-        // Refresh canvas if we're looking at notes
         if (State.currentSubtopic) renderCanvas();
     }
     return changed;
 }
 
-function loadSnippetsTex() {
-    const editor = $('snippetsTexEditor');
-    editor.value = buildSnippetsTex();
-}
-
 let snippetsTexSaveTimer = null;
 function onSnippetsTexInput() {
-    // Debounce: parse and apply after 1.5s of inactivity
+    const tex = $('snippetsTexEditor').value;
+    // Store the raw TeX in State.data so it persists with save/export
+    State.data.snippetsTex = tex;
+    saveData();
+
+    // Debounce: sync back to node data after 1.5s
     clearTimeout(snippetsTexSaveTimer);
     snippetsTexSaveTimer = setTimeout(() => {
-        const changed = applySnippetsTexToData($('snippetsTexEditor').value);
+        const changed = applySnippetsTexToData(tex);
         if (changed > 0) {
-            console.log('Snippets: updated', changed, 'nodes from TeX editor');
+            console.log('Snippets: synced', changed, 'nodes from TeX editor');
         }
     }, 1500);
 }
 
 function downloadSnippetsTex() {
-    const tex = $('snippetsTexEditor').value || buildSnippetsTex();
+    const tex = $('snippetsTexEditor').value;
+    if (!tex) { showToast('No TeX content to download'); return; }
     const blob = new Blob([tex], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -8986,9 +8983,16 @@ function uploadSnippetsTex() {
         const file = e.target.files[0];
         if (!file) return;
         const text = await file.text();
+
+        // Store and show
+        State.data.snippetsTex = text;
         $('snippetsTexEditor').value = text;
+        $('snippetsView').classList.add('has-tex');
+        saveData();
+
+        // Sync to node data
         const changed = applySnippetsTexToData(text);
-        showToast(`Uploaded — updated ${changed} snippets`);
+        showToast(`Imported .tex — synced ${changed} snippets to notes`);
     };
     input.click();
 }
