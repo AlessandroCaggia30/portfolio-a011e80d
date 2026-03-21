@@ -9110,15 +9110,73 @@ async function loadSnippetsTex() {
         view.classList.remove('has-tex');
     }
 
-    // Load cached PDF from IndexedDB
+    // Load cached PDF from IndexedDB, then compile if we have TeX
     if (!_snippetsPdfBlobUrl) {
         await loadSnippetsPdfFromDB();
     }
     renderSnippetsPreview();
+    // Auto-compile if we have TeX but no PDF yet
+    if (!_snippetsPdfBlobUrl && State.data.snippetsTex && !_isCompiling) {
+        compileSnippetsTex();
+    }
 }
 
-// PDF display (compiled externally in Overleaf, loaded from folder)
+// ==================== LIVE LATEX COMPILER ====================
+// Uses latex.ytotech.com — free API, CORS enabled, TexLive 2026, no auth
+const LATEX_API = 'https://latex.ytotech.com/builds/sync';
 let _snippetsPdfBlobUrl = null;
+let _isCompiling = false;
+
+async function compileSnippetsTex() {
+    const tex = State.data.snippetsTex;
+    if (!tex || _isCompiling) return;
+
+    _isCompiling = true;
+    const frame = $('snippetsRenderedFrame');
+    const emptyState = $('snippetsEmptyState');
+
+    // Show compiling status
+    if (emptyState) {
+        emptyState.style.display = 'flex';
+        emptyState.innerHTML = '<span style="font-size:48px;">⏳</span><p>Compiling LaTeX...</p>';
+    }
+    if (frame) frame.style.display = 'none';
+
+    try {
+        const resp = await fetch(LATEX_API, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                compiler: 'pdflatex',
+                resources: [{ main: true, content: tex }]
+            })
+        });
+
+        if (!resp.ok) {
+            const errText = await resp.text();
+            throw new Error('Server returned ' + resp.status + ': ' + errText.slice(0, 200));
+        }
+
+        const pdfBlob = await resp.blob();
+        if (pdfBlob.size < 100) throw new Error('Received empty or invalid PDF');
+
+        if (_snippetsPdfBlobUrl) URL.revokeObjectURL(_snippetsPdfBlobUrl);
+        _snippetsPdfBlobUrl = URL.createObjectURL(pdfBlob);
+        await storeSnippetsPdf(pdfBlob);
+        renderSnippetsPreview();
+        console.log('LaTeX compiled successfully (' + Math.round(pdfBlob.size/1024) + 'KB)');
+    } catch (e) {
+        console.error('LaTeX compilation error:', e);
+        if (emptyState) {
+            emptyState.style.display = 'flex';
+            emptyState.innerHTML = '<span style="font-size:48px;">⚠️</span><p>Compilation error</p>' +
+                '<pre style="text-align:left;max-height:300px;overflow:auto;background:var(--bg3);padding:12px;border-radius:8px;font-size:11px;max-width:90%;white-space:pre-wrap;">' +
+                escapeHtml(e.message) + '</pre>';
+        }
+    } finally {
+        _isCompiling = false;
+    }
+}
 
 function renderSnippetsPreview() {
     const frame = $('snippetsRenderedFrame');
@@ -9134,7 +9192,7 @@ function renderSnippetsPreview() {
         if (frame) { frame.style.display = 'none'; frame.src = 'about:blank'; }
         if (emptyState) {
             emptyState.style.display = 'flex';
-            emptyState.innerHTML = '<span style="font-size:48px;">📄</span><p>Import a folder with .json + .tex + .pdf</p>';
+            emptyState.innerHTML = '<span style="font-size:48px;">📄</span><p>Import a folder with .json + .tex to compile</p>';
         }
     }
 }
@@ -9225,6 +9283,7 @@ function applySnippetsTexToData(texContent) {
 }
 
 let snippetsTexSaveTimer = null;
+let snippetsCompileTimer = null;
 function onSnippetsTexInput() {
     const tex = $('snippetsTexEditor').value;
     State.data.snippetsTex = tex;
@@ -9239,6 +9298,11 @@ function onSnippetsTexInput() {
         }
     }, 1500);
 
+    // Debounce: recompile after 4s of inactivity
+    clearTimeout(snippetsCompileTimer);
+    snippetsCompileTimer = setTimeout(() => {
+        compileSnippetsTex();
+    }, 4000);
 }
 
 function downloadSnippetsTex() {
