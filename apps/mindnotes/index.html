@@ -9242,36 +9242,86 @@ function closeSnippetsTex() {
 }
 
 // Parse the TeX back into per-node content and update State.data
+// Normalize a title for fuzzy matching: lowercase, strip formatting, trim
+function normalizeTitle(t) {
+    return (t || '')
+        .replace(/\\textbf\{([^}]*)\}/g, '$1')
+        .replace(/\\textit\{([^}]*)\}/g, '$1')
+        .replace(/\\textcolor\{[^}]*\}\{([^}]*)\}/g, '$1')
+        .replace(/\\emph\{([^}]*)\}/g, '$1')
+        .replace(/[{}\\$]/g, '')
+        .replace(/--/g, '–')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .toLowerCase();
+}
+
+// Parse TeX into blocks by \subsection{...} boundaries
+function parseTexIntoBlocks(texContent) {
+    const blocks = [];
+    // Match \subsection{Title} or \subsection*{Title}
+    const subRe = /\\subsection\*?\{([^}]*)\}/g;
+    let match;
+    const splits = [];
+
+    while ((match = subRe.exec(texContent)) !== null) {
+        splits.push({ title: match[1], index: match.index, afterIndex: match.index + match[0].length });
+    }
+
+    for (let i = 0; i < splits.length; i++) {
+        const start = splits[i].afterIndex;
+        const end = (i + 1 < splits.length) ? splits[i + 1].index : texContent.length;
+        blocks.push({
+            title: splits[i].title,
+            content: texContent.slice(start, end).trim()
+        });
+    }
+
+    return blocks;
+}
+
+// Find the best matching node for a given title
+function findNodeByTitle(normalizedTitle) {
+    let bestNode = null;
+    let bestScore = 0;
+
+    for (const topic of State.data.topics) {
+        for (const sub of topic.subtopics) {
+            for (const node of sub.nodes) {
+                const nodeNorm = normalizeTitle(node.title);
+                if (!nodeNorm) continue;
+
+                // Exact match
+                if (nodeNorm === normalizedTitle) return node;
+
+                // One contains the other
+                if (nodeNorm.includes(normalizedTitle) || normalizedTitle.includes(nodeNorm)) {
+                    const score = Math.min(nodeNorm.length, normalizedTitle.length) / Math.max(nodeNorm.length, normalizedTitle.length);
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestNode = node;
+                    }
+                }
+            }
+        }
+    }
+
+    return bestScore > 0.4 ? bestNode : null;
+}
+
 function applySnippetsTexToData(texContent) {
-    const blocks = texContent.split(SNIPPET_SEPARATOR_RE);
+    const blocks = parseTexIntoBlocks(texContent);
     let changed = 0;
 
     blocks.forEach(block => {
-        const lines = block.split('\n');
-        if (lines.length < 1) return;
+        const normTitle = normalizeTitle(block.title);
+        const node = findNodeByTitle(normTitle);
 
-        // Find header line: %% [nodeId] Title
-        const headerMatch = lines[0].match(SNIPPET_HEADER_RE);
-        if (!headerMatch) return;
-
-        const nodeId = headerMatch[1];
-        // Skip header and optional meta line
-        let contentStart = 1;
-        if (lines[1] && lines[1].startsWith('%% Topic:')) contentStart = 2;
-
-        const newContent = lines.slice(contentStart).join('\n');
-
-        // Find the node and update
-        for (const topic of State.data.topics) {
-            for (const sub of topic.subtopics) {
-                const node = sub.nodes.find(n => n.id === nodeId);
-                if (node) {
-                    if (node.content !== newContent) {
-                        node.content = newContent;
-                        changed++;
-                    }
-                    return;
-                }
+        if (node) {
+            if (node.content !== block.content) {
+                node.content = block.content;
+                changed++;
+                console.log('Synced TeX → node:', node.title);
             }
         }
     });
