@@ -1511,26 +1511,61 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 
 .snippets-view.active { display: flex; }
 
-.snippets-pdf-pane {
+.snippets-preview-pane {
     flex: 1;
     height: 100%;
     background: var(--bg);
     position: relative;
+    overflow-y: auto;
+    padding: 30px 40px;
+    line-height: 1.8;
+    font-size: 15px;
 }
 
-.snippets-view.has-tex .snippets-pdf-pane {
+.snippets-view.has-tex .snippets-preview-pane {
     flex: 0 0 60%;
     border-right: 1px solid var(--border);
 }
 
-.snippets-pdf-pane iframe,
-.snippets-pdf-pane object {
-    width: 100%;
-    height: 100%;
-    border: none;
+.snippets-preview-pane .snippet-block {
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
 }
 
-.snippets-pdf-pane .pdf-fallback {
+.snippets-preview-pane .snippet-block:last-child {
+    border-bottom: none;
+}
+
+.snippets-preview-pane .snippet-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 8px;
+}
+
+.snippets-preview-pane .snippet-meta {
+    font-size: 11px;
+    color: var(--text2);
+    margin-bottom: 12px;
+}
+
+.snippets-preview-pane .snippet-content {
+    color: var(--text);
+}
+
+.snippets-preview-pane .snippet-content h2,
+.snippets-preview-pane .snippet-content h3,
+.snippets-preview-pane .snippet-content h4 {
+    margin: 16px 0 8px;
+}
+
+.snippets-preview-pane .snippet-content .katex-display {
+    margin: 16px 0;
+    overflow-x: auto;
+}
+
+.snippets-preview-pane .empty-state {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1539,14 +1574,6 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
     font-size: 14px;
     flex-direction: column;
     gap: 12px;
-}
-
-.snippets-pdf-pane .pdf-fallback a {
-    color: var(--accent);
-    text-decoration: none;
-    padding: 8px 20px;
-    border: 1px solid var(--accent);
-    border-radius: 8px;
 }
 
 .snippets-tex-pane {
@@ -3111,8 +3138,11 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
                 <div style="position:absolute;top:10px;left:10px;z-index:10;">
                     <button onclick="switchView('notes')" style="padding:6px 14px;background:var(--bg2);border:1px solid var(--border);color:var(--text);border-radius:8px;cursor:pointer;font-size:12px;font-weight:500;box-shadow:0 2px 8px rgba(0,0,0,0.15);display:flex;align-items:center;gap:6px;" title="Back to Notes">&#8592; Back</button>
                 </div>
-                <div class="snippets-pdf-pane">
-                    <iframe id="snippetsPdf" src="all_snippets.pdf" type="application/pdf" style="width:100%;height:100%;border:none;"></iframe>
+                <div class="snippets-preview-pane" id="snippetsPreview">
+                    <div class="empty-state">
+                        <span style="font-size:48px;">📄</span>
+                        <p>Import a folder with .tex + .json to see rendered snippets</p>
+                    </div>
                 </div>
                 <div class="snippets-tex-pane">
                     <div class="snippets-tex-header">
@@ -8259,7 +8289,7 @@ async function importFromFolder() {
                 if (State.data.topics.length && State.data.topics[0].subtopics.length) {
                     selectSubtopic(State.data.topics[0], State.data.topics[0].subtopics[0]);
                 }
-                if (State.currentView === 'snippets') loadSnippetsTex();
+                loadSnippetsTex();
                 const parts = [];
                 if (jsonLoaded) parts.push('JSON');
                 if (texLoaded) parts.push('TeX');
@@ -9011,6 +9041,55 @@ function loadSnippetsTex() {
     } else {
         view.classList.remove('has-tex');
     }
+    renderSnippetsPreview();
+}
+
+// Render the TeX content into the preview pane using KaTeX
+function renderSnippetsPreview() {
+    const preview = $('snippetsPreview');
+    const tex = State.data.snippetsTex;
+
+    if (!tex) {
+        preview.innerHTML = '<div class="empty-state"><span style="font-size:48px;">📄</span><p>Import a folder with .tex + .json to see rendered snippets</p></div>';
+        return;
+    }
+
+    // Split by snippet separator
+    const blocks = tex.split(SNIPPET_SEPARATOR_RE);
+    let html = '';
+
+    blocks.forEach(block => {
+        const lines = block.split('\n');
+        if (lines.length < 1 || !block.trim()) return;
+
+        // Parse header
+        const headerMatch = lines[0].match(SNIPPET_HEADER_RE);
+        let title = '', meta = '', contentStart = 0;
+
+        if (headerMatch) {
+            title = headerMatch[2] || 'Untitled';
+            contentStart = 1;
+            if (lines[1] && lines[1].startsWith('%% Topic:')) {
+                meta = lines[1].replace('%% Topic: ', '');
+                contentStart = 2;
+            }
+        }
+
+        const rawContent = lines.slice(contentStart).join('\n');
+        // Use the existing formatContent pipeline to render LaTeX → HTML
+        const rendered = formatContent(rawContent);
+
+        html += '<div class="snippet-block">';
+        if (title) html += `<div class="snippet-title">${escapeHtml(title)}</div>`;
+        if (meta) html += `<div class="snippet-meta">${escapeHtml(meta)}</div>`;
+        html += `<div class="snippet-content">${rendered}</div>`;
+        html += '</div>';
+    });
+
+    preview.innerHTML = html || '<div class="empty-state"><p>No snippets found in the TeX file</p></div>';
+
+    // Render math in all snippet blocks
+    preview.querySelectorAll('.snippet-content').forEach(el => renderMath(el));
 }
 
 function closeSnippetsTex() {
@@ -9060,20 +9139,26 @@ function applySnippetsTexToData(texContent) {
 }
 
 let snippetsTexSaveTimer = null;
+let snippetsPreviewTimer = null;
 function onSnippetsTexInput() {
     const tex = $('snippetsTexEditor').value;
-    // Store the raw TeX in State.data so it persists with save/export
     State.data.snippetsTex = tex;
     saveData();
 
-    // Debounce: sync back to node data after 1.5s
+    // Debounce: sync to node data + re-render preview after 1.5s
     clearTimeout(snippetsTexSaveTimer);
+    clearTimeout(snippetsPreviewTimer);
+
     snippetsTexSaveTimer = setTimeout(() => {
         const changed = applySnippetsTexToData(tex);
         if (changed > 0) {
             console.log('Snippets: synced', changed, 'nodes from TeX editor');
         }
     }, 1500);
+
+    snippetsPreviewTimer = setTimeout(() => {
+        renderSnippetsPreview();
+    }, 2000);
 }
 
 function downloadSnippetsTex() {
@@ -9104,11 +9189,14 @@ function uploadSnippetsTex() {
         State.data.snippetsTex = text;
         saveData();
 
-        // Update UI if snippets view elements exist
+        // Update UI
         const editor = $('snippetsTexEditor');
         if (editor) editor.value = text;
         const view = $('snippetsView');
         if (view) view.classList.add('has-tex');
+
+        // Render preview
+        renderSnippetsPreview();
 
         // Sync to node data
         const changed = applySnippetsTexToData(text);
