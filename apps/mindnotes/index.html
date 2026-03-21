@@ -9162,21 +9162,35 @@ async function compileSnippetsTex() {
 
         engine.writeMemFSFile('main.tex', tex);
         engine.setEngineMainFile('main.tex');
-        const result = await engine.compileLaTeX();
 
-        if (result.status === 0 && result.pdf) {
+        // First pass
+        let result = await engine.compileLaTeX();
+
+        // If first pass produced a PDF with errors, try a second pass (for references etc.)
+        if (result.pdf) {
+            const result2 = await engine.compileLaTeX();
+            if (result2.pdf) result = result2;
+        }
+
+        if (result.pdf) {
             const pdfBlob = new Blob([result.pdf], { type: 'application/pdf' });
             if (_snippetsPdfBlobUrl) URL.revokeObjectURL(_snippetsPdfBlobUrl);
             _snippetsPdfBlobUrl = URL.createObjectURL(pdfBlob);
             await storeSnippetsPdf(pdfBlob);
             renderSnippetsPreview();
-            console.log('SwiftLaTeX: compiled successfully');
+            console.log('SwiftLaTeX: compiled successfully (status:', result.status, ')');
         } else {
-            console.warn('SwiftLaTeX: compilation failed, log:', result.log);
+            // Extract just the error lines from the log
+            const log = result.log || 'Unknown error';
+            const errorLines = log.split('\n').filter(l => l.startsWith('!') || l.startsWith('l.') || l.includes('Error') || l.includes('error')).join('\n');
+            const lastLines = log.split('\n').slice(-30).join('\n');
+            console.warn('SwiftLaTeX: compilation failed. Status:', result.status);
+            console.warn('Full log:', log);
             if (emptyState) {
                 emptyState.style.display = 'flex';
-                emptyState.innerHTML = '<span style="font-size:48px;">⚠️</span><p>Compilation error</p><pre style="text-align:left;max-height:300px;overflow:auto;background:var(--bg3);padding:12px;border-radius:8px;font-size:11px;max-width:90%;">' +
-                    escapeHtml(result.log || 'Unknown error') + '</pre>';
+                emptyState.innerHTML = '<span style="font-size:48px;">⚠️</span><p>Compilation failed</p>' +
+                    '<pre style="text-align:left;max-height:400px;overflow:auto;background:var(--bg3);padding:12px;border-radius:8px;font-size:11px;max-width:90%;white-space:pre-wrap;">' +
+                    escapeHtml(errorLines || lastLines) + '</pre>';
             }
         }
     } catch (e) {
