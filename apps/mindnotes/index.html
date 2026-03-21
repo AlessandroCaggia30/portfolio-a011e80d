@@ -2794,10 +2794,8 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
                 <button class="autosave-toggle-btn" id="autosaveToggleBtn" onclick="togglePeriodicAutosave()" title="Toggle periodic autosave (every 30s)">Auto</button>
                 <span><span style="color:var(--accent)">M</span>indNotes</span>
                 <div class="header-actions">
-                    <button class="sync-btn" onclick="downloadLocalBackup()" title="Save Local Backup (JSON)">💾</button>
-                    <button class="sync-btn" onclick="importFromJson()" title="Import JSON">📥</button>
-                    <button class="sync-btn" onclick="downloadSnippetsTex()" title="Download .tex" style="font-size:11px;width:auto;padding:0 8px;">.tex↓</button>
-                    <button class="sync-btn" onclick="uploadSnippetsTex()" title="Import .tex" style="font-size:11px;width:auto;padding:0 8px;">.tex↑</button>
+                    <button class="sync-btn" onclick="saveToFolder()" title="Save JSON + TeX to folder">💾</button>
+                    <button class="sync-btn" onclick="importFromFolder()" title="Import JSON + TeX from folder">📥</button>
                     <button class="sync-btn" id="syncBtn" onclick="openSyncModal()" title="Cloud Sync">☁️</button>
                 </div>
             </div>
@@ -8213,6 +8211,125 @@ function downloadLocalBackup() {
     URL.revokeObjectURL(url);
 
     showToast('Backup downloaded successfully!');
+}
+
+// ==================== FOLDER-BASED IMPORT/SAVE ====================
+// Reads/writes both .json and .tex from a single folder.
+
+let _folderHandle = null; // stored directory handle for re-saving
+
+async function importFromFolder() {
+    if (window.showDirectoryPicker) {
+        // Modern: pick a folder, read both files
+        try {
+            const dirHandle = await window.showDirectoryPicker({ id: 'mindnotes-folder', mode: 'readwrite' });
+            _folderHandle = dirHandle;
+
+            let jsonLoaded = false, texLoaded = false;
+
+            // Scan folder for .json and .tex files
+            for await (const entry of dirHandle.values()) {
+                if (entry.kind !== 'file') continue;
+
+                if (entry.name.endsWith('.json') && !jsonLoaded) {
+                    const file = await entry.getFile();
+                    const text = await file.text();
+                    let importedData = JSON.parse(text);
+                    if (!importedData.topics && importedData.data) importedData = importedData.data;
+                    if (importedData.topics && Array.isArray(importedData.topics)) {
+                        State.data = importedData;
+                        if (!State.data.trash) State.data.trash = [];
+                        jsonLoaded = true;
+                        console.log('Imported JSON:', entry.name);
+                    }
+                }
+
+                if (entry.name.endsWith('.tex') && !texLoaded) {
+                    const file = await entry.getFile();
+                    State.data.snippetsTex = await file.text();
+                    texLoaded = true;
+                    console.log('Imported TeX:', entry.name);
+                }
+            }
+
+            if (jsonLoaded || texLoaded) {
+                await _commitSave();
+                renderSidebar();
+                updateFlashcardStats();
+                if (State.data.topics.length && State.data.topics[0].subtopics.length) {
+                    selectSubtopic(State.data.topics[0], State.data.topics[0].subtopics[0]);
+                }
+                if (State.currentView === 'snippets') loadSnippetsTex();
+                const parts = [];
+                if (jsonLoaded) parts.push('JSON');
+                if (texLoaded) parts.push('TeX');
+                showToast(`Imported ${parts.join(' + ')} from folder`);
+            } else {
+                showToast('No .json or .tex files found in folder');
+            }
+        } catch (e) {
+            if (e.name !== 'AbortError') {
+                console.error('Folder import error:', e);
+                showToast('Import failed: ' + e.message);
+            }
+        }
+    } else {
+        // Fallback: use old single-file JSON import
+        importFromJson();
+    }
+}
+
+async function saveToFolder() {
+    if (window.showDirectoryPicker) {
+        try {
+            // Reuse stored handle or pick a new folder
+            if (!_folderHandle) {
+                _folderHandle = await window.showDirectoryPicker({ id: 'mindnotes-folder', mode: 'readwrite' });
+            }
+
+            // Check permission
+            const perm = await _folderHandle.requestPermission({ mode: 'readwrite' });
+            if (perm !== 'granted') {
+                _folderHandle = await window.showDirectoryPicker({ id: 'mindnotes-folder', mode: 'readwrite' });
+            }
+
+            // Write JSON
+            const backup = {
+                version: '2.0',
+                exportedAt: new Date().toISOString(),
+                data: State.data,
+                syncId: State.syncId
+            };
+            const jsonHandle = await _folderHandle.getFileHandle('data.json', { create: true });
+            const jsonWritable = await jsonHandle.createWritable();
+            await jsonWritable.write(JSON.stringify(backup, null, 2));
+            await jsonWritable.close();
+
+            // Write TeX if it exists
+            let texSaved = false;
+            if (State.data.snippetsTex) {
+                const texHandle = await _folderHandle.getFileHandle('all_snippets.tex', { create: true });
+                const texWritable = await texHandle.createWritable();
+                await texWritable.write(State.data.snippetsTex);
+                await texWritable.close();
+                texSaved = true;
+            }
+
+            // Also commit to IndexedDB
+            await _commitSave();
+
+            showToast(`Saved ${texSaved ? 'JSON + TeX' : 'JSON'} to folder`);
+        } catch (e) {
+            if (e.name !== 'AbortError') {
+                console.error('Folder save error:', e);
+                // Fallback to download
+                downloadLocalBackup();
+            }
+        }
+    } else {
+        // Fallback: download JSON file
+        downloadLocalBackup();
+    }
 }
 
 function restoreFromBackup(event) {
