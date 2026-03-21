@@ -3105,7 +3105,7 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
                 <div class="snippets-preview-pane" id="snippetsPreview">
                     <div class="empty-state" id="snippetsEmptyState">
                         <span style="font-size:48px;">📄</span>
-                        <p>Import a folder with .json + .tex + .pdf</p>
+                        <p>Import a folder with .json + .tex</p>
                     </div>
                     <iframe id="snippetsRenderedFrame" style="width:100%;height:100%;border:none;display:none;background:#fff;"></iframe>
                 </div>
@@ -8266,7 +8266,12 @@ async function importFromFolder() {
                     selectSubtopic(State.data.topics[0], State.data.topics[0].subtopics[0]);
                 }
                 loadSnippetsTex();
-                renderSnippetsPreview();
+                // If we have TeX, compile it (ignore any PDF from folder)
+                if (texLoaded) {
+                    compileSnippetsTex();
+                } else {
+                    renderSnippetsPreview();
+                }
                 const parts = [];
                 if (jsonLoaded) parts.push('JSON');
                 if (texLoaded) parts.push('TeX');
@@ -9110,15 +9115,11 @@ async function loadSnippetsTex() {
         view.classList.remove('has-tex');
     }
 
-    // Load cached PDF from IndexedDB, then compile if we have TeX
+    // Load cached PDF from IndexedDB for instant display
     if (!_snippetsPdfBlobUrl) {
         await loadSnippetsPdfFromDB();
     }
     renderSnippetsPreview();
-    // Auto-compile if we have TeX but no PDF yet
-    if (!_snippetsPdfBlobUrl && State.data.snippetsTex && !_isCompiling) {
-        compileSnippetsTex();
-    }
 }
 
 // ==================== LIVE LATEX COMPILER ====================
