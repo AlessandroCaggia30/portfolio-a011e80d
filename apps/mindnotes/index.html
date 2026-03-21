@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-    <!-- SwiftLaTeX: full PdfTeX engine in WebAssembly -->
-    <script src="PdfTeXEngine.js"></script>
 
     <style>
 /* MindNotes - All Styles Inlined */
@@ -3107,7 +3105,7 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
                 <div class="snippets-preview-pane" id="snippetsPreview">
                     <div class="empty-state" id="snippetsEmptyState">
                         <span style="font-size:48px;">📄</span>
-                        <p>Import a folder with .tex + .json to see compiled LaTeX</p>
+                        <p>Import a folder with .json + .tex + .pdf</p>
                     </div>
                     <iframe id="snippetsRenderedFrame" style="width:100%;height:100%;border:none;display:none;background:#fff;"></iframe>
                 </div>
@@ -9112,97 +9110,15 @@ async function loadSnippetsTex() {
         view.classList.remove('has-tex');
     }
 
-    // Load cached PDF from IndexedDB, or compile if we have TeX
+    // Load cached PDF from IndexedDB
     if (!_snippetsPdfBlobUrl) {
-        const loaded = await loadSnippetsPdfFromDB();
-        if (!loaded && State.data.snippetsTex) {
-            compileSnippetsTex();
-        }
+        await loadSnippetsPdfFromDB();
     }
     renderSnippetsPreview();
 }
 
-// ==================== SWIFTLATEX COMPILER ====================
-let _pdfTexEngine = null;
+// PDF display (compiled externally in Overleaf, loaded from folder)
 let _snippetsPdfBlobUrl = null;
-let _isCompiling = false;
-
-async function initSwiftLaTeX() {
-    if (_pdfTexEngine) return _pdfTexEngine;
-    try {
-        _pdfTexEngine = new PdfTeXEngine();
-        await _pdfTexEngine.loadEngine();
-        console.log('SwiftLaTeX: engine loaded');
-        return _pdfTexEngine;
-    } catch (e) {
-        console.error('SwiftLaTeX: failed to load engine:', e);
-        _pdfTexEngine = null;
-        return null;
-    }
-}
-
-async function compileSnippetsTex() {
-    const tex = State.data.snippetsTex;
-    if (!tex || _isCompiling) return;
-
-    _isCompiling = true;
-    const frame = $('snippetsRenderedFrame');
-    const emptyState = $('snippetsEmptyState');
-
-    // Show compiling status
-    if (emptyState) {
-        emptyState.style.display = 'flex';
-        emptyState.innerHTML = '<span style="font-size:48px;">⏳</span><p>Compiling LaTeX...</p><p style="font-size:12px;color:var(--text2);">First compile may take a moment (downloading packages)</p>';
-    }
-    if (frame) frame.style.display = 'none';
-
-    try {
-        const engine = await initSwiftLaTeX();
-        if (!engine) throw new Error('Engine failed to initialize');
-
-        engine.writeMemFSFile('main.tex', tex);
-        engine.setEngineMainFile('main.tex');
-
-        // First pass
-        let result = await engine.compileLaTeX();
-
-        // If first pass produced a PDF with errors, try a second pass (for references etc.)
-        if (result.pdf) {
-            const result2 = await engine.compileLaTeX();
-            if (result2.pdf) result = result2;
-        }
-
-        if (result.pdf) {
-            const pdfBlob = new Blob([result.pdf], { type: 'application/pdf' });
-            if (_snippetsPdfBlobUrl) URL.revokeObjectURL(_snippetsPdfBlobUrl);
-            _snippetsPdfBlobUrl = URL.createObjectURL(pdfBlob);
-            await storeSnippetsPdf(pdfBlob);
-            renderSnippetsPreview();
-            console.log('SwiftLaTeX: compiled successfully (status:', result.status, ')');
-        } else {
-            // Extract just the error lines from the log
-            const log = result.log || 'Unknown error';
-            const errorLines = log.split('\n').filter(l => l.startsWith('!') || l.startsWith('l.') || l.includes('Error') || l.includes('error')).join('\n');
-            const lastLines = log.split('\n').slice(-30).join('\n');
-            console.warn('SwiftLaTeX: compilation failed. Status:', result.status);
-            console.warn('Full log:', log);
-            if (emptyState) {
-                emptyState.style.display = 'flex';
-                emptyState.innerHTML = '<span style="font-size:48px;">⚠️</span><p>Compilation failed</p>' +
-                    '<pre style="text-align:left;max-height:400px;overflow:auto;background:var(--bg3);padding:12px;border-radius:8px;font-size:11px;max-width:90%;white-space:pre-wrap;">' +
-                    escapeHtml(errorLines || lastLines) + '</pre>';
-            }
-        }
-    } catch (e) {
-        console.error('SwiftLaTeX error:', e);
-        if (emptyState) {
-            emptyState.style.display = 'flex';
-            emptyState.innerHTML = '<span style="font-size:48px;">⚠️</span><p>Compiler error: ' + escapeHtml(e.message) + '</p>';
-        }
-    } finally {
-        _isCompiling = false;
-    }
-}
 
 function renderSnippetsPreview() {
     const frame = $('snippetsRenderedFrame');
@@ -9218,7 +9134,7 @@ function renderSnippetsPreview() {
         if (frame) { frame.style.display = 'none'; frame.src = 'about:blank'; }
         if (emptyState) {
             emptyState.style.display = 'flex';
-            emptyState.innerHTML = '<span style="font-size:48px;">📄</span><p>Import a folder with .tex + .json to compile LaTeX</p>';
+            emptyState.innerHTML = '<span style="font-size:48px;">📄</span><p>Import a folder with .json + .tex + .pdf</p>';
         }
     }
 }
@@ -9309,7 +9225,6 @@ function applySnippetsTexToData(texContent) {
 }
 
 let snippetsTexSaveTimer = null;
-let snippetsCompileTimer = null;
 function onSnippetsTexInput() {
     const tex = $('snippetsTexEditor').value;
     State.data.snippetsTex = tex;
@@ -9324,11 +9239,6 @@ function onSnippetsTexInput() {
         }
     }, 1500);
 
-    // Debounce: recompile after 3s of inactivity
-    clearTimeout(snippetsCompileTimer);
-    snippetsCompileTimer = setTimeout(() => {
-        compileSnippetsTex();
-    }, 3000);
 }
 
 function downloadSnippetsTex() {
