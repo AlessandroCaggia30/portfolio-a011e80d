@@ -8222,7 +8222,8 @@ async function importFromFolder() {
 
             let jsonLoaded = false, texLoaded = false;
 
-            // Scan folder for .json and .tex files
+            // Scan folder for .json, .tex, and .pdf files
+            let pdfLoaded = false;
             for await (const entry of dirHandle.values()) {
                 if (entry.kind !== 'file') continue;
 
@@ -8245,9 +8246,19 @@ async function importFromFolder() {
                     texLoaded = true;
                     console.log('Imported TeX:', entry.name);
                 }
+
+                if (entry.name.endsWith('.pdf') && !pdfLoaded) {
+                    const file = await entry.getFile();
+                    const blob = await file.arrayBuffer().then(ab => new Blob([ab], { type: 'application/pdf' }));
+                    if (_snippetsPdfBlobUrl) URL.revokeObjectURL(_snippetsPdfBlobUrl);
+                    _snippetsPdfBlobUrl = URL.createObjectURL(blob);
+                    await storeSnippetsPdf(blob);
+                    pdfLoaded = true;
+                    console.log('Imported PDF:', entry.name);
+                }
             }
 
-            if (jsonLoaded || texLoaded) {
+            if (jsonLoaded || texLoaded || pdfLoaded) {
                 await _commitSave();
                 renderSidebar();
                 updateFlashcardStats();
@@ -8255,14 +8266,16 @@ async function importFromFolder() {
                     selectSubtopic(State.data.topics[0], State.data.topics[0].subtopics[0]);
                 }
                 loadSnippetsTex();
+                renderSnippetsPreview();
                 const parts = [];
                 if (jsonLoaded) parts.push('JSON');
                 if (texLoaded) parts.push('TeX');
+                if (pdfLoaded) parts.push('PDF');
                 showToast(`Imported ${parts.join(' + ')} from folder`);
                 // Start watching folder for external changes
                 startFolderWatch();
             } else {
-                showToast('No .json or .tex files found in folder');
+                showToast('No .json, .tex, or .pdf files found in folder');
             }
         } catch (e) {
             if (e.name !== 'AbortError') {
@@ -8334,6 +8347,7 @@ async function saveToFolder() {
 let _folderWatchInterval = null;
 let _lastJsonModified = 0;
 let _lastTexModified = 0;
+let _lastPdfModified = 0;
 
 function startFolderWatch() {
     stopFolderWatch();
@@ -8377,6 +8391,21 @@ function startFolderWatch() {
                         showToast('TeX reloaded from folder');
                     }
                     if (_lastTexModified === 0) _lastTexModified = file.lastModified;
+                }
+
+                if (entry.name.endsWith('.pdf')) {
+                    const file = await entry.getFile();
+                    if (file.lastModified > _lastPdfModified && _lastPdfModified > 0) {
+                        _lastPdfModified = file.lastModified;
+                        const blob = new Blob([await file.arrayBuffer()], { type: 'application/pdf' });
+                        if (_snippetsPdfBlobUrl) URL.revokeObjectURL(_snippetsPdfBlobUrl);
+                        _snippetsPdfBlobUrl = URL.createObjectURL(blob);
+                        await storeSnippetsPdf(blob);
+                        renderSnippetsPreview();
+                        console.log('Folder watch: PDF updated from', entry.name);
+                        showToast('PDF reloaded from folder');
+                    }
+                    if (_lastPdfModified === 0) _lastPdfModified = file.lastModified;
                 }
             }
         } catch (e) {
@@ -9072,7 +9101,7 @@ function switchView(view) {
 const SNIPPET_SEPARATOR_RE = /\n%% --- SNIPPET ---\n/;
 const SNIPPET_HEADER_RE = /^%% \[(\S+)\] (.+)$/m;
 
-function loadSnippetsTex() {
+async function loadSnippetsTex() {
     const view = $('snippetsView');
     if (State.data.snippetsTex) {
         view.classList.add('has-tex');
@@ -9080,74 +9109,71 @@ function loadSnippetsTex() {
     } else {
         view.classList.remove('has-tex');
     }
+
+    // Load PDF from IndexedDB if we don't have one in memory
+    if (!_snippetsPdfBlobUrl) {
+        await loadSnippetsPdfFromDB();
+    }
     renderSnippetsPreview();
 }
 
 // Compile TeX content using LaTeX.js and render into the preview pane
+// Store PDF blob URL (not in State.data to avoid bloating exports)
+let _snippetsPdfBlobUrl = null;
+
 function renderSnippetsPreview() {
-    const tex = State.data.snippetsTex;
     const frame = $('snippetsRenderedFrame');
     const emptyState = $('snippetsEmptyState');
 
-    if (!tex) {
-        if (frame) frame.style.display = 'none';
-        if (emptyState) emptyState.style.display = 'flex';
-        return;
-    }
-
-    if (emptyState) emptyState.style.display = 'none';
-    if (frame) frame.style.display = 'block';
-
-    // Encode TeX as base64 to avoid any escaping issues
-    const texB64 = btoa(unescape(encodeURIComponent(tex)));
-
-    const html = `<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <style>
-        body { margin: 0; padding: 20px 30px; font-family: "Computer Modern Serif", "Latin Modern Roman", Georgia, serif; line-height: 1.6; color: #333; }
-        .compile-status { padding: 12px; background: #e8f4fd; border-radius: 8px; font-size: 13px; color: #1a5276; margin-bottom: 16px; }
-        .compile-error { padding: 12px; background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; font-size: 13px; margin-bottom: 16px; }
-    </style>
-</head>
-<body>
-    <div id="status" class="compile-status">Compiling LaTeX...</div>
-    <div id="output"></div>
-    <script type="module">
-        try {
-            const { parse, HtmlGenerator } = await import("https://cdn.jsdelivr.net/npm/latex.js@0.12.6/dist/latex.mjs");
-
-            const texB64 = "${texB64}";
-            const tex = decodeURIComponent(escape(atob(texB64)));
-
-            const generator = new HtmlGenerator({ hyphenate: false });
-            const compiled = parse(tex, { generator: generator });
-
-            // Add styles
-            const styles = compiled.stylesAndScripts("https://cdn.jsdelivr.net/npm/latex.js@0.12.6/dist/");
-            document.head.appendChild(styles);
-
-            // Add rendered content
-            const fragment = compiled.domFragment();
-            document.getElementById("output").appendChild(fragment);
-            document.getElementById("status").remove();
-        } catch (e) {
-            console.error("LaTeX.js error:", e);
-            const status = document.getElementById("status");
-            status.className = "compile-error";
-            status.innerHTML = "<strong>Compilation error:</strong> " + e.message +
-                "<br><small>LaTeX.js supports standard LaTeX but not all packages. " +
-                "Unsupported commands: \\\\usepackage with custom .sty, TikZ, etc.</small>";
+    if (_snippetsPdfBlobUrl) {
+        if (emptyState) emptyState.style.display = 'none';
+        if (frame) {
+            frame.style.display = 'block';
+            frame.src = _snippetsPdfBlobUrl;
         }
-    <\/script>
-</body>
-</html>`;
+    } else {
+        if (frame) { frame.style.display = 'none'; frame.src = 'about:blank'; }
+        if (emptyState) emptyState.style.display = 'flex';
+    }
+}
 
-    const iframeDoc = frame.contentDocument || frame.contentWindow.document;
-    iframeDoc.open();
-    iframeDoc.write(html);
-    iframeDoc.close();
+// Store PDF in IndexedDB (separate from State.data so it doesn't bloat exports)
+async function storeSnippetsPdf(blob) {
+    try {
+        if (!db) await initDB();
+        const dataKey = State.currentSubject ? State.currentSubject.dataKey : 'mindnotes2';
+        await new Promise((resolve, reject) => {
+            const tx = db.transaction(STORE_NAME, 'readwrite');
+            const store = tx.objectStore(STORE_NAME);
+            const request = store.put(blob, dataKey + '_snippets_pdf');
+            request.onsuccess = () => resolve();
+            request.onerror = () => reject(request.error);
+        });
+    } catch (e) {
+        console.warn('Failed to store PDF in IndexedDB:', e);
+    }
+}
+
+async function loadSnippetsPdfFromDB() {
+    try {
+        if (!db) await initDB();
+        const dataKey = State.currentSubject ? State.currentSubject.dataKey : 'mindnotes2';
+        const blob = await new Promise((resolve, reject) => {
+            const tx = db.transaction(STORE_NAME, 'readonly');
+            const store = tx.objectStore(STORE_NAME);
+            const request = store.get(dataKey + '_snippets_pdf');
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+        });
+        if (blob) {
+            if (_snippetsPdfBlobUrl) URL.revokeObjectURL(_snippetsPdfBlobUrl);
+            _snippetsPdfBlobUrl = URL.createObjectURL(blob);
+            return true;
+        }
+    } catch (e) {
+        console.warn('Failed to load PDF from IndexedDB:', e);
+    }
+    return false;
 }
 
 function closeSnippetsTex() {
