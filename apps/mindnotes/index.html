@@ -1237,6 +1237,29 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 .live-preview-content .md-bullet { display: block; margin-left: 24px; padding-left: 1em; text-indent: -1em; margin-bottom: 2px; }
 .latex-hfill { display: inline-block; min-width: 3em; }
 
+.latex-table {
+    border-collapse: collapse;
+    margin: 16px 0;
+    width: 100%;
+    font-size: 14px;
+}
+
+.latex-table td, .latex-table th {
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    vertical-align: top;
+    line-height: 1.6;
+}
+
+.latex-table tr:first-child td,
+.latex-table tr:first-child th {
+    font-weight: 600;
+    background: var(--bg3);
+}
+
+.latex-table .katex { font-size: 1em; }
+.latex-table .katex-display { margin: 8px 0; }
+
 .live-preview blockquote {
     border-left: 4px solid var(--accent);
     padding-left: 16px;
@@ -1476,6 +1499,110 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 }
 
 .flashcards-view.active, .quiz-view.active { display: flex; }
+
+/* Snippets View */
+.snippets-view {
+    display: none;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+}
+
+.snippets-view.active { display: flex; }
+
+.snippets-pdf-pane {
+    flex: 0 0 60%;
+    height: 100%;
+    border-right: 1px solid var(--border);
+    background: var(--bg);
+}
+
+.snippets-pdf-pane iframe,
+.snippets-pdf-pane object {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.snippets-pdf-pane .pdf-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--text2);
+    font-size: 14px;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.snippets-pdf-pane .pdf-fallback a {
+    color: var(--accent);
+    text-decoration: none;
+    padding: 8px 20px;
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+}
+
+.snippets-tex-pane {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--bg2);
+    min-width: 0;
+}
+
+.snippets-tex-header {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text);
+    flex-shrink: 0;
+}
+
+.snippets-tex-header .tex-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.snippets-tex-header .tex-actions button {
+    padding: 5px 12px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 11px;
+    transition: all 0.15s;
+}
+
+.snippets-tex-header .tex-actions button:hover {
+    background: var(--accent);
+    color: var(--text);
+    border-color: var(--accent);
+}
+
+.snippets-tex-editor {
+    flex: 1;
+    width: 100%;
+    background: var(--bg);
+    color: var(--text);
+    border: none;
+    padding: 16px;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    resize: none;
+    outline: none;
+    overflow-y: auto;
+    tab-size: 4;
+}
+
+.snippets-tex-editor::placeholder { color: var(--text2); }
 
 #fcStartScreen, #fcReviewScreen, #fcCompleteScreen {
     display: none;
@@ -2691,6 +2818,10 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
                     <span class="icon">🧠</span>
                     Quiz
                 </button>
+                <button class="nav-tab" id="tabSnippets" onclick="switchView('snippets')">
+                    <span class="icon">📄</span>
+                    All
+                </button>
             </div>
             <div class="topics-section" id="topicsSection"></div>
             <button class="add-btn" onclick="openTopicModal()">+ New Topic</button>
@@ -2962,6 +3093,25 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
                         <button onclick="copyExport()">Copy to Clipboard</button>
                         <button onclick="document.getElementById('exportBox').style.display='none'">Close</button>
                     </div>
+                </div>
+            </div>
+
+            <!-- Snippets View -->
+            <div class="snippets-view" id="snippetsView">
+                <div class="snippets-pdf-pane">
+                    <iframe id="snippetsPdf" src="all_snippets.pdf" type="application/pdf"></iframe>
+                </div>
+                <div class="snippets-tex-pane">
+                    <div class="snippets-tex-header">
+                        <span>all_snippets.tex</span>
+                        <div class="tex-actions">
+                            <button onclick="downloadSnippetsTex()" title="Download .tex file">Download .tex</button>
+                            <button onclick="uploadSnippetsTex()" title="Upload .tex file">Upload .tex</button>
+                        </div>
+                    </div>
+                    <textarea class="snippets-tex-editor" id="snippetsTexEditor"
+                              placeholder="LaTeX content will appear here..."
+                              oninput="onSnippetsTexInput()" spellcheck="false"></textarea>
                 </div>
             </div>
         </div>
@@ -4423,6 +4573,52 @@ function restoreFormattingMarkers(text) {
     return text;
 }
 
+// Convert LaTeX tabular body to an HTML table marker
+// Called from processLatexCommands; math blocks are already %%LTXM%% placeholders
+function convertTabularToTable(body) {
+    // Strip rule commands
+    let clean = body
+        .replace(/\\hline\s*/g, '')
+        .replace(/\\toprule\s*/g, '')
+        .replace(/\\midrule\s*/g, '')
+        .replace(/\\bottomrule\s*/g, '')
+        .replace(/\\cline\{[^}]*\}\s*/g, '')
+        .replace(/\\noalign\{[^}]*\}\s*/g, '')
+        .trim();
+
+    // Handle \multicolumn{n}{spec}{content} → just content
+    clean = clean.replace(/\\multicolumn\{[^}]*\}\{[^}]*\}\{((?:[^{}]|\{[^{}]*\})*)\}/g, '$1');
+
+    // Split into rows by \\ (but not inside math placeholders)
+    const rows = clean.split(/\s*\\\\\s*/).filter(r => r.trim());
+
+    if (rows.length === 0) return '\n';
+
+    // Build table marker (use %%TABLE%% to survive escapeHtml)
+    let table = '%%TBLSTART%%';
+    rows.forEach((row, rowIdx) => {
+        const cells = row.split(/\s*&\s*/);
+        table += '%%TROWSTART%%';
+        cells.forEach(cell => {
+            table += '%%TCELLSTART%%' + cell.trim() + '%%TCELLEND%%';
+        });
+        table += '%%TROWEND%%';
+    });
+    table += '%%TBLEND%%';
+    return '\n' + table + '\n';
+}
+
+// Restore table markers to HTML (call after escapeHtml + markdown)
+function restoreTableMarkers(text) {
+    text = text.replace(/%%TBLSTART%%/g, '<table class="latex-table">');
+    text = text.replace(/%%TBLEND%%/g, '</table>');
+    text = text.replace(/%%TROWSTART%%/g, '<tr>');
+    text = text.replace(/%%TROWEND%%/g, '</tr>');
+    text = text.replace(/%%TCELLSTART%%/g, '<td>');
+    text = text.replace(/%%TCELLEND%%/g, '</td>');
+    return text;
+}
+
 // Process LaTeX document commands into markdown equivalents
 function processLatexCommands(text) {
     if (!text) return text;
@@ -4447,11 +4643,14 @@ function processLatexCommands(text) {
     result = result.replace(/\\colorbox\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}/g,
         (m, color, content) => `%%CBOX:${color}%%${content}%%/CBOX%%`);
 
+    // Reusable pattern for balanced braces (up to 2 levels deep)
+    const braceGroup = '(?:[^{}]|\\{(?:[^{}]|\\{[^{}]*\\})*\\})*';
+
     // Font size commands: {\Large text}, {\large text}, etc.
     const sizeMap = { tiny: '0.6em', scriptsize: '0.7em', footnotesize: '0.8em', small: '0.9em',
         large: '1.15em', Large: '1.3em', LARGE: '1.5em', huge: '1.8em', Huge: '2em' };
     const sizeNames = Object.keys(sizeMap).join('|');
-    result = result.replace(new RegExp(`\\{\\\\(${sizeNames})\\s*((?:[^{}]|\\{[^{}]*\\})*)\\}`, 'g'),
+    result = result.replace(new RegExp(`\\{\\\\(${sizeNames})\\s*(${braceGroup})\\}`, 'g'),
         (m, size, content) => `%%SZ:${sizeMap[size] || '1em'}%%${content}%%/SZ%%`);
 
     // Theorem-like environments (with optional [title])
@@ -4485,15 +4684,12 @@ function processLatexCommands(text) {
     result = result.replace(/\\begin\{(center|quote|quotation|abstract|document|figure|table|verbatim|flushleft|flushright|minipage|multicols|wrapfigure)\}(\{[^}]*\})*\s*/g, '\n');
     result = result.replace(/\\end\{(center|quote|quotation|abstract|document|figure|table|verbatim|flushleft|flushright|minipage|multicols|wrapfigure)\}\s*/g, '\n');
 
-    // Tabular
-    result = result.replace(/\\begin\{tabular\}\{[^}]*\}\s*/g, '\n');
+    // Tabular → HTML table (handle nested braces in column specs)
+    result = result.replace(new RegExp(`\\\\begin\\{tabular\\}\\{${braceGroup}\\}([\\s\\S]*?)\\\\end\\{tabular\\}`, 'g'),
+        (match, body) => convertTabularToTable(body));
+    // Clean up any leftover tabular commands (shouldn't happen, but safety)
+    result = result.replace(new RegExp(`\\\\begin\\{tabular\\}\\{${braceGroup}\\}\\s*`, 'g'), '\n');
     result = result.replace(/\\end\{tabular\}\s*/g, '\n');
-    result = result.replace(/\\hline\s*/g, '');
-    result = result.replace(/\\toprule\s*/g, '');
-    result = result.replace(/\\midrule\s*/g, '');
-    result = result.replace(/\\bottomrule\s*/g, '');
-    result = result.replace(/\\cline\{[^}]*\}\s*/g, '');
-    result = result.replace(/\\multicolumn\{[^}]*\}\{[^}]*\}\{([^}]*)\}/g, '$1');
 
     // Algorithm/pseudocode
     result = result.replace(/\\begin\{(algorithm|algorithmic|lstlisting|minted)\}(\[[^\]]*\])?\s*/g, '\n```\n');
@@ -4510,8 +4706,8 @@ function processLatexCommands(text) {
     // Preamble commands (strip)
     result = result.replace(/\\documentclass(\[[^\]]*\])?\{[^}]*\}\s*/g, '');
     result = result.replace(/\\usepackage(\[[^\]]*\])?\{[^}]*\}\s*/g, '');
-    result = result.replace(/\\newcommand\{[^}]*\}(\[[^\]]*\])?\{[^}]*\}\s*/g, '');
-    result = result.replace(/\\renewcommand\{[^}]*\}(\[[^\]]*\])?\{[^}]*\}\s*/g, '');
+    result = result.replace(new RegExp(`\\\\newcommand\\{[^}]*\\}(\\[[^\\]]*\\])?\\{${braceGroup}\\}\\s*`, 'g'), '');
+    result = result.replace(new RegExp(`\\\\renewcommand\\{[^}]*\\}(\\[[^\\]]*\\])?\\{${braceGroup}\\}\\s*`, 'g'), '');
     result = result.replace(/\\DeclareMathOperator\*?\{[^}]*\}\{[^}]*\}\s*/g, '');
     result = result.replace(/\\theoremstyle\{[^}]*\}\s*/g, '');
     result = result.replace(/\\newtheorem\{[^}]*\}(\[[^\]]*\])?\{[^}]*\}(\[[^\]]*\])?\s*/g, '');
@@ -4553,8 +4749,8 @@ function processLatexCommands(text) {
     result = result.replace(/\\autoref\{([^}]*)\}/g, '[$1]');
     result = result.replace(/\\cref\{([^}]*)\}/g, '[$1]');
 
-    // Line breaks
-    result = result.replace(/\\\\/g, '\n');
+    // Line breaks (consume optional spacing like \\[4pt])
+    result = result.replace(/\\\\(\[\d+[a-z]*\])?\s*/g, '\n');
 
     // Spacing and layout commands
     result = result.replace(/\\hfill\b\s*/g, '%%HFILL%%');
@@ -4640,6 +4836,7 @@ function formatContent(text) {
         .replace(/<\/li><br><li/g, '</li><li');
 
     // Restore all markers → HTML elements
+    processed = restoreTableMarkers(processed);
     processed = restoreColorMarkers(processed);
     processed = restoreFormattingMarkers(processed);
 
@@ -4984,6 +5181,7 @@ function formatNodePreview(text) {
     }).join('');
 
     // Restore markers that span across parts → HTML elements
+    processed = restoreTableMarkers(processed);
     processed = restoreColorMarkers(processed);
     processed = restoreFormattingMarkers(processed);
 
@@ -6755,7 +6953,8 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
         const sizeMap = { tiny: '0.6em', scriptsize: '0.7em', footnotesize: '0.8em', small: '0.9em',
             large: '1.15em', Large: '1.3em', LARGE: '1.5em', huge: '1.8em', Huge: '2em' };
         const sizeNames = Object.keys(sizeMap).join('|');
-        pre = pre.replace(new RegExp(`\\{\\\\(${sizeNames})\\s*((?:[^{}]|\\{[^{}]*\\})*)\\}`, 'g'),
+        const braceGrp = '(?:[^{}]|\\{(?:[^{}]|\\{[^{}]*\\})*\\})*';
+        pre = pre.replace(new RegExp(`\\{\\\\(${sizeNames})\\s*(${braceGrp})\\}`, 'g'),
             (m, size, content) => `%%SZ:${sizeMap[size] || '1em'}%%${content}%%/SZ%%`);
         // Strip math labels from \item (e.g. \item[$\bullet$] → \item)
         // Math inside brackets breaks segment parsing since $...$ becomes a formula boundary
@@ -6874,6 +7073,7 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
     });
 
     // Restore markers that span across segments → HTML elements
+    html = restoreTableMarkers(html);
     html = restoreBulletMarkers(html);
     html = restoreColorMarkers(html);
     html = restoreFormattingMarkers(html);
@@ -8651,12 +8851,146 @@ function switchView(view) {
     $('detailPanel').style.display = view === 'notes' ? 'flex' : 'none';
     $('flashcardsView').classList.toggle('active', view === 'flashcards');
     $('quizView').classList.toggle('active', view === 'quiz');
+    $('snippetsView').classList.toggle('active', view === 'snippets');
 
-    $('topicsSection').style.display = view === 'notes' ? 'block' : 'none';
+    $('topicsSection').style.display = (view === 'notes' || view === 'snippets') ? 'block' : 'none';
     document.querySelector('.add-btn').style.display = view === 'notes' ? 'block' : 'none';
 
     if (view === 'flashcards') updateFlashcardStats();
     if (view === 'quiz') updateQuizView();
+    if (view === 'snippets') {
+        // Auto-collapse sidebar to give max space
+        const sidebar = $('sidebar');
+        if (!sidebar.classList.contains('collapsed')) toggleSidebar();
+        loadSnippetsTex();
+    }
+}
+
+// ==================== SNIPPETS VIEW ====================
+// The TeX in the snippets editor is generated FROM the node data and edits
+// flow BACK to the nodes. Each snippet is delimited by markers so we can
+// map edits 1:1.
+
+const SNIPPET_SEPARATOR = '\n%% --- SNIPPET ---\n';
+const SNIPPET_HEADER_RE = /^%% \[(\S+)\] (.+)$/; // %% [nodeId] Title
+
+// Build TeX from all nodes, sorted by snippet number in title
+function buildSnippetsTex() {
+    const allNodes = [];
+    State.data.topics.forEach(topic => {
+        topic.subtopics.forEach(sub => {
+            sub.nodes.forEach(node => {
+                allNodes.push({ node, topic: topic.name, subtopic: sub.name });
+            });
+        });
+    });
+
+    // Sort by numeric prefix in title
+    allNodes.sort((a, b) => {
+        const na = parseSnippetNumber(a.node.title);
+        const nb = parseSnippetNumber(b.node.title);
+        for (let i = 0; i < Math.max(na.length, nb.length); i++) {
+            const x = na[i] ?? -1, y = nb[i] ?? -1;
+            if (x !== y) return x - y;
+        }
+        return 0;
+    });
+
+    return allNodes.map(({ node, topic, subtopic }) => {
+        const header = `%% [${node.id}] ${node.title || 'Untitled'}`;
+        const meta = `%% Topic: ${topic} > ${subtopic}`;
+        return header + '\n' + meta + '\n' + (node.content || '');
+    }).join(SNIPPET_SEPARATOR);
+}
+
+// Parse the TeX back into per-node content and update State.data
+function applySnippetsTexToData(texContent) {
+    // Split by separator
+    const blocks = texContent.split(SNIPPET_SEPARATOR);
+    let changed = 0;
+
+    blocks.forEach(block => {
+        const lines = block.split('\n');
+        if (lines.length < 2) return;
+
+        // First line: %% [nodeId] Title
+        const headerMatch = lines[0].match(SNIPPET_HEADER_RE);
+        if (!headerMatch) return;
+
+        const nodeId = headerMatch[1];
+        // Skip the meta line (%% Topic: ...)
+        let contentStart = 1;
+        if (lines[1] && lines[1].startsWith('%% Topic:')) contentStart = 2;
+
+        const newContent = lines.slice(contentStart).join('\n');
+
+        // Find the node in State.data and update
+        for (const topic of State.data.topics) {
+            for (const sub of topic.subtopics) {
+                const node = sub.nodes.find(n => n.id === nodeId);
+                if (node) {
+                    if (node.content !== newContent) {
+                        node.content = newContent;
+                        changed++;
+                    }
+                    return;
+                }
+            }
+        }
+    });
+
+    if (changed > 0) {
+        saveData();
+        // Refresh canvas if we're looking at notes
+        if (State.currentSubtopic) renderCanvas();
+    }
+    return changed;
+}
+
+function loadSnippetsTex() {
+    const editor = $('snippetsTexEditor');
+    editor.value = buildSnippetsTex();
+}
+
+let snippetsTexSaveTimer = null;
+function onSnippetsTexInput() {
+    // Debounce: parse and apply after 1.5s of inactivity
+    clearTimeout(snippetsTexSaveTimer);
+    snippetsTexSaveTimer = setTimeout(() => {
+        const changed = applySnippetsTexToData($('snippetsTexEditor').value);
+        if (changed > 0) {
+            console.log('Snippets: updated', changed, 'nodes from TeX editor');
+        }
+    }, 1500);
+}
+
+function downloadSnippetsTex() {
+    const tex = $('snippetsTexEditor').value || buildSnippetsTex();
+    const blob = new Blob([tex], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'all_snippets.tex';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('Downloaded all_snippets.tex');
+}
+
+function uploadSnippetsTex() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.tex,.txt';
+    input.onchange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const text = await file.text();
+        $('snippetsTexEditor').value = text;
+        const changed = applySnippetsTexToData(text);
+        showToast(`Uploaded — updated ${changed} snippets`);
+    };
+    input.click();
 }
 
 function updateFlashcardStats() {
