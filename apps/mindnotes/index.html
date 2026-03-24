@@ -9171,6 +9171,7 @@ function generateTexFromData() {
     lines.push('\\newpage');
     lines.push('');
 
+    let totalNodes = 0;
     State.data.topics.forEach(topic => {
         lines.push('\\section{' + escapeTexString(topic.name) + '}');
         lines.push('');
@@ -9184,11 +9185,14 @@ function generateTexFromData() {
                 lines.push('');
                 lines.push((node.content || '').trim());
                 lines.push('');
+                totalNodes++;
             });
         });
     });
 
     lines.push('\\end{document}');
+    console.log('generateTexFromData: generated', totalNodes, 'snippets from',
+        State.data.topics.length, 'topics');
     return lines.join('\n');
 }
 
