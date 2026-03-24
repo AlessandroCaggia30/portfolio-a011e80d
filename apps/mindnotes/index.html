@@ -5395,6 +5395,19 @@ function attachNodeEventListeners(el, node) {
             return;
         }
 
+        // Shift + click = toggle flashcard
+        if (e.shiftKey) {
+            e.preventDefault();
+            e.stopPropagation();
+            node.flashcard = !node.flashcard;
+            saveData();
+            renderCanvas();
+            showToast(node.flashcard ? '🎴 Flashcard ON' : 'Flashcard OFF');
+            updateFlashcardStats();
+            State.clickedNode = null;
+            return;
+        }
+
         // If already linking and clicking different node, complete the link
         if (State.linkingNode && State.linkingNode.id !== node.id) {
             e.stopPropagation();
@@ -5415,33 +5428,17 @@ function attachNodeEventListeners(el, node) {
         el.style.zIndex = 100;
     });
 
-    // Double/triple click handler
-    el.addEventListener('click', (e) => {
+    // Double click to edit
+    el.addEventListener('dblclick', (e) => {
         if (e.target.closest('.node-color-btn') || e.target.closest('.color-picker') ||
             e.target.closest('.resize-handle') || e.target.closest('.editable-formula') ||
             e.target.closest('.katex')) {
             return;
         }
-
-        // Triple click → toggle flashcard
-        if (e.detail === 3) {
-            e.preventDefault();
-            e.stopPropagation();
-            node.flashcard = !node.flashcard;
-            saveData();
-            renderCanvas();
-            showToast(node.flashcard ? '🎴 Flashcard ON' : 'Flashcard OFF');
-            updateFlashcardStats();
-            return;
-        }
-
-        // Double click → edit
-        if (e.detail === 2) {
-            e.preventDefault();
-            e.stopPropagation();
-            State.selectedNode = node;
-            editSelectedNode();
-        }
+        e.preventDefault();
+        e.stopPropagation();
+        State.selectedNode = node;
+        editSelectedNode();
     });
 }
 
