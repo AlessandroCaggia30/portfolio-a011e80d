@@ -9138,8 +9138,12 @@ function refreshSnippetsTexIfOpen() {
 }
 
 // ==================== GENERATE TEX FROM JSON ====================
-// Traverses nodes in link-implied order (topological sort: prerequisites first)
-// Groups by topic > subtopic, creates \section/\subsection structure
+// Orders nodes by sectionNumber (e.g. "1.1", "2.3") assigned per node.
+// Groups into \section by the integer part (1.x, 2.x, etc.).
+// Nodes without sectionNumber go at the end.
+
+// Section names derived from the first digit of sectionNumber
+const SECTION_NAMES = {};  // populated dynamically from data
 
 function generateTexFromData() {
     const lines = [];
@@ -9171,29 +9175,76 @@ function generateTexFromData() {
     lines.push('\\newpage');
     lines.push('');
 
-    let totalNodes = 0;
+    // Collect ALL nodes from all topics/subtopics
+    const allNodes = [];
     State.data.topics.forEach(topic => {
-        lines.push('\\section{' + escapeTexString(topic.name) + '}');
-        lines.push('');
-
         topic.subtopics.forEach(sub => {
-            // Topological sort nodes by links within each subtopic
-            const sorted = topologicalSortNodes(sub.nodes);
-
-            sorted.forEach(node => {
-                lines.push('\\subsection{' + escapeTexString(node.title) + '}');
-                lines.push('');
-                lines.push((node.content || '').trim());
-                lines.push('');
-                totalNodes++;
+            sub.nodes.forEach(node => {
+                allNodes.push({ node, topicName: topic.name, subtopicName: sub.name });
             });
         });
     });
 
+    // Sort by sectionNumber (nodes without one go to end)
+    allNodes.sort((a, b) => {
+        const na = parseSectionNumber(a.node.sectionNumber);
+        const nb = parseSectionNumber(b.node.sectionNumber);
+        for (let i = 0; i < Math.max(na.length, nb.length); i++) {
+            const va = na[i] ?? 99999;
+            const vb = nb[i] ?? 99999;
+            if (va !== vb) return va - vb;
+        }
+        return 0;
+    });
+
+    // Group by section (integer part of sectionNumber)
+    let currentSection = -1;
+    let totalNodes = 0;
+
+    allNodes.forEach(({ node }) => {
+        const secNum = node.sectionNumber || '';
+        const sectionInt = parseInt(secNum) || 0;
+
+        // Emit \section when the integer part changes
+        if (sectionInt !== currentSection && sectionInt > 0) {
+            currentSection = sectionInt;
+            // Use topic/subtopic name as section title if available, else generic
+            const sectionTitle = getSectionTitle(sectionInt, allNodes);
+            lines.push('\\section{' + escapeTexString(sectionTitle) + '}');
+            lines.push('');
+        }
+
+        // Emit \subsection with the node's sectionNumber prefix
+        const prefix = secNum ? secNum + ' ' : '';
+        lines.push('\\subsection{' + prefix + escapeTexString(node.title) + '}');
+        lines.push('');
+        lines.push((node.content || '').trim());
+        lines.push('');
+        totalNodes++;
+    });
+
     lines.push('\\end{document}');
     console.log('generateTexFromData: generated', totalNodes, 'snippets from',
-        State.data.topics.length, 'topics');
+        allNodes.length, 'total nodes');
     return lines.join('\n');
+}
+
+// Parse "1.3" → [1, 3], "2.10" → [2, 10], missing → [Infinity]
+function parseSectionNumber(str) {
+    if (!str) return [Infinity];
+    return str.split('.').map(Number);
+}
+
+// Derive a section title from the first node in that section group
+function getSectionTitle(sectionInt, allNodes) {
+    // Find the first node with this section integer
+    const first = allNodes.find(({ node }) => {
+        const n = parseInt(node.sectionNumber);
+        return n === sectionInt;
+    });
+    if (!first) return 'Section ' + sectionInt;
+    // Use the subtopic name or topic name as the section title
+    return first.subtopicName || first.topicName || 'Section ' + sectionInt;
 }
 
 function escapeTexString(str) {
@@ -9333,9 +9384,10 @@ function closeSnippetsTex() {
 }
 
 // Parse the TeX back into per-node content and update State.data
-// Normalize a title for fuzzy matching: lowercase, strip formatting, trim
+// Normalize a title for fuzzy matching: lowercase, strip formatting, strip number prefix, trim
 function normalizeTitle(t) {
     return (t || '')
+        .replace(/^\d+(\.\d+)*\s+/, '')  // strip leading "1.3 " number prefix
         .replace(/\\textbf\{([^}]*)\}/g, '$1')
         .replace(/\\textit\{([^}]*)\}/g, '$1')
         .replace(/\\textcolor\{[^}]*\}\{([^}]*)\}/g, '$1')
