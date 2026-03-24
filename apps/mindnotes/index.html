@@ -9234,6 +9234,7 @@ function generateTexFromData() {
 
         // Use \subsection* to suppress LaTeX auto-numbering (title already has our number)
         lines.push('\\subsection*{' + escapeTexString(node.title) + '}');
+        if (node.flashcard) lines.push('%% FLASHCARD');
         lines.push('');
         // Clean any leaked structural commands from content
         const cleanContent = (node.content || '')
@@ -9446,8 +9447,12 @@ function parseTexIntoBlocks(texContent) {
         const start = splits[i].afterIndex;
         const end = (i + 1 < splits.length) ? splits[i + 1].index : texContent.length;
         let content = texContent.slice(start, end).trim();
+        // Detect %% FLASHCARD marker
+        const isFlashcard = /^%% FLASHCARD\b/m.test(content);
+
         // Strip structural TeX that isn't node content
         content = content
+            .replace(/^%% FLASHCARD\s*/gm, '')
             .replace(/\\section\*?\{[^}]*\}/g, '')
             .replace(/\\addcontentsline\{[^}]*\}\{[^}]*\}\{[^}]*\}/g, '')
             .replace(/\\end\{document\}/g, '')
@@ -9464,9 +9469,10 @@ function parseTexIntoBlocks(texContent) {
         }
 
         blocks.push({
-            title: splits[i].title,    // raw title e.g. "1.1 Solving Constrained maximization"
+            title: splits[i].title,
             content,
-            sectionTitle               // e.g. "Constrained Optimization"
+            sectionTitle,
+            flashcard: isFlashcard
         });
     }
 
@@ -9530,6 +9536,13 @@ function applySnippetsTexToData(texContent) {
             console.log('Synced title:', node.title, '→', block.title);
             node.title = block.title;
             changed++;
+        }
+
+        // Sync flashcard flag
+        if (node.flashcard !== block.flashcard) {
+            node.flashcard = block.flashcard;
+            changed++;
+            console.log('Synced flashcard:', node.title, '→', block.flashcard);
         }
 
         // Extract section number from title (e.g. "1.3 KKT Procedure" → "1.3")
