@@ -9112,6 +9112,7 @@ function switchView(view) {
 
 let _currentSnippetsTex = '';
 let _snippetsTexUserEdited = false;
+let _snippetsTexLastEditTime = 0;
 
 async function loadSnippetsTex() {
     const view = $('snippetsView');
@@ -9131,10 +9132,17 @@ async function loadSnippetsTex() {
 // Called when JSON changes from other views — refresh TeX if snippets is open
 function refreshSnippetsTexIfOpen() {
     if (State.currentView !== 'snippets') return;
-    if (_snippetsTexUserEdited) return; // don't overwrite active edits
+    // If user is actively editing TeX (typed in last 3s), don't overwrite
+    if (_snippetsTexUserEdited && (Date.now() - _snippetsTexLastEditTime) < 3000) return;
+    _snippetsTexUserEdited = false;
     _currentSnippetsTex = generateTexFromData();
     const editor = $('snippetsTexEditor');
-    if (editor) editor.value = _currentSnippetsTex;
+    if (editor) {
+        // Preserve scroll position
+        const scrollTop = editor.scrollTop;
+        editor.value = _currentSnippetsTex;
+        editor.scrollTop = scrollTop;
+    }
 }
 
 // ==================== GENERATE TEX FROM JSON ====================
@@ -9567,6 +9575,7 @@ function onSnippetsTexInput() {
     const tex = $('snippetsTexEditor').value;
     _currentSnippetsTex = tex;
     _snippetsTexUserEdited = true;
+    _snippetsTexLastEditTime = Date.now();
 
     // Debounce: sync TeX edits back to JSON nodes after 1.5s
     clearTimeout(snippetsTexSaveTimer);
