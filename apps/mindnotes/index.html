@@ -5120,7 +5120,7 @@ function createNodeElement(node) {
                 `<div class="color-opt" style="background:${color}" data-c="${name}"></div>`
             ).join('')}
         </div>
-        <div class="node-title" style="font-size:${titleSize}px">${escapeHtml(node.title || 'Untitled')}</div>
+        <div class="node-title" style="font-size:${titleSize}px">${node.flashcard ? '🎴 ' : ''}${escapeHtml(node.title || 'Untitled')}</div>
         <div class="node-preview" style="-webkit-line-clamp:${previewLines};font-size:${calculatePreviewSize(node.width, node.height)}px">${formattedPreview}</div>
         <div class="resize-handle"></div>
     `;
@@ -5415,17 +5415,33 @@ function attachNodeEventListeners(el, node) {
         el.style.zIndex = 100;
     });
 
-    // Double click to edit - but not on formulas (they have their own click handler)
-    el.addEventListener('dblclick', (e) => {
+    // Double/triple click handler
+    el.addEventListener('click', (e) => {
         if (e.target.closest('.node-color-btn') || e.target.closest('.color-picker') ||
             e.target.closest('.resize-handle') || e.target.closest('.editable-formula') ||
             e.target.closest('.katex')) {
             return;
         }
-        e.preventDefault();
-        e.stopPropagation();
-        State.selectedNode = node;
-        editSelectedNode();
+
+        // Triple click → toggle flashcard
+        if (e.detail === 3) {
+            e.preventDefault();
+            e.stopPropagation();
+            node.flashcard = !node.flashcard;
+            saveData();
+            renderCanvas();
+            showToast(node.flashcard ? '🎴 Flashcard ON' : 'Flashcard OFF');
+            updateFlashcardStats();
+            return;
+        }
+
+        // Double click → edit
+        if (e.detail === 2) {
+            e.preventDefault();
+            e.stopPropagation();
+            State.selectedNode = node;
+            editSelectedNode();
+        }
     });
 }
 
