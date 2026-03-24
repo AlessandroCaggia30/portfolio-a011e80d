@@ -9411,14 +9411,22 @@ function normalizeTitle(t) {
         .toLowerCase();
 }
 
-// Parse TeX into blocks by \subsection{...} boundaries
+// Parse TeX into blocks by \subsection{...} boundaries, tracking parent \section
 function parseTexIntoBlocks(texContent) {
     const blocks = [];
-    // Match \subsection{Title} or \subsection*{Title}
+
+    // First, find all \section*{Title} positions
+    const sectionRe = /\\section\*?\{([^}]*)\}/g;
+    const sections = [];
+    let secMatch;
+    while ((secMatch = sectionRe.exec(texContent)) !== null) {
+        sections.push({ title: secMatch[1], index: secMatch.index });
+    }
+
+    // Find all \subsection*{Title} positions
     const subRe = /\\subsection\*?\{([^}]*)\}/g;
     let match;
     const splits = [];
-
     while ((match = subRe.exec(texContent)) !== null) {
         splits.push({ title: match[1], index: match.index, afterIndex: match.index + match[0].length });
     }
@@ -9430,10 +9438,25 @@ function parseTexIntoBlocks(texContent) {
         // Strip structural TeX that isn't node content
         content = content
             .replace(/\\section\*?\{[^}]*\}/g, '')
+            .replace(/\\addcontentsline\{[^}]*\}\{[^}]*\}\{[^}]*\}/g, '')
             .replace(/\\end\{document\}/g, '')
             .replace(/\\newpage/g, '')
             .trim();
-        blocks.push({ title: splits[i].title, content });
+
+        // Determine which section this subsection belongs to
+        let sectionTitle = '';
+        for (let s = sections.length - 1; s >= 0; s--) {
+            if (sections[s].index < splits[i].index) {
+                sectionTitle = sections[s].title;
+                break;
+            }
+        }
+
+        blocks.push({
+            title: splits[i].title,    // raw title e.g. "1.1 Solving Constrained maximization"
+            content,
+            sectionTitle               // e.g. "Constrained Optimization"
+        });
     }
 
     return blocks;
@@ -9472,22 +9495,61 @@ function applySnippetsTexToData(texContent) {
     const blocks = parseTexIntoBlocks(texContent);
     let changed = 0;
 
-    blocks.forEach(block => {
+    // Track section names from TeX
+    const newSectionNames = {};
+
+    blocks.forEach((block, idx) => {
         const normTitle = normalizeTitle(block.title);
         const node = findNodeByTitle(normTitle);
 
-        if (node) {
-            if (node.content !== block.content) {
-                node.content = block.content;
+        if (!node) return;
+
+        // Sync content
+        if (node.content !== block.content) {
+            node.content = block.content;
+            changed++;
+        }
+
+        // Sync title (the raw title from \subsection{...} becomes the node title)
+        if (node.title !== block.title) {
+            console.log('Synced title:', node.title, '→', block.title);
+            node.title = block.title;
+            changed++;
+        }
+
+        // Extract section number from title (e.g. "1.3 KKT Procedure" → "1.3")
+        const numMatch = block.title.match(/^(\d+(?:\.\d+)*)\s/);
+        if (numMatch) {
+            const newSecNum = numMatch[1];
+            if (node.sectionNumber !== newSecNum) {
+                node.sectionNumber = newSecNum;
                 changed++;
-                console.log('Synced TeX → node:', node.title);
             }
         }
+
+        // Track section name
+        if (block.sectionTitle) {
+            const sectionInt = parseInt(node.sectionNumber);
+            if (sectionInt) newSectionNames[sectionInt] = block.sectionTitle;
+        }
     });
+
+    // Update section names in data
+    if (Object.keys(newSectionNames).length > 0) {
+        if (!State.data.sectionNames) State.data.sectionNames = {};
+        for (const [k, v] of Object.entries(newSectionNames)) {
+            if (State.data.sectionNames[k] !== v) {
+                State.data.sectionNames[k] = v;
+                changed++;
+            }
+        }
+    }
 
     if (changed > 0) {
         saveData();
         if (State.currentSubtopic) renderCanvas();
+        renderSidebar();
+        console.log('Synced TeX → JSON:', changed, 'changes');
     }
     return changed;
 }
