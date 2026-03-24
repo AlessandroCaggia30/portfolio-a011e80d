@@ -7489,6 +7489,7 @@ function debouncedSaveData() {
     clearTimeout(globalSaveTimer);
     globalSaveTimer = setTimeout(() => {
         saveData();
+        refreshSnippetsTexIfOpen();
     }, 300);
 }
 
@@ -8243,7 +8244,8 @@ async function importFromFolder() {
 
                 if (entry.name.endsWith('.tex') && !texLoaded) {
                     const file = await entry.getFile();
-                    State.data.snippetsTex = await file.text();
+                    _currentSnippetsTex = await file.text();
+                    _snippetsTexUserEdited = false;
                     texLoaded = true;
                     console.log('Imported TeX:', entry.name);
                 }
@@ -8321,12 +8323,13 @@ async function saveToFolder() {
             await jsonWritable.write(JSON.stringify(backup, null, 2));
             await jsonWritable.close();
 
-            // Write TeX if it exists
+            // Always generate fresh TeX from JSON and write it
             let texSaved = false;
-            if (State.data.snippetsTex) {
+            const texContent = generateTexFromData();
+            if (texContent) {
                 const texHandle = await _folderHandle.getFileHandle('all_snippets.tex', { create: true });
                 const texWritable = await texHandle.createWritable();
-                await texWritable.write(State.data.snippetsTex);
+                await texWritable.write(texContent);
                 await texWritable.close();
                 texSaved = true;
             }
@@ -8373,10 +8376,11 @@ function startFolderWatch() {
                         let importedData = JSON.parse(text);
                         if (!importedData.topics && importedData.data) importedData = importedData.data;
                         if (importedData.topics && Array.isArray(importedData.topics)) {
-                            State.data = { ...importedData, snippetsTex: State.data.snippetsTex };
+                            State.data = importedData;
                             if (!State.data.trash) State.data.trash = [];
                             renderSidebar();
                             if (State.currentSubtopic) renderCanvas();
+                            refreshSnippetsTexIfOpen();
                             console.log('Folder watch: JSON updated from', entry.name);
                             showToast('Data reloaded from folder');
                         }
@@ -8388,11 +8392,13 @@ function startFolderWatch() {
                     const file = await entry.getFile();
                     if (file.lastModified > _lastTexModified && _lastTexModified > 0) {
                         _lastTexModified = file.lastModified;
-                        State.data.snippetsTex = await file.text();
-                        $('snippetsTexEditor').value = State.data.snippetsTex;
+                        _currentSnippetsTex = await file.text();
+                        _snippetsTexUserEdited = false;
+                        $('snippetsTexEditor').value = _currentSnippetsTex;
                         $('snippetsView').classList.add('has-tex');
                         renderSnippetsPreview();
-                        applySnippetsTexToData(State.data.snippetsTex);
+                        applySnippetsTexToData(_currentSnippetsTex);
+                        saveData();
                         console.log('Folder watch: TeX updated from', entry.name);
                         showToast('TeX reloaded from folder');
                     }
@@ -9100,25 +9106,35 @@ function switchView(view) {
 }
 
 // ==================== SNIPPETS VIEW ====================
-// The TeX file is user-provided (imported), stored in State.data.snippetsTex.
-// Edits to the TeX sync back to the node data via snippet markers.
-// No TeX panel is shown until a .tex file is imported.
+// TeX is ALWAYS derived from JSON. It is never stored persistently.
+// Edits to the TeX parse back to JSON via \subsection{NodeTitle} matching.
+// JSON is the single source of truth.
+
+let _currentSnippetsTex = '';
+let _snippetsTexUserEdited = false;
 
 async function loadSnippetsTex() {
     const view = $('snippetsView');
-    if (!State.data.snippetsTex) {
-        // Auto-generate TeX from JSON nodes on first open
-        State.data.snippetsTex = generateTexFromData();
-        saveData();
-    }
+    // Always regenerate TeX from current JSON data
+    _currentSnippetsTex = generateTexFromData();
+    _snippetsTexUserEdited = false;
     view.classList.add('has-tex');
-    $('snippetsTexEditor').value = State.data.snippetsTex;
+    $('snippetsTexEditor').value = _currentSnippetsTex;
 
     // Load cached PDF from IndexedDB for instant display
     if (!_snippetsPdfBlobUrl) {
         await loadSnippetsPdfFromDB();
     }
     renderSnippetsPreview();
+}
+
+// Called when JSON changes from other views — refresh TeX if snippets is open
+function refreshSnippetsTexIfOpen() {
+    if (State.currentView !== 'snippets') return;
+    if (_snippetsTexUserEdited) return; // don't overwrite active edits
+    _currentSnippetsTex = generateTexFromData();
+    const editor = $('snippetsTexEditor');
+    if (editor) editor.value = _currentSnippetsTex;
 }
 
 // ==================== GENERATE TEX FROM JSON ====================
@@ -9186,9 +9202,9 @@ function escapeTexString(str) {
 
 // Regenerate TeX from current data (callable from UI)
 function regenerateSnippetsTex() {
-    State.data.snippetsTex = generateTexFromData();
-    $('snippetsTexEditor').value = State.data.snippetsTex;
-    saveData();
+    _currentSnippetsTex = generateTexFromData();
+    _snippetsTexUserEdited = false;
+    $('snippetsTexEditor').value = _currentSnippetsTex;
     compileSnippetsTex();
     showToast('TeX regenerated from notes');
 }
@@ -9200,7 +9216,7 @@ let _snippetsPdfBlobUrl = null;
 let _isCompiling = false;
 
 async function compileSnippetsTex() {
-    const tex = State.data.snippetsTex;
+    const tex = _currentSnippetsTex || generateTexFromData();
     if (!tex || _isCompiling) return;
 
     _isCompiling = true;
@@ -9342,10 +9358,14 @@ function parseTexIntoBlocks(texContent) {
     for (let i = 0; i < splits.length; i++) {
         const start = splits[i].afterIndex;
         const end = (i + 1 < splits.length) ? splits[i + 1].index : texContent.length;
-        blocks.push({
-            title: splits[i].title,
-            content: texContent.slice(start, end).trim()
-        });
+        let content = texContent.slice(start, end).trim();
+        // Strip structural TeX that isn't node content
+        content = content
+            .replace(/\\section\*?\{[^}]*\}/g, '')
+            .replace(/\\end\{document\}/g, '')
+            .replace(/\\newpage/g, '')
+            .trim();
+        blocks.push({ title: splits[i].title, content });
     }
 
     return blocks;
@@ -9408,19 +9428,21 @@ let snippetsTexSaveTimer = null;
 let snippetsCompileTimer = null;
 function onSnippetsTexInput() {
     const tex = $('snippetsTexEditor').value;
-    State.data.snippetsTex = tex;
-    saveData();
+    _currentSnippetsTex = tex;
+    _snippetsTexUserEdited = true;
 
-    // Debounce: sync to node data after 1.5s
+    // Debounce: sync TeX edits back to JSON nodes after 1.5s
     clearTimeout(snippetsTexSaveTimer);
     snippetsTexSaveTimer = setTimeout(() => {
         const changed = applySnippetsTexToData(tex);
         if (changed > 0) {
             console.log('Snippets: synced', changed, 'nodes from TeX editor');
         }
+        _snippetsTexUserEdited = false; // JSON now matches TeX
+        saveData();
     }, 1500);
 
-    // Debounce: recompile after 4s of inactivity
+    // Debounce: recompile PDF after 4s of inactivity
     clearTimeout(snippetsCompileTimer);
     snippetsCompileTimer = setTimeout(() => {
         compileSnippetsTex();
@@ -9428,8 +9450,8 @@ function onSnippetsTexInput() {
 }
 
 function downloadSnippetsTex() {
-    const tex = State.data.snippetsTex || $('snippetsTexEditor').value;
-    if (!tex) { showToast('No TeX content — import a .tex file first'); return; }
+    const tex = _currentSnippetsTex || generateTexFromData();
+    if (!tex) { showToast('No TeX content'); return; }
     const blob = new Blob([tex], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -9451,9 +9473,9 @@ function uploadSnippetsTex() {
         if (!file) return;
         const text = await file.text();
 
-        // Store
-        State.data.snippetsTex = text;
-        saveData();
+        // Set as current TeX (not stored in State.data)
+        _currentSnippetsTex = text;
+        _snippetsTexUserEdited = false;
 
         // Update UI
         const editor = $('snippetsTexEditor');
@@ -9461,11 +9483,12 @@ function uploadSnippetsTex() {
         const view = $('snippetsView');
         if (view) view.classList.add('has-tex');
 
+        // Sync TeX → JSON nodes
+        const changed = applySnippetsTexToData(text);
+        saveData();
+
         // Render preview
         renderSnippetsPreview();
-
-        // Sync to node data
-        const changed = applySnippetsTexToData(text);
         showToast(`Imported .tex — synced ${changed} snippets to notes`);
     };
     input.click();
