@@ -9185,8 +9185,18 @@ function generateTexFromData() {
         });
     });
 
+    // Deduplicate by node ID (in case data has duplicates from multiple imports)
+    const seenIds = new Set();
+    const uniqueNodes = allNodes.filter(({ node }) => {
+        if (seenIds.has(node.id)) return false;
+        seenIds.add(node.id);
+        return true;
+    });
+
+    console.log('generateTexFromData: ' + allNodes.length + ' total, ' + uniqueNodes.length + ' unique');
+
     // Sort by sectionNumber (nodes without one go to end)
-    allNodes.sort((a, b) => {
+    uniqueNodes.sort((a, b) => {
         const na = parseSectionNumber(a.node.sectionNumber);
         const nb = parseSectionNumber(b.node.sectionNumber);
         for (let i = 0; i < Math.max(na.length, nb.length); i++) {
@@ -9201,7 +9211,7 @@ function generateTexFromData() {
     let currentSection = -1;
     let totalNodes = 0;
 
-    allNodes.forEach(({ node }) => {
+    uniqueNodes.forEach(({ node }) => {
         const secNum = node.sectionNumber || '';
         const sectionInt = parseInt(secNum) || 0;
 
@@ -9209,7 +9219,7 @@ function generateTexFromData() {
         if (sectionInt !== currentSection && sectionInt > 0) {
             currentSection = sectionInt;
             // Use topic/subtopic name as section title if available, else generic
-            const sectionTitle = getSectionTitle(sectionInt, allNodes);
+            const sectionTitle = getSectionTitle(sectionInt, uniqueNodes);
             lines.push('\\section*{' + escapeTexString(sectionTitle) + '}');
             lines.push('\\addcontentsline{toc}{section}{' + escapeTexString(sectionTitle) + '}');
             lines.push('');
@@ -9226,7 +9236,7 @@ function generateTexFromData() {
 
     lines.push('\\end{document}');
     console.log('generateTexFromData: generated', totalNodes, 'snippets from',
-        allNodes.length, 'total nodes');
+        uniqueNodes.length, 'unique nodes');
     return lines.join('\n');
 }
 
