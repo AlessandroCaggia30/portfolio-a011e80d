@@ -9221,15 +9221,18 @@ function generateTexFromData() {
             // Use topic/subtopic name as section title if available, else generic
             const sectionTitle = getSectionTitle(sectionInt, uniqueNodes);
             lines.push('\\section*{' + escapeTexString(sectionTitle) + '}');
-            lines.push('\\addcontentsline{toc}{section}{' + escapeTexString(sectionTitle) + '}');
             lines.push('');
         }
 
         // Use \subsection* to suppress LaTeX auto-numbering (title already has our number)
         lines.push('\\subsection*{' + escapeTexString(node.title) + '}');
-        lines.push('\\addcontentsline{toc}{subsection}{' + escapeTexString(node.title) + '}');
         lines.push('');
-        lines.push((node.content || '').trim());
+        // Clean any leaked structural commands from content
+        const cleanContent = (node.content || '')
+            .replace(/\\addcontentsline\{[^}]*\}\{[^}]*\}\{[^}]*\}/g, '')
+            .replace(/\n{3,}/g, '\n\n')
+            .trim();
+        lines.push(cleanContent);
         lines.push('');
         totalNodes++;
     });
@@ -9504,9 +9507,13 @@ function applySnippetsTexToData(texContent) {
 
         if (!node) return;
 
-        // Sync content
-        if (node.content !== block.content) {
-            node.content = block.content;
+        // Sync content (also clean any leaked structural commands)
+        let cleanContent = block.content
+            .replace(/\\addcontentsline\{[^}]*\}\{[^}]*\}\{[^}]*\}/g, '')
+            .replace(/\n{3,}/g, '\n\n')
+            .trim();
+        if (node.content !== cleanContent) {
+            node.content = cleanContent;
             changed++;
         }
 
