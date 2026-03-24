@@ -9500,11 +9500,7 @@ function onSnippetsTexInput() {
         saveData();
     }, 1500);
 
-    // Debounce: recompile PDF after 4s of inactivity
-    clearTimeout(snippetsCompileTimer);
-    snippetsCompileTimer = setTimeout(() => {
-        compileSnippetsTex();
-    }, 4000);
+    // PDF only recompiles on manual "Regenerate" click — not on every edit
 }
 
 function downloadSnippetsTex() {
