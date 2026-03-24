@@ -9234,16 +9234,17 @@ function parseSectionNumber(str) {
     return str.split('.').map(Number);
 }
 
-// Derive a section title from the first node in that section group
+// Derive a section title from sectionNames stored in State.data, or from the first node
 function getSectionTitle(sectionInt, allNodes) {
-    // Find the first node with this section integer
-    const first = allNodes.find(({ node }) => {
-        const n = parseInt(node.sectionNumber);
-        return n === sectionInt;
-    });
+    // Check if section names are stored in data
+    if (State.data.sectionNames && State.data.sectionNames[sectionInt]) {
+        return State.data.sectionNames[sectionInt];
+    }
+
+    // Fallback: strip number prefix from first node's title
+    const first = allNodes.find(({ node }) => parseInt(node.sectionNumber) === sectionInt);
     if (!first) return 'Section ' + sectionInt;
-    // Use the subtopic name or topic name as the section title
-    return first.subtopicName || first.topicName || 'Section ' + sectionInt;
+    return (first.node.title || '').replace(/^\d+(\.\d+)*\s+/, '') || 'Section ' + sectionInt;
 }
 
 function escapeTexString(str) {
