@@ -3113,6 +3113,7 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
                     <div class="snippets-tex-header">
                         <span>all_snippets.tex</span>
                         <div class="tex-actions">
+                            <button onclick="regenerateSnippetsTex()" title="Regenerate TeX from notes (link order)">🔄 Regen</button>
                             <button onclick="closeSnippetsTex()" title="Close TeX panel">Close</button>
                         </div>
                     </div>
@@ -9103,23 +9104,93 @@ function switchView(view) {
 // Edits to the TeX sync back to the node data via snippet markers.
 // No TeX panel is shown until a .tex file is imported.
 
-const SNIPPET_SEPARATOR_RE = /\n%% --- SNIPPET ---\n/;
-const SNIPPET_HEADER_RE = /^%% \[(\S+)\] (.+)$/m;
-
 async function loadSnippetsTex() {
     const view = $('snippetsView');
-    if (State.data.snippetsTex) {
-        view.classList.add('has-tex');
-        $('snippetsTexEditor').value = State.data.snippetsTex;
-    } else {
-        view.classList.remove('has-tex');
+    if (!State.data.snippetsTex) {
+        // Auto-generate TeX from JSON nodes on first open
+        State.data.snippetsTex = generateTexFromData();
+        saveData();
     }
+    view.classList.add('has-tex');
+    $('snippetsTexEditor').value = State.data.snippetsTex;
 
     // Load cached PDF from IndexedDB for instant display
     if (!_snippetsPdfBlobUrl) {
         await loadSnippetsPdfFromDB();
     }
     renderSnippetsPreview();
+}
+
+// ==================== GENERATE TEX FROM JSON ====================
+// Traverses nodes in link-implied order (topological sort: prerequisites first)
+// Groups by topic > subtopic, creates \section/\subsection structure
+
+function generateTexFromData() {
+    const lines = [];
+    // Preamble
+    lines.push('\\documentclass[11pt]{article}');
+    lines.push('\\usepackage[utf8]{inputenc}');
+    lines.push('\\usepackage{amsmath,amssymb,mathtools}');
+    lines.push('\\usepackage[margin=0.75in]{geometry}');
+    lines.push('\\usepackage{enumitem}');
+    lines.push('\\usepackage{xcolor}');
+    lines.push('\\usepackage{parskip}');
+    lines.push('\\usepackage{hyperref}');
+    lines.push('\\usepackage{amsthm}');
+    lines.push('');
+    lines.push('\\newtheorem{theorem}{Theorem}[section]');
+    lines.push('\\newtheorem{definition}[theorem]{Definition}');
+    lines.push('\\newtheorem{lemma}[theorem]{Lemma}');
+    lines.push('\\newtheorem{proposition}[theorem]{Proposition}');
+    lines.push('\\newtheorem{corollary}[theorem]{Corollary}');
+    lines.push('\\newtheorem{remark}[theorem]{Remark}');
+    lines.push('\\newtheorem{example}[theorem]{Example}');
+    lines.push('');
+    lines.push('\\title{' + escapeTexString(State.currentSubject?.name || 'All Snippets') + '}');
+    lines.push('\\date{\\today}');
+    lines.push('');
+    lines.push('\\begin{document}');
+    lines.push('\\maketitle');
+    lines.push('\\tableofcontents');
+    lines.push('\\newpage');
+    lines.push('');
+
+    State.data.topics.forEach(topic => {
+        lines.push('\\section{' + escapeTexString(topic.name) + '}');
+        lines.push('');
+
+        topic.subtopics.forEach(sub => {
+            // Topological sort nodes by links within each subtopic
+            const sorted = topologicalSortNodes(sub.nodes);
+
+            sorted.forEach(node => {
+                lines.push('\\subsection{' + escapeTexString(node.title) + '}');
+                lines.push('');
+                lines.push((node.content || '').trim());
+                lines.push('');
+            });
+        });
+    });
+
+    lines.push('\\end{document}');
+    return lines.join('\n');
+}
+
+function escapeTexString(str) {
+    // Only escape characters that break TeX in \section{} titles
+    return (str || '')
+        .replace(/&/g, '\\&')
+        .replace(/#/g, '\\#')
+        .replace(/%/g, '\\%');
+}
+
+// Regenerate TeX from current data (callable from UI)
+function regenerateSnippetsTex() {
+    State.data.snippetsTex = generateTexFromData();
+    $('snippetsTexEditor').value = State.data.snippetsTex;
+    saveData();
+    compileSnippetsTex();
+    showToast('TeX regenerated from notes');
 }
 
 // ==================== LIVE LATEX COMPILER ====================
