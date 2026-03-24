@@ -9214,9 +9214,8 @@ function generateTexFromData() {
             lines.push('');
         }
 
-        // Emit \subsection with the node's sectionNumber prefix
-        const prefix = secNum ? secNum + ' ' : '';
-        lines.push('\\subsection{' + prefix + escapeTexString(node.title) + '}');
+        // Emit \subsection — title already contains the section number
+        lines.push('\\subsection{' + escapeTexString(node.title) + '}');
         lines.push('');
         lines.push((node.content || '').trim());
         lines.push('');
