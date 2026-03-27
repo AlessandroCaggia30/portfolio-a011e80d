@@ -3443,7 +3443,7 @@ const State = {
 
 const SUBJECTS = [
     { id: 'adv-math', name: 'Advanced Mathematics', icon: '\u2211', dataKey: 'mindnotes_advmath', seedFile: 'data.json' },
-    { id: 'adv-micro', name: 'Advanced Microeconometrics', icon: '\uD83D\uDCCA', dataKey: 'mindnotes_advmicro', seedFile: null },
+    { id: 'adv-micro', name: 'Advanced Microeconometrics', icon: '\uD83D\uDCCA', dataKey: 'mindnotes_advmicro', seedFile: 'data_advmicro.json', seedVersion: 1 },
     { id: 'adv-macro', name: 'Advanced Macroeconomics', icon: '\uD83C\uDF10', dataKey: 'mindnotes_advmacro', seedFile: 'data_advmacro.json', seedVersion: 6 }
 ];
 
@@ -4021,6 +4021,14 @@ function hasUnsavedChanges() {
 
 async function _commitSave() {
     const dataKey = State.currentSubject ? State.currentSubject.dataKey : 'mindnotes2';
+
+    // Never save if there are 0 nodes (prevents overwriting real data with empty data)
+    const totalNodes = (State.data.topics || []).reduce((sum, t) => sum + (t.subtopics || []).reduce((s2, st) => s2 + (st.nodes || []).length, 0), 0);
+    if (totalNodes === 0) {
+        console.warn('Skipping save: 0 nodes in data');
+        return;
+    }
+
     try {
         if (!db) await initDB();
 
@@ -4247,23 +4255,16 @@ async function initAutosaveForSubject(dataKey) {
         return;
     }
 
-    // Try to restore a previously saved handle
-    const restored = await restoreAutosaveHandle(dataKey);
-    if (!restored) {
-        // Show banner prompting user to set up
-        const bannerEl = document.getElementById('autosaveBanner');
-        const statusEl = document.getElementById('autosaveStatus');
-        if (bannerEl) {
-            bannerEl.textContent = '💾 Click to select a .json backup file for ' + AUTOSAVE_SUBJECTS[dataKey];
-            bannerEl.classList.add('visible');
-        }
-        if (statusEl) {
-            statusEl.classList.add('active');
-            statusEl.querySelector('#autosaveStatusText').textContent = 'File backup: not configured';
-        }
-    } else {
-        const bannerEl = document.getElementById('autosaveBanner');
-        if (bannerEl) bannerEl.classList.remove('visible');
+    // Never auto-restore — user must manually click to enable each session
+    const bannerEl = document.getElementById('autosaveBanner');
+    const statusEl = document.getElementById('autosaveStatus');
+    if (bannerEl) {
+        bannerEl.textContent = '💾 Click to select a .json backup file for ' + AUTOSAVE_SUBJECTS[dataKey];
+        bannerEl.classList.add('visible');
+    }
+    if (statusEl) {
+        statusEl.classList.add('active');
+        statusEl.querySelector('#autosaveStatusText').textContent = 'File backup: not configured';
     }
 }
 
@@ -4289,6 +4290,10 @@ function updateAutosaveUI(dataKey, status, text) {
 let autosaveWriteTimer = null;
 function autoSaveToFileSystem(dataKey, data) {
     if (!autosaveFileHandles[dataKey]) return;
+
+    // Never autosave if there are 0 nodes (prevents overwriting real data with empty data)
+    const totalNodes = (data.topics || []).reduce((sum, t) => sum + (t.subtopics || []).reduce((s2, st) => s2 + (st.nodes || []).length, 0), 0);
+    if (totalNodes === 0) return;
 
     // Debounce file writes to max once per 2 seconds
     clearTimeout(autosaveWriteTimer);
