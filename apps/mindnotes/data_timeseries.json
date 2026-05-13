@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T11:12:59.306Z",
+  "exportedAt": "2026-05-13T11:13:02.758Z",
   "data": {
     "topics": [
       {
@@ -28,7 +28,7 @@
               {
                 "id": "ts17786690819137257",
                 "title": "Aims of time series analysis",
-                "content": "\\textbf{\\textcolor{red}{AIMS OF TIME SERIES ANALYSIS}}\n\n$\\to$ \\textbf{Describe} -- trend, seasonal, cycle (Often, to de-trend, de-seasonalize). If multivariate: find common patterns, clusters, dim. reductions etc... \n\n$\\to$ \\textbf{Explain} \n- modeling and inference write a model and estimate its parameters\n\n- \\textbf{Forecast} accounting for uncertainty and risk",
+                "content": "\\textbf{\\textcolor{red}{AIMS OF TIME SERIES ANALYSIS}}\n\n$\\to$ \\textbf{Describe} -- trend, seasonal, cycle (Often, to de-trend, de-seasonalize). If multivariate: find common patterns, clusters, dim. reductions etc... \n\n$\\to$ \\textbf{Explain} \n- modeling and inference write a model and estimate its parameters\n- \\textbf{Forecast} accounting for uncertainty",
                 "flashcard": false,
                 "images": [],
                 "links": [],
