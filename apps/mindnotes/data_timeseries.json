@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T19:06:12.153Z",
+  "exportedAt": "2026-05-13T19:08:12.877753+00:00",
   "data": {
     "topics": [
       {
@@ -380,7 +380,7 @@
               {
                 "id": "1778699075521",
                 "title": "Markov Property",
-                "content": "\\textbf{Step 2 — Markov property (cheapest non-trivial dependence).} Assume that, given the immediate past $Y_{t-1}$, the value $Y_t$ is independent of everything before $Y_{t-1}$:\\[ p(y_t \\mid y_1, \\dots, y_{t-1}) = p(y_t \\mid y_{t-1}). \\]Substituting in the chain rule collapses the joint to one-step transitions only:\\[ p_n(y_1, \\dots, y_n) = p(y_1) \\prod_{t=2}^{n} p(y_t \\mid y_{t-1}). \\]Only the \\textbf{initial law} $p(y_1)$ and the family of \\textbf{one-step transition densities} $\\{p(y_t \\mid y_{t-1})\\}$ are needed. If additionally we assume \\emph{homogeneity} ($p(y_t \\mid y_{t-1})$ does not depend on $t$), this is just \\textbf{one} transition kernel.\n\n",
+                "content": "\\textbf{\\textcolor{red}{MARKOV PROPERTY}}\n\n\\textbf{Definition.} A discrete-time stochastic process $(Y_t)_{t \\ge 0}$ with $Y_t \\in \\mathcal{Y}$ is a \\textbf{Markov process} if\n\n$\\bullet$ $Y_0 \\sim p_0(\\cdot)$ \\quad (initial distribution), and\n\n$\\bullet$ for every $t \\ge 1$, $Y_t$ depends on the past observations only through $Y_{t-1}$:\\[ p(y_t \\mid y_0, y_1, \\dots, y_{t-1}) = p(y_t \\mid y_{t-1}). \\]\n\n\\textbf{Joint density (chain rule + Markov).} Plugging the Markov property into the general chain rule collapses the joint to one-step transitions only:\\[ p_n(y_0, y_1, \\dots, y_n) = p_0(y_0) \\prod_{t=1}^{n} p(y_t \\mid y_{t-1}). \\]So the law of the process is fully specified by\n\n$\\bullet$ the \\textbf{initial distribution} $p_0(\\cdot)$ of $Y_0$;\n\n$\\bullet$ the family of \\textbf{one-step transition kernels} $\\{p(y_t \\mid y_{t-1}) : t \\ge 1\\}$.\n\nIf additionally $p(y_t \\mid y_{t-1})$ does not depend on $t$, the chain is \\textbf{homogeneous} — a single transition kernel suffices.\n\n\\textit{Reading order:} iid (no memory) $\\to$ Markov (memory of length 1, the cheapest non-trivial dependence) $\\to$ general dependence (unbounded memory). Markov is the building block for AR(1), state-space models, and HMMs.",
                 "flashcard": false,
                 "images": [],
                 "links": [
