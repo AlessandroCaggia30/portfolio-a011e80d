@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T09:48:45.145Z",
+  "exportedAt": "2026-05-13T09:51:29.843Z",
   "data": {
     "topics": [
       {
@@ -65,7 +65,7 @@
               {
                 "id": "1771317218793",
                 "title": "KKT Necessary for Global Maximum",
-                "content": "Theorem 1\n\n\\begin{enumerate}\n\\item[(i)] Suppose that $\\hat{x}$ is feasible for problem $(P)$ and that there exist nonnegative numbers \n$\\hat{\\lambda} := [\\hat{\\lambda}_1, \\dots, \\hat{\\lambda}_K]$ such that $\\hat{x}$ solves\n\\[\n\\max_{x \\in \\mathbb{R}^N} \n\\mathcal{L}(x,\\hat{\\lambda}) := f(x) + \\sum_k \\hat{\\lambda}_k g_k(x),\n\\]\nwhere, for all $k$, if $g_k(\\hat{x}) > 0$ then $\\hat{\\lambda}_k = 0$.\nThen $\\hat{x}$ solves problem $(P)$. \n\n\\vspace{1em}\n\n\\item[(ii)] Assume that both $f$ and $g_k$, $k = 1,2,\\dots,K$, are all concave and suppose there is a point $x$ such that $g_k(x) > 0$ for all $k$.  \nIf $x^*$ solves problem $(P)$ then there exist nonnegative numbers\n\\[\n\\lambda^* := [\\lambda^*_1, \\dots, \\lambda^*_K]\n\\]\nsuch that $x^*$ solves\n\\[\n\\max_{x \\in \\mathbb{R}^N}\n\\mathcal{L}(x,\\lambda^*) := f(x) + \\sum_k \\lambda^*_k g_k(x),\n\\]\nwhere, for all $k$, if $g_k(x^*) > 0$ then $\\lambda^*_k = 0$.\n\\end{enumerate}",
+                "content": "",
                 "flashcard": false,
                 "images": [],
                 "links": [
