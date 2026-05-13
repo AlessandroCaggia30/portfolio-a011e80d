@@ -694,6 +694,7 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 .node-preview .hl-pink { background: #fd79a8; color: #000; padding: 0 2px; border-radius: 2px; }
 
 /* Tabular tables inside the card preview — override the line-clamp flexbox so the table renders */
+.node-preview.has-table,
 .node-preview:has(.latex-table) {
     display: block;
     -webkit-line-clamp: unset;
