@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T17:56:05.291Z",
+  "exportedAt": "2026-05-13T17:56:43.102475+00:00",
   "data": {
     "topics": [
       {
@@ -310,7 +310,7 @@
               {
                 "id": "1778694937071",
                 "title": "Example 2. White noise",
-                "content": "\n\\textit{Ex.:} $Y_t \\stackrel{\\text{iid}}{\\sim} \\mathcal{N}(\\mu, \\sigma^2)$ \\quad Gaussian white noise.",
+                "content": "\\textbf{\\textcolor{red}{EXAMPLE 2 — WHITE NOISE}}\n\nA \\textbf{white noise} is a process $(Y_t)_{t \\ge 1}$ such that\n\n$\\bullet$ the $Y_t$ are mutually independent (sometimes weakened to ``uncorrelated''), and\n\n$\\bullet$ they share the same first two moments.\n\nAs a consequence, for every $t$ and every $t \\neq t'$:\\[ \\mathbb{E}[Y_t] = \\mu, \\qquad \\mathrm{Var}(Y_t) = \\sigma^2, \\qquad \\gamma(t, t') = \\mathrm{Cov}(Y_t, Y_{t'}) = 0 \\ \\text{for } t \\neq t'. \\]So the mean and variance are constant in time, and the autocovariance vanishes off the diagonal.\n\n\\textbf{Gaussian white noise:} additionally require $Y_t$ iid Gaussian:\\[ Y_t \\stackrel{\\text{iid}}{\\sim} \\mathcal{N}(\\mu, \\sigma^2). \\]Under the Gaussian assumption, uncorrelated $\\Longleftrightarrow$ independent, so the distinction in the first bullet disappears.\n\n\\textit{Intuition:} white noise = ``no structure'' — flat mean, flat variance, no memory. It is the elementary building block on top of which AR / MA / ARMA / state-space models add temporal structure.",
                 "flashcard": false,
                 "images": [],
                 "links": [],
