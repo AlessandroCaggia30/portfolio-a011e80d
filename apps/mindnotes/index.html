@@ -8626,6 +8626,15 @@ async function ghPullNow() {
     _ghSetState('Pulling…');
     console.log('[gh] ghPullNow start', key, 'last sha:', (_ghShas[key]||'').slice(0,7) || '(none)');
     try {
+        // Cheap sha peek first — if unchanged, skip the heavy fetch.
+        const peekSha = await ghPeekRemoteSha(path);
+        if (peekSha && _ghShas[key] === peekSha) {
+            console.log('[gh] pull skipped — remote unchanged');
+            _ghSetState('Up to date');
+            _ghPullInFlight = false;
+            updateGhStatusDot();
+            return;
+        }
         const remote = await ghFetchFile(path);
         if (remote) console.log('[gh] remote sha:', remote.sha.slice(0,7), 'size:', remote.content.length);
         if (!remote) { _ghSetState('Remote file missing'); return; }
@@ -8855,18 +8864,15 @@ async function ghPollOnce() {
     if (!path || !key) return;
     if (_ghPullInFlight || _ghPushInFlight) return;
     try {
-        const commits = await ghListCommits(path, 1);
-        if (!commits.length) return;
-        const latestCommitSha = commits[0].sha;
-        // Find sha of file at HEAD (different from commit sha)
-        const remote = await ghFetchFile(path);
-        if (!remote) return;
-        if (_ghShas[key] && _ghShas[key] !== remote.sha) {
-            // Remote changed since last we knew. Pull.
-            console.log('GH poll: remote changed, pulling');
+        // Cheap metadata-only request to check if remote sha changed.
+        // Avoid downloading the full file content unless we actually need to pull.
+        const remoteSha = await ghPeekRemoteSha(path);
+        if (!remoteSha) return;
+        if (_ghShas[key] && _ghShas[key] !== remoteSha) {
+            console.log('[gh] poll: remote sha changed', _ghShas[key].slice(0,7), '→', remoteSha.slice(0,7), 'pulling');
             await ghPullNow();
         } else if (!_ghShas[key]) {
-            _ghShas[key] = remote.sha;
+            _ghShas[key] = remoteSha; _ghPersistShas();
         }
     } catch (e) {
         console.warn('GH poll error:', e.message);
@@ -8876,7 +8882,7 @@ async function ghPollOnce() {
 function startGhAutoSync() {
     stopGhAutoSync();
     if (!_ghAutoSync) return;
-    _ghPollInterval = setInterval(ghPollOnce, 15000);
+    _ghPollInterval = setInterval(ghPollOnce, 30000);
 }
 
 function stopGhAutoSync() {
