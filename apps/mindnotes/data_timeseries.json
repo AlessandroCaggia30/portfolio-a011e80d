@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T11:14:33.640Z",
+  "exportedAt": "2026-05-13T11:14:36.301Z",
   "data": {
     "topics": [
       {
@@ -36,7 +36,12 @@
                 "content": "\\textbf{\\textcolor{red}{AIMS OF TIME SERIES ANALYSIS}}\n\n$\\to$ \\textbf{Describe} -- trend, seasonal, cycle (Often, to de-trend, de-seasonalize). If multivariate: find common patterns, clusters, dim. reductions etc... \n\n$\\to$ \\textbf{Explain} \n- modeling and inference write a model and estimate its parameters\n- \\textbf{Forecast} accounting for uncertainty",
                 "flashcard": false,
                 "images": [],
-                "links": [],
+                "links": [
+                  {
+                    "target": "ts17786690819138473",
+                    "type": "forward"
+                  }
+                ],
                 "x": 5472.743088149306,
                 "y": 3253.957203525496,
                 "width": 650,
