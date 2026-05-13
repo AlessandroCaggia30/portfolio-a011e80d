@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T11:59:03.792Z",
+  "exportedAt": "2026-05-13T11:59:19.532Z",
   "data": {
     "topics": [
       {
@@ -50,7 +50,7 @@
               {
                 "id": "ts17786690819138473",
                 "title": "Time series decomposition",
-                "content": "\\textbf{\\textcolor{red}{TIME SERIES DECOMPOSITION}}\n\nView $Y_t$ as composed of: a \\textbf{Trend}, a \\textbf{Seasonal} comp., a \\textbf{cycle}, and an \\textbf{Erratic} comp.\n\n\\textbf{Additive}:\\quad $Y_t = T_t + S_t + C_t + E_t$\n\n\\textbf{Multiplicative}:\\quad $Y_t = T_t \\cdot S_t \\cdot C_t \\cdot E_t$\n\nnote $\\log$ transforms a multiplicative decomposition into an additive one",
+                "content": "\\textbf{\\textcolor{red}{TIME SERIES DECOMPOSITION}}\n\nVie $Y_t$ as composed of: a \\textbf{Trend}, a \\textbf{Seasonal} comp., a \\textbf{cycle}, and an \\textbf{Erratic} comp.\n\n\\textbf{Additive}:\\quad $Y_t = T_t + S_t + C_t + E_t$\n\n\\textbf{Multiplicative}:\\quad $Y_t = T_t \\cdot S_t \\cdot C_t \\cdot E_t$\n\nnote $\\log$ transforms a multiplicative decomposition into an additive one",
                 "flashcard": false,
                 "images": [],
                 "links": [],
