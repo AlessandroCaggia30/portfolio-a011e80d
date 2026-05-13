@@ -2555,6 +2555,22 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 }
 .global-gh-btn:hover { background: var(--bg3); border-color: var(--accent); }
 
+.gh-status-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-left: 6px;
+    vertical-align: middle;
+    box-shadow: 0 0 4px currentColor;
+}
+.gh-status-dot.gh-status-ok       { background: #22c55e; color: #22c55e; }
+.gh-status-dot.gh-status-error    { background: #ef4444; color: #ef4444; }
+.gh-status-dot.gh-status-pending  { background: #f59e0b; color: #f59e0b; }
+.gh-status-dot.gh-status-unknown  { background: #6b7280; color: #6b7280; }
+.gh-status-dot.gh-status-syncing  { background: #3b82f6; color: #3b82f6; animation: ghPulse 1s infinite; }
+@keyframes ghPulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
 .subject-screen-inner {
     text-align: center;
     max-width: 800px;
@@ -2783,7 +2799,7 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 </head>
 <body>
     <div id="subjectScreen" class="subject-screen">
-        <button class="global-gh-btn" onclick="openGhSyncModal()" title="GitHub Sync &amp; Version History">🔄 Sync</button>
+        <button class="global-gh-btn" onclick="openGhSyncModal()" title="GitHub Sync &amp; Version History">🔄 Sync <span id="ghStatusDot" class="gh-status-dot gh-status-unknown" title="Sync status"></span></button>
         <div class="subject-screen-inner">
             <h1><span>M</span>indNotes</h1>
             <p>Select a subject</p>
@@ -8466,9 +8482,37 @@ async function ghFetchFileAtCommit(path, commitSha) {
     throw new Error('Could not read content at commit');
 }
 
+let _ghLastError = null;
 function _ghSetState(text) {
     const el = document.getElementById('ghStateText');
     if (el) el.textContent = text;
+    updateGhStatusDot();
+}
+
+function updateGhStatusDot() {
+    const dot = document.getElementById('ghStatusDot');
+    if (!dot) return;
+    let level = 'unknown';
+    let title = 'No token set';
+    if (!_ghToken) {
+        level = 'error';
+        title = 'No GitHub token — click to set one';
+    } else if (_ghPullInFlight || _ghPushInFlight) {
+        level = 'syncing';
+        title = 'Syncing…';
+    } else if (_ghLastError) {
+        level = 'error';
+        title = 'Last error: ' + _ghLastError;
+    } else if (_ghCurrentKey() && (_ghLastPull[_ghCurrentKey()] || _ghLastPush[_ghCurrentKey()])) {
+        level = 'ok';
+        title = 'Synced — click for details';
+    } else if (_ghToken) {
+        level = 'pending';
+        title = 'Token set — waiting for first sync';
+    }
+    dot.classList.remove('gh-status-ok','gh-status-error','gh-status-pending','gh-status-unknown','gh-status-syncing');
+    dot.classList.add('gh-status-' + level);
+    dot.title = title;
 }
 
 function _ghUpdateStatusUI() {
@@ -8560,6 +8604,7 @@ async function ghPullNow() {
         if (!State.data.trash) State.data.trash = [];
         _ghShas[key] = remote.sha;
         _ghLastPull[key] = new Date().toISOString();
+        _ghLastError = null;
         _dataIsDirty = false;
         // Persist locally too
         if (db) {
@@ -8586,10 +8631,12 @@ async function ghPullNow() {
         _ghUpdateStatusUI();
     } catch (e) {
         console.error('ghPull error:', e);
+        _ghLastError = e.message;
         _ghSetState('Pull error: ' + e.message);
         showToast('Pull failed: ' + e.message);
     } finally {
         _ghPullInFlight = false;
+        updateGhStatusDot();
     }
 }
 
@@ -8613,14 +8660,17 @@ async function ghPushNow() {
         const newSha = await ghPutFile(path, content, msg, _ghShas[key]);
         _ghShas[key] = newSha;
         _ghLastPush[key] = new Date().toISOString();
+        _ghLastError = null;
         _ghSetState('Up to date');
         _ghUpdateStatusUI();
     } catch (e) {
         console.error('ghPush error:', e);
+        _ghLastError = e.message;
         _ghSetState('Push error: ' + e.message);
         showToast('Push failed: ' + e.message);
     } finally {
         _ghPushInFlight = false;
+        updateGhStatusDot();
     }
 }
 
@@ -10747,6 +10797,7 @@ function showSubjectScreen() {
     });
     $('subjectScreen').classList.remove('hidden');
     document.querySelector('.app').style.display = 'none';
+    updateGhStatusDot();
 }
 
 async function selectSubject(subject) {
