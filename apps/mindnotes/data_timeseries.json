@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T13:15:31.576Z",
+  "exportedAt": "2026-05-13T13:16:25.426104Z",
   "data": {
     "topics": [
       {
@@ -50,7 +50,7 @@
               {
                 "id": "ts17786690819138473",
                 "title": "Time series decomposition",
-                "content": "\\textbf{\\textcolor{red}{TIME SERIES DECOMPOSITION}}\n\nView $Y_t$ as composed of: a \\textbf{Trend}, a \\textbf{Seasonal} comp., a \\textbf{cycle}, and an \\textbf{Erratic} comp.\n\n\\textbf{Additive}:\\quad $Y_t = T_t + S_t + C_t + E_t$\n\n\\textbf{Multiplicative}:\\quad $Y_t = T_t \\cdot S_t \\cdot C_t \\cdot E_t$\n\nnote $\\log$ transforms a multiplicative decomposition into an additive one",
+                "content": "\\textbf{\\textcolor{red}{TIME SERIES DECOMPOSITION}}\n\nView $Y_t$ as composed of: a \\textbf{Trend}, a \\textbf{Seasonal} comp., a \\textbf{cycle}, and an \\textbf{Erratic} comp.\n\n\\textbf{Additive}:\\quad $Y_t = T_t + S_t + C_t + E_t$\n\n\\textbf{Multiplicative}:\\quad $Y_t = T_t \\cdot S_t \\cdot C_t \\cdot E_t$\n\nnote $\\log$ transforms a multiplicative decomposition into an additive one\n\n\\textbf{\\textcolor{red}{Python simulation}}\n\n```python\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nnp.random.seed(0)\nn = 240                               # 20 years of monthly data\nt = np.arange(n)\n\n# --- Building blocks ---\nT = 0.05 * t + 5                      # linear trend\nS = 2.0 * np.sin(2*np.pi*t/12)        # seasonal, period 12\nE = np.random.normal(0, 1, n)         # erratic / white noise\n\n# --- Additive:  Y_t = T_t + S_t + E_t ---\nY_add = T + S + E\n\n# --- Multiplicative:  Y_t = T_t * S_t * E_t  (positive components) ---\nT_m = 0.05 * t + 5\nS_m = 1 + 0.3 * np.sin(2*np.pi*t/12)  # multiplicative seasonal around 1\nE_m = np.exp(np.random.normal(0, 0.1, n))  # lognormal noise around 1\nY_mul = T_m * S_m * E_m\n\n# --- log turns multiplicative -> additive ---\nlogY_mul = np.log(Y_mul)              # = log T_m + log S_m + log E_m\n\nfig, ax = plt.subplots(2, 2, figsize=(11, 6))\nax[0,0].plot(Y_add);    ax[0,0].set_title(\"Additive   Y = T + S + E\")\nax[0,1].plot(Y_mul);    ax[0,1].set_title(\"Multiplicative   Y = T·S·E\")\nax[1,0].plot(logY_mul); ax[1,0].set_title(\"log(Y_mul) -> additive scale\")\nax[1,1].plot(T_m, label=\"T\"); ax[1,1].plot(S_m, label=\"S\"); ax[1,1].plot(E_m, label=\"E\")\nax[1,1].legend(); ax[1,1].set_title(\"Multiplicative components\")\nplt.tight_layout(); plt.show()\n```\n\n\\textbf{Diagnostic rule of thumb:} if the seasonal swing grows with the level of the series, prefer the multiplicative form (or model $\\log Y_t$ additively).\n",
                 "flashcard": false,
                 "images": [],
                 "links": [
@@ -62,7 +62,7 @@
                 "x": 4425.139134211727,
                 "y": 3672.513499239636,
                 "width": 650,
-                "height": 320
+                "height": 760
               },
               {
                 "id": "ts17786690819131573",
