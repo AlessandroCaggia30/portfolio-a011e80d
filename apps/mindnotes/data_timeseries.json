@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T16:36:33.099Z",
+  "exportedAt": "2026-05-13T16:36:43.934Z",
   "data": {
     "topics": [
       {
@@ -288,6 +288,16 @@
                 "y": 5655.4116963761135,
                 "height": 573.3333333333334,
                 "width": 463.33333333333337
+              },
+              {
+                "id": "1778690202929",
+                "title": "Time series as stochastic processes",
+                "content": "Better: a time series is a *Stochastic Process* (Y_t, t $\\ge$ 0): a sequence of random vectors (a multidipensional random variable) indexed by t. \n\nNote:\n- To specify the processm you need to write probability law P. \n- Each observed value is a specific realization of the process.\n\n\n",
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "x": 6676.002558082695,
+                "y": 2950.780163319485
               }
             ]
           }
