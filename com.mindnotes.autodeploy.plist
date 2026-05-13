@@ -6,7 +6,7 @@
   <string>com.mindnotes.autodeploy</string>
   <key>ProgramArguments</key>
   <array>
-    <string>/Users/Alessandro/Desktop/people/Alessandro/website/portfolio-a011e80d/auto-deploy.sh</string>
+    <string>/Users/Alessandro/Repos/portfolio-a011e80d/auto-deploy.sh</string>
   </array>
   <key>RunAtLoad</key>
   <true/>

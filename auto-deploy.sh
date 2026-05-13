@@ -3,7 +3,7 @@
 # and pushes any changes to origin/main on every save.
 # Usage: ./auto-deploy.sh           (Ctrl+C to stop)
 
-REPO_DIR="/Users/Alessandro/Desktop/people/Alessandro/website/portfolio-a011e80d"
+REPO_DIR="/Users/Alessandro/Repos/portfolio-a011e80d"
 WATCH_DIR="$REPO_DIR/apps/mindnotes"
 
 cd "$REPO_DIR" || { echo "Cannot cd to $REPO_DIR"; exit 1; }

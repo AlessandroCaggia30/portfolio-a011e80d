@@ -7,7 +7,7 @@
 #   ./auto-pull.sh                # foreground, Ctrl+C to stop
 #   nohup ./auto-pull.sh > /tmp/auto-pull.log 2>&1 &   # background
 
-REPO_DIR="/Users/Alessandro/Desktop/people/Alessandro/website/portfolio-a011e80d"
+REPO_DIR="/Users/Alessandro/Repos/portfolio-a011e80d"
 INTERVAL=15  # seconds between checks
 
 cd "$REPO_DIR" || { echo "Cannot cd to $REPO_DIR"; exit 1; }
