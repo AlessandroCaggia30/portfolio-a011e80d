@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T09:51:29.843Z",
+  "exportedAt": "2026-05-13T10:05:05.731Z",
   "data": {
     "topics": [
       {
@@ -93,7 +93,7 @@
               {
                 "id": "1771317277875",
                 "title": "Necessary Conditions Without Concavity",
-                "content": "\\textbf{Theorem 3.}\n\nSuppose both $f$ and $g$ are differentiable.  \nLet $x^*$ be a (feasible) local maximum for $(P)$ satisfying the qualification constraints (QC).  \nThen there are $K$ nonnegative scalars \n\\[\n\\lambda^* = [\\lambda^*_1, \\dots, \\lambda^*_K]\n\\]such that:\n\n\\begin{enumerate}\n\\item[(i)]\n\\[\n\\frac{\\partial \\mathcal{L}(x^*,\\lambda^*)}{\\partial x_n}\n=\n\\frac{\\partial f(x^*)}{\\partial x_n}\n+\n\\sum_k \\lambda^*_k\n\\frac{\\partial g_k(x^*)}{\\partial x_n}\n= 0,\n\\quad \\text{for } n = 1,2,\\dots,N;\n\\]\n\n\\item[(ii)]\n\\[\n\\lambda^*_k g_k(x^*) = 0\n\\quad \\text{for all } k = 1,2,\\dots,K\n\\quad \\text{(CS)}.\n\\]\n\\end{enumerate}",
+                "content": "",
                 "flashcard": false,
                 "images": [],
                 "links": [],
