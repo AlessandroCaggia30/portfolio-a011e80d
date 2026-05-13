@@ -2787,6 +2787,7 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
                 <div class="header-actions">
                     <button class="sync-btn" onclick="saveToFolder()" title="Save JSON + TeX to folder">💾</button>
                     <button class="sync-btn" onclick="importFromJson()" title="Import a .json file">📥</button>
+                    <button class="sync-btn" id="ghSyncBtn" onclick="openGhSyncModal()" title="GitHub Sync &amp; Version History">🔄</button>
                     <button class="sync-btn" id="syncBtn" onclick="openSyncModal()" title="Cloud Sync">☁️</button>
                 </div>
             </div>
@@ -3351,6 +3352,58 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
         </div>
     </div>
 
+    <!-- GitHub Sync Modal -->
+    <div class="modal-overlay" id="ghSyncModal">
+        <div class="modal" style="max-width:520px; max-height:85vh; display:flex; flex-direction:column;">
+            <div class="modal-header">
+                <h2>🔄 GitHub Sync</h2>
+                <button class="modal-close" onclick="closeGhSyncModal()">&times;</button>
+            </div>
+            <div class="modal-body" style="overflow-y:auto;">
+                <p style="color:var(--text2); margin-bottom:15px; font-size:13px;">
+                    Live two-way sync between this app and your repo's JSON file. Every edit auto-commits. VS Code edits flow back. Full version history via git.
+                </p>
+                <div class="form-group">
+                    <label>GitHub Personal Access Token</label>
+                    <input type="password" id="ghToken" placeholder="github_pat_..." autocomplete="off">
+                    <p style="color:var(--text2); margin-top:6px; font-size:11px;">
+                        Stored only in this browser's localStorage. Needs <code>Contents: Read &amp; write</code> on <code>portfolio-a011e80d</code>.
+                        <a href="https://github.com/settings/tokens?type=beta" target="_blank" style="color:var(--accent);">Create one →</a>
+                    </p>
+                </div>
+                <div style="display:flex; gap:10px; margin-top:15px;">
+                    <button class="btn btn-primary" onclick="saveGhToken()" style="flex:1;">Save Token</button>
+                    <button class="btn btn-ghost" onclick="clearGhToken()" style="flex:1;">Forget Token</button>
+                </div>
+                <hr style="border:none; border-top:1px solid var(--border); margin:20px 0;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                    <h3 style="font-size:14px; margin:0;">Status</h3>
+                    <label style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text2);">
+                        <input type="checkbox" id="ghAutoSync" onchange="toggleGhAutoSync()"> Auto-sync
+                    </label>
+                </div>
+                <div id="ghStatus" style="padding:12px; background:var(--bg); border-radius:8px; font-size:12px; line-height:1.7;">
+                    <div>Subject: <code id="ghSubjectPath" style="background:var(--bg3); padding:2px 6px; border-radius:4px;">—</code></div>
+                    <div>State: <span id="ghStateText">Not connected</span></div>
+                    <div>Last pull: <code id="ghLastPull" style="background:var(--bg3); padding:2px 6px; border-radius:4px;">never</code></div>
+                    <div>Last push: <code id="ghLastPush" style="background:var(--bg3); padding:2px 6px; border-radius:4px;">never</code></div>
+                </div>
+                <div style="display:flex; gap:10px; margin-top:15px;">
+                    <button class="btn btn-primary" onclick="ghPullNow()" style="flex:1;">⬇️ Pull now</button>
+                    <button class="btn btn-primary" onclick="ghPushNow()" style="flex:1;">⬆️ Push now</button>
+                </div>
+                <hr style="border:none; border-top:1px solid var(--border); margin:20px 0;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                    <h3 style="font-size:14px; margin:0;">🕒 Version History</h3>
+                    <button class="btn btn-ghost" onclick="loadGhHistory()" style="padding:4px 10px; font-size:12px;">Refresh</button>
+                </div>
+                <div id="ghHistoryList" style="max-height:280px; overflow-y:auto; display:flex; flex-direction:column; gap:6px;">
+                    <div style="color:var(--text2); font-size:12px; text-align:center; padding:20px;">Click "Refresh" to load commit history.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Trash Modal -->
     <div class="modal-overlay" id="trashModal">
         <div class="modal" style="max-width:550px; max-height:80vh; display:flex; flex-direction:column;">
@@ -3442,10 +3495,16 @@ const State = {
 };
 
 const SUBJECTS = [
-    { id: 'adv-math', name: 'Advanced Mathematics', icon: '\u2211', dataKey: 'mindnotes_advmath', seedFile: 'data.json' },
-    { id: 'adv-micro', name: 'Advanced Microeconometrics', icon: '\uD83D\uDCCA', dataKey: 'mindnotes_advmicro', seedFile: 'data_advmicro.json', seedVersion: 1 },
-    { id: 'adv-macro', name: 'Advanced Macroeconomics', icon: '\uD83C\uDF10', dataKey: 'mindnotes_advmacro', seedFile: 'data_advmacro.json', seedVersion: 6 }
+    { id: 'adv-math', name: 'Advanced Mathematics', icon: '\u2211', dataKey: 'mindnotes_advmath', seedFile: 'data.json', repoPath: 'apps/mindnotes/data.json' },
+    { id: 'adv-micro', name: 'Advanced Microeconometrics', icon: '\uD83D\uDCCA', dataKey: 'mindnotes_advmicro', seedFile: 'data_advmicro.json', seedVersion: 1, repoPath: 'apps/mindnotes/data_advmicro.json' },
+    { id: 'adv-macro', name: 'Advanced Macroeconomics', icon: '\uD83C\uDF10', dataKey: 'mindnotes_advmacro', seedFile: 'data_advmacro.json', seedVersion: 6, repoPath: 'apps/mindnotes/data_advmacro.json' }
 ];
+
+// ==================== GITHUB SYNC CONFIG ====================
+const GH_OWNER = 'AlessandroCaggia30';
+const GH_REPO = 'portfolio-a011e80d';
+const GH_BRANCH = 'main';
+const GH_API = 'https://api.github.com';
 
 // ==================== FSRS SPACED REPETITION ALGORITHM ====================
 
@@ -4042,6 +4101,9 @@ async function _commitSave() {
 
         // Trigger file system autosave (non-blocking)
         autoSaveToFileSystem(dataKey, State.data);
+
+        // Schedule GitHub push (non-blocking, debounced)
+        if (typeof schedulePush === 'function') schedulePush();
 
         _dataIsDirty = false;
         const btn = document.getElementById('saveNowBtn');
@@ -8179,6 +8241,379 @@ function toggleSidebar() {
     toggle.textContent = isCollapsed ? '▶' : '◀';
 }
 
+// ==================== GITHUB SYNC ====================
+// Two-way live sync of per-subject JSON files to the deployment repo.
+// Pull on subject open, debounced push on every edit, periodic poll for
+// VS Code edits, full commit history viewable + restorable.
+
+let _ghToken = localStorage.getItem('mindnotes_ghToken') || '';
+let _ghAutoSync = localStorage.getItem('mindnotes_ghAutoSync') !== 'false'; // default ON
+let _ghShas = {};       // dataKey -> last known sha
+let _ghLastPull = {};   // dataKey -> ISO timestamp
+let _ghLastPush = {};   // dataKey -> ISO timestamp
+let _ghPushTimer = null;
+let _ghPollInterval = null;
+let _ghPullInFlight = false;
+let _ghPushInFlight = false;
+
+function _ghHeaders() {
+    const h = {
+        'Accept': 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28'
+    };
+    if (_ghToken) h['Authorization'] = 'Bearer ' + _ghToken;
+    return h;
+}
+
+function _ghCurrentPath() {
+    return State.currentSubject && State.currentSubject.repoPath ? State.currentSubject.repoPath : null;
+}
+
+function _ghCurrentKey() {
+    return State.currentSubject ? State.currentSubject.dataKey : null;
+}
+
+function _ghB64Encode(str) {
+    // UTF-8 safe base64
+    return btoa(unescape(encodeURIComponent(str)));
+}
+
+function _ghB64Decode(b64) {
+    return decodeURIComponent(escape(atob(b64.replace(/\n/g, ''))));
+}
+
+async function ghFetchFile(path) {
+    // GET file contents + sha. Works without token on public repos (read-only).
+    const url = `${GH_API}/repos/${GH_OWNER}/${GH_REPO}/contents/${path}?ref=${GH_BRANCH}&t=${Date.now()}`;
+    const resp = await fetch(url, { headers: _ghHeaders(), cache: 'no-store' });
+    if (resp.status === 404) return null;
+    if (!resp.ok) throw new Error('GitHub fetch failed: ' + resp.status);
+    const json = await resp.json();
+    const content = _ghB64Decode(json.content);
+    return { content, sha: json.sha };
+}
+
+async function ghPutFile(path, content, message, sha) {
+    if (!_ghToken) throw new Error('No GitHub token set');
+    const url = `${GH_API}/repos/${GH_OWNER}/${GH_REPO}/contents/${path}`;
+    const body = {
+        message,
+        content: _ghB64Encode(content),
+        branch: GH_BRANCH
+    };
+    if (sha) body.sha = sha;
+    const resp = await fetch(url, {
+        method: 'PUT',
+        headers: { ...(_ghHeaders()), 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    });
+    if (resp.status === 409 || resp.status === 422) {
+        // Conflict: someone else (e.g., VS Code → auto-deploy) pushed first. Retry with fresh sha.
+        const remote = await ghFetchFile(path);
+        if (!remote) throw new Error('Conflict resolution failed: remote missing');
+        const retryResp = await fetch(url, {
+            method: 'PUT',
+            headers: { ...(_ghHeaders()), 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ...body, sha: remote.sha })
+        });
+        if (!retryResp.ok) {
+            const t = await retryResp.text();
+            throw new Error('Push failed after retry: ' + retryResp.status + ' ' + t);
+        }
+        const j = await retryResp.json();
+        return j.content.sha;
+    }
+    if (!resp.ok) {
+        const t = await resp.text();
+        throw new Error('Push failed: ' + resp.status + ' ' + t);
+    }
+    const j = await resp.json();
+    return j.content.sha;
+}
+
+async function ghListCommits(path, perPage = 30) {
+    const url = `${GH_API}/repos/${GH_OWNER}/${GH_REPO}/commits?path=${encodeURIComponent(path)}&sha=${GH_BRANCH}&per_page=${perPage}&t=${Date.now()}`;
+    const resp = await fetch(url, { headers: _ghHeaders(), cache: 'no-store' });
+    if (!resp.ok) throw new Error('History fetch failed: ' + resp.status);
+    return await resp.json();
+}
+
+async function ghFetchFileAtCommit(path, commitSha) {
+    const url = `${GH_API}/repos/${GH_OWNER}/${GH_REPO}/contents/${path}?ref=${commitSha}`;
+    const resp = await fetch(url, { headers: _ghHeaders(), cache: 'no-store' });
+    if (!resp.ok) throw new Error('Commit blob fetch failed: ' + resp.status);
+    const json = await resp.json();
+    return _ghB64Decode(json.content);
+}
+
+function _ghSetState(text) {
+    const el = document.getElementById('ghStateText');
+    if (el) el.textContent = text;
+}
+
+function _ghUpdateStatusUI() {
+    const path = _ghCurrentPath();
+    const key = _ghCurrentKey();
+    const subjPath = document.getElementById('ghSubjectPath');
+    const lastPull = document.getElementById('ghLastPull');
+    const lastPush = document.getElementById('ghLastPush');
+    const autoBox = document.getElementById('ghAutoSync');
+    if (subjPath) subjPath.textContent = path || '—';
+    if (lastPull) lastPull.textContent = (key && _ghLastPull[key]) ? new Date(_ghLastPull[key]).toLocaleString() : 'never';
+    if (lastPush) lastPush.textContent = (key && _ghLastPush[key]) ? new Date(_ghLastPush[key]).toLocaleString() : 'never';
+    if (autoBox) autoBox.checked = _ghAutoSync;
+    if (!_ghToken) _ghSetState('No token set');
+    else if (!path) _ghSetState('No subject selected');
+    else _ghSetState(_ghAutoSync ? 'Auto-syncing' : 'Manual only');
+}
+
+function openGhSyncModal() {
+    const tokenInput = document.getElementById('ghToken');
+    if (tokenInput) tokenInput.value = _ghToken ? '••••••••••••' + _ghToken.slice(-4) : '';
+    _ghUpdateStatusUI();
+    document.getElementById('ghSyncModal').classList.add('visible');
+}
+
+function closeGhSyncModal() {
+    document.getElementById('ghSyncModal').classList.remove('visible');
+}
+
+function saveGhToken() {
+    const input = document.getElementById('ghToken');
+    const v = (input.value || '').trim();
+    if (!v || v.startsWith('••••')) {
+        showToast('Enter a valid token');
+        return;
+    }
+    _ghToken = v;
+    localStorage.setItem('mindnotes_ghToken', v);
+    input.value = '••••••••••••' + v.slice(-4);
+    showToast('Token saved');
+    _ghUpdateStatusUI();
+    startGhAutoSync();
+    // Trigger an initial pull if a subject is open
+    if (_ghCurrentPath()) ghPullNow();
+}
+
+function clearGhToken() {
+    if (!confirm('Forget the GitHub token from this browser?')) return;
+    _ghToken = '';
+    localStorage.removeItem('mindnotes_ghToken');
+    const input = document.getElementById('ghToken');
+    if (input) input.value = '';
+    stopGhAutoSync();
+    _ghUpdateStatusUI();
+    showToast('Token forgotten');
+}
+
+function toggleGhAutoSync() {
+    const box = document.getElementById('ghAutoSync');
+    _ghAutoSync = box.checked;
+    localStorage.setItem('mindnotes_ghAutoSync', String(_ghAutoSync));
+    if (_ghAutoSync) startGhAutoSync(); else stopGhAutoSync();
+    _ghUpdateStatusUI();
+}
+
+async function ghPullNow() {
+    if (_ghPullInFlight) return;
+    const path = _ghCurrentPath();
+    const key = _ghCurrentKey();
+    if (!path || !key) { showToast('Select a subject first'); return; }
+    _ghPullInFlight = true;
+    _ghSetState('Pulling…');
+    try {
+        const remote = await ghFetchFile(path);
+        if (!remote) { _ghSetState('Remote file missing'); return; }
+        let parsed;
+        try { parsed = JSON.parse(remote.content); } catch (e) { throw new Error('Remote JSON invalid: ' + e.message); }
+        // Unwrap { data: {...} } if needed
+        const incoming = (parsed.data && !parsed.topics) ? parsed.data : parsed;
+        if (!incoming.topics || !Array.isArray(incoming.topics)) throw new Error('Remote has no "topics" array');
+        // If local is dirty, ask before overwriting
+        if (_dataIsDirty && _ghShas[key] && _ghShas[key] !== remote.sha) {
+            if (!confirm('You have unsaved local changes. Overwrite with remote version?')) {
+                _ghSetState('Pull cancelled (local dirty)');
+                return;
+            }
+        }
+        State.data = incoming;
+        if (!State.data.trash) State.data.trash = [];
+        _ghShas[key] = remote.sha;
+        _ghLastPull[key] = new Date().toISOString();
+        _dataIsDirty = false;
+        // Persist locally too
+        if (db) {
+            try {
+                await new Promise((resolve, reject) => {
+                    const tx = db.transaction(STORE_NAME, 'readwrite');
+                    tx.objectStore(STORE_NAME).put(State.data, key);
+                    tx.oncomplete = resolve;
+                    tx.onerror = () => reject(tx.error);
+                });
+            } catch (e) { console.warn('Local persist after pull failed:', e); }
+        }
+        renderSidebar();
+        updateFlashcardStats();
+        if (State.currentSubtopic) {
+            // Try to keep the current subtopic by name
+            const topic = State.data.topics.find(t => t.subtopics.some(s => s.name === State.currentSubtopic.name));
+            if (topic) {
+                const sub = topic.subtopics.find(s => s.name === State.currentSubtopic.name);
+                if (sub) selectSubtopic(topic, sub);
+            }
+        }
+        _ghSetState('Up to date');
+        _ghUpdateStatusUI();
+    } catch (e) {
+        console.error('ghPull error:', e);
+        _ghSetState('Pull error: ' + e.message);
+        showToast('Pull failed: ' + e.message);
+    } finally {
+        _ghPullInFlight = false;
+    }
+}
+
+async function ghPushNow() {
+    if (_ghPushInFlight) return;
+    if (!_ghToken) { showToast('Set a GitHub token first'); return; }
+    const path = _ghCurrentPath();
+    const key = _ghCurrentKey();
+    if (!path || !key) { showToast('Select a subject first'); return; }
+    _ghPushInFlight = true;
+    _ghSetState('Pushing…');
+    try {
+        // Serialize in the seed-file format (wrap in { data: ... } to match seed schema)
+        const payload = {
+            version: '2.0',
+            exportedAt: new Date().toISOString(),
+            data: State.data
+        };
+        const content = JSON.stringify(payload, null, 2);
+        const msg = `mindnotes: update ${State.currentSubject.name} ${new Date().toISOString().slice(0,19).replace('T',' ')}`;
+        const newSha = await ghPutFile(path, content, msg, _ghShas[key]);
+        _ghShas[key] = newSha;
+        _ghLastPush[key] = new Date().toISOString();
+        _ghSetState('Up to date');
+        _ghUpdateStatusUI();
+    } catch (e) {
+        console.error('ghPush error:', e);
+        _ghSetState('Push error: ' + e.message);
+        showToast('Push failed: ' + e.message);
+    } finally {
+        _ghPushInFlight = false;
+    }
+}
+
+function schedulePush() {
+    if (!_ghToken || !_ghAutoSync) return;
+    if (!_ghCurrentPath()) return;
+    clearTimeout(_ghPushTimer);
+    _ghPushTimer = setTimeout(() => { ghPushNow(); }, 2500);
+}
+
+async function ghPollOnce() {
+    const path = _ghCurrentPath();
+    const key = _ghCurrentKey();
+    if (!path || !key) return;
+    if (_ghPullInFlight || _ghPushInFlight) return;
+    try {
+        const commits = await ghListCommits(path, 1);
+        if (!commits.length) return;
+        const latestCommitSha = commits[0].sha;
+        // Find sha of file at HEAD (different from commit sha)
+        const remote = await ghFetchFile(path);
+        if (!remote) return;
+        if (_ghShas[key] && _ghShas[key] !== remote.sha) {
+            // Remote changed since last we knew. Pull.
+            console.log('GH poll: remote changed, pulling');
+            await ghPullNow();
+        } else if (!_ghShas[key]) {
+            _ghShas[key] = remote.sha;
+        }
+    } catch (e) {
+        console.warn('GH poll error:', e.message);
+    }
+}
+
+function startGhAutoSync() {
+    stopGhAutoSync();
+    if (!_ghAutoSync) return;
+    _ghPollInterval = setInterval(ghPollOnce, 15000);
+}
+
+function stopGhAutoSync() {
+    if (_ghPollInterval) clearInterval(_ghPollInterval);
+    _ghPollInterval = null;
+}
+
+async function loadGhHistory() {
+    const path = _ghCurrentPath();
+    const listEl = document.getElementById('ghHistoryList');
+    if (!path) { listEl.innerHTML = '<div style="color:var(--text2); font-size:12px; text-align:center; padding:20px;">No subject selected.</div>'; return; }
+    listEl.innerHTML = '<div style="color:var(--text2); font-size:12px; text-align:center; padding:20px;">Loading…</div>';
+    try {
+        const commits = await ghListCommits(path, 50);
+        if (!commits.length) {
+            listEl.innerHTML = '<div style="color:var(--text2); font-size:12px; text-align:center; padding:20px;">No history yet.</div>';
+            return;
+        }
+        listEl.innerHTML = '';
+        commits.forEach(c => {
+            const row = document.createElement('div');
+            row.style.cssText = 'padding:10px; background:var(--bg); border-radius:6px; display:flex; align-items:center; gap:10px; font-size:12px;';
+            const when = new Date(c.commit.author.date).toLocaleString();
+            const msg = (c.commit.message || '').split('\n')[0].slice(0, 80);
+            row.innerHTML = `<div style="flex:1; min-width:0;">
+                <div style="font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(msg)}</div>
+                <div style="color:var(--text2); margin-top:3px;">${when} · <code style="background:var(--bg3); padding:1px 5px; border-radius:3px;">${c.sha.slice(0,7)}</code></div>
+            </div>`;
+            const btn = document.createElement('button');
+            btn.className = 'btn btn-ghost';
+            btn.style.cssText = 'padding:5px 10px; font-size:11px; flex-shrink:0;';
+            btn.textContent = 'Restore';
+            btn.onclick = () => restoreGhCommit(c.sha, msg);
+            row.appendChild(btn);
+            listEl.appendChild(row);
+        });
+    } catch (e) {
+        listEl.innerHTML = `<div style="color:var(--red); font-size:12px; text-align:center; padding:20px;">Error: ${escapeHtml(e.message)}</div>`;
+    }
+}
+
+async function restoreGhCommit(commitSha, msgPreview) {
+    const path = _ghCurrentPath();
+    const key = _ghCurrentKey();
+    if (!path || !key) return;
+    if (!confirm(`Restore this version?\n\n"${msgPreview}"\n\nThis creates a new commit with the old content. Current state will still appear in history.`)) return;
+    try {
+        const oldContent = await ghFetchFileAtCommit(path, commitSha);
+        let parsed; try { parsed = JSON.parse(oldContent); } catch (e) { throw new Error('Invalid JSON at that commit'); }
+        const incoming = (parsed.data && !parsed.topics) ? parsed.data : parsed;
+        if (!incoming.topics) throw new Error('No topics at that commit');
+        // Push the old content as a new commit
+        const remote = await ghFetchFile(path); // current sha
+        const msg = `mindnotes: restore ${State.currentSubject.name} from ${commitSha.slice(0,7)}`;
+        const newSha = await ghPutFile(path, oldContent, msg, remote ? remote.sha : null);
+        _ghShas[key] = newSha;
+        _ghLastPush[key] = new Date().toISOString();
+        // Apply locally
+        State.data = incoming;
+        if (!State.data.trash) State.data.trash = [];
+        _dataIsDirty = false;
+        renderSidebar();
+        updateFlashcardStats();
+        if (State.data.topics.length && State.data.topics[0].subtopics.length) {
+            selectSubtopic(State.data.topics[0], State.data.topics[0].subtopics[0]);
+        }
+        _ghUpdateStatusUI();
+        showToast('Restored. New commit created.');
+        loadGhHistory();
+    } catch (e) {
+        console.error('restoreGhCommit error:', e);
+        showToast('Restore failed: ' + e.message);
+    }
+}
+
 // ==================== SYNC.JS ====================
 const SYNC_API = 'https://jsonblob.com/api/jsonBlob';
 
@@ -10204,6 +10639,12 @@ async function selectSubject(subject) {
     updateTrashCount();
     // Initialize file system autosave for this subject
     initAutosaveForSubject(subject.dataKey);
+    // GitHub sync: pull latest if token is set, then start polling
+    if (_ghToken && _ghAutoSync && subject.repoPath) {
+        try { await ghPullNow(); } catch (e) { console.warn('GH initial pull failed:', e); }
+        startGhAutoSync();
+    }
+    _ghUpdateStatusUI();
 }
 
 async function backToSubjects() {
@@ -10218,6 +10659,9 @@ async function backToSubjects() {
             if (btn) { btn.classList.remove('unsaved'); btn.textContent = 'Save'; }
         }
     }
+    // Stop GitHub polling when leaving a subject
+    stopGhAutoSync();
+    clearTimeout(_ghPushTimer);
     // Reset state
     State.data = { topics: [], trash: [] };
     State.currentSubtopic = null;
