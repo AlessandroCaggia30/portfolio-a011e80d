@@ -4062,6 +4062,7 @@ async function loadData() {
 // Dirty flag: tracks whether there are unsaved changes
 let _dataIsDirty = false;
 
+let _ghEditSaveTimer = null;
 function markDirty() {
     if (!_dataIsDirty) {
         _dataIsDirty = true;
@@ -4071,6 +4072,14 @@ function markDirty() {
             btn.classList.remove('just-saved');
             btn.textContent = 'Save*';
         }
+    }
+    // When GitHub auto-sync is on, treat edits as auto-saving: commit locally
+    // (which in turn schedules the debounced GitHub push).
+    if (typeof _ghToken !== 'undefined' && _ghToken && _ghAutoSync && _ghCurrentPath()) {
+        clearTimeout(_ghEditSaveTimer);
+        _ghEditSaveTimer = setTimeout(() => {
+            if (_dataIsDirty) _commitSave();
+        }, 1500);
     }
 }
 
