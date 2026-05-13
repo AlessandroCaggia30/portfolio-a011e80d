@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T17:55:38.096Z",
+  "exportedAt": "2026-05-13T17:55:53.803Z",
   "data": {
     "topics": [
       {
@@ -184,7 +184,7 @@
               {
                 "id": "ts17786690819132729",
                 "title": "Most trivial example of stoch. process",
-                "content": "\\textbf{\\textcolor{red}{MOST TRIVIAL EXAMPLE OF STOCH.\\ PROCESS}}\n\nSay $Y_t,\\ t \\ge 0$ are independent. If, additionally, $Y_t$ have a common distribution (i.i.d.) with $p$:\n\\[ p_n(y_1,\\dots,y_n) = p(y_1)\\, p(y_2) \\cdots p(y_n) = \\prod_{i=1}^n p(y_i). \\]\n\nNot realistic for a time series (no temporal dependence), but it is an important building block.\n\nIf only indep.\\ (not necessarily identically distrib.):\n\\[ p_n(y_1,\\dots,y_n) = p_1(y_1)\\, p_2(y_2) \\cdots p_n(y_n). \\]\n\n\n",
+                "content": "\\textbf{\\textcolor{red}{MOST TRIVIAL EXAMPLE OF STOCH.\\ PROCESS}}\n\nSay $Y_t,\\ t \\ge 0$ are independent. If, additionally, $Y_t$ have a common distribution (i.i.d.) with $p$:\n\\[ p_n(y_1,\\dots,y_n) = p(y_1)\\, p(y_2) \\cdots p(y_n) = \\prod_{i=1}^n p(y_i). \\]\n\nIf only indep.\\ (not necessarily identically distrib.):\n\\[ p_n(y_1,\\dots,y_n) = p_1(y_1)\\, p_2(y_2) \\cdots p_n(y_n). \\]\n\n\n\nNot realistic for a time series (no temporal dependence), but it is an important building block.\n",
                 "flashcard": false,
                 "images": [],
                 "links": [],
