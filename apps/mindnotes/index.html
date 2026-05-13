@@ -2798,26 +2798,7 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <button class="back-to-subjects-btn" onclick="backToSubjects()" title="Back to subjects">&#8592;</button>
-                <button class="save-now-btn" id="saveNowBtn" onclick="manualSave()" title="Save changes">Save</button>
-                <button class="autosave-toggle-btn" id="autosaveToggleBtn" onclick="togglePeriodicAutosave()" title="Toggle periodic autosave (every 30s)">Auto</button>
                 <span><span style="color:var(--accent)">M</span>indNotes</span>
-                <div class="header-actions">
-                    <button class="sync-btn" onclick="saveToFolder()" title="Save JSON + TeX to folder">💾</button>
-                    <button class="sync-btn" onclick="importFromJson()" title="Import a .json file">📥</button>
-                    <button class="sync-btn" id="ghSyncBtn" onclick="openGhSyncModal()" title="GitHub Sync &amp; Version History">🔄</button>
-                    <button class="sync-btn" id="syncBtn" onclick="openSyncModal()" title="Cloud Sync">☁️</button>
-                </div>
-            </div>
-            <div class="sync-status" id="syncStatus">
-                <span class="dot"></span>
-                <span id="syncStatusText">Connected</span>
-            </div>
-            <div class="autosave-banner" id="autosaveBanner" onclick="setupAutosaveDirectory()">
-                💾 Click to choose a backup file
-            </div>
-            <div class="autosave-status" id="autosaveStatus" onclick="setupAutosaveDirectory()" title="Click to change backup directory">
-                <span class="autosave-dot"></span>
-                <span id="autosaveStatusText">File backup: off</span>
             </div>
             <div class="search-bar">
                 <input type="text" class="search-input" id="searchInput" placeholder="Search all notes..." oninput="performSearch(this.value)">
