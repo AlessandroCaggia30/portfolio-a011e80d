@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T13:23:11.715Z",
+  "exportedAt": "2026-05-13T13:23:56.572Z",
   "data": {
     "topics": [
       {
@@ -85,12 +85,12 @@
               {
                 "id": "ts17786690819134427",
                 "title": "Fitting a seasonal component",
-                "content": "\\textbf{\\textcolor{red}{FITTING A SEASONAL COMPONENT}}\n\nFor $Y_t = S_t + E_t$ (purely seasonal, no trend; assume mean zero, $\\bar{y}_t = 0$):\n\n\\textbf{1. Seasonal factors.} For monthly data introduce $\\alpha_{\\text{Jan}}, \\alpha_{\\text{Feb}}, \\dots, \\alpha_{\\text{Dec}}$ with $\\sum_m \\alpha_m = 0$:\n\\[ y_t = \\alpha_{\\text{month}(t)} + E_t. \\]\n\n\\textbf{2. Moving averages.} For monthly data, $\\mathrm{MA}(12)$:\n\\[ y_t^{\\text{deseason.}} = \\frac{0.5\\, y_{t-6} + y_{t-5} + \\dots + y_{t+5} + 0.5\\, y_{t+6}}{12}. \\]",
+                "content": "\\textbf{\\textcolor{red}{FITTING A SEASONAL COMPONENT}}\n\nFor $Y_t = S_t + E_t$ (purely seasonal, no trend; assume mean zero, $\\bar{y}_t = 0$):\n\n\\textbf{1. Seasonal factors.} For monthly data introduce $\\alpha_{\\text{Jan}}, \\alpha_{\\text{Feb}}, \\dots, \\alpha_{\\text{Dec}}$ with $\\sum_m \\alpha_m = 0$:\n\\[ y_t = \\alpha_{\\text{month}(t)} + E_t. \\]\n\nNote they can always sum to 0, \n\n\\textbf{2. Moving averages.} For monthly data, $\\mathrm{MA}(12)$:\n\\[ y_t^{\\text{deseason.}} = \\frac{0.5\\, y_{t-6} + y_{t-5} + \\dots + y_{t+5} + 0.5\\, y_{t+6}}{12}. \\]",
                 "flashcard": false,
                 "images": [],
                 "links": [],
-                "x": 5265.314023336441,
-                "y": 4511.792229925346,
+                "x": 5040.850614979438,
+                "y": 4499.900128820339,
                 "width": 735.6763033150204,
                 "height": 528.6512638125848
               },
