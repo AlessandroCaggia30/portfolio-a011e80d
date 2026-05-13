@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T18:00:50.843Z",
+  "exportedAt": "2026-05-13T18:01:41.416546+00:00",
   "data": {
     "topics": [
       {
@@ -150,7 +150,7 @@
               {
                 "id": "ts1778695220085",
                 "title": "Summaries of a stochastic process",
-                "content": "\\textbf{\\textcolor{red}{SUMMARIES OF A STOCHASTIC PROCESS}}\n\nFor a single random variable $X$, the basic summaries are $\\mathbb{E}[X]$ and $\\mathrm{Var}(X)$. For a stochastic process $(Y_t)$ these become \\emph{functions of time} (and pairs of times):\n\n$\\bullet$ \\textbf{Mean function:} \\quad $\\mu(t) = \\mathbb{E}[Y_t]$.\n\n$\\bullet$ \\textbf{Variance function:} \\quad $\\sigma^2(t) = \\mathrm{Var}(Y_t)$.\n\n$\\bullet$ \\textbf{Autocovariance function:} \\quad $\\gamma(t, t') = \\mathrm{Cov}(Y_t, Y_{t'}) = \\mathbb{E}\\!\\left[(Y_t - \\mu(t))(Y_{t'} - \\mu(t'))\\right]$.\n\n$\\bullet$ \\textbf{Autocorrelation function:} \\quad $\\rho(t, t') = \\dfrac{\\gamma(t, t')}{\\sqrt{\\sigma^2(t)\\, \\sigma^2(t')}} \\in [-1, 1]$.\n\n\\textit{Consistency check:} $\\gamma(t, t) = \\sigma^2(t)$ and $\\rho(t, t) = 1$.",
+                "content": "\\textbf{\\textcolor{red}{SUMMARIES OF A STOCHASTIC PROCESS}}\n\nFor a single random variable $X$, the basic summaries are $\\mathbb{E}[X]$ and $\\mathrm{Var}(X)$. For a stochastic process $(Y_t)_{t \\ge 1}$ these become \\emph{functions of time} (and pairs of times):\n\n$\\bullet$ \\textbf{Mean function} \\quad $\\mu : t \\mapsto \\mu(t) = \\mathbb{E}[Y_t], \\quad t = 1, 2, \\dots$\n\n$\\bullet$ \\textbf{Variance function} \\quad $\\sigma^2 : t \\mapsto \\sigma^2(t) = \\mathrm{Var}(Y_t), \\quad t = 1, 2, \\dots$\n\n$\\bullet$ \\textbf{Autocovariance function} \\quad $\\gamma : (t, t') \\mapsto \\gamma(t, t') = \\mathrm{Cov}(Y_t, Y_{t'}) = \\mathbb{E}\\!\\left[(Y_t - \\mu(t))(Y_{t'} - \\mu(t'))\\right], \\quad t, t' = 1, 2, \\dots$\n\n$\\bullet$ \\textbf{Autocorrelation function} \\quad $\\rho : (t, t') \\mapsto \\rho(t, t') = \\dfrac{\\gamma(t, t')}{\\sqrt{\\sigma^2(t)\\, \\sigma^2(t')}} \\in [-1, 1], \\quad t, t' = 1, 2, \\dots$\n\n\\textit{Consistency check:} $\\gamma(t, t) = \\sigma^2(t)$ and $\\rho(t, t) = 1$.",
                 "flashcard": false,
                 "images": [],
                 "links": [],
