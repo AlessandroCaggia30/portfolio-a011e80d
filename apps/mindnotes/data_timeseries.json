@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T18:00:45.214Z",
+  "exportedAt": "2026-05-13T18:00:50.843Z",
   "data": {
     "topics": [
       {
@@ -154,8 +154,8 @@
                 "flashcard": false,
                 "images": [],
                 "links": [],
-                "x": 6200,
-                "y": 4000,
+                "x": 6599.449035812672,
+                "y": 4906.336088154271,
                 "width": 600,
                 "height": 420
               },
@@ -334,16 +334,6 @@
                 "y": 4281.222943391467,
                 "width": 696.5689463643015,
                 "height": 416.5806728005853
-              },
-              {
-                "id": "1778695197840",
-                "title": "Compute summaries",
-                "content": "",
-                "flashcard": false,
-                "images": [],
-                "links": [],
-                "x": 6979.256894649299,
-                "y": 5004.374664640668
               }
             ]
           }
@@ -442,6 +432,19 @@
         "width": 550,
         "height": 320,
         "deletedAt": 1778691444264,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "1778695197840",
+        "title": "Compute summaries",
+        "content": "",
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "x": 6979.256894649299,
+        "y": 5004.374664640668,
+        "deletedAt": 1778695248236,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
