@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T10:05:44.107Z",
+  "exportedAt": "2026-05-13T10:06:58.983Z",
   "data": {
     "topics": [
       {
@@ -14,7 +14,7 @@
               {
                 "id": "1771256405057",
                 "title": "Solving Constrained Maximization",
-                "content": "We will be facing maximization problems with constraints:\n\n\\[\n\\max_{x \\in \\mathbb{R}^N} f(x) \\qquad \\text{s.t.} \\qquad g(x) \\ge 0.\n\\qquad (P)\n\\]\n\n\n\\textcolor{blue}{\\textbf{Definition 2.}}\n\\textit{A vector $\\hat{x}$ is said to be \\textcolor{red}{feasible}  for problem $(P)$ if $g(\\hat{x}) \\ge 0$,  that is, $g_k(\\hat{x}) \\ge 0 \\quad \\forall k$.}",
+                "content": "",
                 "flashcard": false,
                 "images": [],
                 "links": [
@@ -80,7 +80,7 @@
               {
                 "id": "1771317121159",
                 "title": "KKT Sufficient for Global Maximum (Concavity)",
-                "content": "",
+                "content": "\\textbf{Theorem 2.}\n\nIn problem $(P)$ assume $f$ and $g_k$ are all concave and differentiable, and that there exists $x$ such that $g_k(x) > 0$ for all $k$.\n\nThen a feasible $x^*$ solves problem $(P)$ if and only if there exist nonnegative numbers \n$[\\lambda^*_1, \\dots, \\lambda^*_K]$ such that for all $n = 1,2,\\dots,N$,\n\\[\n\\frac{\\partial \\mathcal{L}(x^*,\\lambda^*)}{\\partial x_n}\n=\n\\frac{\\partial f(x^*)}{\\partial x_n}\n+\n\\sum_k \\lambda^*_k \\frac{\\partial g_k(x^*)}{\\partial x_n}\n= 0,\n\\]\nwhere for all $k$ if $g_k(x^*) > 0$ then $\\lambda^*_k = 0$.",
                 "flashcard": false,
                 "images": [],
                 "links": [],
