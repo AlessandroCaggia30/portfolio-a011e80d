@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T16:57:23.259Z",
+  "exportedAt": "2026-05-13T16:57:50.196Z",
   "data": {
     "topics": [
       {
@@ -106,20 +106,8 @@
                 "height": 620
               },
               {
-                "id": "ts17786690819133594",
-                "title": "Statistical model = joint law",
-                "content": "$\\to$ Defining a \\textbf{statistical model} for a stoch.\\ process means specifying the joint probability law of $(Y_t)$, i.e.\\ specifying\n\\[ P(Y_1, \\dots, Y_n) \\]\nfor any $n$ and any $t_1, \\dots, t_n$.\n\nGiven the model, the \\textbf{predictive distribution} is\n\\[ p(y_{t+1} \\mid y_{1:t}). \\]\nFrom this we can compute summaries: $E(Y_{t+1}\\mid y_{1:t})$, $\\mathrm{Var}(Y_{t+1}\\mid y_{1:t})$, intervals, etc.",
-                "flashcard": false,
-                "images": [],
-                "links": [],
-                "x": 6415.989624023348,
-                "y": 3813.3225849186147,
-                "width": 550,
-                "height": 320
-              },
-              {
                 "id": "ts17786690819139203",
-                "title": "Prob law via finite-dim. distributions",
+                "title": "How to assign the probability",
                 "content": "The prob.\\ law of a stoch.\\ process $(Y_t)$ is assigned by giving the \\textbf{finite-dimensional distributions}\n\\[ p_{t_1,\\dots,t_n}(y_1,\\dots,y_n) \\]\nfor all $n$ and $(t_1,\\dots,t_n)$.\n\nUnder \\textbf{consistency} conditions, this fully defines the law of the process.",
                 "flashcard": false,
                 "images": [],
@@ -389,6 +377,21 @@
         "width": 500,
         "height": 260,
         "deletedAt": 1778686072324,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "ts17786690819133594",
+        "title": "Statistical model = joint law",
+        "content": "$\\to$ Defining a \\textbf{statistical model} for a stoch.\\ process means specifying the joint probability law of $(Y_t)$, i.e.\\ specifying\n\\[ P(Y_1, \\dots, Y_n) \\]\nfor any $n$ and any $t_1, \\dots, t_n$.\n\nGiven the model, the \\textbf{predictive distribution} is\n\\[ p(y_{t+1} \\mid y_{1:t}). \\]\nFrom this we can compute summaries: $E(Y_{t+1}\\mid y_{1:t})$, $\\mathrm{Var}(Y_{t+1}\\mid y_{1:t})$, intervals, etc.",
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "x": 6415.989624023348,
+        "y": 3813.3225849186147,
+        "width": 550,
+        "height": 320,
+        "deletedAt": 1778691444264,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
