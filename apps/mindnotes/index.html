@@ -8283,18 +8283,37 @@ function _ghB64Decode(b64) {
 }
 
 async function ghFetchFile(path) {
-    // GET file contents + sha. Works without token on public repos (read-only).
+    // GET file metadata + sha. For files <1MB the response includes base64 content;
+    // for larger files we follow download_url to fetch raw bytes.
     const url = `${GH_API}/repos/${GH_OWNER}/${GH_REPO}/contents/${path}?ref=${GH_BRANCH}&t=${Date.now()}`;
     const resp = await fetch(url, { headers: _ghHeaders(), cache: 'no-store' });
     if (resp.status === 404) return null;
     if (!resp.ok) throw new Error('GitHub fetch failed: ' + resp.status);
     const json = await resp.json();
-    const content = _ghB64Decode(json.content);
+    let content;
+    if (json.content && json.encoding === 'base64' && json.content.length > 0) {
+        try {
+            content = _ghB64Decode(json.content);
+        } catch (e) {
+            content = '';
+        }
+    }
+    if (!content) {
+        // Large file (>1MB): GitHub returns empty content. Fetch raw via download_url.
+        if (!json.download_url) throw new Error('No download_url for large file');
+        const rawResp = await fetch(json.download_url + (json.download_url.includes('?') ? '&' : '?') + 't=' + Date.now(), { cache: 'no-store' });
+        if (!rawResp.ok) throw new Error('Raw fetch failed: ' + rawResp.status);
+        content = await rawResp.text();
+    }
     return { content, sha: json.sha };
 }
 
 async function ghPutFile(path, content, message, sha) {
     if (!_ghToken) throw new Error('No GitHub token set');
+    // For files >900KB use the Git Data API (Contents API caps at ~1MB on PUT).
+    if (content.length > 900000) {
+        return await ghPutFileLarge(path, content, message);
+    }
     const url = `${GH_API}/repos/${GH_OWNER}/${GH_REPO}/contents/${path}`;
     const body = {
         message,
@@ -8308,7 +8327,6 @@ async function ghPutFile(path, content, message, sha) {
         body: JSON.stringify(body)
     });
     if (resp.status === 409 || resp.status === 422) {
-        // Conflict: someone else (e.g., VS Code → auto-deploy) pushed first. Retry with fresh sha.
         const remote = await ghFetchFile(path);
         if (!remote) throw new Error('Conflict resolution failed: remote missing');
         const retryResp = await fetch(url, {
@@ -8331,6 +8349,91 @@ async function ghPutFile(path, content, message, sha) {
     return j.content.sha;
 }
 
+// Git Data API path — works for files up to 100MB.
+async function ghPutFileLarge(path, content, message) {
+    const base = `${GH_API}/repos/${GH_OWNER}/${GH_REPO}`;
+    const jsonHeaders = { ...(_ghHeaders()), 'Content-Type': 'application/json' };
+
+    // 1) Create blob
+    const blobResp = await fetch(`${base}/git/blobs`, {
+        method: 'POST',
+        headers: jsonHeaders,
+        body: JSON.stringify({ content: _ghB64Encode(content), encoding: 'base64' })
+    });
+    if (!blobResp.ok) throw new Error('Blob create failed: ' + blobResp.status + ' ' + await blobResp.text());
+    const blob = await blobResp.json();
+
+    // 2) Get current branch ref
+    const refResp = await fetch(`${base}/git/ref/heads/${GH_BRANCH}`, { headers: _ghHeaders(), cache: 'no-store' });
+    if (!refResp.ok) throw new Error('Ref fetch failed: ' + refResp.status);
+    const ref = await refResp.json();
+    const parentCommitSha = ref.object.sha;
+
+    // 3) Get parent commit (for base tree)
+    const commitResp = await fetch(`${base}/git/commits/${parentCommitSha}`, { headers: _ghHeaders(), cache: 'no-store' });
+    if (!commitResp.ok) throw new Error('Parent commit fetch failed: ' + commitResp.status);
+    const parentCommit = await commitResp.json();
+
+    // 4) Create new tree referencing the new blob at the file's path
+    const treeResp = await fetch(`${base}/git/trees`, {
+        method: 'POST',
+        headers: jsonHeaders,
+        body: JSON.stringify({
+            base_tree: parentCommit.tree.sha,
+            tree: [{ path, mode: '100644', type: 'blob', sha: blob.sha }]
+        })
+    });
+    if (!treeResp.ok) throw new Error('Tree create failed: ' + treeResp.status + ' ' + await treeResp.text());
+    const newTree = await treeResp.json();
+
+    // 5) Create commit
+    const newCommitResp = await fetch(`${base}/git/commits`, {
+        method: 'POST',
+        headers: jsonHeaders,
+        body: JSON.stringify({ message, tree: newTree.sha, parents: [parentCommitSha] })
+    });
+    if (!newCommitResp.ok) throw new Error('Commit create failed: ' + newCommitResp.status + ' ' + await newCommitResp.text());
+    const newCommit = await newCommitResp.json();
+
+    // 6) Update branch ref
+    const updateResp = await fetch(`${base}/git/refs/heads/${GH_BRANCH}`, {
+        method: 'PATCH',
+        headers: jsonHeaders,
+        body: JSON.stringify({ sha: newCommit.sha })
+    });
+    if (!updateResp.ok) {
+        // Likely non-fast-forward (someone else pushed). Force? No — refetch and retry once.
+        if (updateResp.status === 422) {
+            const remote = await ghFetchFile(path);
+            if (remote) {
+                const retryRef = await fetch(`${base}/git/ref/heads/${GH_BRANCH}`, { headers: _ghHeaders(), cache: 'no-store' });
+                const retryRefJson = await retryRef.json();
+                const retryParent = retryRefJson.object.sha;
+                const retryCommitResp = await fetch(`${base}/git/commits/${retryParent}`, { headers: _ghHeaders(), cache: 'no-store' });
+                const retryParentCommit = await retryCommitResp.json();
+                const retryTreeResp = await fetch(`${base}/git/trees`, {
+                    method: 'POST', headers: jsonHeaders,
+                    body: JSON.stringify({ base_tree: retryParentCommit.tree.sha, tree: [{ path, mode: '100644', type: 'blob', sha: blob.sha }] })
+                });
+                const retryTree = await retryTreeResp.json();
+                const retryNewCommit = await fetch(`${base}/git/commits`, {
+                    method: 'POST', headers: jsonHeaders,
+                    body: JSON.stringify({ message, tree: retryTree.sha, parents: [retryParent] })
+                });
+                const retryNewCommitJson = await retryNewCommit.json();
+                const retryUpdate = await fetch(`${base}/git/refs/heads/${GH_BRANCH}`, {
+                    method: 'PATCH', headers: jsonHeaders,
+                    body: JSON.stringify({ sha: retryNewCommitJson.sha })
+                });
+                if (!retryUpdate.ok) throw new Error('Ref update failed after retry: ' + retryUpdate.status + ' ' + await retryUpdate.text());
+                return blob.sha;
+            }
+        }
+        throw new Error('Ref update failed: ' + updateResp.status + ' ' + await updateResp.text());
+    }
+    return blob.sha;
+}
+
 async function ghListCommits(path, perPage = 30) {
     const url = `${GH_API}/repos/${GH_OWNER}/${GH_REPO}/commits?path=${encodeURIComponent(path)}&sha=${GH_BRANCH}&per_page=${perPage}&t=${Date.now()}`;
     const resp = await fetch(url, { headers: _ghHeaders(), cache: 'no-store' });
@@ -8343,7 +8446,16 @@ async function ghFetchFileAtCommit(path, commitSha) {
     const resp = await fetch(url, { headers: _ghHeaders(), cache: 'no-store' });
     if (!resp.ok) throw new Error('Commit blob fetch failed: ' + resp.status);
     const json = await resp.json();
-    return _ghB64Decode(json.content);
+    if (json.content && json.encoding === 'base64' && json.content.length > 0) {
+        try { return _ghB64Decode(json.content); } catch (e) { /* fall through */ }
+    }
+    // Large blob: use download_url
+    if (json.download_url) {
+        const rawResp = await fetch(json.download_url, { cache: 'no-store' });
+        if (!rawResp.ok) throw new Error('Raw fetch failed: ' + rawResp.status);
+        return await rawResp.text();
+    }
+    throw new Error('Could not read content at commit');
 }
 
 function _ghSetState(text) {
