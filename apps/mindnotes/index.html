@@ -8685,6 +8685,7 @@ async function ghPushNow() {
     const key = _ghCurrentKey();
     // On landing screen: push all subjects from local IndexedDB
     if (!path || !key) { return ghPushAll(); }
+    console.log('[gh] ghPushNow → pushing', key, 'at', new Date().toISOString());
     _ghPushInFlight = true;
     _ghSetState('Pushing…');
     try {
@@ -8701,6 +8702,7 @@ async function ghPushNow() {
         _ghLastPush[key] = new Date().toISOString();
         _ghLastError = null;
         _ghClearPending(key);
+        console.log('[gh] push success', key, 'new sha:', newSha.slice(0,7));
         _ghSetState('Up to date');
         _ghUpdateStatusUI();
     } catch (e) {
@@ -10963,20 +10965,29 @@ async function selectSubject(subject) {
 }
 
 async function backToSubjects() {
-    // Ask to save if there are unsaved changes
+    // Always flush local content of any open editor first
+    if (State.selectedNode && typeof autoSaveContent === 'function') {
+        try { autoSaveContent(); } catch (e) {}
+    }
+    // Always commit dirty state locally (no prompt — autosave is the model now)
     if (hasUnsavedChanges()) {
-        const answer = confirm('You have unsaved changes. Save before leaving?');
-        if (answer) {
-            await _commitSave();
-        } else {
-            _dataIsDirty = false;
-            const btn = document.getElementById('saveNowBtn');
-            if (btn) { btn.classList.remove('unsaved'); btn.textContent = 'Save'; }
+        try { await _commitSave(); } catch (e) { console.warn('Final save failed:', e); }
+    }
+    // Force-flush any pending GitHub push before leaving the subject so we
+    // never leave a window where local has unsynced edits and remote is stale.
+    if (_ghToken && _ghCurrentKey() && _ghPendingPushSet.has(_ghCurrentKey())) {
+        clearTimeout(_ghPushTimer);
+        try {
+            _ghSetState('Flushing push on exit…');
+            await ghPushNow();
+        } catch (e) {
+            console.warn('Exit-flush push failed:', e);
         }
     }
     // Stop GitHub polling when leaving a subject
     stopGhAutoSync();
     clearTimeout(_ghPushTimer);
+    clearTimeout(_ghEditSaveTimer);
     // Reset state
     State.data = { topics: [], trash: [] };
     State.currentSubtopic = null;
