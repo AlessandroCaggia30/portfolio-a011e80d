@@ -1,0 +1,29 @@
+{
+  "version": "2.0",
+  "exportedAt": "2026-05-13T00:00:00.000Z",
+  "data": {
+    "topics": [
+      {
+        "id": "ts-1",
+        "name": "Stationarity & ARMA",
+        "subtopics": [
+          {
+            "id": "ts-1-1",
+            "name": "Welcome",
+            "nodes": [
+              {
+                "id": "ts-welcome-node",
+                "title": "Start your notes here",
+                "content": "This is your Time Series Analysis notebook. Add nodes, link them, and edit freely — every change auto-syncs to GitHub.",
+                "x": 5000,
+                "y": 5000,
+                "color": "blue"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "trash": []
+  }
+}
