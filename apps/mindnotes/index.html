@@ -8272,9 +8272,12 @@ function toggleSidebar() {
 
 let _ghToken = localStorage.getItem('mindnotes_ghToken') || '';
 let _ghAutoSync = localStorage.getItem('mindnotes_ghAutoSync') !== 'false'; // default ON
-let _ghShas = {};       // dataKey -> last known sha
-let _ghLastPull = {};   // dataKey -> ISO timestamp
-let _ghLastPush = {};   // dataKey -> ISO timestamp
+let _ghShas = JSON.parse(localStorage.getItem('mindnotes_ghShas') || '{}');         // dataKey -> last known sha (persisted)
+let _ghLastPull = JSON.parse(localStorage.getItem('mindnotes_ghLastPull') || '{}'); // dataKey -> ISO timestamp (persisted)
+let _ghLastPush = JSON.parse(localStorage.getItem('mindnotes_ghLastPush') || '{}'); // dataKey -> ISO timestamp (persisted)
+function _ghPersistShas() { localStorage.setItem('mindnotes_ghShas', JSON.stringify(_ghShas)); }
+function _ghPersistPullStamps() { localStorage.setItem('mindnotes_ghLastPull', JSON.stringify(_ghLastPull)); }
+function _ghPersistPushStamps() { localStorage.setItem('mindnotes_ghLastPush', JSON.stringify(_ghLastPush)); }
 let _ghPushTimer = null;
 let _ghPollInterval = null;
 let _ghPullInFlight = false;
@@ -8623,8 +8626,10 @@ async function ghPullNow() {
     }
     _ghPullInFlight = true;
     _ghSetState('Pulling…');
+    console.log('[gh] ghPullNow start', key, 'last sha:', (_ghShas[key]||'').slice(0,7) || '(none)');
     try {
         const remote = await ghFetchFile(path);
+        if (remote) console.log('[gh] remote sha:', remote.sha.slice(0,7), 'size:', remote.content.length);
         if (!remote) { _ghSetState('Remote file missing'); return; }
         let parsed;
         try { parsed = JSON.parse(remote.content); } catch (e) { throw new Error('Remote JSON invalid: ' + e.message); }
@@ -8640,10 +8645,11 @@ async function ghPullNow() {
         }
         State.data = incoming;
         if (!State.data.trash) State.data.trash = [];
-        _ghShas[key] = remote.sha;
-        _ghLastPull[key] = new Date().toISOString();
+        _ghShas[key] = remote.sha; _ghPersistShas();
+        _ghLastPull[key] = new Date().toISOString(); _ghPersistPullStamps();
         _ghLastError = null;
         _dataIsDirty = false;
+        console.log('[gh] pull applied, topics:', State.data.topics.length, 'first node title:', State.data.topics[0]?.subtopics?.[0]?.nodes?.[0]?.title);
         // Persist locally too
         if (db) {
             try {
@@ -8698,8 +8704,8 @@ async function ghPushNow() {
         const content = JSON.stringify(payload, null, 2);
         const msg = `mindnotes: update ${State.currentSubject.name} ${new Date().toISOString().slice(0,19).replace('T',' ')}`;
         const newSha = await ghPutFile(path, content, msg, _ghShas[key]);
-        _ghShas[key] = newSha;
-        _ghLastPush[key] = new Date().toISOString();
+        _ghShas[key] = newSha; _ghPersistShas();
+        _ghLastPush[key] = new Date().toISOString(); _ghPersistPushStamps();
         _ghLastError = null;
         _ghClearPending(key);
         console.log('[gh] push success', key, 'new sha:', newSha.slice(0,7));
@@ -8736,14 +8742,30 @@ async function _ghWriteToIDB(dataKey, data) {
     });
 }
 
+// Cheap SHA-only check (no content download) to decide if a pull is needed.
+async function ghPeekRemoteSha(path) {
+    const url = `${GH_API}/repos/${GH_OWNER}/${GH_REPO}/contents/${path}?ref=${GH_BRANCH}&t=${Date.now()}`;
+    const resp = await fetch(url, { headers: _ghHeaders(), cache: 'no-store' });
+    if (!resp.ok) return null;
+    const j = await resp.json();
+    return j.sha || null;
+}
+
 async function ghPullAll() {
     if (_ghPullInFlight) return;
     _ghPullInFlight = true;
-    _ghSetState('Pulling all subjects…');
-    let ok = 0, err = 0;
+    _ghSetState('Checking subjects…');
+    let ok = 0, err = 0, skipped = 0;
     for (const subj of SUBJECTS) {
         if (!subj.repoPath) continue;
         try {
+            // Skip if remote SHA matches our last-known
+            const peek = await ghPeekRemoteSha(subj.repoPath);
+            if (peek && _ghShas[subj.dataKey] && peek === _ghShas[subj.dataKey]) {
+                skipped++;
+                console.log('[gh] skip unchanged', subj.name);
+                continue;
+            }
             _ghSetState(`Pulling ${subj.name}…`);
             const remote = await ghFetchFile(subj.repoPath);
             if (!remote) { err++; continue; }
@@ -8752,10 +8774,9 @@ async function ghPullAll() {
             if (!incoming.topics || !Array.isArray(incoming.topics)) throw new Error('no topics');
             if (!incoming.trash) incoming.trash = [];
             await _ghWriteToIDB(subj.dataKey, incoming);
-            _ghShas[subj.dataKey] = remote.sha;
-            _ghLastPull[subj.dataKey] = new Date().toISOString();
+            _ghShas[subj.dataKey] = remote.sha; _ghPersistShas();
+            _ghLastPull[subj.dataKey] = new Date().toISOString(); _ghPersistPullStamps();
             ok++;
-            // If this subject is currently open, refresh in-memory state too
             if (State.currentSubject && State.currentSubject.dataKey === subj.dataKey) {
                 State.data = incoming;
                 _dataIsDirty = false;
@@ -8768,8 +8789,13 @@ async function ghPullAll() {
         }
     }
     _ghLastError = err ? `${err} subject(s) failed` : null;
-    _ghSetState(err ? `Pulled ${ok}, ${err} failed` : `Pulled ${ok} subjects`);
-    showToast(err ? `Pulled ${ok}, ${err} failed` : `Pulled ${ok} subjects`);
+    const parts = [];
+    if (ok) parts.push(`pulled ${ok}`);
+    if (skipped) parts.push(`${skipped} unchanged`);
+    if (err) parts.push(`${err} failed`);
+    const msg = parts.join(', ') || 'no work';
+    _ghSetState(msg);
+    showToast(msg);
     _ghUpdateStatusUI();
     _ghPullInFlight = false;
     updateGhStatusDot();
