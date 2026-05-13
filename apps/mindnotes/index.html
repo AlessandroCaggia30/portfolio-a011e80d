@@ -8279,6 +8279,20 @@ let _ghPushTimer = null;
 let _ghPollInterval = null;
 let _ghPullInFlight = false;
 let _ghPushInFlight = false;
+// Tracks dataKeys whose local IndexedDB version has unpushed changes.
+// Persisted to localStorage so a page reload doesn't lose the "must push" flag,
+// which prevents a stale remote from overwriting an unsynced local edit.
+let _ghPendingPushSet = new Set(JSON.parse(localStorage.getItem('mindnotes_ghPendingPush') || '[]'));
+function _ghMarkPending(key) {
+    if (!key) return;
+    _ghPendingPushSet.add(key);
+    localStorage.setItem('mindnotes_ghPendingPush', JSON.stringify([..._ghPendingPushSet]));
+}
+function _ghClearPending(key) {
+    if (!key) return;
+    _ghPendingPushSet.delete(key);
+    localStorage.setItem('mindnotes_ghPendingPush', JSON.stringify([..._ghPendingPushSet]));
+}
 
 function _ghHeaders() {
     const h = {
@@ -8601,6 +8615,12 @@ async function ghPullNow() {
     const key = _ghCurrentKey();
     // On landing screen (no subject selected): pull all subjects
     if (!path || !key) { return ghPullAll(); }
+    // Safety: if local has an unpushed change, push it before pulling so we
+    // don't overwrite the user's unsynced work with stale remote content.
+    if (_ghPendingPushSet.has(key) && _ghToken && !_ghPushInFlight) {
+        _ghSetState('Flushing pending push first…');
+        try { await ghPushNow(); } catch (e) { console.warn('Pending push during pull failed:', e); }
+    }
     _ghPullInFlight = true;
     _ghSetState('Pulling…');
     try {
@@ -8680,6 +8700,7 @@ async function ghPushNow() {
         _ghShas[key] = newSha;
         _ghLastPush[key] = new Date().toISOString();
         _ghLastError = null;
+        _ghClearPending(key);
         _ghSetState('Up to date');
         _ghUpdateStatusUI();
     } catch (e) {
@@ -8795,6 +8816,9 @@ async function ghPushAll() {
 function schedulePush() {
     if (!_ghToken || !_ghAutoSync) return;
     if (!_ghCurrentPath()) return;
+    // Mark pending immediately so a tab close before the timer fires doesn't
+    // lose track of the unsynced edit.
+    _ghMarkPending(_ghCurrentKey());
     clearTimeout(_ghPushTimer);
     _ghPushTimer = setTimeout(() => { ghPushNow(); }, 2500);
 }
