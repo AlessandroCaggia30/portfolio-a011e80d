@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T19:03:43.628Z",
+  "exportedAt": "2026-05-13T19:04:20.697Z",
   "data": {
     "topics": [
       {
@@ -224,7 +224,7 @@
               {
                 "id": "ts1778698974055",
                 "title": "Introducing correlation — full dependence vs Markov",
-                "content": "\\textbf{\\textcolor{red}{INTRODUCING CORRELATION (DEPENDENCE)}}\n\n\\textbf{Step 1 — Full dependence (general chain rule).}\\[ p_n(y_1, \\dots, y_n) = p(y_1)\\, p(y_2 \\mid y_1)\\, p(y_3 \\mid y_1, y_2) \\cdots p(y_n \\mid y_1, \\dots, y_{n-1}) = p(y_1) \\prod_{t=2}^{n} p(y_t \\mid y_1, \\dots, y_{t-1}). \\]This is fully general — no assumption made. The cost is that each conditional $p(y_t \\mid y_1, \\dots, y_{t-1})$ depends on the \\emph{entire} past, so we have $n-1$ growing-dimension conditionals to specify or estimate. Infeasible in practice.\n\n\\textbf{Step 2 — Markov property (cheapest non-trivial dependence).} Assume that, given the immediate past $Y_{t-1}$, the value $Y_t$ is independent of everything before $Y_{t-1}$:\\[ p(y_t \\mid y_1, \\dots, y_{t-1}) = p(y_t \\mid y_{t-1}). \\]Substituting in the chain rule collapses the joint to one-step transitions only:\\[ p_n(y_1, \\dots, y_n) = p(y_1) \\prod_{t=2}^{n} p(y_t \\mid y_{t-1}). \\]Only the \\textbf{initial law} $p(y_1)$ and the family of \\textbf{one-step transition densities} $\\{p(y_t \\mid y_{t-1})\\}$ are needed. If additionally we assume \\emph{homogeneity} ($p(y_t \\mid y_{t-1})$ does not depend on $t$), this is just \\textbf{one} transition kernel.\n\n\\textit{Reading order:} iid (no memory) $\\to$ Markov (memory of length 1) $\\to$ general dependence (unbounded memory). Markov is the simplest dependence structure that still produces a non-trivial time series, and it is the building block for AR(1), state-space and HMMs.",
+                "content": "\\textbf{\\textcolor{red}{INTRODUCING CORRELATION (DEPENDENCE)}}\n\n\\textbf{Step 1 — Full dependence (general chain rule).}\\[ p_n(y_1, \\dots, y_n) = p(y_1)\\, p(y_2 \\mid y_1)\\, p(y_3 \\mid y_1, y_2) \\cdots p(y_n \\mid y_1, \\dots, y_{n-1}) = p(y_1) \\prod_{t=2}^{n} p(y_t \\mid y_1, \\dots, y_{t-1}). \\]This is fully general — no assumption made. The cost is that each conditional $p(y_t \\mid y_1, \\dots, y_{t-1})$ depends on the \\emph{entire} past, so we have $n-1$ growing-dimension conditionals to specify or estimate. Infeasible in practice.\n\n\\textbf{Step 2 — Markov property (cheapest non-trivial dependence).} Assume that, given the immediate past $Y_{t-1}$, the value $Y_t$ is independent of everything before $Y_{t-1}$:\\[ p(y_t \\mid y_1, \\dots, y_{t-1}) = p(y_t \\mid y_{t-1}). \\]Substituting in the chain rule collapses the joint to one-step transitions only:\\[ p_n(y_1, \\dots, y_n) = p(y_1) \\prod_{t=2}^{n} p(y_t \\mid y_{t-1}). \\]Only the \\textbf{initial law} $p(y_1)$ and the family of \\textbf{one-step transition densities} $\\{p(y_t \\mid y_{t-1})\\}$ are needed. If additionally we assume \\emph{homogeneity} ($p(y_t \\mid y_{t-1})$ does not depend on $t$), this is just \\textbf{one} transition kernel.\n\n",
                 "flashcard": false,
                 "images": [],
                 "links": [],
