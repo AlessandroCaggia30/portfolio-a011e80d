@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T11:09:57.898Z",
+  "exportedAt": "2026-05-13T11:10:26.409Z",
   "data": {
     "topics": [
       {
@@ -28,7 +28,7 @@
               {
                 "id": "ts17786690819137257",
                 "title": "Aims of time series analysis",
-                "content": "\\textbf{\\textcolor{red}{AIMS OF TIME SERIES ANALYSIS}}\n\n$\\to$ \\textbf{Describe} -- analyze, describe (trend, seasonal, cycle, erratic). Often, to de-trend, de-seasonalize.\n\n$\\to$ \\textbf{Forecast} -- clever algorithms (e.g.\\ exp.\\ smoothing) to predict $y_{t+1}$ given $(y_1,\\dots,y_t)$. \\textit{BUT}, they do not describe uncertainty.\n\n$\\to$ \\textbf{Explain} (modeling \\& inference) -- the info on the phenomenon is formalized via a probabilistic (statistical) model; estimate the unknown parameters of the model.\n\n$\\to$ \\textbf{Forecast} with uncertainty -- the ultimate goal of forecasting, with probability for uncertainty and risk.\n\n$\\to$ \\textbf{Control} -- not only forecast $y_t$ but also control $y_{t+1}$ via control variables $x_t$.\n\n$\\to$ \\textbf{Decisions under risk}.",
+                "content": "\\textbf{\\textcolor{red}{AIMS OF TIME SERIES ANALYSIS}}\n\n$\\to$ \\textbf{Describe} -- trend, seasonal, cycle, erratic). Often, to de-trend, de-seasonalize.\n\n$\\to$ \\textbf{Forecast} -- clever algorithms (e.g.\\ exp.\\ smoothing) to predict $y_{t+1}$ given $(y_1,\\dots,y_t)$. \\textit{BUT}, they do not describe uncertainty.\n\n$\\to$ \\textbf{Explain} (modeling \\& inference) -- the info on the phenomenon is formalized via a probabilistic (statistical) model; estimate the unknown parameters of the model.\n\n$\\to$ \\textbf{Forecast} with uncertainty -- the ultimate goal of forecasting, with probability for uncertainty and risk.\n\n$\\to$ \\textbf{Control} -- not only forecast $y_t$ but also control $y_{t+1}$ via control variables $x_t$.\n\n$\\to$ \\textbf{Decisions under risk}.",
                 "flashcard": false,
                 "images": [],
                 "links": [],
