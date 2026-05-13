@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T13:17:51.142Z",
+  "exportedAt": "2026-05-13T13:18:00.898Z",
   "data": {
     "topics": [
       {
@@ -67,7 +67,7 @@
               {
                 "id": "ts17786690819131573",
                 "title": "Fitting a trend",
-                "content": "\\textbf{\\textcolor{red}{FITTING A TREND}}\n\nFor $Y_t = T_t + E_t$ (no seasonal comp.):\n\n\\textbf{1. OLS.} Note higher polynomials \n\n\\textbf{2. Moving averages.} e.g.\\ MA of order $k=3$:\n\\[ \\widehat{T}_t = \\frac{y_{t-1} + y_t + y_{t+1}}{3},\\quad t = 2, 3, \\dots \\]\nIf $k$ is even, e.g.\\ $k = 4$:\n\\[ \\widehat{T}_t = \\frac{0.5\\, y_{t-2} + y_{t-1} + y_t + y_{t+1} + 0.5\\, y_{t+2}}{4}. \\]",
+                "content": "\\textbf{\\textcolor{red}{FITTING A TREND}}\n\nFor $Y_t = T_t + E_t$ (no seasonal comp.):\n\n\\textbf{1. OLS.} Note quadratic or more components can help\n\n\\textbf{2. Moving averages.} e.g.\\ MA of order $k=3$:\n\\[ \\widehat{T}_t = \\frac{y_{t-1} + y_t + y_{t+1}}{3},\\quad t = 2, 3, \\dots \\]\nIf $k$ is even, e.g.\\ $k = 4$:\n\\[ \\widehat{T}_t = \\frac{0.5\\, y_{t-2} + y_{t-1} + y_t + y_{t+1} + 0.5\\, y_{t+2}}{4}. \\]",
                 "flashcard": false,
                 "images": [],
                 "links": [],
