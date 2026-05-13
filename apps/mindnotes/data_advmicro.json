@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T10:06:58.983Z",
+  "exportedAt": "2026-05-13T10:11:38.826Z",
   "data": {
     "topics": [
       {
@@ -33,7 +33,7 @@
               {
                 "id": "1771316922493",
                 "title": "The Kuhn--Tucker Approach",
-                "content": "\\vspace{1em}\n\n\\begin{itemize}\n\n\\item We know how to maximise when there are no constraints: take FOC\n\n\\item It would be great if we actually can use FOC as in free max\n\n\\item How can we take into account the constraint?\n\n\\end{itemize}\n\n\\[\n\\Rightarrow \\quad\n\\text{Just fix a price for their violation and then take max free }\n\\textcolor{red}{\\textbf{Key!!}}\n\\]\n\n\\vspace{0.5em}\n\n\\begin{itemize}\n\n\\item How can I guarantee constraints are satisfied?\n\n\\end{itemize}\n\n\\[\n\\Rightarrow \\quad\n\\text{Charge a large enough price}\n\\]\n\n\\vspace{0.5em}\n\n\\begin{itemize}\n\n\\item How large? How to fix prices? \n\n$\\Rightarrow$ Fix a zero price if the constraint is actually satisfied at the optimum (this is the Complementary Slackness assumption). Note: C.S.\\ says that if $g_k(x^*) \\ge 0$ (i.e.\\ the constraint is slack), then $\\lambda_k = 0$, that is, there is no penalization\n\n\\vspace{0.5em}\n\n\\begin{itemize}\n\n\\item In order to implement this idea we maximise:\n\\end{itemize}\n\n\\[\n\\mathcal{L}(x,\\lambda) := f(x) + \\sum_{k} \\lambda_k g_k(x);\n\\]\n\nNote how constraints are weighted by lagrange multipliers! \n\n\n\n\\begin{itemize}\n\n\\item The price charged for violating constraint $g_k$ is $\\lambda_k^*$ (endogenous)\n\n\\end{itemize}\n\\end{itemize}",
+                "content": "",
                 "flashcard": false,
                 "images": [],
                 "links": [
