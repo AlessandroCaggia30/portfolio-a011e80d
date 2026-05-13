@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T11:03:58.907Z",
+  "exportedAt": "2026-05-13T11:04:11.197Z",
   "data": {
     "topics": [
       {
@@ -302,6 +302,21 @@
                 "y": 5706.069134442089,
                 "width": 600,
                 "height": 440
+              },
+              {
+                "id": "1778670247186",
+                "title": "types of data",
+                "content": "\n\\textit{The time points of measurement can be:}\n\\begin{itemize} \\item regularly spaced (monthly, yearly, \\dots) vs irregularly spaced \\item missing values \\item high frequency \\item cathegorical \\item Univariate vs Multivariate \\item discrete vs continuous time \\end{itemize}\n\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ts17786690819139650",
+                    "type": "backward"
+                  }
+                ],
+                "x": 4053.798708244427,
+                "y": 4235.4450230989605
               }
             ]
           }
