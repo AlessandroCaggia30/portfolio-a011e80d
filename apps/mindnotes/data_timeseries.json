@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T13:15:28.635Z",
+  "exportedAt": "2026-05-13T13:15:31.576Z",
   "data": {
     "topics": [
       {
@@ -53,7 +53,12 @@
                 "content": "\\textbf{\\textcolor{red}{TIME SERIES DECOMPOSITION}}\n\nView $Y_t$ as composed of: a \\textbf{Trend}, a \\textbf{Seasonal} comp., a \\textbf{cycle}, and an \\textbf{Erratic} comp.\n\n\\textbf{Additive}:\\quad $Y_t = T_t + S_t + C_t + E_t$\n\n\\textbf{Multiplicative}:\\quad $Y_t = T_t \\cdot S_t \\cdot C_t \\cdot E_t$\n\nnote $\\log$ transforms a multiplicative decomposition into an additive one",
                 "flashcard": false,
                 "images": [],
-                "links": [],
+                "links": [
+                  {
+                    "target": "ts17786690819131573",
+                    "type": "forward"
+                  }
+                ],
                 "x": 4425.139134211727,
                 "y": 3672.513499239636,
                 "width": 650,
@@ -66,8 +71,8 @@
                 "flashcard": false,
                 "images": [],
                 "links": [],
-                "x": 3936.6146860890058,
-                "y": 4057.9747610221903,
+                "x": 3840.66002167244,
+                "y": 4055.0070909886886,
                 "width": 700,
                 "height": 540
               },
