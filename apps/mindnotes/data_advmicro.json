@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T10:12:39.338Z",
+  "exportedAt": "2026-05-13T10:18:34.147Z",
   "data": {
     "topics": [
       {
@@ -48,7 +48,7 @@
               {
                 "id": "1771317577526",
                 "title": "KKT Procedure",
-                "content": "KKT Procedure: \n\\begin{enumerate}\n\\item Write all constraints in the `canonical' form $g(x) \\ge 0$;\n\n\\item Write the Lagrangian:\\[\n\\mathcal{L}(x,\\lambda) = f(x) + \\lambda \\cdot g(x);\n\\]\n\\item Recall that $\\lambda^* \\ge 0$;\n\n\\item Take F.O.C.\\ with respect to $x$:\n\\[\n\\frac{\\partial \\mathcal{L}(x^*,\\lambda^*)}{\\partial x} = 0;\n\\]\n\n\\item \\textcolor{blue}{Do not forget to impose the constraints $g(x^*) \\ge 0$;}\n\n\\item \\textcolor{red}{Do not forget the C.S. $\\lambda_k^* g_k(x^*) = 0$, for all $k$.}\n\\end{enumerate}",
+                "content": "",
                 "flashcard": false,
                 "images": [],
                 "links": [
