@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T13:21:29.796504+00:00",
+  "exportedAt": "2026-05-13T13:22:53.145Z",
   "data": {
     "topics": [
       {
@@ -72,28 +72,11 @@
                 "content": "\\textbf{\\textcolor{red}{FITTING A TREND}}\n\nFor $Y_t = T_t + E_t$ (no seasonal comp.):\n\n\\textbf{1. OLS.} \n\\textbf{2. Moving averages.} e.g.\\ MA of order $k=3$:\n\\[ \\widehat{T}_t = \\frac{y_{t-1} + y_t + y_{t+1}}{3},\\quad t = 2, 3, \\dots \\]\nIf $k$ is even, e.g.\\ $k = 4$:\n\\[ \\widehat{T}_t = \\frac{0.5\\, y_{t-2} + y_{t-1} + y_t + y_{t+1} + 0.5\\, y_{t+2}}{4}. \\]\n\n\\textbf{\\textcolor{red}{DETRENDING}}\n\\[ y_t^{\\text{detrended}} = y_t - \\widehat{T}_t. \\]",
                 "flashcard": false,
                 "images": [],
-                "links": [
-                  {
-                    "target": "ts17786690819136064",
-                    "type": "forward"
-                  }
-                ],
+                "links": [],
                 "x": 4423.993355005773,
                 "y": 4505.007090988689,
                 "width": 700,
                 "height": 540
-              },
-              {
-                "id": "ts17786690819136064",
-                "title": "Detrending",
-                "content": "\\textbf{\\textcolor{red}{DETRENDING}}\n\nHaving fitted $\\widehat{T}_t$, write\n\\[ y_t = \\widehat{T}_t + E_t, \\quad t = 2, \\dots, n. \\]\nRemove the trend to obtain the de-trended series:\n\\[ y_t^{\\text{detrended}} = y_t - \\widehat{T}_t. \\]",
-                "flashcard": false,
-                "images": [],
-                "links": [],
-                "x": 4431.310222156572,
-                "y": 5099.627475354095,
-                "width": 689.1709960876312,
-                "height": 208.89472373046522
               },
               {
                 "id": "ts17786690819134427",
@@ -362,6 +345,21 @@
         "width": 500,
         "height": 280,
         "deletedAt": 1778670165422,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "ts17786690819136064",
+        "title": "Detrending",
+        "content": "\\textbf{\\textcolor{red}{DETRENDING}}\n\nHaving fitted $\\widehat{T}_t$, write\n\\[ y_t = \\widehat{T}_t + E_t, \\quad t = 2, \\dots, n. \\]\nRemove the trend to obtain the de-trended series:\n\\[ y_t^{\\text{detrended}} = y_t - \\widehat{T}_t. \\]",
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "x": 4431.310222156572,
+        "y": 5099.627475354095,
+        "width": 689.1709960876312,
+        "height": 208.89472373046522,
+        "deletedAt": 1778678572139,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
