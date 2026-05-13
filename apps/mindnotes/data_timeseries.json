@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T18:07:43.073Z",
+  "exportedAt": "2026-05-13T18:11:15.276599+00:00",
   "data": {
     "topics": [
       {
@@ -190,7 +190,7 @@
               {
                 "id": "ts17786690819133761",
                 "title": "Strict stationarity",
-                "content": "\\textbf{\\textcolor{red}{STRICT STATIONARITY}}\n\nA time series $(Y_t)$ is \\textbf{strictly stationary} if the joint distribution of $(Y_t, Y_{t+1}, \\dots, Y_{t+h})$ does \\emph{not} depend on $t$, for any $h$:\n\\[ (Y_{t_1}, \\dots, Y_{t_k}) \\stackrel{d}{=} (Y_{t_1+h}, \\dots, Y_{t_k+h}). \\]\n\n$\\Rightarrow$ marginal of $Y_t$ same for all $t$:\\quad $Y_1 \\stackrel{d}{=} Y_2 \\stackrel{d}{=} \\dots$\n\n$\\Rightarrow$ if 2nd moments finite: $\\mu(t) = \\mu$, $\\sigma^2(t) = \\sigma^2$, and $\\gamma(t, t+h)$ depends only on $h$.\n\n\\textbf{Strictly stationary} $\\Rightarrow$ \\textbf{stationary}, but not the converse.",
+                "content": "\\textbf{\\textcolor{red}{STRICT STATIONARITY}}\n\nA time series $(Y_t)$ is \\textbf{strictly stationary} if its joint distribution is invariant under every time shift. Precisely:\\[ \\text{for every } k \\ge 1,\\ \\text{every tuple } (t_1, \\dots, t_k),\\ \\text{and every shift } h \\in \\mathbb{Z}: \\]\\[ (Y_{t_1}, \\dots, Y_{t_k}) \\stackrel{d}{=} (Y_{t_1+h}, \\dots, Y_{t_k+h}). \\]\n\n\\textit{Reading:} ``does not depend on $t$'' means \\emph{shift-invariant} — slide the window by any $h$, the joint law is the same. The law is still allowed to depend on the \\emph{relative spacings} $(t_2 - t_1, \\dots, t_k - t_1)$ inside the tuple.\n\n\\textbf{Consequences:}\n\n$\\Rightarrow$ marginal of $Y_t$ same for all $t$: \\quad $Y_1 \\stackrel{d}{=} Y_2 \\stackrel{d}{=} \\dots$\n\n$\\Rightarrow$ if the second moments are finite: $\\mu(t) = \\mu$, $\\sigma^2(t) = \\sigma^2$, and $\\gamma(t, t+h)$ depends only on $h$.\n\n\\textbf{Strictly stationary} $\\Rightarrow$ \\textbf{weakly stationary}, but not the converse (see the Uniform/Laplace counterexample).",
                 "flashcard": false,
                 "images": [],
                 "links": [
