@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T10:23:46.002Z",
+  "exportedAt": "2026-05-13T10:27:11.877Z",
   "data": {
     "topics": [
       {
@@ -80,7 +80,7 @@
               {
                 "id": "1771317121159",
                 "title": "KKT Sufficient for Global Maximum (Concavity)",
-                "content": "",
+                "content": "\\textbf{Theorem 2.}\n\nIn problem $(P)$ assume $f$ and $g_k$ are all concave and differentiable, and that there exists $x$ such that $g_k(x) > 0$ for all $k$.\n.",
                 "flashcard": false,
                 "images": [],
                 "links": [],
