@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T16:40:34.925Z",
+  "exportedAt": "2026-05-13T16:40:45.043Z",
   "data": {
     "topics": [
       {
@@ -296,7 +296,7 @@
               {
                 "id": "1778690202929",
                 "title": "Time series as stochastic processes",
-                "content": "Better: a time series is a *Stochastic Process* (Y_t, t $\\ge$ 0): a sequence of random vectors (a multidipensional random variable) indexed by t. \n\nNote:\n- To specify the processm you need to write probability law P, then we write $Y_t \\sim \\matthp{P}$   \n- Each observed value is a specific realization of the process.\n\n\n",
+                "content": "Better: a time series is a *Stochastic Process* (Y_t, t $\\ge$ 0): a sequence of random vectors (a multidipensional random variable) indexed by t. \n\nNote:\n- To specify the processm you need to write probability law P, then we write $Y_t \\sim \\mathb{P}$   \n- Each observed value is a specific realization of the process.\n\n\n",
                 "flashcard": false,
                 "images": [],
                 "links": [],
