@@ -8522,12 +8522,29 @@ function _ghUpdateStatusUI() {
     const lastPull = document.getElementById('ghLastPull');
     const lastPush = document.getElementById('ghLastPush');
     const autoBox = document.getElementById('ghAutoSync');
-    if (subjPath) subjPath.textContent = path || '—';
-    if (lastPull) lastPull.textContent = (key && _ghLastPull[key]) ? new Date(_ghLastPull[key]).toLocaleString() : 'never';
-    if (lastPush) lastPush.textContent = (key && _ghLastPush[key]) ? new Date(_ghLastPush[key]).toLocaleString() : 'never';
+    const pullBtn = document.querySelector('#ghSyncModal button[onclick="ghPullNow()"]');
+    const pushBtn = document.querySelector('#ghSyncModal button[onclick="ghPushNow()"]');
+    if (subjPath) subjPath.textContent = path || 'All subjects (landing screen)';
+    if (lastPull) {
+        if (key) lastPull.textContent = _ghLastPull[key] ? new Date(_ghLastPull[key]).toLocaleString() : 'never';
+        else {
+            // Show most recent across all subjects
+            const stamps = Object.values(_ghLastPull).filter(Boolean).sort();
+            lastPull.textContent = stamps.length ? new Date(stamps[stamps.length-1]).toLocaleString() + ' (latest across all)' : 'never';
+        }
+    }
+    if (lastPush) {
+        if (key) lastPush.textContent = _ghLastPush[key] ? new Date(_ghLastPush[key]).toLocaleString() : 'never';
+        else {
+            const stamps = Object.values(_ghLastPush).filter(Boolean).sort();
+            lastPush.textContent = stamps.length ? new Date(stamps[stamps.length-1]).toLocaleString() + ' (latest across all)' : 'never';
+        }
+    }
     if (autoBox) autoBox.checked = _ghAutoSync;
+    if (pullBtn) pullBtn.textContent = key ? '⬇️ Pull now' : '⬇️ Pull all';
+    if (pushBtn) pushBtn.textContent = key ? '⬆️ Push now' : '⬆️ Push all';
     if (!_ghToken) _ghSetState('No token set');
-    else if (!path) _ghSetState('No subject selected');
+    else if (!key) _ghSetState('Ready — Pull/Push will run across all subjects');
     else _ghSetState(_ghAutoSync ? 'Auto-syncing' : 'Manual only');
 }
 
@@ -8582,7 +8599,8 @@ async function ghPullNow() {
     if (_ghPullInFlight) return;
     const path = _ghCurrentPath();
     const key = _ghCurrentKey();
-    if (!path || !key) { showToast('Select a subject first'); return; }
+    // On landing screen (no subject selected): pull all subjects
+    if (!path || !key) { return ghPullAll(); }
     _ghPullInFlight = true;
     _ghSetState('Pulling…');
     try {
@@ -8645,7 +8663,8 @@ async function ghPushNow() {
     if (!_ghToken) { showToast('Set a GitHub token first'); return; }
     const path = _ghCurrentPath();
     const key = _ghCurrentKey();
-    if (!path || !key) { showToast('Select a subject first'); return; }
+    // On landing screen: push all subjects from local IndexedDB
+    if (!path || !key) { return ghPushAll(); }
     _ghPushInFlight = true;
     _ghSetState('Pushing…');
     try {
@@ -8672,6 +8691,105 @@ async function ghPushNow() {
         _ghPushInFlight = false;
         updateGhStatusDot();
     }
+}
+
+async function _ghReadFromIDB(dataKey) {
+    if (!db) await initDB();
+    return await new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, 'readonly');
+        const req = tx.objectStore(STORE_NAME).get(dataKey);
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+    });
+}
+
+async function _ghWriteToIDB(dataKey, data) {
+    if (!db) await initDB();
+    return await new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        tx.objectStore(STORE_NAME).put(data, dataKey);
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+    });
+}
+
+async function ghPullAll() {
+    if (_ghPullInFlight) return;
+    _ghPullInFlight = true;
+    _ghSetState('Pulling all subjects…');
+    let ok = 0, err = 0;
+    for (const subj of SUBJECTS) {
+        if (!subj.repoPath) continue;
+        try {
+            _ghSetState(`Pulling ${subj.name}…`);
+            const remote = await ghFetchFile(subj.repoPath);
+            if (!remote) { err++; continue; }
+            let parsed = JSON.parse(remote.content);
+            const incoming = (parsed.data && !parsed.topics) ? parsed.data : parsed;
+            if (!incoming.topics || !Array.isArray(incoming.topics)) throw new Error('no topics');
+            if (!incoming.trash) incoming.trash = [];
+            await _ghWriteToIDB(subj.dataKey, incoming);
+            _ghShas[subj.dataKey] = remote.sha;
+            _ghLastPull[subj.dataKey] = new Date().toISOString();
+            ok++;
+            // If this subject is currently open, refresh in-memory state too
+            if (State.currentSubject && State.currentSubject.dataKey === subj.dataKey) {
+                State.data = incoming;
+                _dataIsDirty = false;
+                renderSidebar();
+                updateFlashcardStats();
+            }
+        } catch (e) {
+            console.error('pullAll failed for', subj.name, e);
+            err++;
+        }
+    }
+    _ghLastError = err ? `${err} subject(s) failed` : null;
+    _ghSetState(err ? `Pulled ${ok}, ${err} failed` : `Pulled ${ok} subjects`);
+    showToast(err ? `Pulled ${ok}, ${err} failed` : `Pulled ${ok} subjects`);
+    _ghUpdateStatusUI();
+    _ghPullInFlight = false;
+    updateGhStatusDot();
+}
+
+async function ghPushAll() {
+    if (_ghPushInFlight) return;
+    _ghPushInFlight = true;
+    _ghSetState('Pushing all subjects…');
+    let ok = 0, err = 0, skipped = 0;
+    for (const subj of SUBJECTS) {
+        if (!subj.repoPath) continue;
+        try {
+            // Prefer in-memory state if this subject is open, else read from IDB
+            let data;
+            if (State.currentSubject && State.currentSubject.dataKey === subj.dataKey) {
+                data = State.data;
+            } else {
+                data = await _ghReadFromIDB(subj.dataKey);
+            }
+            if (!data || !data.topics) { skipped++; continue; }
+            _ghSetState(`Pushing ${subj.name}…`);
+            const payload = { version: '2.0', exportedAt: new Date().toISOString(), data };
+            const content = JSON.stringify(payload, null, 2);
+            const msg = `mindnotes: bulk push ${subj.name} ${new Date().toISOString().slice(0,19).replace('T',' ')}`;
+            const newSha = await ghPutFile(subj.repoPath, content, msg, _ghShas[subj.dataKey]);
+            _ghShas[subj.dataKey] = newSha;
+            _ghLastPush[subj.dataKey] = new Date().toISOString();
+            ok++;
+        } catch (e) {
+            console.error('pushAll failed for', subj.name, e);
+            err++;
+        }
+    }
+    _ghLastError = err ? `${err} subject(s) failed` : null;
+    const parts = [`pushed ${ok}`];
+    if (skipped) parts.push(`${skipped} skipped (no local data)`);
+    if (err) parts.push(`${err} failed`);
+    _ghSetState(parts.join(', '));
+    showToast(parts.join(', '));
+    _ghUpdateStatusUI();
+    _ghPushInFlight = false;
+    updateGhStatusDot();
 }
 
 function schedulePush() {
