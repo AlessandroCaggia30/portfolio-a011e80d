@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T16:57:55.649Z",
+  "exportedAt": "2026-05-13T16:58:01.114Z",
   "data": {
     "topics": [
       {
@@ -107,7 +107,7 @@
               },
               {
                 "id": "ts17786690819139203",
-                "title": "How to a",
+                "title": "How to assign the Probability law of the pro",
                 "content": "The prob.\\ law of a stoch.\\ process $(Y_t)$ is assigned by giving the \\textbf{finite-dimensional distributions}\n\\[ p_{t_1,\\dots,t_n}(y_1,\\dots,y_n) \\]\nfor all $n$ and $(t_1,\\dots,t_n)$.\n\nUnder \\textbf{consistency} conditions, this fully defines the law of the process.",
                 "flashcard": false,
                 "images": [],
