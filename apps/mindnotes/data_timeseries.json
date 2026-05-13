@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T18:07:08.774Z",
+  "exportedAt": "2026-05-13T18:07:28.769Z",
   "data": {
     "topics": [
       {
@@ -178,7 +178,7 @@
               {
                 "id": "ts17786690819133410",
                 "title": "Stationarity does not imply strict stat.",
-                "content": "\\textit{Counterexample (visual):}\n\nTake a process where $Y_t$ are independent across $t$, with\n\n$\\bullet$ $Y_t \\sim \\mathrm{Uniform}[-\\sqrt{3},\\sqrt{3}]$ at even $t$ \\quad ($\\mu = 0,\\ \\sigma^2 = 1$),\n\n$\\bullet$ $Y_t \\sim \\mathrm{Laplace}(0,\\ 1/\\sqrt{2})$ at odd $t$ \\quad ($\\mu = 0,\\ \\sigma^2 = 1$).\n\n\\textbf{The Uniform and the Laplace have the same mean and variance — but clearly not the same distribution.} So the first two moments are constant in $t$ (weak stationarity holds) but the marginal law of $Y_t$ depends on $t$, so the joint distribution is not time-invariant.\n\n$\\Rightarrow$ \\textbf{stationary} $\\not\\Rightarrow$ \\textbf{strictly stationary}.\n\n\\textit{Why we excluded Gaussians on purpose:} for a Gaussian process the law is fully pinned down by the first two moments, so under Gaussianity weakly stationary $\\Rightarrow$ strictly stationary.",
+                "content": "Counterexample: \\textbf{The Uniform and the Laplace have the same mean and variance — but clearly not the same distribution.} So the first two moments are constant in $t$ (weak stationarity holds) but the marginal law of $Y_t$ depends on $t$, so the joint distribution is not time-invariant.\n\n$\\Rightarrow$ \\textbf{stationary} $\\not\\Rightarrow$ \\textbf{strictly stationary}.\n\n\\textit{Why we excluded Gaussians on purpose:} for a Gaussian process the law is fully pinned down by the first two moments, so under Gaussianity weakly stationary $\\Rightarrow$ strictly stationary.",
                 "flashcard": false,
                 "images": [],
                 "links": [],
