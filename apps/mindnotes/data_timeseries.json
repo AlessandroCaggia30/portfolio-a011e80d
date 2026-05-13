@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T19:13:17.844Z",
+  "exportedAt": "2026-05-13T19:14:02.523609+00:00",
   "data": {
     "topics": [
       {
@@ -241,7 +241,7 @@
               {
                 "id": "ts17786690819136915",
                 "title": "Transition matrix P",
-                "content": "\\textbf{\\textcolor{red}{TRANSITION MATRIX}}\\ $\\mathbf{P}$\n\nFor finite state space $\\mathcal{Y} = \\{1, 2, \\dots, N\\}$:\n\n\\[ \\mathbf{P} = \\begin{pmatrix} p_{1,1} & p_{1,2} & \\cdots & p_{1,N} \\\\ p_{2,1} & p_{2,2} & \\cdots & p_{2,N} \\\\ \\vdots & & & \\vdots \\\\ p_{N,1} & p_{N,2} & \\cdots & p_{N,N} \\end{pmatrix} \\]\n\nEach row sums to 1: $\\sum_{j} p_{i,j} = 1\\ \\forall i$.\n\nIf $\\mathbf{P}_t \\equiv \\mathbf{P}$ (independent of $t$) $\\to$ \\textbf{homogeneous} Markov chain.",
+                "content": "\\textbf{\\textcolor{red}{TRANSITION MATRIX}}\n\nFinite state space $\\mathcal{Y} = \\{1, 2, \\dots, N\\}$. The transition probabilities at time $t$ are\\[ p^{(t)}_{i,j} = P(Y_t = j \\mid Y_{t-1} = i), \\qquad i, j \\in \\mathcal{Y}. \\]Arrange them in a matrix $\\mathbf{P}^{(t)}$ with \\emph{rows} indexed by the state at $t-1$ and \\emph{columns} indexed by the state at $t$:\n\n\\begin{tabular}{|c|c|c|c|c|}\n\\hline\n$t - 1 \\;\\backslash\\; t$ & $1$ & $2$ & $\\cdots$ & $N$ \\\\\n\\hline\n$1$ & $p^{(t)}_{1,1}$ & $p^{(t)}_{1,2}$ & $\\cdots$ & $p^{(t)}_{1,N}$ \\\\\n$2$ & $p^{(t)}_{2,1}$ & $p^{(t)}_{2,2}$ & $\\cdots$ & $p^{(t)}_{2,N}$ \\\\\n$\\vdots$ & $\\vdots$ & $\\vdots$ & $\\ddots$ & $\\vdots$ \\\\\n$N$ & $p^{(t)}_{N,1}$ & $p^{(t)}_{N,2}$ & $\\cdots$ & $p^{(t)}_{N,N}$ \\\\\n\\hline\n\\end{tabular}\n\n\\textbf{Row-stochastic:} each row sums to 1, $\\sum_{j=1}^{N} p^{(t)}_{i,j} = 1$ for every $i$ and every $t$ — given that you are in state $i$ at $t-1$, you must end up \\emph{somewhere} at time $t$.\n\n\\textbf{Homogeneous case.} If the transition probabilities do not depend on $t$, i.e.\\ $p^{(t)}_{i,j} = p_{i,j}$ for every $t$, then the chain is \\textbf{homogeneous}. The superscript drops:\\[ \\mathbf{P}^{(t)} \\equiv \\mathbf{P} = \\big(p_{i,j}\\big)_{i,j \\in \\mathcal{Y}}, \\]a single $N \\times N$ matrix that — together with the initial distribution $p_0(\\cdot)$ — fully specifies the law of the chain.",
                 "flashcard": false,
                 "images": [],
                 "links": [],
