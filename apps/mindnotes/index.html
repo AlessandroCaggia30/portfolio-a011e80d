@@ -4088,13 +4088,13 @@ function markDirty() {
             btn.textContent = 'Save*';
         }
     }
-    // When GitHub auto-sync is on, treat edits as auto-saving: commit locally
-    // (which in turn schedules the debounced GitHub push).
+    // When GitHub auto-sync is on, save locally fast (400ms) so pushes
+    // fire shortly after the user stops typing.
     if (typeof _ghToken !== 'undefined' && _ghToken && _ghAutoSync && _ghCurrentPath()) {
         clearTimeout(_ghEditSaveTimer);
         _ghEditSaveTimer = setTimeout(() => {
             if (_dataIsDirty) _commitSave();
-        }, 1500);
+        }, 400);
     }
 }
 
@@ -8762,45 +8762,48 @@ async function ghPullAll() {
     if (_ghPullInFlight) return;
     _ghPullInFlight = true;
     _ghSetState('Checking subjects…');
-    let ok = 0, err = 0, skipped = 0;
-    for (const subj of SUBJECTS) {
-        if (!subj.repoPath) continue;
+    const t0 = performance.now();
+    // Step 1: peek all SHAs in parallel.
+    const peeks = await Promise.all(SUBJECTS
+        .filter(s => s.repoPath)
+        .map(async s => ({ s, sha: await ghPeekRemoteSha(s.repoPath).catch(() => null) })));
+    // Step 2: split into changed vs unchanged.
+    const changed = peeks.filter(({ s, sha }) => sha && _ghShas[s.dataKey] !== sha);
+    const skipped = peeks.length - changed.length;
+    // Step 3: fetch content for changed subjects in parallel.
+    const results = await Promise.all(changed.map(async ({ s, sha }) => {
         try {
-            // Skip if remote SHA matches our last-known
-            const peek = await ghPeekRemoteSha(subj.repoPath);
-            if (peek && _ghShas[subj.dataKey] && peek === _ghShas[subj.dataKey]) {
-                skipped++;
-                console.log('[gh] skip unchanged', subj.name);
-                continue;
-            }
-            _ghSetState(`Pulling ${subj.name}…`);
-            const remote = await ghFetchFile(subj.repoPath);
-            if (!remote) { err++; continue; }
-            let parsed = JSON.parse(remote.content);
+            const remote = await ghFetchFile(s.repoPath);
+            if (!remote) throw new Error('missing');
+            const parsed = JSON.parse(remote.content);
             const incoming = (parsed.data && !parsed.topics) ? parsed.data : parsed;
             if (!incoming.topics || !Array.isArray(incoming.topics)) throw new Error('no topics');
             if (!incoming.trash) incoming.trash = [];
-            await _ghWriteToIDB(subj.dataKey, incoming);
-            _ghShas[subj.dataKey] = remote.sha; _ghPersistShas();
-            _ghLastPull[subj.dataKey] = new Date().toISOString(); _ghPersistPullStamps();
-            ok++;
-            if (State.currentSubject && State.currentSubject.dataKey === subj.dataKey) {
+            await _ghWriteToIDB(s.dataKey, incoming);
+            _ghShas[s.dataKey] = remote.sha;
+            _ghLastPull[s.dataKey] = new Date().toISOString();
+            if (State.currentSubject && State.currentSubject.dataKey === s.dataKey) {
                 State.data = incoming;
                 _dataIsDirty = false;
                 renderSidebar();
                 updateFlashcardStats();
             }
+            return { ok: true };
         } catch (e) {
-            console.error('pullAll failed for', subj.name, e);
-            err++;
+            console.error('pullAll failed for', s.name, e);
+            return { ok: false };
         }
-    }
+    }));
+    _ghPersistShas(); _ghPersistPullStamps();
+    const ok = results.filter(r => r.ok).length;
+    const err = results.length - ok;
+    const dt = Math.round(performance.now() - t0);
     _ghLastError = err ? `${err} subject(s) failed` : null;
     const parts = [];
     if (ok) parts.push(`pulled ${ok}`);
     if (skipped) parts.push(`${skipped} unchanged`);
     if (err) parts.push(`${err} failed`);
-    const msg = parts.join(', ') || 'no work';
+    const msg = (parts.join(', ') || 'no work') + ` (${dt}ms)`;
     _ghSetState(msg);
     showToast(msg);
     _ghUpdateStatusUI();
@@ -8851,11 +8854,9 @@ async function ghPushAll() {
 function schedulePush() {
     if (!_ghToken || !_ghAutoSync) return;
     if (!_ghCurrentPath()) return;
-    // Mark pending immediately so a tab close before the timer fires doesn't
-    // lose track of the unsynced edit.
     _ghMarkPending(_ghCurrentKey());
     clearTimeout(_ghPushTimer);
-    _ghPushTimer = setTimeout(() => { ghPushNow(); }, 2500);
+    _ghPushTimer = setTimeout(() => { ghPushNow(); }, 600);
 }
 
 async function ghPollOnce() {
@@ -8882,13 +8883,24 @@ async function ghPollOnce() {
 function startGhAutoSync() {
     stopGhAutoSync();
     if (!_ghAutoSync) return;
-    _ghPollInterval = setInterval(ghPollOnce, 30000);
+    // 8s when tab is visible (fast pickup of VS Code edits), pause when hidden.
+    _ghPollInterval = setInterval(() => {
+        if (document.visibilityState === 'visible') ghPollOnce();
+    }, 8000);
 }
 
 function stopGhAutoSync() {
     if (_ghPollInterval) clearInterval(_ghPollInterval);
     _ghPollInterval = null;
 }
+
+// On tab refocus run a sha peek immediately so a VS Code edit made while
+// the tab was in the background appears the moment the user returns.
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && _ghToken && _ghAutoSync && _ghCurrentPath()) {
+        ghPollOnce();
+    }
+});
 
 async function loadGhHistory() {
     const path = _ghCurrentPath();
@@ -10979,17 +10991,19 @@ async function selectSubject(subject) {
     $('subjectScreen').classList.add('hidden');
     document.querySelector('.app').style.display = '';
     switchView('notes');
+    // Load local data first so the UI appears instantly.
     await loadData();
     updateFlashcardStats();
     updateTrashCount();
-    // Initialize file system autosave for this subject
     initAutosaveForSubject(subject.dataKey);
-    // GitHub sync: pull latest if token is set, then start polling
+    // Do NOT await the GitHub pull — it blocks the UI on a network request.
+    // Fire it in the background; if remote has changes, ghPullNow updates the
+    // UI when the response arrives. If remote is unchanged, the cheap sha
+    // peek bails out quickly without re-rendering anything.
     if (_ghToken && _ghAutoSync && subject.repoPath) {
-        try { await ghPullNow(); } catch (e) { console.warn('GH initial pull failed:', e); }
+        ghPullNow().catch(e => console.warn('GH bg pull failed:', e));
         startGhAutoSync();
     }
-    // Always enable periodic autosave so syncs never depend on a manual toggle
     if (!periodicAutosaveInterval) togglePeriodicAutosave();
     _ghUpdateStatusUI();
 }
