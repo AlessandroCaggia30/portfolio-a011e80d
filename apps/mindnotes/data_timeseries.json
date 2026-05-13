@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T15:27:50.543Z",
+  "exportedAt": "2026-05-13T15:27:53.329Z",
   "data": {
     "topics": [
       {
@@ -166,30 +166,6 @@
                 "y": 6025.932760337816,
                 "width": 700,
                 "height": 420
-              },
-              {
-                "id": "ts17786690819136128",
-                "title": "Special cases of α (SES)",
-                "content": "If $\\alpha = 1$: $\\hat{y}_{t+1\\mid t} = y_t$ \\quad (naive forecast = last obs).\n\nIf $\\alpha = 0$: $\\hat{y}_{t+1\\mid t} = \\hat{y}_{t\\mid t-1}$ \\quad (constant forecast, ignore new data).\n\nIn practice tune $\\alpha$ on a training sample, e.g.\\ minimize MSE.",
-                "flashcard": false,
-                "images": [],
-                "links": [],
-                "x": 7932.040972593391,
-                "y": 5764.977475172749,
-                "width": 500,
-                "height": 220
-              },
-              {
-                "id": "ts17786690819136007",
-                "title": "Tuning α via predictive performance",
-                "content": "\\textbf{Tuning} $\\alpha$:\n\\begin{itemize} \\item consider a grid of values $\\alpha \\in (0,1)$ \\item for each $\\alpha$, compute one-step-ahead forecasts for $t = 1,\\dots,T$ \\item ``score'' the forecasts; pick $\\alpha$ giving best predictive performance \\end{itemize}\n\nPopular scores: MAE, MSE, MAPE (scale-free).",
-                "flashcard": false,
-                "images": [],
-                "links": [],
-                "x": 8201.65604459221,
-                "y": 6108.496638431308,
-                "width": 500,
-                "height": 260
               },
               {
                 "id": "ts17786690819136563",
@@ -374,6 +350,36 @@
         "width": 550,
         "height": 380,
         "deletedAt": 1778686069539,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "ts17786690819136128",
+        "title": "Special cases of α (SES)",
+        "content": "If $\\alpha = 1$: $\\hat{y}_{t+1\\mid t} = y_t$ \\quad (naive forecast = last obs).\n\nIf $\\alpha = 0$: $\\hat{y}_{t+1\\mid t} = \\hat{y}_{t\\mid t-1}$ \\quad (constant forecast, ignore new data).\n\nIn practice tune $\\alpha$ on a training sample, e.g.\\ minimize MSE.",
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "x": 7932.040972593391,
+        "y": 5764.977475172749,
+        "width": 500,
+        "height": 220,
+        "deletedAt": 1778686071112,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "ts17786690819136007",
+        "title": "Tuning α via predictive performance",
+        "content": "\\textbf{Tuning} $\\alpha$:\n\\begin{itemize} \\item consider a grid of values $\\alpha \\in (0,1)$ \\item for each $\\alpha$, compute one-step-ahead forecasts for $t = 1,\\dots,T$ \\item ``score'' the forecasts; pick $\\alpha$ giving best predictive performance \\end{itemize}\n\nPopular scores: MAE, MSE, MAPE (scale-free).",
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "x": 8201.65604459221,
+        "y": 6108.496638431308,
+        "width": 500,
+        "height": 260,
+        "deletedAt": 1778686072324,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
