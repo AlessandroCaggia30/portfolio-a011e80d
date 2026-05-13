@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T13:23:56.572Z",
+  "exportedAt": "2026-05-13T13:24:05.659Z",
   "data": {
     "topics": [
       {
@@ -85,7 +85,7 @@
               {
                 "id": "ts17786690819134427",
                 "title": "Fitting a seasonal component",
-                "content": "\\textbf{\\textcolor{red}{FITTING A SEASONAL COMPONENT}}\n\nFor $Y_t = S_t + E_t$ (purely seasonal, no trend; assume mean zero, $\\bar{y}_t = 0$):\n\n\\textbf{1. Seasonal factors.} For monthly data introduce $\\alpha_{\\text{Jan}}, \\alpha_{\\text{Feb}}, \\dots, \\alpha_{\\text{Dec}}$ with $\\sum_m \\alpha_m = 0$:\n\\[ y_t = \\alpha_{\\text{month}(t)} + E_t. \\]\n\nNote they can always sum to 0, \n\n\\textbf{2. Moving averages.} For monthly data, $\\mathrm{MA}(12)$:\n\\[ y_t^{\\text{deseason.}} = \\frac{0.5\\, y_{t-6} + y_{t-5} + \\dots + y_{t+5} + 0.5\\, y_{t+6}}{12}. \\]",
+                "content": "\\textbf{\\textcolor{red}{FITTING A SEASONAL COMPONENT}}\n\nFor $Y_t = S_t + E_t$ (purely seasonal, no trend; assume mean zero, $\\bar{y}_t = 0$):\n\n\\textbf{1. Seasonal factors.} For monthly data introduce $\\alpha_{\\text{Jan}}, \\alpha_{\\text{Feb}}, \\dots, \\alpha_{\\text{Dec}}$ with $\\sum_m \\alpha_m = 0$:\n\\[ y_t = \\alpha_{\\text{month}(t)} + E_t. \\]\n\nNote they can always sum to 0, just change the intercept of the model (the level of the trend)\n\n\\textbf{2. Moving averages.} For monthly data, $\\mathrm{MA}(12)$:\n\\[ y_t^{\\text{deseason.}} = \\frac{0.5\\, y_{t-6} + y_{t-5} + \\dots + y_{t+5} + 0.5\\, y_{t+6}}{12}. \\]",
                 "flashcard": false,
                 "images": [],
                 "links": [],
