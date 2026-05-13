@@ -7098,6 +7098,18 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
         // Strip math labels from \item (e.g. \item[$\bullet$] → \item)
         // Math inside brackets breaks segment parsing since $...$ becomes a formula boundary
         pre = pre.replace(/\\item\s*\[[^\]]*\x00M\d+\x00[^\]]*\]/g, '\\item');
+
+        // Pre-process \begin{tabular}{...}...\end{tabular} into TBL markers
+        // BEFORE segment parsing. Segment parsing splits on math, so without
+        // this pre-pass a tabular whose body contains $...$ would have its
+        // \begin/\end ends in different text segments and the per-segment
+        // processLatexCommands tabular regex would never match the pair.
+        const _tabBraceGrp = '(?:[^{}]|\\{(?:[^{}]|\\{[^{}]*\\})*\\})*';
+        pre = pre.replace(
+            new RegExp(`\\\\begin\\{tabular\\}\\{${_tabBraceGrp}\\}([\\s\\S]*?)\\\\end\\{tabular\\}`, 'g'),
+            (m, body) => convertTabularToTable(body)
+        );
+
         tmpMath.forEach((b, i) => { pre = pre.replace(`\x00M${i}\x00`, () => b); });
         text = pre;
 
