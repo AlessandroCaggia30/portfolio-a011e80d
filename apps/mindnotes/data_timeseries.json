@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T15:14:21.889Z",
+  "exportedAt": "2026-05-13T15:14:24.518Z",
   "data": {
     "topics": [
       {
@@ -136,7 +136,7 @@
               },
               {
                 "id": "ts17786690819137230",
-                "title": "Forecasting algorithms — Case 0: No Trends,",
+                "title": "Forecasting algorithms — Case 0: No Trends, no seasonality",
                 "content": "\\textbf{\\textcolor{red}{FORECASTING ALGORITHMS}}\n\npredict $y_{t+1}| y_{1:t}$ -- often ultimate goal of analysis.\n\n\\textbf{\\textcolor{red}{CASE 0:}} No trend, No seasonality $\\to$Simple Exp. Smoothing\n\nWeighted average with geom.\\ decreasing weights:\n\\[ \\hat{y}_{t+1\\mid t} = \\alpha y_t + \\alpha(1-\\alpha) y_{t-1} + \\alpha(1-\\alpha)^2 y_{t-2} + \\dots + \\alpha(1-\\alpha)^{t-1} y_1. \\]\nSmoothing parameter $0 < \\alpha < 1$; weights sum approx.\\ to 1 for large $t$.\n\n\\textbf{Recursive form:}\n\\[ \\hat{y}_{t+1\\mid t} = \\alpha y_t + (1-\\alpha)\\, \\hat{y}_{t\\mid t-1}. \\]\n\n$\\bullet$ if $\\alpha \\approx 1$: $\\hat{y}_{t+1\\mid t} \\approx y_t$ (follows the data)\n\n$\\bullet$ if $\\alpha \\approx 0$: $\\hat{y}_{t+1\\mid t} \\approx$ constant\n\n\\textbf{Forecast-error correction form:}\n\\[ \\hat{y}_{t+1\\mid t} = \\hat{y}_{t\\mid t-1} + \\alpha\\,(y_t - \\hat{y}_{t\\mid t-1}). \\]",
                 "flashcard": false,
                 "images": [
