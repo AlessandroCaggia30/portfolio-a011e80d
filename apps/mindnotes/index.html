@@ -8324,29 +8324,34 @@ function _ghB64Decode(b64) {
 }
 
 async function ghFetchFile(path) {
-    // GET file metadata + sha. For files <1MB the response includes base64 content;
-    // for larger files we follow download_url to fetch raw bytes.
+    // Use the Contents API for BOTH metadata and content.
+    //   - JSON accept header → embedded base64 content (works only for <1MB)
+    //   - Raw accept header  → raw content directly from the API (any size up to 100MB)
+    // Crucially we never go through raw.githubusercontent.com, which is CDN-cached
+    // and can serve stale content for minutes after a push.
     const url = `${GH_API}/repos/${GH_OWNER}/${GH_REPO}/contents/${path}?ref=${GH_BRANCH}&t=${Date.now()}`;
-    const resp = await fetch(url, { headers: _ghHeaders(), cache: 'no-store' });
-    if (resp.status === 404) return null;
-    if (!resp.ok) throw new Error('GitHub fetch failed: ' + resp.status);
-    const json = await resp.json();
-    let content;
-    if (json.content && json.encoding === 'base64' && json.content.length > 0) {
-        try {
-            content = _ghB64Decode(json.content);
-        } catch (e) {
-            content = '';
-        }
+    const metaResp = await fetch(url, {
+        headers: { ...(_ghHeaders()), 'Accept': 'application/vnd.github+json' },
+        cache: 'no-store'
+    });
+    if (metaResp.status === 404) return null;
+    if (!metaResp.ok) throw new Error('GitHub fetch failed: ' + metaResp.status);
+    const meta = await metaResp.json();
+    const sha = meta.sha;
+    let content = '';
+    if (meta.content && meta.encoding === 'base64' && meta.content.length > 0 && meta.size < 900000) {
+        try { content = _ghB64Decode(meta.content); } catch (e) { content = ''; }
     }
     if (!content) {
-        // Large file (>1MB): GitHub returns empty content. Fetch raw via download_url.
-        if (!json.download_url) throw new Error('No download_url for large file');
-        const rawResp = await fetch(json.download_url + (json.download_url.includes('?') ? '&' : '?') + 't=' + Date.now(), { cache: 'no-store' });
-        if (!rawResp.ok) throw new Error('Raw fetch failed: ' + rawResp.status);
+        // Fetch raw content through the API (no CDN cache) using the same URL.
+        const rawResp = await fetch(url, {
+            headers: { ...(_ghHeaders()), 'Accept': 'application/vnd.github.raw' },
+            cache: 'no-store'
+        });
+        if (!rawResp.ok) throw new Error('GitHub raw fetch failed: ' + rawResp.status);
         content = await rawResp.text();
     }
-    return { content, sha: json.sha };
+    return { content, sha };
 }
 
 async function ghPutFile(path, content, message, sha) {
@@ -8484,19 +8489,12 @@ async function ghListCommits(path, perPage = 30) {
 
 async function ghFetchFileAtCommit(path, commitSha) {
     const url = `${GH_API}/repos/${GH_OWNER}/${GH_REPO}/contents/${path}?ref=${commitSha}`;
-    const resp = await fetch(url, { headers: _ghHeaders(), cache: 'no-store' });
-    if (!resp.ok) throw new Error('Commit blob fetch failed: ' + resp.status);
-    const json = await resp.json();
-    if (json.content && json.encoding === 'base64' && json.content.length > 0) {
-        try { return _ghB64Decode(json.content); } catch (e) { /* fall through */ }
-    }
-    // Large blob: use download_url
-    if (json.download_url) {
-        const rawResp = await fetch(json.download_url, { cache: 'no-store' });
-        if (!rawResp.ok) throw new Error('Raw fetch failed: ' + rawResp.status);
-        return await rawResp.text();
-    }
-    throw new Error('Could not read content at commit');
+    const rawResp = await fetch(url, {
+        headers: { ...(_ghHeaders()), 'Accept': 'application/vnd.github.raw' },
+        cache: 'no-store'
+    });
+    if (!rawResp.ok) throw new Error('Commit blob fetch failed: ' + rawResp.status);
+    return await rawResp.text();
 }
 
 let _ghLastError = null;
