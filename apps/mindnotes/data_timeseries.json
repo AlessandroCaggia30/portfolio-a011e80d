@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T19:14:24.507Z",
+  "exportedAt": "2026-05-13T19:14:35.102Z",
   "data": {
     "topics": [
       {
@@ -265,7 +265,7 @@
               {
                 "id": "ts17786690819136137",
                 "title": "Example 2: categorical time series",
-                "content": "\\textbf{Example 2.} Markov chain as statistical model for categorical time series.\n\nIs a Markov chain a suitable stat.\\ model? Two assumptions:\n\\begin{enumerate} \\item Markov property: $Y_t$ depends only on $Y_{t-1}$ \\item probability to change opinion is constant \\textit{(homogeneous)} \\end{enumerate}\n\nExample transition matrix (3 states):\n\\[ \\begin{array}{c|ccc} t-1 \\backslash t & 1 & 2 & 3 \\\\ \\hline 1 & 0.6 & 0.3 & 0.1 \\\\ 2 & 0.1 & 0.7 & 0.2 \\\\ 3 & 0 & 0.4 & 0.6 \\end{array} \\]\n\nRows sum to 1 $\\Rightarrow$ valid.\n\n",
+                "content": "\\textbf{Example 2.} Markov chain as statistical model for categorical time series.\n\nIs a Markov chain a suitable stat.\\ model? Two assumptions:\n\\begin{enumerate} \\item Markov property: $Y_t$ depends only on $Y_{t-1}$ \\item probability to change opinion is constant \\textit{(homogeneous)} \\end{enumerate}\n\nExample transition matrix (3 states):\n\\[ \\begin{array}{c|ccc} t-1 \\backslash t & 1 & 2 & 3 \\\\ \\hline 1 & 0.6 & 0.3 & 0.1 \\\\ 2 & 0.1 & 0.7 & 0.2 \\\\ 3 & 0 & 0.4 & 0.6 \\end{array} \\]\n\nRows sum to 1 $\\Rightarrow$ valid (from state 1 you need to go either to 1 2 or 3).\n\n\n\n",
                 "flashcard": false,
                 "images": [],
                 "links": [],
