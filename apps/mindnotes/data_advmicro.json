@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T10:05:05.731Z",
+  "exportedAt": "2026-05-13T10:05:44.107Z",
   "data": {
     "topics": [
       {
@@ -80,7 +80,7 @@
               {
                 "id": "1771317121159",
                 "title": "KKT Sufficient for Global Maximum (Concavity)",
-                "content": "\\textbf{Theorem 2.}\n\nIn problem $(P)$ assume $f$ and $g_k$ are all concave and differentiable, and that there exists $x$ such that $g_k(x) > 0$ for all $k$.\n\nThen a feasible $x^*$ solves problem $(P)$ if and only if there exist nonnegative numbers \n$[\\lambda^*_1, \\dots, \\lambda^*_K]$ such that for all $n = 1,2,\\dots,N$,\n\\[\n\\frac{\\partial \\mathcal{L}(x^*,\\lambda^*)}{\\partial x_n}\n=\n\\frac{\\partial f(x^*)}{\\partial x_n}\n+\n\\sum_k \\lambda^*_k \\frac{\\partial g_k(x^*)}{\\partial x_n}\n= 0,\n\\]\nwhere for all $k$ if $g_k(x^*) > 0$ then $\\lambda^*_k = 0$.",
+                "content": "",
                 "flashcard": false,
                 "images": [],
                 "links": [],
