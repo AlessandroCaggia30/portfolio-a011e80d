@@ -5238,7 +5238,7 @@ function createNodeElement(node) {
             ).join('')}
         </div>
         <div class="node-title" style="font-size:${titleSize}px">${node.flashcard ? '🎴 ' : ''}${escapeHtml(node.title || 'Untitled')}</div>
-        <div class="node-preview" style="-webkit-line-clamp:${previewLines};font-size:${calculatePreviewSize(node.width, node.height)}px">${formattedPreview}</div>
+        <div class="node-preview${(node.content || '').includes('\\begin{tabular}') ? ' has-table' : ''}" style="-webkit-line-clamp:${previewLines};font-size:${calculatePreviewSize(node.width, node.height)}px">${formattedPreview}</div>
         <div class="resize-handle"></div>
     `;
 
