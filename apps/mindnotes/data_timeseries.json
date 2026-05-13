@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T19:04:48.561Z",
+  "exportedAt": "2026-05-13T19:04:56.857Z",
   "data": {
     "topics": [
       {
@@ -223,7 +223,7 @@
               },
               {
                 "id": "ts1778698974055",
-                "title": "Introducing correlation — full dependence vs Markov",
+                "title": "Introducing correlation — full dependence",
                 "content": "\\textbf{\\textcolor{red}{INTRODUCING CORRELATION (DEPENDENCE)}}\n\n\\textbf{Step 1 — Full dependence (general chain rule).}\\[ p_n(y_1, \\dots, y_n) = p(y_1)\\, p(y_2 \\mid y_1)\\, p(y_3 \\mid y_1, y_2) \\cdots p(y_n \\mid y_1, \\dots, y_{n-1}) = p(y_1) \\prod_{t=2}^{n} p(y_t \\mid y_1, \\dots, y_{t-1}). \\]This is fully general — no assumption made. The cost is that each conditional $p(y_t \\mid y_1, \\dots, y_{t-1})$ depends on the \\emph{entire} past, so we have $n-1$ growing-dimension conditionals to specify or estimate. Infeasible in practice.\n\n",
                 "flashcard": false,
                 "images": [],
@@ -379,8 +379,8 @@
                 "flashcard": false,
                 "images": [],
                 "links": [],
-                "x": 8658.847649967556,
-                "y": 4140.344696589817,
+                "x": 9586.286239953297,
+                "y": 4466.318446724774,
                 "width": 200,
                 "height": 100
               }
