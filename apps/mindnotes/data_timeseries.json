@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-13T18:07:37.744Z",
+  "exportedAt": "2026-05-13T18:07:43.073Z",
   "data": {
     "topics": [
       {
@@ -182,10 +182,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [],
-                "x": 8541.992421079729,
-                "y": 2872.2857372176973,
-                "width": 660.3261217015313,
-                "height": 437.8098522823045
+                "x": 7810.446939416093,
+                "y": 2794.4025680671957,
+                "width": 434.69511781462154,
+                "height": 271.10749467749747
               },
               {
                 "id": "ts17786690819133761",
@@ -193,7 +193,12 @@
                 "content": "\\textbf{\\textcolor{red}{STRICT STATIONARITY}}\n\nA time series $(Y_t)$ is \\textbf{strictly stationary} if the joint distribution of $(Y_t, Y_{t+1}, \\dots, Y_{t+h})$ does \\emph{not} depend on $t$, for any $h$:\n\\[ (Y_{t_1}, \\dots, Y_{t_k}) \\stackrel{d}{=} (Y_{t_1+h}, \\dots, Y_{t_k+h}). \\]\n\n$\\Rightarrow$ marginal of $Y_t$ same for all $t$:\\quad $Y_1 \\stackrel{d}{=} Y_2 \\stackrel{d}{=} \\dots$\n\n$\\Rightarrow$ if 2nd moments finite: $\\mu(t) = \\mu$, $\\sigma^2(t) = \\sigma^2$, and $\\gamma(t, t+h)$ depends only on $h$.\n\n\\textbf{Strictly stationary} $\\Rightarrow$ \\textbf{stationary}, but not the converse.",
                 "flashcard": false,
                 "images": [],
-                "links": [],
+                "links": [
+                  {
+                    "target": "ts17786690819133410",
+                    "type": "forward"
+                  }
+                ],
                 "x": 7704.30745076329,
                 "y": 3248.069389004224,
                 "width": 650,
