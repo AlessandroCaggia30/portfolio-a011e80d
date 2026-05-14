@@ -4151,21 +4151,30 @@ async function _commitSave() {
         request.onerror = () => reject(request.error);
     });
 
-    try {
-        if (!db) await initDB();
+    const isClosedConnErr = (err) => {
+        if (!err) return false;
+        const name = err.name || '';
+        const msg = err.message || String(err);
+        return name === 'InvalidStateError' ||
+               /closing/i.test(msg) ||
+               /not allowed/i.test(msg) ||
+               /database is not open/i.test(msg);
+    };
 
+    const ensureOpenAndPut = async () => {
+        if (!db) await initDB();
         try {
             await doPut();
         } catch (err) {
-            // Connection was closed (e.g. another tab upgraded). Reopen and retry once.
-            if (err && (err.name === 'InvalidStateError' || /closing/i.test(err.message || ''))) {
-                db = null;
-                await initDB();
-                await doPut();
-            } else {
-                throw err;
-            }
+            if (!isClosedConnErr(err)) throw err;
+            db = null;
+            await initDB();
+            await doPut();
         }
+    };
+
+    try {
+        await ensureOpenAndPut();
 
         // Trigger file system autosave (non-blocking)
         autoSaveToFileSystem(dataKey, State.data);
