@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-14T08:31:40.621Z",
+  "exportedAt": "2026-05-14T08:31:50.886Z",
   "data": {
     "topics": [
       {
@@ -239,18 +239,6 @@
                 "height": 460
               },
               {
-                "id": "ts17786690819136915",
-                "title": "Transition matrix P",
-                "content": "\\textbf{\\textcolor{red}{TRANSITION MATRIX}}\n\nFinite state space $\\mathcal{Y} = \\{1, 2, \\dots, N\\}$. The transition probabilities at time $t$ are\\[ p^{(t)}_{i,j} = P(Y_t = j \\mid Y_{t-1} = i), \\qquad i, j \\in \\mathcal{Y}. \\]Arrange them in a matrix $\\mathbf{P}^{(t)}$ with \\emph{rows} indexed by the state at $t-1$ and \\emph{columns} indexed by the state at $t$:\n\n\\begin{tabular}{|c|c|c|c|c|}\n\\hline\n$t - 1 \\;\\backslash\\; t$ & $1$ & $2$ & $\\cdots$ & $N$ \\\\\n\\hline\n$1$ & $p^{(t)}_{1,1}$ & $p^{(t)}_{1,2}$ & $\\cdots$ & $p^{(t)}_{1,N}$ \\\\\n$2$ & $p^{(t)}_{2,1}$ & $p^{(t)}_{2,2}$ & $\\cdots$ & $p^{(t)}_{2,N}$ \\\\\n$\\vdots$ & $\\vdots$ & $\\vdots$ & $\\ddots$ & $\\vdots$ \\\\\n$N$ & $p^{(t)}_{N,1}$ & $p^{(t)}_{N,2}$ & $\\cdots$ & $p^{(t)}_{N,N}$ \\\\\n\\hline\n\\end{tabular}\n\n\\textbf{Row-stochastic:} each row sums to 1, $\\sum_{j=1}^{N} p^{(t)}_{i,j} = 1$ for every $i$ and every $t$ — given that you are in state $i$ at $t-1$, you must end up \\emph{somewhere} at time $t$.\n\n\\textbf{Homogeneous case.} If the transition probabilities do not depend on $t$, i.e.\\ $p^{(t)}_{i,j} = p_{i,j}$ for every $t$, then the chain is \\textbf{homogeneous}. The superscript drops:\\[ \\mathbf{P}^{(t)} \\equiv \\mathbf{P} = \\big(p_{i,j}\\big)_{i,j \\in \\mathcal{Y}}, \\]a single $N \\times N$ matrix that — together with the initial distribution $p_0(\\cdot)$ — fully specifies the law of the chain.",
-                "flashcard": false,
-                "images": [],
-                "links": [],
-                "x": 7510.978495895496,
-                "y": 2631.892539991396,
-                "width": 700,
-                "height": 400
-              },
-              {
                 "id": "ts17786690819139572",
                 "title": "Example 1: independent Bernoulli trials",
                 "content": "\\textbf{Example 1.} Independent trials $Y_t \\stackrel{\\text{iid}}{\\sim}$ Bernoulli$(p)$.\n\nTransition matrix:\n\\[ \\begin{array}{c|cc} t-1 \\backslash t & 0 & 1 \\\\ \\hline 0 & 1-p & p \\\\ 1 & 1-p & p \\end{array} \\]\n\n\\textit{(rows identical: independence!)}",
@@ -434,10 +422,6 @@
                     "type": "forward"
                   },
                   {
-                    "target": "ts17786690819136915",
-                    "type": "both"
-                  },
-                  {
                     "target": "ts17786690819139572",
                     "type": "forward"
                   },
@@ -466,6 +450,16 @@
                 "y": 3002.8842956991916,
                 "width": 412.04880918624235,
                 "height": 277.3499131375845
+              },
+              {
+                "id": "1778747509562",
+                "title": "Markov Property, continuous case",
+                "content": "",
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "x": 7543.272785120126,
+                "y": 3127.8269111818554
               }
             ]
           }
@@ -605,6 +599,21 @@
         "width": 650,
         "height": 380,
         "deletedAt": 1778699547909,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "ts17786690819136915",
+        "title": "Transition matrix P",
+        "content": "\\textbf{\\textcolor{red}{TRANSITION MATRIX}}\n\nFinite state space $\\mathcal{Y} = \\{1, 2, \\dots, N\\}$. The transition probabilities at time $t$ are\\[ p^{(t)}_{i,j} = P(Y_t = j \\mid Y_{t-1} = i), \\qquad i, j \\in \\mathcal{Y}. \\]Arrange them in a matrix $\\mathbf{P}^{(t)}$ with \\emph{rows} indexed by the state at $t-1$ and \\emph{columns} indexed by the state at $t$:\n\n\\begin{tabular}{|c|c|c|c|c|}\n\\hline\n$t - 1 \\;\\backslash\\; t$ & $1$ & $2$ & $\\cdots$ & $N$ \\\\\n\\hline\n$1$ & $p^{(t)}_{1,1}$ & $p^{(t)}_{1,2}$ & $\\cdots$ & $p^{(t)}_{1,N}$ \\\\\n$2$ & $p^{(t)}_{2,1}$ & $p^{(t)}_{2,2}$ & $\\cdots$ & $p^{(t)}_{2,N}$ \\\\\n$\\vdots$ & $\\vdots$ & $\\vdots$ & $\\ddots$ & $\\vdots$ \\\\\n$N$ & $p^{(t)}_{N,1}$ & $p^{(t)}_{N,2}$ & $\\cdots$ & $p^{(t)}_{N,N}$ \\\\\n\\hline\n\\end{tabular}\n\n\\textbf{Row-stochastic:} each row sums to 1, $\\sum_{j=1}^{N} p^{(t)}_{i,j} = 1$ for every $i$ and every $t$ — given that you are in state $i$ at $t-1$, you must end up \\emph{somewhere} at time $t$.\n\n\\textbf{Homogeneous case.} If the transition probabilities do not depend on $t$, i.e.\\ $p^{(t)}_{i,j} = p_{i,j}$ for every $t$, then the chain is \\textbf{homogeneous}. The superscript drops:\\[ \\mathbf{P}^{(t)} \\equiv \\mathbf{P} = \\big(p_{i,j}\\big)_{i,j \\in \\mathcal{Y}}, \\]a single $N \\times N$ matrix that — together with the initial distribution $p_0(\\cdot)$ — fully specifies the law of the chain.",
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "x": 7510.978495895496,
+        "y": 2631.892539991396,
+        "width": 700,
+        "height": 400,
+        "deletedAt": 1778747500717,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
