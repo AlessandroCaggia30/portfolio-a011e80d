@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-14T17:31:49.125Z",
+  "exportedAt": "2026-05-14T17:32:00.252Z",
   "data": {
     "topics": [
       {
@@ -522,7 +522,7 @@
               {
                 "id": "1778779311729",
                 "title": "Hidden Markov  Models",
-                "content": "HMM: stochatsic process in which the distribution that generates an obseratiosn depends on the state of an underlyign and unobsreved marjov chain \n\nARMA vs HMM: Arma are stationary, HMM for non stationary (change points, think at voice recongition. )\n\n",
+                "content": "HMM: stochatsic process in which the distribution that generates an obseratiosn depends on the state of an underlyign and unobsreved marjov chain \n\nARMA vs HMM: Arma are stationary, HMM for non stationary (change points, think at voice recongition. need a model for unounded counts = poisson)\n\n",
                 "flashcard": false,
                 "images": [],
                 "links": [],
