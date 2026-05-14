@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-14T18:32:59.340Z",
+  "exportedAt": "2026-05-14T18:33:08.569Z",
   "data": {
     "topics": [
       {
@@ -550,6 +550,16 @@
                 "y": 2703.4105402112154,
                 "width": 200,
                 "height": 100
+              },
+              {
+                "id": "1778783587495",
+                "title": "Specification",
+                "content": "",
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "x": 8660.871374637343,
+                "y": 3214.541575066794
               }
             ]
           }
