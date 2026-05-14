@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-14T08:13:08.263010+00:00",
+  "exportedAt": "2026-05-14T08:13:48.904Z",
   "data": {
     "topics": [
       {
@@ -323,8 +323,8 @@
                 "flashcard": false,
                 "images": [],
                 "links": [],
-                "x": 6200,
-                "y": 7500,
+                "x": 7375,
+                "y": 3475,
                 "width": 640,
                 "height": 980
               },
