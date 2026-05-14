@@ -4143,16 +4143,29 @@ async function _commitSave() {
         return;
     }
 
+    const doPut = () => new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const store = tx.objectStore(STORE_NAME);
+        const request = store.put(State.data, dataKey);
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+    });
+
     try {
         if (!db) await initDB();
 
-        await new Promise((resolve, reject) => {
-            const tx = db.transaction(STORE_NAME, 'readwrite');
-            const store = tx.objectStore(STORE_NAME);
-            const request = store.put(State.data, dataKey);
-            request.onsuccess = () => resolve();
-            request.onerror = () => reject(request.error);
-        });
+        try {
+            await doPut();
+        } catch (err) {
+            // Connection was closed (e.g. another tab upgraded). Reopen and retry once.
+            if (err && (err.name === 'InvalidStateError' || /closing/i.test(err.message || ''))) {
+                db = null;
+                await initDB();
+                await doPut();
+            } else {
+                throw err;
+            }
+        }
 
         // Trigger file system autosave (non-blocking)
         autoSaveToFileSystem(dataKey, State.data);
