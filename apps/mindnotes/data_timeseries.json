@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-14T21:10:21.501Z",
+  "exportedAt": "2026-05-14T21:18:41.161Z",
   "data": {
     "topics": [
       {
@@ -566,7 +566,7 @@
               {
                 "id": "1778783587495",
                 "title": "Specification",
-                "content": "\\textbf{\\textcolor{red}{1. MODEL SPECIFICATION}}\n\nChoosing the number $K$ of hidden states is a natural first question. In some applications, $K$ is suggested by knowledge of the domain under study. In other cases, one can try a few different values of $K$ and compare the performance of the resulting models.\n\nAlthough we do not go into Bayesian inference for HMMs, let us mention that another solution is to take a Bayesian approach and assign a prior distribution on $K$, then perform inference on $K$ through its posterior distribution, given the data; or to use fairly recent developments in machine learning and Bayesian nonparametrics, namely \\emph{infinite HMMs} (Beal, Ghahramani and Rasmussen, 2002), that do not require to fix the number of states in advance.\n\nThe appropriate emission distributions are typically quite naturally suggested by the nature of the data in the problem under study.\n",
+                "content": "\\textbf{\\textcolor{red}{1. MODEL SPECIFICATION}}\n\nChoosing the number $K$ of hidden states is a natural first question. In some applications, $K$ is suggested by knowledge of the domain under study. In other cases, one can try a few different values of $K$ and compare the performance of the resulting models.\n\nAlthough we do not go into Bayesian inference for HMMs, let us mention that another solution is to take a Bayesian approach and assign a prior distribution on $K$, then perform inference on $K$ through its posterior distribution, given the data; ",
                 "flashcard": false,
                 "images": [],
                 "links": [],
