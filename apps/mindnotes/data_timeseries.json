@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-14T21:18:41.161Z",
+  "exportedAt": "2026-05-14T21:19:33.478Z",
   "data": {
     "topics": [
       {
@@ -566,7 +566,7 @@
               {
                 "id": "1778783587495",
                 "title": "Specification",
-                "content": "\\textbf{\\textcolor{red}{1. MODEL SPECIFICATION}}\n\nChoosing the number $K$ of hidden states is a natural first question. In some applications, $K$ is suggested by knowledge of the domain under study. In other cases, one can try a few different values of $K$ and compare the performance of the resulting models.\n\nAlthough we do not go into Bayesian inference for HMMs, let us mention that another solution is to take a Bayesian approach and assign a prior distribution on $K$, then perform inference on $K$ through its posterior distribution, given the data; ",
+                "content": "\\textbf{\\textcolor{red}{1. MODEL SPECIFICATION}}\n\nChoosing the number $K$ of hidden states is a natural first question. In some applications, $K$ is suggested by knowledge of the domain under study. In other cases, one can try a few different values of $K$ and compare the performance of the resulting models.\n",
                 "flashcard": false,
                 "images": [],
                 "links": [],
