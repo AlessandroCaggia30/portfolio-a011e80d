@@ -3900,6 +3900,10 @@ function initDB() {
 
         request.onsuccess = () => {
             db = request.result;
+            // If another tab triggers a version upgrade, close so we can reopen fresh.
+            db.onversionchange = () => { try { db.close(); } catch (_) {} db = null; };
+            // If the connection closes for any reason, clear the handle.
+            db.onclose = () => { db = null; };
             resolve(db);
         };
 
