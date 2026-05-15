@@ -665,6 +665,10 @@
                   {
                     "target": "1778858971030",
                     "type": "forward"
+                  },
+                  {
+                    "target": "1778862798236",
+                    "type": "forward"
                   }
                 ],
                 "x": 3083.8055635631936,
@@ -827,6 +831,21 @@
                 ],
                 "x": 3032.863078050801,
                 "y": 5289.714574922122
+              },
+              {
+                "id": "1778862798236",
+                "title": "SSM flexibility — no stationarity required",
+                "content": "\\textbf{\\textcolor{red}{SSM FLEXIBILITY --- why no stationarity requirement}}\n\n\\textbf{\\textcolor{red}{Why ARMA requires stationarity.}} An ARMA(p,q) is $Y_t = \\phi_1 Y_{t-1} + \\dots + \\phi_p Y_{t-p} + \\varepsilon_t + \\dots + \\theta_q \\varepsilon_{t-q}$. The parameters $(\\phi_i, \\theta_j, \\sigma^2)$ are \\emph{constants}, so the model forces\n\\[ E[Y_t] = \\text{const}, \\quad \\mathrm{Var}(Y_t) = \\text{const}, \\quad \\mathrm{Cov}(Y_t, Y_{t+h}) = \\text{depends only on } h. \\]\nThese three together \\emph{are} weak stationarity. Stationarity is not an assumption on top of ARMA --- it is \\emph{baked into the model's structure} by the time-constancy of its parameters. If $Y_t$ has a trend, seasonality, or changing volatility, ARMA cannot represent it; you must remove those features first (differencing, deseasonalising) and fit ARMA only to the residual stationary series.\n\n\\textbf{\\textcolor{red}{Why SSMs do not.}} An SSM separates two concerns:\n\\[ \\theta_t = G_t \\theta_{t-1} + w_t \\quad (\\text{state evolves}), \\qquad Y_t = F_t \\theta_t + v_t \\quad (\\text{observation snapshot}). \\]\nThe state $\\theta_t$ itself is allowed to be \\emph{non-stationary}; the observation inherits that non-stationarity. Non-stationary behaviour is encoded directly inside $\\theta_t$.\n\n\\textbf{\\textcolor{red}{Flexibility: stack components in the state vector.}} The state can be assembled from independent blocks, each contributing its own structure:\n\n$\\bullet$ \\emph{Trend block:} $\\mu_t = \\mu_{t-1} + \\beta_{t-1} + w_{1,t}$, $\\beta_t = \\beta_{t-1} + w_{2,t}$ --- a level $\\mu_t$ that drifts with a slope $\\beta_t$ that itself drifts.\n\n$\\bullet$ \\emph{Seasonal block:} $s_t + s_{t-1} + \\dots + s_{t-S+2} = w_t$ (dummy form), or trigonometric Fourier components --- periodicity built in.\n\n$\\bullet$ \\emph{Regression block:} $\\alpha_t = \\alpha_{t-1} + w_t$ multiplied by a covariate $x_t$ in $F_t$ --- regression coefficient evolving in time.\n\n$\\bullet$ \\emph{AR / autoregressive block:} state contains lagged values, transition is the companion matrix.\n\nStacked: $\\theta_t = (\\mu_t,\\, \\beta_t,\\, s_t,\\, s_{t-1},\\, \\dots,\\, \\alpha_t,\\, \\dots)^\\top$, and $Y_t = F_t \\theta_t + v_t$ picks the relevant linear combination. Each block evolves independently, and $Y_t$ is their joint output plus noise.\n\n\\textbf{\\textcolor{red}{The cleanest contrast.}}\n\n\\begin{tabular}{l|l|l} & ARMA & SSM \\\\ \\hline Models & correlation structure of $Y_t$ directly & generative mechanism producing $Y_t$ \\\\ Parameters & constant in $t$ & can be time-varying \\\\ State / memory & implicit in lagged $Y$'s & explicit in $\\theta_t$ \\\\ Trend, seasonality & must be removed first & encoded in $\\theta_t$ \\\\ Non-stationary data & not supported & natively supported \\end{tabular}\n\n\\textbf{\\textcolor{red}{Intuition --- model the system, not the symptoms.}} ARMA describes how $Y_t$ correlates with its own past, summarised by a few constants; that only works if those correlations don't drift. SSMs describe \\emph{what is producing} $Y_t$ --- a latent dynamical system whose own evolution can have trend, drift, seasonal swings, regime switches. Whatever pattern of correlations comes out is a \\emph{consequence} of the chosen state dynamics, not a constraint on the model class.\n\n\\emph{Exam relevance.} The May 2021 CO\\textsubscript{2} question asks exactly this: trend + seasonality in the raw data, can you use a DLM \\emph{without} preliminary transformation? Answer: \\textbf{yes}, because trend and seasonal components live inside the state and are estimated jointly with everything else --- no detrending, no deseasonalising required.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  {
+                    "target": "1778836879770",
+                    "type": "forward"
+                  }
+                ],
+                "x": 3333.8055635631936,
+                "y": 4121.272752524148
               }
             ]
           }
