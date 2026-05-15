@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-15T11:14:43.669Z",
+  "exportedAt": "2026-05-15T11:14:51.662Z",
   "data": {
     "topics": [
       {
@@ -752,6 +752,16 @@
                 ],
                 "x": 3575.8590779218744,
                 "y": 5229.80601179011
+              },
+              {
+                "id": "1778843690350",
+                "title": "Prediction",
+                "content": "\n\n\\textbf{\\textcolor{red}{Predictive distributions.}}\n\n$\\bullet$ \\emph{Frequentist.} Plug in the MLE: predict $Y_{n+1}$ via $p(y_{n+1} \\mid \\hat\\theta)$. Treats $\\hat\\theta$ as if it were the truth, ignoring estimation uncertainty.\n\n$\\bullet$ \\emph{Bayesian.} Posterior predictive: $p(y_{n+1} \\mid y_{1:n}) = \\int p(y_{n+1} \\mid \\theta)\\, p(\\theta \\mid y_{1:n})\\, d\\theta$. Averages over our remaining uncertainty in $\\theta$.\n\nThis is why Bayesian credible bands on forecasts are typically wider than frequentist plug-in bands: they honestly include parameter uncertainty.",
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "x": 3324.803719490772,
+                "y": 5617.976219825892
               }
             ]
           }
