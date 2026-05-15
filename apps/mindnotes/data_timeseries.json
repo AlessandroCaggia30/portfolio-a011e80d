@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-15T15:31:54.298Z",
+  "exportedAt": "2026-05-15T15:32:02.048Z",
   "data": {
     "topics": [
       {
@@ -807,7 +807,7 @@
               },
               {
                 "id": "1778858971030",
-                "title": "Estimation",
+                "title": "Parameter Estimation",
                 "content": "",
                 "flashcard": false,
                 "images": [],
