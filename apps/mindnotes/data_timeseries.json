@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-15T15:32:02.048Z",
+  "exportedAt": "2026-05-15T15:32:29.355Z",
   "data": {
     "topics": [
       {
@@ -808,7 +808,7 @@
               {
                 "id": "1778858971030",
                 "title": "Parameter Estimation",
-                "content": "",
+                "content": "Parameter estimation is carreid on throgh LE or bayesian inference. These parameters are fixed and do not change with y1... yn, exmpamples:",
                 "flashcard": false,
                 "images": [],
                 "links": [
