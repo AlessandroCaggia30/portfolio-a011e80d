@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-16T18:47:01.564Z",
+  "exportedAt": "2026-05-16T18:47:07.676Z",
   "data": {
     "topics": [
       {
@@ -561,7 +561,7 @@
               },
               {
                 "id": "1778747509562",
-                "title": "Markov Property, continuous case",
+                "title": "Ar example",
                 "content": "\n\\textbf{Example (AR(1)).} A discrete-time, continuous-state Markov process given by\\[ Y_t = \\varphi\\, Y_{t-1} + \\varepsilon_t, \\qquad \\varepsilon_t \\stackrel{\\text{iid}}{\\sim} \\mathcal{N}(0, \\sigma^2), \\qquad t \\ge 1, \\]with $Y_0$ given.  If $\\varphi = 1$, $(Y_t)$ is a \\emph{random walk} (Example 3).\n\nBasically this is the rw from before but we are allwoign payoffs to be anythign not +1-1\n\n\nContinuous-state Markov processes are the building block for state-space models in time-series analysis.",
                 "flashcard": true,
                 "images": [],
