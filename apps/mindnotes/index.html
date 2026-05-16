@@ -5153,8 +5153,10 @@ function renderCanvas() {
     });
     console.log('Node positions:', positionSummary);
 
-    // A node is "bad" if: not finite, or at (0,0), or outside usable canvas area (500-9500)
-    const isGoodPos = n => Number.isFinite(n.x) && Number.isFinite(n.y) && n.x > 500 && n.y > 500 && n.x < 9500 && n.y < 9500;
+    // A node is "bad" only if its position is truly invalid (NaN, undefined, null).
+    // We deliberately do NOT reposition nodes that the user has dragged toward the canvas edges —
+    // valid coordinates anywhere in [0, 10000] are respected.
+    const isGoodPos = n => Number.isFinite(n.x) && Number.isFinite(n.y) && !(n.x === 0 && n.y === 0);
     const badNodes = nodes.filter(n => !isGoodPos(n));
     const goodNodes = nodes.filter(n => isGoodPos(n));
 
