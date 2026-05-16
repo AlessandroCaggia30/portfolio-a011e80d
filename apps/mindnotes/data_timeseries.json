@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-16T09:13:50.538Z",
+  "exportedAt": "2026-05-16T09:14:16.683Z",
   "data": {
     "topics": [
       {
@@ -161,7 +161,7 @@
               {
                 "id": "ts17786690819133410",
                 "title": "Stationarity does not imply strict stat.",
-                "content": "Counter-example: \\textbf{The Uniform and the Laplace have the same mean and variance — but clearly not the same distribution.} So the first two moments are constant in $t$ (weak stationarity holds) but the marginal law of $Y_t$ depends on $t$, so the joint distribution is not time-invariant.\n\n$\\Rightarrow$ \\textbf{stationary} $\\not\\Rightarrow$ \\textbf{strictly stationary}.\n\n\\textit{Why we excluded Gaussians on purpose:} for a Gaussian process the law is fully pinned down by the first two moments, so under Gaussianity weakly stationary $\\Rightarrow$ strictly stationary.",
+                "content": "Counter-example: \\textbf{The Uniform and the Laplace have the same mean and variance — but clearly not the same distribution.} So the first two moments are constant in $t$ (weak stationarity holds) but the marginal law of $Y_t$ depends on $t$, so the joint distribution is not time-invariant.\n\nException: for a Gaussian process the law is fully pinned down by the first two moments, so under Gaussianity weakly stationary $\\Rightarrow$ strictly stationary.",
                 "flashcard": false,
                 "images": [],
                 "links": [
