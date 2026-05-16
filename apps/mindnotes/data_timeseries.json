@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-16T17:36:20.898Z",
+  "exportedAt": "2026-05-16T17:36:25.419Z",
   "data": {
     "topics": [
       {
@@ -323,18 +323,6 @@
                 "width": 437.1737246220158,
                 "height": 127.86559972999538,
                 "color": "coral"
-              },
-              {
-                "id": "ts17786690819139572",
-                "title": "Example 1: independent Bernoulli trials",
-                "content": "\\textbf{Example} Independent trials $Y_t \\stackrel{\\text{iid}}{\\sim}$ Bernoulli$(p)$.\n\nTransition matrix:\n\\[ \\begin{array}{c|cc} t-1 \\backslash t & 0 & 1 \\\\ \\hline 0 & 1-p & p \\\\ 1 & 1-p & p \\end{array} \\]\n\n\\textit{(rows identical: independence!)}",
-                "flashcard": false,
-                "images": [],
-                "links": [],
-                "x": 4620.653872568856,
-                "y": 2409.982886186999,
-                "width": 500,
-                "height": 280
               },
               {
                 "id": "ts17786690819136137",
@@ -1426,6 +1414,21 @@
         "width": 455.01387516203437,
         "height": 265.2831045224972,
         "deletedAt": 1778922268918,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "ts17786690819139572",
+        "title": "Example 1: independent Bernoulli trials",
+        "content": "\\textbf{Example} Independent trials $Y_t \\stackrel{\\text{iid}}{\\sim}$ Bernoulli$(p)$.\n\nTransition matrix:\n\\[ \\begin{array}{c|cc} t-1 \\backslash t & 0 & 1 \\\\ \\hline 0 & 1-p & p \\\\ 1 & 1-p & p \\end{array} \\]\n\n\\textit{(rows identical: independence!)}",
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "x": 4620.653872568856,
+        "y": 2409.982886186999,
+        "width": 500,
+        "height": 280,
+        "deletedAt": 1778952983258,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
