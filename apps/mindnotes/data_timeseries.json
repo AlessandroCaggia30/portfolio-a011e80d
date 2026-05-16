@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-16T09:04:21.347Z",
+  "exportedAt": "2026-05-16T09:04:30.728Z",
   "data": {
     "topics": [
       {
@@ -23,8 +23,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 2736.537265785253,
-                "y": 2195.3715183772424,
+                "x": 2967.458418989071,
+                "y": 1803.5053190010663,
                 "width": 650,
                 "height": 460
               },
@@ -311,18 +311,6 @@
                 "y": 5036.537297561044,
                 "width": 642,
                 "height": 404
-              },
-              {
-                "id": "1778670247186",
-                "title": "types of data",
-                "content": "\n\\textit{The time points of measurement can be:}\n\\begin{itemize} \\item regularly spaced (monthly, yearly, \\dots) vs irregularly spaced \\item missing values \\item high frequency \\item cathegorical \\item Univariate vs Multivariate \\item discrete vs continuous time \\end{itemize}\n\n",
-                "flashcard": false,
-                "images": [],
-                "links": [],
-                "x": 2229.0229757120824,
-                "y": 1344.3765114404864,
-                "width": 455.01387516203437,
-                "height": 265.2831045224972
               },
               {
                 "id": "1778686338044",
@@ -1021,6 +1009,21 @@
         "width": 600,
         "height": 400,
         "deletedAt": 1778922203744,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "1778670247186",
+        "title": "types of data",
+        "content": "\n\\textit{The time points of measurement can be:}\n\\begin{itemize} \\item regularly spaced (monthly, yearly, \\dots) vs irregularly spaced \\item missing values \\item high frequency \\item cathegorical \\item Univariate vs Multivariate \\item discrete vs continuous time \\end{itemize}\n\n",
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "x": 3071.0687969906503,
+        "y": 1542.642148029623,
+        "width": 455.01387516203437,
+        "height": 265.2831045224972,
+        "deletedAt": 1778922268918,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
