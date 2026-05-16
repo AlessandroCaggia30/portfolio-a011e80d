@@ -4722,6 +4722,8 @@ function restoreFormattingMarkers(text) {
     text = text.replace(/%%SZ:([^%]*)%%/g, '<span style="font-size:$1">');
     text = text.replace(/%%\/SZ%%/g, '</span>');
     text = text.replace(/%%HFILL%%/g, '<span class="latex-hfill"></span>');
+    text = text.replace(/%%KEYDEF%%/g, '<div class="key-def-box">');
+    text = text.replace(/%%\/KEYDEF%%/g, '</div>');
     return text;
 }
 
