@@ -4915,6 +4915,9 @@ function processLatexCommands(text) {
     result = result.replace(/\\:/g, '\u2005');               // medium space → thick (close enough)
     result = result.replace(/\\,/g, '\u2009');               // thin space
     result = result.replace(/\\!/g, '');                     // negative thin space — drop
+    // \ (backslash followed by space) — LaTeX explicit interword space, common after periods
+    // (e.g. "Dr.\ Smith" or "iid\ N(0,1)"). Convert to a normal space.
+    result = result.replace(/\\ /g, ' ');
     result = result.replace(/\\noindent\s*/g, '');
     result = result.replace(/\\indent\s*/g, '');
     result = result.replace(/\\par\b\s*/g, '\n\n');
