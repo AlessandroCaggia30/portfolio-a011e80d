@@ -4907,6 +4907,14 @@ function processLatexCommands(text) {
     // Spacing and layout commands
     result = result.replace(/\\hfill\b\s*/g, '%%HFILL%%');
     result = result.replace(/\\[hv]space\*?\{[^}]*\}/g, ' ');
+    // LaTeX horizontal spacing macros outside math (\, \: \; \! \quad \qquad).
+    // Inside math blocks these are already protected by the %%LTXM%% mechanism and rendered by KaTeX.
+    result = result.replace(/\\qquad\b/g, '\u2003\u2003'); // two em-spaces
+    result = result.replace(/\\quad\b/g, '\u2003');         // one em-space
+    result = result.replace(/\\;/g, '\u2005');               // thick space (4-per-em)
+    result = result.replace(/\\:/g, '\u2005');               // medium space → thick (close enough)
+    result = result.replace(/\\,/g, '\u2009');               // thin space
+    result = result.replace(/\\!/g, '');                     // negative thin space — drop
     result = result.replace(/\\noindent\s*/g, '');
     result = result.replace(/\\indent\s*/g, '');
     result = result.replace(/\\par\b\s*/g, '\n\n');
