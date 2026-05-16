@@ -5271,9 +5271,14 @@ function createNodeElement(node) {
         <div class="resize-handle"></div>
     `;
 
-    // Render math in preview
+    // Render math in preview — deferred via IntersectionObserver so the canvas paints
+    // first and KaTeX only runs for nodes the user is actually looking at.
     const preview = el.querySelector('.node-preview');
-    renderMath(preview);
+    if (_lazyMathObserver) {
+        _lazyMathObserver.observe(preview);
+    } else {
+        renderMath(preview);
+    }
 
     // Make formulas clickable for inline editing
     attachFormulaClickHandlers(el, node);
@@ -5281,6 +5286,17 @@ function createNodeElement(node) {
     attachNodeEventListeners(el, node);
     canvas.appendChild(el);
 }
+
+// IntersectionObserver shared across nodes — defers KaTeX rendering to when each preview
+// scrolls into view. Massive speedup when there are many nodes off-screen.
+const _lazyMathObserver = ('IntersectionObserver' in window) ? new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            try { renderMath(entry.target); } catch (e) { console.warn('lazy renderMath failed', e); }
+            _lazyMathObserver.unobserve(entry.target);
+        }
+    });
+}, { root: null, rootMargin: '300px', threshold: 0 }) : null;
 
 // Format preview with editable formula spans
 function formatNodePreview(text) {
