@@ -4807,6 +4807,10 @@ function processLatexCommands(text) {
     result = result.replace(new RegExp(`\\{\\\\(${sizeNames})\\s*(${braceGroup})\\}`, 'g'),
         (m, size, content) => `%%SZ:${sizeMap[size] || '1em'}%%${content}%%/SZ%%`);
 
+    // Key-definition yellow box: \begin{keydef}...\end{keydef}
+    result = result.replace(/\\begin\{keydef\}\s*/g, '%%KEYDEF%%');
+    result = result.replace(/\\end\{keydef\}\s*/g, '%%/KEYDEF%%');
+
     // Theorem-like environments (with optional [title])
     result = result.replace(/\\begin\{(theorem|lemma|proposition|corollary|definition|remark|example|assumption|conjecture|axiom|notation|exercise|problem|solution|claim|fact|observation)\}\[([^\]]*)\]\s*/g,
         (m, env, title) => `\n**${env.charAt(0).toUpperCase() + env.slice(1)} (${title}).** `);
