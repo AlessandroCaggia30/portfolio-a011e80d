@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-16T17:36:10.406Z",
+  "exportedAt": "2026-05-16T17:36:20.898Z",
   "data": {
     "topics": [
       {
@@ -327,7 +327,7 @@
               {
                 "id": "ts17786690819139572",
                 "title": "Example 1: independent Bernoulli trials",
-                "content": "\\textbf{Example 1.} Independent trials $Y_t \\stackrel{\\text{iid}}{\\sim}$ Bernoulli$(p)$.\n\nTransition matrix:\n\\[ \\begin{array}{c|cc} t-1 \\backslash t & 0 & 1 \\\\ \\hline 0 & 1-p & p \\\\ 1 & 1-p & p \\end{array} \\]\n\n\\textit{(rows identical: independence!)}",
+                "content": "\\textbf{Example} Independent trials $Y_t \\stackrel{\\text{iid}}{\\sim}$ Bernoulli$(p)$.\n\nTransition matrix:\n\\[ \\begin{array}{c|cc} t-1 \\backslash t & 0 & 1 \\\\ \\hline 0 & 1-p & p \\\\ 1 & 1-p & p \\end{array} \\]\n\n\\textit{(rows identical: independence!)}",
                 "flashcard": false,
                 "images": [],
                 "links": [],
