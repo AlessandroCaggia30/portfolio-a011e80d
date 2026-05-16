@@ -7654,14 +7654,14 @@ function finishEditingBlock(index) {
     renderObsidianPreview();
 }
 
-// Debounced save to prevent too many writes
+// Debounced save to prevent too many writes — data files are large, so debounce aggressively.
 let globalSaveTimer = null;
 function debouncedSaveData() {
     clearTimeout(globalSaveTimer);
     globalSaveTimer = setTimeout(() => {
         saveData();
         refreshSnippetsTexIfOpen();
-    }, 300);
+    }, 900);
 }
 
 function autoSaveContent() {
