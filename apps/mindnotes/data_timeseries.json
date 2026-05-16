@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-16T12:46:49.293Z",
+  "exportedAt": "2026-05-16T12:49:35.612Z",
   "data": {
     "topics": [
       {
@@ -55,7 +55,18 @@
                 "y": 1716.987818802901,
                 "width": 735.3333333333334,
                 "height": 219,
-                "color": "coral"
+                "color": "coral",
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "ts17786690819131573",
@@ -73,7 +84,18 @@
                 "y": 2034.2511744145627,
                 "width": 871,
                 "height": 257.66666666666663,
-                "color": "red"
+                "color": "red",
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "ts17786690819134427",
@@ -93,7 +115,18 @@
                 "y": 2030.2767121576671,
                 "width": 729.3333333333334,
                 "height": 223.33333333333331,
-                "color": "coral"
+                "color": "coral",
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "ts17786690819139203",
@@ -123,7 +156,18 @@
                 "y": 1715.1198421198528,
                 "width": 601,
                 "height": 360,
-                "color": "coral"
+                "color": "coral",
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "ts17786690819137230",
@@ -143,7 +187,18 @@
                 "y": 2441.563451555184,
                 "width": 925.0657820983866,
                 "height": 352.2365913451473,
-                "color": "coral"
+                "color": "coral",
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "ts1778695220085",
@@ -169,7 +224,18 @@
                 "y": 1195.1251360216988,
                 "width": 512.128990799122,
                 "height": 209.5248651259691,
-                "color": "coral"
+                "color": "coral",
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "ts17786690819133410",
@@ -186,7 +252,18 @@
                 "x": 4880.729002892603,
                 "y": 1016.7066094063289,
                 "width": 396.39001110870515,
-                "height": 113.8972865802485
+                "height": 113.8972865802485,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "ts17786690819133761",
@@ -203,7 +280,18 @@
                 "x": 4828.764380210981,
                 "y": 764.0937766199422,
                 "width": 511.5365915622529,
-                "height": 188.34006665223083
+                "height": 188.34006665223083,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "ts17786690819132729",
@@ -270,7 +358,18 @@
                 "x": 7530,
                 "y": 4976.666666666666,
                 "width": 653.4940151300336,
-                "height": 787.8305631879185
+                "height": 787.8305631879185,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "ts1778706947401",
@@ -284,7 +383,18 @@
                 "x": 5437.999999999999,
                 "y": 4977.333333333334,
                 "width": 640,
-                "height": 386
+                "height": 386,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "ts1778707354663",
@@ -303,7 +413,18 @@
                 "x": 5716.273188824243,
                 "y": 3746.96418111861,
                 "width": 730.5815735388169,
-                "height": 486.593066792507
+                "height": 486.593066792507,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "ts1778746388262",
@@ -315,7 +436,18 @@
                 "x": 5734.838314092977,
                 "y": 3193.5523325553345,
                 "width": 667.7951732097852,
-                "height": 372.476928414696
+                "height": 372.476928414696,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "ts1778743279436",
@@ -329,7 +461,18 @@
                 "x": 4755.088367670959,
                 "y": 5036.537297561044,
                 "width": 642,
-                "height": 404
+                "height": 404,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778686338044",
@@ -389,7 +532,7 @@
               {
                 "id": "1778699075521",
                 "title": "Markov Property",
-                "content": "\\textbf{\\textcolor{red}{MARKOV PROPERTY}}\n\n\\begin{keydef}\n\\textbf{Markov property.} A discrete-time stochastic process $(Y_t)_{t \\ge 0}$ with $Y_t \\in \\mathcal{Y}$ is a \\textbf{Markov process} if\n\n$\\bullet$ $Y_0 \\sim p_0(\\cdot)$ \\;(initial distribution), and\n\n$\\bullet$ for every $t \\ge 1$, $Y_t$ depends on the past observations only through $Y_{t-1}$:\n\\[ p(y_t \\mid y_0, y_1, \\dots, y_{t-1}) = p(y_t \\mid y_{t-1}). \\]\nNote the set $\\mathcal{Y}$ of possible values of $Y_t$ is called the \\textbf{state space} of the Markov chain.\n\\end{keydef}\n\n\\textbf{Joint density} Plugging the Markov property into the general chain rule collapses the joint to one-step transitions only:\\[ p_n(y_0, y_1, \\dots, y_n) = p_0(y_0) \\prod_{t=1}^{n} p(y_t \\mid y_{t-1}). \\]\n\n\\textbf{\\textcolor{red}{Conditional independence statement.}} The Markov property is equivalent to saying that, for every $t \\ge 1$, \\[ Y_t \\;\\perp\\!\\!\\!\\perp\\; (Y_0, Y_1, \\dots, Y_{t-2}) \\;\\big|\\; Y_{t-1}, \\]i.e.\\ given the immediate past $Y_{t-1}$, the current value $Y_t$ is conditionally independent of everything earlier.\n\n\\textbf{\\textcolor{red}{DAG view.}} A Markov chain is naturally drawn as a directed acyclic graph (DAG):\\[ Y_0 \\to Y_1 \\to Y_2 \\to \\dots \\to Y_{t-1} \\to Y_t \\to \\dots \\]\\emph{Reading the DAG:} if you remove the node $Y_{t-1}$, the node $Y_t$ becomes disconnected from $(Y_0, \\dots, Y_{t-2})$. Graphically, $Y_{t-1}$ d-separates $Y_t$ from its earlier ancestors — exactly the conditional-independence statement above.\n\n\n**Specifying the Probability law**\n\nSo the law of the process is fully specified by\n\n$\\bullet$ the \\textbf{initial distribution} $p_0(\\cdot)$ of $Y_0$;\n\n$\\bullet$ the family of \\textbf{one-step transition kernels} $\\{p(y_t \\mid y_{t-1}) : t \\ge 1\\}$.\n\n\n\n\n\n\n\\textbf{\\textcolor{red}{TRANSITION MATRIX}}\n\nFinite state space $\\mathcal{Y} = \\{1, 2, \\dots, N\\}$. The transition probabilities at time $t$ are\\[ p^{(t)}_{i,j} = P(Y_t = j \\mid Y_{t-1} = i), \\qquad i, j \\in \\mathcal{Y}. \\]Arrange them in a matrix $\\mathbf{P}^{(t)}$ with \\emph{rows} indexed by the state at $t-1$ and \\emph{columns} indexed by the state at $t$:\n\n\\begin{tabular}{|c|c|c|c|c|}\n\\hline\n$t - 1 \\;\\backslash\\; t$ & $1$ & $2$ & $\\cdots$ & $N$ \\\\\n\\hline\n$1$ & $p^{(t)}_{1,1}$ & $p^{(t)}_{1,2}$ & $\\cdots$ & $p^{(t)}_{1,N}$ \\\\\n$2$ & $p^{(t)}_{2,1}$ & $p^{(t)}_{2,2}$ & $\\cdots$ & $p^{(t)}_{2,N}$ \\\\\n$\\vdots$ & $\\vdots$ & $\\vdots$ & $\\ddots$ & $\\vdots$ \\\\\n$N$ & $p^{(t)}_{N,1}$ & $p^{(t)}_{N,2}$ & $\\cdots$ & $p^{(t)}_{N,N}$ \\\\\n\\hline\n\\end{tabular}\n\n\\textbf{Row-stochastic:} each row sums to 1, $\\sum_{j=1}^{N} p^{(t)}_{i,j} = 1$ for every $i$ and every $t$ — given that you are in state $i$ at $t-1$, you must end up \\emph{somewhere} at time $t$.\n\n\\textbf{Homogeneous case.} If the transition probabilities do not depend on $t$, i.e.\\ $p^{(t)}_{i,j} = p_{i,j}$ for every $t$, then the chain is \\textbf{homogeneous}. The superscript drops:\\[ \\mathbf{P}^{(t)} \\equiv \\mathbf{P} = \\big(p_{i,j}\\big)_{i,j \\in \\mathcal{Y}}, \\]a single $N \\times N$ matrix that — together with the initial distribution $p_0(\\cdot)$ — fully specifies the law of the chain.\n\n",
+                "content": "\\textbf{\\textcolor{red}{MARKOV PROPERTY}}\n\n\\begin{keydef}\n\\textbf{Markov property.} A discrete-time stochastic process $(Y_t)_{t \\ge 0}$ with $Y_t \\in \\mathcal{Y}$ is a \\textbf{Markov process} if\n\n$\\bullet$ $Y_0 \\sim p_0(\\cdot)$ \\;(initial distribution), and\n\n$\\bullet$ for every $t \\ge 1$, $Y_t$ depends on the past observations only through $Y_{t-1}$:\n\\[ p(y_t \\mid y_0, y_1, \\dots, y_{t-1}) = p(y_t \\mid y_{t-1}). \\] These are called transition probabilities, and you group them in the transition matrix. \nNote the set $\\mathcal{Y}$ of possible values of $Y_t$ is called the \\textbf{state space} of the Markov chain.\n\\end{keydef}\n\n\\textbf{Joint density} Plugging the Markov property into the general chain rule collapses the joint to one-step transitions only:\\[ p_n(y_0, y_1, \\dots, y_n) = p_0(y_0) \\prod_{t=1}^{n} p(y_t \\mid y_{t-1}). \\]\n\n\\textbf{\\textcolor{red}{Conditional independence statement.}} The Markov property is equivalent to saying that, for every $t \\ge 1$, \\[ Y_t \\;\\perp\\!\\!\\!\\perp\\; (Y_0, Y_1, \\dots, Y_{t-2}) \\;\\big|\\; Y_{t-1}, \\]i.e.\\ given the immediate past $Y_{t-1}$, the current value $Y_t$ is conditionally independent of everything earlier.\n\n\\textbf{\\textcolor{red}{DAG view.}} A Markov chain is naturally drawn as a directed acyclic graph (DAG):\\[ Y_0 \\to Y_1 \\to Y_2 \\to \\dots \\to Y_{t-1} \\to Y_t \\to \\dots \\]\\emph{Reading the DAG:} if you remove the node $Y_{t-1}$, the node $Y_t$ becomes disconnected from $(Y_0, \\dots, Y_{t-2})$. Graphically, $Y_{t-1}$ d-separates $Y_t$ from its earlier ancestors — exactly the conditional-independence statement above.\n\n\n**Specifying the Probability law**\n\nSo the law of the process is fully specified by\n\n$\\bullet$ the \\textbf{initial distribution} $p_0(\\cdot)$ of $Y_0$;\n\n$\\bullet$ the family of \\textbf{one-step transition kernels} $\\{p(y_t \\mid y_{t-1}) : t \\ge 1\\}$.\n\n\n\n\n\n\n\\textbf{\\textcolor{red}{TRANSITION MATRIX}}\n\nFinite state space $\\mathcal{Y} = \\{1, 2, \\dots, N\\}$. The transition probabilities at time $t$ are\\[ p^{(t)}_{i,j} = P(Y_t = j \\mid Y_{t-1} = i), \\qquad i, j \\in \\mathcal{Y}. \\]Arrange them in a matrix $\\mathbf{P}^{(t)}$ with \\emph{rows} indexed by the state at $t-1$ and \\emph{columns} indexed by the state at $t$:\n\n\\begin{tabular}{|c|c|c|c|c|}\n\\hline\n$t - 1 \\;\\backslash\\; t$ & $1$ & $2$ & $\\cdots$ & $N$ \\\\\n\\hline\n$1$ & $p^{(t)}_{1,1}$ & $p^{(t)}_{1,2}$ & $\\cdots$ & $p^{(t)}_{1,N}$ \\\\\n$2$ & $p^{(t)}_{2,1}$ & $p^{(t)}_{2,2}$ & $\\cdots$ & $p^{(t)}_{2,N}$ \\\\\n$\\vdots$ & $\\vdots$ & $\\vdots$ & $\\ddots$ & $\\vdots$ \\\\\n$N$ & $p^{(t)}_{N,1}$ & $p^{(t)}_{N,2}$ & $\\cdots$ & $p^{(t)}_{N,N}$ \\\\\n\\hline\n\\end{tabular}\n\n\\textbf{Row-stochastic:} each row sums to 1, $\\sum_{j=1}^{N} p^{(t)}_{i,j} = 1$ for every $i$ and every $t$ — given that you are in state $i$ at $t-1$, you must end up \\emph{somewhere} at time $t$.\n\n\\textbf{Homogeneous case.} If the transition probabilities do not depend on $t$, i.e.\\ $p^{(t)}_{i,j} = p_{i,j}$ for every $t$, then the chain is \\textbf{homogeneous}. The superscript drops:\\[ \\mathbf{P}^{(t)} \\equiv \\mathbf{P} = \\big(p_{i,j}\\big)_{i,j \\in \\mathcal{Y}}, \\]a single $N \\times N$ matrix that — together with the initial distribution $p_0(\\cdot)$ — fully specifies the law of the chain.\n\n",
                 "flashcard": true,
                 "images": [],
                 "links": [
@@ -433,7 +576,18 @@
                 "x": 5384.42376179237,
                 "y": 2257.0160957530143,
                 "width": 412.04880918624235,
-                "height": 277.3499131375845
+                "height": 277.3499131375845,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778747509562",
@@ -450,7 +604,18 @@
                 "x": 6494.553928340287,
                 "y": 4489.13431718894,
                 "width": 273.96438330950105,
-                "height": 213.55201169082156
+                "height": 213.55201169082156,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778748081729",
@@ -471,7 +636,18 @@
                 "x": 6836.249268342877,
                 "y": 4266.093740996886,
                 "height": 491.3011681957679,
-                "width": 361.85596144133046
+                "width": 361.85596144133046,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778764934754",
@@ -483,7 +659,18 @@
                 "x": 7219.626291557886,
                 "y": 4229.829712242743,
                 "width": 364.33956267946735,
-                "height": 84.51579144043022
+                "height": 84.51579144043022,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778774488913",
@@ -493,7 +680,18 @@
                 "images": [],
                 "links": [],
                 "x": 7445.197173415218,
-                "y": 4478.2840464982
+                "y": 4478.2840464982,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778779311729",
@@ -533,7 +731,18 @@
                 "x": 6940.880510056668,
                 "y": 3226.394246300235,
                 "width": 1100,
-                "height": 690
+                "height": 690,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778782109671",
@@ -545,7 +754,18 @@
                 "x": 7074.150586188749,
                 "y": 2703.4105402112154,
                 "width": 200,
-                "height": 100
+                "height": 100,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778783587495",
@@ -557,7 +777,18 @@
                 "x": 8558.137670512737,
                 "y": 3051.4607999878745,
                 "width": 431.56181929441203,
-                "height": 250.26495019252818
+                "height": 250.26495019252818,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778783599128",
@@ -569,7 +800,18 @@
                 "x": 8567.70228282758,
                 "y": 3362.75457110523,
                 "width": 420.06713911263796,
-                "height": 211.47040457904075
+                "height": 211.47040457904075,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778783697835",
@@ -581,7 +823,18 @@
                 "x": 8578.703730165149,
                 "y": 3645.3116417681504,
                 "width": 410.0113680142006,
-                "height": 218.778412848008
+                "height": 218.778412848008,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778795994716",
@@ -593,7 +846,18 @@
                 ],
                 "links": [],
                 "x": 8618.70373016515,
-                "y": 3911.3116417681504
+                "y": 3911.3116417681504,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778796878375",
@@ -603,7 +867,18 @@
                 "images": [],
                 "links": [],
                 "x": 8612.037063498485,
-                "y": 4074.644975101484
+                "y": 4074.644975101484,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778836879770",
@@ -658,7 +933,18 @@
                 "x": 3159.98317830402,
                 "y": 4234.153045990659,
                 "width": 833.3333333333334,
-                "height": 793.3333333333334
+                "height": 793.3333333333334,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778839151505",
@@ -700,7 +986,18 @@
                   }
                 ],
                 "x": 3931.3402189385934,
-                "y": 5361.0684855078025
+                "y": 5361.0684855078025,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778841073308",
@@ -721,7 +1018,18 @@
                 "x": 2007.5461880049065,
                 "y": 5242.107235251088,
                 "width": 766.6666666666667,
-                "height": 486.6666666666667
+                "height": 486.6666666666667,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778842902472",
@@ -740,7 +1048,18 @@
                   }
                 ],
                 "x": 2569.4181535036796,
-                "y": 5904.703226979543
+                "y": 5904.703226979543,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778843575468",
@@ -755,7 +1074,18 @@
                   }
                 ],
                 "x": 2219.3585444666087,
-                "y": 6001.029910586025
+                "y": 6001.029910586025,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778843690350",
@@ -774,7 +1104,18 @@
                   }
                 ],
                 "x": 3329.6991821677175,
-                "y": 5604.763361550907
+                "y": 5604.763361550907,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778855952196",
@@ -791,7 +1132,18 @@
                   }
                 ],
                 "x": 3536.9969827128416,
-                "y": 5965.039167547276
+                "y": 5965.039167547276,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778858971030",
@@ -814,7 +1166,18 @@
                   }
                 ],
                 "x": 3032.863078050801,
-                "y": 5289.714574922122
+                "y": 5289.714574922122,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778862798236",
@@ -831,7 +1194,18 @@
                 "x": 3272.490067003235,
                 "y": 3916.887763990951,
                 "width": 446.95652390060906,
-                "height": 210.8063926612463
+                "height": 210.8063926612463,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               },
               {
                 "id": "1778865037187",
@@ -848,7 +1222,18 @@
                   }
                 ],
                 "x": 2783.8055635631936,
-                "y": 4971.272752524148
+                "y": 4971.272752524148,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               }
             ]
           }
