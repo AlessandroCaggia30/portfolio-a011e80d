@@ -4119,13 +4119,13 @@ function markDirty() {
             btn.textContent = 'Save*';
         }
     }
-    // When GitHub auto-sync is on, save locally fast (400ms) so pushes
-    // fire shortly after the user stops typing.
+    // When GitHub auto-sync is on, save locally with a longer debounce
+    // (1500ms) — the data file is large, so we don't want to push on every keystroke.
     if (typeof _ghToken !== 'undefined' && _ghToken && _ghAutoSync && _ghCurrentPath()) {
         clearTimeout(_ghEditSaveTimer);
         _ghEditSaveTimer = setTimeout(() => {
             if (_dataIsDirty) _commitSave();
-        }, 400);
+        }, 1500);
     }
 }
 
