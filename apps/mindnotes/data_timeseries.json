@@ -1216,6 +1216,29 @@
                   "lastReview": null,
                   "dueDate": "2026-05-16T12:48:11.525Z"
                 }
+              },
+              {
+                "id": "1778956066342",
+                "title": "Example 6 — Two degenerate limits of the local-level model",
+                "content": "\\textbf{\\textcolor{red}{EXAMPLE 6 — TWO DEGENERATE LIMITS OF THE LOCAL-LEVEL MODEL}}\n\nStart from Example 5 (random walk + noise):\n\\[ x_t = x_{t-1} + z_t, \\quad z_t \\stackrel{\\text{iid}}{\\sim} \\mathcal{N}(0, \\sigma_z^2), \\qquad y_t = x_t + \\varepsilon_t, \\quad \\varepsilon_t \\stackrel{\\text{iid}}{\\sim} \\mathcal{N}(0, \\sigma_\\varepsilon^2). \\]\nThe two noise variances $(\\sigma_z^2, \\sigma_\\varepsilon^2)$ control two different sources of variability. Sending one of them to zero collapses the model to a completely different special case --- they are \\emph{opposite} extremes.\n\n\\textbf{\\textcolor{red}{(A) $\\sigma_\\varepsilon^2 = 0$ --- no observation noise.}}\n\nThe sensor is perfect: $y_t = x_t$. The latent state is revealed exactly at every step, and the model collapses to the directly observed random walk (Example 3):\n\\[ Y_t = Y_{t-1} + Z_t, \\qquad Z_t \\stackrel{\\text{iid}}{\\sim} \\mathcal{N}(0, \\sigma_z^2). \\]\n\n\\emph{What survives:} the random-walk dynamics. $\\text{Var}(Y_t) = t \\sigma_z^2 \\to \\infty$ as $t$ grows --- non-stationary, no fixed mean level, infinite variance in the long run. The series wanders persistently.\n\n\\textbf{\\textcolor{red}{(B) $\\sigma_z^2 = 0$ --- no state noise.}}\n\nThe state is frozen: $x_t = x_{t-1} = \\dots = x_0$, a constant we will call $\\theta$. The observations become iid noisy snapshots of that constant:\n\\[ y_t \\stackrel{\\text{iid}}{\\sim} \\mathcal{N}(\\theta, \\sigma_\\varepsilon^2). \\]\n\n\\emph{What survives:} observation noise around a fixed (unknown) mean $\\theta$. $\\text{Var}(y_t) = \\sigma_\\varepsilon^2$ for every $t$ --- stationary, wiggles iid around the constant $\\theta$. No memory in the data: each $y_t$ is independent of the others given $\\theta$.\n\nThis is precisely the \\emph{constant-mean Gaussian model} we used in the Normal-Normal conjugate worked example earlier.\n\n\\textbf{\\textcolor{red}{Side-by-side.}}\n\n\\begin{tabular}{|l|c|c|c|}\n\\hline\n& (A) $\\sigma_\\varepsilon^2 = 0$ & (B) $\\sigma_z^2 = 0$ & Generic (Example 5) \\\\\n\\hline\nState equation & $x_t = x_{t-1} + z_t$ & $x_t = x_0$ (frozen) & $x_t = x_{t-1} + z_t$ \\\\\nObservation & $y_t = x_t$ (exact) & $y_t = x_0 + \\varepsilon_t$ & $y_t = x_t + \\varepsilon_t$ \\\\\nResulting model & Random walk (Ex.\\ 3) & iid around constant $\\theta$ & Local-level DLM \\\\\nStationary? & No (var grows linearly) & Yes (var constant) & No (state non-stationary) \\\\\nMemory in $y_t$? & Yes (RW autocorrelation) & None (iid given $\\theta$) & Yes (via latent RW) \\\\\nVariance of $y_t$ & $t\\, \\sigma_z^2$ & $\\sigma_\\varepsilon^2$ & $t\\, \\sigma_z^2 + \\sigma_\\varepsilon^2$ \\\\\n\\hline\n\\end{tabular}\n\n\\textbf{\\textcolor{red}{Intuition.}}\n\n$\\bullet$ \\emph{Kill the sensor noise $\\varepsilon_t$:} you trust the measurement perfectly, so all variability you see in $y_t$ comes from the world's motion (the random walk).\n\n$\\bullet$ \\emph{Kill the state noise $z_t$:} the world is constant, so all variability in $y_t$ comes from your sensor. The trajectory of $y_t$ is just $\\theta$ plus noise.\n\nThese are opposite extremes of the local-level model: one is \"all dynamics, no noise,\" the other is \"all noise, no dynamics.\" Generic $(\\sigma_z^2, \\sigma_\\varepsilon^2) > 0$ blends the two.\n\n\\textbf{\\textcolor{red}{Picture (mental).}}\n\\[ \\underbrace{\\text{Random walk (Ex.\\ 3)}}_{\\sigma_\\varepsilon^2 = 0} \\;\\longleftarrow\\; \\underbrace{\\text{Local-level DLM (Ex.\\ 5)}}_{\\sigma_z^2,\\, \\sigma_\\varepsilon^2 > 0} \\;\\longrightarrow\\; \\underbrace{\\text{iid Gaussian around }\\theta}_{\\sigma_z^2 = 0} \\]\n\nThe local-level model interpolates between the persistent-memory random walk (left) and the memory-less iid constant-mean model (right) as the two noise variances trade off.",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ts1778706322789",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "ts1778743279436",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "1778855952196",
+                    "type": "forward"
+                  }
+                ],
+                "x": 4084.5591515432557,
+                "y": 2696.655241854129
               }
             ]
           }
