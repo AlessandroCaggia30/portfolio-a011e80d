@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-17T13:42:07.362Z",
+  "exportedAt": "2026-05-17T13:42:13.987Z",
   "data": {
     "topics": [
       {
@@ -820,10 +820,6 @@
                   {
                     "target": "1778842902472",
                     "type": "forward"
-                  },
-                  {
-                    "target": "1778843690350",
-                    "type": "forward"
                   }
                 ],
                 "x": 2858.8508660068055,
@@ -906,10 +902,6 @@
                 "images": [],
                 "links": [
                   {
-                    "target": "1778841073308",
-                    "type": "forward"
-                  },
-                  {
                     "target": "1778855952196",
                     "type": "forward"
                   }
@@ -965,10 +957,6 @@
                 "links": [
                   {
                     "target": "1778843690350",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "1778841073308",
                     "type": "forward"
                   },
                   {
