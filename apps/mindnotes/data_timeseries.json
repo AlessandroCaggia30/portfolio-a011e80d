@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-17T14:29:32.191Z",
+  "exportedAt": "2026-05-17T14:30:24.554Z",
   "data": {
     "topics": [
       {
@@ -1123,7 +1123,7 @@
               {
                 "id": "1779028125885",
                 "title": "Probability vs Likelihood",
-                "content": "\n\\textbf{\\textcolor{red}{Probability vs likelihood --- one formula, two readings.}}\n\nThe expression $P(B \\mid A)$ is \\emph{literally} the same number whether you call it a probability or a likelihood. There is no different formula and no proportionality involved:\n\\[ L(A; B) \\;=\\; P(B \\mid A). \\]\nThe only thing that changes is what you keep fixed and what you treat as the argument:\n\n$\\bullet$ \\emph{Probability reading.} $A$ is fixed, $B$ varies. Evaluating $P(B \\mid A)$ tells you how likely each potential outcome $B$ is, under the assumed hypothesis $A$. Used for \\emph{forward prediction}.\n\n$\\bullet$ \\emph{Likelihood reading.} $B$ is fixed at the data we actually observed, $A$ varies. Now $P(B \\mid A)$ is read as a function of $A$ --- it scores how well each candidate hypothesis explains the observed $B$. This is the reading in the Bayes context. \n",
+                "content": "\n\\textbf{\\textcolor{red}{Probability vs likelihood --- one formula, two readings.}}\n\nThe expression $P(B \\mid A)$ is \\emph{literally} the same number whether you call it a probability or a likelihood. There is no different formula and no proportionality involved:\n\\[ L(A; B) \\;=\\; P(B \\mid A). \\]\nThe only thing that changes is what you keep fixed and what you treat as the argument:\n\n$\\bullet$ \\emph{Probability reading.} $A$ is fixed, $B$ varies. Evaluating $P(B \\mid A)$ tells you how likely each potential outcome $B$ is, under the assumed hypothesis $A$. Used for \\emph{forward prediction}.\n\n$\\bullet$ \\emph{Likelihood reading.} $B$ is fixed at the data we actually observed, $A$ varies. Now $P(B \\mid A)$ is read as a function of $A$ --- it scores how well each candidate hypothesis explains the observed $B$. This is the reading in the Bayes context. \n\ndepends on what data you observe!",
                 "flashcard": false,
                 "images": [],
                 "links": [],
