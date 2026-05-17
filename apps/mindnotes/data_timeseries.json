@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-17T07:20:20.027Z",
+  "exportedAt": "2026-05-17T07:20:25.533Z",
   "data": {
     "topics": [
       {
@@ -1225,7 +1225,7 @@
               {
                 "id": "1778956220904",
                 "title": "Example 7 — RW + drift + noise (SSM of Example 4)",
-                "content": "\\textbf{\\textcolor{red}{EXAMPLE 7 — RW + DRIFT + NOISE (SSM OF EXAMPLE 4)}}\n\nJust as Example 5 wraps Example 3's random walk in a state-space model, Example 7 wraps Example 4's \\emph{random walk with drift} in the same SSM template --- the directly observed random-walk-with-drift becomes the \\emph{hidden state}, and we observe it through a noisy sensor.\n\n\\textbf{Setup.}\n\n\\textbf{\\textcolor{red}{DLM form.}} Fits the standard DLM template with state $\\theta_t = x_t$:\n\\[ \\theta_t = \\theta_{t-1} + \\mu + w_t, \\qquad Y_t = F\\, \\theta_t + v_t, \\qquad G = F = 1, \\;\\; w_t \\sim \\mathcal{N}(0, \\sigma_z^2),\\; v_t \\sim \\mathcal{N}(0, \\sigma_\\varepsilon^2). \\]\nThe drift $\\mu$ enters as a deterministic input. (See also: \\emph{SSM example --- RW + drift (discretised motion law)} for the continuous-time motivation as Brownian motion with drift.)\n\n\n\n\\textbf{\\textcolor{red}{Moments (starting from $x_0$ known).}}\n\n$\\bullet$ State mean grows linearly: $E[x_t \\mid x_0] = x_0 + \\mu t$.\n\n$\\bullet$ State variance grows linearly: $\\mathrm{Var}(x_t \\mid x_0) = t\\, \\sigma_z^2$.\n\n$\\bullet$ Observation: $E[y_t \\mid x_0] = x_0 + \\mu t$,\\quad $\\mathrm{Var}(y_t \\mid x_0) = t\\, \\sigma_z^2 + \\sigma_\\varepsilon^2$.\n\n\n\\textbf{\\textcolor{red}{What Kalman filtering changes vs Example 4.}}\n\nIn Example 4 we observe $Y_t$ directly, so estimating the current position is trivial ($\\hat Y_t = Y_t$). In Example 7 we don't see $x_t$ --- we see noisy $y_t$ --- so:\n\n$\\bullet$ Filtered estimate $\\hat x_t = E[x_t \\mid y_{1:t}]$ requires the Kalman recursion (predict step adds $\\mu$ to the previous mean, update step blends with the new $y_t$).\n\n$\\bullet$ Forecast: $E[y_{t+h} \\mid y_{1:t}] = \\hat x_t + h \\mu$, $\\mathrm{Var}(y_{t+h} \\mid y_{1:t}) = C_t + h \\sigma_z^2 + \\sigma_\\varepsilon^2$ --- the forecast band fans out at rate $\\sigma_z^2$ per step (from accumulated state noise) plus the per-step observation $\\sigma_\\varepsilon^2$.\n\nThis is the simplest non-trivial DLM with a deterministic input: linear trend at the latent level, noisy snapshots at the observation level.",
+                "content": "\\textbf{\\textcolor{red}{EXAMPLE 7 — RW + DRIFT + NOISE (SSM OF EXAMPLE 4)}}\n\nJust as Example 5 wraps Example 3's random walk in a state-space model, Example 7 wraps Example 4's \\emph{random walk with drift} in the same SSM template --- the directly observed random-walk-with-drift becomes the \\emph{hidden state}, and we observe it through a noisy sensor.\n\n\\textbf{Setup.}\n\n\\textbf{\\textcolor{red}{DLM form.}} Fits the standard DLM template with state $\\theta_t = x_t$:\n\\[ \\theta_t = \\theta_{t-1} + \\mu + w_t, \\qquad Y_t = F\\, \\theta_t + v_t, \\qquad G = F = 1, \\;\\; w_t \\sim \\mathcal{N}(0, \\sigma_z^2),\\; v_t \\sim \\mathcal{N}(0, \\sigma_\\varepsilon^2). \\]\nThe drift $\\mu$ enters as a deterministic input. (See also: \\emph{SSM example --- RW + drift (discretised motion law)} for the continuous-time motivation as Brownian motion with drift.)\n\n\n\n\\textbf{\\textcolor{red}{Moments (starting from $x_0$ known).}}\n\n$\\bullet$ State mean grows linearly: $E[x_t \\mid x_0] = x_0 + \\mu t$.\n\n$\\bullet$ State variance grows linearly: $\\mathrm{Var}(x_t \\mid x_0) = t\\, \\sigma_z^2$.\n\n$\\bullet$ Observation: $E[y_t \\mid x_0] = x_0 + \\mu t$,\\quad $\\mathrm{Var}(y_t \\mid x_0) = t\\, \\sigma_z^2 + \\sigma_\\varepsilon^2$.\n\n",
                 "flashcard": true,
                 "images": [],
                 "links": [
@@ -1242,8 +1242,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 3886.1444300499325,
-                "y": 3043.1499004895322,
+                "x": 3884.9573010571253,
+                "y": 3026.53009459023,
                 "fsrs": {
                   "stability": 1,
                   "difficulty": 5,
