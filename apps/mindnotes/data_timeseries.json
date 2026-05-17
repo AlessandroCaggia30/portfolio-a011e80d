@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-17T18:16:21.420Z",
+  "exportedAt": "2026-05-17T18:16:26.165Z",
   "data": {
     "topics": [
       {
@@ -1143,7 +1143,7 @@
               {
                 "id": "1779040212178",
                 "title": "State and Observation prediction",
-                "content": "\n\\textbf{\\textcolor{red}{2. State prediction} $\\;\\;f(\\theta_{t+h} \\mid y_{1:t})$.} \\emph{Where will the hidden state be $h$ steps from now?} Just keep applying the transition kernel, no new evidence:\n\\[ f(\\theta_{t+1} \\mid y_{1:t}) \\;=\\; \\int f(\\theta_{t+1} \\mid \\theta_t)\\, \\underbrace{f(\\theta_t \\mid y_{1:t})\\,}_{\\text{}} d\\theta_t, \\]\nand recursively\n\\[ f(\\theta_{t+h} \\mid y_{1:t}) \\;=\\; \\int f(\\theta_{t+h} \\mid \\theta_{t+h-1})\\, f(\\theta_{t+h-1} \\mid y_{1:t})\\, d\\theta_{t+h-1}. \\]\ni obtain this one step per time, so first i predict h+1 then h+2 etc. State h means h iterations. \n\n\\textbf{\\textcolor{red}{3. Observation prediction} $\\;\\;f(y_{t+h} \\mid y_{1:t})$.} \\emph{What value will we observe $h$ steps from now?} Marginalise the future state out of the joint $(y_{t+h}, \\theta_{t+h})$:\n\\[ f(y_{t+h} \\mid y_{1:t}) \\;=\\; \\int f(y_{t+h} \\mid \\theta_{t+h})\\, f(\\theta_{t+h} \\mid y_{1:t})\\, d\\theta_{t+h}. \\]\n\\emph{Reading.} Plug each candidate state $\\theta_{t+h}$ into the emission to get a forecast distribution conditional on that state; weight by how likely that state is given the data so far; integrate. This is the \\textbf{posterior predictive} from the Bayesian-statistics snippet, applied to the SSM.\n",
+                "content": "\n\\textbf{\\textcolor{red}{2. State prediction} $\\;\\;f(\\theta_{t+h} \\mid y_{1:t})$.} \\emph{Where will the hidden state be $h$ steps from now?} Just keep applying the transition kernel, no new evidence:\n\\[ f(\\theta_{t+1} \\mid y_{1:t}) \\;=\\; \\int f(\\theta_{t+1} \\mid \\theta_t)\\, \\underbrace{f(\\theta_t \\mid y_{1:t})\\,}_{\\text{obtained by filtering}} d\\theta_t, \\]\nand recursively\n\\[ f(\\theta_{t+h} \\mid y_{1:t}) \\;=\\; \\int f(\\theta_{t+h} \\mid \\theta_{t+h-1})\\, f(\\theta_{t+h-1} \\mid y_{1:t})\\, d\\theta_{t+h-1}. \\]\ni obtain this one step per time, so first i predict h+1 then h+2 etc. State h means h iterations. \n\n\\textbf{\\textcolor{red}{3. Observation prediction} $\\;\\;f(y_{t+h} \\mid y_{1:t})$.} \\emph{What value will we observe $h$ steps from now?} Marginalise the future state out of the joint $(y_{t+h}, \\theta_{t+h})$:\n\\[ f(y_{t+h} \\mid y_{1:t}) \\;=\\; \\int f(y_{t+h} \\mid \\theta_{t+h})\\, f(\\theta_{t+h} \\mid y_{1:t})\\, d\\theta_{t+h}. \\]\n\\emph{Reading.} Plug each candidate state $\\theta_{t+h}$ into the emission to get a forecast distribution conditional on that state; weight by how likely that state is given the data so far; integrate. This is the \\textbf{posterior predictive} from the Bayesian-statistics snippet, applied to the SSM.\n",
                 "flashcard": false,
                 "images": [],
                 "links": [],
