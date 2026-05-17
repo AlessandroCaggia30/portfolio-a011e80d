@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-17T13:25:36.939Z",
+  "exportedAt": "2026-05-17T13:25:41.588Z",
   "data": {
     "topics": [
       {
@@ -476,10 +476,6 @@
                     "type": "forward"
                   },
                   {
-                    "target": "1778747509562",
-                    "type": "forward"
-                  },
-                  {
                     "target": "1778779311729",
                     "type": "forward"
                   },
@@ -504,29 +500,6 @@
                   "dueDate": "2026-05-16T12:48:11.525Z"
                 },
                 "color": "coral"
-              },
-              {
-                "id": "1778747509562",
-                "title": "Ar example",
-                "content": "\n\\textbf{Example (AR(1)).} A discrete-time, continuous-state Markov process given by\\[ Y_t = \\varphi\\, Y_{t-1} + \\varepsilon_t, \\qquad \\varepsilon_t \\stackrel{\\text{iid}}{\\sim} \\mathcal{N}(0, \\sigma^2), \\qquad t \\ge 1, \\]with $Y_0$ given.  If $\\varphi = 1$, $(Y_t)$ is a \\emph{random walk} (Example 3).\n\nNote. The special case $\\varphi = 1$ generalises Example 3's random walk in two ways: increments are Gaussian-valued ($\\varepsilon_t \\in \\mathbb{R}$) rather than binary ($\\pm 1$), and (hence) the state   space is now continuous ($\\mathbb{R}$) rather than discrete ($\\mathbb{Z}$). For $|\\varphi| < 1$ the process is no longer a random walk but a stationary, mean-reverting AR(1)\n\n\nContinuous-state Markov processes are the building block for state-space models in time-series analysis.",
-                "flashcard": true,
-                "images": [],
-                "links": [],
-                "x": 3600.8804407428715,
-                "y": 2404.833426262024,
-                "width": 339.4873746049568,
-                "height": 102.823759391585,
-                "fsrs": {
-                  "stability": 1,
-                  "difficulty": 5,
-                  "elapsedDays": 0,
-                  "scheduledDays": 0,
-                  "reps": 0,
-                  "lapses": 0,
-                  "state": "new",
-                  "lastReview": null,
-                  "dueDate": "2026-05-16T12:48:11.525Z"
-                }
               },
               {
                 "id": "1778748081729",
@@ -1365,6 +1338,32 @@
           "dueDate": "2026-05-16T12:48:11.525Z"
         },
         "deletedAt": 1779002477939,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "1778747509562",
+        "title": "Ar example",
+        "content": "\n\\textbf{Example (AR(1)).} A discrete-time, continuous-state Markov process given by\\[ Y_t = \\varphi\\, Y_{t-1} + \\varepsilon_t, \\qquad \\varepsilon_t \\stackrel{\\text{iid}}{\\sim} \\mathcal{N}(0, \\sigma^2), \\qquad t \\ge 1, \\]with $Y_0$ given.  If $\\varphi = 1$, $(Y_t)$ is a \\emph{random walk} (Example 3).\n\nNote. The special case $\\varphi = 1$ generalises Example 3's random walk in two ways: increments are Gaussian-valued ($\\varepsilon_t \\in \\mathbb{R}$) rather than binary ($\\pm 1$), and (hence) the state   space is now continuous ($\\mathbb{R}$) rather than discrete ($\\mathbb{Z}$). For $|\\varphi| < 1$ the process is no longer a random walk but a stationary, mean-reverting AR(1)\n\n\nContinuous-state Markov processes are the building block for state-space models in time-series analysis.",
+        "flashcard": true,
+        "images": [],
+        "links": [],
+        "x": 3600.8804407428715,
+        "y": 2404.833426262024,
+        "width": 339.4873746049568,
+        "height": 102.823759391585,
+        "fsrs": {
+          "stability": 1,
+          "difficulty": 5,
+          "elapsedDays": 0,
+          "scheduledDays": 0,
+          "reps": 0,
+          "lapses": 0,
+          "state": "new",
+          "lastReview": null,
+          "dueDate": "2026-05-16T12:48:11.525Z"
+        },
+        "deletedAt": 1779024339482,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
