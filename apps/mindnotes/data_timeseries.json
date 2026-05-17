@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-17T11:26:40.820Z",
+  "exportedAt": "2026-05-17T11:26:45.318Z",
   "data": {
     "topics": [
       {
@@ -567,7 +567,7 @@
               {
                 "id": "1778747509562",
                 "title": "Ar example",
-                "content": "\n\\textbf{Example (AR(1)).} A discrete-time, continuous-state Markov process given by\\[ Y_t = \\varphi\\, Y_{t-1} + \\varepsilon_t, \\qquad \\varepsilon_t \\stackrel{\\text{iid}}{\\sim} \\mathcal{N}(0, \\sigma^2), \\qquad t \\ge 1, \\]with $Y_0$ given.  If $\\varphi = 1$, $(Y_t)$ is a \\emph{random walk} (Example 3).\n\nNote. The special case $\\varphi = 1$ generalises Example 3's random walk in two ways: increments are Gaussian-valued ($\\varepsilon_t \\in \\mathbb{R}$) rather than binary ($\\pm 1$), and the state    \n  ▎ space is now continuous ($\\mathbb{R}$) rather than discrete ($\\mathbb{Z}$). For $|\\varphi| < 1$ the process is no longer a random walk but a stationary, mean-reverting AR(1)\nContinuous-state Markov processes are the building block for state-space models in time-series analysis.",
+                "content": "\n\\textbf{Example (AR(1)).} A discrete-time, continuous-state Markov process given by\\[ Y_t = \\varphi\\, Y_{t-1} + \\varepsilon_t, \\qquad \\varepsilon_t \\stackrel{\\text{iid}}{\\sim} \\mathcal{N}(0, \\sigma^2), \\qquad t \\ge 1, \\]with $Y_0$ given.  If $\\varphi = 1$, $(Y_t)$ is a \\emph{random walk} (Example 3).\n\nNote. The special case $\\varphi = 1$ generalises Example 3's random walk in two ways: increments are Gaussian-valued ($\\varepsilon_t \\in \\mathbb{R}$) rather than binary ($\\pm 1$), and the state   space is now continuous ($\\mathbb{R}$) rather than discrete ($\\mathbb{Z}$). For $|\\varphi| < 1$ \nthe process is no longer a random walk but a stationary, mean-reverting AR(1)\nContinuous-state Markov processes are the building block for state-space models in time-series analysis.",
                 "flashcard": true,
                 "images": [],
                 "links": [],
