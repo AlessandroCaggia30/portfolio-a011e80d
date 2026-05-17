@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-17T14:44:06.547Z",
+  "exportedAt": "2026-05-17T14:44:28.486Z",
   "data": {
     "topics": [
       {
@@ -960,7 +960,7 @@
               {
                 "id": "1778858971030",
                 "title": "Parameter Estimation",
-                "content": "\\textbf{\\textcolor{red}{PARAMETER ESTIMATION}}\n\nEstimate the \\emph{fixed}, time-invariant constants $\\phi$ of the model from data $y_{1:T}$. Two routes: \\emph{maximum likelihood} (frequentist) or \\emph{Bayesian inference}.\n\n\\textbf{\\textcolor{red}{Parameter vs latent state --- the key distinction.}}\n\n$\\bullet$ \\emph{Latent state $\\theta_t$:} dynamic, unobserved, lives at each time. Targets: $f(\\theta_t \\mid y_{1:t})$ (filtering), $f(\\theta_t \\mid y_{1:T})$ (smoothing). Handled by recursive Bayes (Kalman / forward--backward).\n\n$\\bullet$ \\emph{Parameter $\\phi$:} static, unknown, shared across all $t$. Targets: $\\hat\\phi$ (MLE) or $f(\\phi \\mid y_{1:T})$ (posterior). Single quantity, not a trajectory.\n\n\\textbf{\\textcolor{red}{Examples.}}\n\n$\\bullet$ \\emph{iid Gaussian:} $\\phi = (\\mu, \\sigma^2)$.\n\n$\\bullet$ \\emph{AR($p$):} $\\phi = (\\phi_1, \\dots, \\phi_p, \\sigma^2)$.\n\n$\\bullet$ \\emph{HMM:} $\\phi = (P,\\, \\{\\theta_j^*\\},\\, \\pi)$ --- transition matrix, emission parameters, initial distribution.\n\n$\\bullet$ \\emph{DLM (time-invariant):} $\\phi = (F, G, V, W)$, plus $(m_0, C_0)$ for the initial state.\n\n\\textbf{\\textcolor{red}{Route 1 --- Maximum likelihood (frequentist).}}\n\n\\textbf{\\textcolor{red}{Route 2 --- Bayesian inference.}}\n\nAssign a prior $\\pi(\\phi)$, apply Bayes:\n\\[ f(\\phi \\mid y_{1:T}) \\;\\propto\\; f(y_{1:T} \\mid \\phi)\\, \\pi(\\phi). \\]\n\n",
+                "content": "\\textbf{\\textcolor{red}{PARAMETER ESTIMATION}}\n\nEstimate the \\emph{fixed}, time-invariant constants $\\phi$ of the model from data $y_{1:T}$. Two routes: \\emph{maximum likelihood} (frequentist) or \\emph{Bayesian inference}.\n\n\\textbf{\\textcolor{red}{Parameter vs latent state --- the key distinction.}}\n\n$\\bullet$ \\emph{Latent state $\\theta_t$:} dynamic, unobserved, lives at each time. Targets: $f(\\theta_t \\mid y_{1:t})$ (filtering), $f(\\theta_t \\mid y_{1:T})$ (smoothing). Handled by recursive Bayes (Kalman / forward--backward).\n\n$\\bullet$ \\emph{Parameter $\\phi$:} static, unknown, shared across all $t$. Targets: $\\hat\\phi$ (MLE) or $f(\\phi \\mid y_{1:T})$ (posterior). Single quantity, not a trajectory.\n\n\\textbf{\\textcolor{red}{Examples.}}\n\n$\\bullet$ \\emph{iid Gaussian:} $\\phi = (\\mu, \\sigma^2)$.\n\n$\\bullet$ \\emph{AR($p$):} $\\phi = (\\phi_1, \\dots, \\phi_p, \\sigma^2)$.\n\n$\\bullet$ \\emph{HMM:} $\\phi = (P,\\, \\{\\theta_j^*\\},\\, \\pi)$ --- transition matrix, emission parameters, initial distribution.\n\n$\\bullet$ \\emph{DLM (time-invariant):} $\\phi = (F, G, V, W)$, plus $(m_0, C_0)$ for the initial state.\n\n\\textbf{\\textcolor{red}{Route 1 --- Maximum likelihood (frequentist).}}\n\n\\textbf{\\textcolor{red}{Route 2 --- Bayesian inference.}}\n\nAssign a prior $\\pi(\\phi)$, apply Bayes:\n\\[ f(\\phi \\mid y_{1:T}) \\;\\propto\\; f(y_{1:T} \\mid \\phi)\\, \\pi(\\phi). \\]\n\nyou pick the most likely phi given the dtaa ",
                 "flashcard": true,
                 "images": [],
                 "links": [
