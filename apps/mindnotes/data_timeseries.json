@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-17T14:45:37.508Z",
+  "exportedAt": "2026-05-17T14:45:45.342Z",
   "data": {
     "topics": [
       {
@@ -824,10 +824,6 @@
                 "links": [
                   {
                     "target": "1778858971030",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "1778843690350",
                     "type": "forward"
                   },
                   {
