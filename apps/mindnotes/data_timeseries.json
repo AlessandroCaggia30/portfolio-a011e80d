@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-17T06:34:49.585Z",
+  "exportedAt": "2026-05-17T06:35:18.367Z",
   "data": {
     "topics": [
       {
@@ -291,7 +291,8 @@
                   "state": "new",
                   "lastReview": null,
                   "dueDate": "2026-05-16T12:48:11.525Z"
-                }
+                },
+                "color": "coral"
               },
               {
                 "id": "ts17786690819132729",
