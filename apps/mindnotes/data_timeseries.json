@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-18T09:19:09.666Z",
+  "exportedAt": "2026-05-18T09:19:14.080Z",
   "data": {
     "topics": [
       {
@@ -909,7 +909,7 @@
                     "type": "forward"
                   }
                 ],
-                "x": 3673.0707670537895,
+                "x": 3646.1651837296354,
                 "y": 3739.5616073665115,
                 "fsrs": {
                   "stability": 1,
@@ -1194,8 +1194,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 4293.881421988766,
-                "y": 3753.794094149733
+                "x": 4295.226701154974,
+                "y": 3783.390235806303
               },
               {
                 "id": "1779095923858",
@@ -1203,7 +1203,12 @@
                 "content": "\nRecalling that a bayesian forecat is: \n\\[ P(\\, a \\le \\theta \\le b \\mid y \\,) \\;=\\; \\int_{a}^{b} f(\\theta \\mid y)\\, d\\theta \\;=\\; 1 - \\alpha. \\]\nNow $y$ is fixed (the observed data) and $\\theta$ is the random variable; the probability is over the posterior $f(\\theta \\mid y)$.",
                 "flashcard": false,
                 "images": [],
-                "links": [],
+                "links": [
+                  {
+                    "target": "1778843690350",
+                    "type": "forward"
+                  }
+                ],
                 "x": 3746.6964387894877,
                 "y": 3574.685096106393
               }
