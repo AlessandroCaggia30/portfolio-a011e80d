@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-18T09:12:04.764Z",
+  "exportedAt": "2026-05-18T09:12:56.098Z",
   "data": {
     "topics": [
       {
@@ -1194,12 +1194,7 @@
                 "content": "\n**Closed form in the Gaussian case** \nRecall $Y_{T+1} = \\theta + \\varepsilon_{T+1}$\n**If** the posterior of the latent is Gaussian\n\\[ \\theta \\mid y_{1:T} \\;\\sim\\; \\mathcal{N}(m_T,\\, C_T), \\qquad m_T \\;=\\; E[\\theta \\mid y_{1:T}], \\]\nand the emission is Gaussian with observation noise $\\varepsilon_{T+1} \\sim \\mathcal{N}(0, \\sigma^2)$ independent of $\\theta$ (so $Y_{T+1} = \\theta + \\varepsilon_{T+1}$ given $\\theta$), then the predictive distribution evaluates in closed form to\n\\[ \\boxed{\\; Y_{T+1} \\mid y_{1:T} \\;\\sim\\; \\mathcal{N}\\bigl(m_T,\\; C_T + \\sigma^2\\bigr). \\;} \\]\n\n\\emph{Variance has two terms, with meanings.}\n\n$\\bullet$ $C_T$ --- \\emph{parameter / state uncertainty}: we don't know $\\theta$ exactly, only the posterior $\\mathcal{N}(m_T, C_T)$.\n\n$\\bullet$ $\\sigma^2$ --- \\emph{future observation noise}: even if we knew $\\theta$ exactly, $Y_{T+1}$ would still have noise.\n\nAdding them is the Bayesian honesty about uncertainty: forecast bands include both. The frequentist plug-in $Y_{T+1} \\mid \\hat\\theta \\sim \\mathcal{N}(\\hat\\theta, \\sigma^2)$ keeps only the $\\sigma^2$ term and produces bands that are too narrow. IT IS SO OBVIOUS THE FREQUENTIST IS WRONG, JUT BECAUSE BEING $\\hat \\theta$ ESTIMATED it cannot be used as a fixed point. Note frequentists fixed this by a correction for estiamtion uncertainty. ",
                 "flashcard": false,
                 "images": [],
-                "links": [
-                  {
-                    "target": "1779040212178",
-                    "type": "forward"
-                  }
-                ],
+                "links": [],
                 "x": 4266.86958729092,
                 "y": 3612.788967596828
               }
