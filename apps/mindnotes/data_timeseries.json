@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-18T13:55:39.649Z",
+  "exportedAt": "2026-05-18T13:55:46.391Z",
   "data": {
     "topics": [
       {
@@ -1158,14 +1158,9 @@
                 "content": "\\textbf{\\textcolor{red}{Posterior precision $1/C_n$.}} The precision \\emph{adds}:\n\\[ \\underbrace{\\frac{1}{C_n}}_{\\text{posterior precision}} \\;=\\; \\underbrace{\\frac{1}{C_0}}_{\\text{prior precision}} \\;+\\; \\underbrace{\\frac{n}{\\sigma^2}}_{\\text{data precision}}. \\]\nThe lower the variance of Cn th ebetter! Because both terms are non-negative, $1/C_n \\ge 1/C_0$ always --- the posterior is \\emph{always} at least as precise as the prior. Even poor-quality data (large $\\sigma^2$) adds some information, just less of it. Sharper data ($\\sigma^2$ small) or more data ($n$ large) makes the posterior sharper.\n\n\\textbf{\\textcolor{red}{Posterior mean $m_n$ as a weighted average.}} Rewrite $m_n$:\n\\[ m_n \\;=\\; \\underbrace{\\frac{1/C_0}{1/C_0 + n/\\sigma^2}}_{\\text{prior weight}} \\cdot m_0 \\;+\\; \\underbrace{\\frac{n/\\sigma^2}{1/C_0 + n/\\sigma^2}}_{\\text{data weight}} \\cdot \\bar y. \\]\n$m_n$ is a convex combination of the \\emph{prior mean} $m_0 = E[\\theta]$ and the \\emph{sample mean} $\\bar y$, with weights proportional to the respective precisions (frequentist would just have used the sample mean).\n",
                 "flashcard": false,
                 "images": [],
-                "links": [
-                  {
-                    "target": "1778855952196",
-                    "type": "both"
-                  }
-                ],
-                "x": 4426.588533085663,
-                "y": 4126.114169372051
+                "links": [],
+                "x": 4247.11907040911,
+                "y": 3801.9112690531165
               },
               {
                 "id": "1779095464284",
@@ -1181,6 +1176,10 @@
                   {
                     "target": "1779096373349",
                     "type": "forward"
+                  },
+                  {
+                    "target": "1779042513476",
+                    "type": "both"
                   }
                 ],
                 "x": 4256.115690841255,
