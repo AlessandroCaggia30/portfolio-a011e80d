@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-18T09:15:42.217Z",
+  "exportedAt": "2026-05-18T09:15:49.808Z",
   "data": {
     "topics": [
       {
@@ -952,7 +952,12 @@
                 "content": "\\textbf{\\textcolor{red}{PARAMETER ESTIMATION}}\n\nEstimate the \\emph{fixed}, time-invariant constants $\\phi$ of the model from data $y_{1:T}$. Two routes: \\emph{maximum likelihood} (frequentist) or \\emph{Bayesian inference}.\n\n\\textbf{\\textcolor{red}{Parameter vs latent state --- the key distinction.}}\n\n$\\bullet$ \\emph{Latent state $\\theta_t$:} dynamic, unobserved, lives at each time. Targets: $f(\\theta_t \\mid y_{1:t})$ (filtering), $f(\\theta_t \\mid y_{1:T})$ (smoothing). Handled by recursive Bayes (Kalman / forward--backward).\n\n$\\bullet$ \\emph{Parameter $\\phi$:} static, unknown, shared across all $t$. Targets: $\\hat\\phi$ (MLE) or $f(\\phi \\mid y_{1:T})$ (posterior). Single quantity, not a trajectory.\n\n\\textbf{\\textcolor{red}{Examples.}}\n\n$\\bullet$ \\emph{iid Gaussian:} $\\phi = (\\mu, \\sigma^2)$.\n\n$\\bullet$ \\emph{AR($p$):} $\\phi = (\\phi_1, \\dots, \\phi_p, \\sigma^2)$.\n\n$\\bullet$ \\emph{HMM:} $\\phi = (P,\\, \\{\\theta_j^*\\},\\, \\pi)$ --- transition matrix, emission parameters, initial distribution.\n\n$\\bullet$ \\emph{DLM (time-invariant):} $\\phi = (F, G, V, W)$, plus $(m_0, C_0)$ for the initial state.\n\n\\textbf{\\textcolor{red}{Route 1 --- Maximum likelihood (frequentist).}}\n\n\\textbf{\\textcolor{red}{Route 2 --- Bayesian inference.}}\n\nAssign a prior $\\pi(\\phi)$, apply Bayes:\n\\[ f(\\phi \\mid y_{1:T}) \\;\\propto\\; f(y_{1:T} \\mid \\phi)\\, \\pi(\\phi). \\]\n\nyou pick the most likely phi given the dtaa ",
                 "flashcard": true,
                 "images": [],
-                "links": [],
+                "links": [
+                  {
+                    "target": "1779034375807",
+                    "type": "forward"
+                  }
+                ],
                 "x": 3690.783638749188,
                 "y": 2911.912382126884,
                 "fsrs": {
@@ -1120,7 +1125,12 @@
                 "content": "\nNOW WE USE BAYES RULE: \n\n\nRecall: $y_{1:T}$ is it like $P(y_1, y_2, ... y_T)$\n\n\\textbf{\\textcolor{red}{1. Filtering (state estimation)} $\\;\\;f(\\theta_t \\mid y_{1:t})$.} \\emph{What is the state today, given everything observed up to today?}\n\n\\textbf{\\textcolor{red}{Generic Bayes with background --- the only formula we use.}}\n\\[ \\boxed{\\; f(A \\mid B,\\, C) \\;\\propto\\; f(B \\mid A,\\, C)\\, \\cdot\\, f(A \\mid C). \\;} \\]\n\n\\textbf{\\textcolor{red}{First instinct: treat $y_{1:t}$ as a single blob $B$.}} Naive vanilla Bayes ($C = \\emptyset$, $B = y_{1:t}$):\n\\[ f(\\theta_t \\mid y_{1:t}) \\;\\propto\\; \\underbrace{f(y_{1:t} \\mid \\theta_t)}_{(\\star)}\\, \\cdot\\, f(\\theta_t). \\]\nThe factor $(\\star) = f(y_{1:t} \\mid \\theta_t)$ does not simplify, is not Markov! \n\n\\textbf{\\textcolor{red}{The fix: split the conditioner into background $+$ new datum.}} Don't lump $y_{1:t}$ as one blob; split it:\n\\[ y_{1:t} \\;=\\; \\underbrace{y_{1:t-1}}_{\\text{background } C \\text{ (already conditioned on yesterday)}} \\;\\cup\\; \\underbrace{y_t}_{\\text{new datum } B}. \\]\nNow apply the boxed conditional Bayes with $A = \\theta_t$, $B = y_t$, $C = y_{1:t-1}$:\n\\[ f(\\theta_t \\mid y_t,\\, y_{1:t-1}) \\;\\propto\\; \\underbrace{f(y_t \\mid \\theta_t,\\, y_{1:t-1})\\,}_{f(y_t \\mid \\theta_t)} \\cdot\\, f(\\theta_t \\mid y_{1:t-1}) \\]\n\n $f(\\theta_t \\mid y_{1:t-1})$ is your belief about $\\theta_t$ \\emph{before seeing $y_t$, after having processed $y_{1:t-1}$}. By Markov:\n\\[ f(\\theta_t \\mid y_{1:t-1}) \\;=\\; \\int f(\\theta_t \\mid \\theta_{t-1})\\, f(\\theta_{t-1} \\mid y_{1:t-1})\\, d\\theta_{t-1}, \\]\n\"Today's predicted state distribution = average (intergal) of the transition probabilities form yesterday to today * yesterday's posterior (second term, where you were yesterday)\n\n\\emph{Equivalent batch form (textbook / iid case).} When $\\theta$ is a \\textbf{static} parameter and observations are conditionally iid given $\\theta$, you can write the posterior in one shot using all data and the original prior:\n\\[ f(\\theta \\mid y_{1:T}) \\;\\propto\\; f(y_{1:T} \\mid \\theta) \\cdot f(\\theta) \\;\\underbrace{=}_{\\text{iid}}\\; \\prod_{t=1}^{T} f(y_t \\mid \\theta) \\cdot f(\\theta). \\]\nNote: there is no iid with a time-varying $\\theta_t$, and there is no identical distribution either (each $y_t$ has its own $\\theta_t$).\n",
                 "flashcard": false,
                 "images": [],
-                "links": [],
+                "links": [
+                  {
+                    "target": "1778843690350",
+                    "type": "forward"
+                  }
+                ],
                 "x": 3762.8597353176483,
                 "y": 3189.5426737601038,
                 "width": 310,
