@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-18T09:15:29.590Z",
+  "exportedAt": "2026-05-18T09:15:36.322Z",
   "data": {
     "topics": [
       {
@@ -1129,12 +1129,7 @@
                 "content": "\nNOW WE USE BAYES RULE: \n\n\nRecall: $y_{1:T}$ is it like $P(y_1, y_2, ... y_T)$\n\n\\textbf{\\textcolor{red}{1. Filtering (state estimation)} $\\;\\;f(\\theta_t \\mid y_{1:t})$.} \\emph{What is the state today, given everything observed up to today?}\n\n\\textbf{\\textcolor{red}{Generic Bayes with background --- the only formula we use.}}\n\\[ \\boxed{\\; f(A \\mid B,\\, C) \\;\\propto\\; f(B \\mid A,\\, C)\\, \\cdot\\, f(A \\mid C). \\;} \\]\n\n\\textbf{\\textcolor{red}{First instinct: treat $y_{1:t}$ as a single blob $B$.}} Naive vanilla Bayes ($C = \\emptyset$, $B = y_{1:t}$):\n\\[ f(\\theta_t \\mid y_{1:t}) \\;\\propto\\; \\underbrace{f(y_{1:t} \\mid \\theta_t)}_{(\\star)}\\, \\cdot\\, f(\\theta_t). \\]\nThe factor $(\\star) = f(y_{1:t} \\mid \\theta_t)$ does not simplify, is not Markov! \n\n\\textbf{\\textcolor{red}{The fix: split the conditioner into background $+$ new datum.}} Don't lump $y_{1:t}$ as one blob; split it:\n\\[ y_{1:t} \\;=\\; \\underbrace{y_{1:t-1}}_{\\text{background } C \\text{ (already conditioned on yesterday)}} \\;\\cup\\; \\underbrace{y_t}_{\\text{new datum } B}. \\]\nNow apply the boxed conditional Bayes with $A = \\theta_t$, $B = y_t$, $C = y_{1:t-1}$:\n\\[ f(\\theta_t \\mid y_t,\\, y_{1:t-1}) \\;\\propto\\; \\underbrace{f(y_t \\mid \\theta_t,\\, y_{1:t-1})\\,}_{f(y_t \\mid \\theta_t)} \\cdot\\, f(\\theta_t \\mid y_{1:t-1}) \\]\n\n $f(\\theta_t \\mid y_{1:t-1})$ is your belief about $\\theta_t$ \\emph{before seeing $y_t$, after having processed $y_{1:t-1}$}. By Markov:\n\\[ f(\\theta_t \\mid y_{1:t-1}) \\;=\\; \\int f(\\theta_t \\mid \\theta_{t-1})\\, f(\\theta_{t-1} \\mid y_{1:t-1})\\, d\\theta_{t-1}, \\]\n\"Today's predicted state distribution = average (intergal) of the transition probabilities form yesterday to today * yesterday's posterior (second term, where you were yesterday)\n\n\\emph{Equivalent batch form (textbook / iid case).} When $\\theta$ is a \\textbf{static} parameter and observations are conditionally iid given $\\theta$, you can write the posterior in one shot using all data and the original prior:\n\\[ f(\\theta \\mid y_{1:T}) \\;\\propto\\; f(y_{1:T} \\mid \\theta) \\cdot f(\\theta) \\;\\underbrace{=}_{\\text{iid}}\\; \\prod_{t=1}^{T} f(y_t \\mid \\theta) \\cdot f(\\theta). \\]\nNote: there is no iid with a time-varying $\\theta_t$, and there is no identical distribution either (each $y_t$ has its own $\\theta_t$).\n",
                 "flashcard": false,
                 "images": [],
-                "links": [
-                  {
-                    "target": "1779040212178",
-                    "type": "forward"
-                  }
-                ],
+                "links": [],
                 "x": 3586.821854932051,
                 "y": 3744.283893462616,
                 "width": 310,
