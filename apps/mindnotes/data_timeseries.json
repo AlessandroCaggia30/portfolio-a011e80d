@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-18T09:19:44.987Z",
+  "exportedAt": "2026-05-18T09:19:52.269Z",
   "data": {
     "topics": [
       {
@@ -1200,7 +1200,7 @@
               {
                 "id": "1779095923858",
                 "title": "State Prediction",
-                "content": "\nRecalling that a bayesian forecat is: \n\\[ P(\\, a \\le \\theta \\le b \\mid y \\,) \\;=\\; \\int_{a}^{b} f(\\theta \\mid y)\\, d\\theta \\;=\\; 1 - \\alpha. \\]\nNow $y$ is fixed (the observed data) and $\\theta$ is the random variable; the probability is over the posterior $f(\\theta \\mid y)$.",
+                "content": "\nRecalling that a bayesian forecat is: \n\\[ P(\\, a \\le \\theta \\le b \\mid y \\,) \\;=\\; \\int_{a}^{b} f(\\theta \\mid y)\\, d\\theta \\;=\\; 1 - \\alpha. \\]\nNow $y$ is fixed (the observed data) and $\\theta$ is the random variable; the probability is over the posterior $f(\\theta \\mid y)$.\n\n\n\n\\textbf{\\textcolor{red}{2. State prediction} $\\;\\;f(\\theta_{t+h} \\mid y_{1:t})$.} \\emph{Where will the hidden state be $h$ steps from now?} Just keep applying the transition kernel, no new evidence:\n\\[ f(\\theta_{t+1} \\mid y_{1:t}) \\;=\\; \\int f(\\theta_{t+1} \\mid \\theta_t)\\, \\underbrace{f(\\theta_t \\mid y_{1:t})\\,}_{\\text{obtained by filtering}} d\\theta_t \\]\nand recursively\n\\[ f(\\theta_{t+h} \\mid y_{1:t}) \\;=\\; \\int f(\\theta_{t+h} \\mid \\theta_{t+h-1})\\, f(\\theta_{t+h-1} \\mid y_{1:t})\\, d\\theta_{t+h-1}. \\]\ni obtain this one step per time, so first i predict h+1 then h+2 etc. State h means h iterations. \n",
                 "flashcard": false,
                 "images": [],
                 "links": [
