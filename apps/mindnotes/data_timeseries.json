@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-18T14:01:48.006Z",
+  "exportedAt": "2026-05-18T14:01:53.650Z",
   "data": {
     "topics": [
       {
@@ -948,7 +948,12 @@
                 "content": "\\textbf{\\textcolor{red}{PARAMETER ESTIMATION}}\n\nEstimate the \\emph{fixed}, time-invariant constants $\\phi$ of the model from data $y_{1:T}$. Two routes: \\emph{maximum likelihood} (frequentist) or \\emph{Bayesian inference}.\n\n\\textbf{\\textcolor{red}{Parameter vs latent state --- the key distinction.}}\n\n$\\bullet$ \\emph{Latent state $\\theta_t$:} dynamic, unobserved, lives at each time. Targets: $f(\\theta_t \\mid y_{1:t})$ (filtering), $f(\\theta_t \\mid y_{1:T})$ (smoothing). Handled by recursive Bayes (Kalman / forward--backward).\n\n$\\bullet$ \\emph{Parameter $\\phi$:} static, unknown, shared across all $t$. Targets: $\\hat\\phi$ (MLE) or $f(\\phi \\mid y_{1:T})$ (posterior). Single quantity, not a trajectory.\n\n\\textbf{\\textcolor{red}{Examples.}}\n\n$\\bullet$ \\emph{iid Gaussian:} $\\phi = (\\mu, \\sigma^2)$.\n\n$\\bullet$ \\emph{AR($p$):} $\\phi = (\\phi_1, \\dots, \\phi_p, \\sigma^2)$.\n\n$\\bullet$ \\emph{HMM:} $\\phi = (P,\\, \\{\\theta_j^*\\},\\, \\pi)$ --- transition matrix, emission parameters, initial distribution.\n\n$\\bullet$ \\emph{DLM (time-invariant):} $\\phi = (F, G, V, W)$, plus $(m_0, C_0)$ for the initial state.\n\n\\textbf{\\textcolor{red}{Route 1 --- Maximum likelihood (frequentist).}}\n\n\\textbf{\\textcolor{red}{Route 2 --- Bayesian inference.}}\n\nAssign a prior $\\pi(\\phi)$, apply Bayes:\n\\[ f(\\phi \\mid y_{1:T}) \\;\\propto\\; f(y_{1:T} \\mid \\phi)\\, \\pi(\\phi). \\]\n\nyou pick the most likely phi given the dtaa ",
                 "flashcard": true,
                 "images": [],
-                "links": [],
+                "links": [
+                  {
+                    "target": "cheatsheet_ssm_001",
+                    "type": "forward"
+                  }
+                ],
                 "x": 3690.783638749188,
                 "y": 2911.912382126884,
                 "fsrs": {
@@ -1180,10 +1185,10 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 3570.9346999025174,
-                "y": 3307.0024387743606,
-                "width": 1000,
-                "height": 700,
+                "x": 3668.833295171511,
+                "y": 3243.2545162736205,
+                "width": 599.298772852492,
+                "height": 276.5316576736563,
                 "color": "yellow",
                 "fsrs": {
                   "stability": 1,
