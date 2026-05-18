@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-18T14:02:07.712Z",
+  "exportedAt": "2026-05-18T14:02:22.139Z",
   "data": {
     "topics": [
       {
@@ -851,7 +851,7 @@
                     "type": "forward"
                   }
                 ],
-                "x": 2839.5079000598917,
+                "x": 2748.439439344549,
                 "y": 3267.0369305299455,
                 "fsrs": {
                   "stability": 1,
@@ -879,7 +879,7 @@
                     "type": "both"
                   }
                 ],
-                "x": 3119.308195591629,
+                "x": 2969.0452354113136,
                 "y": 3530.0169839583987,
                 "fsrs": {
                   "stability": 1,
@@ -895,7 +895,7 @@
               },
               {
                 "id": "1778843690350",
-                "title": "Prediction",
+                "title": "Derivation: Prediction",
                 "content": "\\textbf{\\textcolor{red}{PREDICTION --- how Bayesian concepts give us all the formulas}}\n\n\\textbf{\\textcolor{red}{Intro.}} \\emph{Where does the predictive density come from?} By the definition of a conditional density (chain rule applied to the joint of the first $t + h$ observations):\n\\[ f(y_{t+h} \\mid y_{1:t}) \\;=\\; \\frac{f(y_{1:t},\\, y_{t+h})}{f(y_{1:t})}. \\]\nNatural starting point, BUT SAME AS BEFORE: \\emph{both} densities on the right are usually intractable directly --- use the trick.\n\n\\textbf{\\textcolor{red}{General version (textbook posterior predictive, $h$-step ahead).}} For observed data $y_{1:t}$, future observation $y_{t+h}$, and contemporaneous latent state $\\theta_{t+h}$:\n\\[ \\boxed{\\; f(y_{t+h} \\mid y_{1:t}) \\;\\underbrace{=}_{(*)}\\; \\int f(y_{t+h},\\, \\theta_{t+h} \\mid y_{1:t})\\, d\\theta_{t+h} \\;\\underbrace{=}_{\\text{Bayes on the integrand}}\\; \\int f(y_{t+h} \\mid y_{1:t},\\, \\theta_{t+h})\\, f(\\theta_{t+h} \\mid y_{1:t})\\, d\\theta_{t+h} \\;=\\; \\int f(y_{t+h} \\mid \\theta_{t+h})\\, \\underbrace{f(\\theta_{t+h} \\mid y_{1:t})}_{\\text{filter + predict}}\\, d\\theta_{t+h}. \\;} \\]\n\n$(\\ast)$ Marginalisation: ask yourself --- \\emph{when $y$ takes this value, what value does $\\theta$ take?} --- and average. The integration variable must match what's varying in the integrand.\n\n\\emph{Reading.} \\textbf{KEY:} For each candidate value of the contemporaneous state $\\theta_{t+h}$, the emission gives a forecast $f(y_{t+h} \\mid \\theta_{t+h})$; we average these forecasts, weighted by how plausible each $\\theta_{t+h}$ is given the data we have already seen ($f(\\theta_{t+h} \\mid y_{1:t})$, the predicted-state distribution).\n\n",
                 "flashcard": true,
                 "images": [],
@@ -905,8 +905,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 3683.858524128972,
-                "y": 3817.072702792563,
+                "x": 3638.324293771301,
+                "y": 3707.7905499341523,
                 "fsrs": {
                   "stability": 1,
                   "difficulty": 5,
@@ -1127,8 +1127,8 @@
                 "flashcard": false,
                 "images": [],
                 "links": [],
-                "x": 3020.2113001520784,
-                "y": 3776.6870497597747,
+                "x": 3129.4934530104897,
+                "y": 3699.2788581517334,
                 "width": 457.5405486461758,
                 "height": 256.8608393905069
               },
@@ -1190,8 +1190,8 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 3668.833295171511,
-                "y": 3243.2545162736205,
+                "x": 3623.2990648138402,
+                "y": 3300.1723042207095,
                 "width": 599.298772852492,
                 "height": 276.5316576736563,
                 "color": "yellow",
