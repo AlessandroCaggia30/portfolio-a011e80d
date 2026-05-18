@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-18T15:35:03.041Z",
+  "exportedAt": "2026-05-18T15:35:10.432Z",
   "data": {
     "topics": [
       {
@@ -1218,7 +1218,7 @@
               {
                 "id": "1779118490703",
                 "title": "Predictions stuff",
-                "content": "",
+                "content": "\n\\emph{Kalman gain form (equivalent):}\n\\[ m_{T+1} \\;=\\; a_{T+1} + K_{T+1}\\, \\underbrace{(y_{T+1} - f_{T+1})}_{e_{T+1}\\,=\\,\\text{innovation}}, \\qquad K_{T+1} \\;=\\; \\frac{R_{T+1}}{R_{T+1} + V} \\;=\\; \\frac{C_T + W}{C_T + W + V}. \\]\n$K_{T+1} \\to 1$ when the state is much more uncertain than the observation noise (trust the new datum); $K_{T+1} \\to 0$ in the opposite regime.\n\n\\emph{Signal-to-noise ratio.} The book (Petris--Petrone--Campagnoli, p.\\ 39) names $W / V$ as the SNR: it is the single dimensionless number controlling how reactive the filter is. High SNR $\\Rightarrow K \\to 1$ (filter tracks every wiggle); low SNR $\\Rightarrow K \\to 0$ (filter smooths heavily, treating data as noise around an essentially-constant state).\n",
                 "flashcard": false,
                 "images": [],
                 "links": [],
