@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-18T09:19:05.114Z",
+  "exportedAt": "2026-05-18T09:19:09.666Z",
   "data": {
     "topics": [
       {
@@ -1200,12 +1200,12 @@
               {
                 "id": "1779095923858",
                 "title": "State Prediction",
-                "content": "",
+                "content": "\nRecalling that a bayesian forecat is: \n\\[ P(\\, a \\le \\theta \\le b \\mid y \\,) \\;=\\; \\int_{a}^{b} f(\\theta \\mid y)\\, d\\theta \\;=\\; 1 - \\alpha. \\]\nNow $y$ is fixed (the observed data) and $\\theta$ is the random variable; the probability is over the posterior $f(\\theta \\mid y)$.",
                 "flashcard": false,
                 "images": [],
                 "links": [],
-                "x": 3727.86253046258,
-                "y": 3538.3625586187845
+                "x": 3746.6964387894877,
+                "y": 3574.685096106393
               }
             ]
           }
