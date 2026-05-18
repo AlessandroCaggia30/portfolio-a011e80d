@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-18T14:01:30.169Z",
+  "exportedAt": "2026-05-18T14:01:39.772Z",
   "data": {
     "topics": [
       {
@@ -845,12 +845,7 @@
                 "content": "\\textbf{\\textcolor{red}{BAYESIAN vs FREQUENTIST INFERENCE}}\n\nAfter deriving Bayes' rule and seeing the prior get \\emph{updated} by evidence into a posterior, a natural question arises: \\emph{does the prior shift mean there is no true $\\theta$?} The answer is no --- but to see why, we need to compare the two frameworks side by side.\n\n\\textbf{\\textcolor{red}{The status of $\\theta$.}}\n\n$\\bullet$ \\emph{Frequentist.} $\\theta$ is a \\textbf{fixed unknown constant} of nature. It does not have a probability distribution. Probability is reserved for the data. Not a random variable. Ucertainty is driven by the samplig procedure (we see a different estimate just because the sample is not fully representative of the population)\"$P(\\hat\\theta \\in [a, b]) = 0.95$\" means: if we repeated the sampling many times, 95\\% of the resulting intervals $[\\hat a_n, \\hat b_n]$ would contain the true $\\theta$.\n\n\n$\\bullet$ \\emph{Bayesian.} $\\theta$ may also be a fixed unknown constant in nature --- but since we don't \\emph{know} it, we represent our \\textbf{state of belief} about $\\theta$ as a probability distribution: $\\pi(\\theta)$ before data, $p(\\theta \\mid y)$ after. The randomness lives in our \\emph{knowledge} (is epistemic), not in $\\theta$ itself. $\\theta$ is a **random variable.** \n\nSo the prior shifting does \\emph{not} mean $\\theta$ moves. It means our \\emph{uncertainty about $\\theta$} sharpens around the values most compatible with the data. The true $\\theta$ (if you believe in one) is a fixed point in parameter space; the probability mass representing our knowledge is what slides around it.\n\n\n\\textbf{\\textcolor{red}{Confidence intervals (frequentist) vs Credible intervals (Bayesian).}}\n\n\\textbf{\\textcolor{red}{Frequentist confidence interval --- exact formula.}} Given an estimator $\\hat\\theta_n$ with (asymptotic) standard error $\\text{SE}(\\hat\\theta_n)$ (how the estimator estimates would vary across replicaitons of the experiment, derived analytically from the model), the $1 - \\alpha$ Wald confidence interval is\n\\[ \\text{CI}_{1-\\alpha} \\;=\\; \\bigl[\\, \\hat\\theta_n - z_{\\alpha/2} \\cdot \\text{SE}(\\hat\\theta_n),\\;\\; \\hat\\theta_n + z_{\\alpha/2} \\cdot \\text{SE}(\\hat\\theta_n) \\,\\bigr], \\]\nwhere $\\text{SE}(\\hat\\theta_n) = \\sigma / \\sqrt{n}$., and $z_{\\alpha/2}$ is the $1 - \\alpha/2$ quantile of the standard Normal (e.g.\\ $z_{0.025} = 1.96$ for 95\\%).\n\n\n\n\n\n\\textbf{\\textcolor{red}{Bayesian credible interval --- exact formula.}} A $1 - \\alpha$ credible interval is any interval $[a, b]$ such that the posterior probability\n\\[ P(\\, a \\le \\theta \\le b \\mid y \\,) \\;=\\; \\int_{a}^{b} p(\\theta \\mid y)\\, d\\theta \\;=\\; 1 - \\alpha. \\]\nNow $y$ is fixed (the observed data) and $\\theta$ is the random variable; the probability is over the posterior $p(\\theta \\mid y)$.\n\n\n\n\\textbf{\\textcolor{red}{Side-by-side summary.}}\n\\begin{tabular}{l|l|l} & Frequentist & Bayesian \\\\ \\hline Status of $\\theta$ & fixed unknown constant & random variable (uncertainty over) \\\\ Source of randomness & data only & data + parameter \\\\ Estimator of $\\theta$ & MLE $\\hat\\theta$ & posterior $p(\\theta \\mid y)$ \\\\ Interval & confidence (over procedure) & credible (over $\\theta$) \\\\ Updating with new data & re-run estimator & posterior $\\to$ new prior, apply Bayes \\end{tabular}\n",
                 "flashcard": true,
                 "images": [],
-                "links": [
-                  {
-                    "target": "1779034375807",
-                    "type": "forward"
-                  }
-                ],
+                "links": [],
                 "x": 2839.5079000598917,
                 "y": 3267.0369305299455,
                 "fsrs": {
@@ -957,12 +952,7 @@
                 "content": "\\textbf{\\textcolor{red}{PARAMETER ESTIMATION}}\n\nEstimate the \\emph{fixed}, time-invariant constants $\\phi$ of the model from data $y_{1:T}$. Two routes: \\emph{maximum likelihood} (frequentist) or \\emph{Bayesian inference}.\n\n\\textbf{\\textcolor{red}{Parameter vs latent state --- the key distinction.}}\n\n$\\bullet$ \\emph{Latent state $\\theta_t$:} dynamic, unobserved, lives at each time. Targets: $f(\\theta_t \\mid y_{1:t})$ (filtering), $f(\\theta_t \\mid y_{1:T})$ (smoothing). Handled by recursive Bayes (Kalman / forward--backward).\n\n$\\bullet$ \\emph{Parameter $\\phi$:} static, unknown, shared across all $t$. Targets: $\\hat\\phi$ (MLE) or $f(\\phi \\mid y_{1:T})$ (posterior). Single quantity, not a trajectory.\n\n\\textbf{\\textcolor{red}{Examples.}}\n\n$\\bullet$ \\emph{iid Gaussian:} $\\phi = (\\mu, \\sigma^2)$.\n\n$\\bullet$ \\emph{AR($p$):} $\\phi = (\\phi_1, \\dots, \\phi_p, \\sigma^2)$.\n\n$\\bullet$ \\emph{HMM:} $\\phi = (P,\\, \\{\\theta_j^*\\},\\, \\pi)$ --- transition matrix, emission parameters, initial distribution.\n\n$\\bullet$ \\emph{DLM (time-invariant):} $\\phi = (F, G, V, W)$, plus $(m_0, C_0)$ for the initial state.\n\n\\textbf{\\textcolor{red}{Route 1 --- Maximum likelihood (frequentist).}}\n\n\\textbf{\\textcolor{red}{Route 2 --- Bayesian inference.}}\n\nAssign a prior $\\pi(\\phi)$, apply Bayes:\n\\[ f(\\phi \\mid y_{1:T}) \\;\\propto\\; f(y_{1:T} \\mid \\phi)\\, \\pi(\\phi). \\]\n\nyou pick the most likely phi given the dtaa ",
                 "flashcard": true,
                 "images": [],
-                "links": [
-                  {
-                    "target": "1779034375807",
-                    "type": "forward"
-                  }
-                ],
+                "links": [],
                 "x": 3690.783638749188,
                 "y": 2911.912382126884,
                 "fsrs": {
@@ -1136,8 +1126,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 3687.2877748919636,
-                "y": 3353.2187074334306,
+                "x": 3193.2413755112293,
+                "y": 3535.3556288641157,
                 "width": 457.5405486461758,
                 "height": 256.8608393905069
               },
