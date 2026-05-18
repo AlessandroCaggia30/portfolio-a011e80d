@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-18T09:24:17.102Z",
+  "exportedAt": "2026-05-18T09:24:28.890Z",
   "data": {
     "topics": [
       {
@@ -851,8 +851,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 2840.853179226099,
-                "y": 3269.727488862361,
+                "x": 2839.5079000598917,
+                "y": 3267.0369305299455,
                 "fsrs": {
                   "stability": 1,
                   "difficulty": 5,
@@ -879,8 +879,8 @@
                     "type": "both"
                   }
                 ],
-                "x": 3091.057333101267,
-                "y": 3778.893629706825,
+                "x": 3119.308195591629,
+                "y": 3530.0169839583987,
                 "fsrs": {
                   "stability": 1,
                   "difficulty": 5,
@@ -1200,7 +1200,7 @@
               {
                 "id": "1779095923858",
                 "title": "State Prediction",
-                "content": "\nRecalling that a bayesian forecat is: \n\\[ P(\\, a \\le \\theta \\le b \\mid y \\,) \\;=\\; \\int_{a}^{b} f(\\theta \\mid y)\\, d\\theta \\;=\\; 1 - \\alpha. \\]\nNow $y$ is fixed (the observed data) and $\\theta$ is the random variable; the probability is over the posterior $f(\\theta \\mid y)$.\n\n\n\n\\textbf{\\textcolor{red}{2. State prediction} $\\;\\;f(\\theta_{t+h} \\mid y_{1:t})$.} \\emph{Where will the hidden state be $h$ steps from now?} Just keep applying the transition kernel, no new evidence:\n\\[ f(\\theta_{t+1} \\mid y_{1:t}) \\;=\\; \\int f(\\theta_{t+1} \\mid \\theta_t)\\, \\underbrace{f(\\theta_t \\mid y_{1:t})\\,}_{\\text{obtained by filtering}} d\\theta_t \\]\nand recursively\n\\[ f(\\theta_{t+h} \\mid y_{1:t}) \\;=\\; \\int f(\\theta_{t+h} \\mid \\theta_{t+h-1})\\, f(\\theta_{t+h-1} \\mid y_{1:t})\\, d\\theta_{t+h-1}. \\]\ni obtain this one step per time, so first i predict h+1 then h+2 etc. State h means h iterations. \n",
+                "content": "\n\\textbf{\\textcolor{red}{2. State prediction} $\\;\\;f(\\theta_{t+h} \\mid y_{1:t})$.} \\emph{Where will the hidden state be $h$ steps from now?} Just keep applying the transition kernel, no new evidence:\n\\[ f(\\theta_{t+1} \\mid y_{1:t}) \\;=\\; \\int f(\\theta_{t+1} \\mid \\theta_t)\\, \\underbrace{f(\\theta_t \\mid y_{1:t})\\,}_{\\text{obtained by filtering}} d\\theta_t \\]\nand recursively\n\\[ f(\\theta_{t+h} \\mid y_{1:t}) \\;=\\; \\int f(\\theta_{t+h} \\mid \\theta_{t+h-1})\\, f(\\theta_{t+h-1} \\mid y_{1:t})\\, d\\theta_{t+h-1}. \\]\ni obtain this one step per time, so first i predict h+1 then h+2 etc. State h means h iterations. \n",
                 "flashcard": false,
                 "images": [],
                 "links": [
