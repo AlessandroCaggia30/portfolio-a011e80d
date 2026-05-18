@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-18T14:01:06.431Z",
+  "exportedAt": "2026-05-18T14:01:30.169Z",
   "data": {
     "topics": [
       {
@@ -896,7 +896,7 @@
               {
                 "id": "1778843690350",
                 "title": "Prediction",
-                "content": "\\textbf{\\textcolor{red}{PREDICTION --- how Bayesian concepts give us all the formulas}}\n\n\\textbf{\\textcolor{red}{Intro.}} \\emph{Where does the predictive density come from?} By the definition of a conditional density (chain rule applied to the joint of the first $t + h$ observations):\n\\[ f(y_{t+h} \\mid y_{1:t}) \\;=\\; \\frac{f(y_{1:t},\\, y_{t+h})}{f(y_{1:t})}. \\]\nNatural starting point, BUT SAME AS BEFORE: \\emph{both} densities on the right are usually intractable directly --- use the trick.\n\n\\textbf{\\textcolor{red}{General version (textbook posterior predictive, $h$-step ahead).}} For observed data $y_{1:t}$, future observation $y_{t+h}$, and contemporaneous latent state $\\theta_{t+h}$:\n\\[ \\boxed{\\; f(y_{t+h} \\mid y_{1:t}) \\;\\underbrace{=}_{(*)}\\; \\int f(y_{t+h},\\, \\theta_{t+h} \\mid y_{1:t})\\, d\\theta_{t+h} \\;\\underbrace{=}_{\\text{Bayes on the integrand}}\\; \\int f(y_{t+h} \\mid y_{1:t},\\, \\theta_{t+h})\\, f(\\theta_{t+h} \\mid y_{1:t})\\, d\\theta_{t+h} \\;=\\; \\int f(y_{t+h} \\mid \\theta_{t+h})\\, \\underbrace{f(\\theta_{t+h} \\mid y_{1:t})}_{\\text{filter + predict}}\\, d\\theta_{t+h}. \\;} \\]\n\n$(\\ast)$ Marginalisation: ask yourself --- \\emph{when $y$ takes this value, what value does $\\theta$ take?} --- and average. The integration variable must match what's varying in the integrand.\n\n\\emph{Reading.} \\textbf{KEY:} For each candidate value of the contemporaneous state $\\theta_{t+h}$, the emission gives a forecast $f(y_{t+h} \\mid \\theta_{t+h})$; we average these forecasts, weighted by how plausible each $\\theta_{t+h}$ is given the data we have already seen ($f(\\theta_{t+h} \\mid y_{1:t})$, the predicted-state distribution).\n\n\\textbf{\\textcolor{red}{Special case $h = 1$ (one-step-ahead observation prediction).}}\n\\[ f(y_{t+1} \\mid y_{1:t}) \\;=\\; \\int f(y_{t+1} \\mid \\theta_{t+1})\\, f(\\theta_{t+1} \\mid y_{1:t})\\, d\\theta_{t+1}, \\]\nwhere $f(\\theta_{t+1} \\mid y_{1:t})$ comes from one application of the predict step on the filtered posterior.\n\n\n",
+                "content": "\\textbf{\\textcolor{red}{PREDICTION --- how Bayesian concepts give us all the formulas}}\n\n\\textbf{\\textcolor{red}{Intro.}} \\emph{Where does the predictive density come from?} By the definition of a conditional density (chain rule applied to the joint of the first $t + h$ observations):\n\\[ f(y_{t+h} \\mid y_{1:t}) \\;=\\; \\frac{f(y_{1:t},\\, y_{t+h})}{f(y_{1:t})}. \\]\nNatural starting point, BUT SAME AS BEFORE: \\emph{both} densities on the right are usually intractable directly --- use the trick.\n\n\\textbf{\\textcolor{red}{General version (textbook posterior predictive, $h$-step ahead).}} For observed data $y_{1:t}$, future observation $y_{t+h}$, and contemporaneous latent state $\\theta_{t+h}$:\n\\[ \\boxed{\\; f(y_{t+h} \\mid y_{1:t}) \\;\\underbrace{=}_{(*)}\\; \\int f(y_{t+h},\\, \\theta_{t+h} \\mid y_{1:t})\\, d\\theta_{t+h} \\;\\underbrace{=}_{\\text{Bayes on the integrand}}\\; \\int f(y_{t+h} \\mid y_{1:t},\\, \\theta_{t+h})\\, f(\\theta_{t+h} \\mid y_{1:t})\\, d\\theta_{t+h} \\;=\\; \\int f(y_{t+h} \\mid \\theta_{t+h})\\, \\underbrace{f(\\theta_{t+h} \\mid y_{1:t})}_{\\text{filter + predict}}\\, d\\theta_{t+h}. \\;} \\]\n\n$(\\ast)$ Marginalisation: ask yourself --- \\emph{when $y$ takes this value, what value does $\\theta$ take?} --- and average. The integration variable must match what's varying in the integrand.\n\n\\emph{Reading.} \\textbf{KEY:} For each candidate value of the contemporaneous state $\\theta_{t+h}$, the emission gives a forecast $f(y_{t+h} \\mid \\theta_{t+h})$; we average these forecasts, weighted by how plausible each $\\theta_{t+h}$ is given the data we have already seen ($f(\\theta_{t+h} \\mid y_{1:t})$, the predicted-state distribution).\n\n",
                 "flashcard": true,
                 "images": [],
                 "links": [
@@ -1199,8 +1199,8 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 4028.553714997114,
-                "y": 4213.133622892021,
+                "x": 4210.6906364278,
+                "y": 4197.196642266836,
                 "width": 1000,
                 "height": 700,
                 "color": "yellow",
