@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-18T09:15:36.322Z",
+  "exportedAt": "2026-05-18T09:15:42.217Z",
   "data": {
     "topics": [
       {
@@ -901,10 +901,6 @@
                 "images": [],
                 "links": [
                   {
-                    "target": "1779034375807",
-                    "type": "forward"
-                  },
-                  {
                     "target": "1779095464284",
                     "type": "both"
                   },
@@ -956,12 +952,7 @@
                 "content": "\\textbf{\\textcolor{red}{PARAMETER ESTIMATION}}\n\nEstimate the \\emph{fixed}, time-invariant constants $\\phi$ of the model from data $y_{1:T}$. Two routes: \\emph{maximum likelihood} (frequentist) or \\emph{Bayesian inference}.\n\n\\textbf{\\textcolor{red}{Parameter vs latent state --- the key distinction.}}\n\n$\\bullet$ \\emph{Latent state $\\theta_t$:} dynamic, unobserved, lives at each time. Targets: $f(\\theta_t \\mid y_{1:t})$ (filtering), $f(\\theta_t \\mid y_{1:T})$ (smoothing). Handled by recursive Bayes (Kalman / forward--backward).\n\n$\\bullet$ \\emph{Parameter $\\phi$:} static, unknown, shared across all $t$. Targets: $\\hat\\phi$ (MLE) or $f(\\phi \\mid y_{1:T})$ (posterior). Single quantity, not a trajectory.\n\n\\textbf{\\textcolor{red}{Examples.}}\n\n$\\bullet$ \\emph{iid Gaussian:} $\\phi = (\\mu, \\sigma^2)$.\n\n$\\bullet$ \\emph{AR($p$):} $\\phi = (\\phi_1, \\dots, \\phi_p, \\sigma^2)$.\n\n$\\bullet$ \\emph{HMM:} $\\phi = (P,\\, \\{\\theta_j^*\\},\\, \\pi)$ --- transition matrix, emission parameters, initial distribution.\n\n$\\bullet$ \\emph{DLM (time-invariant):} $\\phi = (F, G, V, W)$, plus $(m_0, C_0)$ for the initial state.\n\n\\textbf{\\textcolor{red}{Route 1 --- Maximum likelihood (frequentist).}}\n\n\\textbf{\\textcolor{red}{Route 2 --- Bayesian inference.}}\n\nAssign a prior $\\pi(\\phi)$, apply Bayes:\n\\[ f(\\phi \\mid y_{1:T}) \\;\\propto\\; f(y_{1:T} \\mid \\phi)\\, \\pi(\\phi). \\]\n\nyou pick the most likely phi given the dtaa ",
                 "flashcard": true,
                 "images": [],
-                "links": [
-                  {
-                    "target": "1778843690350",
-                    "type": "forward"
-                  }
-                ],
+                "links": [],
                 "x": 3690.783638749188,
                 "y": 2911.912382126884,
                 "fsrs": {
@@ -1130,8 +1121,8 @@
                 "flashcard": false,
                 "images": [],
                 "links": [],
-                "x": 3586.821854932051,
-                "y": 3744.283893462616,
+                "x": 3762.8597353176483,
+                "y": 3189.5426737601038,
                 "width": 310,
                 "height": 260
               },
