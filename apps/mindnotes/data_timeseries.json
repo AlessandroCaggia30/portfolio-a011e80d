@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-18T13:55:56.904Z",
+  "exportedAt": "2026-05-18T13:56:06.696Z",
   "data": {
     "topics": [
       {
@@ -1220,8 +1220,8 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 7500,
-                "y": 4500,
+                "x": 4028.553714997114,
+                "y": 4213.133622892021,
                 "width": 1000,
                 "height": 700,
                 "color": "yellow",
