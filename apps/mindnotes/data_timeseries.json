@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-19T01:14:02.507Z",
+  "exportedAt": "2026-05-19T01:14:08.793Z",
   "data": {
     "topics": [
       {
@@ -1223,7 +1223,7 @@
                 "y": 3360.953376109535,
                 "width": 372.21687539971833,
                 "height": 312.3064536492582,
-                "color": "yellow",
+                "color": "coral",
                 "fsrs": {
                   "stability": 1,
                   "difficulty": 5,
@@ -1280,7 +1280,7 @@
                 "y": 3352.121212121212,
                 "width": 536.3636363636365,
                 "height": 240.909090909091,
-                "color": "yellow",
+                "color": "coral",
                 "fsrs": {
                   "stability": 1,
                   "difficulty": 5,
