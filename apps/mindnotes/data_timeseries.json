@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-19T00:24:33.571Z",
+  "exportedAt": "2026-05-19T00:26:51.865Z",
   "data": {
     "topics": [
       {
@@ -1165,10 +1165,6 @@
                     "type": "forward"
                   },
                   {
-                    "target": "1779118490703",
-                    "type": "forward"
-                  },
-                  {
                     "target": "1778855952196",
                     "type": "forward"
                   },
@@ -1222,16 +1218,6 @@
                   "lastReview": null,
                   "dueDate": "2026-05-18T15:13:40.300Z"
                 }
-              },
-              {
-                "id": "1779118490703",
-                "title": "Predictions stuff",
-                "content": "\n\\emph{Kalman gain form (equivalent):}\n\\[ m_{T+1} \\;=\\; a_{T+1} + K_{T+1}\\, \\underbrace{(y_{T+1} - f_{T+1})}_{e_{T+1}\\,=\\,\\text{innovation}}, \\qquad K_{T+1} \\;=\\; \\frac{R_{T+1}}{R_{T+1} + V} \\;=\\; \\frac{C_T + W}{C_T + W + V}. \\]\n$K_{T+1} \\to 1$ when the state is much more uncertain than the observation noise (trust the new datum); $K_{T+1} \\to 0$ in the opposite regime.\n\n\\emph{Signal-to-noise ratio.} The book (Petris--Petrone--Campagnoli, p.\\ 39) names $W / V$ as the SNR: it is the single dimensionless number controlling how reactive the filter is. High SNR $\\Rightarrow K \\to 1$ (filter tracks every wiggle); low SNR $\\Rightarrow K \\to 0$ (filter smooths heavily, treating data as noise around an essentially-constant state).\n\n\n\\textbf{\\textcolor{red}{Prediction-error correction (Kalman) form.}} Algebraically simplifying the precision-blend formula for $m_n$ (recursive column) gives the interpretable Kalman update\n\\[ \\boxed{\\; m_n \\;=\\; m_{n-1} + K_n\\, \\underbrace{(y_n - m_{n-1})}_{e_n \\,=\\, \\text{prediction error}}, \\qquad K_n \\;=\\; \\frac{C_{n-1}}{C_{n-1} + \\sigma^2}. \\;} \\]\n$e_n = y_n - m_{n-1}$ is the innovation. $K_n$ goes up (we trust the new observation more) when reliability is high.\n\n\\textbf{\\textcolor{red}{Two readings of the Kalman gain $K_n$.}}\n\n$\\bullet$ \\textbf{(1) Ratio of variances (signal-to-total).} Of the total variability of $Y_n$, what fraction comes from \\emph{state uncertainty} (informative about $\\theta_n$) vs \\emph{observation noise} (uninformative)? State dominates $\\Rightarrow K_n \\to 1$; noise dominates $\\Rightarrow K_n \\to 0$.",
-                "flashcard": false,
-                "images": [],
-                "links": [],
-                "x": 4368.8545869919835,
-                "y": 4006.3956618228212
               },
               {
                 "id": "ts1779149664107",
@@ -1368,6 +1354,19 @@
         "x": 4413.8118247531065,
         "y": 3666.6894501429015,
         "deletedAt": 1779118502493,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "1779118490703",
+        "title": "Predictions stuff",
+        "content": "\n\\emph{Kalman gain form (equivalent):}\n\\[ m_{T+1} \\;=\\; a_{T+1} + K_{T+1}\\, \\underbrace{(y_{T+1} - f_{T+1})}_{e_{T+1}\\,=\\,\\text{innovation}}, \\qquad K_{T+1} \\;=\\; \\frac{R_{T+1}}{R_{T+1} + V} \\;=\\; \\frac{C_T + W}{C_T + W + V}. \\]\n$K_{T+1} \\to 1$ when the state is much more uncertain than the observation noise (trust the new datum); $K_{T+1} \\to 0$ in the opposite regime.\n\n\\emph{Signal-to-noise ratio.} The book (Petris--Petrone--Campagnoli, p.\\ 39) names $W / V$ as the SNR: it is the single dimensionless number controlling how reactive the filter is. High SNR $\\Rightarrow K \\to 1$ (filter tracks every wiggle); low SNR $\\Rightarrow K \\to 0$ (filter smooths heavily, treating data as noise around an essentially-constant state).\n\n\n\\textbf{\\textcolor{red}{Prediction-error correction (Kalman) form.}} Algebraically simplifying the precision-blend formula for $m_n$ (recursive column) gives the interpretable Kalman update\n\\[ \\boxed{\\; m_n \\;=\\; m_{n-1} + K_n\\, \\underbrace{(y_n - m_{n-1})}_{e_n \\,=\\, \\text{prediction error}}, \\qquad K_n \\;=\\; \\frac{C_{n-1}}{C_{n-1} + \\sigma^2}. \\;} \\]\n$e_n = y_n - m_{n-1}$ is the innovation. $K_n$ goes up (we trust the new observation more) when reliability is high.\n\n\\textbf{\\textcolor{red}{Two readings of the Kalman gain $K_n$.}}\n\n$\\bullet$ \\textbf{(1) Ratio of variances (signal-to-total).} Of the total variability of $Y_n$, what fraction comes from \\emph{state uncertainty} (informative about $\\theta_n$) vs \\emph{observation noise} (uninformative)? State dominates $\\Rightarrow K_n \\to 1$; noise dominates $\\Rightarrow K_n \\to 0$.",
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "x": 4368.8545869919835,
+        "y": 4006.3956618228212,
+        "deletedAt": 1779150409725,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
