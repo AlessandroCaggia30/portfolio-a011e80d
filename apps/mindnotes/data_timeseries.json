@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-19T00:55:00.088Z",
+  "exportedAt": "2026-05-19T00:55:21.786Z",
   "data": {
     "topics": [
       {
@@ -1193,7 +1193,7 @@
               {
                 "id": "ts1779117214391",
                 "title": "Example 5: Local Linear Trend (LLT)",
-                "content": "\\textbf{\\textcolor{red}{EXAMPLE 5 --- Local Linear Trend (LLT).}}\n\nbasically a random walk with drift where the drift changes?                \n\n\\begin{keydef}\n\\textbf{Local Linear Trend (LLT) DLM.}\n\n\\emph{State equations:}\n\\[ \\mu_t = \\mu_{t-1} + \\beta_{t-1} + w_{1,t}, \\qquad \\beta_t = \\beta_{t-1} + w_{2,t}, \\qquad w_t \\sim \\mathcal{N}\\!\\bigl(0,\\, W\\bigr),\\quad W = \\mathrm{diag}(W_\\mu,\\, W_\\beta). \\]\n\n\\emph{Observation equation:}\n\\[ Y_t = \\mu_t + \\nu_t, \\qquad \\nu_t \\sim \\mathcal{N}(0,\\, V). \\]\n\\end{keydef}\n\n\\emph{DLM tuple.}\n\\[ G \\;=\\; \\begin{pmatrix}1 & 1 \\\\ 0 & 1\\end{pmatrix}, \\qquad F \\;=\\; (1,\\; 0), \\qquad W \\;=\\; \\mathrm{diag}(W_\\mu,\\, W_\\beta), \\qquad V \\;=\\; \\sigma_\\nu^2. \\]\n",
+                "content": "\\textbf{\\textcolor{red}{EXAMPLE 5 --- Local Linear Trend (LLT).}}\n\nbasically a random walk with drift where the drift changes?                \n\n\\begin{keydef}\n\\textbf{Local Linear Trend (LLT) DLM.}\n\n\\emph{State equations:}\n\\[ \\mu_t = \\mu_{t-1} + \\beta_{t-1} + w_{1,t}, \\qquad \\beta_t = \\beta_{t-1} + w_{2,t}, \\qquad w_t \\sim \\mathcal{N}\\!\\bigl(0,\\, W\\bigr),\\quad W = \\mathrm{diag}(W_\\mu,\\, W_\\beta). \\]\n\n\\emph{Observation equation:}\n\\[ Y_t = \\mu_t + \\nu_t, \\qquad \\nu_t \\sim \\mathcal{N}(0,\\, V). \\]\n\\end{keydef}\n\n\n\\emph{DLM tuple.}\n\\[ G \\;=\\; \\begin{pmatrix}1 & 1 \\\\ 0 & 1\\end{pmatrix}, \\qquad F \\;=\\; (1,\\; 0), \\qquad W \\;=\\; \\mathrm{diag}(W_\\mu,\\, W_\\beta), \\qquad V \\;=\\; \\sigma_\\nu^2. \\]\n",
                 "flashcard": true,
                 "images": [],
                 "links": [
