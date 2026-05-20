@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-20T13:56:02.384Z",
+  "exportedAt": "2026-05-20T13:57:54.610Z",
   "data": {
     "topics": [
       {
@@ -1016,10 +1016,6 @@
                   {
                     "target": "ts1779025115815",
                     "type": "forward"
-                  },
-                  {
-                    "target": "ts1779153056987",
-                    "type": "forward"
                   }
                 ],
                 "x": 4642.50251887359,
@@ -1034,8 +1030,8 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 5170.675939820884,
-                "y": 3269.011530913238,
+                "x": 5110.675939820884,
+                "y": 3322.3448642465714,
                 "width": 384.5367844140469,
                 "height": 226.81445835998122,
                 "color": "yellow",
@@ -1221,39 +1217,10 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 5130.345356184133,
-                "y": 3844.079011042665,
+                "x": 6180.345356184133,
+                "y": 4574.079011042665,
                 "width": 577.2159060726297,
                 "height": 265.76887273705466,
-                "color": "coral",
-                "fsrs": {
-                  "stability": 1,
-                  "difficulty": 5,
-                  "elapsedDays": 0,
-                  "scheduledDays": 0,
-                  "reps": 0,
-                  "lapses": 0,
-                  "state": "new",
-                  "lastReview": null,
-                  "dueDate": "2026-05-19T01:12:12.754Z"
-                }
-              },
-              {
-                "id": "ts1779153056987",
-                "title": "Example 7: Dynamic Linear Regression (DLR)",
-                "content": "\\textbf{\\textcolor{red}{EXAMPLE 7 --- Dynamic Linear Regression (DLR).}}\n\nA regression of $Y_t$ on a covariate $x_t$ where the regression \\emph{coefficients themselves vary over time} (typically each as a random walk). The regressor enters via a \\emph{time-varying observation matrix} $F_t$, not via fixed parameters.\n\n\\begin{keydef}\n\\textbf{Dynamic Linear Regression (DLR) DLM.}\n\n\\emph{State} $\\theta_t = (\\alpha_t,\\, \\beta_t)^\\top \\in \\mathbb{R}^2$ (time-varying intercept $\\alpha_t$ and slope $\\beta_t$).\n\n\\emph{State equations (random-walk coefficients).}\n\\[ \\alpha_t \\;=\\; \\alpha_{t-1} + w_{1,t}, \\qquad w_{1,t} \\overset{\\text{iid}}{\\sim} \\mathcal{N}(0,\\, \\sigma_{w_1}^2); \\]\n\\[ \\beta_t \\;=\\; \\beta_{t-1} + w_{2,t}, \\qquad w_{2,t} \\overset{\\text{iid}}{\\sim} \\mathcal{N}(0,\\, \\sigma_{w_2}^2). \\]\nIn matrix form:\n\\[ \\theta_t \\;=\\; \\underbrace{I_2}_{G}\\, \\theta_{t-1} + w_t, \\qquad w_t = (w_{1,t},\\, w_{2,t})^\\top \\sim \\mathcal{N}_2\\!\\bigl(0,\\; W\\bigr), \\quad W = \\mathrm{diag}(\\sigma_{w_1}^2,\\, \\sigma_{w_2}^2). \\]\n\n\\emph{Observation equation (regression with time-varying coefficient).}\n\\[ Y_t \\;=\\; \\alpha_t + \\beta_t\\, x_t + v_t \\;=\\; \\underbrace{(1,\\; x_t)}_{F_t}\\, \\theta_t + v_t, \\qquad v_t \\overset{\\text{iid}}{\\sim} \\mathcal{N}(0,\\, \\sigma^2). \\]\n\nAll noises $\\{w_t\\}, \\{v_t\\}$ and the initial state $\\theta_0 \\sim \\mathcal{N}_2(m_0, C_0)$ mutually independent.\n\\end{keydef}\n\n\\emph{Where the regressor lives.} The covariate $x_t$ enters \\textbf{$F_t$} (the observation matrix), not the state. The \\emph{state} is the coefficients $(\\alpha_t, \\beta_t)$. Each new $t$ brings a new $F_t = (1, x_t)$ that combines the known regressor value with the unknown coefficients.\n\n\\emph{DLM tuple (time-varying $F_t$).}\n\\[ G = I_2, \\qquad F_t = (1,\\; x_t), \\qquad W = \\mathrm{diag}(\\sigma_{w_1}^2,\\, \\sigma_{w_2}^2), \\qquad V = \\sigma^2. \\]\n\n\\textbf{\\textcolor{red}{Special cases.}}\n\n$\\bullet$ \\emph{Static regression} (classical OLS setup): $\\sigma_{w_1}^2 = \\sigma_{w_2}^2 = 0$ (no state noise) $\\Rightarrow$ $\\alpha_t \\equiv \\alpha_0$, $\\beta_t \\equiv \\beta_0$ fixed forever. The DLM collapses to ordinary linear regression $Y_t = \\alpha_0 + \\beta_0 x_t + v_t$ with $\\alpha_0, \\beta_0$ jointly estimated from the data via Bayes (closed form for $V$ known).\n\n$\\bullet$ \\emph{Only the intercept drifts:} $\\sigma_{w_2}^2 = 0$ $\\Rightarrow$ a regression with a wandering level and a fixed slope.\n\n$\\bullet$ \\emph{Only the slope drifts:} $\\sigma_{w_1}^2 = 0$ $\\Rightarrow$ regression with constant intercept and time-varying sensitivity to $x_t$ (e.g.\\ time-varying $\\beta$ of a stock against the market).\n\n$\\bullet$ \\emph{Local linear trend (Example 5) is a special case of DLR:} take $x_t = t$ (the regressor is just time itself). Then $Y_t = \\alpha_t + \\beta_t \\cdot t + v_t$ with both coefficients drifting --- same as LLT's level + slope structure (after a re-parametrisation).\n\n\\textbf{\\textcolor{red}{Multiple regressors.}} Extends trivially: state $\\theta_t = (\\alpha_t, \\beta_{1,t}, \\dots, \\beta_{k,t})^\\top \\in \\mathbb{R}^{k+1}$, observation matrix $F_t = (1, x_{1,t}, \\dots, x_{k,t})$, $G = I_{k+1}$, $W = \\mathrm{diag}(\\sigma_{w_0}^2, \\sigma_{w_1}^2, \\dots, \\sigma_{w_k}^2)$.\n\n\\textbf{\\textcolor{red}{Why useful.}}\n\n$\\bullet$ \\emph{Time-varying betas} in finance: the sensitivity of a stock to the market index changes over the business cycle.\n\n$\\bullet$ \\emph{Marketing-mix models:} the effectiveness of advertising spend varies seasonally or by phase of product life-cycle.\n\n$\\bullet$ \\emph{Macroeconomic relationships:} elasticities (e.g.\\ consumption-income, Phillips curve slope) drift over decades.\n\n$\\bullet$ \\emph{Clinical-trial models:} patient covariates can have time-varying effects (e.g.\\ drug efficacy that decays).\n\n\\textbf{\\textcolor{red}{Past-exam note.}} The May 2024 Q4 question (\"clinical-trial covariate DLM\") is a DLR. The standard answer is to (i) write the model in DLM form with regressor in $F_t$, (ii) run the Kalman filter on the state $\\theta_t = (\\alpha_t, \\beta_t)^\\top$, (iii) report posterior means and uncertainties.\n\n\\textbf{\\textcolor{red}{Estimation.}} Same Kalman recursion as any DLM --- only difference is that $F_t$ changes each period:\n\\[ a_t = G\\, m_{t-1} = m_{t-1};\\quad R_t = C_{t-1} + W;\\quad f_t = F_t\\, a_t = a_t^{\\alpha} + x_t\\, a_t^{\\beta};\\quad Q_t = F_t\\, R_t\\, F_t^\\top + V;\\quad K_t = R_t F_t^\\top Q_t^{-1};\\quad m_t = a_t + K_t(y_t - f_t);\\quad C_t = R_t - K_t F_t R_t. \\]\nNotice that $K_t$ is now a \\emph{column vector} (size $2 \\times 1$) because $F_t$ is $1 \\times 2$ --- the Kalman gain tells you how to update each coefficient given the surprise.\n\n\\textbf{\\textcolor{red}{Book reference.}} Petris-Petrone-Campagnoli, Section 3.2.4 \"Dynamic linear regression models\", pp. 104--108.",
-                "flashcard": true,
-                "images": [],
-                "links": [
-                  {
-                    "target": "1778839151505",
-                    "type": "backward"
-                  }
-                ],
-                "x": 7030.332171271858,
-                "y": 3698.2575807260164,
-                "width": 315.27314158490594,
-                "height": 291.4963775976616,
                 "color": "coral",
                 "fsrs": {
                   "stability": 1,
@@ -1277,14 +1244,10 @@
                   {
                     "target": "ts1779025115813",
                     "type": "forward"
-                  },
-                  {
-                    "target": "ts1779153056987",
-                    "type": "forward"
                   }
                 ],
-                "x": 5850.000000000001,
-                "y": 3806.666666666667,
+                "x": 5816.666666666667,
+                "y": 3213.333333333334,
                 "width": 1000,
                 "height": 800,
                 "color": "yellow",
@@ -1496,6 +1459,38 @@
           "dueDate": "2026-05-18T15:13:40.300Z"
         },
         "deletedAt": 1779285360159,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "ts1779153056987",
+        "title": "Example 7: Dynamic Linear Regression (DLR)",
+        "content": "\\textbf{\\textcolor{red}{EXAMPLE 7 --- Dynamic Linear Regression (DLR).}}\n\nA regression of $Y_t$ on a covariate $x_t$ where the regression \\emph{coefficients themselves vary over time} (typically each as a random walk). The regressor enters via a \\emph{time-varying observation matrix} $F_t$, not via fixed parameters.\n\n\\begin{keydef}\n\\textbf{Dynamic Linear Regression (DLR) DLM.}\n\n\\emph{State} $\\theta_t = (\\alpha_t,\\, \\beta_t)^\\top \\in \\mathbb{R}^2$ (time-varying intercept $\\alpha_t$ and slope $\\beta_t$).\n\n\\emph{State equations (random-walk coefficients).}\n\\[ \\alpha_t \\;=\\; \\alpha_{t-1} + w_{1,t}, \\qquad w_{1,t} \\overset{\\text{iid}}{\\sim} \\mathcal{N}(0,\\, \\sigma_{w_1}^2); \\]\n\\[ \\beta_t \\;=\\; \\beta_{t-1} + w_{2,t}, \\qquad w_{2,t} \\overset{\\text{iid}}{\\sim} \\mathcal{N}(0,\\, \\sigma_{w_2}^2). \\]\nIn matrix form:\n\\[ \\theta_t \\;=\\; \\underbrace{I_2}_{G}\\, \\theta_{t-1} + w_t, \\qquad w_t = (w_{1,t},\\, w_{2,t})^\\top \\sim \\mathcal{N}_2\\!\\bigl(0,\\; W\\bigr), \\quad W = \\mathrm{diag}(\\sigma_{w_1}^2,\\, \\sigma_{w_2}^2). \\]\n\n\\emph{Observation equation (regression with time-varying coefficient).}\n\\[ Y_t \\;=\\; \\alpha_t + \\beta_t\\, x_t + v_t \\;=\\; \\underbrace{(1,\\; x_t)}_{F_t}\\, \\theta_t + v_t, \\qquad v_t \\overset{\\text{iid}}{\\sim} \\mathcal{N}(0,\\, \\sigma^2). \\]\n\nAll noises $\\{w_t\\}, \\{v_t\\}$ and the initial state $\\theta_0 \\sim \\mathcal{N}_2(m_0, C_0)$ mutually independent.\n\\end{keydef}\n\n\\emph{Where the regressor lives.} The covariate $x_t$ enters \\textbf{$F_t$} (the observation matrix), not the state. The \\emph{state} is the coefficients $(\\alpha_t, \\beta_t)$. Each new $t$ brings a new $F_t = (1, x_t)$ that combines the known regressor value with the unknown coefficients.\n\n\\emph{DLM tuple (time-varying $F_t$).}\n\\[ G = I_2, \\qquad F_t = (1,\\; x_t), \\qquad W = \\mathrm{diag}(\\sigma_{w_1}^2,\\, \\sigma_{w_2}^2), \\qquad V = \\sigma^2. \\]\n\n\\textbf{\\textcolor{red}{Special cases.}}\n\n$\\bullet$ \\emph{Static regression} (classical OLS setup): $\\sigma_{w_1}^2 = \\sigma_{w_2}^2 = 0$ (no state noise) $\\Rightarrow$ $\\alpha_t \\equiv \\alpha_0$, $\\beta_t \\equiv \\beta_0$ fixed forever. The DLM collapses to ordinary linear regression $Y_t = \\alpha_0 + \\beta_0 x_t + v_t$ with $\\alpha_0, \\beta_0$ jointly estimated from the data via Bayes (closed form for $V$ known).\n\n$\\bullet$ \\emph{Only the intercept drifts:} $\\sigma_{w_2}^2 = 0$ $\\Rightarrow$ a regression with a wandering level and a fixed slope.\n\n$\\bullet$ \\emph{Only the slope drifts:} $\\sigma_{w_1}^2 = 0$ $\\Rightarrow$ regression with constant intercept and time-varying sensitivity to $x_t$ (e.g.\\ time-varying $\\beta$ of a stock against the market).\n\n$\\bullet$ \\emph{Local linear trend (Example 5) is a special case of DLR:} take $x_t = t$ (the regressor is just time itself). Then $Y_t = \\alpha_t + \\beta_t \\cdot t + v_t$ with both coefficients drifting --- same as LLT's level + slope structure (after a re-parametrisation).\n\n\\textbf{\\textcolor{red}{Multiple regressors.}} Extends trivially: state $\\theta_t = (\\alpha_t, \\beta_{1,t}, \\dots, \\beta_{k,t})^\\top \\in \\mathbb{R}^{k+1}$, observation matrix $F_t = (1, x_{1,t}, \\dots, x_{k,t})$, $G = I_{k+1}$, $W = \\mathrm{diag}(\\sigma_{w_0}^2, \\sigma_{w_1}^2, \\dots, \\sigma_{w_k}^2)$.\n\n\\textbf{\\textcolor{red}{Why useful.}}\n\n$\\bullet$ \\emph{Time-varying betas} in finance: the sensitivity of a stock to the market index changes over the business cycle.\n\n$\\bullet$ \\emph{Marketing-mix models:} the effectiveness of advertising spend varies seasonally or by phase of product life-cycle.\n\n$\\bullet$ \\emph{Macroeconomic relationships:} elasticities (e.g.\\ consumption-income, Phillips curve slope) drift over decades.\n\n$\\bullet$ \\emph{Clinical-trial models:} patient covariates can have time-varying effects (e.g.\\ drug efficacy that decays).\n\n\\textbf{\\textcolor{red}{Past-exam note.}} The May 2024 Q4 question (\"clinical-trial covariate DLM\") is a DLR. The standard answer is to (i) write the model in DLM form with regressor in $F_t$, (ii) run the Kalman filter on the state $\\theta_t = (\\alpha_t, \\beta_t)^\\top$, (iii) report posterior means and uncertainties.\n\n\\textbf{\\textcolor{red}{Estimation.}} Same Kalman recursion as any DLM --- only difference is that $F_t$ changes each period:\n\\[ a_t = G\\, m_{t-1} = m_{t-1};\\quad R_t = C_{t-1} + W;\\quad f_t = F_t\\, a_t = a_t^{\\alpha} + x_t\\, a_t^{\\beta};\\quad Q_t = F_t\\, R_t\\, F_t^\\top + V;\\quad K_t = R_t F_t^\\top Q_t^{-1};\\quad m_t = a_t + K_t(y_t - f_t);\\quad C_t = R_t - K_t F_t R_t. \\]\nNotice that $K_t$ is now a \\emph{column vector} (size $2 \\times 1$) because $F_t$ is $1 \\times 2$ --- the Kalman gain tells you how to update each coefficient given the surprise.\n\n\\textbf{\\textcolor{red}{Book reference.}} Petris-Petrone-Campagnoli, Section 3.2.4 \"Dynamic linear regression models\", pp. 104--108.",
+        "flashcard": true,
+        "images": [],
+        "links": [
+          {
+            "target": "1778839151505",
+            "type": "backward"
+          }
+        ],
+        "x": 7046.998837938524,
+        "y": 3661.59091405935,
+        "width": 315.27314158490594,
+        "height": 291.4963775976616,
+        "color": "coral",
+        "fsrs": {
+          "stability": 1,
+          "difficulty": 5,
+          "elapsedDays": 0,
+          "scheduledDays": 0,
+          "reps": 0,
+          "lapses": 0,
+          "state": "new",
+          "lastReview": null,
+          "dueDate": "2026-05-19T01:12:12.754Z"
+        },
+        "deletedAt": 1779285471269,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
