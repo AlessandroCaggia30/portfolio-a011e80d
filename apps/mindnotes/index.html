@@ -10010,8 +10010,8 @@ function switchView(view) {
     document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
     $('tab' + view.charAt(0).toUpperCase() + view.slice(1)).classList.add('active');
 
-    // Canvas visible for notes and snippets (snippets shows it in remaining 25%)
-    $('canvasWrapper').style.display = (view === 'notes' || view === 'snippets') ? 'flex' : 'none';
+    // Canvas visible only for notes view; snippets view takes the full main area
+    $('canvasWrapper').style.display = (view === 'notes') ? 'flex' : 'none';
     $('detailPanel').style.display = view === 'notes' ? 'flex' : 'none';
     $('flashcardsView').classList.toggle('active', view === 'flashcards');
     $('quizView').classList.toggle('active', view === 'quiz');
