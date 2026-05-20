@@ -1036,6 +1036,10 @@
                   {
                     "target": "ts1779294012097",
                     "type": "forward"
+                  },
+                  {
+                    "target": "ts1779317587518",
+                    "type": "forward"
                   }
                 ],
                 "x": 5087.726104593043,
@@ -1420,6 +1424,24 @@
                   "lastReview": null,
                   "dueDate": "2026-05-20T22:22:09.111Z"
                 }
+              },
+              {
+                "id": "ts1779317587518",
+                "title": "Superposition principle (additive component DLMs)",
+                "content": "\\textbf{\\textcolor{red}{SUPERPOSITION PRINCIPLE --- additive component DLMs (Petris \\S3.2).}}\n\n\\emph{Idea.} Build a complex DLM by \\emph{adding together} $k$ simpler, mutually independent component DLMs that share one observation. Modular: pick trend + seasonal + AR + regression as bricks, stack their states, and you have a single combined DLM that the Kalman filter handles in one pass.\n\n\\textbf{\\textcolor{red}{Setup --- $k$ independent component DLMs.}}\n\nFor each $j = 1, \\dots, k$, component $j$ is its own DLM with state $\\theta_{j,t} \\in \\mathbb{R}^{p_j}$:\n\\[ \\theta_{j,t} = G_j\\, \\theta_{j,t-1} + w_{j,t}, \\quad w_{j,t} \\sim \\mathcal{N}(0,\\, W_j), \\qquad Y_{j,t} = F_j\\, \\theta_{j,t} + (\\text{no own obs noise, see below}). \\]\nEach component is independent of the others: $w_{j,t} \\perp\\!\\!\\!\\perp w_{l,t}$ for $j \\ne l$, and $\\theta_{j,0}$'s independent across components.\n\n\\emph{Observation as a sum.}\n\\[ Y_t \\;=\\; Y_{1,t} + Y_{2,t} + \\cdots + Y_{k,t} + v_t \\;=\\; F_1\\, \\theta_{1,t} + \\cdots + F_k\\, \\theta_{k,t} + v_t, \\quad v_t \\sim \\mathcal{N}(0, V). \\]\n\n\\textbf{\\textcolor{red}{Combine --- 4-step DLM template.}}\n\n\\emph{(1) State (stack components).}\n\\[ \\theta_t \\;=\\; \\begin{pmatrix} \\theta_{1,t} \\\\ \\theta_{2,t} \\\\ \\vdots \\\\ \\theta_{k,t} \\end{pmatrix} \\;\\in\\; \\mathbb{R}^{p_1 + \\cdots + p_k}. \\]\n\n\\emph{(2) Component equations.} Already given above --- each $\\theta_{j,t}$ evolves on its own with $G_j, W_j$.\n\n\\emph{(3) Matrix state equation (block-diagonal $G$ and $W$).}\n\\[ \\theta_t = G\\, \\theta_{t-1} + w_t, \\qquad G = \\mathrm{blkdiag}(G_1, \\dots, G_k), \\qquad W = \\mathrm{blkdiag}(W_1, \\dots, W_k). \\]\nThe block-diagonal structure encodes ``no cross-coupling between components.''\n\n\\emph{(4) Observation equation (row-concatenate the $F$'s).}\n\\[ Y_t = F\\, \\theta_t + v_t, \\qquad F = [\\,F_1 \\;\\big|\\; F_2 \\;\\big|\\; \\cdots \\;\\big|\\; F_k\\,]. \\]\n\\emph{Distributional form.} $\\theta_t \\mid \\theta_{t-1} \\sim \\mathcal{N}\\bigl(G\\theta_{t-1},\\, W\\bigr)$; $\\;Y_t \\mid \\theta_t \\sim \\mathcal{N}\\bigl(F\\theta_t,\\, V\\bigr)$.\n\n\\textbf{\\textcolor{red}{Why it works (intuition).}}\n\n$\\bullet$ \\emph{Gaussian closure.} A sum of independent Gaussians is Gaussian. So $\\sum_j F_j \\theta_{j,t}$ is Gaussian, and adding $v_t$ keeps it Gaussian.\n\n$\\bullet$ \\emph{Independence preserved by stacking.} Block-diagonal $G, W$ means the components NEVER mix in mean or in shocks --- they evolve in parallel. The Kalman recursion on the combined state effectively runs $k$ parallel recursions for the conditional means, with the \\emph{only} cross-talk happening through the joint update against the observation $y_t$ (which sees the sum).\n\n$\\bullet$ \\emph{Modularity.} You design each brick once (LLT, seasonal, AR, regression on $x_t$) and reuse them in any combination.\n\n\\textbf{\\textcolor{red}{Canonical example --- Basic Structural Model (BSM).}}\n\n\\[ Y_t = \\underbrace{\\mu_t}_{\\text{trend (LLT)}} + \\underbrace{\\gamma_t}_{\\text{seasonal}} + \\underbrace{v_t}_{\\text{irregular}}. \\]\n\n\\emph{Trend brick (LLT, $p_1 = 2$):} $\\theta_{1,t} = (\\mu_t, \\beta_t)$, $G_1 = \\bigl(\\begin{smallmatrix}1 & 1 \\\\ 0 & 1\\end{smallmatrix}\\bigr)$, $F_1 = (1,\\, 0)$.\n\n\\emph{Quarterly seasonal brick ($p_2 = 3$):} $\\theta_{2,t} = (\\gamma_t,\\, \\gamma_{t-1},\\, \\gamma_{t-2})$, $G_2 = \\bigl(\\begin{smallmatrix}-1 & -1 & -1 \\\\ 1 & 0 & 0 \\\\ 0 & 1 & 0\\end{smallmatrix}\\bigr)$, $F_2 = (1, 0, 0)$.\n\n\\emph{Combined.} State $\\theta_t \\in \\mathbb{R}^5$ (2 trend $+$ 3 seasonal), $G = \\mathrm{blkdiag}(G_1, G_2)$, $F = [\\,1\\;0\\;1\\;0\\;0\\,]$. One DLM; one Kalman filter pass; outputs both the trend $\\mu_t$ and the seasonal $\\gamma_t$ separately as components of the filtered state.\n\n\\textbf{\\textcolor{red}{More compositions (same recipe).}}\n\n$\\bullet$ \\emph{LLT + AR(1) cycle:} trend $+$ a stationary AR(1) for short-run fluctuations. State $\\in \\mathbb{R}^3$.\n\n$\\bullet$ \\emph{LLT + regression on $x_t$:} trend $+$ DLR with time-varying $(\\alpha_t, \\beta_t)$. State $\\in \\mathbb{R}^4$. ``Trend plus covariate response.''\n\n$\\bullet$ \\emph{Trend + seasonal + regression:} the classic Holt-Winters in DLM clothing.\n\n\\textbf{\\textcolor{red}{Contrast with SUTSE.}}\n\n\\begin{tabular}{l|l|l}\n& \\textbf{Superposition} & \\textbf{SUTSE} \\\\\n\\hline\n\\emph{What is stacked?} & $k$ \\emph{latent} component DLMs & $m$ \\emph{observed} output series \\\\\n\\emph{Y dimension} & 1 (scalar; or shared $m$ if vector) & $m$ (vector) \\\\\n\\emph{Y formula} & $Y_t = \\sum_j F_j \\theta_{j,t} + v_t$ & $\\mathbf{Y}_t = F \\theta_t + v_t$ (one entry per series) \\\\\n\\emph{State noise $W$} & block-diag, components INDEP & block-diag, cross-series blocks NON-diag \\\\\n\\emph{Cross-component link} & none (independent bricks) & off-diagonal blocks in $W$ \\\\\n\\emph{Use case} & decompose ONE series into bricks & jointly model SEVERAL series \\\\\n\\end{tabular}\n\n\\textbf{\\textcolor{red}{Special cases.}}\n\n$\\bullet$ \\emph{$k = 1$:} no superposition, just one DLM (Example 1--7).\n\n$\\bullet$ \\emph{All $W_j = 0$:} components are deterministic functions of their initial state --- e.g., classical trend + cycle decomposition with fixed seasonal pattern.\n\n$\\bullet$ \\emph{Trend brick alone:} recovers Example 5 (LLT).\n\n$\\bullet$ \\emph{One brick is a DLR on $x_t$:} recovers Example 7 (DLR), augmented by whatever other bricks you add.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "1778839151505",
+                    "type": "backward"
+                  }
+                ],
+                "x": 9000.0,
+                "y": 7600.0,
+                "width": 950.0,
+                "height": 700.0,
+                "color": "yellow"
               }
             ]
           }
