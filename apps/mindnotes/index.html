@@ -5385,13 +5385,22 @@ const _lazyMathObserver = ('IntersectionObserver' in window) ? new IntersectionO
     });
 }, { root: null, rootMargin: '300px', threshold: 0 }) : null;
 
+// PERF FIX #8: memoize formatNodePreview (pure function of input string). Canvas
+// re-renders call this once per node; caching makes repeated renderCanvas() near-free.
+const _formatNodePreviewCache = new Map();
+const _FORMAT_NODE_PREVIEW_CACHE_MAX = 128;
 // Format preview with editable formula spans
 function formatNodePreview(text) {
     if (!text) return '';
+    const cached = _formatNodePreviewCache.get(text);
+    if (cached !== undefined) return cached;
 
     // Skip leading empty lines
     let trimmedText = String(text).replace(/^[\s\n]*/, '');
-    if (!trimmedText) return '';
+    if (!trimmedText) {
+        _formatNodePreviewCache.set(text, '');
+        return '';
+    }
 
     // Normalize LaTeX delimiters (\[...\] → $$...$$, \(...\) → $...$)
     trimmedText = normalizeLatexDelimiters(trimmedText);
