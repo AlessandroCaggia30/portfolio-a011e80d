@@ -5423,13 +5423,21 @@ function createNodeElement(node) {
     canvas.appendChild(el);
 }
 
-// IntersectionObserver shared across nodes — defers KaTeX rendering to when each preview
-// scrolls into view. Massive speedup when there are many nodes off-screen.
+// PERF FIX #12: IntersectionObserver + requestIdleCallback yield. KaTeX rendering on
+// canvas mini-previews is expensive; deferring to idle time lets the browser stay
+// responsive during scroll/zoom even when many nodes enter the viewport at once.
+const _scheduleIdle = (typeof requestIdleCallback === 'function')
+    ? (fn) => requestIdleCallback(fn, { timeout: 800 })
+    : (fn) => setTimeout(fn, 0);
+
 const _lazyMathObserver = ('IntersectionObserver' in window) ? new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            try { renderMath(entry.target); } catch (e) { console.warn('lazy renderMath failed', e); }
-            _lazyMathObserver.unobserve(entry.target);
+            const tgt = entry.target;
+            _lazyMathObserver.unobserve(tgt);
+            _scheduleIdle(() => {
+                try { renderMath(tgt); } catch (e) { console.warn('lazy renderMath failed', e); }
+            });
         }
     });
 }, { root: null, rootMargin: '300px', threshold: 0 }) : null;
