@@ -5451,6 +5451,12 @@ function formatNodePreview(text) {
     processed = restoreColorMarkers(processed);
     processed = restoreFormattingMarkers(processed);
 
+    // PERF FIX #8: cache the formatted result keyed by original text.
+    _formatNodePreviewCache.set(text, processed);
+    if (_formatNodePreviewCache.size > _FORMAT_NODE_PREVIEW_CACHE_MAX) {
+        const oldest = _formatNodePreviewCache.keys().next().value;
+        _formatNodePreviewCache.delete(oldest);
+    }
     return processed;
 }
 
