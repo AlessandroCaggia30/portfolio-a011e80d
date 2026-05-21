@@ -4275,17 +4275,26 @@ async function _commitSave() {
         return;
     }
 
-    // PERF FIX #3: short-circuit if the in-memory data is byte-identical to last save.
-    // JSON.stringify is the dominant cost (large data + base64 images); the actual
-    // IndexedDB put is fast. We pay stringify once here, but skip it AND the put + the
-    // file-system autosave + the GitHub push whenever nothing changed.
+    // PERF FIX #14: split images out before serialize. The lite data has {ref: fp}
+    // placeholders instead of inline base64; stringify is dramatically cheaper.
+    let lite, pendingImages = [];
+    try {
+        const split = _extractImagesForSave(State.data);
+        lite = split.lite;
+        pendingImages = split.pendingImages;
+    } catch (e) {
+        console.warn('Image-split failed, falling back to full data:', e);
+        lite = State.data;
+    }
+
+    // PERF FIX #3: short-circuit if the lite data is byte-identical to last save.
     let serialized;
     try {
-        serialized = JSON.stringify(State.data);
+        serialized = JSON.stringify(lite);
     } catch (e) {
         console.warn('Could not pre-serialize for cache check:', e);
     }
-    if (serialized && _lastSavedSerialized[dataKey] === serialized) {
+    if (serialized && _lastSavedSerialized[dataKey] === serialized && pendingImages.length === 0) {
         _dataIsDirty = false;
         const btn = document.getElementById('saveNowBtn');
         if (btn) {
@@ -4297,10 +4306,16 @@ async function _commitSave() {
         return;
     }
 
+    // Write any new images first.
+    for (const { fp, b64 } of pendingImages) {
+        try { await _putImageInStore(fp, b64); }
+        catch (e) { console.warn('Failed to write image to store:', fp, e); }
+    }
+
     const doPut = () => new Promise((resolve, reject) => {
         const tx = db.transaction(STORE_NAME, 'readwrite');
         const store = tx.objectStore(STORE_NAME);
-        const request = store.put(State.data, dataKey);
+        const request = store.put(lite, dataKey);
         request.onsuccess = () => resolve();
         request.onerror = () => reject(request.error);
     });
