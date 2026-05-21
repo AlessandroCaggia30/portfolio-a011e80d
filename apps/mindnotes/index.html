@@ -5011,7 +5011,11 @@ function processLatexCommands(text) {
     return result;
 }
 
-function formatContent(text) {
+// PERF FIX #7: memoize formatContent (pure function of input string). Cap the LRU
+// at 64 entries so memory stays bounded even with many snippets.
+const _formatContentCache = new Map();
+const _FORMAT_CONTENT_CACHE_MAX = 64;
+function _formatContentImpl(text) {
     if (!text) return '';
 
     // Normalize LaTeX delimiters (\[...\] → $$...$$, \(...\) → $...$)
