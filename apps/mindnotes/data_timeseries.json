@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-21T15:33:16.509Z",
+  "exportedAt": "2026-05-21T15:33:24.735Z",
   "data": {
     "topics": [
       {
@@ -953,6 +953,10 @@
                 "images": [],
                 "links": [
                   {
+                    "target": "ts1779025115815",
+                    "type": "forward"
+                  },
+                  {
                     "target": "ts1779269107442",
                     "type": "forward"
                   },
@@ -1017,6 +1021,30 @@
                 "y": 1263.054402659941,
                 "width": 405.4722603617373,
                 "height": 207.98981626544384,
+                "color": "yellow",
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-17T13:38:46.018Z"
+                }
+              },
+              {
+                "id": "ts1779025115815",
+                "title": "Example 4: AR(2) and AR(p) via state augmentation",
+                "content": "\\textbf{\\textcolor{red}{EXAMPLE 4 --- AR($p$) via state augmentation (book-faithful form, DLMwR pp.\\ 112--113).}}\n\nSee the \\emph{Example SSMs hub} for the canonical DLM template and the worked 2$\\times$2 matrix example.\n\n\\textbf{\\textcolor{red}{Book convention.}} DLMwR uses an auxiliary-component augmentation (eqs.\\ 3.23--3.25), \\emph{not} the naive \"stack lagged $Y$\" form. The book explicitly notes (p.\\ 113) that \"$F_t$ of a DLM cannot depend on past values of the observations,\" ruling out lagged-$Y$ as state components.\n\n\\textbf{\\textcolor{red}{First: the AR(2) special case ($p = 2$).}}\n\n\\emph{Model.} $Y_t = \\phi_1 Y_{t-1} + \\phi_2 Y_{t-2} + \\varepsilon_t$, $\\varepsilon_t \\overset{\\text{iid}}{\\sim} \\mathcal{N}(0, \\sigma^2)$.\n\n\\emph{(1) State.} $\\theta_t = (\\theta_{1,t},\\, \\theta_{2,t})^\\top \\in \\mathbb{R}^2$ with $\\theta_{1,t} = Y_t$; $\\theta_{2,t}$ is an auxiliary component (not equal to a lagged $Y$ directly).\n\n\\emph{(2) Component equations.}\n\\[ \\theta_{1,t} = \\phi_1\\, \\theta_{1,t-1} + \\theta_{2,t-1} + \\varepsilon_t, \\qquad \\theta_{2,t} = \\phi_2\\, \\theta_{1,t-1}. \\]\n\n\\emph{(3) Matrix state eq.}\n\\[ \\begin{pmatrix} \\theta_{1,t} \\\\ \\theta_{2,t} \\end{pmatrix} \\;=\\; \\underbrace{\\begin{pmatrix} \\phi_1 & 1 \\\\ \\phi_2 & 0 \\end{pmatrix}}_{G} \\begin{pmatrix} \\theta_{1,t-1} \\\\ \\theta_{2,t-1} \\end{pmatrix} + \\begin{pmatrix} \\varepsilon_t \\\\ 0 \\end{pmatrix}, \\qquad W = \\begin{pmatrix} \\sigma^2 & 0 \\\\ 0 & 0 \\end{pmatrix}. \\]\n\n\\emph{(4) Obs eq.} $Y_t = F\\, \\theta_t = (1,\\, 0)\\, \\theta_t = \\theta_{1,t}$ (degenerate: $V = 0$).\n\n\\emph{Verification --- recover the AR(2) recursion.} From the first component equation:\n\\[ Y_t = \\theta_{1,t} = \\phi_1 Y_{t-1} + \\theta_{2,t-1} + \\varepsilon_t. \\]\nBut from the second component (one step back): $\\theta_{2,t-1} = \\phi_2\\, \\theta_{1,t-2} = \\phi_2 Y_{t-2}$. Substitute:\n\\[ Y_t = \\phi_1 Y_{t-1} + \\phi_2 Y_{t-2} + \\varepsilon_t. \\;\\checkmark \\]\nThe auxiliary state $\\theta_{2,t}$ acts as a \"delayed echo\" $\\phi_2 Y_{t-1}$ that arrives at the next step.\n\n\\textbf{\\textcolor{red}{General AR($p$) --- 4-step DLM template (book companion form).}}\n\n\\emph{(1) State.} $\\theta_t = (\\theta_{1,t},\\, \\dots,\\, \\theta_{p,t})^\\top \\in \\mathbb{R}^p$, with $\\theta_{1,t} = Y_t$; $\\theta_{2,t}, \\dots, \\theta_{p,t}$ are auxiliary components (delayed echoes, \\emph{not} lagged observations).\n\n\\emph{(2) Component equations.}\n\\[ \\theta_{1,t} = \\phi_1\\, \\theta_{1,t-1} + \\theta_{2,t-1} + \\varepsilon_t, \\quad \\theta_{j,t} = \\phi_j\\, \\theta_{1,t-1} + \\theta_{j+1,t-1} \\;\\text{ for } j = 2, \\dots, p-1, \\quad \\theta_{p,t} = \\phi_p\\, \\theta_{1,t-1}, \\]\nwith $\\varepsilon_t \\overset{\\text{iid}}{\\sim} \\mathcal{N}(0, \\sigma^2)$.\n\n\\emph{(3) Matrix state equation.}\n\\[ \\begin{pmatrix} \\theta_{1,t} \\\\ \\theta_{2,t} \\\\ \\vdots \\\\ \\theta_{p-1,t} \\\\ \\theta_{p,t} \\end{pmatrix} \\;=\\; \\underbrace{\\begin{pmatrix} \\phi_1 & 1 & 0 & \\cdots & 0 \\\\ \\phi_2 & 0 & 1 & \\cdots & 0 \\\\ \\vdots & & & \\ddots & \\\\ \\phi_{p-1} & 0 & \\cdots & 0 & 1 \\\\ \\phi_p & 0 & \\cdots & 0 & 0 \\end{pmatrix}}_{G} \\begin{pmatrix} \\theta_{1,t-1} \\\\ \\theta_{2,t-1} \\\\ \\vdots \\\\ \\theta_{p-1,t-1} \\\\ \\theta_{p,t-1} \\end{pmatrix} + \\begin{pmatrix} \\varepsilon_t \\\\ 0 \\\\ \\vdots \\\\ 0 \\\\ 0 \\end{pmatrix}, \\qquad W = \\mathrm{diag}(\\sigma^2,\\, 0,\\, \\dots,\\, 0). \\]\n\n\\emph{(4) Observation equation.} $Y_t = F\\, \\theta_t + v_t = (1, 0, \\dots, 0)\\, \\theta_t = \\theta_{1,t}$, $F = (1, 0, \\dots, 0)$, $V = 0$ (degenerate --- state observed exactly).\n\n\\emph{Reading.} The $\\phi$'s sit in the \\emph{first column} of $G$ (not the first row). The super-diagonal of 1's \"shifts\" auxiliary components, so each $\\theta_{j,t-1}$ becomes a delayed contribution to $\\theta_{1,\\cdot}$ at the next step.\n\n\\emph{Why not lagged-$Y$ form?} Many textbooks use the \"naive\" companion $G$ with $\\phi$'s in the first row and $\\theta_t = (Y_t, Y_{t-1}, \\dots, Y_{t-p+1})^\\top$ --- mathematically equivalent but uses observations as state components, which the strict DLM definition (DLMwR p.\\ 113) forbids. The book's auxiliary form satisfies the DLM constraint while still encoding the AR($p$) dynamics.",
+                "flashcard": true,
+                "images": [],
+                "links": [],
+                "x": 6242.318813286567,
+                "y": 3314.2868399731933,
+                "width": 453.49771969812775,
+                "height": 210.63307506050182,
                 "color": "yellow",
                 "fsrs": {
                   "stability": 1,
@@ -1162,8 +1190,8 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 5028.515265415023,
-                "y": 3335.509089943551,
+                "x": 4778.515265415023,
+                "y": 3285.509089943551,
                 "width": 471.8895727104828,
                 "height": 204.64835066233604,
                 "color": "yellow",
@@ -1201,8 +1229,8 @@
                     "type": "backward"
                   }
                 ],
-                "x": 5262.771238556361,
-                "y": 4512.200239307676,
+                "x": 5182.771238556361,
+                "y": 3865.53357264101,
                 "width": 950,
                 "height": 700,
                 "color": "yellow",
@@ -1695,33 +1723,6 @@
           "dueDate": "2026-05-20T15:51:15.242Z"
         },
         "deletedAt": 1779377193442,
-        "fromTopic": "topic17786690819138696",
-        "fromSubtopic": "sub17786690819133213"
-      },
-      {
-        "id": "ts1779025115815",
-        "title": "Example 4: AR(2) and AR(p) via state augmentation",
-        "content": "\\textbf{\\textcolor{red}{EXAMPLE 4 --- AR($p$) via state augmentation (book-faithful form, DLMwR pp.\\ 112--113).}}\n\nSee the \\emph{Example SSMs hub} for the canonical DLM template and the worked 2$\\times$2 matrix example.\n\n\\textbf{\\textcolor{red}{Book convention.}} DLMwR uses an auxiliary-component augmentation (eqs.\\ 3.23--3.25), \\emph{not} the naive \"stack lagged $Y$\" form. The book explicitly notes (p.\\ 113) that \"$F_t$ of a DLM cannot depend on past values of the observations,\" ruling out lagged-$Y$ as state components.\n\n\\textbf{\\textcolor{red}{First: the AR(2) special case ($p = 2$).}}\n\n\\emph{Model.} $Y_t = \\phi_1 Y_{t-1} + \\phi_2 Y_{t-2} + \\varepsilon_t$, $\\varepsilon_t \\overset{\\text{iid}}{\\sim} \\mathcal{N}(0, \\sigma^2)$.\n\n\\emph{(1) State.} $\\theta_t = (\\theta_{1,t},\\, \\theta_{2,t})^\\top \\in \\mathbb{R}^2$ with $\\theta_{1,t} = Y_t$; $\\theta_{2,t}$ is an auxiliary component (not equal to a lagged $Y$ directly).\n\n\\emph{(2) Component equations.}\n\\[ \\theta_{1,t} = \\phi_1\\, \\theta_{1,t-1} + \\theta_{2,t-1} + \\varepsilon_t, \\qquad \\theta_{2,t} = \\phi_2\\, \\theta_{1,t-1}. \\]\n\n\\emph{(3) Matrix state eq.}\n\\[ \\begin{pmatrix} \\theta_{1,t} \\\\ \\theta_{2,t} \\end{pmatrix} \\;=\\; \\underbrace{\\begin{pmatrix} \\phi_1 & 1 \\\\ \\phi_2 & 0 \\end{pmatrix}}_{G} \\begin{pmatrix} \\theta_{1,t-1} \\\\ \\theta_{2,t-1} \\end{pmatrix} + \\begin{pmatrix} \\varepsilon_t \\\\ 0 \\end{pmatrix}, \\qquad W = \\begin{pmatrix} \\sigma^2 & 0 \\\\ 0 & 0 \\end{pmatrix}. \\]\n\n\\emph{(4) Obs eq.} $Y_t = F\\, \\theta_t = (1,\\, 0)\\, \\theta_t = \\theta_{1,t}$ (degenerate: $V = 0$).\n\n\\emph{Verification --- recover the AR(2) recursion.} From the first component equation:\n\\[ Y_t = \\theta_{1,t} = \\phi_1 Y_{t-1} + \\theta_{2,t-1} + \\varepsilon_t. \\]\nBut from the second component (one step back): $\\theta_{2,t-1} = \\phi_2\\, \\theta_{1,t-2} = \\phi_2 Y_{t-2}$. Substitute:\n\\[ Y_t = \\phi_1 Y_{t-1} + \\phi_2 Y_{t-2} + \\varepsilon_t. \\;\\checkmark \\]\nThe auxiliary state $\\theta_{2,t}$ acts as a \"delayed echo\" $\\phi_2 Y_{t-1}$ that arrives at the next step.\n\n\\textbf{\\textcolor{red}{General AR($p$) --- 4-step DLM template (book companion form).}}\n\n\\emph{(1) State.} $\\theta_t = (\\theta_{1,t},\\, \\dots,\\, \\theta_{p,t})^\\top \\in \\mathbb{R}^p$, with $\\theta_{1,t} = Y_t$; $\\theta_{2,t}, \\dots, \\theta_{p,t}$ are auxiliary components (delayed echoes, \\emph{not} lagged observations).\n\n\\emph{(2) Component equations.}\n\\[ \\theta_{1,t} = \\phi_1\\, \\theta_{1,t-1} + \\theta_{2,t-1} + \\varepsilon_t, \\quad \\theta_{j,t} = \\phi_j\\, \\theta_{1,t-1} + \\theta_{j+1,t-1} \\;\\text{ for } j = 2, \\dots, p-1, \\quad \\theta_{p,t} = \\phi_p\\, \\theta_{1,t-1}, \\]\nwith $\\varepsilon_t \\overset{\\text{iid}}{\\sim} \\mathcal{N}(0, \\sigma^2)$.\n\n\\emph{(3) Matrix state equation.}\n\\[ \\begin{pmatrix} \\theta_{1,t} \\\\ \\theta_{2,t} \\\\ \\vdots \\\\ \\theta_{p-1,t} \\\\ \\theta_{p,t} \\end{pmatrix} \\;=\\; \\underbrace{\\begin{pmatrix} \\phi_1 & 1 & 0 & \\cdots & 0 \\\\ \\phi_2 & 0 & 1 & \\cdots & 0 \\\\ \\vdots & & & \\ddots & \\\\ \\phi_{p-1} & 0 & \\cdots & 0 & 1 \\\\ \\phi_p & 0 & \\cdots & 0 & 0 \\end{pmatrix}}_{G} \\begin{pmatrix} \\theta_{1,t-1} \\\\ \\theta_{2,t-1} \\\\ \\vdots \\\\ \\theta_{p-1,t-1} \\\\ \\theta_{p,t-1} \\end{pmatrix} + \\begin{pmatrix} \\varepsilon_t \\\\ 0 \\\\ \\vdots \\\\ 0 \\\\ 0 \\end{pmatrix}, \\qquad W = \\mathrm{diag}(\\sigma^2,\\, 0,\\, \\dots,\\, 0). \\]\n\n\\emph{(4) Observation equation.} $Y_t = F\\, \\theta_t + v_t = (1, 0, \\dots, 0)\\, \\theta_t = \\theta_{1,t}$, $F = (1, 0, \\dots, 0)$, $V = 0$ (degenerate --- state observed exactly).\n\n\\emph{Reading.} The $\\phi$'s sit in the \\emph{first column} of $G$ (not the first row). The super-diagonal of 1's \"shifts\" auxiliary components, so each $\\theta_{j,t-1}$ becomes a delayed contribution to $\\theta_{1,\\cdot}$ at the next step.\n\n\\emph{Why not lagged-$Y$ form?} Many textbooks use the \"naive\" companion $G$ with $\\phi$'s in the first row and $\\theta_t = (Y_t, Y_{t-1}, \\dots, Y_{t-p+1})^\\top$ --- mathematically equivalent but uses observations as state components, which the strict DLM definition (DLMwR p.\\ 113) forbids. The book's auxiliary form satisfies the DLM constraint while still encoding the AR($p$) dynamics.",
-        "flashcard": true,
-        "images": [],
-        "links": [],
-        "x": 6242.318813286567,
-        "y": 3314.2868399731933,
-        "width": 453.49771969812775,
-        "height": 210.63307506050182,
-        "color": "yellow",
-        "fsrs": {
-          "stability": 1,
-          "difficulty": 5,
-          "elapsedDays": 0,
-          "scheduledDays": 0,
-          "reps": 0,
-          "lapses": 0,
-          "state": "new",
-          "lastReview": null,
-          "dueDate": "2026-05-17T13:38:46.018Z"
-        },
-        "deletedAt": 1779377590337,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
