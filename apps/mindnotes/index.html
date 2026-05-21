@@ -7847,15 +7847,22 @@ function renderDetailView() {
 }
 
 function closeDetail() {
+    // PERF FIX #9: don't rebuild all 55 canvas nodes just to deselect one. Same logic
+    // as PERF FIX #2 in selectNode — just remove the .selected class from the previously
+    // selected node's existing DOM element.
     State.isEditingFullContent = false;
     const panel = $('detailPanel');
     panel.classList.remove('open');
     panel.classList.add('view-mode');  // Reset to view mode
+    const prev = State.selectedNode;
     State.selectedNode = null;
     State.editingBlockIndex = -1;
     State.contentBlocks = [];
     State.currentContent = '';
-    renderCanvas();
+    if (prev && canvas) {
+        const prevEl = canvas.querySelector(`.node[data-id="${prev.id}"]`);
+        if (prevEl) prevEl.classList.remove('selected');
+    }
 }
 
 // Debounce timer for preview updates
