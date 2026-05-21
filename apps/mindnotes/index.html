@@ -5338,14 +5338,16 @@ function createNodeElement(node) {
         <div class="resize-handle"></div>
     `;
 
-    // Render math in preview — deferred via IntersectionObserver so the canvas paints
-    // first and KaTeX only runs for nodes the user is actually looking at.
-    const preview = el.querySelector('.node-preview');
-    if (_lazyMathObserver) {
-        _lazyMathObserver.observe(preview);
-    } else {
-        renderMath(preview);
-    }
+    // PERF FIX #5: skip KaTeX on canvas mini-previews entirely. The preview is too small
+    // to read formulas anyway, and rendering KaTeX for all 55 nodes (even lazily) was
+    // the dominant cost on canvas redraws. Math is still rendered in the detail panel
+    // when the user actually opens a snippet.
+    // const preview = el.querySelector('.node-preview');
+    // if (_lazyMathObserver) {
+    //     _lazyMathObserver.observe(preview);
+    // } else {
+    //     renderMath(preview);
+    // }
 
     // Make formulas clickable for inline editing
     attachFormulaClickHandlers(el, node);
