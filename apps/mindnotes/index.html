@@ -4223,6 +4223,9 @@ async function _commitSave() {
     try {
         await ensureOpenAndPut();
 
+        // PERF FIX #3: remember the serialized payload for the next save's no-op short-circuit.
+        if (serialized) _lastSavedSerialized[dataKey] = serialized;
+
         // Trigger file system autosave (non-blocking)
         autoSaveToFileSystem(dataKey, State.data);
 
