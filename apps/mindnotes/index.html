@@ -5296,8 +5296,9 @@ function renderCanvas() {
                 const previewEl = el.querySelector('.node-preview');
                 if (previewEl) {
                     previewEl.innerHTML = formatNodePreview(node.content || '');
+                    // PERF FIX #13: prefer cached KaTeX output when possible.
                     if (_lazyMathObserver) _lazyMathObserver.observe(previewEl);
-                    else renderMath(previewEl);
+                    else renderMathCached(previewEl);
                 }
                 el.dataset.contentStamp = contentStamp;
             }
