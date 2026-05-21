@@ -8326,7 +8326,34 @@ function deleteSubtopic(topicId, subtopicId) {
     showToast(`Deleted subtopic "${subtopic.name}"`);
 }
 
+// PERF FIX #4: build a lowercased flat index once; rebuild only when data mutates.
+let _searchIndex = null;
+let _searchIndexDirty = true;
+function invalidateSearchIndex() { _searchIndexDirty = true; }
+function buildSearchIndex() {
+    _searchIndex = [];
+    (State.data?.topics || []).forEach(topic => {
+        (topic.subtopics || []).forEach(sub => {
+            (sub.nodes || []).forEach(node => {
+                _searchIndex.push({
+                    node, topic, sub,
+                    titleLower: (node.title || '').toLowerCase(),
+                    contentLower: (node.content || '').toLowerCase(),
+                });
+            });
+        });
+    });
+    _searchIndexDirty = false;
+}
+
+// Debounce search itself so we don't run on every keystroke.
+let _searchDebounceTimer = null;
 function performSearch(query) {
+    clearTimeout(_searchDebounceTimer);
+    _searchDebounceTimer = setTimeout(() => _performSearchNow(query), 120);
+}
+
+function _performSearchNow(query) {
     const results = $('searchResults');
     const topicsSection = $('topicsSection');
 
@@ -8337,34 +8364,33 @@ function performSearch(query) {
         return;
     }
 
+    if (_searchIndexDirty || !_searchIndex) buildSearchIndex();
+
     const q = query.toLowerCase();
     const matches = [];
 
-    State.data.topics.forEach(topic => {
-        topic.subtopics.forEach(sub => {
-            sub.nodes.forEach(node => {
-                const titleMatch = node.title?.toLowerCase().includes(q);
-                const contentMatch = node.content?.toLowerCase().includes(q);
+    for (let i = 0; i < _searchIndex.length; i++) {
+        const entry = _searchIndex[i];
+        const titleMatch = entry.titleLower.includes(q);
+        const contentMatch = entry.contentLower.includes(q);
+        if (!titleMatch && !contentMatch) continue;
 
-                if (titleMatch || contentMatch) {
-                    let snippet = '';
-                    if (contentMatch) {
-                        const idx = node.content.toLowerCase().indexOf(q);
-                        const start = Math.max(0, idx - 30);
-                        const end = Math.min(node.content.length, idx + q.length + 30);
-                        const rawSnippet = (start > 0 ? '...' : '') +
-                            node.content.substring(start, end) +
-                            (end < node.content.length ? '...' : '');
-                        snippet = escapeHtml(rawSnippet).replace(
-                            new RegExp(escapeHtml(q), 'gi'),
-                            '<mark>$&</mark>'
-                        );
-                    }
-                    matches.push({ node, topic, sub, snippet });
-                }
-            });
-        });
-    });
+        let snippet = '';
+        if (contentMatch) {
+            const idx = entry.contentLower.indexOf(q);
+            const content = entry.node.content || '';
+            const start = Math.max(0, idx - 30);
+            const end = Math.min(content.length, idx + q.length + 30);
+            const rawSnippet = (start > 0 ? '...' : '') +
+                content.substring(start, end) +
+                (end < content.length ? '...' : '');
+            snippet = escapeHtml(rawSnippet).replace(
+                new RegExp(escapeHtml(q), 'gi'),
+                '<mark>$&</mark>'
+            );
+        }
+        matches.push({ node: entry.node, topic: entry.topic, sub: entry.sub, snippet });
+    }
 
     topicsSection.style.display = 'none';
     results.classList.add('active');
