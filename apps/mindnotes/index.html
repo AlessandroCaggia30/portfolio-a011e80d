@@ -5372,6 +5372,10 @@ function createNodeElement(node) {
     const el = document.createElement('div');
     el.className = 'node' + (State.selectedNode?.id === node.id ? ' selected' : '');
     el.dataset.id = node.id;
+    // PERF FIX #10: stamp the content fingerprint so the diff-renderer can skip
+    // re-rendering this node's preview on later renderCanvas() calls.
+    const _c = node.content || '';
+    el.dataset.contentStamp = _c.length + ':' + _c.slice(0, 32);
     el.style.left = node.x + 'px';
     el.style.top = node.y + 'px';
     if (node.width) el.style.width = node.width + 'px';
