@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-21T17:32:35.997Z",
+  "exportedAt": "2026-05-21T17:32:46.780Z",
   "data": {
     "topics": [
       {
@@ -660,7 +660,7 @@
               },
               {
                 "id": "1778783697835",
-                "title": "Decoding / fitering",
+                "title": "Decoding / filtering",
                 "content": "\\textbf{\\textcolor{red}{3. DECODING}}\n\nEstimate the latent state sequence $s_{1:T}$ given observed $y_{1:T}$ (treat $s_0$ as fixed, and $\\phi$ as known or replaced by its MLE).\n\n\\textbf{\\textcolor{red}{Local criterion.}} For each $t = 1, \\dots, T$, pick the marginally most likely state:\n\\[ s_t^* \\;=\\; \\arg\\max_s \\gamma_t(s), \\qquad \\gamma_t(s) \\;\\equiv\\; P(S_t = s \\mid y_{1:T}, \\phi). \\]\n\\emph{Issue.} The resulting sequence $s_{1:T}^*$ may include zero-probability transitions ($p_{i,j} = 0$), making the global path infeasible.\n\n\\textbf{\\textcolor{red}{Global criterion --- Viterbi.}} Find the path that maximises the joint conditional probability:\n\\[ \\max_{s_{0:T}} P(S_0 = s_0, \\dots, S_T = s_T \\mid Y_1 = y_1, \\dots, Y_T = y_T, \\phi). \\]\nGiven the data, and the parameters, what is the most likely hidden state? \n\nThis conditional probability can be computed using Bayes theorem. However, we can more easily exploit the computations already carried out for the MLE. Notice that\n\\[ \\begin{aligned} & P(S_0 = s_0, \\dots, S_T = s_T,\\, Y_1 = y_1, \\dots, Y_T = y_T \\mid \\phi) \\\\ & \\underbrace{=}_{\\text{chain rule}} P(S_0 = s_0, \\dots, S_T = s_T \\mid Y_1 = y_1, \\dots, Y_T = y_T, \\phi)\\, P(Y_1 = y_1, \\dots, Y_T = y_T \\mid \\phi), \\end{aligned} \\]\nwhere the latter factor on the right-hand side does not depend on $s_{0:T}$. Therefore, maximising the conditional joint probability with respect to $s_{0:T}$ is equivalent to maximising the joint probability $P(S_0 = s_0, \\dots, S_T = s_T,\\, Y_1 = y_1, \\dots, Y_T = y_T \\mid \\phi)$ wrt phi. Now we need to optimize the same thing by $S_{0:T}$ \n",
                 "flashcard": true,
                 "images": [],
@@ -830,8 +830,8 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 5250.373752183836,
-                "y": 4039.9682867570045,
+                "x": 4854.3128259526875,
+                "y": 3822.773585275407,
                 "fsrs": {
                   "stability": 1,
                   "difficulty": 5,
@@ -993,8 +993,8 @@
                 "flashcard": false,
                 "images": [],
                 "links": [],
-                "x": 4773.773061885927,
-                "y": 4031.4397248127843,
+                "x": 4888.758492082066,
+                "y": 3965.003698477237,
                 "width": 275.11482819508706,
                 "height": 144.45527888928433
               },
