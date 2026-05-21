@@ -6370,11 +6370,20 @@ function startPanning(e) {
     canvas.classList.add('grabbing');
 }
 
+// PERF FIX #15: rAF-throttle pan mousemove so at most one transform per frame fires,
+// even if the OS delivers 240 Hz pointer events. Prevents the main thread from
+// drowning during fast drags on heavy canvases.
+let _panRafPending = false;
 function handlePanMove(e) {
     if (!State.isPanning) return;
     State.pan.x = e.clientX - State.panStart.x;
     State.pan.y = e.clientY - State.panStart.y;
-    updateTransform();
+    if (_panRafPending) return;
+    _panRafPending = true;
+    requestAnimationFrame(() => {
+        _panRafPending = false;
+        updateTransform();
+    });
 }
 
 function endPanning() {
