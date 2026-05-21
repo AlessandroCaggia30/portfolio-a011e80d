@@ -4132,10 +4132,9 @@ let _ghEditSaveTimer = null;
 function markDirty() {
     // PERF FIX #4: data changed, invalidate the search index so it rebuilds on next search.
     if (typeof invalidateSearchIndex === 'function') invalidateSearchIndex();
-    // PERF FIX #7/#8: content may have changed, so clear the format caches. Keyed by string,
-    // so only stale entries matter — total clear is fine and avoids tracking per-node keys.
-    if (typeof _formatContentCache !== 'undefined') _formatContentCache.clear();
-    if (typeof _formatNodePreviewCache !== 'undefined') _formatNodePreviewCache.clear();
+    // PERF FIX #11: do NOT clear format caches here. They are keyed by content string,
+    // so a content change is automatically a cache miss (new key) → recompute → store.
+    // Clearing them on every keystroke defeated the whole point of #7/#8 and slowed typing.
     if (!_dataIsDirty) {
         _dataIsDirty = true;
         const btn = document.getElementById('saveNowBtn');
