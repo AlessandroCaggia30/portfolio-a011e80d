@@ -3294,7 +3294,7 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
                     </div>
                 </div>
                 <div class="editor-main">
-                    <textarea class="editor-input" id="nodeContent" placeholder="Start writing... (paste or drag images here)" oninput="updatePreview();updateCharCount();"></textarea>
+                    <textarea class="editor-input" id="nodeContent" placeholder="Start writing... (paste or drag images here)" oninput="updatePreviewDebounced();updateCharCount();"></textarea>
                     <div class="editor-preview" id="previewBox"></div>
                 </div>
                 <div class="editor-footer">
