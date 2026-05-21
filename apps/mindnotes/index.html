@@ -5069,6 +5069,22 @@ function _formatContentImpl(text) {
     return processed;
 }
 
+function formatContent(text) {
+    // PERF FIX #7: memoized wrapper. String inputs are immutable in JS, so the result
+    // is deterministic; cache hit is just a Map lookup.
+    if (!text) return '';
+    const cached = _formatContentCache.get(text);
+    if (cached !== undefined) return cached;
+    const out = _formatContentImpl(text);
+    _formatContentCache.set(text, out);
+    if (_formatContentCache.size > _FORMAT_CONTENT_CACHE_MAX) {
+        // Evict oldest (Map preserves insertion order).
+        const oldest = _formatContentCache.keys().next().value;
+        _formatContentCache.delete(oldest);
+    }
+    return out;
+}
+
 function renderMath(element) {
     if (typeof renderMathInElement !== 'undefined') {
         renderMathInElement(element, {
