@@ -4112,7 +4112,29 @@ async function loadData() {
         const storedSeedVersion = seedVersion ? localStorage.getItem(dataKey + '_seedVersion') : null;
         const needsSeedRefresh = seedVersion && storedSeedVersion !== String(seedVersion);
 
-        if (data && !needsSeedRefresh) {
+        // SUBJECT MISMATCH GUARD: if the IndexedDB-cached data's topic names don't
+        // overlap at all with the seed file's topic names, the cache is from a
+        // different subject (cross-contamination from an earlier bug). Force a
+        // clean re-seed from the seed file instead of loading the wrong data.
+        let subjectMismatch = false;
+        if (data && data.topics && seedFile) {
+            try {
+                const seedResp = await fetch(seedFile, { cache: 'no-store' });
+                if (seedResp.ok) {
+                    const seedJson = await seedResp.json();
+                    const seedTopics = (seedJson.data || seedJson).topics || [];
+                    const seedNames = new Set(seedTopics.map(t => t.name));
+                    const cachedNames = new Set(data.topics.map(t => t.name));
+                    const overlap = [...cachedNames].some(n => seedNames.has(n));
+                    if (seedNames.size > 0 && cachedNames.size > 0 && !overlap) {
+                        console.warn('Subject mismatch detected for ' + dataKey + ': cached topics', [...cachedNames], 'vs seed topics', [...seedNames], '- forcing clean re-seed');
+                        subjectMismatch = true;
+                    }
+                }
+            } catch (e) { console.warn('Seed mismatch check failed (will use cached data):', e); }
+        }
+
+        if (data && !needsSeedRefresh && !subjectMismatch) {
             State.data = data;
             if (!State.data.trash) State.data.trash = [];
             const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
