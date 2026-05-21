@@ -562,9 +562,25 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
     top: -5000px;
     cursor: grab;
     transform-origin: 50% 50%;
+    /* PERF FIX #15: keep the canvas on its own GPU compositing layer so pan/zoom is
+       a transform-only update with no layout/paint of the children. */
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .canvas.grabbing { cursor: grabbing; }
+
+/* PERF FIX #15: while panning, disable hover transitions and per-node pointer events
+   so the browser doesn't recompute hit-tests and box-shadow transitions on every
+   mousemove. Massive smoothing for canvas drag. */
+.canvas.grabbing .node {
+    transition: none !important;
+    pointer-events: none;
+}
+.canvas.grabbing .node:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    z-index: auto;
+}
 
 .canvas svg {
     position: absolute;
