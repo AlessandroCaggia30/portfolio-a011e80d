@@ -11475,6 +11475,12 @@ function showSubjectScreen() {
 
 async function selectSubject(subject) {
     State.currentSubject = subject;
+    // PERF FIX #4/#13 (regression fix): invalidate per-subject caches so a different
+    // subject's content never bleeds into search results or rendered previews.
+    if (typeof invalidateSearchIndex === 'function') invalidateSearchIndex();
+    if (typeof _katexHtmlCache !== 'undefined' && _katexHtmlCache.clear) _katexHtmlCache.clear();
+    if (typeof _formatContentCache !== 'undefined' && _formatContentCache.clear) _formatContentCache.clear();
+    if (typeof _formatNodePreviewCache !== 'undefined' && _formatNodePreviewCache.clear) _formatNodePreviewCache.clear();
     $('subjectScreen').classList.add('hidden');
     document.querySelector('.app').style.display = '';
     switchView('notes');
