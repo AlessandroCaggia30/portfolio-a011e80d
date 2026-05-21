@@ -5404,8 +5404,12 @@ function renderCanvas() {
 
             // Only re-render the heavy preview if content actually changed.
             // We stamp the last-rendered content on the DOM via a dataset hash.
-            const contentLen = (node.content || '').length;
-            const contentStamp = contentLen + ':' + (node.content || '').slice(0, 32);
+            // PERF FIX #10 (strengthened): content fingerprint = length + djb2 hash of full
+            // content. Catches edits anywhere in the string, not just the first 32 chars.
+            const _cv = node.content || '';
+            let _h = 5381;
+            for (let _i = 0; _i < _cv.length; _i++) _h = ((_h << 5) + _h + _cv.charCodeAt(_i)) >>> 0;
+            const contentStamp = _cv.length + ':' + _h.toString(36);
             if (el.dataset.contentStamp !== contentStamp) {
                 const previewEl = el.querySelector('.node-preview');
                 if (previewEl) {
