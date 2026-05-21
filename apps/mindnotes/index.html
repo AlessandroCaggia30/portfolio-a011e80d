@@ -6873,10 +6873,26 @@ function dropImageInBlock(e, blockIndex) {
 }
 
 function selectNode(node) {
+    // PERF FIX #2: don't recreate all DOM nodes for a selection change — just toggle .selected.
+    const prev = State.selectedNode;
     State.selectedNode = node;
-    State.selectedLink = null;  // Clear link selection
-    renderCanvas();
-    openDetail(node);  // Open detail panel in view mode (not the modal)
+    State.selectedLink = null;
+    if (canvas) {
+        if (prev && prev.id !== (node && node.id)) {
+            const prevEl = canvas.querySelector(`.node[data-id="${prev.id}"]`);
+            if (prevEl) prevEl.classList.remove('selected');
+        }
+        if (node) {
+            const newEl = canvas.querySelector(`.node[data-id="${node.id}"]`);
+            if (newEl) {
+                newEl.classList.add('selected');
+            } else {
+                // Node not yet in DOM (e.g., subtopic just switched) — fall back to full render.
+                renderCanvas();
+            }
+        }
+    }
+    openDetail(node);
 }
 
 function openNodeEditor(node) {
