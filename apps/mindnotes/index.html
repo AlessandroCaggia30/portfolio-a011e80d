@@ -6410,6 +6410,10 @@ function handleWheelZoom(e) {
     updateTransform();
 }
 
+// PERF FIX #15: only repaint the background-size + zoom label when the zoom
+// actually changes. Pure pan touches just the transform — single GPU compositing op.
+let _lastBgZoom = -1;
+let _lastZoomLabel = -1;
 function updateTransform() {
     // Guard against NaN/invalid values
     if (!Number.isFinite(State.pan.x) || !Number.isFinite(State.pan.y) || !Number.isFinite(State.zoom) || State.zoom <= 0) {
@@ -6417,14 +6421,28 @@ function updateTransform() {
         State.pan = { x: 0, y: 0 };
         State.zoom = 1;
     }
-    const t = `translate(${State.pan.x}px, ${State.pan.y}px) scale(${State.zoom})`;
-    // Use direct DOM lookup as safeguard against stale reference
+    // translate3d forces GPU compositing.
+    const t = `translate3d(${State.pan.x}px, ${State.pan.y}px, 0) scale(${State.zoom})`;
     const c = document.getElementById('canvas');
     if (c) c.style.transform = t;
     if (canvas && canvas !== c) canvas.style.transform = t;
-    $('canvasBg').style.backgroundPosition = `${State.pan.x}px ${State.pan.y}px`;
-    $('canvasBg').style.backgroundSize = `${40 * State.zoom}px ${40 * State.zoom}px`;
-    $('zoomLevel').textContent = Math.round(State.zoom * 100) + '%';
+
+    const bg = $('canvasBg');
+    if (bg) {
+        bg.style.backgroundPosition = `${State.pan.x}px ${State.pan.y}px`;
+        if (State.zoom !== _lastBgZoom) {
+            bg.style.backgroundSize = `${40 * State.zoom}px ${40 * State.zoom}px`;
+            _lastBgZoom = State.zoom;
+        }
+    }
+    const zl = $('zoomLevel');
+    if (zl) {
+        const z100 = Math.round(State.zoom * 100);
+        if (z100 !== _lastZoomLabel) {
+            zl.textContent = z100 + '%';
+            _lastZoomLabel = z100;
+        }
+    }
 }
 
 function fitView() {
