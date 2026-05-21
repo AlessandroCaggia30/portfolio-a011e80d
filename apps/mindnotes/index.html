@@ -4130,6 +4130,8 @@ let _dataIsDirty = false;
 
 let _ghEditSaveTimer = null;
 function markDirty() {
+    // PERF FIX #4: data changed, invalidate the search index so it rebuilds on next search.
+    if (typeof invalidateSearchIndex === 'function') invalidateSearchIndex();
     if (!_dataIsDirty) {
         _dataIsDirty = true;
         const btn = document.getElementById('saveNowBtn');
