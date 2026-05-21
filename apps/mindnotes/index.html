@@ -3928,13 +3928,8 @@ function redo() {
 // IndexedDB for larger storage (hundreds of MB instead of 5MB)
 let db = null;
 const DB_NAME = 'mindnotes_db';
-// PERF FIX #14: bumped to v2 to add an 'images' object store. Base64 image bodies are
-// extracted from the main data record and stored separately, keyed by a content fingerprint.
-// This cuts the main JSON from ~1.4 MB to ~250 KB for typical setups, so every save's
-// JSON.stringify, IndexedDB put, and file-system autosave are ~6x cheaper.
-const DB_VERSION = 2;
+const DB_VERSION = 1;
 const STORE_NAME = 'data';
-const IMAGE_STORE = 'images';
 
 function initDB() {
     return new Promise((resolve, reject) => {
@@ -3944,7 +3939,9 @@ function initDB() {
 
         request.onsuccess = () => {
             db = request.result;
+            // If another tab triggers a version upgrade, close so we can reopen fresh.
             db.onversionchange = () => { try { db.close(); } catch (_) {} db = null; };
+            // If the connection closes for any reason, clear the handle.
             db.onclose = () => { db = null; };
             resolve(db);
         };
@@ -3953,9 +3950,6 @@ function initDB() {
             const database = e.target.result;
             if (!database.objectStoreNames.contains(STORE_NAME)) {
                 database.createObjectStore(STORE_NAME);
-            }
-            if (!database.objectStoreNames.contains(IMAGE_STORE)) {
-                database.createObjectStore(IMAGE_STORE);
             }
         };
     });
