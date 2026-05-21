@@ -4155,6 +4155,9 @@ function hasUnsavedChanges() {
     return _dataIsDirty;
 }
 
+// PERF FIX #3: cache the last-serialized payload per dataKey so we can skip writes when
+// nothing actually changed (e.g. autosave fires but data is byte-identical to last write).
+const _lastSavedSerialized = {};
 async function _commitSave() {
     const dataKey = State.currentSubject ? State.currentSubject.dataKey : 'mindnotes2';
 
@@ -4162,6 +4165,28 @@ async function _commitSave() {
     const totalNodes = (State.data.topics || []).reduce((sum, t) => sum + (t.subtopics || []).reduce((s2, st) => s2 + (st.nodes || []).length, 0), 0);
     if (totalNodes === 0) {
         console.warn('Skipping save: 0 nodes in data');
+        return;
+    }
+
+    // PERF FIX #3: short-circuit if the in-memory data is byte-identical to last save.
+    // JSON.stringify is the dominant cost (large data + base64 images); the actual
+    // IndexedDB put is fast. We pay stringify once here, but skip it AND the put + the
+    // file-system autosave + the GitHub push whenever nothing changed.
+    let serialized;
+    try {
+        serialized = JSON.stringify(State.data);
+    } catch (e) {
+        console.warn('Could not pre-serialize for cache check:', e);
+    }
+    if (serialized && _lastSavedSerialized[dataKey] === serialized) {
+        _dataIsDirty = false;
+        const btn = document.getElementById('saveNowBtn');
+        if (btn) {
+            btn.classList.remove('unsaved');
+            btn.classList.add('just-saved');
+            btn.textContent = 'Saved';
+            setTimeout(() => { btn.classList.remove('just-saved'); btn.textContent = 'Save'; }, 1500);
+        }
         return;
     }
 
