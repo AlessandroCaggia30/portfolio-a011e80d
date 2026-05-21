@@ -4060,6 +4060,22 @@ async function loadData() {
     try {
         if (!db) await initDB();
 
+        // EMERGENCY URL RESET: open the site with `?nuke=mindnotes_timeseries`
+        // (or any dataKey) to delete that subject's IndexedDB entry before loading.
+        // After deletion, the seed file is reloaded fresh on the next click.
+        try {
+            const nukeKey = new URLSearchParams(location.search).get('nuke');
+            if (nukeKey && nukeKey === dataKey) {
+                await new Promise((resolve) => {
+                    const tx = db.transaction(STORE_NAME, 'readwrite');
+                    const req = tx.objectStore(STORE_NAME).delete(nukeKey);
+                    req.onsuccess = () => { console.log('NUKED IndexedDB key:', nukeKey); resolve(); };
+                    req.onerror = () => { console.warn('Nuke failed:', req.error); resolve(); };
+                });
+                try { localStorage.removeItem(nukeKey + '_seedVersion'); } catch (_) {}
+            }
+        } catch (e) { console.warn('Emergency reset block error:', e); }
+
         // One-time migration: move old 'mindnotes2' data to 'mindnotes_advmath'
         if (dataKey === 'mindnotes_advmath') {
             const oldData = await new Promise((resolve, reject) => {
