@@ -6428,28 +6428,37 @@ document.addEventListener('click', function(e) {
     }
 });
 
+// PERF FIX #1: memoize last-rendered preview to skip rework on no-op keystrokes.
+let _lastPreviewKey = null;
 function updatePreview() {
     const text = $('nodeContent').value;
     const box = $('previewBox');
     const format = $('formatSelector').value;
+    const imgsLen = (State.tempImages || []).length;
+    const key = format + '\x00' + imgsLen + '\x00' + text;
+    if (key === _lastPreviewKey) return;  // identical content, skip expensive render
+    _lastPreviewKey = key;
 
     if (format === 'obsidian') {
-        // Obsidian format: show formatted text ready for Obsidian
         box.innerHTML = formatForObsidian(text);
     } else {
-        // LaTeX format: formatContent handles LaTeX commands internally
-        // (it extracts math blocks FIRST, then processes \textcolor etc.)
         box.innerHTML = formatContent(text);
         renderMath(box);
     }
 
-    // Show attached images in preview
-    if (State.tempImages && State.tempImages.length > 0) {
+    if (imgsLen > 0) {
         const imagesHtml = State.tempImages.map((img, i) =>
             `<div class="preview-image"><img src="${img}" alt="Attached image ${i+1}"></div>`
         ).join('');
         box.innerHTML += `<div class="preview-images">${imagesHtml}</div>`;
     }
+}
+
+// PERF FIX #1: debounced wrapper for textarea oninput so KaTeX renders only after typing settles.
+let _updatePreviewDebounceTimer = null;
+function updatePreviewDebounced() {
+    clearTimeout(_updatePreviewDebounceTimer);
+    _updatePreviewDebounceTimer = setTimeout(updatePreview, 250);
 }
 
 /**
