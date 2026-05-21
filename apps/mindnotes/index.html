@@ -5230,27 +5230,22 @@ function renderCanvas() {
     const s = document.getElementById('linksSvg');
     if (s && s !== svg) svg = s;
 
-    canvas.querySelectorAll('.node').forEach(n => n.remove());
-    svg.innerHTML = '';
-    if (!State.currentSubtopic) return;
+    if (!State.currentSubtopic) {
+        canvas.querySelectorAll('.node').forEach(n => n.remove());
+        svg.innerHTML = '';
+        return;
+    }
 
-    // Fix nodes with missing or invalid positions — lay them out in a grid
+    // PERF FIX #10: diff-based render. Keep existing DOM nodes; only recreate
+    // the ones whose content changed, only remove the ones no longer in data,
+    // only create the truly new ones. This avoids destroying ~55 DOM nodes
+    // (with KaTeX-rendered previews) every time something trivial calls renderCanvas.
     const nodes = State.currentSubtopic.nodes;
-    // Log positions for debugging
-    const positionSummary = {};
-    nodes.forEach(n => {
-        const key = `${Math.round(n.x || 0)},${Math.round(n.y || 0)}`;
-        positionSummary[key] = (positionSummary[key] || 0) + 1;
-    });
-    console.log('Node positions:', positionSummary);
 
-    // A node is "bad" only if its position is truly invalid (NaN, undefined, null).
-    // We deliberately do NOT reposition nodes that the user has dragged toward the canvas edges —
-    // valid coordinates anywhere in [0, 10000] are respected.
+    // Position validation (unchanged from previous logic).
     const isGoodPos = n => Number.isFinite(n.x) && Number.isFinite(n.y) && !(n.x === 0 && n.y === 0);
     const badNodes = nodes.filter(n => !isGoodPos(n));
     const goodNodes = nodes.filter(n => isGoodPos(n));
-
     if (badNodes.length) {
         let startX = 4800, startY = 4800;
         if (goodNodes.length) {
@@ -5268,6 +5263,61 @@ function renderCanvas() {
         debouncedSaveData();
     }
 
+    // Snapshot of existing DOM nodes keyed by data-id.
+    const existing = new Map();
+    canvas.querySelectorAll('.node').forEach(el => existing.set(el.dataset.id, el));
+
+    // For each data node: update existing OR create new.
+    const wanted = new Set();
+    nodes.forEach(node => {
+        wanted.add(String(node.id));
+        const el = existing.get(String(node.id));
+        if (el) {
+            // Cheap CSS-only updates first.
+            el.style.left = node.x + 'px';
+            el.style.top = node.y + 'px';
+            if (node.width) el.style.width = node.width + 'px';
+            if (node.height) el.style.height = node.height + 'px';
+            if (node.color && NODE_COLORS[node.color]) {
+                el.style.borderLeftColor = NODE_COLORS[node.color];
+                el.style.borderLeftWidth = '4px';
+            }
+            el.classList.toggle('selected', State.selectedNode?.id === node.id);
+
+            // Cheap title text update.
+            const titleEl = el.querySelector('.node-title');
+            const wantedTitle = (node.flashcard ? '🎴 ' : '') + (node.title || 'Untitled');
+            if (titleEl && titleEl.textContent !== wantedTitle) titleEl.textContent = wantedTitle;
+
+            // Only re-render the heavy preview if content actually changed.
+            // We stamp the last-rendered content on the DOM via a dataset hash.
+            const contentLen = (node.content || '').length;
+            const contentStamp = contentLen + ':' + (node.content || '').slice(0, 32);
+            if (el.dataset.contentStamp !== contentStamp) {
+                const previewEl = el.querySelector('.node-preview');
+                if (previewEl) {
+                    previewEl.innerHTML = formatNodePreview(node.content || '');
+                    if (_lazyMathObserver) _lazyMathObserver.observe(previewEl);
+                    else renderMath(previewEl);
+                }
+                el.dataset.contentStamp = contentStamp;
+            }
+        } else {
+            try {
+                createNodeElement(node);
+            } catch (e) {
+                console.error('Error creating node element', node.id, node.title, e);
+            }
+        }
+    });
+
+    // Remove DOM nodes that no longer exist in the data.
+    existing.forEach((el, id) => {
+        if (!wanted.has(id)) el.remove();
+    });
+
+    // Links/arrows: still cheaper to redraw all SVG paths than to diff them.
+    svg.innerHTML = '';
     ensureSvgArrowDefs();
     nodes.forEach(node => {
         try {
@@ -5277,14 +5327,6 @@ function renderCanvas() {
             });
         } catch (e) {
             console.error('Error drawing links for node', node.id, e);
-        }
-    });
-
-    nodes.forEach(node => {
-        try {
-            createNodeElement(node);
-        } catch (e) {
-            console.error('Error creating node element', node.id, node.title, e);
         }
     });
 }
