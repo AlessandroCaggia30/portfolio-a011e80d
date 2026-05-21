@@ -4176,7 +4176,7 @@ async function loadData() {
         } else if (needsSeedRefresh && seedFile) {
             // Seed file updated — merge seed into existing data (preserve user flashcard flags & FSRS state)
             try {
-                const resp = await fetch(seedFile);
+                const resp = await fetch(seedFile, { cache: 'no-store' });
                 if (resp.ok) {
                     const backup = await resp.json();
                     const seedData = backup.data || backup;
@@ -4229,7 +4229,7 @@ async function loadData() {
             } else if (seedFile) {
                 // Try loading bundled seed file
                 try {
-                    const resp = await fetch(seedFile);
+                    const resp = await fetch(seedFile, { cache: 'no-store' });
                     if (resp.ok) {
                         const backup = await resp.json();
                         State.data = backup.data || backup;
