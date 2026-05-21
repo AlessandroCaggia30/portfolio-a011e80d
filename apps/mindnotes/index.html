@@ -7162,10 +7162,19 @@ function parseAndRenderBlocks(content) {
 State.currentContent = '';
 State.isEditingFullContent = false;
 
+// PERF FIX #6: memoize the detail preview — same input (content + format + selected node)
+// produces the same DOM, so skip the formatting + KaTeX render when nothing changed.
+let _lastObsidianPreviewKey = null;
 function renderObsidianPreview() {
     const container = $('detailPreview');
     const content = State.currentContent || State.contentBlocks.join('\n') || '';
     const format = $('detailFormatSelector')?.value || 'latex';
+    const nodeId = State.selectedNode?.id || '';
+    const key = nodeId + '\x00' + format + '\x00' + content;
+    if (key === _lastObsidianPreviewKey && container.querySelector('.live-preview-content')) {
+        return;  // identical input + DOM already present → skip
+    }
+    _lastObsidianPreviewKey = key;
 
     // Render content (preview only - editing is done in the editor pane)
     let html = '';
