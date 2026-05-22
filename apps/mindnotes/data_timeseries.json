@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-22T16:14:30.423Z",
+  "exportedAt": "2026-05-22T16:14:36.990Z",
   "data": {
     "topics": [
       {
@@ -362,7 +362,8 @@
                   "state": "new",
                   "lastReview": null,
                   "dueDate": "2026-05-22T08:20:45.347Z"
-                }
+                },
+                "color": "red"
               },
               {
                 "id": "ts1778707354663",
@@ -607,7 +608,8 @@
                   "state": "new",
                   "lastReview": null,
                   "dueDate": "2026-05-16T12:48:11.525Z"
-                }
+                },
+                "color": "red"
               },
               {
                 "id": "1778782109671",
@@ -730,7 +732,8 @@
                   "state": "new",
                   "lastReview": null,
                   "dueDate": "2026-05-16T12:48:11.525Z"
-                }
+                },
+                "color": "red"
               },
               {
                 "id": "1778836879770",
