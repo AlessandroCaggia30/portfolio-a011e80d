@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-22T17:22:33.239Z",
+  "exportedAt": "2026-05-22T21:42:13.226Z",
   "data": {
     "topics": [
       {
@@ -673,15 +673,15 @@
                 "x": 6600.737863111984,
                 "y": 2558.737484375376,
                 "fsrs": {
-                  "stability": 1,
-                  "difficulty": 5,
+                  "stability": 0.4072,
+                  "difficulty": 8.2734,
                   "elapsedDays": 0,
-                  "scheduledDays": 0,
-                  "reps": 0,
+                  "scheduledDays": 1,
+                  "reps": 1,
                   "lapses": 0,
-                  "state": "new",
-                  "lastReview": null,
-                  "dueDate": "2026-05-16T12:48:11.525Z"
+                  "state": "learning",
+                  "lastReview": "2026-05-22T21:42:12.534Z",
+                  "dueDate": "2026-05-23T21:42:12.534Z"
                 },
                 "color": "red"
               },
