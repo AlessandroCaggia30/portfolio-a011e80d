@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-22T10:31:47.278Z",
+  "exportedAt": "2026-05-22T10:32:20.452Z",
   "data": {
     "topics": [
       {
@@ -612,7 +612,7 @@
                 "id": "1778782109671",
                 "title": "Example emission matrices",
                 "content": "\\textbf{\\textcolor{red}{EXAMPLE EMISSION MATRICES}}\n\nRecall the emission distributions are the probability distribution of the observable variable $Y_t$ given the state $S_t = j$, for $j = 1, \\dots, K$. Two standard cases.\n\n\\textbf{\\textcolor{red}{1. Discrete (non-parametric) case.}} Suppose $Y_t$ takes values in the finite set $\\{1, \\dots, M\\}$. The general (non-parametric) form of the emission distribution in state $j$ is\n\n\\[ Y_t \\mid S_t = j \\;\\sim\\; \\bigl(\\, \\underbrace{P(Y_t = 1 \\mid S_t = j)}_{b_{j,1}}, \\;\\dots,\\; \\underbrace{P(Y_t = i \\mid S_t = j)}_{b_{j,i}}, \\;\\dots,\\; \\underbrace{P(Y_t = M \\mid S_t = j)}_{b_{j,M}} \\,\\bigr), \\]\n\ni.e.\\ we let $P(Y_t = y \\mid S_t = j) \\equiv b_{j,y}$, $y = 1, \\dots, M$. Collecting the emission probabilities $b_{j,y}$ in the \\emph{emission matrix}\n\n\\[ B = [b_{j,y}]_{j=1,\\dots,K;\\; y=1,\\dots,M}, \\]\n\nwe use the compact notation $\\phi = (A, B, \\pi)$ to represent the HMM. Specification of the HMM then requires choosing the number of states $K$ and the probability matrices $A$, $B$ and the initial vector $\\pi$.\n\n\\textbf{\\textcolor{red}{2. Parametric case --- Poisson emissions.}} In other cases one may want a parametric emission distribution, so that $Y_t \\mid S_t = j \\sim p(\\,\\cdot \\mid \\theta_j^*)$, $j = 1, \\dots, K$. For example, for the earthquakes data (unbounded counts), one could assume\n\\[ Y_t \\mid (S_t = j) \\;\\sim\\; \\text{Poisson}(\\theta_j^*), \\]\nthat is, at state $j$, $Y_t$ has a Poisson distribution with parameter $\\theta_j^*$. Note how the parameter can switch across states!\n\n\\textbf{\\textcolor{red}{Why this fixes the plain-Poisson defects.}} A single Poisson forces (i) mean $=$ variance, (ii) no serial dependence. Letting the rate \\emph{switch} with a Markov chain breaks all three:\n\n$\\bullet$ \\textbf{Different mean and variance per regime.} Within state $j$, both equal $\\lambda_j^*$, but across regimes they differ --- a \"quiet\" state has small mean \\emph{and} small variance, an \"active\" one has large mean \\emph{and} large variance.\n\n$\\bullet$ \\textbf{Autocorrelation.} Sticky regimes ($p_{j,j}$ near $1$) mean neighbouring $Y_t$'s likely share the same rate, so\n\\[ \\text{Cov}(Y_t, Y_{t+h}) \\;=\\; \\text{Cov}(\\lambda_{S_t}^*, \\lambda_{S_{t+h}}^*) \\;>\\; 0. \\]\nNo additive $\\epsilon$ needed --- the dependence comes from persistence of the hidden chain.\n\n\n",
-                "flashcard": true,
+                "flashcard": false,
                 "images": [],
                 "links": [],
                 "x": 7653.629485918051,
