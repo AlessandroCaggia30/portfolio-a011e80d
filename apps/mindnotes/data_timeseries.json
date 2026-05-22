@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-22T14:06:26.091Z",
+  "exportedAt": "2026-05-22T14:06:36.790Z",
   "data": {
     "topics": [
       {
@@ -838,7 +838,7 @@
               {
                 "id": "1778843690350",
                 "title": "Derivation: Prediction",
-                "content": "\n\\textbf{\\textcolor{red}{General version (textbook posterior predictive, $h$-step ahead).}} For observed data $y_{1:t}$, future observation $y_{t+h}$, and contemporaneous latent state $\\theta_{t+h}$:\n\\[ \\boxed{\\; f(y_{t+h} \\mid y_{1:t}) \\;\\underbrace{=}_{(*)}\\; \\int f(y_{t+h},\\, \\theta_{t+h} \\mid y_{1:t})\\, d\\theta_{t+h} \\;\\underbrace{=}_{\\text{Bayes on the integrand}}\\; \\int f(y_{t+h} \\mid y_{1:t},\\, \\theta_{t+h})\\, f(\\theta_{t+h} \\mid y_{1:t})\\, d\\theta_{t+h} \\;=\\; \\int f(y_{t+h} \\mid \\theta_{t+h})\\, \\underbrace{f(\\theta_{t+h} \\mid y_{1:t})}_{\\text{filter + predict}}\\, d\\theta_{t+h}. \\;} \\]\n\n$(\\ast)$ Marginalisation: ask yourself --- \\emph{when $y$ takes this value, what value does $\\theta$ take?} --- and average. The integration variable must match what's varying in the integrand.\n\n\\emph{Reading.} \\textbf{KEY:} For each candidate value of the contemporaneous state $\\theta_{t+h}$, the emission gives a forecast $f(y_{t+h} \\mid \\theta_{t+h})$; we average these forecasts, weighted by how plausible each $\\theta_{t+h}$ is given the data we have already seen ($f(\\theta_{t+h} \\mid y_{1:t})$, the predicted-state distribution).\n\n",
+                "content": "\n\\textbf{\\textcolor{red}{General version (textbook posterior predictive, $h$-step ahead).}} For observed data $y_{1:t}$, future observation $y_{t+h}$, and contemporaneous latent state $\\theta_{t+h}$:\n\\[ \\boxed{\\; f(y_{t+h} \\mid y_{1:t}) \\;\\underbrace{=}_{(*)}\\; \\int f(y_{t+h},\\, \\theta_{t+h} \\mid y_{1:t})\\, d\\theta_{t+h} \\;\\underbrace{=}_{\\text{Bayes on the integrand}}\\; \\int f(y_{t+h} \\mid y_{1:t},\\, \\theta_{t+h})\\, f(\\theta_{t+h} \\mid y_{1:t})\\, d\\theta_{t+h} \\;=\\; \\int f(y_{t+h} \\mid \\theta_{t+h})\\, \\underbrace{f(\\theta_{t+h} \\mid y_{1:t})}_{\\text{filter + predict}}\\, d\\theta_{t+h}. \\;} \\]\n\n The integration variable must match what's varying in the integrand.\n\n\\emph{Reading.} \\textbf{KEY:} For each candidate value of the contemporaneous state $\\theta_{t+h}$, the emission gives a forecast $f(y_{t+h} \\mid \\theta_{t+h})$; we average these forecasts, weighted by how plausible each $\\theta_{t+h}$ is given the data we have already seen ($f(\\theta_{t+h} \\mid y_{1:t})$, the predicted-state distribution).\n\n",
                 "flashcard": true,
                 "images": [],
                 "links": [],
