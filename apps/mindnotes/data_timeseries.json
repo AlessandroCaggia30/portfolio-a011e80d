@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-22T10:30:30.319Z",
+  "exportedAt": "2026-05-22T10:30:34.590Z",
   "data": {
     "topics": [
       {
@@ -1288,8 +1288,8 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 5914.216057838004,
-                "y": 3393.2442796170562,
+                "x": 5908.5026793022,
+                "y": 3368.248248522911,
                 "fsrs": {
                   "stability": 1,
                   "difficulty": 5,
@@ -1393,8 +1393,8 @@
                   "lastReview": null,
                   "dueDate": "2026-05-22T10:28:26.014Z"
                 },
-                "width": 154.2866214641955,
-                "height": 77.85748304907331
+                "width": 120,
+                "height": 60
               },
               {
                 "id": "ssmrow_ar1",
@@ -1553,7 +1553,9 @@
                   "state": "new",
                   "lastReview": null,
                   "dueDate": "2026-05-22T10:28:26.014Z"
-                }
+                },
+                "width": 120,
+                "height": 60
               }
             ]
           }
