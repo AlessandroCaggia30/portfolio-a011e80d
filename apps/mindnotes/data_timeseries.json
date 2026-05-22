@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-22T16:18:22.403Z",
+  "exportedAt": "2026-05-22T16:18:33.269Z",
   "data": {
     "topics": [
       {
@@ -852,7 +852,7 @@
                   }
                 ],
                 "x": 5972.7272711339865,
-                "y": 2978.4933141698157,
+                "y": 3092.734233820668,
                 "fsrs": {
                   "stability": 1,
                   "difficulty": 5,
@@ -1445,6 +1445,29 @@
                 "links": [],
                 "x": 6900.194744185282,
                 "y": 3225.726996423138,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-22T10:28:26.014Z"
+                },
+                "width": 120,
+                "height": 60
+              },
+              {
+                "id": "ssmrow_trend_ar2",
+                "title": "SSM: Trend + AR(2) cycle",
+                "content": "\\textbf{\\textcolor{red}{Model description}}\n\n\\emph{Trend + AR(2) cycle (worked above, last row)}\n\n\\textbf{\\textcolor{blue}{(1) State $\\theta_t$, initial $\\theta_0$}}\n\n$\\theta_t = (\\underbrace{T_t}_{\\text{trend (RW)}}, \\underbrace{C_t}_{\\text{cycle (AR(2))}}, \\underbrace{C_{t-1}}_{\\text{aux lag}})^\\top \\in \\mathbb{R}^3$; $\\theta_0 \\sim \\mathcal{N}_3(m_0, C_0)$\n\n\\textbf{\\textcolor{blue}{(2) Component equations: each $w_{i,t}$ distribution, $\\{w_{i,t}\\}$ indep across $t$, cross-component, $\\{w_t\\} \\perp \\theta_0$}}\n\n$T_t = T_{t-1} + u_t$, $u_t \\sim \\mathcal{N}(0, \\sigma_T^2)$, $\\{u_t\\}$ indep across $t$; $C_t = \\phi_1 C_{t-1} + \\phi_2 C_{t-2} + r_t$, $r_t \\sim \\mathcal{N}(0, \\sigma_C^2)$, $\\{r_t\\}$ indep across $t$; aux $C_{t-1}$ deterministic copy ($w_{3,t} \\equiv 0$, trivially indep across $t$); $u_t \\perp r_t$ (cross-component indep within $t$), both indep of the trivial third component; $\\{w_t\\} \\perp \\theta_0$\n\n\\textbf{\\textcolor{blue}{(3) Matrix state eq (final $\\to$ generic $\\to$ expand $\\theta_{t-1}$ $\\to$ fill $G$ $\\to$ result), joint $w_t$, $W_t$, $\\theta_t \\mid \\theta_{t-1}$}}\n\n$\\theta_t = \\bigl(\\begin{smallmatrix}T_t \\\\ C_t \\\\ C_{t-1}\\end{smallmatrix}\\bigr) = G\\theta_{t-1} + w_t = G \\bigl(\\begin{smallmatrix}T_{t-1} \\\\ C_{t-1} \\\\ C_{t-2}\\end{smallmatrix}\\bigr) + \\bigl(\\begin{smallmatrix}u_t \\\\ r_t \\\\ 0\\end{smallmatrix}\\bigr) = \\bigl(\\begin{smallmatrix}1 & 0 & 0 \\\\ 0 & \\phi_1 & \\phi_2 \\\\ 0 & 1 & 0\\end{smallmatrix}\\bigr)\\bigl(\\begin{smallmatrix}T_{t-1} \\\\ C_{t-1} \\\\ C_{t-2}\\end{smallmatrix}\\bigr) + \\bigl(\\begin{smallmatrix}u_t \\\\ r_t \\\\ 0\\end{smallmatrix}\\bigr) = \\bigl(\\begin{smallmatrix}T_{t-1} + u_t \\\\ \\phi_1 C_{t-1} + \\phi_2 C_{t-2} + r_t \\\\ C_{t-1}\\end{smallmatrix}\\bigr) = \\bigl(\\begin{smallmatrix}T_t \\\\ C_t \\\\ C_{t-1}\\end{smallmatrix}\\bigr)$; joint $w_t = (u_t, r_t, 0)^\\top \\sim \\mathcal{N}_3(0, W_t)$ with $W_t = \\bigl(\\begin{smallmatrix}\\sigma_T^2 & 0 & 0 \\\\ 0 & \\sigma_C^2 & 0 \\\\ 0 & 0 & 0\\end{smallmatrix}\\bigr)$ (singular); $\\theta_t \\mid \\theta_{t-1} \\sim \\mathcal{N}_3(G\\theta_{t-1},\\, W_t)$\n\n\\textbf{\\textcolor{blue}{(4) Observation eq (final $\\to$ generic $\\to$ expand $\\theta_t$ $\\to$ fill $F$ $\\to$ result), each $v_{i,t}$, joint $v_t$, $V_t$, $\\{v_t\\} \\perp \\{w_s\\}, \\theta_0$, $Y_t \\mid \\theta_t$}}\n\n$Y_t = T_t + C_t + v_t = F\\theta_t + v_t = F \\bigl(\\begin{smallmatrix}T_t \\\\ C_t \\\\ C_{t-1}\\end{smallmatrix}\\bigr) + v_t = (1, 1, 0) \\bigl(\\begin{smallmatrix}T_t \\\\ C_t \\\\ C_{t-1}\\end{smallmatrix}\\bigr) + v_t = T_t + C_t + v_t$; $v_t \\sim \\mathcal{N}(0, V_t)$, $V_t = \\sigma_\\nu^2$ (scalar); $\\{v_t\\}$ indep across $t$ (only one component, no cross-component statement); $\\{v_t\\} \\perp \\{w_s\\}$; $\\{v_t\\} \\perp \\theta_0$; $Y_t \\mid \\theta_t \\sim \\mathcal{N}(T_t + C_t,\\, \\sigma_\\nu^2)$\n\n\\textbf{\\textcolor{blue}{(5) Moments, forecasts, stationarity, notes}}\n\n$\\mathbb{E}[Y_t] = m_{T,0} + 0$ (if AR(2) cycle stat); $\\mathrm{Var}(Y_t) = C_{T,0} + t\\sigma_T^2 + \\mathrm{Var}(C_t) + \\sigma_\\nu^2$; \\textbf{non-stat} (trend integrates).\n",
+                "flashcard": true,
+                "images": [],
+                "links": [],
+                "x": 6769.46202509918,
+                "y": 3320.57213331658,
                 "fsrs": {
                   "stability": 1,
                   "difficulty": 5,
@@ -2084,32 +2107,6 @@
           "dueDate": "2026-05-16T12:48:11.525Z"
         },
         "deletedAt": 1779466639476,
-        "fromTopic": "topic17786690819138696",
-        "fromSubtopic": "sub17786690819133213"
-      },
-      {
-        "id": "ssmrow_trend_ar2",
-        "title": "SSM: Trend + AR(2) cycle",
-        "content": "\\textbf{\\textcolor{red}{Model description}}\n\n\\emph{Trend + AR(2) cycle (worked above, last row)}\n\n\\textbf{\\textcolor{blue}{(1) State $\\theta_t$, initial $\\theta_0$}}\n\n$\\theta_t = (\\underbrace{T_t}_{\\text{trend (RW)}}, \\underbrace{C_t}_{\\text{cycle (AR(2))}}, \\underbrace{C_{t-1}}_{\\text{aux lag}})^\\top \\in \\mathbb{R}^3$; $\\theta_0 \\sim \\mathcal{N}_3(m_0, C_0)$\n\n\\textbf{\\textcolor{blue}{(2) Component equations: each $w_{i,t}$ distribution, $\\{w_{i,t}\\}$ indep across $t$, cross-component, $\\{w_t\\} \\perp \\theta_0$}}\n\n$T_t = T_{t-1} + u_t$, $u_t \\sim \\mathcal{N}(0, \\sigma_T^2)$, $\\{u_t\\}$ indep across $t$; $C_t = \\phi_1 C_{t-1} + \\phi_2 C_{t-2} + r_t$, $r_t \\sim \\mathcal{N}(0, \\sigma_C^2)$, $\\{r_t\\}$ indep across $t$; aux $C_{t-1}$ deterministic copy ($w_{3,t} \\equiv 0$, trivially indep across $t$); $u_t \\perp r_t$ (cross-component indep within $t$), both indep of the trivial third component; $\\{w_t\\} \\perp \\theta_0$\n\n\\textbf{\\textcolor{blue}{(3) Matrix state eq (final $\\to$ generic $\\to$ expand $\\theta_{t-1}$ $\\to$ fill $G$ $\\to$ result), joint $w_t$, $W_t$, $\\theta_t \\mid \\theta_{t-1}$}}\n\n$\\theta_t = \\bigl(\\begin{smallmatrix}T_t \\\\ C_t \\\\ C_{t-1}\\end{smallmatrix}\\bigr) = G\\theta_{t-1} + w_t = G \\bigl(\\begin{smallmatrix}T_{t-1} \\\\ C_{t-1} \\\\ C_{t-2}\\end{smallmatrix}\\bigr) + \\bigl(\\begin{smallmatrix}u_t \\\\ r_t \\\\ 0\\end{smallmatrix}\\bigr) = \\bigl(\\begin{smallmatrix}1 & 0 & 0 \\\\ 0 & \\phi_1 & \\phi_2 \\\\ 0 & 1 & 0\\end{smallmatrix}\\bigr)\\bigl(\\begin{smallmatrix}T_{t-1} \\\\ C_{t-1} \\\\ C_{t-2}\\end{smallmatrix}\\bigr) + \\bigl(\\begin{smallmatrix}u_t \\\\ r_t \\\\ 0\\end{smallmatrix}\\bigr) = \\bigl(\\begin{smallmatrix}T_{t-1} + u_t \\\\ \\phi_1 C_{t-1} + \\phi_2 C_{t-2} + r_t \\\\ C_{t-1}\\end{smallmatrix}\\bigr) = \\bigl(\\begin{smallmatrix}T_t \\\\ C_t \\\\ C_{t-1}\\end{smallmatrix}\\bigr)$; joint $w_t = (u_t, r_t, 0)^\\top \\sim \\mathcal{N}_3(0, W_t)$ with $W_t = \\bigl(\\begin{smallmatrix}\\sigma_T^2 & 0 & 0 \\\\ 0 & \\sigma_C^2 & 0 \\\\ 0 & 0 & 0\\end{smallmatrix}\\bigr)$ (singular); $\\theta_t \\mid \\theta_{t-1} \\sim \\mathcal{N}_3(G\\theta_{t-1},\\, W_t)$\n\n\\textbf{\\textcolor{blue}{(4) Observation eq (final $\\to$ generic $\\to$ expand $\\theta_t$ $\\to$ fill $F$ $\\to$ result), each $v_{i,t}$, joint $v_t$, $V_t$, $\\{v_t\\} \\perp \\{w_s\\}, \\theta_0$, $Y_t \\mid \\theta_t$}}\n\n$Y_t = T_t + C_t + v_t = F\\theta_t + v_t = F \\bigl(\\begin{smallmatrix}T_t \\\\ C_t \\\\ C_{t-1}\\end{smallmatrix}\\bigr) + v_t = (1, 1, 0) \\bigl(\\begin{smallmatrix}T_t \\\\ C_t \\\\ C_{t-1}\\end{smallmatrix}\\bigr) + v_t = T_t + C_t + v_t$; $v_t \\sim \\mathcal{N}(0, V_t)$, $V_t = \\sigma_\\nu^2$ (scalar); $\\{v_t\\}$ indep across $t$ (only one component, no cross-component statement); $\\{v_t\\} \\perp \\{w_s\\}$; $\\{v_t\\} \\perp \\theta_0$; $Y_t \\mid \\theta_t \\sim \\mathcal{N}(T_t + C_t,\\, \\sigma_\\nu^2)$\n\n\\textbf{\\textcolor{blue}{(5) Moments, forecasts, stationarity, notes}}\n\n$\\mathbb{E}[Y_t] = m_{T,0} + 0$ (if AR(2) cycle stat); $\\mathrm{Var}(Y_t) = C_{T,0} + t\\sigma_T^2 + \\mathrm{Var}(C_t) + \\sigma_\\nu^2$; \\textbf{non-stat} (trend integrates).\n",
-        "flashcard": true,
-        "images": [],
-        "links": [],
-        "x": 6769.46202509918,
-        "y": 3320.57213331658,
-        "fsrs": {
-          "stability": 1,
-          "difficulty": 5,
-          "elapsedDays": 0,
-          "scheduledDays": 0,
-          "reps": 0,
-          "lapses": 0,
-          "state": "new",
-          "lastReview": null,
-          "dueDate": "2026-05-22T10:28:26.014Z"
-        },
-        "width": 120,
-        "height": 60,
-        "deletedAt": 1779466686444,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
