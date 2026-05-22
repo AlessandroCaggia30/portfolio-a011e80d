@@ -4872,8 +4872,10 @@ function processLatexCommands(text) {
     result = result.replace(/\\end\{(center|quote|quotation|abstract|document|figure|table|verbatim|flushleft|flushright|minipage|multicols|wrapfigure)\}\s*/g, '\n');
 
     // Tabular → HTML table (handle nested braces in column specs)
-    result = result.replace(new RegExp(`\\\\begin\\{tabular\\}\\{${braceGroup}\\}([\\s\\S]*?)\\\\end\\{tabular\\}`, 'g'),
-        (match, body) => convertTabularToTable(body));
+    // Capturing group for colSpec so we can parse p{...} widths.
+    const capColSpec = `((?:[^{}]|\\{(?:[^{}]|\\{[^{}]*\\})*\\})*)`;
+    result = result.replace(new RegExp(`\\\\begin\\{tabular\\}\\{${capColSpec}\\}([\\s\\S]*?)\\\\end\\{tabular\\}`, 'g'),
+        (match, colSpec, body) => convertTabularToTable(body, colSpec));
     // Clean up any leftover tabular commands (shouldn't happen, but safety)
     result = result.replace(new RegExp(`\\\\begin\\{tabular\\}\\{${braceGroup}\\}\\s*`, 'g'), '\n');
     result = result.replace(/\\end\{tabular\}\s*/g, '\n');
