@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-22T10:29:57.720Z",
+  "exportedAt": "2026-05-22T10:30:06.255Z",
   "data": {
     "topics": [
       {
@@ -1265,8 +1265,8 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 5914.299052595921,
-                "y": 3326.2818587771694,
+                "x": 5907.871501743141,
+                "y": 3305.570861584878,
                 "fsrs": {
                   "stability": 1,
                   "difficulty": 5,
@@ -1277,7 +1277,9 @@
                   "state": "new",
                   "lastReview": null,
                   "dueDate": "2026-05-22T10:28:26.014Z"
-                }
+                },
+                "width": 120,
+                "height": 60
               },
               {
                 "id": "ssmrow_rw_drift",
@@ -1309,8 +1311,8 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 6069.107361388092,
-                "y": 3302,
+                "x": 6069.821533705067,
+                "y": 3309.8558954867312,
                 "fsrs": {
                   "stability": 1,
                   "difficulty": 5,
@@ -1321,7 +1323,9 @@
                   "state": "new",
                   "lastReview": null,
                   "dueDate": "2026-05-22T10:28:26.014Z"
-                }
+                },
+                "width": 120,
+                "height": 60
               },
               {
                 "id": "ssmrow_dlr",
