@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-22T07:29:57.176Z",
+  "exportedAt": "2026-05-22T07:30:30.548Z",
   "data": {
     "topics": [
       {
@@ -204,14 +204,25 @@
                 "id": "ts1778695220085",
                 "title": "Summaries of a stochastic process",
                 "content": "\\textbf{\\textcolor{red}{SUMMARIES OF A STOCHASTIC PROCESS}}\n\nFor a single random variable $X$, the basic summaries are $\\mathbb{E}[X]$ and $\\mathrm{Var}(X)$. For a stochastic process $(Y_t)_{t \\ge 1}$ these become \\emph{functions of time} (and pairs of times):\n\n$\\bullet$ \\textbf{Mean function}  $\\mu : t \\mapsto \\mu(t) = \\mathbb{E}[Y_t],  t = 1, 2, \\dots$\n\n$\\bullet$ \\textbf{Variance function}  $\\sigma^2 : t \\mapsto \\sigma^2(t) = \\mathrm{Var}(Y_t),  t = 1, 2, \\dots$\n\n$\\bullet$ \\textbf{Autocovariance function}  $\\gamma : (t, t') \\mapsto \\gamma(t, t') = \\mathrm{Cov}(Y_t, Y_{t'}) = \\mathbb{E}\\!\\left[(Y_t - \\mu(t))(Y_{t'} - \\mu(t'))\\right],  t, t' = 1, 2, \\dots$\n\n$\\bullet$ \\textbf{Autocorrelation function}  $\\rho : (t, t') \\mapsto \\rho(t, t') = \\dfrac{\\gamma(t, t')}{\\sqrt{\\sigma^2(t)\\, \\sigma^2(t')}} \\in [-1, 1],  t, t' = 1, 2, \\dots$\n\n\\textit{Consistency check:} $\\gamma(t, t) = \\sigma^2(t)$ and $\\rho(t, t) = 1$.",
-                "flashcard": false,
+                "flashcard": true,
                 "images": [],
                 "links": [],
                 "x": 4111.329599053512,
                 "y": 1804.98156635651,
                 "width": 415.5793634055648,
                 "height": 179.52995424451095,
-                "color": "yellow"
+                "color": "yellow",
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-22T07:30:28.352Z"
+                }
               },
               {
                 "id": "ts17786690819136563",
