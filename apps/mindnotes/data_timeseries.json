@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-22T10:30:25.287Z",
+  "exportedAt": "2026-05-22T10:30:30.319Z",
   "data": {
     "topics": [
       {
@@ -1392,7 +1392,9 @@
                   "state": "new",
                   "lastReview": null,
                   "dueDate": "2026-05-22T10:28:26.014Z"
-                }
+                },
+                "width": 154.2866214641955,
+                "height": 77.85748304907331
               },
               {
                 "id": "ssmrow_ar1",
@@ -1516,8 +1518,8 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 6423.510966504922,
-                "y": 3316.0934754634077,
+                "x": 6424.939311138873,
+                "y": 3314.6651308294568,
                 "fsrs": {
                   "stability": 1,
                   "difficulty": 5,
@@ -1528,7 +1530,9 @@
                   "state": "new",
                   "lastReview": null,
                   "dueDate": "2026-05-22T10:28:26.014Z"
-                }
+                },
+                "width": 120,
+                "height": 60
               },
               {
                 "id": "ssmrow_trend_ar2",
