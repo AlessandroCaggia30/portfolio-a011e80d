@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-22T10:29:04.369Z",
+  "exportedAt": "2026-05-22T10:29:09.138Z",
   "data": {
     "topics": [
       {
@@ -1391,8 +1391,8 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 5626,
-                "y": 3522,
+                "x": 5915.664379736688,
+                "y": 3493.0335620263313,
                 "fsrs": {
                   "stability": 1,
                   "difficulty": 5,
@@ -1454,8 +1454,8 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 6586,
-                "y": 3522,
+                "x": 6257.23092899886,
+                "y": 3504.620137215799,
                 "fsrs": {
                   "stability": 1,
                   "difficulty": 5,
