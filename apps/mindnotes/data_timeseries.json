@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-22T10:27:56.669Z",
+  "exportedAt": "2026-05-22T10:29:04.369Z",
   "data": {
     "topics": [
       {
@@ -1265,8 +1265,19 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 5306.0,
-                "y": 3302.0
+                "x": 5306,
+                "y": 3302,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-22T10:28:26.014Z"
+                }
               },
               {
                 "id": "ssmrow_rw_drift",
@@ -1275,8 +1286,19 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 5626.0,
-                "y": 3302.0
+                "x": 5626,
+                "y": 3302,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-22T10:28:26.014Z"
+                }
               },
               {
                 "id": "ssmrow_llt",
@@ -1285,8 +1307,19 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 5946.0,
-                "y": 3302.0
+                "x": 6069.107361388092,
+                "y": 3302,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-22T10:28:26.014Z"
+                }
               },
               {
                 "id": "ssmrow_dlr",
@@ -1295,8 +1328,19 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 6266.0,
-                "y": 3302.0
+                "x": 6266,
+                "y": 3302,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-22T10:28:26.014Z"
+                }
               },
               {
                 "id": "ssmrow_local_level",
@@ -1305,8 +1349,19 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 6586.0,
-                "y": 3302.0
+                "x": 6274.610791783061,
+                "y": 3400.485889110474,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-22T10:28:26.014Z"
+                }
               },
               {
                 "id": "ssmrow_fixed_reg",
@@ -1315,8 +1370,19 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 5306.0,
-                "y": 3522.0
+                "x": 5306,
+                "y": 3522,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-22T10:28:26.014Z"
+                }
               },
               {
                 "id": "ssmrow_ar1",
@@ -1325,8 +1391,19 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 5626.0,
-                "y": 3522.0
+                "x": 5626,
+                "y": 3522,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-22T10:28:26.014Z"
+                }
               },
               {
                 "id": "ssmrow_ar2",
@@ -1335,8 +1412,19 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 5946.0,
-                "y": 3522.0
+                "x": 6085.03890227361,
+                "y": 3403.237604307958,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-22T10:28:26.014Z"
+                }
               },
               {
                 "id": "ssmrow_var1",
@@ -1345,8 +1433,19 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 6266.0,
-                "y": 3522.0
+                "x": 6089.304728360621,
+                "y": 3494.4818839250147,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-22T10:28:26.014Z"
+                }
               },
               {
                 "id": "ssmrow_sutse",
@@ -1355,8 +1454,19 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 6586.0,
-                "y": 3522.0
+                "x": 6586,
+                "y": 3522,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-22T10:28:26.014Z"
+                }
               },
               {
                 "id": "ssmrow_sur",
@@ -1365,8 +1475,19 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 5306.0,
-                "y": 3742.0
+                "x": 5306,
+                "y": 3742,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-22T10:28:26.014Z"
+                }
               },
               {
                 "id": "ssmrow_superpos",
@@ -1375,8 +1496,19 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 5626.0,
-                "y": 3742.0
+                "x": 5626,
+                "y": 3742,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-22T10:28:26.014Z"
+                }
               },
               {
                 "id": "ssmrow_trend_ar2",
@@ -1385,8 +1517,19 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 5946.0,
-                "y": 3742.0
+                "x": 5946,
+                "y": 3742,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-22T10:28:26.014Z"
+                }
               }
             ]
           }
