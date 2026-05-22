@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-22T16:23:53.987Z",
+  "exportedAt": "2026-05-22T16:24:00.406Z",
   "data": {
     "topics": [
       {
@@ -762,12 +762,12 @@
                 "images": [],
                 "links": [
                   {
-                    "target": "cheatsheet_ssm_001",
-                    "type": "forward"
-                  },
-                  {
                     "target": "1779028125885",
                     "type": "both"
+                  },
+                  {
+                    "target": "1779445055863",
+                    "type": "forward"
                   }
                 ],
                 "x": 4542.691390692706,
