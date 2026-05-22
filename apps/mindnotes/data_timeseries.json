@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-22T17:22:03.749Z",
+  "exportedAt": "2026-05-22T17:22:07.614Z",
   "data": {
     "topics": [
       {
@@ -226,7 +226,7 @@
               },
               {
                 "id": "ts17786690819136563",
-                "title": "Stationarity",
+                "title": "weak Stationarity",
                 "content": "\\textbf{\\textcolor{red}{STATIONARITY}}\n\n\\begin{keydef}\n\\textbf{Weak (2nd-order) stationarity.} A time series $(Y_t)$ is \\textbf{stationary} (2nd-order / weak) if $E(Y_t)$ and $E(Y_t Y_{t+h})$ exist, are finite, and do not depend on $t$, for every $h = 1, 2, \\dots$\n\\[ \\mu(t) = \\mu, \\qquad \\sigma^2(t) = \\sigma^2, \\qquad \\gamma(t, t+h) = \\tilde\\gamma(h) \\quad \\text{(autocov.\\ depends on lag } h \\text{ only)}. \\]\n\\end{keydef}",
                 "flashcard": true,
                 "images": [],
