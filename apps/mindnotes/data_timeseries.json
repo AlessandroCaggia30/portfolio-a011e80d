@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-22T16:19:26.110Z",
+  "exportedAt": "2026-05-22T16:20:05.480Z",
   "data": {
     "topics": [
       {
@@ -1146,7 +1146,8 @@
                   "state": "new",
                   "lastReview": null,
                   "dueDate": "2026-05-16T12:48:11.525Z"
-                }
+                },
+                "color": "yellow"
               },
               {
                 "id": "ts1779025115813",
@@ -1495,8 +1496,8 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 6898.328733377408,
-                "y": 3173.4786938026864,
+                "x": 6954.3090576136065,
+                "y": 3160.4166181475734,
                 "fsrs": {
                   "stability": 1,
                   "difficulty": 5,
