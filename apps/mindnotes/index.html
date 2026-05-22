@@ -4735,7 +4735,19 @@ function restoreFormattingMarkers(text) {
 
 // Convert LaTeX tabular body to an HTML table marker
 // Called from processLatexCommands; math blocks are already %%LTXM%% placeholders
-function convertTabularToTable(body) {
+function convertTabularToTable(body, colSpec) {
+    // Parse p{<width>} widths from the column spec (e.g. "p{2.5cm}|p{10cm}|p{7cm}").
+    // For non-p columns (l/c/r), we emit a 'auto' col so widths line up positionally.
+    const widths = [];
+    if (colSpec) {
+        const re = /p\s*\{\s*([^}]+?)\s*\}|[lcr]/g;
+        let m;
+        while ((m = re.exec(colSpec)) !== null) {
+            widths.push(m[1] || null);
+        }
+    }
+    const hasFixedWidths = widths.some(w => w);
+
     // Strip rule commands
     let clean = body
         .replace(/\\hline\s*/g, '')
@@ -4755,7 +4767,14 @@ function convertTabularToTable(body) {
     if (rows.length === 0) return '\n';
 
     // Build table marker (use %%TABLE%% to survive escapeHtml)
-    let table = '%%TBLSTART%%';
+    let table = hasFixedWidths ? '%%TBLFIXEDSTART%%' : '%%TBLSTART%%';
+    if (hasFixedWidths) {
+        table += '%%CGSTART%%';
+        widths.forEach(w => {
+            table += w ? `%%COL:${w}%%` : '%%COL:auto%%';
+        });
+        table += '%%CGEND%%';
+    }
     rows.forEach((row, rowIdx) => {
         const cells = row.split(/\s*&\s*/);
         table += '%%TROWSTART%%';
