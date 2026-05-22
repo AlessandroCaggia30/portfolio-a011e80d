@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-22T16:15:44.405Z",
+  "exportedAt": "2026-05-22T16:15:57.088Z",
   "data": {
     "topics": [
       {
@@ -641,12 +641,7 @@
                 "content": "\\textbf{\\textcolor{red}{1. MODEL SPECIFICATION}}\n\nChoosing the number $K$ of hidden states is a natural first question. In some applications, $K$ is suggested by knowledge of the domain under study. In other cases, one can try a few different values of $K$ and compare the performance of the resulting models.\n",
                 "flashcard": false,
                 "images": [],
-                "links": [
-                  {
-                    "target": "1778783599128",
-                    "type": "forward"
-                  }
-                ],
+                "links": [],
                 "x": 6828.032296538355,
                 "y": 3268.6781354449754,
                 "width": 190.1249942766255,
@@ -675,8 +670,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 7122.386585339758,
-                "y": 3272.7494089712636,
+                "x": 4185.062733610237,
+                "y": 3937.1440897196076,
                 "width": 420.06713911263796,
                 "height": 211.47040457904075,
                 "fsrs": {
@@ -698,8 +693,8 @@
                 "flashcard": false,
                 "images": [],
                 "links": [],
-                "x": 7153.384066024956,
-                "y": 3549.2166060647414,
+                "x": 4216.060214295434,
+                "y": 4213.611286813088,
                 "width": 410.0113680142006,
                 "height": 218.778412848008,
                 "fsrs": {
