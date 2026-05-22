@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-22T07:16:28.465Z",
+  "exportedAt": "2026-05-22T07:17:59.445Z",
   "data": {
     "topics": [
       {
@@ -440,7 +440,7 @@
               {
                 "id": "1778694937071",
                 "title": "Example 2. White noise",
-                "content": "\\textbf{\\textcolor{red}{EXAMPLE 2 — WHITE NOISE}}\n\nA \\textbf{white noise} is a process $(Y_t)_{t \\ge 1}$ such that the $Y_t$ are iid and:\\[ \\mathbb{E}[Y_t] = \\mu, \\qquad \\mathrm{Var}(Y_t) = \\sigma^2, \\qquad \\gamma(t, t') = \\mathrm{Cov}(Y_t, Y_{t'}) = 0 \\ \\text{for } t \\neq t'. \\]\n\\textbf{Gaussian white noise:} additionally require $Y_t$ iid Gaussian:\\[ Y_t \\stackrel{\\text{iid}}{\\sim} \\mathcal{N}(\\mu, \\sigma^2). \\]Under the Gaussian assumption, uncorrelated $\\Longleftrightarrow$ independent, so the distinction in the first bullet disappears.\n\n\n\\textbf{\\textcolor{red}{EXAMPLE 1 --- Simple random walk.}}\n\n\\textbf{(A) Directly observed.} A player starts with capital $y_0 > 0$. Each step: gain $+1$ w.p.\\ $p$, loss $-1$ w.p.\\ $1-p$. With $Z_t \\stackrel{\\text{iid}}{\\sim} (\\pm 1)$:\n\\[ Y_t \\;=\\; Y_{t-1} + Z_t \\;=\\; y_0 + \\sum_{i=1}^{t} Z_i. \\]\n$Z_t$ iid and independent of past $Y$'s $\\Rightarrow$ Markov. With $y_0 = 0$, $E[Z_t] = 0$: $E[Y_t] = 0$, $\\mathrm{Var}(Y_t) = t\\sigma^2$ --- variance grows linearly, so the walk is \\textbf{non-stationary}. \\emph{Continuous-time limit} (small steps in rapid succession): \\textbf{Brownian motion}. The recursion works for any iid $Z_t$, not just $\\pm 1$.\n\n\n",
+                "content": "\\textbf{\\textcolor{red}{EXAMPLE 2 — WHITE NOISE}}\n\nA \\textbf{white noise} is a process $(Y_t)_{t \\ge 1}$ such that the $Y_t$ are iid and:\\[ \\mathbb{E}[Y_t] = \\mu, \\qquad \\mathrm{Var}(Y_t) = \\sigma^2, \\qquad \\gamma(t, t') = \\mathrm{Cov}(Y_t, Y_{t'}) = 0 \\ \\text{for } t \\neq t'. \\]\n\\textbf{Gaussian white noise:} additionally require $Y_t$ iid Gaussian:\\[ Y_t \\stackrel{\\text{iid}}{\\sim} \\mathcal{N}(\\mu, \\sigma^2). \\]Under the Gaussian assumption, uncorrelated $\\Longleftrightarrow$ independent, so the distinction in the first bullet disappears.\n\n\n\\textbf{\\textcolor{red}{EXAMPLE 2 --- Simple random walk.}}\n\n\\textbf{(A) Directly observed.} A player starts with capital $y_0 > 0$. Each step: gain $+1$ w.p.\\ $p$, loss $-1$ w.p.\\ $1-p$. With $Z_t \\stackrel{\\text{iid}}{\\sim} (\\pm 1)$:\n\\[ Y_t \\;=\\; Y_{t-1} + Z_t \\;=\\; y_0 + \\sum_{i=1}^{t} Z_i. \\]\n$Z_t$ iid and independent of past $Y$'s $\\Rightarrow$ Markov. With $y_0 = 0$, $E[Z_t] = 0$: $E[Y_t] = 0$, $\\mathrm{Var}(Y_t) = t\\sigma^2$ --- variance grows linearly, so the walk is \\textbf{non-stationary}. \\emph{Continuous-time limit} (small steps in rapid succession): \\textbf{Brownian motion}. The recursion works for any iid $Z_t$, not just $\\pm 1$.\n\n\n",
                 "flashcard": false,
                 "images": [],
                 "links": [],
