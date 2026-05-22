@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-22T07:12:46.860Z",
+  "exportedAt": "2026-05-22T07:12:52.537Z",
   "data": {
     "topics": [
       {
@@ -931,7 +931,7 @@
               {
                 "id": "ts1779025115813",
                 "title": "Examples 1 & 2: RW",
-                "content": "\\textbf{\\textcolor{red}{EXAMPLES 1 \\& 2 --- random walk, random walk with drift (A: directly observed; B: SSM lift).}}\n\nSee the \\emph{Example SSMs hub} for the canonical DLM template, the specialisation tree, and the worked 2$\\times$2 matrix example.\n\n\\textbf{\\textcolor{red}{EXAMPLE 1 --- Simple random walk.}}\n\n\\textbf{(A) Directly observed.} A player starts with capital $y_0 > 0$. Each step: gain $+1$ w.p.\\ $p$, loss $-1$ w.p.\\ $1-p$. With $Z_t \\stackrel{\\text{iid}}{\\sim} (\\pm 1)$:\n\\[ Y_t \\;=\\; Y_{t-1} + Z_t \\;=\\; y_0 + \\sum_{i=1}^{t} Z_i. \\]\n$Z_t$ iid and independent of past $Y$'s $\\Rightarrow$ Markov. With $y_0 = 0$, $E[Z_t] = 0$: $E[Y_t] = 0$, $\\mathrm{Var}(Y_t) = t\\sigma^2$ --- variance grows linearly, so the walk is \\textbf{non-stationary}. \\emph{Continuous-time limit} (small steps in rapid succession): \\textbf{Brownian motion}. The recursion works for any iid $Z_t$, not just $\\pm 1$.\n\n\nThe \\emph{signal-to-noise ratio} $\\sigma_z^2 / \\sigma_\\varepsilon^2$ controls how much $y_t$ reveals about $\\theta_t$:\n\n$\\bullet$ $\\sigma_\\varepsilon^2 \\to 0$: $y_t = \\theta_t$ --- recover Part (A) (state observed exactly).\n\n$\\bullet$ $\\sigma_z^2 \\to 0$: state frozen at $\\theta_0$, $y_t \\stackrel{\\text{iid}}{\\sim} \\mathcal{N}(\\theta_0, \\sigma_\\varepsilon^2)$ --- iid noise around a constant.\n\n\\emph{Moments (with $\\theta_0 = 0$):} $E[y_t] = 0$, $\\mathrm{Var}(y_t) = t\\sigma_z^2 + \\sigma_\\varepsilon^2$ --- non-stationary.\n",
+                "content": "\\textbf{\\textcolor{red}{EXAMPLES 1 \\& 2 --- random walk, random walk with drift (A: directly observed; B: SSM lift).}}\n\nSee the \\emph{Example SSMs hub} for the canonical DLM template, the specialisation tree, and the worked 2$\\times$2 matrix example.\n\n\\textbf{\\textcolor{red}{EXAMPLE 1 --- Simple random walk.}}\n\n\\textbf{(A) Directly observed.} A player starts with capital $y_0 > 0$. Each step: gain $+1$ w.p.\\ $p$, loss $-1$ w.p.\\ $1-p$. With $Z_t \\stackrel{\\text{iid}}{\\sim} (\\pm 1)$:\n\\[ Y_t \\;=\\; Y_{t-1} + Z_t \\;=\\; y_0 + \\sum_{i=1}^{t} Z_i. \\]\n$Z_t$ iid and independent of past $Y$'s $\\Rightarrow$ Markov. With $y_0 = 0$, $E[Z_t] = 0$: $E[Y_t] = 0$, $\\mathrm{Var}(Y_t) = t\\sigma^2$ --- variance grows linearly, so the walk is \\textbf{non-stationary}. \\emph{Continuous-time limit} (small steps in rapid succession): \\textbf{Brownian motion}. The recursion works for any iid $Z_t$, not just $\\pm 1$.\n\n\n",
                 "flashcard": true,
                 "images": [],
                 "links": [],
