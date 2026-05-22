@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-22T16:18:33.269Z",
+  "exportedAt": "2026-05-22T16:18:42.225Z",
   "data": {
     "topics": [
       {
@@ -728,10 +728,6 @@
                     "type": "forward"
                   },
                   {
-                    "target": "1778779311729",
-                    "type": "forward"
-                  },
-                  {
                     "target": "1779445055863",
                     "type": "forward"
                   }
@@ -848,6 +844,14 @@
                 "links": [
                   {
                     "target": "cheatsheet_ssm_001",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "1778779311729",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "ssmrow_global_trend",
                     "type": "forward"
                   }
                 ],
