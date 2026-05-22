@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-22T16:18:55.587Z",
+  "exportedAt": "2026-05-22T16:19:07.979Z",
   "data": {
     "topics": [
       {
@@ -880,6 +880,18 @@
                   },
                   {
                     "target": "ssmrow_sutse",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "ssmrow_trend_ar2",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "ssmrow_fixed_reg",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "ssmrow_local_level",
                     "type": "forward"
                   }
                 ],
