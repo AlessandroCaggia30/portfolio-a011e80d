@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-22T07:18:11.878Z",
+  "exportedAt": "2026-05-22T07:18:20.856Z",
   "data": {
     "topics": [
       {
@@ -1173,6 +1173,30 @@
                   "lastReview": null,
                   "dueDate": "2026-05-16T12:48:11.525Z"
                 }
+              },
+              {
+                "id": "ts1779025115813",
+                "title": "Examples 1 & 2: RW",
+                "content": "\\textbf{\\textcolor{red}{EXAMPLES 1 \\& 2 --- random walk, random walk with drift (A: directly observed; B: SSM lift).}}\n\nSee the \\emph{Example SSMs hub} for the canonical DLM template, the specialisation tree, and the worked 2$\\times$2 matrix example.\n\n\\textbf{\\textcolor{red}{EXAMPLE 1 --- Simple random walk.}}\n\n\\textbf{(A) Directly observed.} A player starts with capital $y_0 > 0$. Each step: gain $+1$ w.p.\\ $p$, loss $-1$ w.p.\\ $1-p$. With $Z_t \\stackrel{\\text{iid}}{\\sim} (\\pm 1)$:\n\\[ Y_t \\;=\\; Y_{t-1} + Z_t \\;=\\; y_0 + \\sum_{i=1}^{t} Z_i. \\]\n$Z_t$ iid and independent of past $Y$'s $\\Rightarrow$ Markov. With $y_0 = 0$, $E[Z_t] = 0$: $E[Y_t] = 0$, $\\mathrm{Var}(Y_t) = t\\sigma^2$ --- variance grows linearly, so the walk is \\textbf{non-stationary}. \\emph{Continuous-time limit} (small steps in rapid succession): \\textbf{Brownian motion}. The recursion works for any iid $Z_t$, not just $\\pm 1$.\n\n\n",
+                "flashcard": true,
+                "images": [],
+                "links": [],
+                "x": 5026.406494713746,
+                "y": 985.0486060556641,
+                "width": 383.9597963253089,
+                "height": 212.43714855432427,
+                "color": "yellow",
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-17T13:38:46.018Z"
+                }
               }
             ]
           }
@@ -1693,33 +1717,6 @@
           "dueDate": "2026-05-20T16:20:18.886Z"
         },
         "deletedAt": 1779385192171,
-        "fromTopic": "topic17786690819138696",
-        "fromSubtopic": "sub17786690819133213"
-      },
-      {
-        "id": "ts1779025115813",
-        "title": "Examples 1 & 2: RW",
-        "content": "\\textbf{\\textcolor{red}{EXAMPLES 1 \\& 2 --- random walk, random walk with drift (A: directly observed; B: SSM lift).}}\n\nSee the \\emph{Example SSMs hub} for the canonical DLM template, the specialisation tree, and the worked 2$\\times$2 matrix example.\n\n\\textbf{\\textcolor{red}{EXAMPLE 1 --- Simple random walk.}}\n\n\\textbf{(A) Directly observed.} A player starts with capital $y_0 > 0$. Each step: gain $+1$ w.p.\\ $p$, loss $-1$ w.p.\\ $1-p$. With $Z_t \\stackrel{\\text{iid}}{\\sim} (\\pm 1)$:\n\\[ Y_t \\;=\\; Y_{t-1} + Z_t \\;=\\; y_0 + \\sum_{i=1}^{t} Z_i. \\]\n$Z_t$ iid and independent of past $Y$'s $\\Rightarrow$ Markov. With $y_0 = 0$, $E[Z_t] = 0$: $E[Y_t] = 0$, $\\mathrm{Var}(Y_t) = t\\sigma^2$ --- variance grows linearly, so the walk is \\textbf{non-stationary}. \\emph{Continuous-time limit} (small steps in rapid succession): \\textbf{Brownian motion}. The recursion works for any iid $Z_t$, not just $\\pm 1$.\n\n\n",
-        "flashcard": true,
-        "images": [],
-        "links": [],
-        "x": 5026.406494713746,
-        "y": 985.0486060556641,
-        "width": 383.9597963253089,
-        "height": 212.43714855432427,
-        "color": "yellow",
-        "fsrs": {
-          "stability": 1,
-          "difficulty": 5,
-          "elapsedDays": 0,
-          "scheduledDays": 0,
-          "reps": 0,
-          "lapses": 0,
-          "state": "new",
-          "lastReview": null,
-          "dueDate": "2026-05-17T13:38:46.018Z"
-        },
-        "deletedAt": 1779434177307,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
