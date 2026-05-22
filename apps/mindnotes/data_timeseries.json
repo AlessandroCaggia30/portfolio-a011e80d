@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-22T07:43:54.508Z",
+  "exportedAt": "2026-05-22T07:44:01.960Z",
   "data": {
     "topics": [
       {
@@ -556,7 +556,7 @@
               {
                 "id": "1778764934754",
                 "title": "Proof: the counts ratio is the MLE",
-                "content": "\nProof: The counts ratio is the MLE\n\n\n\n\\textbf{\\textcolor{red}{Proof — the counts ratio is the MLE.}}\n\n\\emph{Step 1: define and factorise.} Condition on the fixed initial values $y_{k,0}$. Using (M2) i.i.d.\\ trajectories, (M1) Markov property + chain rule, and homogeneity (so each one-step conditional is $p_{y_{k,t-1},\\, y_{k,t}}$):\\[ L(\\mathbf{P};\\, \\underbrace{y_1, \\dots, y_n)}_{\\text{data from N indiv. eacn observed T times}} \\;=\\; \\underbrace{\\prod_{k=1}^{n}\\,}_{\\text{k individuals}} \\underbrace{p_{y_{k,0}, y_{k,1}}\\,}_{\\text{whatever state the individaul visits}} p_{y_{k,1}, y_{k,2}} \\cdots p_{y_{k,T-1}, y_{k,T}}. \\]\n\n\\emph{Step 3: regroup by transition counts.} The same factor $p_{i,j}$ appears in the product once per observed transition $i \\to j$ in the panel (obivously, just grouping probabilities!):\\[ L(\\mathbf{P};\\, \\text{data}) \\;=\\; \\prod_{i=1}^{M}\\prod_{j=1}^{M} \\underbrace{p_{i,j}^{\\, n_{i,j}}}_{g(T(x), \\theta))}. \\] So the statistic $T(x) = \\{n_{i,j}\\}$ is \\textbf{jointly sufficient} for $\\mathbf{P}$ \n\n\\emph{Step 4: find MLE by maximise L wrt $p_{i,j}$ and you get: \\[ \\boxed{\\hat p_{i,j} \\;=\\; \\frac{n_{i,j}}{n_{i,+}}, \\qquad i, j = 1, \\dots, M.} \\]\n\n",
+                "content": "\nProof: The counts ratio is the MLE\n\n\n\n\\textbf{\\textcolor{red}{Proof — the counts ratio is the MLE.}}\n\n\\emph{Step 1: define and factorise the likelihood.} Condition on the fixed initial values $y_{k,0}$. Using (M2) i.i.d.\\ trajectories, (M1) Markov property + chain rule, and homogeneity (so each one-step conditional is $p_{y_{k,t-1},\\, y_{k,t}}$):\\[ L(\\mathbf{P};\\, \\underbrace{y_1, \\dots, y_n)}_{\\text{data from N indiv. eacn observed T times}} \\;=\\; \\underbrace{\\prod_{k=1}^{n}\\,}_{\\text{k individuals}} \\underbrace{p_{y_{k,0}, y_{k,1}}\\,}_{\\text{whatever state the individaul visits}} p_{y_{k,1}, y_{k,2}} \\cdots p_{y_{k,T-1}, y_{k,T}}. \\]\n\n\\emph{Step 3: regroup by transition counts.} The same factor $p_{i,j}$ appears in the product once per observed transition $i \\to j$ in the panel (obivously, just grouping probabilities!):\\[ L(\\mathbf{P};\\, \\text{data}) \\;=\\; \\prod_{i=1}^{M}\\prod_{j=1}^{M} \\underbrace{p_{i,j}^{\\, n_{i,j}}}_{g(T(x), \\theta))}. \\] So the statistic $T(x) = \\{n_{i,j}\\}$ is \\textbf{jointly sufficient} for $\\mathbf{P}$ \n\n\\emph{Step 4: find MLE by maximise L wrt $p_{i,j}$ and you get: \\[ \\boxed{\\hat p_{i,j} \\;=\\; \\frac{n_{i,j}}{n_{i,+}}, \\qquad i, j = 1, \\dots, M.} \\]\n\n",
                 "flashcard": true,
                 "images": [],
                 "links": [],
