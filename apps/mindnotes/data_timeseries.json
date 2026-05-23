@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-23T10:16:07.493Z",
+  "exportedAt": "2026-05-23T10:16:10.975Z",
   "data": {
     "topics": [
       {
@@ -1061,7 +1061,7 @@
               {
                 "id": "ts1779025115813",
                 "title": "Example 1: RW",
-                "content": "\n\\textbf{\\textcolor{red}{EXAMPLE 1 --- Simple random walk.}}\n\n\\textbf{5. Steps} \n- A player starts with capital $y_0 > 0$, **deterministic**. \n- Assume $Z_t \\underbrace{\\sim}_{iid} N (0, \\sigma^2)$ (Gaussian RW, Y_t \\stackrel{\\text{iid}}{\\sim} \\mathcal{N}(\\mu, \\sigma^2). )\\[ Y_t \\;=\\; Y_{t-1} + Z_t \\;=\\; y_0 + \\sum_{k=1}^{t} Z_k. \\]\n$Z_t$ iid and independent of past $Y$'s $\\Rightarrow$ Markov|\n\n\\[ E[Y_t] \\;=\\; E\\Bigl[\\sum_{s=1}^{t} Z_s\\Bigr] \\;=\\; \\sum_{s=1}^{t} E[Z_s] \\;=\\; \\sum_{s=1}^{t} 0 \\;=\\; 0. \\]\n\n\\[ \\mathrm{Var}(Y_t) \\;=\\; \\mathrm{Var}\\Bigl(\\sum_{s=1}^{t} Z_s\\Bigr) \\;=\\; \\sum_{s=1}^{t} \\mathrm{Var}(Z_s) \\;=\\; \\sum_{s=1}^{t} \\sigma^2 \\;=\\; t\\sigma^2. \\]\n\\emph{Variance grows linearly in $t$} (standard deviation widens as $\\sqrt{t}$),\n\n\n\n so the walk is \\textbf{non-stationary} (note $V(Y_0) = 0$  bceause $y_0$ is fixed deterministic). \n\n\n\\emph{Continuous-time limit} (small steps in rapid succession): \\textbf{Brownian motion}. The recursion works for any iid $Z_t$, not just $\\pm 1$.\n\n\n\\textbf{Gaussian white noise:} additionally require $Y_t$ iid Gaussian:\\[ Y_t \\stackrel{\\text{iid}}{\\sim} \\mathcal{N}(\\mu, \\sigma^2). \\]Under the Gaussian assumption, uncorrelated $\\Longleftrightarrow$ independent, so the distinction in the first bullet disappears.\n\n",
+                "content": "\n\\textbf{\\textcolor{red}{EXAMPLE 1 --- Simple random walk.}}\n\n\\textbf{5. Steps} \n- A player starts with capital $y_0 > 0$, **deterministic**. \n- Assume $Z_t \\underbrace{\\sim}_{iid} N (0, \\sigma^2)$ (Gaussian RW, Y_t \\stackrel{\\text{iid}}{\\sim} \\mathcal{N}(\\mu, \\sigma^2).$ )\\[ Y_t \\;=\\; Y_{t-1} + Z_t \\;=\\; y_0 + \\sum_{k=1}^{t} Z_k. \\]\n$Z_t$ iid and independent of past $Y$'s $\\Rightarrow$ Markov|\n\n\\[ E[Y_t] \\;=\\; E\\Bigl[\\sum_{s=1}^{t} Z_s\\Bigr] \\;=\\; \\sum_{s=1}^{t} E[Z_s] \\;=\\; \\sum_{s=1}^{t} 0 \\;=\\; 0. \\]\n\n\\[ \\mathrm{Var}(Y_t) \\;=\\; \\mathrm{Var}\\Bigl(\\sum_{s=1}^{t} Z_s\\Bigr) \\;=\\; \\sum_{s=1}^{t} \\mathrm{Var}(Z_s) \\;=\\; \\sum_{s=1}^{t} \\sigma^2 \\;=\\; t\\sigma^2. \\]\n\\emph{Variance grows linearly in $t$} (standard deviation widens as $\\sqrt{t}$),\n\n\n\n so the walk is \\textbf{non-stationary} (note $V(Y_0) = 0$  bceause $y_0$ is fixed deterministic). \n\n\n\\emph{Continuous-time limit} (small steps in rapid succession): \\textbf{Brownian motion}. The recursion works for any iid $Z_t$, not just $\\pm 1$.\n\n\n\\textbf{Gaussian white noise:} additionally require $Y_t$ iid Gaussian:\\[ Y_t \\stackrel{\\text{iid}}{\\sim} \\mathcal{N}(\\mu, \\sigma^2). \\]Under the Gaussian assumption, uncorrelated $\\Longleftrightarrow$ independent, so the distinction in the first bullet disappears.\n\n",
                 "flashcard": true,
                 "images": [],
                 "links": [],
