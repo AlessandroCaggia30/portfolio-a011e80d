@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-23T09:54:47.877Z",
+  "exportedAt": "2026-05-23T09:54:54.082Z",
   "data": {
     "topics": [
       {
@@ -199,7 +199,7 @@
               {
                 "id": "ts1778695220085",
                 "title": "Summaries of a stochastic process",
-                "content": "\\textbf{\\textcolor{red}{SUMMARIES OF A STOCHASTIC PROCESS}}\n\n\n$\\bullet$ \\textbf{Mean function}  $\\mu : t \\mapsto \\mu(t) = \\mathbb{E}[Y_t],  t = 1, 2, \\dots$\n\n$\\bullet$ \\textbf{Variance function}  $\\sigma^2 : t \\mapsto \\sigma^2(t) = \\mathrm{Var}(Y_t),  t = 1, 2, \\dots$\n\n$\\bullet$ \\textbf{Autocovariance function}  $\\gamma : (t, t') \\mapsto \\gamma(t, t') = \\mathrm{Cov}(Y_t, Y_{t'}), $\\quad$  t, t' = 1, 2, \\dots$\n\n$\\bullet$ \\textbf{Autocorrelation function}  $\\rho : (t, t') \\mapsto \\rho(t, t') = \\dfrac{\\gamma(t, t')}{\\sqrt{\\sigma^2(t)\\, \\sigma^2(t')}} ,  t, t' = 1, 2, \\dots$\n\n",
+                "content": "\\textbf{\\textcolor{red}{SUMMARIES OF A STOCHASTIC PROCESS}}\n\n\n$\\bullet$ \\textbf{Mean function}  $\\mu : t \\mapsto \\mu(t) = \\mathbb{E}[Y_t],  t = 1, 2, \\dots$\n\n$\\bullet$ \\textbf{Variance function}  $\\sigma^2 : t \\mapsto \\sigma^2(t) = \\mathrm{Var}(Y_t),  t = 1, 2, \\dots$\n\n$\\bullet$ \\textbf{Autocovariance function}  $\\gamma : (t, t') \\mapsto \\gamma(t, t') = \\mathrm{Cov}(Y_t, Y_{t'}), $\\quad$  t, t' = 1, 2, \\dots$\n\n$\\bullet$ \\textbf{Autocorrelation function}  $\\rho : (t, t') \\mapsto \\rho(t, t') = \\dfrac{\\gamma(t, t')}{\\sqrt{\\sigma^2(t)\\, \\sigma^2(t')}} $\\quad$,  t, t' = 1, 2, \\dots$\n\n",
                 "flashcard": true,
                 "images": [],
                 "links": [],
