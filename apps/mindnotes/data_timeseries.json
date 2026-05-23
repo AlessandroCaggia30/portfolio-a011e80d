@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-23T09:04:07.766Z",
+  "exportedAt": "2026-05-23T09:04:12.782Z",
   "data": {
     "topics": [
       {
@@ -451,6 +451,10 @@
                   },
                   {
                     "target": "ts1779025115813",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "ts1778695220085",
                     "type": "forward"
                   }
                 ],
