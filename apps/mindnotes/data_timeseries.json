@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-23T09:40:37.058Z",
+  "exportedAt": "2026-05-23T09:40:42.192Z",
   "data": {
     "topics": [
       {
@@ -1118,7 +1118,7 @@
               {
                 "id": "ts1779025115813",
                 "title": "Example 1: RW",
-                "content": "\\textbf{\\textcolor{red}{EXAMPLES 1 \\& 2 --- random walk, random walk with drift (A: directly observed; B: SSM lift).}}\n\n\n\\textbf{\\textcolor{red}{EXAMPLE 1 --- Simple random walk.}}\n\n\\textbf{(A) Directly observed.} A player starts with capital $y_0 > 0$. Assume $Z_t \\underbrace{\\sim}_{iid} N (0, \\simga^2)$ \n\n\\[ Y_t \\;=\\; Y_{t-1} + Z_t \\;=\\; y_0 + \\sum_{k=1}^{t} Z_k. \\]\n$Z_t$ iid and independent of past $Y$'s $\\Rightarrow$ Markov. With $y_0 = 0$, $E[Z_t] = 0$: $E[Y_t] = 0$, $\\mathrm{Var}(Y_t) = t\\sigma^2$ --- variance grows linearly, so the walk is \\textbf{non-stationary} (note $V(Y_0) = 0$  bceause $y_0$ is fixed deterministic). \\emph{Continuous-time limit} (small steps in rapid succession): \\textbf{Brownian motion}. The recursion works for any iid $Z_t$, not just $\\pm 1$.\n\n\n",
+                "content": "\\textbf{\\textcolor{red}{EXAMPLES 1 \\& 2 --- random walk, random walk with drift (A: directly observed; B: SSM lift).}}\n\n\n\\textbf{\\textcolor{red}{EXAMPLE 1 --- Simple random walk.}}\n\n\\textbf{(A) Directly observed.} A player starts with capital $y_0 > 0$. Assume $Z_t \\underbrace{\\sim}_{iid} N (0, \\sigma^2)$ \n\n\\[ Y_t \\;=\\; Y_{t-1} + Z_t \\;=\\; y_0 + \\sum_{k=1}^{t} Z_k. \\]\n$Z_t$ iid and independent of past $Y$'s $\\Rightarrow$ Markov. With $y_0 = 0$, $E[Z_t] = 0$: $E[Y_t] = 0$, $\\mathrm{Var}(Y_t) = t\\sigma^2$ --- variance grows linearly, so the walk is \\textbf{non-stationary} (note $V(Y_0) = 0$  bceause $y_0$ is fixed deterministic). \\emph{Continuous-time limit} (small steps in rapid succession): \\textbf{Brownian motion}. The recursion works for any iid $Z_t$, not just $\\pm 1$.\n\n\n",
                 "flashcard": true,
                 "images": [],
                 "links": [],
