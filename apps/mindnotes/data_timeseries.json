@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-23T07:57:22.604Z",
+  "exportedAt": "2026-05-23T07:59:16.915Z",
   "data": {
     "topics": [
       {
@@ -227,7 +227,7 @@
               {
                 "id": "ts17786690819136563",
                 "title": "weak Stationarity",
-                "content": "\\textbf{\\textcolor{red}{STATIONARITY}}\n\n\\begin{keydef}\n\\textbf{Weak stationarity.} A time series $(Y_t)$ is \\textbf{stationary} if $E(Y_t)$ and $E(Y_t Y_{t+h})$ exist, are finite, and do not depend on $t$, for every $h = 1, 2, \\dots$\n\\[ \\mu(t) = \\mu, \\qquad \\sigma^2(t) = \\sigma^2, \\qquad \\gamma(t, t+h) = \\tilde\\gamma(h) \\quad \\text{(autocov.}. \\]\n\\end{keydef}",
+                "content": "\\begin{keydef}\n  \\textbf{Weak stationarity.} A time series $(Y_t)$ is \\textbf{weakly stationary}\n  if $\\mathbb{E}[Y_t^2] < \\infty$ for all $t$, and the moments                                                     \n  \\[\n     \\mu(t) = \\mathbb{E}[Y_t], \\qquad                                                                              \n     \\gamma(t, t+h) = \\mathrm{Cov}(Y_t, Y_{t+h})                                                                   \n  \\]\n  do not depend on $t$, for every $h = 0, 1, 2, \\dots$. Writing the limits:                                        \n  \\[                                                                                                               \n     \\mu(t) = \\mu, \\qquad \\sigma^2(t) = \\gamma(0) = \\sigma^2, \\qquad                                               \n     \\gamma(t, t+h) = \\tilde\\gamma(h) \\quad \\text{(autocov.)}.                                                     \n  \\]                                                        \n  \\end{keydef}                                                                                                     \n                                                            \n  The substantive fixes are: (i) include $h = 0$ so variance is formally covered, and (ii) note that $\\sigma^2 =   \n  \\gamma(0)$ rather than treating it as a separate condition. Everything else in your version is right.",
                 "flashcard": true,
                 "images": [],
                 "links": [],
