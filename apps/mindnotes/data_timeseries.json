@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-23T10:00:57.151Z",
+  "exportedAt": "2026-05-23T10:01:20.106Z",
   "data": {
     "topics": [
       {
@@ -135,10 +135,6 @@
                 "flashcard": true,
                 "images": [],
                 "links": [
-                  {
-                    "target": "1778694937071",
-                    "type": "forward"
-                  },
                   {
                     "target": "ts1778698974055",
                     "type": "forward"
@@ -457,19 +453,6 @@
                   "lastReview": "2026-05-22T17:12:56.053Z",
                   "dueDate": "2026-05-23T17:12:56.053Z"
                 }
-              },
-              {
-                "id": "1778694937071",
-                "title": "Example 2. White noise",
-                "content": "\\textbf{\\textcolor{red}{EXAMPLE 2 — WHITE NOISE}}\n\nA \\textbf{white noise} is a process $(Y_t)_{t \\ge 1}$ such that the $Y_t$ are iid and:\\[ \\mathbb{E}[Y_t] = \\mu, \\qquad \\mathrm{Var}(Y_t) = \\sigma^2, \\qquad \\gamma(t, t') = \\mathrm{Cov}(Y_t, Y_{t'}) = 0 \\ \\text{for } t \\neq t'. \\]\n\\textbf{Gaussian white noise:} additionally require $Y_t$ iid Gaussian:\\[ Y_t \\stackrel{\\text{iid}}{\\sim} \\mathcal{N}(\\mu, \\sigma^2). \\]Under the Gaussian assumption, uncorrelated $\\Longleftrightarrow$ independent, so the distinction in the first bullet disappears.\n\n\n\n",
-                "flashcard": false,
-                "images": [],
-                "links": [],
-                "x": 5422.579086564077,
-                "y": 1640.8029200565825,
-                "width": 421.36801251708573,
-                "height": 145.03640411161263,
-                "color": "coral"
               },
               {
                 "id": "1778699075521",
@@ -2164,6 +2147,22 @@
         "height": 172.67097898631718,
         "color": "coral",
         "deletedAt": 1779530426518,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "1778694937071",
+        "title": "Example 2. White noise",
+        "content": "\\textbf{\\textcolor{red}{EXAMPLE 2 — WHITE NOISE}}\n\nA \\textbf{white noise} is a process $(Y_t)_{t \\ge 1}$ such that the $Y_t$ are iid and:\\[ \\mathbb{E}[Y_t] = \\mu, \\qquad \\mathrm{Var}(Y_t) = \\sigma^2, \\qquad \\gamma(t, t') = \\mathrm{Cov}(Y_t, Y_{t'}) = 0 \\ \\text{for } t \\neq t'. \\]\n\n\n",
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "x": 5422.579086564077,
+        "y": 1640.8029200565825,
+        "width": 421.36801251708573,
+        "height": 145.03640411161263,
+        "color": "coral",
+        "deletedAt": 1779530477581,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
