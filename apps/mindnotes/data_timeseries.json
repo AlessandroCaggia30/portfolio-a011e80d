@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-23T10:10:04.677Z",
+  "exportedAt": "2026-05-23T10:10:35.792Z",
   "data": {
     "topics": [
       {
@@ -210,7 +210,7 @@
               {
                 "id": "ts17786690819136563",
                 "title": "weak Stationarity",
-                "content": "\\textbf{\\textcolor{red}{STATIONARITY}}\n\n\\begin{keydef}\n4,A time series $(Y_t)$ is \\textbf{stationary} if $E(Y_t)$ and $E(Y_t Y_{t+h})$ exist, are finite, and do not depend on $t$, for every $h = 0, 1, 2, \\dots$\n\\[ \\mu(t) = \\mu, \\qquad \\sigma^2(t) = \\sigma^2, \\qquad \\gamma(t, t+h) = \\tilde\\gamma(h) \\quad \\text{(autocov.}. \\]\n\\end{keydef}",
+                "content": "\\textbf{\\textcolor{red}{STATIONARITY}}\n\n\\begin{keydef}\n4.A time series $(Y_t)$ is \\textbf{stationary} if $E(Y_t)$ and $E(Y_t Y_{t+h})$ exist, are finite, and do not depend on $t$, for every $h = 0, 1, 2, \\dots$\n\\[ \\mu(t) = \\mu, \\qquad \\sigma^2(t) = \\sigma^2, \\qquad \\gamma(t, t+h) = \\tilde\\gamma(h) \\quad \\text{(autocov.}. \\]\n\\end{keydef}",
                 "flashcard": true,
                 "images": [],
                 "links": [],
