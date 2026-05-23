@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-23T10:00:21.141Z",
+  "exportedAt": "2026-05-23T10:00:28.661Z",
   "data": {
     "topics": [
       {
@@ -135,10 +135,6 @@
                 "flashcard": true,
                 "images": [],
                 "links": [
-                  {
-                    "target": "ts17786690819132729",
-                    "type": "forward"
-                  },
                   {
                     "target": "1778694937071",
                     "type": "forward"
@@ -299,19 +295,6 @@
                   "lastReview": "2026-05-22T17:10:28.124Z",
                   "dueDate": "2026-05-23T17:10:28.124Z"
                 },
-                "color": "coral"
-              },
-              {
-                "id": "ts17786690819132729",
-                "title": "Ex.1 Most trivial example of stoch. process",
-                "content": "\\textbf{\\textcolor{red}{MOST TRIVIAL EXAMPLE OF STOCH.\\ PROCESS}}\n\n\\textbf{IID stochastic processes}\nSay $Y_t,\\ t \\ge 0$ are independent. If, additionally, $Y_t$ have a common distribution (i.i.d.) with $p$:\n\\[ p_n(y_1,\\dots,y_n) = p(y_1)\\, p(y_2) \\cdots p(y_n) = \\prod_{i=1}^n p(y_i). \\]\n\n\\textbf{Example} Independent trials $Y_t \\stackrel{\\text{iid}}{\\sim}$ Bernoulli$(p)$.\n\nTransition matrix:\n\\[ \\begin{array}{c|cc} t-1 \\backslash t & 0 & 1 \\\\ \\hline 0 & 1-p & p \\\\ 1 & 1-p & p \\end{array} \\]\n\n\n\\textbf{ID stochastic processes}\nIf only indep.\\ (not necessarily identically distrib.):\n\\[ p_n(y_1,\\dots,y_n) = p_1(y_1)\\, p_2(y_2) \\cdots p_n(y_n). \\]\n\n\n\nBoth assume independence: irrealistic for time series",
-                "flashcard": false,
-                "images": [],
-                "links": [],
-                "x": 5368.834972680054,
-                "y": 1562.6578697172667,
-                "width": 425.0220831434917,
-                "height": 172.67097898631718,
                 "color": "coral"
               },
               {
@@ -2165,6 +2148,22 @@
         "x": 5990.909705812325,
         "y": 4678.599217046121,
         "deletedAt": 1779467155738,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "ts17786690819132729",
+        "title": "Ex.1 Most trivial example of stoch. process",
+        "content": "\\textbf{\\textcolor{red}{MOST TRIVIAL EXAMPLE OF STOCH.\\ PROCESS}}\n\n\\textbf{IID stochastic processes}\nSay $Y_t,\\ t \\ge 0$ are independent. If, additionally, $Y_t$ have a common distribution (i.i.d.) with $p$:\n\\[ p_n(y_1,\\dots,y_n) = p(y_1)\\, p(y_2) \\cdots p(y_n) = \\prod_{i=1}^n p(y_i). \\]\n\n\\emph{Example} Independent trials $Y_t \\stackrel{\\text{iid}}{\\sim}$ Bernoulli$(p)$.\n\nTransition matrix:\n\\[ \\begin{array}{c|cc} t-1 \\backslash t & 0 & 1 \\\\ \\hline 0 & 1-p & p \\\\ 1 & 1-p & p \\end{array} \\]\n\n\n\\textbf{ID stochastic processes}\nIf only indep.\\ (not necessarily identically distrib.):\n\\[ p_n(y_1,\\dots,y_n) = p_1(y_1)\\, p_2(y_2) \\cdots p_n(y_n). \\]\n\n\n\nBoth assume independence: irrealistic for time series",
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "x": 5368.834972680054,
+        "y": 1562.6578697172667,
+        "width": 425.0220831434917,
+        "height": 172.67097898631718,
+        "color": "coral",
+        "deletedAt": 1779530426518,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
