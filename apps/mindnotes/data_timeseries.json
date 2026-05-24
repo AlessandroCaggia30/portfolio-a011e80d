@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-24T10:30:29.465Z",
+  "exportedAt": "2026-05-24T10:33:12.567Z",
   "data": {
     "topics": [
       {
@@ -237,45 +237,12 @@
                 }
               },
               {
-                "id": "ts17786690819133410",
-                "title": "Stationarity does not imply strict stat.",
-                "content": "\n\nException: for a Gaussian process the law is fully pinned down by the first two moments, so under Gaussianity weakly stationary $\\Rightarrow$ strictly stationary.",
-                "flashcard": false,
-                "images": [],
-                "links": [
-                  {
-                    "target": "ts17786690819136563",
-                    "type": "forward"
-                  }
-                ],
-                "x": 5513.898830336608,
-                "y": 795.4785974078213,
-                "width": 396.39001110870515,
-                "height": 113.8972865802485,
-                "fsrs": {
-                  "stability": 1,
-                  "difficulty": 5,
-                  "elapsedDays": 0,
-                  "scheduledDays": 0,
-                  "reps": 0,
-                  "lapses": 0,
-                  "state": "new",
-                  "lastReview": null,
-                  "dueDate": "2026-05-16T12:48:11.525Z"
-                }
-              },
-              {
                 "id": "ts17786690819133761",
                 "title": "Strict stationarity",
                 "content": "\\textbf{\\textcolor{red}{STRICT STATIONARITY}}\n\n\\begin{keydef}\n4. A time series $(Y_t)_{t \\in T}$ is \\textbf{strictly stationary} if the joint distribution of $(Y_{t_1}, \\dots, Y_{t_k}) \\stackrel{d}{=} (Y_{t_1+h}, \\dots, Y_{t_k+h}), \\qquad \\text{for any } (t_1, \\dots, t_k) \\text{ and } h $\n\\end{keydef}\n\nObviously this implies \n- k = 1 : every $Y_t$ has the same marginal\n- k = 2: every bivariate depens on lag only, ot time. \n- weak stationarity \n\n\n",
                 "flashcard": true,
                 "images": [],
-                "links": [
-                  {
-                    "target": "ts17786690819133410",
-                    "type": "forward"
-                  }
-                ],
+                "links": [],
                 "x": 4856.532826280304,
                 "y": 764.0937766199422,
                 "width": 511.5365915622529,
@@ -2171,6 +2138,37 @@
         },
         "color": "yellow",
         "deletedAt": 1779555199043,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "ts17786690819133410",
+        "title": "Stationarity does not imply strict stat.",
+        "content": "\n\nException: for a Gaussian process the law is fully pinned down by the first two moments, so under Gaussianity weakly stationary $\\Rightarrow$ strictly stationary.",
+        "flashcard": false,
+        "images": [],
+        "links": [
+          {
+            "target": "ts17786690819136563",
+            "type": "forward"
+          }
+        ],
+        "x": 5513.898830336608,
+        "y": 795.4785974078213,
+        "width": 396.39001110870515,
+        "height": 113.8972865802485,
+        "fsrs": {
+          "stability": 1,
+          "difficulty": 5,
+          "elapsedDays": 0,
+          "scheduledDays": 0,
+          "reps": 0,
+          "lapses": 0,
+          "state": "new",
+          "lastReview": null,
+          "dueDate": "2026-05-16T12:48:11.525Z"
+        },
+        "deletedAt": 1779618790435,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
