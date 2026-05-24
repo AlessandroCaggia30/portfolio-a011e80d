@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-24T12:38:10.377Z",
+  "exportedAt": "2026-05-24T12:38:39.394Z",
   "data": {
     "topics": [
       {
@@ -1418,6 +1418,16 @@
                   "lastReview": null,
                   "dueDate": "2026-05-16T12:48:11.525Z"
                 }
+              },
+              {
+                "id": "1779626317266",
+                "title": "Bernoulli vs categorical",
+                "content": "- Experiment, run 1 time, yes no: bernoulli -> run 10 times: binomial  --> CLT -> univariate gaussian (yes,no)\n- Experiment, run 1 tine, many possible outcomes k: categorical (ni1, ni2..niM) -> run 10 times (10 individuals): multinomial ---> multivariate gaussian (k outcomes, you see a gaussian k dimensional cloud). Please notice that multinomial is just repeated bernoulli but with k states!",
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "x": 4428.265766252822,
+                "y": 1779.5170143357454
               }
             ]
           }
