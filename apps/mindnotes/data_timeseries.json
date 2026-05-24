@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-24T10:33:12.567Z",
+  "exportedAt": "2026-05-24T10:33:16.484Z",
   "data": {
     "topics": [
       {
@@ -1384,6 +1384,34 @@
                   "dueDate": "2026-05-23T17:12:29.555Z"
                 },
                 "color": "coral"
+              },
+              {
+                "id": "ts17786690819133410",
+                "title": "Stationarity does not imply strict stat.",
+                "content": "\n\nException: for a Gaussian process the law is fully pinned down by the first two moments, so under Gaussianity weakly stationary $\\Rightarrow$ strictly stationary.",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ts17786690819136563",
+                    "type": "forward"
+                  }
+                ],
+                "x": 5513.898830336608,
+                "y": 795.4785974078213,
+                "width": 396.39001110870515,
+                "height": 113.8972865802485,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-16T12:48:11.525Z"
+                }
               }
             ]
           }
@@ -2138,37 +2166,6 @@
         },
         "color": "yellow",
         "deletedAt": 1779555199043,
-        "fromTopic": "topic17786690819138696",
-        "fromSubtopic": "sub17786690819133213"
-      },
-      {
-        "id": "ts17786690819133410",
-        "title": "Stationarity does not imply strict stat.",
-        "content": "\n\nException: for a Gaussian process the law is fully pinned down by the first two moments, so under Gaussianity weakly stationary $\\Rightarrow$ strictly stationary.",
-        "flashcard": false,
-        "images": [],
-        "links": [
-          {
-            "target": "ts17786690819136563",
-            "type": "forward"
-          }
-        ],
-        "x": 5513.898830336608,
-        "y": 795.4785974078213,
-        "width": 396.39001110870515,
-        "height": 113.8972865802485,
-        "fsrs": {
-          "stability": 1,
-          "difficulty": 5,
-          "elapsedDays": 0,
-          "scheduledDays": 0,
-          "reps": 0,
-          "lapses": 0,
-          "state": "new",
-          "lastReview": null,
-          "dueDate": "2026-05-16T12:48:11.525Z"
-        },
-        "deletedAt": 1779618790435,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
