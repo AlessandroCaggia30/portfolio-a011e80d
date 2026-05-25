@@ -1275,11 +1275,18 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
     font-size: 14px;
 }
 
-/* When the LaTeX source uses p{<width>} column specs, force the widths. */
-.latex-table-fixed {
-    table-layout: fixed;
-    width: max-content;
-    max-width: 100%;
+/* When the LaTeX source uses p{<width>} column specs, force the widths.
+   Use !important to beat every other rule (incl. .node-preview .latex-table { width:100% }). */
+.latex-table-fixed,
+.node-preview .latex-table-fixed {
+    table-layout: fixed !important;
+    width: max-content !important;
+    min-width: 0 !important;
+    max-width: none !important;
+}
+.latex-table-fixed colgroup col,
+.node-preview .latex-table-fixed colgroup col {
+    /* col widths come from inline style="width:...cm"; keep them */
 }
 .latex-table-fixed td,
 .latex-table-fixed th {
