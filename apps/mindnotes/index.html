@@ -7216,8 +7216,8 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
         // processLatexCommands tabular regex would never match the pair.
         const _tabBraceGrp = '(?:[^{}]|\\{(?:[^{}]|\\{[^{}]*\\})*\\})*';
         pre = pre.replace(
-            new RegExp(`\\\\begin\\{tabular\\}\\{${_tabBraceGrp}\\}([\\s\\S]*?)\\\\end\\{tabular\\}`, 'g'),
-            (m, body) => convertTabularToTable(body)
+            new RegExp(`\\\\begin\\{tabular\\}\\{(${_tabBraceGrp})\\}([\\s\\S]*?)\\\\end\\{tabular\\}`, 'g'),
+            (m, colSpec, body) => convertTabularToTable(body, colSpec)
         );
 
         tmpMath.forEach((b, i) => { pre = pre.replace(`\x00M${i}\x00`, () => b); });
