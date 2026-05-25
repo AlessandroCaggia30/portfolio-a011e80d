@@ -4808,8 +4808,15 @@ function convertTabularToTable(body, colSpec) {
     rows.forEach((row, rowIdx) => {
         const cells = row.split(/\s*&\s*/);
         table += '%%TROWSTART%%';
-        cells.forEach(cell => {
-            table += '%%TCELLSTART%%' + cell.trim() + '%%TCELLEND%%';
+        cells.forEach((cell, cellIdx) => {
+            // Apply col width to first row cells too — belt-and-braces against browser quirks
+            // where <colgroup> widths are sometimes ignored when content has unbreakable items
+            const w = (hasFixedWidths && rowIdx === 0 && widths[cellIdx]) ? widths[cellIdx] : null;
+            if (w) {
+                table += `%%TCELLW:${w}%%` + cell.trim() + '%%TCELLEND%%';
+            } else {
+                table += '%%TCELLSTART%%' + cell.trim() + '%%TCELLEND%%';
+            }
         });
         table += '%%TROWEND%%';
     });
