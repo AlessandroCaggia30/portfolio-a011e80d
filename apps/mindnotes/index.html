@@ -4797,7 +4797,22 @@ function convertTabularToTable(body, colSpec) {
     if (rows.length === 0) return '\n';
 
     // Build table marker (use %%TABLE%% to survive escapeHtml)
-    let table = hasFixedWidths ? '%%TBLFIXEDSTART%%' : '%%TBLSTART%%';
+    // For fixed widths: also compute the explicit table width (sum of col widths) so the
+    // browser can't squeeze / expand columns. Only sums if all units are the same (cm).
+    let totalW = null;
+    if (hasFixedWidths) {
+        const parsed = widths.map(w => {
+            if (!w) return null;
+            const m = /^([\d.]+)\s*(cm|mm|px|em|rem)$/.exec(w);
+            return m ? { n: parseFloat(m[1]), u: m[2] } : null;
+        });
+        if (parsed.every(p => p) && parsed.every(p => p.u === parsed[0].u)) {
+            totalW = parsed.reduce((s, p) => s + p.n, 0) + parsed[0].u;
+        }
+    }
+    let table = hasFixedWidths
+        ? (totalW ? `%%TBLFIXEDW:${totalW}%%` : '%%TBLFIXEDSTART%%')
+        : '%%TBLSTART%%';
     if (hasFixedWidths) {
         table += '%%CGSTART%%';
         widths.forEach(w => {
