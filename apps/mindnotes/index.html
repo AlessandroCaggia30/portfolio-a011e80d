@@ -4835,6 +4835,7 @@ function restoreTableMarkers(text) {
     text = text.replace(/%%TROWSTART%%/g, '<tr>');
     text = text.replace(/%%TROWEND%%/g, '</tr>');
     text = text.replace(/%%TCELLSTART%%/g, '<td>');
+    text = text.replace(/%%TCELLW:([^%]+)%%/g, (m, w) => `<td style="width:${w};min-width:${w};max-width:${w}">`);
     text = text.replace(/%%TCELLEND%%/g, '</td>');
     return text;
 }
