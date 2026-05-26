@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-26T10:43:16.619Z",
+  "exportedAt": "2026-05-26T10:43:20.304Z",
   "data": {
     "topics": [
       {
@@ -319,7 +319,7 @@
               {
                 "id": "1778686338044",
                 "title": "tuning alfa in SES",
-                "content": "\n\nIn SES: \n$\\bullet$ if $\\alpha \\approx 1$: $\\hat{y}_{t+1\\mid t} \\approx y_t$ (follows the data)\n\n$\\bullet$ if $\\alpha \\approx 0$: $\\hat{y}_{t+1\\mid t} \\approx$ constant\n\n\\textbf{\\textcolor{red}{Choosing $\\alpha$ — grid search.}} Try a grid $\\alpha \\in \\{0.01, 0.02, \\dots, 0.99\\}$. For each $\\alpha$, compute the one-step-ahead forecasts on held-out data and evaluate one of:\n\n\\begin{keydef\n\\textbf{MAE} (Mean Absolute Error):\\[ \\mathrm{MAE} = \\frac{1}{n} \\sum_{t=1}^{n} \\left| y_t - \\hat{y}_t \\right| \\]\n\n\\textbf{MSE} (Mean Squared Error):\\[ \\mathrm{MSE} = \\frac{1}{n} \\sum_{t=1}^{n} \\left( y_t - \\hat{y}_t \\right)^2 \\]\n\n\\textbf{MAPE} (Mean Absolute Percentage Error):\\[ \\mathrm{MAPE} = \\frac{1}{n} \\sum_{t=1}^{n} \\left| \\frac{y_t - \\hat{y}_t}{y_t} \\right| * 100\\% \\]\n\nPick $\\hat\\alpha = \\arg\\min_\\alpha \\mathrm{(MAE\\, /\\, MSE\\, /\\, MAPE)}$. MAE is robust to outliers, MSE penalises large errors more heavily, MAPE is scale-free but blows up when $y_t \\approx 0$.",
+                "content": "\n\nIn SES: \n$\\bullet$ if $\\alpha \\approx 1$: $\\hat{y}_{t+1\\mid t} \\approx y_t$ (follows the data)\n\n$\\bullet$ if $\\alpha \\approx 0$: $\\hat{y}_{t+1\\mid t} \\approx$ constant\n\n\\textbf{\\textcolor{red}{Choosing $\\alpha$ — grid search.}} Try a grid $\\alpha \\in \\{0.01, 0.02, \\dots, 0.99\\}$. For each $\\alpha$, compute the one-step-ahead forecasts on held-out data and evaluate one of:\n\n\\begin{keydef}\n\\textbf{MAE} (Mean Absolute Error):\\[ \\mathrm{MAE} = \\frac{1}{n} \\sum_{t=1}^{n} \\left| y_t - \\hat{y}_t \\right| \\]\n\n\\textbf{MSE} (Mean Squared Error):\\[ \\mathrm{MSE} = \\frac{1}{n} \\sum_{t=1}^{n} \\left( y_t - \\hat{y}_t \\right)^2 \\]\n\n\\textbf{MAPE} (Mean Absolute Percentage Error):\\[ \\mathrm{MAPE} = \\frac{1}{n} \\sum_{t=1}^{n} \\left| \\frac{y_t - \\hat{y}_t}{y_t} \\right| * 100\\% \\]\n\nPick $\\hat\\alpha = \\arg\\min_\\alpha \\mathrm{(MAE\\, /\\, MSE\\, /\\, MAPE)}$. MAE is robust to outliers, MSE penalises large errors more heavily, MAPE is scale-free but blows up when $y_t \\approx 0$.",
                 "flashcard": false,
                 "images": [],
                 "links": [],
