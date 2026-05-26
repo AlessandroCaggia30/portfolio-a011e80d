@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-26T10:45:28.523Z",
+  "exportedAt": "2026-05-26T10:45:35.318Z",
   "data": {
     "topics": [
       {
@@ -704,7 +704,7 @@
               {
                 "id": "1778862798236",
                 "title": "SSM flexibility — no stationarity required",
-                "content": "\\textbf{\\textcolor{red}{SSM FLEXIBILITY --- why no stationarity requirement}}\n\n\\begin{keydef}\n\\textbf{\\textcolor{red}{Why ARMA cannot fit a non-stationary series.}} ARMA models a process with \\emph{constant} parameters $(\\phi_i, \\theta_j, \\sigma^2)$. A model with constant parameters can only describe data whose statistical properties are themselves constant in time: constant mean, constant variance, autocovariance depending only on the lag. That is exactly the definition of weak stationarity.\n\nIf the data is non-stationary: has a trend (mean drifting upward), seasonality (mean cycling), or changing volatility (variance growing), there is \\emph{no choice} of constants $(\\phi_i, \\theta_j, \\sigma^2)$ that can reproduce it --- because constants cannot represent a moving target.  \n\n\n\n\n\n\\textbf{\\textcolor{red}{Aside --- if you let ARMA's parameters drift, you get an SSM.}} The cleanest way to see SSM as the strict superset of ARMA is to let the ARMA coefficients become time-varying!",
+                "content": "\\textbf{\\textcolor{red}{SSM FLEXIBILITY --- why no stationarity requirement}}\n\n\\begin{keydef}\n\n\\textbf{\\textcolor{red}{Why ARMA cannot fit a non-stationary series.}} ARMA models a process with \\emph{constant} parameters $(\\phi_i, \\theta_j, \\sigma^2)$. A model with constant parameters can only describe data whose statistical properties are themselves constant in time: constant mean, constant variance, autocovariance depending only on the lag. That is exactly the definition of weak stationarity.\n\nIf the data is non-stationary: has a trend (mean drifting upward), seasonality (mean cycling), or changing volatility (variance growing), there is \\emph{no choice} of constants $(\\phi_i, \\theta_j, \\sigma^2)$ that can reproduce it --- because constants cannot represent a moving target.  \n\\end{keydef}\n\n\n\n\n\\textbf{\\textcolor{red}{Aside --- if you let ARMA's parameters drift, you get an SSM.}} The cleanest way to see SSM as the strict superset of ARMA is to let the ARMA coefficients become time-varying!",
                 "flashcard": true,
                 "images": [],
                 "links": [
