@@ -1014,7 +1014,7 @@
               {
                 "id": "1779626317266",
                 "title": "Bernoulli vs categorical",
-                "content": "- Experiment, run 1 time, yes no: bernoulli -> run 10 times: binomial  --> CLT -> univariate gaussian (yes,no)\n- Experiment, run 1 tine, many possible outcomes k: categorical (ni1, ni2..niM) -> run 10 times (10 individuals): multinomial ---> multivariate gaussian (k outcomes, you see a gaussian k dimensional cloud). Please notice that multinomial is just repeated bernoulli but with k states!",
+                "content": "- Experiment, run 1 time, yes no: bernoulli -> run 10 times: binomial  --> CLT -> univariate gaussian (yes,no)\n- Experiment, run 1 time, many possible outcomes k: categorical (ni1, ni2..niM) -> run 10 times (10 individuals): multinomial ---> multivariate gaussian (k outcomes, you see a gaussian k dimensional cloud). Please notice that multinomial is just repeated categorical (which generalises Bernoulli from $k = 2$ to general $k$)!",
                 "flashcard": false,
                 "images": [],
                 "links": [],
