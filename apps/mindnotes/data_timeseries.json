@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-26T08:51:02.341Z",
+  "exportedAt": "2026-05-26T08:51:38.535Z",
   "data": {
     "topics": [
       {
@@ -868,30 +868,6 @@
                 }
               },
               {
-                "id": "ts1779317587518",
-                "title": "Superposition principle (additive component DLMs)",
-                "content": "\\textbf{\\textcolor{red}{SUPERPOSITION PRINCIPLE --- additive component DLMs (Petris \\S3.2).}}\n\n\\emph{Idea.} Build a complex DLM by \\emph{adding together} $k$ simpler, mutually independent component DLMs that share one observation. Modular: pick trend + seasonal + AR + regression as bricks, stack their states, and you have a single combined DLM that the Kalman filter handles in one pass.\n\n\\textbf{\\textcolor{red}{Setup --- $k$ independent component DLMs.}}\n\nFor each $j = 1, \\dots, k$, component $j$ is its own full DLM (state $+$ obs noise) with state $\\theta_{j,t} \\in \\mathbb{R}^{p_j}$:\n\\[ \\theta_{j,t} = G_j\\, \\theta_{j,t-1} + w_{j,t}, \\quad w_{j,t} \\sim \\mathcal{N}(0,\\, W_j), \\qquad Y_{j,t} = F_j\\, \\theta_{j,t} + v_{j,t}, \\quad v_{j,t} \\sim \\mathcal{N}(0,\\, V_j). \\]\nAll shocks independent across components AND across time: $w_{j,t} \\perp\\!\\!\\!\\perp w_{l,t}$, $v_{j,t} \\perp\\!\\!\\!\\perp v_{l,t}$ for $j \\ne l$, and $\\theta_{j,0}$'s independent.\n\n\\emph{Observation as a sum.}\n\\[ Y_t \\;=\\; Y_{1,t} + Y_{2,t} + \\cdots + Y_{k,t} \\;=\\; \\sum_{j=1}^k F_j\\, \\theta_{j,t} \\;+\\; \\underbrace{\\sum_{j=1}^k v_{j,t}}_{v_t \\,\\sim\\, \\mathcal{N}(0,\\, V),\\; V \\,=\\, \\sum_j V_j}. \\]\n\\emph{Why one combined $v_t$?} The component noises $v_{j,t}$ are independent Gaussians, so their sum is Gaussian with variance $V = \\sum_j V_j$. From the observed-side perspective, ``one obs noise per component'' and ``one combined obs noise $V$'' are \\emph{indistinguishable} --- but the per-component split is useful for bookkeeping when each brick has its own well-understood noise scale (e.g., trend-irregular vs.\\ measurement error).\n\n\\textbf{\\textcolor{red}{Combine --- 4-step DLM template.}}\n\n\\emph{(1) State (stack components).}\n\\[ \\theta_t \\;=\\; \\begin{pmatrix} \\theta_{1,t} \\\\ \\theta_{2,t} \\\\ \\vdots \\\\ \\theta_{k,t} \\end{pmatrix} \\;\\in\\; \\mathbb{R}^{p_1 + \\cdots + p_k}. \\]\neach $\\theta_{j,t}$ can be any dimension $p_j \\geq 1$\n\n\\emph{(2) Component equations.} Already given above --- each $\\theta_{j,t}$ evolves on its own with $G_j, W_j$.\n\n\\emph{(3) Matrix state equation (block-diagonal $G$ and $W$).}\n\\[ \\theta_t = G\\, \\theta_{t-1} + w_t, \\qquad w_t \\overset{\\mathrm{iid}}{\\sim} \\mathcal{N}(0,\\, W_t), \\qquad G = \\mathrm{blkdiag}(G_1, \\dots, G_k), \\qquad W_t = \\mathrm{blkdiag}(W_1, \\dots, W_k). \\]\nThe block-diagonal structure encodes ``no cross-coupling between components.''\n\n\\emph{(4) Observation equation (row-concatenate the $F$'s; sum the obs noises).}\n\\[ Y_t = F\\, \\theta_t + v_t, \\qquad v_t \\overset{\\mathrm{iid}}{\\sim} \\mathcal{N}(0,\\, V_t), \\qquad F = [\\,F_1 \\;\\big|\\; F_2 \\;\\big|\\; \\cdots \\;\\big|\\; F_k\\,], \\qquad V_t = \\sum_{j=1}^k V_j. \\]\n\\emph{Distributional form.} $\\theta_t \\mid \\theta_{t-1} \\sim \\mathcal{N}\\bigl(G\\theta_{t-1},\\, W\\bigr)$; $\\;Y_t \\mid \\theta_t \\sim \\mathcal{N}\\bigl(F\\theta_t,\\, V\\bigr)$ with $V = \\sum_j V_j$.\n\n\\textbf{\\textcolor{red}{Why it works (intuition).}}\n\n$\\bullet$ \\emph{Gaussian closure.} A sum of independent Gaussians is Gaussian. So $\\sum_j F_j \\theta_{j,t}$ is Gaussian, and adding $v_t$ keeps it Gaussian.\n\n$\\bullet$ \\emph{Independence preserved by stacking.} Block-diagonal $G, W$ means the components NEVER mix in mean or in shocks --- they evolve in parallel. The Kalman recursion on the combined state effectively runs $k$ parallel recursions for the conditional means, with the \\emph{only} cross-talk happening through the joint update against the observation $y_t$ (which sees the sum).\n\n$\\bullet$ \\emph{Modularity.} You design each brick once (LLT, seasonal, AR, regression on $x_t$) and reuse them in any combination.\n\n\\textbf{\\textcolor{red}{Canonical example --- Basic Structural Model (BSM).}}\n\n\\[ Y_t = \\underbrace{\\mu_t}_{\\text{trend (LLT)}} + \\underbrace{\\gamma_t}_{\\text{seasonal}} + \\underbrace{v_t}_{\\text{irregular}}. \\]\n\n\\emph{Trend brick (LLT, $p_1 = 2$):} $\\theta_{1,t} = (\\mu_t, \\beta_t)$, $G_1 = \\bigl(\\begin{smallmatrix}1 & 1 \\\\ 0 & 1\\end{smallmatrix}\\bigr)$, $F_1 = (1,\\, 0)$.\n\n\\emph{Quarterly seasonal brick ($p_2 = 3$):} $\\theta_{2,t} = (\\gamma_t,\\, \\gamma_{t-1},\\, \\gamma_{t-2})$, $G_2 = \\bigl(\\begin{smallmatrix}-1 & -1 & -1 \\\\ 1 & 0 & 0 \\\\ 0 & 1 & 0\\end{smallmatrix}\\bigr)$, $F_2 = (1, 0, 0)$.\n\n\\emph{Combined.} State $\\theta_t \\in \\mathbb{R}^5$ (2 trend $+$ 3 seasonal), $G = \\mathrm{blkdiag}(G_1, G_2)$, $F = [\\,1\\;0\\;1\\;0\\;0\\,]$. One DLM; one Kalman filter pass; outputs both the trend $\\mu_t$ and the seasonal $\\gamma_t$ separately as components of the filtered state.\n\n\\textbf{\\textcolor{red}{More compositions (same recipe).}}\n\n$\\bullet$ \\emph{LLT + AR(1) cycle:} trend $+$ a stationary AR(1) for short-run fluctuations. State $\\in \\mathbb{R}^3$.\n\n$\\bullet$ \\emph{LLT + regression on $x_t$:} trend $+$ DLR with time-varying $(\\alpha_t, \\beta_t)$. State $\\in \\mathbb{R}^4$. ``Trend plus covariate response.''\n\n$\\bullet$ \\emph{Trend + seasonal + regression:} the classic Holt-Winters in DLM clothing.\n",
-                "flashcard": true,
-                "images": [],
-                "links": [],
-                "x": 3327.5133553120622,
-                "y": 3719.3431141877372,
-                "width": 950,
-                "height": 700,
-                "color": "yellow",
-                "fsrs": {
-                  "stability": 1,
-                  "difficulty": 5,
-                  "elapsedDays": 0,
-                  "scheduledDays": 0,
-                  "reps": 0,
-                  "lapses": 0,
-                  "state": "new",
-                  "lastReview": null,
-                  "dueDate": "2026-05-20T22:53:12.824Z"
-                }
-              },
-              {
                 "id": "ts1779025115813",
                 "title": "Example 1: RW",
                 "content": "\n\\textbf{\\textcolor{red}{EXAMPLE 1 --- Simple random walk.}}\n\n\\textbf{6. Steps} \n- A player starts with capital $y_0 = 0$, **deterministic**. \n- Assume $Z_t \\underbrace{\\sim}_{iid} N (0, \\sigma^2)$ (Gaussian RW, $Y_t \\stackrel{\\text{iid}}{\\sim} \\mathcal{N}(\\mu, \\sigma^2).$ )\\[ Y_t \\;=\\; Y_{t-1} + Z_t \\;=\\; y_0 + \\sum_{k=1}^{t} Z_k. \\]\n$Z_t$ iid and independent of past $Y$'s $\\Rightarrow$ Markov|\n\n\\[ E[Y_t] \\;=\\; E\\Bigl[\\sum_{s=1}^{t} Z_s\\Bigr] \\;=\\; \\sum_{s=1}^{t} E[Z_s] \\;=\\; \\sum_{s=1}^{t} 0 \\;=\\; 0. \\]\n\n\\[ \\mathrm{Var}(Y_t) \\;=\\; \\mathrm{Var}\\Bigl(\\sum_{s=1}^{t} Z_s\\Bigr) \\;=\\; \\sum_{s=1}^{t} \\mathrm{Var}(Z_s) \\;=\\; \\sum_{s=1}^{t} \\sigma^2 \\;=\\; t\\sigma^2. \\]\n\\emph{Variance grows linearly in $t$} (standard deviation widens as $\\sqrt{t}$),\n\n\n\n so the walk is \\textbf{non-stationary} (note $V(Y_0) = 0$  bceause $y_0$ is fixed deterministic). The variance of the random walk explodes in time. \n\n\n\\emph{Continuous-time limit} (small steps in rapid succession): \\textbf{Brownian motion}. The recursion works for any iid $Z_t$, not just $\\pm 1$.\n\n",
@@ -951,8 +927,8 @@
                 "flashcard": false,
                 "images": [],
                 "links": [],
-                "x": 5058.408737487115,
-                "y": 3584.1493308807785
+                "x": 5150.606146062565,
+                "y": 3762.899408731141
               },
               {
                 "id": "ts1779149664107",
@@ -2183,6 +2159,33 @@
         "width": 120,
         "height": 60,
         "deletedAt": 1779706798892,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "ts1779317587518",
+        "title": "Superposition principle (additive component DLMs)",
+        "content": "\\textbf{\\textcolor{red}{SUPERPOSITION PRINCIPLE --- additive component DLMs (Petris \\S3.2).}}\n\n\\emph{Idea.} Build a complex DLM by \\emph{adding together} $k$ simpler, mutually independent component DLMs that share one observation. Modular: pick trend + seasonal + AR + regression as bricks, stack their states, and you have a single combined DLM that the Kalman filter handles in one pass.\n\n\\textbf{\\textcolor{red}{Setup --- $k$ independent component DLMs.}}\n\nFor each $j = 1, \\dots, k$, component $j$ is its own full DLM (state $+$ obs noise) with state $\\theta_{j,t} \\in \\mathbb{R}^{p_j}$:\n\\[ \\theta_{j,t} = G_j\\, \\theta_{j,t-1} + w_{j,t}, \\quad w_{j,t} \\sim \\mathcal{N}(0,\\, W_j), \\qquad Y_{j,t} = F_j\\, \\theta_{j,t} + v_{j,t}, \\quad v_{j,t} \\sim \\mathcal{N}(0,\\, V_j). \\]\nAll shocks independent across components AND across time: $w_{j,t} \\perp\\!\\!\\!\\perp w_{l,t}$, $v_{j,t} \\perp\\!\\!\\!\\perp v_{l,t}$ for $j \\ne l$, and $\\theta_{j,0}$'s independent.\n\n\\emph{Observation as a sum.}\n\\[ Y_t \\;=\\; Y_{1,t} + Y_{2,t} + \\cdots + Y_{k,t} \\;=\\; \\sum_{j=1}^k F_j\\, \\theta_{j,t} \\;+\\; \\underbrace{\\sum_{j=1}^k v_{j,t}}_{v_t \\,\\sim\\, \\mathcal{N}(0,\\, V),\\; V \\,=\\, \\sum_j V_j}. \\]\n\\emph{Why one combined $v_t$?} The component noises $v_{j,t}$ are independent Gaussians, so their sum is Gaussian with variance $V = \\sum_j V_j$. From the observed-side perspective, ``one obs noise per component'' and ``one combined obs noise $V$'' are \\emph{indistinguishable} --- but the per-component split is useful for bookkeeping when each brick has its own well-understood noise scale (e.g., trend-irregular vs.\\ measurement error).\n\n\\textbf{\\textcolor{red}{Combine --- 4-step DLM template.}}\n\n\\emph{(1) State (stack components).}\n\\[ \\theta_t \\;=\\; \\begin{pmatrix} \\theta_{1,t} \\\\ \\theta_{2,t} \\\\ \\vdots \\\\ \\theta_{k,t} \\end{pmatrix} \\;\\in\\; \\mathbb{R}^{p_1 + \\cdots + p_k}. \\]\neach $\\theta_{j,t}$ can be any dimension $p_j \\geq 1$\n\n\\emph{(2) Component equations.} Already given above --- each $\\theta_{j,t}$ evolves on its own with $G_j, W_j$.\n\n\\emph{(3) Matrix state equation (block-diagonal $G$ and $W$).}\n\\[ \\theta_t = G\\, \\theta_{t-1} + w_t, \\qquad w_t \\overset{\\mathrm{iid}}{\\sim} \\mathcal{N}(0,\\, W_t), \\qquad G = \\mathrm{blkdiag}(G_1, \\dots, G_k), \\qquad W_t = \\mathrm{blkdiag}(W_1, \\dots, W_k). \\]\nThe block-diagonal structure encodes ``no cross-coupling between components.''\n\n\\emph{(4) Observation equation (row-concatenate the $F$'s; sum the obs noises).}\n\\[ Y_t = F\\, \\theta_t + v_t, \\qquad v_t \\overset{\\mathrm{iid}}{\\sim} \\mathcal{N}(0,\\, V_t), \\qquad F = [\\,F_1 \\;\\big|\\; F_2 \\;\\big|\\; \\cdots \\;\\big|\\; F_k\\,], \\qquad V_t = \\sum_{j=1}^k V_j. \\]\n\\emph{Distributional form.} $\\theta_t \\mid \\theta_{t-1} \\sim \\mathcal{N}\\bigl(G\\theta_{t-1},\\, W\\bigr)$; $\\;Y_t \\mid \\theta_t \\sim \\mathcal{N}\\bigl(F\\theta_t,\\, V\\bigr)$ with $V = \\sum_j V_j$.\n\n\\textbf{\\textcolor{red}{Why it works (intuition).}}\n\n$\\bullet$ \\emph{Gaussian closure.} A sum of independent Gaussians is Gaussian. So $\\sum_j F_j \\theta_{j,t}$ is Gaussian, and adding $v_t$ keeps it Gaussian.\n\n$\\bullet$ \\emph{Independence preserved by stacking.} Block-diagonal $G, W$ means the components NEVER mix in mean or in shocks --- they evolve in parallel. The Kalman recursion on the combined state effectively runs $k$ parallel recursions for the conditional means, with the \\emph{only} cross-talk happening through the joint update against the observation $y_t$ (which sees the sum).\n\n$\\bullet$ \\emph{Modularity.} You design each brick once (LLT, seasonal, AR, regression on $x_t$) and reuse them in any combination.\n\n\\textbf{\\textcolor{red}{Canonical example --- Basic Structural Model (BSM).}}\n\n\\[ Y_t = \\underbrace{\\mu_t}_{\\text{trend (LLT)}} + \\underbrace{\\gamma_t}_{\\text{seasonal}} + \\underbrace{v_t}_{\\text{irregular}}. \\]\n\n\\emph{Trend brick (LLT, $p_1 = 2$):} $\\theta_{1,t} = (\\mu_t, \\beta_t)$, $G_1 = \\bigl(\\begin{smallmatrix}1 & 1 \\\\ 0 & 1\\end{smallmatrix}\\bigr)$, $F_1 = (1,\\, 0)$.\n\n\\emph{Quarterly seasonal brick ($p_2 = 3$):} $\\theta_{2,t} = (\\gamma_t,\\, \\gamma_{t-1},\\, \\gamma_{t-2})$, $G_2 = \\bigl(\\begin{smallmatrix}-1 & -1 & -1 \\\\ 1 & 0 & 0 \\\\ 0 & 1 & 0\\end{smallmatrix}\\bigr)$, $F_2 = (1, 0, 0)$.\n\n\\emph{Combined.} State $\\theta_t \\in \\mathbb{R}^5$ (2 trend $+$ 3 seasonal), $G = \\mathrm{blkdiag}(G_1, G_2)$, $F = [\\,1\\;0\\;1\\;0\\;0\\,]$. One DLM; one Kalman filter pass; outputs both the trend $\\mu_t$ and the seasonal $\\gamma_t$ separately as components of the filtered state.\n\n\\textbf{\\textcolor{red}{More compositions (same recipe).}}\n\n$\\bullet$ \\emph{LLT + AR(1) cycle:} trend $+$ a stationary AR(1) for short-run fluctuations. State $\\in \\mathbb{R}^3$.\n\n$\\bullet$ \\emph{LLT + regression on $x_t$:} trend $+$ DLR with time-varying $(\\alpha_t, \\beta_t)$. State $\\in \\mathbb{R}^4$. ``Trend plus covariate response.''\n\n$\\bullet$ \\emph{Trend + seasonal + regression:} the classic Holt-Winters in DLM clothing.\n",
+        "flashcard": true,
+        "images": [],
+        "links": [],
+        "x": 3327.5133553120622,
+        "y": 3719.3431141877372,
+        "width": 950,
+        "height": 700,
+        "color": "yellow",
+        "fsrs": {
+          "stability": 1,
+          "difficulty": 5,
+          "elapsedDays": 0,
+          "scheduledDays": 0,
+          "reps": 0,
+          "lapses": 0,
+          "state": "new",
+          "lastReview": null,
+          "dueDate": "2026-05-20T22:53:12.824Z"
+        },
+        "deletedAt": 1779785496106,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
