@@ -847,6 +847,157 @@
             ]
           }
         ]
+      },
+      {
+        "id": "ch6_topic",
+        "name": "Ch6 — Adverse Selection & Screening",
+        "subtopics": [
+          {
+            "id": "ch6_sub",
+            "name": "Screening",
+            "nodes": [
+              {
+                "id": "ch6_01",
+                "title": "6.1 Adverse selection: setup + First Best",
+                "content": "\\textbf{\\textcolor{red}{6.1 --- ADVERSE SELECTION SETUP \\& FIRST BEST (wine seller).}}\n\n\\emph{Buyer (Agent).} Type $\\theta_i \\in \\{\\theta_1, \\theta_2\\}$ with $0 < \\theta_1 < \\theta_2$ ($\\theta_1$ frugal, $\\theta_2$ sophisticated). Quasilinear utility:\n\\[ U_i = \\theta_i\\, q_i - t_i. \\]\n\\emph{Seller (Principal).} Profit $\\Pi = t - C(q)$, with $C$ twice diff, convex, $C(0) = C'(0) = 0$, $\\lim_{q\\to\\infty} C'(q) = \\infty$.\n\n\\textbf{\\textcolor{red}{First Best (type observable).}}\n\\[ \\max_{q_i, t_i} t_i - C(q_i) \\;\\;\\text{s.t.}\\;\\; \\theta_i q_i - t_i \\geq 0 \\quad (IR_i). \\]\n\nFOCs (binding IR + interior $q$):\n\\[ \\boxed{\\;C'(q_i^*) = \\theta_i, \\qquad t_i^* = \\theta_i\\, q_i^*\\;} \\]\n\n\\textcolor{orange}{Reading.} Production efficiency (MC = type's marginal value). Full surplus extraction (zero rent to agent). Indifference curves of agents are linear with slope $\\theta_i$; iso-profits are $t = \\bar\\Pi + C(q)$.\n\n\\textbf{\\textcolor{red}{Why FB fails under hidden type.}} The sophisticated agent (steep indifference curve) gets strictly positive utility if he picks the bundle $(q_1^*, t_1^*)$ designed for the frugal. The Principal can't observe type to enforce assignment.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch6_02",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 6
+              },
+              {
+                "id": "ch6_02",
+                "title": "6.2 IC, single-crossing, monotonicity",
+                "content": "\\textbf{\\textcolor{red}{6.2 --- IC, SINGLE-CROSSING, MONOTONICITY.}}\n\n\\emph{IC constraints.} $\\theta_i q_i - t_i \\geq \\theta_i q_{-i} - t_{-i}$ \\;($IC_1$ and $IC_2$).\n\n\\textbf{\\textcolor{red}{Single-crossing (Spence-Mirrlees).}} Indifference curves of types $\\theta_1, \\theta_2$ cross at most once. In quasilinear case: $(\\theta_2 - \\theta_1) q$ is increasing in $q$, so for any quality difference the sophisticated agent values the increase more.\n\n\\begin{keydef}\n\\textbf{Lemma (Necessity / Monotonicity).} $IC_1 + IC_2 \\Rightarrow q_2 \\geq q_1$.\n\\end{keydef}\n\\begin{proof}\nAdd LHS and RHS: $\\theta_2 q_2 + \\theta_1 q_1 \\geq \\theta_2 q_1 + \\theta_1 q_2 \\Rightarrow (\\theta_2 - \\theta_1)(q_2 - q_1) \\geq 0$. $\\square$\n\\end{proof}\n\n\\begin{keydef}\n\\textbf{Lemma (Sufficiency).} If $q_2 \\geq q_1$, the transfers $t_2 - t_1 = \\theta_2(q_2 - q_1)$ make both $IC_1, IC_2$ hold.\n\\end{keydef}\n\\begin{proof}\n$IC_2$ holds with equality by construction. For $IC_1$: $t_2 - t_1 = \\theta_2(q_2 - q_1) \\geq \\theta_1(q_2 - q_1)$, so $\\theta_1 q_1 - t_1 \\geq \\theta_1 q_2 - t_2$. $\\square$\n\\end{proof}\n\n\\textbf{\\textcolor{red}{Lemma (Discrimination is optimal).}} Cannot have pooling at the optimum unless serving only one type.\n\n\\emph{Sketch.} If both types get $(t, q)$, only $IR_1$ binds. Adding contract $(t^* + k\\epsilon, q^* + \\epsilon)$ with $\\theta_1 \\approx C'(q^* + \\epsilon) \\leq k \\leq \\theta_2$: $\\theta_2$ switches, $\\theta_1$ stays. Profits with $\\theta_2$ rise (since $k\\epsilon > C(q^*+\\epsilon) - C(q^*)$ by convexity).\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch6_03",
+                    "type": "forward"
+                  }
+                ],
+                "x": 820,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 6
+              },
+              {
+                "id": "ch6_03",
+                "title": "6.3 Second Best: NDT + downward distortion",
+                "content": "\\textbf{\\textcolor{red}{6.3 --- SECOND BEST: which constraints bind, no distortion at top, downward distortion at bottom.}}\n\n\\emph{Problem.} $\\pi$ = prob.\\ of low type. $\\max \\pi[t_1 - C(q_1)] + (1-\\pi)[t_2 - C(q_2)]$ s.t.\\ $IR_1, IR_2, IC_1, IC_2$, $q_i \\geq 0$.\n\n\\textbf{\\textcolor{red}{Lemma (Binding constraints).}} At optimum:\n\\textbf{1.} $IR_2$ implied by $IR_1 + IC_2$ $\\Rightarrow$ redundant.\n\\textbf{2.} $IR_1$ binds.\n\\textbf{3.} $IC_2$ binds.\n\\textbf{4.} With monotonicity $q_2 \\geq q_1$ + $IC_2$ binding $\\Rightarrow$ $IC_1$ redundant.\n\n\\emph{Why.} \\textit{IR_1 binds:} else raise both $t$'s by $\\epsilon$ (more profits, ICs unchanged). \\textit{IC_2 binds:} else raise $t_2$ alone (more profits, IRs slack so OK).\n\n\\textbf{\\textcolor{red}{Substitute the binding constraints into the objective.}}\n$IR_1$ binding: $t_1 = \\theta_1 q_1$. $IC_2$ binding: $t_2 = t_1 + \\theta_2(q_2 - q_1) = \\theta_1 q_1 + \\theta_2(q_2 - q_1)$. Plug in $\\Rightarrow$ \\emph{relaxed problem in $(q_1, q_2)$ alone:}\n\\[ \\max \\pi[\\theta_1 q_1 - C(q_1)] + (1-\\pi)\\bigl[\\theta_1 q_1 + \\theta_2(q_2 - q_1) - C(q_2)\\bigr]. \\]\n\n\\textbf{\\textcolor{red}{FOCs (interior $q_i > 0$).}}\n\\[ \\boxed{\\;C'(q_2^{SB}) = \\theta_2\\;} \\quad \\text{(\\textcolor{orange}{no distortion at the top}),} \\]\n\\[ \\boxed{\\;C'(q_1^{SB}) = \\theta_1 - \\tfrac{1-\\pi}{\\pi}(\\theta_2 - \\theta_1)\\;} \\quad \\text{(\\textcolor{orange}{downward distortion}).} \\]\nConvexity of $C \\Rightarrow q_1^{SB} < q_1^{FB}$ and $q_2^{SB} > q_1^{SB}$ (monotonicity satisfied ex-post).\n\n\\textbf{\\textcolor{red}{Information rents.}}\n\\[ U_2^{SB} = \\theta_2 q_2^{SB} - t_2^{SB} = q_1^{SB}\\,(\\theta_2 - \\theta_1) > 0, \\quad U_1^{SB} = 0. \\]\nThe high type earns rent $\\propto (\\theta_2 - \\theta_1) q_1$. \\emph{Trade-off:} reducing $q_1$ reduces the high type's rent but loses profit on the low type (proportional to $\\pi$).\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch6_04",
+                    "type": "forward"
+                  }
+                ],
+                "x": 1440,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 6
+              },
+              {
+                "id": "ch6_04",
+                "title": "6.4 General screening facts (any N types)",
+                "content": "\\textbf{\\textcolor{red}{6.4 --- GENERAL FACTS for the screening solution (with single-crossing, finite types).}}\n\n\\emph{Generic principles (extend to any finite $N$ of types under single-crossing, linearity in transfers, common outside option).}\n\n$\\bullet$ \\textbf{No distortion at the top.} Highest type gets the efficient allocation: $C'(q_{N}^{SB}) = \\theta_N$.\n\n$\\bullet$ \\textbf{Downward distortion below the top.} All types except the highest get a sub-efficient quantity: $q_i^{SB} < q_i^{FB}$ for $i < N$.\n\n$\\bullet$ \\textbf{Adjacent downward IC binds.} Each type $i > 1$ is indifferent between his bundle and that of type $i-1$: $\\theta_i q_i^{SB} - t_i^{SB} = \\theta_i q_{i-1}^{SB} - t_{i-1}^{SB}$.\n\n$\\bullet$ \\textbf{Increasing information rent.} Each type above the bottom enjoys $U_i^{SB} > 0$, and $U_i^{SB}$ is increasing in $i$ (more discrimination $\\Rightarrow$ more rent for higher types).\n\n$\\bullet$ \\textbf{Lowest type's surplus is zero.} $IR_1$ binds: $U_1^{SB} = 0$.\n\n\\textcolor{orange}{Intuition.} The single-crossing property allows the principal to use quality as a sorting device. The cost of sorting is the rent paid to high types to prevent them from mimicking; the benefit is being able to serve low types as well.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch6_05",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 6
+              },
+              {
+                "id": "ch6_05",
+                "title": "6.5 Delegation: efficient type is low cost",
+                "content": "\\textbf{\\textcolor{red}{6.5 --- DELEGATION VARIANT: efficient type is the \\emph{low} cost; sign-flip of info rent.}}\n\n\\emph{Setup.} Principal delegates production. Output value $S(q)$ ($S' > 0$, $S'' < 0$, $S(0)=0$). Agent's cost type $\\theta \\in \\{\\underline\\theta, \\overline\\theta\\}$, $\\underline\\theta < \\overline\\theta$ — the \\emph{low-$\\theta$ is the efficient type}. Wage $t$.\n\\[ \\Pi = S(q) - t, \\qquad U(q, t; \\theta) = t - \\theta q. \\]\n\n\\textbf{\\textcolor{red}{First Best.}} $S'(q^{FB}_\\theta) = \\theta$; $t^{FB}_\\theta = \\theta q^{FB}_\\theta$ (full rent extraction, $U = 0$).\n\n\\textbf{\\textcolor{red}{Second Best (interim IR).}} Now \\emph{efficient} type $\\underline\\theta$ would lie down to get the inefficient contract (less work, same wage). Mirror-image of 6.3:\n\n$\\bullet$ \\textbf{Binding constraints:} $\\overline{IR}$ (inefficient indifferent to outside) and $\\underline{IC}$ (efficient indifferent to mimicking inefficient).\n$\\bullet$ \\textbf{Monotonicity:} $\\underline q \\geq \\overline q$ (efficient produces more).\n$\\bullet$ \\textbf{No distortion at the top:} $S'(\\underline q^{SB}) = \\underline\\theta$.\n$\\bullet$ \\textbf{Downward (here: \\emph{upward in cost}) distortion:} $\\overline q^{SB} < \\overline q^{FB}$.\n$\\bullet$ \\textbf{Info rent to the efficient type:} $U_{\\underline\\theta}^{SB} = (\\overline\\theta - \\underline\\theta)\\, \\overline q^{SB} > 0$; $U_{\\overline\\theta}^{SB} = 0$.\n\n\\textcolor{orange}{Symmetry.} The ``good'' type is the one with private information advantage that earns rent. In wine: high willingness-to-pay; here: low marginal cost. Single-crossing is symmetric to the role-reversal.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch6_06",
+                    "type": "forward"
+                  }
+                ],
+                "x": 820,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 6
+              },
+              {
+                "id": "ch6_06",
+                "title": "6.6 Ex-ante: sell the firm restores FB",
+                "content": "\\textbf{\\textcolor{red}{6.6 --- EX-ANTE CONTRACTING: ``sell the firm'' restores first best.}}\n\n\\emph{Timing change.} Agent commits to contract \\emph{before} learning $\\theta$ (vs.\\ interim). One ex-ante IR:\n\\[ \\nu[\\underline t - \\underline\\theta \\underline q] + (1-\\nu)[\\overline t - \\overline\\theta \\overline q] \\geq 0. \\tag{$IR_0$} \\]\n\n\\textbf{\\textcolor{red}{Result: FB is implementable.}} Set\n\\[ \\underline t^* = S(\\underline q^*) - T^*, \\qquad \\overline t^* = S(\\overline q^*) - T^*, \\quad T^* := \\mathbb{E}[\\text{first-best profit}]. \\]\n\n\\textcolor{orange}{Sell-the-firm interpretation.} Principal collects a fixed expected payment $T^*$; agent is residual claimant for the firm's profit in each state. As residual claimant, the agent internalizes incentives and produces efficient $q^*$.\n\n\\emph{IC check.} Concavity of $S$ + definition of $q^*$ at FB make both $IC$'s satisfied. \\emph{Ex-post (interim) rents:}\n\\[ \\underline U^* = (1-\\nu)\\bigl[S(\\underline q^*) - \\underline\\theta \\underline q^* - (S(\\overline q^*) - \\overline\\theta \\overline q^*)\\bigr] > 0, \\quad \\overline U^* < 0. \\]\nEfficient type gets ex-post positive rent; inefficient gets ex-post negative — but \\emph{ex-ante zero}, satisfying $IR_0$. The risk-neutral agent absorbs the type risk.\n\n\\textcolor{orange}{Takeaway.} Info rent disappears when ex-ante contracting is feasible \\emph{and} agent is risk-neutral.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch6_07",
+                    "type": "forward"
+                  }
+                ],
+                "x": 1440,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 6
+              },
+              {
+                "id": "ch6_07",
+                "title": "6.7 Limited liability: 3 regimes by I",
+                "content": "\\textbf{\\textcolor{red}{6.7 --- LIMITED LIABILITY on rents: three regimes by the floor $I$.}}\n\n\\emph{Setup.} Ex-ante IR + LL constraints: $\\underline t - \\underline\\theta \\underline q \\geq -I$, $\\overline t - \\overline\\theta \\overline q \\geq -I$ (ex-post utility floor).\n\n\\textbf{\\textcolor{red}{Relevant constraints.}} $\\underline{LL}$ is redundant given $\\overline{LL} + \\underline{IC}$ (since $\\underline U \\geq \\overline U + \\overline q\\, \\Delta\\theta \\geq -I + \\overline q\\,\\Delta\\theta \\geq -I$). The relaxed problem keeps $\\underline{IC}$, $IR$, $\\overline{LL}$, monotonicity.\n\n\\textbf{\\textcolor{red}{Three regimes (with $\\Delta\\theta = \\overline\\theta - \\underline\\theta$).}}\n\n$\\bullet$ \\textbf{Regime (i): $I > \\nu\\, \\overline q^{FB}\\,\\Delta\\theta$.} Floor is so low it doesn't bind; only $IR$ binds. \\textcolor{orange}{First best implementable} for both types: $\\overline q = \\overline q^{FB}$, $\\underline q = \\underline q^{FB}$.\n\n$\\bullet$ \\textbf{Regime (ii): $\\nu\\, \\overline q^{SB}\\,\\Delta\\theta \\leq I < \\nu\\, \\overline q^{FB}\\,\\Delta\\theta$.} $\\underline{IC}$, $IR$, $\\overline{LL}$ all bind. Inefficient is distorted but \\emph{less} than usual SB: $\\overline q^{SB} < \\overline q^L < \\overline q^{FB}$. Efficient still at FB.\n\n$\\bullet$ \\textbf{Regime (iii): $I \\leq \\nu\\, \\overline q^{SB}\\,\\Delta\\theta$.} $\\overline{LL}$ and $\\underline{IC}$ bind; $IR$ \\emph{slack}. Standard second-best quantities $\\overline q^L = \\overline q^{SB}$. Agent earns positive ex-ante rent: LL is too tight to extract everything.\n\n\\textcolor{orange}{Reading.} The looser the limited liability (large $I$), the closer to first best. Limited liability protects the agent against ex-post losses but lets the principal extract less rent.\n\n\\emph{Related: LL on transfers.} Constraint $\\underline t, \\overline t \\geq -I$ leads instead to \\textcolor{orange}{upward distortion of $\\overline q$} and possibly \\textcolor{orange}{bunching} (same $q$ to both types) when $I$ is very high.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch6_08",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 1240,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 6
+              },
+              {
+                "id": "ch6_08",
+                "title": "6.8 Monopoly insurance: high-risk full, low-risk partial",
+                "content": "\\textbf{\\textcolor{red}{6.8 --- INSURANCE under monopoly: high-risk gets full insurance, low-risk gets partial.}}\n\n\\emph{Setup.} Risk-averse agent, wealth $\\omega$, damage $d$ with prob.\\ $\\theta \\in \\{\\underline\\theta, \\overline\\theta\\}$, $\\underline\\theta < \\overline\\theta$. Bernoulli utility $u$ strict.\\ concave, increasing. Without insurance: $U_0 = \\theta u(\\omega - d) + (1-\\theta) u(\\omega)$.\n\nContract $(t_a, t_n)$: $t_a$ = reimbursement (net of premium), $t_n$ = premium.\n\\[ U = \\theta\\, u(\\omega - d + t_a) + (1-\\theta)\\, u(\\omega - t_n). \\]\nRisk-neutral insurer's profit: $V = -\\theta t_a + (1-\\theta) t_n$.\n\n\\textbf{\\textcolor{red}{First Best (full insurance for both types).}}\nBinding IRs $\\Rightarrow$ FOCs give $\\omega - d + t_a = \\omega - t_n$, i.e.\\ \\textcolor{orange}{equal consumption in both states}. Risk fully eliminated.\n\n\\textbf{\\textcolor{red}{Second Best.}} High-risk type $\\overline\\theta$ would mimic low-risk to grab more. Mirror of wine:\n\n$\\bullet$ \\textbf{Binding constraints:} $\\underline{IR}$ (low-risk gets exactly outside option) and $\\overline{IC}$ (high-risk indifferent to mimicking).\n$\\bullet$ \\textbf{No distortion at the top:} \\textcolor{orange}{high-risk $\\overline\\theta$ gets \\emph{full} insurance} (he's the ``high type'' in the sense that he values insurance more).\n$\\bullet$ \\textbf{Distortion at the bottom:} low-risk gets \\textcolor{orange}{partial insurance only} (lower coverage, lower premium) — used to discourage high-risk from mimicking.\n$\\bullet$ \\textbf{Information rent:} high-risk earns positive rent; low-risk gets zero rent.\n\n\\textcolor{orange}{Real-world echo.} Health insurance ``bronze/silver/gold'' menus: high-risk (sicker) buy gold (full coverage); low-risk (healthier) buy bronze (partial). The screening sorts types via menu choice, and bronze underinsures relative to FB to keep gold expensive enough that healthy types don't migrate.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [],
+                "x": 820,
+                "y": 1240,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 6
+              }
+            ]
+          }
+        ]
       }
     ],
     "trash": [
