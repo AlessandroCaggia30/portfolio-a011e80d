@@ -394,6 +394,175 @@
             ]
           }
         ]
+      },
+      {
+        "id": "ch3_topic_ge",
+        "name": "Ch3 — CE + Welfare Theorems",
+        "subtopics": [
+          {
+            "id": "ch3_sub",
+            "name": "CE + Welfare",
+            "nodes": [
+              {
+                "id": "ch3_01",
+                "title": "3.1 Exchange economy + Edgeworth box",
+                "content": "\\textbf{\\textcolor{red}{3.1 --- EXCHANGE ECONOMY \\& EDGEWORTH BOX (setup, feasibility, budget line).}}\n\n\\emph{Primitives.} $I$ consumers, $N$ goods. Each $i$: utility $U^i: \\mathbb{R}^N \\to \\mathbb{R}$, endowment $\\omega^i = (\\omega^i_1, \\ldots, \\omega^i_N) \\geq 0$. No production. Allocation $x = (x^1, \\ldots, x^I)$.\n\n\\begin{keydef}\n\\textbf{Feasibility.} $\\;\\mathcal{F} = \\{x : \\sum_i x^i_n \\leq \\sum_i \\omega^i_n\\;\\forall n;\\; x^i_n \\geq 0\\}.$ \\textbf{Non-wasteful} $=$ equality.\n\\end{keydef}\n\n\\textbf{\\textcolor{red}{Edgeworth box ($I=N=2$).}} Rectangle with side lengths $\\omega_n := \\omega^1_n + \\omega^2_n$. Agent 1 origin at SW vertex; Agent 2 origin at NE vertex (axes flipped). Point in box $\\Leftrightarrow$ non-wasteful allocation. Endowment $\\omega$ is a single point (Agent 1's $\\omega^1$ = Agent 2's $\\omega^2$ by construction).\n\n\\emph{Budget constraint at prices $(p_\\ell, p_h)$.}\n\\[ p_h(\\omega^i_h - x^i_h) + p_\\ell(\\omega^i_\\ell - x^i_\\ell) \\geq 0. \\]\nThe \\textcolor{orange}{budget line} passes through $\\omega$ with slope $-p_\\ell/p_h$ in the box. Endowment trivially satisfies it with equality.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch3_02",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 3
+              },
+              {
+                "id": "ch3_02",
+                "title": "3.2a CE definition + existence (sketch)",
+                "content": "\\textbf{\\textcolor{red}{3.2a --- COMPETITIVE (WALRASIAN) EQUILIBRIUM: definition + existence (sketch).}}\n\n\\begin{keydef}\n\\textbf{Definition 9 (CE).} A pair $(\\hat p, \\hat x)$ is a competitive equilibrium if:\n\n\\textbf{(i) Individual optimality.} Each $\\hat x^i$ solves\n\\[ \\max_{x^i \\geq 0} U^i(x^i) \\;\\;\\text{s.t.}\\;\\; \\hat p \\cdot (\\omega^i - x^i) \\geq 0. \\]\n\\textbf{(ii) Market clearing.} $\\sum_i \\hat x^i_n = \\sum_i \\omega^i_n$ for all $n$.\n\\end{keydef}\n\n\\emph{Edgeworth reading.} At CE the two indifference curves are tangent to a \\emph{common} budget line through $\\omega$; tangency point lies in the box (market clearing).\n\n\\begin{keydef}\n\\textbf{Theorem 5 (Existence of CE).} If each $U^i$ is continuous, strictly increasing, strictly concave, and $\\omega_n > 0$ for all $n$, then a CE $(\\hat p, \\hat x)$ with $\\hat p > 0$ exists.\n\\end{keydef}\n\n\\textbf{\\textcolor{red}{Sketch (N=2, intermediate value theorem on excess demand).}}\n\\begin{proof}\n(1) WLOG $\\hat p > 0$ (strict monotonicity). (2) By Walras's law (next note), focus on one market — say good $h$; clearing there $\\Rightarrow$ clearing in $\\ell$. (3) Fix $\\bar p_\\ell > 0$. Strict concavity + continuity + maximum theorem $\\Rightarrow$ $z_h(p) := \\sum_i x^i_h(p) - \\omega_h$ is continuous in $p_h$. (4) $p_h \\to 0^+$: at least one $i$ demands $\\infty$ of $h$ (monotonicity), so $z_h > 0$. $p_h \\to \\infty$: $x^i_h \\to 0\\;\\forall i$, so $z_h \\to -\\omega_h < 0$. (5) MVT $\\Rightarrow$ $\\exists\\, p_h^* > 0$ with $z_h(\\bar p_\\ell, p_h^*) = 0$. $\\square$\n\\end{proof}\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch3_03",
+                    "type": "forward"
+                  }
+                ],
+                "x": 820,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 3
+              },
+              {
+                "id": "ch3_03",
+                "title": "3.2b Walras's Law + GS uniqueness",
+                "content": "\\textbf{\\textcolor{red}{3.2b --- WALRAS'S LAW + uniqueness via Gross Substitutes (GS).}}\n\n\\textbf{\\textcolor{red}{Walras's Law.}} Strict monotonicity $\\Rightarrow$ each agent's budget binds: $\\sum_n p_n x^i_n(p) = \\sum_n p_n \\omega^i_n$. Aggregate:\n\\[ \\boxed{\\;\\sum_n p_n \\bigl[\\textstyle\\sum_i (x^i_n(p) - \\omega^i_n)\\bigr] = 0 \\quad \\forall p > 0.\\;} \\]\n\n\\emph{Power.} If markets clear in $N-1$ goods, the last one clears \\emph{automatically} (the dot product of price vector with excess demand is zero, and $N-1$ of the excess demands are zero, so the last term must also be zero given $p_N > 0$).\n\n\\textbf{\\textcolor{red}{Multiplicity \\& numeraire.}} If $(\\hat p, \\hat x)$ is a CE then so is $(\\alpha \\hat p, \\hat x)$ for any $\\alpha > 0$ (budget set unchanged). To eliminate this trivial multiplicity, normalize one price to 1 (numeraire). Only \\emph{relative} prices matter.\n\n\\begin{keydef}\n\\textbf{Definition (GS, gross substitutes).} $z(\\cdot)$ has GS if $p'_n > p_n$ and $p'_k = p_k\\;\\forall k\\neq n$ implies $z_k(p') > z_k(p)$ for all $k \\neq n$ (raising one price raises demand for \\emph{every other} good).\n\\end{keydef}\n\n\\begin{keydef}\n\\textbf{Proposition (Uniqueness).} GS aggregate excess demand $\\Rightarrow$ at most one CE (up to scaling).\n\\end{keydef}\n\n\\begin{proof}\nSuppose $z_h(p) = z_h(p') = 0$ with $p' \\neq \\alpha p$. Homogeneity degree 0 of $z$: scale $p$ by $\\hat\\alpha > 0$ so $\\hat\\alpha p_h = p'_h$, with $z_h$ unchanged. WLOG $\\hat\\alpha p_\\ell > p'_\\ell$. GS (lowering $p_\\ell$ from $\\hat\\alpha p_\\ell$ to $p'_\\ell$): $z_h(p') > z_h(\\hat\\alpha p) = 0$. Contradiction with $z_h(p') = 0$. $\\square$\n\\end{proof}\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch3_04",
+                    "type": "forward"
+                  }
+                ],
+                "x": 1440,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 3
+              },
+              {
+                "id": "ch3_04",
+                "title": "3.2c Failures: nonmonotonic, nonconcave",
+                "content": "\\textbf{\\textcolor{red}{3.2c --- FAILURES OF CE EXISTENCE: nonmonotonicity \\& nonconcavity.}}\n\n\\textbf{\\textcolor{red}{Failure 1: non-monotonic preferences.}} Agent 1 strictly monotone, concave; Agent 2 only cares about good $h$ (flat indifference curves in $x_\\ell$). Endowment: Agent 2 has \\emph{all} of good $h$. Agent 1 indifference at $\\omega$ has slope $0$ in $x_\\ell$.\n\n$\\bullet$ \\emph{Case (i): $p_\\ell/p_h > 0$.} Agent 1 wants tangency point with $x^1_h > 0$; Agent 2 refuses to trade (would give up valuable $h$ for useless $\\ell$). No clearing.\n$\\bullet$ \\emph{Case (ii): $p_\\ell/p_h = 0$.} Agent 1 demands infinite $x_\\ell$ (cheap); infeasible.\n\n\\textbf{\\textcolor{red}{Failure 2: non-concave preferences.}} Agent 2's indifference curves are not from a concave $U$ $\\Rightarrow$ demand function is \\emph{discontinuous}: small price change jumps optimum from a SE bundle to a NW bundle. Combined with Agent 1's perfect-complement preference (Leontief), no single price brings both demands to the same point.\n\n\\textcolor{orange}{Takeaway.} Existence theorem's hypotheses (continuity, strict monotonicity, strict concavity) are not just decorative — each rules out a real-world failure mode.\n\n\\emph{Exercise (worked example, Cobb-Douglas vs linear).} $U^1 = x^1_\\ell x^1_h,\\, U^2 = x^2_h$; $\\omega^1 = (\\omega_\\ell, 0),\\, \\omega^2 = (0, \\omega_h)$. CE exists? \\textcolor{orange}{(Hint: Cobb-Douglas-style demand of agent 1 + agent 2's binary demand for $h$ alone — check market clearing of good $\\ell$.)}\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch3_05",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 3
+              },
+              {
+                "id": "ch3_05",
+                "title": "3.3 Pareto optimality + Contract curve",
+                "content": "\\textbf{\\textcolor{red}{3.3 --- PARETO OPTIMALITY \\& Contract Curve.}}\n\n\\begin{keydef}\n\\textbf{Definition 10 (Pareto Optimal).} $x \\in \\mathcal{F}$ is PO iff $\\not\\exists\\,y \\in \\mathcal{F}$ with $U^i(y^i) \\geq U^i(x^i)\\;\\forall i$ and strict for some $i$.\n\\textbf{Pareto set:} $PS = \\{x \\in \\mathcal{F} : x \\text{ is PO}\\}$.\n\\end{keydef}\n\n\\emph{Why PO is desirable.} Avoids interpersonal utility comparisons; if $y$ Pareto-dominates $x$, all agents unanimously prefer the move $x \\to y$.\n\n\\textbf{\\textcolor{red}{Interior characterization (concave \\& differentiable, $I=N=2$).}}\n\\[ x \\in PS \\cap \\text{interior} \\quad\\Longleftrightarrow\\quad \\text{indifference curves are tangent at } x. \\]\n\\emph{Why.} If not tangent, MRS's differ between agents, so there's a small trade improving both. Caution: at \\emph{corners} of the box, PO can fail tangency — must check edges separately.\n\n\\begin{keydef}\n\\textbf{Definition 11 (Contract Curve, given $\\omega$).} $\\;CC = \\{x \\in PS : U^i(x^i) \\geq U^i(\\omega^i)\\;\\forall i\\}$.\n\\end{keydef}\n\n\\emph{Reading.} CC = PO allocations that are weakly preferred to autarchy by everyone. CE allocation $\\hat x$ belongs to $CC$ (foreshadowing 1st Welfare Thm).\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch3_06",
+                    "type": "forward"
+                  }
+                ],
+                "x": 820,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 3
+              },
+              {
+                "id": "ch3_06",
+                "title": "3.4 Linear SWF ⇔ Pareto (Prop 6)",
+                "content": "\\textbf{\\textcolor{red}{3.4 --- LINEAR SOCIAL WELFARE $\\Leftrightarrow$ PARETO (Prop 6): the key bridge.}}\n\n\\begin{keydef}\n\\textbf{Definition 12 (Utility Possibility Set \\& Frontier).}\n\\[ \\mathcal{U} = \\{(u^1, u^2) : \\exists x \\in \\mathcal{F},\\, (U^1(x^1), U^2(x^2)) \\geq (u^1, u^2)\\}. \\]\n$UPF$ = NE frontier (Pareto-undominated points in $\\mathcal{U}$). Concave $U^i$'s $\\Rightarrow$ $\\mathcal{U}$ convex.\n\\end{keydef}\n\n\\textbf{\\textcolor{red}{Linear social welfare problem (Prob 3.3).}}\n\\[ \\max_{x \\in \\mathcal{F}} \\;\\;\\lambda U^1(x^1) + (1-\\lambda)\\, U^2(x^2), \\quad \\lambda \\in [0,1]. \\]\n\n\\begin{keydef}\n\\textbf{Proposition 6.}\n\\textbf{(i)} If $\\bar x$ solves (3.3) with $\\lambda \\in (0,1)$, then $\\bar x$ is PO.\n\\textbf{(ii)} If each $U^i$ is concave \\& increasing and $\\bar x$ is PO, then $\\exists\\,\\lambda \\in [0,1]$ such that $\\bar x$ solves (3.3).\n\\end{keydef}\n\n\\textbf{\\textcolor{red}{Proof.}}\n\\begin{proof}\n\\textbf{(i)} Contrapositive. If $\\bar x$ not PO, $\\exists\\,\\hat x$ with $U^i(\\hat x) \\geq U^i(\\bar x)\\,\\forall i$ and strict for some $i$. Then for $\\lambda \\in (0,1)$, the social welfare at $\\hat x$ exceeds that at $\\bar x$. Contradiction.\n\n\\textbf{(ii)} Use \\textcolor{orange}{separation theorem} in utility space (recall Ch.1 separation $\\to$ KT 1(ii)). Translate $\\mathcal{U}$ so $\\bar u := (U^1(\\bar x), U^2(\\bar x))$ sits at origin: $\\mathcal{U}(\\bar x)$. $\\bar x$ PO $\\Rightarrow$ $\\bar u$ is boundary of $\\mathcal{U}$ $\\Rightarrow$ $\\mathcal{U}(\\bar x) \\cap \\mathbb{R}_+^2 = \\{0\\}$. Convex $\\mathcal{U}$ + separation: $\\exists\\,(\\alpha^1, \\alpha^2) \\neq 0$ with\n\\[ \\alpha^1(u^1 - \\bar u^1) + \\alpha^2(u^2 - \\bar u^2) \\leq 0 \\quad \\forall u \\in \\mathcal{U}. \\]\n$\\alpha^i \\geq 0$ (else line enters positive orthant); $\\alpha^1 + \\alpha^2 > 0$ (since nonzero). Set $\\lambda = \\alpha^1/(\\alpha^1 + \\alpha^2) \\in [0,1]$, $1-\\lambda = \\alpha^2/(\\alpha^1 + \\alpha^2)$. $\\square$\n\\end{proof}\n\n\\emph{Tight analogy with KT 1(ii):} Prob (3.2) (max $U^2$ s.t.\\ $U^1 \\geq u_1$) gives PO via a constrained max; the multiplier on the $U^1$ constraint is essentially $\\lambda/(1-\\lambda)$.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch3_07",
+                    "type": "forward"
+                  }
+                ],
+                "x": 1440,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 3
+              },
+              {
+                "id": "ch3_07",
+                "title": "3.5 First Welfare Theorem (FWT)",
+                "content": "\\textbf{\\textcolor{red}{3.5 --- FIRST WELFARE THEOREM: every CE is Pareto efficient.}}\n\n\\begin{keydef}\n\\textbf{Theorem 7 (FWT).} If each $U^i$ is strictly increasing, then any CE allocation $\\hat x$ is PO, and $U^i(\\hat x^i) \\geq U^i(\\omega^i)$ for all $i$ (trade weakly preferred to autarchy).\n\\end{keydef}\n\n\\emph{Remarkable.} Far fewer assumptions than existence! No concavity needed for FWT.\n\n\\textbf{\\textcolor{red}{Lemma 1 (the workhorse).}} Let $(\\hat p, \\hat x)$ be a CE, each $U^i$ strictly increasing. Then for all $i$, $\\forall x^i$:\n\\textbf{(1)} $U^i(x^i) > U^i(\\hat x^i) \\Rightarrow \\hat p \\cdot (\\omega^i - x^i) < 0$ \\;(strictly more expensive);\n\\textbf{(2)} $U^i(x^i) \\geq U^i(\\hat x^i) \\Rightarrow \\hat p \\cdot (\\omega^i - x^i) \\leq 0$ \\;(at least as expensive).\n\n\\begin{proof}[Proof of Lemma]\n\\textbf{(1)} If $U^i(x^i) > U^i(\\hat x^i)$ \\emph{and} $\\hat p \\cdot (\\omega^i - x^i) \\geq 0$, then $x^i$ is feasible and better $\\Rightarrow$ $\\hat x^i$ wasn't optimal. Contradiction.\n\\textbf{(2)} If $U^i(x^i) \\geq U^i(\\hat x^i)$ and $\\hat p \\cdot (\\omega^i - x^i) > 0$: strict monotonicity lets us perturb to $\\tilde x^i$ slightly with $U^i(\\tilde x^i) > U^i(\\hat x^i)$, still feasible. Same contradiction. $\\square$\n\\end{proof}\n\n\\textbf{\\textcolor{red}{Proof of FWT.}}\n\\begin{proof}\nSuppose $y$ Pareto-dominates $\\hat x$. Lemma 1: $\\sum_n \\hat p_n (\\omega^i_n - y^i_n) \\leq 0\\;\\forall i$, strict for the agent strictly improved. Sum over $i$:\n\\[ \\sum_i \\sum_n \\hat p_n (\\omega^i_n - y^i_n) < 0 \\;\\;\\Longleftrightarrow\\;\\; \\sum_n \\hat p_n \\bigl[\\textstyle\\sum_i (\\omega^i_n - y^i_n)\\bigr] < 0. \\]\nBut feasibility of $y$ means $\\sum_i y^i_n \\leq \\sum_i \\omega^i_n$, i.e.\\ $\\sum_i (\\omega^i_n - y^i_n) \\geq 0$. With $\\hat p > 0$, sum $\\geq 0$ — contradicts $< 0$. $\\square$\n\\end{proof}\n\n\\textcolor{orange}{Economic intuition.} A Pareto-improving allocation must be \\emph{more expensive in aggregate} (Lemma 1). But aggregate expenditure = aggregate endowment value (Walras). Contradiction.\n\n\\emph{Caveats (when FWT fails).} Non-price-taking (market power); externalities/public goods; market incompleteness; non-rational agents.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch3_08",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 1240,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 3
+              },
+              {
+                "id": "ch3_08",
+                "title": "3.6 Second Welfare Theorem (SWT)",
+                "content": "\\textbf{\\textcolor{red}{3.6 --- SECOND WELFARE THEOREM: every PO is a CE \\emph{with transfers}.}}\n\n\\emph{CE with transfers.} $\\bar x$ is supportable as a CE-with-transfers if $\\exists\\,\\hat p,\\, (T^1, \\ldots, T^I)$ with $\\sum_i T^i = 0$ such that each $\\bar x^i$ maxes $U^i$ s.t.\\ $\\hat p \\cdot (\\omega^i - x^i) + T^i \\geq 0$ \\emph{and} markets clear.\n\n\\begin{keydef}\n\\textbf{Theorem 8 (SWT).} If each $U^i$ is continuous, strictly concave, strictly increasing, and $\\omega_n > 0\\,\\forall n$, then every PO $\\bar x$ is supportable as a CE with transfers.\n\\end{keydef}\n\n\\textbf{\\textcolor{red}{Proof (2 steps).}}\n\\begin{proof}\n\\textbf{Step 1.} Consider the economy where $\\bar x$ \\emph{is} the endowment. By Existence (Thm 5), it has a CE $(\\hat p, \\hat x)$. Since $\\bar x^i$ is feasible for agent $i$'s problem there: $U^i(\\hat x^i) \\geq U^i(\\bar x^i)$. Market clearing $\\Rightarrow$ $\\sum_i \\hat x^i_n = \\sum_i \\bar x^i_n$, so $\\hat x$ is feasible in the original economy. PO of $\\bar x$ forbids strict improvement, so $U^i(\\hat x^i) = U^i(\\bar x^i)$ for all $i$.\n\nStrict concavity + convexity of $\\mathcal{F}$: if $\\hat x \\neq \\bar x$, then $x_\\alpha = \\alpha \\hat x + (1-\\alpha) \\bar x \\in \\mathcal{F}$ and $U^i(x^i_\\alpha) > U^i(\\bar x^i)\\,\\forall i$, contradicting PO of $\\bar x$. Hence $\\hat x = \\bar x$.\n\n\\textbf{Step 2.} Build the transfer that re-anchors the consumer problem from $\\omega^i$ to $\\bar x^i$: set $T^i = \\hat p \\cdot (\\bar x^i - \\omega^i)$ for each $i$. Then $\\sum_i T^i = 0$ (since $\\sum_i \\bar x^i = \\sum_i \\omega^i$) and the new budget set equals the one with endowment $\\bar x^i$ that we used in Step 1. $\\square$\n\\end{proof}\n\n\\emph{Failure modes.} Lack of monotonicity (existence fails); lack of concavity (no separating price supporting $Z$ as CE — see Edgeworth example $Z$ with non-convex preferences).\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch3_09",
+                    "type": "forward"
+                  }
+                ],
+                "x": 820,
+                "y": 1240,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 3
+              },
+              {
+                "id": "ch3_09",
+                "title": "3.7 Negishi–Mantel: prices = multipliers",
+                "content": "\\textbf{\\textcolor{red}{3.7 --- SOCIAL WELFARE via KKT: multipliers as prices (Negishi-Mantel).}}\n\n\\emph{Setup.} Max linear SWF with $\\lambda \\in (0,1)$:\n\\[ \\max_{(x^1, x^2)} \\lambda U^1(x^1) + (1-\\lambda) U^2(x^2) \\;\\;\\text{s.t.}\\;\\; x^1_n + x^2_n \\leq \\omega_n,\\; x^i_n \\geq 0. \\]\nFOCs (with resource multipliers $\\mu_n \\geq 0$):\n\\[ \\lambda \\tfrac{\\partial U^1(\\bar x^1)}{\\partial x^1_n} \\leq \\mu_n \\;\\;(=\\text{ if } x^1_n > 0), \\qquad (1-\\lambda)\\tfrac{\\partial U^2(\\bar x^2)}{\\partial x^2_n} \\leq \\mu_n \\;\\;(=\\text{ if } x^2_n > 0). \\]\n\n\\textbf{\\textcolor{red}{Negishi insight.}} By SWT, take $\\hat p_n = \\mu_n$: the social marginal value of good $n$ equals the equilibrium price. $1/\\lambda$ and $1/(1-\\lambda)$ are the marginal utilities of wealth at the supporting CE for the two consumers.\n\n\\textbf{\\textcolor{red}{Connection to FWT.}} Price-takers in a CE choose PO because they face relative prices that equal the social planner's relative valuations — so individuals make the ``right'' marginal trade-offs.\n\n\\textbf{\\textcolor{red}{Mantel algorithm (for CE computation via FWT).}}\n1. Parameterize PO by $\\lambda$ $\\to$ get $\\bar x(\\lambda)$ and prices $p_n(\\lambda) = \\mu_n(\\lambda)$.\n2. Compute budget deviations $s^i(\\lambda) := p(\\lambda) \\cdot (\\omega^i - \\bar x^i(\\lambda))$.\n3. Find $\\lambda^*$ such that $s^i(\\lambda^*) = 0\\,\\forall i$. With 2 agents: only need $s^1(\\lambda^*) = 0$ (Walras).\n\n\\textbf{\\textcolor{red}{Edgeworth example: Cobb-Douglas log utility.}} $U(x_\\ell, x_h) = \\alpha \\ln x_\\ell + (1-\\alpha) \\ln x_h$, $\\omega^1 = (\\omega_\\ell, 0)$, $\\omega^2 = (0, \\omega_h)$.\n\n\\emph{FOCs $\\Rightarrow$ prices and allocations:}\n\\[ p_\\ell = \\tfrac{\\alpha}{\\omega_\\ell},\\;\\; p_h = \\tfrac{1-\\alpha}{\\omega_h},\\;\\; x^1_\\ell(\\lambda) = \\lambda \\omega_\\ell,\\;\\; x^1_h(\\lambda) = \\lambda \\omega_h. \\]\n\\emph{Budget deviation:} $s^1(\\lambda) = p_\\ell \\omega_\\ell - (p_\\ell x^1_\\ell + p_h x^1_h) = \\alpha - \\lambda$.\n\\emph{CE Pareto weight:} $\\lambda^* = \\alpha$. \\emph{Relative price:} $\\hat p_h / \\hat p_\\ell = \\tfrac{1-\\alpha}{\\alpha}\\,\\tfrac{\\omega_\\ell}{\\omega_h}$ (depends on relative supply, as expected).\n",
+                "flashcard": true,
+                "images": [],
+                "links": [],
+                "x": 1440,
+                "y": 1240,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 3
+              }
+            ]
+          }
+        ]
       }
     ],
     "trash": [
