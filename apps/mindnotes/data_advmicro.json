@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-27T08:55:50.897Z",
+  "exportedAt": "2026-05-27T08:57:37.884Z",
   "data": {
     "topics": [
       {
@@ -52,8 +52,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 820,
-                "y": 200,
+                "x": 903.9761211039531,
+                "y": -347.45971258153804,
                 "width": 520,
                 "height": 420,
                 "sectionNumber": 1,
@@ -114,7 +114,18 @@
                 "y": 350,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 1
+                "sectionNumber": 1,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:57:22.704Z"
+                }
               },
               {
                 "id": "ch1_04",
