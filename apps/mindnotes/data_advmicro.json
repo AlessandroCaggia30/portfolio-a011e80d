@@ -563,6 +563,121 @@
             ]
           }
         ]
+      },
+      {
+        "id": "ch4_topic",
+        "name": "Ch4 — Externalities + Public Goods",
+        "subtopics": [
+          {
+            "id": "ch4_sub",
+            "name": "Externalities + Public Goods",
+            "nodes": [
+              {
+                "id": "ch4_01",
+                "title": "4.1 Externalities: CE vs Planner FOCs",
+                "content": "\\textbf{\\textcolor{red}{4.1 --- EXTERNALITIES: CE vs Planner mismatch (quasilinear endowment economy).}}\n\n\\emph{Setup.} Two agents, two goods. Quasilinear in numeraire $x$ (no externality on it):\n\\[ U^i(x^i, y^1, y^2) = u^i(y^1, y^2) + x^i, \\quad i = 1, 2; \\]\n$u^i$ strictly concave, strictly increasing in own $y^i$. Prices $p_x = 1$, $p = p_y$.\n\n\\textbf{\\textcolor{red}{CE FOCs.}} Consumer $i$: $\\lambda^i = 1$ (multiplier on budget), interior $y^i > 0$:\n\\[ \\tfrac{\\partial u^i(\\hat y)}{\\partial y^i} = \\hat p \\quad\\Longrightarrow\\quad \\tfrac{\\partial u^1(\\hat y)}{\\partial y^1} = \\tfrac{\\partial u^2(\\hat y)}{\\partial y^2}. \\tag{4.1} \\]\nEach agent only weighs his \\emph{own} marginal benefit; cross-effects ignored.\n\n\\textbf{\\textcolor{red}{Planner FOCs.}} Max $u^1 + x^1$ s.t.\\ feasibility + $u^2 + x^2 \\geq \\bar U$. KKT $\\Rightarrow$ $\\mu_x = \\lambda = 1$:\n\\[ \\tfrac{\\partial u^1(y^*)}{\\partial y^i} + \\tfrac{\\partial u^2(y^*)}{\\partial y^i} = \\mu_y^* \\geq 0, \\quad i = 1, 2. \\]\n\\textcolor{orange}{Social optimum equates the \\emph{sum} of marginal utilities across agents} — externalities count!\n\n\\textbf{\\textcolor{red}{Generic mismatch.}} $(4.1)$ uses private marginals; Pareto uses social marginals. They coincide only when cross-marginal terms vanish (= no externalities). \\emph{Conclusion:} CE $\\neq$ PO when externalities exist.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch4_02",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 4
+              },
+              {
+                "id": "ch4_02",
+                "title": "4.2 One-sided externality: over-consumption",
+                "content": "\\textbf{\\textcolor{red}{4.2 --- ONE-SIDED EXTERNALITY: agent 2 over-consumes, social optimum is not zero externality.}}\n\n\\emph{Negative one-sided externality.} $\\partial u^2/\\partial y^1 = 0,\\;\\partial u^1/\\partial y^2 < 0$ (Agent 2's consumption of $y$ harms Agent 1; Agent 1's choice doesn't affect Agent 2).\n\n\\textbf{\\textcolor{red}{What happens.}} Social FOC:\n\\[ \\tfrac{\\partial u^1(y^*)}{\\partial y^1} + \\underbrace{\\tfrac{\\partial u^2(y^*)}{\\partial y^1}}_{=0} \\;=\\; \\underbrace{\\tfrac{\\partial u^1(y^*)}{\\partial y^2}}_{<0} + \\tfrac{\\partial u^2(y^*)}{\\partial y^2} \\;<\\; \\tfrac{\\partial u^2(y^*)}{\\partial y^2}. \\]\nSo $\\partial u^1/\\partial y^1 < \\partial u^2/\\partial y^2$ at $y^*$. By concavity + feasibility: \\textcolor{orange}{agent 2 consumes \\emph{too much} $y$ in CE relative to social optimum} (a feasible reallocation reducing $y^2$, raising $y^1$, Pareto-improves).\n\n\\textbf{\\textcolor{red}{Social optimum is not ``zero externality''.}} The PO condition is ``sum of marginals = 0,'' i.e.\\ Agent 1's marginal benefit from $y^1$ = Agent 2's marginal cost imposed on Agent 1. \\emph{Some} externality is socially optimal.\n\n\\textbf{\\textcolor{red}{Two-sided negative externality \\& destruction.}} If both $\\partial u^1/\\partial y^2 < 0$ and $\\partial u^2/\\partial y^1 < 0$ (passive smoking, etc.), at CE the sum of social marginals can go \\emph{negative}: $\\mu_y^* = 0$ in planner $\\Rightarrow$ optimal allocation \\emph{destroys} endowment of $y$. \\emph{Example:} $u^i = \\sqrt{x^i y^i} - y^{-i}$ with $\\omega_y > \\omega_x/4$ $\\Rightarrow$ destruction.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch4_03",
+                    "type": "forward"
+                  }
+                ],
+                "x": 820,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 4
+              },
+              {
+                "id": "ch4_03",
+                "title": "4.3 Pigouvian tax (internalize at margin)",
+                "content": "\\textbf{\\textcolor{red}{4.3 --- PIGOUVIAN TAX: internalize the externality at the margin.}}\n\n\\emph{Sharpened setup.} Only Agent 2 suffers; additive separable:\n\\[ U^1 = u^1(y^1) + x^1, \\qquad U^2 = u^2(y^2) - \\phi(y^1) + x^2, \\]\nwith $u^i$ strictly concave/increasing; $\\phi$ strictly convex/increasing (damage function).\n\n\\textbf{\\textcolor{red}{Planner FOC.}} $\\;\\dfrac{du^1(y^{*1})}{dy^1} - \\dfrac{d\\phi(y^{*1})}{dy^1} = \\dfrac{du^2(y^{*2})}{dy^2}.$ \\emph{Agent 1's private benefit net of damage = Agent 2's private benefit.}\n\n\\textbf{\\textcolor{red}{Pigouvian tax mechanism.}}\nTax $\\tau$ on Agent 1's $y^1$ consumption; tax revenues redistributed lump-sum $T^1 + T^2 = \\tau y^{*1}$. Agent 1's problem:\n\\[ \\max u^1(y^1) + x^1 \\;\\;\\text{s.t.}\\;\\; (p+\\tau) y^1 + x^1 \\leq p\\omega^1_y + \\omega^1_x + T^1, \\]\nFOC: $u^{1\\prime}(y^1) = p^* + \\tau$. Agent 2 untaxed: $u^{2\\prime}(y^2) = p^*$.\n\n\\textbf{\\textcolor{red}{Optimal Pigouvian tax.}}\n\\[ \\boxed{\\;\\tau^* = \\dfrac{d\\phi(y^{*1})}{dy^1} > 0.\\;} \\]\n\\emph{Reading:} the tax = \\emph{marginal externality at the social optimum}. Forces Agent 1 to internalize the marginal cost imposed on Agent 2.\n\n\\textbf{\\textcolor{red}{Equivalent subsidy formulation.}} Pay Agent 1 $s$ for each unit \\emph{reduced} below $y^{*1}$: $s^* = -d\\phi(y^{*1})/dy^1$ implements the same outcome.\n\n\\textbf{\\textcolor{red}{Tax the externality, not its proxies.}} To reduce pollution from cars, tax \\emph{pollution}, not cars. Otherwise distortion without internalization (e.g., firm switches to dirtier tech to cope with car-output tax).\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch4_04",
+                    "type": "forward"
+                  }
+                ],
+                "x": 1440,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 4
+              },
+              {
+                "id": "ch4_04",
+                "title": "4.4 Coase + missing market",
+                "content": "\\textbf{\\textcolor{red}{4.4 --- COASE \\& MISSING MARKET: externalities $=$ missing market for externality rights.}}\n\n\\textbf{\\textcolor{red}{Coase theorem (informal).}} If property rights over the externality are clearly assigned and bargaining is costless, parties negotiate to the Pareto-efficient outcome \\emph{regardless of who holds the rights}. Initial allocation of rights affects only distribution, not efficiency.\n\n\\textbf{\\textcolor{red}{Missing-market interpretation (Walrasian version).}}\nCreate a market for externality rights at price $r$. Suppose Agent 2 starts with rights to block $y^1$ entirely; sells $z^s$ units of right at price $r$.\n\n\\emph{Agent 2 (seller of rights):}\n\\[ \\max u^2(y^2) - \\phi(z^s) + x^2 \\;\\;\\text{s.t.}\\;\\; p y^2 + x^2 \\leq p\\omega^2_y + \\omega^2_x + r z^s. \\]\nFOC: $\\;\\dfrac{d\\phi(z^s)}{dz} = r$ \\;(supply of rights, increasing in $r$).\n\n\\emph{Agent 1 (buyer):}\n\\[ \\max u^1(y^1) + x^1 \\;\\;\\text{s.t.}\\;\\; p y^1 + r z^d + x^1 \\leq p\\omega^1_y + \\omega^1_x,\\;\\; y^1 \\leq z^d. \\]\nFOC (interior): $u^{1\\prime}(z^d) = p + r$ \\;(demand for rights = good price + rights price).\n\n\\textbf{\\textcolor{red}{Market clearing $z^s = z^d \\equiv \\hat y^1$.}} Equate FOCs:\n\\[ \\boxed{\\;\\dfrac{du^1(\\hat y^1)}{dy^1} = \\dfrac{du^2(\\hat y^2)}{dy^2} + \\dfrac{d\\phi(\\hat y^1)}{dy^1}.\\;} \\]\nThis is exactly the Pareto optimality condition. \\emph{Creating the missing market} restores efficiency.\n\n\\emph{Real-world:} EU ETS (cap-and-trade for emissions, 2005-, with allowance auctions); tradable pollution permits in general. Limitation: works when there are many traders (price-taking is plausible).\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch4_05",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 4
+              },
+              {
+                "id": "ch4_05",
+                "title": "4.5 Public goods: Samuelson + free-riding",
+                "content": "\\textbf{\\textcolor{red}{4.5 --- PUBLIC GOODS: definition + CE under-provision (Samuelson vs free-riding).}}\n\n\\begin{keydef}\n\\textbf{Pure public good.} \\textcolor{orange}{Non-rivalrous} (one's consumption doesn't reduce others') \\emph{and} \\textcolor{orange}{non-excludable}. Cf.\\ club goods (non-rival, excludable, e.g.\\ bridges); common-pool resources (rival, non-excludable, e.g.\\ fisheries); private goods (rival, excludable).\n\\end{keydef}\n\n\\emph{Setup.} One public good $y$, one private numeraire $x$. Utility $U^i = u^i(y) + x^i$, $u^i$ strictly concave/increasing. Production cost $c(y)$ in numeraire, increasing/convex/differentiable with $c'(0) = 0$.\n\n\\textbf{\\textcolor{red}{Planner FOC (Samuelson condition).}}\n\\[ \\boxed{\\;\\dfrac{du^1(y^*)}{dy} + \\dfrac{du^2(y^*)}{dy} = c'(y^*).\\;} \\tag{4.2} \\]\n\\emph{Sum of marginal benefits = marginal cost} (since the good is non-rivalrous, every agent enjoys every unit produced).\n\n\\textbf{\\textcolor{red}{CE (private purchase).}} Each agent buys $y^i$ at price $p$; total $\\hat y = \\hat y^1 + \\hat y^2$.\n\\emph{Consumer FOC:} $u^{i\\prime}(\\hat y) \\leq \\hat p$, equality if $\\hat y^i > 0$.\n\\emph{Firm FOC:} $c'(\\hat y) = \\hat p$.\n\n\\textbf{\\textcolor{red}{Free-riding $\\Rightarrow$ under-provision.}} The agent with smaller marginal valuation sets $\\hat y^i = 0$ and free-rides on the other. Combining: $u^{1\\prime}(\\hat y) = c'(\\hat y) \\geq u^{2\\prime}(\\hat y)$ — only \\emph{one} marginal valuation drives the level, vs.\\ the sum in (4.2). Hence $\\hat y < y^*$: public good is under-provided.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch4_06",
+                    "type": "forward"
+                  }
+                ],
+                "x": 820,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 4
+              },
+              {
+                "id": "ch4_06",
+                "title": "4.6 Pigouvian subsidy + Lindahl equilibrium",
+                "content": "\\textbf{\\textcolor{red}{4.6 --- SOLUTIONS to public-good free-riding: Pigouvian subsidy \\& Lindahl equilibrium.}}\n\n\\textbf{\\textcolor{red}{Pigouvian subsidy (Groves-Clark flavor).}} Per-unit subsidy to consumer $i$: $s^i = u^{-i\\prime}(y^*)$ (the marginal benefit to \\emph{the other}). Agent $i$ then sees effective price $p - s^i$ and FOC:\n\\[ u^{i\\prime}(y) = p - s^i \\;\\;\\Longrightarrow\\;\\; \\text{summing}\\;\\;u^{1\\prime} + u^{2\\prime} = 2p - (s^1 + s^2). \\]\nWith market clearing $c'(y) = p$: substitute $\\Rightarrow$ Samuelson condition satisfied at $y = y^*$. \\emph{Cost:} subsidies are large since you pay each agent the marginal value of \\emph{all others}.\n\n\\textbf{\\textcolor{red}{Lindahl equilibrium (market-based).}}\n\n\\emph{Idea.} Unbundle the public good into $I$ personalized private goods: ``agent $i$'s enjoyment of $y$.'' Each agent has own price $p^i$; agent $i$ must buy the \\emph{whole} amount of $y$. Single quantity, personalized prices — \\textcolor{orange}{role reversal vs.\\ CE} (where quantities are personalized and price is common).\n\n\\emph{Consumer FOC:} $\\;p^i = u^{i\\prime}(y).$\n\n\\emph{Firm} produces multiple ``copies'' of $y$ in fixed proportion (one per consumer), maximizes $\\pi = \\max_y (p^1 + p^2) y - c(y)$. FOC: $p^1 + p^2 = c'(y)$.\n\n\\textbf{\\textcolor{red}{Lindahl efficiency.}} Combine the two FOCs:\n\\[ c'(y) = p^1 + p^2 = u^{1\\prime}(y) + u^{2\\prime}(y), \\]\n\\emph{exactly Samuelson} $\\Rightarrow$ Lindahl implements $y^*$.\n\n\\emph{Limitation.} ``Each consumer is a price-taker in a market where he is the sole trader'' — informationally decentralized but unrealistic to assume price-taking with just one trader per market.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [],
+                "x": 1440,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 4
+              }
+            ]
+          }
+        ]
       }
     ],
     "trash": [
