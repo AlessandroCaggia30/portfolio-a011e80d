@@ -1140,6 +1140,19 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
     transition: border-color 0.2s;
 }
 
+/* Inline image inserted via {{img:N|w=NUM}} token — flows inline with text, fits
+   inside table cells, lists, blockquotes, etc. Width/height come from the token. */
+.inline-image-token {
+    border-radius: 4px;
+    object-fit: contain;
+    border: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+.inline-image-token:hover {
+    border-color: var(--accent);
+}
+td .inline-image-token, th .inline-image-token { margin: 2px; }
+
 .inline-image:hover {
     border-color: var(--accent);
 }
