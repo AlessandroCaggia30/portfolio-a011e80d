@@ -3306,7 +3306,8 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
                     </div>
                     <div class="toolbar-sep"></div>
                     <div class="toolbar-group">
-                        <button type="button" class="toolbar-btn image-btn" onclick="document.getElementById('imageInput').click()" title="Add Image (or paste/drag)">+ Img</button>
+                        <button type="button" class="toolbar-btn image-btn" onclick="document.getElementById('imageInput').click()" title="Add Image (or paste/drag) — appended at bottom">+ Img</button>
+                        <button type="button" class="toolbar-btn image-btn" onmousedown="captureNodeContentSelection()" onclick="insertInlineImageToken()" title="Insert inline image at cursor (works inside tables, lists, anywhere)">+ Inline Img</button>
                     </div>
                 </div>
                 <div class="editor-main">
