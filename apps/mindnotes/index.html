@@ -6320,6 +6320,8 @@ function closeNodeModal() {
     $('nodeModal').classList.remove('visible');
     State.editingNode = null;
     State.tempImages = [];
+    State.tempImageWidths = [];
+    State.savedNodeContentSelection = null;
 }
 
 async function saveNode() {
@@ -7043,6 +7045,8 @@ function openNodeEditor(node) {
         }
     }
     State.tempImages = [...images];
+    State.tempImageWidths = Array.isArray(node.imageWidths) ? [...node.imageWidths] : [];
+    State.savedNodeContentSelection = null;
 
     $('nodeTitle').value = node.title;
     $('nodeTitle').placeholder = 'Untitled';
