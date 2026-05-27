@@ -998,6 +998,157 @@
             ]
           }
         ]
+      },
+      {
+        "id": "ch7_topic",
+        "name": "Ch7 — Moral Hazard",
+        "subtopics": [
+          {
+            "id": "ch7_sub",
+            "name": "Moral Hazard",
+            "nodes": [
+              {
+                "id": "ch7_01",
+                "title": "7.1 MH basic + First Best (full insurance)",
+                "content": "\\textbf{\\textcolor{red}{7.1 --- MORAL HAZARD: setup + FIRST BEST = full insurance.}}\n\n\\emph{Setup (2 actions, 2 outcomes).} Agent action $a \\in \\{0, 1\\}$ (shirk / work). Outcomes: success $x_S$, failure $x_F$ ($x_S > x_F$). Probability of success: $P$ if $a=1$, $p$ if $a=0$ with $P > p$.\nAgent: $U = u(w) - a$, $u$ strict.\\ concave (risk-averse), $u(0) < \\underline U$. Principal (risk-neutral): $\\Pi = x - w$.\n\n\\textbf{\\textcolor{red}{First Best ($a$ observable) — full insurance.}}\n\n\\emph{To implement $a=1$:} $\\max P(x_S - w_S) + (1-P)(x_F - w_F)$ s.t.\\ $Pu(w_S) + (1-P)u(w_F) - 1 \\geq \\underline U$ (IR).\n\n\\begin{keydef}\n\\textbf{Claim (Full insurance).} At FB, $w_S^\\star = w_F^\\star$.\n\\end{keydef}\n\\begin{proof}\nIf not, set $\\tilde w = Pw_S + (1-P)w_F$. By Jensen: $u(\\tilde w) > Pu(w_S) + (1-P)u(w_F) \\geq \\underline U + 1$. So $\\tilde w$ delivers same expected wage with IR slack — can reduce both wages by $\\epsilon$ uniformly, raising profits. $\\square$\n\\end{proof}\n\n\\emph{FB wage:} $w^\\star_1 = u^{-1}(\\underline U + 1)$ (for $a=1$); $w^\\star_0 = u^{-1}(\\underline U)$ (for $a=0$).\n\n\\textbf{\\textcolor{red}{Implement $a=1$ iff:}}\n\\[ \\boxed{\\;(P-p)(x_S - x_F) \\;\\geq\\; u^{-1}(\\underline U + 1) - u^{-1}(\\underline U).\\;} \\]\n\\emph{Reading.} \\textcolor{orange}{LHS} = expected output gain from effort; \\textcolor{orange}{RHS} = wage premium needed to compensate effort. Effort worth implementing when the gain $\\geq$ cost.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch7_02",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 7
+              },
+              {
+                "id": "ch7_02",
+                "title": "7.2 Second Best: IC + IR bind, wage gap",
+                "content": "\\textbf{\\textcolor{red}{7.2 --- SECOND BEST (2 actions, 2 outcomes): wage dispersion to satisfy IC.}}\n\n\\emph{Setup.} Action unobservable $\\Rightarrow$ wages depend only on outcome: $w_S, w_F$.\n\n\\textbf{\\textcolor{red}{Constraints to implement $a = 1$.}}\n\\[ \\text{(IR)}\\;\\; Pu(w_S) + (1-P)u(w_F) - 1 \\geq \\underline U, \\qquad \\text{(IC)}\\;\\; [P-p][u(w_S) - u(w_F)] \\geq 1. \\]\n\n\\textcolor{orange}{Reading IC.} If $P, p$ are close (outcome poorly signals effort), wage dispersion must be large to incentivize $a=1$.\n\n\\begin{keydef}\n\\textbf{Claim.} At SB: both IR and IC \\emph{bind}.\n\\end{keydef}\n\n\\emph{IR binds:} else reduce $w_F$ uniformly (IC relaxed, profits up).\n\\emph{IC binds (variational argument):} take small $\\epsilon > 0$, perturb $u(w'_S) = u(w_S) - (1-P)\\epsilon$, $u(w'_F) = u(w_F) + P\\epsilon$. Agent's expected utility unchanged ($+P\\cdot(-(1-P)\\epsilon) + (1-P)\\cdot P\\epsilon = 0$). Cost change for principal:\n\\[ \\Delta = P(1-P)\\epsilon\\bigl(\\tfrac{1}{u'(w_F)} - \\tfrac{1}{u'(w_S)}\\bigr) > 0 \\]\nsince $w_S > w_F$ (IC slack) and $u'$ decreasing. So principal can reduce dispersion until IC binds.\n\n\\textbf{\\textcolor{red}{Solve the 2×2 system (both binding).}}\n\\[ u(w_S^{SB}) = \\underline U + \\tfrac{1-p}{P-p}, \\qquad u(w_F^{SB}) = \\underline U - \\tfrac{p}{P-p}. \\]\n\\emph{Wage gap} $u(w_S^{SB}) - u(w_F^{SB}) = \\tfrac{1}{P-p}$. Smaller $P - p$ $\\Rightarrow$ larger gap needed.\n\n\\textbf{\\textcolor{red}{Key economic insight.}} Risk-neutral principal would prefer to insure risk-averse agent (FB = full insurance), but cannot under MH because constant wage $\\Rightarrow$ no incentive to work. The wage dispersion is the \\textcolor{orange}{incentive cost}.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch7_03",
+                    "type": "forward"
+                  }
+                ],
+                "x": 820,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 7
+              },
+              {
+                "id": "ch7_03",
+                "title": "7.3 FB vs SB: when to implement effort",
+                "content": "\\textbf{\\textcolor{red}{7.3 --- FB vs SB comparison: implementing effort under MH (cost decomposition).}}\n\n\\emph{Profit of implementing $a$ under MH:} substitute $w^{SB}$ into objective.\n\n\\textbf{\\textcolor{red}{Implement $a = 1$ at SB iff:}}\n\\[ \\boxed{\\;(P-p)(x_S - x_F) \\;\\geq\\; Pw_S^{SB} + (1-P)w_F^{SB} - w_0^{FB}.\\;} \\]\n\n\\emph{Decomposition of $Pw_S^{SB} + (1-P)w_F^{SB} - w_0^{FB}$ (wage premium for effort):}\n$\\bullet$ \\textbf{Effort compensation cost:} the part that exists already at FB ($u^{-1}(\\underline U + 1) - u^{-1}(\\underline U)$). Agent needs to be paid for the effort.\n$\\bullet$ \\textbf{Incentive cost (only at SB):} extra wage paid to bear the dispersion. This is the cost of \\emph{not insuring} the risk-averse agent fully — Jensen converts wage dispersion into higher expected wage at fixed expected utility.\n\n\\textbf{\\textcolor{red}{When is effort worth implementing under MH?}}\n$\\bullet$ $x_S - x_F$ large (output gain from success big).\n$\\bullet$ $P - p$ not too small (signal informative, low incentive cost via $1/(P-p)$).\n$\\bullet$ Wage premium small (low effort cost + low risk aversion of the agent).\n\n\\textcolor{orange}{Pareto frontier picture.} SB frontier lies inside FB frontier in regions where $a=1$ is implemented. Gap = incentive cost from non-insurance.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch7_04",
+                    "type": "forward"
+                  }
+                ],
+                "x": 1440,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 7
+              },
+              {
+                "id": "ch7_04",
+                "title": "7.4 Continuum of actions: FOCA + likelihood ratio",
+                "content": "\\textbf{\\textcolor{red}{7.4 --- CONTINUUM OF ACTIONS: First Order Approach (FOCA) + likelihood ratio.}}\n\n\\emph{Setup.} $a \\geq 0$, $m$ outcomes with $p_j(a) > 0$. Contract $\\mathcal{W} = \\{w_j\\}_{j=1}^m$.\n\n\\emph{Full IC is a continuum:} $\\sum_j p_j(a) u(w_j) - a \\geq \\sum_j p_j(\\hat a) u(w_j) - \\hat a$ for all $\\hat a \\geq 0$ (intractable).\n\n\\textbf{\\textcolor{red}{FOCA: replace IC by the agent's FOC.}}\nFor interior $a^*$:\n\\[ \\sum_{j=1}^m p_j'(a^*)\\, u(w_j) = 1 \\tag{agent's FOC} \\]\n\\emph{Relaxed problem (double relaxed: write FOC with $\\geq$):}\n\\[ \\max_{(w_j)} \\sum_j p_j(a)[x_j - w_j] \\quad\\text{s.t.}\\quad \\sum_j p_j'(a) u(w_j) \\geq 1\\;\\,(IC),\\;\\; \\sum_j p_j(a) u(w_j) - a \\geq \\underline U\\;\\,(IR). \\]\n\n\\textbf{\\textcolor{red}{FOC of the principal w.r.t.\\ $w_j$.}} With multipliers $\\mu, \\lambda$:\n\\[ \\boxed{\\;\\dfrac{1}{u'(w_j)} = \\lambda + \\mu\\, \\dfrac{p_j'(a)}{p_j(a)}.\\;} \\tag{7.3} \\]\n\n\\textcolor{orange}{Reading.} Both IC and IR bind ($\\mu, \\lambda > 0$); the wage in state $j$ moves with the \\textbf{likelihood ratio} $p_j'(a)/p_j(a)$:\n$\\bullet$ High likelihood ratio (state $j$ becomes more likely as effort rises) $\\Rightarrow$ higher wage $w_j$ (reward).\n$\\bullet$ Low/negative likelihood ratio $\\Rightarrow$ lower wage (punishment).\n\n\\emph{Note.} The wage is \\emph{not} indexed to output $x_j$ directly — only to the informativeness about effort. Optimal contract uses outcomes as signals of effort, not as a sharing rule.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch7_05",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 7
+              },
+              {
+                "id": "ch7_05",
+                "title": "7.5 FOCA validity: MLRC + CDFC",
+                "content": "\\textbf{\\textcolor{red}{7.5 --- FOCA validity: MLRC + CDFC sufficient.}}\n\n\\begin{keydef}\n\\textbf{Proposition (FOCA validity).} If both conditions hold, the relaxed FOCA solution is incentive-compatible (i.e.\\ agent's problem at relaxed contract is concave in $a$):\n\n\\textbf{(1) MLRC (Monotone Likelihood Ratio Condition).} $p_j'(a)/p_j(a)$ is increasing in $j$ for all $a$. Higher outcomes are ``more likely from higher effort.''\n\n\\textbf{(2) CDFC (Convexity of Distribution Function Condition).} For all $k < m$, $P_k(a) := \\sum_{j \\leq k} p_j(a)$ is convex in $a$. Marginal effort shifts distribution in a regular way.\n\\end{keydef}\n\n\\textbf{\\textcolor{red}{Sketch of proof.}} Rewrite agent's objective via integration-by-parts:\n\\[ \\sum_j p_j(a)\\,u(w_j^R) - a = u(w_m^R) - \\sum_{j=1}^{m-1} P_j(a)[u(w_{j+1}^R) - u(w_j^R)] - a. \\]\nThen:\n$\\bullet$ $u(w_m^R)$ constant.\n$\\bullet$ $-P_j(a)$ concave by CDFC.\n$\\bullet$ MLRC $\\Rightarrow$ $w_{j+1}^R \\geq w_j^R$ (from 7.3), so brackets $\\geq 0$ — nonneg-weighted sum of concave is concave.\n$\\bullet$ $-a$ is linear (concave).\n$\\Rightarrow$ agent's problem in $a$ is concave $\\Rightarrow$ FOC is sufficient. $\\square$\n\n\\textcolor{orange}{Punchline.} MLRC $\\Rightarrow$ \\emph{monotone wage schedule} ($w_j^{SB}$ increasing in $j$). The relaxed solution is fully IC.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch7_06",
+                    "type": "forward"
+                  }
+                ],
+                "x": 820,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 7
+              },
+              {
+                "id": "ch7_06",
+                "title": "7.6 Risk-neutral + LL: 3 regimes",
+                "content": "\\textbf{\\textcolor{red}{7.6 --- RISK-NEUTRAL AGENT $+$ LIMITED LIABILITY: 3 regimes by floor $\\underline w$.}}\n\n\\emph{Setup.} Agent risk-neutral: $U = w - a$. Floor $w_j \\geq \\underline w$ for all $j$.\n\n\\textbf{\\textcolor{red}{Principal's FOC.}} With multipliers $\\mu$ (IC), $\\lambda$ (IR), $\\phi_j$ (LL):\n\\[ \\mu\\,\\dfrac{p_j'(a)}{p_j(a)} + \\lambda + \\dfrac{\\phi_j}{p_j(a)} = 1. \\]\n\n\\textbf{\\textcolor{red}{Three regimes.}}\n\n$\\bullet$ \\textbf{Regime (i): $\\underline w$ low.} $\\mu = \\phi_j = 0$, $\\lambda = 1$. Only IR binds. \\textcolor{orange}{First best implementable}: ``sell the firm'' — $w_j = x_j - T$, $T$ chosen so IR binds. Effort: $\\sum_j p_j'(a^*) x_j = 1$.\n\n$\\bullet$ \\textbf{Regime (ii): $\\underline w$ intermediate.} LL binds for all $j$ except $j^* := \\arg\\max p_j'/p_j$. So $w_j = \\underline w$ for $j \\neq j^*$, while $w_{j^*} > \\underline w$:\n\\[ w_{j^*} - \\underline w = \\dfrac{1}{p_{j^*}'(a^{SB})}. \\]\nBoth IR and IC bind. Effort solves $\\underline w + p_{j^*}/p_{j^*}' - a^{SB} = \\underline U$.\n\n$\\bullet$ \\textbf{Regime (iii): $\\underline w$ high.} IR slacks (LL prevents pushing utility below outside option). Principal extracts via the single ``bonus'' wage. Effort solves\n\\[ \\sum_j p_j'(a^{SB})\\, x_j = 1 - \\dfrac{p_{j^*}(a^{SB}) p_{j^*}''(a^{SB})}{(p_{j^*}'(a^{SB}))^2}, \\]\nwith $a^{SB} < a^*$ (under-effort because of LL-induced rent leakage).\n\n\\textcolor{orange}{Why reward at $j^* = \\arg\\max p_j'/p_j$?} The cost to relax IC per unit wage at state $j$ is $p_j(a)$, while the IC-tightening benefit is $p_j'(a)$. The principal pays only where the \\emph{ratio} is best — i.e., at the most informative state about effort.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch7_07",
+                    "type": "forward"
+                  }
+                ],
+                "x": 1440,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 7
+              },
+              {
+                "id": "ch7_07",
+                "title": "7.7 Insurance MH monopoly (SB)",
+                "content": "\\textbf{\\textcolor{red}{7.7 --- INSURANCE under moral hazard (monopolist): second best.}}\n\n\\emph{Setup.} Agent wealth $\\omega$, damage $d < \\omega$ with probability $1 - \\pi(e)$. Effort $e \\in \\{0, 1\\}$, $\\pi(1) > \\pi(0)$. Cost $v(1) = v > 0 = v(0)$. Define $c_n = \\omega - t_n$ (no-accident consumption), $c_a = \\omega - d + t_a$ (accident consumption).\n\n\\textbf{\\textcolor{red}{SB problem (implement $e = 1$).}}\n\\[ \\max_{c_a, c_n} \\pi(1)(\\omega - c_n) + (1-\\pi(1))(\\omega - d - c_a) \\]\n\\[ \\text{s.t.}\\;\\; [\\pi(1) - \\pi(0)][u(c_n) - u(c_a)] \\geq v \\;\\,(IC), \\quad \\pi(1) u(c_n) + (1-\\pi(1)) u(c_a) - v \\geq \\underline U(\\omega) \\;\\,(IR). \\]\n\n\\textbf{\\textcolor{red}{Both IC and IR bind (Kuhn-Tucker argument).}}\nIf $\\mu = 0$ on IC, FOCs give $u'(c_n) = u'(c_a) = 1/\\lambda$ $\\Rightarrow$ $c_n = c_a$ $\\Rightarrow$ full insurance $\\Rightarrow$ violates IC for $e=1$. Contradiction. So $\\mu > 0$.\n\n\\textbf{\\textcolor{red}{Solution (system of 2 equations).}}\n\\[ \\boxed{\\;u(c_a^{SB}) = \\underline U(\\omega) - \\dfrac{\\pi(0)}{\\pi(1) - \\pi(0)} v, \\quad u(c_n^{SB}) = \\underline U(\\omega) + \\dfrac{1 - \\pi(0)}{\\pi(1) - \\pi(0)} v.\\;} \\]\n\n\\emph{Reading.} Same logic as 7.2: high-effort state ($c_n$) rewarded, low-effort state ($c_a$) penalized. The wedge $u(c_n) - u(c_a) = v/(\\pi(1) - \\pi(0))$ is the incentive cost — \\textcolor{orange}{partial insurance against the damage, by design}.\n\n\\emph{When is $e=1$ optimal?} Compare SB profits for $e=1$ vs.\\ FB full-insurance for $e=0$. Standard cost-benefit.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch7_08",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 1240,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 7
+              },
+              {
+                "id": "ch7_08",
+                "title": "7.8 Perfect competition + credit rationing",
+                "content": "\\textbf{\\textcolor{red}{7.8 --- PERFECT COMPETITION (insurance) \\& CREDIT RATIONING.}}\n\n\\textbf{\\textcolor{red}{Perfect competition under MH (Bertrand over utilities).}}\n\nTwo principals compete; agent chooses the contract giving higher utility. \\emph{Symmetric Nash equilibrium:} both offer the contract that maximizes \\emph{agent} utility subject to non-negative profits + IC + (binding) zero-profit constraint.\n\\[ U^M(\\omega) := \\max_{c_a, c_n} \\pi(1) u(c_n) + (1-\\pi(1)) u(c_a) - v \\]\n\\[ \\text{s.t.}\\;\\; [\\pi(1) - \\pi(0)][u(c_n) - u(c_a)] \\geq v,\\;\\; \\pi(1)(\\omega - c_n) + (1-\\pi(1))(\\omega - d - c_a) \\geq 0. \\]\n\n\\textcolor{orange}{Role reversal vs.\\ monopoly:} firm now has zero profit (IR for firm replaces firm's optimization). Agent gets max utility consistent with IC. Still partial insurance (IC binds).\n\n\\textbf{\\textcolor{red}{Credit rationing under MH (2-project model).}}\n\n$N$ firms, each chooses project $g$ or $b$: invest $I$, payoff $R_i$ w/prob $p_i$, $0$ w/prob $1-p_i$. $p_g R_g > p_b R_b > I$, $R_b > R_g$, $p_g > p_b$ ($g$ is socially better; $b$ pays more if it works). Risk-neutral, limited liability businessman.\n\\[ U_i(r) = p_i(R_i - r), \\qquad \\Pi_i(r) = p_i r - I. \\]\n\\emph{Bank liquidity} $L$ with $I \\leq L < NI$ — can't fund everyone.\n\n\\emph{IC for project $g$:} $p_g(R_g - r) \\geq p_b(R_b - r) \\Leftrightarrow r \\leq \\hat r := \\tfrac{p_g R_g - p_b R_b}{p_g - p_b}$.\n\n\\textbf{\\textcolor{red}{Bank's optimal rate.}}\n\\[ r^{SB} = \\begin{cases} \\hat r & \\text{if } p_g \\hat r \\geq p_b R_b \\\\ R_b & \\text{otherwise}. \\end{cases} \\]\n\n$\\bullet$ Case $r = R_b$: firm switches to $b$, makes zero profit, no rationing.\n$\\bullet$ \\textbf{Case $r = \\hat r$:} firm chooses $g$, makes \\emph{positive} profit $U_g(\\hat r) > 0$. Yet bank \\textcolor{orange}{voluntarily caps the rate} at $\\hat r$ even though firms would pay more — raising $r$ would flip them to project $b$, lowering expected revenue ($p_b r < p_g r$).\n\n\\emph{This is credit rationing:} excess demand for credit at the going rate, but the bank doesn't raise the rate because doing so would worsen the borrower mix (the classic Stiglitz-Weiss insight).\n",
+                "flashcard": true,
+                "images": [],
+                "links": [],
+                "x": 820,
+                "y": 1240,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 7
+              }
+            ]
+          }
+        ]
       }
     ],
     "trash": [
