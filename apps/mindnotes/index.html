@@ -6296,6 +6296,8 @@ function handleCanvasClick(e) {
 function openNodeModal() {
     State.editingNode = null;
     State.tempImages = [];
+    State.tempImageWidths = [];
+    State.savedNodeContentSelection = null;
 
     $('nodeTitle').value = '';
     $('nodeTitle').placeholder = 'New Note';
