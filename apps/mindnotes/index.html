@@ -6671,6 +6671,75 @@ function handleFiles(files) {
     });
 }
 
+// Saved selection range for the editor textarea (lost when toolbar buttons take focus).
+State.savedNodeContentSelection = null;
+function captureNodeContentSelection() {
+    const ta = $('nodeContent');
+    if (!ta) return;
+    State.savedNodeContentSelection = { start: ta.selectionStart, end: ta.selectionEnd };
+}
+
+function insertAtNodeContentCursor(text) {
+    const ta = $('nodeContent');
+    if (!ta) return;
+    const sel = State.savedNodeContentSelection || { start: ta.value.length, end: ta.value.length };
+    const before = ta.value.substring(0, sel.start);
+    const after = ta.value.substring(sel.end);
+    ta.value = before + text + after;
+    const caret = sel.start + text.length;
+    ta.selectionStart = ta.selectionEnd = caret;
+    State.savedNodeContentSelection = { start: caret, end: caret };
+    ta.focus();
+    updatePreview();
+    updateCharCount();
+}
+
+// Insert an inline image token at the cursor in the editor textarea.
+// Token format: {{img:N|w=300}} — replaced by an <img> during render. Works inside
+// tabular cells, lists, anywhere.
+function insertInlineImageToken() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file || !file.type.startsWith('image/')) return;
+        const widthRaw = prompt('Image width in pixels (height auto-scales):', '300');
+        if (widthRaw === null) return;
+        const width = Math.max(20, Math.min(2000, parseInt(widthRaw, 10) || 300));
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            const idx = State.tempImages.length;
+            State.tempImages.push(ev.target.result);
+            if (!State.tempImageWidths) State.tempImageWidths = [];
+            State.tempImageWidths[idx] = width;
+            insertAtNodeContentCursor(`{{img:${idx}|w=${width}}}`);
+            renderImageThumbs();
+            showToast(`Inline image #${idx} inserted (${width}px)`);
+        };
+        reader.readAsDataURL(file);
+    };
+    input.click();
+}
+
+// Substitute {{img:N|w=NUM}} tokens with <img> tags. Returns { html, usedIndices }.
+function substituteInlineImageTokens(html, imagesArray, widthsArray) {
+    const used = new Set();
+    if (!Array.isArray(imagesArray) || imagesArray.length === 0) {
+        return { html, usedIndices: used };
+    }
+    const result = html.replace(/\{\{img:(\d+)(?:\|w=(\d+))?(?:\|h=(\d+))?\}\}/g, (match, idxStr, wStr, hStr) => {
+        const idx = parseInt(idxStr, 10);
+        const src = imagesArray[idx];
+        if (!src) return match;
+        used.add(idx);
+        const w = parseInt(wStr, 10) || (widthsArray && widthsArray[idx]) || 300;
+        const hAttr = hStr ? `height:${parseInt(hStr, 10)}px;` : 'height:auto;';
+        return `<img src="${src}" class="inline-image-token" data-img-index="${idx}" style="width:${w}px;${hAttr}max-width:100%;vertical-align:middle;display:inline-block;">`;
+    });
+    return { html: result, usedIndices: used };
+}
+
 function renderImageThumbs() {
     const container = $('imageThumbs');
     container.innerHTML = State.tempImages.map((img, i) =>
