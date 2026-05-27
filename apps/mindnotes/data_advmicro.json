@@ -678,6 +678,175 @@
             ]
           }
         ]
+      },
+      {
+        "id": "ch5_topic",
+        "name": "Ch5 — Risk, Time, Asset Pricing",
+        "subtopics": [
+          {
+            "id": "ch5_sub",
+            "name": "Risk + Asset Pricing",
+            "nodes": [
+              {
+                "id": "ch5_01",
+                "title": "5.1 States, contingent commodities, EU, risk aversion",
+                "content": "\\textbf{\\textcolor{red}{5.1 --- UNCERTAINTY MODELED: states, contingent commodities, expected utility, risk aversion.}}\n\n\\emph{Primitives.} Finite state space $\\mathcal{S} = \\{1, \\ldots, S\\}$. \\textcolor{orange}{State-contingent commodity} = title to receive a (vector of) physical good(s) iff state $s$ occurs. Portfolio $x^i = (x^i_1, \\ldots, x^i_S) \\in \\mathbb{R}_+^S$ (one physical good per state, for simplicity).\n\n\\begin{keydef}\n\\textbf{Expected utility (von Neumann-Morgenstern).}\n\\[ U^i(x^i) = \\sum_{s=1}^S \\pi^i_s\\, u^i(x^i_s), \\]\nwhere $\\pi^i_s$ = agent $i$'s subjective probability of state $s$, $u^i$ = \\emph{Bernoulli utility} (state-independent). Additive separability $\\Leftrightarrow$ states are mutually exclusive.\n\\end{keydef}\n\n\\textbf{\\textcolor{red}{Risk aversion = concave $u$ (Jensen's inequality).}}\n$u$ strictly concave $\\Leftrightarrow$ $u(\\mathbb{E}(x)) > \\mathbb{E}(u(x))$ for any non-degenerate $x$.\n\\emph{Reading.} Agent prefers the certain expected payoff to a lottery with the same mean — the textbook definition of risk aversion.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch5_02",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 5
+              },
+              {
+                "id": "ch5_02",
+                "title": "5.2 Arrow-Debreu equilibrium",
+                "content": "\\textbf{\\textcolor{red}{5.2 --- ARROW-DEBREU EQUILIBRIUM: just CE with contingent commodities.}}\n\n\\textbf{\\textcolor{red}{Two-period timing.}}\n$\\bullet$ $t = 0$: state unknown. Agents trade ``pieces of paper'' (state-contingent contracts).\n$\\bullet$ $t = 1$: state $s$ revealed. Contracts are executed (no further trade).\n\n\\emph{Single budget at $t=0$:} $\\sum_{s} p_s (\\omega^i_s - x^i_s) \\geq 0$.\n\n\\begin{keydef}\n\\textbf{Definition (AD Equilibrium).} $(\\hat p, \\hat x) \\in \\mathbb{R}_+^S \\times \\mathbb{R}_+^{S \\times I}$ such that:\n\\textbf{(i)} given $\\hat p$, each $\\hat x^i$ solves $\\max U^i(x^i)$ s.t.\\ the period-0 budget;\n\\textbf{(ii)} markets clear: $\\sum_i \\hat x^i_s = \\sum_i \\omega^i_s$ for all $s$.\n\\end{keydef}\n\n\\textcolor{orange}{Trick.} Treat ``the same physical good in different states'' as different goods. AD equilibrium = ordinary CE in this enlarged commodity space. So Welfare Theorems apply: AD is PO, every PO can be AD-with-transfers.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch5_03",
+                    "type": "forward"
+                  }
+                ],
+                "x": 820,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 5
+              },
+              {
+                "id": "ch5_03",
+                "title": "5.3 No agg risk + common priors → full insurance",
+                "content": "\\textbf{\\textcolor{red}{5.3 --- NO AGGREGATE RISK $+$ common priors $\\Rightarrow$ FULL INSURANCE.}}\n\n\\emph{Setup.} $I = N = 2$, two states $s = \\ell, h$. \\textcolor{orange}{No aggregate risk}: $\\omega^1_s + \\omega^2_s = \\omega$ (constant in $s$). \\textcolor{orange}{Common priors}: $\\pi^i_s = \\pi_s$ for all $i$. $u^i$ strictly concave/increasing/differentiable.\n\n\\begin{keydef}\n\\textbf{Proposition (Full insurance).} Under above, PO = AD allocations lie on the \\emph{45° line}: $\\hat x^i_\\ell = \\hat x^i_h$ for each $i$.\n\\emph{Equilibrium prices:} $\\hat p_\\ell / \\hat p_h = \\pi_\\ell / \\pi_h$.\n\\end{keydef}\n\n\\textbf{\\textcolor{red}{Proof (sketch, interior, 2 states, 2 agents).}}\nPO iff MRS equal across agents: $-\\pi_\\ell u'(x^1_\\ell)/(\\pi_h u'(x^1_h)) = -\\pi_\\ell u'(x^2_\\ell)/(\\pi_h u'(x^2_h))$. Suppose $x^1_\\ell > x^1_h$. Then $u'(x^1_\\ell) < u'(x^1_h)$ (strict concavity) and by feasibility $x^2_\\ell = \\omega - x^1_\\ell < \\omega - x^1_h = x^2_h$, so $u'(x^2_\\ell) > u'(x^2_h)$. The two ratios cannot be equal — contradiction. $\\square$\n\n\\emph{Reading.} Risk-averse agents pool the risk perfectly when there's no aggregate scarcity and they agree on probabilities.\n\n\\textbf{\\textcolor{red}{Different priors: lean toward your favored state.}}\n\nIf $\\pi^1_\\ell/\\pi^1_h > \\pi^2_\\ell/\\pi^2_h$, then $\\hat x^1_\\ell > \\hat x^1_h$ — agent 1 receives more in the state \\emph{he} considers more likely. PO is no longer on 45° line; bets on disagreement become part of the optimal trade.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch5_04",
+                    "type": "forward"
+                  }
+                ],
+                "x": 1440,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 5
+              },
+              {
+                "id": "ch5_04",
+                "title": "5.4 Aggregate risk → prices favor scarce states",
+                "content": "\\textbf{\\textcolor{red}{5.4 --- AGGREGATE RISK: prices over-weight scarce states.}}\n\n\\emph{Setup.} Same as 5.3 but now $\\omega_h > \\omega_\\ell$ (or vice versa) — aggregate quantity varies across states.\n\n\\textbf{\\textcolor{red}{Result.}} Even with common priors, PO/AD allocations are \\emph{not} on the 45° line. Both agents consume more in the abundant state: $\\hat x^i_h > \\hat x^i_\\ell$ for each $i$.\n\n\\emph{Argument.} Suppose $\\hat x^1_h \\leq \\hat x^1_\\ell$. By feasibility ($\\omega_h > \\omega_\\ell$): $\\hat x^2_h > \\hat x^2_\\ell$. Then $|MRS^1| < |MRS^2|$, contradicting tangency.\n\n\\textbf{\\textcolor{red}{Price ratio.}} Interior FOC:\n\\[ \\dfrac{\\hat p_\\ell}{\\hat p_h} = \\dfrac{\\pi_\\ell\\, u'(\\hat x^i_\\ell)}{\\pi_h\\, u'(\\hat x^i_h)} \\;>\\; \\dfrac{\\pi_\\ell}{\\pi_h}, \\]\nsince $\\hat x^i_h > \\hat x^i_\\ell$ + concavity ($u'$ decreasing) $\\Rightarrow$ $u'(\\hat x^i_\\ell) > u'(\\hat x^i_h)$.\n\n\\textcolor{orange}{The price of contingent consumption is higher in the state where the good is scarcer} (relative to probability). This is the foundation of asset pricing: insurance-like claims (paying in bad states) are expensive.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch5_05",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 5
+              },
+              {
+                "id": "ch5_05",
+                "title": "5.5 Time + assets: examples",
+                "content": "\\textbf{\\textcolor{red}{5.5 --- TIME $+$ ASSETS: discounted EU, portfolios, examples.}}\n\n\\emph{Time-separable EU with constant Bernoulli:}\n\\[ U^i(x) = u^i(x_0) + \\beta^i \\sum_{s=1}^S \\pi^i_s\\, u^i(x_s), \\]\n$\\beta^i \\in (0, 1)$ = subjective discount factor. $s = 0$ \\emph{not} mutually exclusive with future states (time $\\neq$ risk).\n\n\\textbf{\\textcolor{red}{Asset $k \\in \\mathcal{K}$: payoff vector $r^k = (r^k_1, \\ldots, r^k_S)$.}}\nPortfolio holdings $\\theta = (\\theta_1, \\ldots, \\theta_K)$; asset prices $q = (q_1, \\ldots, q_K)$.\n\n\\emph{Examples.}\n$\\bullet$ \\textbf{Arrow security} $r^s = (0, \\ldots, 0, 1, 0, \\ldots, 0)$ — pays 1 iff state $s$ realizes.\n$\\bullet$ \\textbf{Risk-free bond} $r^b = (1, 1, \\ldots, 1)$ — pays 1 in every state.\n$\\bullet$ \\textbf{European call option} on $r^k$ at strike $c$: payoff $(\\max\\{0, r^k_s - c\\})_{s}$. Example: call on $r^\\ell$ at $0.3$ gives $(0.7, 0)$.\n\n\\textcolor{orange}{Derivative pricing} is built from these primitives.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch5_06",
+                    "type": "forward"
+                  }
+                ],
+                "x": 820,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 5
+              },
+              {
+                "id": "ch5_06",
+                "title": "5.6 Radner sequential equilibrium",
+                "content": "\\textbf{\\textcolor{red}{5.6 --- RADNER SEQUENTIAL EQUILIBRIUM: trade assets at $t{=}0$, spot at $t{=}1$.}}\n\n\\textbf{\\textcolor{red}{Timing.}}\n$\\bullet$ $t=0$: consume $x_0$, trade assets $\\theta$.\n$\\bullet$ $t=1$: state $s$ revealed, assets pay $\\sum_k r^k_s \\theta^i_k$, spot good market opens. Agents consume $x^i_s$.\n\n\\textbf{\\textcolor{red}{Key requirement: rational expectations.}} Agents anticipate the spot prices that will clear $t=1$ markets — and these expectations are correct.\n\n\\emph{Agent $i$'s problem:}\n\\[ \\max_{\\theta^i, x^i} U^i(x^i) \\quad \\text{s.t.} \\]\n\\[ p_0 x^i_0 + \\textstyle\\sum_k q_k \\theta^i_k \\;\\leq\\; p_0 \\omega^i_0,\\qquad p_s x^i_s \\;\\leq\\; p_s \\omega^i_s + \\sum_k r^k_s \\theta^i_k\\;\\;\\forall s > 0. \\]\n\n\\begin{keydef}\n\\textbf{Definition (Radner Equilibrium).} $(\\hat q, \\hat p, \\hat\\theta, \\hat x)$ such that:\n\\textbf{(i)} given $(\\hat q, \\hat p)$, each $(\\hat\\theta^i, \\hat x^i)$ solves agent $i$'s problem;\n\\textbf{(ii)} good markets clear in every $s$;\n\\textbf{(iii)} \\textcolor{orange}{asset markets clear}: $\\sum_i \\hat\\theta^i_k = 0$ for all $k$ (assets are claims, net zero supply by construction).\n\\end{keydef}\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch5_07",
+                    "type": "forward"
+                  }
+                ],
+                "x": 1440,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 5
+              },
+              {
+                "id": "ch5_07",
+                "title": "5.7 SDF + master pricing formula",
+                "content": "\\textbf{\\textcolor{red}{5.7 --- ASSET PRICING via the Stochastic Discount Factor (SDF).}}\n\n\\emph{Setup.} Two states, three assets ($r^b$, $r^\\ell$, $r^h$ = bond + Arrows), one physical good. Common $u, \\beta, \\pi$. Interior solution.\n\n\\textbf{\\textcolor{red}{FOCs of Lagrangian.}}\n\\[ q_s = \\dfrac{p_0}{p_s}\\, \\dfrac{\\pi^i_s\\, \\beta\\, u'(x^i_s)}{u'(x^i_0)}, \\qquad q_b = \\sum_{s} q_s. \\]\n\n\\emph{Normalize spot price ratios $p_0/p_s = 1$ (single-good ``real'' assets):}\n\\[ q_s = \\pi_s\\, \\mu^i_s, \\quad q_b = \\mathbb{E}[\\mu^i], \\quad \\text{where}\\;\\; \\mu^i_s := \\dfrac{\\beta\\, u'(x^i_s)}{u'(x^i_0)}. \\]\n\n\\emph{Reading of $\\mu^i_s$.} Period-1, state-$s$ marginal utility of wealth \\emph{relative to} period-0 marginal utility — ex-post (no $\\pi$).\n\n\\textbf{\\textcolor{red}{Master pricing formula.}}\n\\[ \\boxed{\\;q_k = \\sum_{s} \\pi_s\\, \\mu^i_s\\, r^k_s = \\mathbb{E}[\\mu^i\\, r^k].\\;} \\]\n\n\\begin{keydef}\n\\textbf{Definition (SDF).} A vector $\\mu = (\\mu_1, \\ldots, \\mu_S)$ is a \\textit{Stochastic Discount Factor} if every asset is priced linearly: $q_k = \\mathbb{E}[\\mu\\, r^k]$ for all $k$.\n\\end{keydef}\n\n\\textcolor{orange}{Bond price $q_b = \\mathbb{E}[\\mu]$.} Risk-free rate $R_f := 1/q_b = 1/\\mathbb{E}[\\mu]$.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch5_08",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 1240,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 5
+              },
+              {
+                "id": "ch5_08",
+                "title": "5.8 Complete markets: AD ⇔ Radner + Lucas tree",
+                "content": "\\textbf{\\textcolor{red}{5.8 --- COMPLETE MARKETS $\\Rightarrow$ AD = Radner (and unique SDF).}}\n\n\\begin{keydef}\n\\textbf{Definition (Complete markets).} With $K \\geq S$ assets and return matrix $R = [r^1, \\ldots, r^K]$: markets are \\emph{complete} iff $\\mathrm{rank}(R) = S$. Equivalently, $S$ Arrow securities can be replicated by portfolios.\n\\end{keydef}\n\n\\emph{2-state, 2-asset example.} $r^1 = (a, b),\\, r^2 = (c, d)$, $\\Delta = ad - bc \\neq 0$:\n$(1, 0) = (d/\\Delta) r^1 - (b/\\Delta) r^2$, $(0, 1) = -(c/\\Delta) r^1 + (a/\\Delta) r^2$.\n\n\\begin{keydef}\n\\textbf{Proposition (Unique SDF under complete markets).} If $u$ is increasing, concave, differentiable, and markets are complete, the SDF \\emph{exists and is unique}:\n\\[ \\mu_s = \\dfrac{q_s}{\\pi_s} \\quad \\forall s, \\]\nwhere $q_s$ = Arrow-security equilibrium price. Holds for all agents (Law of One Price).\n\\end{keydef}\n\n\\textbf{\\textcolor{red}{AD $\\Leftrightarrow$ Radner under complete markets.}}\n\n\\begin{keydef}\n\\textbf{Proposition (Equivalence).} With complete real Arrow markets and one physical good, the Radner spot-price normalization is $\\hat p^R_s / \\hat p^R_0 = 1$, and:\n\\textbf{(1)} If $(\\hat x^{AD}, \\hat p^{AD})$ is AD with $\\hat p^{AD} > 0$, then $\\hat q^R_s = \\hat p^{AD}_s / \\hat p^{AD}_0$, $\\hat x^R = \\hat x^{AD}$ gives a Radner.\n\\textbf{(2)} Conversely, every Radner equilibrium with $\\hat q^R > 0$ yields an AD with $\\hat p^{AD}_s = \\hat q^R_s$, $\\hat x^{AD} = \\hat x^R$.\n\\end{keydef}\n\n\\emph{Proof outline.} \\textbf{Step 1 (budget equivalence)}: choose $\\theta^i_s = x^i_s - \\omega^i_s$. \\textbf{Step 2 (market clearing)}: asset market clearing reduces to AD goods clearing. So 1st/2nd Welfare Theorems extend to Radner with complete markets.\n\n\\textbf{\\textcolor{red}{Lucas tree (exogenous-price special case).}} Identical agents (same $\\omega$, $u$, $\\beta$, $\\pi$) $\\Rightarrow$ autarchy is the CE, so $\\hat x^i_s = \\omega_s$ and $\\mu_s = \\beta u'(\\omega_s)/u'(\\omega_0)$. Prices become functions of aggregate endowment shocks alone — the workhorse of macro-finance.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch5_09",
+                    "type": "forward"
+                  }
+                ],
+                "x": 820,
+                "y": 1240,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 5
+              },
+              {
+                "id": "ch5_09",
+                "title": "5.9 No-arbitrage, CAPM, risk-neutral pricing",
+                "content": "\\textbf{\\textcolor{red}{5.9 --- NO-ARBITRAGE, RISK-RETURN TRADEOFF, CAPM, risk-neutral pricing.}}\n\n\\begin{keydef}\n\\textbf{Definition (No arbitrage).} $(R, q)$ is arbitrage-free if there is no portfolio $\\theta \\in \\mathbb{R}^K$ with $q \\cdot \\theta \\leq 0$ \\emph{and} $R\\theta \\geq 0$ with $R\\theta \\neq 0$. (No free lunch.)\n\\end{keydef}\n\n\\textbf{\\textcolor{red}{Two-way bridge: NA $\\Leftrightarrow$ existence of nonneg SDF.}}\n\n\\begin{keydef}\n\\textbf{Prop A.} SDF $\\mu > 0$ exists $\\Rightarrow$ NA.\n\\textbf{Prop B (Fundamental Thm of Asset Pricing).} NA $\\Rightarrow$ exists SDF $\\mu \\geq 0$ (via separation theorem). Under complete markets, $\\mu > 0$.\n\\end{keydef}\n\n\\begin{proof}[Proof of A]\n$q \\cdot \\theta = \\sum_s \\pi_s \\mu_s (\\sum_k r^k_s \\theta^k) > 0$ whenever $R\\theta \\geq 0$ with at least one strict (and $\\mu > 0$, $\\pi > 0$). So no portfolio with $q\\cdot\\theta \\leq 0$ and $R\\theta \\geq 0,\\neq 0$ exists. $\\square$\n\\end{proof}\n\n\\textbf{\\textcolor{red}{Risk-return tradeoff (decompose covariance).}}\n\\[ q_k = \\mathbb{E}[\\mu r^k] = \\mathbb{E}[\\mu]\\,\\mathbb{E}[r^k] + \\mathrm{Cov}(\\mu, r^k). \\]\nDivide by $q_k$ and let $\\tilde R_k := r^k/q_k$:\n\\[ \\boxed{\\;\\mathbb{E}[\\tilde R_k] = R_f - R_f\\,\\mathrm{Cov}(\\mu,\\, \\tilde R_k).\\;} \\]\n\\emph{Reading.} $\\mu$ is decreasing in aggregate consumption (concavity). Assets that pay in \\emph{bad} states (positive cov with $\\mu$) command \\textcolor{orange}{lower} expected returns (insurance). Assets that pay in \\emph{good} states (negative cov with $\\mu$) command a \\textcolor{orange}{risk premium}.\n\n\\textbf{\\textcolor{red}{CAPM.}}\n\\[ \\mathbb{E}[\\tilde R_k] - R_f = \\beta_k\\, (\\mathbb{E}[\\tilde R_M] - R_f), \\quad \\beta_k = \\dfrac{\\mathrm{Cov}(\\tilde R_k, \\tilde R_M)}{\\mathrm{Var}(\\tilde R_M)}. \\]\nExpected excess return $\\propto$ covariance with the market portfolio.\n\n\\textbf{\\textcolor{red}{Risk-neutral probabilities.}} Define $\\hat\\pi_s := \\pi_s\\, \\mu_s / \\mathbb{E}[\\mu]$. Then $\\hat\\pi$ is a probability measure ($\\sum_s \\hat\\pi_s = 1$, $\\hat\\pi_s > 0$ when $\\mu > 0$), and\n\\[ \\boxed{\\;q_k = \\dfrac{1}{R_f}\\, \\hat{\\mathbb{E}}[r^k].\\;} \\]\n\\emph{Price = expected payoff under $\\hat\\pi$, discounted at risk-free rate.} This is the workhorse of derivative pricing (Black-Scholes uses this in continuous time).\n",
+                "flashcard": true,
+                "images": [],
+                "links": [],
+                "x": 1440,
+                "y": 1240,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 5
+              }
+            ]
+          }
+        ]
       }
     ],
     "trash": [
