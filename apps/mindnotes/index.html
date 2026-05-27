@@ -6509,12 +6509,21 @@ function updatePreview() {
         renderMath(box);
     }
 
-    // Show attached images in preview
+    // Substitute any inline image tokens in the rendered preview
     if (State.tempImages && State.tempImages.length > 0) {
-        const imagesHtml = State.tempImages.map((img, i) =>
-            `<div class="preview-image"><img src="${img}" alt="Attached image ${i+1}"></div>`
-        ).join('');
-        box.innerHTML += `<div class="preview-images">${imagesHtml}</div>`;
+        const sub = substituteInlineImageTokens(box.innerHTML, State.tempImages, State.tempImageWidths);
+        box.innerHTML = sub.html;
+
+        // Show only non-inline images at the bottom
+        const remaining = State.tempImages
+            .map((img, i) => ({ img, i }))
+            .filter(({ i }) => !sub.usedIndices.has(i));
+        if (remaining.length > 0) {
+            const imagesHtml = remaining.map(({ img, i }) =>
+                `<div class="preview-image"><img src="${img}" alt="Attached image ${i+1}"></div>`
+            ).join('');
+            box.innerHTML += `<div class="preview-images">${imagesHtml}</div>`;
+        }
     }
 }
 
