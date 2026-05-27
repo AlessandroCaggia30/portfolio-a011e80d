@@ -6340,6 +6340,9 @@ async function saveNode() {
         State.editingNode.content = content;
         State.editingNode.flashcard = flashcard;
         State.editingNode.images = State.tempImages;
+        if (State.tempImageWidths && State.tempImageWidths.length) {
+            State.editingNode.imageWidths = [...State.tempImageWidths];
+        }
     } else {
         let x, y;
         if (State.pendingNodePosition) {
