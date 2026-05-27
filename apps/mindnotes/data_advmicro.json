@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-27T08:59:39.169Z",
+  "exportedAt": "2026-05-27T08:59:46.105Z",
   "data": {
     "topics": [
       {
@@ -101,7 +101,7 @@
               {
                 "id": "ch1_02a_hs",
                 "title": "1.2a-quick High school FOC summary",
-                "content": "\\textbf{\\textcolor{red}{HIGH-SCHOOL VERSION --- FOC for free maximization (Prop 1, compact).}}\n\n\\emph{Problem (F).} $\\max_{x \\in \\mathbb{R}^N} f(x)$ with $f$ differentiable.\n\n\\textbf{\\textcolor{red}{Necessity ($\\Rightarrow$).}}\nIf $x^*$ solves (F) (or is a local max, or any stationary point), and $f$ is differentiable, then\n\\[ \\boxed{\\;\\nabla f(x^*) = 0.\\;} \\]\n\\emph{$\\nabla f(x^*) = 0$ is a \\textcolor{orange}{necessary condition} for a max.}\n\n\n\n$\\bullet$ \\textbf{Nonneg-constrained variant ($\\max f$ s.t.\\ $x_n \\geq 0$):}\n\\[ \\tfrac{\\partial f(x^*)}{\\partial x_n} \\leq 0, \\quad \\text{with equality if } x_n^* > 0. \\]\n\\emph{Interior $\\Rightarrow$ FOC $=0$ (can perturb both ways); corner $\\Rightarrow$ FOC $\\leq 0$ (only upward perturbations feasible, so can't improve by going up).}\n\n\n\\textbf{\\textcolor{red}{Sufficiency ($\\Leftarrow$).}}\nIf $f$ is differentiable \\emph{and concave}, and $\\nabla f(x^*) = 0$, then $x^*$ solves (F).\n\\emph{$\\nabla f(x^*) = 0$ is a \\textcolor{orange}{sufficient condition} for a max.}\n\nNote $\\nabla f(x^*) = 0$ alone $\\Rightarrow$ $x^*$ is a \\emph{stationary point} (could be min, saddle, or max --- need concavity to upgrade).\n",
+                "content": "\\textbf{\\textcolor{red}{HIGH-SCHOOL VERSION --- FOC for free maximization (Prop 1, compact).}}\n\n\n\\emph{Problem (F).} $\\max_{x \\in \\mathbb{R}^N} f(x)$ with $f$ differentiable.\n\n\\textbf{\\textcolor{red}{Necessity ($\\Rightarrow$).}}\nIf $x^*$ solves (F) (or is a local max, or any stationary point), and $f$ is differentiable, then\n\\[ \\boxed{\\;\\nabla f(x^*) = 0.\\;} \\]\n\\emph{$\\nabla f(x^*) = 0$ is a \\textcolor{orange}{necessary condition} for a max.}\n\n\n\n$\\bullet$ \\textbf{Nonneg-constrained variant ($\\max f$ s.t.\\ $x_n \\geq 0$):}\n\\[ \\tfrac{\\partial f(x^*)}{\\partial x_n} \\leq 0, \\quad \\text{with equality if } x_n^* > 0. \\]\n\\emph{Interior $\\Rightarrow$ FOC $=0$ (can perturb both ways); corner $\\Rightarrow$ FOC $\\leq 0$ (only upward perturbations feasible, so can't improve by going up).}\n\n\n\\textbf{\\textcolor{red}{Sufficiency ($\\Leftarrow$).}}\nIf $f$ is differentiable \\emph{and concave}, and $\\nabla f(x^*) = 0$, then $x^*$ solves (F).\n\\emph{$\\nabla f(x^*) = 0$ is a \\textcolor{orange}{sufficient condition} for a max.}\n\nNote $\\nabla f(x^*) = 0$ alone $\\Rightarrow$ $x^*$ is a \\emph{stationary point} (could be min, saddle, or max --- need concavity to upgrade).\n",
                 "flashcard": true,
                 "images": [],
                 "links": [
