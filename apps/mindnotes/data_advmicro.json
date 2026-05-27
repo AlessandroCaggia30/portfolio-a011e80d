@@ -1149,6 +1149,157 @@
             ]
           }
         ]
+      },
+      {
+        "id": "ch8_topic",
+        "name": "Ch8 — Signaling (Spence)",
+        "subtopics": [
+          {
+            "id": "ch8_sub",
+            "name": "Signaling",
+            "nodes": [
+              {
+                "id": "ch8_01",
+                "title": "8.1 Spence model: pooling vs separating",
+                "content": "\\textbf{\\textcolor{red}{8.1 --- SPENCE SIGNALING (simplified): pooling vs separating, single-crossing.}}\n\n\\emph{Setup.} Workers types $\\theta \\in \\{\\theta_\\ell, \\theta_h\\}$ ($\\theta_h > \\theta_\\ell > 0$). Fraction $\\nu$ high. Education $e \\in \\{0, 1\\}$. \\textbf{Pure signaling}: education does \\emph{not} raise productivity.\n\n\\emph{Wage = market expectation:} $w(e) = \\mathbb{E}[\\theta \\mid e]$.\n\\emph{Worker payoff:} $U = w - v(e, \\theta)$.\n\n\\textbf{\\textcolor{red}{Key assumption: $v$ decreasing in $\\theta$ (single-crossing).}}\nEducation is less costly for high type. Standard form: $v(1, \\theta) = 1/\\theta$, $v(0, \\theta) = 0$.\n\n\\textbf{\\textcolor{red}{Possible equilibria (simplified).}}\n$\\bullet$ \\textbf{Pooling at $e=0$}: $w^*(0) = \\mathbb{E}_\\nu[\\theta] = \\nu\\theta_h + (1-\\nu)\\theta_\\ell$.\n$\\bullet$ \\textbf{Pooling at $e=1$} (``rat race''): both go to college.\n$\\bullet$ \\textbf{Separating}: $e^*(\\theta_h) = 1, e^*(\\theta_\\ell) = 0$. Wages $w^*(0) = \\theta_\\ell, w^*(1) = \\theta_h$.\n\n\\emph{Separating exists if} the high type prefers college: $\\theta_h - v > \\nu\\theta_h + (1-\\nu)\\theta_\\ell$, i.e.\\ $(\\theta_h - \\theta_\\ell)(1-\\nu) > v$.\n\n\\textcolor{orange}{Reading.} Wages differ across pooling vs separating not because of fundamentals but because of \\textbf{self-fulfilling market expectations} about workforce composition.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch8_02",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 8
+              },
+              {
+                "id": "ch8_02",
+                "title": "8.2 Full game + PBE definition",
+                "content": "\\textbf{\\textcolor{red}{8.2 --- FULL GAME: timing + Perfect Bayesian Equilibrium definition.}}\n\n\\textbf{\\textcolor{red}{Timing (dynamic game).}}\n$t = 0$: worker learns $\\theta$.\n$t = 1$: worker chooses $e$.\n$t = 2$: firms (Bertrand) offer wages.\n$t = 3$: worker accepts one offer (or none).\n$t = 4$: output produced.\n\n\\begin{keydef}\n\\textbf{Perfect Bayesian Equilibrium (PBE).} A quartet $(e^*, w^*, f^*, \\mu^*)$ where\n$e^*: \\Theta \\to E$ (education), $w^*_i: E \\to W$ (firm's wage), $f^*: \\Theta \\times E \\times W^2 \\to \\{0,1,2\\}$ (worker's accept), $\\mu^*: E \\to [0,1]$ ($\\mu^*(e) = $ Pr($\\theta_h \\mid e$)).\n\\end{keydef}\n\n\\emph{PBE conditions.}\n\\textbf{1. Worker rationality (IC + IR):}\n\\[ w^*(e^*(\\theta)) - v(e^*(\\theta), \\theta) \\geq w^*(e) - v(e, \\theta) \\;\\;\\forall e, \\qquad w^*(e^*(\\theta)) - v(e^*(\\theta), \\theta) \\geq 0. \\]\n\\textbf{2. Bertrand wage:} $w^*(e) = \\mu^*(e)\\theta_h + (1-\\mu^*(e))\\theta_\\ell = \\mathbb{E}_{\\mu^*}[\\theta \\mid e]$.\n\\textbf{3. Beliefs consistency:} On-path beliefs by \\textcolor{orange}{Bayes rule}; off-path beliefs $\\mu^*(e)$ are \\emph{arbitrary} (refinements deal with this).\n\n\\emph{Single-crossing reading.} Indifference curves $w = U + v(e, \\theta)$ are flatter for high type (lower marginal cost of $e$). The two curves cross at most once.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch8_03",
+                    "type": "forward"
+                  }
+                ],
+                "x": 820,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 8
+              },
+              {
+                "id": "ch8_03",
+                "title": "8.3 Perfect info benchmark: e* = 0",
+                "content": "\\textbf{\\textcolor{red}{8.3 --- PERFECT INFORMATION BENCHMARK: no signaling needed, $e^* = 0$.}}\n\n\\emph{Setup.} Firms observe $\\theta$ directly. Wage strategy: $w_i: E \\times \\Theta \\to W$. Subgame Perfect Equilibrium (SPE).\n\n\\textbf{\\textcolor{red}{Backward induction.}}\n\\emph{Stage 3+ (worker accepts max wage):} $f^*(\\theta, e, w_1, w_2) = \\arg\\max\\{w_1, w_2\\}$ (firm 1 if tie).\n\\emph{Stage 2 (Bertrand):}\n\n\\begin{keydef}\n\\textbf{Claim.} Symmetric Nash: $w_1^*(e, \\theta) = w_2^*(e, \\theta) = \\theta$ (firms make zero profits).\n\\end{keydef}\n\n\\emph{Argument.} $w > \\theta$ $\\Rightarrow$ negative profits (dominated by $w = \\theta$). $w < \\theta$ $\\Rightarrow$ rival deviates to $w' = (w+\\theta)/2$, attracts worker, positive profits. Only $w = \\theta$ survives.\n\n\\emph{Stage 1 (worker chooses $e$):} since $w$ doesn't depend on $e$ under full info, and education has positive cost, $e^*(\\theta) = 0$ for all $\\theta$.\n\n\\textbf{\\textcolor{red}{Full-info SPE.}}\n\\[ e^*(\\theta) = 0, \\quad w^*_i(e, \\theta) = \\theta, \\quad f^* = 1. \\]\n\\emph{Both firms make zero profit; no signaling.} This is the FB benchmark.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch8_04",
+                    "type": "forward"
+                  }
+                ],
+                "x": 1440,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 8
+              },
+              {
+                "id": "ch8_04",
+                "title": "8.4 PBE pessimistic pooling (e=0)",
+                "content": "\\textbf{\\textcolor{red}{8.4 --- PBE 1: PESSIMISTIC POOLING ($e = 0$, always exists).}}\n\n\\begin{keydef}\n\\textbf{Claim.} For any parameter values, there's a PBE with $e^*(\\theta_h) = e^*(\\theta_\\ell) = 0$.\n\\end{keydef}\n\n\\textbf{\\textcolor{red}{Construction.}}\n\\emph{On-path beliefs (Bayes):} $\\mu^*(0) = \\nu$ $\\Rightarrow$ $w^*(0) = \\mathbb{E}_\\nu[\\theta]$.\n\\emph{Off-path belief (free):} set $\\mu^*(1) = 0$ (most pessimistic interpretation of education) $\\Rightarrow$ $w^*(1) = \\theta_\\ell$.\n\n\\emph{Check IR + IC for both types.}\n$\\bullet$ IR: $w^*(0) = \\mathbb{E}_\\nu[\\theta] \\geq \\theta_\\ell \\geq 0 = U$ outside option $\\Rightarrow$ both types want to participate.\n$\\bullet$ IC: $w^*(0) = \\mathbb{E}_\\nu[\\theta] \\geq \\theta_\\ell > w^*(1) - 1/\\theta$ for any $\\theta$ (since $1/\\theta > 0$).\n\n\\textbf{\\textcolor{red}{Why it always works.}} The pessimistic off-path belief makes $e=1$ unattractive ($w$ drops to $\\theta_\\ell$ \\emph{and} you pay the cost). Neither type wants to deviate.\n\n\\emph{Multiplicity.} Many similar pooling-at-0 equilibria exist by varying $\\mu^*(1) \\in [0, \\bar\\mu]$ for some $\\bar\\mu$ that keeps the deviation unattractive.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch8_05",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 8
+              },
+              {
+                "id": "ch8_05",
+                "title": "8.5 PBE rat-race pooling (e=1) — Pareto-dominated",
+                "content": "\\textbf{\\textcolor{red}{8.5 --- PBE 2: ``RAT-RACE'' POOLING ($e = 1$); condition + Pareto inefficiency.}}\n\n\\begin{keydef}\n\\textbf{Claim.} Rat-race pooling $e^*(\\theta_h) = e^*(\\theta_\\ell) = 1$ is a PBE iff\n\\[ \\mathbb{E}_\\nu[\\theta] - \\tfrac{1}{\\theta_\\ell} \\geq \\theta_\\ell. \\]\n\\end{keydef}\n\n\\textbf{\\textcolor{red}{Construction.}}\nOn-path: $\\mu^*(1) = \\nu$, $w^*(1) = \\mathbb{E}_\\nu[\\theta]$.\nOff-path (free): $\\mu^*(0) = 0$, $w^*(0) = \\theta_\\ell$.\n\n\\emph{IC for low type:} $\\mathbb{E}_\\nu[\\theta] - 1/\\theta_\\ell \\geq \\theta_\\ell$ (the assumption). High type automatically satisfied since $1/\\theta_h < 1/\\theta_\\ell$.\n\n\\emph{Reading.} Both types ``rationally'' get education even though education is pure signaling — because off-path beliefs treat $e=0$ as a sign of being low type, and the pessimistic wage at $e=0$ ($\\theta_\\ell$) is worse than $\\mathbb{E}_\\nu[\\theta] - 1/\\theta_\\ell$.\n\n\\textbf{\\textcolor{red}{Pareto dominance.}} Rat-race pooling is Pareto-dominated by $e=0$ pooling: \\emph{everybody} pays the education cost for no productive gain. Firms zero profits in both. Welfare strictly higher under no-education.\n\n\\textcolor{orange}{Real-world echo.} Credentialism: rising required degrees for jobs that didn't change in skill content.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch8_06",
+                    "type": "forward"
+                  }
+                ],
+                "x": 820,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 8
+              },
+              {
+                "id": "ch8_06",
+                "title": "8.6 PBE separating: double-IC condition",
+                "content": "\\textbf{\\textcolor{red}{8.6 --- PBE 3: SEPARATING ($e^*(\\theta_h) = 1, e^*(\\theta_\\ell) = 0$); double-IC condition.}}\n\n\\begin{keydef}\n\\textbf{Claim.} Separating PBE exists iff\n\\[ \\theta_h - \\tfrac{1}{\\theta_\\ell} \\;\\leq\\; \\theta_\\ell \\;\\leq\\; \\theta_h - \\tfrac{1}{\\theta_h}. \\]\n\\end{keydef}\n\n\\textbf{\\textcolor{red}{Beliefs are pinned down (no off-path freedom).}}\n$\\mu^*(0) = 0,\\, \\mu^*(1) = 1$ $\\Rightarrow$ $w^*(0) = \\theta_\\ell,\\, w^*(1) = \\theta_h$.\n\n\\textbf{\\textcolor{red}{IC conditions.}}\n$\\bullet$ \\textbf{Low type sticks to $e=0$:} $\\theta_\\ell \\geq \\theta_h - 1/\\theta_\\ell$, i.e.\\ low type's cost of mimicking exceeds wage gap. \\textcolor{orange}{Bottom condition: $\\theta_\\ell \\geq \\theta_h - 1/\\theta_\\ell$.}\n$\\bullet$ \\textbf{High type prefers $e=1$:} $\\theta_h - 1/\\theta_h \\geq \\theta_\\ell$, i.e.\\ wage gap exceeds high type's cost. \\textcolor{orange}{Top condition: $\\theta_h - 1/\\theta_h \\geq \\theta_\\ell$.}\n\nIR satisfied trivially (both wages $> 0$).\n\n\\textbf{\\textcolor{red}{Reading: signaling works exactly because of single-crossing.}}\nThe single-crossing property gives a gap: the wage premium $\\theta_h - \\theta_\\ell$ is enough for the high type to bear $1/\\theta_h$, but not enough for the low type to bear $1/\\theta_\\ell$. Sorting via costly signal.\n\n\\emph{Sufficient productivity gap.} If $\\theta_h$ and $\\theta_\\ell$ are too close, neither IC can hold. Separation requires \\textcolor{orange}{enough heterogeneity}.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch8_07",
+                    "type": "forward"
+                  }
+                ],
+                "x": 1440,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 8
+              },
+              {
+                "id": "ch8_07",
+                "title": "8.7 Competitive screening: existence issues",
+                "content": "\\textbf{\\textcolor{red}{8.7 --- COMPETITIVE SCREENING (firms commit first): pooling may fail; non-existence possible.}}\n\n\\emph{Timing change.} Firms set wage \\emph{functions} $w_i(\\cdot)$ \\emph{before} worker chooses $e$. (Cf.\\ signaling: worker moves first.)\n\n\\emph{Worker's joint problem given $(w_1^*, w_2^*)$:} $\\max_{e, f} w_f^*(e) - 1/\\theta$.\n\n\\begin{keydef}\n\\textbf{Claim.} In competitive screening, pessimistic pooling may \\emph{not} be a PBE.\n\\end{keydef}\n\n\\textbf{\\textcolor{red}{Cream-skimming deviation.}}\nSuppose pooling $w^*(0) = \\mathbb{E}_\\nu[\\theta], w^*(1) = \\theta_\\ell$. If\n\\[ \\theta_h - \\tfrac{1}{\\theta_h} \\;>\\; \\mathbb{E}_\\nu[\\theta] \\;>\\; \\theta_h - \\tfrac{1}{\\theta_\\ell}, \\]\nthen a firm can deviate: offer $w(1) = \\theta_h - \\epsilon$. Only high types accept (low types unwilling: $\\theta_h - \\epsilon - 1/\\theta_\\ell < \\mathbb{E}_\\nu[\\theta]$). Deviator earns positive profit on the high-type segment. Original pooling collapses.\n\n\\textbf{\\textcolor{red}{Non-existence of pure-strategy equilibrium.}}\nIf in addition $\\theta_h - 1/\\theta_\\ell > \\theta_\\ell$ (separating IC for low type fails), neither pooling nor separating PBE works. \\textcolor{orange}{No pure-strategy equilibrium} in competitive screening — this is a classical Rothschild-Stiglitz-style result.\n\n\\emph{Reading.} Competition forces firms to design contracts that attract specific types (screening). If single-crossing doesn't generate a clean separation between IC margins, the game has no equilibrium in pure strategies (only mixed, or with refinements).\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch8_08",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 1240,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 8
+              },
+              {
+                "id": "ch8_08",
+                "title": "8.8 Lemons + 2008 crash",
+                "content": "\\textbf{\\textcolor{red}{8.8 --- LEMONS MARKET \\& 2008 financial crash (heterogeneous outside option).}}\n\n\\emph{Variant.} Different outside options: $U_h > U_\\ell = 0$. High type can opt out of the market at positive value.\n\n\\begin{keydef}\n\\textbf{Claim.} If $\\theta_h - 1/\\theta_h > U_h > \\mathbb{E}_\\nu[\\theta]$: \\textcolor{orange}{the only possible PBE is separating}.\n\\end{keydef}\n\n\\emph{Why pooling fails.} $U_h > \\mathbb{E}_\\nu[\\theta]$ $\\Rightarrow$ pooling wage at $e=0$ doesn't satisfy IR for high type — he'd rather take outside option. So $\\theta_h$ refuses to participate at pooling wage. Pooling at $e=1$ also fails (worse, by cost). Only separating works (and requires $\\theta_h - 1/\\theta_h > U_h$).\n\n\\textbf{\\textcolor{red}{LEMONS market (no signaling available).}} Same parameters but \\emph{no education}:\n\nOnly equilibrium: $e = 0,\\, w(0) = \\theta_\\ell$. High type \\emph{exits the market} (outside option $U_h > \\theta_\\ell$). Only low types stay.\n\n\\textcolor{orange}{Akerlof's lemons.} Without a way to signal, asymmetric info drives the high type out. Market unravels to the lowest type. Pareto-dominated by separating (where high type participates).\n\n\\textbf{\\textcolor{red}{Application: 2008 financial crash.}}\n\nReinterpret: $\\theta$ = asset return; ``high'' = good asset, ``low'' = toxic. Buyers don't know type. $U_h$ = good-asset holder's outside option (keep the asset).\n\n\\emph{Setup:} $\\mathbb{E}_\\nu[\\theta] > U_h > \\theta_\\ell$ (pooling price > good asset's outside option > bad asset).\n\n\\emph{Two PBE without signaling:}\n$\\bullet$ \\textbf{Pooling:} $\\bar w = \\mathbb{E}_\\nu[\\theta]$, all participate — market functions.\n$\\bullet$ \\textbf{Lemons:} $\\underline w = \\theta_\\ell$, only bad assets traded — market freezes.\n\n\\textcolor{orange}{Coordination failure.} Pessimistic beliefs of buyers $\\Rightarrow$ low prices $\\Rightarrow$ good-asset holders withdraw $\\Rightarrow$ pessimistic beliefs confirmed. Self-fulfilling collapse — argued to underlie the 2008 freeze in structured-credit markets. \\emph{Policy:} a credible buyer-of-last-resort at $p = U_h + \\epsilon$ kills the lemons equilibrium (TARP-style intervention).\n",
+                "flashcard": true,
+                "images": [],
+                "links": [],
+                "x": 820,
+                "y": 1240,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 8
+              }
+            ]
+          }
+        ]
       }
     ],
     "trash": [
