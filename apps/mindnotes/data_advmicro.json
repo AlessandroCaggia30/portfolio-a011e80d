@@ -189,6 +189,211 @@
             ]
           }
         ]
+      },
+      {
+        "id": "ch2_topic_consumer",
+        "name": "Ch2 — Consumer Problem",
+        "subtopics": [
+          {
+            "id": "ch2_sub_consumer",
+            "name": "Consumer Problem",
+            "nodes": [
+              {
+                "id": "ch2_01",
+                "title": "2.1 Consumer problem: setup, v, x*, existence",
+                "content": "\\textbf{\\textcolor{red}{2.1 --- CONSUMER PROBLEM: setup, value $v(p,w)$, demand $x^*(p,w)$, existence \\& uniqueness.}}\n\n\\emph{Primitives.} Utility $U: \\mathbb{R}_+^N \\to \\mathbb{R}$ continuous, concave. Bundle $x = (x_1,\\ldots,x_N)$ (may include leisure). Prices $p \\in \\mathbb{R}_{++}^N$, wealth $w > 0$.\n\n\\begin{keydef}\n\\textbf{Budget set.} $\\;B(p,w) := \\{x \\in \\mathbb{R}_+^N : \\sum_n p_n x_n \\leq w\\}$.\n\nKey properties: compact (since $0 \\leq x_n \\leq w/p_n$), convex, and \\textcolor{orange}{scale-invariant}: $B(\\alpha p, \\alpha w) = B(p,w)$ for all $\\alpha > 0$.\n\\end{keydef}\n\n\\begin{keydef}\n\\textbf{Consumer problem.} $\\;\\; v(p,w) := \\max_{x \\in B(p,w)} U(x). \\tag{2.1}$\n\n$v(\\cdot)$ is the \\textit{indirect utility}; the maximizer $x^*(p,w)$ is the (uncompensated / Walrasian / Marshallian) \\textit{demand function}.\n\\end{keydef}\n\n\\textbf{\\textcolor{red}{Three preliminary facts (read \\emph{before} solving).}}\n$\\bullet$ \\textbf{Existence:} $B$ compact + $U$ continuous $\\Rightarrow$ Bolzano-Weierstrass: $x^*(p,w)$ exists for all $(p,w) > 0$.\n$\\bullet$ \\textbf{Uniqueness:} $B$ convex + $U$ \\emph{strictly} concave $\\Rightarrow$ $x^*(p,w)$ unique (hence a function). Maximum theorem $\\Rightarrow$ $x^*(\\cdot)$ continuous.\n$\\bullet$ \\textbf{Homogeneity degree 0:} $B$ scale-invariant $\\Rightarrow$ $x^*(\\alpha p, \\alpha w) = x^*(p, w)$ for all $\\alpha > 0$.\n\n\\emph{Pointer to next:} Apply KKT (Ch.1, Theorem 2) to derive the FOCs $\\to$ note 2.2.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch2_02",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 2
+              },
+              {
+                "id": "ch2_02",
+                "title": "2.2 KKT: FOCs + Walras's law",
+                "content": "\\textbf{\\textcolor{red}{2.2 --- SOLVING via KKT: Lagrangian, FOCs, Walras's law.}}\n\n\\emph{Write budget canonically:} $w - \\sum_n p_n x_n \\geq 0$. \\emph{Lagrangian (nonneg constraints absorbed into FOC slackness):}\n\\[ \\mathcal{L}(x, \\lambda) = U(x) + \\lambda\\bigl[w - \\textstyle\\sum_n p_n x_n\\bigr]. \\]\n\n\\textbf{\\textcolor{red}{FOCs.}} For each $n = 1, \\ldots, N$:\n\\[ \\tfrac{\\partial U(x^*)}{\\partial x_n} \\leq \\lambda^* p_n, \\quad \\text{with equality if } x_n^* > 0; \\]\nplus budget feasibility $w - \\sum_n p_n x_n^* \\geq 0$ and budget slackness: $\\lambda^* > 0 \\Rightarrow w = \\sum_n p_n x_n^*$.\n\n\\textbf{\\textcolor{red}{Walras's law.}} If $\\partial U/\\partial x_n > 0$ for some $n$ (i.e.\\ $U$ strictly increasing somewhere), the FOC forces $\\lambda^* > 0$, hence the budget binds:\n\\[ \\boxed{\\;\\textstyle\\sum_n p_n\\, x_n^*(p,w) = w.\\;} \\]\n\n\\textbf{\\textcolor{red}{Why KKT applies (Slater).}} For $U$ concave \\& differentiable, use Ch.1 Theorem 2 (concave + differentiable: FOC iff optimum). Slater interior point exists trivially: e.g.\\ $\\underline x_n = w/(2 p_n)$ has $\\underline x > 0$ and $\\sum p_n \\underline x_n = N w/2 \\cdot \\tfrac{2}{Nw}$ — pick small enough to keep slack. So FOCs are \\emph{necessary \\& sufficient}.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch2_03",
+                    "type": "forward"
+                  }
+                ],
+                "x": 820,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 2
+              },
+              {
+                "id": "ch2_03",
+                "title": "2.3 MRS = price ratio (geometric)",
+                "content": "\\textbf{\\textcolor{red}{2.3 --- MRS = price ratio (geometric reading at interior optimum).}}\n\n\\emph{Rearrange any two interior FOCs} ($x_i^*, x_j^* > 0$): both $\\partial U/\\partial x_n = \\lambda^* p_n$, so\n\\[ \\tfrac{\\partial U/\\partial x_j}{\\partial U/\\partial x_i} = \\tfrac{p_j}{p_i}, \\qquad MRS(x_j, x_i) := -\\tfrac{\\partial U/\\partial x_j}{\\partial U/\\partial x_i} = -\\tfrac{p_j}{p_i}. \\]\n\n\\emph{Reading.} MRS$(x_j, x_i)$ = how much $x_i$ the consumer gives up for one extra unit of $x_j$ = slope of the indifference curve in $(x_i, x_j)$ space (recall Ch.1: $\\nabla U \\perp$ indifference curve).\n\n\\textbf{\\textcolor{red}{Why this must hold at $x^*$ (1-line economic argument).}}\n\nSuppose at $x'$: $MRS(x_1', x_2') < -p_1/p_2$, i.e.\\ $\\tfrac{\\partial U/\\partial x_1}{\\partial U/\\partial x_2} > p_1/p_2$. Consider the budget-feasible move ``$+1$ unit of $x_1$, $-p_1/p_2$ units of $x_2$'' (along budget line). Utility change:\n\\[ \\Delta U = \\tfrac{\\partial U}{\\partial x_1} - \\tfrac{\\partial U}{\\partial x_2}\\tfrac{p_1}{p_2} > 0. \\]\nA feasible improvement exists — contradicts optimality. \\textcolor{orange}{At $x^*$, no budget-feasible perturbation improves $U$.} Graphically: $\\nabla U(x^*)$ (blue, $\\perp$ indifference curve) is parallel to $p$ (red, $\\perp$ budget line) iff the two curves are tangent.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch2_04",
+                    "type": "forward"
+                  }
+                ],
+                "x": 1440,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 2
+              },
+              {
+                "id": "ch2_04",
+                "title": "2.4 Duality + Slutsky equation",
+                "content": "\\textbf{\\textcolor{red}{2.4 --- DUALITY: expenditure minimization, Hicksian demand, Slutsky equation.}}\n\n\\textbf{\\textcolor{red}{Dual problem (expenditure minimization).}}\n\\[ e(p, \\underline u) := \\min_x \\sum_n p_n x_n \\quad \\text{s.t.}\\quad U(x) \\geq \\underline u. \\]\n$e(p, \\underline u)$ = \\textit{expenditure function}; minimizer $x^C(p, \\underline u)$ = \\textit{Hicksian / compensated demand}.\n\n\\textbf{\\textcolor{red}{Primal-dual identities.}}\n\\[ x_i^C(p, \\underline u) = x_i^*(p,\\, e(p, \\underline u)), \\qquad x_i^*(p, w) = x_i^C(p,\\, v(p, w)). \\]\n\\emph{Reading.} Fixing prices: the Hicksian for $\\underline u$ equals Marshallian when wealth is just enough to reach $\\underline u$.\n\n\\textbf{\\textcolor{red}{Slutsky equation.}} Differentiate the first identity in $p_i$ (envelope: $\\partial e/\\partial p_i = x_i^C$):\n\\[ \\boxed{\\;\\underbrace{\\tfrac{\\partial x_i^*(p,w)}{\\partial p_i}}_{\\text{total (uncomp.)}} \\;=\\; \\underbrace{\\tfrac{\\partial x_i^C(p, \\underline u)}{\\partial p_i}}_{\\text{substitution effect}} \\;-\\; \\underbrace{\\tfrac{\\partial x_i^*(p,w)}{\\partial w}\\, x_i^*(p,w)}_{\\text{income effect}}.\\;} \\tag{2.2} \\]\n\\emph{Intuition.} A price rise: (i) substitution — swap toward cheaper goods at the \\emph{same} utility level; (ii) income — you became effectively poorer ($\\Delta w \\approx -x_i^* \\cdot \\Delta p_i$).\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch2_05",
+                    "type": "forward"
+                  }
+                ],
+                "x": 2060,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 2
+              },
+              {
+                "id": "ch2_05",
+                "title": "2.5 Demand elasticity",
+                "content": "\\textbf{\\textcolor{red}{2.5 --- DEMAND ELASTICITY (log-derivative).}}\n\n\\begin{keydef}\n\\textbf{(Uncompensated) elasticity:} $\\;\\;\\epsilon_{n, p_k} := \\dfrac{\\partial \\ln x_n^*(p,w)}{\\partial \\ln p_k} = \\dfrac{\\partial x_n^*}{\\partial p_k}\\, \\dfrac{p_k}{x_n^*}.$\n\\end{keydef}\n\n\\emph{Reading.} $\\epsilon_{n, p_k}$ = percent change in demand for good $n$ from a 1\\% change in price $p_k$. Unit-free $\\Rightarrow$ comparable across goods/markets.\n\n\\emph{Sign conventions (concave $U$, normal goods).}\n$\\bullet$ Own price: $\\epsilon_{n, p_n} < 0$ (typical) — \\emph{Giffen} goods are the exception.\n$\\bullet$ Cross price: $\\epsilon_{n, p_k} > 0$ means substitutes; $< 0$ means complements.\n$\\bullet$ Income elasticity $\\epsilon_{n,w} := \\partial \\ln x_n^*/\\partial \\ln w$: normal ($>0$), inferior ($<0$), luxury ($>1$), necessity ($\\in (0,1)$).\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch2_06",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 2
+              },
+              {
+                "id": "ch2_06",
+                "title": "2.6 Indirect utility + Roy's identity",
+                "content": "\\textbf{\\textcolor{red}{2.6 --- INDIRECT UTILITY $v(p,w)$ \\& ROY'S IDENTITY.}}\n\n\\emph{Defn.} $v(p, w) = U(x^*(p, w))$. Inherited properties:\n$\\bullet$ Homogeneous of degree 0: $v(\\alpha p, \\alpha w) = v(p, w)$.\n$\\bullet$ Strictly increasing in $w$ (if $U$ strictly increasing in some good): $\\partial v/\\partial w > 0$.\n$\\bullet$ Non-increasing in each $p_n$: $\\partial v/\\partial p_n \\leq 0$.\n\n\\begin{keydef}\n\\textbf{Proposition (Roy's identity).} If $x^*$ satisfies Walras's law and $v$ is differentiable:\n\\[ x_n^*(p, w) = -\\dfrac{\\partial v(p, w)/\\partial p_n}{\\partial v(p, w)/\\partial w}, \\qquad n = 1, \\ldots, N. \\]\n\\end{keydef}\n\n\\textbf{\\textcolor{red}{Proof (via envelope theorem on the Lagrangian).}}\n\\begin{proof}\nCS gives $v(p,w) = U(x^*) + \\lambda^*[w - \\sum p_n x_n^*]$ (the bracket is $0$ when budget binds). Envelope:\n\\[ \\tfrac{\\partial v}{\\partial w} = \\lambda^*(p,w), \\qquad \\tfrac{\\partial v}{\\partial p_n} = -\\lambda^*(p,w)\\, x_n^*(p,w). \\]\nTake the ratio $\\Rightarrow$ multiplier cancels $\\Rightarrow$ Roy. $\\square$\n\\end{proof}\n\n\\emph{Heuristic envelope check (for $\\partial v/\\partial w$):} brute-force chain rule gives\n\\[ \\tfrac{\\partial v}{\\partial w} = \\sum_n\\underbrace{\\bigl[\\tfrac{\\partial U}{\\partial x_n} - \\lambda^* p_n\\bigr]}_{=0\\text{ by FOC}}\\tfrac{\\partial x_n^*}{\\partial w} + \\lambda^*[\\underbrace{w - \\sum p_n x_n^*}_{=0\\text{ Walras}}]_\\text{deriv}\\cdot \\tfrac{\\partial \\lambda^*}{\\partial w} + \\lambda^* = \\lambda^*. \\]\n\\textcolor{orange}{Economic reading of $\\lambda^*$: marginal value of wealth.}\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch2_07",
+                    "type": "forward"
+                  }
+                ],
+                "x": 820,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 2
+              },
+              {
+                "id": "ch2_07",
+                "title": "2.7 Equivalent variation + welfare",
+                "content": "\\textbf{\\textcolor{red}{2.7 --- EQUIVALENT VARIATION \\& welfare measurement.}}\n\n\\emph{Problem.} Utility unobservable. Trick: measure how a price/policy change \\emph{compares} to a money transfer that induces the same utility shift.\n\n\\textbf{\\textcolor{red}{Equivalent variation (with real endowments $\\omega^i$, individual $i$).}} Using Roy's identity:\n\\[ EV_n^i = \\dfrac{dv^i/dp_n}{dv^i/dw} = \\omega_n^i - x_n^i, \\]\nwhere $\\omega_n^i - x_n^i$ is the \\emph{net consumption} (sign of net position determines who gains/loses).\n\n\\emph{Aggregate over goods and individuals.} Total welfare effect of a price change $dp$:\n\\[ EV(dp) = \\sum_i \\sum_n EV_n^i\\, dp_n. \\]\n\n\\textcolor{orange}{Applications:} tax incidence (a tax is a wedge in $p$); GE effects of reforms travel through equilibrium price changes; distributional analysis (sum $EV^i$ weighted by social weights).\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch2_08",
+                    "type": "forward"
+                  }
+                ],
+                "x": 1440,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 2
+              },
+              {
+                "id": "ch2_08",
+                "title": "2.8 Homothetic preferences",
+                "content": "\\textbf{\\textcolor{red}{2.8 --- HOMOTHETIC PREFERENCES: demand linear in wealth.}}\n\n\\begin{keydef}\n\\textbf{Homothetic.} $U(x) = g(h(x))$ with $g$ strictly increasing and $h$ homogeneous of degree 1 ($h(\\alpha x) = \\alpha h(x)$ for all $\\alpha > 0$).\n\\end{keydef}\n\n\\textbf{\\textcolor{red}{Implication: multiplicative-in-wealth structure.}}\n\\[ v(p, w) = v(p)\\, w, \\qquad x_i^*(p, w) = x_i(p)\\, w. \\]\n\\emph{Intuition.} Scaling wealth by $\\alpha$ scales the budget set by $\\alpha$; homogeneity of $h$ scales the level sets uniformly $\\Rightarrow$ optimal bundle scales by $\\alpha$.\n\n\\textcolor{orange}{Why useful.} Aggregation across heterogeneous agents and over time is trivial: total demand = price-only function $\\times$ aggregate wealth — standard tool in macro.\n\n\\textbf{\\textcolor{red}{Parametric example.}} $U(x_1, x_2) = \\sqrt{x_1}\\sqrt{x_2}$. Homothetic (it is itself homogeneous of degree 1). Also $\\hat U(x) = \\ln x_1 + \\ln x_2$ is homothetic (monotone transformation, $g = \\ln \\circ \\text{(itself)}^2$). FOCs give Cobb-Douglas-style $x_i^*(p,w) = w/(2 p_i)$.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch2_09",
+                    "type": "forward"
+                  }
+                ],
+                "x": 2060,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 2
+              },
+              {
+                "id": "ch2_09",
+                "title": "2.9 Quasilinear preferences",
+                "content": "\\textbf{\\textcolor{red}{2.9 --- QUASILINEAR PREFERENCES: no wealth effect on non-numeraire goods.}}\n\n\\emph{Setup.} Take good 1 as numeraire ($p_1 = 1$, $x_1$ unrestricted in sign). Quasilinear utility:\n\\[ U(x_1, \\ldots, x_N) = \\alpha\\, x_1 + u(x_2, \\ldots, x_N), \\quad \\alpha > 0. \\]\n\n\\textbf{\\textcolor{red}{Consequence: $\\lambda^* = \\alpha$ regardless of $w$.}} \\emph{Check from FOCs:} $\\partial U/\\partial x_1 = \\alpha = \\lambda^* \\cdot 1 \\Rightarrow \\lambda^* = \\alpha$.\n\n\\textbf{\\textcolor{red}{Demand and indirect utility.}}\n$\\bullet$ For $i = 2, \\ldots, N$: FOCs $\\partial u/\\partial x_i = \\alpha\\, p_i$ depend only on $p$, \\emph{not} on $w$. So $x_i^*(p, w) = x_i^*(p)$.\n$\\bullet$ All wealth effects fall on the numeraire $x_1^*(p, w) = w - \\sum_{i \\geq 2} p_i x_i^*(p)$.\n$\\bullet$ Indirect utility:\n\\[ v(p, w) = u(x_2^*(p), \\ldots, x_N^*(p)) + \\alpha\\bigl[w - \\textstyle\\sum_{i\\geq 2} p_i x_i^*(p)\\bigr] = g(p) + \\alpha w, \\]\nwhere $g(p) := u(\\cdot) - \\alpha \\sum_{i\\geq 2} p_i x_i^*(p)$.\n\n\\textcolor{orange}{Why useful.} ``No income effects'' means consumer-surplus measurements are exact ($EV = CS$); efficient allocations are independent of distribution of $x_1$ — standard in mechanism design / public economics.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch2_10",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 1240,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 2
+              },
+              {
+                "id": "ch2_10",
+                "title": "2.10 Labor supply: Frisch, comp., uncomp.",
+                "content": "\\textbf{\\textcolor{red}{2.10 --- LABOR SUPPLY: uncompensated vs compensated vs Frisch elasticity.}}\n\n\\emph{Setup.} $c$ = consumption (numeraire), $h$ = labor (a ``bad''), $\\omega > 0$ wage, $I$ = non-labor income:\n\\[ \\max_{c, h\\geq 0}\\; U(c, h) \\quad \\text{s.t.}\\quad c = \\omega h + I. \\]\n\n\\textbf{\\textcolor{red}{Parametric: $\\;U(c, h) = c - \\dfrac{h^{1+1/\\epsilon}}{1+1/\\epsilon},\\; \\epsilon > 0.$}}\n\nFOCs: $h^{*\\,1/\\epsilon} = \\lambda^* \\omega$ and $\\lambda^* = 1$ (since $\\partial U/\\partial c = 1$). Plug in:\n\\[ \\tfrac{1}{\\epsilon}\\ln h^* = \\ln \\omega \\;\\;\\Rightarrow\\;\\; \\epsilon_{h, \\omega} := \\tfrac{\\partial \\ln h^*}{\\partial \\ln \\omega} = \\epsilon. \\]\n\\textcolor{orange}{Constant labor supply elasticity} — and since $\\lambda^*$ is constant in $(\\omega, I)$, this equals the Frisch elasticity.\n\n\\textbf{\\textcolor{red}{General separable case $U = u(c) - v(h)$.}}\nFOCs: $u'(c^*) = \\lambda^*$, $\\;v'(h^*) = \\omega \\lambda^*$.\n\n\\emph{Frisch (= $\\lambda$-constant):} $\\;\\;\\epsilon_{h,\\omega}^F = \\dfrac{v'(h^*)}{v''(h^*)\\, h^*}$.\n\n\\emph{Uncompensated:} includes the income effect (which is $0$ iff $u(c) = c$). General formula:\n\\[ \\tfrac{\\partial h^*}{\\partial I} = -\\dfrac{\\omega\\, u''(c^*)}{\\omega^2 u''(c^*) - v''(h^*)}. \\]\n\n\\emph{Compensated (Slutsky):} $\\epsilon^C = \\epsilon - (\\partial h^*/\\partial I)\\,\\omega$. For separable case:\n\\[ \\epsilon_{h,\\omega}^C = \\dfrac{u'(c^*)}{\\omega^2 u''(c^*) - v''(h^*)}\\,\\dfrac{\\omega}{h^*}. \\]\n\n\\emph{Ordering (under standard signs):} \\;$\\epsilon^F \\geq \\epsilon^C \\geq \\epsilon^U$ (Frisch is largest because $\\lambda$-constant means \\emph{no} wealth-adjustment damping).\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch2_11",
+                    "type": "forward"
+                  }
+                ],
+                "x": 820,
+                "y": 1240,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 2
+              },
+              {
+                "id": "ch2_11",
+                "title": "2.11 Real endowments + chain rule",
+                "content": "\\textbf{\\textcolor{red}{2.11 --- REAL ENDOWMENTS: $\\hat x^*(p, \\omega) = x^*(p,\\, p \\cdot \\omega)$ and direct income effect.}}\n\n\\emph{Setup.} Consumer holds real endowment vector $\\omega = (\\omega_1, \\ldots, \\omega_N)$. Wealth $= p \\cdot \\omega = \\sum_n p_n \\omega_n$:\n\\[ \\hat v(p, \\omega) := \\max_x U(x) \\quad \\text{s.t.}\\quad x \\geq 0,\\;\\; \\sum_n p_n x_n \\leq \\sum_n p_n \\omega_n. \\]\n\n\\emph{Identity to nominal-wealth problem.} $\\;\\hat x_i^*(p, \\omega) = x_i^*(p,\\, p \\cdot \\omega).$ Net demand of good $i$: $\\;x_i^* - \\omega_i.$\n\n\\textbf{\\textcolor{red}{Comparative statics --- chain rule with direct income effect.}}\n\\[ \\dfrac{\\partial \\hat x_i^*}{\\partial p_j} \\;=\\; \\underbrace{\\left.\\dfrac{\\partial x_i^*(p, p\\cdot\\omega)}{\\partial p_j}\\right|_{p\\cdot \\omega \\text{ fixed}}}_{\\text{usual price effect at fixed wealth}} \\;+\\; \\underbrace{\\dfrac{\\partial x_i^*}{\\partial w}\\, \\omega_j}_{\\text{direct income effect via $\\partial(p\\cdot\\omega)/\\partial p_j = \\omega_j$}}. \\]\n\n\\emph{Checklist of inherited properties.}\n$\\bullet$ Existence: $U$ continuous $\\Rightarrow$ $\\hat x^*$ exists $\\forall(p, \\omega)$.\n$\\bullet$ Uniqueness/continuity: $U$ strictly concave \\& continuous.\n$\\bullet$ Homogeneity degree 0 in prices only: $\\hat x^*(\\alpha p, \\omega) = \\hat x^*(p, \\omega)$.\n$\\bullet$ Walras: $\\sum_n p_n \\hat x_n^* = \\sum_n p_n \\omega_n$ (if $U$ strictly increasing).\n$\\bullet$ $\\hat v$ homog.\\ degree 0 in $p$; increasing in $\\omega$; \\emph{not} always decreasing in $p$ (depends on net position).\n",
+                "flashcard": true,
+                "images": [],
+                "links": [],
+                "x": 1440,
+                "y": 1240,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 2
+              }
+            ]
+          }
+        ]
       }
     ],
     "trash": [
