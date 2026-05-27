@@ -6841,25 +6841,35 @@ function renderInlineImages(html, node) {
 
     // Handle array format - show images with controls
     if (Array.isArray(node.images) && node.images.length > 0) {
-        const imagesHtml = node.images.map((img, i) => {
-            // Check if image has stored width
-            const width = node.imageWidths?.[i] || null;
-            const widthStyle = width ? `width:${width}px;` : '';
-            const canMoveUp = i > 0;
-            const canMoveDown = i < node.images.length - 1;
-            return `
-                <div class="attached-image" data-img-index="${i}" onclick="selectImage(event, ${i})">
-                    <img src="${img}" alt="Image ${i+1}" style="${widthStyle}">
-                    <div class="image-controls">
-                        ${canMoveUp ? `<button onclick="event.stopPropagation(); moveImage(${i}, -1)" title="Move up">↑</button>` : ''}
-                        ${canMoveDown ? `<button onclick="event.stopPropagation(); moveImage(${i}, 1)" title="Move down">↓</button>` : ''}
-                        <button onclick="event.stopPropagation(); deleteImage(${i})" title="Delete">×</button>
+        // First substitute any inline tokens — those indices won't repeat in the bottom block.
+        const sub = substituteInlineImageTokens(result, node.images, node.imageWidths);
+        result = sub.html;
+
+        const remaining = node.images
+            .map((img, i) => ({ img, i }))
+            .filter(({ i }) => !sub.usedIndices.has(i));
+
+        if (remaining.length > 0) {
+            const imagesHtml = remaining.map(({ img, i }) => {
+                // Check if image has stored width
+                const width = node.imageWidths?.[i] || null;
+                const widthStyle = width ? `width:${width}px;` : '';
+                const canMoveUp = i > 0;
+                const canMoveDown = i < node.images.length - 1;
+                return `
+                    <div class="attached-image" data-img-index="${i}" onclick="selectImage(event, ${i})">
+                        <img src="${img}" alt="Image ${i+1}" style="${widthStyle}">
+                        <div class="image-controls">
+                            ${canMoveUp ? `<button onclick="event.stopPropagation(); moveImage(${i}, -1)" title="Move up">↑</button>` : ''}
+                            ${canMoveDown ? `<button onclick="event.stopPropagation(); moveImage(${i}, 1)" title="Move down">↓</button>` : ''}
+                            <button onclick="event.stopPropagation(); deleteImage(${i})" title="Delete">×</button>
+                        </div>
+                        <div class="resize-handle" onmousedown="startImageResize(event, ${i})"></div>
                     </div>
-                    <div class="resize-handle" onmousedown="startImageResize(event, ${i})"></div>
-                </div>
-            `;
-        }).join('');
-        result += `<div class="attached-images">${imagesHtml}</div>`;
+                `;
+            }).join('');
+            result += `<div class="attached-images">${imagesHtml}</div>`;
+        }
     }
 
     return result;
