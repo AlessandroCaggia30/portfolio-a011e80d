@@ -1300,6 +1300,103 @@
             ]
           }
         ]
+      },
+      {
+        "id": "ch10_topic",
+        "name": "Ch10 — Dynamic Contracts",
+        "subtopics": [
+          {
+            "id": "ch10_sub",
+            "name": "Dynamic Contracts",
+            "nodes": [
+              {
+                "id": "ch10_01",
+                "title": "10.1 Static insurance: no insurance possible (constant τ)",
+                "content": "\\textbf{\\textcolor{red}{10.1 --- STATIC INSURANCE: NO insurance possible (IC forces constant transfer).}}\n\n\\emph{Setup.} One good (consumption). Endowment shock $\\theta_n \\in \\{\\theta_1, \\ldots, \\theta_N\\}$, $\\theta_1 < \\cdots < \\theta_N$, probability $\\pi_n$. Transfer $\\tau_n$; consumption $c_n = \\tau_n + \\theta_n$. Planner minimizes expected cost $\\sum_n \\pi_n \\tau_n$ subject to promise-keeping (PK) $\\sum_n \\pi_n u(c_n) \\geq w$ and IC.\n\n\\textbf{\\textcolor{red}{Claim (No insurance).}} IC $\\Rightarrow$ $\\tau_n = \\bar\\tau$ for all $n$.\n\\begin{proof}\nIf not, set $\\tau^* = \\max_n \\tau_n$. Then $\\exists i$ with $\\tau_i < \\tau^*$, and agent $i$ would prefer pretending he got the endowment whose transfer is $\\tau^*$ — IC fails. $\\square$\n\\end{proof}\n\n\\textcolor{orange}{Intuition.} Without any \\emph{state-dependent} instrument to verify $\\theta$, anyone with a low transfer mimics the bundle with the highest transfer. The planner has nothing to separate agents.\n\n\\textbf{\\textcolor{red}{Value function $V(w)$ (cost minimization).}}\n$\\tau(w)$ solves $\\sum_n \\pi_n u(\\tau(w) + \\theta_n) = w$.\n\\[ V(w) = -\\tau(w), \\quad V'(w) = -\\tau'(w) = -\\dfrac{1}{\\sum_n \\pi_n u'(\\tau(w) + \\theta_n)} = -\\dfrac{1}{\\mathbb{E}[u'(c)]}. \\tag{10.2} \\]\n\n$V$ is \\textcolor{orange}{concave} (by change of variables $u_n = u(\\tau(w) + \\theta_n)$: linear PK constraint + concave objective).\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch10_02",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 10
+              },
+              {
+                "id": "ch10_02",
+                "title": "10.2 Two-period recursive + First Best Euler",
+                "content": "\\textbf{\\textcolor{red}{10.2 --- TWO-PERIOD RECURSIVE SETUP + First Best.}}\n\n\\emph{Setup.} Two periods, iid shocks $\\theta$ (period 1), $\\theta'$ (period 2). Agent discount $\\beta$; planner discount/bond price $q$. Continuation utility $w_n$ promised after period-1 shock $\\theta_n$.\n\n\\textbf{\\textcolor{red}{Planner's recursive problem.}}\n\\[ \\max_{\\{\\tau_n^1, w_n\\}} \\sum_n \\pi_n[-\\tau_n^1 + q V(w_n)] \\]\n\\[ \\text{s.t.}\\;\\; \\sum_n \\pi_n[u(\\tau_n^1 + \\theta_n) + \\beta w_n] \\geq U_0 \\;(IR),\\;\\; \\text{IC}(n, i)\\;\\forall n, i. \\tag{10.3} \\]\n\n\\emph{Sufficient statistic.} $w_n$ encodes the entire second-period continuation; static analysis (10.1) then determines $\\tau_n^2$ to deliver $w_n$.\n\n\\textbf{\\textcolor{red}{First Best (shocks observable).}}\nFOCs (without IC):\n\\[ w_n: -qV'(w_n^{FB}) = \\beta\\lambda, \\qquad \\tau_n^1: 1 = u'(\\tau_n^{1\\,FB} + \\theta_n)\\lambda. \\]\n$\\Rightarrow$ \\emph{full insurance:} $\\tau_n^{1\\,FB} + \\theta_n = \\bar c_1$ constant, and \\emph{constant continuation:} $w_n^{FB} = \\bar w$.\n\nRearrange (using $V'$ from 10.2): \\textcolor{orange}{Euler equation for risk-free savings}\n\\[ \\boxed{\\;q\\, u'(\\bar c_1) = \\beta\\, \\mathbb{E}[u'(c_2(\\theta'))].\\;} \\tag{10.5} \\]\n\\emph{Reading.} First best matches an agent with access to a risk-free bond at price $q$. No intertemporal distortion.\n\n\\textbf{\\textcolor{red}{Why FB fails under hidden info.}} At FB, each low-$\\theta$ agent's indifference curve has steeper slope (single-crossing). \\emph{All} agents would prefer to claim $\\theta_1$ (highest transfer, same $\\bar w$). FB violates IC.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch10_03",
+                    "type": "forward"
+                  }
+                ],
+                "x": 820,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 10
+              },
+              {
+                "id": "ch10_03",
+                "title": "10.3 Second Best: LDIC binds, τ↓, w↑",
+                "content": "\\textbf{\\textcolor{red}{10.3 --- SECOND BEST: LDIC binds, $\\tau_n^1$ decreasing, $w_n$ increasing.}}\n\n\\emph{Relaxed problem.} Replace global IC by local downward IC (LDIC); monotonicity check ex-post.\n\\[ \\max \\sum_n \\pi_n[-\\tau_n^1 + qV(w_n)] \\]\n\\[ \\text{s.t.}\\;\\; \\sum_n \\pi_n[u(\\tau_n^1 + \\theta_n) + \\beta w_n] \\geq U_0 \\;(IR, \\lambda), \\;\\; \\text{LDIC}_n: u(\\tau_n^1 + \\theta_n) + \\beta w_n \\geq u(\\tau_{n-1}^1 + \\theta_n) + \\beta w_{n-1}\\;(\\mu_n). \\]\n\n\\textbf{\\textcolor{red}{Monotonicity (single-crossing in $(\\tau, w)$).}}\nIndifference curve slope in $(\\tau, w)$ space: $-u'(\\tau + \\theta)/\\beta$, \\emph{flatter} for higher $\\theta$.\nLDIC + LUIC $\\Rightarrow$ $\\tau_n^1$ \\emph{decreasing} in $n$, $w_n$ \\emph{increasing} in $n$. \\textcolor{orange}{Low-$\\theta$ (today unlucky) gets larger transfer today, smaller continuation utility; high-$\\theta$ (today lucky) gets smaller transfer today, larger continuation.}\n\n\\textbf{\\textcolor{red}{All LDIC bind at optimum.}}\nOtherwise, increase $w_{n-1}$ and decrease $w_n$ keeping agent welfare constant — improves planner via concavity of $V$.\n\n\\textbf{\\textcolor{red}{FOCs (with $c_n^1 = \\tau_n^1 + \\theta_n$).}}\n\\[ \\tau_n^1: \\pi_n\\bigl[-\\tfrac{1}{u'(c_n^1)} + \\lambda\\bigr] = \\mu_{n+1}\\tfrac{u'(c_n^1 + \\theta_{n+1} - \\theta_n)}{u'(c_n^1)} - \\mu_n, \\tag{10.6} \\]\n\\[ w_n: \\pi_n\\bigl[qV'(w_n) + \\beta\\lambda\\bigr] = \\beta(\\mu_{n+1} - \\mu_n), \\]\nwith $\\mu_1 = \\mu_{N+1} = 0$.\n\n\\textbf{\\textcolor{red}{Intuition: trade-off between period-1 insurance and continuation dispersion.}}\nFull period-1 insurance ($c_n^1 = \\bar c$) requires large dispersion in $w_n$ (only $w$ left to separate types) — bad for concave $V$. Full continuation pooling ($w_n = \\bar w$) requires no period-1 transfer dispersion — no period-1 insurance. Optimum mixes both: \\textcolor{orange}{partial insurance in $t=1$, partial dispersion in continuation}.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch10_04",
+                    "type": "forward"
+                  }
+                ],
+                "x": 1440,
+                "y": 200,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 10
+              },
+              {
+                "id": "ch10_04",
+                "title": "10.4 Inverse Euler ⇒ positive capital tax",
+                "content": "\\textbf{\\textcolor{red}{10.4 --- POSITIVE CAPITAL TAXATION (Inverse Euler): SB strictly distorts savings.}}\n\n\\textbf{\\textcolor{red}{The key inequality (Inverse Euler).}} From (10.6), since $u'(c_n^1 + \\theta_{n+1} - \\theta_n)/u'(c_n^1) < 1$ (lying makes you eat more, lower $u'$) and $\\mu_{n+1} \\geq 0$:\n\\[ \\boxed{\\;q\\, u'(c_n^1) \\;<\\; \\beta\\, \\mathbb{E}[u'(c_n^2(\\theta'))].\\;} \\tag{10.8} \\]\n\n\\emph{Comparison.} Recall FB / private savings give equality $q u'(c_1) = \\beta \\mathbb{E}[u'(c_2)]$. Under SB the LHS is strictly smaller — \\textcolor{orange}{agents would, if free, want to save more} (since marginal utility of period-2 consumption exceeds the discounted period-1 marginal utility).\n\n\\textbf{\\textcolor{red}{Implication: tax savings.}}\nIf agents had unrestricted access to a risk-free bond, they'd raise $c_2$ and lower $c_1$ until equality. The planner doesn't want this — it weakens incentives. \\textcolor{orange}{Optimal capital tax is positive.}\n\n\\textbf{\\textcolor{red}{Two intuitions.}}\n\\emph{(a) Joint-deviation.} A bond is a ``bad asset for incentives'' — it pays the same in consumption across states, so it raises utility unevenly across the marginal-utility ladder. Agent who lies (mimicking lower type) gets lower $w$, hence values second-period saving more. The bond facilitates lying.\n\\emph{(b) IC externality.} A small bond perturbation ($\\downarrow c_1$ by $q\\epsilon$, $\\uparrow c_2$ by $\\epsilon$) leaves the planner's budget unchanged but tightens IC. Agent doesn't internalize this; planner taxes to correct.\n\n\\textcolor{orange}{Cross-reference.} The same logic justifies the Mirrlees income tax: an action that helps the agent (more $y$, more savings) also tightens an IC he doesn't perceive.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [
+                  {
+                    "target": "ch10_05",
+                    "type": "forward"
+                  }
+                ],
+                "x": 200,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 10
+              },
+              {
+                "id": "ch10_05",
+                "title": "10.5 Hidden savings ⇒ bond economy (incomplete markets)",
+                "content": "\\textbf{\\textcolor{red}{10.5 --- ENDOGENIZING MARKET INCOMPLETENESS: SB collapses to a bond economy if agents can hide savings.}}\n\n\\emph{Setting.} Agents have hidden access to a risk-free bond at price $q$ (planner can't observe trades). Agent can adjust $(c_1, c_2)$ via the bond after receiving transfers.\n\n\\textbf{\\textcolor{red}{Consequence.}} Agent always declares the shock $\\theta_n$ with the highest \\emph{present value} of transfers $\\tau_n^1 + q\\tau_n^2$, then re-balances via the bond.\n\nFor IC to hold, the planner must offer a \\emph{constant} present-value transfer:\n\\[ \\tau_n^1 + q\\tau_n^2 = \\bar T \\quad \\forall n. \\]\n\nThis means the planner can only implement the \\textbf{static-equivalent} of an incomplete-markets bond economy: the agent gets a constant lump-sum and self-insures using the bond.\n\n\\textbf{\\textcolor{red}{Result: micro-foundation of incomplete markets.}}\nThe constrained-efficient allocation with hidden savings = pure-bond-economy allocation (Bewley / Aiyagari / Huggett style: income risk + single risk-free asset for self-insurance).\n\n\\textcolor{orange}{Why this matters for macro.} A wide class of macro models — wealth inequality, business cycle costs, optimal monetary policy in HANK (Heterogeneous Agents New Keynesian) — assume incomplete markets exogenously. This dynamic-contracts result \\emph{derives} that assumption from primitive private-information and unobservable-savings frictions.\n\n\\emph{Comparison summary.}\n$\\bullet$ Full information (FB): full insurance + Euler equality.\n$\\bullet$ Hidden $\\theta$, observable savings: SB with positive capital tax (inverse Euler).\n$\\bullet$ Hidden $\\theta$ + hidden savings: only bond-economy allocations implementable.\n",
+                "flashcard": true,
+                "images": [],
+                "links": [],
+                "x": 820,
+                "y": 720,
+                "width": 520,
+                "height": 420,
+                "sectionNumber": 10
+              }
+            ]
+          }
+        ]
       }
     ],
     "trash": [
