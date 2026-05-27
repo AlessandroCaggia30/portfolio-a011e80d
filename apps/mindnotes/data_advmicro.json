@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-27T07:43:21.013Z",
+  "exportedAt": "2026-05-27T08:55:50.897Z",
   "data": {
     "topics": [
       {
@@ -27,7 +27,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 1
+                "sectionNumber": 1,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch1_02",
@@ -45,7 +56,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 1
+                "sectionNumber": 1,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch1_03",
@@ -63,7 +85,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 1
+                "sectionNumber": 1,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch1_04",
@@ -81,7 +114,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 1
+                "sectionNumber": 1,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch1_05",
@@ -99,7 +143,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 1
+                "sectionNumber": 1,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch1_06",
@@ -117,7 +172,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 1
+                "sectionNumber": 1,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch1_07",
@@ -135,7 +201,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 1
+                "sectionNumber": 1,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch1_08",
@@ -153,7 +230,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 1
+                "sectionNumber": 1,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch1_09",
@@ -171,7 +259,18 @@
                 "y": 1240,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 1
+                "sectionNumber": 1,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch1_10",
@@ -184,7 +283,28 @@
                 "y": 1240,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 1
+                "sectionNumber": 1,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
+              },
+              {
+                "id": "1779872148724",
+                "title": "Necessary and sufficient conditions for a maximum",
+                "content": "\nHigh school:\n\n=> if x* solves max P (or is a local max, or is a stationary point) and f is differentiable, then $\\nabla f(x*) = 0$\n\n\"\\emph{$\\nabla f(x*) = 0$ is a necessary condition for a max}\"\n\n<= if f differentiable, $\\nabla f(x*) = 0$ and f concave, then $x^*$ solves P (and is a stationary point)\n\n\"\\emph{$\\nabla f(x*) = 0$ is a sufficient condition for a max}\"\n\nNote $\\nabla f(x*) = 0$  => $x^*$ is stationary point\n\n\nNote if the problem is sub $x_n >= 0$ then the codnition si  $\\nabla f(x*) <= 0$",
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "x": 689.6442994251292,
+                "y": -412.35930437605657
               }
             ]
           }
@@ -214,7 +334,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 2
+                "sectionNumber": 2,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch2_02",
@@ -232,7 +363,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 2
+                "sectionNumber": 2,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch2_03",
@@ -250,7 +392,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 2
+                "sectionNumber": 2,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch2_04",
@@ -268,7 +421,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 2
+                "sectionNumber": 2,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch2_05",
@@ -286,7 +450,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 2
+                "sectionNumber": 2,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch2_06",
@@ -304,7 +479,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 2
+                "sectionNumber": 2,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch2_07",
@@ -322,7 +508,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 2
+                "sectionNumber": 2,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch2_08",
@@ -340,7 +537,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 2
+                "sectionNumber": 2,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch2_09",
@@ -358,7 +566,18 @@
                 "y": 1240,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 2
+                "sectionNumber": 2,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch2_10",
@@ -376,7 +595,18 @@
                 "y": 1240,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 2
+                "sectionNumber": 2,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch2_11",
@@ -389,7 +619,18 @@
                 "y": 1240,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 2
+                "sectionNumber": 2,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               }
             ]
           }
@@ -419,7 +660,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 3
+                "sectionNumber": 3,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch3_02",
@@ -437,7 +689,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 3
+                "sectionNumber": 3,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch3_03",
@@ -455,7 +718,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 3
+                "sectionNumber": 3,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch3_04",
@@ -473,7 +747,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 3
+                "sectionNumber": 3,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch3_05",
@@ -491,7 +776,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 3
+                "sectionNumber": 3,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch3_06",
@@ -509,7 +805,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 3
+                "sectionNumber": 3,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch3_07",
@@ -527,7 +834,18 @@
                 "y": 1240,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 3
+                "sectionNumber": 3,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch3_08",
@@ -545,7 +863,18 @@
                 "y": 1240,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 3
+                "sectionNumber": 3,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch3_09",
@@ -558,7 +887,18 @@
                 "y": 1240,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 3
+                "sectionNumber": 3,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               }
             ]
           }
@@ -588,7 +928,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 4
+                "sectionNumber": 4,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch4_02",
@@ -606,7 +957,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 4
+                "sectionNumber": 4,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch4_03",
@@ -624,7 +986,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 4
+                "sectionNumber": 4,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch4_04",
@@ -642,7 +1015,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 4
+                "sectionNumber": 4,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch4_05",
@@ -660,7 +1044,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 4
+                "sectionNumber": 4,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch4_06",
@@ -673,7 +1068,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 4
+                "sectionNumber": 4,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               }
             ]
           }
@@ -703,7 +1109,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 5
+                "sectionNumber": 5,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch5_02",
@@ -721,7 +1138,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 5
+                "sectionNumber": 5,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch5_03",
@@ -739,7 +1167,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 5
+                "sectionNumber": 5,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch5_04",
@@ -757,7 +1196,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 5
+                "sectionNumber": 5,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch5_05",
@@ -775,7 +1225,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 5
+                "sectionNumber": 5,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch5_06",
@@ -793,7 +1254,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 5
+                "sectionNumber": 5,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch5_07",
@@ -811,7 +1283,18 @@
                 "y": 1240,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 5
+                "sectionNumber": 5,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch5_08",
@@ -829,7 +1312,18 @@
                 "y": 1240,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 5
+                "sectionNumber": 5,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch5_09",
@@ -842,7 +1336,18 @@
                 "y": 1240,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 5
+                "sectionNumber": 5,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               }
             ]
           }
@@ -872,7 +1377,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 6
+                "sectionNumber": 6,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch6_02",
@@ -890,7 +1406,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 6
+                "sectionNumber": 6,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch6_03",
@@ -908,7 +1435,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 6
+                "sectionNumber": 6,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch6_04",
@@ -926,7 +1464,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 6
+                "sectionNumber": 6,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch6_05",
@@ -944,7 +1493,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 6
+                "sectionNumber": 6,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch6_06",
@@ -962,7 +1522,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 6
+                "sectionNumber": 6,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch6_07",
@@ -980,7 +1551,18 @@
                 "y": 1240,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 6
+                "sectionNumber": 6,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch6_08",
@@ -993,7 +1575,18 @@
                 "y": 1240,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 6
+                "sectionNumber": 6,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               }
             ]
           }
@@ -1023,7 +1616,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 7
+                "sectionNumber": 7,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch7_02",
@@ -1041,7 +1645,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 7
+                "sectionNumber": 7,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch7_03",
@@ -1059,7 +1674,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 7
+                "sectionNumber": 7,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch7_04",
@@ -1077,7 +1703,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 7
+                "sectionNumber": 7,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch7_05",
@@ -1095,7 +1732,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 7
+                "sectionNumber": 7,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch7_06",
@@ -1113,7 +1761,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 7
+                "sectionNumber": 7,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch7_07",
@@ -1131,7 +1790,18 @@
                 "y": 1240,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 7
+                "sectionNumber": 7,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch7_08",
@@ -1144,7 +1814,18 @@
                 "y": 1240,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 7
+                "sectionNumber": 7,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               }
             ]
           }
@@ -1174,7 +1855,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 8
+                "sectionNumber": 8,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch8_02",
@@ -1192,7 +1884,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 8
+                "sectionNumber": 8,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch8_03",
@@ -1210,7 +1913,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 8
+                "sectionNumber": 8,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch8_04",
@@ -1228,7 +1942,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 8
+                "sectionNumber": 8,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch8_05",
@@ -1246,7 +1971,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 8
+                "sectionNumber": 8,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch8_06",
@@ -1264,7 +2000,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 8
+                "sectionNumber": 8,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch8_07",
@@ -1282,7 +2029,18 @@
                 "y": 1240,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 8
+                "sectionNumber": 8,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch8_08",
@@ -1295,7 +2053,18 @@
                 "y": 1240,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 8
+                "sectionNumber": 8,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               }
             ]
           }
@@ -1325,7 +2094,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 10
+                "sectionNumber": 10,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch10_02",
@@ -1343,7 +2123,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 10
+                "sectionNumber": 10,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch10_03",
@@ -1361,7 +2152,18 @@
                 "y": 200,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 10
+                "sectionNumber": 10,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch10_04",
@@ -1379,7 +2181,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 10
+                "sectionNumber": 10,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               },
               {
                 "id": "ch10_05",
@@ -1392,7 +2205,18 @@
                 "y": 720,
                 "width": 520,
                 "height": 420,
-                "sectionNumber": 10
+                "sectionNumber": 10,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-05-27T08:49:24.430Z"
+                }
               }
             ]
           }
