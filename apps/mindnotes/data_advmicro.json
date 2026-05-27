@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-27T09:25:13.166Z",
+  "exportedAt": "2026-05-27T09:26:31.659Z",
   "data": {
     "topics": [
       {
@@ -22,8 +22,8 @@
                 "links": [],
                 "x": 1083.333333333333,
                 "y": -559.9999999999982,
-                "width": 1310,
-                "height": 610,
+                "width": 893.3333333333334,
+                "height": 600,
                 "sectionNumber": 1,
                 "fsrs": {
                   "stability": 1,
@@ -36,6 +36,16 @@
                   "lastReview": null,
                   "dueDate": "2026-05-27T08:57:22.704Z"
                 }
+              },
+              {
+                "id": "1779873989505",
+                "title": "Applications",
+                "content": "\nUnder the sufficient conditions, if we find an $x^*$",
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "x": 2860,
+                "y": -197.7298969808735
               }
             ]
           }
