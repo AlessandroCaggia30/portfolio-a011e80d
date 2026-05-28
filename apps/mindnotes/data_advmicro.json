@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-28T19:22:08.539Z",
+  "exportedAt": "2026-05-28T19:22:34.252Z",
   "data": {
     "topics": [
       {
@@ -110,6 +110,10 @@
                   {
                     "target": "ch_rep_agent",
                     "type": "both"
+                  },
+                  {
+                    "target": "1779996151910",
+                    "type": "forward"
                   }
                 ],
                 "x": 1164.3378490896894,
@@ -211,6 +215,17 @@
                 "width": 454.38607762025504,
                 "height": 381.0832671756041,
                 "flashcard": false
+              },
+              {
+                "id": "1779996151910",
+                "title": "Complementary goods utility",
+                "content": "",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": 1910.2134307571846,
+                "y": 2553.782670112342
               }
             ]
           }
