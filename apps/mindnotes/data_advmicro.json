@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-29T13:29:29.530Z",
+  "exportedAt": "2026-05-29T13:32:34.473Z",
   "data": {
     "topics": [
       {
@@ -272,8 +272,8 @@
                 "id": "ch_po",
                 "title": "Pareto Optimum (PO) — definition, PS, remarks",
                 "content": "\\textbf{\\textcolor{red}{PARETO OPTIMUM --- efficient allocations.}}\n\n\\textbf{\\textcolor{red}{Definition.}} $\\bar x \\in \\mathcal{F}$ is \\emph{Pareto Optimal} iff\n\\[ \\boxed{\\;\\nexists\\, y \\in \\mathcal{F} \\;\\;\\text{s.t.}\\;\\; U^i(y^i) \\geq U^i(\\bar x^i)\\;\\forall i \\;\\;\\text{and}\\;\\; U^j(y^j) > U^j(\\bar x^j)\\;\\text{for some } j.\\;} \\]\n\\emph{No feasible reallocation makes someone strictly better off without hurting anyone.}\n\n\\textbf{\\textcolor{red}{Pareto Set (PS).}} The set of \\emph{all} PO allocations:\n\\[ \\mathrm{PS} \\;=\\; \\{x \\in \\mathcal{F} \\;:\\; x \\text{ is PO}\\}. \\]\n\n\\textbf{\\textcolor{red}{Remarks.}}\n$\\bullet$ \\textbf{Remark 1.} PO says \\emph{nothing about fairness} --- giving all $\\omega$ to one agent is PO.\n",
-                "x": 1500,
-                "y": 3500,
+                "x": 1610,
+                "y": 3320,
                 "width": 900,
                 "height": 700,
                 "flashcard": false
@@ -357,8 +357,8 @@
                 "id": "ch_exchange_setting",
                 "title": "Exchange Economy — setting and feasibility",
                 "content": "\\textbf{\\textcolor{red}{EXCHANGE ECONOMY --- the standard setting for PO and CE.}}\n\n\\textbf{\\textcolor{red}{Ingredients.}}\n$\\bullet$ \\textbf{$I$ consumers / agents}, indexed by $i = 1, 2, \\ldots, I$.\n$\\bullet$ \\textbf{$N$ goods}, indexed by $n = 1, 2, \\ldots, N$.\n$\\bullet$ \\textbf{Initial endowments} $\\omega^i = (\\omega_1^i, \\ldots, \\omega_N^i) \\in \\mathbb{R}^N_+$: agent $i$'s initial stock of each good \\emph{before} any trade.\n$\\bullet$ \\textbf{Utility functions} $U^i : \\mathbb{R}^N_+ \\to \\mathbb{R}$, one per agent.\n\n\\emph{No production} --- the only way goods change hands is by exchange between consumers.\n\n\\textbf{\\textcolor{red}{Feasible set.}}\n\\[ \\mathcal{F} \\;=\\; \\bigl\\{\\, x = (x^1, \\ldots, x^I) \\;:\\; x_n^i \\geq 0 \\;\\forall i, n, \\;\\; \\textstyle\\sum_i x_n^i = \\omega_n \\;\\forall n \\,\\bigr\\}. \\]\n",
-                "x": 500,
-                "y": 3500,
+                "x": 2550,
+                "y": 2385,
                 "width": 900,
                 "height": 700,
                 "flashcard": false,
