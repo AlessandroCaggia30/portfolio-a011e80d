@@ -4046,9 +4046,18 @@ async function loadData() {
                                 seedTopic.subtopics.forEach(seedSub => {
                                     const existingSub = existingTopic.subtopics.find(s => s.name === seedSub.name);
                                     if (existingSub) {
-                                        // Add only new nodes (by id) — don't overwrite existing
+                                        // For each seed node: add if new, update content if existing (preserve layout + FSRS state)
                                         seedSub.nodes.forEach(seedNode => {
-                                            if (!existingSub.nodes.some(n => n.id === seedNode.id)) {
+                                            const existingNode = existingSub.nodes.find(n => n.id === seedNode.id);
+                                            if (existingNode) {
+                                                // Update content from seed; preserve user's layout/flashcard state
+                                                if (seedNode.title !== undefined) existingNode.title = seedNode.title;
+                                                if (seedNode.content !== undefined) existingNode.content = seedNode.content;
+                                                if (seedNode.images !== undefined) existingNode.images = seedNode.images;
+                                                if (seedNode.imageWidths !== undefined) existingNode.imageWidths = seedNode.imageWidths;
+                                                if (seedNode.links !== undefined) existingNode.links = seedNode.links;
+                                                // Preserve: x, y, width, height, flashcard, fsrs, sectionNumber
+                                            } else {
                                                 existingSub.nodes.push(seedNode);
                                             }
                                         });
