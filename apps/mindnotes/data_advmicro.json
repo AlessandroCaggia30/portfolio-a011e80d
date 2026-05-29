@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-29T13:37:09.484Z",
+  "exportedAt": "2026-05-29T13:37:17.990Z",
   "data": {
     "topics": [
       {
@@ -281,10 +281,6 @@
                   {
                     "target": "ch_ups_upf",
                     "type": "both"
-                  },
-                  {
-                    "target": "1780061712608",
-                    "type": "forward"
                   }
                 ]
               },
@@ -305,10 +301,11 @@
                 "id": "ch_planner",
                 "title": "Planner's Problem (linear SWF) — characterization of PO",
                 "content": "\\textbf{\\textcolor{red}{PLANNER'S PROBLEM --- characterize PO via a linear social welfare function.}}\n\n\\textbf{\\textcolor{red}{Linear social welfare function.}} For $\\lambda \\in (0, 1)$:\n\\[ \\boxed{\\;[\\mathrm{A}]:\\quad \\max_{(x^1, x^2) \\in \\mathcal{F}} \\;\\;\\lambda\\, U^1(x^1) + (1-\\lambda)\\, U^2(x^2).\\;} \\]\n$\\lambda$ encodes the planner's preference weight on agent 1 vs.\\ agent 2.\n\n\\textbf{\\textcolor{red}{Solving $[\\mathrm{A}]$.}} Pick $\\lambda$, write Lagrangian with feasibility constraints, FOCs (\\emph{set partial derivatives to $0$}), solve. The output is a single utility pair --- a UPF point. Sweeping $\\lambda \\in (0, 1)$ traces out the UPF.\n\n\\textbf{\\textcolor{red}{Theorems linking $[\\mathrm{A}]$ and PO.}}\n\n\\textbf{(i) Sufficient.} If $(\\bar x^1, \\bar x^2)$ solves $[\\mathrm{A}]$ for some $\\lambda \\in (0, 1)$ (interior; otherwise the planner only weights one guy), then $\\bar x$ is PO.\n\n\\textbf{(ii) Necessary (under concavity).} If $\\bar x$ is PO \\emph{and} each $U^i$ is concave and increasing, then $\\exists \\lambda \\in (0, 1)$ s.t.\\ $\\bar x$ solves $[\\mathrm{A}]$.\n\n\\textbf{\\textcolor{orange}{Note on (ii).}} Concavity is crucial to retrieve \\emph{all} PO points via $\\lambda$. Without concavity, some PO points (sitting on non-convex parts of the UPF) cannot be retrieved by any $\\lambda$ --- the planner's tangent isowelfare line skips over kinks/holes. See \\emph{CE failures} for the non-convexity issue.\n\n\\textbf{\\textcolor{blue}{Cross-references.}} Built on \\emph{PO} and \\emph{UPS/UPF}. The planner's prices are the tangent slope $-\\lambda/(1-\\lambda)$, which connects to \\emph{Second Welfare Theorem}.",
-                "x": 120,
-                "y": 5340,
+                "x": 1010.6049985822174,
+                "y": 4545.995014491515,
                 "width": 900,
-                "height": 700
+                "height": 700,
+                "links": []
               },
               {
                 "id": "ch_contract_curve",
@@ -320,7 +317,8 @@
                 "x": 1120,
                 "y": 5340,
                 "width": 900,
-                "height": 700
+                "height": 700,
+                "links": []
               },
               {
                 "id": "ch_ce_def",
@@ -332,7 +330,8 @@
                 "x": 2120,
                 "y": 5340,
                 "width": 900,
-                "height": 700
+                "height": 700,
+                "links": []
               },
               {
                 "id": "ch_fwt",
@@ -341,7 +340,8 @@
                 "x": 120,
                 "y": 6140,
                 "width": 900,
-                "height": 700
+                "height": 700,
+                "links": []
               },
               {
                 "id": "ch_swt",
@@ -350,7 +350,8 @@
                 "x": 1120,
                 "y": 6140,
                 "width": 900,
-                "height": 700
+                "height": 700,
+                "links": []
               },
               {
                 "id": "ch_ce_failures",
@@ -362,7 +363,8 @@
                 "x": 2120,
                 "y": 6140,
                 "width": 900,
-                "height": 700
+                "height": 700,
+                "links": []
               },
               {
                 "id": "ch_exchange_setting",
@@ -379,19 +381,6 @@
                     "type": "forward"
                   }
                 ]
-              },
-              {
-                "id": "1780061712608",
-                "title": "Characterization of the PO / UPF: the planner problem",
-                "content": "",
-                "flashcard": false,
-                "images": [],
-                "imageWidths": [],
-                "links": [],
-                "x": 1243.55302036067,
-                "y": 4638.951711498999,
-                "width": 602.9464014112618,
-                "height": 391.0049201398221
               }
             ]
           }
@@ -2449,6 +2438,22 @@
         "deletedAt": 1780018958644,
         "fromTopic": "ch10_topic",
         "fromSubtopic": "ch10_sub"
+      },
+      {
+        "id": "1780061712608",
+        "title": "Characterization of the PO / UPF: the planner problem",
+        "content": "",
+        "flashcard": false,
+        "images": [],
+        "imageWidths": [],
+        "links": [],
+        "x": 1194.07496488388,
+        "y": 4638.951711498999,
+        "width": 602.9464014112618,
+        "height": 391.0049201398221,
+        "deletedAt": 1780061835959,
+        "fromTopic": "1740100000001",
+        "fromSubtopic": "1740100000101"
       }
     ]
   }
