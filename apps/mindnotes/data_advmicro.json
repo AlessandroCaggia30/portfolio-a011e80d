@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-29T13:33:10.748Z",
+  "exportedAt": "2026-05-29T13:33:26.416Z",
   "data": {
     "topics": [
       {
@@ -271,7 +271,7 @@
               {
                 "id": "ch_po",
                 "title": "Pareto Optimum (PO) — definition, PS, remarks",
-                "content": "\\textbf{\\textcolor{red}{PARETO OPTIMUM --- efficient allocations.}}\n\n\\textbf{\\textcolor{red}{Definition.}} $\\bar x \\in \\mathcal{F}$ is \\emph{Pareto Optimal} iff\n\\[ \\boxed{\\;\\nexists\\, y \\in \\mathcal{F} \\;\\;\\text{s.t.}\\;\\; U^i(y^i) \\geq U^i(\\bar x^i)\\;\\forall i \\;\\;\\text{and}\\;\\; U^j(y^j) > U^j(\\bar x^j)\\;\\text{for some } j.\\;} \\]\n\\emph{No feasible reallocation makes someone strictly better off without hurting anyone.}\n\n\\textbf{\\textcolor{red}{Pareto Set (PS).}} The set of \\emph{all} PO allocations:\n\\[ \\mathrm{PS} \\;=\\; \\{x \\in \\mathcal{F} \\;:\\; x \\text{ is PO}\\}. \\]\n\n\\textbf{\\textcolor{red}{Remarks.}}\n$\\bullet$ \\textbf{Remark 1.} PO says \\emph{nothing about fairness} --- giving all $\\omega$ to one agent is PO.\n",
+                "content": "\\textbf{\\textcolor{red}{PARETO OPTIMUM --- efficient allocations.}}\n\n\\textbf{\\textcolor{red}{Definition.}} $\\bar x \\in \\mathcal{F}$ is \\emph{Pareto Optimal} iff\n\\[ \\boxed{\\;\\nexists\\, y \\in \\mathcal{F} \\;\\;\\text{s.t.}\\;\\; U^i(y^i) \\geq U^i(\\bar x^i)\\;\\forall i \\;\\;\\text{and}\\;\\; U^j(y^j) > U^j(\\bar x^j)\\;\\text{for some } j.\\;} \\]\n\\emph{No feasible reallocation makes someone strictly better off without hurting anyone.}\n\n\n\\textbf{\\textcolor{red}{Pareto Set (PS).}} The set of \\emph{all} PO allocations:\n\\[ \\mathrm{PS} \\;=\\; \\{x \\in \\mathcal{F} \\;:\\; x \\text{ is PO}\\}. \\]\n\n\\textbf{\\textcolor{red}{Remarks.}}\n$\\bullet$ \\textbf{Remark 1.} PO says \\emph{nothing about fairness} --- giving all $\\omega$ to one agent is PO.\n",
                 "x": 996.542795024201,
                 "y": 3308.3373154947567,
                 "width": 900,
