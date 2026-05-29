@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-29T13:34:31.737Z",
+  "exportedAt": "2026-05-29T13:35:14.758Z",
   "data": {
     "topics": [
       {
@@ -374,6 +374,17 @@
                     "type": "forward"
                   }
                 ]
+              },
+              {
+                "id": "1780061712608",
+                "title": "Characterization of the PO / UPF: the planner problem",
+                "content": "",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": 1498.011591384161,
+                "y": 4603.610243301294
               }
             ]
           }
