@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-29T13:27:44.640Z",
+  "exportedAt": "2026-05-29T13:27:51.162Z",
   "data": {
     "topics": [
       {
@@ -159,8 +159,8 @@
                     "type": "both"
                   }
                 ],
-                "x": 4111.563228707915,
-                "y": 1165.88140978801,
+                "x": 4306.563228707915,
+                "y": 1075.88140978801,
                 "width": 900,
                 "height": 1100,
                 "sectionNumber": 1,
@@ -356,8 +356,8 @@
                 "id": "ch_exchange_setting",
                 "title": "Exchange Economy — setting and feasibility",
                 "content": "\\textbf{\\textcolor{red}{EXCHANGE ECONOMY --- the standard setting for PO and CE.}}\n\n\\textbf{\\textcolor{red}{Ingredients.}}\n$\\bullet$ \\textbf{$I$ consumers / agents}, indexed by $i = 1, 2, \\ldots, I$.\n$\\bullet$ \\textbf{$N$ goods}, indexed by $n = 1, 2, \\ldots, N$.\n$\\bullet$ \\textbf{Initial endowments} $\\omega^i = (\\omega_1^i, \\ldots, \\omega_N^i) \\in \\mathbb{R}^N_+$: agent $i$'s initial stock of each good \\emph{before} any trade.\n$\\bullet$ \\textbf{Utility functions} $U^i : \\mathbb{R}^N_+ \\to \\mathbb{R}$, one per agent.\n\n\\emph{No production} --- the only way goods change hands is by exchange between consumers.\n\n\\textbf{\\textcolor{red}{Feasible set.}}\n\\[ \\mathcal{F} \\;=\\; \\bigl\\{\\, x = (x^1, \\ldots, x^I) \\;:\\; x_n^i \\geq 0 \\;\\forall i, n, \\;\\; \\textstyle\\sum_i x_n^i = \\omega_n \\;\\forall n \\,\\bigr\\}. \\]\n",
-                "x": 4695.735466339346,
-                "y": 1583.9150699812985,
+                "x": 3290.735466339346,
+                "y": 2388.9150699812985,
                 "width": 200,
                 "height": 100,
                 "flashcard": false
