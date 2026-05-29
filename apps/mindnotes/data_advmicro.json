@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-29T13:28:24.888Z",
+  "exportedAt": "2026-05-29T13:28:30.407Z",
   "data": {
     "topics": [
       {
@@ -271,11 +271,12 @@
               {
                 "id": "ch_po",
                 "title": "Pareto Optimum (PO) — definition, PS, remarks",
-                "content": "\\textbf{\\textcolor{red}{PARETO OPTIMUM --- efficient allocations.}}\n\n\\emph{Setting:} see \\emph{Exchange Economy --- setting and feasibility}. We work on the feasible set $\\mathcal{F}$ of all allocations $(x^1, \\ldots, x^I)$ respecting market clearing.\n\n\\textbf{\\textcolor{red}{Definition.}} $\\bar x \\in \\mathcal{F}$ is \\emph{Pareto Optimal} iff\n\\[ \\boxed{\\;\\nexists\\, y \\in \\mathcal{F} \\;\\;\\text{s.t.}\\;\\; U^i(y^i) \\geq U^i(\\bar x^i)\\;\\forall i \\;\\;\\text{and}\\;\\; U^j(y^j) > U^j(\\bar x^j)\\;\\text{for some } j.\\;} \\]\n\\emph{No feasible reallocation makes someone strictly better off without hurting anyone.}\n\n\\textbf{\\textcolor{red}{Pareto Set (PS).}} The set of \\emph{all} PO allocations:\n\\[ \\mathrm{PS} \\;=\\; \\{x \\in \\mathcal{F} \\;:\\; x \\text{ is PO}\\}. \\]\n\n\\textbf{\\textcolor{red}{Remarks.}}\n$\\bullet$ \\textbf{Remark 1.} PO says \\emph{nothing about fairness} --- giving all $\\omega$ to one agent is PO.\n$\\bullet$ \\textbf{Remark 2.} The only condition for \\emph{existence} of a PO allocation is \\textcolor{orange}{continuity of utilities}.\n\n\\textbf{\\textcolor{blue}{Cross-references.}} \\emph{Exchange Economy setting} (where $\\mathcal{F}$ lives), \\emph{UPS/UPF} (utility-space picture), \\emph{Planner's Problem} (SWF characterization), \\emph{Contract Curve} (PS restricted to endowment-improving), \\emph{First Welfare Theorem} (CE $\\Rightarrow$ PO).",
+                "content": "\\textbf{\\textcolor{red}{PARETO OPTIMUM --- efficient allocations.}}\n\n\\textbf{\\textcolor{red}{Definition.}} $\\bar x \\in \\mathcal{F}$ is \\emph{Pareto Optimal} iff\n\\[ \\boxed{\\;\\nexists\\, y \\in \\mathcal{F} \\;\\;\\text{s.t.}\\;\\; U^i(y^i) \\geq U^i(\\bar x^i)\\;\\forall i \\;\\;\\text{and}\\;\\; U^j(y^j) > U^j(\\bar x^j)\\;\\text{for some } j.\\;} \\]\n\\emph{No feasible reallocation makes someone strictly better off without hurting anyone.}\n\n\\textbf{\\textcolor{red}{Pareto Set (PS).}} The set of \\emph{all} PO allocations:\n\\[ \\mathrm{PS} \\;=\\; \\{x \\in \\mathcal{F} \\;:\\; x \\text{ is PO}\\}. \\]\n\n\\textbf{\\textcolor{red}{Remarks.}}\n$\\bullet$ \\textbf{Remark 1.} PO says \\emph{nothing about fairness} --- giving all $\\omega$ to one agent is PO.\n$\\bullet$ \\textbf{Remark 2.} The only condition for \\emph{existence} of a PO allocation is \\textcolor{orange}{continuity of utilities}.\n\n\\textbf{\\textcolor{blue}{Cross-references.}} \\emph{Exchange Economy setting} (where $\\mathcal{F}$ lives), \\emph{UPS/UPF} (utility-space picture), \\emph{Planner's Problem} (SWF characterization), \\emph{Contract Curve} (PS restricted to endowment-improving), \\emph{First Welfare Theorem} (CE $\\Rightarrow$ PO).",
                 "x": 4013.5296820715585,
                 "y": 1842.6719140866694,
                 "width": 200,
-                "height": 100
+                "height": 100,
+                "flashcard": false
               },
               {
                 "id": "ch_ups_upf",
