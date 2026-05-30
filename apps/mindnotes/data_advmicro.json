@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-30T08:54:04.309Z",
+  "exportedAt": "2026-05-30T08:54:17.231Z",
   "data": {
     "topics": [
       {
@@ -410,6 +410,17 @@
                 "y": -1944.2953159345889,
                 "width": 519.079627676156,
                 "height": 211.03256588884287
+              },
+              {
+                "id": "1780131255054",
+                "title": "Conditions for existence of CE",
+                "content": "",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": 2770.1551403120384,
+                "y": -816.2783657940145
               }
             ]
           }
