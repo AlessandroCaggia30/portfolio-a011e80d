@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-30T09:10:06.657Z",
+  "exportedAt": "2026-05-30T09:10:12.672Z",
   "data": {
     "topics": [
       {
@@ -312,16 +312,6 @@
                 "flashcard": false
               },
               {
-                "id": "ch_swt",
-                "title": "Second Welfare Theorem (SWT) — PO → CE with transfers",
-                "content": "\\textbf{\\textcolor{red}{SECOND WELFARE THEOREM --- any PO can be supported as a CE with lump-sum transfers.}}\n\n\\textbf{\\textcolor{red}{Statement.}} Under \\emph{convexity of preferences} (concave $U^i$), \\emph{strict monotonicity}, and continuity: \\emph{any} Pareto-optimal allocation $\\bar x$ can be supported as a CE relative to some prices $\\hat p \\in \\mathbb{R}^N_+$ \\emph{after} lump-sum transfers $T = (T^1, \\ldots, T^I)$ with $\\sum_i T^i = 0$.\n\n\\[ \\boxed{\\;\\text{Any PO} \\;\\;\\Longrightarrow\\;\\; \\text{CE} \\;\\;\\text{with transfers (under convexity)}.\\;} \\]\n\n\\textbf{\\textcolor{red}{Proof sketch.}}\n\\textbf{(i)} Take any PO $\\bar x$ with utilities $\\bar u^i = U^i(\\bar x^i)$.\n\\textbf{(ii)} \\emph{Separating hyperplane theorem.} Define the upper-contour sets $V^i = \\{x^i : U^i(x^i) \\geq \\bar u^i\\}$. Under convexity, $\\sum_i V^i$ is convex. Since $\\bar x$ is PO and feasibility is binding, the aggregate endowment $\\omega$ lies on the boundary of $\\sum_i V^i$. $\\Rightarrow$ $\\exists$ a hyperplane (with normal vector $\\hat p$) supporting $\\sum_i V^i$ at $\\omega$.\n\\textbf{(iii)} These supporting prices $\\hat p$ are the CE prices: at $\\hat p$, every $\\bar x^i$ is utility-maximizing in agent $i$'s budget set.\n\\textbf{(iv)} Choose transfers $T^i = \\hat p \\cdot (\\bar x^i - \\omega^i)$ to make $\\bar x^i$ affordable for agent $i$ at prices $\\hat p$. $\\sum_i T^i = 0$ by feasibility. $\\;\\square$\n\n\\textbf{\\textcolor{red}{Reading the picture (Edgeworth box).}} At any PO interior point, the two agents' ICs are tangent. The \\emph{slope of the common tangent} = $-\\hat p_a / \\hat p_b$ = supporting prices. Transfers shift the budget line so it passes through the desired PO bundle instead of through the original endowment.\n\n\\textbf{\\textcolor{red}{Why this matters.}}\n$\\bullet$ \\textcolor{orange}{Equity-efficiency separation.} The planner can pick the most equitable PO and \\emph{implement it via the price mechanism} just by redistributing endowments. Market efficiency and distributional choice are separable.\n$\\bullet$ \\textcolor{orange}{Decentralization.} A planner doesn't need to choose individual allocations --- they just set transfers and let markets clear.\n\n\\textbf{\\textcolor{orange}{Caveat.}} Without convexity (concave preferences), the separating hyperplane argument fails. Some PO points lie on non-convex parts of the UPF and cannot be supported by any prices. See \\emph{CE failures}.\n\n\\textbf{\\textcolor{blue}{Cross-references.}} \\emph{CE definition}, \\emph{Pareto Optimum}, \\emph{Contract Curve}, \\emph{Planner's Problem} (the prices are the planner's tangent isowelfare slope), \\emph{First Welfare Theorem} (the converse direction).",
-                "x": -149.69554052535568,
-                "y": -195.47518417636002,
-                "width": 900,
-                "height": 700,
-                "links": []
-              },
-              {
                 "id": "ch_exchange_setting",
                 "title": "Exchange Economy — setting and feasibility",
                 "content": "\\textbf{\\textcolor{red}{EXCHANGE ECONOMY --- the standard setting for PO and CE.}}\n\n\\textbf{\\textcolor{red}{Ingredients.}}\n$\\bullet$ \\textbf{$I$ consumers / agents}, indexed by $i = 1, 2, \\ldots, I$.\n$\\bullet$ \\textbf{$N$ goods}, indexed by $n = 1, 2, \\ldots, N$.\n$\\bullet$ \\textbf{Initial endowments} $\\omega^i = (\\omega_1^i, \\ldots, \\omega_N^i) \\in \\mathbb{R}^N_+$: agent $i$'s initial stock of each good \\emph{before} any trade.\n$\\bullet$ \\textbf{Utility functions} $U^i : \\mathbb{R}^N_+ \\to \\mathbb{R}$, one per agent.\n\n\\emph{No production} --- the only way goods change hands is by exchange between consumers.\n\n\\textbf{\\textcolor{red}{Feasible set.}}\n\\[ \\mathcal{F} \\;=\\; \\bigl\\{\\, x = (x^1, \\ldots, x^I) \\;:\\; x_n^i \\geq 0 \\;\\forall i, n, \\;\\; \\textstyle\\sum_i x_n^i = \\omega_n \\;\\forall n \\,\\bigr\\}. \\]\n",
@@ -431,8 +421,8 @@
                 "images": [],
                 "imageWidths": [],
                 "links": [],
-                "x": 1152.9023273835637,
-                "y": -718.8534975453113
+                "x": 1087.9023273835637,
+                "y": -743.8534975453113
               },
               {
                 "id": "1780132024926",
@@ -491,6 +481,20 @@
         "height": 700,
         "links": [],
         "deletedAt": 1780131073603,
+        "fromTopic": "1740100000001",
+        "fromSubtopic": "1740100000101"
+      },
+      {
+        "id": "ch_swt",
+        "title": "Second Welfare Theorem (SWT) — PO → CE with transfers",
+        "content": "\\textbf{\\textcolor{red}{SECOND WELFARE THEOREM --- any PO can be supported as a CE with lump-sum transfers.}}\n\n\\textbf{\\textcolor{red}{Statement.}} Under \\emph{convexity of preferences} (concave $U^i$), \\emph{strict monotonicity}, and continuity: \\emph{any} Pareto-optimal allocation $\\bar x$ can be supported as a CE relative to some prices $\\hat p \\in \\mathbb{R}^N_+$ \\emph{after} lump-sum transfers $T = (T^1, \\ldots, T^I)$ with $\\sum_i T^i = 0$.\n\n\\[ \\boxed{\\;\\text{Any PO} \\;\\;\\Longrightarrow\\;\\; \\text{CE} \\;\\;\\text{with transfers (under convexity)}.\\;} \\]\n\n\\textbf{\\textcolor{red}{Proof sketch.}}\n\\textbf{(i)} Take any PO $\\bar x$ with utilities $\\bar u^i = U^i(\\bar x^i)$.\n\\textbf{(ii)} \\emph{Separating hyperplane theorem.} Define the upper-contour sets $V^i = \\{x^i : U^i(x^i) \\geq \\bar u^i\\}$. Under convexity, $\\sum_i V^i$ is convex. Since $\\bar x$ is PO and feasibility is binding, the aggregate endowment $\\omega$ lies on the boundary of $\\sum_i V^i$. $\\Rightarrow$ $\\exists$ a hyperplane (with normal vector $\\hat p$) supporting $\\sum_i V^i$ at $\\omega$.\n\\textbf{(iii)} These supporting prices $\\hat p$ are the CE prices: at $\\hat p$, every $\\bar x^i$ is utility-maximizing in agent $i$'s budget set.\n\\textbf{(iv)} Choose transfers $T^i = \\hat p \\cdot (\\bar x^i - \\omega^i)$ to make $\\bar x^i$ affordable for agent $i$ at prices $\\hat p$. $\\sum_i T^i = 0$ by feasibility. $\\;\\square$\n\n\\textbf{\\textcolor{red}{Reading the picture (Edgeworth box).}} At any PO interior point, the two agents' ICs are tangent. The \\emph{slope of the common tangent} = $-\\hat p_a / \\hat p_b$ = supporting prices. Transfers shift the budget line so it passes through the desired PO bundle instead of through the original endowment.\n\n\\textbf{\\textcolor{red}{Why this matters.}}\n$\\bullet$ \\textcolor{orange}{Equity-efficiency separation.} The planner can pick the most equitable PO and \\emph{implement it via the price mechanism} just by redistributing endowments. Market efficiency and distributional choice are separable.\n$\\bullet$ \\textcolor{orange}{Decentralization.} A planner doesn't need to choose individual allocations --- they just set transfers and let markets clear.\n\n\\textbf{\\textcolor{orange}{Caveat.}} Without convexity (concave preferences), the separating hyperplane argument fails. Some PO points lie on non-convex parts of the UPF and cannot be supported by any prices. See \\emph{CE failures}.\n\n\\textbf{\\textcolor{blue}{Cross-references.}} \\emph{CE definition}, \\emph{Pareto Optimum}, \\emph{Contract Curve}, \\emph{Planner's Problem} (the prices are the planner's tangent isowelfare slope), \\emph{First Welfare Theorem} (the converse direction).",
+        "x": -149.69554052535568,
+        "y": -195.47518417636002,
+        "width": 900,
+        "height": 700,
+        "links": [],
+        "flashcard": false,
+        "deletedAt": 1780132210745,
         "fromTopic": "1740100000001",
         "fromSubtopic": "1740100000101"
       }
