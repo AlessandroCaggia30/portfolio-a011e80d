@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-30T09:09:23.324Z",
+  "exportedAt": "2026-05-30T09:09:31.279Z",
   "data": {
     "topics": [
       {
@@ -437,7 +437,7 @@
               {
                 "id": "1780132024926",
                 "title": "PO and CE",
-                "content": "\ngiven this omega, if CE exists, is it PO? y\n\nIf a point is PO, can some $\\omega$ exists where $\\hat x$ is the CE ? failure is not CE non existence for one omega, but for all omega. \n",
+                "content": "\ngiven this omega, if CE exists, is it PO? y\n\n\n\\textbf{\\textcolor{red}{FIRST WELFARE THEOREM --- every CE is Pareto Optimal.}}\n\n\\textbf{\\textcolor{red}{Statement.}} If $(\\hat p, \\hat x)$ is a Competitive Equilibrium \\emph{and} each $U^i$ is strictly increasing in every good, then $\\hat x$ is Pareto Optimal.\n\\[ \\boxed{\\;\\text{CE} \\;\\;\\Longrightarrow\\;\\; \\text{PO}\\quad \\text{(under strict monotonicity)}.\\;} \\]\nMoreover $U^i(\\hat x_i) \\ge U^i(\\omega^i)$\n\\textbf{\\textcolor{red}{Proof sketch.}}\n\\textbf{(i)} Suppose for contradiction $\\hat x$ is not PO. Then $\\exists y \\in \\mathcal{F}$ with $U^i(y^i) \\geq U^i(\\hat x^i)$ $\\forall i$ (ahemts) and strict for some $j$.\n\\textbf{(ii)} Strict monotonicity $+$ consumer optimization at prices $\\hat p$:\n$\\bullet$ For agent $j$ (strictly better off): $\\hat p \\cdot y^j > \\hat p \\cdot \\hat x^j$ (otherwise $y^j$ would have been chosen).\n$\\bullet$ For other agents: $\\hat p \\cdot y^i \\geq \\hat p \\cdot \\hat x^i$.\n\\textbf{(iii)} Sum: $\\hat p \\cdot \\sum_i y^i \\;>\\; \\hat p \\cdot \\sum_i \\hat x^i = \\omega$. Not feasible!\n\n\\textbf{\\textcolor{red}{Key takeaway.}} CE allocations are always on the \\emph{Pareto Set} (and in fact on the \\emph{Contract Curve}, since they're individually rational by construction). The market efficiently rules out wasteful allocations \\emph{without a planner}.\n\n\\textbf{\\textcolor{orange}{What FWT does NOT say.}}\n$\\bullet$ CE allocations need not be \\emph{fair}. The endowment distribution determines who gets what at the CE.\n$\\bullet$ CE allocations are PO \\emph{only if} CE exists. See \\emph{CE failures} for when it doesn't.\n\n\n\n\nIf a point is PO, can some $\\omega$ exists where $\\hat x$ is the CE ? failure is not CE non existence for one omega, but for all omega. \n",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
