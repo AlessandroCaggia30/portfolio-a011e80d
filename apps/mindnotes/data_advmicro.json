@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-30T16:10:50.430Z",
+  "exportedAt": "2026-05-30T16:10:55.722Z",
   "data": {
     "topics": [
       {
@@ -25,8 +25,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 3339.4389803652657,
-                "y": -1345.7261418846929,
+                "x": 3336.1056470319327,
+                "y": -2815.726141884693,
                 "width": 893.3333333333334,
                 "height": 600,
                 "sectionNumber": 1,
@@ -57,8 +57,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 3394.823305315331,
-                "y": -635.4758124015998,
+                "x": 3371.4899719819973,
+                "y": -1912.1424790682668,
                 "width": 810,
                 "height": 433.33333333333337
               },
@@ -315,7 +315,7 @@
                 "id": "ch_exchange_setting",
                 "title": "Exchange Economy — setting and feasibility",
                 "content": "\\textbf{\\textcolor{red}{EXCHANGE ECONOMY --- the standard setting for PO and CE.}}\n\n\\textbf{\\textcolor{red}{Ingredients.}}\n$\\bullet$ \\textbf{$I$ consumers / agents}, indexed by $i = 1, 2, \\ldots, I$.\n$\\bullet$ \\textbf{$N$ goods}, indexed by $n = 1, 2, \\ldots, N$.\n$\\bullet$ \\textbf{Initial endowments} $\\omega^i = (\\omega_1^i, \\ldots, \\omega_N^i) \\in \\mathbb{R}^N_+$: agent $i$'s initial stock of each good \\emph{before} any trade.\n$\\bullet$ \\textbf{Utility functions} $U^i : \\mathbb{R}^N_+ \\to \\mathbb{R}$, one per agent.\n\n\\emph{No production} --- the only way goods change hands is by exchange between consumers.\n\n\\textbf{\\textcolor{red}{Feasible set.}}\n\\[ \\mathcal{F} \\;=\\; \\bigl\\{\\, x = (x^1, \\ldots, x^I) \\;:\\; x_n^i \\geq 0 \\;\\forall i, n, \\;\\; \\textstyle\\sum_i x_n^i = \\omega_n \\;\\forall n \\,\\bigr\\}. \\]\n",
-                "x": 1558.8450039775007,
+                "x": 1252.1783373108342,
                 "y": -2754.513911660906,
                 "width": 900,
                 "height": 700,
