@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-30T08:55:01.458Z",
+  "exportedAt": "2026-05-30T08:55:24.630Z",
   "data": {
     "topics": [
       {
@@ -418,7 +418,7 @@
               {
                 "id": "1780131255054",
                 "title": "Conditions for existence of CE",
-                "content": "A CE point is always PO \n\n\\textbf{\\textcolor{red}{Conditions for existence.}}\n$\\bullet$ \\textcolor{blue}{Continuity} of preferences.\n$\\bullet$ \\textcolor{blue}{Strict monotonicity} (consumers want more).\n$\\bullet$ \\textcolor{blue}{Strict convexity} (consumers prefer averages, concave $U^i$).\nUnder these, a CE exists. Failures arise when these break --- see \\emph{CE failures}.\n\n",
+                "content": "A CE point, if it exists, is always PO \n\nA PO Point, is not necessarily a market equilibrium. \n\n\n\\textbf{\\textcolor{red}{Conditions for existence.}}\n$\\bullet$ \\textcolor{blue}{Continuity} of preferences.\n$\\bullet$ \\textcolor{blue}{Strict monotonicity} (consumers want more).\n$\\bullet$ \\textcolor{blue}{Strict convexity} (consumers prefer averages, concave $U^i$).\nUnder these, a CE exists. Failures arise when these break --- see \\emph{CE failures}.\n\n",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
