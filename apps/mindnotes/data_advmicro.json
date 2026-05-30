@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-30T09:06:02.813Z",
+  "exportedAt": "2026-05-30T09:06:37.728Z",
   "data": {
     "topics": [
       {
@@ -418,7 +418,7 @@
               {
                 "id": "1780131255054",
                 "title": "Conditions for existence of CE",
-                "content": "\ngiven this omega, if CE exists, is it po? y\n\nIf a point is PO, can some $\\omega$ exists where $\\hat x$ is the CE ? failure is not CE non existence for one omega, but for all omega. \n\n\\textbf{\\textcolor{red}{Conditions for existence.}}\n$\\bullet$ \\textcolor{blue}{Continuity} of preferences.\n$\\bullet$ \\textcolor{blue}{Strict monotonicity} (consumers want more).\n$\\bullet$ \\textcolor{blue}{Strict convexity} (consumers prefer averages, concave $U^i$).\nUnder these, a CE exists. Failures arise when these break --- see \\emph{CE failures}.\n\n",
+                "content": "\n\\textbf{\\textcolor{red}{Conditions for existence.}}\n$\\bullet$ \\textcolor{blue}{Continuity} of preferences.\n$\\bullet$ \\textcolor{blue}{Strict monotonicity} (consumers want more).\n$\\bullet$ \\textcolor{blue}{Strict convexity} (consumers prefer averages, concave $U^i$).\nUnder these, a CE exists. Failures arise when these break --- see \\emph{CE failures}.\n\n",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
