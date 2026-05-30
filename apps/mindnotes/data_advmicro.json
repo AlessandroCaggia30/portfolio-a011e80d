@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-30T16:10:55.722Z",
+  "exportedAt": "2026-05-30T16:11:07.038Z",
   "data": {
     "topics": [
       {
@@ -25,8 +25,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 3336.1056470319327,
-                "y": -2815.726141884693,
+                "x": 3302.7723136985996,
+                "y": -2745.726141884693,
                 "width": 893.3333333333334,
                 "height": 600,
                 "sectionNumber": 1,
@@ -323,10 +323,6 @@
                 "links": [
                   {
                     "target": "ch_ups_upf",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "ch1_02a_hs",
                     "type": "forward"
                   },
                   {
