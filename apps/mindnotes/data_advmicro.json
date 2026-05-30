@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-30T09:07:01.039Z",
+  "exportedAt": "2026-05-30T09:07:07.069Z",
   "data": {
     "topics": [
       {
@@ -425,6 +425,17 @@
                 "links": [],
                 "x": 1152.9023273835637,
                 "y": -718.8534975453113
+              },
+              {
+                "id": "1780132024926",
+                "title": "PO and CE",
+                "content": "\ngiven this omega, if CE exists, is it PO? y\n\nIf a point is PO, can some $\\omega$ exists where $\\hat x$ is the CE ? failure is not CE non existence for one omega, but for all omega. \n",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": 1181.1088619734255,
+                "y": -867.0779086092398
               }
             ]
           }
