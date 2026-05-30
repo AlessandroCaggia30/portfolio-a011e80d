@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-30T13:11:27.949Z",
+  "exportedAt": "2026-05-30T13:11:35.577Z",
   "data": {
     "topics": [
       {
@@ -368,6 +368,10 @@
                   {
                     "target": "1780132024926",
                     "type": "forward"
+                  },
+                  {
+                    "target": "1780146685789",
+                    "type": "forward"
                   }
                 ]
               },
@@ -454,9 +458,16 @@
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
-                "links": [],
-                "x": -1305.4039171760478,
-                "y": 1449.4687468061716
+                "links": [
+                  {
+                    "target": "ch_quasi_pref",
+                    "type": "both"
+                  }
+                ],
+                "x": -1270.4039171760478,
+                "y": 1244.4687468061716,
+                "width": 1045,
+                "height": 530
               }
             ]
           }
