@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-30T08:51:15.751Z",
+  "exportedAt": "2026-05-30T08:53:37.261Z",
   "data": {
     "topics": [
       {
@@ -393,6 +393,17 @@
                 "y": -682.5506501990794,
                 "width": 557.3212538989987,
                 "height": 296.791380268947
+              },
+              {
+                "id": "1780131215103",
+                "title": "conditions for PO existence",
+                "content": "In the standard exchange-economy setup, the feasible set $\\mathcal{F} = {x : \\sum_i x^i = \\omega,; x^i \\geq 0}$ is automatically compact (closed, bounded by $\\omega$). Then for any        $\\lambda \\in (0,1)$, the continuous linear functional $\\lambda U^1 + (1-\\lambda)U^2$ attains its max on $\\mathcal{F}$ by Weierstrass. The argmax is in PS (forward direction of [A], proven  without convexity). Hence PS $\\neq \\emptyset$.\n\nCompact set + continuous function! ",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": -159.81731419597054,
+                "y": -1742.11730267053
               }
             ]
           }
