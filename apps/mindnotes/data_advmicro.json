@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-30T08:13:22.058Z",
+  "exportedAt": "2026-05-30T08:29:41.939Z",
   "data": {
     "topics": [
       {
@@ -367,6 +367,10 @@
                 "links": [
                   {
                     "target": "ch_ps_edgeworth",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "ch_contract_curve",
                     "type": "forward"
                   }
                 ]
