@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-30T08:50:04.450Z",
+  "exportedAt": "2026-05-30T08:50:10.971Z",
   "data": {
     "topics": [
       {
@@ -294,6 +294,10 @@
                 "links": [
                   {
                     "target": "ch1_app_consumer",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "1780130334934",
                     "type": "forward"
                   }
                 ],
