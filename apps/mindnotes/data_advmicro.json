@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-30T08:38:39.749Z",
+  "exportedAt": "2026-05-30T08:38:57.066Z",
   "data": {
     "topics": [
       {
@@ -397,6 +397,17 @@
                 "height": 1300,
                 "flashcard": false,
                 "links": []
+              },
+              {
+                "id": "1780130334934",
+                "title": "Edgeworth view of CE",
+                "content": "\n{{img:0|w=900}}\n\n\\emph{Reading the Edgeworth picture.} Endowment $\\omega = (8, 2)$ for agent 1, $(2, 6)$ for agent 2. Budget line through $\\omega$ with slope $-\\hat p_a/\\hat p_b$. The CE allocation is the unique point where \\emph{both} agents' ICs are tangent to the budget line (MRS$^1$ = MRS$^2$ = $\\hat p_a/\\hat p_b$) --- hence on the contract curve.\n",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": 1141.4463905991297,
+                "y": -699.2342937246212
               }
             ]
           }
