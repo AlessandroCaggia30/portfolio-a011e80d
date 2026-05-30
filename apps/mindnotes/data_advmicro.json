@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-30T08:56:03.191Z",
+  "exportedAt": "2026-05-30T08:57:52.801Z",
   "data": {
     "topics": [
       {
@@ -418,7 +418,7 @@
               {
                 "id": "1780131255054",
                 "title": "Conditions for existence of CE",
-                "content": "A CE point, if it exists, is always PO \n\nA PO Point, may be such that there are no endowments for which that PO point is a market equilibrium, thisi sth ecas ei which the CE does not exist. \n\n\n\\textbf{\\textcolor{red}{Conditions for existence.}}\n$\\bullet$ \\textcolor{blue}{Continuity} of preferences.\n$\\bullet$ \\textcolor{blue}{Strict monotonicity} (consumers want more).\n$\\bullet$ \\textcolor{blue}{Strict convexity} (consumers prefer averages, concave $U^i$).\nUnder these, a CE exists. Failures arise when these break --- see \\emph{CE failures}.\n\n",
+                "content": "A CE point, if it exists, is always PO \n\nA PO point may be such that there is no endowment for which that PO is a CE allocation. This is a failure of SWT — it happens when $\\mathcal{U}$ is non-convex and the PO point sits in a  ▎  \"bite\" not on the convex hull.\n\n\n\\textbf{\\textcolor{red}{Conditions for existence.}}\n$\\bullet$ \\textcolor{blue}{Continuity} of preferences.\n$\\bullet$ \\textcolor{blue}{Strict monotonicity} (consumers want more).\n$\\bullet$ \\textcolor{blue}{Strict convexity} (consumers prefer averages, concave $U^i$).\nUnder these, a CE exists. Failures arise when these break --- see \\emph{CE failures}.\n\n",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
