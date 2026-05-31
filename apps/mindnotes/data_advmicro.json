@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-31T21:14:53.682Z",
+  "exportedAt": "2026-05-31T21:24:08.873Z",
   "data": {
     "topics": [
       {
@@ -528,8 +528,8 @@
                 "title": "Efficiency gains from redistribution with linear vs concave UPF",
                 "content": "",
                 "images": [],
-                "x": 10075.606403862017,
-                "y": -1710,
+                "x": 10133.919826388235,
+                "y": -1243.4926197902669,
                 "width": 1100,
                 "height": 1200,
                 "links": [],
