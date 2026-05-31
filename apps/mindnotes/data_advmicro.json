@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-31T14:46:10.703Z",
+  "exportedAt": "2026-05-31T14:47:35.381Z",
   "data": {
     "topics": [
       {
@@ -491,8 +491,8 @@
                 "title": "Guiding example --- worker + utilitarian planner",
                 "content": "\\textbf{\\textcolor{red}{GUIDING EXAMPLE --- worker problem + utilitarian planner.}}\n\n\\textbf{\\textcolor{red}{0. Setting.}}\n\\[ U(c, h) = c - \\dfrac{h^{1+\\gamma}}{1+\\gamma},\\;\\; \\gamma > 0; \\quad T(y) = -B + \\tau y; \\quad c = B + (1-\\tau)\\, w\\, h. \\]\n\\emph{Linear flat tax.} Government budget: $\\sum_i \\pi_i\\, T(y_i) = G$ $\\Rightarrow$ $\\tau \\sum \\pi_i w_i h_i = B$ (with $G = 0$).\n\n\\textbf{\\textcolor{red}{① Worker chooses $h$ (B taken as given!).}}\n\\[ h^* \\;=\\; \\arg\\max_h \\;\\bigl[B + (1-\\tau) w h - \\tfrac{h^{1+\\gamma}}{1+\\gamma}\\bigr] \\quad\\text{sub.}\\;\\; c = B + (1-\\tau) w h. \\]\n\\textbf{Use:} FOC $(1-\\tau)w = h^\\gamma$ $\\Rightarrow$\n\\[ \\boxed{\\;h^*(\\tau, w_i) \\;=\\; \\bigl[(1-\\tau)\\, w_i\\bigr]^{1/\\gamma}.\\;} \\]\n\n\\textcolor{purple}{\\emph{Keep: ppl take $B$ as given. They don't realize it depends on $\\tau$!}}\n\n\\textbf{\\textcolor{red}{② Now planner chooses $\\tau$ to get optimum. What is the objective?}}\n\n\\textbf{\\textcolor{darkgreen}{2A) Utilitarian view.}} Planner cares abt sum of utilities:\n\\[ W^U \\;=\\; \\sum_i \\pi_i \\Bigl(c_i - \\tfrac{h_i^{1+\\gamma}}{1+\\gamma}\\Bigr). \\]\n\\emph{Use} $c_i = B + (1-\\tau) w_i h_i$:\n\\[ W^U = \\sum_i \\pi_i \\Bigl[B + (1-\\tau) w_i h_i - \\tfrac{h_i^{1+\\gamma}}{1+\\gamma}\\Bigr]. \\]\n\\emph{Sub} $h^*(\\tau, w_i) = ((1-\\tau) w_i)^{1/\\gamma}$:\n\\[ W^U = B + \\sum_i \\pi_i \\Bigl[(1-\\tau)^{1+1/\\gamma}\\, w_i^{1+1/\\gamma} - \\tfrac{(1-\\tau)^{(1+\\gamma)/\\gamma}\\, w_i^{(1+\\gamma)/\\gamma}}{1+\\gamma}\\Bigr]. \\]\n\n\\textbf{3.} Collect $\\sum_i \\pi_i\\, w_i^{(1+\\gamma)/\\gamma} =: M$:\n\\[ W^U = B + (1-\\tau)^{(1+\\gamma)/\\gamma}\\, M \\cdot \\Bigl[1 - \\tfrac{1}{1+\\gamma}\\Bigr] = B + (1-\\tau)^{(1+\\gamma)/\\gamma}\\, M \\cdot \\tfrac{\\gamma}{1+\\gamma}. \\]\n\n\\textbf{4. Sub} $B = \\tau\\,(1-\\tau)^{1/\\gamma}\\, M$ (gov budget at $G = 0$):\n\\[ W^U(\\tau) = \\tau (1-\\tau)^{1/\\gamma} M + \\tfrac{\\gamma}{1+\\gamma}\\,(1-\\tau)^{(1+\\gamma)/\\gamma}\\, M. \\]\n\n\\textbf{5. Expand and factor:}\n\\[ W^U(\\tau) = (1-\\tau)^{1/\\gamma}\\, M\\, \\Bigl[\\tau + \\tfrac{\\gamma}{1+\\gamma}(1-\\tau)\\Bigr]. \\]\n\n\\textbf{FOC:} $\\partial W^U/\\partial \\tau = 0$. Product rule on the bracket times $(1-\\tau)^{1/\\gamma}$.\n\n\\textcolor{orange}{\\emph{The utilitarian $\\tau^U$ is interior --- positive (some redistribution) but smaller than the Rawlsian $\\tau^R$ (which goes all the way to the Laffer peak).}}\n\n\\textbf{\\textcolor{blue}{Cross-refs:}} setup (1st/2nd best), Rawlsian + Laffer (alternative objective).\n",
                 "images": [],
-                "x": 7675.606403862016,
-                "y": -2000,
+                "x": 12565.606403862017,
+                "y": -4115,
                 "width": 1100,
                 "height": 1100
               },
