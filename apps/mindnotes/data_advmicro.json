@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-31T14:09:05.133Z",
+  "exportedAt": "2026-05-31T14:09:12.445Z",
   "data": {
     "topics": [
       {
@@ -218,7 +218,7 @@
                 "height": 224.6996165219718,
                 "flashcard": false,
                 "links": [],
-                "color": "coral"
+                "color": null
               },
               {
                 "id": "1779997224281",
