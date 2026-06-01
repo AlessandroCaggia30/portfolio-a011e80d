@@ -5896,67 +5896,71 @@ function cancelLinking() {
 // startDragging removed - logic moved to attachNodeEventListeners
 
 function handleDragMove(e) {
-    if (!State.isDragging || !State.dragNode) return;
+    const I = State.interaction;
+    if (!I) return;
 
-    const dx = Math.abs(e.clientX - State.dragStartPos.x);
-    const dy = Math.abs(e.clientY - State.dragStartPos.y);
-
-    if (dx > 5 || dy > 5) {
-        State.hasDragged = true;
+    // Promote 'pending' to 'dragging' once we've moved past the threshold.
+    if (I.mode === 'pending') {
+        const dx = Math.abs(e.clientX - I.startX);
+        const dy = Math.abs(e.clientY - I.startY);
+        if (dx <= 5 && dy <= 5) return;
+        I.mode = 'dragging';
+        I.el.style.zIndex = 100;
+        I.isGroup = State.selectedNodes.length > 1 &&
+                    State.selectedNodes.includes(I.node.id);
     }
 
-    if (State.hasDragged) {
-        const rect = canvasWrapper.getBoundingClientRect();
-        const newX = (e.clientX - rect.left - State.pan.x) / State.zoom - State.dragOffset.x + 5000;
-        const newY = (e.clientY - rect.top - State.pan.y) / State.zoom - State.dragOffset.y + 5000;
+    if (I.mode !== 'dragging') return;
 
-        // Calculate the movement delta
-        const deltaX = newX - State.dragNode.x;
-        const deltaY = newY - State.dragNode.y;
+    const rect = canvasWrapper.getBoundingClientRect();
+    const newX = (e.clientX - rect.left - State.pan.x) / State.zoom - I.offsetX + 5000;
+    const newY = (e.clientY - rect.top  - State.pan.y) / State.zoom - I.offsetY + 5000;
 
-        // Check if dragging a multi-selected node
-        const isDraggingMulti = State.selectedNodes.length > 0 &&
-                                State.selectedNodes.includes(State.dragNode.id);
-
-        if (isDraggingMulti) {
-            // Move all selected nodes together
-            State.selectedNodes.forEach(nodeId => {
-                const node = State.currentSubtopic?.nodes.find(n => n.id === nodeId);
-                if (node) {
-                    node.x += deltaX;
-                    node.y += deltaY;
-                    const el = document.querySelector(`.node[data-id="${nodeId}"]`);
-                    if (el) {
-                        el.style.left = node.x + 'px';
-                        el.style.top = node.y + 'px';
-                    }
-                }
-            });
-        } else {
-            // Single node drag
-            State.dragNode.x = newX;
-            State.dragNode.y = newY;
-            const el = document.querySelector(`.node[data-id="${State.dragNode.id}"]`);
-            if (el) {
-                el.style.left = newX + 'px';
-                el.style.top = newY + 'px';
+    if (I.isGroup) {
+        // Move all selected nodes together by the delta from the anchor node.
+        const dx = newX - I.node.x;
+        const dy = newY - I.node.y;
+        State.selectedNodes.forEach(id => {
+            const n = State.currentSubtopic?.nodes.find(n => n.id === id);
+            if (!n) return;
+            n.x += dx;
+            n.y += dy;
+            const e2 = document.querySelector(`.node[data-id="${id}"]`);
+            if (e2) {
+                e2.style.left = n.x + 'px';
+                e2.style.top  = n.y + 'px';
             }
-        }
-
-        renderLinks();
+        });
+    } else {
+        // Single node drag.
+        I.node.x = newX;
+        I.node.y = newY;
+        I.el.style.left = newX + 'px';
+        I.el.style.top  = newY + 'px';
     }
+
+    renderLinks();
 }
 
 function endDragging() {
-    if (State.isDragging) {
-        State.justFinishedDragging = State.hasDragged;
-        State.isDragging = false;
+    const I = State.interaction;
+    if (!I) return;
+    State.interaction = null;
 
-        if (State.hasDragged) {
-            saveData();
-        }
-        State.hasDragged = false;
-        State.dragNode = null;
+    if (I.mode === 'dragging') {
+        if (I.el) I.el.style.zIndex = '';
+        saveData();
+        return;
+    }
+
+    // mode === 'pending': it was a click, not a drag.
+    // Promote it to a "select" (opens the detail panel) only if the click
+    // was quick and tight (i.e. it wasn't a button-stuck false alarm).
+    const dx = Math.abs(event?.clientX - I.startX) || 0;
+    const dy = Math.abs(event?.clientY - I.startY) || 0;
+    const duration = Date.now() - I.startTime;
+    if (duration < 500 && dx < 10 && dy < 10 && !State.linkingNode) {
+        selectNode(I.node);
     }
 }
 
