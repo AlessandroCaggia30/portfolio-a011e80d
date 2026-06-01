@@ -5956,8 +5956,9 @@ function endDragging() {
     // mode === 'pending': it was a click, not a drag.
     // Promote it to a "select" (opens the detail panel) only if the click
     // was quick and tight (i.e. it wasn't a button-stuck false alarm).
-    const dx = Math.abs(event?.clientX - I.startX) || 0;
-    const dy = Math.abs(event?.clientY - I.startY) || 0;
+    const ev = window.__lastMouseUpEvent;
+    const dx = ev ? Math.abs(ev.clientX - I.startX) : 0;
+    const dy = ev ? Math.abs(ev.clientY - I.startY) : 0;
     const duration = Date.now() - I.startTime;
     if (duration < 500 && dx < 10 && dy < 10 && !State.linkingNode) {
         selectNode(I.node);
