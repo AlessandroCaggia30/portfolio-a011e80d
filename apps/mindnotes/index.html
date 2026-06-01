@@ -5666,22 +5666,16 @@ function attachNodeEventListeners(el, node) {
             e.target.closest('.katex')) {
             return;
         }
+        if (e.button !== 0) return;  // left button only
 
-        // Store click info in State for the global mouseup handler
-        State.clickedNode = node;
-        State.clickedNodeEl = el;
-        State.clickStartTime = Date.now();
-        State.clickStartPos = { x: e.clientX, y: e.clientY };
-
+        // ---- modifier-key shortcuts ----
         // Cmd/Ctrl + click = linking
         if (e.metaKey || e.ctrlKey) {
             e.preventDefault();
             e.stopPropagation();
             handleLinkingClick(el, node);
-            State.clickedNode = null;
             return;
         }
-
         // Shift + click = toggle node in multi-selection
         if (e.shiftKey) {
             e.preventDefault();
@@ -5695,34 +5689,30 @@ function attachNodeEventListeners(el, node) {
                 el.classList.add('multi-selected');
             }
             updateSelectionToolbar();
-            State.clickedNode = null;
             return;
         }
-
-        // If already linking and clicking different node, complete the link
+        // Complete a pending link to this node
         if (State.linkingNode && State.linkingNode.id !== node.id) {
             e.stopPropagation();
             completeLinking(node);
-            State.clickedNode = null;
             return;
         }
 
-        // If the detail panel is open, allow click-to-select-another but block drag
-        // so the snippet behind the panel isn't dragged accidentally.
-        if ($('detailPanel').classList.contains('open')) {
-            return;
-        }
-
-        // Setup for potential drag
-        State.isDragging = true;
-        State.hasDragged = false;
-        State.dragNode = node;
-        State.dragStartPos = { x: e.clientX, y: e.clientY };
-
+        // ---- begin a pending click / drag ----
+        // Always record click info so mouseup can decide click-vs-drag.
+        // Drag itself starts on first mousemove > threshold.
+        e.stopPropagation();   // prevent canvasWrapper.mousedown (panning)
         const rect = canvasWrapper.getBoundingClientRect();
-        State.dragOffset.x = (e.clientX - rect.left - State.pan.x) / State.zoom + 5000 - node.x;
-        State.dragOffset.y = (e.clientY - rect.top - State.pan.y) / State.zoom + 5000 - node.y;
-        el.style.zIndex = 100;
+        State.interaction = {
+            mode:      'pending',          // -> 'dragging' on first movement
+            node,
+            el,
+            startX:    e.clientX,
+            startY:    e.clientY,
+            startTime: Date.now(),
+            offsetX:   (e.clientX - rect.left - State.pan.x) / State.zoom + 5000 - node.x,
+            offsetY:   (e.clientY - rect.top  - State.pan.y) / State.zoom + 5000 - node.y,
+        };
     });
 
     // Double click to edit
