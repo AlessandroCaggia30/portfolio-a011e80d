@@ -11408,21 +11408,13 @@ function initCanvasEvents() {
             return;
         }
 
-        // Handle click-to-select for nodes (single click = select, double click = edit)
-        if (State.clickedNode && !State.hasDragged) {
-            const dx = Math.abs(e.clientX - State.clickStartPos.x);
-            const dy = Math.abs(e.clientY - State.clickStartPos.y);
-            const duration = Date.now() - State.clickStartTime;
-
-            // If it was a quick click without much movement, SELECT the node
-            if (duration < 500 && dx < 10 && dy < 10 && !State.linkingNode) {
-                selectNode(State.clickedNode);
-            }
-        }
-        State.clickedNode = null;
-        State.clickedNodeEl = null;
-
+        // Finalise any node interaction (click → selectNode, drag → save).
+        // endDragging() reads State.interaction directly; pass the event in
+        // a known global so it can compute final dx/dy.
+        window.__lastMouseUpEvent = e;
         endDragging();
+        window.__lastMouseUpEvent = null;
+
         endPanning();
     });
 
