@@ -11471,6 +11471,11 @@ function initCanvasEvents() {
 function initKeyboardEvents() {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
+            // Abort any in-flight drag/click interaction.
+            if (State.interaction) {
+                if (State.interaction.el) State.interaction.el.style.zIndex = '';
+                State.interaction = null;
+            }
             cancelLinking();
             closeNodeModal();
             closeTopicModal();
