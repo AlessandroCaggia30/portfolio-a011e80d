@@ -5682,15 +5682,19 @@ function attachNodeEventListeners(el, node) {
             return;
         }
 
-        // Shift + click = toggle flashcard
+        // Shift + click = toggle node in multi-selection
         if (e.shiftKey) {
             e.preventDefault();
             e.stopPropagation();
-            node.flashcard = !node.flashcard;
-            saveData();
-            renderCanvas();
-            showToast(node.flashcard ? '🎴 Flashcard ON' : 'Flashcard OFF');
-            updateFlashcardStats();
+            const idx = State.selectedNodes.indexOf(node.id);
+            if (idx >= 0) {
+                State.selectedNodes.splice(idx, 1);
+                el.classList.remove('multi-selected');
+            } else {
+                State.selectedNodes.push(node.id);
+                el.classList.add('multi-selected');
+            }
+            updateSelectionToolbar();
             State.clickedNode = null;
             return;
         }
