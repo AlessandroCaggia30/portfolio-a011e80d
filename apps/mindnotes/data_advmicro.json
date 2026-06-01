@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-01T07:57:34.740Z",
+  "exportedAt": "2026-06-01T07:57:44.363Z",
   "data": {
     "topics": [
       {
@@ -520,7 +520,12 @@
                 "y": -1210,
                 "width": 1100,
                 "height": 1200,
-                "links": [],
+                "links": [
+                  {
+                    "target": "ch_lin_tax_rawls_1780236907",
+                    "type": "forward"
+                  }
+                ],
                 "flashcard": false
               },
               {
