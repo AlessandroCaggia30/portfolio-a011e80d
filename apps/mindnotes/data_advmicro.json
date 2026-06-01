@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-05-31T21:24:08.873Z",
+  "exportedAt": "2026-06-01T07:55:39.263Z",
   "data": {
     "topics": [
       {
@@ -528,8 +528,8 @@
                 "title": "Efficiency gains from redistribution with linear vs concave UPF",
                 "content": "",
                 "images": [],
-                "x": 10133.919826388235,
-                "y": -1243.4926197902669,
+                "x": 10129.738323225658,
+                "y": -1143.1365438884577,
                 "width": 1100,
                 "height": 1200,
                 "links": [],
@@ -540,8 +540,8 @@
                 "title": "Externalities --- setup and the planner's problem",
                 "content": "\\textbf{\\textcolor{red}{EXTERNALITIES --- setup and the planner's problem.}}\n\n\\textbf{Def.} Agent $i$ optimises his consumption based \\emph{only on his own MU}, \\emph{not accounting for spillovers to other agents}.\n\n\\textbf{\\textcolor{red}{0. Setting.}} Quasi-linear utilities with a shared good $y$ and a private numeraire $x$:\n\\[ U^i(x^i, y^1, y^2) \\;=\\; U^i(y^1, y^2) + x^i,\\;\\; i = 1, 2. \\]\nHere $U^i$ depends on \\emph{both} agents' $y$ --- the spillover is the off-own argument.\n\n\\textbf{\\textcolor{red}{1. Planner's problem  $P(\\bar U)$.}}\n\\[\\;P(\\bar U) \\;=\\; \\max_{y, x}\\; U^1(y^1, y^2) + x^1\\;\\;\\text{sub.}\\;\\]\n$\\bullet$ Resource constraint on $y$: $y^1 + y^2 \\le \\omega_y^1 + \\omega_y^2$ \\;\\;($\\mu_y$) \\quad [1]\n\n$\\bullet$ Resource constraint on $x$: $x^1 + x^2 \\le \\omega_x^1 + \\omega_x^2$ \\;\\;($\\mu_x$) \\quad [2]\n\n$\\bullet$ Pareto participation for agent 2: $U^2(y^1, y^2) + x^2 \\ge \\bar U$ \\;\\;($\\lambda$) \\quad [3]\n\n\\textbf{\\textcolor{red}{2. Lagrangian.}}\n\\[ \\mathcal{L} \\;=\\; U^1(y^1, y^2) + x^1 + \\mu_y\\bigl(\\omega_y - y^1 - y^2\\bigr) + \\mu_x\\bigl(\\omega_x - x^1 - x^2\\bigr) + \\lambda\\bigl(U^2(y^1, y^2) + x^2 - \\bar U\\bigr). \\]\n\n\\textbf{\\textcolor{red}{3. FOCs.}}\n\n$\\bullet$ $\\partial \\mathcal{L}/\\partial x^1: \\; 1 - \\mu_x = 0 \\;\\Rightarrow\\; \\mu_x = 1$. \\;\\;[A]\n\n$\\bullet$ $\\partial \\mathcal{L}/\\partial x^2: \\; -\\mu_x + \\lambda = 0 \\;\\Rightarrow\\; \\boxed{\\;\\lambda = \\mu_x = 1.\\;}$ \\;\\;[B]\n\n$\\bullet$ $\\partial \\mathcal{L}/\\partial y^1: \\; \\dfrac{\\partial U^1}{\\partial y^1} + \\lambda\\,\\dfrac{\\partial U^2}{\\partial y^1} - \\mu_y = 0$.\n\n$\\bullet$ $\\partial \\mathcal{L}/\\partial y^2: \\; \\dfrac{\\partial U^1}{\\partial y^2} + \\lambda\\,\\dfrac{\\partial U^2}{\\partial y^2} - \\mu_y = 0$.\n\n\\textbf{\\textcolor{red}{4. Personal vs social MU.}}\nUse $\\lambda = 1$ from [B]:\n\\[ \\boxed{\\;\\;\\underbrace{\\frac{\\partial U^1}{\\partial y^1}}_{\\text{personal cons.}} + \\underbrace{\\frac{\\partial U^2}{\\partial y^1}}_{\\textcolor{red}{\\text{extern.}\\;(<0)}} \\;=\\; \\mu_y,\\qquad \\frac{\\partial U^1}{\\partial y^2} + \\frac{\\partial U^2}{\\partial y^2} = \\mu_y.\\;\\;} \\]\n\\textcolor{orange}{\\emph{Planner takes into account \\textbf{both} MB and MC --- it equates the \\emph{social} marginal benefit of $y^i$ (own MU plus spillover MU on the other agent) to the shadow price $\\mu_y$. The CE planner instead only sets $\\partial U^i/\\partial y^i = \\mu_y$ --- ignoring the extern. term.}}\n\n\\textcolor{purple}{\\emph{Side remark.}} $\\lambda = \\mu_x = 1$: otherwise the planner can improve more by moving consumption around (a non-equal $\\lambda$ would not be Pareto-optimal in the QL frame).\n\n\\textbf{\\textcolor{blue}{Cross-refs:}} planner $\\to$ CE gap (next), worked examples (QL/CD), Pigouvian remedies.\n",
                 "images": [],
-                "x": 14000.0,
-                "y": -4170.0,
+                "x": 14000,
+                "y": -4170,
                 "width": 1100,
                 "height": 1100
               },
@@ -550,8 +550,8 @@
                 "title": "Externalities --- reading FOCs: when constraints bind / destroy",
                 "content": "\\textbf{\\textcolor{red}{Reading the externality FOCs --- when constraints bind / good is destroyed.}}\n\n\\textbf{\\textcolor{red}{① Can $\\mu_y$ be $0$? (Goods destroyed.)}}\n\nPut [A]\\,$\\mu_x = 1$ and [B]\\,$\\lambda = 1$ into the resource constraint [1]:\n\\[ \\text{if } \\omega_y > [\\cdot] \\;\\Rightarrow\\; \\mu_y > 0,\\qquad \\text{otherwise } \\mu_y = 0. \\]\n\\emph{Reading $\\mu_y = 0$:} the marginal social value of one extra unit of $y$ is zero $\\Rightarrow$ \\textbf{goods are better kept idle} (rejected by the planner!) when the spillover wipes out the direct benefit.\n\n\\textbf{Three ways $\\mu_y = 0$ can arise:}\n\n$\\bullet$ \\emph{Corner with full transfer to agent 2.} $y^1 = 0$ (non-interior) and $A = \\mu_y^1 = B$: \\textbf{agent 2 consumes all}.\n\n$\\bullet$ \\emph{Both A,B $= 0$.} Agent 1 is depleted when his MU $\\to 0$ but agent 2 is no longer absorbing because his $U$ is saturated. \\emph{The only thing that can stop him is himself.}\n\n$\\bullet$ \\emph{Both A,B $< 0$.} Negative spillover dominates the direct utility $\\Rightarrow$ planner destroys units (puts $y^i$ in the bin).\n\n\\textbf{\\textcolor{red}{② Can [1] not bind? $\\mu_y = 0$ a priori.}}\n\n\\textcolor{purple}{\\emph{$\\omega_y$ will pin down $\\mu_y$.}} Substitute [A], [B] in [1] $\\to$ get $y^i$. Then to get $x^i$: if $U$ is quasi-linear, $x^i$ is \\emph{not} in the FOC $\\to$ use [3].\n\n\\textbf{\\textcolor{red}{③ Special case  $A = C$ (agent 2 inelastic on $C$).}}\nHence price $P\\uparrow$ by $MC\\uparrow$ \\emph{or some intermediate value} --- the shadow price $\\downarrow$ by $\\downarrow\\downarrow$.\n\n\\textbf{\\textcolor{red}{Effect on $x$.}} Trivial budget logic: \\emph{agent 1 has stuck some $y$ $\\to$ uses the money to buy $x$. Agent 2 is the opposite.}\n\n\\textcolor{purple}{\\emph{Remark.}} Agents are price takers. But \\textbf{they don't know they affect prices}. Still, \\emph{ex-post} they may observe $AS = AD$.\n\n\\textbf{\\textcolor{blue}{Cross-refs:}} planner setup, QL/CD examples, Pigou remedies.\n",
                 "images": [],
-                "x": 15200.0,
-                "y": -4170.0,
+                "x": 15200,
+                "y": -4170,
                 "width": 1100,
                 "height": 1100
               },
@@ -560,8 +560,8 @@
                 "title": "Externalities --- timeline: CE $\\to$ planner reallocation",
                 "content": "\\textbf{\\textcolor{red}{Timeline --- from CE to the planner's reallocation.}}\n\n\\textbf{① $MB$ shifts down by $MC\\uparrow$.}\n\nOnce the spillover is internalised, the agent who \\emph{causes} the externality sees his \\emph{effective} MB curve shift down by the marginal harm to the other agent (i.e.\\ by $|\\partial U^j/\\partial y^i|$).\n\n\\textbf{② Planner now sees that giving these units to agent 1 is less convenient than giving them to agent 2.}\n\nSo she reallocates:\n\\begin{tabular}{p{12cm}|p{12cm}|p{12cm}}\n\\textbf{Agent} & \\textbf{Demand} & \\textbf{Price} \\\\\n\\hline\nAgent 1 (causes the externality) & $D \\downarrow$ & $P \\downarrow$ \\\\\n\\hline\nAgent 2 (suffers the externality) & $D \\uparrow$ & $P \\uparrow$ \\\\\n\\end{tabular}\n\n\\textcolor{purple}{\\emph{Net effect at CE post-trade vs.\\ planner pre-trade: the externality wedge ($R$, in red).}}\n\n\\textbf{\\textcolor{red}{Reading the diagram.}}\n\n$\\bullet$ \\emph{Left panel.} $MB^1$ shifts down by the externality $\\to$ new intersection with $MB^2$ at a lower aggregate $y$ and a different split. The \\textcolor{red}{red wedge} between old and new is the externality $R$.\n\n$\\bullet$ \\emph{Right panel.} Aggregate quantity sold (the planner puts a \\emph{quota} or trades in the private-bad market). \\emph{Note how the wedge $R$ is larger when the externality is more severe (poll/social loss).}\n\n\\textbf{\\textcolor{red}{Post-trade comparison.}}\n\n$\\bullet$ \\emph{Pre-trade planner $\\equiv$ CE} only if no externality.\n\n$\\bullet$ \\emph{Post-trade planner $<$ CE} on the externality-causing agent's consumption.\n\n\\textcolor{purple}{\\emph{Price-taker remark.}} CE agents are price takers $\\to$ they don't realise they can affect prices. \\emph{Ex post}, market clearing $AS = AD$ still holds at the inefficient allocation.\n\n\\textbf{\\textcolor{blue}{Cross-refs:}} setup, FOC reading, worked examples, Pigou.\n",
                 "images": [],
-                "x": 16400.0,
-                "y": -4170.0,
+                "x": 16400,
+                "y": -4170,
                 "width": 1100,
                 "height": 1100
               },
@@ -570,8 +570,8 @@
                 "title": "Externalities --- QL symmetric worked example",
                 "content": "\\textbf{\\textcolor{red}{Worked example --- QL with symmetric externality.}}\n\n\\textbf{\\textcolor{red}{0. Setup.}}\n\\[ \\max\\;\\; \\bigl(\\ln y^1 + x^1 - y^2\\bigr) + \\bigl(\\ln y^2 + x^2 - y^1\\bigr) \\;\\;\\text{sub.}\\;\\; x^1 + x^2 \\le \\omega_x,\\;\\; y^1 + y^2 \\le \\omega_y. \\]\nEach agent's $-y^j$ term is the \\emph{negative spillover} from the other agent's $y$. \\textbf{Symmetric} $\\Rightarrow \\lambda = 1/2$, so $x^i$ will not be pinned down by the FOC.\n\n\\textbf{\\textcolor{red}{1. Lagrangian \\& FOCs.}}\n\\[ \\mathcal{L} = \\sum_i\\bigl[\\ln y^i + x^i - y^{-i}\\bigr] + \\mu_x(\\omega_x - x^1 - x^2) + \\mu_y(\\omega_y - y^1 - y^2). \\]\n\n$\\bullet$ $\\partial_{x_i}\\mathcal{L}: \\; 1 - \\mu_x = 0 \\;\\Rightarrow\\; \\mu_x = 1$. \\;\\; (by symmetry, $i = 1, 2$)\n\n$\\bullet$ $\\partial_{y_i}\\mathcal{L}: \\; \\dfrac{1}{y^i} - 1 - \\mu_y = 0 \\;\\Rightarrow\\; \\dfrac{1}{y^i} = 1 + \\mu_y$.\n\n\\textbf{\\textcolor{red}{2. Rearrange.}}\n\\[ \\boxed{\\;\\; y^i \\;=\\; \\dfrac{1}{1 + \\mu_y}. \\;\\;}\\quad[\\square] \\]\n\n\\textbf{\\textcolor{red}{3. Sub in the resource constraint  $y^1 + y^2 = \\omega_y$  (does $\\mu_y$ bind?).}}\n\\[ \\dfrac{2}{1 + \\mu_y} = \\omega_y. \\quad[\\triangle] \\]\n\n\\textbf{\\textcolor{red}{4. Cases.}}\n\n$\\bullet$ \\textbf{$\\mu_y > 0$ iff $\\omega_y < 2$.} Say $\\omega_y = 1$: from $[\\triangle]$, $\\mu_y = 1$; sub in $[\\square]$, $\\boxed{\\;y^i = 0.5.\\;}$\n\n$\\bullet$ \\textbf{$\\mu_y = 0$ iff $\\omega_y \\ge 2$.} Say $\\omega_y = 3$: from $[\\square]$, $y^i = 1$, so $\\omega_y^{\\text{used}} = 2$. \\textcolor{red}{\\emph{One unit destroyed!}} (no issue of saturation --- planner just chooses to use less because of the externality).\n\n\\textcolor{purple}{\\emph{Reading.}} Even with abundant $\\omega_y$, the planner stops at $y^i = 1$ because beyond that the social MB ($1/y^i - 1$) goes negative.\n\n\\textbf{\\textcolor{blue}{Cross-refs:}} setup, QL asymmetric, CD symmetric, solutions.\n",
                 "images": [],
-                "x": 17600.0,
-                "y": -4170.0,
+                "x": 17600,
+                "y": -4170,
                 "width": 1100,
                 "height": 1100
               },
@@ -580,8 +580,8 @@
                 "title": "Externalities --- QL asymmetric worked example",
                 "content": "\\textbf{\\textcolor{red}{Worked example --- QL asymmetric externality.}}\n\n\\textbf{\\textcolor{red}{0. Setup.}} Only agent 1 imposes the spillover on agent 2:\n\\[ \\max\\;\\; \\bigl(\\ln y^1 + x^1\\bigr) + \\bigl(\\ln y^2 + x^2 - y^1\\bigr)\\;\\;\\text{sub.}\\;\\; x^1 + x^2 \\le \\omega_x,\\;\\; y^1 + y^2 \\le \\omega_y. \\]\n\n\\textbf{\\textcolor{red}{1. FOCs.}}\n\n$\\bullet$ $\\partial_{x_i}\\mathcal{L}: \\; \\mu_x = 1$.\n\n$\\bullet$ $\\partial_{y_1}\\mathcal{L}: \\; \\dfrac{1}{y^1} - 1 - \\mu_y = 0 \\;\\Rightarrow\\; y^1 = \\dfrac{1}{1 + \\mu_y}$.\n\n$\\bullet$ $\\partial_{y_2}\\mathcal{L}: \\; \\dfrac{1}{y^2} - \\mu_y = 0 \\;\\Rightarrow\\; y^2 = \\dfrac{1}{\\mu_y}$.\n\n\\textcolor{purple}{\\emph{Note: $1/y^2 = \\mu_y$ alone --- \\textbf{no externality wedge} for $y^2$ since agent 2 doesn't harm anyone.}} \\textbf{Nothing binding} therefore on $y^2$ from the spillover side.\n\n\\textbf{\\textcolor{red}{2. Sub in resource constraint $y^1 + y^2 = \\omega_y$.}}\n\\[ \\dfrac{1}{1 + \\mu_y} + \\dfrac{1}{\\mu_y} \\;=\\; \\omega_y. \\]\nMultiply through and rearrange: $\\omega_y\\, \\mu_y^2 + (\\omega_y - 2)\\,\\mu_y - 1 = 0$. Solve:\n\\[ \\boxed{\\;\\; \\mu_y \\;=\\; \\dfrac{(2 - \\omega_y) + \\sqrt{\\omega_y^2 + 4}}{2\\,\\omega_y}. \\;\\;} \\]\n\n\\textbf{\\textcolor{red}{3. Cases.}}\n\n$\\bullet$ $\\mu_y > 0$ iff $\\omega_y < 4$. Say $\\omega_y = 1$: then $\\mu_y \\approx 0.5\\bigl(1 + \\sqrt{5}\\bigr) - 0.5 = (\\sqrt 5 + 1)/2 \\cdot \\tfrac{1}{2} = \\tfrac{x^*}{4(1+x^*)/4}$ (numerical).\n\n$\\bullet$ $\\mu_y = 0$ if $\\omega_x/\\omega_y \\le k$ (destroyed) $\\Rightarrow$ $y^i = x^i/4$.\n\n$\\bullet$ Otherwise $y^1 + y^2 = \\omega_x/4$ destroying all $\\omega_y - \\omega_x/4$ \\emph{(some units destroyed by the planner)}.\n\n\\textcolor{purple}{\\emph{Multiplier relations:}}\n$\\bullet$ $x^1 + x^2 = \\omega_x$, use [1] in: $\\mu_x = \\tfrac{1}{2}\\sqrt{\\omega_y/\\omega_x}$.\n\n$\\bullet$ [1] merge [2]: $\\mu_x\\,(1 + \\mu_y) = \\tfrac{1}{4}$.\n\nPut $\\mu_y = \\tfrac{1}{2}\\sqrt{\\omega_x/\\omega_y} - 1$.\n\n\\textcolor{red}{\\emph{Asymmetric $\\Rightarrow$ planner wants agent 2 to consume more $y$ (no spillover from him) and squeeze agent 1.}}\n\n\\textbf{\\textcolor{blue}{Cross-refs:}} QL symmetric, CD symmetric, Pigou solutions.\n",
                 "images": [],
-                "x": 14000.0,
-                "y": -2970.0,
+                "x": 14000,
+                "y": -2970,
                 "width": 1100,
                 "height": 1100
               },
@@ -590,8 +590,8 @@
                 "title": "Externalities --- Cobb--Douglas symmetric worked example",
                 "content": "\\textbf{\\textcolor{red}{Worked example --- Cobb--Douglas symmetric externality.}}\n\n\\textbf{\\textcolor{red}{0. Setup.}}\n\\[ \\max\\;\\; \\sqrt{x^1\\, y^1} + \\sqrt{x^2\\, y^2} - y^1 - y^2 \\;\\;\\text{sub.}\\;\\; \\sum_i x^i \\le \\omega_x,\\;\\; \\sum_i y^i \\le \\omega_y. \\]\n\n\\textbf{\\textcolor{red}{1. Lagrangian.}}\n\\[ \\mathcal{L} = \\sum_i\\bigl[\\sqrt{x^i y^i} - y^{-i}\\bigr] + \\mu_x(\\omega_x - \\textstyle\\sum x^i) + \\mu_y(\\omega_y - \\textstyle\\sum y^i). \\]\n\n\\textbf{\\textcolor{red}{2. FOCs} \\;($i = 1, 2$).}\n\n$\\bullet$ $\\partial_{x_i}\\mathcal{L}: \\; \\dfrac{1}{2}\\sqrt{\\dfrac{y^i}{x^i}} - \\mu_x = 0$.\n\n$\\bullet$ $\\partial_{y_i}\\mathcal{L}: \\; \\dfrac{1}{2}\\sqrt{\\dfrac{x^i}{y^i}} - 1 - \\mu_y = 0$.\n\n\\textbf{\\textcolor{red}{3. Rearrange.}}\n\\[ x^i = \\dfrac{y^i}{4\\,\\mu_x^2}\\quad[1],\\qquad y^i = \\dfrac{x^i}{4\\,(1 + \\mu_y)^2}\\quad[2]. \\]\n\n\\textbf{\\textcolor{red}{4. Sub [2] in $\\omega_y = y^1 + y^2$.}}\n\\[ \\mu_y = \\dfrac{1}{2}\\sqrt{\\dfrac{\\omega_x}{\\omega_y}} - 1\\quad\\text{hence:} \\]\n\n$\\bullet$ $\\mu_y > 0$ if $\\omega_x/\\omega_y > 4$. Say $\\omega_x/\\omega_y = 5 \\Rightarrow \\mu_y = 0.5\\sqrt{5} - 1 \\approx 0.12$  (binds).\n\n$\\bullet$ $\\mu_y = 0$ if $\\omega_x/\\omega_y \\le 4$ \\;$\\Rightarrow$\\; $y^i = x^i/4$ and $y^1 + y^2 = \\omega_x/4$, destroying all $\\omega_y - \\omega_x/4$.\n\n\\textbf{\\textcolor{red}{5. Multiplier relations.}}\nFrom [1]: $x^1 + x^2 = \\omega_x$, then $\\mu_x = \\tfrac{1}{2}\\sqrt{\\omega_y/\\omega_x}$.\n\nCross-check: $\\mu_x\\,(1 + \\mu_y) = \\tfrac{1}{4}$ \\;\\;(multiplier identity).\n\n\\textcolor{orange}{\\emph{The CD case parallels QL but with an interior split between $x$ and $y$ governed by the $\\omega_x/\\omega_y$ ratio.}}\n\n\\textbf{\\textcolor{blue}{Cross-refs:}} QL examples, solutions to externality (next).\n",
                 "images": [],
-                "x": 15200.0,
-                "y": -2970.0,
+                "x": 15200,
+                "y": -2970,
                 "width": 1100,
                 "height": 1100
               },
@@ -600,8 +600,8 @@
                 "title": "Externalities --- CE + solutions (quotas, Pigou, missing market)",
                 "content": "\\textbf{\\textcolor{red}{CE constraint problem \\& solutions to the externality.}}\n\n\\textbf{\\textcolor{red}{CE constraint problem.}} Each agent solves\n\\[ \\max_{y_i,\\, x_i}\\;\\; U^i(y^1, y^2) + x^i\\;\\;\\text{sub.}\\;\\; p_1 y^1 + p_2 y^2 + x^i = \\omega_x^i + p_1 \\omega_y^i\\;\\bigl(=: M_i\\bigr). \\]\n\\textbf{FOC of agent 1 only on $y^1$:} $\\dfrac{\\partial U^1}{\\partial y^1} = p_1$. \\;\\emph{Agent 1 does not see $\\partial U^1/\\partial y^2$} (no choice over $y^2$). And agent 2 is the one consuming $y^2$ but doesn't internalise $\\partial U^2/\\partial y^1$.\n\n\\textbf{The gap:} CE requires $\\dfrac{\\partial U^1}{\\partial y^1} = p_1$ while the planner requires $\\dfrac{\\partial U^1}{\\partial y^1} + \\dfrac{\\partial U^2}{\\partial y^1} = \\mu_y$. The planner's social MB \\emph{includes the externality}; the CE doesn't.\n\n\\textbf{\\textcolor{red}{Three classical solutions to restore Pareto-optimality.}}\n\n\\textbf{\\textcolor{darkgreen}{A. Quotas (Pigou-like).}} Impose the level of $c$ (consumption / output) directly at the planner's level. \\emph{Blunt but works.}\n\n\\textbf{\\textcolor{darkgreen}{B. Pigouvian tax.}} Tax agent 1's consumption of $y^1$ at the marginal external damage. Re-solve agent 1's problem with the tax: he internalises the spillover via the price.\n\n\\emph{Agent 1:} $\\max\\;\\; U^1(y^1, y^2) + x^1\\;\\text{sub.}\\;\\; (p_1 + c)\\, y^1 + x^1 = M_1$.\n\nFOC: $\\dfrac{\\partial U^1}{\\partial y^1} = p_1 + c$ with $\\boxed{\\;\\; c^* \\;=\\; -\\,\\dfrac{\\partial U^2(y^{1*})}{\\partial y^1}\\;\\;}$ (the marginal harm, evaluated at the planner's $y^{1*}$).\n\n\\textbf{\\textcolor{darkgreen}{C. Subsidy / Missing market.}} Pay agent 1 to consume \\emph{less} (Coase). Equivalently, \\textbf{create the missing market}: assign agent 2 the right to prevent the activity (or assign agent 1 the licence) and let them trade.\n\n\\emph{Agent 2's problem becomes:} $\\max_{y^1}\\;\\; U^2(y^1) - p\\, y^1\\;\\;\\Rightarrow\\;\\; \\partial U^2/\\partial y^1 = -p$ \\;\\;(agent 2 buys reductions of $y^1$).\n\nBy the Coase logic, both A and B and C achieve the same allocation under no transaction costs.\n\n\\textbf{\\textcolor{red}{Issues with each.}}\n\n$\\bullet$ \\emph{A (quotas):} planner needs to know the social opt level of $c$.\n\n$\\bullet$ \\emph{B (Pigou tax):} needs $\\partial U^2/\\partial y^{1*}$ at the planner's allocation --- a strong informational requirement.\n\n$\\bullet$ \\emph{C (missing market):} requires assigning property rights and a price-discovery mechanism (often the missing piece historically).\n\n\\textcolor{purple}{\\emph{Remark.}} FB sub-problem must be solved externally, directly --- not taken (from earlier) and only post-hoc but \\textbf{the math-fix.}\n\n\\textbf{\\textcolor{blue}{Cross-refs:}} setup (planner), CE FOC, QL/CD examples.\n",
                 "images": [],
-                "x": 16400.0,
-                "y": -2970.0,
+                "x": 16400,
+                "y": -2970,
                 "width": 1100,
                 "height": 1100
               }
