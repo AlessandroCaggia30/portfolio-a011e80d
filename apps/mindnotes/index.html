@@ -3542,11 +3542,6 @@ const State = {
     currentView: 'notes',
     selectedQuizTopics: new Set(),
     syncId: localStorage.getItem('mindnotes_syncId') || '',
-    // For click-to-edit detection
-    clickedNode: null,
-    clickedNodeEl: null,
-    clickStartTime: 0,
-    clickStartPos: { x: 0, y: 0 },
     // For link selection
     selectedLink: null,  // { fromId, toId }
     // Undo/Redo stacks
