@@ -5707,6 +5707,12 @@ function attachNodeEventListeners(el, node) {
             return;
         }
 
+        // If the detail panel is open, allow click-to-select-another but block drag
+        // so the snippet behind the panel isn't dragged accidentally.
+        if ($('detailPanel').classList.contains('open')) {
+            return;
+        }
+
         // Setup for potential drag
         State.isDragging = true;
         State.hasDragged = false;
