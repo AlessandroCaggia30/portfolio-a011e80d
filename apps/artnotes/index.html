@@ -9504,7 +9504,6 @@ function deleteSelectedNodes() {
 }
 
 function startRectangleSelection(e) {
-    if (e.target !== canvas && e.target.id !== 'canvasBg') return;
     if (e.button !== 0) return;  // Left click only
     if (e.metaKey || e.ctrlKey) return;  // Not when linking
 
