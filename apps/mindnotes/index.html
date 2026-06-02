@@ -9906,11 +9906,30 @@ function updateRectangleSelection(e) {
 function endRectangleSelection(e) {
     if (!State.isSelecting) return;
 
+    const wasClick = !State.selectionMoved;
     State.isSelecting = false;
+    State.selectionMoved = false;
     if (State.selectionRect) {
         State.selectionRect.remove();
         State.selectionRect = null;
     }
+
+    // Pure shift+click on a node: execute the deferred toggle.
+    if (wasClick && State.shiftClickPending) {
+        const pending = State.shiftClickPending;
+        State.shiftClickPending = null;
+        const idx = State.selectedNodes.indexOf(pending.nodeId);
+        if (idx >= 0) {
+            State.selectedNodes.splice(idx, 1);
+            pending.el.classList.remove('multi-selected');
+        } else {
+            State.selectedNodes.push(pending.nodeId);
+            pending.el.classList.add('multi-selected');
+        }
+        updateSelectionToolbar();
+        return;
+    }
+    State.shiftClickPending = null;
 
     if (State.selectedNodes.length > 0) {
         State.selectedNode = null;  // Clear single selection
