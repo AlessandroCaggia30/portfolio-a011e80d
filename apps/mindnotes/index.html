@@ -9843,7 +9843,8 @@ function startRectangleSelection(e) {
     const y = (e.clientY - rect.top - State.pan.y) / State.zoom + 5000;
 
     State.isSelecting = true;
-    State.selectionStart = { x, y };
+    State.selectionMoved = false;
+    State.selectionStart = { x, y, clientX: e.clientX, clientY: e.clientY };
 
     // Create selection rectangle element
     State.selectionRect = document.createElement('div');
@@ -9853,6 +9854,13 @@ function startRectangleSelection(e) {
 
 function updateRectangleSelection(e) {
     if (!State.isSelecting || !State.selectionRect) return;
+
+    if (!State.selectionMoved) {
+        const dx = e.clientX - State.selectionStart.clientX;
+        const dy = e.clientY - State.selectionStart.clientY;
+        if (Math.abs(dx) < 5 && Math.abs(dy) < 5) return;
+        State.selectionMoved = true;
+    }
 
     const rect = canvasWrapper.getBoundingClientRect();
     const x = (e.clientX - rect.left - State.pan.x) / State.zoom + 5000;
