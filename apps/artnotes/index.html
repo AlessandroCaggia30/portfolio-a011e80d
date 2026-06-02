@@ -5422,16 +5422,15 @@ function attachNodeEventListeners(el, node) {
             return;
         }
 
-        // Shift + click = toggle flashcard
+        // Shift+click on node = toggle flashcard; Shift+drag = area select.
+        // Defer the toggle until mouseup so a drag starting on a node still triggers
+        // rectangle selection.
         if (e.shiftKey) {
             e.preventDefault();
             e.stopPropagation();
-            node.flashcard = !node.flashcard;
-            saveData();
-            renderCanvas();
-            showToast(node.flashcard ? '🎴 Flashcard ON' : 'Flashcard OFF');
-            updateFlashcardStats();
+            State.shiftClickPending = { node };
             State.clickedNode = null;
+            startRectangleSelection(e);
             return;
         }
 
@@ -9512,7 +9511,8 @@ function startRectangleSelection(e) {
     const y = (e.clientY - rect.top - State.pan.y) / State.zoom + 5000;
 
     State.isSelecting = true;
-    State.selectionStart = { x, y };
+    State.selectionMoved = false;
+    State.selectionStart = { x, y, clientX: e.clientX, clientY: e.clientY };
 
     // Create selection rectangle element
     State.selectionRect = document.createElement('div');
@@ -9522,6 +9522,13 @@ function startRectangleSelection(e) {
 
 function updateRectangleSelection(e) {
     if (!State.isSelecting || !State.selectionRect) return;
+
+    if (!State.selectionMoved) {
+        const dx = e.clientX - State.selectionStart.clientX;
+        const dy = e.clientY - State.selectionStart.clientY;
+        if (Math.abs(dx) < 5 && Math.abs(dy) < 5) return;
+        State.selectionMoved = true;
+    }
 
     const rect = canvasWrapper.getBoundingClientRect();
     const x = (e.clientX - rect.left - State.pan.x) / State.zoom + 5000;
@@ -9567,11 +9574,26 @@ function updateRectangleSelection(e) {
 function endRectangleSelection(e) {
     if (!State.isSelecting) return;
 
+    const wasClick = !State.selectionMoved;
     State.isSelecting = false;
+    State.selectionMoved = false;
     if (State.selectionRect) {
         State.selectionRect.remove();
         State.selectionRect = null;
     }
+
+    // Pure shift+click on a node: execute the deferred flashcard toggle.
+    if (wasClick && State.shiftClickPending) {
+        const { node } = State.shiftClickPending;
+        State.shiftClickPending = null;
+        node.flashcard = !node.flashcard;
+        saveData();
+        renderCanvas();
+        showToast(node.flashcard ? '🎴 Flashcard ON' : 'Flashcard OFF');
+        updateFlashcardStats();
+        return;
+    }
+    State.shiftClickPending = null;
 
     if (State.selectedNodes.length > 0) {
         State.selectedNode = null;  // Clear single selection
