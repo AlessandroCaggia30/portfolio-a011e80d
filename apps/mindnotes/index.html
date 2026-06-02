@@ -5667,19 +5667,14 @@ function attachNodeEventListeners(el, node) {
             handleLinkingClick(el, node);
             return;
         }
-        // Shift + click = toggle node in multi-selection
+        // Shift+click on node = toggle in multi-selection; Shift+drag = area select.
+        // Defer the toggle until mouseup so a drag starting on a node still triggers
+        // rectangle selection.
         if (e.shiftKey) {
             e.preventDefault();
             e.stopPropagation();
-            const idx = State.selectedNodes.indexOf(node.id);
-            if (idx >= 0) {
-                State.selectedNodes.splice(idx, 1);
-                el.classList.remove('multi-selected');
-            } else {
-                State.selectedNodes.push(node.id);
-                el.classList.add('multi-selected');
-            }
-            updateSelectionToolbar();
+            State.shiftClickPending = { nodeId: node.id, el };
+            startRectangleSelection(e);
             return;
         }
         // Complete a pending link to this node
