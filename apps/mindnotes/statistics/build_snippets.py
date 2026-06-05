@@ -95,7 +95,7 @@ def md_tables_to_latex(text):
             i += 1
     return "\n".join(out_lines)
 
-COL_X = [200 + 800*i for i in range(90)]  # supports columns 1..90
+COL_X = [200 + 800*i for i in range(100)]  # supports columns 1..100
 TOP_Y = 200
 SNIPPET_W = 600
 SNIPPET_GAP = 40
@@ -1590,13 +1590,14 @@ The median (~26) is much smaller than the mean (~52.52), confirming the strong r
 from ex2_content import ex2
 from ex3_content import ex3
 from ex4_content import ex4
-from ex5_content import ex5    # Ex5 — confidence intervals & first hypothesis tests
-from ex6_content import ex6    # Ex6 — CI focus
-from ex7_content import ex7    # Ex7 — hypothesis tests + chi-squared + intro regression
-from ex8_content import ex8    # Ex8 — simple linear regression
-from ex9_content import ex9    # Ex9 — multiple regression
+from ex5_content import ex5
+from ex6_content import ex6
+from ex7_content import ex7
+from ex8_content import ex8
+from ex9_content import ex9
+from past_exams_content import past_exams  # 13 past exams (2024-2026)
 
-ALL = {**ex0, **ex1, **ex2, **ex3, **ex4, **ex5, **ex6, **ex7, **ex8, **ex9}
+ALL = {**ex0, **ex1, **ex2, **ex3, **ex4, **ex5, **ex6, **ex7, **ex8, **ex9, **past_exams}
 
 def th(tid, ttitle, tcontent):
     return {"id": tid, "title": ttitle, "content": tcontent}
@@ -2280,6 +2281,8 @@ SUBTOPICS = [
         69: ["7_10a"],
         70: ["5_13b"],
   }),
+  # ===== Past-exam sub-parts: distribute by topic_hint =====
+  # (Done at the bottom by a small loop — see PAST_EXAM_COLUMN_MAP below.)
   # ===== G15 — Linear regression (simple + multiple) =====
   sub("G15", "g15_regression", "Linear regression (simple + multiple)",
       "th_g15", "Theory — Linear regression", T_G15_REG, {
@@ -2419,7 +2422,52 @@ COLUMN_HEADERS = [
     {"col": 84, "label": "Ex 9.11 (Absence)"},
     {"col": 85, "label": "Ex 9.12 (Visitors time series)"},
     {"col": 86, "label": "Ex 9.13 (Loans credit)"},
+    {"col": 87, "label": "Past exam — 1st partial 2024"},
+    {"col": 88, "label": "Past exam — 1st partial 2025"},
+    {"col": 89, "label": "Past exam — 1st partial 2026"},
+    {"col": 90, "label": "Past exam — general 1 2024"},
+    {"col": 91, "label": "Past exam — general 1 2025"},
+    {"col": 92, "label": "Past exam — general 1 2026"},
+    {"col": 93, "label": "Past exam — general 2 2024"},
+    {"col": 94, "label": "Past exam — general 2 2025"},
+    {"col": 95, "label": "Past exam — general 2 2026"},
+    {"col": 96, "label": "Past exam — July 2024"},
+    {"col": 97, "label": "Past exam — July 2025"},
+    {"col": 98, "label": "Past exam — September 2024"},
+    {"col": 99, "label": "Past exam — September 2025"},
 ]
+
+# ---------------------------------------------------------------------
+# Inject past-exam sub-parts into the SUBTOPICS list (yellow cards).
+# ---------------------------------------------------------------------
+PAST_EXAM_COL = {
+    "exam_p1_2024_": 87, "exam_p1_2025_": 88, "exam_p1_2026_": 89,
+    "exam_g1_2024_": 90, "exam_g1_2025_": 91, "exam_g1_2026_": 92,
+    "exam_g2_2024_": 93, "exam_g2_2025_": 94, "exam_g2_2026_": 95,
+    "exam_july_2024_": 96, "exam_july_2025_": 97,
+    "exam_sep_2024_": 98,  "exam_sep_2025_":  99,
+}
+TOPIC_HINT_MAP = {
+    "G1":  "g1c_hist",  "G2":  "g2a_exact",   "G3":  "g3_main",
+    "G4":  "g4a_bytype","G5":  "g5_disp",     "G6":  "g6b_box",
+    "G7":  "g7_twoway", "G8":  "g8_condsumm", "G9":  "g9_corr",
+    "G10": "g10_normal","G11": "g11_clt",     "G12": "g12_lincomb",
+    "G13": "g13_ci_mean","G14":"g14_tests",   "G15": "g15_regression",
+}
+def _col_for_exam_id(eid):
+    for prefix, col in PAST_EXAM_COL.items():
+        if eid.startswith(prefix):
+            return col
+    return None
+for eid, d in past_exams.items():
+    col = _col_for_exam_id(eid)
+    if col is None: continue
+    hint = d.get("topic_hint", "G1")
+    sub_target = TOPIC_HINT_MAP.get(hint, "g1c_hist")
+    for stm in SUBTOPICS:
+        if stm["sid"] == sub_target:
+            stm["columns"].setdefault(col, []).append(eid)
+            break
 
 topics_out = {}
 total_nodes_count = 0
@@ -2464,6 +2512,8 @@ for stm in SUBTOPICS:
                           x, cy, color, w=SNIPPET_W, h=H(d),
                           links=[th_id], images=d.get("images", []))
             n_node["column"] = col_idx
+            if d.get("is_exam"):
+                n_node["isExam"] = True   # consumed by renderStatsTable for yellow class
             nodes_in_subtopic.append(n_node)
             cy += H(d) + SNIPPET_GAP
 
