@@ -2871,95 +2871,288 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
 .autosave-banner:hover { filter: brightness(1.1); }
 .autosave-banner.visible { display: block; }
 
-/* ===== Statistics — full-page hyper-table view ===== */
+/* ===========================================================
+   Statistics — full-page hyper-table view (POLISHED)
+   Color system: navy + warm yellow + amber + neutral grays.
+   Typography: Inter / system-ui for chrome, JetBrains Mono for R.
+   =========================================================== */
 .stats-table-view {
-    position: fixed;
-    inset: 0;
-    background: var(--bg-primary, #fff);
-    color: var(--text-primary, #222);
+    position: fixed; inset: 0;
+    background: #f7f7fa;
+    color: #1a1a2e;
     z-index: 100;
-    display: flex;
-    flex-direction: column;
+    display: flex; flex-direction: column;
     overflow: hidden;
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 .stats-table-view.hidden { display: none; }
+
 .stats-table-header {
-    padding: 14px 22px;
-    border-bottom: 1px solid var(--border-color, #ccc);
-    display: flex; align-items: center; gap: 18px; flex-shrink: 0;
-    background: var(--bg-secondary, #f7f7f7);
+    padding: 18px 28px;
+    border-bottom: 1px solid #d6d8e2;
+    display: flex; align-items: center; gap: 20px; flex-shrink: 0;
+    background: linear-gradient(180deg, #ffffff 0%, #f7f7fa 100%);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.04);
 }
 .stats-back-btn {
-    padding: 7px 14px; border: 1px solid #888; background: white; cursor: pointer;
-    border-radius: 6px; font-size: 13px;
+    padding: 9px 18px;
+    border: 1px solid #1b3a64;
+    background: #ffffff;
+    color: #1b3a64;
+    cursor: pointer; border-radius: 8px;
+    font-size: 13px; font-weight: 600;
+    transition: all 0.15s ease;
 }
-.stats-back-btn:hover { background: #f0f0f0; }
-.stats-table-header h2 { margin: 0; font-size: 18px; font-weight: 600; }
+.stats-back-btn:hover {
+    background: #1b3a64; color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(27,58,100,0.25);
+}
+.stats-table-header h2 {
+    margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -0.01em;
+    color: #1a1a2e;
+}
+
 .stats-table-scroll { flex: 1; overflow: auto; }
 .stats-table {
     border-collapse: separate; border-spacing: 0;
     table-layout: fixed; min-width: 100%;
-}
-.stats-table th, .stats-table td {
-    border: 1px solid #c8c8c8;
-    padding: 8px 10px; vertical-align: top;
-    width: 260px; min-width: 260px; max-width: 260px;
-    box-sizing: border-box;
-    background: white;
-}
-.stats-table thead th {
-    position: sticky; top: 0;
-    background: #1b6ca8; color: white;
-    font-weight: 600; z-index: 2; text-align: center;
     font-size: 13px;
 }
-.stats-table th.stats-row-head {
-    position: sticky; left: 0;
-    background: #eef4ff; z-index: 1;
-    font-weight: 600; text-align: left;
-    width: 220px; min-width: 220px; max-width: 220px;
-}
-.stats-table th.stats-corner { z-index: 3; background: #1b6ca8; color: white; }
-.stats-table tr.stats-topic-sep td {
-    background: #4a4a4a; color: white; font-weight: 700;
-    text-align: left; padding: 10px 14px; font-size: 14px;
-    position: sticky; left: 0;
-    border-color: #4a4a4a;
-}
-.stats-cell { background: #fafafa !important; min-height: 60px; }
-.stats-card {
-    background: white; border: 1px solid #c0c0c0; border-radius: 6px;
-    padding: 8px 10px; margin: 4px 0; cursor: pointer;
-    font-size: 12px; line-height: 1.4;
-    transition: background 0.1s ease, border-color 0.1s ease;
-}
-.stats-card:hover { background: #fffae6; border-color: #888; }
-.stats-card.stats-theory {
-    background: #fff8c4; border-color: #d4b800; font-weight: 600;
+.stats-table th, .stats-table td {
+    border-right: 1px solid #e1e3eb;
+    border-bottom: 1px solid #e1e3eb;
+    padding: 10px 12px; vertical-align: top;
+    width: 280px; min-width: 280px; max-width: 280px;
+    box-sizing: border-box;
+    background: #ffffff;
 }
 
-/* Snippet modal opened from a card click */
+/* Column headers: bold navy gradient with subtle inner shadow */
+.stats-table thead th {
+    position: sticky; top: 0;
+    background: linear-gradient(180deg, #1b3a64 0%, #14304f 100%);
+    color: #fafafa;
+    font-weight: 600; z-index: 2;
+    text-align: center;
+    font-size: 12.5px;
+    letter-spacing: 0.01em;
+    padding: 12px 10px;
+    border-right: 1px solid #2a4970;
+    border-bottom: 2px solid #0f2440;
+    text-transform: uppercase;
+}
+
+/* Row labels (left sticky column) */
+.stats-table th.stats-row-head {
+    position: sticky; left: 0;
+    background: #fbfaf4;
+    z-index: 1;
+    font-weight: 600; text-align: left;
+    width: 240px; min-width: 240px; max-width: 240px;
+    color: #1a1a2e;
+    font-size: 13px;
+    padding: 12px 14px;
+    border-right: 2px solid #d4b800;
+}
+.stats-table th.stats-corner {
+    z-index: 3;
+    background: linear-gradient(135deg, #1b3a64 0%, #14304f 100%);
+    color: #fafafa;
+    border-right: 2px solid #d4b800;
+    text-transform: uppercase;
+    font-size: 12.5px;
+}
+
+/* Topic separator rows */
+.stats-table tr.stats-topic-sep td {
+    background: linear-gradient(90deg, #2a4970 0%, #1b3a64 100%);
+    color: #ffffff;
+    font-weight: 700; text-align: left;
+    padding: 14px 18px; font-size: 14.5px;
+    letter-spacing: 0.02em;
+    position: sticky; left: 0;
+    border: none;
+    box-shadow: inset 4px 0 0 #d4b800;
+}
+
+/* Cell backgrounds */
+.stats-cell {
+    background: #fafbff !important;
+    min-height: 64px;
+    padding: 8px !important;
+}
+
+/* Cards inside cells */
+.stats-card {
+    background: #ffffff;
+    border: 1px solid #d4d6dc;
+    border-radius: 7px;
+    padding: 10px 12px;
+    margin: 4px 0;
+    cursor: pointer;
+    font-size: 12.5px;
+    line-height: 1.45;
+    font-weight: 500;
+    color: #2a2a3e;
+    transition: all 0.15s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+.stats-card:hover {
+    background: #fffdf5;
+    border-color: #d4b800;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(212,184,0,0.18);
+}
+.stats-card.stats-theory {
+    background: linear-gradient(135deg, #fff8c4 0%, #fff3a3 100%);
+    border-color: #d4b800;
+    color: #5c4a00;
+    font-weight: 700;
+    box-shadow: 0 1px 4px rgba(212,184,0,0.15);
+}
+.stats-card.stats-theory:hover {
+    background: linear-gradient(135deg, #fff3a3 0%, #ffea7a 100%);
+    box-shadow: 0 4px 16px rgba(212,184,0,0.3);
+}
+
+/* =====================================================
+   Snippet modal (POLISHED) — opens when card is clicked
+   ===================================================== */
 .stats-snippet-modal {
     position: fixed; inset: 0;
-    background: rgba(0,0,0,0.7); z-index: 1000;
+    background: rgba(20,24,40,0.78);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
     display: flex; align-items: center; justify-content: center;
+    animation: fadeIn 0.18s ease;
 }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 .stats-snippet-modal.hidden { display: none; }
 .stats-snippet-modal-inner {
-    background: white; color: #222;
-    width: min(94vw, 1100px); height: min(92vh, 900px);
-    overflow: auto; padding: 30px 40px;
-    border-radius: 10px; position: relative;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    background: #ffffff;
+    color: #1a1a2e;
+    width: min(94vw, 1180px);
+    height: min(92vh, 920px);
+    overflow: auto;
+    padding: 38px 48px 48px 48px;
+    border-radius: 14px;
+    position: relative;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.65;
+    font-size: 14.5px;
 }
 .stats-snippet-modal-close {
-    position: absolute; top: 10px; right: 14px;
-    cursor: pointer; font-size: 28px;
+    position: absolute; top: 14px; right: 18px;
+    cursor: pointer; font-size: 30px;
     background: none; border: none; line-height: 1;
-    color: #555;
+    color: #888;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s ease;
 }
-.stats-snippet-modal-close:hover { color: #000; }
-.stats-snippet-modal-inner h2 { margin-top: 0; }
+.stats-snippet-modal-close:hover {
+    color: #1a1a2e;
+    background: #f0f1f5;
+}
+.stats-snippet-modal-inner h2 {
+    margin: 0 0 24px 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: #1b3a64;
+    border-bottom: 3px solid #d4b800;
+    padding-bottom: 12px;
+    letter-spacing: -0.01em;
+}
+.stats-snippet-modal-inner h3 {
+    color: #1b3a64;
+    margin-top: 24px;
+    font-size: 16.5px;
+    font-weight: 600;
+}
+.stats-snippet-modal-inner p { margin: 12px 0; }
+.stats-snippet-modal-inner strong, .stats-snippet-modal-inner b {
+    color: #1a1a2e; font-weight: 700;
+}
+.stats-snippet-modal-inner em, .stats-snippet-modal-inner i { color: #4a4a5a; }
+.stats-snippet-modal-inner hr {
+    border: 0; border-top: 1px solid #e1e3eb;
+    margin: 20px 0;
+}
+
+/* R / inline code blocks — distinguished from prose */
+.stats-snippet-modal-inner code {
+    font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, monospace;
+    background: #1a1f2e;
+    color: #e6e8f0;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 12.5px;
+    font-weight: 500;
+    border: 1px solid #2a3142;
+}
+/* R-output lines (start with ## inside code) get a softer gray */
+.stats-snippet-modal-inner code:has(> .r-output),
+.stats-snippet-modal-inner p > code[data-r-output="1"] {
+    background: #f2f3f7;
+    color: #4a4a5a;
+    border: 1px solid #d4d6dc;
+}
+/* Multi-line R sequences: stack tightly with subtle code-block container */
+.stats-snippet-modal-inner p:has(> code:only-child) {
+    margin: 4px 0;
+}
+.stats-snippet-modal-inner p > code:only-child {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 6px;
+    width: auto;
+    max-width: 100%;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+/* Tables inside modal */
+.stats-snippet-modal-inner table {
+    border-collapse: collapse;
+    margin: 16px 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    border-radius: 6px;
+    overflow: hidden;
+    width: auto;
+    max-width: 100%;
+}
+.stats-snippet-modal-inner table th,
+.stats-snippet-modal-inner table td {
+    border: 1px solid #d4d6dc;
+    padding: 8px 14px;
+    text-align: left;
+    background: #ffffff;
+    font-size: 13.5px;
+}
+.stats-snippet-modal-inner table th {
+    background: linear-gradient(180deg, #f0f3fa 0%, #e6ebf3 100%);
+    font-weight: 700;
+    color: #1b3a64;
+}
+.stats-snippet-modal-inner table tr:nth-child(even) td {
+    background: #fafbff;
+}
+
+/* Plot images inside modal */
+.stats-snippet-modal-inner img {
+    max-width: 100%;
+    margin: 20px 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    border: 1px solid #e1e3eb;
+}
+
+/* KaTeX (math) blends with the prose */
+.stats-snippet-modal-inner .katex { font-size: 1.06em; }
+.stats-snippet-modal-inner .katex-display { margin: 20px 0; }
 
     </style>
 </head>
