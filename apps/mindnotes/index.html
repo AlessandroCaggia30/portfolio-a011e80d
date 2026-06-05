@@ -11793,10 +11793,19 @@ function openStatsSnippet(nodeId) {
     let html = formatContent(node.content || '');
     if (Array.isArray(node.images) && node.images.length) {
         html += node.images.map(img =>
-            '<img src="' + escapeHtml(img) + '" style="max-width:100%; margin-top:14px; border-radius:6px;">'
+            '<img src="' + escapeHtml(img) + '" alt="plot">'
         ).join('');
     }
     contentEl.innerHTML = html;
+
+    // Mark R-output <code> elements (lines starting with ##) for distinct styling
+    contentEl.querySelectorAll('code').forEach(el => {
+        const t = el.textContent.trim();
+        if (t.startsWith('##') || t.startsWith('## ')) {
+            el.setAttribute('data-r-output', '1');
+        }
+    });
+
     modal.classList.remove('hidden');
     renderMath(contentEl);
 }
