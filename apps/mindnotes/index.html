@@ -2964,6 +2964,19 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
     </style>
 </head>
 <body>
+    <!-- Statistics hyper-table view (only shown when subject id === 'statistics') -->
+    <div id="statsTableView" class="stats-table-view hidden"></div>
+
+    <!-- Modal shown when clicking a card in the Statistics table -->
+    <div id="statsSnippetModal" class="stats-snippet-modal hidden"
+         onclick="if(event.target===this) closeStatsSnippet()">
+        <div class="stats-snippet-modal-inner">
+            <button class="stats-snippet-modal-close" onclick="closeStatsSnippet()" title="Close (Esc)">×</button>
+            <h2 id="statsSnippetTitle"></h2>
+            <div id="statsSnippetContent" class="snippet-content"></div>
+        </div>
+    </div>
+
     <div id="subjectScreen" class="subject-screen">
         <button class="global-gh-btn" onclick="openGhSyncModal()" title="GitHub Sync &amp; Version History">🔄 Sync <span id="ghStatusDot" class="gh-status-dot gh-status-unknown" title="Sync status"></span></button>
         <div class="subject-screen-inner">
