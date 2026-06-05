@@ -98,7 +98,8 @@ def md_tables_to_latex(text):
 COL_X = [200, 900, 1700, 2500, 3300, 4100, 4900, 5700, 6500,
          7300, 8100, 8900, 9700, 10500, 11300, 12100, 12900, 13700,
          14500, 15300, 16100, 16900, 17700, 18500, 19300, 20100, 20900,
-         21700, 22500, 23300, 24100, 24900]
+         21700, 22500, 23300, 24100, 24900, 25700, 26500, 27300, 28100,
+         28900, 29700, 30500, 31300, 32100, 32900, 33700]
 TOP_Y = 200
 SNIPPET_W = 600
 SNIPPET_GAP = 40
@@ -1592,8 +1593,9 @@ The median (~26) is much smaller than the mean (~52.52), confirming the strong r
 
 from ex2_content import ex2  # 43 Ex2 sub-parts
 from ex3_content import ex3  # Ex3 — bivariate stats
+from ex4_content import ex4  # Ex4 — probability, normal, sampling distributions
 
-ALL = {**ex0, **ex1, **ex2, **ex3}
+ALL = {**ex0, **ex1, **ex2, **ex3, **ex4}
 
 def th(tid, ttitle, tcontent):
     return {"id": tid, "title": ttitle, "content": tcontent}
@@ -1602,7 +1604,117 @@ SUBTOPIC_COLOR = {
     "G1": "coral", "G2": "orange", "G3": "purple", "G4": "skyblue",
     "G5": "green", "G6": "pink",
     "G7": "yellow", "G8": "lavender", "G9": "salmon",
+    "G10": "lightblue", "G11": "teal", "G12": "gold",
 }
+
+# G10 / G11 / G12 — Probability theory snippets
+
+T_G10_NORMAL = """## G10 — Normal distribution and probability calculations
+
+A continuous random variable $X$ is **normally distributed** with mean $\\mu$ and standard deviation $\\sigma$ — written $X \\sim N(\\mu, \\sigma^2)$ — if its density is
+$$
+f(x) = \\frac{1}{\\sigma\\sqrt{2\\pi}} \\exp\\!\\left[-\\frac{(x-\\mu)^2}{2\\sigma^2}\\right].
+$$
+
+### Standardization
+If $X \\sim N(\\mu, \\sigma^2)$, then $Z = (X-\\mu)/\\sigma \\sim N(0, 1)$ — the **standard normal**.
+
+### Probability calculations
+- $\\Pr(X \\le x)$: cumulative distribution at $x$ — read via $z$-table or computed in R with `pnorm`.
+- $\\Pr(X > x) = 1 - \\Pr(X \\le x)$.
+- $\\Pr(a < X < b) = \\Pr(X \\le b) - \\Pr(X \\le a)$.
+
+### Quantile (percentile) computation
+The $q$-quantile $x_q$ satisfies $\\Pr(X \\le x_q) = q$ — invert the CDF, computed in R with `qnorm`.
+
+**R commands:**
+```r
+pnorm(x, mean=mu, sd=sigma)              # P(X <= x)
+1 - pnorm(x, mean=mu, sd=sigma)          # P(X > x)
+qnorm(q, mean=mu, sd=sigma)              # x such that P(X <= x) = q
+
+# Standard normal
+pnorm(z); qnorm(q)
+```
+
+### Reading a normal in context
+- "what is the probability the value exceeds threshold $T$" → $1 - \\Pr(X \\le T)$.
+- "what is the minimum value of the top $\\alpha\\%$" → $(1 - \\alpha)$-th quantile.
+- "what is the 90th percentile" → `qnorm(0.9, mu, sigma)`.
+"""
+
+T_G11_SAMP = """## G11 — Sampling distributions and the Central Limit Theorem
+
+When we draw a sample of size $n$ from a population and compute a statistic (e.g. sample mean $\\bar X$, sample proportion $\\bar P$), the statistic itself has a **distribution** — the *sampling distribution*.
+
+### Sample mean distribution
+For independent $X_1, \\ldots, X_n$ from a population with mean $\\mu$ and variance $\\sigma^2$:
+$$
+\\bar X = \\frac{1}{n}\\sum_{i=1}^n X_i, \\qquad E[\\bar X] = \\mu, \\qquad \\mathrm{Var}(\\bar X) = \\sigma^2/n.
+$$
+
+If the population is normal: $\\bar X \\sim N(\\mu, \\sigma^2/n)$ exactly.
+
+**Central Limit Theorem (CLT):** for $n$ large (rule of thumb $n \\ge 30$, or $n \\ge 40$ if heavy-tailed), $\\bar X$ is *approximately* normal **regardless of the population distribution**.
+
+### Sample proportion distribution
+For $X_i \\sim \\text{Bernoulli}(p)$, the sample proportion $\\bar P = \\frac{1}{n}\\sum X_i$ has
+$$
+E[\\bar P] = p, \\qquad \\mathrm{Var}(\\bar P) = \\frac{p(1-p)}{n}.
+$$
+For $n$ large (typically $np \\ge 10$ and $n(1-p) \\ge 10$), by CLT:
+$$
+\\bar P \\approx N\\!\\left(p,\\; \\frac{p(1-p)}{n}\\right).
+$$
+
+### Probability calculations
+Same R commands as for any normal — just plug in the **sampling-distribution parameters**:
+```r
+pnorm(value, mean=mu_population, sd=sigma_population/sqrt(n))    # P(X-bar <= value)
+pnorm(value, mean=p,             sd=sqrt(p*(1-p)/n))             # P(P-bar <= value)
+```
+
+### When can we apply CLT vs need normality?
+- Large sample → CLT applies → no need to assume population normal.
+- Small sample → must assume population is normal to use the same formulas.
+"""
+
+T_G12_LINCOMB = """## G12 — Linear combinations of independent random variables
+
+Given $X_1, \\ldots, X_n$ independent random variables (not necessarily normal) and constants $a_0, a_1, \\ldots, a_n$, define
+$$
+Y = a_0 + \\sum_{i=1}^n a_i X_i.
+$$
+
+### Expectation (always linear)
+$$
+E[Y] = a_0 + \\sum_{i=1}^n a_i\\, E[X_i].
+$$
+This holds **regardless** of dependence between the $X_i$.
+
+### Variance (requires independence or covariance terms)
+$$
+\\mathrm{Var}(Y) = \\sum_{i=1}^n a_i^2\\,\\mathrm{Var}(X_i) + 2\\sum_{i<j} a_i a_j \\mathrm{Cov}(X_i, X_j).
+$$
+If the $X_i$ are independent (so all covariances are zero), the cross terms vanish.
+
+### If the $X_i$ are normal
+Any linear combination of independent normals is again normal:
+$$
+Y \\sim N\\!\\left(a_0 + \\sum_i a_i \\mu_i,\\; \\sum_i a_i^2 \\sigma_i^2\\right).
+$$
+This is the key result behind weighted-average grades, total spending across customers, etc.
+
+### Common applications
+- **Sum** $S = X_1 + \\ldots + X_n$ of $n$ iid normals $X_i \\sim N(\\mu, \\sigma^2)$: $S \\sim N(n\\mu, n\\sigma^2)$.
+- **Weighted average** of grades: e.g. $G = 0.4 X + 0.6 Y$ → $E[G] = 0.4 \\mu_X + 0.6 \\mu_Y$, etc.
+- **Difference** $D = X - Y$: $E[D] = \\mu_X - \\mu_Y$, $\\mathrm{Var}(D) = \\mathrm{Var}(X) + \\mathrm{Var}(Y) - 2\\mathrm{Cov}(X, Y)$.
+
+### Bivariate normal
+$(X, Y)$ jointly normal with means $\\mu_X, \\mu_Y$, variances $\\sigma_X^2, \\sigma_Y^2$ and correlation $\\rho$:
+- Marginals: $X \\sim N(\\mu_X, \\sigma_X^2)$, $Y \\sim N(\\mu_Y, \\sigma_Y^2)$.
+- Linear combination $aX + bY \\sim N(a\\mu_X + b\\mu_Y, a^2\\sigma_X^2 + b^2\\sigma_Y^2 + 2ab\\rho\\sigma_X\\sigma_Y)$.
+"""
 
 # G7 / G8 / G9 — Bivariate-statistics theory snippets
 
@@ -1981,9 +2093,38 @@ SUBTOPICS = [
         20: ["3_3a"],
         28: ["3_11c"],
   }),
+  # ===== G10 — Normal distribution =====
+  sub("G10", "g10_normal", "Normal distribution",
+      "th_g10", "Theory — Normal distribution", T_G10_NORMAL, {
+        30: ["4_1a", "4_1b"],         # Ex 4.1
+        31: ["4_2a", "4_2b"],         # Ex 4.2
+        32: ["4_3a", "4_3b", "4_3c"], # Ex 4.3
+  }),
+  # ===== G11 — Sampling distributions and CLT =====
+  sub("G11", "g11_clt", "Sampling distributions and CLT",
+      "th_g11", "Theory — Sampling distributions / CLT", T_G11_SAMP, {
+        32: ["4_3d"],
+        33: ["4_4a1", "4_4b"],   # Ex 4.4
+        38: ["4_9a", "4_9b", "4_9c"],
+        39: ["4_10a", "4_10b"],
+        41: ["4_12a", "4_12b"],
+        42: ["4_13a"],
+  }),
+  # ===== G12 — Linear combinations of random variables =====
+  sub("G12", "g12_lincomb", "Linear combinations of normals",
+      "th_g12", "Theory — Linear combinations", T_G12_LINCOMB, {
+        34: ["4_5"],
+        35: ["4_6"],
+        36: ["4_7"],
+        37: ["4_8a"],
+        40: ["4_11a"],
+  }),
 ]
 
 TOPIC_META = {
+    "G10": ("t_g10_normal", "G10 — Normal distribution"),
+    "G11": ("t_g11_clt",    "G11 — Sampling distributions and CLT"),
+    "G12": ("t_g12_lincomb","G12 — Linear combinations of RVs"),
     "G7": ("t_g7_twoway",   "G7 — Two-way tables (bivariate qualitative)"),
     "G8": ("t_g8_condsumm", "G8 — Conditional summary measures"),
     "G9": ("t_g9_corr",     "G9 — Covariance, correlation, scatter"),
@@ -2036,6 +2177,19 @@ COLUMN_HEADERS = [
     {"col": 27, "label": "Ex 3.10 (Company Prod × Channel)"},
     {"col": 28, "label": "Ex 3.11 (Campaign Loyalty)"},
     {"col": 29, "label": "Ex 3.12 (Effectiveness × Channel)"},
+    {"col": 30, "label": "Ex 4.1 (tea X~N)"},
+    {"col": 31, "label": "Ex 4.2 (battery X~N)"},
+    {"col": 32, "label": "Ex 4.3 (private label X~N)"},
+    {"col": 33, "label": "Ex 4.4 (delivery + CLT)"},
+    {"col": 34, "label": "Ex 4.5 (sum normals)"},
+    {"col": 35, "label": "Ex 4.6 (sum/diff normals)"},
+    {"col": 36, "label": "Ex 4.7 (covariance, joint)"},
+    {"col": 37, "label": "Ex 4.8 (bivariate normal G)"},
+    {"col": 38, "label": "Ex 4.9 (pizzeria sample mean)"},
+    {"col": 39, "label": "Ex 4.10 (AmountSpent CLT)"},
+    {"col": 40, "label": "Ex 4.11 (ad cost linear)"},
+    {"col": 41, "label": "Ex 4.12 (sample mean + prop)"},
+    {"col": 42, "label": "Ex 4.13 (lincomb + CLT prop)"},
 ]
 
 topics_out = {}
@@ -2090,7 +2244,7 @@ for stm in SUBTOPICS:
     total_nodes_count += len(nodes_in_subtopic)
 
 topics_list = [topics_out[g] for g in ("G1", "G2", "G3", "G4", "G5", "G6",
-                                       "G7", "G8", "G9") if g in topics_out]
+                                       "G7", "G8", "G9", "G10", "G11", "G12") if g in topics_out]
 
 output = {
     "version": "2.0",

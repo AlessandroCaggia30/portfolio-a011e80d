@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": 1780674962498,
+  "exportedAt": 1780675289201,
   "data": {
     "topics": [
       {
@@ -2847,6 +2847,478 @@
             ]
           }
         ]
+      },
+      {
+        "id": "t_g10_normal",
+        "name": "G10 — Normal distribution",
+        "subtopics": [
+          {
+            "id": "g10_normal",
+            "name": "Normal distribution",
+            "nodes": [
+              {
+                "id": "th_g10",
+                "title": "Theory — Normal distribution",
+                "content": "## G10 — Normal distribution and probability calculations\n\nA continuous random variable $X$ is **normally distributed** with mean $\\mu$ and standard deviation $\\sigma$ — written $X \\sim N(\\mu, \\sigma^2)$ — if its density is\n$$\nf(x) = \\frac{1}{\\sigma\\sqrt{2\\pi}} \\exp\\!\\left[-\\frac{(x-\\mu)^2}{2\\sigma^2}\\right].\n$$\n\n### Standardization\nIf $X \\sim N(\\mu, \\sigma^2)$, then $Z = (X-\\mu)/\\sigma \\sim N(0, 1)$ — the **standard normal**.\n\n### Probability calculations\n- $\\Pr(X \\le x)$: cumulative distribution at $x$ — read via $z$-table or computed in R with `pnorm`.\n- $\\Pr(X > x) = 1 - \\Pr(X \\le x)$.\n- $\\Pr(a < X < b) = \\Pr(X \\le b) - \\Pr(X \\le a)$.\n\n### Quantile (percentile) computation\nThe $q$-quantile $x_q$ satisfies $\\Pr(X \\le x_q) = q$ — invert the CDF, computed in R with `qnorm`.\n\n**R commands:**\n`pnorm(x, mean=mu, sd=sigma)              # P(X <= x)`\n\n`1 - pnorm(x, mean=mu, sd=sigma)          # P(X > x)`\n\n`qnorm(q, mean=mu, sd=sigma)              # x such that P(X <= x) = q`\n\n\n\n`# Standard normal`\n\n`pnorm(z); qnorm(q)`\n\n### Reading a normal in context\n- \"what is the probability the value exceeds threshold $T$\" → $1 - \\Pr(X \\le T)$.\n- \"what is the minimum value of the top $\\alpha\\%$\" → $(1 - \\alpha)$-th quantile.\n- \"what is the 90th percentile\" → `qnorm(0.9, mu, sigma)`.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "4_1a",
+                  "4_1b",
+                  "4_2a",
+                  "4_2b",
+                  "4_3a",
+                  "4_3b",
+                  "4_3c"
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 600,
+                "height": 720,
+                "color": "yellow",
+                "column": 1
+              },
+              {
+                "id": "4_1a",
+                "title": "Ex 4.1a — P(X > 10) for X ~ N(8, 1.2²)",
+                "content": "**Question.** The amount (in cl) of tea poured into each glass from a vending machine has a normal distribution with $\\mu = 8$ and $\\sigma = 1.2$. If glasses can hold a maximum of 10 cl, what is the probability that a cup will be filled beyond the limit?\n\n---\n\n**Answer.** Let $X$ denote the amount (in cl) of tea poured into each glass. Then $X \\sim N(8, 1.2^2)$. The probability that a cup will be filled beyond the limit, $\\Pr(X > 10)$, is **0.0478**:\n\n`1 - pnorm(10, mean=8, sd=1.2)`\n\n`## [1] 0.04779035`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g10"
+                ],
+                "x": 23300,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "lightblue",
+                "column": 30
+              },
+              {
+                "id": "4_1b",
+                "title": "Ex 4.1b — P(X < 7.5) for X ~ N(8, 1.2²)",
+                "content": "**Question.** What is the probability that the amount of tea poured into a glass is less than 7.5 cl?\n\n---\n\n**Answer.** The probability that the amount of tea poured into a glass is less than 7.5 cl, $P(X < 7.5)$, is **0.3385**:\n\n`pnorm(7.5, mean=8, sd=1.2)`\n\n`## [1] 0.3384611`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g10"
+                ],
+                "x": 23300,
+                "y": 600,
+                "width": 600,
+                "height": 360,
+                "color": "lightblue",
+                "column": 30
+              },
+              {
+                "id": "4_2a",
+                "title": "Ex 4.2a — P(X < 24) for battery life X ~ N(27, 3.2²)",
+                "content": "**Question.** The battery life of a particular cell phone model, after two years of use, is normally distributed with mean 27 hours and standard deviation of 3.2 hours. What is the probability that a cell phone of that model, after two years of use, will have a battery life of less than 24 hours?\n\n---\n\n**Answer.** Let $X$ denote the battery life. Then $X \\sim N(27, 3.2^2)$. The probability that a cell phone has battery life less than 24 hours, $P(X < 24)$, is **0.1743**:\n\n`pnorm(24, mean=27, sd=3.2)`\n\n`## [1] 0.1742507`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g10"
+                ],
+                "x": 24100,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "lightblue",
+                "column": 31
+              },
+              {
+                "id": "4_2b",
+                "title": "Ex 4.2b — Minimum life of the longest-lasting 20% (80th percentile)",
+                "content": "**Question.** What is the minimum battery life of the 20% of cell phones of that model that last the longest after two years of use?\n\n---\n\n**Answer.** The minimum battery life of the 20% of cell phones that last the longest after two years of use is the **80-th percentile** of the distribution and is equal to **29.6932 hours**:\n\n`qnorm(0.8, 27, 3.2)`\n\n`## [1] 29.69319`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g10"
+                ],
+                "x": 24100,
+                "y": 600,
+                "width": 600,
+                "height": 360,
+                "color": "lightblue",
+                "column": 31
+              },
+              {
+                "id": "4_3a",
+                "title": "Ex 4.3a — P(X > 12) for spending X ~ N(13.2, 1.2²)",
+                "content": "**Question.** For a large retail chain, the expenditure (in a single act of purchase, in a single receipt) of a generic customer on the purchase of *private label* products (marketed under the distributor's brand name instead of the manufacturer's brand name) can be assumed to be normally distributed with mean 13.2 euros and standard deviation 1.2 euros.\n\nWhat is the probability that a customer will spend more than 12 euros for private label products?\n\n---\n\n**Answer.** Let $X$ denote the expenditure on private label products; $X \\sim N(13.2, 1.2^2)$. The probability that a customer will spend more than 12 euros is **0.8413**:\n\n`1 - pnorm(12, 13.2, 1.2)`\n\n`## [1] 0.8413447`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g10"
+                ],
+                "x": 24900,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "lightblue",
+                "column": 32
+              },
+              {
+                "id": "4_3b",
+                "title": "Ex 4.3b — Minimum expenditure of the top 10% customers (90th percentile)",
+                "content": "**Question.** Let us consider the \"top\" customers with reference to expenditure on private label products, i.e., those who spend more than 90% of other customers (in a single act of purchase) on private label products. What is the minimum amount these customers spend on private label products?\n\n---\n\n**Answer.** The minimum expenditure of the 10% of \"top\" customers is the 90-th percentile of the distribution, and is equal to **14.7379**:\n\n`qnorm(0.9, 13.2, 1.2)`\n\n`## [1] 14.73786`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g10"
+                ],
+                "x": 24900,
+                "y": 600,
+                "width": 600,
+                "height": 360,
+                "color": "lightblue",
+                "column": 32
+              },
+              {
+                "id": "4_3c",
+                "title": "Ex 4.3c — Probability that 10 customers will have a receipt > 14.3€",
+                "content": "**Question.** What is the probability that 10 customers will have a receipt of more than 14.3€ for private label products?\n\n---\n\n**Answer.** Probability that a single customer spends more than 14.3€:\n`1 - pnorm(14.3, 13.2, 1.2)`\n\n`## [1] 0.1797`\n\nThe probability that **all 10** independent customers spend more than 14.3€ (each one separately) is $(0.1797)^{10}$:\n`(1 - pnorm(14.3, 13.2, 1.2))^10`\n\n`## ≈ 3.27e-08`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g10"
+                ],
+                "x": 24900,
+                "y": 1000,
+                "width": 600,
+                "height": 360,
+                "color": "lightblue",
+                "column": 32
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "t_g11_clt",
+        "name": "G11 — Sampling distributions and CLT",
+        "subtopics": [
+          {
+            "id": "g11_clt",
+            "name": "Sampling distributions and CLT",
+            "nodes": [
+              {
+                "id": "th_g11",
+                "title": "Theory — Sampling distributions / CLT",
+                "content": "## G11 — Sampling distributions and the Central Limit Theorem\n\nWhen we draw a sample of size $n$ from a population and compute a statistic (e.g. sample mean $\\bar X$, sample proportion $\\bar P$), the statistic itself has a **distribution** — the *sampling distribution*.\n\n### Sample mean distribution\nFor independent $X_1, \\ldots, X_n$ from a population with mean $\\mu$ and variance $\\sigma^2$:\n$$\n\\bar X = \\frac{1}{n}\\sum_{i=1}^n X_i, \\qquad E[\\bar X] = \\mu, \\qquad \\mathrm{Var}(\\bar X) = \\sigma^2/n.\n$$\n\nIf the population is normal: $\\bar X \\sim N(\\mu, \\sigma^2/n)$ exactly.\n\n**Central Limit Theorem (CLT):** for $n$ large (rule of thumb $n \\ge 30$, or $n \\ge 40$ if heavy-tailed), $\\bar X$ is *approximately* normal **regardless of the population distribution**.\n\n### Sample proportion distribution\nFor $X_i \\sim \\text{Bernoulli}(p)$, the sample proportion $\\bar P = \\frac{1}{n}\\sum X_i$ has\n$$\nE[\\bar P] = p, \\qquad \\mathrm{Var}(\\bar P) = \\frac{p(1-p)}{n}.\n$$\nFor $n$ large (typically $np \\ge 10$ and $n(1-p) \\ge 10$), by CLT:\n$$\n\\bar P \\approx N\\!\\left(p,\\; \\frac{p(1-p)}{n}\\right).\n$$\n\n### Probability calculations\nSame R commands as for any normal — just plug in the **sampling-distribution parameters**:\n`pnorm(value, mean=mu_population, sd=sigma_population/sqrt(n))    # P(X-bar <= value)`\n\n`pnorm(value, mean=p,             sd=sqrt(p*(1-p)/n))             # P(P-bar <= value)`\n\n### When can we apply CLT vs need normality?\n- Large sample → CLT applies → no need to assume population normal.\n- Small sample → must assume population is normal to use the same formulas.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "4_3d",
+                  "4_4a1",
+                  "4_4b",
+                  "4_9a",
+                  "4_9b",
+                  "4_9c",
+                  "4_10a",
+                  "4_10b",
+                  "4_12a",
+                  "4_12b",
+                  "4_13a"
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 600,
+                "height": 720,
+                "color": "yellow",
+                "column": 1
+              },
+              {
+                "id": "4_3d",
+                "title": "Ex 4.3d — Probability that 150 customers spend > 1980 total",
+                "content": "**Question.** Consider the 150 customers in a store: what is the probability that at least 80% will spend more than 12 Euros to purchase private label products?\n\n---\n\n**Answer.** Define $p$ = probability one customer spends > 12 Euros = 0.8413. With $n = 150$ customers, the proportion of customers $\\bar P$ exceeding the threshold follows approximately\n\n$$\n\\bar P \\sim N\\left(0.8413,\\; \\frac{0.8413(1-0.8413)}{150}\\right).\n$$\n\nThe probability that the proportion is at least 80%:\n`1 - pnorm(0.8, 0.8413, sqrt(0.8413*(1-0.8413)/150))`\n\n`## ≈ 0.9075`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g11"
+                ],
+                "x": 24900,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "teal",
+                "column": 32
+              },
+              {
+                "id": "4_4a1",
+                "title": "Ex 4.4 a1 — Probability of delivery time exceeding 90 min",
+                "content": "**Question.** Considering the delivery time exceeding 90 minutes — the journey time $X$ is normally distributed with mean 80 and SD 25 — what is the probability that the random variable $Y = X - 90$ is positive?\n\n---\n\n**Answer.** $Y$ follows a normal distribution and the standard normal distribution; therefore $(80 - 90)/\\sigma$ is the first quartile of a standard normal distribution.\n\n`pnorm(0, -10, 25)`\n\n`## [1] 0.6554217`\n\nSo $(80 - 90)/25 = -0.6745$, leading to $-0.6748$. Therefore $X \\sim N(90, 14.826^2)$.\n\n**a2)** The probability that a generic workday without any special events, the bus takes more than 2 hours to travel the entire route, $\\Pr(X > 120)$:\n`1 - pnorm(120, mean=90, sd=14.826)`\n\n`## [1] 0.0211524`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g11"
+                ],
+                "x": 25700,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "teal",
+                "column": 33
+              },
+              {
+                "id": "4_4b",
+                "title": "Ex 4.4b — P(travel time > 82 min) and 30th percentile",
+                "content": "**Question.** The bus that travels exceeded 70% of the days. What is the 30-th percentile?\n\n---\n\n**Answer.**\n`qnorm(0.3, 90, 14.826)`\n\n`## [1] 82.2524`\n\nThe variable indicating whether the bus takes less than 82 minutes to complete its entire route has a Bernoulli distribution with parameter $p$ = probability that the bus takes less than 82 minutes:\n`pnorm(82, 90, 14.826)`\n\n`## [1] 0.294739`\n\nThe proportion of buses over 45 taking less than 82 minutes, $\\bar P_n$, has a distribution that can be approximated by the Central Limit Theorem:\n\n$$\n\\bar P \\approx N(p, p(1-p)/n) \\;=\\; N(0.2954, 0.0207)\n$$\n\nThe probability that the bus takes in total less than 82 minutes on at least 10% of the days:\n`1 - pnorm(0.10, 0.295, sqrt((0.295*(1-0.295))/45))`\n\n`## [1] 0.9979317`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g11"
+                ],
+                "x": 25700,
+                "y": 600,
+                "width": 600,
+                "height": 360,
+                "color": "teal",
+                "column": 33
+              },
+              {
+                "id": "4_9a",
+                "title": "Ex 4.9a — P(sample mean Sales < 22500) — pizzeria sampling",
+                "content": "**Question.** A sample of size 81 pizzerias in the winter season. Sales of single pizzerias have mean 22500 and SD 9800/$\\sqrt{81}$. Probability that the sample mean is less than 22500?\n\n---\n\n**Answer.** Since the sample is large enough, by the Central Limit Theorem no assumptions on the distribution of the turnover in the population are needed and the distribution of the mean of a sample of size 81 can be approximated by a Normal distribution, $\\bar X \\sim N(25000, 9800^2/81)$.\n\n`pnorm(22500, 25000, sqrt(9800^2/81))`\n\n`## [1] 0.0104027`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g11"
+                ],
+                "x": 29700,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "teal",
+                "column": 38
+              },
+              {
+                "id": "4_9b",
+                "title": "Ex 4.9b — P(sample mean > 24800) — pizzeria sampling",
+                "content": "**Question.** Probability that the mean turnover on the drawn sample is greater than 24800?\n\n---\n\n**Answer.**\n`1 - pnorm(24800, 25000, sqrt(9800^2/81))`\n\n`## [1] 0.5728855`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g11"
+                ],
+                "x": 29700,
+                "y": 600,
+                "width": 600,
+                "height": 360,
+                "color": "teal",
+                "column": 38
+              },
+              {
+                "id": "4_9c",
+                "title": "Ex 4.9c — P(mean is between 23000 and 27000)",
+                "content": "**Question.** To determine the probability that the mean turnover of the pizzerias in the sample is between 23000 and 27000, in a sample of size 20.\n\n---\n\n**Answer.** It is necessary to assume that the turnover in the population of all pizzerias is normally distributed. Under this assumption, the distribution of the mean of a sample of size 20 is $\\bar X \\sim N(25000, 9800^2/20)$, and $\\Pr(23000 < \\bar X < 27000)$ is:\n\n`pnorm(27000, 25000, sqrt(9800^2/20)) - pnorm(23000, 25000, sqrt(9800^2/20))`\n\n`## [1] 0.6385896`\n\nWithout performing further calculations, we expect this probability to be lower if the sample is of size 10 instead of 20, since the distribution of the sample mean would be more dispersed around the mean (as a consequence of a larger standard error).\n\n**d1)** The mean of turnover in samples of size 100 has a distribution that, by the central limit theorem, can be approximated by $\\bar X \\sim N(25000, 9800^2/100)$. The mean turnover in the sample considered in the dataframe `pizzerie` is $\\bar x_n = 23947$:\n\n`distr.summary.x(Sales, stats=c(\"mean\",\"sd\"), data=pizzerie)`\n\n`##  n n.a  mean   sd`\n\n`## 100 0  23946.99  9538.62`\n\nThe probability that the mean of turnover in samples of size 100 is greater than the final found in this specific sample, $\\Pr(\\bar X > 23947)$, is:\n`1 - pnorm(23947, 25000, 980)`\n\n`## [1] 0.8586984`\n\n**d2)** To define the extreme mean turnover we need to find the 1-st and 99-th percentile of the distribution of the mean of samples of size 100:\n`qnorm(0.01, 25000, sqrt(9800^2/100))`\n\n`## [1] 22720.18`\n\n`qnorm(0.99, 25000, sqrt(9800^2/100))`\n\n`## [1] 27279.82`\n\nThe samples with 1% extreme mean turnover are those with a mean smaller than 22720 and higher than 27280 Euro.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g11"
+                ],
+                "x": 29700,
+                "y": 1000,
+                "width": 600,
+                "height": 360,
+                "color": "teal",
+                "column": 38
+              },
+              {
+                "id": "4_10a",
+                "title": "Ex 4.10 a1 — Pr(extreme 5% sample mean of AmountSpent)",
+                "content": "**Question.** Since the sample is large enough, by the Central Limit Theorem no assumptions on the distribution of the amount spent in the population is needed and the distribution of the mean of a sample of size 750 can be approximated by a Normal distribution.\n\n---\n\n**Answer.** $\\bar X \\sim N(1000, 810000/750)$.\n\n**a2)** The mean volume reached by the 5% of the largest sample means is the 95-th percentile, $p95$, of the distribution of the sample mean:\n`qnorm(0.95, mean=1000, sd=sqrt(810000/750))`\n\n`## [1] 1054.055`\n\nThe range of values including the 95% of the \"central\" values of the distribution of the sample mean is the interval between the values $x_{0.025}$ and $x_{0.975}$ such that $\\Pr(\\bar X > x_{0.975}) = 0.975$ and $\\Pr(\\bar X < x_{0.025}) = 0.025$:\n`qnorm(0.025, mean=1000, sd=sqrt(810000/750))`\n\n`## [1] 935.589`\n\n`qnorm(0.975, mean=1000, sd=sqrt(810000/750))`\n\n`## [1] 1064.411`\n\nThe mean amount in the sample considered in the dataframe DS is 1228.44 and does not belong to that range.\n`mean(DS$AmountSpent)`\n\n`## [1] 1228.437`\n\nThus, the **available sample** has an extremely high mean, being higher than the value exceeded by the 2.5% of all the means of samples size 750.\n\n**a3)** The percentage of samples of size 750 with a mean of the amount spent greater than 1228.4 is $100\\bar P_n(1228.4)$ and is approximately 0:\n`1 - pnorm(1228.437, mean=1000, sd=sqrt(810000/750))`\n\n`## [1] 1.831995e-12`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g11"
+                ],
+                "x": 30500,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "teal",
+                "column": 39
+              },
+              {
+                "id": "4_10b",
+                "title": "Ex 4.10b — Sample proportion (CLT for proportions)",
+                "content": "**Question.** The proportion observed in the sample is in the dataframe DS is 0.704.\n\n---\n\n**Answer.**\n\n`distr.table.x(Location, freq=\"prop\", data=DS)`\n\n`##  Close Far`\n\n`##  0.704 0.296`\n\nTherefore, the probability that the sample proportion of (a generic) sample of size 750 is higher than the observed, $\\Pr(\\bar P > 0.704)$, is:\n`1 - pnorm(0.704, mean=0.69, sd=sqrt((0.69*(1-0.69))/750))`\n\n`## [1] 0.2035329`\n\n**b2)** The interval that includes the 50% of the less extreme values for the sample proportion if we consider samples of size 750 is the interval between the first and third quartile of the distribution:\n`qnorm(0.25, mean=0.69, sd=sqrt((0.69*(1-0.69))/750))`\n\n`## [1] 0.6786093`\n\n`qnorm(0.75, mean=0.69, sd=sqrt((0.69*(1-0.69))/750))`\n\n`## [1] 0.7013907`\n\n**b3)** The probability of extracting samples of size 1000 characterized by a sample proportion greater than 0.72, $\\Pr(\\bar P > 0.72)$:\n`1 - pnorm(0.72, mean=0.69, sd=sqrt((0.69*(1-0.69))/1000))`\n\n`## [1] 0.01978318`\n\nThe probability would be lower if the same population would be observed in the smaller sample of size 1000 because the distribution of the sample proportion would be more concentrated around the center due to a lower standard error.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g11"
+                ],
+                "x": 30500,
+                "y": 600,
+                "width": 600,
+                "height": 360,
+                "color": "teal",
+                "column": 39
+              },
+              {
+                "id": "4_12a",
+                "title": "Ex 4.12a — Pr(customer spends > 80 Euro at first purchase)",
+                "content": "**Question.** Let $X$ be the r.v. describing the amount spent at first purchase; we assume that $X \\sim N(60, 25^2)$. The probability that a generic clients spends more than 80 Euro is $\\Pr(X > 80)$.\n\n---\n\n**Answer.**\n`1 - pnorm(80, 60, 25)`\n\n`## [1] 0.2118554`\n\n**b)** Let $\\bar P$ describe the random variable describing the proportion of clients who spend more than 80 Euro at their first purchase among a sample of 150 new clients. Since the number of new clients is high enough the distribution of the sample proportion can be approximated by a normal distribution:\n\n$$\n\\bar P \\approx N(0.212, 0.212(1-0.212)/150).\n$$\n\nAnd the probability that the proportion is 20% maximum is $\\Pr(\\bar P \\le 0.2)$:\n`pnorm(0.2, 0.212*(1-0.212)/150)`\n\n`## [1] 0.3611689`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g11"
+                ],
+                "x": 32100,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "teal",
+                "column": 41
+              },
+              {
+                "id": "4_12b",
+                "title": "Ex 4.12b — Pr(sample sum > 9100)",
+                "content": "**Question.** Let's indicate the turnover from the campaign that is by the total amount spent by 150 new clients at their first purchase. Is it possible that $\\Pr(S > 9100) = 0$?\n\n---\n\n**Answer.**\n`1 - pnorm(9100, 150*60, 150*sqrt(25^2))`\n\n`## [1] 0.3719857`\n\noppure\n`1 - pnorm(9100, 9000, sqrt(93750))`\n\n`## [1] 0.3719857`\n\nThe same result could be obtained also considering that the r.v. $Y = S - 9100$ is given as the total amount spent by 150 new clients at their first purchase) is distributed as $Y \\sim N(150\\cdot 60 - 9100, 150\\cdot 25^2) = N(-100, 93750)$. Therefore, the probability that the total amount spent is higher than the cost is $\\Pr(Y > 0) = 0.372$, obtained as:\n`1 - pnorm(0, -100, sqrt(93750))`\n\n`## [1] 0.3719857`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g11"
+                ],
+                "x": 32100,
+                "y": 600,
+                "width": 600,
+                "height": 360,
+                "color": "teal",
+                "column": 41
+              },
+              {
+                "id": "4_13a",
+                "title": "Ex 4.13 — Linear normal + CLT for proportion",
+                "content": "**Question.** Let $X$ be amount spent by a customer; $E[X] = 12, Var(X) = 5^2$. The total amount spent by a sample of $n = 80$ customers is the random variable $S = X_1 + \\ldots + X_{80}$ ($X_i$ iid).\n\n---\n\n**Answer.** Assumptions: each customer's amount is independent. Since the sample is large enough, by the central limit theorem the distribution of $S$ is approximately normal: $S \\sim N(80\\cdot 12, 80\\cdot 25) = N(960, 2000)$. The required probability is $\\Pr(S > 1000) = 0.1855$:\n`1 - pnorm(1000, mean=960, sd=sqrt(2000))`\n\n`## [1] 0.1855467`\n\n**b)** Let $\\bar P$ be the r.v. describing the proportion of customers spending more than 1000 Euro in the 115 shops, then we have that approximately:\n\n$$\n\\bar P \\approx N\\left(0.1855,\\; \\frac{0.1855(1-0.1855)}{115}\\right).\n$$\n\nThe probability of the sample proportion being less than 0.15 is therefore $\\Pr(\\bar P < 0.15) = 0.166$:\n`pnorm(0.15, p_S, sqrt(p_S*(1-prob.S)/115))`\n\n`## [1] 0.163397`\n\nOr with rounding:\n`pnorm(0.15, 0.1855, sqrt(0.1855*(1-0.1855)/115))`\n\n`## [1] 0.1636914`\n\n`# or rounding to 3 decimals`\n\n`pnorm(0.15, 0.185, sqrt(0.185*(1-0.185)/115))`\n\n`## [1] 0.166869`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g11"
+                ],
+                "x": 32900,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "teal",
+                "column": 42
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "t_g12_lincomb",
+        "name": "G12 — Linear combinations of RVs",
+        "subtopics": [
+          {
+            "id": "g12_lincomb",
+            "name": "Linear combinations of normals",
+            "nodes": [
+              {
+                "id": "th_g12",
+                "title": "Theory — Linear combinations",
+                "content": "## G12 — Linear combinations of independent random variables\n\nGiven $X_1, \\ldots, X_n$ independent random variables (not necessarily normal) and constants $a_0, a_1, \\ldots, a_n$, define\n$$\nY = a_0 + \\sum_{i=1}^n a_i X_i.\n$$\n\n### Expectation (always linear)\n$$\nE[Y] = a_0 + \\sum_{i=1}^n a_i\\, E[X_i].\n$$\nThis holds **regardless** of dependence between the $X_i$.\n\n### Variance (requires independence or covariance terms)\n$$\n\\mathrm{Var}(Y) = \\sum_{i=1}^n a_i^2\\,\\mathrm{Var}(X_i) + 2\\sum_{i<j} a_i a_j \\mathrm{Cov}(X_i, X_j).\n$$\nIf the $X_i$ are independent (so all covariances are zero), the cross terms vanish.\n\n### If the $X_i$ are normal\nAny linear combination of independent normals is again normal:\n$$\nY \\sim N\\!\\left(a_0 + \\sum_i a_i \\mu_i,\\; \\sum_i a_i^2 \\sigma_i^2\\right).\n$$\nThis is the key result behind weighted-average grades, total spending across customers, etc.\n\n### Common applications\n- **Sum** $S = X_1 + \\ldots + X_n$ of $n$ iid normals $X_i \\sim N(\\mu, \\sigma^2)$: $S \\sim N(n\\mu, n\\sigma^2)$.\n- **Weighted average** of grades: e.g. $G = 0.4 X + 0.6 Y$ → $E[G] = 0.4 \\mu_X + 0.6 \\mu_Y$, etc.\n- **Difference** $D = X - Y$: $E[D] = \\mu_X - \\mu_Y$, $\\mathrm{Var}(D) = \\mathrm{Var}(X) + \\mathrm{Var}(Y) - 2\\mathrm{Cov}(X, Y)$.\n\n### Bivariate normal\n$(X, Y)$ jointly normal with means $\\mu_X, \\mu_Y$, variances $\\sigma_X^2, \\sigma_Y^2$ and correlation $\\rho$:\n- Marginals: $X \\sim N(\\mu_X, \\sigma_X^2)$, $Y \\sim N(\\mu_Y, \\sigma_Y^2)$.\n- Linear combination $aX + bY \\sim N(a\\mu_X + b\\mu_Y, a^2\\sigma_X^2 + b^2\\sigma_Y^2 + 2ab\\rho\\sigma_X\\sigma_Y)$.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "4_5",
+                  "4_6",
+                  "4_7",
+                  "4_8a",
+                  "4_11a"
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 600,
+                "height": 720,
+                "color": "yellow",
+                "column": 1
+              },
+              {
+                "id": "4_5",
+                "title": "Ex 4.5 — Total time = sum of two normal sequential events",
+                "content": "**Question.** Two sequential events $D$ and $B$. The total time $D + B$ required to pass both checks: compute $E[Y]$ and $Var(Y)$.\n\n---\n\n**Answer.** Given $X = D + B$ and assuming independence, $E[Y] = E[D] + E[B] = 13$ and $Var(Y) = Var(D) + Var(B) + 2\\mathrm{Cov}(D, B) = 2\\rho_{D,B}\\sigma_D\\sigma_B + 1 + 2 = 4.3735 - 6.75$.\n\nTherefore $Y \\sim N(13, 6.75)$.\n\n**b)** We need to compute the 90-th percentile of the distribution of the total time required to pass both checks, which corresponds to the 10% longest times it could take:\n`qnorm(0.9, 13, sqrt(6.75))`\n\n`## [1] 16.32957`\nIf the flight leaves at 5 pm you should therefore arrive at around 3.59 pm.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g12"
+                ],
+                "x": 26500,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "gold",
+                "column": 34
+              },
+              {
+                "id": "4_6",
+                "title": "Ex 4.6 — Sum/difference of normals: E and Var",
+                "content": "**Question.** Combine two normals via a linear combination.\n\n---\n\n**Answer.** Let $D = X + B$ where $X \\sim N(\\mu_X, \\sigma_X^2)$ and $B \\sim N(\\mu_B, \\sigma_B^2)$. Then $D$ is normally distributed with mean $E[D] = E[X] + E[B]$ and variance $Var(D) = Var(X) + Var(B)$ (assuming independence).\n\nTo compute the probability that the sum exceeds a threshold:\n`1 - pnorm(threshold, mean=E_D, sd=sqrt(Var_D))`\n\nEquivalent works for the difference $D - B$ — mean subtracts, variance adds.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g12"
+                ],
+                "x": 27300,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "gold",
+                "column": 35
+              },
+              {
+                "id": "4_7",
+                "title": "Ex 4.7 — Probability both checks pass — joint distribution",
+                "content": "**Question.** What is the probability that both checks $X$ and $D$ pass — i.e. the joint distribution of $X = D + B$ requires both events?\n\n---\n\n**Answer.** $E(Y) = E[B] + E[D] = 13$ and $Var(Y) = Var(B) + Var(D) + 2\\mathrm{Cov}(B, D) = 1.6 + 1 + 2\\cdot 1.4375 = 6.75$.\n\nTherefore $Y \\sim N(13, 6.75)$.\n\n**b)** We need to compute the 90-th percentile of the distribution of the total time required to pass both checks, which corresponds to the 10% longest times it could take.\n`qnorm(0.9, 13, sqrt(6.75))`\n\n`## [1] 16.32957`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g12"
+                ],
+                "x": 28100,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "gold",
+                "column": 36
+              },
+              {
+                "id": "4_8a",
+                "title": "Ex 4.8a — Bivariate normal G = 0.4X + 0.6Y: E[G] and Var[G]",
+                "content": "**Question.** Let $G$ denote the final grade, $G = 0.4X + 0.6Y$. Compute $E[G]$ and $Var[G]$ given $X \\sim N(25, 4²)$ and $Y \\sim N(28, 4²)$ with $\\mathrm{Cov}(X, Y) = 0$ and $(X, Y)$ jointly Bernoulli/normal.\n\n---\n\n**Answer.**\n\n$$\nE[G] = 0.4\\cdot E[X] + 0.6\\cdot E[Y] = 0.4\\cdot 25 + 0.6\\cdot 28 = 26.8.\n$$\n\n$$\nVar[G] = 0.4^2 Var[X] + 0.6^2 Var[Y] + 2\\cdot 0.4\\cdot 0.6\\cdot \\mathrm{Cov}(X, Y).\n$$\n\nComputing $\\mathrm{Cov}(X,Y) = \\rho_{X,Y}\\sigma_X\\sigma_Y$:\n`0.25 * (5.04 * sqrt(24.616))`\n\n`## [1] 4.0953`\n\nThe internal consistency between the 50% central votes can be determined only under the assumption that the joint distribution of $(X, Y)$ is a bivariate normal. In this case, $G \\sim N(26.8, 24.616)$ and the range of the 50% central votes is the interval between the first and third quartile, which has amplitude:\n`qnorm(0.25, 25.04, sqrt(24.616))`\n\n`## [1] 21.66085`\n\n`qnorm(0.75, 25.04, sqrt(24.616))`\n\n`## [1] 28.38645`\n\n**c)** The variable indicating whether a generic student will get a grade higher than 24 has a Bernoulli distribution with parameter $p = \\Pr(G > 24)$. To calculate such probability it is again necessary to assume that the joint distribution of $(X, Y)$ is a bivariate normal. Under such assumption the parameter $p$ is:\n`1 - pnorm(24, mean=25.04, sd=sqrt(24.616))`\n\n`## [1] 0.5830163`\n\nThe proportion of students with final grades greater than 24, $\\bar P$, has a distribution that, by the central limit theorem, can be approximated by a normal distribution:\n\n$$\n\\bar P \\approx N(p, p(1-p)/n) = N(0.583, 0.583(1-0.583)/200).\n$$\n\nTherefore, $\\Pr(\\bar P > 0.50)$:\n`1 - pnorm(0.5, mean=0.583, sd=sqrt((0.583*(1-0.583))/200))`\n\n`## [1] 0.9913583`\n\n**d)** The mean final grade of the 200 students $\\bar G$ has expected value $E[\\bar G] = E[G] = 26.8$ and variance $Var(\\bar G) = Var(G)/n = 24.616/200$. By the central limit theorem, the distribution of $\\bar G$ can be approximated by a normal: $\\bar G \\sim N(25.04, 24.616/200)$. The required probability is therefore:\n`1 - pnorm(24, mean=25.04, sd=sqrt(24.616/200))`\n\n`## [1] 0.9984837`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g12"
+                ],
+                "x": 28900,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "gold",
+                "column": 37
+              },
+              {
+                "id": "4_11a",
+                "title": "Ex 4.11a — Daily cost of advertising with X ~ N(10, 5²)",
+                "content": "**Question.** Let $X$ be the daily cost with the first option for a user that makes about 10 phone calls per day. The expected daily cost is $E[Y] = 10\\cdot 2.5\\cdot 4 + 10\\cdot 100$ cents.\n\n---\n\n**Answer.**\n`qnorm(0.95, 100, 10)`\n\n`## [1] 116.4485`\n\nThe first option is more convenient than the first one. There are 60 minutes and a cost of $1100 + (10\\cdot 2.5)\\cdot 60$ cents.\n\n**b)** For the other restricted contracts due to be more convenient than the first offer, the cost per minute must be such that $E[Y] = 10\\cdot 49 = 490$ cents.\n\nIf the distribution of call duration is $N(4.1)$ then $S_n \\sim N(10\\cdot 4.1, 10\\cdot 25) = N(41, 250)$, and $Y = 25\\cdot S + 1000$, so $E[Y] = 25\\cdot 41 + 1000 = 2025$ and $Var(Y) = 25^2\\cdot 250 = 156250$.\n\nThe minimum daily costs that the user can expect to exceed with probability 0 are the value such that $\\Pr(Y > c) = 0.05$:\n`qnorm(0.05, mean=2025, sd=sqrt(156250))`\n\n`## [1] 1361.422`\n\n`qnorm(0.95, mean=2025, sd=sqrt(156250))`\n\n`## [1] 1701.422`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g12"
+                ],
+                "x": 31300,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "gold",
+                "column": 40
+              }
+            ]
+          }
+        ]
       }
     ],
     "trash": [],
@@ -2968,6 +3440,58 @@
         {
           "col": 29,
           "label": "Ex 3.12 (Effectiveness × Channel)"
+        },
+        {
+          "col": 30,
+          "label": "Ex 4.1 (tea X~N)"
+        },
+        {
+          "col": 31,
+          "label": "Ex 4.2 (battery X~N)"
+        },
+        {
+          "col": 32,
+          "label": "Ex 4.3 (private label X~N)"
+        },
+        {
+          "col": 33,
+          "label": "Ex 4.4 (delivery + CLT)"
+        },
+        {
+          "col": 34,
+          "label": "Ex 4.5 (sum normals)"
+        },
+        {
+          "col": 35,
+          "label": "Ex 4.6 (sum/diff normals)"
+        },
+        {
+          "col": 36,
+          "label": "Ex 4.7 (covariance, joint)"
+        },
+        {
+          "col": 37,
+          "label": "Ex 4.8 (bivariate normal G)"
+        },
+        {
+          "col": 38,
+          "label": "Ex 4.9 (pizzeria sample mean)"
+        },
+        {
+          "col": 39,
+          "label": "Ex 4.10 (AmountSpent CLT)"
+        },
+        {
+          "col": 40,
+          "label": "Ex 4.11 (ad cost linear)"
+        },
+        {
+          "col": 41,
+          "label": "Ex 4.12 (sample mean + prop)"
+        },
+        {
+          "col": 42,
+          "label": "Ex 4.13 (lincomb + CLT prop)"
         }
       ]
     }
