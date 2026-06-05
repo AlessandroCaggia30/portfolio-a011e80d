@@ -95,7 +95,8 @@ def md_tables_to_latex(text):
             i += 1
     return "\n".join(out_lines)
 
-COL_X = [200, 900, 1700, 2500, 3300, 4100, 4900, 5700, 6500, 7300]
+COL_X = [200, 900, 1700, 2500, 3300, 4100, 4900, 5700, 6500,
+         7300, 8100, 8900, 9700, 10500, 11300, 12100, 12900, 13700]
 TOP_Y = 200
 SNIPPET_W = 600
 SNIPPET_GAP = 40
@@ -1587,14 +1588,131 @@ The median (~26) is much smaller than the mean (~52.52), confirming the strong r
 # Each subtopic: (subtopic_id, subtopic_name, theory_id, theory_title, theory_content,
 #                 columns) where columns is a dict {col_index: [(node_id, content_dict)]}.
 
-ALL = {**ex0, **ex1}
+from ex2_content import ex2  # 43 Ex2 sub-parts
+
+ALL = {**ex0, **ex1, **ex2}
 
 def th(tid, ttitle, tcontent):
     return {"id": tid, "title": ttitle, "content": tcontent}
 
 SUBTOPIC_COLOR = {
-    "G1": "coral", "G2": "orange", "G3": "purple", "G4": "skyblue"
+    "G1": "coral", "G2": "orange", "G3": "purple", "G4": "skyblue",
+    "G5": "green", "G6": "pink",
 }
+
+# ===== G5 / G6 focused theory snippets =====
+
+T_G5_DISP = """## G5 — Dispersion measures (range, IQR, variance, SD, CV)
+
+Dispersion quantifies how far the data are spread around (or away from) a central reference.
+
+### Range and interquartile range
+- **Range** $R = \\max - \\min$. Simple but driven by the most extreme observation, so sensitive to outliers.
+- **Interquartile range** $IQR = Q_3 - Q_1$. Width of the interval containing the middle 50% of data. Robust to tail outliers.
+
+### Variance and standard deviation (around the mean)
+With $n$ observations and sample mean $\\bar x$:
+$$
+\\sigma^2 = \\frac{1}{n-1}\\sum_{i=1}^{n} (x_i - \\bar x)^2, \\qquad \\sigma = \\sqrt{\\sigma^2}.
+$$
+
+For a frequency table with $k$ classes (midpoints $m_k$, relative freq $f_k$):
+$$
+\\sigma^2 \\approx \\frac{n}{n-1}\\left[\\sum_k f_k \\cdot m_k^2 - \\bar x^2\\right]
+= \\frac{n}{n-1}\\sum_k f_k(m_k-\\bar x)^2.
+$$
+
+Variance has squared units; SD has the same units as the data (interpret SD as the "average distance from the mean").
+
+### Coefficient of variation
+$$
+cv = \\frac{\\sigma}{|\\bar x|}.
+$$
+A unit-free relative measure. Comparable across distributions with **different means** or units. Useful when comparing two variables/groups whose averages differ substantially.
+
+### Reading the values
+- $cv < 0.30$ → relatively low variability.
+- $0.30 \\le cv < 1$ → moderate.
+- $cv \\approx 1$ → SD comparable in size to the mean (high variability).
+- $cv > 1$ → very dispersed; SD exceeds the mean.
+
+**R commands:**
+```r
+distr.summary.x(x=Var, stats="dispersion", data=DF)
+##   n n.a  range  IQrange   sd   var   cv
+distr.summary.x(x=Var, stats=c("mean","dispersion"), data=DF)
+```
+"""
+
+T_G6A_QUANT = """## G6.A — Quantiles, percentiles, deciles
+
+A **quantile of order** $q \\in (0,1)$ is a value $p_q$ such that $\\text{Freq}\\{X \\le p_q\\} = q$.
+
+- **Quartiles:** $Q_1 = p_{0.25}$, median $= p_{0.50}$, $Q_3 = p_{0.75}$.
+- **Deciles:** $p_{0.1}, p_{0.2}, \\ldots, p_{0.9}$ — split the data into 10 equally weighted groups.
+- **Percentiles** $p_{0.05}, p_{0.95}, p_{0.99}$ — useful for characterising the tails.
+
+### Reading from a cumulative-frequency table or an ogive
+$$
+p_q \\approx a_k + \\frac{q - F_{k-1}}{f_k} \\cdot w_k = a_k + \\frac{q - F_{k-1}}{d_k},
+$$
+where the median class is the first $[a_k, b_k)$ with cumulative relative frequency reaching $q$, $w_k$ is its width and $d_k = f_k/w_k$ its density.
+
+### Discrete numerical variable
+The $q$-quantile is the **smallest observed value** for which the cumulative relative frequency reaches or exceeds $q$.
+
+**R commands:**
+```r
+distr.summary.x(x=Var, stats="p90", data=DF)
+distr.summary.x(x=Var, stats=c("p5","p95"), data=DF)
+distr.summary.x(x=Var, stats="deciles", data=DF)
+```
+"""
+
+T_G6B_BOX = """## G6.B — Boxplots and the five-number summary
+
+The **five-number summary** is $(\\min, Q_1, \\text{median}, Q_3, \\max)$ — a compact picture of both the center and the tails.
+
+### Boxplot anatomy
+- The **box** spans $[Q_1, Q_3]$; the **median** is drawn inside it.
+- **Whiskers** extend from the box to the most extreme regular (non-outlier) values, i.e. up to $Q_3 + 1.5\\cdot IQR$ on the right and down to $Q_1 - 1.5\\cdot IQR$ on the left.
+- Observations beyond the whiskers are flagged as **outliers** (small circles).
+
+### Reading skewness from the box
+- The median **inside the box**: if it sits closer to $Q_1$ than to $Q_3$ → right skew; closer to $Q_3$ → left skew; centered → symmetric.
+- **Whisker lengths**: a longer right whisker (or more right-side outliers) reinforces a right-skew diagnosis.
+- The **histogram** is the complementary tool to confirm.
+
+**R commands:**
+```r
+distr.summary.x(x=Var, stats="fivenumber", data=DF)
+distr.plot.x(x=Var, plot.type="boxplot", data=DF)
+```
+"""
+
+T_G6C_OUT = """## G6.C — Outliers and extreme values
+
+A value $x$ is flagged as an **outlier** with respect to a distribution if it lies far enough from the bulk of the data:
+
+- **Upper outlier:** $x > Q_3 + 1.5\\cdot IQR$.
+- **Lower outlier:** $x < Q_1 - 1.5\\cdot IQR$.
+
+These thresholds are computed from the **quartiles** of the distribution; the multiplier $1.5$ is the standard convention used by the boxplot.
+
+### Counting outliers
+Once the thresholds are computed, count them with a boolean mask:
+```r
+sum(DF$Var > Q3 + 1.5*(Q3 - Q1))   # upper outliers
+mean(DF$Var < Q1 - 1.5*(Q3 - Q1) | DF$Var > Q3 + 1.5*(Q3 - Q1))  # % outliers
+```
+
+### Why care
+Outliers can **inflate the mean** and the SD without changing the median or IQR much. When a distribution has many outliers, prefer **robust summaries** (median, IQR) over mean and SD; flag the outliers separately and investigate them if material.
+
+### Limitations
+- The 1.5·IQR rule is a convention — not a probabilistic threshold. For very large or very small samples, alternative criteria (e.g. 3·IQR for "extreme" outliers) may be more informative.
+- For grouped data given as a frequency table, the same logic applies once $Q_1$ and $Q_3$ are computed from the ogive.
+"""
 
 # For each subtopic: theory + dict {col_idx: [ex_ids]} (col 2 = first exercise of set 0 = Ex1 of set 0; etc.)
 # Columns indexing: col 2 = "Ex 0 / 1", col 3 = "Ex 0 / 2", col 4 = "Ex 1.1", col 5 = "Ex 1.2",
@@ -1619,6 +1737,9 @@ SUBTOPICS = [
         4: ["1_1c", "1_1d"],
         6: ["1_3a", "1_3g", "1_3h"],
         8: ["1_5g"],
+        12: ["2_3c"],
+        14: ["2_5g"],
+        15: ["2_6a3"],
   }),
   sub("G1", "g1d_spike", "Spike plot", "th_g1d", "Theory — Spike plot", T_G1D_SPIKE, {
         3: ["ex2b2"],
@@ -1631,6 +1752,8 @@ SUBTOPICS = [
         3: ["ex2a3", "ex2b3"],
         7: ["1_4a2"],
         8: ["1_5d"],
+        13: ["2_4a"],         # Ex 2.4a — identify the ogive
+        16: ["2_7a"],         # Ex 2.7a — reading ogive of Nr_visits
   }),
   # ===== G2 — Proportions =====
   sub("G2", "g2a_exact", "Exact proportions",
@@ -1641,17 +1764,21 @@ SUBTOPICS = [
         5: ["1_2a"],
         6: ["1_3b"],
         8: ["1_5b"],
+        14: ["2_5c"],         # Ex 2.5c — proportions in overlapping age intervals
+        15: ["2_6b"],         # Ex 2.6b — products sold below cost
   }),
   sub("G2", "g2b_approx", "Uniform-on-interval approximation",
       "th_g2b", "Theory — Uniform-on-interval", T_G2B_APPROX, {
         2: ["ex1g"],
         3: ["ex2a2"],
         8: ["1_5a", "1_5c"],
+        11: ["2_2a", "2_2a1"], # Ex 2.2a and 2.2a1
   }),
   # ===== G3 — Derived variables =====
   sub("G3", "g3_main", "Constructing derived variables",
       "th_g3", "Theory — Constructing derived variables", T_G3_DERIVED, {
         2: ["ex1b", "ex1d"],
+        17: ["2_8a"],         # Ex 2.8a — Margin_perc
   }),
   # ===== G4 — Central tendency =====
   sub("G4", "g4a_bytype", "Mode, median, mean by variable type",
@@ -1661,12 +1788,14 @@ SUBTOPICS = [
         6: ["1_3d"],
         7: ["1_4a3"],
         8: ["1_5e"],
+        11: ["2_2b"],  # Ex 2.2b modal class
   }),
   sub("G4", "g4b_skew", "Mean vs median under skewness",
       "th_g4b", "Theory — Mean vs median under skewness", T_G4B_SKEW, {
         4: ["1_1h"],
         6: ["1_3f", "1_3i"],
         9: ["1_6a"],
+        14: ["2_5f"],         # Ex 2.5f — Age mean vs median
   }),
   sub("G4", "g4c_grouped", "Approximate mean & median from grouped data",
       "th_g4c", "Theory — Approximate mean & median (grouped data)", T_G4C_GROUPED, {
@@ -1679,9 +1808,47 @@ SUBTOPICS = [
         7: ["1_4b"],
         8: ["1_5h"],
   }),
+  # ===== G5 — Dispersion =====
+  sub("G5", "g5_disp", "Dispersion measures (range, IQR, var, SD, CV)",
+      "th_g5", "Theory — Dispersion measures", T_G5_DISP, {
+        10: ["2_1a", "2_1g"],
+        11: ["2_2c", "2_2f"],
+        12: ["2_3a"],
+        13: ["2_4d"],
+        15: ["2_6c"],
+        16: ["2_7d", "2_7f"],
+        17: ["2_8c"],
+  }),
+  # ===== G6 — Quantiles, boxplots, outliers =====
+  sub("G6", "g6a_quant", "Quantiles, percentiles, deciles",
+      "th_g6a", "Theory — Quantiles and percentiles", T_G6A_QUANT, {
+        10: ["2_1f"],
+        11: ["2_2d", "2_2e"],
+        13: ["2_4c"],
+        14: ["2_5b"],
+        15: ["2_6a1"],
+        16: ["2_7b", "2_7c"],
+        17: ["2_8d"],
+  }),
+  sub("G6", "g6b_box", "Boxplots and the 5-number summary",
+      "th_g6b", "Theory — Boxplots and 5-number summary", T_G6B_BOX, {
+        10: ["2_1b", "2_1c", "2_1e"],
+        14: ["2_5a", "2_5d"],
+        15: ["2_6a2"],
+        16: ["2_7e"],
+        17: ["2_8b"],
+  }),
+  sub("G6", "g6c_outliers", "Outliers and extreme values",
+      "th_g6c", "Theory — Outliers", T_G6C_OUT, {
+        10: ["2_1d"],
+        12: ["2_3b", "2_3c"],
+        13: ["2_4b"],
+  }),
 ]
 
 TOPIC_META = {
+    "G5": ("t_g5_dispersion", "G5 — Dispersion measures"),
+    "G6": ("t_g6_quantiles_box", "G6 — Quantiles, boxplots, outliers"),
     "G1": ("t_g1_plots", "G1 — Graphical representation of distributions"),
     "G2": ("t_g2_proportions", "G2 — Proportions from frequency tables"),
     "G3": ("t_g3_derived_vars", "G3 — Constructing derived variables"),
@@ -1709,6 +1876,14 @@ COLUMN_HEADERS = [
     {"col": 7, "label": "Ex 1.4 (Quantity_New)"},
     {"col": 8, "label": "Ex 1.5 (Time)"},
     {"col": 9, "label": "Ex 1.6 (Expenses)"},
+    {"col": 10, "label": "Ex 2.1 (pizzerie)"},
+    {"col": 11, "label": "Ex 2.2 (pupils hours)"},
+    {"col": 12, "label": "Ex 2.3 (DS amount)"},
+    {"col": 13, "label": "Ex 2.4 (insurance ogive)"},
+    {"col": 14, "label": "Ex 2.5 (customer Age)"},
+    {"col": 15, "label": "Ex 2.6 (Revenue)"},
+    {"col": 16, "label": "Ex 2.7 (Nr_visits)"},
+    {"col": 17, "label": "Ex 2.8 (Margin_perc)"},
 ]
 
 topics_out = {}
@@ -1762,7 +1937,7 @@ for stm in SUBTOPICS:
     })
     total_nodes_count += len(nodes_in_subtopic)
 
-topics_list = [topics_out[g] for g in ("G1", "G2", "G3", "G4") if g in topics_out]
+topics_list = [topics_out[g] for g in ("G1", "G2", "G3", "G4", "G5", "G6") if g in topics_out]
 
 output = {
     "version": "2.0",
