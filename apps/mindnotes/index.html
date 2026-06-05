@@ -4030,6 +4030,23 @@ async function loadData() {
             data = null;
         }
 
+        // One-time Statistics restructure: the layout was changed from 4 separate
+        // topics to 1 topic with a 2D-grid canvas. If the stored data still has
+        // the old structure, wipe it so the new seed grid is loaded.
+        if (data && dataKey === 'mindnotes_statistics'
+            && Array.isArray(data.topics)
+            && !data.topics.some(t => t && t.id === 't_stats_map')) {
+            console.log('Old Statistics structure detected, wiping for grid re-seed');
+            await new Promise((resolve, reject) => {
+                const tx = db.transaction(STORE_NAME, 'readwrite');
+                const store = tx.objectStore(STORE_NAME);
+                const req = store.delete(dataKey);
+                req.onsuccess = () => resolve();
+                req.onerror = () => reject(req.error);
+            });
+            data = null;
+        }
+
         // Check if seed file has been updated (version-based refresh)
         const seedVersion = State.currentSubject ? State.currentSubject.seedVersion : null;
         const storedSeedVersion = seedVersion ? localStorage.getItem(dataKey + '_seedVersion') : null;
