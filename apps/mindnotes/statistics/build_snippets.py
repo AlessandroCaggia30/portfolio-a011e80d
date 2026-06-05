@@ -1609,54 +1609,90 @@ TOPIC_META = {
     "G4": ("t_g4_central_tendency", "G4 — Central tendency measures"),
 }
 
-# Assemble
-topics_out = {}
-for stm in SUBTOPICS:
-    group = stm["group"]
-    if group not in topics_out:
-        tid, tname = TOPIC_META[group]
-        topics_out[group] = {"id": tid, "name": tname, "subtopics": []}
+# =====================================================================
+# Assemble — ONE big canvas (2D table layout):
+#   rows  = subtopics (grouped by topic, with bigger gap between topics)
+#   cols  = theory (col 1) + exercises (col 2 = Ex0/Q1, col 3 = Ex0/Q2,
+#                                       col 4..9 = Ex1.1..1.6)
+# All 63 nodes live in ONE topic / ONE subtopic so the canvas shows the
+# entire grid at once. Other subjects' data files are untouched.
+# =====================================================================
 
+WITHIN_TOPIC_GAP = 200    # extra Y gap between subtopic bands of the same topic
+BETWEEN_TOPIC_GAP = 600   # bigger Y gap between different topics (visual break)
+
+all_nodes = []
+
+# Pre-compute each subtopic band height (= max of theory height and tallest column stack).
+def column_stack_height(items):
+    if not items:
+        return 0
+    return sum(H(ALL[ex_id]) + SNIPPET_GAP for ex_id in items) - SNIPPET_GAP
+
+def band_height(stm):
+    columns = stm["columns"]
+    col_h = max((column_stack_height(items) for items in columns.values()), default=0)
+    return max(H_THEORY, col_h)
+
+# Walk subtopics in order, assign Y. Between consecutive subtopics of the same
+# topic group, use WITHIN_TOPIC_GAP; on a group change, use BETWEEN_TOPIC_GAP.
+y = TOP_Y
+prev_group = None
+for stm in SUBTOPICS:
+    if prev_group is not None:
+        y += BETWEEN_TOPIC_GAP if stm["group"] != prev_group else WITHIN_TOPIC_GAP
+    band_top = y
+    group = stm["group"]
     sid = stm["sid"]; sname = stm["sname"]
     th_id, th_title, th_content = stm["theory"]
     columns = stm["columns"]
     color = SUBTOPIC_COLOR[group]
 
-    nodes = []
-    # theory at col 1
-    theory_links = []
-    for col_items in columns.values():
-        theory_links.extend(col_items)
-    nodes.append(node(th_id, th_title, th_content,
-                      COL_X[0], TOP_Y, "yellow", w=SNIPPET_W, h=H_THEORY,
-                      links=theory_links))
+    # Theory in column 1
+    theory_links = [eid for col_items in columns.values() for eid in col_items]
+    all_nodes.append(node(
+        th_id, th_title, th_content,
+        COL_X[0], band_top, "yellow", w=SNIPPET_W, h=H_THEORY,
+        links=theory_links,
+    ))
 
-    # exercise columns
+    # Exercises in columns 2..9 (stack within column from band_top)
     for col_idx in sorted(columns.keys()):
         items = columns[col_idx]
         if not items:
             continue
         x = COL_X[col_idx - 1]
-        cy = TOP_Y
+        cy = band_top
         for ex_id in items:
             d = ALL[ex_id]
-            nodes.append(node(ex_id, d["title"], d["content"],
-                              x, cy, color, w=SNIPPET_W, h=H(d),
-                              links=[th_id], images=d.get("images", [])))
+            all_nodes.append(node(
+                ex_id, d["title"], d["content"],
+                x, cy, color, w=SNIPPET_W, h=H(d),
+                links=[th_id], images=d.get("images", []),
+            ))
             cy += H(d) + SNIPPET_GAP
 
-    topics_out[group]["subtopics"].append({
-        "id": sid, "name": sname, "nodes": nodes,
-    })
+    y = band_top + band_height(stm)
+    prev_group = group
 
-# Sort topics by group key for stable order
-topics_list = [topics_out[g] for g in ("G1", "G2", "G3", "G4") if g in topics_out]
-
+# Single topic / single subtopic holding the whole grid
 output = {
     "version": "2.0",
     "exportedAt": int(time.time() * 1000),
     "data": {
-        "topics": topics_list,
+        "topics": [
+            {
+                "id": "t_stats_map",
+                "name": "Statistics — Foundations (Ex 0 + Ex 1)",
+                "subtopics": [
+                    {
+                        "id": "st_stats_map",
+                        "name": "Topics × Exercises grid",
+                        "nodes": all_nodes,
+                    }
+                ],
+            }
+        ],
         "trash": [],
     },
 }
@@ -1665,12 +1701,20 @@ with open(OUT, "w", encoding="utf-8") as f:
     json.dump(output, f, ensure_ascii=False, indent=2)
 
 # Summary
-total_nodes = 0
-for t in topics_list:
-    n_topic = sum(len(s["nodes"]) for s in t["subtopics"])
-    total_nodes += n_topic
-    print(f"{t['name']}  ({len(t['subtopics'])} subtopics, {n_topic} nodes)")
-    for s in t["subtopics"]:
-        print(f"  - {s['name']}: {len(s['nodes'])} nodes")
-print(f"\nTotal: {total_nodes} nodes across {sum(len(t['subtopics']) for t in topics_list)} subtopics in {len(topics_list)} topics.")
+xs = [n['x'] for n in all_nodes]
+ys = [n['y'] for n in all_nodes]
+ws = [n['x']+n['width']  for n in all_nodes]
+hs = [n['y']+n['height'] for n in all_nodes]
 print(f"Wrote {OUT}")
+print(f"Total nodes: {len(all_nodes)}")
+print(f"Theory: {sum(1 for n in all_nodes if n['id'].startswith('th_'))}")
+print(f"Exercises: {sum(1 for n in all_nodes if not n['id'].startswith('th_'))}")
+print(f"Canvas bounding box: x=[{min(xs)}, {max(ws)}]  y=[{min(ys)}, {max(hs)}]")
+print()
+prev_group = None
+for stm in SUBTOPICS:
+    if stm['group'] != prev_group:
+        print(f"=== {TOPIC_META[stm['group']][1]} ===")
+        prev_group = stm['group']
+    print(f"  - {stm['sname']}: theory {stm['theory'][0]}, "
+          f"exercises {sum(len(v) for v in stm['columns'].values())}")
