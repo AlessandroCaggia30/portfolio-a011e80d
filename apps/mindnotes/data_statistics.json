@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": 1780671413137,
+  "exportedAt": "2026-06-05T15:15:58.003Z",
   "data": {
     "topics": [
       {
@@ -18,9 +18,18 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "1_1a",
-                  "1_2d",
-                  "1_3c"
+                  {
+                    "target": "1_1a",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_2d",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_3c",
+                    "type": "both"
+                  }
                 ],
                 "x": 200,
                 "y": 200,
@@ -38,7 +47,10 @@
                   "statistics/images/ex1_1a-smoking-pie.png"
                 ],
                 "links": [
-                  "th_g1a"
+                  {
+                    "target": "th_g1a",
+                    "type": "both"
+                  }
                 ],
                 "x": 2500,
                 "y": 200,
@@ -56,7 +68,10 @@
                   "statistics/images/ex1_2d-history-pie-bar.png"
                 ],
                 "links": [
-                  "th_g1a"
+                  {
+                    "target": "th_g1a",
+                    "type": "both"
+                  }
                 ],
                 "x": 3300,
                 "y": 200,
@@ -74,7 +89,10 @@
                   "statistics/images/ex1_3c-sex-pie-bar.png"
                 ],
                 "links": [
-                  "th_g1a"
+                  {
+                    "target": "th_g1a",
+                    "type": "both"
+                  }
                 ],
                 "x": 4100,
                 "y": 200,
@@ -96,7 +114,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "1_1b"
+                  {
+                    "target": "1_1b",
+                    "type": "both"
+                  }
                 ],
                 "x": 200,
                 "y": 200,
@@ -114,7 +135,10 @@
                   "statistics/images/ex1_1b-district-bar.png"
                 ],
                 "links": [
-                  "th_g1b"
+                  {
+                    "target": "th_g1b",
+                    "type": "both"
+                  }
                 ],
                 "x": 2500,
                 "y": 200,
@@ -136,16 +160,46 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "ex1a",
-                  "ex1c",
-                  "ex1e",
-                  "ex1i",
-                  "1_1c",
-                  "1_1d",
-                  "1_3a",
-                  "1_3g",
-                  "1_3h",
-                  "1_5g"
+                  {
+                    "target": "ex1a",
+                    "type": "both"
+                  },
+                  {
+                    "target": "ex1c",
+                    "type": "both"
+                  },
+                  {
+                    "target": "ex1e",
+                    "type": "both"
+                  },
+                  {
+                    "target": "ex1i",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_1c",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_1d",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_3a",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_3g",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_3h",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_5g",
+                    "type": "both"
+                  }
                 ],
                 "x": 200,
                 "y": 200,
@@ -163,7 +217,10 @@
                   "statistics/images/ex1a-frost-bar-vs-hist.png"
                 ],
                 "links": [
-                  "th_g1c"
+                  {
+                    "target": "th_g1c",
+                    "type": "both"
+                  }
                 ],
                 "x": 900,
                 "y": 200,
@@ -181,7 +238,10 @@
                   "statistics/images/ex1c-density-hist3.png"
                 ],
                 "links": [
-                  "th_g1c"
+                  {
+                    "target": "th_g1c",
+                    "type": "both"
+                  }
                 ],
                 "x": 900,
                 "y": 780,
@@ -199,7 +259,10 @@
                   "statistics/images/ex1e-rateviolent-hist.png"
                 ],
                 "links": [
-                  "th_g1c"
+                  {
+                    "target": "th_g1c",
+                    "type": "both"
+                  }
                 ],
                 "x": 900,
                 "y": 1360,
@@ -217,7 +280,10 @@
                   "statistics/images/ex1i-rate-murders-split.png"
                 ],
                 "links": [
-                  "th_g1c"
+                  {
+                    "target": "th_g1c",
+                    "type": "both"
+                  }
                 ],
                 "x": 900,
                 "y": 1940,
@@ -233,7 +299,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g1c"
+                  {
+                    "target": "th_g1c",
+                    "type": "both"
+                  }
                 ],
                 "x": 2500,
                 "y": 200,
@@ -251,7 +320,10 @@
                   "statistics/images/ex1_1d-sales-hists.png"
                 ],
                 "links": [
-                  "th_g1c"
+                  {
+                    "target": "th_g1c",
+                    "type": "both"
+                  }
                 ],
                 "x": 2500,
                 "y": 600,
@@ -267,7 +339,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g1c"
+                  {
+                    "target": "th_g1c",
+                    "type": "both"
+                  }
                 ],
                 "x": 4100,
                 "y": 200,
@@ -285,7 +360,10 @@
                   "statistics/images/ex1_3g-revenue-hist.png"
                 ],
                 "links": [
-                  "th_g1c"
+                  {
+                    "target": "th_g1c",
+                    "type": "both"
+                  }
                 ],
                 "x": 4100,
                 "y": 600,
@@ -303,7 +381,10 @@
                   "statistics/images/ex1_3h-revenue-hist-comparison.png"
                 ],
                 "links": [
-                  "th_g1c"
+                  {
+                    "target": "th_g1c",
+                    "type": "both"
+                  }
                 ],
                 "x": 4100,
                 "y": 1180,
@@ -321,7 +402,10 @@
                   "statistics/images/ex1_5g-time-hist.png"
                 ],
                 "links": [
-                  "th_g1c"
+                  {
+                    "target": "th_g1c",
+                    "type": "both"
+                  }
                 ],
                 "x": 5700,
                 "y": 200,
@@ -343,10 +427,22 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "ex2b2",
-                  "1_2c",
-                  "1_3e",
-                  "1_4a1"
+                  {
+                    "target": "ex2b2",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_2c",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_3e",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_4a1",
+                    "type": "both"
+                  }
                 ],
                 "x": 200,
                 "y": 200,
@@ -364,7 +460,10 @@
                   "statistics/images/ex2b2-size-family-spike.png"
                 ],
                 "links": [
-                  "th_g1d"
+                  {
+                    "target": "th_g1d",
+                    "type": "both"
+                  }
                 ],
                 "x": 1700,
                 "y": 200,
@@ -382,7 +481,10 @@
                   "statistics/images/ex1_2c-children-spike.png"
                 ],
                 "links": [
-                  "th_g1d"
+                  {
+                    "target": "th_g1d",
+                    "type": "both"
+                  }
                 ],
                 "x": 3300,
                 "y": 200,
@@ -400,7 +502,10 @@
                   "statistics/images/ex1_3e-age-spike.png"
                 ],
                 "links": [
-                  "th_g1d"
+                  {
+                    "target": "th_g1d",
+                    "type": "both"
+                  }
                 ],
                 "x": 4100,
                 "y": 200,
@@ -418,7 +523,10 @@
                   "statistics/images/ex1_4a1-quantity-spike-bar.png"
                 ],
                 "links": [
-                  "th_g1d"
+                  {
+                    "target": "th_g1d",
+                    "type": "both"
+                  }
                 ],
                 "x": 4900,
                 "y": 200,
@@ -440,10 +548,22 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "ex2a3",
-                  "ex2b3",
-                  "1_4a2",
-                  "1_5d"
+                  {
+                    "target": "ex2a3",
+                    "type": "both"
+                  },
+                  {
+                    "target": "ex2b3",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_4a2",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_5d",
+                    "type": "both"
+                  }
                 ],
                 "x": 200,
                 "y": 200,
@@ -461,7 +581,10 @@
                   "statistics/images/ex2a3-fare-ogive.png"
                 ],
                 "links": [
-                  "th_g1e"
+                  {
+                    "target": "th_g1e",
+                    "type": "both"
+                  }
                 ],
                 "x": 1700,
                 "y": 200,
@@ -479,7 +602,10 @@
                   "statistics/images/ex2b3-size-family-step.png"
                 ],
                 "links": [
-                  "th_g1e"
+                  {
+                    "target": "th_g1e",
+                    "type": "both"
+                  }
                 ],
                 "x": 1700,
                 "y": 780,
@@ -497,7 +623,10 @@
                   "statistics/images/ex1_4a2-quantity-cumulative.png"
                 ],
                 "links": [
-                  "th_g1e"
+                  {
+                    "target": "th_g1e",
+                    "type": "both"
+                  }
                 ],
                 "x": 4900,
                 "y": 200,
@@ -515,7 +644,10 @@
                   "statistics/images/ex1_5d-time-ogive.png"
                 ],
                 "links": [
-                  "th_g1e"
+                  {
+                    "target": "th_g1e",
+                    "type": "both"
+                  }
                 ],
                 "x": 5700,
                 "y": 200,
@@ -543,15 +675,42 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "ex1f",
-                  "ex1h",
-                  "ex2a1",
-                  "ex2b1",
-                  "1_1e",
-                  "1_1g",
-                  "1_2a",
-                  "1_3b",
-                  "1_5b"
+                  {
+                    "target": "ex1f",
+                    "type": "both"
+                  },
+                  {
+                    "target": "ex1h",
+                    "type": "both"
+                  },
+                  {
+                    "target": "ex2a1",
+                    "type": "both"
+                  },
+                  {
+                    "target": "ex2b1",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_1e",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_1g",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_2a",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_3b",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_5b",
+                    "type": "both"
+                  }
                 ],
                 "x": 200,
                 "y": 200,
@@ -567,7 +726,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g2a"
+                  {
+                    "target": "th_g2a",
+                    "type": "both"
+                  }
                 ],
                 "x": 900,
                 "y": 200,
@@ -583,7 +745,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g2a"
+                  {
+                    "target": "th_g2a",
+                    "type": "both"
+                  }
                 ],
                 "x": 900,
                 "y": 600,
@@ -599,7 +764,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g2a"
+                  {
+                    "target": "th_g2a",
+                    "type": "both"
+                  }
                 ],
                 "x": 1700,
                 "y": 200,
@@ -615,7 +783,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g2a"
+                  {
+                    "target": "th_g2a",
+                    "type": "both"
+                  }
                 ],
                 "x": 1700,
                 "y": 600,
@@ -631,7 +802,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g2a"
+                  {
+                    "target": "th_g2a",
+                    "type": "both"
+                  }
                 ],
                 "x": 2500,
                 "y": 200,
@@ -647,7 +821,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g2a"
+                  {
+                    "target": "th_g2a",
+                    "type": "both"
+                  }
                 ],
                 "x": 2500,
                 "y": 600,
@@ -663,7 +840,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g2a"
+                  {
+                    "target": "th_g2a",
+                    "type": "both"
+                  }
                 ],
                 "x": 3300,
                 "y": 200,
@@ -679,7 +859,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g2a"
+                  {
+                    "target": "th_g2a",
+                    "type": "both"
+                  }
                 ],
                 "x": 4100,
                 "y": 200,
@@ -695,7 +878,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g2a"
+                  {
+                    "target": "th_g2a",
+                    "type": "both"
+                  }
                 ],
                 "x": 5700,
                 "y": 200,
@@ -717,10 +903,22 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "ex1g",
-                  "ex2a2",
-                  "1_5a",
-                  "1_5c"
+                  {
+                    "target": "ex1g",
+                    "type": "both"
+                  },
+                  {
+                    "target": "ex2a2",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_5a",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_5c",
+                    "type": "both"
+                  }
                 ],
                 "x": 200,
                 "y": 200,
@@ -736,7 +934,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g2b"
+                  {
+                    "target": "th_g2b",
+                    "type": "both"
+                  }
                 ],
                 "x": 900,
                 "y": 200,
@@ -752,7 +953,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g2b"
+                  {
+                    "target": "th_g2b",
+                    "type": "both"
+                  }
                 ],
                 "x": 1700,
                 "y": 200,
@@ -768,7 +972,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g2b"
+                  {
+                    "target": "th_g2b",
+                    "type": "both"
+                  }
                 ],
                 "x": 5700,
                 "y": 200,
@@ -784,7 +991,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g2b"
+                  {
+                    "target": "th_g2b",
+                    "type": "both"
+                  }
                 ],
                 "x": 5700,
                 "y": 600,
@@ -812,8 +1022,14 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "ex1b",
-                  "ex1d"
+                  {
+                    "target": "ex1b",
+                    "type": "both"
+                  },
+                  {
+                    "target": "ex1d",
+                    "type": "both"
+                  }
                 ],
                 "x": 200,
                 "y": 200,
@@ -829,7 +1045,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g3"
+                  {
+                    "target": "th_g3",
+                    "type": "both"
+                  }
                 ],
                 "x": 900,
                 "y": 200,
@@ -845,7 +1064,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g3"
+                  {
+                    "target": "th_g3",
+                    "type": "both"
+                  }
                 ],
                 "x": 900,
                 "y": 600,
@@ -873,11 +1095,26 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "1_1f",
-                  "1_2b",
-                  "1_3d",
-                  "1_4a3",
-                  "1_5e"
+                  {
+                    "target": "1_1f",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_2b",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_3d",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_4a3",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_5e",
+                    "type": "both"
+                  }
                 ],
                 "x": 200,
                 "y": 200,
@@ -895,7 +1132,10 @@
                   "statistics/images/ex1_1f-district-pie.png"
                 ],
                 "links": [
-                  "th_g4a"
+                  {
+                    "target": "th_g4a",
+                    "type": "both"
+                  }
                 ],
                 "x": 2500,
                 "y": 200,
@@ -911,7 +1151,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g4a"
+                  {
+                    "target": "th_g4a",
+                    "type": "both"
+                  }
                 ],
                 "x": 3300,
                 "y": 200,
@@ -929,7 +1172,10 @@
                   "statistics/images/ex1_3d-country-pie-bar.png"
                 ],
                 "links": [
-                  "th_g4a"
+                  {
+                    "target": "th_g4a",
+                    "type": "both"
+                  }
                 ],
                 "x": 4100,
                 "y": 200,
@@ -945,7 +1191,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g4a"
+                  {
+                    "target": "th_g4a",
+                    "type": "both"
+                  }
                 ],
                 "x": 4900,
                 "y": 200,
@@ -961,7 +1210,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g4a"
+                  {
+                    "target": "th_g4a",
+                    "type": "both"
+                  }
                 ],
                 "x": 5700,
                 "y": 200,
@@ -983,10 +1235,22 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "1_1h",
-                  "1_3f",
-                  "1_3i",
-                  "1_6a"
+                  {
+                    "target": "1_1h",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_3f",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_3i",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_6a",
+                    "type": "both"
+                  }
                 ],
                 "x": 200,
                 "y": 200,
@@ -1002,7 +1266,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g4b"
+                  {
+                    "target": "th_g4b",
+                    "type": "both"
+                  }
                 ],
                 "x": 2500,
                 "y": 200,
@@ -1018,7 +1285,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g4b"
+                  {
+                    "target": "th_g4b",
+                    "type": "both"
+                  }
                 ],
                 "x": 4100,
                 "y": 200,
@@ -1034,7 +1304,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g4b"
+                  {
+                    "target": "th_g4b",
+                    "type": "both"
+                  }
                 ],
                 "x": 4100,
                 "y": 600,
@@ -1050,7 +1323,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g4b"
+                  {
+                    "target": "th_g4b",
+                    "type": "both"
+                  }
                 ],
                 "x": 6500,
                 "y": 200,
@@ -1072,9 +1348,18 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "1_1i",
-                  "1_5f",
-                  "1_6b"
+                  {
+                    "target": "1_1i",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_5f",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_6b",
+                    "type": "both"
+                  }
                 ],
                 "x": 200,
                 "y": 200,
@@ -1090,7 +1375,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g4c"
+                  {
+                    "target": "th_g4c",
+                    "type": "both"
+                  }
                 ],
                 "x": 2500,
                 "y": 200,
@@ -1106,7 +1394,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g4c"
+                  {
+                    "target": "th_g4c",
+                    "type": "both"
+                  }
                 ],
                 "x": 5700,
                 "y": 200,
@@ -1122,7 +1413,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g4c"
+                  {
+                    "target": "th_g4c",
+                    "type": "both"
+                  }
                 ],
                 "x": 6500,
                 "y": 200,
@@ -1144,8 +1438,14 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "1_4b",
-                  "1_5h"
+                  {
+                    "target": "1_4b",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1_5h",
+                    "type": "both"
+                  }
                 ],
                 "x": 200,
                 "y": 200,
@@ -1163,7 +1463,10 @@
                   "statistics/images/ex1_4b-quantity-periods.png"
                 ],
                 "links": [
-                  "th_g4d"
+                  {
+                    "target": "th_g4d",
+                    "type": "both"
+                  }
                 ],
                 "x": 4900,
                 "y": 200,
@@ -1179,7 +1482,10 @@
                 "flashcard": false,
                 "images": [],
                 "links": [
-                  "th_g4d"
+                  {
+                    "target": "th_g4d",
+                    "type": "both"
+                  }
                 ],
                 "x": 5700,
                 "y": 200,
