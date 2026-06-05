@@ -11457,10 +11457,24 @@ function showSubjectScreen() {
 async function selectSubject(subject) {
     State.currentSubject = subject;
     $('subjectScreen').classList.add('hidden');
-    document.querySelector('.app').style.display = '';
+
+    const useStatsTable = subject.id === 'statistics';
+    if (useStatsTable) {
+        document.querySelector('.app').style.display = 'none';
+        document.getElementById('statsTableView').classList.remove('hidden');
+    } else {
+        document.querySelector('.app').style.display = '';
+        document.getElementById('statsTableView').classList.add('hidden');
+    }
+
     switchView('notes');
     // Load local data first so the UI appears instantly.
     await loadData();
+
+    if (useStatsTable) {
+        renderStatsTable();
+    }
+
     updateFlashcardStats();
     updateTrashCount();
     initAutosaveForSubject(subject.dataKey);
