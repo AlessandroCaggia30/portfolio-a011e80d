@@ -44,7 +44,7 @@ past_exams["exam_p1_2024_1c"] = {
     "Describe the distribution of the numeric variable `Profitability` (5-number summary, mean, SD).",
     "Min 501, Q1 724, Median 839, Mean 857.7, Q3 971, Max 1261, SD 167.4. Approximately symmetric with slight right skew (mean ≈ median + 19). No extreme outliers ($Q_3+1.5\\cdot IQR = 1342.5 >$ max).",
     "distr.summary.x(Company$Profitability, stats=c('fivenumber','mean','sd'))"
-), "images": []}
+), "images": ["statistics/images/exam_p1_2024_profitability.png"]}
 
 past_exams["exam_p1_2024_2a"] = {
 "title": "P1-2024 Ex2a — Campaign Revenues boxplot",
@@ -53,7 +53,7 @@ past_exams["exam_p1_2024_2a"] = {
     "Analyze the distribution of `Revenues` in the `Campaign` dataset. Indicate the box extremes and any outliers.",
     "5-number summary: Min 151.48, Q1 504.56, Median 752.36, Q3 1202.36, Max 2792. The box spans [504.56, 1202.36] split by median 752.36. The whiskers extend to the max regular values within Q1±1.5·IQR and Q3+1.5·IQR. The right tail is longer — distribution right-skewed.",
     "distr.summary.x(Campaign$Revenues, stats='fivenumber')\ndistr.plot.x(Revenues, plot.type='boxplot', data=Campaign)"
-), "images": []}
+), "images": ["statistics/images/exam_p1_2024_revenues.png"]}
 
 past_exams["exam_p1_2024_2b"] = {
 "title": "P1-2024 Ex2b — Loyalty distribution",
@@ -80,7 +80,7 @@ past_exams["exam_p1_2024_4a"] = {
     "Analyze the scatter between `Costs` and `Sales` in `Campaign`. Comment on the correlation and the strength of the relationship.",
     "Strong positive linear relationship; Pearson's $r \\approx 0.76$ (medium-high). Points cluster around a straight upward-sloping line with moderate dispersion.",
     "cor(Campaign$Costs, Campaign$Sales)\ndistr.plot.xy(x=Costs, y=Sales, plot.type='scatter', fitline=T, data=Campaign)"
-), "images": []}
+), "images": ["statistics/images/exam_p1_2024_costs_sales.png"]}
 
 past_exams["exam_p1_2024_5a"] = {
 "title": "P1-2024 Ex5 — Location × Loyalty contingency",
@@ -127,7 +127,7 @@ past_exams["exam_p1_2025_1a"] = {
     "Compare the conditional distributions of `Reach` for upper vs lower quintile posts (by Engagement). Describe via Q25, Q50, Q75.",
     "Side-by-side boxplots show **upper-quintile posts have a higher median and wider IQR** than lower-quintile posts. Conditional distributions differ → Engagement and Reach are associated.",
     "distr.plot.xy(x=Reach, y=Out.Engage, plot.type='boxplot', data=Metrics2)\ndistr.summary.x(Reach, by=Out.Engage, stats='fivenumber', data=Metrics2)"
-), "images": []}
+), "images": ["statistics/images/exam_p1_2025_reach_by_engage.png"]}
 
 past_exams["exam_p1_2025_1b"] = {
 "title": "P1-2025 Ex1b — Multiple regression Engagement ~ Reach + Paid + Content",
@@ -165,7 +165,7 @@ past_exams["exam_p1_2026_1a"] = {
     "Construct and interpret boxplots showing the distribution of departure delays for three flight routes.",
     "Side-by-side boxplots reveal: differences in median, IQR (spread), and presence of outliers per route. Routes with longer whiskers / outliers indicate heavier-tailed delay distributions.",
     "distr.plot.xy(x=delay, y=route, plot.type='boxplot', data=Flights)"
-), "images": []}
+), "images": ["statistics/images/exam_p1_2026_bid_boxplot.png"]}
 
 past_exams["exam_p1_2026_1b"] = {
 "title": "P1-2026 Ex1b — SE of mean (3 booking channels)",
@@ -212,7 +212,7 @@ past_exams["exam_g1_2024_2a"] = {
     "Interpret a correlation $r = 0.77$ between PrimaryRead2 and PrimaryMath2.",
     "Strong positive linear relationship: higher reading scores associate with higher math scores. $r^2 = 0.59 \\Rightarrow$ ~59% of variance shared. From the scatter, the cloud follows a roughly straight rising line with moderate scatter.",
     "cor(PrimaryRead2, PrimaryMath2)   # 0.77\ndistr.plot.xy(x=PrimaryRead2, y=PrimaryMath2, plot.type='scatter', fitline=T)"
-), "images": []}
+), "images": ["statistics/images/exam_g1_2024_read_math.png"]}
 
 past_exams["exam_g1_2024_2b"] = {
 "title": "G1-2024 Ex2b — Heteroscedasticity in the Read2/Math2 scatter",
@@ -221,7 +221,7 @@ past_exams["exam_g1_2024_2b"] = {
     "Identify any violations of regression assumptions from the scatter.",
     "Visible **heteroscedasticity**: dispersion of points around the line increases at higher Read2 scores. Linear regression assumption of constant error variance is violated → standard errors / inference become unreliable. Consider weighted least squares or variance-stabilizing transform.",
     "mod <- lm(PrimaryMath2 ~ PrimaryRead2)\nplot(mod, which=1)   # Residuals vs fitted"
-), "images": []}
+), "images": ["statistics/images/exam_g1_2024_read_math.png"]}
 
 # =================== GENERAL 1 2025 ===================
 
@@ -232,7 +232,7 @@ past_exams["exam_g1_2025_1a"] = {
     "Find the threshold separating the top 5% of subjects by `SleepQuality` from the others.",
     "Take the 95th percentile of SleepQuality: **9.04** in the sample.",
     "quantile(sleep$SleepQuality, probs=0.95)\n# OR\ndistr.summary.x(SleepQuality, stats='p95', data=sleep)"
-), "images": []}
+), "images": ["statistics/images/exam_g1_2025_sleepquality.png"]}
 
 past_exams["exam_g1_2025_1b"] = {
 "title": "G1-2025 Ex1b — Plot for SleepQuality tails",
@@ -241,7 +241,7 @@ past_exams["exam_g1_2025_1b"] = {
     "Plot to assess the tails of `SleepQuality` accurately.",
     "Combine **histogram with ~20 bins** and **boxplot** on the same data. Distribution concentrates at central values (light tails) — the boxplot is less informative than the histogram in this specific case.",
     "distr.plot.x(SleepQuality, plot.type='histogram', breaks=20, data=sleep)\ndistr.plot.x(SleepQuality, plot.type='boxplot', data=sleep)"
-), "images": []}
+), "images": ["statistics/images/exam_g1_2025_sleepquality.png"]}
 
 past_exams["exam_g1_2025_2a"] = {
 "title": "G1-2025 Ex2 — Paired t-test SleepQuality pre vs post diet",
@@ -288,7 +288,7 @@ past_exams["exam_g1_2026_1a"] = {
     "Build a 99% CI for the proportion of customers requesting a loan for Business purpose. Interpret.",
     "CI: $(0.15, 0.24)$. **Interpretation**: with 99% confidence, the population proportion of Business-purpose loans lies in $[0.15, 0.24]$.",
     "CI.prop(PurposeLoan, success='Business', conf.level=0.99, data=Loans)"
-), "images": []}
+), "images": ["statistics/images/exam_g1_2026_purposeloan.png"]}
 
 past_exams["exam_g1_2026_1b"] = {
 "title": "G1-2026 Ex1b — Hypothesis test using CI",
@@ -317,7 +317,7 @@ past_exams["exam_g2_2024_5a"] = {
     "Build a 99% CI for the proportion of US cities with CrimePeople > 250.",
     "Analytic form: $\\hat p \\pm z_{\\alpha/2}\\cdot \\sqrt{\\hat p(1-\\hat p)/n}$. With $\\hat p = 0.21$, $n = 45$, 99% CI = $[0.16, 0.26]$. Interpretation: with 99% confidence the proportion lies between 0.16 and 0.26.",
     "vec.bin <- CrimePeople > 250\nCI.prop(vec.bin, conf.level=0.99, data=USCities)"
-), "images": []}
+), "images": ["statistics/images/exam_g2_2024_crime.png"]}
 
 past_exams["exam_g2_2024_5c"] = {
 "title": "G2-2024 Ex5c — Sample size for CI width ≤ 0.05",
@@ -355,7 +355,7 @@ past_exams["exam_g2_2025_4a"] = {
     "From `modB`, estimate the average difference in productivity Operations vs IT (other variables fixed).",
     "From the coefficients table the IT–Operations difference is $-2.902 - 1.563 = -4.465$, or about $1.07$ in the other direction depending on sign convention. **Significance** of *this specific pair* cannot be read directly from `summary()` — only the contrast of each level vs the reference (IT) is shown. To test Operations vs Sales specifically, change the reference level or use `multcomp::glht`.",
     "modB <- lm(productivity ~ Years + Salary + Department, data=DS)\nsummary(modB)\nlibrary(multcomp); glht(modB, linfct=c('DepartmentOperations - DepartmentSales = 0'))"
-), "images": []}
+), "images": ["statistics/images/exam_g2_2025_productivity_by_dept.png"]}
 
 past_exams["exam_g2_2025_5a"] = {
 "title": "G2-2025 Ex5 — Normality assumption + histogram of residuals",
@@ -375,7 +375,7 @@ past_exams["exam_g2_2026_1a"] = {
     "Given the difference in two proportions $\\hat p_1 - \\hat p_2 = 0.147$ with 95% CI $[-0.091, 0.385]$, interpret.",
     "Interval contains 0 → no significant difference between the two campaign proportions at 95% level. We cannot reject $H_0: p_1 = p_2$.",
     "CI.diffprop(x, y, conf.level=0.95)\n# OR: TEST.diffprop(x, y, pdiff=0, alternative='two.sided')"
-), "images": []}
+), "images": ["statistics/images/exam_g2_2026_prices.png"]}
 
 past_exams["exam_g2_2026_2a"] = {
 "title": "G2-2026 Ex2 — Homoscedasticity diagnosis + adjusted SEs",
@@ -384,7 +384,7 @@ past_exams["exam_g2_2026_2a"] = {
     "State the homoscedasticity assumption, evidence of violation, and remedies.",
     "$\\mathrm{Var}(\\varepsilon_i | x) = \\sigma^2$ for every $i$. Diagnose via residuals vs fitted (look for cones), Breusch-Pagan or White test. If violated → use **heteroscedasticity-robust SEs** (HC1/HC3), weighted least squares, or log-transform.",
     "plot(mod, which=1)\nlibrary(lmtest); bptest(mod)\nlibrary(sandwich); coeftest(mod, vcov=vcovHC(mod, 'HC3'))"
-), "images": []}
+), "images": ["statistics/images/exam_g2_2026_prices.png"]}
 
 # =================== JULY 2024 ===================
 
@@ -404,7 +404,7 @@ past_exams["exam_july_2024_2a"] = {
     "Interpret side-by-side boxplots across groups.",
     "Compare median lines (location), box widths (IQR — spread), whisker lengths (tails), and visible outlier dots. Groups differ in any of these → conditional distributions differ → variables are associated.",
     "distr.plot.xy(x=var, y=group, plot.type='boxplot', data=DF)"
-), "images": []}
+), "images": ["statistics/images/exam_july_2024_apps_by_private.png"]}
 
 past_exams["exam_july_2024_3a"] = {
 "title": "Jul-2024 — Regression: read coefficients, t-stat, p-value, R²",
@@ -424,7 +424,7 @@ past_exams["exam_july_2025_1a"] = {
     "Customer savings sample. $H_0: \\mu = 5000$ vs $H_1: \\mu \\ne 5000$. $\\bar x = 5050.01$, $s = 2.36$, $n = 2401$.",
     "$SE = s/\\sqrt n = 2.36/49 = 0.048$. $t = (5050.01 - 5000)/0.048 = 1041.9$ (extreme). p-value $\\approx 0$ → strong reject $H_0$.",
     "SE <- 2.36/sqrt(2401)\nt_stat <- (5050.01 - 5000) / SE\n2 * (1 - pt(abs(t_stat), df=2400))"
-), "images": []}
+), "images": ["statistics/images/exam_july_2025_savings.png"]}
 
 # =================== SEPTEMBER 2024 ===================
 
@@ -435,7 +435,7 @@ past_exams["exam_sep_2024_1a"] = {
     "For income $X \\sim N(27000, 7000^2)$, find the value below which 5% of customers fall.",
     "$x_{0.05} = 27000 + z_{0.05}\\cdot 7000 = 27000 - 1.645\\cdot 7000 = €15\\,485$.",
     "qnorm(0.05, mean=27000, sd=7000)"
-), "images": []}
+), "images": ["statistics/images/exam_sep_2024_income.png"]}
 
 past_exams["exam_sep_2024_2a"] = {
 "title": "Sep-2024 Ex2 — Histogram of Score with custom breaks",
@@ -473,7 +473,7 @@ past_exams["exam_sep_2025_1a"] = {
     "Use a scatterplot to assess the relationship between Performance variables; assess approximate normality via QQ-plot.",
     "Scatter shows roughly linear positive association. QQ-plots of the two activity-type groups show approximately normal residuals → equal-variance t-test is reasonable.",
     "plot(Weight ~ VO2max, data=Performance)\nqqnorm(Performance$Performance[Performance$Activity.type=='A'])\nqqnorm(Performance$Performance[Performance$Activity.type=='B'])"
-), "images": []}
+), "images": ["statistics/images/exam_sep_2025_weight_hr.png"]}
 
 past_exams["exam_sep_2025_2a"] = {
 "title": "Sep-2025 Ex2 — Two-sample t-test hypotheses",
