@@ -11519,8 +11519,107 @@ async function backToSubjects() {
     State.currentSubtopic = null;
     State.selectedNode = null;
     State.currentSubject = null;
+    // Hide stats hyper-table view if it was active
+    const stv = document.getElementById('statsTableView');
+    if (stv) stv.classList.add('hidden');
+    document.querySelector('.app').style.display = '';
+    closeStatsSnippet();
     showSubjectScreen();
 }
+
+// ==================== STATISTICS HYPER-TABLE VIEW ====================
+// Renders the Statistics subject as a full-page table:
+//   rows  = subtopics (with topic separators)
+//   cols  = data.tableLayout.columns (Theory + each exercise)
+// Cells contain clickable snippet cards. Clicking a card opens the
+// snippet in a modal (formatContent + renderMath, same pipeline as
+// the canvas detail panel).
+function renderStatsTable() {
+    const container = document.getElementById('statsTableView');
+    if (!container) return;
+    const data = State.data || {};
+    const cols = (data.tableLayout && data.tableLayout.columns) || [];
+    const topics = data.topics || [];
+
+    let html = '';
+    html += '<div class="stats-table-header">';
+    html += '<button class="stats-back-btn" onclick="backToSubjects()" title="Back to subjects">← Back</button>';
+    html += '<h2>' + escapeHtml((State.currentSubject && State.currentSubject.name) || 'Statistics') + '</h2>';
+    html += '</div>';
+    html += '<div class="stats-table-scroll"><table class="stats-table"><thead><tr>';
+    html += '<th class="stats-row-head stats-corner">Topic / Subtopic</th>';
+    cols.forEach(col => { html += '<th>' + escapeHtml(col.label) + '</th>'; });
+    html += '</tr></thead><tbody>';
+
+    topics.forEach(topic => {
+        html += '<tr class="stats-topic-sep"><td colspan="' + (cols.length + 1) + '">'
+              + escapeHtml(topic.name) + '</td></tr>';
+        (topic.subtopics || []).forEach(sub => {
+            html += '<tr>';
+            html += '<th class="stats-row-head">' + escapeHtml(sub.name) + '</th>';
+            cols.forEach(col => {
+                const cellNodes = (sub.nodes || []).filter(n => (n.column || 1) === col.col);
+                html += '<td class="stats-cell">';
+                cellNodes.forEach(node => {
+                    const isTheory = (node.id || '').startsWith('th_');
+                    const imgFlag = (Array.isArray(node.images) && node.images.length) ? ' 📊' : '';
+                    html += '<div class="stats-card' + (isTheory ? ' stats-theory' : '') + '"'
+                          + ' onclick="openStatsSnippet(\'' + escapeHtml(node.id) + '\')">'
+                          + escapeHtml(node.title || node.id) + imgFlag
+                          + '</div>';
+                });
+                html += '</td>';
+            });
+            html += '</tr>';
+        });
+    });
+
+    html += '</tbody></table></div>';
+    container.innerHTML = html;
+}
+
+function findStatsNode(nodeId) {
+    for (const t of (State.data?.topics || [])) {
+        for (const s of (t.subtopics || [])) {
+            for (const n of (s.nodes || [])) {
+                if (n.id === nodeId) return n;
+            }
+        }
+    }
+    return null;
+}
+
+function openStatsSnippet(nodeId) {
+    const node = findStatsNode(nodeId);
+    if (!node) return;
+    const modal = document.getElementById('statsSnippetModal');
+    const titleEl = document.getElementById('statsSnippetTitle');
+    const contentEl = document.getElementById('statsSnippetContent');
+
+    titleEl.textContent = node.title || nodeId;
+    let html = formatContent(node.content || '');
+    if (Array.isArray(node.images) && node.images.length) {
+        html += node.images.map(img =>
+            '<img src="' + escapeHtml(img) + '" style="max-width:100%; margin-top:14px; border-radius:6px;">'
+        ).join('');
+    }
+    contentEl.innerHTML = html;
+    modal.classList.remove('hidden');
+    renderMath(contentEl);
+}
+
+function closeStatsSnippet() {
+    const modal = document.getElementById('statsSnippetModal');
+    if (modal) modal.classList.add('hidden');
+}
+
+// Close the stats snippet modal on Escape
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const m = document.getElementById('statsSnippetModal');
+        if (m && !m.classList.contains('hidden')) closeStatsSnippet();
+    }
+});
 
 // ==================== APP.JS ====================
 async function initApp() {
