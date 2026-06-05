@@ -96,7 +96,9 @@ def md_tables_to_latex(text):
     return "\n".join(out_lines)
 
 COL_X = [200, 900, 1700, 2500, 3300, 4100, 4900, 5700, 6500,
-         7300, 8100, 8900, 9700, 10500, 11300, 12100, 12900, 13700]
+         7300, 8100, 8900, 9700, 10500, 11300, 12100, 12900, 13700,
+         14500, 15300, 16100, 16900, 17700, 18500, 19300, 20100, 20900,
+         21700, 22500, 23300, 24100, 24900]
 TOP_Y = 200
 SNIPPET_W = 600
 SNIPPET_GAP = 40
@@ -1589,8 +1591,9 @@ The median (~26) is much smaller than the mean (~52.52), confirming the strong r
 #                 columns) where columns is a dict {col_index: [(node_id, content_dict)]}.
 
 from ex2_content import ex2  # 43 Ex2 sub-parts
+from ex3_content import ex3  # Ex3 — bivariate stats
 
-ALL = {**ex0, **ex1, **ex2}
+ALL = {**ex0, **ex1, **ex2, **ex3}
 
 def th(tid, ttitle, tcontent):
     return {"id": tid, "title": ttitle, "content": tcontent}
@@ -1598,7 +1601,110 @@ def th(tid, ttitle, tcontent):
 SUBTOPIC_COLOR = {
     "G1": "coral", "G2": "orange", "G3": "purple", "G4": "skyblue",
     "G5": "green", "G6": "pink",
+    "G7": "yellow", "G8": "lavender", "G9": "salmon",
 }
+
+# G7 / G8 / G9 — Bivariate-statistics theory snippets
+
+T_G7_BIVQUAL = """## G7 — Two-way tables: joint, marginal, conditional distributions
+
+Bivariate analysis of **two qualitative variables** $X, Y$.
+
+### Joint, marginal, conditional frequencies
+For each cell $(i, j)$:
+- **Joint count** $n_{ij}$; **joint relative frequency** $f_{ij} = n_{ij}/n$.
+- **Marginal of $X$:** $n_{i\\cdot} = \\sum_j n_{ij}$; $f_{i\\cdot} = n_{i\\cdot}/n$. Similarly for $Y$.
+- **Row-conditional** ($Y$ given $X = x_i$): $f_{j|i} = n_{ij}/n_{i\\cdot}$.
+- **Column-conditional** ($X$ given $Y = y_j$): $f_{i|j} = n_{ij}/n_{\\cdot j}$.
+
+### Independence
+$X$ and $Y$ are **independent** iff conditional distributions equal the marginals:
+$$
+f_{j|i} = f_{j\\cdot} \\quad \\forall i, j, \\quad \\text{equivalently} \\quad f_{ij} = f_{i\\cdot}\\,f_{\\cdot j}.
+$$
+If conditional distributions look **different** across categories of the conditioning variable → **associated**.
+
+### Plots
+- **Stacked bar** of one variable's conditional distribution within each level of the other.
+- **Side-by-side bar** (`bar.type="beside"`) for direct visual comparison.
+
+**R commands:**
+```r
+distr.table.xy(X, Y, freq=c("counts","percentages"), data=DF)
+distr.table.xy(X, Y, freq="perc", freq.type="y|x", data=DF)   # row-conditional
+distr.table.xy(X, Y, freq="perc", freq.type="x|y", data=DF)   # col-conditional
+distr.plot.xy (X, Y, freq="perc", plot.type="bars", bar.type="xy",   data=DF)
+distr.plot.xy (X, Y, freq="perc", plot.type="bars", bar.type="beside", data=DF)
+```
+"""
+
+T_G8_CONDSUMM = """## G8 — Conditional summary measures (mixed-type bivariate)
+
+When **one variable is qualitative** and the other is **numerical**, we compare the *distribution* of the numerical variable across categories of the qualitative variable.
+
+### Tools
+- **Side-by-side boxplots**: the most effective single graph for comparing many groups at once. Each box shows the conditional median, quartiles and whiskers; outliers are visible.
+- **Conditional five-number summary, mean, variance, SD, CV.** Computed within each subgroup.
+- **Coefficient of variation** is essential when subgroup *means* differ, since SD by itself is hard to interpret in relative terms.
+
+### Reading the comparison
+- Difference in **medians** → location shift between groups.
+- Difference in **IQR / SD** → spread differs.
+- Difference in **CV** → spread differs *relative to the mean*.
+- Difference in **shape** (skew, outliers) → conditional distributions differ in form, not just position.
+
+### Independence test (qualitative ↔ numerical)
+Even visually: if all subgroup boxplots are nearly identical, the qualitative variable does not "explain" the numerical one — likely independent. If they differ in any aspect (location/spread/shape) → associated.
+
+**R commands:**
+```r
+distr.plot.xy(x=NumVar, y=QualVar, plot.type="boxplot", data=DF)
+distr.summary.x(NumVar, by=QualVar, stats="summary", data=DF)
+distr.summary.x(NumVar, by=QualVar, stats=c("mean","dispersion"), data=DF)
+```
+"""
+
+T_G9_COVCOR = """## G9 — Covariance, correlation and scatter for two numerical variables
+
+### Scatter plot
+First step: a **scatterplot** to see the shape of the joint variation. The relationship may be:
+- linear (positive or negative),
+- non-linear (e.g. quadratic — a U/inverted-U shape),
+- absent (cloud of points with no pattern).
+
+### Covariance
+$$
+\\mathrm{Cov}(X, Y) = \\frac{1}{n-1}\\sum_{i=1}^{n}(x_i - \\bar x)(y_i - \\bar y).
+$$
+- Sign reveals **direction**: positive → $X$ and $Y$ tend to move together; negative → opposite.
+- **Magnitude** is unit-dependent — cannot judge "strength" by raw covariance alone.
+
+### Pearson correlation
+$$
+r = \\rho_{X,Y} = \\frac{\\mathrm{Cov}(X,Y)}{\\sigma_X \\sigma_Y} \\in [-1, +1].
+$$
+- Unit-free, scale-free measure of **linear** association.
+- $|r| \\to 1$: data tightly clustered around a straight line.
+- $r = 0$: no *linear* association (could still be non-linearly related).
+
+### Interpretation guidelines
+- $|r| < 0.3$ — weak / negligible linear association.
+- $0.3 \\le |r| < 0.7$ — moderate.
+- $|r| \\ge 0.7$ — strong.
+- These are conventional thresholds; always confirm with the scatterplot.
+
+### Limitations
+- **Non-linear** relationships can have $r \\approx 0$ (e.g. quadratic), so always plot.
+- **Outliers** can inflate or deflate $r$ — examine the scatter for influential points.
+- Correlation $\\ne$ causation.
+
+**R commands:**
+```r
+distr.plot.xy(x=Xvar, y=Yvar, plot.type="scatter", data=DF, fitline=TRUE)
+cov(DF$Xvar, DF$Yvar)
+cor(DF$Xvar, DF$Yvar)
+```
+"""
 
 # ===== G5 / G6 focused theory snippets =====
 
@@ -1844,9 +1950,43 @@ SUBTOPICS = [
         12: ["2_3b", "2_3c"],
         13: ["2_4b"],
   }),
+  # ===== G7 — Two-way tables / conditional distributions (qualitative × qualitative) =====
+  sub("G7", "g7_twoway", "Two-way tables: joint, marginal, conditional",
+      "th_g7", "Theory — Two-way tables and independence", T_G7_BIVQUAL, {
+        18: ["3_1b"],
+        19: ["3_2c", "3_2e", "3_2g", "3_2h"],
+        23: ["3_6a", "3_6b", "3_6c", "3_6d", "3_6e", "3_6f", "3_6g"],
+        24: ["3_7a1", "3_7a3"],
+        26: ["3_9a1"],
+        27: ["3_10a1", "3_10a2"],
+        29: ["3_12a", "3_12b", "3_12c"],
+  }),
+  # ===== G8 — Conditional summary measures (qualitative × numerical) =====
+  sub("G8", "g8_condsumm", "Conditional summary measures",
+      "th_g8", "Theory — Conditional summary measures", T_G8_CONDSUMM, {
+        18: ["3_1a", "3_1c", "3_1d"],
+        19: ["3_2a", "3_2b", "3_2d", "3_2f", "3_2i", "3_2m"],
+        21: ["3_4a1", "3_4a2", "3_4b"],
+        22: ["3_5a1", "3_5a2"],
+        24: ["3_7b1"],
+        25: ["3_8a"],
+        26: ["3_9b", "3_9c"],
+        28: ["3_11a", "3_11b"],
+  }),
+  # ===== G9 — Covariance, correlation, scatter =====
+  sub("G9", "g9_corr", "Covariance, correlation and scatter",
+      "th_g9", "Theory — Covariance and correlation", T_G9_COVCOR, {
+        18: ["3_1e"],
+        19: ["3_2l"],
+        20: ["3_3a"],
+        28: ["3_11c"],
+  }),
 ]
 
 TOPIC_META = {
+    "G7": ("t_g7_twoway",   "G7 — Two-way tables (bivariate qualitative)"),
+    "G8": ("t_g8_condsumm", "G8 — Conditional summary measures"),
+    "G9": ("t_g9_corr",     "G9 — Covariance, correlation, scatter"),
     "G5": ("t_g5_dispersion", "G5 — Dispersion measures"),
     "G6": ("t_g6_quantiles_box", "G6 — Quantiles, boxplots, outliers"),
     "G1": ("t_g1_plots", "G1 — Graphical representation of distributions"),
@@ -1884,6 +2024,18 @@ COLUMN_HEADERS = [
     {"col": 15, "label": "Ex 2.6 (Revenue)"},
     {"col": 16, "label": "Ex 2.7 (Nr_visits)"},
     {"col": 17, "label": "Ex 2.8 (Margin_perc)"},
+    {"col": 18, "label": "Ex 3.1 (pizzerie SmokingArea)"},
+    {"col": 19, "label": "Ex 3.2 (DS AmountSpent)"},
+    {"col": 20, "label": "Ex 3.3 (Satisfaction corr.)"},
+    {"col": 21, "label": "Ex 3.4 (Services EXPENSES)"},
+    {"col": 22, "label": "Ex 3.5 (TotUsers × Weather)"},
+    {"col": 23, "label": "Ex 3.6 (Country × Sex)"},
+    {"col": 24, "label": "Ex 3.7 (Product × Sex)"},
+    {"col": 25, "label": "Ex 3.8 (Quantity | Product)"},
+    {"col": 26, "label": "Ex 3.9 (LoL tier × class)"},
+    {"col": 27, "label": "Ex 3.10 (Company Prod × Channel)"},
+    {"col": 28, "label": "Ex 3.11 (Campaign Loyalty)"},
+    {"col": 29, "label": "Ex 3.12 (Effectiveness × Channel)"},
 ]
 
 topics_out = {}
@@ -1937,7 +2089,8 @@ for stm in SUBTOPICS:
     })
     total_nodes_count += len(nodes_in_subtopic)
 
-topics_list = [topics_out[g] for g in ("G1", "G2", "G3", "G4", "G5", "G6") if g in topics_out]
+topics_list = [topics_out[g] for g in ("G1", "G2", "G3", "G4", "G5", "G6",
+                                       "G7", "G8", "G9") if g in topics_out]
 
 output = {
     "version": "2.0",
