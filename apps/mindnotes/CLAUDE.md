@@ -1,98 +1,98 @@
-# MindNotes - Development & Deployment Guide
+# MindNotes — Development & Deployment Guide
 
 ## Architecture
 
-MindNotes is a single-page vanilla JS app. Everything runs from one `index.html` file that inlines all CSS and JS. The separate `js/*.js` and `styles.css` files exist as reference/development copies but are NOT loaded by the deployed app.
+MindNotes is a single-page vanilla JS app. The entire app runs from one `index.html` (~12 600 lines) with inlined CSS and JS. The separate `js/*.js` and `styles.css` files exist as reference/development copies but are NOT loaded by the deployed app.
 
 ## Deployment
 
-The app is deployed via **GitHub Pages** from the `portfolio-a011e80d` repo.
+GitHub Pages from `portfolio-a011e80d`.
 
-- **GitHub repo**: `AlessandroCaggia30/portfolio-a011e80d`
-- **Live URL**: https://alessandrocaggia30.github.io/portfolio-a011e80d/apps/mindnotes/index.html
-- **Local clone**: `/Users/Alessandro/Desktop/people/Alessandro/website/portfolio-a011e80d/`
-- **App path in repo**: `apps/mindnotes/`
+| | |
+|--|--|
+| GitHub repo  | `AlessandroCaggia30/portfolio-a011e80d` |
+| Live URL     | https://alessandrocaggia30.github.io/portfolio-a011e80d/apps/mindnotes/index.html |
+| Local clone  | `/Users/Alessandro/Repos/portfolio-a011e80d/` |
+| App path     | `apps/mindnotes/` |
 
-## File Locations
+GitHub Pages rebuilds 1–2 min after push to `main`.
 
-| What | Path |
-|------|------|
-| Local working dir | `/Users/Alessandro/Desktop/people/Alessandro/website/my note taking app/` |
-| Local git clone | `/Users/Alessandro/Desktop/people/Alessandro/website/portfolio-a011e80d/` |
-| App in repo | `portfolio-a011e80d/apps/mindnotes/` |
-| Deployed app | Only `index.html` matters (it inlines everything) |
+## How to deploy changes
 
-## How to Deploy Changes
+The source of truth is `apps/mindnotes/index.html`. Edit, commit, push:
 
-**The source of truth is `index.html` in the repo.** All CSS and JS are inlined in it. When making changes:
-
-1. **Edit the repo copy directly**:
-   ```
-   /Users/Alessandro/Desktop/people/Alessandro/website/portfolio-a011e80d/apps/mindnotes/index.html
-   ```
-
-2. **Commit and push**:
-   ```bash
-   cd /Users/Alessandro/Desktop/people/Alessandro/website/portfolio-a011e80d
-   git add apps/mindnotes/index.html
-   git commit -m "description of changes"
-   git push origin main
-   ```
-
-3. **Sync local working dir** (to keep it up to date):
-   ```bash
-   cp portfolio-a011e80d/apps/mindnotes/index.html "my note taking app/index.html"
-   ```
-
-GitHub Pages rebuilds within 1-2 minutes after push.
-
-## Important Notes
-
-- **DO NOT** edit the local working dir (`my note taking app/`) and push those files to the repo. The repo version has features the local copy may lack (subject selector landing page, FSRS flashcards, etc.).
-- **ALWAYS** edit the repo copy at `portfolio-a011e80d/apps/mindnotes/index.html` and push from there.
-- The standalone `js/*.js` files in both locations are **not used** by the deployed app — they exist as reference only. All code is inlined in `index.html`.
-- The local working dir contains extra utility scripts (`*-layout.js`, `import-*.js`, `add-links.js`) that are dev tools, not part of the app.
-
-## App Structure (inside index.html)
-
-The `index.html` is ~8000 lines and contains everything:
-
-1. **CSS** (lines 1-2450) — all styles inlined in `<style>` tags
-2. **HTML** (lines 2450-3000) — subject screen, sidebar, canvas, modals
-3. **JS** (lines 3000-8000) — all modules concatenated:
-   - State management + SUBJECTS array (subject landing page config)
-   - FSRS spaced repetition algorithm
-   - Utility functions + KaTeX macros + LaTeX processing
-   - Canvas rendering + node management
-   - Editor + formatting + advanced macro dropdown
-   - Sidebar + search
-   - Cloud sync
-   - Views + theme
-   - Subject selection screen
-   - App initialization
-
-## Subject Landing Page
-
-The app opens to a subject selector screen defined by the `SUBJECTS` array:
-
-```javascript
-const SUBJECTS = [
-    { id: 'adv-math', name: 'Advanced Mathematics', icon: '∑', dataKey: 'mindnotes_advmath', seedFile: 'data.json' },
-    { id: 'adv-micro', name: 'Advanced Microeconometrics', icon: '📊', dataKey: 'mindnotes_advmicro', seedFile: null },
-    { id: 'adv-macro', name: 'Advanced Macroeconomics', icon: '🌐', dataKey: 'mindnotes_advmacro', seedFile: null }
-];
+```bash
+cd /Users/Alessandro/Repos/portfolio-a011e80d
+git add apps/mindnotes/index.html
+git commit -m "..."
+git push origin main
 ```
 
-Each subject stores its data independently in localStorage under its `dataKey`. To add a new subject, just add an entry to this array.
+A launchd service (`com.mindnotes.autodeploy`) watches `apps/mindnotes/index.html` and `apps/mindnotes/data*.json` and auto-commits + pushes within seconds. Another (`com.mindnotes.autopull`) periodically `git pull --ff-only`.
 
-## LaTeX Support
+## Subjects
 
-KaTeX 0.16.9 with 120+ custom macros including:
-- Number sets (`\R`, `\N`, `\Z`, etc.)
-- 30+ named operators (`\Var`, `\Cov`, `\rank`, `\ker`, `\dom`, etc.)
-- Calculus shortcuts (`\dv`, `\pdv`, `\dd`)
-- Economics macros (`\Lagr`, `\Bellman`, `\gdp`, `\mc`, `\mr`, etc.)
-- Probability (`\Prob{}`, `\Exp{}`, `\iid`, `\dto`, `\pto`)
-- Auto-sized delimiters (`\norm{}`, `\abs{}`, `\set{}`, `\paren{}`)
+`SUBJECTS` array (in `index.html`) drives the landing page. Each entry has `id`, `name`, `icon`, `dataKey` (localStorage), `seedFile` (apps/mindnotes/data_*.json), `repoPath` (apps/mindnotes/data_*.json).
 
-The `processLatexCommands()` function converts LaTeX structural commands (\section, \begin{theorem}, \textbf, etc.) to markdown before rendering.
+| id | name | icon | seedFile |
+|----|------|------|----------|
+| `adv-math`    | Advanced Mathematics | ∑ | `data.json` |
+| `adv-micro`   | Advanced Microeconometrics | 📊 | `data_advmicro.json` |
+| `adv-macro`   | Advanced Macroeconomics | 🌐 | `data_advmacro.json` |
+| `time-series` | Time Series Analysis | 📈 | `data_timeseries.json` |
+| `statistics`  | Statistics | σ | `data_statistics.json` |
+
+## Statistics — hyper-table mode (DIFFERENT from other subjects)
+
+When `subject.id === 'statistics'`, the app **hides the canvas** and shows a full-page HTML **hyper-table** (`#statsTableView`):
+- **Rows** = subtopics, grouped by topic with separator rows.
+- **Columns** = `data.tableLayout.columns` (col 1 = Theory, cols 2..86 = exercises Ex0-9, cols 87..99 = past exams).
+- **Cards** are clickable; click opens `#statsSnippetModal` showing the full content.
+- **Yellow cards** (`stats-exam`) mark past-exam snippets. **Question text** is wrapped in `<span class="exam-question-text">` for blue color.
+
+Build the Statistics data file from `apps/mindnotes/statistics/`:
+
+```bash
+cd apps/mindnotes/statistics
+python3 build_snippets.py     # produces data_statistics.json
+python3 build_ex0.py          # regenerates Ex0 plots
+python3 build_ex1.py          # regenerates Ex1 plots
+python3 build_ex2_plots.py    # Ex2 plots
+python3 build_ex3_plots.py    # Ex3 plots
+python3 build_ex8_9_plots.py  # Ex8/9 regression diagnostics
+python3 build_past_exam_plots.py  # Past-exam plots
+```
+
+`plot_style.py` provides the unified visual style (navy + warm yellow palette, Helvetica/JetBrains Mono, subtle grid, no top/right spines).
+
+Content sources:
+- `ex0_data.py` through `ex9_content.py` — exercises 0–9
+- `past_exams_content.py` — 13 past exams (2024–2026)
+
+## LaTeX / Markdown / R rendering inside snippets
+
+`processLatexCommands` (~5095 in index.html) does the heavy lifting. Supported:
+- `\begin{tabular}{p{Wcm}|p{Wcm}|...}` tables (widths must sum to 38 cm)
+- `\textbf`, `\textit`, `\texttt`, `\underline`, `\textcolor{red}{...}`
+- Display/inline math via `$$...$$` and `$...$` (KaTeX)
+- Markdown headings, **bold**, lists, inline `code`
+
+Multi-line code fences (```` ``` ````) are NOT supported — instead, each R-command line gets wrapped in single backticks during build (see `code_blocks_to_inline` in `build_snippets.py`). Lines starting with `##` are auto-styled as soft-gray R output in the modal.
+
+## App structure (inside `index.html`)
+
+| Lines | What |
+|-------|------|
+| 1–2960 | CSS (incl. statistics hyper-table block ~2874–3110) |
+| 2960–3000 | Subject screen + statistics view container |
+| 3000–4900 | State, FSRS, sync, init |
+| 4900–7500 | Renderer (formatContent, processLatexCommands, KaTeX bridge) |
+| 7500–10000 | Editor, sidebar, search, modals |
+| 11000+ | Statistics-specific: `renderStatsTable`, `openStatsSnippet`, `findStatsNode` |
+
+## Important notes
+
+- **DO NOT** edit the local working dir (`my note taking app/`) and push those files to the repo. The repo's index.html has features the local copy may lack.
+- ALWAYS edit `portfolio-a011e80d/apps/mindnotes/index.html` and push from there.
+- Standalone `js/*.js` files are reference only — NOT loaded by the deployed app.
+- `statistics/__pycache__/` is gitignored (Python bytecode).

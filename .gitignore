@@ -1,0 +1,17 @@
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+
+# OS files
+.DS_Store
+
+# JSON data backups produced by the app
+apps/mindnotes/*.bak
+apps/mindnotes/*.bak.*
+apps/mindnotes/data*.bak*
+
+# Editor leftovers
+*.swp
+*.swo
+*~
