@@ -4133,7 +4133,9 @@ async function loadData() {
         }
     } catch (e) {
         console.error('IndexedDB load error:', e);
-        State.data = seedFile ? createDefaultData() : { topics: [], trash: [] };
+        State.data = (dataKey === 'mindnotes_advmath' || dataKey === 'mindnotes2')
+            ? createDefaultData()
+            : { topics: [], trash: [] };
     }
 
     // Migrate old string links to {target, type} objects
