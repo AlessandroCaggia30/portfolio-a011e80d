@@ -3016,6 +3016,31 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
     box-shadow: 0 4px 16px rgba(212,184,0,0.3);
 }
 
+/* Past-exam cards — yellow background with subtle warm tint */
+.stats-card.stats-exam {
+    background: linear-gradient(135deg, #fff8dc 0%, #ffe9a3 100%);
+    border-color: #e8b900;
+    color: #4a3a00;
+    font-weight: 600;
+    box-shadow: 0 1px 4px rgba(232,185,0,0.18);
+    position: relative;
+}
+.stats-card.stats-exam::before {
+    content: "📝";
+    position: absolute; top: 4px; right: 6px;
+    font-size: 11px; opacity: 0.6;
+}
+.stats-card.stats-exam:hover {
+    background: linear-gradient(135deg, #ffe9a3 0%, #ffd76b 100%);
+    box-shadow: 0 4px 16px rgba(232,185,0,0.35);
+}
+
+/* Exam question text — blue */
+.stats-snippet-modal-inner .exam-question-text {
+    color: #1958a8;
+    font-weight: 500;
+}
+
 /* =====================================================
    Snippet modal (POLISHED) — opens when card is clicked
    ===================================================== */
