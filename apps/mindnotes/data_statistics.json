@@ -1,8 +1,1135 @@
 {
   "version": "2.0",
-  "exportedAt": 0,
+  "exportedAt": 1780669611554,
   "data": {
-    "topics": [],
+    "topics": [
+      {
+        "id": "t_g1_plots",
+        "name": "G1 — Graphical representation of distributions",
+        "subtopics": [
+          {
+            "id": "g1a_pie",
+            "name": "Pie chart",
+            "nodes": [
+              {
+                "id": "th_g1a",
+                "title": "Theory — Pie chart",
+                "content": "## Pie chart\n\nA **pie chart** displays the relative frequencies of a **qualitative variable** as proportional slices of a disk.\n\n**When to use:**\n- Qualitative (categorical) variables, especially **nominal** ones with few categories (≤5).\n- Highlights relative weight of categories; absolute and relative frequency representations look identical.\n- Useful when the *ordering* of categories should not be implied (the disk has no axis).\n\n**When NOT to use:**\n- Variables with many categories — slices become unreadable.\n- **Ordinal** variables — pie loses the natural order; prefer a bar plot.\n- Continuous or discrete numerical variables — use a histogram or spike plot.\n\n**R commands:**\n```r\ndistr.plot.x(x=Var, plot.type=\"pie\", freq=\"perc\", data=DF)\ndistr.table.x(x=Var, freq=c(\"count\",\"perc\"), data=DF)\n```\n\nThe pie does not depend on whether absolute or relative frequencies are used — slice areas are the same.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "1_1a",
+                  "1_2d",
+                  "1_3c"
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 600,
+                "height": 720,
+                "color": "yellow"
+              },
+              {
+                "id": "1_1a",
+                "title": "Ex 1.1a — SmokingArea pie chart",
+                "content": "**Question.** Sample has similar percentages of pizzerias with and without smoking areas (`SmokingArea`). What simple graphical representation can be produced?\n\n---\n\n**Answer.** `SmokingArea` is a **nominal categorical (binary)** variable. The relative-frequency distribution:\n```r\ndistr.table.x(SmokingArea, freq=c(\"count\",\"perc\"), data=pizzerie)\n##  SmokingArea Count Percent\n##  No           51    51\n##  Yes          49    49\n##  TOTAL       100   100\n```\nA **pie chart** displays the relative frequencies; the chart looks identical whether built on frequencies or percentages.\n```r\ndistr.plot.x(SmokingArea, freq=\"perc\", plot.type=\"pie\", data=pizzerie)\n```\nThe sample includes roughly the same percentage of pizzerias with/without smoking area (only 1 pizzeria of difference, since $n=100$).\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex1_1a-smoking-pie.png"
+                ],
+                "links": [
+                  "th_g1a"
+                ],
+                "x": 2500,
+                "y": 200,
+                "width": 600,
+                "height": 540,
+                "color": "coral"
+              },
+              {
+                "id": "1_2d",
+                "title": "Ex 1.2d — Pie chart for History + bar plot alternative",
+                "content": "**Question.** Given a pie chart of `History` (categories *None, Low, Medium, High*), what are the characteristics of this graph? Does it change with relative vs absolute frequencies? Propose an alternative.\n\n---\n\n**Answer.** The pie chart is a graph in which the categories of a variable are displayed by slices of different sizes, proportional to the relative frequencies (or absolute frequencies, the representation would be similar). The slices suggest *None* and *High* are more frequent.\n\nHowever, **History is ordinal** (`None < Low < Medium < High`), and the pie chart **does not preserve order**. A **bar plot** is preferable: it visualises the relative magnitude of categories and respects their ordering when the factor is defined with explicit levels:\n```r\nDS$History_recode <- factor(x=DS$History, levels=c(\"None\",\"Low\",\"Medium\",\"High\"))\ndistr.plot.x(DS$History_recode, plot.type=\"bars\")\n```\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex1_2d-history-pie-bar.png"
+                ],
+                "links": [
+                  "th_g1a"
+                ],
+                "x": 3300,
+                "y": 200,
+                "width": 600,
+                "height": 540,
+                "color": "coral"
+              },
+              {
+                "id": "1_3c",
+                "title": "Ex 1.3c — Plot the Sex distribution",
+                "content": "**Question.** Graphically represent the distribution of the two sexes in the sample.\n\n---\n\n**Answer.** **Pie chart** or **bar plot** — both are appropriate for the binary nominal variable `Sex`.\n```r\ndistr.plot.x(x=customer_habits$Sex, freq=c(\"perc\"), plot.type=\"pie\")\ndistr.plot.x(x=customer_habits$Sex,                  plot.type=\"bar\")\n```\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex1_3c-sex-pie-bar.png"
+                ],
+                "links": [
+                  "th_g1a"
+                ],
+                "x": 4100,
+                "y": 200,
+                "width": 600,
+                "height": 540,
+                "color": "coral"
+              }
+            ]
+          },
+          {
+            "id": "g1b_bar",
+            "name": "Bar plot",
+            "nodes": [
+              {
+                "id": "th_g1b",
+                "title": "Theory — Bar plot",
+                "content": "## Bar plot\n\nA **bar plot** uses bars of equal width whose **height** is proportional to the (absolute, relative or percentage) frequency of each category.\n\n**When to use:**\n- Qualitative variables, especially **ordinal** ones — categories are plotted along the x-axis in their natural order, allowing direct visual comparison.\n- Nominal variables when you want to compare magnitudes precisely (the disk shape of a pie chart makes comparison harder).\n\n**Cautions:**\n- For **nominal** variables, the default R ordering is alphabetical; do not draw conclusions from bar position.\n- Bar plot heights all carry the same meaning whether absolute, relative, or percentage frequencies are used — the *shape* of the chart is identical.\n- For **ordered** variables, define the factor explicitly with `levels=` so categories appear in the correct sequence.\n\n**R commands:**\n```r\ndistr.plot.x(x=Var, plot.type=\"bars\", data=DF)\n# Ordering an ordinal variable first:\nDF$Var_recode <- factor(DF$Var, levels=c(\"None\",\"Low\",\"Medium\",\"High\"))\ndistr.plot.x(x=DF$Var_recode, plot.type=\"bars\")\n```\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "1_1b"
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 600,
+                "height": 720,
+                "color": "yellow"
+              },
+              {
+                "id": "1_1b",
+                "title": "Ex 1.1b — District bar plot",
+                "content": "**Question.** A bar chart represents the frequency distribution of pizzerias in the three areas (`District`). What can you infer? Would it change with absolute frequencies? Is this the only possible representation?\n\n---\n\n**Answer.** The bar chart visualizes the frequency distribution (absolute/relative/percentage) of a qualitative variable. The three categories (Lodi, Milano, Pavia) have approximately the same relevance in the sample. The pattern is the same whether absolute or relative frequencies are used, because they are proportional.\n\nThe bar plot is particularly suitable for **ordinal** qualitative variables (categories in their natural order). For **nominal** `District`, the R default order is alphabetical, so do not draw conclusions from bar **position**. A **pie chart** is a possible alternative.\n```r\ndistr.plot.x(District, plot.type=\"bars\", data=pizzerie)\n```\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex1_1b-district-bar.png"
+                ],
+                "links": [
+                  "th_g1b"
+                ],
+                "x": 2500,
+                "y": 200,
+                "width": 600,
+                "height": 540,
+                "color": "coral"
+              }
+            ]
+          },
+          {
+            "id": "g1c_hist",
+            "name": "Histogram",
+            "nodes": [
+              {
+                "id": "th_g1c",
+                "title": "Theory — Histogram",
+                "content": "## Histogram (continuous variables)\n\nA **histogram** represents the distribution of a **continuous numerical** variable. Each bar spans a class interval $[a_i, b_i)$, and its **area** equals the relative frequency $f_i$ of that class.\n\n### Equal-width classes\nWith constant width $w$, plotting *frequency on the y-axis* is fine because bar areas are proportional to bar heights.\n\n### Unequal-width classes — the density rule (compulsory)\nWhenever class widths differ ($w_i \\ne w_j$), the y-axis must be **density**:\n$$\nd_i = \\frac{f_i}{w_i}, \\qquad \\text{area of bar }= f_i.\n$$\nWithout this correction, wider classes look more important than they are.\n\n### Choice of number / boundaries of classes\n- **Too few classes** (e.g. 5) hide structure (peaks, skewness, tails blur).\n- **Too many classes** (e.g. 20–30) introduce noise, especially in sparse tails.\n- A **custom binning** — narrow widths in the bulk, broad widths in the tail — is often the best compromise.\n\n### Comparing distributions across subgroups\nPlot two histograms on the same x-axis and use **densities** (so that subsamples of unequal size are visually comparable).\n\n**R commands:**\n```r\ndistr.plot.x(x=Var, plot.type=\"hist\", breaks=15, data=DF)\ndistr.plot.x(x=Var, plot.type=\"hist\", breaks=c(0,10,20,40,60,100), data=DF)\ndistr.plot.x(x=Var[group==\"A\"], plot.type=\"hist\", breaks=B, data=DF)\ndistr.plot.x(x=Var[group==\"B\"], plot.type=\"hist\", breaks=B, data=DF)\n```\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "ex1a",
+                  "ex1c",
+                  "ex1e",
+                  "ex1i",
+                  "1_1c",
+                  "1_1d",
+                  "1_3a",
+                  "1_3g",
+                  "1_3h",
+                  "1_5g"
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 600,
+                "height": 720,
+                "color": "yellow"
+              },
+              {
+                "id": "ex1a",
+                "title": "Ex 0 / 1a — Plot for Frost (unequal widths)",
+                "content": "**Question.** Would you use a barplot to display the frequency distribution of the variable `Frost`? Why? What plot would you use?\n\n*(Context: The dataframe `Data_USA` in `Exe0_Data.Rdata` contains data on the states of the USA — Population, Area (sq mi), Frost (interval classes), property crimes, violent crimes, and an ordinal Happyness.Level.)*\n\n---\n\n**Answer.** A barplot is **inappropriate** because the classes of `Frost` have **different widths**. The visual impression must be carried by **areas, not heights**.\n\nThe correct plot is a **histogram with density on the vertical axis** $d_i = f_i/w_i$.\n\n```r\ndistr.plot.x(x=Frost, plot.type=\"bars\", data=Data_USA)            # WRONG: barplot\ndistr.plot.x(x=Frost, interval=T, plot.type=\"hist\", data=Data_USA) # CORRECT: density histogram\n```\n\nFrost table:\n\n| Frost          | Count | Prop  |\n|----------------|------:|------:|\n| [0, 60)        | 10    | 0.20  |\n| [60, 90)       | 8     | 0.16  |\n| [90, 120)      | 8     | 0.16  |\n| [120, 150)     | 13    | 0.26  |\n| [150, 180)     | 9     | 0.18  |\n| [180, 200]     | 2     | 0.04  |\n| **TOTAL**      | **50**| **1.00** |\n\nThe first class has a relatively high frequency (0.20) but spans the **widest** lower interval (60), so the *density* is only 0.20/60 ≈ 0.0033 — not the highest. The barplot would mislead by hiding the width information.\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex1a-frost-bar-vs-hist.png"
+                ],
+                "links": [
+                  "th_g1c"
+                ],
+                "x": 900,
+                "y": 200,
+                "width": 600,
+                "height": 540,
+                "color": "coral"
+              },
+              {
+                "id": "ex1c",
+                "title": "Ex 0 / 1c — Choosing class widths for the Density histogram",
+                "content": "**Question.** To display the distribution of `Density`, would you use 6 intervals of equal width, the intervals $0$-$30,\\,30$-$60,\\,60$-$100,\\,100$-$200,\\,200$-$300,\\,300$-$1200$, or 20 intervals of equal width?\n\n---\n\n**Answer.** Three histograms:\n```r\ndistr.plot.x(x=Density, plot.type=\"hist\", breaks=6, data=Data_USA)\ndistr.plot.x(x=Density, plot.type=\"hist\", breaks=c(0,30,60,100,200,300,1200), data=Data_USA)\ndistr.plot.x(x=Density, plot.type=\"hist\", breaks=20, data=Data_USA)\n```\n\n- **6 classes** — hides the detail in the bulk of the distribution.\n- **20 classes** — too detailed in the right tail (noise).\n- **Custom widths** — best: narrow in the bulk (0–200), broad in the sparse tail (300–1200), with the y-axis in **density**.\n\nWhenever class widths differ, **density on the y-axis is compulsory**.\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex1c-density-hist3.png"
+                ],
+                "links": [
+                  "th_g1c"
+                ],
+                "x": 900,
+                "y": 780,
+                "width": 600,
+                "height": 540,
+                "color": "coral"
+              },
+              {
+                "id": "ex1e",
+                "title": "Ex 0 / 1e — Histogram of Rate.Violent",
+                "content": "**Question.** Describe the distribution of the variable obtained at point d using a suitable plot.\n\n---\n\n**Answer.** Continuous numerical → **histogram**. Start with many classes (15–20), then optionally use custom widths:\n```r\ndistr.plot.x(x=Rate.Violent, plot.type=\"hist\", breaks=15, data=Data_USA)\ndistr.plot.x(x=Rate.Violent, plot.type=\"hist\", breaks=20, data=Data_USA)\ndistr.plot.x(x=Rate.Violent, plot.type=\"hist\",\n             breaks=c(110,200,250,300,350,400,450,500,550,600,1050),\n             data=Data_USA)\n```\nWith unequal widths the y-axis must be **density** — areas (not heights) represent the proportion of states.\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex1e-rateviolent-hist.png"
+                ],
+                "links": [
+                  "th_g1c"
+                ],
+                "x": 900,
+                "y": 1360,
+                "width": 600,
+                "height": 540,
+                "color": "coral"
+              },
+              {
+                "id": "ex1i",
+                "title": "Ex 0 / 1i — Compare Rate.murders histograms by Density",
+                "content": "**Question.** Build `Rate.murders` (per 100 000), extract Density<100 and Density≥100 subgroups, plot histograms with breaks 0, 2, 4, 8, 12. Comment on differences.\n\n---\n\n**Answer.**\n```r\nRate.murders <- 100000 * Data_USA$Violent.Murder / Data_USA$Population\nRate.murders_lt_100  <- Rate.murders[Data_USA$Density <  100]\nRate.murders_ge_100  <- Rate.murders[Data_USA$Density >= 100]\ndistr.plot.x(x=Rate.murders_lt_100, plot.type=\"hist\", breaks=c(0,2,4,8,12), data=Data_USA)\ndistr.plot.x(x=Rate.murders_ge_100, plot.type=\"hist\", breaks=c(0,2,4,8,12), data=Data_USA)\n```\n\nFrequency tables:\n\n| Rate.murders | <100 Count | <100 Prop | ≥100 Count | ≥100 Prop |\n|--------------|-----------:|----------:|-----------:|----------:|\n| [0, 2)       | 5  | 0.21 | 0  | 0.00 |\n| [2, 4)       | 9  | 0.38 | 9  | 0.35 |\n| [4, 8)       | 5  | 0.21 | 14 | 0.54 |\n| [8, 12)      | 5  | 0.21 | 3  | 0.12 |\n| **TOTAL**    | 24 | 1.00 | 26 | 1.00 |\n\nHigher-Density states concentrate around moderate murder rates $[4,8)$; lower-Density states are more dispersed and have a larger proportion in the highest bin $[8,12)$. (Use **density**, not counts, when comparing histograms of different sample sizes.)\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex1i-rate-murders-split.png"
+                ],
+                "links": [
+                  "th_g1c"
+                ],
+                "x": 900,
+                "y": 1940,
+                "width": 600,
+                "height": 540,
+                "color": "coral"
+              },
+              {
+                "id": "1_1c",
+                "title": "Ex 1.1c — Plot for Sales",
+                "content": "**Question.** Which graph to represent the distribution of `Sales` (turnover)?\n\n---\n\n**Answer.** `Sales` is continuous quantitative → **histogram**.\n```r\ndistr.plot.x(Sales, plot.type=\"hist\", data=pizzerie)\n```\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g1c"
+                ],
+                "x": 2500,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "coral"
+              },
+              {
+                "id": "1_1d",
+                "title": "Ex 1.1d — Choice of intervals for Sales histogram",
+                "content": "**Question.** Is a Sales histogram with 15 equal-width intervals more effective than one with intervals 0–10, 10–15, 15–20, 20–25, 25–35, 35–50, 50–70 (×1000)? Why? Comment on \"absolute or relative frequencies can be reported on the y-axis.\"\n\n---\n\n**Answer.**\n```r\ndistr.plot.x(Sales, plot.type=\"hist\", breaks=15, data=pizzerie)\ndistr.plot.x(Sales, plot.type=\"hist\",\n             breaks=c(10000,15000,20000,25000,35000,50000,70000), data=pizzerie)\n```\nBoth histograms show high concentration in low–medium sales classes, with extreme values in the right tail (also observed with very few frequencies, defining a tail to the right). The custom-width histogram is more effective to summarize the distribution by using fewer classes and excessive loss of information, **making the shape of the distribution clear**.\n\nWith reference to the comment \"absolute or relative frequencies can be reported on the y-axis\": this is **only correct when all classes have equal widths**. When widths differ (as in the custom binning), the y-axis must be **density** $f_i/w_i$; otherwise areas mislead. In the second histogram above, the y-axis is therefore *density*, and it is the **area** (not the height) of each bar that represents the proportion of states in that class.\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex1_1d-sales-hists.png"
+                ],
+                "links": [
+                  "th_g1c"
+                ],
+                "x": 2500,
+                "y": 600,
+                "width": 600,
+                "height": 540,
+                "color": "coral"
+              },
+              {
+                "id": "1_3a",
+                "title": "Ex 1.3a — Variable inventory of customer_habits",
+                "content": "**Question.** How many variables in the dataset? How many qualitative vs quantitative?\n\n---\n\n**Answer.**\n```r\nstr(customer_habits)\n## 'data.frame': 34866 obs. of 15 variables:\n##  $ index            : num    (identifier, not a statistical variable)\n##  $ Date             : chr\n##  $ Year             : num\n##  $ Product_Category : chr\n##  $ Sub_Category     : chr\n##  $ Unit_Cost        : num\n##  $ Unit_Price       : num\n##  $ Month_ord        : Factor w/ 12 levels\n##  $ Month            : chr\n##  $ Quantity         : num\n##  $ Cost             : num\n##  $ Revenue          : num\n##  $ Country          : chr\n##  $ Age              : num\n##  $ Sex              : chr\n```\nThe dataset has **15 variables in total** (index is an identifier — not a statistical variable, so **14 statistical variables**):\n- **Qualitative (categorical):** Date, Year, Month, Month_ord, Sex, Country, Product_Category, Sub_Category (8 variables).\n- **Quantitative:** Age, Quantity, Unit_Cost, Unit_Price, Cost, Revenue (6 variables) — all continuous except Age and Quantity, which are discrete.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g1c"
+                ],
+                "x": 4100,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "coral"
+              },
+              {
+                "id": "1_3g",
+                "title": "Ex 1.3g — Revenue histogram (10 equal-width breaks)",
+                "content": "**Question.** Represent `Revenue` using a histogram with 10 intervals of equal width.\n\n---\n\n**Answer.**\n```r\ndistr.plot.x(Revenue, plot.type=\"histogram\", breaks=10, data=customer_habits)\n```\nThe histogram shows a sharply **right-skewed** distribution: a dominant first class near zero and progressively smaller densities up to the right tail near 15 000.\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex1_3g-revenue-hist.png"
+                ],
+                "links": [
+                  "th_g1c"
+                ],
+                "x": 4100,
+                "y": 600,
+                "width": 600,
+                "height": 540,
+                "color": "coral"
+              },
+              {
+                "id": "1_3h",
+                "title": "Ex 1.3h — Revenue: two custom interval choices",
+                "content": "**Question.** Two alternative choices: (i) intervals of width 1000 from 0 to 5000, then two extra intervals of width 1000 and 5000; (ii) intervals of width 500 from 0 to 5000, then two extra. Which is more informative?\n\n---\n\n**Answer.**\n```r\ndistr.plot.x(Revenue, plot.type=\"histogram\",\n             breaks=1000*c(0,1,2,3,4,5,9,16), data=customer_habits)\ndistr.plot.x(Revenue, plot.type=\"histogram\",\n             breaks= 500*c(0,1,2,3,4,5,6,7,8,9,10,18,32), data=customer_habits)\n```\nAlthough the choice of intervals with **width 500** allows a more detailed description of the distribution between 0 and 5000, **it does not bring out any more features than the choice with width 1000** — both clearly show the strong right-skewness. The width-1000 binning is simpler and equally informative.\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex1_3h-revenue-hist-comparison.png"
+                ],
+                "links": [
+                  "th_g1c"
+                ],
+                "x": 4100,
+                "y": 1180,
+                "width": 600,
+                "height": 540,
+                "color": "coral"
+              },
+              {
+                "id": "1_5g",
+                "title": "Ex 1.5g — Histogram of Time (densities)",
+                "content": "**Question.** Graphically represent the frequency distribution of `Time`.\n\n*(Frequency distribution of `Time`, $n = 1800$ customers — given in the prompt.)*\n\n| Time class   | freq.ass | width |\n|--------------|---------:|------:|\n| $[0,10)$     | 122      | 10    |\n| $[10,20)$    | 420      | 10    |\n| $[20,30)$    | 294      | 10    |\n| $[30,60)$    | 176      | 30    |\n| $[60,90)$    | 571      | 30    |\n| $[90,150]$   | 217      | 60    |\n| **TOTAL**    | **1800** |       |\n\n\n---\n\n**Answer.** Continuous variable with unequal class widths → histogram with **densities** on the y-axis.\n```r\ndistr.plot.x(x=Time, plot.type=\"hist\",\n             breaks=c(0,10,20,30,60,90,150), data=...)\n```\nThe mean (50.58) and median (41.01) both fall in a **low-density class**: they do not lie at the centre of mass of the distribution. The histogram shows **two sub-intervals of local high-density** — $[10,20)$ (the modal class) and $[60,90)$ — suggesting **two typical customer behaviours**: a short stay in the store (~10–30 min) and a longer one (~60–90 min). Mean and median therefore represent a *compromise* between these two profiles.\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex1_5g-time-hist.png"
+                ],
+                "links": [
+                  "th_g1c"
+                ],
+                "x": 5700,
+                "y": 200,
+                "width": 600,
+                "height": 540,
+                "color": "coral"
+              }
+            ]
+          },
+          {
+            "id": "g1d_spike",
+            "name": "Spike plot",
+            "nodes": [
+              {
+                "id": "th_g1d",
+                "title": "Theory — Spike plot",
+                "content": "## Spike plot (discrete numerical variables)\n\nA **spike plot** (\"spike diagram\" / \"lollipop\") draws a vertical stick at each observed integer (or each discrete value), with height proportional to the absolute or relative frequency.\n\n**Why not a histogram or a bar plot?**\n- A **histogram** is wrong for a discrete numerical variable — values between two consecutive integers are not possible, so a continuous bar of positive width would suggest mass that does not exist.\n- A **bar plot** is wrong in general because it treats all categories as equally spaced — but for a discrete numerical variable the distance between values is meaningful (skipping a value should leave a visible gap).\n- The spike plot honours both constraints: zero-width sticks at the actual values, with empty gaps for missing integers.\n\n**Acceptable substitute:** a bar plot is acceptable only when consecutive integer values are present with no gaps and the spacing is uniform.\n\n**R commands:**\n```r\ndistr.plot.x(x=Var, plot.type=\"spike\", freq=c(\"counts\"), data=DF)\ndistr.plot.x(x=Var, plot.type=\"spike\", freq=c(\"perc\"),  data=DF)\ndistr.table.x(x=Var, freq=c(\"counts\",\"perc\"), data=DF)\n```\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "ex2b2",
+                  "1_2c",
+                  "1_3e",
+                  "1_4a1"
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 600,
+                "height": 720,
+                "color": "yellow"
+              },
+              {
+                "id": "ex2b2",
+                "title": "Ex 0 / 2b2 — Spike plot of size.family",
+                "content": "**Question.** Report a suitable plot to display the relative frequencies of `size.family`.\n\n*(Family-size distribution given in the prompt.)*\n\n| size.family | Count |\n|------------:|------:|\n| 0           | 891   |\n| 1           | 319   |\n| 2           | 42    |\n| 3           | 20    |\n| 4           | 22    |\n| 5           | 6     |\n| 8           | 9     |\n| **TOTAL**   | **1309** |\n\n\n---\n\n**Answer.** Discrete numerical → **spike plot** (compulsory: values 6 and 7 don't appear in the data; an honest plot must show that gap).\n\n| size.family | Prop  |\n|------------:|------:|\n| 0           | 0.681 |\n| 1           | 0.244 |\n| 2           | 0.032 |\n| 3           | 0.015 |\n| 4           | 0.017 |\n| 5           | 0.005 |\n| 8           | 0.007 |\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex2b2-size-family-spike.png"
+                ],
+                "links": [
+                  "th_g1d"
+                ],
+                "x": 1700,
+                "y": 200,
+                "width": 600,
+                "height": 540,
+                "color": "coral"
+              },
+              {
+                "id": "1_2c",
+                "title": "Ex 1.2c — Spike plot for Children",
+                "content": "**Question.** After specifying the type of the variable `Children`, propose an appropriate graphical representation of its frequency distribution.\n\n---\n\n**Answer.** `Children` is **quantitative discrete**.\n```r\ndistr.table.x(x=DS$Children, freq=c(\"Counts\",\"Perc\"))\n##  DS$Children  Count  Percent\n##     0         360     48\n##     1         184     25\n##     2         111     15\n##     3          95     13\n##  TOTAL        750    100\n```\nThe number of unique values is small; the distribution is well represented by a **spike plot**:\n```r\ndistr.plot.x(x=DS$Children, freq=\"Counts\", plot.type=\"spike\")\n```\nSince the observed values are equispaced consecutive integers, a barplot would also be acceptable.\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex1_2c-children-spike.png"
+                ],
+                "links": [
+                  "th_g1d"
+                ],
+                "x": 3300,
+                "y": 200,
+                "width": 600,
+                "height": 540,
+                "color": "coral"
+              },
+              {
+                "id": "1_3e",
+                "title": "Ex 1.3e — Spike plot of Age",
+                "content": "**Question.** Propose a suitable graphical representation of `Age`. Can you guess the median age from the graph alone?\n\n---\n\n**Answer.** `Age` is discrete with many unique values (16 to 90). Use a **spike plot** (a histogram would dilute the high-frequency-level detail; the spike plot represents each integer age honestly):\n```r\ndistr.table.x(x=customer_habits$Age, freq=c(\"percentage\"), p.digits=2)\ndistr.plot.x(x=customer_habits$Age, freq=c(\"percentage\"), plot.type=\"spike\")\n```\nFrom the plot: customer ages span 15–90; the median is the value that splits the sample into two equal-weight halves. The low percentages above 75 and below 25 suggest the median is between **40 and 50**.\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex1_3e-age-spike.png"
+                ],
+                "links": [
+                  "th_g1d"
+                ],
+                "x": 4100,
+                "y": 200,
+                "width": 600,
+                "height": 540,
+                "color": "coral"
+              },
+              {
+                "id": "1_4a1",
+                "title": "Ex 1.4 a1 — Spike plot for Quantity_New",
+                "content": "**Question.** Propose a correct graphical representation for `Quantity_New`.\n\n*(2022-2023 survey — `Quantity_New` table given in prompt.)*\n\n| Quantity_New | Count |\n|-------------:|------:|\n| 1            | 5401  |\n| 2            | 7340  |\n| 3            | 8238  |\n| 4            | 2561  |\n| 6            | 700   |\n| **TOTAL**    | **24 240** |\n\n\n---\n\n**Answer.** `Quantity_New` is **quantitative discrete**. The correct plot is the **spike diagram**. Absolute or relative frequencies (or percentages) can be plotted on the y-axis without misleading.\n```r\ndistr.plot.x(x=Quantity_New, freq=\"Counts\", plot.type=\"spike\")\ndistr.plot.x(x=Quantity_New, freq=\"perc\",   plot.type=\"spike\")\n```\nFrequencies:\n\n| Quantity_New | Count | Percent |\n|-------------:|------:|--------:|\n| 1            | 5401  | 22.3 |\n| 2            | 7340  | 30.3 |\n| 3            | 8238  | 34.0 |\n| 4            | 2561  | 10.6 |\n| 6            | 700   |  2.9 |\n| **TOTAL**    | 24 240 | 100.0 |\n\n**Note** the value 5 is never observed in the data. Since the variable is numerical, the distances between observed values must be properly accounted for — a **barplot would be wrong** because it would close the gap between 4 and 6 (the spike plot leaves the value 5 visibly empty).\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex1_4a1-quantity-spike-bar.png"
+                ],
+                "links": [
+                  "th_g1d"
+                ],
+                "x": 4900,
+                "y": 200,
+                "width": 600,
+                "height": 540,
+                "color": "coral"
+              }
+            ]
+          },
+          {
+            "id": "g1e_cum",
+            "name": "Cumulative plots (ogive + step)",
+            "nodes": [
+              {
+                "id": "th_g1e",
+                "title": "Theory — Cumulative plots",
+                "content": "## Cumulative plots: ogive and step diagram\n\nThe **cumulative distribution** $F(x)$ at a point $x$ is the proportion of observations $\\le x$. Its graphical form depends on whether the variable is continuous or discrete.\n\n### Ogive — continuous variable presented in classes\nPlot the points $(b_i, F_i)$ where $b_i$ is the upper bound of class $i$ and $F_i$ the cumulative relative frequency at that bound. Connect with **straight lines** starting at $(a_1, 0)$. Between two kinks the curve is straight: its slope on class $i$ equals the **density** $d_i = f_i/w_i$.\n\nUse the ogive to **estimate quantiles** (median, percentiles) — under the uniform-on-interval assumption,\n$$\np_q \\approx a_i + \\frac{q - F_{i-1}}{d_i}, \\qquad q = 0.5\\text{ for the median}.\n$$\n\n### Step diagram — discrete numerical variable\nCumulative frequency is **constant between consecutive observed values** and **jumps by $f_i$** at each observed value $x_i$. No interpolation: the curve has horizontal flats and vertical jumps.\n\n**R commands:**\n```r\ndistr.plot.x(x=Var, plot.type=\"cumfreq\", data=DF)    # ogive (continuous)\ndistr.plot.x(x=Var, plot.type=\"cumfreq\", data=DF)    # step diagram (discrete)\ndistr.table.x(x=Var, freq=\"cum\", data=DF)\n```\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "ex2a3",
+                  "ex2b3",
+                  "1_4a2",
+                  "1_5d"
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 600,
+                "height": 720,
+                "color": "yellow"
+              },
+              {
+                "id": "ex2a3",
+                "title": "Ex 0 / 2a3 — Ogive of fare",
+                "content": "**Question.** Sketch the ogive of the fare distribution using the provided classes.\n\n*(Fare distribution given in the prompt, fares ≤ 270.)*\n\n| fare interval | density |\n|---------------|--------:|\n| $[0, 10)$     | 0.03765 |\n| $[10, 20)$    | 0.02002 |\n| $[20, 30)$    | 0.01580 |\n| $[30, 60)$    | 0.00419 |\n| $[60, 100)$   | 0.00196 |\n| $[100, 180)$  | 0.00044 |\n| $[180, 270)$  | 0.00029 |\n\n\n---\n\n**Answer.** Proportions per class (density × width) and their cumulative:\n\n| fare interval | Prop | Cum.Prop |\n|---------------|-----:|---------:|\n| $[0, 10)$     | 0.38 | 0.38 |\n| $[10, 20)$    | 0.20 | 0.58 |\n| $[20, 30)$    | 0.16 | 0.74 |\n| $[30, 60)$    | 0.13 | 0.86 |\n| $[60, 100)$   | 0.08 | 0.94 |\n| $[100, 180)$  | 0.04 | 0.97 |\n| $[180, 270)$  | 0.03 | 1.00 |\n\n**Ogive:** horizontal axis = `fare` (with class boundaries as kinks); vertical axis = cumulative relative frequency. Plot the points $(a_1, 0), (b_1, F_1), (b_2, F_2), \\ldots$ and connect with straight segments. Slope on class $i$ = density $d_i = f_i / w_i$.\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex2a3-fare-ogive.png"
+                ],
+                "links": [
+                  "th_g1e"
+                ],
+                "x": 1700,
+                "y": 200,
+                "width": 600,
+                "height": 540,
+                "color": "coral"
+              },
+              {
+                "id": "ex2b3",
+                "title": "Ex 0 / 2b3 — Step diagram for size.family",
+                "content": "**Question.** Sketch a plot for the cumulative frequencies of `size.family`.\n\n*(Family-size distribution given in the prompt.)*\n\n| size.family | Count |\n|------------:|------:|\n| 0           | 891   |\n| 1           | 319   |\n| 2           | 42    |\n| 3           | 20    |\n| 4           | 22    |\n| 5           | 6     |\n| 8           | 9     |\n| **TOTAL**   | **1309** |\n\n\n---\n\n**Answer.** Cumulative table:\n\n| size.family | Count | Prop  | Cum.Count | Cum.Prop |\n|------------:|------:|------:|----------:|---------:|\n| 0           | 891   | 0.681 | 891       | 0.681    |\n| 1           | 319   | 0.244 | 1210      | 0.924    |\n| 2           | 42    | 0.032 | 1252      | 0.956    |\n| 3           | 20    | 0.015 | 1272      | 0.972    |\n| 4           | 22    | 0.017 | 1294      | 0.989    |\n| 5           | 6     | 0.005 | 1300      | 0.993    |\n| 8           | 9     | 0.007 | 1309      | 1.000    |\n\n**Step diagram** (no interpolation): the cumulative proportion is constant between observed values and jumps by $f_i$ at each observed value $x_i$.\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex2b3-size-family-step.png"
+                ],
+                "links": [
+                  "th_g1e"
+                ],
+                "x": 1700,
+                "y": 780,
+                "width": 600,
+                "height": 540,
+                "color": "coral"
+              },
+              {
+                "id": "1_4a2",
+                "title": "Ex 1.4 a2 — Cumulative percentage and step plot",
+                "content": "**Question.** Build the cumulative percentage distribution and a suitable plot for cumulative frequencies.\n\n*(2022-2023 survey — `Quantity_New` table given in prompt.)*\n\n| Quantity_New | Count |\n|-------------:|------:|\n| 1            | 5401  |\n| 2            | 7340  |\n| 3            | 8238  |\n| 4            | 2561  |\n| 6            | 700   |\n| **TOTAL**    | **24 240** |\n\n\n---\n\n**Answer.** The $i$-th cumulative percentage represents the overall relevance of the first $i$ categories. From the frequency distribution:\n\n| Quantity_New | Count | Percent | Cum. Percent |\n|-------------:|------:|--------:|-------------:|\n| 1 | 5401 | 22.3 | 22.3 |\n| 2 | 7340 | 30.3 | 52.6 |\n| 3 | 8238 | 34.0 | 86.6 |\n| 4 | 2561 | 10.6 | 97.1 |\n| 6 |  700 |  2.9 | 100.0 |\n\nThe appropriate graphical representation is the **cumulative frequency curve** (step diagram for a discrete variable):\n```r\ndistr.plot.x(x=Quantity_New, freq=\"cum\", plot.type=\"cumfreq\")\n```\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex1_4a2-quantity-cumulative.png"
+                ],
+                "links": [
+                  "th_g1e"
+                ],
+                "x": 4900,
+                "y": 200,
+                "width": 600,
+                "height": 540,
+                "color": "coral"
+              },
+              {
+                "id": "1_5d",
+                "title": "Ex 1.5d — Ogive of Time and median estimation",
+                "content": "**Question.** Build the ogive of `Time`; estimate the median.\n\n*(Frequency distribution of `Time`, $n = 1800$ customers — given in the prompt.)*\n\n| Time class   | freq.ass | width |\n|--------------|---------:|------:|\n| $[0,10)$     | 122      | 10    |\n| $[10,20)$    | 420      | 10    |\n| $[20,30)$    | 294      | 10    |\n| $[30,60)$    | 176      | 30    |\n| $[60,90)$    | 571      | 30    |\n| $[90,150]$   | 217      | 60    |\n| **TOTAL**    | **1800** |       |\n\n\n---\n\n**Answer.** Cumulative frequencies (relative + cumulative), given the table:\n\n| Time      | rel.freq | cum.freq |\n|-----------|---------:|---------:|\n| $[0,10)$   | 0.068    | 0.068 |\n| $[10,20)$  | 0.233    | 0.301 |\n| $[20,30)$  | 0.163    | 0.464 |\n| $[30,60)$  | 0.098    | 0.562 |\n| $[60,90)$  | 0.317    | 0.879 |\n| $[90,150]$ | 0.121    | 1.000 |\n\nThe ogive joins points $(a_1, 0)$, $(b_i, F_i)$ with straight lines:\n```r\ndistr.plot.x(x=Time, freq=\"cum\", plot.type=\"cumfreq\")\n```\n**Median.** Cumulative at 30 is 0.464 (< 0.5); at 60 is 0.562 (≥ 0.5) → median class $[30,60)$. Under uniform-on-interval:\n$$\np_{50} \\approx 30 + \\frac{0.5 - 0.464}{d_4} = 30 + \\frac{0.036}{0.00327} \\approx 41.01 \\text{ min}.\n$$\nwhere $d_4 = 0.098/30 = 0.00327$ is the frequency density of the median class.\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex1_5d-time-ogive.png"
+                ],
+                "links": [
+                  "th_g1e"
+                ],
+                "x": 5700,
+                "y": 200,
+                "width": 600,
+                "height": 540,
+                "color": "coral"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "t_g2_proportions",
+        "name": "G2 — Proportions from frequency tables",
+        "subtopics": [
+          {
+            "id": "g2a_exact",
+            "name": "Exact proportions",
+            "nodes": [
+              {
+                "id": "th_g2a",
+                "title": "Theory — Exact proportions",
+                "content": "## Exact proportions from frequency tables\n\nWhen a frequency table is given, computing a proportion of a subset is **exact** in two cases:\n\n1. **Discrete** or **categorical** variable: simply sum the relative frequencies of the values/categories in the query set.\n2. **Continuous** variable in classes, and the query interval $[L, U)$ is a **union of full classes** (i.e. $L, U$ coincide with class boundaries). Then $P(L \\le X < U) = \\sum_i f_i$ over the included classes.\n\nTwo equivalent computational shortcuts when answering from raw data instead of a table:\n```r\n# 1) Boolean vector + mean (counts TRUEs / total)\nmean(DF$Var >= L & DF$Var < U)\n# 2) Use the cumulative distribution table\ndistr.table.x(x=Var, freq=\"cum\", data=DF)\n```\n\n**Cumulative table primitives:**\n```r\ndistr.table.x(x=Var, freq=c(\"counts\",\"prop\",\"cum\"), data=DF)\n```\nCumulative proportion $F_i$ at the boundary $b_i$ is read directly from the `Cum.Prop` column.\n\n**Why exact?** Because we know the count in each full class exactly — we are not interpolating inside any class.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "ex1f",
+                  "ex1h",
+                  "ex2a1",
+                  "ex2b1",
+                  "1_1e",
+                  "1_1g",
+                  "1_2a",
+                  "1_3b",
+                  "1_5b"
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 600,
+                "height": 720,
+                "color": "yellow"
+              },
+              {
+                "id": "ex1f",
+                "title": "Ex 0 / 1f — % states with Property.Rates > 3000",
+                "content": "**Question.** Add `Property.Rates` (per 100 000 population). What is the percentage of states with rate higher than 3000?\n\n---\n\n**Answer.**\n```r\nData_USA$Property.Rates <- 100000 *\n  (Data_USA$Property.Burglary + Data_USA$Property.Larceny +\n   Data_USA$Property.Motor) / Data_USA$Population\n\nis.higher30 <- (Data_USA$Property.Rates > 3000)\ndistr.table.x(is.higher30, freq=c(\"counts\",\"perc\",\"cum\"), p.digits=2)\n##  is.higher30  Count  Percent  Cum.Count  Cum.Percent\n##  FALSE         48     94.12     48        94.12\n##  TRUE           3      5.88     51       100.00\n##  TOTAL         51    100.00\n\n# alternative\nmean(is.higher30)              # [1] 0.05882353\nsum(is.higher30)               # [1] 3\n100*sum(is.higher30)/length(is.higher30)  # [1] 5.882353\n```\n\n**Result: 3 of 51 states ≈ 5.88%**. (Computation is **exact** — discrete count over a known total.)\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g2a"
+                ],
+                "x": 900,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "orange"
+              },
+              {
+                "id": "ex1h",
+                "title": "Ex 0 / 1h — Cumulative for Happyness.Level (ordinal)",
+                "content": "**Question.** Obtain the frequency distribution of `Happyness.Level`. What % are *quite happy or happiest*? What is the frequency cumulated at *So and so*?\n\n---\n\n**Answer.**\n```r\ndistr.table.x(x=Happyness.Level, freq=\"cum\", data=Data_USA)\n##  Happyness.Level  Count  Prop   Cum.Count  Cum.Prop\n##  Unhappiest        10    0.20    10         0.20\n##  Quite unhappy     12    0.24    22         0.45\n##  So and so         12    0.24    34         0.69\n##  Quite happy        8    0.16    42         0.86\n##  Happiest           7    0.14    49         1.00\n##  TOTAL             49    1.00\n```\n% quite happy or happiest:\n```r\n0.14 + 0.16            # 0.30\n(8 + 7) / 49           # 0.3061224\n```\nCumulated at *So and so*: **0.69**.\n\n(DC has missing `Happyness.Level`, so denominator = 49 not 51.)\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g2a"
+                ],
+                "x": 900,
+                "y": 600,
+                "width": 600,
+                "height": 360,
+                "color": "orange"
+              },
+              {
+                "id": "ex2a1",
+                "title": "Ex 0 / 2a1 — P(10 ≤ fare < 60) exact",
+                "content": "**Question.** Can you assess **exactly** the proportion of passengers with fare in $[10, 60)$?\n\n*(Fare distribution given in the prompt, fares ≤ 270.)*\n\n| fare interval | density |\n|---------------|--------:|\n| $[0, 10)$     | 0.03765 |\n| $[10, 20)$    | 0.02002 |\n| $[20, 30)$    | 0.01580 |\n| $[30, 60)$    | 0.00419 |\n| $[60, 100)$   | 0.00196 |\n| $[100, 180)$  | 0.00044 |\n| $[180, 270)$  | 0.00029 |\n\n\n---\n\n**Answer.** Exact, since both endpoints align with class boundaries. Each class contributes density × width:\n$$\n(20-10)\\cdot 0.02002 + (30-20)\\cdot 0.01580 + (60-30)\\cdot 0.00419 = 0.4839.\n$$\n```r\n(20-10)*0.02002 + (30-20)*0.01580 + (60-30)*0.00419\n## [1] 0.4839\n```\n**Result: 48.39%.**\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g2a"
+                ],
+                "x": 1700,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "orange"
+              },
+              {
+                "id": "ex2b1",
+                "title": "Ex 0 / 2b1 — P(size.family ≥ 4) exact",
+                "content": "**Question.** What proportion of families had 4 or more components travelling together?\n\n*(Family-size distribution given in the prompt.)*\n\n| size.family | Count |\n|------------:|------:|\n| 0           | 891   |\n| 1           | 319   |\n| 2           | 42    |\n| 3           | 20    |\n| 4           | 22    |\n| 5           | 6     |\n| 8           | 9     |\n| **TOTAL**   | **1309** |\n\n\n---\n\n**Answer.** Discrete variable → exact:\n$$\n\\frac{22 + 6 + 9}{1309} = \\frac{37}{1309} = 0.02826585.\n$$\n```r\n(22 + 6 + 9) / 1309\n## [1] 0.02826585\n```\n**Result: ~2.83%.**\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g2a"
+                ],
+                "x": 1700,
+                "y": 600,
+                "width": 600,
+                "height": 360,
+                "color": "orange"
+              },
+              {
+                "id": "1_1e",
+                "title": "Ex 1.1e — % pizzerias with Sales in [15000, 30000)",
+                "content": "**Question.** Pizzerias with sales between 15000 and 30000 are considered \"medium turnover\". What percentage of the sample falls into this category?\n\n---\n\n**Answer.** Build a logical vector and take the mean (= proportion of TRUEs):\n```r\nmean(pizzerie$Sales >= 15000 & pizzerie$Sales < 30000)\n## [1] 0.59\nhead(pizzerie$Sales >= 15000 & pizzerie$Sales < 30000)\n## [1] TRUE FALSE TRUE  TRUE  TRUE TRUE\n```\nThe sum of logical values returns the count of TRUE entries, and the mean returns the proportion. **Result: 59% of pizzerias have medium turnover.**\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g2a"
+                ],
+                "x": 2500,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "orange"
+              },
+              {
+                "id": "1_1g",
+                "title": "Ex 1.1g — % pizzerias with fewer than 5 employees",
+                "content": "**Question.** Pizzerias with less than 5 employees are considered small/medium sized. What percentage of the sample falls into this group?\n\n---\n\n**Answer.**\n```r\nmean(pizzerie$Employees < 5)\n## [1] 0.45\n```\n**Result: 45%.** Alternatively from the cumulative table:\n```r\ndistr.table.x(x=Employees, freq=c(\"cum\"), data=pizzerie)\n##  Employees  Count  Prop  Cum.Count  Cum.Prop\n##   1           2    0.02     2        0.02\n##   2           3    0.03     5        0.05\n##   3          12    0.12    17        0.17\n##   4          28    0.28    45        0.45  <- cum at 4 = 45%\n##   5          23    0.23    68        0.68\n##  ...\n```\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g2a"
+                ],
+                "x": 2500,
+                "y": 600,
+                "width": 600,
+                "height": 360,
+                "color": "orange"
+              },
+              {
+                "id": "1_2a",
+                "title": "Ex 1.2a — % of customers with Age ≤ Middle",
+                "content": "**Question.** After specifying the type of variable `Age`, indicate the percentage of customers with age at most \"Middle\".\n\n---\n\n**Answer.** `Age` is **ordinal**, but in the dataset is coded as a \"character\" variable. To analyse it properly, define a factor with explicit order:\n```r\nDS$Age_recode <- factor(DS$Age, levels=c(\"Young\",\"Middle\",\"Senior\"))\ndistr.table.x(x=DS$Age_recode, freq=c(\"Perc\",\"Cum\"))\n##  DS$Age_recode  Percent  Cum.Percent\n##  Young            29        29\n##  Middle           52        81\n##  Senior           19       100\n##  TOTAL           100\n```\n**The percentage of customers with age at most Middle = 81%.**\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g2a"
+                ],
+                "x": 3300,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "orange"
+              },
+              {
+                "id": "1_3b",
+                "title": "Ex 1.3b — Sex composition of the sample",
+                "content": "**Question.** What is the sex composition of the sample?\n\n---\n\n**Answer.**\n```r\ndistr.table.x(x=customer_habits$Sex)\n##  customer_habits$Sex  Count  Prop\n##  F                    15235  0.44\n##  M                    19631  0.56\n##  TOTAL                34866  1.00\n```\nWe observe an approximate balance between male and female customers, with a slight majority of male customers (**56%**) compared to female (**44%**).\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g2a"
+                ],
+                "x": 4100,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "orange"
+              },
+              {
+                "id": "1_5b",
+                "title": "Ex 1.5b — P(Time ≤ 30) exact",
+                "content": "**Question.** Total number / percentage of customers with `Time` ≤ 30 minutes?\n\n*(Frequency distribution of `Time`, $n = 1800$ customers — given in the prompt.)*\n\n| Time class   | freq.ass | width |\n|--------------|---------:|------:|\n| $[0,10)$     | 122      | 10    |\n| $[10,20)$    | 420      | 10    |\n| $[20,30)$    | 294      | 10    |\n| $[30,60)$    | 176      | 30    |\n| $[60,90)$    | 571      | 30    |\n| $[90,150]$   | 217      | 60    |\n| **TOTAL**    | **1800** |       |\n\n\n---\n\n**Answer.** Sum the first three (fully aligned) classes:\n$$\n\\frac{122 + 420 + 294}{1800} = \\frac{836}{1800} \\cdot 100\\% = 46.44\\%.\n$$\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g2a"
+                ],
+                "x": 5700,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "orange"
+              }
+            ]
+          },
+          {
+            "id": "g2b_approx",
+            "name": "Uniform-on-interval approximation",
+            "nodes": [
+              {
+                "id": "th_g2b",
+                "title": "Theory — Uniform-on-interval",
+                "content": "## Approximate proportions: uniform-on-interval\n\nWhen the query interval $[L, U)$ has endpoints that fall **inside** a class $[a_i, b_i)$ (not at a boundary), the proportion of cases in $[L, U) \\cap [a_i, b_i)$ is unknown from the table alone. The standard assumption is:\n\n> **Uniform on the interval:** the $f_i$ units of mass are evenly distributed across $[a_i, b_i)$, so the density is constant and equal to $d_i = f_i / w_i$.\n\nUnder this assumption:\n$$\nP\\big(X \\in [L, U) \\cap [a_i, b_i)\\big) \\approx d_i \\cdot \\text{length}\\big([L, U) \\cap [a_i, b_i)\\big) = f_i \\cdot \\frac{\\text{overlap}}{w_i}.\n$$\n\n**Working recipe.** Split the query into full classes ∪ partial classes; for each partial piece apply density × overlap; sum.\n\n**Example.** $P(15 \\le \\text{Time} \\le 50)$ when classes are $[10,20),\\,[20,30),\\,[30,60)$:\n$$\n\\underbrace{\\tfrac{1}{2}\\cdot f_{[10,20)}}_{\\text{half of }[10,20)} \\;+\\; \\underbrace{f_{[20,30)}}_{\\text{full}} \\;+\\; \\underbrace{\\tfrac{20}{30}\\cdot f_{[30,60)}}_{\\text{2/3 of }[30,60)}.\n$$\n\n**R checks:** the source-of-truth `distr.table.x` gives the table; the arithmetic above is then done by hand or with R as a verification.\n\n> Always **report whether your answer is exact or approximate**, and which assumption was used.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "ex1g",
+                  "ex2a2",
+                  "1_5a",
+                  "1_5c"
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 600,
+                "height": 720,
+                "color": "yellow"
+              },
+              {
+                "id": "ex1g",
+                "title": "Ex 0 / 1g — Approx proportion Frost < 80 (uniform-on-interval)",
+                "content": "**Question.** What is the proportion of states with `Frost` < 80?\n\n---\n\n**Answer.** Frost is in classes → only **approximate**, under uniform-on-interval.\n```r\ndistr.table.x(x=Frost, freq=c(\"counts\",\"prop\",\"dens\",\"cum\"), data=Data_USA)\n```\nClass $[60,90)$ has proportion 0.16 and width 30; 80 lies $20/30 = 2/3$ of the way through.\n\n$$\nP(\\text{Frost} < 80) \\approx 0.20 + 0.16 \\cdot \\frac{2}{3} = 0.3066667.\n$$\n```r\n0.20 + 0.16 * 2/3\n## [1] 0.3066667\n(10 + 8 * 2/3) / 50\n## [1] 0.3066667\n```\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g2b"
+                ],
+                "x": 900,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "orange"
+              },
+              {
+                "id": "ex2a2",
+                "title": "Ex 0 / 2a2 — P(50 ≤ fare < 100) by uniform-on-interval",
+                "content": "**Question.** Can you assess **exactly** P(fare ∈ [50, 100))? If not, approximate it.\n\n*(Fare distribution given in the prompt, fares ≤ 270.)*\n\n| fare interval | density |\n|---------------|--------:|\n| $[0, 10)$     | 0.03765 |\n| $[10, 20)$    | 0.02002 |\n| $[20, 30)$    | 0.01580 |\n| $[30, 60)$    | 0.00419 |\n| $[60, 100)$   | 0.00196 |\n| $[100, 180)$  | 0.00044 |\n| $[180, 270)$  | 0.00029 |\n\n\n---\n\n**Answer.** Only **approximately**, since 50 lies inside the class $[30, 60)$. Under uniform-on-interval, the share of $[30, 60)$ that lies in $[50, 60)$ is $(60-50)/(60-30) = 1/3$ of the class's proportion.\n$$\n\\underbrace{(60-30)\\cdot 0.00419 \\cdot \\tfrac{1}{3}}_{\\text{partial } [30,60)} + \\underbrace{(100-60)\\cdot 0.00196}_{\\text{full } [60,100)} = 0.1203.\n$$\n```r\n(60-30)*0.00419*(1/3) + (100-60)*0.00196\n## [1] 0.1203\n# or equivalently\n(60-50)*0.00419 + (100-60)*0.00196\n## [1] 0.1203\n```\n**Result: ~12.03%** (approximate).\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g2b"
+                ],
+                "x": 1700,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "orange"
+              },
+              {
+                "id": "1_5a",
+                "title": "Ex 1.5a — P(Time ≤ 5) under uniform-on-interval",
+                "content": "**Question.** Of 122 customers in $[0,10)$, what is the percentage with `Time` ≤ 5 minutes?\n\n*(Frequency distribution of `Time`, $n = 1800$ customers — given in the prompt.)*\n\n| Time class   | freq.ass | width |\n|--------------|---------:|------:|\n| $[0,10)$     | 122      | 10    |\n| $[10,20)$    | 420      | 10    |\n| $[20,30)$    | 294      | 10    |\n| $[30,60)$    | 176      | 30    |\n| $[60,90)$    | 571      | 30    |\n| $[90,150]$   | 217      | 60    |\n| **TOTAL**    | **1800** |       |\n\n\n---\n\n**Answer.** Under the uniform-on-interval assumption, half of the 122 customers in $[0,10)$ have $Time \\le 5$:\n$$\nP(Time \\le 5) = \\frac{61}{1800} \\cdot 100\\% = 3.39\\%.\n$$\nApparently a rather low percentage.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g2b"
+                ],
+                "x": 5700,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "orange"
+              },
+              {
+                "id": "1_5c",
+                "title": "Ex 1.5c — P(15 ≤ Time ≤ 50) approx",
+                "content": "**Question.** Estimate the number of customers with `Time` between 15 and 50 minutes.\n\n*(Frequency distribution of `Time`, $n = 1800$ customers — given in the prompt.)*\n\n| Time class   | freq.ass | width |\n|--------------|---------:|------:|\n| $[0,10)$     | 122      | 10    |\n| $[10,20)$    | 420      | 10    |\n| $[20,30)$    | 294      | 10    |\n| $[30,60)$    | 176      | 30    |\n| $[60,90)$    | 571      | 30    |\n| $[90,150]$   | 217      | 60    |\n| **TOTAL**    | **1800** |       |\n\n\n---\n\n**Answer.** Under uniform-on-interval, $[15,20)$ is half of $[10,20)$ (210 customers); $[20,30)$ is fully included (294); $[30,50)$ is $20/30 = 2/3$ of $[30,60)$ — about $20/30 \\cdot 176 = 117.33$ customers.\n$$\nP(15 \\le Time \\le 50) \\approx \\frac{210 + 294 + 117.33}{1800} \\cdot 100\\% = 34.52\\%.\n$$\nAbout one third of customers — considerable but not a majority.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g2b"
+                ],
+                "x": 5700,
+                "y": 600,
+                "width": 600,
+                "height": 360,
+                "color": "orange"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "t_g3_derived_vars",
+        "name": "G3 — Constructing derived variables",
+        "subtopics": [
+          {
+            "id": "g3_main",
+            "name": "Constructing derived variables",
+            "nodes": [
+              {
+                "id": "th_g3",
+                "title": "Theory — Constructing derived variables",
+                "content": "## Constructing derived variables for meaningful comparison\n\nRaw counts almost always mislead when compared across units of different sizes. The fix is to **normalize**.\n\n### Rate = count / exposure (× scale)\n$$\n\\text{Rate} = \\frac{\\text{count}}{\\text{exposure}} \\cdot k.\n$$\nThe scaling $k$ chooses units (e.g. \"per 100 000 inhabitants\" → $k=10^5$); the **denominator** is the substantive choice and depends on what is at risk.\n\n- Crime → population.\n- Disease incidence → at-risk population.\n- Population density → area.\n- Property crimes → population.\n\n### Categorical splits from a continuous variable\nOften the goal is \"do dense and sparse states behave differently?\" — threshold a continuous variable at a meaningful value (e.g. Density $\\ge 100$) and compare distributions of the two subsets.\n\n**R commands:**\n```r\nDF$Rate <- 100000 * (DF$count_var) / DF$Population\nDF$Density <- DF$Population / DF$Area\nDF$Group <- ifelse(DF$Density >= 100, \"Hi\", \"Lo\")\ndistr.plot.x(x=Var, plot.type=\"hist\", data=subset(DF, Group==\"Hi\"))\ndistr.plot.x(x=Var, plot.type=\"hist\", data=subset(DF, Group==\"Lo\"))\n```\n\n**Checks:** correct denominator, non-zero for every unit, intended scale, comparability of the new variable.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "ex1b",
+                  "ex1d"
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 600,
+                "height": 720,
+                "color": "yellow"
+              },
+              {
+                "id": "ex1b",
+                "title": "Ex 0 / 1b — Build Density variable",
+                "content": "**Question.** Add to the dataframe a new variable `Density` defined as the ratio between a state's population size and its area.\n\n---\n\n**Answer.**\n```r\nData_USA$Density <- Data_USA$Population / Data_USA$Area\n```\nThis creates a new column with units *people per square mile*. From now on per-area comparisons among states can be made on `Density` directly instead of `Population` (which depends on state size).\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g3"
+                ],
+                "x": 900,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "purple"
+              },
+              {
+                "id": "ex1d",
+                "title": "Ex 0 / 1d — Build a rate variable for violent crimes",
+                "content": "**Question.** You are interested in emphasizing the different levels of violent crimes across states. Would you consider one variable in the database or build a new variable? Which?\n\n---\n\n**Answer.** Build a **rate per 100 000 population** — raw counts depend on state size and are not comparable.\n\n```r\nData_USA$Rate.Violent <- 100000 *\n  (Data_USA$Violent.Assault + Data_USA$Violent.Murder +\n   Data_USA$Violent.Rape    + Data_USA$Violent.Robbery) /\n  Data_USA$Population\n```\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g3"
+                ],
+                "x": 900,
+                "y": 600,
+                "width": 600,
+                "height": 360,
+                "color": "purple"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "t_g4_central_tendency",
+        "name": "G4 — Central tendency measures",
+        "subtopics": [
+          {
+            "id": "g4a_bytype",
+            "name": "Mode, median, mean by variable type",
+            "nodes": [
+              {
+                "id": "th_g4a",
+                "title": "Theory — Choosing mode/median/mean by variable type",
+                "content": "## Mode, median, mean — choosing by variable type\n\n| Variable type | Mode | Median | Mean |\n|---------------|:----:|:------:|:----:|\n| Nominal qualitative | ✔ | ✘ | ✘ |\n| Ordinal qualitative | ✔ | ✔ | ✘ |\n| Discrete numerical  | ✔ | ✔ | ✔ |\n| Continuous numerical | (modal *class*) | ✔ | ✔ |\n\n- **Mode** = the value (or category) with highest frequency. Works for any variable type. Beware: when the mode's share is small (e.g. 35%) it is *not* a representative summary.\n- **Median** = the value that splits the ordered distribution in two halves of equal weight. Requires an order on the values — works from ordinal onward.\n- **Mean** = $\\bar x = \\frac{1}{n}\\sum_i x_i = \\sum_i f_i \\cdot x_i$ when the data are summarised by a frequency table. Requires that the *distances* between values are meaningful — works from interval-scale numerical variables onward.\n\n### Modal class (continuous variable in classes with **unequal widths**)\nUse **densities**, not counts: the modal class is the class with **highest density** $d_i = f_i / w_i$. A wider class can have more cases but a lower density — it is not the modal class.\n\n**R commands:**\n```r\ndistr.summary.x(x=Var, stats=\"mode\", data=DF)\ndistr.summary.x(x=Var, stats=c(\"mean\",\"median\"), data=DF)\ndistr.summary.x(x=Var, stats=\"central tendency measures\", data=DF)\n```\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "1_1f",
+                  "1_2b",
+                  "1_3d",
+                  "1_4a3",
+                  "1_5e"
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 600,
+                "height": 720,
+                "color": "yellow"
+              },
+              {
+                "id": "1_1f",
+                "title": "Ex 1.1f — Central tendency for District (mode)",
+                "content": "**Question.** What measure of central tendency would you use for `District`? For what variable types is it possible/appropriate?\n\n---\n\n**Answer.** `District` is qualitative **nominal**; the only summary measure that can be calculated is the **mode**.\n```r\ndistr.summary.x(x=District, stats=\"mode\", data=pizzerie)\n##  n   n.a   mode    n.modes   mode%\n## 100    0   Lodi       1       0.35\n\ndistr.table.x(District, freq=\"percentages\", data=pizzerie)\n##  District   Percent\n##  Lodi          35\n##  Milano        33\n##  Pavia         32\n##  TOTAL        100\n```\nMode = **Lodi** (35%). However it accounts for only 35% of observations → **poorly representative** of the sample.\n\n**NB.** The mode can be calculated for any variable type, but it is not particularly appropriate when the variable takes many values (as for continuous numerical variables) or when the observed values all have very low frequencies similar to each other.\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex1_1f-district-pie.png"
+                ],
+                "links": [
+                  "th_g4a"
+                ],
+                "x": 2500,
+                "y": 200,
+                "width": 600,
+                "height": 540,
+                "color": "skyblue"
+              },
+              {
+                "id": "1_2b",
+                "title": "Ex 1.2b — Summary measures for Age (mode + median)",
+                "content": "**Question.** What summary measures can be computed for `Age`? Indicate the values and give a brief description.\n\n---\n\n**Answer.** `Age_recode` is **ordinal qualitative**. Two measures are available:\n- **Mode** — the category with the highest frequency. Here mode = **\"Middle\" (52%)**, considered representative.\n- **Median** — the category whose cumulative frequency first exceeds 50%. From point a) the cumulative at *Middle* is 81% (> 50%), so **median = \"Middle\"**.\n\nThe mean is **not defined** for a qualitative variable (no meaningful arithmetic on the labels).\n```r\ndistr.summary.x(x=DS$Age_recode, stats=c(\"mode\",\"median\"))\n```\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g4a"
+                ],
+                "x": 3300,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "skyblue"
+              },
+              {
+                "id": "1_3d",
+                "title": "Ex 1.3d — Country: majority European? Mode?",
+                "content": "**Question.** Is most of the data from European customers? What is the mode of `Country`?\n\n---\n\n**Answer.**\n```r\ndistr.table.x(x=customer_habits$Country, freq=c(\"counts\",\"percentage\"), p.digits=1)\n##  customer_habits$Country  Count  Percent\n##  France                   6603    18.9\n##  Germany                  9896    28.4\n##  United Kingdom           8119    23.3\n##  United States           10248    29.4\n##  TOTAL                  34866   100.0\n```\nFour countries of origin. The **three European countries (France + Germany + UK) sum to about 70.6%**, vs 29.4% US — so **yes, European customers are more represented** in the dataset; the composition is skewed toward European buyers.\n\nThe **mode of `Country` is United States (29.4%)**. However the second-most-represented country, Germany, has a very similar frequency (28.4%), making the **mode a poorly representative measure** here. The weight of each country varies only between 18.9% and 29.4% — the distribution is not far from uniform.\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex1_3d-country-pie-bar.png"
+                ],
+                "links": [
+                  "th_g4a"
+                ],
+                "x": 4100,
+                "y": 200,
+                "width": 600,
+                "height": 540,
+                "color": "skyblue"
+              },
+              {
+                "id": "1_4a3",
+                "title": "Ex 1.4 a3 — Mode, median, mean of Quantity_New",
+                "content": "**Question.** Determine mode, median, and mean for `Quantity_New`.\n\n*(2022-2023 survey — `Quantity_New` table given in prompt.)*\n\n| Quantity_New | Count |\n|-------------:|------:|\n| 1            | 5401  |\n| 2            | 7340  |\n| 3            | 8238  |\n| 4            | 2561  |\n| 6            | 700   |\n| **TOTAL**    | **24 240** |\n\n\n---\n\n**Answer.**\n- **Mode = 3.** The absolute frequency at value 3 is 8238 (relative percentage 34%), the highest.\n- **Median = 2.** From the cumulative frequencies, the first value where cum. percent exceeds 50% is **2** (cum at 1 is 22.3%, at 2 is 52.6% — the first to cross 50%).\n- **Mean** (weighted average using counts as weights):\n$$\n\\bar x = \\frac{\\sum_i n_i \\cdot x_i}{n} = \\frac{5401 \\cdot 1 + 7340 \\cdot 2 + 8238 \\cdot 3 + 2561 \\cdot 4 + 700 \\cdot 6}{24\\,240} \\approx 2.447.\n$$\n```r\nx      <- 1:6\ncounts <- c(5401, 7340, 8238, 2561, 0, 700)\nxbar   <- sum(counts*x) / sum(counts)\nxbar\n## [1] 2.443853\n```\n*(Tiny discrepancy from 2.447 — comes from the source's higher-precision use of `Quantity_New`.)*\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g4a"
+                ],
+                "x": 4900,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "skyblue"
+              },
+              {
+                "id": "1_5e",
+                "title": "Ex 1.5e — Modal class via densities (unequal widths)",
+                "content": "**Question.** Identify the modal class of `Time`.\n\n*(Frequency distribution of `Time`, $n = 1800$ customers — given in the prompt.)*\n\n| Time class   | freq.ass | width |\n|--------------|---------:|------:|\n| $[0,10)$     | 122      | 10    |\n| $[10,20)$    | 420      | 10    |\n| $[20,30)$    | 294      | 10    |\n| $[30,60)$    | 176      | 30    |\n| $[60,90)$    | 571      | 30    |\n| $[90,150]$   | 217      | 60    |\n| **TOTAL**    | **1800** |       |\n\n\n---\n\n**Answer.** The class with maximum *frequency* is $[60,90)$ with 571 cases — **but classes have different widths**, so this is misleading. Compute the **density** $d_i = f_i / w_i$:\n\n| Time      | abs.freq | rel.freq | width | density |\n|-----------|---------:|---------:|------:|--------:|\n| $[0,10)$   | 122  | 0.068 | 10 | 0.00680 |\n| $[10,20)$  | 420  | 0.233 | 10 | **0.02330** |\n| $[20,30)$  | 294  | 0.163 | 10 | 0.01630 |\n| $[30,60)$  | 176  | 0.098 | 30 | 0.00327 |\n| $[60,90)$  | 571  | 0.317 | 30 | 0.01057 |\n| $[90,150]$ | 217  | 0.121 | 60 | 0.00202 |\n\n**Modal class = $[10, 20)$** with density 0.0233, the highest in the table. (Note the density of $[10,20)$ is more than twice the density of $[60,90)$, the absolute-frequency leader.)\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g4a"
+                ],
+                "x": 5700,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "skyblue"
+              }
+            ]
+          },
+          {
+            "id": "g4b_skew",
+            "name": "Mean vs median under skewness",
+            "nodes": [
+              {
+                "id": "th_g4b",
+                "title": "Theory — Mean vs median under skewness",
+                "content": "## Mean vs median under skewness\n\n- For a **symmetric** distribution, mean ≈ median.\n- For a **right-skewed** distribution (long right tail), **mean > median** — the mean is pulled up by extreme values.\n- For a **left-skewed** distribution, **mean < median**.\n\nThe mean is **more sensitive** to outliers and to changes in the extreme values; the median is **robust**.\n\n**Practical decision:**\n- If the distribution is *concentrated near a central value with a long tail* → report the **median** (more representative of typical cases).\n- If the distribution is *symmetric* and there are no outliers → either is fine; the mean is slightly more efficient.\n\n**Reading skewness from a histogram or summary:**\n- `mean > median`  ⇒ right-skewed.\n- `mean ≈ median`  ⇒ symmetric.\n- `mean < median`  ⇒ left-skewed.\n\n**R commands:**\n```r\ndistr.summary.x(x=Var, stats=\"summary\", digits=2, data=DF)\n# Returns: min, q1, median, mean, q3, max, sd, ...\n```\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "1_1h",
+                  "1_3f",
+                  "1_3i",
+                  "1_6a"
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 600,
+                "height": 720,
+                "color": "yellow"
+              },
+              {
+                "id": "1_1h",
+                "title": "Ex 1.1h — Mean vs median of Sales",
+                "content": "**Question.** Calculate the mean and median of `Sales`. How do you explain any differences? Which is more representative of typical turnover?\n\n---\n\n**Answer.**\n```r\ndistr.summary.x(x=Sales, stats=c(\"mean\",\"median\"), data=pizzerie)\n##  n  n.a    mean    median\n## 100   0  23946.99  22349.5\n```\n- **mean = 23 946.99**\n- **median = 22 349.5**\n\nThe histograms at point d) show **right skewness** of Sales: a long right tail. As expected, **mean > median**: the mean is pulled up by the right-tail extreme values. The mean is more sensitive to outliers; the median is more robust.\n\nSince the distribution exhibits concentration toward lower-middle values, to describe the \"centre\" of the data — i.e. the value around which data are most concentrated — **the median is more appropriate** for summarising typical pizzeria turnover.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g4b"
+                ],
+                "x": 2500,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "skyblue"
+              },
+              {
+                "id": "1_3f",
+                "title": "Ex 1.3f — Mean vs median for Age (skewness)",
+                "content": "**Question.** Given the age distribution, would you expect the mean to be higher or lower than the median? Why?\n\n---\n\n**Answer.** The Age distribution appears slightly **skewed to the right** (long right tail beyond 60). In such a situation, **mean > median**, since the mean is pulled up by the right-tail extreme values.\n```r\ndistr.summary.x(Age, stats=\"summary\", digits=2, data=customer_habits)\n##   n     n.a min q1 median mean    q3  max   sd   var\n## 34866   0    16 40   46  47.13   54   96  10.53 110.87\n```\n- **median = 46**\n- **mean = 47.13** — slightly higher, as predicted.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g4b"
+                ],
+                "x": 4100,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "skyblue"
+              },
+              {
+                "id": "1_3i",
+                "title": "Ex 1.3i — Revenue: mean vs median",
+                "content": "**Question.** Since the distribution is heavily right-skewed, do you expect a median lower or higher than the mean?\n\n---\n\n**Answer.** **Median much lower than mean**: the right tail contains few but very large revenues that drag the mean upward.\n```r\ndistr.summary.x(Revenue, stats=\"summary\", digits=2, data=customer_habits)\n##  n     n.a min   q1  median  mean    q3     max    sd      var\n## 34866   0   0.67 140  428    909.72 1150.5 15548  1286.83  1655919\n```\n- **median = 428**, **mean = 909.72** — mean is more than twice the median.\n\nComparison with the most recent survey: the median is substantially the same — at most slightly increased — indicating that 50% of cases have revenues lower than ~430/450. The mean instead increased, suggesting that the distribution shifted to the right and the highest revenues increased even more. **The mean is more sensitive to changes in the extreme values.**\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g4b"
+                ],
+                "x": 4100,
+                "y": 600,
+                "width": 600,
+                "height": 360,
+                "color": "skyblue"
+              },
+              {
+                "id": "1_6a",
+                "title": "Ex 1.6a — Evaluate statements about mean/median",
+                "content": "**Question.** Based on the histogram, which of the following statements about the distribution of expenses is plausible?\n1) About 50% of clients spend at most 40, with an average expense of approximately 20.\n2) About 50% of clients spend 40 or less, with an average expense around 40.\n3) About 50% of clients spend more than 40, with an average expense around 80.\n4) About 50% of clients spend less than 28, with an average amount around 50.\n\n*(Histogram of `Expenses` for a web-company sample is given in the prompt; visible densities: 0.022 at $[0,20)$, 0.01 at $[20,40)$, 0.005 at $[40,60)$, 0.003 at $[60,80)$, 0.002 at $[80,120)$, 0.001 at $[120,160)$, 0.0006 at $[160,300]$.)*\n\n\n---\n\n**Answer.** The statements essentially concern the **median** and the **mean** of the distribution.\n\nThe histogram shows a **strongly positively-skewed** distribution. In such a condition, **mean > median**.\n\n- **Statement 1.** mean = 20 < median = 40. **False** (it would require left-skew or negative skewness).\n- **Statement 2.** mean ≈ median = 40 → symmetric. **False** (the distribution is clearly not symmetric).\n- **Statement 3.** Frequencies in $[0,20)$: $f_1 = w_1 \\cdot d_1 = 20 \\cdot 0.022 = 0.44$; in $[20,40)$: $f_2 = 20 \\cdot 0.01 = 0.20$. So $\\Pr(\\text{Expenses} > 40) = 1 - 0.44 - 0.20 = 0.36$ — *not* 50%. **False**.\n- **Statement 4.** 22% spend < 20; 54% spend < 30 (≈ 0.44 + 0.2 · 0.5 = 0.54); so 50% spend < ~28. The approximated median is included between 20 and 30. As for the mean: most clients have expenses < 60, but the strong right-skewness inflates the mean — an average around 50 is plausible. **Statement 4 is the one that is not clearly wrong.**\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g4b"
+                ],
+                "x": 6500,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "skyblue"
+              }
+            ]
+          },
+          {
+            "id": "g4c_grouped",
+            "name": "Approximate mean & median from grouped data",
+            "nodes": [
+              {
+                "id": "th_g4c",
+                "title": "Theory — Approximate mean & median (grouped data)",
+                "content": "## Approximate mean and median from grouped data\n\nWhen raw data are unavailable and we only have a frequency table (or a histogram), we **approximate** mean and median under the **uniform-on-interval** assumption — the mass of each class is uniformly spread across that class.\n\n### Approximate mean\nTake the midpoint $m_i = (a_i + b_i)/2$ as the representative value of class $i$:\n$$\n\\bar x \\approx \\sum_i f_i \\cdot m_i = \\frac{\\sum_i n_i \\cdot m_i}{n}.\n$$\n\n### Approximate median\n1. Identify the **median class** $[a_k, b_k)$ — the first class where the cumulative relative frequency reaches $0.50$.\n2. Inside that class, interpolate linearly under uniform-on-interval:\n$$\np_{50} \\approx a_k + \\frac{0.5 - F_{k-1}}{d_k} = a_k + \\frac{0.5 - F_{k-1}}{f_k} \\cdot w_k.\n$$\n\nWhere $F_{k-1}$ is the cumulative relative frequency at the lower bound of the median class, $f_k$ the median class's relative frequency, $w_k$ its width, $d_k = f_k/w_k$ its density.\n\n### Why approximate?\nWe do not know how the $f_k$ mass is distributed inside the class — the uniform assumption is just the simplest.\n\n**Reading from a histogram:** densities → frequencies (density × width) → use the same recipe.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "1_1i",
+                  "1_5f",
+                  "1_6b"
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 600,
+                "height": 720,
+                "color": "yellow"
+              },
+              {
+                "id": "1_1i",
+                "title": "Ex 1.1i — Approximate mean & median from grouped Brescia data",
+                "content": "**Question.** A survey on 88 pizzerias in Brescia gave the following summary:\n\n| Sales in Brescia | Percentage |\n|------------------|-----------:|\n| [0, 15000)       | 21         |\n| [15000, 30000)   | 63         |\n| [30000, 90000)   | 16         |\n\nCalculate the approximate mean and median, and compare. Why are we talking about *approximate* values?\n\n---\n\n**Answer.** Build midpoints and cumulative percentages:\n\n| Sales            | Percentage | Midpoint | Cum. Percent |\n|------------------|-----------:|---------:|-------------:|\n| [0, 15000)       | 21         | 7500     | 21           |\n| [15000, 30000)   | 63         | 22500    | 84           |\n| [30000, 90000)   | 16         | 60000    | 100          |\n\n**Approximate mean** (midpoint × proportion):\n```r\n7500*0.21 + 22500*0.63 + 60000*0.16\n## [1] 25350\n```\n$\\bar x \\approx 25\\,350$.\n\n**Approximate median.** Cumulative reaches 50% in the second class $[15000, 30000)$ — the **median class**. Under uniform-on-interval, the median is at the value $p_{50}$ where the rectangle area = 0.50. The area up to 15000 is 0.21, so the median class must contribute 0.29 (out of 0.63):\n$$\n(p_{50} - 15000) \\cdot \\frac{0.63}{15000} = 0.29 \\quad \\Rightarrow \\quad p_{50} = \\frac{0.29 \\cdot 15000}{0.63} + 15000.\n$$\n```r\n29 * 15000 / 63 + 15000\n## [1] 21904.76\n```\n$p_{50} \\approx 21\\,904.76$.\n\n**Mean > median**, consistent with the right-skewed shape of the histogram.\n\nBoth values are **approximate** because they are obtained from the *grouped* data (the table), not the raw data — we approximate under the **uniform distribution within each class** assumption.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g4c"
+                ],
+                "x": 2500,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "skyblue"
+              },
+              {
+                "id": "1_5f",
+                "title": "Ex 1.5f — Approximate mean of Time (midpoints)",
+                "content": "**Question.** Determine the mean time before completing a purchase. Is this exact or approximate?\n\n*(Frequency distribution of `Time`, $n = 1800$ customers — given in the prompt.)*\n\n| Time class   | freq.ass | width |\n|--------------|---------:|------:|\n| $[0,10)$     | 122      | 10    |\n| $[10,20)$    | 420      | 10    |\n| $[20,30)$    | 294      | 10    |\n| $[30,60)$    | 176      | 30    |\n| $[60,90)$    | 571      | 30    |\n| $[90,150]$   | 217      | 60    |\n| **TOTAL**    | **1800** |       |\n\n\n---\n\n**Answer.** From grouped data, the mean is **approximate** — use class midpoints as representative values:\n$$\n\\bar x \\approx \\frac{122 \\cdot 5 + 420 \\cdot 15 + 294 \\cdot 25 + 176 \\cdot 45 + 571 \\cdot 75 + 217 \\cdot 120}{1800} = 50.58 \\text{ min}.\n$$\nApproximate value, because we don't know how observations are distributed *within* each class.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g4c"
+                ],
+                "x": 5700,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "skyblue"
+              },
+              {
+                "id": "1_6b",
+                "title": "Ex 1.6b — Approximate median and mean from the histogram",
+                "content": "**Question.** Is it possible to obtain the median and/or the mean of the distribution from the plot?\n\n*(Histogram of `Expenses` for a web-company sample is given in the prompt; visible densities: 0.022 at $[0,20)$, 0.01 at $[20,40)$, 0.005 at $[40,60)$, 0.003 at $[60,80)$, 0.002 at $[80,120)$, 0.001 at $[120,160)$, 0.0006 at $[160,300]$.)*\n\n\n---\n\n**Answer.** Yes — frequencies of all intervals can be obtained as density × width. The frequency of the unclear $[120,160)$ class can be inferred as $1 - \\sum (\\text{other frequencies})$:\n\n| expenses     | width | Density | Frequency |\n|--------------|------:|--------:|----------:|\n| $[0,20)$     | 20    | 0.022   | 0.44 |\n| $[20,40)$    | 20    | 0.010   | 0.20 |\n| $[40,60)$    | 20    | 0.005   | 0.10 |\n| $[60,80)$    | 20    | 0.003   | 0.06 |\n| $[80,120)$   | 40    | 0.002   | 0.08 |\n| $[120,160)$  | 40    | 0.001   | 0.04 |\n| $[160,300]$  | 140   | 0.0006  | 0.084 |\n\n**Approximate median.** Cumulative reaches 50% in class $[20,40)$ (cum at 20 = 0.44, at 40 = 0.64):\n$$\np_{50} = 20 + \\frac{0.5 - 0.44}{0.01} = 26.\n$$\n\n**Approximate mean.** Midpoints × frequencies:\n$$\n\\bar x = 10 \\cdot 0.44 + 30 \\cdot 0.20 + 50 \\cdot 0.10 + 70 \\cdot 0.06 + 100 \\cdot 0.08 + 140 \\cdot 0.04 + 230 \\cdot 0.084 \\approx 52.52.\n$$\n\nThe median (~26) is much smaller than the mean (~52.52), confirming the strong right-skewness.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g4c"
+                ],
+                "x": 6500,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "skyblue"
+              }
+            ]
+          },
+          {
+            "id": "g4d_compare",
+            "name": "Cross-subgroup / period comparison",
+            "nodes": [
+              {
+                "id": "th_g4d",
+                "title": "Theory — Cross-subgroup comparison",
+                "content": "## Comparing central tendency across subgroups or periods\n\nWhen a population breaks down into meaningful subgroups (e.g. customers with Time < 30 vs > 30 minutes; survey years 2015–2016 vs 2022–2023), compute **mode, median, and mean for each subgroup** and compare.\n\n### Subgroup recipe\n1. Split the dataset by the grouping variable.\n2. Within each subgroup, build the frequency / cumulative table.\n3. Compute mode / median / mean (exact if raw data are available; approximate otherwise — see grouped-data theory).\n\n### Interpretation\n- A shift in **mode** signals a change in the most frequent value.\n- A shift in **median** signals a change in the typical value.\n- A shift in **mean** without a corresponding shift in median signals a change in the **tails** (extreme cases) — heavy-tail vs light-tail.\n\n### Modal class with unequal-width intervals\nAlways compare **densities** $d_i = f_i/w_i$, not counts: a wide class may have many cases but a low density, and therefore *not* be the modal class.\n\n**R commands:**\n```r\ndistr.summary.x(x=Var, stats=\"summary\", data=subset(DF, Time<=30))\ndistr.summary.x(x=Var, stats=\"summary\", data=subset(DF, Time> 30))\n```\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "1_4b",
+                  "1_5h"
+                ],
+                "x": 200,
+                "y": 200,
+                "width": 600,
+                "height": 720,
+                "color": "yellow"
+              },
+              {
+                "id": "1_4b",
+                "title": "Ex 1.4 b — Compare central tendency 2015-16 vs 2022-23",
+                "content": "**Question.** Compare mode, median and mean of `Quantity` for the two periods 2015–2016 and 2022–2023.\n\n---\n\n**Answer.**\n```r\ndistr.summary.x(Quantity, stats=\"central tendency measures\",\n                digits=2, data=customer_habits)\n##  Central tendency measures\n##  n     n.a   mode  n.modes  mode%  median  mean\n## 34866   0     3       1     0.4035    3    2.64\n```\nSide-by-side (percentages):\n\n|   | 2015–16 | 2022–23 |\n|--:|--------:|--------:|\n| Mode   | 3    | 3 (source says 2 — **likely a typo**; the highest 2022–23 share is value 3 at 34.0% > value 2 at 30.3%) |\n| Median | 3    | 2 |\n| Mean   | 2.64 | 2.45 |\n\n| value | 2015–16 % | 2022–23 % |\n|-----:|----------:|----------:|\n| 1 | 18.2 | 22.3 |\n| 2 | 20.4 | 30.3 |\n| 3 | 40.4 | 34.0 |\n| 4 | 21.0 | 10.6 |\n| 5 | 0    | 0    |\n| 6 | 0    | 2.9  |\n\nNeglecting the (rare) group of customers who jointly purchase more than 4 products (only ~3% in 2022–23 vs 0% in 2015–16), the **number of products jointly purchased is essentially between 1 and 4** in both periods. The percentage weight on values 1 and 2 has grown (22.3% + 30.3% = 52.6% in 2022–23 vs 18.2% + 20.4% = 38.6% in 2015–16); on values 3 and 4 it has fallen (44.6% vs 61.4%). The change is reflected in the summary measures (lower median, lower mean), confirming a shift in customers' purchasing habits toward smaller bundles.\n\n> **Source discrepancy flagged.** The source answer table says *Mode 3 / 2*, but recomputation gives mode = 3 for both periods (value 3 has the highest share in 2022–23 as well: 34.0% > 30.3%). I leave the recomputed value here; the source likely contains a typo.\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/ex1_4b-quantity-periods.png"
+                ],
+                "links": [
+                  "th_g4d"
+                ],
+                "x": 4900,
+                "y": 200,
+                "width": 600,
+                "height": 540,
+                "color": "skyblue"
+              },
+              {
+                "id": "1_5h",
+                "title": "Ex 1.5h — Approximate mean & median for two subgroups",
+                "content": "**Question.** Determine the approximate mean and median for the two subgroups: `Time` ≤ 30 minutes and `Time` > 30 minutes.\n\n*(Frequency distribution of `Time`, $n = 1800$ customers — given in the prompt.)*\n\n| Time class   | freq.ass | width |\n|--------------|---------:|------:|\n| $[0,10)$     | 122      | 10    |\n| $[10,20)$    | 420      | 10    |\n| $[20,30)$    | 294      | 10    |\n| $[30,60)$    | 176      | 30    |\n| $[60,90)$    | 571      | 30    |\n| $[90,150]$   | 217      | 60    |\n| **TOTAL**    | **1800** |       |\n\n\n---\n\n**Answer.** Recompute relative frequencies within each subgroup.\n\n**Group A — Time ≤ 30** ($n_A = 836$):\n\n| Time | freq | rel.freq | midpoint |\n|------|----:|--------:|---------:|\n| $[0,10)$ | 122 | 0.146 | 5 |\n| $[10,20)$ | 420 | 0.502 | 15 |\n| $[20,30)$ | 294 | 0.352 | 25 |\n\nMedian in class $[10,20)$ (cum: 0.146 → 0.648):\n$$\np_{50}^A = 10 + \\frac{0.5 - 0.146}{0.502} \\cdot 10 = 17.05.\n$$\nMean:\n$$\n\\bar x_A = \\frac{122 \\cdot 5 + 420 \\cdot 15 + 294 \\cdot 25}{836} = 17.06.\n$$\n\n**Group B — Time > 30** ($n_B = 964$):\n\n| Time | freq | rel.freq | midpoint |\n|------|----:|--------:|---------:|\n| $[30,60)$ | 176 | 0.183 | 45 |\n| $[60,90)$ | 571 | 0.592 | 75 |\n| $[90,150]$ | 217 | 0.225 | 120 |\n\nMedian in class $[60,90)$ (cum: 0.183 → 0.775):\n$$\np_{50}^B = 60 + \\frac{0.5 - 0.183}{0.592} \\cdot 30 = 76.06.\n$$\nMean:\n$$\n\\bar x_B = \\frac{176 \\cdot 45 + 571 \\cdot 75 + 217 \\cdot 120}{964} = 79.65.\n$$\n\nThe summary measures are now much **more representative** of each subgroup: each median and each mean falls in the corresponding **modal class** (the class with maximum density), which is not the case for the overall distribution.\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g4d"
+                ],
+                "x": 5700,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "skyblue"
+              }
+            ]
+          }
+        ]
+      }
+    ],
     "trash": []
   }
 }
