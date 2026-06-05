@@ -11,10 +11,62 @@ Structure (rev 2026-06-05):
 Each subtopic canvas has col 1 = focused theory snippet, col 2+ = exercises (one column per
 full exercise from any exam set, sub-parts stacked vertically inside the column).
 """
-import json, os, time
+import json, os, re, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT  = os.path.join(os.path.dirname(HERE), "data_statistics.json")
+
+
+# ---------------------------------------------------------------------
+# Markdown pipe-table → LaTeX \begin{tabular}{...} converter
+# (The MindNotes renderer handles \begin{tabular} but not markdown pipe
+# tables. Widths sum to 38 cm per the project's rule for snippet pages.)
+# ---------------------------------------------------------------------
+def _md_cell_to_latex(s):
+    s = s.strip()
+    # **bold**  →  \textbf{bold}
+    s = re.sub(r"\*\*(.+?)\*\*", r"\\textbf{\1}", s)
+    # *italic*  →  \textit{italic}    (avoid double-star already handled)
+    s = re.sub(r"(?<!\*)\*([^*\n]+)\*(?!\*)", r"\\textit{\1}", s)
+    return s
+
+
+def md_tables_to_latex(text):
+    """Find markdown pipe tables in `text` and replace each with a LaTeX tabular."""
+    lines = text.split("\n")
+    out_lines = []
+    i = 0
+    n = len(lines)
+    pipe_row = re.compile(r"^\s*\|.*\|\s*$")
+    sep_row  = re.compile(r"^\s*\|[\s\-:|]+\|\s*$")
+    while i < n:
+        if i + 1 < n and pipe_row.match(lines[i]) and sep_row.match(lines[i + 1]):
+            header = [c.strip() for c in lines[i].strip().strip("|").split("|")]
+            sep    = [c.strip() for c in lines[i + 1].strip().strip("|").split("|")]
+            j = i + 2
+            body = []
+            while j < n and pipe_row.match(lines[j]):
+                body.append([c.strip() for c in lines[j].strip().strip("|").split("|")])
+                j += 1
+            ncols = len(header)
+            # Width per column: 38 cm divided evenly (rule from project memory).
+            w = round(38.0 / ncols, 2)
+            col_spec = "|".join([f"p{{{w}cm}}"] * ncols)
+            out_lines.append(f"\\begin{{tabular}}{{{col_spec}}}")
+            out_lines.append("\\hline")
+            out_lines.append(" & ".join(_md_cell_to_latex(c) for c in header) + " \\\\")
+            out_lines.append("\\hline")
+            for row in body:
+                # Pad short rows to header length (defensive)
+                row = row + [""] * (ncols - len(row))
+                out_lines.append(" & ".join(_md_cell_to_latex(c) for c in row[:ncols]) + " \\\\")
+            out_lines.append("\\hline")
+            out_lines.append("\\end{tabular}")
+            i = j
+        else:
+            out_lines.append(lines[i])
+            i += 1
+    return "\n".join(out_lines)
 
 COL_X = [200, 900, 1700, 2500, 3300, 4100, 4900, 5700, 6500, 7300]
 TOP_Y = 200
@@ -1610,111 +1662,104 @@ TOPIC_META = {
 }
 
 # =====================================================================
-# Assemble — ONE big canvas (2D table layout):
-#   rows  = subtopics (grouped by topic, with bigger gap between topics)
-#   cols  = theory (col 1) + exercises (col 2 = Ex0/Q1, col 3 = Ex0/Q2,
-#                                       col 4..9 = Ex1.1..1.6)
-# All 63 nodes live in ONE topic / ONE subtopic so the canvas shows the
-# entire grid at once. Other subjects' data files are untouched.
+# Assemble — multi-topic / multi-subtopic + explicit table-layout metadata.
+# The Statistics subject in the app uses a custom TABLE renderer (not the
+# canvas), keyed off:
+#   - data.topics[].subtopics[] = ROWS (one per subtopic; topics group the rows)
+#   - node.column field        = COLUMN index (1=Theory, 2=Ex0/Q1, 3=Ex0/Q2,
+#                                  4=Ex1.1, 5=Ex1.2, ..., 9=Ex1.6)
+#   - data.tableLayout         = column header labels (for the table thead)
+# Multiple nodes with the same (subtopic, column) stack vertically in the cell.
 # =====================================================================
 
-WITHIN_TOPIC_GAP = 200    # extra Y gap between subtopic bands of the same topic
-BETWEEN_TOPIC_GAP = 600   # bigger Y gap between different topics (visual break)
+COLUMN_HEADERS = [
+    {"col": 1, "label": "Theory"},
+    {"col": 2, "label": "Ex 0 / Q1 (USA states)"},
+    {"col": 3, "label": "Ex 0 / Q2 (Titanic)"},
+    {"col": 4, "label": "Ex 1.1 (pizzerie)"},
+    {"col": 5, "label": "Ex 1.2 (DS)"},
+    {"col": 6, "label": "Ex 1.3 (customer_habits)"},
+    {"col": 7, "label": "Ex 1.4 (Quantity_New)"},
+    {"col": 8, "label": "Ex 1.5 (Time)"},
+    {"col": 9, "label": "Ex 1.6 (Expenses)"},
+]
 
-all_nodes = []
-
-# Pre-compute each subtopic band height (= max of theory height and tallest column stack).
-def column_stack_height(items):
-    if not items:
-        return 0
-    return sum(H(ALL[ex_id]) + SNIPPET_GAP for ex_id in items) - SNIPPET_GAP
-
-def band_height(stm):
-    columns = stm["columns"]
-    col_h = max((column_stack_height(items) for items in columns.values()), default=0)
-    return max(H_THEORY, col_h)
-
-# Walk subtopics in order, assign Y. Between consecutive subtopics of the same
-# topic group, use WITHIN_TOPIC_GAP; on a group change, use BETWEEN_TOPIC_GAP.
-y = TOP_Y
-prev_group = None
+topics_out = {}
+total_nodes_count = 0
+md_table_count = 0  # how many tables we converted (for the build summary)
 for stm in SUBTOPICS:
-    if prev_group is not None:
-        y += BETWEEN_TOPIC_GAP if stm["group"] != prev_group else WITHIN_TOPIC_GAP
-    band_top = y
     group = stm["group"]
+    if group not in topics_out:
+        tid, tname = TOPIC_META[group]
+        topics_out[group] = {"id": tid, "name": tname, "subtopics": []}
+
     sid = stm["sid"]; sname = stm["sname"]
     th_id, th_title, th_content = stm["theory"]
     columns = stm["columns"]
     color = SUBTOPIC_COLOR[group]
 
-    # Theory in column 1
+    nodes_in_subtopic = []
+    # Theory node (column 1)
     theory_links = [eid for col_items in columns.values() for eid in col_items]
-    all_nodes.append(node(
-        th_id, th_title, th_content,
-        COL_X[0], band_top, "yellow", w=SNIPPET_W, h=H_THEORY,
-        links=theory_links,
-    ))
+    converted_th_content = md_tables_to_latex(th_content)
+    if "\\begin{tabular}" in converted_th_content and "\\begin{tabular}" not in th_content:
+        md_table_count += converted_th_content.count("\\begin{tabular}")
+    th_node = node(th_id, th_title, converted_th_content,
+                   COL_X[0], TOP_Y, "yellow", w=SNIPPET_W, h=H_THEORY,
+                   links=theory_links)
+    th_node["column"] = 1
+    nodes_in_subtopic.append(th_node)
 
-    # Exercises in columns 2..9 (stack within column from band_top)
+    # Exercise nodes — column N comes from the column index used in TOPIC_COLUMNS
     for col_idx in sorted(columns.keys()):
         items = columns[col_idx]
         if not items:
             continue
         x = COL_X[col_idx - 1]
-        cy = band_top
+        cy = TOP_Y
         for ex_id in items:
             d = ALL[ex_id]
-            all_nodes.append(node(
-                ex_id, d["title"], d["content"],
-                x, cy, color, w=SNIPPET_W, h=H(d),
-                links=[th_id], images=d.get("images", []),
-            ))
+            converted_content = md_tables_to_latex(d["content"])
+            new_tables = (converted_content.count("\\begin{tabular}")
+                          - d["content"].count("\\begin{tabular}"))
+            md_table_count += max(0, new_tables)
+            n_node = node(ex_id, d["title"], converted_content,
+                          x, cy, color, w=SNIPPET_W, h=H(d),
+                          links=[th_id], images=d.get("images", []))
+            n_node["column"] = col_idx
+            nodes_in_subtopic.append(n_node)
             cy += H(d) + SNIPPET_GAP
 
-    y = band_top + band_height(stm)
-    prev_group = group
+    topics_out[group]["subtopics"].append({
+        "id": sid, "name": sname, "nodes": nodes_in_subtopic,
+    })
+    total_nodes_count += len(nodes_in_subtopic)
 
-# Single topic / single subtopic holding the whole grid
+topics_list = [topics_out[g] for g in ("G1", "G2", "G3", "G4") if g in topics_out]
+
 output = {
     "version": "2.0",
     "exportedAt": int(time.time() * 1000),
     "data": {
-        "topics": [
-            {
-                "id": "t_stats_map",
-                "name": "Statistics — Foundations (Ex 0 + Ex 1)",
-                "subtopics": [
-                    {
-                        "id": "st_stats_map",
-                        "name": "Topics × Exercises grid",
-                        "nodes": all_nodes,
-                    }
-                ],
-            }
-        ],
+        "topics": topics_list,
         "trash": [],
+        "tableLayout": {
+            "subject": "statistics",
+            "columns": COLUMN_HEADERS,
+        },
     },
 }
 
 with open(OUT, "w", encoding="utf-8") as f:
     json.dump(output, f, ensure_ascii=False, indent=2)
 
-# Summary
-xs = [n['x'] for n in all_nodes]
-ys = [n['y'] for n in all_nodes]
-ws = [n['x']+n['width']  for n in all_nodes]
-hs = [n['y']+n['height'] for n in all_nodes]
 print(f"Wrote {OUT}")
-print(f"Total nodes: {len(all_nodes)}")
-print(f"Theory: {sum(1 for n in all_nodes if n['id'].startswith('th_'))}")
-print(f"Exercises: {sum(1 for n in all_nodes if not n['id'].startswith('th_'))}")
-print(f"Canvas bounding box: x=[{min(xs)}, {max(ws)}]  y=[{min(ys)}, {max(hs)}]")
+print(f"Total nodes: {total_nodes_count}")
+print(f"Topics: {len(topics_list)}; subtopics (= rows): {sum(len(t['subtopics']) for t in topics_list)}")
+print(f"Columns: {len(COLUMN_HEADERS)}")
 print()
-prev_group = None
-for stm in SUBTOPICS:
-    if stm['group'] != prev_group:
-        print(f"=== {TOPIC_META[stm['group']][1]} ===")
-        prev_group = stm['group']
-    print(f"  - {stm['sname']}: theory {stm['theory'][0]}, "
-          f"exercises {sum(len(v) for v in stm['columns'].values())}")
+for t in topics_list:
+    print(f"=== {t['name']} ===")
+    for s in t["subtopics"]:
+        cols = sorted({n.get('column', 1) for n in s['nodes']})
+        print(f"  - {s['name']}: {len(s['nodes'])} nodes, columns used = {cols}")
