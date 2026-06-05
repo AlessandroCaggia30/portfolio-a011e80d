@@ -11780,8 +11780,12 @@ function renderStatsTable() {
                 html += '<td class="stats-cell">';
                 cellNodes.forEach(node => {
                     const isTheory = (node.id || '').startsWith('th_');
-                    const imgFlag = (Array.isArray(node.images) && node.images.length) ? ' 📊' : '';
-                    html += '<div class="stats-card' + (isTheory ? ' stats-theory' : '') + '"'
+                    const isExam   = node.isExam === true;
+                    const imgFlag  = (Array.isArray(node.images) && node.images.length) ? ' 📊' : '';
+                    let cls = 'stats-card';
+                    if (isTheory) cls += ' stats-theory';
+                    if (isExam)   cls += ' stats-exam';
+                    html += '<div class="' + cls + '"'
                           + ' onclick="openStatsSnippet(\'' + escapeHtml(node.id) + '\')">'
                           + escapeHtml(node.title || node.id) + imgFlag
                           + '</div>';
