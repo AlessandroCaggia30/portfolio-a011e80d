@@ -4004,13 +4004,31 @@ async function loadData() {
             }
         }
 
-        const data = await new Promise((resolve, reject) => {
+        let data = await new Promise((resolve, reject) => {
             const tx = db.transaction(STORE_NAME, 'readonly');
             const store = tx.objectStore(STORE_NAME);
             const request = store.get(dataKey);
             request.onsuccess = () => resolve(request.result);
             request.onerror = () => reject(request.error);
         });
+
+        // One-time contamination fix: if a non-advmath subject has stuck LA defaults
+        // (caused by an earlier createDefaultData() fallback when the seed fetch failed),
+        // wipe the entry so the seed file is fetched fresh below.
+        if (data && dataKey !== 'mindnotes_advmath' && dataKey !== 'mindnotes2'
+            && Array.isArray(data.topics) && data.topics.length === 1
+            && data.topics[0] && data.topics[0].id === '1'
+            && data.topics[0].name === 'Linear Algebra') {
+            console.log('Detected LA contamination in ' + dataKey + ', wiping for re-seed');
+            await new Promise((resolve, reject) => {
+                const tx = db.transaction(STORE_NAME, 'readwrite');
+                const store = tx.objectStore(STORE_NAME);
+                const req = store.delete(dataKey);
+                req.onsuccess = () => resolve();
+                req.onerror = () => reject(req.error);
+            });
+            data = null;
+        }
 
         // Check if seed file has been updated (version-based refresh)
         const seedVersion = State.currentSubject ? State.currentSubject.seedVersion : null;

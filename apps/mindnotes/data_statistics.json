@@ -1,15 +1,15 @@
 {
   "version": "2.0",
-  "exportedAt": 1780669611554,
+  "exportedAt": 1780670353821,
   "data": {
     "topics": [
       {
-        "id": "t_g1_plots",
-        "name": "G1 — Graphical representation of distributions",
+        "id": "t_stats_map",
+        "name": "Statistics — Foundations (Ex 0 + Ex 1)",
         "subtopics": [
           {
-            "id": "g1a_pie",
-            "name": "Pie chart",
+            "id": "st_stats_map",
+            "name": "Topics × Exercises grid",
             "nodes": [
               {
                 "id": "th_g1a",
@@ -78,13 +78,7 @@
                 "width": 600,
                 "height": 540,
                 "color": "coral"
-              }
-            ]
-          },
-          {
-            "id": "g1b_bar",
-            "name": "Bar plot",
-            "nodes": [
+              },
               {
                 "id": "th_g1b",
                 "title": "Theory — Bar plot",
@@ -95,7 +89,7 @@
                   "1_1b"
                 ],
                 "x": 200,
-                "y": 200,
+                "y": 1120,
                 "width": 600,
                 "height": 720,
                 "color": "yellow"
@@ -112,17 +106,11 @@
                   "th_g1b"
                 ],
                 "x": 2500,
-                "y": 200,
+                "y": 1120,
                 "width": 600,
                 "height": 540,
                 "color": "coral"
-              }
-            ]
-          },
-          {
-            "id": "g1c_hist",
-            "name": "Histogram",
-            "nodes": [
+              },
               {
                 "id": "th_g1c",
                 "title": "Theory — Histogram",
@@ -142,7 +130,7 @@
                   "1_5g"
                 ],
                 "x": 200,
-                "y": 200,
+                "y": 2040,
                 "width": 600,
                 "height": 720,
                 "color": "yellow"
@@ -159,7 +147,7 @@
                   "th_g1c"
                 ],
                 "x": 900,
-                "y": 200,
+                "y": 2040,
                 "width": 600,
                 "height": 540,
                 "color": "coral"
@@ -176,7 +164,7 @@
                   "th_g1c"
                 ],
                 "x": 900,
-                "y": 780,
+                "y": 2620,
                 "width": 600,
                 "height": 540,
                 "color": "coral"
@@ -193,7 +181,7 @@
                   "th_g1c"
                 ],
                 "x": 900,
-                "y": 1360,
+                "y": 3200,
                 "width": 600,
                 "height": 540,
                 "color": "coral"
@@ -210,7 +198,7 @@
                   "th_g1c"
                 ],
                 "x": 900,
-                "y": 1940,
+                "y": 3780,
                 "width": 600,
                 "height": 540,
                 "color": "coral"
@@ -225,7 +213,7 @@
                   "th_g1c"
                 ],
                 "x": 2500,
-                "y": 200,
+                "y": 2040,
                 "width": 600,
                 "height": 360,
                 "color": "coral"
@@ -242,7 +230,7 @@
                   "th_g1c"
                 ],
                 "x": 2500,
-                "y": 600,
+                "y": 2440,
                 "width": 600,
                 "height": 540,
                 "color": "coral"
@@ -257,7 +245,7 @@
                   "th_g1c"
                 ],
                 "x": 4100,
-                "y": 200,
+                "y": 2040,
                 "width": 600,
                 "height": 360,
                 "color": "coral"
@@ -274,7 +262,7 @@
                   "th_g1c"
                 ],
                 "x": 4100,
-                "y": 600,
+                "y": 2440,
                 "width": 600,
                 "height": 540,
                 "color": "coral"
@@ -291,7 +279,7 @@
                   "th_g1c"
                 ],
                 "x": 4100,
-                "y": 1180,
+                "y": 3020,
                 "width": 600,
                 "height": 540,
                 "color": "coral"
@@ -308,17 +296,11 @@
                   "th_g1c"
                 ],
                 "x": 5700,
-                "y": 200,
+                "y": 2040,
                 "width": 600,
                 "height": 540,
                 "color": "coral"
-              }
-            ]
-          },
-          {
-            "id": "g1d_spike",
-            "name": "Spike plot",
-            "nodes": [
+              },
               {
                 "id": "th_g1d",
                 "title": "Theory — Spike plot",
@@ -332,7 +314,7 @@
                   "1_4a1"
                 ],
                 "x": 200,
-                "y": 200,
+                "y": 4520,
                 "width": 600,
                 "height": 720,
                 "color": "yellow"
@@ -349,7 +331,7 @@
                   "th_g1d"
                 ],
                 "x": 1700,
-                "y": 200,
+                "y": 4520,
                 "width": 600,
                 "height": 540,
                 "color": "coral"
@@ -366,7 +348,7 @@
                   "th_g1d"
                 ],
                 "x": 3300,
-                "y": 200,
+                "y": 4520,
                 "width": 600,
                 "height": 540,
                 "color": "coral"
@@ -383,7 +365,7 @@
                   "th_g1d"
                 ],
                 "x": 4100,
-                "y": 200,
+                "y": 4520,
                 "width": 600,
                 "height": 540,
                 "color": "coral"
@@ -400,17 +382,11 @@
                   "th_g1d"
                 ],
                 "x": 4900,
-                "y": 200,
+                "y": 4520,
                 "width": 600,
                 "height": 540,
                 "color": "coral"
-              }
-            ]
-          },
-          {
-            "id": "g1e_cum",
-            "name": "Cumulative plots (ogive + step)",
-            "nodes": [
+              },
               {
                 "id": "th_g1e",
                 "title": "Theory — Cumulative plots",
@@ -424,7 +400,7 @@
                   "1_5d"
                 ],
                 "x": 200,
-                "y": 200,
+                "y": 5440,
                 "width": 600,
                 "height": 720,
                 "color": "yellow"
@@ -441,7 +417,7 @@
                   "th_g1e"
                 ],
                 "x": 1700,
-                "y": 200,
+                "y": 5440,
                 "width": 600,
                 "height": 540,
                 "color": "coral"
@@ -458,7 +434,7 @@
                   "th_g1e"
                 ],
                 "x": 1700,
-                "y": 780,
+                "y": 6020,
                 "width": 600,
                 "height": 540,
                 "color": "coral"
@@ -475,7 +451,7 @@
                   "th_g1e"
                 ],
                 "x": 4900,
-                "y": 200,
+                "y": 5440,
                 "width": 600,
                 "height": 540,
                 "color": "coral"
@@ -492,23 +468,11 @@
                   "th_g1e"
                 ],
                 "x": 5700,
-                "y": 200,
+                "y": 5440,
                 "width": 600,
                 "height": 540,
                 "color": "coral"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "t_g2_proportions",
-        "name": "G2 — Proportions from frequency tables",
-        "subtopics": [
-          {
-            "id": "g2a_exact",
-            "name": "Exact proportions",
-            "nodes": [
+              },
               {
                 "id": "th_g2a",
                 "title": "Theory — Exact proportions",
@@ -527,7 +491,7 @@
                   "1_5b"
                 ],
                 "x": 200,
-                "y": 200,
+                "y": 7160,
                 "width": 600,
                 "height": 720,
                 "color": "yellow"
@@ -542,7 +506,7 @@
                   "th_g2a"
                 ],
                 "x": 900,
-                "y": 200,
+                "y": 7160,
                 "width": 600,
                 "height": 360,
                 "color": "orange"
@@ -557,7 +521,7 @@
                   "th_g2a"
                 ],
                 "x": 900,
-                "y": 600,
+                "y": 7560,
                 "width": 600,
                 "height": 360,
                 "color": "orange"
@@ -572,7 +536,7 @@
                   "th_g2a"
                 ],
                 "x": 1700,
-                "y": 200,
+                "y": 7160,
                 "width": 600,
                 "height": 360,
                 "color": "orange"
@@ -587,7 +551,7 @@
                   "th_g2a"
                 ],
                 "x": 1700,
-                "y": 600,
+                "y": 7560,
                 "width": 600,
                 "height": 360,
                 "color": "orange"
@@ -602,7 +566,7 @@
                   "th_g2a"
                 ],
                 "x": 2500,
-                "y": 200,
+                "y": 7160,
                 "width": 600,
                 "height": 360,
                 "color": "orange"
@@ -617,7 +581,7 @@
                   "th_g2a"
                 ],
                 "x": 2500,
-                "y": 600,
+                "y": 7560,
                 "width": 600,
                 "height": 360,
                 "color": "orange"
@@ -632,7 +596,7 @@
                   "th_g2a"
                 ],
                 "x": 3300,
-                "y": 200,
+                "y": 7160,
                 "width": 600,
                 "height": 360,
                 "color": "orange"
@@ -647,7 +611,7 @@
                   "th_g2a"
                 ],
                 "x": 4100,
-                "y": 200,
+                "y": 7160,
                 "width": 600,
                 "height": 360,
                 "color": "orange"
@@ -662,17 +626,11 @@
                   "th_g2a"
                 ],
                 "x": 5700,
-                "y": 200,
+                "y": 7160,
                 "width": 600,
                 "height": 360,
                 "color": "orange"
-              }
-            ]
-          },
-          {
-            "id": "g2b_approx",
-            "name": "Uniform-on-interval approximation",
-            "nodes": [
+              },
               {
                 "id": "th_g2b",
                 "title": "Theory — Uniform-on-interval",
@@ -686,7 +644,7 @@
                   "1_5c"
                 ],
                 "x": 200,
-                "y": 200,
+                "y": 8120,
                 "width": 600,
                 "height": 720,
                 "color": "yellow"
@@ -701,7 +659,7 @@
                   "th_g2b"
                 ],
                 "x": 900,
-                "y": 200,
+                "y": 8120,
                 "width": 600,
                 "height": 360,
                 "color": "orange"
@@ -716,7 +674,7 @@
                   "th_g2b"
                 ],
                 "x": 1700,
-                "y": 200,
+                "y": 8120,
                 "width": 600,
                 "height": 360,
                 "color": "orange"
@@ -731,7 +689,7 @@
                   "th_g2b"
                 ],
                 "x": 5700,
-                "y": 200,
+                "y": 8120,
                 "width": 600,
                 "height": 360,
                 "color": "orange"
@@ -746,23 +704,11 @@
                   "th_g2b"
                 ],
                 "x": 5700,
-                "y": 600,
+                "y": 8520,
                 "width": 600,
                 "height": 360,
                 "color": "orange"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "t_g3_derived_vars",
-        "name": "G3 — Constructing derived variables",
-        "subtopics": [
-          {
-            "id": "g3_main",
-            "name": "Constructing derived variables",
-            "nodes": [
+              },
               {
                 "id": "th_g3",
                 "title": "Theory — Constructing derived variables",
@@ -774,7 +720,7 @@
                   "ex1d"
                 ],
                 "x": 200,
-                "y": 200,
+                "y": 9480,
                 "width": 600,
                 "height": 720,
                 "color": "yellow"
@@ -789,7 +735,7 @@
                   "th_g3"
                 ],
                 "x": 900,
-                "y": 200,
+                "y": 9480,
                 "width": 600,
                 "height": 360,
                 "color": "purple"
@@ -804,23 +750,11 @@
                   "th_g3"
                 ],
                 "x": 900,
-                "y": 600,
+                "y": 9880,
                 "width": 600,
                 "height": 360,
                 "color": "purple"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "t_g4_central_tendency",
-        "name": "G4 — Central tendency measures",
-        "subtopics": [
-          {
-            "id": "g4a_bytype",
-            "name": "Mode, median, mean by variable type",
-            "nodes": [
+              },
               {
                 "id": "th_g4a",
                 "title": "Theory — Choosing mode/median/mean by variable type",
@@ -835,7 +769,7 @@
                   "1_5e"
                 ],
                 "x": 200,
-                "y": 200,
+                "y": 10840,
                 "width": 600,
                 "height": 720,
                 "color": "yellow"
@@ -852,7 +786,7 @@
                   "th_g4a"
                 ],
                 "x": 2500,
-                "y": 200,
+                "y": 10840,
                 "width": 600,
                 "height": 540,
                 "color": "skyblue"
@@ -867,7 +801,7 @@
                   "th_g4a"
                 ],
                 "x": 3300,
-                "y": 200,
+                "y": 10840,
                 "width": 600,
                 "height": 360,
                 "color": "skyblue"
@@ -884,7 +818,7 @@
                   "th_g4a"
                 ],
                 "x": 4100,
-                "y": 200,
+                "y": 10840,
                 "width": 600,
                 "height": 540,
                 "color": "skyblue"
@@ -899,7 +833,7 @@
                   "th_g4a"
                 ],
                 "x": 4900,
-                "y": 200,
+                "y": 10840,
                 "width": 600,
                 "height": 360,
                 "color": "skyblue"
@@ -914,17 +848,11 @@
                   "th_g4a"
                 ],
                 "x": 5700,
-                "y": 200,
+                "y": 10840,
                 "width": 600,
                 "height": 360,
                 "color": "skyblue"
-              }
-            ]
-          },
-          {
-            "id": "g4b_skew",
-            "name": "Mean vs median under skewness",
-            "nodes": [
+              },
               {
                 "id": "th_g4b",
                 "title": "Theory — Mean vs median under skewness",
@@ -938,7 +866,7 @@
                   "1_6a"
                 ],
                 "x": 200,
-                "y": 200,
+                "y": 11760,
                 "width": 600,
                 "height": 720,
                 "color": "yellow"
@@ -953,7 +881,7 @@
                   "th_g4b"
                 ],
                 "x": 2500,
-                "y": 200,
+                "y": 11760,
                 "width": 600,
                 "height": 360,
                 "color": "skyblue"
@@ -968,7 +896,7 @@
                   "th_g4b"
                 ],
                 "x": 4100,
-                "y": 200,
+                "y": 11760,
                 "width": 600,
                 "height": 360,
                 "color": "skyblue"
@@ -983,7 +911,7 @@
                   "th_g4b"
                 ],
                 "x": 4100,
-                "y": 600,
+                "y": 12160,
                 "width": 600,
                 "height": 360,
                 "color": "skyblue"
@@ -998,17 +926,11 @@
                   "th_g4b"
                 ],
                 "x": 6500,
-                "y": 200,
+                "y": 11760,
                 "width": 600,
                 "height": 360,
                 "color": "skyblue"
-              }
-            ]
-          },
-          {
-            "id": "g4c_grouped",
-            "name": "Approximate mean & median from grouped data",
-            "nodes": [
+              },
               {
                 "id": "th_g4c",
                 "title": "Theory — Approximate mean & median (grouped data)",
@@ -1021,7 +943,7 @@
                   "1_6b"
                 ],
                 "x": 200,
-                "y": 200,
+                "y": 12720,
                 "width": 600,
                 "height": 720,
                 "color": "yellow"
@@ -1036,7 +958,7 @@
                   "th_g4c"
                 ],
                 "x": 2500,
-                "y": 200,
+                "y": 12720,
                 "width": 600,
                 "height": 360,
                 "color": "skyblue"
@@ -1051,7 +973,7 @@
                   "th_g4c"
                 ],
                 "x": 5700,
-                "y": 200,
+                "y": 12720,
                 "width": 600,
                 "height": 360,
                 "color": "skyblue"
@@ -1066,17 +988,11 @@
                   "th_g4c"
                 ],
                 "x": 6500,
-                "y": 200,
+                "y": 12720,
                 "width": 600,
                 "height": 360,
                 "color": "skyblue"
-              }
-            ]
-          },
-          {
-            "id": "g4d_compare",
-            "name": "Cross-subgroup / period comparison",
-            "nodes": [
+              },
               {
                 "id": "th_g4d",
                 "title": "Theory — Cross-subgroup comparison",
@@ -1088,7 +1004,7 @@
                   "1_5h"
                 ],
                 "x": 200,
-                "y": 200,
+                "y": 13640,
                 "width": 600,
                 "height": 720,
                 "color": "yellow"
@@ -1105,7 +1021,7 @@
                   "th_g4d"
                 ],
                 "x": 4900,
-                "y": 200,
+                "y": 13640,
                 "width": 600,
                 "height": 540,
                 "color": "skyblue"
@@ -1120,7 +1036,7 @@
                   "th_g4d"
                 ],
                 "x": 5700,
-                "y": 200,
+                "y": 13640,
                 "width": 600,
                 "height": 360,
                 "color": "skyblue"
