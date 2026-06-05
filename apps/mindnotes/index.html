@@ -4114,12 +4114,16 @@ async function loadData() {
                         await _commitSave();
                         console.log('Loaded from bundled ' + seedFile);
                     } else {
-                        State.data = createDefaultData();
-                        console.log('No saved data, using defaults');
+                        State.data = (dataKey === 'mindnotes_advmath' || dataKey === 'mindnotes2')
+                            ? createDefaultData()
+                            : { topics: [], trash: [] };
+                        console.log('Seed fetch failed for ' + dataKey + ', using empty/defaults');
                     }
                 } catch (e2) {
-                    State.data = createDefaultData();
-                    console.log('No saved data, using defaults');
+                    State.data = (dataKey === 'mindnotes_advmath' || dataKey === 'mindnotes2')
+                        ? createDefaultData()
+                        : { topics: [], trash: [] };
+                    console.log('Seed fetch error for ' + dataKey + ', using empty/defaults');
                 }
             } else {
                 // No seed file — start empty
