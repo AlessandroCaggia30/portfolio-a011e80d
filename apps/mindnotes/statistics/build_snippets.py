@@ -31,6 +31,33 @@ def _md_cell_to_latex(s):
     return s
 
 
+# ---------------------------------------------------------------------
+# Fenced code-block (```lang … ```) → inline-backtick-per-line.
+# The MindNotes renderer only handles INLINE code (single backticks →
+# <code>), not fenced blocks — triple backticks were rendering as
+# literal characters. Strategy: strip the fences, wrap each non-empty
+# line in inline backticks (so each line becomes a <code> element on
+# its own paragraph).
+# ---------------------------------------------------------------------
+_FENCE_RE = re.compile(r"```[a-zA-Z_]*\n(.*?)\n```", re.DOTALL)
+def _fence_replacer(match):
+    body = match.group(1).rstrip("\n")
+    out_lines = []
+    for line in body.split("\n"):
+        if line.strip() == "":
+            out_lines.append("")
+        else:
+            # Escape backticks inside the line (rare in R)
+            safe = line.replace("`", "'")
+            out_lines.append("`" + safe + "`")
+    # Use blank lines between consecutive lines so the markdown
+    # renderer treats each as its own paragraph (separate visual line).
+    return "\n\n".join(out_lines)
+
+def code_blocks_to_inline(text):
+    return _FENCE_RE.sub(_fence_replacer, text)
+
+
 def md_tables_to_latex(text):
     """Find markdown pipe tables in `text` and replace each with a LaTeX tabular."""
     lines = text.split("\n")
@@ -1701,7 +1728,7 @@ for stm in SUBTOPICS:
     nodes_in_subtopic = []
     # Theory node (column 1)
     theory_links = [eid for col_items in columns.values() for eid in col_items]
-    converted_th_content = md_tables_to_latex(th_content)
+    converted_th_content = md_tables_to_latex(code_blocks_to_inline(th_content))
     if "\\begin{tabular}" in converted_th_content and "\\begin{tabular}" not in th_content:
         md_table_count += converted_th_content.count("\\begin{tabular}")
     th_node = node(th_id, th_title, converted_th_content,
@@ -1719,7 +1746,7 @@ for stm in SUBTOPICS:
         cy = TOP_Y
         for ex_id in items:
             d = ALL[ex_id]
-            converted_content = md_tables_to_latex(d["content"])
+            converted_content = md_tables_to_latex(code_blocks_to_inline(d["content"]))
             new_tables = (converted_content.count("\\begin{tabular}")
                           - d["content"].count("\\begin{tabular}"))
             md_table_count += max(0, new_tables)
