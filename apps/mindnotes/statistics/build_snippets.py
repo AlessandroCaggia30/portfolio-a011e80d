@@ -95,11 +95,7 @@ def md_tables_to_latex(text):
             i += 1
     return "\n".join(out_lines)
 
-COL_X = [200, 900, 1700, 2500, 3300, 4100, 4900, 5700, 6500,
-         7300, 8100, 8900, 9700, 10500, 11300, 12100, 12900, 13700,
-         14500, 15300, 16100, 16900, 17700, 18500, 19300, 20100, 20900,
-         21700, 22500, 23300, 24100, 24900, 25700, 26500, 27300, 28100,
-         28900, 29700, 30500, 31300, 32100, 32900, 33700]
+COL_X = [200 + 800*i for i in range(90)]  # supports columns 1..90
 TOP_Y = 200
 SNIPPET_W = 600
 SNIPPET_GAP = 40
@@ -1591,11 +1587,16 @@ The median (~26) is much smaller than the mean (~52.52), confirming the strong r
 # Each subtopic: (subtopic_id, subtopic_name, theory_id, theory_title, theory_content,
 #                 columns) where columns is a dict {col_index: [(node_id, content_dict)]}.
 
-from ex2_content import ex2  # 43 Ex2 sub-parts
-from ex3_content import ex3  # Ex3 — bivariate stats
-from ex4_content import ex4  # Ex4 — probability, normal, sampling distributions
+from ex2_content import ex2
+from ex3_content import ex3
+from ex4_content import ex4
+from ex5_content import ex5    # Ex5 — confidence intervals & first hypothesis tests
+from ex6_content import ex6    # Ex6 — CI focus
+from ex7_content import ex7    # Ex7 — hypothesis tests + chi-squared + intro regression
+from ex8_content import ex8    # Ex8 — simple linear regression
+from ex9_content import ex9    # Ex9 — multiple regression
 
-ALL = {**ex0, **ex1, **ex2, **ex3, **ex4}
+ALL = {**ex0, **ex1, **ex2, **ex3, **ex4, **ex5, **ex6, **ex7, **ex8, **ex9}
 
 def th(tid, ttitle, tcontent):
     return {"id": tid, "title": ttitle, "content": tcontent}
@@ -1605,7 +1606,130 @@ SUBTOPIC_COLOR = {
     "G5": "green", "G6": "pink",
     "G7": "yellow", "G8": "lavender", "G9": "salmon",
     "G10": "lightblue", "G11": "teal", "G12": "gold",
+    "G13": "navy", "G14": "crimson", "G15": "forest",
 }
+
+# G13 / G14 / G15 — Inferential statistics theory snippets
+
+T_G13_CI = """## G13 — Confidence intervals
+
+A confidence interval (CI) is a range $[L, U]$ for an unknown population parameter $\\theta$, constructed from data so that:
+$$
+\\Pr(\\theta \\in [L, U]) = 1 - \\alpha.
+$$
+$1-\\alpha$ is the **confidence level** (often 0.90, 0.95, 0.99).
+
+### Key formulas
+- **CI for the mean (known $\\sigma$):** $\\bar X \\pm z_{1-\\alpha/2} \\cdot \\sigma/\\sqrt{n}$.
+- **CI for the mean (unknown $\\sigma$):** $\\bar X \\pm t_{n-1,\\;1-\\alpha/2} \\cdot s/\\sqrt{n}$.
+- **CI for a proportion:** $\\hat p \\pm z_{1-\\alpha/2} \\cdot \\sqrt{\\hat p(1-\\hat p)/n}$.
+- **CI for difference of means** (independent samples, equal variances, pooled SE):
+$$
+(\\bar X - \\bar Y) \\pm t_{n_x+n_y-2,\\;1-\\alpha/2} \\cdot \\sqrt{s_p^2\\big(\\tfrac{1}{n_x}+\\tfrac{1}{n_y}\\big)},
+\\quad s_p^2 = \\frac{(n_x-1)s_x^2 + (n_y-1)s_y^2}{n_x+n_y-2}.
+$$
+- **CI for difference (Welch, unequal variances):** $\\text{SE} = \\sqrt{s_x^2/n_x + s_y^2/n_y}$.
+- **CI for difference (paired):** $\\bar D \\pm t_{n-1,\\;1-\\alpha/2} \\cdot s_D/\\sqrt{n}$.
+- **CI for difference of proportions:** $(\\hat p_1 - \\hat p_2) \\pm z \\cdot \\sqrt{\\hat p_1(1-\\hat p_1)/n_1 + \\hat p_2(1-\\hat p_2)/n_2}$.
+
+### Sample-size rules
+- Mean: $n \\ge (z\\sigma/ME)^2$.
+- Proportion: $n \\ge (z/ME)^2 \\cdot p(1-p)$; use $p=0.5$ for worst-case.
+
+**R commands:**
+```r
+CI.mean(x, sigma=..., conf.level=0.95, data=DF)        # known sigma
+CI.mean(x, conf.level=0.95, data=DF)                   # unknown sigma (t)
+CI.prop(x, success="Yes", conf.level=0.95, data=DF)
+CI.diffmean(x, y, type=c("independent","paired"), var.test=TRUE,
+            conf.level=0.95, data=DF)
+CI.diffprop(x, y, conf.level=0.95, data=DF)
+qnorm(0.975); qt(0.975, df=n-1)                        # critical values
+```
+"""
+
+T_G14_HT = """## G14 — Hypothesis tests
+
+Test $H_0: \\theta = \\theta_0$ vs $H_1$. Compute a test statistic; compare to a critical value or compute a $p$-value.
+
+### Decision rule
+- Reject $H_0$ at level $\\alpha$ if **p-value < $\\alpha$**.
+- Equivalent: reject if the observed statistic is outside the $1-\\alpha$ acceptance region.
+
+### Two-sided p-value
+$$
+p\\text{-value} = 2\\cdot\\Pr(|Z| > |z_{\\text{obs}}|).
+$$
+
+### Common tests
+- **One-sample mean test** (known $\\sigma$): $z = (\\bar X - \\mu_0)/(\\sigma/\\sqrt{n})$.
+- **One-sample mean test** (unknown $\\sigma$): $t = (\\bar X - \\mu_0)/(s/\\sqrt{n})$, df $= n-1$.
+- **Two-sample mean test** (independent, equal variances): pooled $s_p^2$; df $= n_x + n_y - 2$.
+- **Two-sample mean test** (Welch): separate variances.
+- **Paired test**: one-sample test on differences $D_i$.
+- **One-proportion z-test**: $z = (\\hat p - p_0)/\\sqrt{p_0(1-p_0)/n}$.
+- **Two-proportion z-test**: $z = (\\hat p_1 - \\hat p_2)/\\sqrt{\\hat p_{\\text{pool}}(1-\\hat p_{\\text{pool}})(1/n_1+1/n_2)}$.
+- **Chi-squared goodness of fit:** $\\sum_i (O_i - E_i)^2/E_i \\sim \\chi^2_{k-1}$.
+- **Chi-squared independence:** same formula on a contingency table, df $= (r-1)(c-1)$.
+- **Fisher's exact test:** for 2×2 tables with small samples.
+
+### Duality with confidence intervals
+A two-sided $\\alpha$-test rejects $H_0: \\theta = \\theta_0$ **iff $\\theta_0$ is outside the $(1-\\alpha)$ CI**.
+
+**R commands:**
+```r
+TEST.diffmean(x, by=group, type="independent", mdiff0=0,
+              alternative="two.sided", var.test=TRUE, data=DF)
+TEST.diffprop(x, y, success.x="Yes", pdiff=0, alternative="two.sided")
+chisq.test(table_)               # goodness of fit / independence
+fisher.test(table_)              # exact test for 2x2
+2*(1 - pnorm(abs(z)))            # two-sided p-value (z-test)
+2*(1 - pt(abs(t), df=n-1))       # two-sided p-value (t-test)
+```
+"""
+
+T_G15_REG = """## G15 — Linear regression (simple and multiple)
+
+The linear regression model:
+$$
+Y_i = \\beta_0 + \\beta_1 X_{1i} + \\ldots + \\beta_k X_{ki} + \\varepsilon_i, \\quad \\varepsilon_i \\sim N(0, \\sigma^2)\\text{ iid}.
+$$
+
+### Estimation (OLS)
+The least-squares estimates $\\hat\\beta$ minimize $\\sum (Y_i - \\hat Y_i)^2$. Closed-form for simple regression:
+$$
+\\hat\\beta_1 = \\frac{\\sum (x_i-\\bar x)(y_i-\\bar y)}{\\sum (x_i-\\bar x)^2}, \\qquad \\hat\\beta_0 = \\bar y - \\hat\\beta_1 \\bar x.
+$$
+
+### Inference
+- **t-test for each $\\beta_j$:** $t = \\hat\\beta_j / \\text{SE}(\\hat\\beta_j)$, df $= n-k-1$.
+- **CI for $\\beta_j$:** $\\hat\\beta_j \\pm t_{n-k-1,\\;1-\\alpha/2}\\cdot \\text{SE}(\\hat\\beta_j)$.
+- **R² = SSR/SST = 1 - SSE/SST**: fraction of variance explained by the model.
+- **Adjusted R²:** $R^2_{\\text{adj}} = 1 - \\dfrac{SSE/(n-k-1)}{SST/(n-1)}$ — penalizes adding predictors.
+- **Confidence interval** for the mean response: narrower; **prediction interval** for a single new observation: wider (adds $\\sigma_\\epsilon$).
+
+### Assumptions (and diagnostics)
+1. **Linearity** — fitted vs residuals plot, no curvature.
+2. **Homoscedasticity** — constant variance: scale-location plot, no fanning.
+3. **Independence of errors** — residual lag-1 plot, time-order plot.
+4. **Normality of errors** — Q-Q plot, histogram of standardized residuals.
+5. **No high-leverage / influential points** — Cook's distance, leverage plot.
+
+### Categorical predictors
+R automatically converts factors into indicator variables, taking one level as the reference. Each coefficient = deviation from the reference, holding other predictors constant.
+
+**R commands:**
+```r
+mod <- lm(y ~ x1 + x2 + factor_var, data=DF)
+summary(mod); confint(mod, level=0.95)
+predict(mod, newdata=..., interval="confidence")
+predict(mod, newdata=..., interval="prediction")
+plot(mod, which=1)   # residuals vs fitted
+plot(mod, which=3)   # scale-location
+plot(mod, which=4)   # Cook's distance
+distr.plot.x(rstandard(mod), plot.type="histogram")
+```
+"""
 
 # G10 / G11 / G12 — Probability theory snippets
 
@@ -2119,9 +2243,70 @@ SUBTOPICS = [
         37: ["4_8a"],
         40: ["4_11a"],
   }),
+  # ===== G13 — Confidence intervals (Ex 5 + Ex 6 dominate) =====
+  sub("G13", "g13_ci_mean", "CIs for means and differences",
+      "th_g13a", "Theory — Confidence intervals", T_G13_CI, {
+        43: ["5_1a","5_1b","5_1f","5_2a","5_2b"],
+        44: ["5_4","5_6b","5_6d","5_7a","5_7b","5_8a","5_8b"],
+        45: ["5_10b","5_13a1","5_13a2","5_13a3"],
+        46: ["6_1a","6_1b","6_1c","6_1d"],
+        47: ["6_2a","6_2b"],
+        48: ["6_3a","6_3b1","6_3b2","6_3c","6_3d"],
+        49: ["6_4a"],
+        50: ["6_6a","6_6b","6_6c","6_6d","6_6e"],
+        51: ["6_7a"],
+        52: ["6_8a1","6_8a2","6_8b","6_8c1","6_8d"],
+        53: ["6_9a"],
+        54: ["6_10a"],
+        55: ["6_11a"],
+        56: ["6_12a","6_12b"],
+        57: ["6_13a","6_13d"],
+        58: ["6_14a"],
+        59: ["6_15a","6_15b"],
+        60: ["6_17a","6_18b"],
+        61: ["5_3a","5_3b"],
+  }),
+  # ===== G14 — Hypothesis tests =====
+  sub("G14", "g14_tests", "Hypothesis tests + chi-squared",
+      "th_g14", "Theory — Hypothesis tests", T_G14_HT, {
+        43: ["5_5a","5_5b"],
+        62: ["7_3a","7_3b"],
+        63: ["7_4a","7_4b"],
+        64: ["7_5a","7_5b","7_5c"],
+        65: ["7_6a","7_6b"],
+        66: ["7_7a","7_7b"],
+        67: ["7_8a"],
+        68: ["7_9a","7_9b"],
+        69: ["7_10a"],
+        70: ["5_13b"],
+  }),
+  # ===== G15 — Linear regression (simple + multiple) =====
+  sub("G15", "g15_regression", "Linear regression (simple + multiple)",
+      "th_g15", "Theory — Linear regression", T_G15_REG, {
+        62: ["7_1a","7_1b","7_1c"],
+        71: ["8_1a","8_1b","8_1c"],
+        72: ["8_2a","8_2b"],
+        73: ["8_3a"],
+        74: ["8_4a"],
+        75: ["8_5a","8_8a","8_10a"],
+        76: ["9_1","9_2"],
+        77: ["9_3"],
+        78: ["9_4"],
+        79: ["9_5"],
+        80: ["9_6","9_7"],
+        81: ["9_8"],
+        82: ["9_9"],
+        83: ["9_10"],
+        84: ["9_11"],
+        85: ["9_12"],
+        86: ["9_13"],
+  }),
 ]
 
 TOPIC_META = {
+    "G13": ("t_g13_ci",         "G13 — Confidence intervals"),
+    "G14": ("t_g14_tests",      "G14 — Hypothesis tests"),
+    "G15": ("t_g15_regression", "G15 — Linear regression"),
     "G10": ("t_g10_normal", "G10 — Normal distribution"),
     "G11": ("t_g11_clt",    "G11 — Sampling distributions and CLT"),
     "G12": ("t_g12_lincomb","G12 — Linear combinations of RVs"),
@@ -2190,6 +2375,50 @@ COLUMN_HEADERS = [
     {"col": 40, "label": "Ex 4.11 (ad cost linear)"},
     {"col": 41, "label": "Ex 4.12 (sample mean + prop)"},
     {"col": 42, "label": "Ex 4.13 (lincomb + CLT prop)"},
+    {"col": 43, "label": "Ex 5.1-5.2 (CI mean / SE)"},
+    {"col": 44, "label": "Ex 5.4-5.7 (paired/diff CI)"},
+    {"col": 45, "label": "Ex 5.8-5.10 (Salary, Profitability)"},
+    {"col": 46, "label": "Ex 6.1 (restocking)"},
+    {"col": 47, "label": "Ex 6.2 (vgsales NA-EU paired)"},
+    {"col": 48, "label": "Ex 6.3 (Salary, Female prop)"},
+    {"col": 49, "label": "Ex 6.4 (pooled CI)"},
+    {"col": 50, "label": "Ex 6.6 (proportion CIs)"},
+    {"col": 51, "label": "Ex 6.7 (DS platform prop)"},
+    {"col": 52, "label": "Ex 6.8 (Developers_ITA skills)"},
+    {"col": 53, "label": "Ex 6.9 (diff prop)"},
+    {"col": 54, "label": "Ex 6.10 (JP_Sales genre)"},
+    {"col": 55, "label": "Ex 6.11 (paired summary)"},
+    {"col": 56, "label": "Ex 6.12 (Adventure / Shooter)"},
+    {"col": 57, "label": "Ex 6.13 (CI for proportion 108/140)"},
+    {"col": 58, "label": "Ex 6.14 (EA vs Activision)"},
+    {"col": 59, "label": "Ex 6.15 (pooled vs Welch)"},
+    {"col": 60, "label": "Ex 6.17-6.18 (NA-EU paired)"},
+    {"col": 61, "label": "Ex 5.3-5.5 (proportion CI/test)"},
+    {"col": 62, "label": "Ex 7.1 (regression NewHired)"},
+    {"col": 63, "label": "Ex 7.4 (two-prop test vgsales)"},
+    {"col": 64, "label": "Ex 7.5 (chi-squared)"},
+    {"col": 65, "label": "Ex 7.6 (one-prop test + p-value)"},
+    {"col": 66, "label": "Ex 7.7 (Developers AI)"},
+    {"col": 67, "label": "Ex 7.8 (stratified t-test)"},
+    {"col": 68, "label": "Ex 7.9 (chi-sq Children / Age)"},
+    {"col": 69, "label": "Ex 7.10 (pooled t-stat)"},
+    {"col": 70, "label": "Ex 7.3 (AmountSpent by Sex)"},
+    {"col": 71, "label": "Ex 8.1 (Debt~TV)"},
+    {"col": 72, "label": "Ex 8.2 (AmountSpent~Salary)"},
+    {"col": 73, "label": "Ex 8.3 (Weeks~Age)"},
+    {"col": 74, "label": "Ex 8.4 (restaurants~surface)"},
+    {"col": 75, "label": "Ex 8.5-8.10 (manual regression)"},
+    {"col": 76, "label": "Ex 9.1-9.2 (Baseball)"},
+    {"col": 77, "label": "Ex 9.3 (Competition)"},
+    {"col": 78, "label": "Ex 9.4 (superstore)"},
+    {"col": 79, "label": "Ex 9.5 (restaurants multi)"},
+    {"col": 80, "label": "Ex 9.6-9.7 (MBA)"},
+    {"col": 81, "label": "Ex 9.8 (Lotteries)"},
+    {"col": 82, "label": "Ex 9.9 (GS salary)"},
+    {"col": 83, "label": "Ex 9.10 (Severance)"},
+    {"col": 84, "label": "Ex 9.11 (Absence)"},
+    {"col": 85, "label": "Ex 9.12 (Visitors time series)"},
+    {"col": 86, "label": "Ex 9.13 (Loans credit)"},
 ]
 
 topics_out = {}
@@ -2244,7 +2473,8 @@ for stm in SUBTOPICS:
     total_nodes_count += len(nodes_in_subtopic)
 
 topics_list = [topics_out[g] for g in ("G1", "G2", "G3", "G4", "G5", "G6",
-                                       "G7", "G8", "G9", "G10", "G11", "G12") if g in topics_out]
+                                       "G7", "G8", "G9", "G10", "G11", "G12",
+                                       "G13", "G14", "G15") if g in topics_out]
 
 output = {
     "version": "2.0",
