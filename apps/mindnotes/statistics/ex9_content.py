@@ -27,7 +27,7 @@ plot(mod2, which=1)
 distr.plot.xy(x=Minor, y=rstandard(mod2), plot.type="scatter", data=Baseball)
 distr.plot.xy(x=Years, y=rstandard(mod2), plot.type="scatter", data=Baseball)
 ```
-""", "images": []}
+""", "images": ["statistics/images/ex9_1-baseball.png"]}
 
 ex9["9_2"] = {"title": "Ex 9.2 — ANOVA-style comparison; CI for marginal effects",
 "content": """**Question.** Compute t-tests and CIs for coefficients; compare $-50 \\cdot \\hat\\beta_1$.
@@ -67,7 +67,7 @@ summary(mod)
 mod1 <- lm(Performance ~ Competition + Quality, data=Competition)
 summary(mod1)
 ```
-""", "images": []}
+""", "images": ["statistics/images/ex9_3-competition.png"]}
 
 ex9["9_4"] = {"title": "Ex 9.4 — superstore: MntMeatProducts ~ IncomeK + Age (+ KidsAtHome)",
 "content": """**Question.** Fit multiple regression in `superstore`; add `KidsAtHome` as a categorical predictor; predict at specified values.
@@ -85,7 +85,7 @@ predict(modter,
         newdata=data.frame(IncomeK=75, Age=40, KidsAtHome="Yes"),
         interval="confidence")
 ```
-""", "images": []}
+""", "images": ["statistics/images/ex9_4-superstore.png"]}
 
 ex9["9_5"] = {"title": "Ex 9.5 — Restaurants: revenues ~ multiple predictors + diagnostics",
 "content": """**Question.** Fit a multiple regression for restaurant revenues; check diagnostics.
@@ -102,7 +102,7 @@ plot(mod, which=1)
 plot(mod, which=3)
 distr.plot.x(x=rstandard(mod), plot.type="histogram")
 ```
-""", "images": []}
+""", "images": ["statistics/images/ex9_5-restaurants-multi.png"]}
 
 ex9["9_6"] = {"title": "Ex 9.6 — MBA: MBA.GPA ~ UnderGPA + GMAT + Work",
 "content": """**Question.** Fit multiple regression of `MBA.GPA` on its three predictors; test individual coefficients and check residuals.
@@ -119,7 +119,7 @@ summary(mod)
 t.stat <- (0.092595 - 0.16) / 0.030909
 plot(mod, which=1)
 ```
-""", "images": []}
+""", "images": ["statistics/images/ex9_6-mba1.png"]}
 
 ex9["9_7"] = {"title": "Ex 9.7 — MBA.2: add TypeDegree (categorical) to the model",
 "content": """**Question.** Extend the MBA model with the `TypeDegree` factor; interpret coefficients for each level relative to the reference category.
@@ -145,7 +145,7 @@ distr.plot.x(x=rstandard(mod.mult), plot.type="histogram")
 distr.plot.xy(x=Education, y=Amount, plot.type="scatter", data=Lotteries)
 distr.plot.xy(x=Income,    y=Amount, plot.type="scatter", data=Lotteries)
 ```
-""", "images": []}
+""", "images": ["statistics/images/ex9_8-lotteries.png"]}
 
 ex9["9_9"] = {"title": "Ex 9.9 — GS: salary ~ grade + gender + course; predictions + diagnostics",
 "content": """**Question.** Fit several regressions on `salary` using `grade`, `gender` (sex), and `course`. Predict for specific profiles.
@@ -199,7 +199,7 @@ plot(mod1, which=1)
 plot(mod1, which=3)
 distr.plot.x(x=rstandard(mod1), plot.type="histogram", breaks=10)
 ```
-""", "images": []}
+""", "images": ["statistics/images/ex9_10-severance.png"]}
 
 ex9["9_11"] = {"title": "Ex 9.11 — Absence: Days ~ Wage + PartTime + Union + Shift + GoodRel",
 "content": """**Question.** Regression for absence days; compute CIs; predict at specific profile.
@@ -221,7 +221,7 @@ predict(mod, newdata, interval="confidence")
 plot(mod, which=1)
 distr.plot.x(x=rstandard(mod), plot.type="histogram")
 ```
-""", "images": []}
+""", "images": ["statistics/images/ex9_11-absence.png"]}
 
 ex9["9_12"] = {"title": "Ex 9.12 — Visitors: lagged regression with seasonal indicators",
 "content": """**Question.** Regression of `Visitors` on lagged `Visitors_Prev` and seasonal indicators `I1, I2, I3`.
@@ -235,7 +235,7 @@ mod1 <- lm(Visitors ~ Visitors_Prev + I1 + I3 + I4, data=Visitors); summary(mod1
 ```
 
 The interpretation of each indicator coefficient is the *seasonal effect on `Visitors`, holding lagged Visitors constant*.
-""", "images": []}
+""", "images": ["statistics/images/ex9_12-visitors.png"]}
 
 ex9["9_13"] = {"title": "Ex 9.13 — Loans: Bad ~ Loan + Recommendation (factor)",
 "content": """**Question.** Regression on credit-scoring data for the percentage of `Bad` loans.
@@ -251,4 +251,4 @@ plot(mod, which=1)
 plot(mod, which=3)
 distr.plot.x(x=rstandard(mod), plot.type="histogram")
 ```
-""", "images": []}
+""", "images": ["statistics/images/ex9_13-loans.png"]}

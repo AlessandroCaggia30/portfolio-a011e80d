@@ -22,7 +22,7 @@ distr.plot.xy(x=Sales, y=SmokingArea, plot.type="boxplot", data=pizzerias)
 
 The graph shows that the two conditional distributions have different characteristics. The distribution of sales in pizzerias **without a smoking area** has a lower median, lower variability both in terms of behavior in the center of the distribution (given by the interquartile difference, i.e. the size of the "box") and in terms of range. Also, the minimum and maximum values are consistently lower than those observed for the sales of pizzerias with smoking areas. The shape of the two distributions is also different. For pizzerias without a smoking area, an approximately symmetrical distribution is observed, although there are some larger values which represent extreme outliers. The distribution of `Sales` in pizzerias with smoking areas is on the contrary **clearly skewed to the right**, defined also, but not only, by the presence of at least two outliers.
 """,
-"images": [],
+"images": ["statistics/images/ex3_1a-sales-by-smokingarea.png"],
 }
 
 ex3["3_1b"] = {
@@ -57,7 +57,7 @@ distr.plot.xy(SmokingArea, District, freq="percentages", plot.type="bars",
 
 In both cases, the distributions of the variable `SmokingArea` differ substantially in the three provinces, leading to the conclusion that the two variables are associated. From a substantive point of view, this means that in the three provinces a "recognizable" trend can be observed with reference to the availability/equipment of a smoking area. In Pavia, the percentage of pizzerias with smoking areas is particularly high (67% of the total), while in Lodi an opposite trend can be observed (63% of pizzerias in Lodi do not have smoking areas). Pavia shows an intermediate pattern between these two extremes, although pizzerias without smoking areas prevail.
 """,
-"images": [],
+"images": ["statistics/images/ex3_1b-smoking-by-district.png"],
 }
 
 ex3["3_1c"] = {
@@ -128,7 +128,7 @@ cor(pizzerias$Price, pizzerias$Sales)
 
 This value indicates that the relationship between the two variables is direct and of medium/medium-high intensity, as the correlation assumes a value close to 67% of its theoretical maximum (1).
 """,
-"images": [],
+"images": ["statistics/images/ex3_1e-price-sales-scatter.png"],
 }
 
 # ========== EXERCISE 3.2 (DS - AmountSpent vs various) ==========
@@ -147,7 +147,7 @@ distr.plot.xy(AmountSpent, History_recode, plot.type="boxplot", data=DS)
 
 The boxplots show that the amount spent **increases** as the History level moves from None to High. Median and quartiles shift upward; dispersion also tends to grow. The conditional distributions are clearly different — `History` and `AmountSpent` are **associated**.
 """,
-"images": [],
+"images": ["statistics/images/ex3_2a-amountspent-by-history.png"],
 }
 
 ex3["3_2b"] = {
@@ -368,7 +368,7 @@ cor(DS$Children, DS$AmountSpent)
 
 A weak **negative** linear relationship. However, because the relationship is not linear (curvature) and given Children is discrete, the linear correlation may not be the best summary; the conditional boxplots are more informative.
 """,
-"images": [],
+"images": ["statistics/images/ex3_2m-amountspent-children.png"],
 }
 
 # ========== EXERCISE 3.3 (Satisfaction) ==========
@@ -402,7 +402,7 @@ Observing the scatterplots, one notes that the relationship between **satisfacti
 
 For `satisfaction` and `expenses`: clearly linear negative — the correlation coefficient of $-0.6126$ effectively summarises the medium-level intensity of the linear relationship between the two variables.
 """,
-"images": [],
+"images": ["statistics/images/ex3_3a-satisfaction-scatters.png"],
 }
 
 # ========== EXERCISE 3.4 (Services - EXPENSES by TYPE) ==========
@@ -425,7 +425,7 @@ The two distributions have a different shape:
 
 Furthermore, the distribution of EXPENSES on BUSINESS customers is shifted to higher values compared to that of PRIVATE customers, with all the position measures higher than those observed for PRIVATE.
 """,
-"images": [],
+"images": ["statistics/images/ex3_4a-expenses-by-type.png"],
 }
 
 ex3["3_4a2"] = {
@@ -446,7 +446,7 @@ distr.summary.x(EXPENSES, by=TYPE, stats=c("fivenumber","p10","p90","mean"),
 
 Both groups show similar **range** of variation (about 50 USD) but different **interquartile** spreads. The PRIVATE group has a slightly larger IQR relative to its mean, suggesting more relative dispersion (compare via CV).
 """,
-"images": [],
+"images": ["statistics/images/ex3_4a-expenses-by-type.png"],
 }
 
 ex3["3_4b"] = {
@@ -646,7 +646,7 @@ distr.plot.xy(Country, Sex, freq="x|y", plot.type="bars", bar.type="beside",
 
 Bars for each Country are split by Sex. Approximate independence is confirmed visually: the F vs M split is roughly the same in every country.
 """,
-"images": [],
+"images": ["statistics/images/ex3_6f-country-sex-stacked.png"],
 }
 
 ex3["3_6g"] = {
@@ -688,7 +688,7 @@ distr.table.xy(Sex, Product_Category, freq=c("perc"), freq.type="y|x",
 
 Differences are visible. Female customers buy proportionally more **Clothing** and fewer Bikes than male customers. The **mode is Accessories** for both groups (~64-69%), so Sex is associated with Product_Category, but the modal category does not change.
 """,
-"images": [],
+"images": ["statistics/images/ex3_7a1-product-by-sex.png"],
 }
 
 ex3["3_7a3"] = {
@@ -710,7 +710,7 @@ distr.table.xy(Sex, Product_Category, freq=c("perc"), p.digits=2,
 
 (Done per country: France, UK, Germany, USA.) The **mode remains Accessories** irrespective of the country or the sex of the customer making the purchase. However, the relative importance of the mode in the two segments, as well as the frequency of transactions related to other product categories, varies from country to country. For example, 31.94% of French female customers purchase Clothing versus 19.60% of male customers, who are more likely to purchase bicycles (27.59%). In the US, among male customers, there is a greater propensity to purchase accessories (69% vs 60% among female) and a lower propensity to purchase clothing (10% vs 17% among female).
 """,
-"images": [],
+"images": ["statistics/images/ex3_7a3-product-sex-by-country.png"],
 }
 
 ex3["3_7b1"] = {
@@ -783,7 +783,7 @@ distr.plot.xy(class_f, tier_f, freq="perc", plot.type="bars", bar.type="xy", dat
 
 The class **Assassin** looks the most promising, with the highest percentage of champions with the highest levels of `tier` (A, S) and no champion with the lowest tier level. Instead, **Mage** and **Marksman** look the least convenient classes, because of the highest proportion of champions with the lowest tier levels; in particular, class Mage also presents the lowest proportion of champions with the highest tier even if, compared to Marksman, includes more champions with tier B and less with tier A.
 """,
-"images": [],
+"images": ["statistics/images/ex3_9a1-lol-tier-by-class.png"],
 }
 
 ex3["3_9b"] = {
@@ -800,7 +800,7 @@ distr.plot.xy(role, KDA, plot.type="boxplot", data=LoL)
 
 `KDA` is a numerical variable, whereas `role` is a qualitative variable. Therefore, we use side-by-side boxplots to compare the conditional distributions. Some roles have higher medians and tighter spreads than others (suggesting role-specific performance patterns).
 """,
-"images": [],
+"images": ["statistics/images/ex3_9b-kda-by-role.png"],
 }
 
 ex3["3_9c"] = {
@@ -824,7 +824,7 @@ distr.plot.xy(x=score, y=pick_perc, plot.type="scatter", var.c=role, data=LoL)
 
 Given a certain score, champions of role `ADC` are chosen more frequently compared to champions with other roles, and the percentage of games where they are chosen increases with the score at a higher rate compared to the other classes. Even if less clear, we note alignments along slightly different lines also for the other roles.
 """,
-"images": [],
+"images": ["statistics/images/ex3_9c-score-pick-by-role.png"],
 }
 
 # ========== EXERCISE 3.10 (Company - Prod | Channel) ==========
@@ -888,7 +888,7 @@ distr.plot.xy(Company$Prod, Company$Channel, plot.type="bars",
 
 Referring to the modes and the medians of `Prod`, we note that such measures vary depending on the customers' preferred purchase channel. Specifically, the mode and the median of `Prod` among clients who prefer the smartphone (Mob) are both medium-low (medium=medium-low/ML); the same trend is observed among clients who prefer e-commerce (Ecomm), although shifted up towards medium-high. **We are interested in the frequency of `Prod` conditioned to `Channel`**.
 """,
-"images": [],
+"images": ["statistics/images/ex3_10a2-prod-by-channel.png"],
 }
 
 # ========== EXERCISE 3.11 (Campaign - Loyalty | store category, then Revenues boxplot) ==========
@@ -969,7 +969,7 @@ distr.plot.xy(Revenues, Location, plot.type="boxplot", data=Campaign)
 
 Differences in median, IQR and presence of outliers help identify which store categories are more profitable.
 """,
-"images": [],
+"images": ["statistics/images/ex3_11b-revenues-boxplot.png"],
 }
 
 ex3["3_11c"] = {
@@ -993,7 +993,7 @@ The two correlations are essentially identical, both around 0.76. Both scatterpl
 
 From the plots, it can be observed that the strongest and most structured relationship is that between **Sales and Costs**, even though it is characterised by a non-linear trend in that a greater dispersion of campaign effectiveness is observed at higher levels of `Sales`. The relationship between `Revenues` and `Sales`, on the other hand, is particularly weak despite a number of observations arranged along a straight line. Note that the tendency of the data to concentrate around a line is more pronounced in the first plot. Neglecting therefore the non-linearity of the relationship between `Costs` and `Sales`, we note that the correlation coefficients are similar.
 """,
-"images": [],
+"images": ["statistics/images/ex3_11c-sales-scatter-pair.png"],
 }
 
 # ========== EXERCISE 3.12 (Effectiveness × Channel) ==========

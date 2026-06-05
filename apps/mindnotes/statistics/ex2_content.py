@@ -49,7 +49,7 @@ distr.plot.x(x=Sales, plot.type="boxplot", data=pizzerias)
 
 The graph shows that the central data are concentrated in an interval of relatively small width, and that the tails of the distribution are not particularly wide and have approximately the same length (approximately, the same length of the 'whiskers'). Nevertheless, we notice that the right tail is slightly longer and that there are (apparently) **3 outliers** corresponding to extremely high observations of the variable `Sales` (note that if there are more outliers with the same value they would be overlapping in the plot).
 """,
-"images": [],
+"images": ["statistics/images/ex2_1b-sales-boxplot.png"],
 }
 
 ex2["2_1c"] = {
@@ -353,7 +353,7 @@ The presence of upper outliers could be easily detected by looking at the boxplo
 distr.plot.x(AmountSpent, plot.type = "boxplot", data=DS)
 ```
 """,
-"images": [],
+"images": ["statistics/images/ex2_3bc-amountspent-box-hist.png"],
 }
 
 ex2["2_3c"] = {
@@ -370,7 +370,7 @@ The right skewness of the distribution of `AmountSpent` in our data could also b
 distr.plot.x(AmountSpent, plot.type = 'hist', data=DS)
 ```
 """,
-"images": [],
+"images": ["statistics/images/ex2_3bc-amountspent-box-hist.png"],
 }
 
 # ============== EXERCISE 2.4 (insurance company ogive — table reconstructed) ==============
@@ -471,7 +471,7 @@ distr.plot.x(Age, plot.type="boxplot", data=customer_habits)
 
 Note that the customers in the dataset are quite heterogeneous in terms of age: the lowest age observed is lower than 20 years, approximately 16-18 years, while the oldest customers are aged about 90 years. On the other hand, the median age is about 45 years, and the 50% of customers with age "around" the median (i.e. between the first and third quartile) are more homogeneous, with ages ranging from about 40 to 55 years (with a difference of 15 years only). Indeed, the wide range observed for the variable is due to the 25% of younger customers and especially to the 25% of older customers. Outliers are present both in the right and left tail of the distribution corresponding to ages over 75 years and below 18 years respectively. These observations are associated with relatively high deviations from the center of the distribution, especially those in the right tail. The distribution is thus skewed to the right: 75% of the customers are aged between 20 and 55 years (range 35 years); the remaining 25% are aged between 55 and 90 years, although it is not possible to precisely assess the relevance of the outliers. However, if we do not consider these extreme values, the distribution appears fairly symmetrical.
 """,
-"images": [],
+"images": ["statistics/images/ex2_5a-age-boxplot.png"],
 }
 
 ex2["2_5b"] = {
@@ -563,7 +563,7 @@ The percentage of outliers in the sample is:
 
 Thus, the outliers represent **less than 1% of the dataset**, or, to be precise, 0.995% of all customers; their weight is therefore residual. This indicates that the majority of customers over the age of 54 are at most 75 years old.
 """,
-"images": [],
+"images": ["statistics/images/ex2_5a-age-boxplot.png"],
 }
 
 ex2["2_5f"] = {
@@ -607,7 +607,7 @@ where, by construction, the numerator is constant for the 4 classes. Graphically
 distr.plot.x(Age, plot.type="histogram", breaks=c(16,40,46,54,96), data=customer_habits)
 ```
 """,
-"images": [],
+"images": ["statistics/images/ex2_5g-age-hist-5num.png"],
 }
 
 # ============== EXERCISE 2.6 (customer_habits Revenue) ==============
@@ -655,7 +655,7 @@ distr.plot.x(Revenue, plot.type="boxplot", data=customer_habits)
 
 The boxplot shows the right-hand skewness of the distribution, as well as the presence of a substantial number of extreme `Revenue` values. However, except for the fact that there are transactions with extremely high receipts, it is not possible to deduce the density of the distribution on the right tail from the graph. The deciles and percentiles shown in a1) allowed to better characterize this tail and provided greater detail.
 """,
-"images": [],
+"images": ["statistics/images/ex2_6a2-revenue-boxplot.png"],
 }
 
 ex2["2_6a3"] = {
@@ -681,7 +681,7 @@ distr.plot.x(Revenue, plot.type="hist",
              data=customer_habits)
 ```
 """,
-"images": [],
+"images": ["statistics/images/ex2_6a3-revenue-hist-comparison.png"],
 }
 
 ex2["2_6b"] = {
@@ -845,7 +845,7 @@ distr.plot.x(Nr_visits, plot.type="boxplot")
 
 A typical form of asymmetry is not directly identifiable from the plot: we have in fact that the left whisker has length $Q_1 - \\text{min} = 3 - 1 = 2$ smaller than that of the right whisker, $\\text{max} - Q_3 = 24 - 14 = 10$, while the box is asymmetrical on the left, as $Me - Q_1 = 10 - 3 = 7$, and $Q_3 - Me = 14 - 10 = 4$. Therefore, about the 25% of the less regular clients (lower whisker in the plot) has a quite homogeneous behavior as for the number of visits to the mall, whereas the most regular clients (upper whisker in the plot), including also clients who visited the mall up to twice a month, are more heterogeneous. Opposite considerations hold for the clients with a "more standard/central" number of visits. The group of "central" less regular clients (lower part of the box) is slightly more heterogeneous compared to the group of "central" more regular clients (upper part of the box).
 """,
-"images": [],
+"images": ["statistics/images/ex2_7e-nrvisits-boxplot.png"],
 }
 
 ex2["2_7f"] = {
@@ -931,7 +931,7 @@ and the corresponding boxplot is given by:
 distr.plot.x(Margin_perc, plot.type="boxplot")
 ```
 """,
-"images": [],
+"images": ["statistics/images/ex2_8b-margin-boxplot.png"],
 }
 
 ex2["2_8c"] = {
@@ -954,7 +954,7 @@ In the boxplot, numerous extreme values are also highlighted, related both to pu
 
 The standard deviation is 17.82%, and indicates that on average the deviation from the mean is 17.82%, so transactions are "standard" if they have margins close to 0 (18.2% - 17.82% = 0.38%), being therefore sold at cost price, or margins of about 36% (18.2% + 17.82% = 36.02%), i.e. with a cost increased by about one third. Without reference or comparison values, it is difficult to assess whether the variability is low or high. However, we can assess the variability in relation to the mean percentage of 18.2% using the coefficient of variation (whose ratio between the standard deviation and the mean, possibly multiplied by 100), which is 0.98 (98%). A value equal to or close to 1 indicates that the average variation in the margin percentage is approximately of the same order of magnitude as the mean level: the products in the dataset therefore have very different margins, although, as the boxplot shows, the variability is mainly caused by the presence of very extreme values.
 """,
-"images": [],
+"images": ["statistics/images/ex2_8b-margin-boxplot.png"],
 }
 
 ex2["2_8d"] = {

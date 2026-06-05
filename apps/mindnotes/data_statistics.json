@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": 1780676551996,
+  "exportedAt": 1780677100388,
   "data": {
     "topics": [
       {
@@ -338,14 +338,16 @@
                 "title": "Ex 2.3c — Shape of the AmountSpent distribution",
                 "content": "**Question.** How would you describe the shape of the distribution of the variable `AmountSpent`? Please indicate which tools you use and what are your considerations.\n\n---\n\n**Answer.** In order to assess the shape of a distribution, the most effective tool is the **boxplot**, reported at the previous point. For the considered variable, the graph shows that the distribution is **skewed to the right** (or positively skewed): within the 'box', the line corresponding to the median is closer to the lower extreme (first quartile) than to the upper extreme (third quartile); in addition, the lower whisker is considerably shorter than the upper one; the right tail also has extreme values that are very far — in relative terms — from the center of the data.\n\nThe right skewness of the distribution of `AmountSpent` in our data could also be detected based on the **histogram**:\n\n`distr.plot.x(AmountSpent, plot.type = 'hist', data=DS)`\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex2_3bc-amountspent-box-hist.png"
+                ],
                 "links": [
                   "th_g1c"
                 ],
                 "x": 9000,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "coral",
                 "column": 12
               },
@@ -354,14 +356,16 @@
                 "title": "Ex 2.5g — Histogram with the 5-number summary as breakpoints",
                 "content": "**Question.** Build a histogram of `Age` using the 5-number summary as breakpoints. Interpret the densities.\n\n---\n\n**Answer.** Each interval defined by the five-number summary statistics ($[min, Q_1], [Q_1, Me], \\ldots$) contains about the 25% of the data: the interval with the smallest width will therefore be characterised by a higher concentration of customers, i.e. the highest density. In fact\n\n$$\n\\text{density} = c_k = \\frac{\\text{rel.freq}_k}{\\text{width}_k} = \\frac{f_k}{w_k} \\approx \\frac{0.25}{w_k},\n$$\n\nwhere, by construction, the numerator is constant for the 4 classes. Graphically, the interval between the first quartile and the median ($[40,46)$) is the one with the smallest width, and consequently with the highest density, as could also be deduced from the histogram built based on intervals having as endpoints the 5-number summary:\n\n`distr.plot.x(Age, plot.type=\"histogram\", breaks=c(16,40,46,54,96), data=customer_habits)`\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex2_5g-age-hist-5num.png"
+                ],
                 "links": [
                   "th_g1c"
                 ],
                 "x": 10600,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "coral",
                 "column": 14
               },
@@ -370,14 +374,16 @@
                 "title": "Ex 2.6a3 — Histograms with equal vs custom intervals for Revenue",
                 "content": "**Question.** Build histograms with 10 equal intervals and with custom intervals for the right tail. Comment.\n\n---\n\n**Answer.** To obtain the two histograms we use the commands:\n\n`distr.plot.x(Revenue, plot.type=\"hist\", breaks=10, data=customer_habits)`\n\n`distr.plot.x(Revenue, plot.type=\"hist\",`\n\n`             breaks=c(0,51,107,179,276,428,654,957,1412,2336,15548),`\n\n`             data=customer_habits)`\n\nBoth the histograms provide a representation of the distribution that clearly shows its asymmetrical structure. The second histogram offers more details on the asymmetrical structure of the distribution also on the lower values, while the first describes better the values greater than 2500 (approximately). Probably a good compromise is to use a combination of the classes, for example:\n\n`distr.plot.x(Revenue, plot.type=\"hist\",`\n\n`             breaks=c(0,300,600,1000,1500,2500,5000,10000,15548),`\n\n`             data=customer_habits)`\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex2_6a3-revenue-hist-comparison.png"
+                ],
                 "links": [
                   "th_g1c"
                 ],
                 "x": 11400,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "coral",
                 "column": 15
               }
@@ -1578,14 +1584,16 @@
                 "title": "Ex 2.8c — Dispersion of Margin_perc + boxplot interpretation",
                 "content": "**Question.** Compute the dispersion measures of `Margin_perc` and discuss what they show together with the boxplot.\n\n---\n\n**Answer.** The dispersion measures for the variable are:\n\n`distr.summary.x(Margin_perc, stats=\"dispersion\")`\n\n`##  n n.a range IQrange   sd      var      cv`\n\n`## 34866 0 139.72 22.57 17.82 317.44  0.98`\n\nBoth the summary values and the boxplot show a very concentrated distribution, especially for the 50% of data around the median; in fact, comparing the range (137.71) with the interquartile range (22.57) one observes that the 50% central transactions in terms of margin percentage lie within a range (with extremes 6.57% and 29.15%, first and third quartiles) whose width is much smaller than that of the interval containing all the data (with extremes -40.71% and 99%, the minimum and maximum). The latter is indeed about six times wider.\n\nIn the boxplot, numerous extreme values are also highlighted, related both to purchases of products sold with high discounts (very negative extreme values) and to purchases of products on which the margin was particularly high. Further investigation of individual products and product types would be necessary to draw more precise conclusions on transactions involving products sold with such extreme margins.\n\nThe standard deviation is 17.82%, and indicates that on average the deviation from the mean is 17.82%, so transactions are \"standard\" if they have margins close to 0 (18.2% - 17.82% = 0.38%), being therefore sold at cost price, or margins of about 36% (18.2% + 17.82% = 36.02%), i.e. with a cost increased by about one third. Without reference or comparison values, it is difficult to assess whether the variability is low or high. However, we can assess the variability in relation to the mean percentage of 18.2% using the coefficient of variation (whose ratio between the standard deviation and the mean, possibly multiplied by 100), which is 0.98 (98%). A value equal to or close to 1 indicates that the average variation in the margin percentage is approximately of the same order of magnitude as the mean level: the products in the dataset therefore have very different margins, although, as the boxplot shows, the variability is mainly caused by the presence of very extreme values.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex2_8b-margin-boxplot.png"
+                ],
                 "links": [
                   "th_g5"
                 ],
                 "x": 13000,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "green",
                 "column": 17
               }
@@ -1803,14 +1811,16 @@
                 "title": "Ex 2.1b — Five-number summary + boxplot of Sales",
                 "content": "**Question.** Report the 5-number summary for the variable `Sales` and represent them in an appropriate graph.\n\n---\n\n**Answer.** The five-number summary includes the most important position measures for a variable: minimum, first quartile, median, third quartile and maximum. For the variable `Sales`:\n\n`distr.summary.x(x=Sales, stats=\"fivenumbers\", data=pizzerie)`\n\n`##  n n.a  min      q1    median    q3      max`\n\n`## 100   0  8428  17683.25  22349.5  28975  63683`\n\nThese values summarize the distribution of `Sales` both around the center and on the tails, and are used to build the **boxplot**:\n\n`distr.plot.x(x=Sales, plot.type=\"boxplot\", data=pizzerias)`\n\nThe graph shows that the central data are concentrated in an interval of relatively small width, and that the tails of the distribution are not particularly wide and have approximately the same length (approximately, the same length of the 'whiskers'). Nevertheless, we notice that the right tail is slightly longer and that there are (apparently) **3 outliers** corresponding to extremely high observations of the variable `Sales` (note that if there are more outliers with the same value they would be overlapping in the plot).\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex2_1b-sales-boxplot.png"
+                ],
                 "links": [
                   "th_g6b"
                 ],
                 "x": 7400,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "pink",
                 "column": 10
               },
@@ -1824,7 +1834,7 @@
                   "th_g6b"
                 ],
                 "x": 7400,
-                "y": 600,
+                "y": 780,
                 "width": 600,
                 "height": 360,
                 "color": "pink",
@@ -1840,7 +1850,7 @@
                   "th_g6b"
                 ],
                 "x": 7400,
-                "y": 1000,
+                "y": 1180,
                 "width": 600,
                 "height": 360,
                 "color": "pink",
@@ -1851,14 +1861,16 @@
                 "title": "Ex 2.5a — Boxplot of Age in customer_habits and interpretation",
                 "content": "**Question.** Draw the boxplot for the variable `Age` and discuss its shape.\n\n---\n\n**Answer.** The boxplot can be obtained using:\n\n`distr.plot.x(Age, plot.type=\"boxplot\", data=customer_habits)`\n\nNote that the customers in the dataset are quite heterogeneous in terms of age: the lowest age observed is lower than 20 years, approximately 16-18 years, while the oldest customers are aged about 90 years. On the other hand, the median age is about 45 years, and the 50% of customers with age \"around\" the median (i.e. between the first and third quartile) are more homogeneous, with ages ranging from about 40 to 55 years (with a difference of 15 years only). Indeed, the wide range observed for the variable is due to the 25% of younger customers and especially to the 25% of older customers. Outliers are present both in the right and left tail of the distribution corresponding to ages over 75 years and below 18 years respectively. These observations are associated with relatively high deviations from the center of the distribution, especially those in the right tail. The distribution is thus skewed to the right: 75% of the customers are aged between 20 and 55 years (range 35 years); the remaining 25% are aged between 55 and 90 years, although it is not possible to precisely assess the relevance of the outliers. However, if we do not consider these extreme values, the distribution appears fairly symmetrical.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex2_5a-age-boxplot.png"
+                ],
                 "links": [
                   "th_g6b"
                 ],
                 "x": 10600,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "pink",
                 "column": 14
               },
@@ -1867,14 +1879,16 @@
                 "title": "Ex 2.5d — Identify outliers and their share",
                 "content": "**Question.** Determine the outliers and compute their percentage on the sample.\n\n---\n\n**Answer.** Extreme values are those deviating from the boxplot's box (whose extremes are the first and the third quartile) more than 1.5 times the width of the box, that is the interquartile range. To identify extreme values, one can refer to the five-number summary:\n\n`distr.summary.x(Age, stats=\"fivenumber\", digits=2, data=customer_habits)`\n\n`##  n n.a min q1 median q3 max`\n\n`## 34866 0 16 40   46  54  96`\n\nThe thresholds to identify lower and upper outliers are:\n\n- $\\text{Limite outlier superiore} = Q_3 + 1.5\\cdot (Q_3 - Q_1) = 54 + 1.5\\cdot 14 = 75$\n- $\\text{Limite outlier inferiore} = Q_1 - 1.5\\cdot (Q_3 - Q_1) = 40 - 1.5\\cdot 14 = 19$\n\nThe percentage of outliers in the sample is:\n\n`100*mean(customer_habits$Age < 19 | customer_habits$Age > 75)`\n\n`## [1] 0.9952389`\n\nThus, the outliers represent **less than 1% of the dataset**, or, to be precise, 0.995% of all customers; their weight is therefore residual. This indicates that the majority of customers over the age of 54 are at most 75 years old.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex2_5a-age-boxplot.png"
+                ],
                 "links": [
                   "th_g6b"
                 ],
                 "x": 10600,
-                "y": 600,
+                "y": 780,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "pink",
                 "column": 14
               },
@@ -1883,14 +1897,16 @@
                 "title": "Ex 2.6a2 — Five-number summary + boxplot of Revenue",
                 "content": "**Question.** Report the five-number summary of `Revenue` and represent it as a boxplot.\n\n---\n\n**Answer.** The five-number summary for `Revenue`:\n\n`distr.summary.x(Revenue, stats=\"fivenumber\", data=customer_habits)`\n\n`##  n n.a min q1 median  q3   max`\n\n`## 34866 0 0.67 140  428 1150.5 15548`\n\nare represented graphically via a boxplot:\n\n`distr.plot.x(Revenue, plot.type=\"boxplot\", data=customer_habits)`\n\nThe boxplot shows the right-hand skewness of the distribution, as well as the presence of a substantial number of extreme `Revenue` values. However, except for the fact that there are transactions with extremely high receipts, it is not possible to deduce the density of the distribution on the right tail from the graph. The deciles and percentiles shown in a1) allowed to better characterize this tail and provided greater detail.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex2_6a2-revenue-boxplot.png"
+                ],
                 "links": [
                   "th_g6b"
                 ],
                 "x": 11400,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "pink",
                 "column": 15
               },
@@ -1899,14 +1915,16 @@
                 "title": "Ex 2.7e — Boxplot of Nr_visits and its asymmetry",
                 "content": "**Question.** Build the boxplot of `Nr_visits`. Are there outliers? What can be said about the asymmetry?\n\n*(Distribution of `Nr_visits` given in the prompt — 2200 customers.)*\n\n\\begin{tabular}{p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}}\n\\hline\nNr_Visits & 1 & 2 & 3 & 4 & 6 & 8 & 9 & 10 & 12 & 14 & 15 & 16 & 20 & 24 \\\\\n\\hline\nCount & 193 & 272 & 138 & 115 & 92 & 60 & 118 & 228 & 309 & 130 & 113 & 104 & 122 & 206 \\\\\n\\hline\n\\end{tabular}\n\n\n---\n\n**Answer.** To build the boxplot, we preliminarily check whether there are outliers. Since $Q_3 + 1.5\\cdot IQR = 30.5 > \\text{max}$ and $Q_1 - 1.5\\cdot IQR = -13.5 < \\text{min}$, we conclude that there are no extreme values and based on the five-number summary reported at the previous point, we obtain:\n\n`distr.plot.x(Nr_visits, plot.type=\"boxplot\")`\n\nA typical form of asymmetry is not directly identifiable from the plot: we have in fact that the left whisker has length $Q_1 - \\text{min} = 3 - 1 = 2$ smaller than that of the right whisker, $\\text{max} - Q_3 = 24 - 14 = 10$, while the box is asymmetrical on the left, as $Me - Q_1 = 10 - 3 = 7$, and $Q_3 - Me = 14 - 10 = 4$. Therefore, about the 25% of the less regular clients (lower whisker in the plot) has a quite homogeneous behavior as for the number of visits to the mall, whereas the most regular clients (upper whisker in the plot), including also clients who visited the mall up to twice a month, are more heterogeneous. Opposite considerations hold for the clients with a \"more standard/central\" number of visits. The group of \"central\" less regular clients (lower part of the box) is slightly more heterogeneous compared to the group of \"central\" more regular clients (upper part of the box).\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex2_7e-nrvisits-boxplot.png"
+                ],
                 "links": [
                   "th_g6b"
                 ],
                 "x": 12200,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "pink",
                 "column": 16
               },
@@ -1915,14 +1933,16 @@
                 "title": "Ex 2.8b — Five-number summary + mean + SD + boxplot for Margin_perc",
                 "content": "**Question.** Compute the five-number summary, mean and standard deviation of `Margin_perc`, and represent through a boxplot.\n\n---\n\n**Answer.** We obtain all the desired synthesis measures with the following command:\n\n`distr.summary.x(Margin_perc, stats=c(\"fivenumber\", \"mean\", \"sd\"),`\n\n`                digits=2, data=customer_habits)`\n\n`##  n n.a min   q1 median  q3 max`\n\n`## 34866 0 -40.71 6.57 17.36 29.15 99`\n\n`##  n n.a mean sd`\n\n`## 34866 0 18.2 17.82`\n\nand the corresponding boxplot is given by:\n\n`distr.plot.x(Margin_perc, plot.type=\"boxplot\")`\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex2_8b-margin-boxplot.png"
+                ],
                 "links": [
                   "th_g6b"
                 ],
                 "x": 13000,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "pink",
                 "column": 17
               }
@@ -1972,14 +1992,16 @@
                 "title": "Ex 2.3b — Identify extreme-spending customers via upper outliers",
                 "content": "**Question.** How would you assess whether there are customers having a particularly high expenditure (variable `AmountSpent`)? How would you identify them? How many, if any, are these customers?\n\n---\n\n**Answer.** To assess whether there are customers with 'extreme' high expenditures, we need to verify whether there are any **upper outliers** in the distribution of the variable `AmountSpent`. At this aim, we first compute the main summary measures of the distribution:\n\n`distr.summary.x(AmountSpent, stats=\"summary\", data=DS)`\n\n`##  n n.a min q1 median mean   q3   max  sd     var`\n\n`## 750  0  38  451  983 1228.44 1713.75 5878 970 940900.9`\n\nUpper outliers are values higher than the third quartile plus 1.5 times the interquartile range, i.e. $Q_3 + 1.5(Q_3 - Q_1) = 1713.75 + 1.5(1713.75 - 451) = 3607.875$. It is evident that there is at least one superior outlier, which is the maximum. To determine how many customers spend more than 3607.875 (3608 rounded), we compute:\n\n`sum(DS$AmountSpent > 3608)`\n\n`## [1] 17`\n\nThe presence of upper outliers could be easily detected by looking at the boxplot:\n\n`distr.plot.x(AmountSpent, plot.type = \"boxplot\", data=DS)`\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex2_3bc-amountspent-box-hist.png"
+                ],
                 "links": [
                   "th_g6c"
                 ],
                 "x": 9000,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "pink",
                 "column": 12
               },
@@ -1988,14 +2010,16 @@
                 "title": "Ex 2.3c — Shape of the AmountSpent distribution",
                 "content": "**Question.** How would you describe the shape of the distribution of the variable `AmountSpent`? Please indicate which tools you use and what are your considerations.\n\n---\n\n**Answer.** In order to assess the shape of a distribution, the most effective tool is the **boxplot**, reported at the previous point. For the considered variable, the graph shows that the distribution is **skewed to the right** (or positively skewed): within the 'box', the line corresponding to the median is closer to the lower extreme (first quartile) than to the upper extreme (third quartile); in addition, the lower whisker is considerably shorter than the upper one; the right tail also has extreme values that are very far — in relative terms — from the center of the data.\n\nThe right skewness of the distribution of `AmountSpent` in our data could also be detected based on the **histogram**:\n\n`distr.plot.x(AmountSpent, plot.type = 'hist', data=DS)`\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex2_3bc-amountspent-box-hist.png"
+                ],
                 "links": [
                   "th_g6c"
                 ],
                 "x": 9000,
-                "y": 600,
+                "y": 780,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "pink",
                 "column": 12
               },
@@ -2067,14 +2091,16 @@
                 "title": "Ex 3.1b — Conditional frequencies of SmokingArea by District",
                 "content": "**Question.** Test whether the distribution of `SmokingArea` differs across the three districts.\n\n---\n\n**Answer.** Independence between the two variables does not appear at first glance, although, clearly, the histogram allows the distributions to be visualised and compared using a classification that may offer more detail. *(In subsequent exercises we take this caveat for granted.)*\n\n**b)** The statement is **false**. In fact, the relationship between the two variables does not allow to infer a causal link. It could in fact be the case that larger pizzerias — those with higher sales — are larger, or have duties or galleries allowing a smoking area.\n\nTo answer the question, it is necessary to compare the conditional distributions. In this particular case, it seems more appropriate to compare the conditional frequency distributions of the variable `SmokingArea`, according to the District, even if it was a 'technical' point of view (i.e. to assess whether there is an association or not) one can also proceed conditioning on the variable SmokingArea.\n\nIt is possible to consider the following conditional frequency distributions:\n\n`distr.table.xy(SmokingArea, District, freq=c(\"percentages\",\"col\"), data=pizzerias)`\n\n`##                  District`\n\n`## SmokingArea  Lodi   Milano  Pavia`\n\n`## No           63      33     56`\n\n`## Yes          37      67     44`\n\n`## TOTAL       100     100    100`\n\nor a side-by-side bar plot or stacked bar chart:\n\n`distr.plot.xy(SmokingArea, District, freq=\"percentages\", plot.type=\"bars\",`\n\n`              bar.type='xy', data=pizzeria)`\n\nIn both cases, the distributions of the variable `SmokingArea` differ substantially in the three provinces, leading to the conclusion that the two variables are associated. From a substantive point of view, this means that in the three provinces a \"recognizable\" trend can be observed with reference to the availability/equipment of a smoking area. In Pavia, the percentage of pizzerias with smoking areas is particularly high (67% of the total), while in Lodi an opposite trend can be observed (63% of pizzerias in Lodi do not have smoking areas). Pavia shows an intermediate pattern between these two extremes, although pizzerias without smoking areas prevail.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex3_1b-smoking-by-district.png"
+                ],
                 "links": [
                   "th_g7"
                 ],
                 "x": 13800,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "yellow",
                 "column": 18
               },
@@ -2227,14 +2253,16 @@
                 "title": "Ex 3.6f — Joint stacked bar plot of Country × Sex",
                 "content": "**Question.** Build a stacked bar plot or side-by-side bar chart to visualise the joint composition of transactions by Country and Sex.\n\n---\n\n**Answer.**\n\n`distr.plot.xy(Country, Sex, freq=\"x|y\", plot.type=\"bars\", bar.type=\"beside\",`\n\n`              data=customer_habits)`\n\nBars for each Country are split by Sex. Approximate independence is confirmed visually: the F vs M split is roughly the same in every country.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex3_6f-country-sex-stacked.png"
+                ],
                 "links": [
                   "th_g7"
                 ],
                 "x": 17800,
                 "y": 2200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "yellow",
                 "column": 23
               },
@@ -2248,7 +2276,7 @@
                   "th_g7"
                 ],
                 "x": 17800,
-                "y": 2600,
+                "y": 2780,
                 "width": 600,
                 "height": 360,
                 "color": "yellow",
@@ -2259,14 +2287,16 @@
                 "title": "Ex 3.7 a1 — Product_Category | Sex",
                 "content": "**Question.** Build the conditional distribution of `Product_Category` given `Sex`.\n\n---\n\n**Answer.**\n\n`distr.table.xy(Sex, Product_Category, freq=c(\"perc\"), freq.type=\"y|x\",`\n\n`               p.digits=2, data=customer_habits)`\n\n`##              Product_Category`\n\n`##  Sex      Accessories  Bikes  Clothing  TOTAL`\n\n`##  F          64.17     18.90    16.93    100`\n\n`##  M          69.22     20.82     9.96    100`\n\nDifferences are visible. Female customers buy proportionally more **Clothing** and fewer Bikes than male customers. The **mode is Accessories** for both groups (~64-69%), so Sex is associated with Product_Category, but the modal category does not change.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex3_7a1-product-by-sex.png"
+                ],
                 "links": [
                   "th_g7"
                 ],
                 "x": 18600,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "yellow",
                 "column": 24
               },
@@ -2275,14 +2305,16 @@
                 "title": "Ex 3.7 a3 — Product_Category × Sex within each Country",
                 "content": "**Question.** Consider the customer's country of origin too. For each country separately, obtain the conditional distributions of product category given sex. Are these conclusions the same in each of these countries, in the relative importance of different product categories still the same for male and female buyers?\n\n---\n\n**Answer.**\n\n`distr.table.xy(Sex, Product_Category, freq=c(\"perc\"), p.digits=2,`\n\n`               total=F, data=data_USA)`\n\n`##             Product_Category`\n\n`##  Sex      Accessories  Bikes  Clothing`\n\n`##  F        69.22         19.85    16.93`\n\n`##  M        69.22         20.82     9.96`\n\n(Done per country: France, UK, Germany, USA.) The **mode remains Accessories** irrespective of the country or the sex of the customer making the purchase. However, the relative importance of the mode in the two segments, as well as the frequency of transactions related to other product categories, varies from country to country. For example, 31.94% of French female customers purchase Clothing versus 19.60% of male customers, who are more likely to purchase bicycles (27.59%). In the US, among male customers, there is a greater propensity to purchase accessories (69% vs 60% among female) and a lower propensity to purchase clothing (10% vs 17% among female).\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex3_7a3-product-sex-by-country.png"
+                ],
                 "links": [
                   "th_g7"
                 ],
                 "x": 18600,
-                "y": 600,
+                "y": 780,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "yellow",
                 "column": 24
               },
@@ -2291,14 +2323,16 @@
                 "title": "Ex 3.9 a1 — Distribution of tier within each class (League of Legends)",
                 "content": "**Question.** Compute the distribution of `tier` conditional on `class` for League of Legends champions.\n\n---\n\n**Answer.**\n\n`LoL$tier_f  <- factor(LoL$tier,  levels=c(\"F\",\"E\",\"D\",\"C\",\"B\",\"A\",\"S\"))`\n\n`LoL$class_f <- factor(LoL$class, levels=c(\"Assassin\",\"Fighter\",\"Mage\",\"Marksman\",\"Support\",\"Tank\"))`\n\n\n\n`distr.table.xy(class_f, tier_f, freq=c(\"percentage\"), freq.type=\"x|y\", data=LoL)`\n\n`distr.plot.xy(class_f, tier_f, freq=\"perc\", plot.type=\"bars\", bar.type=\"xy\", data=LoL)`\n\nThe class **Assassin** looks the most promising, with the highest percentage of champions with the highest levels of `tier` (A, S) and no champion with the lowest tier level. Instead, **Mage** and **Marksman** look the least convenient classes, because of the highest proportion of champions with the lowest tier levels; in particular, class Mage also presents the lowest proportion of champions with the highest tier even if, compared to Marksman, includes more champions with tier B and less with tier A.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex3_9a1-lol-tier-by-class.png"
+                ],
                 "links": [
                   "th_g7"
                 ],
                 "x": 20200,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "yellow",
                 "column": 26
               },
@@ -2323,14 +2357,16 @@
                 "title": "Ex 3.10 a2 — Distribution of Prod conditional on Channel",
                 "content": "**Question.** Compare the distributions of `Prod` conditional on `Channel`.\n\n---\n\n**Answer.**\n\n`distr.summary.x(Company$Prod, by=Company$Channel,`\n\n`                stats=c(\"median\",\"mode\"))`\n\n`##  Company$Channel   n   n.a median  mode  n.modes mode%`\n\n`##  Ecomm            156   0    MH    ML      1    0.4872`\n\n`##  Mob              128   0    ML    ML      1    0.5312`\n\n`##  Multi            142   0    ML    ML      1    0.7083`\n\n`##  Trad             288   0    MH    MH      1    0.3750`\n\nThe comparison can also be based on a stacked bar diagram displaying the distributions of `Prod` conditioned to `Channel` (a stacked bar chart is reported corresponding to 0.5, to identify the median).\n\n`distr.plot.xy(Company$Prod, Company$Channel, plot.type=\"bars\",`\n\n`              freq=\"perc\", freq.type=\"x|y\")`\n\nReferring to the modes and the medians of `Prod`, we note that such measures vary depending on the customers' preferred purchase channel. Specifically, the mode and the median of `Prod` among clients who prefer the smartphone (Mob) are both medium-low (medium=medium-low/ML); the same trend is observed among clients who prefer e-commerce (Ecomm), although shifted up towards medium-high. **We are interested in the frequency of `Prod` conditioned to `Channel`**.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex3_10a2-prod-by-channel.png"
+                ],
                 "links": [
                   "th_g7"
                 ],
                 "x": 21000,
                 "y": 600,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "yellow",
                 "column": 27
               },
@@ -2434,14 +2470,16 @@
                 "title": "Ex 3.1a — Conditional boxplots of Sales by SmokingArea",
                 "content": "**Question.** Compare the distributions of `Sales` conditioning on `SmokingArea` (Yes/No).\n\n---\n\n**Answer.** The most appropriate graphical tool is based on **side-by-side boxplots**:\n\n`distr.plot.xy(x=Sales, y=SmokingArea, plot.type=\"boxplot\", data=pizzerias)`\n\nThe graph shows that the two conditional distributions have different characteristics. The distribution of sales in pizzerias **without a smoking area** has a lower median, lower variability both in terms of behavior in the center of the distribution (given by the interquartile difference, i.e. the size of the \"box\") and in terms of range. Also, the minimum and maximum values are consistently lower than those observed for the sales of pizzerias with smoking areas. The shape of the two distributions is also different. For pizzerias without a smoking area, an approximately symmetrical distribution is observed, although there are some larger values which represent extreme outliers. The distribution of `Sales` in pizzerias with smoking areas is on the contrary **clearly skewed to the right**, defined also, but not only, by the presence of at least two outliers.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex3_1a-sales-by-smokingarea.png"
+                ],
                 "links": [
                   "th_g8"
                 ],
                 "x": 13800,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "lavender",
                 "column": 18
               },
@@ -2455,7 +2493,7 @@
                   "th_g8"
                 ],
                 "x": 13800,
-                "y": 600,
+                "y": 780,
                 "width": 600,
                 "height": 360,
                 "color": "lavender",
@@ -2471,7 +2509,7 @@
                   "th_g8"
                 ],
                 "x": 13800,
-                "y": 1000,
+                "y": 1180,
                 "width": 600,
                 "height": 360,
                 "color": "lavender",
@@ -2482,14 +2520,16 @@
                 "title": "Ex 3.2a — Compare AmountSpent across History levels",
                 "content": "**Question.** Graphically compare the amount spent (`AmountSpent`) by customers with different purchase frequency (`History`).\n\n---\n\n**Answer.** Side-by-side boxplots conditioned on `History`:\n\n`distr.plot.xy(AmountSpent, History_recode, plot.type=\"boxplot\", data=DS)`\n\nThe boxplots show that the amount spent **increases** as the History level moves from None to High. Median and quartiles shift upward; dispersion also tends to grow. The conditional distributions are clearly different — `History` and `AmountSpent` are **associated**.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex3_2a-amountspent-by-history.png"
+                ],
                 "links": [
                   "th_g8"
                 ],
                 "x": 14600,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "lavender",
                 "column": 19
               },
@@ -2503,7 +2543,7 @@
                   "th_g8"
                 ],
                 "x": 14600,
-                "y": 600,
+                "y": 780,
                 "width": 600,
                 "height": 360,
                 "color": "lavender",
@@ -2519,7 +2559,7 @@
                   "th_g8"
                 ],
                 "x": 14600,
-                "y": 1000,
+                "y": 1180,
                 "width": 600,
                 "height": 360,
                 "color": "lavender",
@@ -2535,7 +2575,7 @@
                   "th_g8"
                 ],
                 "x": 14600,
-                "y": 1400,
+                "y": 1580,
                 "width": 600,
                 "height": 360,
                 "color": "lavender",
@@ -2551,7 +2591,7 @@
                   "th_g8"
                 ],
                 "x": 14600,
-                "y": 1800,
+                "y": 1980,
                 "width": 600,
                 "height": 360,
                 "color": "lavender",
@@ -2562,14 +2602,16 @@
                 "title": "Ex 3.2m — Children vs AmountSpent",
                 "content": "**Question.** What tools would you use to highlight the relationship between `AmountSpent` and `Children`? Would you use the correlation coefficient to summarize the strength of the link between the two variables?\n\n---\n\n**Answer.** `Children` is **discrete numerical** (0, 1, 2, 3). For a discrete predictor vs continuous outcome, the best graphical tool is **side-by-side boxplots** or a scatter with jitter:\n\n`distr.plot.xy(Children, AmountSpent, plot.type=\"boxplot\", data=DS)`\n\n`distr.plot.xy(Children, AmountSpent, plot.type=\"scatter\", data=DS)`\n\nThe two plots both show that the amount spent decreases as the number of children increases, and that as the number of children increases, the right skewness of the distribution decreases. In both cases, the plot highlights the fact that customers who do not have children have much more heterogeneous spending behavior; in fact, this group of customers includes both single customers and customers who have a partner but no children and these two groups may have different spending capacity.\n\nThe **correlation** between the two variables is:\n\n`cor(DS$Children, DS$AmountSpent)`\n\n`## [1] -0.2125776`\n\nA weak **negative** linear relationship. However, because the relationship is not linear (curvature) and given Children is discrete, the linear correlation may not be the best summary; the conditional boxplots are more informative.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex3_2m-amountspent-children.png"
+                ],
                 "links": [
                   "th_g8"
                 ],
                 "x": 14600,
-                "y": 2200,
+                "y": 2380,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "lavender",
                 "column": 19
               },
@@ -2578,14 +2620,16 @@
                 "title": "Ex 3.4 a1 — Compare EXPENSES distributions by TYPE (BUSINESS vs PRIVATE)",
                 "content": "**Question.** Graphically highlight any differences in the level of `EXPENSES` depending on the type of customer (`TYPE`).\n\n---\n\n**Answer.**\n\n`distr.plot.xy(TYPE, EXPENSES, plot.type=\"boxplot\", data=Services)`\n\nThe two distributions have a different shape:\n- **BUSINESS** clients: distribution is left-skewed, with a greater concentration on higher values of `EXPENSES`, and a third quartile much closer to the maximum than to the median.\n- **PRIVATE** clients: distribution is right-skewed (median closer to the first quartile, longer right whisker).\n\nFurthermore, the distribution of EXPENSES on BUSINESS customers is shifted to higher values compared to that of PRIVATE customers, with all the position measures higher than those observed for PRIVATE.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex3_4a-expenses-by-type.png"
+                ],
                 "links": [
                   "th_g8"
                 ],
                 "x": 16200,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "lavender",
                 "column": 21
               },
@@ -2594,14 +2638,16 @@
                 "title": "Ex 3.4 a2 — Dispersion of EXPENSES across BUSINESS/PRIVATE",
                 "content": "**Question.** Provide several measures of the extreme values and the inter-quartile difference of the two distributions.\n\n---\n\n**Answer.**\n\n`distr.summary.x(EXPENSES, by=TYPE, stats=c(\"fivenumber\",\"p10\",\"p90\",\"mean\"),`\n\n`                data=Services)`\n\n`##  TYPE      n n.a min   q1 median  q3 max p10 p90 mean`\n\n`## BUSINESS  82  0 36.91 50.65 58.85 68.27 76.45 ...`\n\n`## PRIVATE  102  0 30.49 41.95 46.59 56.11 69.72 ...`\n\nBoth groups show similar **range** of variation (about 50 USD) but different **interquartile** spreads. The PRIVATE group has a slightly larger IQR relative to its mean, suggesting more relative dispersion (compare via CV).\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex3_4a-expenses-by-type.png"
+                ],
                 "links": [
                   "th_g8"
                 ],
                 "x": 16200,
-                "y": 600,
+                "y": 780,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "lavender",
                 "column": 21
               },
@@ -2615,7 +2661,7 @@
                   "th_g8"
                 ],
                 "x": 16200,
-                "y": 1000,
+                "y": 1360,
                 "width": 600,
                 "height": 360,
                 "color": "lavender",
@@ -2690,14 +2736,16 @@
                 "title": "Ex 3.9b — KDA conditioned on role",
                 "content": "**Question.** Compare the distribution of `KDA` across `role` levels.\n\n---\n\n**Answer.**\n\n`distr.plot.xy(role, KDA, plot.type=\"boxplot\", data=LoL)`\n\n`KDA` is a numerical variable, whereas `role` is a qualitative variable. Therefore, we use side-by-side boxplots to compare the conditional distributions. Some roles have higher medians and tighter spreads than others (suggesting role-specific performance patterns).\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex3_9b-kda-by-role.png"
+                ],
                 "links": [
                   "th_g8"
                 ],
                 "x": 20200,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "lavender",
                 "column": 26
               },
@@ -2706,14 +2754,16 @@
                 "title": "Ex 3.9c — pick_perc by role; scatter score vs pick_perc",
                 "content": "**Question.** Compare `pick_perc` across roles. Use a scatter plot to assess the relationship between `score` and `pick_perc`.\n\n---\n\n**Answer.**\n\n`distr.summary.x(pick_perc, by=role, stats=\"summary\", data=LoL)`\n\n`distr.plot.xy(x=score, y=pick_perc, plot.type=\"scatter\", var.c=role, data=LoL)`\n\n`pick_perc` is linear; even if one excludes the (relative few) points deviating from the cloud of points, the correlation coefficient would be higher. We can therefore conclude that players tend to select champions based on their **score**, which is quite reasonable — and expected — and that the correlation between the two variables is quite high even if we have a \"group-wise\" linear relation, because the points in the scatter do not cluster around a unique line. It is clearly interesting to understand which are the points deviating from the others.\n\n`distr.plot.xy(x=score, y=pick_perc, plot.type=\"scatter\", var.c=role, data=LoL)`\n\nGiven a certain score, champions of role `ADC` are chosen more frequently compared to champions with other roles, and the percentage of games where they are chosen increases with the score at a higher rate compared to the other classes. Even if less clear, we note alignments along slightly different lines also for the other roles.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex3_9c-score-pick-by-role.png"
+                ],
                 "links": [
                   "th_g8"
                 ],
                 "x": 20200,
-                "y": 600,
+                "y": 780,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "lavender",
                 "column": 26
               },
@@ -2738,14 +2788,16 @@
                 "title": "Ex 3.11b — Revenues boxplot construction and reading",
                 "content": "**Question.** Construct the boxplot of `Revenues` and compare the distributions across store categories (Location).\n\n---\n\n**Answer.** Construct the boxplot from the 5-number summary:\n\n`distr.summary.x(Revenues, stats=\"fivenumbers\", data=Campaign)`\n\n`##  n n.a min q1 median q3 max`\n\n`## 1450 0 105.82 804.55 984 1202.36 3312.54`\n\n`distr.plot.x(Revenues, plot.type=\"boxplot\", data=Campaign)`\n\nThe box extends from the first quartile (804.55) to the third quartile (1202.36) and is divided by the median value (984). The whiskers in the graph provide an immediate visualisation of the range and any outliers.\n\n**b2)** Side-by-side boxplots of `Revenues` by `Location` (city center / suburbs / etc.) for distinguishing the distributions of the variable across store categories:\n\n`distr.plot.xy(Revenues, Location, plot.type=\"boxplot\", data=Campaign)`\n\nDifferences in median, IQR and presence of outliers help identify which store categories are more profitable.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex3_11b-revenues-boxplot.png"
+                ],
                 "links": [
                   "th_g8"
                 ],
                 "x": 21800,
                 "y": 600,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "lavender",
                 "column": 28
               }
@@ -2785,14 +2837,16 @@
                 "title": "Ex 3.1e — Scatter plot of Price vs Sales + covariance + correlation",
                 "content": "**Question.** Build a scatter plot of `Price` and `Sales` and compute the covariance and correlation.\n\n---\n\n**Answer.**\n\n`distr.plot.xy(x=Price, y=Sales, plot.type=\"scatter\", fitline=T, data=pizzerias)`\n\nThe scatter shows a **roughly linear positive relationship**: higher Price tends to associate with higher Sales, though with considerable variability around the straight line that cuts the data at best.\n\n**Covariance:**\n\n`cov(pizzerias$Price, pizzerias$Sales)cu`\n\n`## [1] 9419.185`\n\nThe covariance is an index that allows to assess the direction of the relationship but has a magnitude that strongly depends on the units of measurement of the considered variables, and cannot therefore be used to assess the intensity of the linear relationship, if any. To assess the intensity of the linear relationship, it is necessary to refer to **Pearson's linear correlation coefficient**:\n\n`cor(pizzerias$Price, pizzerias$Sales)`\n\n`## [1] 0.6699389`\n\nThis value indicates that the relationship between the two variables is direct and of medium/medium-high intensity, as the correlation assumes a value close to 67% of its theoretical maximum (1).\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex3_1e-price-sales-scatter.png"
+                ],
                 "links": [
                   "th_g9"
                 ],
                 "x": 13800,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "salmon",
                 "column": 18
               },
@@ -2817,14 +2871,16 @@
                 "title": "Ex 3.3a — Pearson correlation between Satisfaction and age/distance/expenses",
                 "content": "**Question.** Compute the Pearson linear correlation between `satisfaction` and the pairs of variables describing their joint distribution.\n\n---\n\n**Answer.**\n\n`cor(Satisfaction$age,      Satisfaction$satisfaction)`\n\n`## [1]  0.4692066`\n\n`cor(Satisfaction$distance, Satisfaction$satisfaction)`\n\n`## [1]  0.4793237`\n\n`cor(Satisfaction$expenses, Satisfaction$satisfaction)`\n\n`## [1] -0.6125778`\n\nThe first two correlations are similar and positive. However, to draw conclusions on the similarity between the characteristics of the relationships, the scatterplots must also be considered:\n\n`distr.plot.xy(age,      satisfaction, plot.type=\"scatter\", data=Satisfaction)`\n\n`distr.plot.xy(distance, satisfaction, plot.type=\"scatter\", data=Satisfaction)`\n\n`distr.plot.xy(expenses, satisfaction, plot.type=\"scatter\", data=Satisfaction)`\n\nObserving the scatterplots, one notes that the relationship between **satisfaction and distance** is approximately linear and the **low to medium correlation coefficient** effectively summarises the information on the dispersion of the data around a straight line. On the contrary, the relationship between **satisfaction and age** is far from linear: the level of satisfaction of younger customers is extremely variable, customers aged around 25 to 40 are relatively dissatisfied, but from 35/40 onwards, an increase in the level of satisfaction is observed as age increases. The relationship is therefore more quadratic than linear. The relationship between the two pairs of variables, therefore, is not a coincidence with the correlation coefficients are similar.\n\nFor `satisfaction` and `expenses`: clearly linear negative — the correlation coefficient of $-0.6126$ effectively summarises the medium-level intensity of the linear relationship between the two variables.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex3_3a-satisfaction-scatters.png"
+                ],
                 "links": [
                   "th_g9"
                 ],
                 "x": 15400,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "salmon",
                 "column": 20
               },
@@ -2833,14 +2889,16 @@
                 "title": "Ex 3.11c — Relationship Sales vs Revenues and Sales vs Costs",
                 "content": "**Question.** Consider the relationship between `Sales` and `Revenues`, and between `Sales` and `Costs`. Which has the stronger relationship?\n\n---\n\n**Answer.**\n\n`distr.plot.xy(x=Sales, y=Revenues, plot.type=\"scatter\", fitline=T, data=Campaign)`\n\n`distr.plot.xy(x=Sales, y=Costs,    plot.type=\"scatter\", fitline=T, data=Campaign)`\n\n`cor(Campaign$Costs,    Campaign$Sales)`\n\n`## [1] 0.7588883`\n\n`cor(Campaign$Revenues, Campaign$Sales)`\n\n`## [1] 0.7580242`\n\nThe two correlations are essentially identical, both around 0.76. Both scatterplots show a roughly linear relationship of medium-high intensity.\n\nFrom the plots, it can be observed that the strongest and most structured relationship is that between **Sales and Costs**, even though it is characterised by a non-linear trend in that a greater dispersion of campaign effectiveness is observed at higher levels of `Sales`. The relationship between `Revenues` and `Sales`, on the other hand, is particularly weak despite a number of observations arranged along a straight line. Note that the tendency of the data to concentrate around a line is more pronounced in the first plot. Neglecting therefore the non-linearity of the relationship between `Costs` and `Sales`, we note that the correlation coefficients are similar.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex3_11c-sales-scatter-pair.png"
+                ],
                 "links": [
                   "th_g9"
                 ],
                 "x": 21800,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "salmon",
                 "column": 28
               }
@@ -4683,14 +4741,16 @@
                 "title": "Ex 8.1a — Simple regression Debt on Television + summary",
                 "content": "**Question.** Fit a simple linear regression of `Debt` on `Television` in `TeleDebt`.\n\n---\n\n**Answer.**\n`mod <- lm(Debt ~ Television, data=TeleDebt)`\n\n`summary(mod)`\n\n`distr.summary.x(Television, stats=\"summary\", data=TeleDebt)`\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex8_1-debt-television.png"
+                ],
                 "links": [
                   "th_g15"
                 ],
                 "x": 56200,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "forest",
                 "column": 71
               },
@@ -4699,14 +4759,16 @@
                 "title": "Ex 8.1b — Prediction and confidence intervals at Television=33",
                 "content": "**Question.** Build prediction and confidence intervals at `Television = 33`.\n\n---\n\n**Answer.**\n`predict(mod, newdata=data.frame(Television=33),`\n\n`        interval=\"prediction\", level=0.99)`\n\n`predict(mod, newdata=data.frame(Television=33),`\n\n`        interval=\"confidence\", level=0.99)`\n\n**Prediction interval** is wider (predicts a single new observation including its noise) than the **confidence interval** for $E(Y \\mid X=33)$.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex8_1-debt-television.png"
+                ],
                 "links": [
                   "th_g15"
                 ],
                 "x": 56200,
-                "y": 600,
+                "y": 780,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "forest",
                 "column": 71
               },
@@ -4720,7 +4782,7 @@
                   "th_g15"
                 ],
                 "x": 56200,
-                "y": 1000,
+                "y": 1360,
                 "width": 600,
                 "height": 360,
                 "color": "forest",
@@ -4731,14 +4793,16 @@
                 "title": "Ex 8.2a — AmountSpent on Salary (DS) + residual plot",
                 "content": "**Question.** Fit `lm(AmountSpent ~ Salary, data=DS)` and look at its residual plot.\n\n---\n\n**Answer.**\n`mod <- lm(AmountSpent ~ Salary, data=DS)`\n\n`summary(mod)`\n\n`plot(mod, which=1)   # residuals vs fitted`\n\nA pattern in residuals indicates **heteroscedasticity** or **non-linearity** — both violate assumptions of OLS.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex8_2a-amountspent-salary.png"
+                ],
                 "links": [
                   "th_g15"
                 ],
                 "x": 57000,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "forest",
                 "column": 72
               },
@@ -4747,14 +4811,16 @@
                 "title": "Ex 8.2b — AmountSpent on Catalogs + scatter",
                 "content": "**Question.** Compare a second regression using `Catalogs` as predictor.\n\n---\n\n**Answer.**\n`plot(DS$Catalogs, DS$AmountSpent)`\n\n`mod1 <- lm(AmountSpent ~ Catalogs, data=DS)`\n\n`summary(mod1)`\n\n`plot(mod1, which=1)`\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex8_2b-amountspent-catalogs.png"
+                ],
                 "links": [
                   "th_g15"
                 ],
                 "x": 57000,
-                "y": 600,
+                "y": 780,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "forest",
                 "column": 72
               },
@@ -4763,14 +4829,16 @@
                 "title": "Ex 8.3a — Weeks on Age (NewHired) + CI + prediction",
                 "content": "**Question.** Regress `Weeks` on `Age` in `NewHired`; build CI for slope; predict at Age=36; plot diagnostics.\n\n---\n\n**Answer.**\n`mod <- lm(Weeks ~ Age, data=NewHired)`\n\n`summary(mod)`\n\n`confint(mod, level=0.9)            # 90% CI for slope`\n\n`predict(mod, newdata=data.frame(Age=36),`\n\n`        interval=\"prediction\", level=0.99)`\n\n`distr.plot.xy(x=Age, y=Weeks, plot.type=\"scatter\",`\n\n`              fitline=T, data=NewHired)`\n\n`plot(mod, which=1)   # residuals vs fitted`\n\n`plot(mod, which=3)   # scale-location`\n\n`distr.plot.x(x=rstandard(mod), plot.type=\"histogram\")`\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex8_3-weeks-age.png"
+                ],
                 "links": [
                   "th_g15"
                 ],
                 "x": 57800,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "forest",
                 "column": 73
               },
@@ -4779,14 +4847,16 @@
                 "title": "Ex 8.4a — Restaurants: revenues ~ surface + diagnostics",
                 "content": "**Question.** Fit `lm(revenues ~ surface, data=restaurants)`; rescale; check heteroscedasticity by evening-only.\n\n---\n\n**Answer.**\n`mod  <- lm(revenues ~ surface, data=restaurants)`\n\n`summary(mod)`\n\n`# Multiply revenues by 1000 → same fit but rescaled coefs`\n\n`mod1000 <- lm(revenues*1000 ~ surface, data=restaurants)`\n\n`summary(mod1000)`\n\n`distr.plot.xy(x=surface, y=revenues, plot.type=\"scatter\",`\n\n`              fitline=T, data=restaurants)`\n\n`plot(mod, which=1)`\n\n`distr.plot.xy(x=restaurants$evening_only, y=rstandard(mod),`\n\n`              plot.type=\"boxplot\")`\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex8_4-revenues-surface.png"
+                ],
                 "links": [
                   "th_g15"
                 ],
                 "x": 58600,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "forest",
                 "column": 74
               },
@@ -4843,14 +4913,16 @@
                 "title": "Ex 9.1 — Baseball: Major ~ Minor + Age + diagnostic plots",
                 "content": "**Question.** Regress `Major` league hits on `Minor` and `Age`; interpret coefficients; check assumptions.\n\n---\n\n**Answer.**\n`mod <- lm(Major ~ Minor + Age, data=Baseball)`\n\n`summary(mod)`\n\n`# Predict at Age=25, Minor=22 with prediction interval`\n\n`predict(mod, newdata=data.frame(Age=25, Minor=22), interval=\"prediction\")`\n\n`2*confint(mod)[3,]`\n\n\n\n`# Add Years and Age (multicollinearity check)`\n\n`mod1 <- lm(Major ~ Minor + Years + Age, data=Baseball)`\n\n`summary(mod1)`\n\n`cor(Baseball$Age, Baseball$Years)`\n\n`mod2 <- lm(Major ~ Minor + Years, data=Baseball)`\n\n`summary(mod2)`\n\n\n\n`# Diagnostics`\n\n`plot(mod2, which=1)`\n\n`distr.plot.xy(x=Minor, y=rstandard(mod2), plot.type=\"scatter\", data=Baseball)`\n\n`distr.plot.xy(x=Years, y=rstandard(mod2), plot.type=\"scatter\", data=Baseball)`\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex9_1-baseball.png"
+                ],
                 "links": [
                   "th_g15"
                 ],
                 "x": 60200,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "forest",
                 "column": 76
               },
@@ -4864,7 +4936,7 @@
                   "th_g15"
                 ],
                 "x": 60200,
-                "y": 600,
+                "y": 780,
                 "width": 600,
                 "height": 360,
                 "color": "forest",
@@ -4875,14 +4947,16 @@
                 "title": "Ex 9.3 — Competition: Performance ~ Competition (+ Quality)",
                 "content": "**Question.** Fit a simple regression, then add `Quality` as a second predictor.\n\n---\n\n**Answer.**\n`mod  <- lm(Performance ~ Competition, data=Competition)`\n\n`summary(mod)`\n\n`mod1 <- lm(Performance ~ Competition + Quality, data=Competition)`\n\n`summary(mod1)`\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex9_3-competition.png"
+                ],
                 "links": [
                   "th_g15"
                 ],
                 "x": 61000,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "forest",
                 "column": 77
               },
@@ -4891,14 +4965,16 @@
                 "title": "Ex 9.4 — superstore: MntMeatProducts ~ IncomeK + Age (+ KidsAtHome)",
                 "content": "**Question.** Fit multiple regression in `superstore`; add `KidsAtHome` as a categorical predictor; predict at specified values.\n\n---\n\n**Answer.**\n`mod     <- lm(MntMeatProducts ~ IncomeK + Age, data=superstore)`\n\n`summary(mod)`\n\n`moddisc <- lm(MntMeatProducts ~ IncomeK + KidsAtHome, data=superstore)`\n\n`summary(moddisc)`\n\n`modter  <- lm(MntMeatProducts ~ IncomeK + Age + KidsAtHome, data=superstore)`\n\n`predict(modter,`\n\n`        newdata=data.frame(IncomeK=75, Age=40, KidsAtHome=\"Yes\"),`\n\n`        interval=\"confidence\")`\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex9_4-superstore.png"
+                ],
                 "links": [
                   "th_g15"
                 ],
                 "x": 61800,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "forest",
                 "column": 78
               },
@@ -4907,14 +4983,16 @@
                 "title": "Ex 9.5 — Restaurants: revenues ~ multiple predictors + diagnostics",
                 "content": "**Question.** Fit a multiple regression for restaurant revenues; check diagnostics.\n\n---\n\n**Answer.**\n`mod  <- lm(revenues ~ seats + area + days_open + evening_only, data=restaurants)`\n\n`summary(mod)`\n\n`mod2 <- lm(revenues ~ surface + avg_daily, data=restaurants)`\n\n`summary(mod2)`\n\n`plot(mod, which=1)`\n\n`plot(mod, which=3)`\n\n`distr.plot.x(x=rstandard(mod), plot.type=\"histogram\")`\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex9_5-restaurants-multi.png"
+                ],
                 "links": [
                   "th_g15"
                 ],
                 "x": 62600,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "forest",
                 "column": 79
               },
@@ -4923,14 +5001,16 @@
                 "title": "Ex 9.6 — MBA: MBA.GPA ~ UnderGPA + GMAT + Work",
                 "content": "**Question.** Fit multiple regression of `MBA.GPA` on its three predictors; test individual coefficients and check residuals.\n\n---\n\n**Answer.**\n`mod <- lm(MBA.GPA ~ UnderGPA + GMAT + Work, data=MBA.1)`\n\n`summary(mod)`\n\n`# t-test for a coefficient (e.g. UnderGPA), example with t=2.996 and df=85`\n\n`2*(1 - pt(2.996, df=85))`\n\n`# Hypothesis test for a slope: e.g. H0: beta_GMAT = 0.16`\n\n`t.stat <- (0.092595 - 0.16) / 0.030909`\n\n`plot(mod, which=1)`\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex9_6-mba1.png"
+                ],
                 "links": [
                   "th_g15"
                 ],
                 "x": 63400,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "forest",
                 "column": 80
               },
@@ -4944,7 +5024,7 @@
                   "th_g15"
                 ],
                 "x": 63400,
-                "y": 600,
+                "y": 780,
                 "width": 600,
                 "height": 360,
                 "color": "forest",
@@ -4955,14 +5035,16 @@
                 "title": "Ex 9.8 — Lotteries: Amount ~ Education + Age + Children + Income",
                 "content": "**Question.** Build models for lottery `Amount`. Compare specifications.\n\n---\n\n**Answer.**\n`mod.Income   <- lm(Amount ~ Income,   data=Lotteries)`\n\n`mod.Children <- lm(Amount ~ Children, data=Lotteries)`\n\n`mod.mult     <- lm(Amount ~ Education + Age + Children + Income, data=Lotteries)`\n\n`summary(mod.mult); summary(mod.Income); summary(mod.Children)`\n\n`plot(mod.mult, which=1)`\n\n`distr.plot.x(x=rstandard(mod.mult), plot.type=\"histogram\")`\n\n`distr.plot.xy(x=Education, y=Amount, plot.type=\"scatter\", data=Lotteries)`\n\n`distr.plot.xy(x=Income,    y=Amount, plot.type=\"scatter\", data=Lotteries)`\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex9_8-lotteries.png"
+                ],
                 "links": [
                   "th_g15"
                 ],
                 "x": 64200,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "forest",
                 "column": 81
               },
@@ -4987,14 +5069,16 @@
                 "title": "Ex 9.10 — Severance: Weeks ~ Age + Length + Salary",
                 "content": "**Question.** Predict `Weeks` of severance from `Age`, `Length`, `Salary`. Compare with simpler models. Predict at given values.\n\n---\n\n**Answer.**\n`mod  <- lm(Weeks ~ Age + Length + Salary, data=Severance); summary(mod)`\n\n`mod1 <- lm(Weeks ~ Age, data=Severance); summary(mod1)`\n\n`cor(Severance$Age, Severance$Length)`\n\n`cor(Severance$Age, Severance$Weeks)`\n\n`cor(Severance$Weeks, Severance$Length)`\n\n`mod1 <- lm(Weeks ~ Length, data=Severance); summary(mod1)`\n\n\n\n`newdata <- data.frame(Age=36, Length=10, Salary=32)`\n\n`predict(mod,  newdata, interval=\"confidence\")`\n\n`predict(mod,  newdata, interval=\"prediction\")`\n\n`predict(mod1, newdata, interval=\"confidence\")`\n\n`predict(mod1, newdata, interval=\"prediction\")`\n\n\n\n`plot(mod1, which=1)`\n\n`plot(mod1, which=3)`\n\n`distr.plot.x(x=rstandard(mod1), plot.type=\"histogram\", breaks=10)`\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex9_10-severance.png"
+                ],
                 "links": [
                   "th_g15"
                 ],
                 "x": 65800,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "forest",
                 "column": 83
               },
@@ -5003,14 +5087,16 @@
                 "title": "Ex 9.11 — Absence: Days ~ Wage + PartTime + Union + Shift + GoodRel",
                 "content": "**Question.** Regression for absence days; compute CIs; predict at specific profile.\n\n---\n\n**Answer.**\n`mod <- lm(Days ~ Wage + PartTime + Union + Shift + GoodRel, data=Absence); summary(mod)`\n\n`confint(mod, level=0.99)`\n\n`sd(Absence$Wage)`\n\n`sd(Absence$Wage)*(-0.20330)`\n\n`sd(Absence$Wage)*confint(mod, level=0.95)[2,]`\n\n\n\n`newdata <- data.frame(Wage=20, PartTime=10, Union=68, Shift=1, GoodRel=0)`\n\n`predict(mod, newdata, interval=\"predict\")`\n\n`predict(mod, newdata, interval=\"confidence\")`\n\n\n\n`plot(mod, which=1)`\n\n`distr.plot.x(x=rstandard(mod), plot.type=\"histogram\")`\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex9_11-absence.png"
+                ],
                 "links": [
                   "th_g15"
                 ],
                 "x": 66600,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "forest",
                 "column": 84
               },
@@ -5019,14 +5105,16 @@
                 "title": "Ex 9.12 — Visitors: lagged regression with seasonal indicators",
                 "content": "**Question.** Regression of `Visitors` on lagged `Visitors_Prev` and seasonal indicators `I1, I2, I3`.\n\n---\n\n**Answer.**\n`mod  <- lm(Visitors ~ Visitors_Prev + I1 + I2 + I3, data=Visitors); summary(mod)`\n\n`mod1 <- lm(Visitors ~ Visitors_Prev + I1 + I3 + I4, data=Visitors); summary(mod1)`\n\nThe interpretation of each indicator coefficient is the *seasonal effect on `Visitors`, holding lagged Visitors constant*.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex9_12-visitors.png"
+                ],
                 "links": [
                   "th_g15"
                 ],
                 "x": 67400,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "forest",
                 "column": 85
               },
@@ -5035,14 +5123,16 @@
                 "title": "Ex 9.13 — Loans: Bad ~ Loan + Recommendation (factor)",
                 "content": "**Question.** Regression on credit-scoring data for the percentage of `Bad` loans.\n\n---\n\n**Answer.**\n`Rec_ <- factor(Loans$Recommendation, levels=1:3,`\n\n`               labels=c(\"No-follow\", \"Over>10%\", \"Over<10%\"))`\n\n`mod <- lm(Bad ~ Loan + Rec_, data=Loans); summary(mod)`\n\n`plot(mod, which=1)`\n\n`plot(mod, which=3)`\n\n`distr.plot.x(x=rstandard(mod), plot.type=\"histogram\")`\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex9_13-loans.png"
+                ],
                 "links": [
                   "th_g15"
                 ],
                 "x": 68200,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "forest",
                 "column": 86
               }

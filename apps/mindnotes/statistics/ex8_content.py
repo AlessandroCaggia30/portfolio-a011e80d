@@ -13,7 +13,7 @@ mod <- lm(Debt ~ Television, data=TeleDebt)
 summary(mod)
 distr.summary.x(Television, stats="summary", data=TeleDebt)
 ```
-""", "images": []}
+""", "images": ["statistics/images/ex8_1-debt-television.png"]}
 
 ex8["8_1b"] = {"title": "Ex 8.1b — Prediction and confidence intervals at Television=33",
 "content": """**Question.** Build prediction and confidence intervals at `Television = 33`.
@@ -29,7 +29,7 @@ predict(mod, newdata=data.frame(Television=33),
 ```
 
 **Prediction interval** is wider (predicts a single new observation including its noise) than the **confidence interval** for $E(Y \\mid X=33)$.
-""", "images": []}
+""", "images": ["statistics/images/ex8_1-debt-television.png"]}
 
 ex8["8_1c"] = {"title": "Ex 8.1c — Manual computation of regression quantities",
 "content": """**Question.** From summary stats, compute SSE, $s^2_\\epsilon$, SE($\\hat\\beta_1$), t-stat, and 95% CI.
@@ -62,7 +62,7 @@ plot(mod, which=1)   # residuals vs fitted
 ```
 
 A pattern in residuals indicates **heteroscedasticity** or **non-linearity** — both violate assumptions of OLS.
-""", "images": []}
+""", "images": ["statistics/images/ex8_2a-amountspent-salary.png"]}
 
 ex8["8_2b"] = {"title": "Ex 8.2b — AmountSpent on Catalogs + scatter",
 "content": """**Question.** Compare a second regression using `Catalogs` as predictor.
@@ -76,7 +76,7 @@ mod1 <- lm(AmountSpent ~ Catalogs, data=DS)
 summary(mod1)
 plot(mod1, which=1)
 ```
-""", "images": []}
+""", "images": ["statistics/images/ex8_2b-amountspent-catalogs.png"]}
 
 ex8["8_3a"] = {"title": "Ex 8.3a — Weeks on Age (NewHired) + CI + prediction",
 "content": """**Question.** Regress `Weeks` on `Age` in `NewHired`; build CI for slope; predict at Age=36; plot diagnostics.
@@ -96,7 +96,7 @@ plot(mod, which=1)   # residuals vs fitted
 plot(mod, which=3)   # scale-location
 distr.plot.x(x=rstandard(mod), plot.type="histogram")
 ```
-""", "images": []}
+""", "images": ["statistics/images/ex8_3-weeks-age.png"]}
 
 ex8["8_4a"] = {"title": "Ex 8.4a — Restaurants: revenues ~ surface + diagnostics",
 "content": """**Question.** Fit `lm(revenues ~ surface, data=restaurants)`; rescale; check heteroscedasticity by evening-only.
@@ -116,7 +116,7 @@ plot(mod, which=1)
 distr.plot.xy(x=restaurants$evening_only, y=rstandard(mod),
               plot.type="boxplot")
 ```
-""", "images": []}
+""", "images": ["statistics/images/ex8_4-revenues-surface.png"]}
 
 ex8["8_5a"] = {"title": "Ex 8.5a — Manual regression from summary stats",
 "content": """**Question.** Given $\\sum y = 99150$, $s^2_y = 345722$, $\\sum x = 297$, $s^2_x = 27.048$, $s_{xy} = 2697.96$, compute $\\hat\\beta_1$, $\\hat\\beta_0$, $R^2$.
