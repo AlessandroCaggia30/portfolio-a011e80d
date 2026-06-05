@@ -2871,6 +2871,96 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
 .autosave-banner:hover { filter: brightness(1.1); }
 .autosave-banner.visible { display: block; }
 
+/* ===== Statistics — full-page hyper-table view ===== */
+.stats-table-view {
+    position: fixed;
+    inset: 0;
+    background: var(--bg-primary, #fff);
+    color: var(--text-primary, #222);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.stats-table-view.hidden { display: none; }
+.stats-table-header {
+    padding: 14px 22px;
+    border-bottom: 1px solid var(--border-color, #ccc);
+    display: flex; align-items: center; gap: 18px; flex-shrink: 0;
+    background: var(--bg-secondary, #f7f7f7);
+}
+.stats-back-btn {
+    padding: 7px 14px; border: 1px solid #888; background: white; cursor: pointer;
+    border-radius: 6px; font-size: 13px;
+}
+.stats-back-btn:hover { background: #f0f0f0; }
+.stats-table-header h2 { margin: 0; font-size: 18px; font-weight: 600; }
+.stats-table-scroll { flex: 1; overflow: auto; }
+.stats-table {
+    border-collapse: separate; border-spacing: 0;
+    table-layout: fixed; min-width: 100%;
+}
+.stats-table th, .stats-table td {
+    border: 1px solid #c8c8c8;
+    padding: 8px 10px; vertical-align: top;
+    width: 260px; min-width: 260px; max-width: 260px;
+    box-sizing: border-box;
+    background: white;
+}
+.stats-table thead th {
+    position: sticky; top: 0;
+    background: #1b6ca8; color: white;
+    font-weight: 600; z-index: 2; text-align: center;
+    font-size: 13px;
+}
+.stats-table th.stats-row-head {
+    position: sticky; left: 0;
+    background: #eef4ff; z-index: 1;
+    font-weight: 600; text-align: left;
+    width: 220px; min-width: 220px; max-width: 220px;
+}
+.stats-table th.stats-corner { z-index: 3; background: #1b6ca8; color: white; }
+.stats-table tr.stats-topic-sep td {
+    background: #4a4a4a; color: white; font-weight: 700;
+    text-align: left; padding: 10px 14px; font-size: 14px;
+    position: sticky; left: 0;
+    border-color: #4a4a4a;
+}
+.stats-cell { background: #fafafa !important; min-height: 60px; }
+.stats-card {
+    background: white; border: 1px solid #c0c0c0; border-radius: 6px;
+    padding: 8px 10px; margin: 4px 0; cursor: pointer;
+    font-size: 12px; line-height: 1.4;
+    transition: background 0.1s ease, border-color 0.1s ease;
+}
+.stats-card:hover { background: #fffae6; border-color: #888; }
+.stats-card.stats-theory {
+    background: #fff8c4; border-color: #d4b800; font-weight: 600;
+}
+
+/* Snippet modal opened from a card click */
+.stats-snippet-modal {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7); z-index: 1000;
+    display: flex; align-items: center; justify-content: center;
+}
+.stats-snippet-modal.hidden { display: none; }
+.stats-snippet-modal-inner {
+    background: white; color: #222;
+    width: min(94vw, 1100px); height: min(92vh, 900px);
+    overflow: auto; padding: 30px 40px;
+    border-radius: 10px; position: relative;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+.stats-snippet-modal-close {
+    position: absolute; top: 10px; right: 14px;
+    cursor: pointer; font-size: 28px;
+    background: none; border: none; line-height: 1;
+    color: #555;
+}
+.stats-snippet-modal-close:hover { color: #000; }
+.stats-snippet-modal-inner h2 { margin-top: 0; }
+
     </style>
 </head>
 <body>
