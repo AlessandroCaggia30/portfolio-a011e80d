@@ -9331,6 +9331,11 @@ async function ghPullNow() {
         const remote = await ghFetchFile(path);
         if (remote) console.log('[gh] remote sha:', remote.sha.slice(0,7), 'size:', remote.content.length);
         if (!remote) { _ghSetState('Remote file missing'); return; }
+        // Detect unresolved git merge-conflict markers explicitly — these
+        // produce a confusing "Unexpected token <" inside JSON.parse otherwise.
+        if (/^<{7} |^={7}$|^>{7} /m.test(remote.content)) {
+            throw new Error('Remote JSON has unresolved merge-conflict markers (<<<<<<< / =======/ >>>>>>>). Fix the file on origin/main and push.');
+        }
         let parsed;
         try { parsed = JSON.parse(remote.content); } catch (e) { throw new Error('Remote JSON invalid: ' + e.message); }
         // Unwrap { data: {...} } if needed
