@@ -11856,8 +11856,11 @@ function openStatsSnippet(nodeId) {
     // Collapse %%RBLOCK%%…%%/RBLOCK%% markers (emitted by build_snippets.py
     // around fenced code) into a single unified R code/console block so the
     // R command and ## output lines render as one continuous box.
-    html = html.replace(/(?:<br>\s*)?%%RBLOCK%%(?:<br>\s*)?([\s\S]*?)(?:<br>\s*)?%%\/RBLOCK%%(?:<br>\s*)?/g,
+    html = html.replace(/(?:<br>\s*)*%%RBLOCK%%(?:<br>\s*)*([\s\S]*?)(?:<br>\s*)*%%\s*\/?\s*RBLOCK%%(?:<br>\s*)*/g,
         (m, inner) => '<div class="stats-r-block">' + inner + '</div>');
+    // Mop-up: if any literal marker survived (mismatched/edge case),
+    // strip it so the user NEVER sees raw %%RBLOCK%% text in the modal.
+    html = html.replace(/%%\/?\s*RBLOCK\s*%%/g, '');
     if (Array.isArray(node.images) && node.images.length) {
         html += node.images.map(img =>
             '<img src="' + escapeHtml(img) + '" alt="plot">'
