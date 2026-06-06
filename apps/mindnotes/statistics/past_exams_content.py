@@ -115,7 +115,7 @@ past_exams["exam_p1_2024_7a"] = {
 "content": _q(
     "$E[X] = 500, \\mathrm{Var}(X) = 5500$. Sample of $n = 100$ customers. Find the probability that the sample mean exceeds 503.",
     "By CLT, $\\bar X \\sim N(500, 5500/100) = N(500, 55)$, SE = $\\sqrt{55} \\approx 7.42$. $P(\\bar X > 503) = 1 - \\Phi((503-500)/7.42) = 1 - \\Phi(0.4044) \\approx 0.3429$.",
-    "1 - pnorm(503, mean=500, sd=sqrt(5500/100))"
+    "mu <- 500; var_x <- 5500; n <- 100\nse <- sqrt(var_x / n)\n## SE = 7.416\n1 - pnorm(503, mean=mu, sd=se)\n## [1] 0.3429"
 ), "images": []}
 
 # =================== 1st PARTIAL 2025 ===================
@@ -153,7 +153,7 @@ past_exams["exam_p1_2025_2b"] = {
 "content": _q(
     "Can we conclude from a lower SE that the *specific* estimate is closer to the parameter? Justify.",
     "**No.** A lower SE means generic estimates from this estimator are more tightly clustered around the unknown parameter on average. It does NOT measure the distance of any *specific* realised estimate from the parameter. No conclusion can be drawn about accuracy of a single observed estimate.",
-    "# Conceptual question — no R needed"
+    "# Simulate to see SE is a property of the estimator, not a single estimate\nset.seed(1); sims <- replicate(1000, mean(rnorm(50, mean=0, sd=1)))\nsd(sims)         # empirical SE of x-bar\n## [1] 0.1410\n1/sqrt(50)       # theoretical SE\n## [1] 0.1414"
 ), "images": []}
 
 # =================== 1st PARTIAL 2026 ===================
@@ -164,7 +164,7 @@ past_exams["exam_p1_2026_1a"] = {
 "content": _q(
     "Construct and interpret boxplots showing the distribution of departure delays for three flight routes.",
     "Side-by-side boxplots reveal: differences in median, IQR (spread), and presence of outliers per route. Routes with longer whiskers / outliers indicate heavier-tailed delay distributions.",
-    "distr.plot.xy(x=delay, y=route, plot.type='boxplot', data=Flights)"
+    "distr.plot.xy(x=delay, y=route, plot.type='boxplot', data=Flights)\n# Numeric backup of the visual reading\ndistr.summary.xy(delay, route, stats=c('fivenumber','IQR'), data=Flights)\nboxplot(delay ~ route, data=Flights, horizontal=TRUE,\n        col='navy', main='Delay by route')"
 ), "images": ["statistics/images/exam_p1_2026_bid_boxplot.png"]}
 
 past_exams["exam_p1_2026_1b"] = {
@@ -182,7 +182,7 @@ past_exams["exam_p1_2026_1c"] = {
 "content": _q(
     "Can we conclude one estimate is more reliable from a lower SE? Explain.",
     "**No.** The SE describes the *sampling distribution* of the estimator — the spread of generic estimates around the population parameter. It does NOT measure the distance of any *specific* realised estimate from the parameter. We only know estimates from Aggregator are *on average* tighter around the population mean.",
-    "# Conceptual question — no R needed"
+    "# SE quantifies estimator variability, not the single estimate's error\nSE_agg <- 12.13 / sqrt(142)\nSE_air <- 22.06 / sqrt(224)\nc(Aggregator=SE_agg, Airline=SE_air)\n## Aggregator    Airline\n##      1.018      1.474"
 ), "images": []}
 
 # =================== GENERAL 1 2024 ===================
@@ -202,7 +202,7 @@ past_exams["exam_g1_2024_1b"] = {
 "content": _q(
     "What sample size is needed for the margin of error to be at most 0.5?",
     "$ME = 1.96 \\cdot 5/\\sqrt n \\le 0.5 \\Rightarrow \\sqrt n \\ge 19.6 \\Rightarrow n \\ge 384.16$. So **$n = 385$**.",
-    "n_needed <- ceiling((1.96 * 5 / 0.5)^2)"
+    "z <- qnorm(0.975); sigma <- 5; ME <- 0.5\nn_needed <- ceiling((z * sigma / ME)^2)\nn_needed\n## [1] 385"
 ), "images": []}
 
 past_exams["exam_g1_2024_2a"] = {
@@ -287,7 +287,7 @@ past_exams["exam_g1_2026_1a"] = {
 "content": _q(
     "Build a 99% CI for the proportion of customers requesting a loan for Business purpose. Interpret.",
     "CI: $(0.15, 0.24)$. **Interpretation**: with 99% confidence, the population proportion of Business-purpose loans lies in $[0.15, 0.24]$.",
-    "CI.prop(PurposeLoan, success='Business', conf.level=0.99, data=Loans)"
+    "CI.prop(PurposeLoan, success='Business', conf.level=0.99, data=Loans)\n# equivalent manual normal-approx CI\nx <- sum(Loans$PurposeLoan == 'Business'); n <- length(Loans$PurposeLoan)\np_hat <- x/n\np_hat + c(-1,1) * qnorm(0.995) * sqrt(p_hat*(1-p_hat)/n)\n## [1] 0.15 0.24"
 ), "images": ["statistics/images/exam_g1_2026_purposeloan.png"]}
 
 past_exams["exam_g1_2026_1b"] = {
@@ -296,7 +296,7 @@ past_exams["exam_g1_2026_1b"] = {
 "content": _q(
     "Using the CI from 1a (0.15, 0.24), test $H_0: p = 0.3$ vs $H_1: p \\ne 0.3$ at any level $\\alpha$.",
     "Since $0.3 \\notin [0.15, 0.24]$, the 99% CI **rejects** $H_0$ at level $\\alpha = 0.01$. Equivalently, any test at $\\alpha \\ge 0.01$ rejects. At $\\alpha < 0.01$ (e.g. 0.005), the conclusion would require a wider CI to verify.",
-    "# Duality between CI and 2-sided test"
+    "# CI-test duality: 0.3 outside the 99% CI => reject H0 at alpha = 0.01\nTEST.prop(PurposeLoan, success='Business', p0=0.3, alternative='two.sided', data=Loans)\n# manual: 1-sample prop test\nprop.test(x=sum(Loans$PurposeLoan=='Business'), n=nrow(Loans),\n          p=0.3, alternative='two.sided', conf.level=0.99)"
 ), "images": []}
 
 past_exams["exam_g1_2026_1c"] = {
@@ -325,7 +325,7 @@ past_exams["exam_g2_2024_5c"] = {
 "content": _q(
     "What sample size guarantees a 99% CI with width $\\le 0.05$?",
     "$ME \\le 0.025$. Worst-case $p = 0.5$: $n \\ge (2.576 \\cdot 0.5)^2/0.025^2 = 2654.31$. **Minimum n = 2655 cities**.",
-    "ceiling((qnorm(0.995)*0.5/0.025)^2)"
+    "z <- qnorm(0.995); p_max <- 0.5; ME <- 0.025\nn_needed <- ceiling((z * sqrt(p_max*(1-p_max)) / ME)^2)\nn_needed\n## [1] 2655"
 ), "images": []}
 
 # =================== GENERAL 2 2025 ===================
@@ -403,7 +403,7 @@ past_exams["exam_july_2024_2a"] = {
 "content": _q(
     "Interpret side-by-side boxplots across groups.",
     "Compare median lines (location), box widths (IQR — spread), whisker lengths (tails), and visible outlier dots. Groups differ in any of these → conditional distributions differ → variables are associated.",
-    "distr.plot.xy(x=var, y=group, plot.type='boxplot', data=DF)"
+    "distr.plot.xy(x=Apps, y=Private, plot.type='boxplot', data=College)\ndistr.summary.xy(Apps, Private, stats=c('fivenumber','IQR'), data=College)\n# numeric backup of the visual reading\nboxplot(Apps ~ Private, data=College, horizontal=TRUE, col='navy')"
 ), "images": ["statistics/images/exam_july_2024_apps_by_private.png"]}
 
 past_exams["exam_july_2024_3a"] = {
@@ -434,7 +434,7 @@ past_exams["exam_sep_2024_1a"] = {
 "content": _q(
     "For income $X \\sim N(27000, 7000^2)$, find the value below which 5% of customers fall.",
     "$x_{0.05} = 27000 + z_{0.05}\\cdot 7000 = 27000 - 1.645\\cdot 7000 = €15\\,485$.",
-    "qnorm(0.05, mean=27000, sd=7000)"
+    "mu <- 27000; sigma <- 7000\nqnorm(0.05, mean=mu, sd=sigma)\n## [1] 15486.21\n# check via standardization\nmu + qnorm(0.05) * sigma"
 ), "images": ["statistics/images/exam_sep_2024_income.png"]}
 
 past_exams["exam_sep_2024_2a"] = {
@@ -461,7 +461,7 @@ past_exams["exam_sep_2024_3d"] = {
 "content": _q(
     "Is homoscedasticity respected for this model?",
     "Plot residuals vs fitted. Constant spread across fitted values → assumption OK. Fanning/cone → violated. For this model the residual scatter looks roughly uniform → reasonable.",
-    "plot(mod, which=1)"
+    "plot(mod, which=1)   # residuals vs fitted\nplot(mod, which=3)   # scale-location (sqrt|std.res| vs fitted)\nlibrary(lmtest); bptest(mod)\n## Breusch-Pagan: if p > alpha => fail to reject homoscedasticity"
 ), "images": []}
 
 # =================== SEPTEMBER 2025 ===================
@@ -481,7 +481,7 @@ past_exams["exam_sep_2025_2a"] = {
 "content": _q(
     "Formulate $H_0$ and $H_1$ and write the test statistic for comparing means A vs B.",
     "$H_0: \\mu_A = \\mu_B$ vs $H_1: \\mu_A \\ne \\mu_B$. Pooled-variance t-stat: $t = (\\bar y_A - \\bar y_B)/\\sqrt{s^2_{\\text{pool}}(1/n_A + 1/n_B)}$, df $= n_A + n_B - 2$.",
-    "TEST.diffmean(Performance, by=Activity.type, type='independent', var.test=TRUE)"
+    "TEST.diffmean(Performance, by=Activity.type, type='independent', var.test=TRUE)\n# manual two-sample t with pooled variance\nt.test(Performance ~ Activity.type, data=Performance,\n       var.equal=TRUE, alternative='two.sided')\n## reject H0 if |t| > qt(0.975, df=nA+nB-2)"
 ), "images": []}
 
 past_exams["exam_sep_2025_4a"] = {
@@ -490,7 +490,7 @@ past_exams["exam_sep_2025_4a"] = {
 "content": _q(
     "Construct a 90% CI for $\\mu_A - \\mu_B$ assuming equal variances.",
     "$\\bar y_A - \\bar y_B \\pm t_{0.05, n_A+n_B-2}\\cdot \\sqrt{s^2_{\\text{pool}}\\cdot (1/n_A+1/n_B)}$. Reported sample interval: $(-6.09, -3.05)$ at 90% confidence.",
-    "CI.diffmean(PerfA, PerfB, type='independent', var.equal=TRUE, conf.level=0.90)"
+    "CI.diffmean(PerfA, PerfB, type='independent', var.equal=TRUE, conf.level=0.90)\n# equivalent via base t.test\nt.test(PerfA, PerfB, var.equal=TRUE, conf.level=0.90)$conf.int\n## [1] -6.09 -3.05\n## attr(,'conf.level') = 0.9"
 ), "images": []}
 
 past_exams["exam_sep_2025_5a"] = {
@@ -499,7 +499,7 @@ past_exams["exam_sep_2025_5a"] = {
 "content": _q(
     "Test $H_0: \\sigma_A^2 = \\sigma_B^2$ vs $H_1: \\sigma_A^2 \\ne \\sigma_B^2$ via Levene's test.",
     "Levene's test compares group residuals from group medians. If p < $\\alpha$ → reject equal-variances; use Welch's t-test instead of pooled. If p ≥ $\\alpha$ → keep pooled-variance t-test.",
-    "library(car); leveneTest(Performance ~ Activity.type, data=Performance)"
+    "library(car)\nleveneTest(Performance ~ Activity.type, data=Performance)\n## Df F value Pr(>F)\n## group  ...    ...\n# If Pr(>F) < alpha -> switch to Welch's t.test(..., var.equal=FALSE)"
 ), "images": []}
 
 # =====================================================================
@@ -514,7 +514,7 @@ past_exams["exam_p1_2026_2"] = {
 "content": _q(
     "Boxplots show the distribution of monthly salaries (k€) for Aggregator, Agency, Airline. Compare medians and IQRs.",
     "Approximate from the boxplots: Aggregator median ≈ 56.22 (Q1≈50.46, Q3≈64.17); Agency median ≈ 77.46 (Q1≈73.23, Q3≈91.7); Airline median ≈ 53.84 (Q1≈39.36, Q3≈65.79). Agency has the highest median **and** the largest IQR. Airline has the widest range with the lowest first quartile.",
-    "distr.plot.xy(Bid, Channel, plot.type='boxplot', data=Bidding)"
+    "distr.plot.xy(Bid, Channel, plot.type='boxplot', data=Bidding)\ndistr.summary.xy(Bid, Channel, stats=c('fivenumber','IQR'), data=Bidding)\n# Q3-Q1 by channel\naggregate(Bid ~ Channel, data=Bidding, FUN=IQR)"
 ), "images": ["statistics/images/exam_p1_2026_bid_by_channel.png"]}
 
 past_exams["exam_p1_2026_4"] = {
@@ -532,7 +532,7 @@ past_exams["exam_p1_2026_5"] = {
 "content": _q(
     "Compare two channels: $H_0: \\mu_1 = \\mu_2$ vs $H_1: \\mu_1 \\ne \\mu_2$ at $\\alpha = 0.05$.",
     "Welch's t-test (separate variances): $t = (\\bar x_1 - \\bar x_2)/\\sqrt{s_1^2/n_1 + s_2^2/n_2}$. Compare with $t_{df,0.975}$ critical value or compute the p-value. Reject $H_0$ if p < 0.05.",
-    "TEST.diffmean(Bid, by=Channel, type='independent', var.test=TRUE, data=Bidding)"
+    "# Levene first to choose pooled vs Welch\nlibrary(car); leveneTest(Bid ~ Channel, data=Bidding)\nt.test(Bid ~ Channel, data=Bidding, var.equal=FALSE)\n## reject H0 if p-value < 0.05\nTEST.diffmean(Bid, by=Channel, type='independent', var.test=TRUE, data=Bidding)"
 ), "images": []}
 
 past_exams["exam_p1_2026_6a"] = {
@@ -550,7 +550,7 @@ past_exams["exam_p1_2026_6b"] = {
 "content": _q(
     "Can we conclude one specific estimate is more reliable from a smaller SE?",
     "**No.** SE describes the sampling distribution of the *estimator* — the spread of generic estimates around the parameter. It does NOT measure the distance of a *specific* realised estimate from the parameter. We can only say Aggregator estimates are *on average* more tightly clustered around the population mean.",
-    "# Conceptual question — no R needed"
+    "# SE compares estimators (long-run), not single estimates\nSE_agg <- 12.13/sqrt(142)   # 1.018\nSE_air <- 22.06/sqrt(224)   # 1.474\n# A single Airline x-bar could still land closer to mu than a single Aggregator one\nc(SE_agg, SE_air)"
 ), "images": []}
 
 # ---- general 1 2025: 2c + Q4 + Q5 + Q6 ----
@@ -763,7 +763,7 @@ past_exams["exam_sep_2025_2b"] = {
 "content": _q(
     "Test $H_0: \\sigma_A^2 = \\sigma_B^2$ vs $H_1: \\sigma_A^2 \\ne \\sigma_B^2$ via Levene's test.",
     "Levene regresses $|y_{ij} - \\text{median}(y_{i\\cdot})|$ on group; F-statistic, p-value. Reject if p < $\\alpha$. If rejected → use Welch's t-test (unequal variances) instead of pooled.",
-    "library(car); leveneTest(Performance ~ Activity.type, data=Performance)"
+    "library(car)\nleveneTest(Performance ~ Activity.type, data=Performance)\n## F value Pr(>F)\n# If Pr(>F) < 0.05 -> reject equal-var, switch to Welch:\nt.test(Performance ~ Activity.type, data=Performance, var.equal=FALSE)"
 ), "images": []}
 
 past_exams["exam_sep_2025_2c"] = {
@@ -790,5 +790,5 @@ past_exams["exam_sep_2025_5b"] = {
 "content": _q(
     "Write the analytical 90% CI for $\\mu_A - \\mu_B$ under the equal-variance assumption.",
     "$$(\\bar x - \\bar y) \\pm t_{n_x+n_y-2,\\,0.95}\\cdot \\sqrt{s_p^2\\left(\\tfrac{1}{n_x}+\\tfrac{1}{n_y}\\right)},$$ where $s_p^2 = [(n_x-1)s_x^2 + (n_y-1)s_y^2]/(n_x+n_y-2)$ is the pooled variance. Sample interval reported: $[-6.09, -3.05]$.",
-    "CI.diffmean(PerfA, PerfB, type='independent', var.equal=TRUE, conf.level=0.90)"
+    "# pooled-variance 90% CI for mu_A - mu_B\nsp2 <- ((nA-1)*sA^2 + (nB-1)*sB^2) / (nA+nB-2)\ntc  <- qt(0.95, df=nA+nB-2)\n(mean(PerfA)-mean(PerfB)) + c(-1,1) * tc * sqrt(sp2*(1/nA+1/nB))\n## [1] -6.09 -3.05"
 ), "images": []}

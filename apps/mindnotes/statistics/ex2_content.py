@@ -187,6 +187,15 @@ $$
 $$
 
 and consequently $\\text{Freq}(X > 14) = 1 - 0.23 = 0.77$ (note that $\\text{Freq}(X = 14) = 0$).
+
+```r
+# By-hand from the grouped table (uniform-on-interval assumption):
+p   <- c(0.15, 0.30, 0.25, 0.30)            # rel. freq. per class
+dens<- c(0.015, 0.020, 0.050, 0.030)        # density per class
+# Freq(X > 14): tail of [10,25) above 14 + classes [25,30) and [30,40]
+(25 - 14) * dens[2] + p[3] + p[4]
+## [1] 0.77
+```
 """,
 "images": [],
 }
@@ -200,6 +209,16 @@ ex2["2_2a1"] = {
 ---
 
 **Answer.** The obtained value is an **approximation**, based upon the assumption that **each interval's frequency is uniformly distributed over the interval** (uniform-on-interval). Without that assumption we could not allocate the share of class $[10,25)$ that lies above 14 hours; the table only gives the total count per class.
+
+```r
+# If raw data were available we'd compute the exact proportion as:
+# mean(hours > 14)
+# From the grouped table we can only approximate via uniform-on-interval:
+p   <- c(0.15, 0.30, 0.25, 0.30)
+dens<- c(0.015, 0.020, 0.050, 0.030)
+(25 - 14) * dens[2] + p[3] + p[4]    # approximation, NOT exact
+## [1] 0.77
+```
 """,
 "images": [],
 }
@@ -213,6 +232,17 @@ ex2["2_2b"] = {
 ---
 
 **Answer.** When a continuous variable is presented in classes with **unequal widths**, the **modal class is the class with the highest density** $c_k = f_k/w_k$ (NOT the highest absolute frequency, because a wider class can have more cases without being denser). For the considered distribution, the densities are: 0.015, 0.020, **0.050**, 0.030. Hence the modal class is **$[25, 30)$**.
+
+```r
+# Compute density = relative freq / class width, then find the max
+freq  <- c(45, 90, 75, 90)
+lower <- c(0, 10, 25, 30)
+upper <- c(10, 25, 30, 40)
+dens  <- (freq / sum(freq)) / (upper - lower)
+dens
+## [1] 0.015 0.020 0.050 0.030
+which.max(dens)        # -> 3, i.e. the [25,30) class
+```
 """,
 "images": [],
 }
@@ -244,6 +274,21 @@ $$
 $$
 
 Therefore the standard deviation is $\\sqrt{106.1507} = 10.303$.
+
+```r
+# Discretize on class midpoints, then compute mean/var/sd from grouped data
+m  <- c(5, 17.5, 27.5, 35)               # midpoints
+p  <- c(0.15, 0.30, 0.25, 0.30)          # relative frequencies
+n  <- 300
+xbar <- sum(m * p)
+xbar
+## [1] 23.375
+var.approx <- sum((m - xbar)^2 * p) * n/(n-1)
+var.approx
+## [1] 106.1507
+sqrt(var.approx)
+## [1] 10.30295
+```
 """,
 "images": [],
 }
@@ -263,6 +308,15 @@ $$
 $$
 
 The quartile indicates the **minimum number of hours** accessed by the 25% of pupils spending more time on the devices, or, equivalently, the **maximum number of hours** accessed by the 75% of the pupils spending less time on devices.
+
+```r
+# Q3 by linear interpolation in the class containing F = 0.75 ([30,40])
+F.lower <- 0.70           # cumulative freq up to 30
+dens    <- 0.03           # density of class [30,40]
+Q3 <- 30 + (0.75 - F.lower) / dens
+Q3
+## [1] 31.66667
+```
 """,
 "images": [],
 }
@@ -282,6 +336,16 @@ Q_1 = 10 + \\frac{0.25 - 0.15}{0.02} = 15.
 $$
 
 Therefore, **$IQR = Q_3 - Q_1 = 31.667 - 15 = 16.667$**. It represents the width of the interval including the number of hours of access to devices by the 50% of the pupils with the more "central" or standard behaviour, not spending — in relative terms — neither much nor few hours on devices. It indicates the difference between the number of hours spent on devices by the 25% of the heaviest users and the number spent by the 25% of lightest users.
+
+```r
+# Q1 lives in [10,25) (cum freq jumps from 0.15 to 0.45); Q3 from previous part
+Q1 <- 10 + (0.25 - 0.15) / 0.02
+Q3 <- 30 + (0.75 - 0.70) / 0.03
+IQR.approx <- Q3 - Q1
+c(Q1 = Q1, Q3 = Q3, IQR = IQR.approx)
+##       Q1       Q3      IQR
+## 15.00000 31.66667 16.66667
+```
 """,
 "images": [],
 }
@@ -299,6 +363,20 @@ ex2["2_2f"] = {
 The **standard deviations** indicate the average distance of the hours of access from the mean, that is the number of weekly hours above or below the average hours of access for primary and middle school pupils. Thus, for primary school pupils it is "standard" to spend on devices a number of hours between $23.375 - 10.303$ and $23.375 + 10.303$, that is between about 13 and 33 hours; instead for middle school pupils it is standard to spend on devices a number of hours between $35.51 - 24.51$ and $35.51 + 24.51$, thus between about 11 and 60 hours.
 
 The **coefficient of variation** provides information on the relative size of the standard deviation with reference to the mean. Comparing the coefficients of variation is interesting in this case because — even if the considered variables have the same unit of measurement — the average time of access is different for primary and middle school pupils. Thus, for primary school pupils, it is standard to spend on devices a number of hours between the 56% and the 144% of the average time. Instead, for middle school pupils it is standard to spend a number of hours between the 31% and the 169% of the average number of hours.
+
+```r
+# Primary school (from point c)
+xbar.p <- 23.375; var.p <- 106.1507
+sd.p   <- sqrt(var.p);   cv.p <- sd.p / xbar.p
+# Middle school (given in prompt)
+xbar.m <- 35.51;  var.m <- 600.84
+sd.m   <- sqrt(var.m);   cv.m <- sd.m / xbar.m
+rbind(primary = c(sd = sd.p, cv = cv.p),
+      middle  = c(sd = sd.m, cv = cv.m))
+##                sd        cv
+## primary 10.30295 0.4407672
+## middle  24.51204 0.6902575
+```
 """,
 "images": [],
 }
@@ -394,6 +472,15 @@ ex2["2_4a"] = {
 ---
 
 **Answer.** It is an **ogive**, reporting the absolute frequencies cumulated at the endpoints of intervals used to classify or to measure a numerical variable.
+
+```r
+# Reconstruct and draw the ogive from the cumulative frequencies in the prompt
+endpoints <- c(0, 10, 20, 30, 60, 90, 150)
+cumfreq   <- c(0, 200, 400, 800, 1300, 1800, 2000)
+plot(endpoints, cumfreq, type = "b",
+     xlab = "Nr contracts", ylab = "Cumulative frequency",
+     main = "Ogive")
+```
 """,
 "images": [],
 }
@@ -413,6 +500,18 @@ Q_1 = 20 + \\frac{0.25 - 0.20}{0.02} = 22.5, \\qquad Q_3 = 60 + \\frac{0.75 - 0.
 $$
 
 Thus, the **interquartile range is $49.5$**, and there are **no lower outliers**, because the minimum is 0, and $22.5 - 49.5\\cdot 1.5$ is clearly lower than $0$.
+
+```r
+# Q1 in [20,30) (cum 0.20 -> 0.40); Q3 in [60,90) (cum 0.65 -> 0.90)
+Q1 <- 20 + (0.25 - 0.20) / 0.02
+Q3 <- 60 + (0.75 - 0.65) / 0.0083
+IQR.approx <- Q3 - Q1
+lower.fence <- Q1 - 1.5 * IQR.approx
+c(Q1 = Q1, Q3 = Q3, IQR = IQR.approx, lower.fence = lower.fence)
+##          Q1          Q3         IQR lower.fence
+##   22.500000   72.048193   49.548193  -51.822289
+# minimum is 0 > lower.fence, so NO lower outliers
+```
 """,
 "images": [],
 }
@@ -426,6 +525,15 @@ ex2["2_4c"] = {
 ---
 
 **Answer.** The minimum number of contracts stipulated by the "top" consultants is the **90-th percentile**, which is 90 (read directly from the cumulative table: $F = 1800$ at the upper bound 90 corresponds to cum. proportion 0.90).
+
+```r
+# Read the 90th percentile directly off the ogive:
+# F(90) = 1800 / 2000 = 0.90, so P90 = 90 (no interpolation needed)
+endpoints  <- c(0, 10, 20, 30, 60, 90, 150)
+cumprop    <- c(0, 200, 400, 800, 1300, 1800, 2000) / 2000
+approx(cumprop, endpoints, xout = 0.90)$y
+## [1] 90
+```
 """,
 "images": [],
 }
@@ -451,6 +559,21 @@ $$
 $$
 
 The **standard deviation is therefore $\\sqrt{1102.051} = 33.197$**. *(Refer to Exercise 2.2 for comments/interpretation.)*
+
+```r
+# Mean / variance / sd from grouped data using class midpoints
+m <- c(5, 15, 25, 45, 75, 120)              # midpoints
+p <- c(0.10, 0.10, 0.20, 0.25, 0.25, 0.10)  # rel. freq
+n <- 2000
+xbar <- sum(m * p)
+xbar
+## [1] 49
+var.approx <- sum((m - xbar)^2 * p) * n/(n-1)
+var.approx
+## [1] 1102.051
+sqrt(var.approx)
+## [1] 33.19715
+```
 """,
 "images": [],
 }

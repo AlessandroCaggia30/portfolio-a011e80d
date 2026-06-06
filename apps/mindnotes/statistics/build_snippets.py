@@ -47,15 +47,63 @@ def _fence_replacer(match):
         if line.strip() == "":
             out_lines.append("")
         else:
-            # Escape backticks inside the line (rare in R)
             safe = line.replace("`", "'")
             out_lines.append("`" + safe + "`")
-    # Use blank lines between consecutive lines so the markdown
-    # renderer treats each as its own paragraph (separate visual line).
-    return "\n\n".join(out_lines)
+    # Marker pair survives escapeHtml in the renderer; the renderer then
+    # collapses everything between %%RBLOCK%% / %%/RBLOCK%% into a single
+    # unified <pre class="stats-r-block"> so the R command and ## output
+    # lines render as one continuous code-console block (no pill gaps).
+    return "\n%%RBLOCK%%\n" + "\n".join(out_lines) + "\n%%/RBLOCK%%\n"
 
 def code_blocks_to_inline(text):
-    return _FENCE_RE.sub(_fence_replacer, text)
+    text = _FENCE_RE.sub(_fence_replacer, text)
+    return _wrap_consecutive_inline_code_runs(text)
+
+
+def _wrap_consecutive_inline_code_runs(text):
+    """Wrap a run of 2+ consecutive lines that are entirely a single inline
+    code span (`...`) into a %%RBLOCK%%...%%/RBLOCK%% pair so the renderer
+    can collapse them into a single unified code/console box. Skips text
+    already inside an existing %%RBLOCK%% block."""
+    lines = text.split("\n")
+    out = []
+    i = 0
+    inline_only = re.compile(r"^\s*`[^`]+`\s*$")
+    inside_block = False
+    while i < len(lines):
+        ln = lines[i]
+        if "%%RBLOCK%%" in ln:
+            inside_block = True
+            out.append(ln); i += 1; continue
+        if "%%/RBLOCK%%" in ln:
+            inside_block = False
+            out.append(ln); i += 1; continue
+        if (not inside_block) and inline_only.match(ln):
+            j = i
+            run = []
+            # Accept blank lines between inline-code lines as part of the run
+            while j < len(lines):
+                if inline_only.match(lines[j]):
+                    run.append(lines[j])
+                    j += 1
+                elif lines[j].strip() == "" and j + 1 < len(lines) and inline_only.match(lines[j + 1]):
+                    run.append("")
+                    j += 1
+                else:
+                    break
+            # Strip trailing blanks within the captured run
+            while run and run[-1].strip() == "":
+                run.pop()
+            non_blank = [r for r in run if r.strip()]
+            if len(non_blank) >= 2:
+                out.append("%%RBLOCK%%")
+                out.extend(non_blank)
+                out.append("%%/RBLOCK%%")
+                i = j
+                continue
+        out.append(ln)
+        i += 1
+    return "\n".join(out)
 
 
 def md_tables_to_latex(text):

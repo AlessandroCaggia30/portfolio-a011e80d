@@ -155,6 +155,13 @@ ex7["7_5c"] = {"title": "Ex 7.5c — Fisher's exact test (2×2 tables)",
 ---
 
 **Answer.** Use **Fisher's exact test** when sample sizes are small or expected frequencies in some cells are <5 (so the chi-squared approximation is unreliable). For larger samples, the chi-squared test is usually adequate.
+
+```r
+# Check expected counts; if any are < 5, prefer fisher.test
+tab <- table(DS$History, DS$Age)
+chisq.test(tab)$expected     # inspect expected cell counts
+fisher.test(tab)             # exact test, no large-sample approximation
+```
 """, "images": []}
 
 ex7["7_6a"] = {"title": "Ex 7.6a — p-value calculation for one-proportion z-test",
@@ -182,6 +189,21 @@ ex7["7_6b"] = {"title": "Ex 7.6b — CI vs hypothesis test: containment of test 
 ---
 
 **Answer.** A two-sided $\\alpha$-level test rejects $H_0: p = p_0$ iff $p_0$ is **outside** the corresponding $(1-\\alpha)$ CI. So whether 0.0065 is in a 95% CI is determined by whether a two-sided test at $\\alpha = 0.05$ would *not* reject $H_0: p = 0.0065$. With $p$-value below 5%, 0.0065 falls outside the 95% CI (and the 90% CI, but inside the 99% CI which is wider).
+
+```r
+# Equivalent two-sided test of H0: p = 0.0065 with phat = 26/1000, n = 1000
+phat <- 26/1000; p0 <- 0.0065; n <- 1000
+z    <- (phat - p0) / sqrt(p0 * (1 - p0) / n)
+pval <- 2 * (1 - pnorm(abs(z)))
+pval
+# Build two-sided CIs at 90%, 95%, 99% and check if 0.0065 is inside
+se   <- sqrt(phat * (1 - phat) / n)
+for (conf in c(0.90, 0.95, 0.99)) {
+  z.c <- qnorm(1 - (1 - conf)/2)
+  ci  <- phat + c(-1, 1) * z.c * se
+  cat(conf, ":", ci, " contains 0.0065? ", 0.0065 >= ci[1] && 0.0065 <= ci[2], "\n")
+}
+```
 """, "images": []}
 
 ex7["7_7a"] = {"title": "Ex 7.7a — One-proportion test on AI Search adoption",
