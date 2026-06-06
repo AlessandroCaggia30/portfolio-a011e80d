@@ -4680,8 +4680,7 @@ function togglePeriodicAutosave() {
         // Turn off
         clearInterval(periodicAutosaveInterval);
         periodicAutosaveInterval = null;
-        btn.classList.remove('active');
-        btn.textContent = 'Auto';
+        if (btn) { btn.classList.remove('active'); btn.textContent = 'Auto'; }
         showToast('Autosave disabled');
     } else {
         // Turn on — save every 30 seconds if dirty
@@ -4691,8 +4690,7 @@ function togglePeriodicAutosave() {
                 console.log('Periodic autosave triggered');
             }
         }, 30000);
-        btn.classList.add('active');
-        btn.textContent = 'Auto';
+        if (btn) { btn.classList.add('active'); btn.textContent = 'Auto'; }
         showToast('Autosave enabled (every 30s)');
         // Also save immediately if dirty
         if (_dataIsDirty) _commitSave();
