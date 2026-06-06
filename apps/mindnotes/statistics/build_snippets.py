@@ -1204,12 +1204,12 @@ ex1["1_3e"] = {"title": "Ex 1.3e — Spike plot of Age",
 
 ---
 
-**Answer.** `Age` is discrete with many unique values (16 to 90). Use a **spike plot** (a histogram would dilute the high-frequency-level detail; the spike plot represents each integer age honestly):
+**Answer.** `Age` is a discrete variable with many unique values. Customers in the dataset are **aged between 15 and 90 years**. Either a **spike plot** or a histogram can be used; the histogram is to be avoided when frequencies of the values are very similar to each other — in this case the spike plot represents the distribution in a more satisfactory manner:
 ```r
 distr.table.x(x=customer_habits$Age, freq=c("percentage"), p.digits=2)
 distr.plot.x(x=customer_habits$Age, freq=c("percentage"), plot.type="spike")
 ```
-From the plot: customer ages span 15–90; the median is the value that splits the sample into two equal-weight halves. The low percentages above 75 and below 25 suggest the median is between **40 and 50**.
+The median is the value that divides the distribution into two subgroups of approximately equal frequency. Each spike represents the percentage of customers of a given age. Noting the **low percentages of customers aged 75 or older and 25 or younger**, a value that splits the sample into two halves of equal weight will be **between 40 and 50**.
 """,
 "images": ["statistics/images/ex1_3e-age-spike.png"]}
 
@@ -1414,58 +1414,65 @@ TIME_TABLE = """*(Frequency distribution of `Time`, $n = 1800$ customers — giv
 | **TOTAL**    | **1800** |       |
 """
 
-ex1["1_5a"] = {"title": "Ex 1.5a — P(Time ≤ 5) under uniform-on-interval",
-"content": """**Question.** Of 122 customers in $[0,10)$, what is the percentage with `Time` ≤ 5 minutes?
+ex1["1_5a"] = {"title": "Ex 1.5a — P(Time ≤ 5): impulsive-buyer share",
+"content": """**Question.** <span class="exam-question-text">It has been observed that customers who make a purchase in 5 minutes or less often buy impulsively, not choosing the most appropriate product for their needs, and expressing dissatisfaction afterwards. What is the percentage of such customers in the available sample?</span>
 
 """ + TIME_TABLE + """
 
 ---
 
-**Answer.** Under the uniform-on-interval assumption, half of the 122 customers in $[0,10)$ have $Time \\le 5$:
+**Answer.** Assuming the 122 customers in $[0,10)$ are *uniformly distributed* over the interval, half of them — 61 — will have completed their purchase in 5 minutes or less:
 $$
-P(Time \\le 5) = \\frac{61}{1800} \\cdot 100\\% = 3.39\\%.
+\\text{Freq}\\{Time \\le 5\\} = \\frac{61}{1800} \\cdot 100\\% = 3.39\\%.
 $$
 Apparently a rather low percentage.
 """,
 "images": []}
 
-ex1["1_5b"] = {"title": "Ex 1.5b — P(Time ≤ 30) exact",
-"content": """**Question.** Total number / percentage of customers with `Time` ≤ 30 minutes?
+ex1["1_5b"] = {"title": "Ex 1.5b — P(Time ≤ 30): testing the manager's 60% claim",
+"content": """**Question.** <span class="exam-question-text">The sales manager of one store claims that 60% of customers complete their purchase within half an hour of entering the store. Based on the data, would you agree with the manager?</span>
 
 """ + TIME_TABLE + """
 
 ---
 
-**Answer.** Sum the first three (fully aligned) classes:
+**Answer.** The total number of customers in the sample who completed their purchase within 30 minutes is $122 + 420 + 294 = 836$ — large in number, but the percentage is
 $$
-\\frac{122 + 420 + 294}{1800} = \\frac{836}{1800} \\cdot 100\\% = 46.44\\%.
+\\text{Freq}\\{Time \\le 30\\} = \\frac{836}{1800} \\cdot 100\\% = 46.44\\%,
 $$
+**quite lower than 60% as expected by the manager** — so the data do *not* support the manager's claim.
 """,
 "images": []}
 
-ex1["1_5c"] = {"title": "Ex 1.5c — P(15 ≤ Time ≤ 50) approx",
-"content": """**Question.** Estimate the number of customers with `Time` between 15 and 50 minutes.
+ex1["1_5c"] = {"title": "Ex 1.5c — P(15 ≤ Time ≤ 50): relevance of this subgroup",
+"content": """**Question.** <span class="exam-question-text">How many customers in the sample completed their purchase within 15 to 50 minutes? Is this group of customers the most relevant group in the sample?</span>
 
 """ + TIME_TABLE + """
 
 ---
 
-**Answer.** Under uniform-on-interval, $[15,20)$ is half of $[10,20)$ (210 customers); $[20,30)$ is fully included (294); $[30,50)$ is $20/30 = 2/3$ of $[30,60)$ — about $20/30 \\cdot 176 = 117.33$ customers.
+**Answer.** From the table we cannot determine the exact number, because the extremes 15 and 50 do not coincide with the class boundaries. Assuming **uniform within each class**:
+
+- $[15,20)$: half of $[10,20)$ → $420/2 = 210$ customers;
+- $[20,30)$: fully included → $294$ customers;
+- $[30,50)$: $20/30 = 2/3$ of $[30,60)$ → $20/30 \\cdot 176 = 117.33$ customers.
+
 $$
-P(15 \\le Time \\le 50) \\approx \\frac{210 + 294 + 117.33}{1800} \\cdot 100\\% = 34.52\\%.
+\\text{Freq}\\{15 \\le Time \\le 50\\} \\approx \\frac{210 + 294 + 117.33}{1800} \\cdot 100\\% = 34.52\\%.
 $$
-About one third of customers — considerable but not a majority.
+
+About **one third of customers** — considerable, but **still not a majority**, so this is *not* the most relevant group in the sample.
 """,
 "images": []}
 
 ex1["1_5d"] = {"title": "Ex 1.5d — Ogive of Time and median estimation",
-"content": """**Question.** Build the ogive of `Time`; estimate the median.
+"content": """**Question.** Plot the cumulative distribution of `Time`. Based on the graphical analysis alone, can you determine the median time? Provide a more accurate assessment based on the data collected.
 
 """ + TIME_TABLE + """
 
 ---
 
-**Answer.** Cumulative frequencies (relative + cumulative), given the table:
+**Answer.** Since data are grouped into classes, exact cumulative frequency is known **only at the class extremes**; under uniform-within-interval, the curve is **piecewise linear** between them — this is the ogive. Cumulative frequencies (relative + cumulative):
 
 | Time      | rel.freq | cum.freq |
 |-----------|---------:|---------:|
@@ -1480,22 +1487,24 @@ The ogive joins points $(a_1, 0)$, $(b_i, F_i)$ with straight lines:
 ```r
 distr.plot.x(x=Time, freq="cum", plot.type="cumfreq")
 ```
-**Median.** Cumulative at 30 is 0.464 (< 0.5); at 60 is 0.562 (≥ 0.5) → median class $[30,60)$. Under uniform-on-interval:
+**Graphical estimate.** Cumulative at 30 is 0.464 (< 0.5); at 60 is 0.562 (≥ 0.5) → median class $[30,60)$. Reading the ogive at $F = 0.5$ gives roughly $p_{50} \\approx 40$ min.
+
+**More accurate value.** Linear interpolation inside the median class:
 $$
 p_{50} \\approx 30 + \\frac{0.5 - 0.464}{d_4} = 30 + \\frac{0.036}{0.00327} \\approx 41.01 \\text{ min}.
 $$
-where $d_4 = 0.098/30 = 0.00327$ is the frequency density of the median class.
+where $d_4 = 0.098/30 = 0.00327$ is the frequency density of the median class. The graphical guess (~40) does not differ significantly from this more precise value.
 """,
 "images": ["statistics/images/ex1_5d-time-ogive.png"]}
 
-ex1["1_5e"] = {"title": "Ex 1.5e — Modal class via densities (unequal widths)",
-"content": """**Question.** Identify the modal class of `Time`.
+ex1["1_5e"] = {"title": "Ex 1.5e — Typical time spent (modal class via densities)",
+"content": """**Question.** How much time does a customer typically spend in the store? Suggest the time (or rather, a range of times) that appears most relevant in terms of frequency.
 
 """ + TIME_TABLE + """
 
 ---
 
-**Answer.** The class with maximum *frequency* is $[60,90)$ with 571 cases — **but classes have different widths**, so this is misleading. Compute the **density** $d_i = f_i / w_i$:
+**Answer.** We need to find the **modal class** — the class with the highest frequency. The class with maximum *absolute frequency* is $[60,90)$ with 571 cases, **but classes have different widths**: larger classes can collect more observations simply because they include more values. A correct comparison must be based on the **density** $d_i = f_i / w_i$:
 
 | Time      | abs.freq | rel.freq | width | density |
 |-----------|---------:|---------:|------:|--------:|
@@ -1506,7 +1515,7 @@ ex1["1_5e"] = {"title": "Ex 1.5e — Modal class via densities (unequal widths)"
 | $[60,90)$  | 571  | 0.317 | 30 | 0.01057 |
 | $[90,150]$ | 217  | 0.121 | 60 | 0.00202 |
 
-**Modal class = $[10, 20)$** with density 0.0233, the highest in the table. (Note the density of $[10,20)$ is more than twice the density of $[60,90)$, the absolute-frequency leader.)
+The denser class is the **second** one: **modal class $= [10, 20)$** with density 0.0233 — this identifies the set of "typical" times most frequently spent in the shop before purchase. Note its density is **more than twice** that of $[60,90)$ (0.01057), the absolute-frequency leader — which in fact ranks only **third** by density. The class $[20,30)$, adjacent to the modal class, has density (0.0163) higher than $[60,90)$.
 """,
 "images": []}
 
