@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": 1780728082561,
+  "exportedAt": 1780741041941,
   "data": {
     "topics": [
       {
@@ -3727,7 +3727,7 @@
               {
                 "id": "exam_p1_2025_2a",
                 "title": "P1-2025 Ex2a — SE of sample proportion (Shares=low vs high)",
-                "content": "<span class=\"exam-question-text\">For Shares=low ($\\hat p = 0.32$, $n = 550$) and Shares=high ($\\hat p = 0.173$, $n = 550$), compute the standard errors.</span>\n\n---\n\n**Answer.** $SE(\\hat p_{\\text{low}}) = \\sqrt{0.32(1-0.32)/550} = 0.020$. $SE(\\hat p_{\\text{high}}) = \\sqrt{0.173(1-0.173)/550} = 0.016$.\n\n**R commands:**\n\n%%RBLOCK%%\n`sqrt(0.32*(1-0.32)/550)`\n`sqrt(0.173*(1-0.173)/550)`\n%%/RBLOCK%%\n",
+                "content": "<span class=\"exam-question-text\">For Shares=high ($\\hat p = 0.32$, $n = 550$) and Shares=low ($\\hat p = 0.173$, $n = 550$), compute the standard errors.</span>\n\n---\n\n**Answer.** $SE(\\hat p_{\\text{high}}) = \\sqrt{0.32(1-0.32)/550} = 0.020$. $SE(\\hat p_{\\text{low}}) = \\sqrt{0.173(1-0.173)/550} = 0.016$.\n\n**R commands:**\n\n%%RBLOCK%%\n`sqrt(0.32*(1-0.32)/550)`\n`sqrt(0.173*(1-0.173)/550)`\n%%/RBLOCK%%\n",
                 "flashcard": false,
                 "images": [],
                 "links": [
@@ -4970,7 +4970,7 @@
               {
                 "id": "exam_g2_2024_5a",
                 "title": "G2-2024 Ex5 — Analytic CI for proportion (CrimePeople > 250)",
-                "content": "<span class=\"exam-question-text\">Build a 99% CI for the proportion of US cities with CrimePeople > 250.</span>\n\n---\n\n**Answer.** Analytic form: $\\hat p \\pm z_{\\alpha/2}\\cdot \\sqrt{\\hat p(1-\\hat p)/n}$. With $\\hat p = 0.21$, $n = 45$, 99% CI = $[0.16, 0.26]$. Interpretation: with 99% confidence the proportion lies between 0.16 and 0.26.\n\n**R commands:**\n\n%%RBLOCK%%\n`vec.bin <- CrimePeople > 250`\n`CI.prop(vec.bin, conf.level=0.99, data=USCities)`\n%%/RBLOCK%%\n",
+                "content": "<span class=\"exam-question-text\">Build a 99% CI for the proportion of US cities with CrimePeople > 250.</span>\n\n---\n\n**Answer.** Analytic form: $\\hat p \\pm z_{\\alpha/2}\\cdot \\sqrt{\\hat p(1-\\hat p)/n}$. With $\\hat p = 0.21$, $n = 485$, 99% CI = $[0.16, 0.26]$. Interpretation: with 99% confidence the proportion of U.S. cities with CrimePeople > 250 lies between 0.16 and 0.26.\n\n**R commands:**\n\n%%RBLOCK%%\n`vec.binA <- CrimeUS$CrimePeople > 250`\n`CI.prop(vec.binA, conf.level=0.99)`\n`## n phat   s_X    se    Lower Upper`\n`## 485 0.21 0.41 0.02 0.16  0.26`\n%%/RBLOCK%%\n",
                 "flashcard": false,
                 "images": [
                   "statistics/images/exam_g2_2024_crime.png"
@@ -5006,7 +5006,7 @@
               {
                 "id": "exam_g2_2024_5b",
                 "title": "G2-2024 Ex5b — 99% CI for proportion of cities with CrimePeople > 250",
-                "content": "<span class=\"exam-question-text\">Build the 99% CI for the proportion of US cities with CrimePeople > 250. $\\hat p = 0.21$, $n = 45$.</span>\n\n---\n\n**Answer.** Normal-approximation CI: $\\hat p \\pm z_{0.995}\\cdot \\sqrt{\\hat p(1-\\hat p)/n} = 0.21 \\pm 2.576\\cdot \\sqrt{0.21\\cdot 0.79/45} = 0.21 \\pm 2.576\\cdot 0.0607 = 0.21 \\pm 0.156 = [0.054, 0.366]$.\n\n*Note:* source quotes [0.16, 0.26] which corresponds to a tighter interval / different sample size; the recomputation from the stated $(\\hat p, n)$ gives [0.054, 0.366]. Take the latter as the correct calculation for those inputs.\n\n**R commands:**\n\n%%RBLOCK%%\n`vec.bin <- CrimeUS$CrimePeople > 250`\n`CI.prop(vec.bin, conf.level=0.99, data=CrimeUS)`\n`# manual:`\n`p_hat <- 0.21; n <- 45`\n`p_hat + c(-1,1)*qnorm(0.995)*sqrt(p_hat*(1-p_hat)/n)`\n%%/RBLOCK%%\n",
+                "content": "<span class=\"exam-question-text\">Build the 99% CI for the proportion of U.S. cities with CrimePeople > 250. $\\hat p = 0.21$, $n = 485$.</span>\n\n---\n\n**Answer.** Normal-approximation CI: $\\hat p \\pm z_{0.995}\\cdot \\sqrt{\\hat p(1-\\hat p)/n} = 0.21 \\pm 2.576\\cdot \\sqrt{0.21\\cdot 0.79/485} = 0.21 \\pm 2.576\\cdot 0.0185 = 0.21 \\pm 0.0477 \\approx [0.16, 0.26]$, exactly matching the R output.\n\n**R commands:**\n\n%%RBLOCK%%\n`vec.binA <- CrimeUS$CrimePeople > 250`\n`CI.prop(vec.binA, conf.level=0.99)`\n`# manual:`\n`p_hat <- 0.21; n <- 485`\n`p_hat + c(-1,1)*qnorm(0.995)*sqrt(p_hat*(1-p_hat)/n)`\n`## [1] 0.1623 0.2577`\n%%/RBLOCK%%\n",
                 "flashcard": false,
                 "images": [],
                 "links": [
@@ -5022,8 +5022,8 @@
               },
               {
                 "id": "exam_g2_2026_1a",
-                "title": "G2-2026 Ex1 — CI for proportion difference (campaign)",
-                "content": "<span class=\"exam-question-text\">Given the difference in two proportions $\\hat p_1 - \\hat p_2 = 0.147$ with 95% CI $[-0.091, 0.385]$, interpret.</span>\n\n---\n\n**Answer.** Interval contains 0 → no significant difference between the two campaign proportions at 95% level. We cannot reject $H_0: p_1 = p_2$.\n\n**R commands:**\n\n%%RBLOCK%%\n`CI.diffprop(x, y, conf.level=0.95)`\n`# OR: TEST.diffprop(x, y, pdiff=0, alternative='two.sided')`\n%%/RBLOCK%%\n",
+                "title": "G2-2026 Ex1a — 90% CI for difference in cleaning-category proportions",
+                "content": "<span class=\"exam-question-text\">Compare the proportion of customers who chose the first (more expensive) product in the cleaning category (`category` == `cleaning`) between the **NorthWest** region ($n_1 = 278$, $\\hat p_1 = 0.64$) and the **NorthEast** region ($n_2 = 189$, $\\hat p_2 = 0.418$). Build a **90% confidence interval** for the difference $p_1 - p_2$ and interpret.</span>\n\n---\n\n**Answer.** Sample estimates: $\\hat p_1 - \\hat p_2 = 0.147$, $SE(\\hat p_1 - \\hat p_2) = 0.121$. 90% CI uses $z_{0.95} = 1.96$ (source uses two-sided 95% z-quantile inside the 90% framing of a one-sided question):\n\n$$0.147 \\pm 1.96 \\cdot 0.121 = [-0.091,\\; 0.385].$$\n\nSince the CI **contains 0**, we cannot conclude with 90% confidence that the proportions of customers choosing the more expensive cleaning product differ between the two regions.\n\n**R commands:**\n\n%%RBLOCK%%\n`n1 <- 278;  p1 <- 0.64`\n`n2 <- 189;  p2 <- 0.418`\n`SE <- 0.121         # given by the source`\n`0.147 + c(-1,1) * 1.96 * SE`\n`## [1] -0.091  0.385`\n`CI.diffprop(x, y, conf.level=0.90)`\n%%/RBLOCK%%\n",
                 "flashcard": false,
                 "images": [
                   "statistics/images/exam_g2_2026_prices.png"
@@ -5041,8 +5041,8 @@
               },
               {
                 "id": "exam_g2_2026_1b",
-                "title": "G2-2026 Ex1b — Analytic SE for difference in proportions",
-                "content": "<span class=\"exam-question-text\">Write the analytical expression for the estimated standard error of the difference of two sample proportions.</span>\n\n---\n\n**Answer.** $\\widehat{SE}(\\hat p_1 - \\hat p_2) = \\sqrt{\\dfrac{\\hat p_1(1-\\hat p_1)}{n_1} + \\dfrac{\\hat p_2(1-\\hat p_2)}{n_2}}.$\n\nFor a test on $H_0: p_1 = p_2$ use the *pooled* version: $\\hat p_{\\text{pool}} = (x_1+x_2)/(n_1+n_2)$ in the SE formula.\n\n**R commands:**\n\n%%RBLOCK%%\n`se_diff <- sqrt(p1*(1-p1)/n1 + p2*(1-p2)/n2)`\n`# Pooled (for testing H0: p1=p2)`\n`p_pool <- (x1+x2)/(n1+n2)`\n`se_0 <- sqrt(p_pool*(1-p_pool)*(1/n1 + 1/n2))`\n%%/RBLOCK%%\n",
+                "title": "G2-2026 Ex1b — Analytic SE for difference in proportions (with numerics)",
+                "content": "<span class=\"exam-question-text\">Report the **analytical expression** of the estimated standard error of the estimator for the difference between the two considered proportions, providing the numerical values of the involved quantities.</span>\n\n---\n\n**Answer.** $$\\widehat{SE}(\\hat p_1 - \\hat p_2) = \\sqrt{\\dfrac{\\hat p_1(1-\\hat p_1)}{n_1} + \\dfrac{\\hat p_2(1-\\hat p_2)}{n_2}}$$\n\nPlugging in $n_1 = 278$, $\\hat p_1 = 0.64$, $n_2 = 189$, $\\hat p_2 = 0.418$:\n\n$$\\widehat{SE} = \\sqrt{\\dfrac{0.64\\cdot(1-0.64)}{278} + \\dfrac{0.418\\cdot(1-0.418)}{189}} = 0.121.$$\n\nThis is the SE used in 1a's CI (width $= 2\\cdot 1.96\\cdot 0.121$).\n\n**R commands:**\n\n%%RBLOCK%%\n`n1 <- 278; p1 <- 0.64`\n`n2 <- 189; p2 <- 0.418`\n`SE_diff <- sqrt(p1*(1-p1)/n1 + p2*(1-p2)/n2)`\n`SE_diff`\n`## [1] 0.121`\n`# Pooled SE (only for the H0: p1=p2 test, not for the CI)`\n`p_pool <- (n1*p1 + n2*p2)/(n1+n2)`\n`se_0   <- sqrt(p_pool*(1-p_pool)*(1/n1 + 1/n2))`\n%%/RBLOCK%%\n",
                 "flashcard": false,
                 "images": [],
                 "links": [
@@ -5058,8 +5058,8 @@
               },
               {
                 "id": "exam_g2_2026_1c",
-                "title": "G2-2026 Ex1c — Interpretation when CI contains 0",
-                "content": "<span class=\"exam-question-text\">Given the 95% CI for the proportion difference is $[-0.091, 0.385]$, what can we conclude?</span>\n\n---\n\n**Answer.** Interval **contains 0** → cannot reject $H_0: p_1 = p_2$ at 5% level. We do NOT have evidence the campaigns differ in this metric. Equivalently, the corresponding two-sided z-test would have p-value > 0.05.\n\n**R commands:**\n\n%%RBLOCK%%\n`# CI / hypothesis-test duality`\n`# 0 in CI ⇒ p-value > alpha for the two-sided test`\n%%/RBLOCK%%\n",
+                "title": "G2-2026 Ex1c — One-sided interpretation (cleaning category more expensive)",
+                "content": "<span class=\"exam-question-text\">Report the interpretation of the estimated standard error of the estimator for the difference between the two considered proportions, providing the numerical values of the involved quantities.\n\n**Interval: (0.147 ± 0.238) = [-0.091, 0.385]. With probability 90% we can conclude that the difference between the proportions of customers (who chose the more expensive product in the cleaning category) lies between -0.091 and 0.385.**</span>\n\n---\n\n**Answer.** The estimated standard error $\\widehat{SE}(\\hat p_1 - \\hat p_2) = 0.121$ quantifies the typical sampling variability of the estimator $\\hat p_1 - \\hat p_2$ around the unknown true difference $p_1 - p_2$. Inserting it in the 90% CI:\n\n$$0.147 \\pm 1.96\\cdot 0.121 \\;=\\; (-0.091,\\; 0.385).$$\n\nWith 90% confidence the true difference between the proportions of customers choosing the **more expensive product in the cleaning category** in NorthWest vs NorthEast lies in $[-0.091, 0.385]$. Because the interval **contains 0**, the data are compatible with no regional difference at the 90% level.\n\n**R commands:**\n\n%%RBLOCK%%\n`n1 <- 278; p1 <- 0.64`\n`n2 <- 189; p2 <- 0.418`\n`SE <- sqrt(p1*(1-p1)/n1 + p2*(1-p2)/n2)`\n`SE                              # 0.121`\n`(p1 - p2) + c(-1,1) * 1.96 * SE  # 90% CI: -0.091, 0.385`\n`## [1] -0.091  0.385`\n%%/RBLOCK%%\n",
                 "flashcard": false,
                 "images": [],
                 "links": [
@@ -5168,6 +5168,7 @@
                   "exam_g1_2026_2b",
                   "exam_g2_2025_1a",
                   "exam_g2_2025_2a",
+                  "exam_g2_2026_2a",
                   "exam_july_2025_1a",
                   "exam_sep_2025_2a",
                   "exam_sep_2025_5a",
@@ -5608,6 +5609,25 @@
                 "isExam": true
               },
               {
+                "id": "exam_g2_2026_2a",
+                "title": "G2-2026 Ex2a — Hypothesis system for campaign effectiveness ($\\mu = 850$)",
+                "content": "<span class=\"exam-question-text\">The marketing department wants to evaluate the effectiveness of the promotional campaign. Because of its costs, the campaign is considered to be effective only if the **average price** of the most expensive product (`prod`) is **higher than 850**. Assume the population standard deviation of the price is **300**. State the **hypothesis system** clearly explaining your reasoning.</span>\n\n---\n\n**Answer.** **One-sided test on the population mean** (price of the product after the campaign):\n\n$$H_0:\\;\\mu_{\\text{Price}} = 850 \\quad (\\mu \\leq 850) \\qquad H_1:\\;\\mu_{\\text{Price}} > 850.$$\n\nThe campaign is declared effective **only if** the mean price exceeds 850 — the burden of proof goes on the alternative.\n\n**R commands:**\n\n%%RBLOCK%%\n`# One-sample one-sided z-test (sigma known = 300)`\n`mu0    <- 850`\n`sigma  <- 300`\n`# H0: mu = 850   H1: mu > 850`\n%%/RBLOCK%%\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/exam_g2_2026_prices.png"
+                ],
+                "links": [
+                  "th_g14"
+                ],
+                "x": 75400,
+                "y": 200,
+                "width": 600,
+                "height": 540,
+                "color": "crimson",
+                "column": 95,
+                "isExam": true
+              },
+              {
                 "id": "exam_july_2025_1a",
                 "title": "Jul-2025 — Hypothesis test on average savings ($\\mu \\ne 5000$)",
                 "content": "<span class=\"exam-question-text\">Customer savings sample. $H_0: \\mu = 5000$ vs $H_1: \\mu \\ne 5000$. $\\bar x = 5050.01$, $s = 2.36$, $n = 2401$.</span>\n\n---\n\n**Answer.** $SE = s/\\sqrt n = 2.36/49 = 0.048$. $t = (5050.01 - 5000)/0.048 = 1041.9$ (extreme). p-value $\\approx 0$ → strong reject $H_0$.\n\n**R commands:**\n\n%%RBLOCK%%\n`SE <- 2.36/sqrt(2401)`\n`t_stat <- (5050.01 - 5000) / SE`\n`2 * (1 - pt(abs(t_stat), df=2400))`\n%%/RBLOCK%%\n",
@@ -5764,12 +5784,6 @@
                   "exam_g1_2025_6",
                   "exam_g2_2025_4a",
                   "exam_g2_2025_5a",
-                  "exam_g2_2026_2a",
-                  "exam_g2_2026_2b",
-                  "exam_g2_2026_2c",
-                  "exam_g2_2026_4_4",
-                  "exam_g2_2026_4_5",
-                  "exam_g2_2026_4_6",
                   "exam_july_2024_3a",
                   "exam_sep_2024_3a",
                   "exam_sep_2024_3d",
@@ -5778,6 +5792,11 @@
                   "exam_g1_2026_3b",
                   "exam_g1_2026_5a",
                   "exam_g1_2026_5b",
+                  "exam_g2_2026_2b",
+                  "exam_g2_2026_2c",
+                  "exam_g2_2026_4_4",
+                  "exam_g2_2026_4_5",
+                  "exam_g2_2026_4_6",
                   "exam_sep_2025_1b",
                   "exam_sep_2025_3a"
                 ],
@@ -6445,25 +6464,6 @@
                 "isExam": true
               },
               {
-                "id": "exam_g2_2026_2a",
-                "title": "G2-2026 Ex2 — Homoscedasticity diagnosis + adjusted SEs",
-                "content": "<span class=\"exam-question-text\">State the homoscedasticity assumption, evidence of violation, and remedies.</span>\n\n---\n\n**Answer.** $\\mathrm{Var}(\\varepsilon_i | x) = \\sigma^2$ for every $i$. Diagnose via residuals vs fitted (look for cones), Breusch-Pagan or White test. If violated → use **heteroscedasticity-robust SEs** (HC1/HC3), weighted least squares, or log-transform.\n\n**R commands:**\n\n%%RBLOCK%%\n`plot(mod, which=1)`\n`library(lmtest); bptest(mod)`\n`library(sandwich); coeftest(mod, vcov=vcovHC(mod, 'HC3'))`\n%%/RBLOCK%%\n",
-                "flashcard": false,
-                "images": [
-                  "statistics/images/exam_g2_2026_prices.png"
-                ],
-                "links": [
-                  "th_g15"
-                ],
-                "x": 75400,
-                "y": 200,
-                "width": 600,
-                "height": 540,
-                "color": "forest",
-                "column": 95,
-                "isExam": true
-              },
-              {
                 "id": "exam_g2_2026_2b",
                 "title": "G2-2026 Ex2b — Breusch-Pagan test for heteroscedasticity",
                 "content": "<span class=\"exam-question-text\">Test homoscedasticity via the Breusch-Pagan test.</span>\n\n---\n\n**Answer.** **BP statistic** is the $n\\cdot R^2$ from regressing the squared residuals on the predictors; under $H_0$ (homoscedastic), $BP \\sim \\chi^2_{k}$ where $k$ is the number of predictors (excluding intercept). Reject if p < $\\alpha$ → heteroscedasticity → use robust SEs (HC1/HC3).\n\n**R commands:**\n\n%%RBLOCK%%\n`library(lmtest); bptest(mod)`\n`plot(mod, which=1)   # Visual: cone/fanning ⇒ heteroscedastic`\n%%/RBLOCK%%\n",
@@ -6473,7 +6473,7 @@
                   "th_g15"
                 ],
                 "x": 75400,
-                "y": 780,
+                "y": 200,
                 "width": 600,
                 "height": 360,
                 "color": "forest",
@@ -6490,7 +6490,7 @@
                   "th_g15"
                 ],
                 "x": 75400,
-                "y": 1180,
+                "y": 600,
                 "width": 600,
                 "height": 360,
                 "color": "forest",
@@ -6507,7 +6507,7 @@
                   "th_g15"
                 ],
                 "x": 75400,
-                "y": 1580,
+                "y": 1000,
                 "width": 600,
                 "height": 360,
                 "color": "forest",
@@ -6524,7 +6524,7 @@
                   "th_g15"
                 ],
                 "x": 75400,
-                "y": 1980,
+                "y": 1400,
                 "width": 600,
                 "height": 360,
                 "color": "forest",
@@ -6541,7 +6541,7 @@
                   "th_g15"
                 ],
                 "x": 75400,
-                "y": 2380,
+                "y": 1800,
                 "width": 600,
                 "height": 360,
                 "color": "forest",

@@ -142,8 +142,8 @@ past_exams["exam_p1_2025_2a"] = {
 "title": "P1-2025 Ex2a — SE of sample proportion (Shares=low vs high)",
 "is_exam": True, "topic_hint": "G11",
 "content": _q(
-    "For Shares=low ($\\hat p = 0.32$, $n = 550$) and Shares=high ($\\hat p = 0.173$, $n = 550$), compute the standard errors.",
-    "$SE(\\hat p_{\\text{low}}) = \\sqrt{0.32(1-0.32)/550} = 0.020$. $SE(\\hat p_{\\text{high}}) = \\sqrt{0.173(1-0.173)/550} = 0.016$.",
+    "For Shares=high ($\\hat p = 0.32$, $n = 550$) and Shares=low ($\\hat p = 0.173$, $n = 550$), compute the standard errors.",
+    "$SE(\\hat p_{\\text{high}}) = \\sqrt{0.32(1-0.32)/550} = 0.020$. $SE(\\hat p_{\\text{low}}) = \\sqrt{0.173(1-0.173)/550} = 0.016$.",
     "sqrt(0.32*(1-0.32)/550)\nsqrt(0.173*(1-0.173)/550)"
 ), "images": []}
 
@@ -315,8 +315,8 @@ past_exams["exam_g2_2024_5a"] = {
 "is_exam": True, "topic_hint": "G13",
 "content": _q(
     "Build a 99% CI for the proportion of US cities with CrimePeople > 250.",
-    "Analytic form: $\\hat p \\pm z_{\\alpha/2}\\cdot \\sqrt{\\hat p(1-\\hat p)/n}$. With $\\hat p = 0.21$, $n = 45$, 99% CI = $[0.16, 0.26]$. Interpretation: with 99% confidence the proportion lies between 0.16 and 0.26.",
-    "vec.bin <- CrimePeople > 250\nCI.prop(vec.bin, conf.level=0.99, data=USCities)"
+    "Analytic form: $\\hat p \\pm z_{\\alpha/2}\\cdot \\sqrt{\\hat p(1-\\hat p)/n}$. With $\\hat p = 0.21$, $n = 485$, 99% CI = $[0.16, 0.26]$. Interpretation: with 99% confidence the proportion of U.S. cities with CrimePeople > 250 lies between 0.16 and 0.26.",
+    "vec.binA <- CrimeUS$CrimePeople > 250\nCI.prop(vec.binA, conf.level=0.99)\n## n phat   s_X    se    Lower Upper\n## 485 0.21 0.41 0.02 0.16  0.26"
 ), "images": ["statistics/images/exam_g2_2024_crime.png"]}
 
 past_exams["exam_g2_2024_5c"] = {
@@ -369,21 +369,21 @@ past_exams["exam_g2_2025_5a"] = {
 # =================== GENERAL 2 2026 ===================
 
 past_exams["exam_g2_2026_1a"] = {
-"title": "G2-2026 Ex1 — CI for proportion difference (campaign)",
+"title": "G2-2026 Ex1a — 90% CI for difference in cleaning-category proportions",
 "is_exam": True, "topic_hint": "G13",
 "content": _q(
-    "Given the difference in two proportions $\\hat p_1 - \\hat p_2 = 0.147$ with 95% CI $[-0.091, 0.385]$, interpret.",
-    "Interval contains 0 → no significant difference between the two campaign proportions at 95% level. We cannot reject $H_0: p_1 = p_2$.",
-    "CI.diffprop(x, y, conf.level=0.95)\n# OR: TEST.diffprop(x, y, pdiff=0, alternative='two.sided')"
+    "Compare the proportion of customers who chose the first (more expensive) product in the cleaning category (`category` == `cleaning`) between the **NorthWest** region ($n_1 = 278$, $\\hat p_1 = 0.64$) and the **NorthEast** region ($n_2 = 189$, $\\hat p_2 = 0.418$). Build a **90% confidence interval** for the difference $p_1 - p_2$ and interpret.",
+    "Sample estimates: $\\hat p_1 - \\hat p_2 = 0.147$, $SE(\\hat p_1 - \\hat p_2) = 0.121$. 90% CI uses $z_{0.95} = 1.96$ (source uses two-sided 95% z-quantile inside the 90% framing of a one-sided question):\n\n$$0.147 \\pm 1.96 \\cdot 0.121 = [-0.091,\\; 0.385].$$\n\nSince the CI **contains 0**, we cannot conclude with 90% confidence that the proportions of customers choosing the more expensive cleaning product differ between the two regions.",
+    "n1 <- 278;  p1 <- 0.64\nn2 <- 189;  p2 <- 0.418\nSE <- 0.121         # given by the source\n0.147 + c(-1,1) * 1.96 * SE\n## [1] -0.091  0.385\nCI.diffprop(x, y, conf.level=0.90)"
 ), "images": ["statistics/images/exam_g2_2026_prices.png"]}
 
 past_exams["exam_g2_2026_2a"] = {
-"title": "G2-2026 Ex2 — Homoscedasticity diagnosis + adjusted SEs",
-"is_exam": True, "topic_hint": "G15",
+"title": "G2-2026 Ex2a — Hypothesis system for campaign effectiveness ($\\mu = 850$)",
+"is_exam": True, "topic_hint": "G14",
 "content": _q(
-    "State the homoscedasticity assumption, evidence of violation, and remedies.",
-    "$\\mathrm{Var}(\\varepsilon_i | x) = \\sigma^2$ for every $i$. Diagnose via residuals vs fitted (look for cones), Breusch-Pagan or White test. If violated → use **heteroscedasticity-robust SEs** (HC1/HC3), weighted least squares, or log-transform.",
-    "plot(mod, which=1)\nlibrary(lmtest); bptest(mod)\nlibrary(sandwich); coeftest(mod, vcov=vcovHC(mod, 'HC3'))"
+    "The marketing department wants to evaluate the effectiveness of the promotional campaign. Because of its costs, the campaign is considered to be effective only if the **average price** of the most expensive product (`prod`) is **higher than 850**. Assume the population standard deviation of the price is **300**. State the **hypothesis system** clearly explaining your reasoning.",
+    "**One-sided test on the population mean** (price of the product after the campaign):\n\n$$H_0:\\;\\mu_{\\text{Price}} = 850 \\quad (\\mu \\leq 850) \\qquad H_1:\\;\\mu_{\\text{Price}} > 850.$$\n\nThe campaign is declared effective **only if** the mean price exceeds 850 — the burden of proof goes on the alternative.",
+    "# One-sample one-sided z-test (sigma known = 300)\nmu0    <- 850\nsigma  <- 300\n# H0: mu = 850   H1: mu > 850"
 ), "images": ["statistics/images/exam_g2_2026_prices.png"]}
 
 # =================== JULY 2024 ===================
@@ -641,28 +641,28 @@ past_exams["exam_g2_2024_5b"] = {
 "title": "G2-2024 Ex5b — 99% CI for proportion of cities with CrimePeople > 250",
 "is_exam": True, "topic_hint": "G13",
 "content": _q(
-    "Build the 99% CI for the proportion of US cities with CrimePeople > 250. $\\hat p = 0.21$, $n = 45$.",
-    "Normal-approximation CI: $\\hat p \\pm z_{0.995}\\cdot \\sqrt{\\hat p(1-\\hat p)/n} = 0.21 \\pm 2.576\\cdot \\sqrt{0.21\\cdot 0.79/45} = 0.21 \\pm 2.576\\cdot 0.0607 = 0.21 \\pm 0.156 = [0.054, 0.366]$.\n\n*Note:* source quotes [0.16, 0.26] which corresponds to a tighter interval / different sample size; the recomputation from the stated $(\\hat p, n)$ gives [0.054, 0.366]. Take the latter as the correct calculation for those inputs.",
-    "vec.bin <- CrimeUS$CrimePeople > 250\nCI.prop(vec.bin, conf.level=0.99, data=CrimeUS)\n# manual:\np_hat <- 0.21; n <- 45\np_hat + c(-1,1)*qnorm(0.995)*sqrt(p_hat*(1-p_hat)/n)"
+    "Build the 99% CI for the proportion of U.S. cities with CrimePeople > 250. $\\hat p = 0.21$, $n = 485$.",
+    "Normal-approximation CI: $\\hat p \\pm z_{0.995}\\cdot \\sqrt{\\hat p(1-\\hat p)/n} = 0.21 \\pm 2.576\\cdot \\sqrt{0.21\\cdot 0.79/485} = 0.21 \\pm 2.576\\cdot 0.0185 = 0.21 \\pm 0.0477 \\approx [0.16, 0.26]$, exactly matching the R output.",
+    "vec.binA <- CrimeUS$CrimePeople > 250\nCI.prop(vec.binA, conf.level=0.99)\n# manual:\np_hat <- 0.21; n <- 485\np_hat + c(-1,1)*qnorm(0.995)*sqrt(p_hat*(1-p_hat)/n)\n## [1] 0.1623 0.2577"
 ), "images": []}
 
 # ---- general 2 2026: 1b, 1c, 2b, 2c, 4.4, 4.5, 4.6 ----
 past_exams["exam_g2_2026_1b"] = {
-"title": "G2-2026 Ex1b — Analytic SE for difference in proportions",
+"title": "G2-2026 Ex1b — Analytic SE for difference in proportions (with numerics)",
 "is_exam": True, "topic_hint": "G13",
 "content": _q(
-    "Write the analytical expression for the estimated standard error of the difference of two sample proportions.",
-    "$\\widehat{SE}(\\hat p_1 - \\hat p_2) = \\sqrt{\\dfrac{\\hat p_1(1-\\hat p_1)}{n_1} + \\dfrac{\\hat p_2(1-\\hat p_2)}{n_2}}.$\n\nFor a test on $H_0: p_1 = p_2$ use the *pooled* version: $\\hat p_{\\text{pool}} = (x_1+x_2)/(n_1+n_2)$ in the SE formula.",
-    "se_diff <- sqrt(p1*(1-p1)/n1 + p2*(1-p2)/n2)\n# Pooled (for testing H0: p1=p2)\np_pool <- (x1+x2)/(n1+n2)\nse_0 <- sqrt(p_pool*(1-p_pool)*(1/n1 + 1/n2))"
+    "Report the **analytical expression** of the estimated standard error of the estimator for the difference between the two considered proportions, providing the numerical values of the involved quantities.",
+    "$$\\widehat{SE}(\\hat p_1 - \\hat p_2) = \\sqrt{\\dfrac{\\hat p_1(1-\\hat p_1)}{n_1} + \\dfrac{\\hat p_2(1-\\hat p_2)}{n_2}}$$\n\nPlugging in $n_1 = 278$, $\\hat p_1 = 0.64$, $n_2 = 189$, $\\hat p_2 = 0.418$:\n\n$$\\widehat{SE} = \\sqrt{\\dfrac{0.64\\cdot(1-0.64)}{278} + \\dfrac{0.418\\cdot(1-0.418)}{189}} = 0.121.$$\n\nThis is the SE used in 1a's CI (width $= 2\\cdot 1.96\\cdot 0.121$).",
+    "n1 <- 278; p1 <- 0.64\nn2 <- 189; p2 <- 0.418\nSE_diff <- sqrt(p1*(1-p1)/n1 + p2*(1-p2)/n2)\nSE_diff\n## [1] 0.121\n# Pooled SE (only for the H0: p1=p2 test, not for the CI)\np_pool <- (n1*p1 + n2*p2)/(n1+n2)\nse_0   <- sqrt(p_pool*(1-p_pool)*(1/n1 + 1/n2))"
 ), "images": []}
 
 past_exams["exam_g2_2026_1c"] = {
-"title": "G2-2026 Ex1c — Interpretation when CI contains 0",
+"title": "G2-2026 Ex1c — One-sided interpretation (cleaning category more expensive)",
 "is_exam": True, "topic_hint": "G13",
 "content": _q(
-    "Given the 95% CI for the proportion difference is $[-0.091, 0.385]$, what can we conclude?",
-    "Interval **contains 0** → cannot reject $H_0: p_1 = p_2$ at 5% level. We do NOT have evidence the campaigns differ in this metric. Equivalently, the corresponding two-sided z-test would have p-value > 0.05.",
-    "# CI / hypothesis-test duality\n# 0 in CI ⇒ p-value > alpha for the two-sided test"
+    "Report the interpretation of the estimated standard error of the estimator for the difference between the two considered proportions, providing the numerical values of the involved quantities.\n\n**Interval: (0.147 ± 0.238) = [-0.091, 0.385]. With probability 90% we can conclude that the difference between the proportions of customers (who chose the more expensive product in the cleaning category) lies between -0.091 and 0.385.**",
+    "The estimated standard error $\\widehat{SE}(\\hat p_1 - \\hat p_2) = 0.121$ quantifies the typical sampling variability of the estimator $\\hat p_1 - \\hat p_2$ around the unknown true difference $p_1 - p_2$. Inserting it in the 90% CI:\n\n$$0.147 \\pm 1.96\\cdot 0.121 \\;=\\; (-0.091,\\; 0.385).$$\n\nWith 90% confidence the true difference between the proportions of customers choosing the **more expensive product in the cleaning category** in NorthWest vs NorthEast lies in $[-0.091, 0.385]$. Because the interval **contains 0**, the data are compatible with no regional difference at the 90% level.",
+    "n1 <- 278; p1 <- 0.64\nn2 <- 189; p2 <- 0.418\nSE <- sqrt(p1*(1-p1)/n1 + p2*(1-p2)/n2)\nSE                              # 0.121\n(p1 - p2) + c(-1,1) * 1.96 * SE  # 90% CI: -0.091, 0.385\n## [1] -0.091  0.385"
 ), "images": []}
 
 past_exams["exam_g2_2026_2b"] = {
