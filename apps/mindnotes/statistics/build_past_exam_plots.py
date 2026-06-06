@@ -68,6 +68,31 @@ if "Out.Engage" in m2.columns:
     ax.set_title("Metrics2: Reach by Engagement bin")
     save("exam_p1_2025_reach_by_engage.png")
 
+# Impressions by Paid (right-skewed) — Ex1.a2
+if "Paid" in m2.columns and "Impressions" in m2.columns:
+    fig, axes = plt.subplots(1, 2, figsize=(11, 4.5))
+    levels = sorted(m2["Paid"].dropna().unique(), key=lambda x: str(x))
+    groups = [m2.loc[m2["Paid"]==lvl, "Impressions"].dropna() for lvl in levels]
+    # left: side-by-side boxplots (horizontal makes skew obvious)
+    axes[0].boxplot(groups, labels=[str(l) for l in levels], patch_artist=True,
+                    boxprops=dict(facecolor=PALETTE["secondary"]),
+                    medianprops=dict(color=PALETTE["accent"], linewidth=2))
+    axes[0].set_xlabel("Paid"); axes[0].set_ylabel("Impressions")
+    axes[0].set_title("Impressions by Paid — boxplots (right-skewed)")
+    # right: overlaid histograms to show skewness
+    for lvl, g, col in zip(levels, groups, [PALETTE["secondary"], PALETTE["accent"]]):
+        axes[1].hist(g, bins=30, alpha=0.55, label=f"Paid = {lvl}", color=col, edgecolor="black", linewidth=0.3)
+    # mark medians and means
+    for lvl, g, col in zip(levels, groups, [PALETTE["secondary"], PALETTE["accent"]]):
+        axes[1].axvline(float(g.median()), color=col, linestyle="--", linewidth=1.5)
+    axes[1].set_xlabel("Impressions"); axes[1].set_ylabel("Count")
+    axes[1].set_title("Impressions distributions — medians (dashed)")
+    axes[1].legend()
+    save("exam_p1_2025_impressions_by_paid.png")
+    # Print the actual medians/means for the snippet text
+    for lvl, g in zip(levels, groups):
+        print(f"  Paid={lvl}: median={g.median():.0f}  mean={g.mean():.0f}  Q25={g.quantile(.25):.0f}  Q75={g.quantile(.75):.0f}  n={len(g)}")
+
 # ============== 1st partial 2026 — Bidding ==============
 print("\n[p1 2026]")
 b1 = load("1st partial 2026", "Exam20251014_1.Rdata")["Bidding"]
@@ -88,6 +113,43 @@ ax.boxplot(b1["Bid"].dropna(), vert=True, patch_artist=True,
            boxprops=dict(facecolor=PALETTE["accent"]))
 ax.set_title("Bidding: Bid — boxplot"); ax.set_ylabel("Bid")
 save("exam_p1_2026_bid_boxplot.png")
+# Ex5: Channel x LeadTime — row % (wrong) vs joint % (correct)
+if "LeadTime" in b1.columns:
+    order_lt = ["Early", "MediumTerm", "LastMinute"]
+    chans_ex5 = ["Aggregator", "Agency", "Airline"]
+    b1["LeadTime"] = pd.Categorical(b1["LeadTime"], categories=order_lt, ordered=True)
+    ct5 = pd.crosstab(b1["Channel"], b1["LeadTime"]).reindex(index=chans_ex5, columns=order_lt)
+    row_pct = 100 * ct5.div(ct5.sum(1), 0)
+    joint_pct = 100 * ct5 / ct5.values.sum()
+    fig, axes = plt.subplots(1, 2, figsize=(12, 4.6))
+    x = np.arange(len(chans_ex5)); w = 0.27
+    cols = [PALETTE["secondary"], PALETTE["accent"], PALETTE["warn"]]
+    for i, lvl in enumerate(order_lt):
+        axes[0].bar(x + (i-1)*w, row_pct[lvl].values, w, label=lvl, color=cols[i], edgecolor="black")
+        axes[1].bar(x + (i-1)*w, joint_pct[lvl].values, w, label=lvl, color=cols[i], edgecolor="black")
+    for ax_, ttl, ylab in [(axes[0], "Row % (y|x): WRONG for the question", "% (row, conditional on Channel)"),
+                            (axes[1], "Joint %: CORRECT — answers the question", "% (joint, of all 668 customers)")]:
+        ax_.set_xticks(x); ax_.set_xticklabels(chans_ex5)
+        ax_.set_ylabel(ylab); ax_.set_title(ttl); ax_.legend(title="LeadTime", fontsize=9)
+    for i, ch in enumerate(chans_ex5):
+        axes[0].text(x[i], row_pct.loc[ch,"MediumTerm"]+1.5, f"{row_pct.loc[ch,'MediumTerm']:.0f}%", ha="center", fontsize=9, fontweight="bold")
+        axes[1].text(x[i], joint_pct.loc[ch,"MediumTerm"]+0.4, f"{joint_pct.loc[ch,'MediumTerm']:.0f}%", ha="center", fontsize=9, fontweight="bold")
+    plt.suptitle("Channel x LeadTime — share of MediumTerm customers", fontsize=12, y=1.02)
+    save("exam_p1_2026_5_leadtime_channel.png")
+# PaidFare vs Bid scatter (Ex2: inverse, non-linear; Pearson r = -0.7947)
+if "PaidFare" in b1.columns and "Bid" in b1.columns:
+    sub = b1[["PaidFare", "Bid"]].dropna()
+    fig, ax = plt.subplots(figsize=(6.5, 5))
+    ax.scatter(sub["PaidFare"], sub["Bid"], alpha=0.5,
+               color=PALETTE["secondary"], edgecolor="black", linewidth=0.2)
+    m, c = np.polyfit(sub["PaidFare"], sub["Bid"], 1)
+    xs = np.linspace(sub["PaidFare"].min(), sub["PaidFare"].max(), 100)
+    ax.plot(xs, m*xs + c, color=PALETTE["warn"], linestyle="--", label="OLS fit")
+    r = sub["PaidFare"].corr(sub["Bid"])
+    ax.set_xlabel("PaidFare"); ax.set_ylabel("Bid")
+    ax.set_title(f"Bidding: PaidFare vs Bid (Pearson r = {r:.4f})")
+    ax.legend()
+    save("exam_p1_2026_paidfare_vs_bid.png")
 
 # ============== general 1 2024 — Primary (Read2, Math2) ==============
 print("\n[g1 2024]")
@@ -153,6 +215,17 @@ ax.set_title("Employee: Productivity by Department")
 plt.xticks(rotation=15)
 save("exam_g2_2025_productivity_by_dept.png")
 
+# Ex1 — Salary by Employment_type (Role: Junior / Senior / Manager)
+fig, ax = plt.subplots(figsize=(7, 5))
+order = ["Junior", "Senior", "Manager"]
+groups = [em.loc[em["Role"]==r, "Salary"].dropna() for r in order]
+ax.boxplot(groups, labels=order, patch_artist=True,
+           boxprops=dict(facecolor=PALETTE["secondary"]),
+           medianprops=dict(color=PALETTE["accent"], linewidth=2))
+ax.set_xlabel("Employment_type"); ax.set_ylabel("Salary")
+ax.set_title("Employee: Salary by Employment_type")
+save("exam_g2_2025_salary_by_emptype.png")
+
 # ============== general 2 2026 — retail ==============
 print("\n[g2 2026]")
 rt = load("general 2 2026", "retail.rdata")["retail"]
@@ -210,12 +283,22 @@ elif "Account_length" in cd.columns:
 # ============== september 2025 — Performance ==============
 print("\n[sep 2025]")
 pf = load("september 2025", "Exam202509(1).Rdata")["Performance"]
-# Performance has many columns — pick HR_avg histogram + scatter
-if "HR.avg" in pf.columns and "Weight" in pf.columns:
+# Ex1.a — scatter VO2.max vs Performance with fit line (r ~ 0.593)
+if "VO2.max" in pf.columns and "Performance" in pf.columns:
+    import numpy as np
     fig, ax = plt.subplots(figsize=(6, 5))
-    ax.scatter(pf["Weight"], pf["HR.avg"], alpha=0.4, color=PALETTE["secondary"], edgecolor="black", linewidth=0.2)
-    ax.set_xlabel("Weight"); ax.set_ylabel("HR.avg")
-    ax.set_title("Performance: Weight vs HR.avg")
-    save("exam_sep_2025_weight_hr.png")
+    x = pd.to_numeric(pf["VO2.max"], errors="coerce")
+    y = pd.to_numeric(pf["Performance"], errors="coerce")
+    m = x.notna() & y.notna()
+    x, y = x[m].values, y[m].values
+    ax.scatter(x, y, alpha=0.5, color=PALETTE["secondary"], edgecolor="black", linewidth=0.2)
+    # OLS fit line
+    b1, b0 = np.polyfit(x, y, 1)
+    xs = np.linspace(x.min(), x.max(), 100)
+    ax.plot(xs, b0 + b1 * xs, color=PALETTE["primary"], linewidth=1.8)
+    r = np.corrcoef(x, y)[0, 1]
+    ax.set_xlabel("VO2.max"); ax.set_ylabel("Performance")
+    ax.set_title(f"Performance: VO2.max vs Performance (r = {r:.3f})")
+    save("exam_sep_2025_vo2max_performance.png")
 
 print("\nALL DONE.")

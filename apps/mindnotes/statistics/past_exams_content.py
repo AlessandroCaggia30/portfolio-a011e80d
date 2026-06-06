@@ -20,123 +20,114 @@ past_exams = {}
 # =================== 1st PARTIAL 2024 ===================
 
 past_exams["exam_p1_2024_1a"] = {
-"title": "P1-2024 Ex1a — Company Age distribution (categorical ordinal)",
+"title": "P1-2024 Ex1a — Modal class of Loyalty (interval-class variable)",
 "is_exam": True, "topic_hint": "G2",
 "content": _q(
-    "Describe the distribution of the variable `Age` (categorical ordinal) in the `Company` dataset. Specify which measures you use and why.",
-    "All 668 cases observed (no missing). Frequencies: VeryYoung 93 (13.9%), Young 265 (39.7%), Adult 236 (35.3%), Senior 74 (11.1%). Non-uniform distribution; the Young category is modal. For ordinal categorical use *frequencies, proportions, mode, median* — NOT mean.",
-    "distr.table.x(Company$Age, freq=c('counts','perc'))\ndistr.summary.x(Company$Age, stats=c('mode','median'))"
+    "Consider the `Campaign` dataframe and the variable `Loyalty` — measured in interval classes — which represents the level of customer loyalty for the stores considered. What is the modal class of `Loyalty`? Explain clearly your answer and state the measures or tools you used to answer.",
+    "`Loyalty` is a continuous quantitative variable measured in classes. To identify the modal class we compute the **frequency densities** (class relative frequency / class width). From the table: [10,20) dens=0.004, [20,40) 0.011, **[40,50) 0.024**, [50,70) 0.015, [70,80) 0.012, [80,100) 0.004. **The modal class is [40,50)**, as it has the highest frequency density. The same conclusion follows from the histogram (tallest bar over [40,50)).",
+    "distr.table.x(x=Loyalty, interval=T, freq=c(\'counts\',\'prop\',\'dens\',\'cum\'), data=Campaign)\n## Loyalty   Count Prop Density Cum.Count Cum.Prop\n## [10,20)    58  0.04  0.004      58     0.04\n## [20,40)   319  0.22  0.011     377     0.26\n## [40,50)   348  0.24  0.024     725     0.50\n## [50,70)   435  0.30  0.015    1160     0.80\n## [70,80)   174  0.12  0.012    1334     0.92\n## [80,100)  116  0.08  0.004    1450     1.00"
 ), "images": []}
 
 past_exams["exam_p1_2024_1b"] = {
-"title": "P1-2024 Ex1b — Channel × Age two-way",
-"is_exam": True, "topic_hint": "G7",
+"title": "P1-2024 Ex1b — Loyalty 90th percentile",
+"is_exam": True, "topic_hint": "G3",
 "content": _q(
-    "Analyze the relationship between `Channel` (categorical) and `Age`. Which Channel is most prevalent for each Age category?",
-    "Multi-channel is the modal category in every Age group: VeryYoung 39, Young 126, Adult 102, Senior 32. Ecomm and Mob are 2nd/3rd across all ages. The conditional distribution of Channel given Age is essentially homogeneous across ages — suggesting weak association.",
-    "distr.table.xy(Company$Age, Company$Channel, freq=c('counts','percentages'), freq.type='y|x')"
+    "What are the levels of loyalty in the 10% of stores with the most loyal customers (`Loyalty`)? Indicate clearly which measures you use to answer and their numerical values.",
+    "Identify the **90th percentile** $P_{90}$. From the cumulative relative frequency table, class $[70,90)$ is the first whose cum.prop exceeds 0.9 (cum.prop just before = 0.80, density = 0.012). Under uniform-within-class assumption: $P_{90} = 70 + \\dfrac{0.9 - 0.8}{0.012} = 78.333$. The loyalty levels of the 10% most loyal stores therefore lie in the range $[78.333,\\,100]$.",
+    "distr.table.x(x=Loyalty, interval=T,\n               freq=c('counts','prop','dens','cum'),\n               data=Campaign)\n## P90 = 70 + (0.9 - 0.8)/0.012 = 78.333"
 ), "images": []}
 
 past_exams["exam_p1_2024_1c"] = {
-"title": "P1-2024 Ex1c — Profitability descriptive",
+"title": "P1-2024 Ex1c — Mean and variance of Loyalty (grouped data)",
 "is_exam": True, "topic_hint": "G4",
 "content": _q(
-    "Describe the distribution of the numeric variable `Profitability` (5-number summary, mean, SD).",
-    "Min 501, Q1 724, Median 839, Mean 857.7, Q3 971, Max 1261, SD 167.4. Approximately symmetric with slight right skew (mean ≈ median + 19). No extreme outliers ($Q_3+1.5\\cdot IQR = 1342.5 >$ max).",
-    "distr.summary.x(Company$Profitability, stats=c('fivenumber','mean','sd'))"
-), "images": ["statistics/images/exam_p1_2024_profitability.png"]}
+    "Determine the **mean** and **variance** of the variable `Loyalty` (continuous, measured in classes) in `Campaign`. Indicate clearly the procedure followed.",
+    "Use class midpoints $m_k$ with absolute freq $f_k$ (or relative $p_k$). Classes [10,20),[20,40),[40,50),[50,70),[70,90),[90,100] → midpoints 15, 30, 45, 60, 75, 90. **Mean:** $\\bar X \\approx \\tfrac{1}{n}\\sum_k f_k m_k = \\tfrac{1}{1450}(15\\cdot58 + 30\\cdot319 + \\dots + 90\\cdot116) = 52.2$. **Variance (population):** $s^2 \\approx \\sum_k m_k^2 p_k - \\bar X^2 = 3096 - 52.2^2 = 371.16$. With sample correction: $s^2_{n-1} = \\tfrac{1450}{1449}\\cdot 371.16 \\approx 371.4161$. (Difference vs ungrouped is negligible for large $n$.)",
+    "mids <- c(15,30,45,60,75,90)\nfk   <- c(58,319,348,435,174,116)\nxbar <- sum(fk*mids)/sum(fk)            # 52.2\nvar_pop <- sum(fk*mids^2)/sum(fk) - xbar^2   # 371.16"
+), "images": []}
 
 past_exams["exam_p1_2024_2a"] = {
 "title": "P1-2024 Ex2a — Campaign Revenues boxplot",
 "is_exam": True, "topic_hint": "G6",
 "content": _q(
-    "Analyze the distribution of `Revenues` in the `Campaign` dataset. Indicate the box extremes and any outliers.",
-    "5-number summary: Min 151.48, Q1 504.56, Median 752.36, Q3 1202.36, Max 2792. The box spans [504.56, 1202.36] split by median 752.36. The whiskers extend to the max regular values within Q1±1.5·IQR and Q3+1.5·IQR. The right tail is longer — distribution right-skewed.",
-    "distr.summary.x(Campaign$Revenues, stats='fivenumber')\ndistr.plot.x(Revenues, plot.type='boxplot', data=Campaign)"
+    "Consider the `Campaign` dataframe. Refer to the boxplot representing the distribution of the variable `Revenues` (standard profitability of the stores). Indicate what the extremes of the box and the end points of the whiskers of the boxplot represent, and report their numerical values, clarifying what are the quantities underlying your answer.",
+    "n = 1450 (no missing). 5-number summary: Min 105.82, Q1 804.55, Median 984, Q3 1202.36, Max 3312.54. The box spans from $Q_1 = 804.55$ to $Q_3 = 1202.36$ and is divided by the median 984. IQR $= 1202.36 - 804.55 = 397.81$. The whiskers extend to the most extreme observed values still within $[Q_1 - 1.5\\cdot IQR,\\, Q_3 + 1.5\\cdot IQR] = [207.84, 1799.07]$; observations beyond the upper fence (up to Max 3312.54) appear as individual outlier points. The right tail is much longer than the left — distribution **right-skewed**.",
+    "distr.summary.x(Revenues, stats='fivenumber', data=Campaign)\n## n.n.a   min     q1 median      q3    max\n## 1450 0 105.82 804.55    984 1202.36 3312.54\ndistr.plot.x(Revenues, plot.type='boxplot', data=Campaign)"
 ), "images": ["statistics/images/exam_p1_2024_revenues.png"]}
 
 past_exams["exam_p1_2024_2b"] = {
-"title": "P1-2024 Ex2b — Loyalty distribution",
-"is_exam": True, "topic_hint": "G2",
+"title": "P1-2024 Ex2b — Revenues by Location (side-by-side boxplots)",
+"is_exam": True, "topic_hint": "G8",
 "content": _q(
-    "Report the distribution of `Loyalty` in `Campaign`.",
-    "Frequencies: [10,20) 316 (21.8%), [20,40) 341 (23.5%), [40,50) 233 (16.1%), [50,70) 314 (21.7%), [70,90) 246 (17.0%). Total 1450. Relatively uniform, with slight concentration in [20,40).",
-    "distr.table.x(Campaign$Loyalty, freq=c('counts','perc'))\ndistr.plot.x(Loyalty, plot.type='bars', data=Campaign)"
+    "Refer to the side-by-side boxplots of `Revenues` conditional on `Location` (Semi-Central, Peripheral, Hinterland). Comment on the relationship between the two variables and on the strength of any association.",
+    "Since `Revenues` is numeric and `Location` is categorical, association is judged by comparing the conditional distributions of `Revenues` given `Location`. The three boxplots are essentially identical: medians coincide, IQRs (box heights) are very similar, and the whisker extents / outlier patterns overlap. The conditional distributions of Revenues are practically equal across the three groups → **weak (essentially no) association** between Revenues and Location. Knowing the Location does not help predict the level of Revenues.",
+    "distr.plot.xy(x=Revenues, y=Location, plot.type='boxplot', data=Campaign)\ndistr.summary.xy(Revenues, Location, stats=c('fivenumber','mean','sd'), data=Campaign)"
 ), "images": []}
 
 past_exams["exam_p1_2024_3a"] = {
 "title": "P1-2024 Ex3 — CV comparison Company A vs B",
 "is_exam": True, "topic_hint": "G5",
 "content": _q(
-    "Compare the dispersion of `Loyalty` between Company A (under investigation, mean 40.50, SD 14.25) and competitor Company B (mean 44.95, SD 13.04) via the coefficient of variation.",
-    "$CV_A = 14.25/40.50 = 0.3519 \\;(35.19\\%)$; $CV_B = 13.04/44.95 = 0.2902 \\;(29.02\\%)$. **Loyalty is more dispersed in the previous company (A) than in the competitor (B)**, in relative terms.",
-    "sd(LoyaltyA)/mean(LoyaltyA)*100\nsd(LoyaltyB)/mean(LoyaltyB)*100"
+    "Compare the dispersion of `Loyalty` between Company A (under investigation, mean 52.2, variance 371.16, SD $\\approx 19.26$) and competitor Company B (mean 65.0, SD 19.0) via the coefficient of variation, to decide where loyalty shows higher relative variability.",
+    "$CV = s/|\\bar x|$. **Company A:** $CV_A = \\sqrt{371.16}/52.2 = 19.26/52.2 = 0.3691$. **Company B:** $CV_B = 19.0/65.0 = 0.292$. Since $CV_A > CV_B$, **loyalty is more dispersed in the previous company (A) than in the competitor (B)**, in relative terms.",
+    "# Company A (under investigation)\nmean_A <- 52.2\nvar_A  <- 371.16\nsd_A   <- sqrt(var_A)   # 19.2655\nCV_A   <- sd_A / mean_A # 0.3691\n\n# Company B (competitor)\nmean_B <- 65.0\nsd_B   <- 19.0\nCV_B   <- sd_B / mean_B # 0.2923\n\nc(CV_A = CV_A, CV_B = CV_B)\n## CV_A   CV_B\n## 0.3691 0.2923"
 ), "images": []}
 
 past_exams["exam_p1_2024_4a"] = {
-"title": "P1-2024 Ex4 — Scatter Costs vs Sales, correlation",
+"title": "P1-2024 Ex3 — Sales vs Costs & Revenues: which correlation is stronger?",
 "is_exam": True, "topic_hint": "G9",
 "content": _q(
-    "Analyze the scatter between `Costs` and `Sales` in `Campaign`. Comment on the correlation and the strength of the relationship.",
-    "Strong positive linear relationship; Pearson's $r \\approx 0.76$ (medium-high). Points cluster around a straight upward-sloping line with moderate dispersion.",
-    "cor(Campaign$Costs, Campaign$Sales)\ndistr.plot.xy(x=Costs, y=Sales, plot.type='scatter', fitline=T, data=Campaign)"
+    "Refer to the `Campaign` dataframe. Using scatter plots and the linear correlation coefficient, study the relationship between `Sales` and the other two quantitative variables `Costs` and `Revenues`. With which of the two variables is `Sales` most correlated?",
+    "Both scatter plots show **positive linear relationships**. Pearson's correlation gives $r(\\text{Sales}, \\text{Costs}) \\approx 0.76$ and $r(\\text{Sales}, \\text{Revenues}) \\approx 0.42$. Since $|0.76| > |0.42|$, **`Sales` is most correlated with `Costs`** (strong/medium-high positive linear relationship), whereas the link with `Revenues` is only moderate. Visually, the Sales–Costs cloud is tighter around the fit line; the Sales–Revenues cloud is more dispersed.",
+    "cor(Campaign[, c('Sales','Costs','Revenues')])\ndistr.plot.xy(x=Costs, y=Sales, plot.type='scatter', fitline=T, data=Campaign)\ndistr.plot.xy(x=Revenues, y=Sales, plot.type='scatter', fitline=T, data=Campaign)"
 ), "images": ["statistics/images/exam_p1_2024_costs_sales.png"]}
 
 past_exams["exam_p1_2024_5a"] = {
-"title": "P1-2024 Ex5 — Location × Loyalty contingency",
+"title": "P1-2024 Ex4 — Channel × Effectiveness contingency (n=725)",
 "is_exam": True, "topic_hint": "G7",
 "content": _q(
-    "Analyze the relationship between `Location` (Semi-Central/Peripheral/Hinterland) and `Loyalty` categories in `Campaign`.",
-    "Joint counts row-by-row (Location × Loyalty bins): Semi-Central concentrates in [20,40); Peripheral and Hinterland are more uniform across loyalty bins. Conditional distributions differ somewhat → mild association.",
-    "distr.table.xy(Campaign$Location, Campaign$Loyalty, freq='perc', freq.type='y|x')"
+    "A company launched a promotional campaign. An in-depth analysis is carried out on a sample of $n=725$ customers. For each customer the *Channel* used to interact with the company (E-commerce / Multi-channel / Channel 2 / Mobile App) and the perceived *Effectiveness* of the campaign (Ineffective / Low / Medium / High) are observed. Analyze the relationship between the two variables. In particular, which Channel is associated with the highest perception of effectiveness?",
+    "Conditional row distributions of Effectiveness given Channel show a clear pattern: **Mobile App and Multi-channel customers have the highest combined share of Medium + High effectiveness ratings**, while **E-commerce customers concentrate the most in Ineffective / Low** (lowest perceived effectiveness). Channel 2 sits in between. Because the conditional distributions of Effectiveness vary noticeably across Channels, the two categorical variables are **associated** (non-independent): the perceived effectiveness of the campaign depends on the interaction channel.",
+    "distr.table.xy(Company$Channel, Company$Effectiveness, freq=c('counts','percentages'), freq.type='y|x')\ndistr.plot.xy(x=Effectiveness, y=Channel, plot.type='bars', stack=TRUE, data=Company)"
 ), "images": []}
 
 past_exams["exam_p1_2024_6a"] = {
-"title": "P1-2024 Ex6 — Normal P(X > 506) for X ~ N(500, 25²)",
-"is_exam": True, "topic_hint": "G10",
+"title": "P1-2024 Ex6a — CLT: P(total spend > 1000) for n=80 customers",
+"is_exam": True, "topic_hint": "G11",
 "content": _q(
-    "For $X \\sim N(500, 25^2)$, compute $P(X > 506)$.",
-    "Standardize: $z = (506-500)/25 = 0.24$. $P(X>506) = 1 - \\Phi(0.24) \\approx 1 - 0.5948 = 0.4052$.",
-    "1 - pnorm(506, mean=500, sd=25)\n# = 0.4052"
+    "A shop expects more than 1000 euros in the next hour. Specify clearly whether and what assumptions are needed to determine the required probability. Let $X$ = amount spent by a customer; we know $E[X] = 12$ and $\\mathrm{Var}(X) = 5^2 = 25$. The total amount spent by a sample of $n = 80$ customers is the random variable $S = X_1 + \\cdots + X_{80}$. Compute $P(S > 1000)$.",
+    "**Assumptions:** the $X_i$ are i.i.d. (independent customers, same spend distribution). Since $n = 80$ is large, by the CLT the sum is approximately normal regardless of the distribution of an individual customer. Thus $S \\;\\dot\\sim\\; N(n\\mu,\\, n\\sigma^2) = N(80 \\cdot 12,\\, 80 \\cdot 25) = N(960,\\, 2000)$. Standardising: $z = (1000-960)/\\sqrt{2000} = 40/44.72 \\approx 0.894$, so $P(S > 1000) = 1 - \\Phi(0.894) \\approx 0.1855$.",
+    "p_S <- 1 - pnorm(1000, mean=960, sd=sqrt(2000))\np_S\n## [1] 0.1855467"
 ), "images": []}
 
 past_exams["exam_p1_2024_6b"] = {
-"title": "P1-2024 Ex6 — Normal P(480 < X < 520)",
-"is_exam": True, "topic_hint": "G10",
-"content": _q(
-    "Compute $P(480 < X < 520)$ for $X \\sim N(500, 25^2)$.",
-    "Standardize: $z_1 = -0.8$, $z_2 = 0.8$. $P(480<X<520) = \\Phi(0.8) - \\Phi(-0.8) = 0.7881 - 0.2119 = 0.5762$.",
-    "pnorm(520, 500, 25) - pnorm(480, 500, 25)\n# = 0.5762"
-), "images": []}
-
-past_exams["exam_p1_2024_7a"] = {
-"title": "P1-2024 Ex7 — Sampling distribution + CLT",
+"title": "P1-2024 Ex6b — Sample proportion of shops",
 "is_exam": True, "topic_hint": "G11",
 "content": _q(
-    "$E[X] = 500, \\mathrm{Var}(X) = 5500$. Sample of $n = 100$ customers. Find the probability that the sample mean exceeds 503.",
-    "By CLT, $\\bar X \\sim N(500, 5500/100) = N(500, 55)$, SE = $\\sqrt{55} \\approx 7.42$. $P(\\bar X > 503) = 1 - \\Phi((503-500)/7.42) = 1 - \\Phi(0.4044) \\approx 0.3429$.",
-    "mu <- 500; var_x <- 5500; n <- 100\nse <- sqrt(var_x / n)\n## SE = 7.416\n1 - pnorm(503, mean=mu, sd=se)\n## [1] 0.3429"
+    "Assume that in the city there are $115$ shops with the same characteristics as those considered in point a, and assume that exactly $80$ customers in each outlet take advantage of the promotion. What is the probability that the proportion of outlets where the $80$ customers spend more than $1000$ euros in total is less than $0.15$? (If you did not answer point a, assume the required probability was $0.2$).\n\nLet $\\hat P$ be the random variable describing the proportion of customers spending more than $1000$ euros in the $115$ shops. From point a we have $\\pi \\approx 0.1855$, so $\\hat P$ is approximately\n$$\\hat P \\sim N\\!\\left(0.1855,\\; \\frac{0.1855 \\cdot (1-0.1855)}{115}\\right)$$",
+    "By the CLT, the sampling distribution of $\\hat P$ is approximately Normal with mean $\\pi \\approx 0.1855$ and variance $\\pi(1-\\pi)/n = 0.1855 \\cdot 0.8145 / 115$. The required probability is therefore\n$$P(\\hat P < 0.15) \\approx 0.166$$",
+    "pnorm(0.15, 0.1855, sqrt(0.1855*0.8145/115))\n## [1] 0.1636914"
 ), "images": []}
 
 # =================== 1st PARTIAL 2025 ===================
 
 past_exams["exam_p1_2025_1a"] = {
-"title": "P1-2025 Ex1a — Conditional Reach distribution by Engagement (Metrics2)",
+"title": "P1-2025 Ex1a — Conditional Impressions distribution by Paid (Metrics2)",
 "is_exam": True, "topic_hint": "G8",
 "content": _q(
-    "Compare the conditional distributions of `Reach` for upper vs lower quintile posts (by Engagement). Describe via Q25, Q50, Q75.",
-    "Side-by-side boxplots show **upper-quintile posts have a higher median and wider IQR** than lower-quintile posts. Conditional distributions differ → Engagement and Reach are associated.",
-    "distr.plot.xy(x=Reach, y=Out.Engage, plot.type='boxplot', data=Metrics2)\ndistr.summary.x(Reach, by=Out.Engage, stats='fivenumber', data=Metrics2)"
-), "images": ["statistics/images/exam_p1_2025_reach_by_engage.png"]}
+    "Compare the conditional distributions of `Impressions` (post views, in hundreds) between Paid (Yes) and non-Paid (No) posts. Use side-by-side boxplots and characteristics (centre/spread/shape).",
+    "Side-by-side boxplots show both conditional distributions are **right-skewed** with substantial variation (large IQR), but **Paid posts have a higher median** and a markedly higher upper quartile than non-Paid: roughly **75% of Paid posts exceed the 75th percentile of non-Paid posts**. Conditional distributions differ → Paid status and Impressions are associated.",
+    "distr.plot.xy(x=Impressions, y=Paid, plot.type='boxplot', data=Metrics2)\ndistr.summary.x(Impressions, by=Paid, stats='fivenumber', data=Metrics2)"
+), "images": []}
 
 past_exams["exam_p1_2025_1b"] = {
-"title": "P1-2025 Ex1b — Multiple regression Engagement ~ Reach + Paid + Content",
-"is_exam": True, "topic_hint": "G15",
+"title": "P1-2025 Ex1.a2 — Best location measure for right-skewed Impressions by Paid",
+"is_exam": True, "topic_hint": "G6",
 "content": _q(
-    "Propose a linear model to estimate Engagement based on Reach, Paid (Yes/No), Content (Brand/NoBrand).",
-    "Model: `Engagement = β₀ + β₁·Reach + β₂·PaidYes + β₃·ContentNoBrand + ε`. From the `summary(model)` shown: intercept = 0.07143 (p<2e-16); Reach slope = 0.00168 (p<2e-16); PaidYes = 0.04321 (p≈3.6e-07). $R^2 \\approx 0.40$. All coefficients significant.",
-    "model <- lm(Engagement ~ Reach + Paid + Content, data=Metrics2)\nsummary(model)\nconfint(model)"
-), "images": []}
+    "Taking into account the **features** and the **shapes** of the two Impressions distributions (Paid vs non-Paid), which **location measure** would you use in order to suitably emphasize their differences? Explain your choice and report the values of the considered measures.",
+    "**Use the median (with Q25, Q75) — not the mean.** Both Impressions distributions are **strongly right-skewed** with a long upper tail and many high outliers (and a wide IQR). Under right skewness the **mean is pulled upward by the heavy tail**, so it confounds *typical* level with *tail mass*, and it is non-robust to the outliers visible in the boxplots. The **median** (together with Q25 and Q75) is **robust** to outliers/skew and reflects the location of the bulk of the distribution, so it cleanly emphasizes the shift between Paid and non-Paid posts.\n\nFrom the side-by-side boxplots / five-number summary on Metrics2: **median(Impressions | Paid = yes) ≈ 67** vs **median(Impressions | Paid = no) ≈ 52** (Q25/Q75 = 45/185 vs 36/93). So Paid posts have a clearly higher *typical* number of impressions and a much wider spread. The corresponding **means** are **143 (Paid)** vs **107 (non-Paid)** — both are *much* larger than the medians (143 > 67 and 107 > 52), confirming the heavy right tail pulls the mean up. The mean-gap (≈36) overstates the *typical* difference relative to the median-gap (≈15). **Q25 / Q50 / Q75 per group is the right summary**, and the **median** is the location measure to report.",
+    "# Compare location across Paid groups for right-skewed Impressions\ndistr.summary.x(Impressions, by=Paid, stats=\'fivenumber\', data=Metrics2)\ndistr.summary.x(Impressions, by=Paid, stats=c(\'mean\',\'median\',\'IQR\'), data=Metrics2)\n# Visual: side-by-side boxplots make the median shift obvious\ndistr.plot.xy(x=Impressions, y=Paid, plot.type=\'boxplot\', data=Metrics2)\n# Base-R equivalents\ntapply(Metrics2$Impressions, Metrics2$Paid, median)\ntapply(Metrics2$Impressions, Metrics2$Paid, mean)"
+), "images": ["statistics/images/exam_p1_2025_impressions_by_paid.png"]}
 
 past_exams["exam_p1_2025_2a"] = {
 "title": "P1-2025 Ex2a — SE of sample proportion (Shares=low vs high)",
@@ -159,50 +150,50 @@ past_exams["exam_p1_2025_2b"] = {
 # =================== 1st PARTIAL 2026 ===================
 
 past_exams["exam_p1_2026_1a"] = {
-"title": "P1-2026 Ex1a — Boxplots of delays by route",
+"title": "P1-2026 Ex1a — Boxplots of Bid by Channel (Bidding)",
 "is_exam": True, "topic_hint": "G6",
 "content": _q(
-    "Construct and interpret boxplots showing the distribution of departure delays for three flight routes.",
-    "Side-by-side boxplots reveal: differences in median, IQR (spread), and presence of outliers per route. Routes with longer whiskers / outliers indicate heavier-tailed delay distributions.",
-    "distr.plot.xy(x=delay, y=route, plot.type='boxplot', data=Flights)\n# Numeric backup of the visual reading\ndistr.summary.xy(delay, route, stats=c('fivenumber','IQR'), data=Flights)\nboxplot(delay ~ route, data=Flights, horizontal=TRUE,\n        col='navy', main='Delay by route')"
-), "images": ["statistics/images/exam_p1_2026_bid_boxplot.png"]}
+    "Use side-by-side boxplots of `Bid` by `Channel` (Aggregator / Agency / Airline) in the `Bidding` dataset to compare the bid distributions across the three channels (shape, spread, position, outliers).",
+    "**Shape.** `Airline` is strongly **left-skewed** — long lower whisker plus a column of low-side outliers pulls the lower tail down. `Agency` and `Aggregator` are roughly **symmetric** (median sits near the middle of the box); `Agency` still shows outliers on both tails.\n\n**Spread (IQR & range).** `Agency` has the **smallest IQR** (tightest box). `Aggregator` has the **smallest total range** (shortest whisker-to-whisker extent). `Airline` is the most dispersed once outliers are counted.\n\n**Position.** `Agency` is **shifted down**: its median and even its **Q3 sit below the Q1** of both `Aggregator` and `Airline`, so a typical Agency bid is lower than the bottom 25% of bids on the other two channels. `Aggregator` and `Airline` have nearly identical medians (~55).",
+    "distr.plot.xy(x=Channel, y=Bid, data=Bidding, plot.type='box')\n# Numeric backup of the visual reading\ndistr.summary.xy(Bid, Channel, stats=c('fivenumber','IQR'), data=Bidding)"
+), "images": ["statistics/images/exam_p1_2026_bid_by_channel.png"]}
 
 past_exams["exam_p1_2026_1b"] = {
-"title": "P1-2026 Ex1b — SE of mean (3 booking channels)",
-"is_exam": True, "topic_hint": "G11",
+"title": "P1-2026 Ex1b — Central tendency: median for skewed Airline",
+"is_exam": True, "topic_hint": "G4",
 "content": _q(
-    "Compute SE of sample mean for: Aggregator ($\\bar x = 56.22, s = 12.13, n = 142$) and Airline ($\\bar x = 53.50, s = 22.06, n = 224$).",
-    "$SE_{\\text{Aggregator}} = 12.13/\\sqrt{142} = 1.018$. $SE_{\\text{Airline}} = 22.06/\\sqrt{224} = 1.474$. Aggregator estimate is *more precise* in expectation.",
-    "12.13/sqrt(142)   # 1.018\n22.06/sqrt(224)   # 1.474"
+    "Which measure of central tendency would you use to summarize the three Bid distributions across Channels (Agency, Aggregator, Airline)?",
+    "Pick the measure based on each channel's shape (read from the boxplots in Ex1a):\n\n- **Agency**: roughly **symmetric** → **mean** (median equally fine; both coincide).\n- **Aggregator**: fairly **symmetric** → **mean** is appropriate.\n- **Airline**: strong **left skew** with a long lower tail / low outliers → **median**, because the mean is pulled down by the tail and misrepresents the typical bid.\n\nGood practice: **report median alongside mean** for all three, so the reader sees both the typical value and the effect of skew/outliers. The mean is sensitive to extreme values; the median is robust and reflects the middle 50% better when the distribution is skewed.",
+    "# Means and medians by Channel (use both — pick by shape)\ndistr.summary.xy(Bid, Channel, stats=c('mean','median'), data=Flights)\n# Visual confirmation of skew:\ndistr.plot.xy(x=Bid, y=Channel, plot.type='boxplot', data=Flights)\n# Rule of thumb:\n#   symmetric  -> mean  (Agency, Aggregator)\n#   skewed/outliers -> median (Airline)"
 ), "images": []}
 
 past_exams["exam_p1_2026_1c"] = {
-"title": "P1-2026 Ex1c — SE interpretation: cannot judge a single estimate",
-"is_exam": True, "topic_hint": "G11",
+"title": "P1-2026 Ex1c — Is Bid=35 by Aggregator extremely low? (Tukey rule)",
+"is_exam": True, "topic_hint": "G3",
 "content": _q(
-    "Can we conclude one estimate is more reliable from a lower SE? Explain.",
-    "**No.** The SE describes the *sampling distribution* of the estimator — the spread of generic estimates around the population parameter. It does NOT measure the distance of any *specific* realised estimate from the parameter. We only know estimates from Aggregator are *on average* tighter around the population mean.",
-    "# SE quantifies estimator variability, not the single estimate's error\nSE_agg <- 12.13 / sqrt(142)\nSE_air <- 22.06 / sqrt(224)\nc(Aggregator=SE_agg, Airline=SE_air)\n## Aggregator    Airline\n##      1.018      1.474"
+    "Can a bid of 35 by a Channel=Aggregator customer be considered extremely low?",
+    "Use **Tukey's lower fence** for Aggregator: $L = Q_1 - 1.5 \\cdot IQR$. From the Aggregator summary: $Q_1 = 50.8225$, $IQR = 11.895$, so $L = 50.8225 - 1.5 \\cdot 11.895 = 50.8225 - 17.8425 = \\mathbf{32.98}$. A value is flagged as an extreme low outlier only if it falls **below** the fence. Since $35 > 32.98$, **the bid of 35 is NOT extremely low** — it is unusual but lies inside the lower whisker, not in outlier territory.",
+    "# Aggregator subgroup\nQ1  <- 50.8225\nQ3  <- 62.7175\nIQR <- Q3 - Q1    # 11.895\nlower_fence <- Q1 - 1.5 * IQR\nlower_fence\n## [1] 32.98\n35 > lower_fence  # TRUE -> not an extreme low\n## [1] TRUE\n# Equivalent in R from the data:\ndistr.summary.xy(Bid, Channel, stats=c('Q1','Q3','IQR'), data=Flights)"
 ), "images": []}
 
 # =================== GENERAL 1 2024 ===================
 
 past_exams["exam_g1_2024_1a"] = {
-"title": "G1-2024 Ex1 — CI for mean ($\\bar x = 50, s = 5, n = 100$, 95%)",
-"is_exam": True, "topic_hint": "G13",
+"title": "G1-2024 Ex1.a — Boxplot of Read2 by Lunch (free vs not-free)",
+"is_exam": True, "topic_hint": "G3",
 "content": _q(
-    "Sample of $n = 100$: $\\bar x = 50$, $s^2 = 25$. Build a 95% CI for $\\mu$.",
-    "$\\sigma$ unknown but $n$ large → $\\bar X \\pm z_{0.975}\\cdot s/\\sqrt n = 50 \\pm 1.96 \\cdot 5/10 = 50 \\pm 0.98 = [49.02, 50.98]$.",
-    "n <- 100; xbar <- 50; s <- 5\nci_lower <- xbar - 1.96 * s/sqrt(n)\nci_upper <- xbar + 1.96 * s/sqrt(n)\nc(ci_lower, ci_upper)"
+    "Propose a graphical representation that effectively describes the possible differences between the distributions of the reading scores (**Read2**) of students qualified or not for free lunch (**Lunch**). Report a sketch of the graph: what conclusions can you draw about the differences in the reading abilities of more or less disadvantaged pupils?",
+    "Side-by-side **boxplots** of *Read2* split by *Lunch* level (`free` / `not-free`). The boxplot is the right tool: it summarises centre, spread and tails of a continuous variable across the levels of a categorical one.\n\n**Reading the plot.** The range of *Read2* is similar across the two Lunch groups, but ignoring extreme values the dispersion of *not-free* (i.e. **not** qualified for free lunch) is clearly smaller, and both groups look roughly symmetric. The whole *not-free* box sits above the *free* box: the **median, $Q_1$ and $Q_3$ of not-free are above the corresponding quartiles of free**.\n\n**Conclusion.** Students NOT qualified for free lunch (less economically disadvantaged) perform systematically better in reading. In particular: 50% of *free*-lunch students score below the 25th percentile of *not-free* students, and 75% of *free* students score below the median of *not-free* students — a clear gap penalising more disadvantaged pupils.",
+    "distr.plot.xy(y=Read2, x=Lunch, plot.type=\"boxplot\", data=Primary)"
 ), "images": []}
 
 past_exams["exam_g1_2024_1b"] = {
-"title": "G1-2024 Ex1b — Sample size for ME ≤ 0.5 at 95%",
+"title": "G1-2024 Ex1b — Sample size for proportion ME ≤ 0.04 at 95%",
 "is_exam": True, "topic_hint": "G13",
 "content": _q(
-    "What sample size is needed for the margin of error to be at most 0.5?",
-    "$ME = 1.96 \\cdot 5/\\sqrt n \\le 0.5 \\Rightarrow \\sqrt n \\ge 19.6 \\Rightarrow n \\ge 384.16$. So **$n = 385$**.",
-    "z <- qnorm(0.975); sigma <- 5; ME <- 0.5\nn_needed <- ceiling((z * sigma / ME)^2)\nn_needed\n## [1] 385"
+    "What sample size is needed so that the margin of error on a proportion is at most 0.04 at the 95% level?",
+    "For a proportion: $ME = z_{0.975}\\sqrt{\\hat p(1-\\hat p)/n} \\le 0.04$. Worst-case $\\hat p = 0.5 \\Rightarrow \\hat p(1-\\hat p) = 0.25$. So $n \\ge (1.96/0.04)^2 \\cdot 0.25 = 49^2 \\cdot 0.25 = 600.25$. So **$n \\ge 601$**.",
+    "ceiling((qnorm(0.975)/0.04)^2 * 0.25)\n## [1] 601"
 ), "images": []}
 
 past_exams["exam_g1_2024_2a"] = {
@@ -244,21 +235,21 @@ past_exams["exam_g1_2025_1b"] = {
 ), "images": ["statistics/images/exam_g1_2025_sleepquality.png"]}
 
 past_exams["exam_g1_2025_2a"] = {
-"title": "G1-2025 Ex2 — Paired t-test SleepQuality pre vs post diet",
+"title": "G1-2025 Ex3 — Paired t-test sleep duration (minutes) pre vs post diet",
 "is_exam": True, "topic_hint": "G14",
 "content": _q(
-    "Test whether sleep duration changed after diet ($n = 161$, $\\bar x_{\\text{before}} = 402.89, s_{\\text{before}} = 45.61, \\bar x_{\\text{after}} = 414, s_{\\text{after}} = 48$, correlation = 0.71).",
-    "Paired t-test:  $\\hat\\sigma_D = \\sqrt{s_{\\text{before}}^2 + s_{\\text{after}}^2 - 2r\\cdot s_{\\text{before}}\\cdot s_{\\text{after}}} = 35.71$. $t_{\\text{obs}} = (414-402.89)/(35.71/\\sqrt{161}) = 3.95$. p-value $= P(T_{160} \\ge 3.95) \\approx 5.8 \\times 10^{-5}$. **Reject $H_0$ at any conventional $\\alpha$** — sleep duration significantly increased after the diet.",
-    "sd_D <- sqrt(45.61^2 + 48^2 - 2*0.71*45.61*48)\nt_stat <- (414-402.89)/(sd_D/sqrt(161))\n1 - pt(t_stat, df=160)\n1 - pnorm(t_stat)"
+    "Test whether sleep duration (in minutes) increased after the diet. Paired sample, $n = 161$, $\\bar x_{\\text{before}} = 402.89$, $s_{\\text{before}} = 45.61$, $\\bar x_{\\text{after}} = 414$, $s_{\\text{after}} = 48$, correlation $r = 0.71$. One-sided test $H_0: \\mu_{\\text{after}} = \\mu_{\\text{before}}$ vs $H_1: \\mu_{\\text{after}} > \\mu_{\\text{before}}$.",
+    "Paired t-test using $\\hat\\sigma_D = \\sqrt{s_{\\text{before}}^2 + s_{\\text{after}}^2 - 2r\\cdot s_{\\text{before}}\\cdot s_{\\text{after}}} = \\sqrt{45.61^2 + 48^2 - 2(0.71)(45.61)(48)} \\approx 35.71$. Then $t_{\\text{obs}} = (414 - 402.89)/(35.71/\\sqrt{161}) \\approx 3.95$ on $df = 160$. p-value $= P(T_{160} \\ge 3.95) \\approx 5.85 \\times 10^{-5}$. **Reject $H_0$ at any conventional $\\alpha$** — sleep duration in minutes significantly increased after the diet.",
+    "t.test(after, before, paired=TRUE, alternative='greater')\nsd_D <- sqrt(45.61^2 + 48^2 - 2*0.71*45.61*48)\nt_stat <- (414 - 402.89)/(sd_D/sqrt(161))\n1 - pt(t_stat, df=160)"
 ), "images": []}
 
 past_exams["exam_g1_2025_3a"] = {
-"title": "G1-2025 Ex3 — Multiple regression SleepQuality ~ Age+PhysAct+Hours",
+"title": "G1-2025 Ex4 — Multiple regression SleepQuality ~ Stress+Age+BMI+Physical",
 "is_exam": True, "topic_hint": "G15",
 "content": _q(
-    "Estimate `SleepQuality ~ Age + PhysicalActivity + Hours` and interpret. Predict mean SleepQuality for a customer profile with 95% CI.",
-    "From `summary(mod)`: Intercept 3.782 (p<<0.01), Age 0.0163 (p=0.009), PhysicalActivity 0.0075 (p=0.586 — not sig), Hours 0.182 (p=0.004). Adjusted $R^2 = 0.42$, F p-value ≈ $10^{-12}$. Predicted mean for the given covariates: 6.866, 95% CI = [6.236, 7.496].",
-    "mod <- lm(SleepQuality ~ Age + PhysicalActivity + Hours, data=sleep)\nsummary(mod)\npredict(mod, newdata=..., interval='confidence', level=0.95)"
+    "Estimate `SleepQuality ~ Stress + Age + BMI + Physical` on `SleepData`. Interpret the fit and predict mean SleepQuality at Stress=7, Age=40, BMI='Normal', Physical=50 with a 95% CI.",
+    "From `summary(mod)`: all predictors significant; **Adjusted $R^2 = 0.5468$**, $F(4, 290) = 79.39$, p-value $< 2.2 \\times 10^{-16}$ — the model explains ~55% of the variance in SleepQuality and is jointly highly significant. Predicted mean SleepQuality for the given profile: $\\hat y = 6.827$, **95% CI = [6.235, 7.419]**.",
+    "mod <- lm(SleepQuality ~ Stress + Age + BMI + Physical, data=SleepData)\nsummary(mod)\npredict(mod, newdata=data.frame(Stress=7, Age=40, BMI='Normal', Physical=50), interval='confidence')"
 ), "images": []}
 
 past_exams["exam_g1_2025_3b"] = {
@@ -331,21 +322,21 @@ past_exams["exam_g2_2024_5c"] = {
 # =================== GENERAL 2 2025 ===================
 
 past_exams["exam_g2_2025_1a"] = {
-"title": "G2-2025 Ex1 — Hypothesis test new process (μ > 100)",
-"is_exam": True, "topic_hint": "G14",
+"title": "G2-2025 Ex1 — Boxplots of Salary by Employment_type",
+"is_exam": True, "topic_hint": "G8",
 "content": _q(
-    "Sample $n=36$, $\\bar x = 105$, $s = 15$. Test $H_0: \\mu = 100$ vs $H_1: \\mu > 100$ at $\\alpha = 0.05$.",
-    "$t = (105-100)/(15/\\sqrt{36}) = 2$. With df $= 35$, one-sided p-value $\\approx 0.0274 < 0.05$ → **reject $H_0$**. There is evidence the new process increased the mean.",
-    "t_stat <- (105 - 100) / (15 / sqrt(36))\np_value <- 1 - pt(t_stat, df=35)\nqt(0.95, df=35)"
-), "images": []}
+    "Draw side-by-side **boxplots of `Salary` by `Employment_type`** (Junior / Senior / Manager) and compare the conditional distributions: location, IQR (spread) and shape.",
+    "**Medians** clearly increase with seniority: Junior $\\approx 2{,}045$, Senior $\\approx 3{,}545$, Manager $\\approx 4{,}218$. **Spread** (IQR) is smallest for Juniors ($\\approx 755$) and largest for Seniors ($\\approx 1{,}799$), with Managers in between ($\\approx 1{,}312$). **Shape**: Junior distribution is tight and roughly symmetric; Senior is the most dispersed and slightly right-skewed (longer upper whisker); Manager sits highest with moderate spread. Conclusion: salary is **strongly associated** with employment type — both location and variability change across groups.",
+    "distr.plot.xy(x=Employment_type, y=Salary, plot.type='box', data=Employee)\ndistr.summary.xy(Employment_type, Salary, stats=c('fivenumber','IQR'), data=Employee)\n# numeric backup\nboxplot(Salary ~ Employment_type, data=Employee, horizontal=TRUE, col='navy')"
+), "images": ["statistics/images/exam_g2_2025_salary_by_emptype.png"]}
 
 past_exams["exam_g2_2025_2a"] = {
-"title": "G2-2025 Ex2 — Type II error and CI formula",
+"title": "G2-2025 Ex2 — Chi-square GoF on Department + CI for Senior Salary",
 "is_exam": True, "topic_hint": "G14",
 "content": _q(
-    "Define type II error and the CI formula for $\\mu$ when $\\sigma$ unknown.",
-    "**Type II error** $\\beta$: $\\Pr(\\text{fail to reject }H_0 | H_1 \\text{ true})$. **CI**: $\\bar x \\pm t_{\\alpha/2, n-1}\\cdot s/\\sqrt n$ where $t_{\\alpha/2, n-1}$ is the upper $\\alpha/2$ critical value of a $t$-distribution with $n-1$ df.",
-    "qt(1 - alpha/2, df=n-1)\nci_lower <- mean_x - qt(1-alpha/2, n-1)*sd_x/sqrt(n)\nci_upper <- mean_x + qt(1-alpha/2, n-1)*sd_x/sqrt(n)"
+    "(1) Test whether the `Department` distribution in `Employee` is uniform across the three departments (HR / IT / Operations) at $\\alpha = 0.05$. (2) Build a 90% CI for the mean `Salary` among employees with `Role == 'Senior'`.",
+    "**(1) Chi-square goodness-of-fit.** Under $H_0$ each department has equal probability $1/3$; expected counts $= n/3$. The test statistic $X^2 = \\sum (O_i - E_i)^2/E_i = 13.696$ with $\\text{df} = k-1 = 2$, giving p-value $= 0.001061 < 0.05$ → **reject $H_0$**: the three departments are not equally represented.\n\n**(2) CI for Senior mean Salary.** Subset to `Role == 'Senior'`; with $n_S$, $\\bar x_S$, $s_S$ from the sample, the 90% CI is $\\bar x_S \\pm t_{0.05, n_S-1}\\cdot s_S/\\sqrt{n_S} \\approx [1451.49,\\ 1696.90]$. Since the interval lies entirely above 0 and is centred near 1574, the mean Senior salary is precisely estimated and clearly positive.",
+    "chisq.test(table(Employee$Department))\n## X-squared = 13.696, df = 2, p-value = 0.001061\nt.test(Employee$Salary[Employee$Role==\'Senior\'], conf.level=0.90)$conf.int\n## [1] 1451.49 1696.90"
 ), "images": []}
 
 past_exams["exam_g2_2025_4a"] = {
@@ -509,21 +500,21 @@ past_exams["exam_sep_2025_5a"] = {
 
 # ---- 1st partial 2026 (Q2-Q6) ----
 past_exams["exam_p1_2026_2"] = {
-"title": "P1-2026 Ex2 — Boxplot comparison: Aggregator/Agency/Airline salaries",
+"title": "P1-2026 Ex2 — Relationship between Bid and PaidFare (scatter, Pearson r)",
 "is_exam": True, "topic_hint": "G8",
 "content": _q(
-    "Boxplots show the distribution of monthly salaries (k€) for Aggregator, Agency, Airline. Compare medians and IQRs.",
-    "Approximate from the boxplots: Aggregator median ≈ 56.22 (Q1≈50.46, Q3≈64.17); Agency median ≈ 77.46 (Q1≈73.23, Q3≈91.7); Airline median ≈ 53.84 (Q1≈39.36, Q3≈65.79). Agency has the highest median **and** the largest IQR. Airline has the widest range with the lowest first quartile.",
-    "distr.plot.xy(Bid, Channel, plot.type='boxplot', data=Bidding)\ndistr.summary.xy(Bid, Channel, stats=c('fivenumber','IQR'), data=Bidding)\n# Q3-Q1 by channel\naggregate(Bid ~ Channel, data=Bidding, FUN=IQR)"
-), "images": ["statistics/images/exam_p1_2026_bid_by_channel.png"]}
+    "Describe the relationship between `Bid` and `PaidFare` from the scatterplot. Compute the Pearson correlation and comment on whether it is an appropriate summary.",
+    "The scatterplot shows a **clear inverse, non-linear** relationship: as `PaidFare` increases, `Bid` decreases steeply at first and then flattens out (hyperbolic / power-decay shape). Pearson correlation $r = -0.7947$ — strongly negative. **Caveat**: Pearson $r$ only measures *linear* association, so it understates the true (curved) dependence between the two variables. A monotone-rank measure (**Spearman $\\rho$**) or a transformation (e.g. $\\log$ or $1/x$) would describe the link better; equivalently, one could fit a non-linear model rather than report $r$ alone.",
+    "distr.plot.xy(x=PaidFare, y=Bid, plot.type='scatter', fitline=T, data=Bidding)\ncor(Bidding$PaidFare, Bidding$Bid)\n## [1] -0.7947379\n# rank-based alternative (handles monotone non-linearity)\ncor(Bidding$PaidFare, Bidding$Bid, method='spearman')"
+), "images": ["statistics/images/exam_p1_2026_paidfare_vs_bid.png"]}
 
 past_exams["exam_p1_2026_4"] = {
-"title": "P1-2026 Ex4 — CI for the mean (general setup)",
-"is_exam": True, "topic_hint": "G13",
+"title": "P1-2026 Ex4 — 10th and 90th percentiles of PaidFare",
+"is_exam": True, "topic_hint": "G6",
 "content": _q(
-    "Build a 95% CI for the population mean from the sample summary stats.",
-    "$\\bar x \\pm t_{n-1,\\,0.975}\\cdot s/\\sqrt n$. Plug in the sample summary values (e.g. for Aggregator: $\\bar x = 56.22, s = 12.13, n = 142$): $SE = 1.018$, margin $\\approx 1.96\\cdot 1.018 = 1.995$. So 95% CI $\\approx [54.22, 58.22]$.",
-    "CI.mean(Bid, conf.level=0.95, data=Bidding)\n# manual: 56.22 + c(-1,1) * qt(0.975, df=141) * 12.13/sqrt(142)"
+    "Compute and interpret the 10th and 90th percentiles ($p_{10}$, $p_{90}$) of `PaidFare`.",
+    "$p_{10} = 39.46$, $p_{90} = 85.61$. **Interpretation:** 10% of bookings paid less than 39.46, 10% paid more than 85.61, and the central 80% lie between 39.46 and 85.61. The gap $p_{90} - p_{10} = 46.15$ is the *interdecile range* — a robust spread measure (insensitive to extreme outliers, unlike the full range).",
+    "distr.summary.x(x=PaidFare, data=Bidding, stats=c('p10','p90'))\n# manual: quantile(Bidding$PaidFare, probs=c(0.10, 0.90))"
 ), "images": []}
 
 past_exams["exam_p1_2026_5"] = {
@@ -541,16 +532,16 @@ past_exams["exam_p1_2026_6a"] = {
 "content": _q(
     "From the channel summary table compute $\\bar x$ and $SE(\\bar x)$ for Aggregator and Airline.",
     "Aggregator: $\\bar x = 56.22$, $s = 12.13$, $n = 142$ → $SE = 12.13/\\sqrt{142} = 1.0179$. Airline: $\\bar x = 53.50$, $s = 22.06$, $n = 224$ → $SE = 22.06/\\sqrt{224} = 1.4739$.",
-    "distr.summary.x(Bid, by=Channel, stats=c('mean','sd'), data=Bidding)\n12.13/sqrt(142)   # Aggregator SE\n22.06/sqrt(224)   # Airline SE"
+    "distr.summary.x(x=PaidFare, by=Channel, data=Bidding)\n12.13/sqrt(142)   # Aggregator SE\n22.06/sqrt(224)   # Airline SE"
 ), "images": []}
 
 past_exams["exam_p1_2026_6b"] = {
-"title": "P1-2026 Ex6b — Reliability of estimate vs SE: cannot conclude",
+"title": "P1-2026 Ex6b — Reliability of PaidFare estimate vs SE: cannot conclude",
 "is_exam": True, "topic_hint": "G11",
 "content": _q(
-    "Can we conclude one specific estimate is more reliable from a smaller SE?",
-    "**No.** SE describes the sampling distribution of the *estimator* — the spread of generic estimates around the parameter. It does NOT measure the distance of a *specific* realised estimate from the parameter. We can only say Aggregator estimates are *on average* more tightly clustered around the population mean.",
-    "# SE compares estimators (long-run), not single estimates\nSE_agg <- 12.13/sqrt(142)   # 1.018\nSE_air <- 22.06/sqrt(224)   # 1.474\n# A single Airline x-bar could still land closer to mu than a single Aggregator one\nc(SE_agg, SE_air)"
+    "Can we conclude one specific PaidFare estimate is more reliable from a smaller SE?",
+    "**No conclusions can be drawn.** Although $SE(\\bar x_{Aggregator}) < SE(\\bar x_{Airline})$, SE refers to the sampling distribution of the *estimator* — the deviation of a *generic* estimate from the parameter — NOT to the deviation of a *specific* realised PaidFare estimate. We can say the Aggregator estimator is more reliable (its estimates are *on average* more tightly clustered around the population mean), but we cannot draw conclusions about the reliability of specific realised PaidFare estimates or their distance from the corresponding parameter.",
+    "# SE compares estimators (long-run), not single PaidFare estimates\nSE_agg <- 12.13/sqrt(142)   # 1.018\nSE_air <- 22.06/sqrt(224)   # 1.474\n# A single Airline PaidFare x-bar could still land closer to mu than a single Aggregator one\nc(SE_agg, SE_air)"
 ), "images": []}
 
 # ---- general 1 2025: 2c + Q4 + Q5 + Q6 ----
@@ -721,12 +712,12 @@ past_exams["exam_sep_2024_1b"] = {
 ), "images": []}
 
 past_exams["exam_sep_2024_2b"] = {
-"title": "Sep-2024 Ex2b — Maximum score for the 20% lowest-scoring customers",
+"title": "Sep-2024 Ex2b — Maximum score of the bottom 20% by branch",
 "is_exam": True, "topic_hint": "G6",
 "content": _q(
-    "Find the 20th-percentile threshold of `Score` for the specific branch and compare with main branches.",
-    "$p_{20}$ from the cumulative density: read off the histogram or `quantile(Score, 0.20)`. The specific branch value is an *approximation* (smaller subsample) compared to main branches (more data, tighter estimate).",
-    "quantile(Credit$Score[Credit$Branch=='specific'], 0.20)\nquantile(Credit$Score[Credit$Branch %in% main_list], 0.20)\ndistr.summary.x(Score, by=Branch, stats='p20', data=Credit)"
+    "Calculate the maximum `Score` value for the 20% of customers in the specific branch with the lowest credit score. Compare with the analogous value for the main branches and state which comparison is more reliable and why.",
+    "The required value is the **20th percentile** ($p_{20}$) of `Score` **within each branch group**: it is the maximum score attained by the lowest-scoring 20% of customers in that branch. Compute it directly with `distr.summary.x(..., stats='p20', by=Branch)`. **Caveat**: the specific branch has a much smaller sub-sample than the main branches, so its $p_{20}$ carries larger sampling variability and the cross-branch comparison must be considered an **approximation**, not an exact match.",
+    "distr.summary.x(Score, by=Branch, stats='p20', data=Credit)"
 ), "images": []}
 
 past_exams["exam_sep_2024_3b"] = {
