@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": 1780678245902,
+  "exportedAt": 1780726733453,
   "data": {
     "topics": [
       {
@@ -1913,7 +1913,8 @@
                   "exam_p1_2024_2a",
                   "exam_p1_2026_1a",
                   "exam_g1_2025_1a",
-                  "exam_july_2024_1a"
+                  "exam_july_2024_1a",
+                  "exam_sep_2024_2b"
                 ],
                 "x": 200,
                 "y": 200,
@@ -2135,6 +2136,23 @@
                 "color": "pink",
                 "column": 96,
                 "isExam": true
+              },
+              {
+                "id": "exam_sep_2024_2b",
+                "title": "Sep-2024 Ex2b — Maximum score for the 20% lowest-scoring customers",
+                "content": "<span class=\"exam-question-text\">Find the 20th-percentile threshold of `Score` for the specific branch and compare with main branches.</span>\n\n---\n\n**Answer.** $p_{20}$ from the cumulative density: read off the histogram or `quantile(Score, 0.20)`. The specific branch value is an *approximation* (smaller subsample) compared to main branches (more data, tighter estimate).\n\n**R commands:**\n\n`quantile(Credit$Score[Credit$Branch=='specific'], 0.20)`\n\n`quantile(Credit$Score[Credit$Branch %in% main_list], 0.20)`\n\n`distr.summary.x(Score, by=Branch, stats='p20', data=Credit)`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g6b"
+                ],
+                "x": 77800,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "pink",
+                "column": 98,
+                "isExam": true
               }
             ]
           },
@@ -2269,7 +2287,8 @@
                   "3_12b",
                   "3_12c",
                   "exam_p1_2024_1b",
-                  "exam_p1_2024_5a"
+                  "exam_p1_2024_5a",
+                  "exam_g1_2025_2c"
                 ],
                 "x": 200,
                 "y": 200,
@@ -2643,6 +2662,23 @@
                 "color": "yellow",
                 "column": 87,
                 "isExam": true
+              },
+              {
+                "id": "exam_g1_2025_2c",
+                "title": "G1-2025 Ex2c — Two-way table SleepQuality × Insomnia × DietChange",
+                "content": "<span class=\"exam-question-text\">Cross-tabulate SleepQuality with Insomnia and DietChange. Provide absolute and conditional (row %) frequencies. Comment on association.</span>\n\n---\n\n**Answer.** Three-way contingency table; row percentages condition on each (Insomnia, DietChange) profile. Strong association if conditional distributions differ substantially across profiles.\n\n**R commands:**\n\n`distr.table.xy(SleepQuality, Insomnia, freq=c('counts','percentages'), freq.type='y|x', data=Sleep)`\n\n`ftable(table(Sleep$SleepQuality, Sleep$Insomnia, Sleep$DietChange))`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g7"
+                ],
+                "x": 72200,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "yellow",
+                "column": 91,
+                "isExam": true
               }
             ]
           }
@@ -2684,7 +2720,8 @@
                   "3_11a",
                   "3_11b",
                   "exam_p1_2025_1a",
-                  "exam_july_2024_2a"
+                  "exam_july_2024_2a",
+                  "exam_p1_2026_2"
                 ],
                 "x": 200,
                 "y": 200,
@@ -3046,6 +3083,25 @@
                 "height": 540,
                 "color": "lavender",
                 "column": 88,
+                "isExam": true
+              },
+              {
+                "id": "exam_p1_2026_2",
+                "title": "P1-2026 Ex2 — Boxplot comparison: Aggregator/Agency/Airline salaries",
+                "content": "<span class=\"exam-question-text\">Boxplots show the distribution of monthly salaries (k€) for Aggregator, Agency, Airline. Compare medians and IQRs.</span>\n\n---\n\n**Answer.** Approximate from the boxplots: Aggregator median ≈ 56.22 (Q1≈50.46, Q3≈64.17); Agency median ≈ 77.46 (Q1≈73.23, Q3≈91.7); Airline median ≈ 53.84 (Q1≈39.36, Q3≈65.79). Agency has the highest median **and** the largest IQR. Airline has the widest range with the lowest first quartile.\n\n**R commands:**\n\n`distr.plot.xy(Bid, Channel, plot.type='boxplot', data=Bidding)`\n",
+                "flashcard": false,
+                "images": [
+                  "statistics/images/exam_p1_2026_bid_by_channel.png"
+                ],
+                "links": [
+                  "th_g8"
+                ],
+                "x": 70600,
+                "y": 200,
+                "width": 600,
+                "height": 540,
+                "color": "lavender",
+                "column": 89,
                 "isExam": true
               },
               {
@@ -3464,7 +3520,9 @@
                   "exam_p1_2025_2a",
                   "exam_p1_2025_2b",
                   "exam_p1_2026_1b",
-                  "exam_p1_2026_1c"
+                  "exam_p1_2026_1c",
+                  "exam_p1_2026_6a",
+                  "exam_p1_2026_6b"
                 ],
                 "x": 200,
                 "y": 200,
@@ -3733,6 +3791,40 @@
                 "color": "teal",
                 "column": 89,
                 "isExam": true
+              },
+              {
+                "id": "exam_p1_2026_6a",
+                "title": "P1-2026 Ex6a — Sample means and SE for Aggregator/Airline",
+                "content": "<span class=\"exam-question-text\">From the channel summary table compute $\\bar x$ and $SE(\\bar x)$ for Aggregator and Airline.</span>\n\n---\n\n**Answer.** Aggregator: $\\bar x = 56.22$, $s = 12.13$, $n = 142$ → $SE = 12.13/\\sqrt{142} = 1.0179$. Airline: $\\bar x = 53.50$, $s = 22.06$, $n = 224$ → $SE = 22.06/\\sqrt{224} = 1.4739$.\n\n**R commands:**\n\n`distr.summary.x(Bid, by=Channel, stats=c('mean','sd'), data=Bidding)`\n\n`12.13/sqrt(142)   # Aggregator SE`\n\n`22.06/sqrt(224)   # Airline SE`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g11"
+                ],
+                "x": 70600,
+                "y": 1000,
+                "width": 600,
+                "height": 360,
+                "color": "teal",
+                "column": 89,
+                "isExam": true
+              },
+              {
+                "id": "exam_p1_2026_6b",
+                "title": "P1-2026 Ex6b — Reliability of estimate vs SE: cannot conclude",
+                "content": "<span class=\"exam-question-text\">Can we conclude one specific estimate is more reliable from a smaller SE?</span>\n\n---\n\n**Answer.** **No.** SE describes the sampling distribution of the *estimator* — the spread of generic estimates around the parameter. It does NOT measure the distance of a *specific* realised estimate from the parameter. We can only say Aggregator estimates are *on average* more tightly clustered around the population mean.\n\n**R commands:**\n\n`# Conceptual question — no R needed`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g11"
+                ],
+                "x": 70600,
+                "y": 1400,
+                "width": 600,
+                "height": 360,
+                "color": "teal",
+                "column": 89,
+                "isExam": true
               }
             ]
           }
@@ -3924,8 +4016,14 @@
                   "exam_g1_2026_1c",
                   "exam_g2_2024_5a",
                   "exam_g2_2024_5c",
+                  "exam_g2_2024_5b",
                   "exam_g2_2026_1a",
-                  "exam_sep_2025_4a"
+                  "exam_g2_2026_1b",
+                  "exam_g2_2026_1c",
+                  "exam_sep_2025_4a",
+                  "exam_sep_2025_5b",
+                  "exam_p1_2026_4",
+                  "exam_sep_2024_3c"
                 ],
                 "x": 200,
                 "y": 200,
@@ -4783,6 +4881,23 @@
                 "column": 61
               },
               {
+                "id": "exam_p1_2026_4",
+                "title": "P1-2026 Ex4 — CI for the mean (general setup)",
+                "content": "<span class=\"exam-question-text\">Build a 95% CI for the population mean from the sample summary stats.</span>\n\n---\n\n**Answer.** $\\bar x \\pm t_{n-1,\\,0.975}\\cdot s/\\sqrt n$. Plug in the sample summary values (e.g. for Aggregator: $\\bar x = 56.22, s = 12.13, n = 142$): $SE = 1.018$, margin $\\approx 1.96\\cdot 1.018 = 1.995$. So 95% CI $\\approx [54.22, 58.22]$.\n\n**R commands:**\n\n`CI.mean(Bid, conf.level=0.95, data=Bidding)`\n\n`# manual: 56.22 + c(-1,1) * qt(0.975, df=141) * 12.13/sqrt(142)`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g13a"
+                ],
+                "x": 70600,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "navy",
+                "column": 89,
+                "isExam": true
+              },
+              {
                 "id": "exam_g1_2024_1a",
                 "title": "G1-2024 Ex1 — CI for mean ($\\bar x = 50, s = 5, n = 100$, 95%)",
                 "content": "<span class=\"exam-question-text\">Sample of $n = 100$: $\\bar x = 50$, $s^2 = 25$. Build a 95% CI for $\\mu$.</span>\n\n---\n\n**Answer.** $\\sigma$ unknown but $n$ large → $\\bar X \\pm z_{0.975}\\cdot s/\\sqrt n = 50 \\pm 1.96 \\cdot 5/10 = 50 \\pm 0.98 = [49.02, 50.98]$.\n\n**R commands:**\n\n`n <- 100; xbar <- 50; s <- 5`\n\n`ci_lower <- xbar - 1.96 * s/sqrt(n)`\n\n`ci_upper <- xbar + 1.96 * s/sqrt(n)`\n\n`c(ci_lower, ci_upper)`\n",
@@ -4889,6 +5004,23 @@
                 "isExam": true
               },
               {
+                "id": "exam_g2_2024_5b",
+                "title": "G2-2024 Ex5b — 99% CI for proportion of cities with CrimePeople > 250",
+                "content": "<span class=\"exam-question-text\">Build the 99% CI for the proportion of US cities with CrimePeople > 250. $\\hat p = 0.21$, $n = 45$.</span>\n\n---\n\n**Answer.** Normal-approximation CI: $\\hat p \\pm z_{0.995}\\cdot \\sqrt{\\hat p(1-\\hat p)/n} = 0.21 \\pm 2.576\\cdot \\sqrt{0.21\\cdot 0.79/45} = 0.21 \\pm 2.576\\cdot 0.0607 = 0.21 \\pm 0.156 = [0.054, 0.366]$.\n\n*Note:* source quotes [0.16, 0.26] which corresponds to a tighter interval / different sample size; the recomputation from the stated $(\\hat p, n)$ gives [0.054, 0.366]. Take the latter as the correct calculation for those inputs.\n\n**R commands:**\n\n`vec.bin <- CrimeUS$CrimePeople > 250`\n\n`CI.prop(vec.bin, conf.level=0.99, data=CrimeUS)`\n\n`# manual:`\n\n`p_hat <- 0.21; n <- 45`\n\n`p_hat + c(-1,1)*qnorm(0.995)*sqrt(p_hat*(1-p_hat)/n)`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g13a"
+                ],
+                "x": 73800,
+                "y": 1180,
+                "width": 600,
+                "height": 360,
+                "color": "navy",
+                "column": 93,
+                "isExam": true
+              },
+              {
                 "id": "exam_g2_2026_1a",
                 "title": "G2-2026 Ex1 — CI for proportion difference (campaign)",
                 "content": "<span class=\"exam-question-text\">Given the difference in two proportions $\\hat p_1 - \\hat p_2 = 0.147$ with 95% CI $[-0.091, 0.385]$, interpret.</span>\n\n---\n\n**Answer.** Interval contains 0 → no significant difference between the two campaign proportions at 95% level. We cannot reject $H_0: p_1 = p_2$.\n\n**R commands:**\n\n`CI.diffprop(x, y, conf.level=0.95)`\n\n`# OR: TEST.diffprop(x, y, pdiff=0, alternative='two.sided')`\n",
@@ -4908,6 +5040,57 @@
                 "isExam": true
               },
               {
+                "id": "exam_g2_2026_1b",
+                "title": "G2-2026 Ex1b — Analytic SE for difference in proportions",
+                "content": "<span class=\"exam-question-text\">Write the analytical expression for the estimated standard error of the difference of two sample proportions.</span>\n\n---\n\n**Answer.** $\\widehat{SE}(\\hat p_1 - \\hat p_2) = \\sqrt{\\dfrac{\\hat p_1(1-\\hat p_1)}{n_1} + \\dfrac{\\hat p_2(1-\\hat p_2)}{n_2}}.$\n\nFor a test on $H_0: p_1 = p_2$ use the *pooled* version: $\\hat p_{\\text{pool}} = (x_1+x_2)/(n_1+n_2)$ in the SE formula.\n\n**R commands:**\n\n`se_diff <- sqrt(p1*(1-p1)/n1 + p2*(1-p2)/n2)`\n\n`# Pooled (for testing H0: p1=p2)`\n\n`p_pool <- (x1+x2)/(n1+n2)`\n\n`se_0 <- sqrt(p_pool*(1-p_pool)*(1/n1 + 1/n2))`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g13a"
+                ],
+                "x": 75400,
+                "y": 780,
+                "width": 600,
+                "height": 360,
+                "color": "navy",
+                "column": 95,
+                "isExam": true
+              },
+              {
+                "id": "exam_g2_2026_1c",
+                "title": "G2-2026 Ex1c — Interpretation when CI contains 0",
+                "content": "<span class=\"exam-question-text\">Given the 95% CI for the proportion difference is $[-0.091, 0.385]$, what can we conclude?</span>\n\n---\n\n**Answer.** Interval **contains 0** → cannot reject $H_0: p_1 = p_2$ at 5% level. We do NOT have evidence the campaigns differ in this metric. Equivalently, the corresponding two-sided z-test would have p-value > 0.05.\n\n**R commands:**\n\n`# CI / hypothesis-test duality`\n\n`# 0 in CI ⇒ p-value > alpha for the two-sided test`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g13a"
+                ],
+                "x": 75400,
+                "y": 1180,
+                "width": 600,
+                "height": 360,
+                "color": "navy",
+                "column": 95,
+                "isExam": true
+              },
+              {
+                "id": "exam_sep_2024_3c",
+                "title": "Sep-2024 Ex3c — Confidence interval for proportion difference + interpretation",
+                "content": "<span class=\"exam-question-text\">Build a 95% CI for the difference between credit-approval proportions in two groups.</span>\n\n---\n\n**Answer.** $(\\hat p_1 - \\hat p_2) \\pm 1.96\\cdot \\widehat{SE}(\\hat p_1-\\hat p_2)$ where $\\widehat{SE} = \\sqrt{\\hat p_1(1-\\hat p_1)/n_1 + \\hat p_2(1-\\hat p_2)/n_2}$ (Wald). Interpret: with 95% confidence the population difference lies in this interval. If CI contains 0 → no significant difference.\n\n**R commands:**\n\n`p1 <- mean(Credit$Card[Credit$Income > median(Credit$Income)])`\n\n`p2 <- mean(Credit$Card[Credit$Income <= median(Credit$Income)])`\n\n`n1 <- sum(Credit$Income > median(Credit$Income))`\n\n`n2 <- sum(Credit$Income <= median(Credit$Income))`\n\n`se_diff <- sqrt(p1*(1-p1)/n1 + p2*(1-p2)/n2)`\n\n`(p1 - p2) + c(-1,1) * qnorm(0.975) * se_diff`\n\n`# or`\n\n`CI.diffprop(...)`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g13a"
+                ],
+                "x": 77800,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "navy",
+                "column": 98,
+                "isExam": true
+              },
+              {
                 "id": "exam_sep_2025_4a",
                 "title": "Sep-2025 Ex4 — 90% CI for difference in means (pooled)",
                 "content": "<span class=\"exam-question-text\">Construct a 90% CI for $\\mu_A - \\mu_B$ assuming equal variances.</span>\n\n---\n\n**Answer.** $\\bar y_A - \\bar y_B \\pm t_{0.05, n_A+n_B-2}\\cdot \\sqrt{s^2_{\\text{pool}}\\cdot (1/n_A+1/n_B)}$. Reported sample interval: $(-6.09, -3.05)$ at 90% confidence.\n\n**R commands:**\n\n`CI.diffmean(PerfA, PerfB, type='independent', var.equal=TRUE, conf.level=0.90)`\n",
@@ -4918,6 +5101,23 @@
                 ],
                 "x": 78600,
                 "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "navy",
+                "column": 99,
+                "isExam": true
+              },
+              {
+                "id": "exam_sep_2025_5b",
+                "title": "Sep-2025 Ex5b — Analytical pooled-variance CI formula",
+                "content": "<span class=\"exam-question-text\">Write the analytical 90% CI for $\\mu_A - \\mu_B$ under the equal-variance assumption.</span>\n\n---\n\n**Answer.** $$(\\bar x - \\bar y) \\pm t_{n_x+n_y-2,\\,0.95}\\cdot \\sqrt{s_p^2\\left(\\tfrac{1}{n_x}+\\tfrac{1}{n_y}\\right)},$$ where $s_p^2 = [(n_x-1)s_x^2 + (n_y-1)s_y^2]/(n_x+n_y-2)$ is the pooled variance. Sample interval reported: $[-6.09, -3.05]$.\n\n**R commands:**\n\n`CI.diffmean(PerfA, PerfB, type='independent', var.equal=TRUE, conf.level=0.90)`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g13a"
+                ],
+                "x": 78600,
+                "y": 600,
                 "width": 600,
                 "height": 360,
                 "color": "navy",
@@ -4962,12 +5162,19 @@
                   "7_10a",
                   "5_13b",
                   "exam_g1_2025_2a",
+                  "exam_g1_2025_5",
                   "exam_g1_2026_1b",
+                  "exam_g1_2026_2a",
+                  "exam_g1_2026_2b",
                   "exam_g2_2025_1a",
                   "exam_g2_2025_2a",
                   "exam_july_2025_1a",
                   "exam_sep_2025_2a",
-                  "exam_sep_2025_5a"
+                  "exam_sep_2025_5a",
+                  "exam_sep_2025_2b",
+                  "exam_sep_2025_2c",
+                  "exam_p1_2026_5",
+                  "exam_sep_2024_1b"
                 ],
                 "x": 200,
                 "y": 200,
@@ -5265,6 +5472,23 @@
                 "column": 70
               },
               {
+                "id": "exam_p1_2026_5",
+                "title": "P1-2026 Ex5 — Two-sample test for difference in means",
+                "content": "<span class=\"exam-question-text\">Compare two channels: $H_0: \\mu_1 = \\mu_2$ vs $H_1: \\mu_1 \\ne \\mu_2$ at $\\alpha = 0.05$.</span>\n\n---\n\n**Answer.** Welch's t-test (separate variances): $t = (\\bar x_1 - \\bar x_2)/\\sqrt{s_1^2/n_1 + s_2^2/n_2}$. Compare with $t_{df,0.975}$ critical value or compute the p-value. Reject $H_0$ if p < 0.05.\n\n**R commands:**\n\n`TEST.diffmean(Bid, by=Channel, type='independent', var.test=TRUE, data=Bidding)`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g14"
+                ],
+                "x": 70600,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "crimson",
+                "column": 89,
+                "isExam": true
+              },
+              {
                 "id": "exam_g1_2025_2a",
                 "title": "G1-2025 Ex2 — Paired t-test SleepQuality pre vs post diet",
                 "content": "<span class=\"exam-question-text\">Test whether sleep duration changed after diet ($n = 161$, $\\bar x_{\\text{before}} = 402.89, s_{\\text{before}} = 45.61, \\bar x_{\\text{after}} = 414, s_{\\text{after}} = 48$, correlation = 0.71).</span>\n\n---\n\n**Answer.** Paired t-test:  $\\hat\\sigma_D = \\sqrt{s_{\\text{before}}^2 + s_{\\text{after}}^2 - 2r\\cdot s_{\\text{before}}\\cdot s_{\\text{after}}} = 35.71$. $t_{\\text{obs}} = (414-402.89)/(35.71/\\sqrt{161}) = 3.95$. p-value $= P(T_{160} \\ge 3.95) \\approx 5.8 \\times 10^{-5}$. **Reject $H_0$ at any conventional $\\alpha$** — sleep duration significantly increased after the diet.\n\n**R commands:**\n\n`sd_D <- sqrt(45.61^2 + 48^2 - 2*0.71*45.61*48)`\n\n`t_stat <- (414-402.89)/(sd_D/sqrt(161))`\n\n`1 - pt(t_stat, df=160)`\n\n`1 - pnorm(t_stat)`\n",
@@ -5282,6 +5506,23 @@
                 "isExam": true
               },
               {
+                "id": "exam_g1_2025_5",
+                "title": "G1-2025 Ex5 — Paired t-test on sleep duration before vs after diet",
+                "content": "<span class=\"exam-question-text\">Test $H_0: \\mu_{after} = \\mu_{before}$ vs $H_1: \\mu_{after} > \\mu_{before}$ with paired data ($n=161$, $\\bar x_{before}=402.89$, $s_{before}=45.61$, $\\bar x_{after}=414$, $s_{after}=48$, $\\rho=0.71$).</span>\n\n---\n\n**Answer.** $\\hat\\sigma_D = \\sqrt{s_b^2 + s_a^2 - 2\\rho s_b s_a} = 35.71$. $t_{obs} = (414-402.89)/(35.71/\\sqrt{161}) = 3.95$. One-sided p-value $\\approx 5.85\\times 10^{-5}$ (from `1-pt(3.95, df=160)`). **Reject $H_0$** at any conventional $\\alpha$ — sleep duration significantly increased.\n\n**R commands:**\n\n`sd_D <- sqrt(45.61^2 + 48^2 - 2*0.71*45.61*48)`\n\n`t_stat <- (414-402.89)/(sd_D/sqrt(161))`\n\n`1 - pt(t_stat, df=160)   # 5.85e-05`\n\n`1 - pnorm(t_stat)        # large-n approx`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g14"
+                ],
+                "x": 72200,
+                "y": 600,
+                "width": 600,
+                "height": 360,
+                "color": "crimson",
+                "column": 91,
+                "isExam": true
+              },
+              {
                 "id": "exam_g1_2026_1b",
                 "title": "G1-2026 Ex1b — Hypothesis test using CI",
                 "content": "<span class=\"exam-question-text\">Using the CI from 1a (0.15, 0.24), test $H_0: p = 0.3$ vs $H_1: p \\ne 0.3$ at any level $\\alpha$.</span>\n\n---\n\n**Answer.** Since $0.3 \\notin [0.15, 0.24]$, the 99% CI **rejects** $H_0$ at level $\\alpha = 0.01$. Equivalently, any test at $\\alpha \\ge 0.01$ rejects. At $\\alpha < 0.01$ (e.g. 0.005), the conclusion would require a wider CI to verify.\n\n**R commands:**\n\n`# Duality between CI and 2-sided test`\n",
@@ -5292,6 +5533,40 @@
                 ],
                 "x": 73000,
                 "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "crimson",
+                "column": 92,
+                "isExam": true
+              },
+              {
+                "id": "exam_g1_2026_2a",
+                "title": "G1-2026 Ex2a — Test independence: PurposeLoan ⊥ Customer (chi-squared)",
+                "content": "<span class=\"exam-question-text\">Test independence between `PurposeLoan` and `Customer` (whether the applicant is a bank customer). $H_0$: independent.</span>\n\n---\n\n**Answer.** Chi-squared test of independence on the two-way table; reject if p < $\\alpha$. Visually: stacked bar of PurposeLoan conditional on Customer — if the bars look identical across Customer levels → independent.\n\n**R commands:**\n\n`chisq.test(Credit$PurposeLoan, Credit$Customer)`\n\n`distr.table.xy(PurposeLoan, Customer, freq='perc', freq.type='y|x', data=Credit)`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g14"
+                ],
+                "x": 73000,
+                "y": 600,
+                "width": 600,
+                "height": 360,
+                "color": "crimson",
+                "column": 92,
+                "isExam": true
+              },
+              {
+                "id": "exam_g1_2026_2b",
+                "title": "G1-2026 Ex2b — Test equality of variances of loan Amount across PurposeLoan",
+                "content": "<span class=\"exam-question-text\">Test $H_0: \\sigma^2_1 = \\sigma^2_2 = \\ldots$ (equal variances across PurposeLoan categories) vs $H_1$: at least one differs.</span>\n\n---\n\n**Answer.** Use **Levene's test** (robust to non-normality) or Bartlett's (assumes normality). If p < $\\alpha$ → reject, variances differ → must use Welch (separate variances) instead of pooled.\n\n**R commands:**\n\n`library(car); leveneTest(Credit$Amount, Credit$PurposeLoan)`\n\n`# or`\n\n`bartlett.test(Amount ~ PurposeLoan, data=Credit)`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g14"
+                ],
+                "x": 73000,
+                "y": 1000,
                 "width": 600,
                 "height": 360,
                 "color": "crimson",
@@ -5352,6 +5627,23 @@
                 "isExam": true
               },
               {
+                "id": "exam_sep_2024_1b",
+                "title": "Sep-2024 Ex1b — Hypothesis test on credit-card approval proportions",
+                "content": "<span class=\"exam-question-text\">Test whether the proportion of credit-card customers differs between two branches (or groups) at $\\alpha = 0.05$.</span>\n\n---\n\n**Answer.** $H_0: p_1 = p_2$ vs $H_1: p_1 \\ne p_2$. Pooled-proportion z-test: $z = (\\hat p_1 - \\hat p_2)/\\sqrt{\\hat p_{\\text{pool}}(1-\\hat p_{\\text{pool}})(1/n_1+1/n_2)}$. Reject $H_0$ if $|z| > 1.96$ or p < 0.05.\n\n**R commands:**\n\n`TEST.diffprop(Credit$Card[group==1], Credit$Card[group==2], alternative='two.sided')`\n\n`# manual:`\n\n`p_pool <- (x1+x2)/(n1+n2)`\n\n`z <- (p1-p2)/sqrt(p_pool*(1-p_pool)*(1/n1+1/n2))`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g14"
+                ],
+                "x": 77800,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "crimson",
+                "column": 98,
+                "isExam": true
+              },
+              {
                 "id": "exam_sep_2025_2a",
                 "title": "Sep-2025 Ex2 — Two-sample t-test hypotheses",
                 "content": "<span class=\"exam-question-text\">Formulate $H_0$ and $H_1$ and write the test statistic for comparing means A vs B.</span>\n\n---\n\n**Answer.** $H_0: \\mu_A = \\mu_B$ vs $H_1: \\mu_A \\ne \\mu_B$. Pooled-variance t-stat: $t = (\\bar y_A - \\bar y_B)/\\sqrt{s^2_{\\text{pool}}(1/n_A + 1/n_B)}$, df $= n_A + n_B - 2$.\n\n**R commands:**\n\n`TEST.diffmean(Performance, by=Activity.type, type='independent', var.test=TRUE)`\n",
@@ -5379,6 +5671,40 @@
                 ],
                 "x": 78600,
                 "y": 600,
+                "width": 600,
+                "height": 360,
+                "color": "crimson",
+                "column": 99,
+                "isExam": true
+              },
+              {
+                "id": "exam_sep_2025_2b",
+                "title": "Sep-2025 Ex2b — Levene's test for equality of variances",
+                "content": "<span class=\"exam-question-text\">Test $H_0: \\sigma_A^2 = \\sigma_B^2$ vs $H_1: \\sigma_A^2 \\ne \\sigma_B^2$ via Levene's test.</span>\n\n---\n\n**Answer.** Levene regresses $|y_{ij} - \\text{median}(y_{i\\cdot})|$ on group; F-statistic, p-value. Reject if p < $\\alpha$. If rejected → use Welch's t-test (unequal variances) instead of pooled.\n\n**R commands:**\n\n`library(car); leveneTest(Performance ~ Activity.type, data=Performance)`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g14"
+                ],
+                "x": 78600,
+                "y": 1000,
+                "width": 600,
+                "height": 360,
+                "color": "crimson",
+                "column": 99,
+                "isExam": true
+              },
+              {
+                "id": "exam_sep_2025_2c",
+                "title": "Sep-2025 Ex2c — One-way ANOVA across 3 activity types",
+                "content": "<span class=\"exam-question-text\">Test whether mean Performance differs across three activity-type groups.</span>\n\n---\n\n**Answer.** $H_0: \\mu_A = \\mu_B = \\mu_C$. ANOVA F-stat = MSB/MSW, df $= (k-1, n-k)$. Reject if F large / p small. Equivalent to `lm()` + `anova()`.\n\n**R commands:**\n\n`mod <- lm(Performance ~ Activity.type, data=Performance)`\n\n`anova(mod)`\n\n`# or`\n\n`oneway.test(Performance ~ Activity.type, data=Performance, var.equal=TRUE)`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g14"
+                ],
+                "x": 78600,
+                "y": 1400,
                 "width": 600,
                 "height": 360,
                 "color": "crimson",
@@ -5435,12 +5761,25 @@
                   "exam_g1_2025_3a",
                   "exam_g1_2025_3b",
                   "exam_g1_2025_3c",
+                  "exam_g1_2025_6",
                   "exam_g2_2025_4a",
                   "exam_g2_2025_5a",
                   "exam_g2_2026_2a",
+                  "exam_g2_2026_2b",
+                  "exam_g2_2026_2c",
+                  "exam_g2_2026_4_4",
+                  "exam_g2_2026_4_5",
+                  "exam_g2_2026_4_6",
                   "exam_july_2024_3a",
                   "exam_sep_2024_3a",
-                  "exam_sep_2024_3d"
+                  "exam_sep_2024_3d",
+                  "exam_sep_2024_3b",
+                  "exam_g1_2026_3a",
+                  "exam_g1_2026_3b",
+                  "exam_g1_2026_5a",
+                  "exam_g1_2026_5b",
+                  "exam_sep_2025_1b",
+                  "exam_sep_2025_3a"
                 ],
                 "x": 200,
                 "y": 200,
@@ -5985,6 +6324,91 @@
                 "isExam": true
               },
               {
+                "id": "exam_g1_2025_6",
+                "title": "G1-2025 Ex6 — Full multiple regression SleepQuality ~ Steps+Age+BMI+Physical+DietChange",
+                "content": "<span class=\"exam-question-text\">Estimate `lm(SleepQuality ~ Steps + Age + BMI + Physical + DietChange)`. Interpret coefficients and diagnose.</span>\n\n---\n\n**Answer.** From `summary(mod)`: Intercept 2.407 (p=0.011), Steps 0.00089 (p<2e-16, very strong), Age 0.00426 (p=0.72, n.s.), BMI -0.01547 (p=0.51, n.s.), Physical 0.00490 (p=0.165, n.s. due to multicollinearity with Steps), DietChange -0.497 (p=0.034 sig.). Adj $R^2 = 0.9411$; $F = 842.3$ (p<<0.001). **Physical loses significance when Steps is included** — multicollinearity, since active people take more steps.\n\n**R commands:**\n\n`mod <- lm(SleepQuality ~ Steps + Age + BMI + Physical + DietChange, data=Sleep)`\n\n`summary(mod); confint(mod)`\n\n`plot(mod, which=1); plot(mod, which=3)`\n\n`distr.plot.x(rstandard(mod), plot.type='histogram')`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g15"
+                ],
+                "x": 72200,
+                "y": 1400,
+                "width": 600,
+                "height": 360,
+                "color": "forest",
+                "column": 91,
+                "isExam": true
+              },
+              {
+                "id": "exam_g1_2026_3a",
+                "title": "G1-2026 Ex3a — Simple regression Amount ~ Age",
+                "content": "<span class=\"exam-question-text\">Estimate and interpret the simple regression `Amount ~ Age` on the `Credit` data.</span>\n\n---\n\n**Answer.** From `summary(mod)`: intercept (mean amount at Age = 0, often extrapolation), Age slope (€/year). Test slope: $t = \\hat\\beta_1/SE(\\hat\\beta_1)$, p-value. $R^2$ measures explained variance.\n\n**R commands:**\n\n`mod <- lm(Amount ~ Age, data=Credit)`\n\n`summary(mod); confint(mod, level=0.95)`\n\n`plot(mod, which=1)`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g15"
+                ],
+                "x": 73000,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "forest",
+                "column": 92,
+                "isExam": true
+              },
+              {
+                "id": "exam_g1_2026_3b",
+                "title": "G1-2026 Ex3b — Diagnostic plots for the regression model",
+                "content": "<span class=\"exam-question-text\">Verify assumptions of the linear model via diagnostic plots.</span>\n\n---\n\n**Answer.** **Linearity & homoscedasticity**: residuals vs fitted (no curvature, no fanning). **Normality**: Q-Q plot / histogram of standardized residuals. **Outliers / leverage**: residuals vs leverage (Cook's distance). If any violated → consider transforms, robust SEs (HC1/HC3), or WLS.\n\n**R commands:**\n\n`plot(mod, which=1)   # Residuals vs fitted`\n\n`plot(mod, which=2)   # Q-Q plot`\n\n`plot(mod, which=3)   # Scale-location`\n\n`plot(mod, which=5)   # Residuals vs leverage`\n\n`library(lmtest); bptest(mod)`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g15"
+                ],
+                "x": 73000,
+                "y": 600,
+                "width": 600,
+                "height": 360,
+                "color": "forest",
+                "column": 92,
+                "isExam": true
+              },
+              {
+                "id": "exam_g1_2026_5a",
+                "title": "G1-2026 Ex5a — 99% prediction interval for Amount at given Age",
+                "content": "<span class=\"exam-question-text\">Construct a 99% confidence/prediction interval for the predicted Amount at a given Age.</span>\n\n---\n\n**Answer.** **Confidence interval** for mean response: $\\hat y \\pm t\\cdot SE(\\hat y_{\\text{mean}})$ — covers the *average* Amount for that Age. **Prediction interval** for a new individual: $\\hat y \\pm t\\cdot SE(\\hat y_{\\text{new}})$ where $SE_{\\text{new}}^2 = SE_{\\text{mean}}^2 + \\hat\\sigma^2$ — wider, covers a single new observation.\n\n**R commands:**\n\n`predict(mod, newdata=data.frame(Age=40), interval='confidence', level=0.99)`\n\n`predict(mod, newdata=data.frame(Age=40), interval='prediction', level=0.99)`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g15"
+                ],
+                "x": 73000,
+                "y": 1000,
+                "width": 600,
+                "height": 360,
+                "color": "forest",
+                "column": 92,
+                "isExam": true
+              },
+              {
+                "id": "exam_g1_2026_5b",
+                "title": "G1-2026 Ex5b — Model comparison: linear vs quadratic",
+                "content": "<span class=\"exam-question-text\">Compare `lm(Amount ~ Age)` with `lm(Amount ~ Age + I(Age^2))` (quadratic term). Use ANOVA or AIC.</span>\n\n---\n\n**Answer.** Nested F-test via `anova(mod1, mod2)`. Significant p → quadratic term improves fit. Alternative: AIC — lower is better. Always inspect residuals after — adding a non-linear term can fix mild curvature visible in plot(mod, which=1).\n\n**R commands:**\n\n`mod_lin <- lm(Amount ~ Age, data=Credit)`\n\n`mod_quad <- lm(Amount ~ Age + I(Age^2), data=Credit)`\n\n`anova(mod_lin, mod_quad)`\n\n`AIC(mod_lin); AIC(mod_quad)`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g15"
+                ],
+                "x": 73000,
+                "y": 1400,
+                "width": 600,
+                "height": 360,
+                "color": "forest",
+                "column": 92,
+                "isExam": true
+              },
+              {
                 "id": "exam_g2_2025_4a",
                 "title": "G2-2025 Ex4 — Regression Department effect (IT vs Operations)",
                 "content": "<span class=\"exam-question-text\">From `modB`, estimate the average difference in productivity Operations vs IT (other variables fixed).</span>\n\n---\n\n**Answer.** From the coefficients table the IT–Operations difference is $-2.902 - 1.563 = -4.465$, or about $1.07$ in the other direction depending on sign convention. **Significance** of *this specific pair* cannot be read directly from `summary()` — only the contrast of each level vs the reference (IT) is shown. To test Operations vs Sales specifically, change the reference level or use `multcomp::glht`.\n\n**R commands:**\n\n`modB <- lm(productivity ~ Years + Salary + Department, data=DS)`\n\n`summary(modB)`\n\n`library(multcomp); glht(modB, linfct=c('DepartmentOperations - DepartmentSales = 0'))`\n",
@@ -6040,6 +6464,91 @@
                 "isExam": true
               },
               {
+                "id": "exam_g2_2026_2b",
+                "title": "G2-2026 Ex2b — Breusch-Pagan test for heteroscedasticity",
+                "content": "<span class=\"exam-question-text\">Test homoscedasticity via the Breusch-Pagan test.</span>\n\n---\n\n**Answer.** **BP statistic** is the $n\\cdot R^2$ from regressing the squared residuals on the predictors; under $H_0$ (homoscedastic), $BP \\sim \\chi^2_{k}$ where $k$ is the number of predictors (excluding intercept). Reject if p < $\\alpha$ → heteroscedasticity → use robust SEs (HC1/HC3).\n\n**R commands:**\n\n`library(lmtest); bptest(mod)`\n\n`plot(mod, which=1)   # Visual: cone/fanning ⇒ heteroscedastic`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g15"
+                ],
+                "x": 75400,
+                "y": 780,
+                "width": 600,
+                "height": 360,
+                "color": "forest",
+                "column": 95,
+                "isExam": true
+              },
+              {
+                "id": "exam_g2_2026_2c",
+                "title": "G2-2026 Ex2c — Heteroscedasticity-robust standard errors",
+                "content": "<span class=\"exam-question-text\">Compute robust standard errors (HC1, HC3) and compare with the usual `summary(mod)` SEs.</span>\n\n---\n\n**Answer.** **Robust SEs** correct the inference under heteroscedasticity. HC1 is the default 'Stata' correction; HC3 is more conservative for small samples. The point estimates $\\hat\\beta$ don't change — only the SEs (and therefore CIs and p-values) do.\n\n**R commands:**\n\n`library(sandwich); library(lmtest)`\n\n`robust_se <- sqrt(diag(vcovHC(mod, type='HC1')))`\n\n`coeftest(mod, vcov=vcovHC(mod, type='HC3'))`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g15"
+                ],
+                "x": 75400,
+                "y": 1180,
+                "width": 600,
+                "height": 360,
+                "color": "forest",
+                "column": 95,
+                "isExam": true
+              },
+              {
+                "id": "exam_g2_2026_4_4",
+                "title": "G2-2026 Ex4.4 — Formal homoscedasticity assumption + violation diagnosis",
+                "content": "<span class=\"exam-question-text\">State the homoscedasticity assumption formally. How do you detect violations?</span>\n\n---\n\n**Answer.** **$\\mathrm{Var}(\\varepsilon_i \\mid \\mathbf{x}_i) = \\sigma^2$** for every $i = 1, \\ldots, n$ — error variance does not depend on the predictors.\n\n**Diagnose**: (1) residuals vs fitted plot — flag funnel/cone shapes. (2) Scale-location plot — flag upward/downward slope. (3) Breusch-Pagan or White test for a formal $\\chi^2$ test. If violated → robust SEs or WLS.\n\n**R commands:**\n\n`plot(mod, which=1); plot(mod, which=3)`\n\n`library(lmtest); bptest(mod)`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g15"
+                ],
+                "x": 75400,
+                "y": 1580,
+                "width": 600,
+                "height": 360,
+                "color": "forest",
+                "column": 95,
+                "isExam": true
+              },
+              {
+                "id": "exam_g2_2026_4_5",
+                "title": "G2-2026 Ex4.5 — Impact of heteroscedasticity + remedies",
+                "content": "<span class=\"exam-question-text\">What is the impact of heteroscedasticity on regression inference, and what are the remedies?</span>\n\n---\n\n**Answer.** **Impact**: OLS coefficient estimates remain **unbiased and consistent**, but no longer **efficient** (not BLUE). The usual `summary(mod)` standard errors are **biased**, making CIs and p-values unreliable.\n\n**Remedies**: (1) **Robust SEs** (HC1/HC3) via `sandwich::vcovHC` — corrects inference without changing $\\hat\\beta$. (2) **WLS** with appropriate weights if you know the variance structure. (3) **Variance-stabilizing transformations** (e.g. log on right-skewed Y).\n\n**R commands:**\n\n`coeftest(mod, vcov=vcovHC(mod, type='HC1'))`\n\n`# WLS example`\n\n`mod_wls <- lm(y ~ x, weights=1/fitted_var, data=DF)`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g15"
+                ],
+                "x": 75400,
+                "y": 1980,
+                "width": 600,
+                "height": 360,
+                "color": "forest",
+                "column": 95,
+                "isExam": true
+              },
+              {
+                "id": "exam_g2_2026_4_6",
+                "title": "G2-2026 Ex4.6 — Prediction interval at a specific predictor value",
+                "content": "<span class=\"exam-question-text\">Provide the point prediction and 95% prediction interval for `Amount` at the given predictor value.</span>\n\n---\n\n**Answer.** **Point prediction**: $\\hat y = \\hat\\beta_0 + \\hat\\beta_1 x_0$. **Prediction interval**: $\\hat y \\pm t_{n-k-1,\\;0.975}\\cdot SE(\\hat y_{\\text{new}})$ where $SE(\\hat y_{\\text{new}})^2 = SE(\\hat y_{\\text{mean}})^2 + \\hat\\sigma^2$ — accounts for *both* the uncertainty in the mean and the irreducible error variance. **Wider than the confidence interval for the mean response.**\n\n**R commands:**\n\n`predict(mod, newdata=data.frame(x=value), interval='confidence', level=0.95)`\n\n`predict(mod, newdata=data.frame(x=value), interval='prediction', level=0.95)`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g15"
+                ],
+                "x": 75400,
+                "y": 2380,
+                "width": 600,
+                "height": 360,
+                "color": "forest",
+                "column": 95,
+                "isExam": true
+              },
+              {
                 "id": "exam_july_2024_3a",
                 "title": "Jul-2024 — Regression: read coefficients, t-stat, p-value, R²",
                 "content": "<span class=\"exam-question-text\">Interpret the regression coefficients and test their significance.</span>\n\n---\n\n**Answer.** Each coefficient's t-stat = estimate/SE. P-value < 0.05 → significant. Stars convention: *** for p<0.001, ** for p<0.01, * for p<0.05. R² (or Adjusted R²) measures explained variance.\n\n**R commands:**\n\n`mod <- lm(y ~ x1 + x2 + x3, data=DF)`\n\n`summary(mod)`\n\n`confint(mod)`\n",
@@ -6088,6 +6597,57 @@
                 "height": 360,
                 "color": "forest",
                 "column": 98,
+                "isExam": true
+              },
+              {
+                "id": "exam_sep_2024_3b",
+                "title": "Sep-2024 Ex3b — 95% CI for slope coefficient interpretation",
+                "content": "<span class=\"exam-question-text\">Provide a 95% CI for the slope coefficient in the regression and interpret.</span>\n\n---\n\n**Answer.** From `confint(mod)` at level 0.95: e.g. $[0.0447, 0.0850]$ for the Account_length slope. **Interpretation**: with 95% confidence, each additional year of account length is associated with a Score increase of between 0.045 and 0.085 units, holding other variables fixed. CI excludes 0 → coefficient significantly different from 0.\n\n**R commands:**\n\n`summary(mod)`\n\n`confint(mod, level=0.95)`\n\n`confint(mod, 'Account_length', level=0.95)`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g15"
+                ],
+                "x": 77800,
+                "y": 1000,
+                "width": 600,
+                "height": 360,
+                "color": "forest",
+                "column": 98,
+                "isExam": true
+              },
+              {
+                "id": "exam_sep_2025_1b",
+                "title": "Sep-2025 Ex1b — QQ-plot to assess normality of Performance by Activity.type",
+                "content": "<span class=\"exam-question-text\">Assess via QQ-plot whether Performance is approximately normal within each Activity.type group.</span>\n\n---\n\n**Answer.** QQ-plot compares sample quantiles to theoretical normal quantiles. **Points on the 45° line** → normality OK. Systematic deviations (S-curve / tail bows) → non-normal. If both groups look OK, the equal-variance t-test (after a Levene check) is appropriate.\n\n**R commands:**\n\n`qqnorm(Performance$Performance[Performance$Activity.type=='A']); qqline(...)`\n\n`qqnorm(Performance$Performance[Performance$Activity.type=='B']); qqline(...)`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g15"
+                ],
+                "x": 78600,
+                "y": 200,
+                "width": 600,
+                "height": 360,
+                "color": "forest",
+                "column": 99,
+                "isExam": true
+              },
+              {
+                "id": "exam_sep_2025_3a",
+                "title": "Sep-2025 Ex3a — Effect plot for categorical predictor",
+                "content": "<span class=\"exam-question-text\">Visualize the effect of a categorical predictor on the response using an effects plot.</span>\n\n---\n\n**Answer.** `effects::Effect(...)` shows fitted means (and 95% CIs) for each level of the categorical predictor, holding other variables at their typical values. Useful for interpreting models with interactions/categorical predictors.\n\n**R commands:**\n\n`library(effects)`\n\n`mod <- lm(response ~ Medallion + ..., data=Performance)`\n\n`plot(Effect('Medallion', mod))`\n",
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  "th_g15"
+                ],
+                "x": 78600,
+                "y": 600,
+                "width": 600,
+                "height": 360,
+                "color": "forest",
+                "column": 99,
                 "isExam": true
               }
             ]
