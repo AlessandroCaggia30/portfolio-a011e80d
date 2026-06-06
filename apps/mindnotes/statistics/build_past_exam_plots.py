@@ -226,6 +226,20 @@ ax.set_xlabel("Employment_type"); ax.set_ylabel("Salary")
 ax.set_title("Employee: Salary by Employment_type")
 save("exam_g2_2025_salary_by_emptype.png")
 
+# Ex4-b3 — Normality: histogram of standardized residuals from modB
+import statsmodels.formula.api as smf
+em_fit = em.dropna(subset=["Productivity","Training_Attended","Satisfaction",
+                            "Hours_Worked","Tenure","Remote_Work","Salary","Department"]).copy()
+modB = smf.ols("Productivity ~ Training_Attended + Satisfaction + Hours_Worked + "
+               "Tenure + Remote_Work + Salary + C(Department)", data=em_fit).fit()
+infl = modB.get_influence()
+rstd = infl.resid_studentized_internal
+fig, ax = plt.subplots(figsize=(6, 4.5))
+ax.hist(rstd, bins=20, color=PALETTE["secondary"], edgecolor="black")
+ax.set_xlabel("rstandard(modB)"); ax.set_ylabel("Frequency")
+ax.set_title("Histogram of rstandard(modB)")
+save("exam_g2_2025_modB_resid_hist.png")
+
 # ============== general 2 2026 — retail ==============
 print("\n[g2 2026]")
 rt = load("general 2 2026", "retail.rdata")["retail"]
@@ -238,28 +252,67 @@ save("exam_g2_2026_prices.png")
 # ============== july 2024 — Colleges ==============
 print("\n[july 2024]")
 co = load("july 2024", "Data_General_202406.Rdata")["Colleges"]
-# Apps boxplot by Private
-if "Private" in co.columns and "Apps" in co.columns:
+# Ex2a — Top10 vs Phd scatter with correlation
+if {"Top10", "Phd"}.issubset(co.columns):
+    x = pd.to_numeric(co["Top10"], errors="coerce")
+    y = pd.to_numeric(co["Phd"],   errors="coerce")
+    mask = x.notna() & y.notna()
+    x = x[mask].to_numpy(); y = y[mask].to_numpy()
+    r = float(np.corrcoef(x, y)[0, 1])
     fig, ax = plt.subplots(figsize=(6, 5))
-    vals_priv = co.loc[co["Private"]=="Yes", "Apps"].dropna()
-    vals_pub  = co.loc[co["Private"]=="No",  "Apps"].dropna()
-    if len(vals_priv) and len(vals_pub):
-        ax.boxplot([vals_pub, vals_priv], labels=["Public","Private"], patch_artist=True,
-                   boxprops=dict(facecolor=PALETTE["secondary"]))
-        ax.set_ylabel("Apps"); ax.set_title("Colleges: Apps by Private/Public")
-        save("exam_july_2024_apps_by_private.png")
+    ax.scatter(x, y, alpha=0.45, color=PALETTE["secondary"],
+               edgecolor="black", linewidth=0.2)
+    m, b = np.polyfit(x, y, 1)
+    xs = np.linspace(x.min(), x.max(), 50)
+    ax.plot(xs, m*xs + b, color=PALETTE["warn"], linestyle="--",
+            label=f"OLS fit  (r = {r:.4f})")
+    ax.set_xlabel("Top10 (% students from top 10% of HS class)")
+    ax.set_ylabel("Phd")
+    ax.set_title("Colleges: Top10 vs Phd")
+    ax.legend(loc="lower right", frameon=False)
+    save("exam_july_2024_top10_phd.png")
 
 # ============== july 2025 — BankClients ==============
 print("\n[july 2025]")
 bc = load("july 2025", "Exam202507.RData")["BankClients"]
-# Savings histogram
-fig, axes = plt.subplots(1, 2, figsize=(11, 4))
-axes[0].hist(bc["Savings"].dropna(), bins=30, color=PALETTE["secondary"], edgecolor="black")
-axes[0].set_title("BankClients: Savings — histogram"); axes[0].set_xlabel("Savings")
-axes[1].boxplot(bc["Savings"].dropna(), vert=True, patch_artist=True,
-                boxprops=dict(facecolor=PALETTE["accent"]))
-axes[1].set_title("BankClients: Savings — boxplot"); axes[1].set_ylabel("Savings")
-save("exam_july_2025_savings.png")
+# Ex1 — Savings by Branch: side-by-side boxplots + group means (two-sample one-sided t-test, mu_A < mu_B)
+if {"Savings", "Branch"}.issubset(bc.columns):
+    sv_a = pd.to_numeric(bc.loc[bc["Branch"] == "A", "Savings"], errors="coerce").dropna()
+    sv_b = pd.to_numeric(bc.loc[bc["Branch"] == "B", "Savings"], errors="coerce").dropna()
+    fig, axes = plt.subplots(1, 2, figsize=(11, 4.5))
+    # Left: boxplots A vs B
+    bp = axes[0].boxplot([sv_a, sv_b], labels=["Branch A", "Branch B"],
+                         patch_artist=True, widths=0.55)
+    for patch, col in zip(bp["boxes"], [PALETTE["secondary"], PALETTE["accent"]]):
+        patch.set_facecolor(col)
+    axes[0].set_title("BankClients: Savings by Branch")
+    axes[0].set_ylabel("Savings (€)")
+    # Right: group means with SE bars (visualise the difference + pooled SE)
+    means = [sv_a.mean(), sv_b.mean()]
+    n_a, n_b = len(sv_a), len(sv_b)
+    s_a, s_b = sv_a.std(ddof=1), sv_b.std(ddof=1)
+    s_p = (((n_a - 1) * s_a ** 2 + (n_b - 1) * s_b ** 2) / (n_a + n_b - 2)) ** 0.5
+    se_diff = s_p * (1.0 / n_a + 1.0 / n_b) ** 0.5
+    se_means = [s_a / n_a ** 0.5, s_b / n_b ** 0.5]
+    axes[1].bar([0, 1], means, yerr=se_means, capsize=8,
+                color=[PALETTE["secondary"], PALETTE["accent"]],
+                edgecolor="black", width=0.55)
+    axes[1].set_xticks([0, 1]); axes[1].set_xticklabels(["Branch A", "Branch B"])
+    axes[1].set_ylabel("Mean Savings (€)")
+    diff = means[0] - means[1]
+    t_stat = diff / se_diff
+    axes[1].set_title(
+        f"Mean diff (A - B) = {diff:.2f}\nSE(diff) = {se_diff:.2f},  t = {t_stat:.2f}"
+    )
+    save("exam_july_2025_savings.png")
+else:
+    fig, axes = plt.subplots(1, 2, figsize=(11, 4))
+    axes[0].hist(bc["Savings"].dropna(), bins=30, color=PALETTE["secondary"], edgecolor="black")
+    axes[0].set_title("BankClients: Savings — histogram"); axes[0].set_xlabel("Savings")
+    axes[1].boxplot(bc["Savings"].dropna(), vert=True, patch_artist=True,
+                    boxprops=dict(facecolor=PALETTE["accent"]))
+    axes[1].set_title("BankClients: Savings — boxplot"); axes[1].set_ylabel("Savings")
+    save("exam_july_2025_savings.png")
 
 # ============== september 2024 — Credit ==============
 print("\n[sep 2024]")
@@ -279,6 +332,60 @@ elif "Account_length" in cd.columns:
     ax.set_xlabel("Account_length"); ax.set_ylabel("Count")
     ax.set_title("Credit: Account_length — histogram")
     save("exam_sep_2024_account_length.png")
+
+# Ex3d — residuals vs fitted for Score ~ Account_length (homoscedasticity check)
+if {"Score", "Account_length"}.issubset(cd.columns):
+    y = pd.to_numeric(cd["Score"], errors="coerce")
+    x = pd.to_numeric(cd["Account_length"], errors="coerce")
+    mask = y.notna() & x.notna()
+    y = y[mask].to_numpy(); x = x[mask].to_numpy()
+    b1, b0 = np.polyfit(x, y, 1)
+    fitted = b0 + b1 * x
+    resid = y - fitted
+    fig, ax = plt.subplots(figsize=(6.5, 4.8))
+    ax.axhline(0, color="gray", linewidth=0.8, linestyle="--")
+    ax.scatter(fitted, resid, alpha=0.45, color=PALETTE["secondary"],
+               edgecolor="black", linewidth=0.2)
+    # Highlight observations #15, #362, #359 (1-indexed as in R)
+    highlights = [15, 362, 359]
+    for obs in highlights:
+        i = obs - 1
+        if 0 <= i < len(fitted):
+            ax.scatter(fitted[i], resid[i], s=70, facecolor="none",
+                       edgecolor=PALETTE["warn"], linewidth=1.6, zorder=5)
+            ax.annotate(str(obs), (fitted[i], resid[i]),
+                        xytext=(6, 4), textcoords="offset points",
+                        fontsize=9, color=PALETTE["warn"])
+    order = np.argsort(fitted)
+    ax.plot(fitted[order], np.poly1d(np.polyfit(fitted, resid, 1))(fitted[order]),
+            color="crimson", linewidth=1.2)
+    ax.set_xlabel("Fitted values"); ax.set_ylabel("Residuals")
+    ax.set_title("Residuals vs Fitted — Score ~ Account_length")
+    save("exam_sep_2024_resid_fitted.png")
+
+# ----- Sep-2024 Ex2a: specific-branch Score histogram (unequal widths) -----
+breaks = [0, 200, 300, 600, 1000]
+pct    = [0.30, 0.20, 0.30, 0.20]                 # relative frequencies
+widths = [breaks[i+1] - breaks[i] for i in range(4)]
+dens   = [p / w for p, w in zip(pct, widths)]     # densities = freq / width
+
+fig, ax = plt.subplots(figsize=(7, 4.8))
+for i in range(4):
+    ax.bar(breaks[i], dens[i], width=widths[i], align="edge",
+           color=PALETTE["secondary"], edgecolor="black", linewidth=0.8)
+    ax.text(breaks[i] + widths[i] / 2, dens[i] + 0.00005,
+            f"{dens[i]:.4f}", ha="center", va="bottom",
+            fontsize=9, fontweight="bold", color=PALETTE["primary"])
+# Highlight modal class [200, 300)
+ax.bar(breaks[1], dens[1], width=widths[1], align="edge",
+       color=PALETTE["warn"], edgecolor="black", linewidth=1.2,
+       label="Modal class: [200, 300)")
+ax.set_xticks(breaks)
+ax.set_xlabel("Score"); ax.set_ylabel("Density")
+ax.set_title("Sep-2024 Ex2a — Score histogram, specific branch\n(unequal widths -> density = freq / width)")
+ax.set_ylim(0, max(dens) * 1.25)
+ax.legend(loc="upper right", fontsize=9)
+save("exam_sep_2024_2a_hist.png")
 
 # ============== september 2025 — Performance ==============
 print("\n[sep 2025]")
@@ -300,5 +407,27 @@ if "VO2.max" in pf.columns and "Performance" in pf.columns:
     ax.set_xlabel("VO2.max"); ax.set_ylabel("Performance")
     ax.set_title(f"Performance: VO2.max vs Performance (r = {r:.3f})")
     save("exam_sep_2025_vo2max_performance.png")
+
+# Ex3.a — stacked bar: Fr(Effort | Rain)
+if "Effort" in pf.columns and "Rain" in pf.columns:
+    order = ["Low", "MediumLow", "MediumHigh", "High"]
+    ct = pd.crosstab(pf["Effort"], pf["Rain"]).reindex(order)
+    prop = ct.div(ct.sum(axis=0), axis=1)  # column proportions: Effort | Rain
+    fig, ax = plt.subplots(figsize=(6, 5))
+    colors = [PALETTE["secondary"], PALETTE["accent"], PALETTE["warn"], PALETTE["primary"]]
+    bottom = np.zeros(len(prop.columns))
+    for i, lvl in enumerate(prop.index):
+        vals = prop.loc[lvl].values
+        ax.bar(prop.columns.astype(str), vals, bottom=bottom,
+               color=colors[i % len(colors)], edgecolor="black", linewidth=0.4, label=lvl)
+        for j, v in enumerate(vals):
+            if v > 0.03:
+                ax.text(j, bottom[j] + v / 2, f"{v:.2f}", ha="center", va="center", fontsize=9)
+        bottom += vals
+    ax.set_xlabel("Rain"); ax.set_ylabel("Fr(Effort | Rain)")
+    ax.set_title("Performance: Effort by Rain — stacked proportions")
+    ax.legend(title="Effort", loc="center left", bbox_to_anchor=(1.02, 0.5), frameon=False)
+    ax.set_ylim(0, 1)
+    save("exam_sep_2025_effort_by_rain.png")
 
 print("\nALL DONE.")
