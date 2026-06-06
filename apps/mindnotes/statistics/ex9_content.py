@@ -215,7 +215,7 @@ sd(Absence$Wage)*(-0.20330)
 sd(Absence$Wage)*confint(mod, level=0.95)[2,]
 
 newdata <- data.frame(Wage=20, PartTime=10, Union=68, Shift=1, GoodRel=0)
-predict(mod, newdata, interval="predict")
+predict(mod, newdata, interval="prediction")
 predict(mod, newdata, interval="confidence")
 
 plot(mod, which=1)

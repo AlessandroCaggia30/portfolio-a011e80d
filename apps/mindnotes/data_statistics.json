@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": 1780726733453,
+  "exportedAt": 1780726896042,
   "data": {
     "topics": [
       {
@@ -3582,7 +3582,7 @@
               {
                 "id": "4_9a",
                 "title": "Ex 4.9a — P(sample mean Sales < 22500) — pizzeria sampling",
-                "content": "**Question.** A sample of size 81 pizzerias in the winter season. Sales of single pizzerias have mean 22500 and SD 9800/$\\sqrt{81}$. Probability that the sample mean is less than 22500?\n\n---\n\n**Answer.** Since the sample is large enough, by the Central Limit Theorem no assumptions on the distribution of the turnover in the population are needed and the distribution of the mean of a sample of size 81 can be approximated by a Normal distribution, $\\bar X \\sim N(25000, 9800^2/81)$.\n\n`pnorm(22500, 25000, sqrt(9800^2/81))`\n\n`## [1] 0.0104027`\n",
+                "content": "**Question.** A sample of size 81 pizzerias in the winter season. Sales of single pizzerias have mean 25000 and SD 9800/$\\sqrt{81}$. Probability that the sample mean is less than 22500?\n\n---\n\n**Answer.** Since the sample is large enough, by the Central Limit Theorem no assumptions on the distribution of the turnover in the population are needed and the distribution of the mean of a sample of size 81 can be approximated by a Normal distribution, $\\bar X \\sim N(25000, 9800^2/81)$.\n\n`pnorm(22500, 25000, sqrt(9800^2/81))`\n\n`## [1] 0.0104027`\n",
                 "flashcard": false,
                 "images": [],
                 "links": [
@@ -3662,7 +3662,7 @@
               {
                 "id": "4_12a",
                 "title": "Ex 4.12a — Pr(customer spends > 80 Euro at first purchase)",
-                "content": "**Question.** Let $X$ be the r.v. describing the amount spent at first purchase; we assume that $X \\sim N(60, 25^2)$. The probability that a generic clients spends more than 80 Euro is $\\Pr(X > 80)$.\n\n---\n\n**Answer.**\n`1 - pnorm(80, 60, 25)`\n\n`## [1] 0.2118554`\n\n**b)** Let $\\bar P$ describe the random variable describing the proportion of clients who spend more than 80 Euro at their first purchase among a sample of 150 new clients. Since the number of new clients is high enough the distribution of the sample proportion can be approximated by a normal distribution:\n\n$$\n\\bar P \\approx N(0.212, 0.212(1-0.212)/150).\n$$\n\nAnd the probability that the proportion is 20% maximum is $\\Pr(\\bar P \\le 0.2)$:\n`pnorm(0.2, 0.212*(1-0.212)/150)`\n\n`## [1] 0.3611689`\n",
+                "content": "**Question.** Let $X$ be the r.v. describing the amount spent at first purchase; we assume that $X \\sim N(60, 25^2)$. The probability that a generic clients spends more than 80 Euro is $\\Pr(X > 80)$.\n\n---\n\n**Answer.**\n`1 - pnorm(80, 60, 25)`\n\n`## [1] 0.2118554`\n\n**b)** Let $\\bar P$ describe the random variable describing the proportion of clients who spend more than 80 Euro at their first purchase among a sample of 150 new clients. Since the number of new clients is high enough the distribution of the sample proportion can be approximated by a normal distribution:\n\n$$\n\\bar P \\approx N(0.212, 0.212(1-0.212)/150).\n$$\n\nAnd the probability that the proportion is 20% maximum is $\\Pr(\\bar P \\le 0.2)$:\n`pnorm(0.2, mean=0.212, sd=sqrt(0.212*(1-0.212)/150))`\n\n`## [1] 0.3611689`\n",
                 "flashcard": false,
                 "images": [],
                 "links": [
@@ -3678,7 +3678,7 @@
               {
                 "id": "4_12b",
                 "title": "Ex 4.12b — Pr(sample sum > 9100)",
-                "content": "**Question.** Let's indicate the turnover from the campaign that is by the total amount spent by 150 new clients at their first purchase. Is it possible that $\\Pr(S > 9100) = 0$?\n\n---\n\n**Answer.**\n`1 - pnorm(9100, 150*60, 150*sqrt(25^2))`\n\n`## [1] 0.3719857`\n\noppure\n`1 - pnorm(9100, 9000, sqrt(93750))`\n\n`## [1] 0.3719857`\n\nThe same result could be obtained also considering that the r.v. $Y = S - 9100$ is given as the total amount spent by 150 new clients at their first purchase) is distributed as $Y \\sim N(150\\cdot 60 - 9100, 150\\cdot 25^2) = N(-100, 93750)$. Therefore, the probability that the total amount spent is higher than the cost is $\\Pr(Y > 0) = 0.372$, obtained as:\n`1 - pnorm(0, -100, sqrt(93750))`\n\n`## [1] 0.3719857`\n",
+                "content": "**Question.** Let's indicate the turnover from the campaign that is by the total amount spent by 150 new clients at their first purchase. Is it possible that $\\Pr(S > 9100) = 0$?\n\n---\n\n**Answer.**\n`1 - pnorm(9100, 150*60, 150*sqrt(25^2))`\n\n`## [1] 0.3719857`\n\nor\n`1 - pnorm(9100, 9000, sqrt(93750))`\n\n`## [1] 0.3719857`\n\nThe same result could be obtained also considering that the r.v. $Y = S - 9100$ is given as the total amount spent by 150 new clients at their first purchase) is distributed as $Y \\sim N(150\\cdot 60 - 9100, 150\\cdot 25^2) = N(-100, 93750)$. Therefore, the probability that the total amount spent is higher than the cost is $\\Pr(Y > 0) = 0.372$, obtained as:\n`1 - pnorm(0, -100, sqrt(93750))`\n\n`## [1] 0.3719857`\n",
                 "flashcard": false,
                 "images": [],
                 "links": [
@@ -3694,7 +3694,7 @@
               {
                 "id": "4_13a",
                 "title": "Ex 4.13 — Linear normal + CLT for proportion",
-                "content": "**Question.** Let $X$ be amount spent by a customer; $E[X] = 12, Var(X) = 5^2$. The total amount spent by a sample of $n = 80$ customers is the random variable $S = X_1 + \\ldots + X_{80}$ ($X_i$ iid).\n\n---\n\n**Answer.** Assumptions: each customer's amount is independent. Since the sample is large enough, by the central limit theorem the distribution of $S$ is approximately normal: $S \\sim N(80\\cdot 12, 80\\cdot 25) = N(960, 2000)$. The required probability is $\\Pr(S > 1000) = 0.1855$:\n`1 - pnorm(1000, mean=960, sd=sqrt(2000))`\n\n`## [1] 0.1855467`\n\n**b)** Let $\\bar P$ be the r.v. describing the proportion of customers spending more than 1000 Euro in the 115 shops, then we have that approximately:\n\n$$\n\\bar P \\approx N\\left(0.1855,\\; \\frac{0.1855(1-0.1855)}{115}\\right).\n$$\n\nThe probability of the sample proportion being less than 0.15 is therefore $\\Pr(\\bar P < 0.15) = 0.166$:\n`pnorm(0.15, p_S, sqrt(p_S*(1-prob.S)/115))`\n\n`## [1] 0.163397`\n\nOr with rounding:\n`pnorm(0.15, 0.1855, sqrt(0.1855*(1-0.1855)/115))`\n\n`## [1] 0.1636914`\n\n`# or rounding to 3 decimals`\n\n`pnorm(0.15, 0.185, sqrt(0.185*(1-0.185)/115))`\n\n`## [1] 0.166869`\n",
+                "content": "**Question.** Let $X$ be amount spent by a customer; $E[X] = 12, Var(X) = 5^2$. The total amount spent by a sample of $n = 80$ customers is the random variable $S = X_1 + \\ldots + X_{80}$ ($X_i$ iid).\n\n---\n\n**Answer.** Assumptions: each customer's amount is independent. Since the sample is large enough, by the central limit theorem the distribution of $S$ is approximately normal: $S \\sim N(80\\cdot 12, 80\\cdot 25) = N(960, 2000)$. The required probability is $\\Pr(S > 1000) = 0.1855$:\n`1 - pnorm(1000, mean=960, sd=sqrt(2000))`\n\n`## [1] 0.1855467`\n\n**b)** Let $\\bar P$ be the r.v. describing the proportion of customers spending more than 1000 Euro in the 115 shops, then we have that approximately:\n\n$$\n\\bar P \\approx N\\left(0.1855,\\; \\frac{0.1855(1-0.1855)}{115}\\right).\n$$\n\nThe probability of the sample proportion being less than 0.15 is therefore $\\Pr(\\bar P < 0.15) = 0.166$:\n`pnorm(0.15, 0.1855, sqrt(0.1855*(1-0.1855)/115))`\n\n`## [1] 0.163397`\n\nOr with rounding:\n`pnorm(0.15, 0.1855, sqrt(0.1855*(1-0.1855)/115))`\n\n`## [1] 0.1636914`\n\n`# or rounding to 3 decimals`\n\n`pnorm(0.15, 0.185, sqrt(0.185*(1-0.185)/115))`\n\n`## [1] 0.166869`\n",
                 "flashcard": false,
                 "images": [],
                 "links": [
@@ -6185,7 +6185,7 @@
               {
                 "id": "9_11",
                 "title": "Ex 9.11 — Absence: Days ~ Wage + PartTime + Union + Shift + GoodRel",
-                "content": "**Question.** Regression for absence days; compute CIs; predict at specific profile.\n\n---\n\n**Answer.**\n`mod <- lm(Days ~ Wage + PartTime + Union + Shift + GoodRel, data=Absence); summary(mod)`\n\n`confint(mod, level=0.99)`\n\n`sd(Absence$Wage)`\n\n`sd(Absence$Wage)*(-0.20330)`\n\n`sd(Absence$Wage)*confint(mod, level=0.95)[2,]`\n\n\n\n`newdata <- data.frame(Wage=20, PartTime=10, Union=68, Shift=1, GoodRel=0)`\n\n`predict(mod, newdata, interval=\"predict\")`\n\n`predict(mod, newdata, interval=\"confidence\")`\n\n\n\n`plot(mod, which=1)`\n\n`distr.plot.x(x=rstandard(mod), plot.type=\"histogram\")`\n",
+                "content": "**Question.** Regression for absence days; compute CIs; predict at specific profile.\n\n---\n\n**Answer.**\n`mod <- lm(Days ~ Wage + PartTime + Union + Shift + GoodRel, data=Absence); summary(mod)`\n\n`confint(mod, level=0.99)`\n\n`sd(Absence$Wage)`\n\n`sd(Absence$Wage)*(-0.20330)`\n\n`sd(Absence$Wage)*confint(mod, level=0.95)[2,]`\n\n\n\n`newdata <- data.frame(Wage=20, PartTime=10, Union=68, Shift=1, GoodRel=0)`\n\n`predict(mod, newdata, interval=\"prediction\")`\n\n`predict(mod, newdata, interval=\"confidence\")`\n\n\n\n`plot(mod, which=1)`\n\n`distr.plot.x(x=rstandard(mod), plot.type=\"histogram\")`\n",
                 "flashcard": false,
                 "images": [
                   "statistics/images/ex9_11-absence.png"

@@ -336,7 +336,7 @@ Therefore, $\\Pr(\\bar P > 0.50)$:
 
 ex4["4_9a"] = {
 "title": "Ex 4.9a — P(sample mean Sales < 22500) — pizzeria sampling",
-"content": """**Question.** A sample of size 81 pizzerias in the winter season. Sales of single pizzerias have mean 22500 and SD 9800/$\\sqrt{81}$. Probability that the sample mean is less than 22500?
+"content": """**Question.** A sample of size 81 pizzerias in the winter season. Sales of single pizzerias have mean 25000 and SD 9800/$\\sqrt{81}$. Probability that the sample mean is less than 22500?
 
 ---
 
@@ -540,7 +540,7 @@ $$
 
 And the probability that the proportion is 20% maximum is $\\Pr(\\bar P \\le 0.2)$:
 ```r
-pnorm(0.2, 0.212*(1-0.212)/150)
+pnorm(0.2, mean=0.212, sd=sqrt(0.212*(1-0.212)/150))
 ## [1] 0.3611689
 ```
 """,
@@ -559,7 +559,7 @@ ex4["4_12b"] = {
 ## [1] 0.3719857
 ```
 
-oppure
+or
 ```r
 1 - pnorm(9100, 9000, sqrt(93750))
 ## [1] 0.3719857
@@ -596,7 +596,7 @@ $$
 
 The probability of the sample proportion being less than 0.15 is therefore $\\Pr(\\bar P < 0.15) = 0.166$:
 ```r
-pnorm(0.15, p_S, sqrt(p_S*(1-prob.S)/115))
+pnorm(0.15, 0.1855, sqrt(0.1855*(1-0.1855)/115))
 ## [1] 0.163397
 ```
 
