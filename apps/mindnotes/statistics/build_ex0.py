@@ -141,6 +141,26 @@ print(f"sum(is.higher30): {n_higher}")
 print(f"100*sum(...)/length: {100 * n_higher / n_total:.6f}")
 print(f"mean(is.higher30): {n_higher / n_total:.8f}")
 
+# Plot: histogram of Property.Rates with threshold at 3000
+rates = data["Property.Rates"].values
+fig, ax = plt.subplots(figsize=(8, 4.5))
+counts_bin, edges_bin, patches = ax.hist(
+    rates, bins=15, color="#5fa8d3", edgecolor="black"
+)
+# Color bins fully above 3000 in warm yellow
+for patch, left in zip(patches, edges_bin[:-1]):
+    if left >= 3000:
+        patch.set_facecolor("#e0a800")
+ax.axvline(3000, color="#b00020", linestyle="--", linewidth=1.5, label="threshold = 3000")
+ax.set_xlabel("Property.Rates (per 100,000 pop.)")
+ax.set_ylabel("Counts")
+ax.set_title(
+    f"Property.Rates across 51 states  —  {n_higher} states > 3000  "
+    f"({100 * n_higher / n_total:.2f}%)"
+)
+ax.legend(loc="upper right", frameon=False)
+save("ex1f-propertyrates-hist.png")
+
 # ---------------- Ex 1g: P(Frost < 80) by uniform-on-interval ----------------
 print("\n[1g] P(Frost < 80) via uniform-on-interval")
 prop_0_60 = 0.20

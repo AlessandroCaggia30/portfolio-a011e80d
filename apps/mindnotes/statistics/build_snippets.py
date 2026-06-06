@@ -514,27 +514,30 @@ ex0["ex1c"] = {"title": "Ex 0 / 1c — Choosing class widths for the Density his
 
 ---
 
-**Answer.** Three histograms:
+**Answer.** The three histograms are reported below:
 ```r
 distr.plot.x(x=Density, plot.type="hist", breaks=6, data=Data_USA)
 distr.plot.x(x=Density, plot.type="hist", breaks=c(0,30,60,100,200,300,1200), data=Data_USA)
 distr.plot.x(x=Density, plot.type="hist", breaks=20, data=Data_USA)
 ```
 
-- **6 classes** — hides the detail in the bulk of the distribution.
-- **20 classes** — too detailed in the right tail (noise).
-- **Custom widths** — best: narrow in the bulk (0–200), broad in the sparse tail (300–1200), with the y-axis in **density**.
+The histogram with **6 classes** does not detail the behaviour of the distribution on the interval including the highest proportion of data; on the other side, the interval with **20 classes** offers a detailed but not particularly useful description of the distribution's right tail. The histogram built with **intervals of different widths** seems suitable: it allows both to describe quite accurately the distribution of the variable between $0$ and $200$, and to simplify the description of the tail using a unique low-density class.
 
 Whenever class widths differ, **density on the y-axis is compulsory**.
 """,
 "images": ["statistics/images/ex1c-density-hist3.png"]}
 
 ex0["ex1d"] = {"title": "Ex 0 / 1d — Build a rate variable for violent crimes",
-"content": """**Question.** You are interested in emphasizing the different levels of violent crimes across states. Would you consider one variable in the database or build a new variable? Which?
+"content": """**Question.** Suppose you would like to study the different levels of violent crimes across states. Would you consider one variable in the database or build a new variable? Which?
 
 ---
 
-**Answer.** Build a **rate per 100 000 population** — raw counts depend on state size and are not comparable.
+**Answer.** No single variable in the database captures *overall violent crime* per state. We need a **preliminary build**: first sum the four violent-crime counts (assault, murder, rape, robbery), then **divide by population** so states are comparable.
+
+- Raw counts depend on state size — a big state can have many crimes simply because many people live there.
+- For **density in histograms**, the variable must also allow fair comparison between states.
+
+To avoid tiny decimals, multiply by **100 000** → rate is *violent crimes per 100 000 inhabitants*:
 
 ```r
 Data_USA$Rate.Violent <- 100000 *
@@ -550,7 +553,7 @@ ex0["ex1e"] = {"title": "Ex 0 / 1e — Histogram of Rate.Violent",
 
 ---
 
-**Answer.** Continuous numerical → **histogram**. Start with many classes (15–20), then optionally use custom widths:
+**Answer.** `Rate.Violent` is **numeric continuous** → use a **histogram**. Start with a relatively large number of classes (15 or 20) to get a first impression, then simplify with a reduced number of classes of **different widths**:
 ```r
 distr.plot.x(x=Rate.Violent, plot.type="hist", breaks=15, data=Data_USA)
 distr.plot.x(x=Rate.Violent, plot.type="hist", breaks=20, data=Data_USA)
@@ -558,7 +561,9 @@ distr.plot.x(x=Rate.Violent, plot.type="hist",
              breaks=c(110,200,250,300,350,400,450,500,550,600,1050),
              data=Data_USA)
 ```
-With unequal widths the y-axis must be **density** — areas (not heights) represent the proportion of states.
+**Distribution:** right-skewed, concentrated between ~200 and ~500, with a thin upper tail reaching ~1000 (a few high-violence states).
+
+**Equal vs unequal widths.** With **equal-width** bins the y-axis can show **counts**. With **unequal widths** the y-axis must show **density** (= count / (n · width)): areas — not heights — represent the proportion of states. Plotting counts with unequal widths is misleading: a wide bin looks tall just because it spans more values.
 """,
 "images": ["statistics/images/ex1e-rateviolent-hist.png"]}
 
@@ -588,18 +593,29 @@ sum(is.higher30)               # [1] 3
 
 **Result: 3 of 51 states ≈ 5.88%**. (Computation is **exact** — discrete count over a known total.)
 """,
-"images": []}
+"images": ["statistics/images/ex1f-propertyrates-hist.png"]}
 
 ex0["ex1g"] = {"title": "Ex 0 / 1g — Approx proportion Frost < 80 (uniform-on-interval)",
 "content": """**Question.** What is the proportion of states with `Frost` < 80?
 
 ---
 
-**Answer.** Frost is in classes → only **approximate**, under uniform-on-interval.
+**Answer.** Since `Frost` is measured in classes, this proportion can only be **approximately** determined, assuming the frequency in each interval is **uniformly distributed** on the interval.
 ```r
 distr.table.x(x=Frost, freq=c("counts","prop","dens","cum"), data=Data_USA)
 ```
-Class $[60,90)$ has proportion 0.16 and width 30; 80 lies $20/30 = 2/3$ of the way through.
+```
+##           Frost Count Prop Cum.Count Cum.Prop
+##         [0,60)    10 0.20        10     0.20
+##        [60,90)     8 0.16        18     0.36
+##       [90,120)     8 0.16        26     0.52
+##      [120,150)    13 0.26        39     0.78
+##      [150,180)     9 0.18        48     0.96
+##      [180,200)     2 0.04        50     1.00
+##          TOTAL    50 1.00
+```
+
+Sum the frequency of $[0,60)$ and the **portion** of $[60,90)$ attributed to $[60,80)$ under uniform-on-interval. Class $[60,90)$ has proportion 0.16 and width 30; 80 lies $20/30 = 2/3$ of the way through, so the attributed share is $(2/3)\\cdot 0.16$.
 
 $$
 P(\\text{Frost} < 80) \\approx 0.20 + 0.16 \\cdot \\frac{2}{3} = 0.3066667.
@@ -610,33 +626,35 @@ $$
 (10 + 8 * 2/3) / 50
 ## [1] 0.3066667
 ```
+
+*Note: rounding may yield slightly different results; at the exam, state the procedure you followed.*
 """,
 "images": []}
 
 ex0["ex1h"] = {"title": "Ex 0 / 1h — Cumulative for Happyness.Level (ordinal)",
-"content": """**Question.** Obtain the frequency distribution of `Happyness.Level`. What % are *quite happy or happiest*? What is the frequency cumulated at *So and so*?
+"content": """**Question.** The variable `Happyness.Level` is a factor and its levels have been properly ordered. Obtain the frequency distribution of `Happyness.Level`. What % of citizens are *happiest or quite happy*? What is the frequency cumulated at *So and so*?
 
 ---
 
-**Answer.**
+**Answer.** Tabulate with `freq="cum"`:
 ```r
 distr.table.x(x=Happyness.Level, freq="cum", data=Data_USA)
 ##  Happyness.Level  Count  Prop   Cum.Count  Cum.Prop
-##  Unhappiest        10    0.20    10         0.20
-##  Quite unhappy     12    0.24    22         0.45
-##  So and so         12    0.24    34         0.69
-##  Quite happy        8    0.16    42         0.86
-##  Happiest           7    0.14    49         1.00
-##  TOTAL             49    1.00
+##  Unhappiest         10   0.20      10        0.20
+##  Quite unhappy      12   0.24      22        0.45
+##  So and so          12   0.24      34        0.69
+##  Quite happy         8   0.16      42        0.86
+##  Happiest            7   0.14      49        1.00
+##  TOTAL              49   1.00
 ```
-% quite happy or happiest:
+The % *happiest or quite happy* is the sum of the two top relative frequencies (equivalently, sum of absolute frequencies / N, ×100):
 ```r
-0.14 + 0.16            # 0.30
+0.14 + 0.16            # 0.3
 (8 + 7) / 49           # 0.3061224
 ```
-Cumulated at *So and so*: **0.69**.
+The proportion cumulated at *So and so* is **0.69** (the value of `Cum.Prop` at that level).
 
-(DC has missing `Happyness.Level`, so denominator = 49 not 51.)
+*[At the exam: don't worry about rounding — use the digits you need but explain your procedure.]*
 """,
 "images": []}
 
@@ -664,7 +682,7 @@ Frequency tables:
 | [8, 12)      | 5  | 0.21 | 3  | 0.12 |
 | **TOTAL**    | 24 | 1.00 | 26 | 1.00 |
 
-Higher-Density states concentrate around moderate murder rates $[4,8)$; lower-Density states are more dispersed and have a larger proportion in the highest bin $[8,12)$. (Use **density**, not counts, when comparing histograms of different sample sizes.)
+Higher-Density (more urbanised) states tend to have **higher murder rates in general** — most mass sits in $[2,4)$ and $[4,8)$ (54% in the middle bin) and none in $[0,2)$. Lower-Density states are more concentrated on the **first intervals** but, interestingly, the **proportion of states in the highest bin $[8,12)$ is larger for lower-Density states** (21% vs 12%). (Use **density**, not counts, when comparing histograms of different sample sizes.)
 """,
 "images": ["statistics/images/ex1i-rate-murders-split.png"]}
 
@@ -715,20 +733,22 @@ $$
 "images": []}
 
 ex0["ex2a2"] = {"title": "Ex 0 / 2a2 — P(50 ≤ fare < 100) by uniform-on-interval",
-"content": """**Question.** Can you assess **exactly** P(fare ∈ [50, 100))? If not, approximate it.
+"content": """**Question.** Can you assess **exactly** the proportion of passengers who paid a fare $\\ge 50$ and $< 100$ (limiting attention to fares $\\le 270$)? If not, can you obtain at least an approximation of the required frequency? Report your results.
 
 """ + EX2_FARE_TABLE + """
 
 ---
 
-**Answer.** Only **approximately**, since 50 lies inside the class $[30, 60)$. Under uniform-on-interval, the share of $[30, 60)$ that lies in $[50, 60)$ is $(60-50)/(60-30) = 1/3$ of the class's proportion.
+**Answer.** Only **approximately**: 50 is a value *within* one of the considered intervals and not an endpoint. We need the frequency of $[60, 100)$ in full, plus the frequency of $[50, 60) \\subset [30, 60)$.
+
+Under the **assumption of uniform distribution** over class $[30, 60)$, the share of that class lying in $[50, 60)$ is $(60-50)/(60-30) = 1/3$ of its frequency (length of full class is 30, length of sub-interval is 10).
 $$
-\\underbrace{(60-30)\\cdot 0.00419 \\cdot \\tfrac{1}{3}}_{\\text{partial } [30,60)} + \\underbrace{(100-60)\\cdot 0.00196}_{\\text{full } [60,100)} = 0.1203.
+\\underbrace{(60-30)\\cdot 0.00419 \\cdot \\tfrac{1}{3}}_{\\text{partial } [50,60)} + \\underbrace{(100-60)\\cdot 0.00196}_{\\text{full } [60,100)} = 0.1203.
 $$
 ```r
 (60-30)*0.00419*(1/3) + (100-60)*0.00196
 ## [1] 0.1203
-# or equivalently
+# or equivalently (density times sub-interval width)
 (60-50)*0.00419 + (100-60)*0.00196
 ## [1] 0.1203
 ```
