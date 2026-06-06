@@ -11820,6 +11820,11 @@ function openStatsSnippet(nodeId) {
 
     titleEl.textContent = node.title || nodeId;
     let html = formatContent(node.content || '');
+    // Collapse %%RBLOCK%%…%%/RBLOCK%% markers (emitted by build_snippets.py
+    // around fenced code) into a single unified R code/console block so the
+    // R command and ## output lines render as one continuous box.
+    html = html.replace(/(?:<br>\s*)?%%RBLOCK%%(?:<br>\s*)?([\s\S]*?)(?:<br>\s*)?%%\/RBLOCK%%(?:<br>\s*)?/g,
+        (m, inner) => '<div class="stats-r-block">' + inner + '</div>');
     if (Array.isArray(node.images) && node.images.length) {
         html += node.images.map(img =>
             '<img src="' + escapeHtml(img) + '" alt="plot">'
