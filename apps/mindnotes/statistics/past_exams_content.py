@@ -206,7 +206,7 @@ past_exams["exam_g1_2024_1b"] = {
 ), "images": []}
 
 past_exams["exam_g1_2024_2a"] = {
-"title": "G1-2024 Ex2 — Read2 vs Math2 correlation = 0.77",
+"title": "G1-2024 Ex3 — Read2 vs Math2 correlation = 0.77",
 "is_exam": True, "topic_hint": "G9",
 "content": _q(
     "Interpret a correlation $r = 0.77$ between PrimaryRead2 and PrimaryMath2.",
@@ -215,7 +215,7 @@ past_exams["exam_g1_2024_2a"] = {
 ), "images": ["statistics/images/exam_g1_2024_read_math.png"]}
 
 past_exams["exam_g1_2024_2b"] = {
-"title": "G1-2024 Ex2b — Heteroscedasticity in the Read2/Math2 scatter",
+"title": "G1-2024 Ex3b — Heteroscedasticity in the Read2/Math2 scatter",
 "is_exam": True, "topic_hint": "G15",
 "content": _q(
     "Identify any violations of regression assumptions from the scatter.",
@@ -230,7 +230,7 @@ past_exams["exam_g1_2025_1a"] = {
 "is_exam": True, "topic_hint": "G6",
 "content": _q(
     "Find the threshold separating the top 5% of subjects by `SleepQuality` from the others.",
-    "Take the 95th percentile of SleepQuality: **9.04** in the sample.",
+    "Take the 95th percentile of SleepQuality: **9.64** in the sample.",
     "quantile(sleep$SleepQuality, probs=0.95)\n# OR\ndistr.summary.x(SleepQuality, stats='p95', data=sleep)"
 ), "images": ["statistics/images/exam_g1_2025_sleepquality.png"]}
 
@@ -450,7 +450,7 @@ past_exams["exam_sep_2024_3a"] = {
 "title": "Sep-2024 Ex3 — Interpret Account_length coefficient in regression",
 "is_exam": True, "topic_hint": "G15",
 "content": _q(
-    "Interpret $\\hat\\beta_1 = 7.84$ for `Account_length`.",
+    "Interpret $\\hat\\beta_2 = 7.84$ for `Account_length` (second slope in the multiple-regression output).",
     "Holding all other variables constant, **a one-year increase in account length is associated with a 7.84-unit increase in Score** on average.",
     "summary(mod)\nconfint(mod)['Account_length',]"
 ), "images": []}

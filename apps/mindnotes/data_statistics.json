@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": 1780741041941,
+  "exportedAt": 1780764046631,
   "data": {
     "topics": [
       {
@@ -2104,7 +2104,7 @@
               {
                 "id": "exam_g1_2025_1a",
                 "title": "G1-2025 Ex1a — SleepQuality 95th percentile",
-                "content": "<span class=\"exam-question-text\">Find the threshold separating the top 5% of subjects by `SleepQuality` from the others.</span>\n\n---\n\n**Answer.** Take the 95th percentile of SleepQuality: **9.04** in the sample.\n\n**R commands:**\n\n%%RBLOCK%%\n`quantile(sleep$SleepQuality, probs=0.95)`\n`# OR`\n`distr.summary.x(SleepQuality, stats='p95', data=sleep)`\n%%/RBLOCK%%\n",
+                "content": "<span class=\"exam-question-text\">Find the threshold separating the top 5% of subjects by `SleepQuality` from the others.</span>\n\n---\n\n**Answer.** Take the 95th percentile of SleepQuality: **9.64** in the sample.\n\n**R commands:**\n\n%%RBLOCK%%\n`quantile(sleep$SleepQuality, probs=0.95)`\n`# OR`\n`distr.summary.x(SleepQuality, stats='p95', data=sleep)`\n%%/RBLOCK%%\n",
                 "flashcard": false,
                 "images": [
                   "statistics/images/exam_g1_2025_sleepquality.png"
@@ -3248,7 +3248,7 @@
               },
               {
                 "id": "exam_g1_2024_2a",
-                "title": "G1-2024 Ex2 — Read2 vs Math2 correlation = 0.77",
+                "title": "G1-2024 Ex3 — Read2 vs Math2 correlation = 0.77",
                 "content": "<span class=\"exam-question-text\">Interpret a correlation $r = 0.77$ between PrimaryRead2 and PrimaryMath2.</span>\n\n---\n\n**Answer.** Strong positive linear relationship: higher reading scores associate with higher math scores. $r^2 = 0.59 \\Rightarrow$ ~59% of variance shared. From the scatter, the cloud follows a roughly straight rising line with moderate scatter.\n\n**R commands:**\n\n%%RBLOCK%%\n`cor(PrimaryRead2, PrimaryMath2)   # 0.77`\n`distr.plot.xy(x=PrimaryRead2, y=PrimaryMath2, plot.type='scatter', fitline=T)`\n%%/RBLOCK%%\n",
                 "flashcard": false,
                 "images": [
@@ -4035,7 +4035,7 @@
               {
                 "id": "5_1a",
                 "title": "Ex 5.1a — Point estimate + SE of mean AmountSpent (DS)",
-                "content": "**Question.** Provide a point estimate and standard error for the mean amount spent in the dataframe `DS`.\n\n---\n\n**Answer.**\n\n%%RBLOCK%%\n`distr.summary.x(AmountSpent, digits=3, data=DS)`\n`xbar <- 1228.437`\n`s2_x <- 940500.9`\n`# or`\n`xbar <- mean(DS$AmountSpent); xbar`\n`s2_x <- var(DS$AmountSpent);  s2_x`\n`se_Xbar <- sqrt(s2_x / 750); se_Xbar`\n%%/RBLOCK%%\n\n\nThe standard error $SE(\\bar X) = \\sigma/\\sqrt{n}$ measures the precision of $\\bar X$ as an estimator of the population mean $\\mu$.\n",
+                "content": "**Question.** Provide a point estimate and standard error for the mean amount spent in the dataframe `DS`.\n\n---\n\n**Answer.**\n\n%%RBLOCK%%\n`distr.summary.x(AmountSpent, digits=3, data=DS)`\n`xbar <- 1228.437`\n`s2_x <- 940900.9`\n`# or`\n`xbar <- mean(DS$AmountSpent); xbar`\n`s2_x <- var(DS$AmountSpent);  s2_x`\n`se_Xbar <- sqrt(s2_x / 750); se_Xbar`\n%%/RBLOCK%%\n\n\nThe standard error $SE(\\bar X) = \\sigma/\\sqrt{n}$ measures the precision of $\\bar X$ as an estimator of the population mean $\\mu$.\n",
                 "flashcard": false,
                 "images": [],
                 "links": [
@@ -4099,7 +4099,7 @@
               {
                 "id": "5_2b",
                 "title": "Ex 5.2b — SE with unknown population variance",
-                "content": "**Question.** Same setting, but $\\sigma^2$ is unknown — estimate it from data.\n\n---\n\n**Answer.**\n\n%%RBLOCK%%\n`SE_Xbar.b`\n`# Unknown variance — estimate from sample`\n`s2_x <- (1/(n-1)) * (sum.x2 - n*xbar^2); s2_x`\n`se_xbar <- sqrt(s2_x/n); se_xbar`\n`se_xbar.bc <- 91.5/sqrt(50)`\n%%/RBLOCK%%\n\n",
+                "content": "**Question.** Same setting, but $\\sigma^2$ is unknown — estimate it from data.\n\n---\n\n**Answer.**\n\n%%RBLOCK%%\n`SE_Xbar.b`\n`# Unknown variance — estimate from sample`\n`s2_x <- (1/(n-1)) * (sum.x2 - n*xbar^2); s2_x`\n`se_xbar <- sqrt(s2_x/n); se_xbar`\n`se_xbar.b <- 91.5/sqrt(50)`\n%%/RBLOCK%%\n\n",
                 "flashcard": false,
                 "images": [],
                 "links": [
@@ -4131,7 +4131,7 @@
               {
                 "id": "5_6b",
                 "title": "Ex 5.6b — Mean spending diff, Sex × Children",
-                "content": "**Question.** Build the CI for the difference in mean `AmountSpent` between two subgroups defined by `Sex × Children`.\n\n---\n\n**Answer.**\n\n%%RBLOCK%%\n`distr.summary.x(x=AmountSpent, by1=Children, by2=Sex, stats=c(\"mean\",\"var\"), data=DS)`\n`n <- 162`\n`xbar_prec <- 1375.99`\n`xbar_post <- xbar_pre`\n`s2_prec <- 1094690.2`\n`xbar_post <- 1450; s2_post <- 1100^2`\n`cor_pre_post <- 0.58`\n`# SE of (Xbar_post - Xbar_pre)`\n`sqrt(s2_prec + s2_post - 2*0.58*sqrt(s2_prec*s2_post)) / sqrt(n)`\n\n`# Alternative direct computation`\n`Amount.Pre <- DS$AmountSpent[DS$Sex==\"Female\" & DS$Children==0]`\n`n <- length(Amount.Pre)`\n`xbar_post <- mean(Amount.Pre)`\n`s2_prec <- var(Amount.Pre)`\n`sqrt(s2_prec + s2_post - 2*0.58*sqrt(s2_prec*s2_post)) / sqrt(n)`\n%%/RBLOCK%%\n\n",
+                "content": "**Question.** Build the CI for the difference in mean `AmountSpent` between two subgroups defined by `Sex × Children`.\n\n---\n\n**Answer.**\n\n%%RBLOCK%%\n`distr.summary.x(x=AmountSpent, by1=Children, by2=Sex, stats=c(\"mean\",\"var\"), data=DS)`\n`n <- 162`\n`xbar_pre <- 1375.99`\n`s2_pre <- 1094690.2`\n`xbar_post <- 1450; s2_post <- 1100^2`\n`cor_pre_post <- 0.58`\n`# SE of (Xbar_post - Xbar_pre)`\n`sqrt(s2_prec + s2_post - 2*0.58*sqrt(s2_prec*s2_post)) / sqrt(n)`\n\n`# Alternative direct computation`\n`Amount.Pre <- DS$AmountSpent[DS$Sex==\"Female\" & DS$Children==0]`\n`n <- length(Amount.Pre)`\n`xbar_post <- mean(Amount.Pre)`\n`s2_prec <- var(Amount.Pre)`\n`sqrt(s2_prec + s2_post - 2*0.58*sqrt(s2_prec*s2_post)) / sqrt(n)`\n%%/RBLOCK%%\n\n",
                 "flashcard": false,
                 "images": [],
                 "links": [
@@ -4867,7 +4867,7 @@
               {
                 "id": "5_3b",
                 "title": "Ex 5.3b — Pooled vs separate SE for proportion comparison",
-                "content": "**Question.** Compute SE under the pooled-proportion null vs separate-variance form.\n\n---\n\n**Answer.**\n\n%%RBLOCK%%\n`# Pooled estimate of the common proportion`\n`p_2022 <- (391+221)/(850+650); p_2022`\n`p_2015 <- 0.45`\n`# SE of phat_2015 - phat_2022 (separate variances)`\n`sqrt(p_2022*(1-p_2022)/150 + p_2015*(1-p_2015)/1000)`\n%%/RBLOCK%%\n\n",
+                "content": "**Question.** Compute SE under the pooled-proportion null vs separate-variance form.\n\n---\n\n**Answer.**\n\n%%RBLOCK%%\n`# Pooled estimate of the common proportion`\n`p_2022 <- (391+221)/(850+650); p_2022`\n`p_2015 <- 0.45`\n`# SE of phat_2015 - phat_2022 (separate variances)`\n`sqrt(p_2022*(1-p_2022)/1500 + p_2015*(1-p_2015)/1000)`\n%%/RBLOCK%%\n\n",
                 "flashcard": false,
                 "images": [],
                 "links": [
@@ -5203,7 +5203,7 @@
               {
                 "id": "5_5b",
                 "title": "Ex 5.5b — Test for proportion change over time (pooled)",
-                "content": "**Question.** Test if the 2022 sample proportion differs from the 2015 value of 0.45.\n\n---\n\n**Answer.**\n\n%%RBLOCK%%\n`p_2022 <- (391+221)/(850+650); p_2022`\n`p_2015 <- 0.45`\n`sqrt(p_2022*(1-p_2022)/150 + p_2015*(1-p_2015)/1000)`\n%%/RBLOCK%%\n\n\nUnder $H_0: p_{2022} = p_{2015}$, compute the z-statistic and compare to standard-normal quantiles.\n",
+                "content": "**Question.** Test if the 2022 sample proportion differs from the 2015 value of 0.45.\n\n---\n\n**Answer.**\n\n%%RBLOCK%%\n`p_2022 <- (391+221)/(850+650); p_2022`\n`p_2015 <- 0.45`\n`sqrt(p_2022*(1-p_2022)/1500 + p_2015*(1-p_2015)/1000)`\n%%/RBLOCK%%\n\n\nUnder $H_0: p_{2022} = p_{2015}$, compute the z-statistic and compare to standard-normal quantiles.\n",
                 "flashcard": false,
                 "images": [],
                 "links": [
@@ -6274,7 +6274,7 @@
               },
               {
                 "id": "exam_g1_2024_2b",
-                "title": "G1-2024 Ex2b — Heteroscedasticity in the Read2/Math2 scatter",
+                "title": "G1-2024 Ex3b — Heteroscedasticity in the Read2/Math2 scatter",
                 "content": "<span class=\"exam-question-text\">Identify any violations of regression assumptions from the scatter.</span>\n\n---\n\n**Answer.** Visible **heteroscedasticity**: dispersion of points around the line increases at higher Read2 scores. Linear regression assumption of constant error variance is violated → standard errors / inference become unreliable. Consider weighted least squares or variance-stabilizing transform.\n\n**R commands:**\n\n%%RBLOCK%%\n`mod <- lm(PrimaryMath2 ~ PrimaryRead2)`\n`plot(mod, which=1)   # Residuals vs fitted`\n%%/RBLOCK%%\n",
                 "flashcard": false,
                 "images": [
@@ -6568,7 +6568,7 @@
               {
                 "id": "exam_sep_2024_3a",
                 "title": "Sep-2024 Ex3 — Interpret Account_length coefficient in regression",
-                "content": "<span class=\"exam-question-text\">Interpret $\\hat\\beta_1 = 7.84$ for `Account_length`.</span>\n\n---\n\n**Answer.** Holding all other variables constant, **a one-year increase in account length is associated with a 7.84-unit increase in Score** on average.\n\n**R commands:**\n\n%%RBLOCK%%\n`summary(mod)`\n`confint(mod)['Account_length',]`\n%%/RBLOCK%%\n",
+                "content": "<span class=\"exam-question-text\">Interpret $\\hat\\beta_2 = 7.84$ for `Account_length` (second slope in the multiple-regression output).</span>\n\n---\n\n**Answer.** Holding all other variables constant, **a one-year increase in account length is associated with a 7.84-unit increase in Score** on average.\n\n**R commands:**\n\n%%RBLOCK%%\n`summary(mod)`\n`confint(mod)['Account_length',]`\n%%/RBLOCK%%\n",
                 "flashcard": false,
                 "images": [],
                 "links": [

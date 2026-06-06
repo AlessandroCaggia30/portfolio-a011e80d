@@ -11,7 +11,7 @@ ex5["5_1a"] = {"title": "Ex 5.1a — Point estimate + SE of mean AmountSpent (DS
 ```r
 distr.summary.x(AmountSpent, digits=3, data=DS)
 xbar <- 1228.437
-s2_x <- 940500.9
+s2_x <- 940900.9
 # or
 xbar <- mean(DS$AmountSpent); xbar
 s2_x <- var(DS$AmountSpent);  s2_x
@@ -83,7 +83,7 @@ SE_Xbar.b
 # Unknown variance — estimate from sample
 s2_x <- (1/(n-1)) * (sum.x2 - n*xbar^2); s2_x
 se_xbar <- sqrt(s2_x/n); se_xbar
-se_xbar.bc <- 91.5/sqrt(50)
+se_xbar.b <- 91.5/sqrt(50)
 ```
 """, "images": []}
 
@@ -112,7 +112,7 @@ ex5["5_3b"] = {"title": "Ex 5.3b — Pooled vs separate SE for proportion compar
 p_2022 <- (391+221)/(850+650); p_2022
 p_2015 <- 0.45
 # SE of phat_2015 - phat_2022 (separate variances)
-sqrt(p_2022*(1-p_2022)/150 + p_2015*(1-p_2015)/1000)
+sqrt(p_2022*(1-p_2022)/1500 + p_2015*(1-p_2015)/1000)
 ```
 """, "images": []}
 
@@ -159,7 +159,7 @@ ex5["5_5b"] = {"title": "Ex 5.5b — Test for proportion change over time (poole
 ```r
 p_2022 <- (391+221)/(850+650); p_2022
 p_2015 <- 0.45
-sqrt(p_2022*(1-p_2022)/150 + p_2015*(1-p_2015)/1000)
+sqrt(p_2022*(1-p_2022)/1500 + p_2015*(1-p_2015)/1000)
 ```
 
 Under $H_0: p_{2022} = p_{2015}$, compute the z-statistic and compare to standard-normal quantiles.
@@ -187,9 +187,8 @@ ex5["5_6b"] = {"title": "Ex 5.6b — Mean spending diff, Sex × Children",
 ```r
 distr.summary.x(x=AmountSpent, by1=Children, by2=Sex, stats=c("mean","var"), data=DS)
 n <- 162
-xbar_prec <- 1375.99
-xbar_post <- xbar_pre
-s2_prec <- 1094690.2
+xbar_pre <- 1375.99
+s2_pre <- 1094690.2
 xbar_post <- 1450; s2_post <- 1100^2
 cor_pre_post <- 0.58
 # SE of (Xbar_post - Xbar_pre)
