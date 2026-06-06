@@ -2590,6 +2590,19 @@ output = {
 with open(OUT, "w", encoding="utf-8") as f:
     json.dump(output, f, ensure_ascii=False, indent=2)
 
+# Post-write sanity: re-read and confirm it parses + has no merge-conflict
+# markers. Catches accidental corruption before the file ships to the website.
+with open(OUT, "r", encoding="utf-8") as f:
+    _raw = f.read()
+import re as _re
+if _re.search(r"^(?:<{7} |={7}$|>{7} )", _raw, _re.M):
+    raise SystemExit(f"build_snippets: {OUT} contains merge-conflict markers — aborting")
+try:
+    _check = json.loads(_raw)
+    assert _check.get("data", {}).get("topics"), "no topics array"
+except Exception as _e:
+    raise SystemExit(f"build_snippets: {OUT} did not round-trip as JSON: {_e}")
+
 print(f"Wrote {OUT}")
 print(f"Total nodes: {total_nodes_count}")
 print(f"Topics: {len(topics_list)}; subtopics (= rows): {sum(len(t['subtopics']) for t in topics_list)}")
