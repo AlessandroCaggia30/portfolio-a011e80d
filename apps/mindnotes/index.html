@@ -4285,12 +4285,30 @@ function redo() {
 // IndexedDB for larger storage (hundreds of MB instead of 5MB)
 let db = null;
 const DB_NAME = 'mindnotes_db';
-const DB_VERSION = 1;
+// IMPORTANT: must be >= any version that ever shipped. Some users have
+// VERSION=2 from an earlier build; opening with a LOWER version throws
+// VersionError and blocks every DB op, including ghPull's write step.
+// Always bump (never lower) when changing the schema.
+const DB_VERSION = 3;
 const STORE_NAME = 'data';
 
 function initDB() {
     return new Promise((resolve, reject) => {
-        const request = indexedDB.open(DB_NAME, DB_VERSION);
+        // First, sniff the current on-disk version. If the browser already has
+        // a HIGHER version than ours (older user, abandoned schema), open at
+        // that version instead so we never trip VersionError on downgrade.
+        const probe = indexedDB.open(DB_NAME);
+        probe.onsuccess = () => {
+            const existing = probe.result.version;
+            try { probe.result.close(); } catch (_) {}
+            const versionToUse = Math.max(DB_VERSION, existing);
+            _openDBAt(versionToUse, resolve, reject);
+        };
+        probe.onerror = () => _openDBAt(DB_VERSION, resolve, reject);
+    });
+}
+function _openDBAt(version, resolve, reject) {
+    const request = indexedDB.open(DB_NAME, version);
 
         request.onerror = () => reject(request.error);
 
