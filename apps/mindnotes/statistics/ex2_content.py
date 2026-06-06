@@ -44,7 +44,7 @@ distr.summary.x(x=Sales, stats="fivenumbers", data=pizzerie)
 These values summarize the distribution of `Sales` both around the center and on the tails, and are used to build the **boxplot**:
 
 ```r
-distr.plot.x(x=Sales, plot.type="boxplot", data=pizzerias)
+distr.plot.x(x=Sales, plot.type="boxplot", data=pizzerie)
 ```
 
 The graph shows that the central data are concentrated in an interval of relatively small width, and that the tails of the distribution are not particularly wide and have approximately the same length (approximately, the same length of the 'whiskers'). Nevertheless, we notice that the right tail is slightly longer and that there are (apparently) **3 outliers** corresponding to extremely high observations of the variable `Sales` (note that if there are more outliers with the same value they would be overlapping in the plot).
@@ -551,8 +551,8 @@ distr.summary.x(Age, stats="fivenumber", digits=2, data=customer_habits)
 
 The thresholds to identify lower and upper outliers are:
 
-- $\\text{Limite outlier superiore} = Q_3 + 1.5\\cdot (Q_3 - Q_1) = 54 + 1.5\\cdot 14 = 75$
-- $\\text{Limite outlier inferiore} = Q_1 - 1.5\\cdot (Q_3 - Q_1) = 40 - 1.5\\cdot 14 = 19$
+- **Upper outlier limit** $= Q_3 + 1.5\\cdot (Q_3 - Q_1) = 54 + 1.5\\cdot 14 = 75$
+- **Lower outlier limit** $= Q_1 - 1.5\\cdot (Q_3 - Q_1) = 40 - 1.5\\cdot 14 = 19$
 
 The percentage of outliers in the sample is:
 

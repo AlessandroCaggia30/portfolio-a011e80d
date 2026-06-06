@@ -115,7 +115,7 @@ The scatter shows a **roughly linear positive relationship**: higher Price tends
 **Covariance:**
 
 ```r
-cov(pizzerias$Price, pizzerias$Sales)cu
+cov(pizzerias$Price, pizzerias$Sales)
 ## [1] 9419.185
 ```
 
@@ -276,7 +276,7 @@ For DS, the proportions of `Low/Medium/High` history are roughly comparable acro
 
 ex3["3_2h"] = {
 "title": "Ex 3.2h — Independence between OwnHome and History",
-"content": """**Question.** Given the age distribution of customers in the previous point, would you expect the average age to be higher or lower than the median age? Why?
+"content": """**Question.** Are `OwnHome` and `History` independent? Use the row-conditional distribution to decide.
 
 ---
 
@@ -856,7 +856,7 @@ distr.summary.x(Company$Prod, stats=c("median","mode"))
 ## 668 0   ML    ML       1     0.3054
 ```
 
-The median is M and the mode is ML; nonetheless the more suitable measure is the median.
+The median is ML and the mode is ML; nonetheless the more suitable measure is the median.
 """,
 "images": [],
 }

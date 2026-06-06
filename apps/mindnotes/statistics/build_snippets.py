@@ -1075,8 +1075,8 @@ str(customer_habits)
 ##  $ Sex              : chr
 ```
 The dataset has **15 variables in total** (index is an identifier — not a statistical variable, so **14 statistical variables**):
-- **Qualitative (categorical):** Date, Year, Month, Month_ord, Sex, Country, Product_Category, Sub_Category (8 variables).
-- **Quantitative:** Age, Quantity, Unit_Cost, Unit_Price, Cost, Revenue (6 variables) — all continuous except Age and Quantity, which are discrete.
+- **Qualitative (categorical):** Date, Month, Month_ord, Sex, Country, Product_Category, Sub_Category (7 variables).
+- **Quantitative:** Year, Age, Quantity, Unit_Cost, Unit_Price, Cost, Revenue (7 variables) — Year/Age/Quantity discrete, the rest continuous.
 """,
 "images": []}
 
