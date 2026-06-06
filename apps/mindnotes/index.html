@@ -4521,6 +4521,16 @@ async function loadData() {
         State.data = (dataKey === 'mindnotes_advmath' || dataKey === 'mindnotes2')
             ? createDefaultData()
             : { topics: [], trash: [] };
+        // If IDB load failed, our locally-cached "last SHA" is meaningless —
+        // clear it so the next pull will actually re-fetch remote content
+        // instead of seeing matching SHAs and skipping ("remote unchanged"
+        // with empty data is the exact symptom that caused 'pull failed').
+        try {
+            if (typeof _ghShas === 'object' && _ghShas) {
+                delete _ghShas[dataKey];
+                if (typeof _ghPersistShas === 'function') _ghPersistShas();
+            }
+        } catch (_) {}
     }
 
     // Migrate old string links to {target, type} objects
