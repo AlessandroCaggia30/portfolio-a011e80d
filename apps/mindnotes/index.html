@@ -9467,12 +9467,20 @@ async function ghPullAll() {
     const results = await Promise.all(changed.map(async ({ s, sha }) => {
         try {
             const remote = await ghFetchFile(s.repoPath);
-            if (!remote) throw new Error('missing');
-            const parsed = JSON.parse(remote.content);
+            if (!remote) throw new Error('remote file missing');
+            // Detect unresolved git merge-conflict markers before JSON.parse —
+            // produces a much clearer error than "Unexpected token <".
+            if (/^<{7} |^={7}$|^>{7} /m.test(remote.content)) {
+                throw new Error('remote file has unresolved merge-conflict markers — fix the JSON on origin/main and re-push');
+            }
+            let parsed;
+            try { parsed = JSON.parse(remote.content); }
+            catch (pe) { throw new Error('invalid JSON: ' + pe.message); }
             const incoming = (parsed.data && !parsed.topics) ? parsed.data : parsed;
-            if (!incoming.topics || !Array.isArray(incoming.topics)) throw new Error('no topics');
+            if (!incoming.topics || !Array.isArray(incoming.topics)) throw new Error('no topics array');
             if (!incoming.trash) incoming.trash = [];
-            await _ghWriteToIDB(s.dataKey, incoming);
+            try { await _ghWriteToIDB(s.dataKey, incoming); }
+            catch (we) { throw new Error('IndexedDB write failed (quota?): ' + (we && we.message || we)); }
             _ghShas[s.dataKey] = remote.sha;
             _ghLastPull[s.dataKey] = new Date().toISOString();
             if (State.currentSubject && State.currentSubject.dataKey === s.dataKey) {
@@ -9481,24 +9489,27 @@ async function ghPullAll() {
                 renderSidebar();
                 updateFlashcardStats();
             }
-            return { ok: true };
+            return { ok: true, name: s.name };
         } catch (e) {
-            console.error('pullAll failed for', s.name, e);
-            return { ok: false };
+            console.error('[gh] pullAll failed for', s.name, '—', e && e.message || e);
+            return { ok: false, name: s.name, error: (e && e.message) || String(e) };
         }
     }));
     _ghPersistShas(); _ghPersistPullStamps();
     const ok = results.filter(r => r.ok).length;
-    const err = results.length - ok;
+    const failures = results.filter(r => !r.ok);
+    const err = failures.length;
     const dt = Math.round(performance.now() - t0);
-    _ghLastError = err ? `${err} subject(s) failed` : null;
+    // Build a per-subject failure summary so users see WHAT failed, not just a count.
+    const failSummary = failures.map(f => `${f.name}: ${f.error}`).join(' | ');
+    _ghLastError = err ? failSummary : null;
     const parts = [];
     if (ok) parts.push(`pulled ${ok}`);
     if (skipped) parts.push(`${skipped} unchanged`);
     if (err) parts.push(`${err} failed`);
     const msg = (parts.join(', ') || 'no work') + ` (${dt}ms)`;
-    _ghSetState(msg);
-    showToast(msg);
+    _ghSetState(err ? `${msg} — ${failSummary}` : msg);
+    showToast(err ? `${msg}\n${failSummary}` : msg);
     _ghUpdateStatusUI();
     _ghPullInFlight = false;
     updateGhStatusDot();
