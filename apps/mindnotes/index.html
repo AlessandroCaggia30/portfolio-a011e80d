@@ -3138,6 +3138,39 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
     white-space: pre-wrap;
     word-break: break-all;
 }
+/* Unified R command/output block: <div class="stats-r-block"> wraps a
+   contiguous sequence of <code> lines emitted from one fenced block.
+   Inside it, each <code> renders as a flat console line — no pills,
+   no gaps, one continuous monospaced box. */
+.stats-snippet-modal-inner .stats-r-block {
+    background: #1a1f2e;
+    border: 1px solid #2a3142;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 12px 0;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, monospace;
+    font-size: 12.5px;
+    line-height: 1.55;
+}
+.stats-snippet-modal-inner .stats-r-block br { display: none; }
+.stats-snippet-modal-inner .stats-r-block code {
+    display: block;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 0;
+    color: #e6e8f0 !important;
+    font-size: inherit;
+    font-weight: 500;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+.stats-snippet-modal-inner .stats-r-block code[data-r-output="1"] {
+    color: #8a8e9f !important;     /* dim gray for R output rows */
+    font-weight: 400;
+}
 
 /* Tables inside modal */
 .stats-snippet-modal-inner table {
