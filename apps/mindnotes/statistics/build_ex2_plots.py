@@ -74,6 +74,14 @@ ax.boxplot(ch["Age"], vert=True, patch_artist=True,
 ax.set_ylabel("Age"); ax.set_title("Boxplot: customer_habits$Age")
 save("ex2_5a-age-boxplot.png")
 
+# ---- 2.5f histogram of Age with breaks=20 ----
+print("\n[2.5f] Age histogram with breaks=20")
+fig, ax = plt.subplots(figsize=(6, 4))
+ax.hist(ch["Age"], bins=20, density=True, color="#5fa8d3", edgecolor="black")
+ax.set_xlabel("Age"); ax.set_ylabel("Density")
+ax.set_title("Histogram: Age")
+save("ex2_5f-age-hist.png")
+
 # ---- 2.5g histogram of Age with 5-num breaks ----
 print("\n[2.5g] Age histogram with 5-num breaks")
 breaks = [16, 40, 46, 54, 96]

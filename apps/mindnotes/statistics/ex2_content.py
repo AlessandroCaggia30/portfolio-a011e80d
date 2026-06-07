@@ -83,7 +83,7 @@ max(pizzerie$Sales[pizzerie$Sales < 45912.62])
 ## [1] 42987
 ```
 
-Therefore, the upper whisker extends from the third quartile of $42\\,987$, since no data are observed between $42\\,987$ and $45\\,912.62$. The extreme values highlighted in the plot are the values of `Sales` higher than $45\\,912.62$; since these **are a few cases**, we can list them:
+Therefore, the upper whisker extends from the third quartile to $42\\,987$, since no data are observed between $42\\,987$ and $45\\,912.62$. The extreme values highlighted in the plot are the values of `Sales` higher than $45\\,912.62$; since these **are a few cases**, we can list them:
 
 ```r
 > pizzerie$Sales[pizzerie$Sales > 45912.62]
@@ -118,7 +118,7 @@ distr.summary.x(x=Sales, stats="p90", data=pizzerie)
 ## 100   0  35773.6
 ```
 
-Thus, **10% of pizzerias in the sample have a higher revenue than $35\\,774$** (or, alternatively stated, are below this value 90% of the time). This information helps better understand the characteristics of the right tail of the distribution, as noted in the previous points, making the distribution skewed to the right.
+Thus, **10% of pizzerias in the sample have a revenue higher than $35\\,774$**, whereas the third quartile equals $28\\,975$. This information helps to better understand the characteristics of the right tail of the distribution, which, as noted in the previous points, makes the distribution skewed to the right.
 """,
 "images": [],
 }
@@ -140,7 +140,6 @@ distr.summary.x(x=Price, data=pizzerie, stats="dispersion")
 - The **range** or **range of variation**, the simplest measure of dispersion, is the difference between the maximum and the minimum observed values. It indicates the width of the interval including all the observed data.
 - The **interquartile range** ($IQR$) is the difference between the third and first quartile and represents the width of the interval containing the 50% central observations. As for the range, this index is calculated from position measures.
 - **Variance** and **standard deviation** quantify the dispersion of data with respect to a specific measure of central tendency, namely the mean, and are calculated based on the distances (deviations) of the data from it. The **variance** is the 'mean' of the squared deviations of data from the mean (more precisely, the sum of the squared deviations from the mean divided by the number of cases minus 1); the **standard deviation** is the square root of the variance and can be regarded as the 'average distance' of the data from the mean. In the case of the variable `Price`, the variance is $2.17$ EUR² and the standard deviation is $1.47$ EUR (note the difference between the unit of measurements).
-- The **coefficient of variation** $cv = sd/\\bar x$ is unit-free and useful for comparison.
 """,
 "images": [],
 }
@@ -389,17 +388,25 @@ ex2["2_3a"] = {
 
 ---
 
-**Answer.** The means and variances of the amounts spent by the customers of two competitors' sample statistics, observe that:
+**Answer.** To compare the mean and the variance of the amount spent by the customers of the two competitors, we first obtain the relevant sample statistics by applying `distr.summary.x` to the variable `AmountSpent`:
 
 ```r
-distr.summary.x(AmountSpent,stats=c("mean", "dispersion"),data=DS)
-##  n n.a range IQrange   sd      var      cv
-## 750  0  5840 1262.75  970.508409  940900.9  0.79
-##  n n.a mean
-## 750  0  1228.44
+distr.summary.x(AmountSpent, stats=c("mean", "dispersion"), data=DS)
+##  n n.a range IQrange    sd       var       cv
+## 750  0  5840  1262.75  970.508   940900.9  0.79
+##  n n.a   mean
+## 750  0   1228.44
 ```
 
-The average amount spent by the customers in `DS` is therefore **$1\\,228.44$ USD**, slightly higher than the average amount spent by the customers of the competitor company, that is **$1\\,100$ USD** ($682\\,000/620$). The [sample] variances of the amount spent by customers in the two different companies are respectively $940\\,900.9$ USD² for `DS` (point b) and $921\\,486$ USD² for the competitor. One ought to account for the differences in the means, the comparison should be based on the **coefficient of variation**. The coefficient of variation for `DS` is $0.79$. For the competitor it is $\\sqrt{921\\,486}/1\\,100 = 0.8727204$, which is higher than that observed for `DS`. The coefficient of variation indicates the relative size of the standard deviation in relation to the mean. Thus, the amount spent by the customers' sample of the competitor company is **more variable**.
+The average amount spent by the customers in `DS` is therefore **$1\\,228.44$ USD**, slightly higher than the average amount spent by the customers of the competitor company, **$1\\,100$ USD** ($682\\,000/620$). The [sample] variances of the amount spent by the customers of the two companies are respectively **$940\\,900.9$ USD² for `DS`** and **$921\\,486$ USD² for the competitor**. In **absolute terms**, therefore, the customers in `DS` show a slightly more dispersed amount spent and higher fluctuations of the amount around the mean.
+
+To make the two phenomena comparable, however, one ought to account for the difference in the means: the comparison should then be based on the **coefficient of variation**. For `DS` the coefficient of variation is $0.79$; for the competitor it is
+
+$$
+cv_{\\text{comp}} \\;=\\; \\frac{\\sqrt{921\\,486}}{1\\,100} \\;=\\; 0.8727204,
+$$
+
+which is higher than the one observed for `DS`. The coefficient of variation indicates the relative size of the standard deviation with respect to the mean. Thus, in **relative terms** the amount spent by the customers of the **competitor company is more variable**.
 """,
 "images": [],
 }
@@ -430,6 +437,8 @@ The presence of upper outliers could be easily detected by looking at the boxplo
 ```r
 distr.plot.x(AmountSpent, plot.type = "boxplot", data=DS)
 ```
+
+It is immediately evident that there are outliers (as the right whisker extends from the third quartile to the highest value below $Q_3 + 1.5(Q_3 - Q_1)$). However, it is **not** possible from the plot to identify exactly the limit of the right whisker nor to count the number of outliers correctly (the points reported could be related to several observations in the case of repeated data).
 """,
 "images": ["statistics/images/ex2_3bc-amountspent-box-hist.png"],
 }
@@ -691,7 +700,7 @@ Thus, the outliers represent **less than 1% of the dataset**, or, to be precise,
 
 ex2["2_5f"] = {
 "title": "Ex 2.5f — Mean vs median of Age and right-skew confirmation",
-"content": """**Question.** Compute the mean age and compare with the median. Confirm the skewness of the distribution.
+"content": """**Question.** A widespread belief among sales managers is that the mean age of customers is between 40 and 45. Based on the graph obtained in point a), do you consider this belief to be reasonable? Determine exactly the mean age of the customers.
 
 ---
 
@@ -709,12 +718,12 @@ The average age is **47.1 years**, only slightly higher than the upper endpoint 
 distr.plot.x(Age, plot.type="histogram", breaks=20, data=customer_habits)
 ```
 """,
-"images": [],
+"images": ["statistics/images/ex2_5f-age-hist.png"],
 }
 
 ex2["2_5g"] = {
 "title": "Ex 2.5g — Histogram with the 5-number summary as breakpoints",
-"content": """**Question.** Build a histogram of `Age` using the 5-number summary as breakpoints. Interpret the densities.
+"content": """**Question.** Consider the age ranges defined by the five-number summary: what is the interval with the highest concentration of customers?
 
 ---
 
@@ -813,14 +822,14 @@ ex2["2_6b"] = {
 
 ---
 
-**Answer.** The number of transactions of products sold below cost, we consider the number of elements of a logical vector indicating whether the condition `Unit_Cost > Unit_Price` is satisfied. The mean of the vector by multiplying the mean of the vector by 100:
+**Answer.** To determine the number of transactions on products sold below cost, we consider the number of elements of a logical vector indicating whether the condition `Unit_Cost > Unit_Price` is satisfied. The corresponding percentage on the total is then obtained by multiplying the mean of the vector by 100:
 
 ```r
 100*mean(customer_habits$Unit_Cost > customer_habits$Unit_Price)
 ## [1] 14.05954
 ```
 
-That is, the sum of the elements of a logical vector indicating whether the condition is satisfied (gives the number of products sold below cost) is divided by the total number of products. To obtain the percentage of `Unit_Price < Unit_Cost`, the proportion must be determined:
+That is, in about 14.06% of the transactions the product was sold below cost. To obtain the difference between sale and purchase cost exceeded in only the 5% of the transactions, the 95-th percentile of the distribution of `Unit_Price - Unit_Cost` must be determined:
 
 ```r
 diff.price.cost <- customer_habits$Unit_Price - customer_habits$Unit_Cost
@@ -856,7 +865,7 @@ distr.summary.x(customer_habits$Revenue, stats=c("mean", "dispersion"))
 ## 34866 0 909.72
 ```
 
-As expected, the variable `Revenue` has a higher mean than `Unit_Price` and, despite a higher variance (and standard deviation), its coefficient of variation is not particularly higher than that of `Unit_Price`, which is 0.79. This indicates that in *relative* terms, the amount spent by the company's customers is more variable.
+As expected, the variable `Revenue` has a higher mean than `Unit_Price` and, despite a higher variance (and standard deviation), its coefficient of variation is not particularly higher than that of `Unit_Price`.
 """,
 "images": [],
 }
@@ -947,7 +956,7 @@ ex2["2_7d"] = {
 
 ---
 
-**Answer.** From the five-number summary statistics, it is possible to determine the range of variation and the interquartile range, which are respectively $R = 24 - 1 = 23$ and $IQR = Q_3 - Q_1 = 14 - 1 = 13$. Observe that the range is high in relative terms: some clients visited the shop only once, whereas other almost twice a month. Similar considerations hold for the interquartile range, assessing the width of the interval including the 50% of the central data. Within this group there are clients who visited the shop only 3 times a year and clients who visited the shop 14 times. About one third of the average number of visits was needed; this group is quite heterogeneous too, particularly if one considers than the interviewed clients visited the shop a maximum of 24 times. Note actually that the interval for the first three (lower) quartiles covers about half of the entire range $(IQR/R = 11/23 = 0.48)$. Thus, also central data and not only the tails (the whiskers in the boxplot) are quite heterogeneous.
+**Answer.** From the five-number summary statistics, it is possible to determine the range of variation and the interquartile range, which are respectively $R = 24 - 1 = 23$ and $IQR = Q_3 - Q_1 = 14 - 3 = 11$. Observe that the range is high in relative terms: some clients visited the shop only once, whereas other almost twice a month. Similar considerations hold for the interquartile range, assessing the width of the interval including the 50% of the central data. Within this group there are clients who visited the shop only 3 times a year and clients who visited the shop 14 times. About one third of the average number of visits was needed; this group is quite heterogeneous too, particularly if one considers than the interviewed clients visited the shop a maximum of 24 times. Note actually that the interval for the first three (lower) quartiles covers about half of the entire range $(IQR/R = 11/23 = 0.48)$. Thus, also central data and not only the tails (the whiskers in the boxplot) are quite heterogeneous.
 """,
 "images": [],
 }
@@ -990,7 +999,7 @@ $$
 |----------:|--:|--:|--:|--:|--:|--:|--:|---:|---:|---:|---:|---:|---:|---:|
 | Prop $f_k$ | 0.088 | 0.124 | 0.063 | 0.052 | 0.042 | 0.027 | 0.054 | 0.104 | 0.140 | 0.059 | 0.051 | 0.047 | 0.055 | 0.094 |
 
-Therefore, the sample mean is approximately equal to $\\sum_k f_k\\cdot x_k = 11.018$, and the sample variance is approximately $\\sum_k f_k\\cdot x_k^2 - \\bar x^2 = 49.26316$, i.e. $7.018$.
+Therefore, the sample mean is approximately equal to $\\sum_k f_k\\cdot x_k = 10.106$, and the sample variance is approximately $\\sum_k f_k\\cdot x_k^2 - \\bar x^2 = 49.26316$, so the standard deviation is $\\sigma \\approx 7.018$.
 
 ```r
 x  <- c(1,2,3,4,6,8,9,10,12,14,15,16,20,24)
@@ -1007,7 +1016,7 @@ cv
 ## [1] 69.4515%
 ```
 
-Differences with the computed from the table is due to rounding. The coefficient of variation is approximately 65%. This indicates that the data are very dispersed (cv > 30%): the standard deviation is in fact between 60% and 70% of the average number of visits. This information is consistent with the heterogeneity of the data revealed by the box plot, with the heterogeneity referring to the tails (the whiskers) and the most/least regular customers (lower and upper part of the box) lying between 1 and 3 visits.
+Small differences with the values computed from the table are due to rounding. The coefficient of variation is approximately 69.45%. This indicates that the data are very dispersed (cv > 30%): the standard deviation is in fact about 70% of the average number of visits. This information is consistent with the heterogeneity of the data revealed by the box plot, with the heterogeneity referring to the tails (the whiskers) and the most/least regular customers (lower and upper part of the box) lying between 1 and 3 visits.
 """,
 "images": [],
 }
