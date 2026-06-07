@@ -172,11 +172,7 @@ SE.diff   <- sqrt( phat_GER*(1-phat_GER)/820 +
 ME <- qnorm(0.995) * SE.diff
 c(diff.prop - ME, diff.prop + ME)
 ```
-""", "images": [
-    "statistics/images/ex6/questions/ex6_3c_question.png",
-    "statistics/images/ex6/answers/ex6_3c_ai.png",
-    "statistics/images/ex6/answers/ex6_3c_answer.png",
-]}
+""", "images": []}
 
 ex6["6_3d"] = {"title": "Ex 6.3d — 99% CI for AmountSpent: Married vs Single (Close, 0 children)",
 "content": """**Question.** Build a 99% CI for the difference in mean `AmountSpent` between Married and Single customers, restricted to the sub-population with `Location == "Close"` and `Children == 0`.
@@ -288,8 +284,6 @@ ex6["6_6d"] = {"title": "Ex 6.6d — Sample size for ME $\\le 0.04$ at 95% confi
 ex6["6_6e"] = {"title": "Ex 6.6e — 99% CI for difference of two proportions",
 "content": """**Question.**
 
-![Ex 6.6e question](statistics/images/ex6/questions/ex6_6e_q.png)
-
 Build a 99% CI for $\\hat p_A - \\hat p_B$ with $\\hat p_A=0.4, \\hat p_B=0.36, n_A=100, n_B=120$.
 
 ---
@@ -315,10 +309,7 @@ ME <- qnorm(0.995) * se.diff             # ~ 0.1693
 c(p_A - p_B - ME, p_A - p_B + ME)        # ~ [-0.129, 0.209]
 ```
 
-**Reference answer.**
-
-![Ex 6.6e answer](statistics/images/ex6/answers/ex6_6e_a.png)
-""", "images": ["statistics/images/ex6/questions/ex6_6e_q.png", "statistics/images/ex6/answers/ex6_6e_a.png"]}
+""", "images": []}
 
 ex6["6_7a"] = {"title": "Ex 6.7a — CI for proportion of DS platform games (vgsales)",
 "content": """**Question.** Using the `vgsales` dataset, build a 90% confidence interval for the proportion $p_{DS}$ of video games released on the `DS` platform. Then find the largest confidence level at which the lower bound stays above $16\\%$.

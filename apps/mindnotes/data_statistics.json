@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": 1780824802835,
+  "exportedAt": 1780824883799,
   "data": {
     "topics": [
       {
@@ -4565,18 +4565,14 @@
                 "title": "Ex 6.3c — 99% CI for diff in Employment proportions (GER vs ITA)",
                 "content": "**Question.** Compare the proportions of `Employment == \"Employed, full-time\"` between German and Italian developers and build a 99% CI for the difference (`Developers_ITA`).\n\n---\n\n**Answer.** Two **independent** samples ($n_{ITA}=802$, $n_{GER}=820$). Use\n$$(\\hat p_{GER}-\\hat p_{ITA}) \\pm z_{1-\\alpha/2}\\sqrt{\\tfrac{\\hat p_{GER}(1-\\hat p_{GER})}{n_{GER}} + \\tfrac{\\hat p_{ITA}(1-\\hat p_{ITA})}{n_{ITA}}}.$$\n\n\n%%RBLOCK%%\n`distr.table.x(Developers_ITA$Employment, f.digits=3)`\n`phat_GER  <- 1 - 0.903                  # full-time share (GER)`\n`phat_ITA  <- 0.15                       # full-time share (ITA)`\n`diff.prop <- phat_GER - phat_ITA`\n`SE.diff   <- sqrt( phat_GER*(1-phat_GER)/820 +`\n`                   phat_ITA*(1-phat_ITA)/802 )`\n`ME <- qnorm(0.995) * SE.diff`\n`c(diff.prop - ME, diff.prop + ME)`\n%%/RBLOCK%%\n\n",
                 "flashcard": false,
-                "images": [
-                  "statistics/images/ex6/questions/ex6_3c_question.png",
-                  "statistics/images/ex6/answers/ex6_3c_ai.png",
-                  "statistics/images/ex6/answers/ex6_3c_answer.png"
-                ],
+                "images": [],
                 "links": [
                   "th_g13a"
                 ],
                 "x": 37800,
                 "y": 1400,
                 "width": 600,
-                "height": 540,
+                "height": 360,
                 "color": "navy",
                 "column": 48
               },
@@ -4590,7 +4586,7 @@
                   "th_g13a"
                 ],
                 "x": 37800,
-                "y": 1980,
+                "y": 1800,
                 "width": 600,
                 "height": 360,
                 "color": "navy",
@@ -4679,19 +4675,16 @@
               {
                 "id": "6_6e",
                 "title": "Ex 6.6e — 99% CI for difference of two proportions",
-                "content": "**Question.**\n\n![Ex 6.6e question](statistics/images/ex6/questions/ex6_6e_q.png)\n\nBuild a 99% CI for $\\hat p_A - \\hat p_B$ with $\\hat p_A=0.4, \\hat p_B=0.36, n_A=100, n_B=120$.\n\n---\n\n**AI walkthrough.** Two independent samples $\\Rightarrow$ the Wald CI for the difference of proportions is\n$$(\\hat p_A - \\hat p_B) \\;\\pm\\; z_{1-\\alpha/2}\\,\\sqrt{\\tfrac{\\hat p_A(1-\\hat p_A)}{n_A} + \\tfrac{\\hat p_B(1-\\hat p_B)}{n_B}}.$$\nFor a CI we **never pool** the variances (pooling is only for the $H_0:p_A=p_B$ test). With $\\alpha=0.01$, $z_{0.005} = 2.576$.\n\nStep-by-step:\n- Point estimate: $\\hat p_A - \\hat p_B = 0.40 - 0.36 = 0.04$.\n- Unpooled SE: $\\sqrt{\\tfrac{0.4\\cdot 0.6}{100} + \\tfrac{0.36\\cdot 0.64}{120}} = \\sqrt{0.0024 + 0.00192} = \\sqrt{0.00432} \\approx 0.0657$.\n- Margin: $2.576 \\times 0.0657 \\approx 0.1693$.\n- CI: $0.04 \\pm 0.1693 = [-0.129,\\,0.209]$.\n\nThe interval **contains 0**, so at the 1% level there is no evidence that $p_A$ and $p_B$ differ — the 4-pp gap is well within sampling noise for these sample sizes.\n\n\n%%RBLOCK%%\n`p_A <- 0.4; p_B <- 0.36`\n`p_A - p_B                                # point estimate = 0.04`\n`se.diff <- sqrt(p_A*(1-p_A)/100 + p_B*(1-p_B)/120)`\n`se.diff                                  # ~ 0.0657`\n`ME <- qnorm(0.995) * se.diff             # ~ 0.1693`\n`c(p_A - p_B - ME, p_A - p_B + ME)        # ~ [-0.129, 0.209]`\n%%/RBLOCK%%\n\n\n**Reference answer.**\n\n![Ex 6.6e answer](statistics/images/ex6/answers/ex6_6e_a.png)\n",
+                "content": "**Question.**\n\nBuild a 99% CI for $\\hat p_A - \\hat p_B$ with $\\hat p_A=0.4, \\hat p_B=0.36, n_A=100, n_B=120$.\n\n---\n\n**AI walkthrough.** Two independent samples $\\Rightarrow$ the Wald CI for the difference of proportions is\n$$(\\hat p_A - \\hat p_B) \\;\\pm\\; z_{1-\\alpha/2}\\,\\sqrt{\\tfrac{\\hat p_A(1-\\hat p_A)}{n_A} + \\tfrac{\\hat p_B(1-\\hat p_B)}{n_B}}.$$\nFor a CI we **never pool** the variances (pooling is only for the $H_0:p_A=p_B$ test). With $\\alpha=0.01$, $z_{0.005} = 2.576$.\n\nStep-by-step:\n- Point estimate: $\\hat p_A - \\hat p_B = 0.40 - 0.36 = 0.04$.\n- Unpooled SE: $\\sqrt{\\tfrac{0.4\\cdot 0.6}{100} + \\tfrac{0.36\\cdot 0.64}{120}} = \\sqrt{0.0024 + 0.00192} = \\sqrt{0.00432} \\approx 0.0657$.\n- Margin: $2.576 \\times 0.0657 \\approx 0.1693$.\n- CI: $0.04 \\pm 0.1693 = [-0.129,\\,0.209]$.\n\nThe interval **contains 0**, so at the 1% level there is no evidence that $p_A$ and $p_B$ differ — the 4-pp gap is well within sampling noise for these sample sizes.\n\n\n%%RBLOCK%%\n`p_A <- 0.4; p_B <- 0.36`\n`p_A - p_B                                # point estimate = 0.04`\n`se.diff <- sqrt(p_A*(1-p_A)/100 + p_B*(1-p_B)/120)`\n`se.diff                                  # ~ 0.0657`\n`ME <- qnorm(0.995) * se.diff             # ~ 0.1693`\n`c(p_A - p_B - ME, p_A - p_B + ME)        # ~ [-0.129, 0.209]`\n%%/RBLOCK%%\n\n\n",
                 "flashcard": false,
-                "images": [
-                  "statistics/images/ex6/questions/ex6_6e_q.png",
-                  "statistics/images/ex6/answers/ex6_6e_a.png"
-                ],
+                "images": [],
                 "links": [
                   "th_g13a"
                 ],
                 "x": 39400,
                 "y": 1800,
                 "width": 600,
-                "height": 540,
+                "height": 360,
                 "color": "navy",
                 "column": 50
               },
