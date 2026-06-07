@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": 1780872297465,
+  "exportedAt": 1780872642791,
   "data": {
     "topics": [
       {
@@ -4923,16 +4923,20 @@
               {
                 "id": "6_6c",
                 "title": "Ex 6.6c — Lower confidence level (90% two-sided, $z_{0.05}$)",
-                "content": "**Question.** Re-do the proportion CI (with $\\hat p = 0.40$, $n = 100$) but using $z = q_{0.95} = 1.645$ instead of $z_{0.975} = 1.96$ — i.e. a 90% two-sided CI (or equivalently, the multiplier of a one-sided 95% bound). Compare the width to the 95% CI of part (a).\n\n---\n\n**AI walkthrough.** The Wald CI structure is unchanged,\n$$\\hat p \\;\\pm\\; z_{1-\\alpha/2}\\,\\sqrt{\\tfrac{\\hat p(1-\\hat p)}{n}},$$\nonly the **confidence level** moves from $1-\\alpha = 0.95$ down to $0.90$, so the critical value drops from $z_{0.975}=1.96$ to $z_{0.95}=1.645$. The SE is identical to part (a) because $\\hat p$ and $n$ are unchanged.\n\nStep-by-step with $\\hat p = 0.40$, $n = 100$:\n- SE: $\\sqrt{\\tfrac{0.4\\cdot 0.6}{100}} = \\sqrt{2.4\\times 10^{-3}} \\approx 0.04899$.\n- ME$_{90\\%}$: $1.645 \\times 0.04899 \\approx 0.0806$.\n- CI: $0.40 \\pm 0.0806 = [0.319,\\,0.481]$ (width $\\approx 0.161$).\n\n**Comparison with part (a).** Same point estimate, same SE — only the multiplier shrinks. The width ratio is\n$$\\tfrac{\\text{ME}_{90\\%}}{\\text{ME}_{95\\%}} \\;=\\; \\tfrac{1.645}{1.96} \\;\\approx\\; 0.839,$$\nso the 90% CI is about $16\\%$ narrower than the 95% CI ($0.192 \\to 0.161$). The price is a higher *miss rate*: only 90% of such intervals cover the true $p$ in repeated sampling, vs 95% before. **Equivalence with a one-sided 95% bound:** because $z_{0.95}$ is the $5\\%$-tail quantile, $[\\,0.40 - 1.645\\cdot\\text{SE},\\,+\\infty)$ is a one-sided 95% lower confidence bound for $p$ — the lower endpoint of the two-sided 90% CI doubles as the floor of a 95% one-sided statement.\n\n**Answer.** 90% CI for $p$: $[0.319,\\,0.481]$. Shorter than the 95% CI of (a) by the factor $1.645/1.96$ ($\\approx 16\\%$ narrower), at the cost of 5 pp less confidence.\n\n\n%%RBLOCK%%\n`phat <- 0.4`\n`se   <- sqrt(phat*(1-phat)/100)`\n`se                                # ~ 0.04899`\n`qnorm(0.95)                       # 1.6449`\n`ME_90 <- qnorm(0.95) * se`\n`ME_90                             # ~ 0.0806`\n`c(phat - ME_90, phat + ME_90)     # [0.319, 0.481]`\n`# Width-shrink factor vs 95% CI (part a):`\n`qnorm(0.95) / qnorm(0.975)        # ~ 0.839`\n%%/RBLOCK%%\n\n",
+                "content": "**Question.**\n\n![Ex 6.6c question](statistics/images/ex6/questions/ex6_6_6c_question.png)\n\nRe-do the proportion CI (with $\\hat p = 0.40$, $n = 100$) but using $z = q_{0.95} = 1.645$ instead of $z_{0.975} = 1.96$ — i.e. a 90% two-sided CI (or equivalently, the multiplier of a one-sided 95% bound). Compare the width to the 95% CI of part (a).\n\n---\n\n**AI walkthrough.**\n\n![Ex 6.6c — 90% vs 95% CI for a proportion](statistics/images/ex6/ex6_6_6c_ai.png)\n\nThe Wald CI structure is unchanged,\n$$\\hat p \\;\\pm\\; z_{1-\\alpha/2}\\,\\sqrt{\\tfrac{\\hat p(1-\\hat p)}{n}},$$\nonly the **confidence level** moves from $1-\\alpha = 0.95$ down to $0.90$, so the critical value drops from $z_{0.975}=1.96$ to $z_{0.95}=1.645$. The SE is identical to part (a) because $\\hat p$ and $n$ are unchanged.\n\nStep-by-step with $\\hat p = 0.40$, $n = 100$:\n- SE: $\\sqrt{\\tfrac{0.4\\cdot 0.6}{100}} = \\sqrt{2.4\\times 10^{-3}} \\approx 0.04899$.\n- ME$_{90\\%}$: $1.645 \\times 0.04899 \\approx 0.0806$.\n- CI: $0.40 \\pm 0.0806 = [0.319,\\,0.481]$ (width $\\approx 0.161$).\n\n**Comparison with part (a).** Same point estimate, same SE — only the multiplier shrinks. The width ratio is\n$$\\tfrac{\\text{ME}_{90\\%}}{\\text{ME}_{95\\%}} \\;=\\; \\tfrac{1.645}{1.96} \\;\\approx\\; 0.839,$$\nso the 90% CI is about $16\\%$ narrower than the 95% CI ($0.192 \\to 0.161$). The price is a higher *miss rate*: only 90% of such intervals cover the true $p$ in repeated sampling, vs 95% before. **Equivalence with a one-sided 95% bound:** because $z_{0.95}$ is the $5\\%$-tail quantile, $[\\,0.40 - 1.645\\cdot\\text{SE},\\,+\\infty)$ is a one-sided 95% lower confidence bound for $p$ — the lower endpoint of the two-sided 90% CI doubles as the floor of a 95% one-sided statement.\n\n**Answer.** 90% CI for $p$: $[0.319,\\,0.481]$. Shorter than the 95% CI of (a) by the factor $1.645/1.96$ ($\\approx 16\\%$ narrower), at the cost of 5 pp less confidence.\n\n\n%%RBLOCK%%\n`phat <- 0.4`\n`se   <- sqrt(phat*(1-phat)/100)`\n`se                                # ~ 0.04899`\n`qnorm(0.95)                       # 1.6449`\n`ME_90 <- qnorm(0.95) * se`\n`ME_90                             # ~ 0.0806`\n`c(phat - ME_90, phat + ME_90)     # [0.319, 0.481]`\n`# Width-shrink factor vs 95% CI (part a):`\n`qnorm(0.95) / qnorm(0.975)        # ~ 0.839`\n%%/RBLOCK%%\n\n\n**Reference answer.**\n\n![Ex 6.6c answer](statistics/images/ex6/answers/ex6_6_6c_answer.png)\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex6/questions/ex6_6_6c_question.png",
+                  "statistics/images/ex6/ex6_6_6c_ai.png",
+                  "statistics/images/ex6/answers/ex6_6_6c_answer.png"
+                ],
                 "links": [
                   "th_g13a"
                 ],
                 "x": 39400,
                 "y": 1360,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "navy",
                 "column": 50
               },
@@ -4941,14 +4945,18 @@
                 "title": "Ex 6.6d — Sample size for ME $\\le 0.04$ at 95% confidence",
                 "content": "**Question.** What sample size guarantees a margin of error $\\le 0.04$ at 95% confidence, with **no prior information** on $p$?\n\n---\n\n**AI walkthrough.** Invert the Wald margin-of-error formula for a proportion,\n$$\\text{ME} \\;=\\; z_{1-\\alpha/2}\\,\\sqrt{\\tfrac{p(1-p)}{n}} \\;\\le\\; m \\quad\\Longleftrightarrow\\quad n \\;\\ge\\; \\left(\\tfrac{z_{1-\\alpha/2}}{m}\\right)^{\\!2}\\, p(1-p).$$\n\nSince $p$ is unknown, we need an upper bound for $p(1-p)$. The function $g(p)=p(1-p)$ is a downward parabola on $[0,1]$ that attains its **maximum** at $p=\\tfrac12$ with value $\\tfrac14$ (set $g'(p)=1-2p=0$). Plugging the **worst case** $p(1-p)=0.25$ gives the *conservative* sample size — guaranteed to meet the ME target for any true $p$.\n\nStep-by-step with $m=0.04$, $\\alpha=0.05$, $z_{0.975}=1.96$:\n- Worst-case variance term: $p(1-p)=0.25$.\n- Required $n$: $n \\ge \\left(\\tfrac{1.96}{0.04}\\right)^{2}\\cdot 0.25 = 49^{2}\\cdot 0.25 = 2401 \\cdot 0.25 = 600.25$.\n- Round **up** (a fractional unit is not enough to meet the bound): $n = 601$.\n\n**Answer.** $n = 601$ subjects suffice for a 95% Wald CI with half-width $\\le 0.04$ regardless of the true $p$. If a pilot study suggested e.g. $\\hat p \\approx 0.2$, the requirement would drop to $n \\ge (49)^{2}\\cdot 0.16 = 384.16 \\Rightarrow 385$ — a $\\sim 36\\%$ saving — but absent any prior info the safe choice is the worst-case $p=0.5$.\n\n\n%%RBLOCK%%\n`# Worst-case (no prior info on p): p(1-p) = 0.25`\n`n_wc <- (qnorm(0.975) * 0.5 / 0.04)^2`\n`n_wc                              # ~ 600.25`\n`ceiling(n_wc)                     # 601`\n\n`# If a pilot study suggested p ~ 0.2:`\n`n_pilot <- (qnorm(0.975) / 0.04)^2 * 0.2 * 0.8`\n`ceiling(n_pilot)                  # 385`\n\n`# Sanity check: ME at n = 601, p = 0.5`\n`qnorm(0.975) * sqrt(0.25/601)     # ~ 0.03997  (< 0.04 OK)`\n%%/RBLOCK%%\n\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex6/questions/ex6_6_6d_question.png",
+                  "statistics/images/ex6/answers/ex6_6_6d_answer.png",
+                  "statistics/images/ex6/ex6_6_6d_ai.png"
+                ],
                 "links": [
                   "th_g13a"
                 ],
                 "x": 39400,
-                "y": 1760,
+                "y": 1940,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "navy",
                 "column": 50
               },
@@ -4965,7 +4973,7 @@
                   "th_g13a"
                 ],
                 "x": 39400,
-                "y": 2160,
+                "y": 2520,
                 "width": 600,
                 "height": 540,
                 "color": "navy",
@@ -4990,11 +4998,12 @@
               {
                 "id": "6_8a1",
                 "title": "Ex 6.8 a1 — 99% CI for mean Skills.Idx (Developers_ITA)",
-                "content": "**Question.** Using the `Developers_ITA` dataset, build a 99% confidence interval for the mean of `Skills.Idx` and for the mean of `NrSkills`. Comment on the assumptions needed.\n\n---\n\n**Setup.** Population variance $\\sigma^2$ is unknown $\\Rightarrow$ standardise with the sample SD $S_n$:\n$$T_n \\;=\\; \\tfrac{\\bar X_n - \\mu}{S_n/\\sqrt n} \\;\\sim\\; t_{n-1}.$$\nThe two-sided $(1-\\alpha)$ CI is\n$$\\bar X_n \\;\\pm\\; t_{1-\\alpha/2,\\,n-1}\\,\\tfrac{S_n}{\\sqrt n} \\;\\approx\\; \\bar X_n \\;\\pm\\; z_{1-\\alpha/2}\\,\\tfrac{S_n}{\\sqrt n}\\quad (n \\text{ large}).$$\nWith $n \\approx 820$ the percentiles $t_{0.995,\\,819} = 2.5818$ and $z_{0.995} = 2.5758$ agree to two decimals; CLT removes any need for normality of the population.\n\n**AI walkthrough — Skills.Idx.** Given $\\bar x = 78.21$, $s = 14.16$, $n = 820$:\n1. **SE** $= s/\\sqrt n = 14.16/\\sqrt{820} \\approx 0.494$.\n2. **ME** $= t_{0.995,\\,819}\\cdot \\text{SE} \\approx 2.5818 \\cdot 0.494 \\approx 1.275$.\n3. **CI** $= 78.21 \\pm 1.275 = [76.94,\\,79.49]$.\n\n**AI walkthrough — NrSkills.** Given $\\bar x = 19.22$, $s = 11.33$, $n = 820$:\n1. **SE** $= 11.33/\\sqrt{820} \\approx 0.395$.\n2. **ME** $\\approx 2.5818 \\cdot 0.395 \\approx 1.021$.\n3. **CI** $= 19.22 \\pm 1.021 = [18.20,\\,20.24]$.\n\n**Answer.** With 99% confidence the average `Skills.Idx` of Italian developers lies in $[76.94,\\,79.49]$ and the average `NrSkills` in $[18.20,\\,20.24]$. **Assumptions:** $(i)$ random sample from the target population; $(ii)$ $n$ large enough for the CLT — no normality required. The 99% refers to the *procedure*: 99% of intervals built this way contain $\\mu$ in repeated sampling.\n\n\n%%RBLOCK%%\n`CI.mean(Skills.Idx, conf.level=0.99, data=Developers_ITA)`\n`# CI = [76.94, 79.49]`\n`CI.mean(NrSkills,   conf.level=0.99, data=Developers_ITA)`\n`# CI = [18.20, 20.24]`\n\n`# Manual check (Skills.Idx)`\n`xbar <- 78.21; s <- 14.16; n <- 820`\n`se   <- s/sqrt(n)                    # ~ 0.494`\n`ME   <- qt(0.995, df=n-1) * se       # ~ 1.275`\n`c(xbar - ME, xbar + ME)              # [76.94, 79.49]`\n\n`# t vs z critical values almost identical at n=820`\n`qt(0.995, df=819)    # 2.5818`\n`qnorm(0.995)         # 2.5758`\n%%/RBLOCK%%\n\n",
+                "content": "**Question.**\n\n![Ex 6.8 a1 question](statistics/images/ex6/questions/ex6_6_8a1_question.png)\n\nUsing the `Developers_ITA` dataset, build a 99% confidence interval for the mean of `Skills.Idx` and for the mean of `NrSkills`. Comment on the assumptions needed.\n\n---\n\n![Ex 6.8 a1 — 99% t-CI for mean Skills.Idx](statistics/images/ex6/ex6_6_8a1_ai.png)\n\n**Setup.** Population variance $\\sigma^2$ is unknown $\\Rightarrow$ standardise with the sample SD $S_n$:\n$$T_n \\;=\\; \\tfrac{\\bar X_n - \\mu}{S_n/\\sqrt n} \\;\\sim\\; t_{n-1}.$$\nThe two-sided $(1-\\alpha)$ CI is\n$$\\bar X_n \\;\\pm\\; t_{1-\\alpha/2,\\,n-1}\\,\\tfrac{S_n}{\\sqrt n} \\;\\approx\\; \\bar X_n \\;\\pm\\; z_{1-\\alpha/2}\\,\\tfrac{S_n}{\\sqrt n}\\quad (n \\text{ large}).$$\nWith $n \\approx 820$ the percentiles $t_{0.995,\\,819} = 2.5818$ and $z_{0.995} = 2.5758$ agree to two decimals; CLT removes any need for normality of the population.\n\n**AI walkthrough — Skills.Idx.** Given $\\bar x = 78.21$, $s = 14.16$, $n = 820$:\n1. **SE** $= s/\\sqrt n = 14.16/\\sqrt{820} \\approx 0.494$.\n2. **ME** $= t_{0.995,\\,819}\\cdot \\text{SE} \\approx 2.5818 \\cdot 0.494 \\approx 1.275$.\n3. **CI** $= 78.21 \\pm 1.275 = [76.94,\\,79.49]$.\n\n**AI walkthrough — NrSkills.** Given $\\bar x = 19.22$, $s = 11.33$, $n = 820$:\n1. **SE** $= 11.33/\\sqrt{820} \\approx 0.395$.\n2. **ME** $\\approx 2.5818 \\cdot 0.395 \\approx 1.021$.\n3. **CI** $= 19.22 \\pm 1.021 = [18.20,\\,20.24]$.\n\n**Answer.** With 99% confidence the average `Skills.Idx` of Italian developers lies in $[76.94,\\,79.49]$ and the average `NrSkills` in $[18.20,\\,20.24]$. **Assumptions:** $(i)$ random sample from the target population; $(ii)$ $n$ large enough for the CLT — no normality required. The 99% refers to the *procedure*: 99% of intervals built this way contain $\\mu$ in repeated sampling.\n\n\n%%RBLOCK%%\n`CI.mean(Skills.Idx, conf.level=0.99, data=Developers_ITA)`\n`# CI = [76.94, 79.49]`\n`CI.mean(NrSkills,   conf.level=0.99, data=Developers_ITA)`\n`# CI = [18.20, 20.24]`\n\n`# Manual check (Skills.Idx)`\n`xbar <- 78.21; s <- 14.16; n <- 820`\n`se   <- s/sqrt(n)                    # ~ 0.494`\n`ME   <- qt(0.995, df=n-1) * se       # ~ 1.275`\n`c(xbar - ME, xbar + ME)              # [76.94, 79.49]`\n\n`# t vs z critical values almost identical at n=820`\n`qt(0.995, df=819)    # 2.5818`\n`qnorm(0.995)         # 2.5758`\n%%/RBLOCK%%\n\n\n![Ex 6.8 a1 answer](statistics/images/ex6/answers/ex6_6_8a1_answer.png)\n",
                 "flashcard": false,
                 "images": [
-                  "statistics/images/ex6/questions/ex6_8a1_question.png",
-                  "statistics/images/ex6/answers/ex6_8a1_answer.png"
+                  "statistics/images/ex6/questions/ex6_6_8a1_question.png",
+                  "statistics/images/ex6/ex6_6_8a1_ai.png",
+                  "statistics/images/ex6/answers/ex6_6_8a1_answer.png"
                 ],
                 "links": [
                   "th_g13a"
