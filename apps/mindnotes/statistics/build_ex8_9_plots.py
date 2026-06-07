@@ -93,6 +93,13 @@ MBA1 = ex9["MBA.1"].copy()
 fit_and_plot(MBA1, ["UnderGPA", "GMAT", "Work"], "MBA.GPA",
              "MBA.1: MBA.GPA ~ UnderGPA + GMAT + Work", "ex9_6-mba1.png")
 
+# Ex 9.7: Performance: Market.Value ~ Assets + Sales + Profits + Cash.Flow + Employees
+if "Performance" in ex9:
+    Performance = ex9["Performance"].copy()
+    perf_clean = Performance.dropna(subset=["Market.Value", "Assets", "Sales", "Profits", "Cash.Flow", "Employees"])
+    fit_and_plot(perf_clean, ["Assets", "Sales", "Profits", "Cash.Flow", "Employees"], "Market.Value",
+                 "Performance: Market.Value ~ predictors", "ex9_7-performance.png")
+
 # Ex 9.8: Lotteries: Amount ~ Education + Age + Children + Income
 Lotteries = ex9["Lotteries"].copy()
 # Drop rows with NaN in any of the columns used
@@ -110,7 +117,8 @@ fit_and_plot(Lotteries_clean, cols, "Amount",
 # Ex 9.9: GS: salary ~ grade + course (course is categorical)
 GS = ex9["GS"].copy()
 GS_clean = GS.dropna()
-if GS_clean["course"].dtype == "object":
+if str(GS_clean["course"].dtype) in ("object", "category"):
+    GS_clean["course"] = GS_clean["course"].astype(str)
     GS_dum = pd.get_dummies(GS_clean, columns=["course"], drop_first=True)
     course_cols = [c for c in GS_dum.columns if c.startswith("course_")]
     cols = ["grade"] + course_cols

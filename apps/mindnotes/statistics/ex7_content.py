@@ -2,286 +2,381 @@
 
 ex7 = {}
 
-ex7["7_1a"] = {"title": "Ex 7.1a — Multiple regression: Weeks ~ Age + Educ + Tenure (NewHired)",
-"content": """**Question.** Fit a linear regression of `Weeks` on `Age`, `Educ`, `Tenure` using the `NewHired` data (n=47).
+ex7["7_1a"] = {"title": "Ex 7.1a — One-sample t-test on Weeks (H1: μ<45), NewHired",
+"content": """**Question.** With the `NewHired` sample (n=47), assess whether on average people who relied on the job agency found a new job in **less than 45 weeks**. a1) Assumptions needed. a2) Test statistic, realisation, p-value, conclusion at α=0.05. a3) Would the conclusion change at α=0.01? a4) Meaning of the significance level.
 
 ---
 
 **Answer.**
+
+**a1)** The 47 workers must be representative of the population of interest. The sample size is not particularly large but is enough to apply the **CLT**, so $\\bar X$ is approximately normal without needing a normality assumption on `Weeks`.
+
+**a2)** Hypotheses (the most serious error is concluding the average is < 45 when it is in fact higher, so set the claim as the alternative):
+$$H_0: \\mu \\geq 45 \\quad \\text{vs} \\quad H_1: \\mu < 45$$
+
+Since $\\sigma^2$ is unknown, use the **t-statistic** $T = (\\bar X - \\mu_0)/(S/\\sqrt n) \\sim t_{n-1}$ under $H_0$. With $\\bar X = 40.1915$, $S = 17.2206$, $S/\\sqrt{47} = 2.5119$:
+$$t_\\text{obs} = \\frac{40.1915 - 45}{2.5119} = -1.9143$$
+
+p-value $= P(t_{46} \\leq -1.9143) = 0.0309$ (Student t), or 0.0278 with the normal approximation. Both < 0.05 → **reject $H_0$**: enough evidence that the average time to find a new job is < 45 weeks.
+
 ```r
-mod <- lm(Weeks ~ Age + Educ + Tenure, data=NewHired)
-summary(mod)
+TEST.mean(Weeks, mu0=45, alternative="less", data=NewHired)
+# Manual:
+xbar <- mean(NewHired$Weeks); s <- sd(NewHired$Weeks); n <- 47
+tstat <- (xbar - 45) / (s/sqrt(n)); tstat
+pt(tstat, df=n-1)              # Student t p-value
+pnorm(tstat)                   # normal approximation
 ```
 
-Read the **coefficient estimates**, their **standard errors**, **t-statistics**, **p-values**, and **R²** from `summary(mod)`. The intercept estimates the expected `Weeks` when all predictors are zero; each slope is the change in expected `Weeks` per one-unit increase in the predictor, *holding other predictors constant*.
+**a3)** At α=0.01 the p-value (0.0309) > α, so we would **not reject** $H_0$.
+
+**a4)** α is the maximum probability of a **Type I error** (rejecting $H_0$ when true). Since $H_0$ specifies a set of values, the max is attained at the value closest to $H_1$, i.e. μ=45.
 """, "images": []}
 
-ex7["7_1b"] = {"title": "Ex 7.1b — Hypothesis tests on regression coefficients",
-"content": """**Question.** Test $H_0: \\beta_j = 0$ for each coefficient.
+ex7["7_1b"] = {"title": "Ex 7.1b — Known σ²=16: power and Type II error probabilities",
+"content": """**Question.** Now assume the variance of `Weeks` is known and equal to 16. b1) At level α=0.1, what is the probability of concluding the average is < 45 weeks when it is actually **50** weeks? b2) Same probability when it is actually **43** weeks?
 
 ---
 
-**Answer.** From the `summary(mod)` output, each coefficient's t-statistic = estimate / SE follows a $t_{n-k-1}$ distribution under $H_0$. The corresponding **p-values** are reported (two-sided). Reject $H_0$ at level $\\alpha$ if p-value < $\\alpha$.
+**Answer.** With σ²=16 known, use the **z-test**. Rejection region (one-sided, lower):
+$$R: \\bar X < \\mu_0 - z_{0.1}\\,\\sigma/\\sqrt{n} = 45 - 1.28 \\cdot 4/\\sqrt{47} = 44.25$$
+
+**b1)** True mean = 50 (μ=50 belongs to $H_0$). Concluding < 45 = rejecting $H_0$ → this is a **Type I error**:
+$$P(\\bar X < 44.25 \\mid \\mu=50) = P\\!\\left(Z < \\frac{44.25-50}{4/\\sqrt{47}}\\right) \\approx 0$$
+
+**b2)** True mean = 43 (μ=43 belongs to $H_1$). The complementary event (NOT rejecting $H_0$) is a **Type II error**:
+$$P(\\bar X \\geq 44.25 \\mid \\mu=43) = P\\!\\left(Z > \\frac{44.25-43}{4/\\sqrt{47}}\\right) \\approx 0.016$$
 
 ```r
-# Individual t-tests are already in summary(mod)
-# Manual computation:
-bhat <- coef(mod)[2]; se <- summary(mod)$coef[2,2]
-tstat <- bhat/se; tstat
-2*(1 - pt(abs(tstat), df=47-3-1))  # two-sided p-value
+qnorm(0.9)                                          # 1.28
+crit <- 45 - 1.28 * 4/sqrt(47); crit                # 44.25
+pnorm(crit, mean=50, sd=4/sqrt(47))                 # b1) ≈ 0
+1 - pnorm(crit, mean=43, sd=4/sqrt(47))             # b2) ≈ 0.016
 ```
 """, "images": []}
 
-ex7["7_1c"] = {"title": "Ex 7.1c — CI for regression coefficients (90/95/99%)",
-"content": """**Question.** Construct 90%, 95%, 99% CIs for the coefficients. Which contain zero?
+ex7["7_1c"] = {"title": "Ex 7.1c — One-proportion test: struggle >52 weeks vs p₀=0.10",
+"content": """**Question.** A worker claims the **proportion** of agency-relying workers who struggle more than one year (>52 weeks) to find a job is higher than 10%. Test at α=0.05.
 
 ---
 
-**Answer.**
+**Answer.** Most serious error = concluding p>0.10 when it is not. Put the claim in $H_1$:
+$$H_0: p \\leq 0.10 \\quad \\text{vs} \\quad H_1: p > 0.10$$
+
+Sample proportion: $\\hat p = 7/47 \\approx 0.1498$. Test statistic under $H_0$ (using $p_0$ for the SE):
+$$Z = \\frac{\\hat p - p_0}{\\sqrt{p_0(1-p_0)/n}} = \\frac{0.1498 - 0.10}{\\sqrt{0.10 \\cdot 0.90 / 47}} \\approx 1.12$$
+
+p-value = $P(Z > 1.12) \\approx 0.13$ > 0.05 → **do not reject $H_0$**. Not enough empirical support for the worker's claim.
+
 ```r
-confint(mod, level=0.90)
-confint(mod, level=0.95)
-confint(mod, level=0.99)
-```
-
-A coefficient that has p-value > $\\alpha$ in the two-sided t-test corresponds to a CI at level $1-\\alpha$ that **contains zero**. The 99% CI is widest (most likely to contain 0); the 90% is narrowest.
-""", "images": []}
-
-ex7["7_3a"] = {"title": "Ex 7.3a — Two-sample t-test: AmountSpent by Sex (DS)",
-"content": """**Question.** Test whether mean `AmountSpent` differs by `Sex` in `DS`.
-
----
-
-**Answer.**
-```r
-TEST.diffmean(AmountSpent, by=Sex, type="independent", mdiff0=0,
-              alternative="two.sided", var.test=TRUE, data=DS)
-# Manual computation:
-se.diff <- sqrt((909.14^2/389) + (998.41^2/361))
-diff.bar <- 1051.91 - 1418.66
-(diff.bar - 0) / se.diff
-1 - pnorm(13.3, mean=10, sd=se.diff)
-1 - pt((13.3 - 10)/se.diff, df=198)
+phat <- mean(NewHired$Weeks > 52); phat             # ≈ 0.1498
+n <- 47; p0 <- 0.10
+z <- (phat - p0) / sqrt(p0*(1-p0)/n); z              # ≈ 1.12
+1 - pnorm(z)                                         # p-value ≈ 0.13
+TEST.prop(Weeks > 52, p0=0.10, alternative="greater", data=NewHired)
 ```
 """, "images": []}
 
-ex7["7_3b"] = {"title": "Ex 7.3b — Stratified t-tests: female by Location, Children, Married",
-"content": """**Question.** Test mean spending difference for female customers, by Location, conditioning on Children=0 and Married=Single.
+ex7["7_3a"] = {"title": "Ex 7.3a — Two-proportion z-test: cafeteria visit pre/post promotion",
+"content": """**Question.** Pre-promotion (n=140) and post-promotion (n=159) samples of monthly cafeteria visits. Test whether the promotion **increases the proportion** of customers visiting at least once a month.
 
 ---
 
-**Answer.**
+**Answer.** Customers with 0 stops are non-visitors; ≥1 stop = visitor. From the tables, non-visitors are 32 in both pre and post. So:
+$$\\hat p_\\text{PRE} = (140-32)/140 = 0.7714, \\quad \\hat p_\\text{POST} = (159-32)/159 = 0.7987$$
+
+Hypotheses (most serious error: extending an ineffective promotion):
+$$H_0: p_\\text{POST} = p_\\text{PRE} \\quad \\text{vs} \\quad H_1: p_\\text{POST} > p_\\text{PRE}$$
+
+Pooled proportion under $H_0$:
+$$\\hat p = \\frac{n_\\text{PRE}\\hat p_\\text{PRE} + n_\\text{POST}\\hat p_\\text{POST}}{n_\\text{PRE}+n_\\text{POST}} = 0.7859$$
+
+Standard error and z-statistic:
+$$se = \\sqrt{\\hat p(1-\\hat p)\\!\\left(\\tfrac{1}{n_\\text{PRE}}+\\tfrac{1}{n_\\text{POST}}\\right)} = 0.0475, \\quad \\hat p_\\text{POST}-\\hat p_\\text{PRE} = 0.0273$$
+
+p-value = $P(Z > 0.0273/0.0475) = 0.2827$ → **do not reject** $H_0$: no significant increase in visit propensity.
+
 ```r
-sel.Close <- DS$Sex=="Female" & DS$Location=="Close"
-sel.Far   <- DS$Sex=="Female" & DS$Location=="Far"
-TEST.diffmean(x=DS$AmountSpent[sel.Close], y=DS$AmountSpent[sel.Far],
-              alternative="less", var.test=T)
-
-sel.Close <- DS$Sex=="Female" & DS$Children==0 & DS$Location=="Close"
-sel.Far   <- DS$Sex=="Female" & DS$Children==0 & DS$Location=="Far"
-TEST.diffmean(x=DS$AmountSpent[sel.Close], y=DS$AmountSpent[sel.Far],
-              alternative="less", var.test=T)
-
-sel.Close <- DS$Sex=="Female" & DS$Married=="Single" & DS$Location=="Close"
-sel.Far   <- DS$Sex=="Female" & DS$Married=="Single" & DS$Location=="Far"
-TEST.diffmean(x=DS$AmountSpent[sel.Close], y=DS$AmountSpent[sel.Far],
-              alternative="less", var.test=T)
+nPRE <- 140; nPOST <- 159
+pPRE <- (140-32)/140; pPOST <- (159-32)/159
+phat <- (nPRE*pPRE + nPOST*pPOST)/(nPRE+nPOST); phat
+se   <- sqrt(phat*(1-phat)*(1/nPRE + 1/nPOST)); se
+1 - pnorm(pPOST - pPRE, mean=0, sd=se)              # ≈ 0.28
+1 - pnorm((pPOST - pPRE)/se)
+TEST.diffprop(x=Stops_POST>=1, y=Stops_PRE>=1,
+              pdiff=0, alternative="greater")
 ```
 """, "images": []}
 
-ex7["7_4a"] = {"title": "Ex 7.4a — Two-proportion z-test: Role-Playing share 2006 vs 2016",
-"content": """**Question.** Compare the proportion of Role-Playing games sold in 2006 vs 2016 (`vgsales`).
+ex7["7_3b"] = {"title": "Ex 7.3b — Two-proportion test: visiting >4 times/month pre vs post",
+"content": """**Question.** Assess whether the promotion has a significant impact on the proportion of customers who visit the cafeteria **more than 4 times** a month.
 
 ---
 
-**Answer.**
-```r
-Genre_2006 <- vgsales$Genre[vgsales$Year=="2006"]
-Genre_2016 <- vgsales$Genre[vgsales$Year=="2016"]
-phat_2006 <- mean(Genre_2006=="Role-Playing")
-phat_2016 <- mean(Genre_2016=="Role-Playing")
-n_2006 <- length(Genre_2006); n_2016 <- length(Genre_2016)
+**Answer.** Count customers with >4 stops: pre = 23/140, post = 37/159.
+$$\\hat p_\\text{PRE} = 23/140 = 0.1643, \\quad \\hat p_\\text{POST} = 37/159 = 0.2327$$
 
-# Pooled proportion under H0
-phat_pooled <- (n_2006*phat_2006 + n_2016*phat_2016) / (n_2006 + n_2016)
-se_0 <- sqrt(phat_pooled*(1-phat_pooled) * (1/n_2006 + 1/n_2016))
-(phat_2016 - phat_2006) / se_0   # z-statistic
-qnorm(0.95)
-TEST.diffprop(x=Genre_2006, y=Genre_2016, success.x="Role-Playing",
-              pdiff=0, alternative="two.sided", digits=4)
+Hypotheses (one-sided, hoping the promotion increases heavy users):
+$$H_0: p_\\text{POST} = p_\\text{PRE} \\quad \\text{vs} \\quad H_1: p_\\text{POST} > p_\\text{PRE}$$
+
+Pooled $\\hat p = 0.2007$, $se_0 = \\sqrt{\\hat p(1-\\hat p)(1/n_\\text{PRE}+1/n_\\text{POST})} = 0.0464$. Observed difference $\\hat p_\\text{POST}-\\hat p_\\text{PRE}=0.0684$.
+
+p-value = $P(Z > 0.0684/0.0464) \\approx 0.07$ → **do not reject** at α=0.05, but rejected at α=0.10. Borderline evidence of a positive impact on heavy users.
+
+```r
+nPRE <- 140; nPOST <- 159
+pPRE <- 23/140; pPOST <- 37/159
+phat <- (nPRE*pPRE + nPOST*pPOST)/(nPRE+nPOST); phat   # 0.2007
+se   <- sqrt(phat*(1-phat)*(1/nPRE + 1/nPOST)); se     # 0.0464
+1 - pnorm(pPOST - pPRE, mean=0, sd=se)                 # ≈ 0.07
+1 - pnorm((pPOST - pPRE)/se)
+TEST.diffprop(x=Stops_POST>4, y=Stops_PRE>4,
+              pdiff=0, alternative="greater")
 ```
 """, "images": []}
 
-ex7["7_4b"] = {"title": "Ex 7.4b — CI for proportion difference of Action games",
-"content": """**Question.** Construct a 95% CI for the proportion difference of Action games between 2006 and 2016.
+ex7["7_4a"] = {"title": "Ex 7.4a — Chi-squared goodness of fit: DS$History uniform (0.25 each)",
+"content": """**Question (DS).** Are the frequencies of the levels of the variable `History` equal to each other? What conclusion do you reach using a significance level of 0.05? Report the R functions used.
 
 ---
 
-**Answer.**
-```r
-TEST.diffprop(Genre_2016, Genre_2006, success.x="Action",
-              pdiff=0.10, alternative="greater", digits=4)
-```
-""", "images": []}
+**Answer.** Goodness-of-fit test on the four levels (`Low`, `Medium`, `High`, `None`) with
+$$H_0: p_{Low}=p_{Med}=p_{High}=p_{None}=0.25 \\quad \\text{vs} \\quad H_1: \\text{at least one } p \\neq 0.25.$$
+Observed counts (n=750): High 205 (0.27), Low 181 (0.24), Medium 150 (0.20), None 214 (0.29). Expected under $H_0$: $0.25\\cdot 750 = 187.5$ in each cell.
 
-ex7["7_5a"] = {"title": "Ex 7.5a — Chi-squared goodness of fit (DS$History)",
-"content": """**Question.** Test whether the distribution of `History` follows a stated set of proportions (0.25, 0.25, 0.25, 0.25).
-
----
-
-**Answer.**
 ```r
 chisq.test(x=table(DS$History), p=c(0.25, 0.25, 0.25, 0.25))
 ```
 
-Reject $H_0$ if p-value < $\\alpha$. Confirms whether the proposed proportions are compatible with the observed counts.
+The test statistic is $\\chi^2 = \\sum_k (O_k - E_k)^2/E_k = 13.104$, with **p-value $= 0.0044$**. Reject $H_0$ at any level $> 0.0044$ (in particular at $\\alpha=0.05$): the variable `History` is **not** uniformly distributed.
 """, "images": []}
 
-ex7["7_5b"] = {"title": "Ex 7.5b — Chi-squared independence: History × Age",
-"content": """**Question.** Test independence between `History` and `Age` in `DS`.
+ex7["7_4b"] = {"title": "Ex 7.4b — Goodness of fit on History within the two Location sub-populations",
+"content": """**Question.** Would your answer to point (a) change if you referred separately to the distribution of `History` in the two sub-populations of customers who live near (`Close`) or far from a competing physical store (`Location`)?
 
 ---
 
-**Answer.**
+**Answer.** Apply the same goodness-of-fit approach to each sub-population separately:
+
 ```r
-distr.table.xy(History, Age, freq="counts", freq.type="joint", data=DS)
-chisq.test(x=DS$History, y=DS$Age)
+chisq.test(x=table(DS$History[DS$Location=="Close"]),
+           p=c(0.25, 0.25, 0.25, 0.25))
+chisq.test(x=table(DS$History[DS$Location=="Far"]),
+           p=c(0.25, 0.25, 0.25, 0.25))
+```
+
+For **Location = Close**: test statistic $= 25.556$, p-value $= 0.00832$ — reject $H_0$.
+For **Location = Far**:   test statistic $\\approx 63.766$, p-value $\\approx 0$ — reject $H_0$ at any level.
+
+The conclusion of (a) is **confirmed**: in both sub-populations the four `History` levels are not equally frequent.
+""", "images": []}
+
+ex7["7_5a"] = {"title": "Ex 7.5a — Fish-diet vs cholesterol: setup, pooled variance, rejection region (normal)",
+"content": """**Question.** Two independent samples of 100 males each follow a Standard diet vs a Seafood diet for 6 months. Cholesterol summaries: $\\bar X_\\text{Std}=210.1$, $s^2_\\text{Std}=37.4$; $\\bar X_\\text{Sea}=196.8$, $s^2_\\text{Sea}=33.5$. The researchers claim the difference $\\mu_\\text{Std}-\\mu_\\text{Sea}$ is significantly greater than 10 at $\\alpha=0.05$. Determine the **rejection region** and conclude.
+
+---
+
+**Answer.** Hypotheses:
+$$H_0:\\mu_\\text{Std}-\\mu_\\text{Sea} \\le 10 \\quad \\text{vs} \\quad H_1:\\mu_\\text{Std}-\\mu_\\text{Sea} > 10.$$
+Pooled variance (assuming equal variances): $s^2_\\text{pool} = \\frac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1+n_2-2} = \\frac{99\\cdot 37.4 + 99\\cdot 33.5}{198} = 35.45$.
+
+Using the normal approximation (central limit theorem, large samples), reject $H_0$ at level 0.05 if
+$$(\\bar X_\\text{Std}-\\bar X_\\text{Sea}) > 10 + z_{0.05}\\sqrt{2\\cdot 35.45/100} = 10 + 1.645\\cdot \\sqrt{0.7090} = 11.385.$$
+
+The observed difference is $210.1 - 196.8 = 13.3 > 11.385$ → **reject $H_0$**. The researchers' claim is backed up by the data.
+
+```r
+xbar.s <- 210.1; var.s <- 37.4; n.s <- 100
+xbar.f <- 196.8; var.f <- 33.5; n.f <- 100
+s2.pool <- ((n.s-1)*var.s + (n.f-1)*var.f)/(n.s + n.f - 2)   # 35.45
+thresh  <- 10 + qnorm(0.95)*sqrt(2*s2.pool/n.s)              # 11.385
+(xbar.s - xbar.f); thresh                                    # 13.3  vs 11.385
 ```
 """, "images": []}
 
-ex7["7_5c"] = {"title": "Ex 7.5c — Fisher's exact test (2×2 tables)",
-"content": """**Question.** When is Fisher's exact test preferred to chi-squared?
+ex7["7_5b"] = {"title": "Ex 7.5b — Student's t version of the rejection-region test",
+"content": """**Question.** Repeat the test in (a) using Student's t distribution rather than the normal approximation.
 
 ---
 
-**Answer.** Use **Fisher's exact test** when sample sizes are small or expected frequencies in some cells are <5 (so the chi-squared approximation is unreliable). For larger samples, the chi-squared test is usually adequate.
+**Answer.** Under equal variances and (approximately) normal populations, the test statistic
+$$T = \\frac{(\\bar X_\\text{Std}-\\bar X_\\text{Sea}) - 10}{\\sqrt{2\\, s^2_\\text{pool}/n}} \\sim t_{n_1+n_2-2} = t_{198}.$$
+
+The 0.05-level critical value is $t_{198,0.05} \\approx 1.653$ (vs $z_{0.05}=1.645$), giving a rejection threshold $10 + 1.653\\cdot \\sqrt{0.7090} \\approx 11.39$, **almost identical** to the normal case because the two large samples ($n=100$ each) make $t$ and $z$ percentiles nearly equal.
 
 ```r
-# Check expected counts; if any are < 5, prefer fisher.test
-tab <- table(DS$History, DS$Age)
-chisq.test(tab)$expected     # inspect expected cell counts
-fisher.test(tab)             # exact test, no large-sample approximation
+qt(0.95, df=198)                                # 1.653
+10 + qt(0.95, df=198)*sqrt(2*35.45/100)         # 11.39
+```
+
+Conclusion unchanged: the observed 13.3 exceeds the threshold → **reject $H_0$**.
+""", "images": []}
+
+ex7["7_5c"] = {"title": "Ex 7.5c — p-value of the sample realisation",
+"content": """**Question.** Compute the **p-value** for the observed difference 13.3 and confirm the conclusion. Specify the R functions used.
+
+---
+
+**Answer.** The p-value is the probability, under $H_0$ (i.e. with $\\mu_\\text{Std}-\\mu_\\text{Sea}=10$), of drawing a difference at least as large as $13.3$:
+$$\\text{p-value} = \\Pr(\\bar X_\\text{Std}-\\bar X_\\text{Sea} > 13.3 \\mid \\mu_\\text{Std}-\\mu_\\text{Sea}=10).$$
+
+Using the normal approximation with $se = \\sqrt{2\\cdot 35.45/100} = 0.8420$:
+
+```r
+# Normal approximation
+1 - pnorm(13.3, mean=10, sd=sqrt(2*35.45/100))         # ≈ 0.000044
+1 - pnorm((13.3 - 10)/sqrt(2*35.45/100))               # equivalent
+# Student's t (df = n1 + n2 - 2 = 198)
+1 - pt((13.3 - 10)/sqrt(2*35.45/100), df=198)          # ≈ 0.000061
+```
+
+p-value $\\approx 4.4\\cdot 10^{-5}$ (normal) or $\\approx 6.1\\cdot 10^{-5}$ (Student's t). Both extremely small — $H_0$ would be rejected at any conventional significance level, confirming the conclusion from the rejection-region approach.
+""", "images": []}
+
+ex7["7_6a"] = {"title": "Ex 7.6a — Arcade wi-fi: paired test on average daily revenue (n=7, before vs after)",
+"content": """**Question.** Daily revenues (hundreds of €) were recorded for $n=7$ days in a typical week **before** wi-fi installation and again 3 months **after**. Summaries: $\\bar X_\\text{PRE}=13$, $s^2_\\text{PRE}=12$, $\\bar X_\\text{POST}=16$, $s^2_\\text{POST}=21$, and covariance between the two weeks $=11$. Test at $\\alpha=0.05$ whether wi-fi increased average revenues.
+
+---
+
+**Answer.** The two samples are **paired** (same days of the week, before vs after) and small ($n=7$), so we assume **joint normality** of the two populations and work on the differences $D_i=X^\\text{POST}_i-X^\\text{PRE}_i$.
+
+Hypotheses (one-sided, "wi-fi does not increase revenues" as $H_0$):
+$$H_0: \\mu_\\text{POST}=\\mu_\\text{PRE} \\quad \\text{vs} \\quad H_1: \\mu_\\text{POST} > \\mu_\\text{PRE}.$$
+
+Sample mean of differences: $\\bar D = 16-13 = 3$. Sample variance of differences:
+$$s_D^2 = s^2_\\text{PRE}+s^2_\\text{POST} - 2\\,s_\\text{PRE,POST} = 21+12-22 = 11.$$
+Standard error: $se(\\bar D)=\\sqrt{11/7}=1.2536$.
+
+**Rejection-region approach** (Student's $t_{n-1}=t_6$):
+$$\\bar D > t_{6,0.05}\\cdot se(\\bar D) = 1.94318\\cdot 1.2536 = 2.4359.$$
+Observed $\\bar D = 3 > 2.4359$ → **reject $H_0$**.
+
+**p-value approach**:
+$$\\Pr(t_6 > \\bar D/se(\\bar D)) = \\Pr(t_6 > 3/1.2536) = 0.027.$$
+
+```r
+dbar <- 16 - 13                       # 3
+sD2  <- 21 + 12 - 2*11                # 11
+seD  <- sqrt(sD2/7)                   # 1.2536
+qt(0.95, df=6)                        # 1.94318  -> threshold
+qt(0.95, df=6)*seD                    # 2.4359
+1 - pt(dbar/seD, df=6)                # p-value ≈ 0.027
+```
+
+p-value $\\approx 0.027 < 0.05$ → **reject $H_0$**: wi-fi has increased average daily revenues. (At $\\alpha=0.01$, $H_0$ would **not** be rejected.)
+""", "images": []}
+
+ex7["7_6b"] = {"title": "Ex 7.6b — Effect on the decision if statistics referred to 2 weeks (n=14)",
+"content": """**Question.** Without making calculations, would the decision in (a) change if the sample statistics referred to **2 weeks** (n=14) instead of 1?
+
+---
+
+**Answer.** With $n=14$ days the **degrees of freedom** of Student's t increase ($t_6 \\to t_{13}$) and the **standard error** $se(\\bar D)=\\sqrt{s_D^2/n}$ decreases (larger denominator):
+
+- *Rejection-region threshold*: $t_{13,0.05} < t_{6,0.05}$ (the t-distribution's quantile decreases as df grows), and is multiplied by a *smaller* $se(\\bar D)$. So the threshold $t_{13,0.05}\\cdot se(\\bar D_{14}) < t_{6,0.05}\\cdot se(\\bar D_7) = 2.4359$. The observed $\\bar D = 3$ still exceeds it → **still reject $H_0$**.
+- *p-value*: increases the standardised statistic $\\bar D/se(\\bar D)$ and is evaluated on a t with more degrees of freedom (lighter tails). Both effects shrink the p-value:
+$$\\Pr(t_{13} > \\bar D/se(\\bar D_{14})) < \\Pr(t_6 > \\bar D/se(\\bar D_7)) = 0.027.$$
+
+So the conclusion is **reinforced** — $H_0$ is rejected at the 0.05 level (and very likely also at the 0.01 level, contrary to (a)).
+
+```r
+# Illustration: assume the same sample statistics carry over to n=14
+seD14 <- sqrt(11/14)                     # smaller than 1.2536
+qt(0.95, df=13)*seD14                    # smaller threshold
+1 - pt(3/seD14, df=13)                   # smaller p-value
 ```
 """, "images": []}
 
-ex7["7_6a"] = {"title": "Ex 7.6a — p-value calculation for one-proportion z-test",
-"content": """**Question.** Compute the p-value for a one-proportion test ($\\hat p = 26/1000$ vs $p_0 = 0.03$).
+ex7["7_7a"] = {"title": "Ex 7.7a — Two-proportion z-test: ChatGPT use by Younger vs Senior (Developers_ITA)",
+"content": """**Question.** Test $H_0: p_{\\text{Young}} = p_{\\text{Senior}}$ vs $H_1: p_{\\text{Young}} > p_{\\text{Senior}}$, where $p$ is the proportion of developers using AI tools (e.g. ChatGPT) in their work, in the two independent subpopulations of younger (`Younger=TRUE`) and more senior (`Younger=FALSE`) developers.
 
 ---
 
-**Answer.**
-```r
-phat <- 26/1000
-# p-value (one-sided, lower)
-pnorm(0.026, mean=0.03, sd=sqrt(0.03*(1-0.03)/1000))
-# or
-pnorm((0.026-0.03)/sqrt(0.03*(1-0.03)/1000))
+**Answer.** Sample sizes are large enough to approximate the distribution of the difference between the two sample proportions with a normal distribution. The two sample proportions are 0.57 and 0.40, and the realisation of the test statistic equals **4.77** with p-value < 0.0001, leading to rejection of $H_0$ whatever the chosen significance level.
 
-# p-value for the (c) variant
-1 - pnorm(0.0211, mean=0.02, sd=sqrt(0.02*(1-0.02)/1000))
-1 - pnorm((0.0211-0.02)/sqrt(0.02*(1-0.02)/1000))
+```r
+TEST.diffprop(x=Developers_ITA$ChatGPT[Developers_ITA$Younger==TRUE],
+              y=Developers_ITA$ChatGPT[Developers_ITA$Younger==FALSE],
+              success.x="Yes", pdiff=0, alternative="greater", digits=4)
+# Manual computation:
+phat_y <- mean(Developers_ITA$ChatGPT[Developers_ITA$Younger==TRUE]=="Yes")
+phat_s <- mean(Developers_ITA$ChatGPT[Developers_ITA$Younger==FALSE]=="Yes")
+n_y    <- sum(Developers_ITA$Younger==TRUE)
+n_s    <- sum(Developers_ITA$Younger==FALSE)
+phat0  <- (n_y*phat_y + n_s*phat_s)/(n_y + n_s)
+se0    <- sqrt(phat0*(1-phat0)*(1/n_y + 1/n_s))
+z      <- (phat_y - phat_s)/se0; z
+1 - pnorm(z)
 ```
 """, "images": []}
 
-ex7["7_6b"] = {"title": "Ex 7.6b — CI vs hypothesis test: containment of test value",
-"content": """**Question.** Considering CIs at 90%, 95%, 99%, which will contain the value 0.0065?
+ex7["7_7b"] = {"title": "Ex 7.7b — Chi-squared independence: Age_Class × LearnTool (Developers_ITA)",
+"content": """**Question.** Test $H_0$: `Age_Class` and `LearnTool` are independent vs $H_1$: they are associated. Use $\\alpha=0.1$, reporting the realisation of the test statistic, its p-value and indicating the threshold of the rejection region.
 
 ---
 
-**Answer.** A two-sided $\\alpha$-level test rejects $H_0: p = p_0$ iff $p_0$ is **outside** the corresponding $(1-\\alpha)$ CI. So whether 0.0065 is in a 95% CI is determined by whether a two-sided test at $\\alpha = 0.05$ would *not* reject $H_0: p = 0.0065$. With $p$-value below 5%, 0.0065 falls outside the 95% CI (and the 90% CI, but inside the 99% CI which is wider).
+**Answer.** The chi-squared statistic equals **115.69** with p-value $\\approx 0$, so $H_0$ is rejected. The rejection-region threshold at level $\\alpha=0.1$ is the order-0.9 quantile of a $\\chi^2$ with $\\text{df}=(5-1)\\cdot(5-1)=16$, equal to **23.54**.
 
-```r
-# Equivalent two-sided test of H0: p = 0.0065 with phat = 26/1000, n = 1000
-phat <- 26/1000; p0 <- 0.0065; n <- 1000
-z    <- (phat - p0) / sqrt(p0 * (1 - p0) / n)
-pval <- 2 * (1 - pnorm(abs(z)))
-pval
-# Build two-sided CIs at 90%, 95%, 99% and check if 0.0065 is inside
-se   <- sqrt(phat * (1 - phat) / n)
-for (conf in c(0.90, 0.95, 0.99)) {
-  z.c <- qnorm(1 - (1 - conf)/2)
-  ci  <- phat + c(-1, 1) * z.c * se
-  cat(conf, ":", ci, " contains 0.0065? ", 0.0065 >= ci[1] && 0.0065 <= ci[2], "\n")
-}
-```
-""", "images": []}
-
-ex7["7_7a"] = {"title": "Ex 7.7a — One-proportion test on AI Search adoption",
-"content": """**Question.** Test whether the proportion of `AISearch != "None"` developers differs from a stated value.
-
----
-
-**Answer.**
-```r
-table(Developers_ITA$AISearch)
-UseAI <- 1 - (Developers_ITA$AISearch=="None")
-table(UseAI)
-TEST.diffprop(prop, alternative="greater")
-```
-""", "images": []}
-
-ex7["7_7b"] = {"title": "Ex 7.7b — Chi-squared: Age_Class × LearnTool",
-"content": """**Question.** Test independence between `Age_Class` and learning tools used.
-
----
-
-**Answer.**
 ```r
 chisq.test(Developers_ITA$Age_Class, Developers_ITA$LearnTool)
-qchisq(0.9, df=16)
+qchisq(0.9, df=16)   # rejection-region threshold = 23.54
 ```
 """, "images": []}
 
-ex7["7_8a"] = {"title": "Ex 7.8a — Subgroup t-test: AmountSpent by Location (Female)",
-"content": """**Question.** Among Female customers, test whether mean `AmountSpent` is higher in Close vs Far locations.
+ex7["7_8a"] = {"title": "Ex 7.8a — Subgroup t-test: AmountSpent by Location (Female), one-sided less",
+"content": """**Question.** A geo-localized marketing strategy aimed at increasing the average amount spent by women who live close to a competing store is worth implementing **only if** these women currently spend on average **less** than those who live far from a competing store. Test $H_0:\\mu_{\\text{F,Close}} = \\mu_{\\text{F,Far}}$ vs $H_1:\\mu_{\\text{F,Close}} < \\mu_{\\text{F,Far}}$ at $\\alpha=0.05$.
 
 ---
 
-**Answer.**
+**Answer.** With $\\bar x_{\\text{F,Close}}=1051.91$ and $\\bar x_{\\text{F,Far}}=1418.66$, the standardized test statistic is **-5.25** and the p-value is below any conventional level regardless of the equality-of-variances assumption (under unequal variances the statistic is -5.1, still highly significant). Reject $H_0$: there is evidence that women living near a competing store spend less, so the geo-localized strategy is appropriate.
+
 ```r
 sel.Close <- DS$Sex=="Female" & DS$Location=="Close"
 sel.Far   <- DS$Sex=="Female" & DS$Location=="Far"
 TEST.diffmean(x=DS$AmountSpent[sel.Close],
               y=DS$AmountSpent[sel.Far],
-              alternative="greater")
+              alternative="less", var.test=TRUE)
 ```
 """, "images": []}
 
-ex7["7_9a"] = {"title": "Ex 7.9a — Chi-squared goodness of fit (DS$Children)",
-"content": """**Question.** Test the distribution of `DS$Children` against the stated probabilities.
+ex7["7_9a"] = {"title": "Ex 7.9a — Chi-squared goodness of fit: DS$Children vs Italian distribution",
+"content": """**Question.** Test whether the distribution of the number of children of `DS` customers mirrors that of the Italian population: 76% with no children, 13% with 1 child, 9% with 2 children, 2% with 3+ children.
 
 ---
 
-**Answer.**
+**Answer.** Sample distribution: 0→360 (0.48), 1→184 (0.25), 2→111 (0.15), 3→95 (0.13). The chi-squared goodness-of-fit statistic equals **608.81** on $\\text{df}=3$, with an extremely small p-value $\\approx 0$. **Reject $H_0$**: the sample distribution does not match the Italian one.
+
 ```r
 distr.table.x(DS$Children)
 chisq.test(c(360, 184, 111, 95), p=c(0.76, 0.13, 0.09, 0.02))
 ```
 """, "images": []}
 
-ex7["7_9b"] = {"title": "Ex 7.9b — Chi-squared goodness of fit (DS$Age)",
-"content": """**Question.** Test the distribution of `DS$Age` (Young/Middle/Senior) against stated probabilities.
+ex7["7_9b"] = {"title": "Ex 7.9b — Chi-squared goodness of fit: DS$Age vs Italian age bands",
+"content": """**Question.** Test whether the distribution of customers across age groups in `DS` matches the Italian population on the defined bands: 30% Young, 50% Middle, 20% Senior.
 
 ---
 
-**Answer.**
+**Answer.** Sample composition: Young→216 (0.29), Middle→390 (0.52), Senior→144 (0.19). The chi-squared statistic equals **0.5488** on $\\text{df}=2$, giving a very high p-value. **Do not reject $H_0$**: the distribution of customers by age group reflects that of the Italian population.
+
 ```r
 distr.table.x(DS$Age)
 chisq.test(c(216, 390, 144), p=c(0.3, 0.5, 0.2))
 ```
 """, "images": []}
 
-ex7["7_10a"] = {"title": "Ex 7.10a — Two-sample t-test on pooled summary stats",
-"content": """**Question.** Compute the pooled-variance test statistic for two samples with summary statistics.
+ex7["7_10a"] = {"title": "Ex 7.10a — Two-sample test on pooled summary stats: considered vs competing company",
+"content": """**Question.** A survey on 800 customers of a competing company gives mean expenditure $\\bar y=1300$ and $s_y=960$. The considered company (the 750 women in `DS`) has $\\bar x=1228.44$ and $s_x^2=940900.9$. Test at $\\alpha=10\\%$ whether the considered-company average expenditure is significantly **higher** than the competitor's: $H_0:\\mu_x = \\mu_y$ vs $H_1:\\mu_x > \\mu_y$.
 
 ---
 
-**Answer.**
+**Answer.** Pooled variance $s_p^2 = \\dfrac{(n_x-1)s_x^2 + (n_y-1)s_y^2}{n_x+n_y-2}=930938.7$. The standardized statistic equals $|\\bar x-\\bar y|/\\sqrt{s_p^2/n_x + s_p^2/n_y} = 1.4592$. Using the normal approximation, the p-value is $\\Pr(Z\\ge 1.4592)\\approx 0.072$. At $\\alpha=10\\%$ **do not reject $H_0$**: the average expenditure of the considered company is **not** significantly higher than that of the competing company.
+
 ```r
 xbar <- 1228.44; s2.x <- 940900.9; n.x <- 750
 ybar <- 1300;    s2.y <- 960^2;    n.y <- 800
-s2.pool <- ((n.x-1)*s2.x + (n.y-1)*s2.y) / (n.x + n.y - 2)
-t.stat  <- (xbar - ybar) / sqrt(s2.pool/n.x + s2.pool/n.y)
-t.stat
+s2.pool <- ((n.x-1)*s2.x + (n.y-1)*s2.y) / (n.x + n.y - 2)   # 930938.7
+t.stat  <- abs(xbar - ybar) / sqrt(s2.pool/n.x + s2.pool/n.y); t.stat  # 1.4592
+1 - pnorm(t.stat)                                            # one-sided p-value ~ 0.072
 ```
 """, "images": []}
