@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": 1780844505076,
+  "exportedAt": 1780844887903,
   "data": {
     "topics": [
       {
@@ -184,10 +184,10 @@
               {
                 "id": "ex1c",
                 "title": "Ex 0 / 1c — Choosing class widths for the Density histogram",
-                "content": "**Question.** To display the distribution of `Density`, would you use 6 intervals of equal width, the intervals $0$-$30,\\,30$-$60,\\,60$-$100,\\,100$-$200,\\,200$-$300,\\,300$-$1200$, or 20 intervals of equal width?\n\n---\n\n**Answer.** The three histograms are reported below:\n\n%%RBLOCK%%\n`distr.plot.x(x=Density, plot.type=\"hist\", breaks=6, data=Data_USA)`\n`distr.plot.x(x=Density, plot.type=\"hist\", breaks=c(0,30,60,100,200,300,1200), data=Data_USA)`\n`distr.plot.x(x=Density, plot.type=\"hist\", breaks=20, data=Data_USA)`\n%%/RBLOCK%%\n\n\nThe histogram with **6 classes** does not detail the behaviour of the distribution on the interval including the highest proportion of data; on the other side, the interval with **20 classes** offers a detailed but not particularly useful description of the distribution's right tail. The histogram built with **intervals of different widths** seems suitable: it allows both to describe quite accurately the distribution of the variable between $0$ and $200$, and to simplify the description of the tail using a unique low-density class.\n\nWhenever class widths differ, **density on the y-axis is compulsory**.\n",
+                "content": "**Question.** To display the distribution of `Density`, would you use 6 intervals of equal width, the intervals $0$-$30,\\,30$-$60,\\,60$-$100,\\,100$-$200,\\,200$-$300,\\,300$-$1200$, or 20 intervals of equal width?\n\n---\n\n**Answer.** The three histograms are reported below:\n\n%%RBLOCK%%\n`distr.plot.x(x=Density, plot.type=\"hist\", breaks=6, data=Data_USA)`\n`distr.plot.x(x=Density, plot.type=\"hist\", breaks=c(0,30,60,100,200,300,1200), data=Data_USA)`\n`distr.plot.x(x=Density, plot.type=\"hist\", breaks=20, data=Data_USA)`\n%%/RBLOCK%%\n\n\nThe histogram with **6 classes** does not detail the behaviour of the distribution on the interval including the highest proportion of data; on the other side, the interval with **20 classes** offers a detailed but not particularly useful description of the distribution's right tail. The histogram built with **intervals of different widths** seems suitable: it allows both to describe quite accurately the distribution of the variable between $0$ and $200$, and to simplify the description of the tail using a unique low-density class.\n\nWhenever class widths differ, **density on the y-axis is compulsory**.\n\n![Ex 0/1c AI walkthrough](statistics/images/ex0/ex0_1c_ai.png)\n",
                 "flashcard": false,
                 "images": [
-                  "statistics/images/ex1c-density-hist3.png"
+                  "statistics/images/ex0/ex0_1c_ai.png"
                 ],
                 "links": [
                   "th_g1c"
@@ -223,6 +223,7 @@
                 "content": "**Question.** Build `Rate.murders` (per 100 000), extract Density<100 and Density≥100 subgroups, plot histograms with breaks 0, 2, 4, 8, 12. Comment on differences.\n\n---\n\n**Answer.**\n\n%%RBLOCK%%\n`Rate.murders <- 100000 * Data_USA$Violent.Murder / Data_USA$Population`\n`Rate.murders_lt_100  <- Rate.murders[Data_USA$Density <  100]`\n`Rate.murders_ge_100  <- Rate.murders[Data_USA$Density >= 100]`\n`distr.plot.x(x=Rate.murders_lt_100, plot.type=\"hist\", breaks=c(0,2,4,8,12), data=Data_USA)`\n`distr.plot.x(x=Rate.murders_ge_100, plot.type=\"hist\", breaks=c(0,2,4,8,12), data=Data_USA)`\n%%/RBLOCK%%\n\n\nFrequency tables:\n\n\\begin{tabular}{p{7.6cm}|p{7.6cm}|p{7.6cm}|p{7.6cm}|p{7.6cm}}\n\\hline\nRate.murders & <100 Count & <100 Prop & ≥100 Count & ≥100 Prop \\\\\n\\hline\n[0, 2) & 5 & 0.21 & 0 & 0.00 \\\\\n[2, 4) & 9 & 0.38 & 9 & 0.35 \\\\\n[4, 8) & 5 & 0.21 & 14 & 0.54 \\\\\n[8, 12) & 5 & 0.21 & 3 & 0.12 \\\\\n\\textbf{TOTAL} & 24 & 1.00 & 26 & 1.00 \\\\\n\\hline\n\\end{tabular}\n\nHigher-Density (more urbanised) states tend to have **higher murder rates in general** — most mass sits in $[2,4)$ and $[4,8)$ (54% in the middle bin) and none in $[0,2)$. Lower-Density states are more concentrated on the **first intervals** but, interestingly, the **proportion of states in the highest bin $[8,12)$ is larger for lower-Density states** (21% vs 12%). (Use **density**, not counts, when comparing histograms of different sample sizes.)\n",
                 "flashcard": false,
                 "images": [
+                  "statistics/images/ex0-ex1i-answer.png",
                   "statistics/images/ex1i-rate-murders-split.png"
                 ],
                 "links": [
@@ -668,32 +669,39 @@
               {
                 "id": "2_4a",
                 "title": "Ex 2.4a — Identify the graph type (ogive) and its purpose",
-                "content": "**Question.** What type of graph is this, and what information does it report?\n\n---\n\n**Answer.** It is an **ogive**, reporting the absolute frequencies cumulated at the endpoints of intervals used to classify or to measure a numerical variable.\n\n\n%%RBLOCK%%\n`# Reconstruct and draw the ogive from the cumulative frequencies in the prompt`\n`endpoints <- c(0, 10, 20, 30, 60, 90, 150)`\n`cumfreq   <- c(0, 200, 400, 800, 1300, 1800, 2000)`\n`plot(endpoints, cumfreq, type = \"b\",`\n`     xlab = \"Nr contracts\", ylab = \"Cumulative frequency\",`\n`     main = \"Ogive\")`\n%%/RBLOCK%%\n\n",
+                "content": "**Question.**\n\n![Ex 2.4a question](statistics/images/ex2/questions/ex2_4a_question.png)\n\nWhat type of graph is this, and what information does it report?\n\n*(Frequency table reconstructed from the cumulative ogive in the prompt.)*\n\n\\begin{tabular}{p{6.33cm}|p{6.33cm}|p{6.33cm}|p{6.33cm}|p{6.33cm}|p{6.33cm}}\n\\hline\nNr contracts & Cumul. freq $F$ & Abs. freq $f$ & Rel. freq $p$ & Density $c$ & Midpoint \\\\\n\\hline\n$[0,10)$ & 200 & 200 & 0.10 & 0.01 & 5 \\\\\n$[10,20)$ & 400 & 200 & 0.10 & 0.01 & 15 \\\\\n$[20,30)$ & 800 & 400 & 0.20 & 0.02 & 25 \\\\\n$[30,60)$ & 1300 & 500 & 0.25 & 0.0083 & 45 \\\\\n$[60,90)$ & 1800 & 500 & 0.25 & 0.0083 & 75 \\\\\n$[90,150]$ & 2000 & 200 & 0.10 & 0.0017 & 120 \\\\\n\\hline\n\\end{tabular}\n\n\n---\n\n**Setup.** The plot in the prompt has the **class endpoints** of a numerical variable on the $x$-axis and the **cumulative absolute frequencies** $F_k = \\sum_{j\\le k} f_j$ on the $y$-axis, with the consecutive points joined by straight segments. That is the textbook definition of an **ogive** (cumulative-frequency polygon).\n\n---\n\n**AI walkthrough.**\n\n**Step 1 — Read the construction.** Six classes $[0,10),[10,20),[20,30),[30,60),[60,90),[90,150]$ with absolute frequencies $200, 200, 400, 500, 500, 200$ summing to $n = 2000$. Cumulating the counts at each **upper endpoint** gives the points $(10,200),(20,400),(30,800),(60,1300),(90,1800),(150,2000)$, plus the anchor $(0,0)$. Joining them by line segments produces the curve in the prompt.\n\n**Step 2 — Diagnostic properties.** An ogive is (i) **monotone non-decreasing** (since $f_j \\ge 0$), (ii) starts at $F = 0$ on the lower bound of the first class, and (iii) ends at $F = n$ on the upper bound of the last class. Both properties are visible in the prompt graph — that visual signature alone identifies it as an ogive (versus a histogram, which uses bar heights, or a frequency polygon, which uses class midpoints and is not monotone).\n\n**Step 3 — What it reports.** At any $x$ equal to a class endpoint, $F(x)$ is the **number of observations $\\le x$**. By **linear interpolation** between endpoints, the ogive supplies an approximation of $F(x)$ for any $x$ — and, inverting it, of any **quantile** $x_p$ from the equation $F(x_p) = p \\cdot n$. This is exactly the device used in 2.4b/2.4c/2.4d to read $Q_1, Q_3, P_{90}$ and to build the grouped variance.\n\n**Step 4 — Quick sanity check.** Reading $Q_1$ from $F = 0.25 \\cdot 2000 = 500$: $500$ falls in class $[20,30)$ (where $F$ runs from $400$ to $800$), so $Q_1 = 20 + (500-400)/40 = 22.5$ — matching the value used in 2.4b. The ogive *is* the tool that makes that interpolation legitimate.\n\n![Ex 2.4a AI walkthrough — anatomy of the ogive and how to read quantiles from it](statistics/images/ex2/ex2_4a_ai.png)\n\n---\n\n**Answer.** It is an **ogive** (cumulative-frequency polygon), reporting the **absolute frequencies cumulated at the upper endpoints** of the intervals used to classify the numerical variable `nr_contracts`. Because the curve is monotone and bounded between $0$ and $n = 2000$, any **quantile** $x_p$ can be read off it by inverse linear interpolation, $F(x_p) = p\\cdot n$ — which is precisely what sub-parts 2.4b–2.4d exploit.\n\n\n%%RBLOCK%%\n`# Reconstruct and draw the ogive from the cumulative frequencies in the prompt`\n`endpoints <- c(0, 10, 20, 30, 60, 90, 150)`\n`cumfreq   <- c(0, 200, 400, 800, 1300, 1800, 2000)`\n`plot(endpoints, cumfreq, type = \"b\",`\n`     xlab = \"Nr contracts\", ylab = \"Cumulative frequency\",`\n`     main = \"Ogive  (n = 2000)\")`\n`# Inverse-interpolation read of any quantile, e.g. Q1:`\n`approx(cumfreq, endpoints, xout = 0.25 * 2000)$y`\n`## [1] 22.5`\n%%/RBLOCK%%\n\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex2/questions/ex2_4a_question.png",
+                  "statistics/images/ex2/ex2_4a_ai.png"
+                ],
                 "links": [
                   "th_g1e"
                 ],
                 "x": 9800,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "coral",
                 "column": 13
               },
               {
                 "id": "2_7a",
                 "title": "Ex 2.7a — Reading the ogive of Nr_visits",
-                "content": "**Question.** What type of graph is reported and what values are shown on the vertical axis? Corresponding to what values does the function increase, and what do these increases refer to?\n\n*(Distribution of `Nr_visits` given in the prompt — 2200 customers.)*\n\n\\begin{tabular}{p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}}\n\\hline\nNr_Visits & 1 & 2 & 3 & 4 & 6 & 8 & 9 & 10 & 12 & 14 & 15 & 16 & 20 & 24 \\\\\n\\hline\nCount & 193 & 272 & 138 & 115 & 92 & 60 & 118 & 228 & 309 & 130 & 113 & 104 & 122 & 206 \\\\\n\\hline\n\\end{tabular}\n\n\n---\n\n**Answer.** The graph reports on the y-axis the **cumulative relative frequencies**, i.e., for each value on the horizontal axis, the proportion of customers who visited the shop a number of times equal to or up to the value considered. For example, the value of the function at 3 visits to the shop is:\n\n$$\n\\text{Freq}(Nr\\_visits \\le 3) = \\frac{193 + 272 + 138}{2200} = 0.274.\n$$\n\nThe increments of the function are the relative frequencies of the corresponding value (for example, the increment corresponding to the value 2 is its relative frequency, 0.124). Proceeding manually, we obtain the relative frequencies $p$ for every value $x$:\n\n\\begin{tabular}{p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}}\n\\hline\nNr_Visits & 1 & 2 & 3 & 4 & 6 & 8 & 9 & 10 & 12 & 14 & 15 & 16 & 20 & 24 \\\\\n\\hline\nProp & 0.088 & 0.124 & 0.063 & 0.052 & 0.042 & 0.027 & 0.054 & 0.104 & 0.140 & 0.059 & 0.051 & 0.047 & 0.055 & 0.094 \\\\\n\\hline\n\\end{tabular}\n\nAlternatively, it is possible (but not necessary) to determine the relative frequencies using R by creating a vector containing the absolute frequencies shown in the table and dividing its elements by the total number of customers in the sample:\n\n\n%%RBLOCK%%\n`x <- c(1,2,3,4,6,8,9,10,12,14,15,16,20,24)`\n`counts <- c(193,272,138,115,92,60,118,228,309,130,113,104,122,206)`\n`prop <- round(counts/sum(counts),3)`\n`names(prop) <- c(1,2,3,4,6,8,9,10,12,14,15,16,20,24)`\n`prop`\n%%/RBLOCK%%\n\n\nFor example, the highest increase occurs at 2 annual visits, and is equal to 0.124, the proportion of customers in the sample who visited the shop 2 times in the last year.\n",
+                "content": "**Question.** What type of graph is reported and what values are shown on the vertical axis? Corresponding to what values does the function increase, and what do these increases refer to?\n\n![Ex 2.7a question](statistics/images/ex2/questions/ex2_7a_question.png)\n\n*(Distribution of `Nr_visits` given in the prompt — 2200 customers.)*\n\n\\begin{tabular}{p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}}\n\\hline\nNr_Visits & 1 & 2 & 3 & 4 & 6 & 8 & 9 & 10 & 12 & 14 & 15 & 16 & 20 & 24 \\\\\n\\hline\nCount & 193 & 272 & 138 & 115 & 92 & 60 & 118 & 228 & 309 & 130 & 113 & 104 & 122 & 206 \\\\\n\\hline\n\\end{tabular}\n\n\n---\n\n**Answer.** The graph reports on the y-axis the **cumulative relative frequencies**, i.e., for each value on the horizontal axis, the proportion of customers who visited the shop a number of times equal to or up to the value considered. For example, the value of the function at 3 visits to the shop is:\n\n$$\n\\text{Freq}(Nr\\_visits \\le 3) = \\frac{193 + 272 + 138}{2200} = 0.274.\n$$\n\nThe increments of the function are the relative frequencies of the corresponding value (for example, the increment corresponding to the value 2 is its relative frequency, 0.124). Proceeding manually, we obtain the relative frequencies $p$ for every value $x$:\n\n\\begin{tabular}{p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}}\n\\hline\nNr_Visits & 1 & 2 & 3 & 4 & 6 & 8 & 9 & 10 & 12 & 14 & 15 & 16 & 20 & 24 \\\\\n\\hline\nProp & 0.088 & 0.124 & 0.063 & 0.052 & 0.042 & 0.027 & 0.054 & 0.104 & 0.140 & 0.059 & 0.051 & 0.047 & 0.055 & 0.094 \\\\\n\\hline\n\\end{tabular}\n\nAlternatively, it is possible (but not necessary) to determine the relative frequencies using R by creating a vector containing the absolute frequencies shown in the table and dividing its elements by the total number of customers in the sample:\n\n\n%%RBLOCK%%\n`x <- c(1,2,3,4,6,8,9,10,12,14,15,16,20,24)`\n`counts <- c(193,272,138,115,92,60,118,228,309,130,113,104,122,206)`\n`prop <- round(counts/sum(counts),3)`\n`names(prop) <- c(1,2,3,4,6,8,9,10,12,14,15,16,20,24)`\n`prop`\n%%/RBLOCK%%\n\n\nFor example, the highest increase occurs at 2 annual visits, and is equal to 0.124, the proportion of customers in the sample who visited the shop 2 times in the last year.\n\n**AI walkthrough.** The plot is an **ogive** (empirical CDF): on the $x$-axis you have the *distinct* observed values of `Nr_visits`, and on the $y$-axis the cumulative relative frequency $F_n(x) = \\sum_{x_k \\le x} f_k$. The function is *flat* between consecutive observed values and *jumps up* at every $x_k$; the **size of each jump is exactly the relative frequency** $\\Delta F_n(x_k) = f_k = n_k/n$. Reading the worked example off the table, $F_n(3) = (193 + 272 + 138)/2200 = 0.274$ — i.e. $27.4\\%$ of customers visited the mall at most 3 times. The arrows in the panel below mark every increment; the warm-yellow arrow at $x = 12$ flags the **single largest jump** of the distribution, $f_{12} = 0.140$, so $x = 12$ visits is the *mode* of `Nr_visits`. (The textbook's own remark singles out the early-bin jump at $x = 2$, $f_2 = 0.124$, which is the second-largest and the easiest to spot at the bottom of the curve.)\n\n![Ex 2.7a AI walkthrough — ogive jumps equal the relative frequencies](statistics/images/ex2/ex2_7a_ai.png)\n\n![Ex 2.7a original answer](statistics/images/ex2/answers/ex2_7a_answer.png)\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex2/questions/ex2_7a_question.png",
+                  "statistics/images/ex2/ex2_7a_ai.png",
+                  "statistics/images/ex2/answers/ex2_7a_answer.png"
+                ],
                 "links": [
                   "th_g1e"
                 ],
                 "x": 12200,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "coral",
                 "column": 16
               }
@@ -791,14 +799,17 @@
                 "title": "Ex 0 / 2b1 — P(size.family ≥ 4) exact",
                 "content": "**Question.** What proportion of families had 4 or more components travelling together?\n\n*(Family-size distribution given in the prompt.)*\n\n\\begin{tabular}{p{19.0cm}|p{19.0cm}}\n\\hline\nsize.family & Count \\\\\n\\hline\n0 & 891 \\\\\n1 & 319 \\\\\n2 & 42 \\\\\n3 & 20 \\\\\n4 & 22 \\\\\n5 & 6 \\\\\n8 & 9 \\\\\n\\textbf{TOTAL} & \\textbf{1309} \\\\\n\\hline\n\\end{tabular}\n\n\n---\n\n**Answer.** Discrete variable → exact:\n$$\n\\frac{22 + 6 + 9}{1309} = \\frac{37}{1309} = 0.02826585.\n$$\n\n%%RBLOCK%%\n`(22 + 6 + 9) / 1309`\n`## [1] 0.02826585`\n%%/RBLOCK%%\n\n**Result: ~2.83%.**\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex0/questions/ex0_2b1_question.png",
+                  "statistics/images/ex0/answers/ex0_2b1_answer.png"
+                ],
                 "links": [
                   "th_g2a"
                 ],
                 "x": 1800,
                 "y": 600,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "orange",
                 "column": 3
               },
@@ -1094,32 +1105,40 @@
               {
                 "id": "ex1b",
                 "title": "Ex 0 / 1b — Build Density variable",
-                "content": "**Question.** Add to the dataframe a new variable `Density` defined as the ratio between a state's population size and its area.\n\n---\n\n**Answer.**\n\n%%RBLOCK%%\n`Data_USA$Density <- Data_USA$Population / Data_USA$Area`\n%%/RBLOCK%%\n\nThis creates a new column with units *people per square mile*. From now on per-area comparisons among states can be made on `Density` directly instead of `Population` (which depends on state size).\n",
+                "content": "**Question.** Add to the dataframe a new variable `Density` defined as the ratio between a state's population size and its area.\n\n![Ex 0/1b question](statistics/images/ex0/questions/ex0_1b_question.png)\n\n---\n\n**Answer.**\n\n%%RBLOCK%%\n`Data_USA$Density <- Data_USA$Population / Data_USA$Area`\n%%/RBLOCK%%\n\nThis creates a new column with units *people per square mile*. From now on per-area comparisons among states can be made on `Density` directly instead of `Population` (which depends on state size).\n\n**Walkthrough.** `Population` and `Area` are both **size-dependent extensive** quantities: doubling a state's geographic extent (other things equal) would double both. Their **ratio** is an **intensive** quantity — it removes the size effect and yields a per-unit-area figure that is comparable across states regardless of how big each state is. The illustrative panels below show how the *ranking* flips when we go from raw `Population` to `Density`: California and Texas dominate on raw counts, but small north-eastern states (NJ, RI) top the chart on density. This is exactly why analyses of *how crowded* a state is must be done on `Density`, not on `Population`.\n\n![Ex 0/1b AI walkthrough](statistics/images/ex0/ex0_1b_ai.png)\n\n---\n\n**Reference answer (textbook).**\n\n![Ex 0/1b answer](statistics/images/ex0/answers/ex0_1b_answer.png)\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex0/questions/ex0_1b_question.png",
+                  "statistics/images/ex0/ex0_1b_ai.png",
+                  "statistics/images/ex0/answers/ex0_1b_answer.png"
+                ],
                 "links": [
                   "th_g3"
                 ],
                 "x": 1000,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "purple",
                 "column": 2
               },
               {
                 "id": "ex1d",
                 "title": "Ex 0 / 1d — Build a rate variable for violent crimes",
-                "content": "**Question.** Suppose you would like to study the different levels of violent crimes across states. Would you consider one variable in the database or build a new variable? Which?\n\n---\n\n**Answer.** No single variable in the database captures *overall violent crime* per state. We need a **preliminary build**: first sum the four violent-crime counts (assault, murder, rape, robbery), then **divide by population** so states are comparable.\n\n- Raw counts depend on state size — a big state can have many crimes simply because many people live there.\n- For **density in histograms**, the variable must also allow fair comparison between states.\n\nTo avoid tiny decimals, multiply by **100 000** → rate is *violent crimes per 100 000 inhabitants*:\n\n\n%%RBLOCK%%\n`Data_USA$Rate.Violent <- 100000 *`\n`  (Data_USA$Violent.Assault + Data_USA$Violent.Murder +`\n`   Data_USA$Violent.Rape    + Data_USA$Violent.Robbery) /`\n`  Data_USA$Population`\n%%/RBLOCK%%\n\n",
+                "content": "**Question.** Suppose you would like to study the different levels of violent crimes across states. Would you consider one variable in the database or build a new variable? Which?\n\n---\n\n**Answer.** No single variable in the database captures *overall violent crime* per state. We need a **preliminary build**: first sum the four violent-crime counts (assault, murder, rape, robbery), then **divide by population** so states are comparable.\n\n- Raw counts depend on state size — a big state can have many crimes simply because many people live there.\n- For **density in histograms**, the variable must also allow fair comparison between states.\n\nTo avoid tiny decimals, multiply by **100 000** → rate is *violent crimes per 100 000 inhabitants*:\n\n\n%%RBLOCK%%\n`Data_USA$Rate.Violent <- 100000 *`\n`  (Data_USA$Violent.Assault + Data_USA$Violent.Murder +`\n`   Data_USA$Violent.Rape    + Data_USA$Violent.Robbery) /`\n`  Data_USA$Population`\n%%/RBLOCK%%\n\n\nThe walkthrough plot below makes the confound concrete: California has the most violent crimes in absolute terms only because it has by far the largest population. After dividing by population and rescaling by $100{,}000$, the rate makes states comparable on the same footing — exactly the per-area logic of `Density = Population / Area` from 1b, applied here to violent-crime totals.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex0-ex1d-question.png",
+                  "statistics/images/ex0-ex1d-answer.png",
+                  "statistics/images/ex0-ex1d-ai.png"
+                ],
                 "links": [
                   "th_g3"
                 ],
                 "x": 1000,
-                "y": 600,
+                "y": 780,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "purple",
                 "column": 2
               },
@@ -1938,16 +1957,19 @@
               {
                 "id": "2_5b",
                 "title": "Ex 2.5b — Two thresholds identifying 5% / 95% extremes",
-                "content": "**Question.** Identify two threshold values from below and above which lie 5% of the sample respectively.\n\n---\n\n**Answer.** We look for 2 threshold values identifying, on the left and right tails respectively, two groups of customers consisting of both of 5% of the sample: these values are the two percentiles of order 5% and 95%, which satisfy the following conditions:\n\n$$\n\\text{Freq}\\{Age \\le p5\\} = 0.05, \\qquad \\text{Freq}\\{Age \\ge p95\\} = 0.05 \\;\\Longleftrightarrow\\; \\text{Freq}\\{Age \\le p95\\} = 0.95.\n$$\n\nWe can compute them using the following R function:\n\n\n%%RBLOCK%%\n`distr.summary.x(Age, stats=c(\"p5\",\"p95\"), data=customer_habits)`\n`##  n n.a p5 p95`\n`## 34866  0 32 66`\n%%/RBLOCK%%\n\n\nBased on the available sample, **5% of the youngest customers are at most 32 years old**, while **5% of the most mature customers are at least 66 years old**.\n",
+                "content": "**Question.**\n\n![Ex 2.5b question](statistics/images/ex2/questions/ex2_5b_question.png)\n\nIdentify two threshold values from below and above which lie 5% of the sample respectively.\n\n---\n\n**Answer.** We look for 2 threshold values identifying, on the left and right tails respectively, two groups of customers consisting of both of 5% of the sample: these values are the two percentiles of order 5% and 95%, which satisfy the following conditions:\n\n$$\n\\text{Freq}\\{Age \\le p5\\} = 0.05, \\qquad \\text{Freq}\\{Age \\ge p95\\} = 0.05 \\;\\Longleftrightarrow\\; \\text{Freq}\\{Age \\le p95\\} = 0.95.\n$$\n\nWe can compute them using the following R function:\n\n\n%%RBLOCK%%\n`distr.summary.x(Age, stats=c(\"p5\",\"p95\"), data=customer_habits)`\n`##  n n.a p5 p95`\n`## 34866  0 32 66`\n%%/RBLOCK%%\n\n\nBased on the available sample, **5% of the youngest customers are at most 32 years old**, while **5% of the most mature customers are at least 66 years old**.\n\n---\n\n**AI walkthrough.**\n\n![Ex 2.5b AI walkthrough](statistics/images/ex2/ex2_5b_ai.png)\n\n- **Left panel — density view.** The Age distribution is split into three pieces by the two thresholds: the *lower 5%* tail (accent) collects the youngest customers with $Age \\le 32$; the *upper 5%* tail (warm) collects the oldest with $Age \\ge 66$; the central band carries the remaining $90\\%$ of customers in $[32,\\,66]$.\n- **Right panel — CDF view.** The empirical CDF $F(a) = \\text{Freq}\\{Age \\le a\\}$ pins down each percentile geometrically: $p_5$ is the $x$-coordinate where the CDF crosses the horizontal level $0.05$, and $p_{95}$ is the crossing at $0.95$. This is the *defining equation* of a percentile — invert the CDF at the target mass.\n- **Why two thresholds, not one.** A single threshold would only separate one tail; here we need *both extremes*, so we report a pair $(p_5,\\,p_{95}) = (32,\\,66)$ whose tail probabilities add to $0.05 + 0.05 = 10\\%$, with $90\\%$ in the centre.\n- **Sanity check vs. 2.5a.** The 5-number summary from 2.5a was $(Q_1,\\,Me,\\,Q_3) = (40,\\,46,\\,54)$. The interval $[p_5,\\,p_{95}] = [32,\\,66]$ strictly contains the IQR box $[40,\\,54]$ — as it must, since the central $90\\%$ is wider than the central $50\\%$.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex2/questions/ex2_5b_question.png",
+                  "statistics/images/ex2/ex2_5b_ai.png"
+                ],
                 "links": [
                   "th_g6a"
                 ],
                 "x": 10600,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "pink",
                 "column": 14
               },
@@ -1990,16 +2012,20 @@
               {
                 "id": "2_7c",
                 "title": "Ex 2.7c — Five-number summary of Nr_visits",
-                "content": "**Question.** Determine the five-number summary of `Nr_visits`.\n\n*(Distribution of `Nr_visits` given in the prompt — 2200 customers.)*\n\n\\begin{tabular}{p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}}\n\\hline\nNr_Visits & 1 & 2 & 3 & 4 & 6 & 8 & 9 & 10 & 12 & 14 & 15 & 16 & 20 & 24 \\\\\n\\hline\nCount & 193 & 272 & 138 & 115 & 92 & 60 & 118 & 228 & 309 & 130 & 113 & 104 & 122 & 206 \\\\\n\\hline\n\\end{tabular}\n\n\n---\n\n**Answer.** The minimum and maximum number of observed visits are 1 and 24. The first quartile is the value where the cumulative frequency reaches or exceeds 0.25, and the median is 10 (first value where cumulative frequency greater than or equal to 0.5); the third quartile is 14 (first value with cumulative frequency greater than or equal to 0.75):\n\n\\begin{tabular}{p{7.6cm}|p{7.6cm}|p{7.6cm}|p{7.6cm}|p{7.6cm}}\n\\hline\nmin & $Q_1$ & Me & $Q_3$ & max \\\\\n\\hline\n1 & 3 & 10 & 14 & 24 \\\\\n\\hline\n\\end{tabular}\n",
+                "content": "**Question.** Determine the five-number summary of `Nr_visits`.\n\n![Ex 2.7c question](statistics/images/ex2/questions/ex2_7c_question.png)\n\n*(Distribution of `Nr_visits` given in the prompt — 2200 customers.)*\n\n\\begin{tabular}{p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}}\n\\hline\nNr_Visits & 1 & 2 & 3 & 4 & 6 & 8 & 9 & 10 & 12 & 14 & 15 & 16 & 20 & 24 \\\\\n\\hline\nCount & 193 & 272 & 138 & 115 & 92 & 60 & 118 & 228 & 309 & 130 & 113 & 104 & 122 & 206 \\\\\n\\hline\n\\end{tabular}\n\n\n---\n\n**Answer.** The minimum and maximum number of observed visits are 1 and 24. The first quartile is the value where the cumulative frequency reaches or exceeds 0.25, and the median is 10 (first value where cumulative frequency greater than or equal to 0.5); the third quartile is 14 (first value with cumulative frequency greater than or equal to 0.75):\n\n\\begin{tabular}{p{7.6cm}|p{7.6cm}|p{7.6cm}|p{7.6cm}|p{7.6cm}}\n\\hline\nmin & $Q_1$ & Me & $Q_3$ & max \\\\\n\\hline\n1 & 3 & 10 & 14 & 24 \\\\\n\\hline\n\\end{tabular}\n\n\n%%RBLOCK%%\n`x      <- c(1,2,3,4,6,8,9,10,12,14,15,16,20,24)`\n`counts <- c(193,272,138,115,92,60,118,228,309,130,113,104,122,206)`\n`v      <- rep(x, counts)                              # raw 2200-vector`\n`quantile(v, c(0, .25, .5, .75, 1), type = 1)          # textbook convention`\n`##   0%  25%  50%  75% 100%`\n`##    1    3   10   14   24`\n%%/RBLOCK%%\n\n\n**AI walkthrough.** The five-number summary is read **horizontally** off the ogive: draw the lines $F = 0.25, 0.50, 0.75$, slide right until you first cross the step function, then drop down to the $x$-axis. With the textbook's *type 1* convention $q_p = \\min\\{x : F_n(x) \\geq p\\}$, the three crossings land at $Q_1 = 3$ (cum $= 0.274$), Me $= 10$ (cum $= 0.553$) and $Q_3 = 14$ (cum $= 0.752$); min and max come for free from the table's extremes. The shaded sky-blue strip in the plot is the IQR region $[3, 14]$ — the *middle 50%* of customers — and is the object that exercises 2.7d–e will square against the full range $[1, 24]$.\n\n![Ex 2.7c AI walkthrough — five-number summary read off the ogive](statistics/images/ex2/ex2_7c_ai.png)\n\n![Ex 2.7c original answer](statistics/images/ex2/answers/ex2_7c_answer.png)\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex2/questions/ex2_7c_question.png",
+                  "statistics/images/ex2/ex2_7c_ai.png",
+                  "statistics/images/ex2/answers/ex2_7c_answer.png"
+                ],
                 "links": [
                   "th_g6a"
                 ],
                 "x": 12200,
                 "y": 600,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "pink",
                 "column": 16
               },
@@ -2166,10 +2192,12 @@
               {
                 "id": "2_7e",
                 "title": "Ex 2.7e — Boxplot of Nr_visits and its asymmetry",
-                "content": "**Question.** Build the boxplot of `Nr_visits`. Are there outliers? What can be said about the asymmetry?\n\n*(Distribution of `Nr_visits` given in the prompt — 2200 customers.)*\n\n\\begin{tabular}{p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}}\n\\hline\nNr_Visits & 1 & 2 & 3 & 4 & 6 & 8 & 9 & 10 & 12 & 14 & 15 & 16 & 20 & 24 \\\\\n\\hline\nCount & 193 & 272 & 138 & 115 & 92 & 60 & 118 & 228 & 309 & 130 & 113 & 104 & 122 & 206 \\\\\n\\hline\n\\end{tabular}\n\n\n---\n\n**Answer.** To build the boxplot, we preliminarily check whether there are outliers. Since $Q_3 + 1.5\\cdot IQR = 30.5 > \\text{max}$ and $Q_1 - 1.5\\cdot IQR = -13.5 < \\text{min}$, we conclude that there are no extreme values and based on the five-number summary reported at the previous point, we obtain:\n\n\n%%RBLOCK%%\n`distr.plot.x(Nr_visits, plot.type=\"boxplot\")`\n%%/RBLOCK%%\n\n\nA typical form of asymmetry is not directly identifiable from the plot: we have in fact that the left whisker has length $Q_1 - \\text{min} = 3 - 1 = 2$ smaller than that of the right whisker, $\\text{max} - Q_3 = 24 - 14 = 10$, while the box is asymmetrical on the left, as $Me - Q_1 = 10 - 3 = 7$, and $Q_3 - Me = 14 - 10 = 4$. Therefore, about the 25% of the less regular clients (lower whisker in the plot) has a quite homogeneous behavior as for the number of visits to the mall, whereas the most regular clients (upper whisker in the plot), including also clients who visited the mall up to twice a month, are more heterogeneous. Opposite considerations hold for the clients with a \"more standard/central\" number of visits. The group of \"central\" less regular clients (lower part of the box) is slightly more heterogeneous compared to the group of \"central\" more regular clients (upper part of the box).\n",
+                "content": "**Question.** Build the boxplot of `Nr_visits`. Are there outliers? What can be said about the asymmetry?\n\n![Ex 2.7e question](statistics/images/ex2/questions/ex2_7e_question.png)\n\n*(Distribution of `Nr_visits` given in the prompt — 2200 customers.)*\n\n\\begin{tabular}{p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}|p{2.53cm}}\n\\hline\nNr_Visits & 1 & 2 & 3 & 4 & 6 & 8 & 9 & 10 & 12 & 14 & 15 & 16 & 20 & 24 \\\\\n\\hline\nCount & 193 & 272 & 138 & 115 & 92 & 60 & 118 & 228 & 309 & 130 & 113 & 104 & 122 & 206 \\\\\n\\hline\n\\end{tabular}\n\n\n---\n\n**Answer.** To build the boxplot, we preliminarily check whether there are outliers. Since $Q_3 + 1.5\\cdot IQR = 30.5 > \\text{max}$ and $Q_1 - 1.5\\cdot IQR = -13.5 < \\text{min}$, we conclude that there are no extreme values and based on the five-number summary reported at the previous point, we obtain:\n\n\n%%RBLOCK%%\n`distr.plot.x(Nr_visits, plot.type=\"boxplot\")`\n%%/RBLOCK%%\n\n\nA typical form of asymmetry is not directly identifiable from the plot: we have in fact that the left whisker has length $Q_1 - \\text{min} = 3 - 1 = 2$ smaller than that of the right whisker, $\\text{max} - Q_3 = 24 - 14 = 10$, while the box is asymmetrical on the left, as $Me - Q_1 = 10 - 3 = 7$, and $Q_3 - Me = 14 - 10 = 4$. Therefore, about the 25% of the less regular clients (lower whisker in the plot) has a quite homogeneous behavior as for the number of visits to the mall, whereas the most regular clients (upper whisker in the plot), including also clients who visited the mall up to twice a month, are more heterogeneous. Opposite considerations hold for the clients with a \"more standard/central\" number of visits. The group of \"central\" less regular clients (lower part of the box) is slightly more heterogeneous compared to the group of \"central\" more regular clients (upper part of the box).\n\n![Ex 2.7e original answer](statistics/images/ex2/answers/ex2_7e_answer.png)\n\n**AI walkthrough.** The fence check $[Q_1 - 1.5\\cdot IQR,\\; Q_3 + 1.5\\cdot IQR] = [-13.5,\\; 30.5]$ contains $[\\text{min},\\text{max}] = [1,24]$, so the whiskers reach all the way to min and max — **no outliers**. The asymmetry, however, has *opposite signs* on the two parts of the plot: the **upper whisker** is $5\\times$ longer than the lower one ($\\text{max}-Q_3 = 10$ vs $Q_1-\\text{min} = 2$, right-skewed *tails*), while the **box itself** leans the other way — its lower half is wider ($Me-Q_1 = 7$ vs $Q_3-Me = 4$, left-skewed *core*). That mismatch is exactly why no clean overall skew can be declared from the boxplot.\n\n![Ex 2.7e AI walkthrough — boxplot of Nr_visits, whisker vs box asymmetry](statistics/images/ex2/ex2_7e_ai.png)\n",
                 "flashcard": false,
                 "images": [
-                  "statistics/images/ex2_7e-nrvisits-boxplot.png"
+                  "statistics/images/ex2/questions/ex2_7e_question.png",
+                  "statistics/images/ex2/answers/ex2_7e_answer.png",
+                  "statistics/images/ex2/ex2_7e_ai.png"
                 ],
                 "links": [
                   "th_g6b"
