@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-07T10:53:56.589Z",
+  "exportedAt": "2026-06-07T10:54:01.725Z",
   "data": {
     "topics": [
       {
@@ -652,7 +652,7 @@
               {
                 "id": "1778862798236",
                 "title": "SSM flexibility — no stationarity required",
-                "content": "\\begin{keydef}\n\\textbf{\\textcolor{red}{Why standard ARMA models require stationarity.}}\n\nAn ARMA model provides a somewhat \"rigid\" matheatic structure constrained by \n\n\nUnder these conditions, the resulting process has time-invariant\nstatistical properties: constant mean, constant variance,\nand autocovariances that depend only on the lag.\n\nTherefore, a stationary ARMA model cannot directly represent\nmany common forms of non-stationarity such as deterministic\ntrends, evolving seasonal patterns, or time-varying volatility.\nSuch features require either transformations (e.g. differencing)\nor a more flexible modelling framework.\n\\end{keydef}",
+                "content": "\\begin{keydef}\n\\textbf{\\textcolor{red}{Why standard ARMA models require stationarity.}}\n\nAn ARMA model provides a somewhat \"rigid\" matheatic structure constrained by constant parameters.  Under these conditions, the resulting process has time-invariant\nstatistical properties: constant mean, constant variance,\nand autocovariances that depend only on the lag.\n\nTherefore, a stationary ARMA model cannot directly represent\nmany common forms of non-stationarity such as deterministic\ntrends, evolving seasonal patterns, or time-varying volatility.\nSuch features require either transformations (e.g. differencing)\nor a more flexible modelling framework.\n\\end{keydef}",
                 "flashcard": true,
                 "images": [],
                 "links": [
