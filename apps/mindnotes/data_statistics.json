@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": 1780867313673,
+  "exportedAt": 1780867365934,
   "data": {
     "topics": [
       {
@@ -3596,10 +3596,12 @@
               {
                 "id": "4_3a",
                 "title": "Ex 4.3a — P(X > 12) for spending X ~ N(13.2, 1.2²)",
-                "content": "**Question.** For a large retail chain, the expenditure (in a single act of purchase, in a single receipt) of a generic customer on the purchase of *private label* products (marketed under the distributor's brand name instead of the manufacturer's brand name) can be assumed to be normally distributed with mean 13.2 euros and standard deviation 1.2 euros.\n\nWhat is the probability that a customer will spend more than 12 euros for private label products?\n\n---\n\n**Answer.** Let $X$ denote the expenditure on private label products; $X \\sim N(13.2, 1.2^2)$. The probability that a customer will spend more than 12 euros is **0.8413**:\n\n\n%%RBLOCK%%\n`1 - pnorm(12, 13.2, 1.2)`\n`## [1] 0.8413447`\n%%/RBLOCK%%\n\n\n**Walkthrough.** Standardising, $z = (12 - 13.2)/1.2 = -1$, so\n\n$$\n\\Pr(X > 12) \\;=\\; \\Pr(Z > -1) \\;=\\; 1 - \\Phi(-1) \\;=\\; \\Phi(1) \\;\\approx\\; 0.8413.\n$$\n\nThe threshold $x = 12$ sits **one standard deviation below the mean**, so the right tail above it covers the central mass plus the upper half — about 84% of the distribution. The figure shows the same shaded area on the original scale ($X$, left) and on the standardised scale ($Z$, right).\n\n![Ex 4.3a walkthrough](statistics/images/ex4/ex4_3a_ai.png)\n",
+                "content": "**Question.** For a large retail chain, the expenditure (in a single act of purchase, in a single receipt) of a generic customer on the purchase of *private label* products (marketed under the distributor's brand name instead of the manufacturer's brand name) can be assumed to be normally distributed with mean 13.2 euros and standard deviation 1.2 euros.\n\nWhat is the probability that a customer will spend more than 12 euros for private label products?\n\n![Ex 4.3a question](statistics/images/ex4/questions/ex4_4_3a_question.png)\n\n---\n\n**Answer.** Let $X$ denote the expenditure on private label products; $X \\sim N(13.2, 1.2^2)$. The probability that a customer will spend more than 12 euros is **0.8413**:\n\n\n%%RBLOCK%%\n`1 - pnorm(12, 13.2, 1.2)`\n`## [1] 0.8413447`\n%%/RBLOCK%%\n\n\n**Walkthrough.** Standardising, $z = (12 - 13.2)/1.2 = -1$, so\n\n$$\n\\Pr(X > 12) \\;=\\; \\Pr(Z > -1) \\;=\\; 1 - \\Phi(-1) \\;=\\; \\Phi(1) \\;\\approx\\; 0.8413.\n$$\n\nThe threshold $x = 12$ sits **one standard deviation below the mean**, so the right tail above it covers the central mass plus the upper half — about 84% of the distribution. The figure shows the same shaded area on the original scale ($X$, left) and on the standardised scale ($Z$, right).\n\n![Ex 4.3a AI walkthrough](statistics/images/ex4/ex4_4_3a_ai.png)\n\n---\n\n**Reference answer (textbook).**\n\n![Ex 4.3a answer](statistics/images/ex4/answers/ex4_4_3a_answer.png)\n",
                 "flashcard": false,
                 "images": [
-                  "statistics/images/ex4/ex4_3a_ai.png"
+                  "statistics/images/ex4/questions/ex4_4_3a_question.png",
+                  "statistics/images/ex4/ex4_4_3a_ai.png",
+                  "statistics/images/ex4/answers/ex4_4_3a_answer.png"
                 ],
                 "links": [
                   "th_g10"
