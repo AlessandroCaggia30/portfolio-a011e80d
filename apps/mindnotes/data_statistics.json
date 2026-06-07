@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": 1780868145650,
+  "exportedAt": 1780868445056,
   "data": {
     "topics": [
       {
@@ -3779,16 +3779,20 @@
               {
                 "id": "4_9a",
                 "title": "Ex 4.9a — P(sample mean Sales < 22500) — pizzeria sampling, n = 81",
-                "content": "**Question.** The monthly turnover of pizzerias in Milan, Pavia and Lodi has mean $\\mu = 25{,}000\\,\\text{\\euro}$ and standard deviation $\\sigma = 9{,}800\\,\\text{\\euro}$. We randomly draw a sample of $n = 81$ pizzerias. Can you determine the probability that the mean turnover on the drawn sample is less than 22,500? If yes, compute it; if no, explain whether it can be determined under additional assumptions and compute it under those.\n\n---\n\n**Answer.** Since the sample is large enough, by the Central Limit Theorem no assumption on the distribution of turnover in the population is needed: the sample mean is approximately Normal, $\\bar X \\sim N(25000,\\, 9800^2/81)$.\n\n\n%%RBLOCK%%\n`pnorm(22500, 25000, sqrt(9800^2/81))`\n`## [1] 0.01083864`\n%%/RBLOCK%%\n\n",
+                "content": "**Question.**\n\n![Ex 4.9a question](images/ex4/questions/ex4_4_9a_question.png)\n\n---\n\n**Answer.**\n\n![Ex 4.9a answer](images/ex4/answers/ex4_4_9a_answer.png)\n\n---\n\n**AI explanation.** By the **Central Limit Theorem**, for $n = 81 \\geq 30$ the distribution of the sample mean is approximately Normal regardless of the population distribution of turnover:\n\n$$\\bar X \\;\\sim\\; \\mathcal{N}\\!\\left(\\mu,\\,\\tfrac{\\sigma^{2}}{n}\\right) \\;=\\; \\mathcal{N}\\!\\left(25{,}000,\\;\\tfrac{9800^{2}}{81}\\right).$$\n\nThe **standard error** of the mean is $\\mathrm{SE} = \\sigma/\\sqrt{n} = 9800/9 \\approx 1088.9$ €. Standardising the threshold:\n\n$$z \\;=\\; \\frac{22500 - 25000}{1088.9} \\;\\approx\\; -2.296,$$\n\nso $\\Pr(\\bar X < 22500) = \\Phi(-2.296) \\approx 0.0108$. The plot below shows the sampling density of $\\bar X$ with the shaded left tail equal to the answer.\n\n![Ex 4.9a AI plot](images/ex4/ex4_4_9a_ai.png)\n\n**Key intuition.** The population SD is 9,800 € but the SD of the *mean of 81 draws* is only $\\approx 1089$ € — the $\\sqrt{n}$ shrinkage of dispersion is what makes a sample mean as low as 22,500 € a $\\sim 2.3\\sigma$ event (probability $\\approx 1\\%$).\n\n\n%%RBLOCK%%\n`pnorm(22500, 25000, sqrt(9800^2/81))`\n`## [1] 0.01083864`\n%%/RBLOCK%%\n\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "images/ex4/questions/ex4_4_9a_question.png",
+                  "images/ex4/answers/ex4_4_9a_answer.png",
+                  "images/ex4/ex4_4_9a_ai.png"
+                ],
                 "links": [
                   "th_g11"
                 ],
                 "x": 29800,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "teal",
                 "column": 38
               },
@@ -3802,7 +3806,7 @@
                   "th_g11"
                 ],
                 "x": 29800,
-                "y": 600,
+                "y": 780,
                 "width": 600,
                 "height": 360,
                 "color": "teal",
@@ -3818,7 +3822,7 @@
                   "th_g11"
                 ],
                 "x": 29800,
-                "y": 1000,
+                "y": 1180,
                 "width": 600,
                 "height": 360,
                 "color": "teal",
