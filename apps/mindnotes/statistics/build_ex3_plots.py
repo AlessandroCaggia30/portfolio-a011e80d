@@ -115,10 +115,10 @@ ax.set_xlabel("TYPE"); ax.set_ylabel("EXPENSES")
 ax.set_title("Boxplot: EXPENSES | TYPE")
 save("ex3_4a-expenses-by-type.png")
 
-# ---------- 3.6f stacked bar Country | Sex ----------
-print("\n[3.6f] stacked bar Country by Sex")
+# ---------- 3.6e stacked bar Sex | Country ----------
+print("\n[3.6e] stacked bar Sex by Country")
 ct = pd.crosstab(ch["Country"], ch["Sex"], normalize="index") * 100
-print(ct.round(1))
+print(ct.round(2))
 fig, ax = plt.subplots(figsize=(7, 5))
 countries = list(ct.index)
 ax.bar(countries, ct["F"].values, color="#e74c3c", label="F")
@@ -126,7 +126,26 @@ ax.bar(countries, ct["M"].values, bottom=ct["F"].values, color="#5fc0c5", label=
 ax.set_ylabel("Percent"); ax.set_title("Stacked bar: Sex | Country")
 ax.legend()
 plt.xticks(rotation=15)
-save("ex3_6f-country-sex-stacked.png")
+save("ex3_6f-country-sex-stacked.png")  # kept name for backward compat (used by 3.6e)
+
+# ---------- 3.6g side-by-side bar Country | Sex ----------
+print("\n[3.6g] side-by-side bar Country by Sex")
+ct2 = pd.crosstab(ch["Sex"], ch["Country"], normalize="index") * 100
+print(ct2.round(2))
+fig, ax = plt.subplots(figsize=(7, 5))
+sexes = list(ct2.index)              # ['F','M']
+countries = list(ct2.columns)        # ['France','Germany','UK','US']
+x = np.arange(len(sexes))
+width = 0.2
+colors = ["#e74c3c", "#27ae60", "#5fc0c5", "#8e44ad"]
+for i, c in enumerate(countries):
+    ax.bar(x + (i - 1.5)*width, ct2[c].values, width, label=c, color=colors[i])
+ax.set_xticks(x)
+ax.set_xticklabels(sexes)
+ax.set_ylabel("Percent"); ax.set_xlabel("Sex")
+ax.set_title("Side-by-side bar: Country | Sex")
+ax.legend(title="Country")
+save("ex3_6g-country-by-sex-side.png")
 
 # ---------- 3.7a1 stacked bar Product_Category | Sex ----------
 print("\n[3.7a1] stacked bar Product_Category by Sex")
@@ -158,6 +177,28 @@ for ax, country in zip(axes, countries):
     ax.set_title(country); ax.set_ylabel("Percent" if ax is axes[0] else "")
 axes[-1].legend(loc="upper right")
 save("ex3_7a3-product-sex-by-country.png")
+
+# ---------- 3.7b1 boxplot Age | Country ----------
+print("\n[3.7b1] boxplot Age by Country")
+countries_b1 = sorted(ch["Country"].unique())
+groups_b1 = [ch.loc[ch["Country"]==c, "Age"].dropna() for c in countries_b1]
+fig, ax = plt.subplots(figsize=(7, 5))
+ax.boxplot(groups_b1, labels=countries_b1, patch_artist=True,
+           boxprops=dict(facecolor="#a8d0e6"))
+ax.set_xlabel("Country"); ax.set_ylabel("Age")
+ax.set_title("Boxplot: Age | Country")
+save("ex3_7b1-age-by-country.png")
+
+# ---------- 3.8a boxplot Quantity | Product_Category ----------
+print("\n[3.8a] boxplot Quantity by Product_Category")
+cats_8a = ["Accessories","Bikes","Clothing"]
+groups_8a = [ch.loc[ch["Product_Category"]==c, "Quantity"].dropna() for c in cats_8a]
+fig, ax = plt.subplots(figsize=(7, 5))
+ax.boxplot(groups_8a, labels=cats_8a, patch_artist=True,
+           boxprops=dict(facecolor="#5fa8d3"))
+ax.set_xlabel("Product_Category"); ax.set_ylabel("Quantity")
+ax.set_title("Boxplot: Quantity | Product_Category")
+save("ex3_8a-quantity-by-category.png")
 
 # ---------- 3.9a1 stacked bar LoL tier by class ----------
 print("\n[3.9a1] stacked bar LoL tier by class")
