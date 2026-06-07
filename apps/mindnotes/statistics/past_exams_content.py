@@ -33,7 +33,7 @@ past_exams["exam_p1_2024_1b"] = {
 "is_exam": True, "topic_hint": "G3",
 "content": _q(
     "What are the levels of loyalty in the 10% of stores with the most loyal customers (`Loyalty`)? Indicate clearly which measures you use to answer and their numerical values.",
-    "Identify the **90th percentile** $P_{90}$. From the cumulative relative frequency table, class $[70,90)$ is the first whose cum.prop exceeds 0.9 (cum.prop just before = 0.80, density = 0.012). Under uniform-within-class assumption: $P_{90} = 70 + \\dfrac{0.9 - 0.8}{0.012} = 78.333$. The loyalty levels of the 10% most loyal stores therefore lie in the range $[78.333,\\,100]$.",
+    "Identify the **90th percentile** $P_{90}$. From the cumulative relative frequency table, class $[70,80)$ is the first whose cum.prop exceeds 0.9 (cum.prop just before = 0.80, density = 0.012). Under uniform-within-class assumption: $P_{90} = 70 + \\dfrac{0.9 - 0.8}{0.012} = 78.333$. The loyalty levels of the 10% most loyal stores therefore lie in the range $[78.333,\\,100]$.",
     "distr.table.x(x=Loyalty, interval=T,\n               freq=c('counts','prop','dens','cum'),\n               data=Campaign)\n## P90 = 70 + (0.9 - 0.8)/0.012 = 78.333"
 ), "images": []}
 
@@ -42,7 +42,7 @@ past_exams["exam_p1_2024_1c"] = {
 "is_exam": True, "topic_hint": "G4",
 "content": _q(
     "Determine the **mean** and **variance** of the variable `Loyalty` (continuous, measured in classes) in `Campaign`. Indicate clearly the procedure followed.",
-    "Use class midpoints $m_k$ with absolute freq $f_k$ (or relative $p_k$). Classes [10,20),[20,40),[40,50),[50,70),[70,90),[90,100] → midpoints 15, 30, 45, 60, 75, 90. **Mean:** $\\bar X \\approx \\tfrac{1}{n}\\sum_k f_k m_k = \\tfrac{1}{1450}(15\\cdot58 + 30\\cdot319 + \\dots + 90\\cdot116) = 52.2$. **Variance (population):** $s^2 \\approx \\sum_k m_k^2 p_k - \\bar X^2 = 3096 - 52.2^2 = 371.16$. With sample correction: $s^2_{n-1} = \\tfrac{1450}{1449}\\cdot 371.16 \\approx 371.4161$. (Difference vs ungrouped is negligible for large $n$.)",
+    "Use class midpoints $m_k$ with absolute freq $f_k$ (or relative $p_k$). Classes [10,20),[20,40),[40,50),[50,70),[70,80),[80,100) → midpoints 15, 30, 45, 60, 75, 90. **Mean:** $\\bar X \\approx \\tfrac{1}{n}\\sum_k f_k m_k = \\tfrac{1}{1450}(15\\cdot58 + 30\\cdot319 + \\dots + 90\\cdot116) = 52.2$. **Variance (population):** $s^2 \\approx \\sum_k m_k^2 p_k - \\bar X^2 = 3096 - 52.2^2 = 371.16$. With sample correction: $s^2_{n-1} = \\tfrac{1450}{1449}\\cdot 371.16 \\approx 371.4161$. (Difference vs ungrouped is negligible for large $n$.)",
     "mids <- c(15,30,45,60,75,90)\nfk   <- c(58,319,348,435,174,116)\nxbar <- sum(fk*mids)/sum(fk)            # 52.2\nvar_pop <- sum(fk*mids^2)/sum(fk) - xbar^2   # 371.16"
 ), "images": []}
 
@@ -74,7 +74,7 @@ past_exams["exam_p1_2024_3a"] = {
 ), "images": []}
 
 past_exams["exam_p1_2024_4a"] = {
-"title": "P1-2024 Ex3 — Sales vs Costs & Revenues: which correlation is stronger?",
+"title": "P1-2024 Ex4 — Sales vs Costs & Revenues: which correlation is stronger?",
 "is_exam": True, "topic_hint": "G9",
 "content": _q(
     "Refer to the `Campaign` dataframe. Using scatter plots and the linear correlation coefficient, study the relationship between `Sales` and the other two quantitative variables `Costs` and `Revenues`. With which of the two variables is `Sales` most correlated?",
@@ -83,7 +83,7 @@ past_exams["exam_p1_2024_4a"] = {
 ), "images": ["statistics/images/exam_p1_2024_costs_sales.png"]}
 
 past_exams["exam_p1_2024_5a"] = {
-"title": "P1-2024 Ex4 — Channel × Effectiveness contingency (n=725)",
+"title": "P1-2024 Ex5 — Channel × Effectiveness contingency (n=725)",
 "is_exam": True, "topic_hint": "G7",
 "content": _q(
     "A company launched a promotional campaign. An in-depth analysis is carried out on a sample of $n=725$ customers. For each customer the *Channel* used to interact with the company (E-commerce / Multi-channel / Channel 2 / Mobile App) and the perceived *Effectiveness* of the campaign (Ineffective / Low / Medium / High) are observed. Analyze the relationship between the two variables. In particular, which Channel is associated with the highest perception of effectiveness?",
@@ -95,7 +95,7 @@ past_exams["exam_p1_2024_6a"] = {
 "title": "P1-2024 Ex6a — CLT: P(total spend > 1000) for n=80 customers",
 "is_exam": True, "topic_hint": "G11",
 "content": _q(
-    "A shop expects more than 1000 euros in the next hour. Specify clearly whether and what assumptions are needed to determine the required probability. Let $X$ = amount spent by a customer; we know $E[X] = 12$ and $\\mathrm{Var}(X) = 5^2 = 25$. The total amount spent by a sample of $n = 80$ customers is the random variable $S = X_1 + \\cdots + X_{80}$. Compute $P(S > 1000)$.",
+    "A shop expects to make more than 1000 euros in total takings during the next hour. Specify clearly whether and what assumptions are needed to determine the required probability. Let $X$ = amount spent by a customer; we know $E[X] = 12$ and $\\mathrm{Var}(X) = 5^2 = 25$. The total amount spent by a sample of $n = 80$ customers is the random variable $S = X_1 + \\cdots + X_{80}$. Compute $P(S > 1000)$.",
     "**Assumptions:** the $X_i$ are i.i.d. (independent customers, same spend distribution). Since $n = 80$ is large, by the CLT the sum is approximately normal regardless of the distribution of an individual customer. Thus $S \\;\\dot\\sim\\; N(n\\mu,\\, n\\sigma^2) = N(80 \\cdot 12,\\, 80 \\cdot 25) = N(960,\\, 2000)$. Standardising: $z = (1000-960)/\\sqrt{2000} = 40/44.72 \\approx 0.894$, so $P(S > 1000) = 1 - \\Phi(0.894) \\approx 0.1855$.",
     "p_S <- 1 - pnorm(1000, mean=960, sd=sqrt(2000))\np_S\n## [1] 0.1855467"
 ), "images": []}
@@ -104,7 +104,7 @@ past_exams["exam_p1_2024_6b"] = {
 "title": "P1-2024 Ex6b — Sample proportion of shops",
 "is_exam": True, "topic_hint": "G11",
 "content": _q(
-    "Assume that in the city there are $115$ shops with the same characteristics as those considered in point a, and assume that exactly $80$ customers in each outlet take advantage of the promotion. What is the probability that the proportion of outlets where the $80$ customers spend more than $1000$ euros in total is less than $0.15$? (If you did not answer point a, assume the required probability was $0.2$).\n\nLet $\\hat P$ be the random variable describing the proportion of customers spending more than $1000$ euros in the $115$ shops. From point a we have $\\pi \\approx 0.1855$, so $\\hat P$ is approximately\n$$\\hat P \\sim N\\!\\left(0.1855,\\; \\frac{0.1855 \\cdot (1-0.1855)}{115}\\right)$$",
+    "Assume that in the city there are $115$ shops with the same characteristics as those considered in point a, and assume that exactly $80$ customers in each outlet take advantage of the promotion. What is the probability that the proportion of outlets where the $80$ customers spend more than $1000$ euros in total is less than $0.15$? (If you did not answer point a, assume the required probability was $0.2$).\n\nLet $\\hat P$ be the random variable describing the proportion of outlets (out of the $115$) in which the $80$ customers spend more than $1000$ euros in total. From point a we have $\\pi \\approx 0.1855$, so $\\hat P$ is approximately\n$$\\hat P \\sim N\\!\\left(0.1855,\\; \\frac{0.1855 \\cdot (1-0.1855)}{115}\\right)$$",
     "By the CLT, the sampling distribution of $\\hat P$ is approximately Normal with mean $\\pi \\approx 0.1855$ and variance $\\pi(1-\\pi)/n = 0.1855 \\cdot 0.8145 / 115$. The required probability is therefore\n$$P(\\hat P < 0.15) \\approx 0.166$$",
     "pnorm(0.15, 0.1855, sqrt(0.1855*0.8145/115))\n## [1] 0.1636914"
 ), "images": []}
@@ -155,7 +155,7 @@ past_exams["exam_p1_2026_1a"] = {
 "content": _q(
     "Use side-by-side boxplots of `Bid` by `Channel` (Aggregator / Agency / Airline) in the `Bidding` dataset to compare the bid distributions across the three channels (shape, spread, position, outliers).",
     "**Shape.** `Airline` is strongly **left-skewed** — long lower whisker plus a column of low-side outliers pulls the lower tail down. `Agency` and `Aggregator` are roughly **symmetric** (median sits near the middle of the box); `Agency` still shows outliers on both tails.\n\n**Spread (IQR & range).** `Agency` has the **smallest IQR** (tightest box). `Aggregator` has the **smallest total range** (shortest whisker-to-whisker extent). `Airline` is the most dispersed once outliers are counted.\n\n**Position.** `Agency` is **shifted down**: its median and even its **Q3 sit below the Q1** of both `Aggregator` and `Airline`, so a typical Agency bid is lower than the bottom 25% of bids on the other two channels. `Aggregator` and `Airline` have nearly identical medians (~55).",
-    "distr.plot.xy(x=Channel, y=Bid, data=Bidding, plot.type='box')\n# Numeric backup of the visual reading\ndistr.summary.xy(Bid, Channel, stats=c('fivenumber','IQR'), data=Bidding)"
+    "distr.plot.xy(x=Bid, y=Channel, data=Bidding, plot.type='boxplot')\n# Numeric backup of the visual reading\ndistr.summary.xy(Bid, Channel, stats=c('fivenumber','IQR'), data=Bidding)"
 ), "images": ["statistics/images/exam_p1_2026_bid_by_channel.png"]}
 
 past_exams["exam_p1_2026_1b"] = {
@@ -164,7 +164,7 @@ past_exams["exam_p1_2026_1b"] = {
 "content": _q(
     "Which measure of central tendency would you use to summarize the three Bid distributions across Channels (Agency, Aggregator, Airline)?",
     "Pick the measure based on each channel's shape (read from the boxplots in Ex1a):\n\n- **Agency**: roughly **symmetric** → **mean** (median equally fine; both coincide).\n- **Aggregator**: fairly **symmetric** → **mean** is appropriate.\n- **Airline**: strong **left skew** with a long lower tail / low outliers → **median**, because the mean is pulled down by the tail and misrepresents the typical bid.\n\nGood practice: **report median alongside mean** for all three, so the reader sees both the typical value and the effect of skew/outliers. The mean is sensitive to extreme values; the median is robust and reflects the middle 50% better when the distribution is skewed.",
-    "# Means and medians by Channel (use both — pick by shape)\ndistr.summary.xy(Bid, Channel, stats=c('mean','median'), data=Flights)\n# Visual confirmation of skew:\ndistr.plot.xy(x=Bid, y=Channel, plot.type='boxplot', data=Flights)\n# Rule of thumb:\n#   symmetric  -> mean  (Agency, Aggregator)\n#   skewed/outliers -> median (Airline)"
+    "# Means and medians by Channel (use both — pick by shape)\ndistr.summary.xy(Bid, Channel, stats=c('mean','median'), data=Bidding)\n# Visual confirmation of skew:\ndistr.plot.xy(x=Bid, y=Channel, plot.type='boxplot', data=Bidding)\n# Rule of thumb:\n#   symmetric  -> mean  (Agency, Aggregator)\n#   skewed/outliers -> median (Airline)"
 ), "images": []}
 
 past_exams["exam_p1_2026_1c"] = {
@@ -173,7 +173,7 @@ past_exams["exam_p1_2026_1c"] = {
 "content": _q(
     "Can a bid of 35 by a Channel=Aggregator customer be considered extremely low?",
     "Use **Tukey's lower fence** for Aggregator: $L = Q_1 - 1.5 \\cdot IQR$. From the Aggregator summary: $Q_1 = 50.8225$, $IQR = 11.895$, so $L = 50.8225 - 1.5 \\cdot 11.895 = 50.8225 - 17.8425 = \\mathbf{32.98}$. A value is flagged as an extreme low outlier only if it falls **below** the fence. Since $35 > 32.98$, **the bid of 35 is NOT extremely low** — it is unusual but lies inside the lower whisker, not in outlier territory.",
-    "# Aggregator subgroup\nQ1  <- 50.8225\nQ3  <- 62.7175\nIQR <- Q3 - Q1    # 11.895\nlower_fence <- Q1 - 1.5 * IQR\nlower_fence\n## [1] 32.98\n35 > lower_fence  # TRUE -> not an extreme low\n## [1] TRUE\n# Equivalent in R from the data:\ndistr.summary.xy(Bid, Channel, stats=c('Q1','Q3','IQR'), data=Flights)"
+    "# Aggregator subgroup\nQ1  <- 50.8225\nQ3  <- 62.7175\nIQR <- Q3 - Q1    # 11.895\nlower_fence <- Q1 - 1.5 * IQR\nlower_fence\n## [1] 32.98\n35 > lower_fence  # TRUE -> not an extreme low\n## [1] TRUE\n# Equivalent in R from the data:\ndistr.summary.xy(Bid, Channel, stats=c('Q1','Q3','IQR'), data=Bidding)"
 ), "images": []}
 
 # =================== GENERAL 1 2024 ===================
@@ -364,8 +364,8 @@ past_exams["exam_g2_2026_1a"] = {
 "is_exam": True, "topic_hint": "G13",
 "content": _q(
     "Compare the proportion of customers who chose the first (more expensive) product in the cleaning category (`category` == `cleaning`) between the **NorthWest** region ($n_1 = 278$, $\\hat p_1 = 0.64$) and the **NorthEast** region ($n_2 = 189$, $\\hat p_2 = 0.418$). Build a **90% confidence interval** for the difference $p_1 - p_2$ and interpret.",
-    "Sample estimates: $\\hat p_1 - \\hat p_2 = 0.147$, $SE(\\hat p_1 - \\hat p_2) = 0.121$. 90% CI uses $z_{0.95} = 1.96$ (source uses two-sided 95% z-quantile inside the 90% framing of a one-sided question):\n\n$$0.147 \\pm 1.96 \\cdot 0.121 = [-0.091,\\; 0.385].$$\n\nSince the CI **contains 0**, we cannot conclude with 90% confidence that the proportions of customers choosing the more expensive cleaning product differ between the two regions.",
-    "n1 <- 278;  p1 <- 0.64\nn2 <- 189;  p2 <- 0.418\nSE <- 0.121         # given by the source\n0.147 + c(-1,1) * 1.96 * SE\n## [1] -0.091  0.385\nCI.diffprop(x, y, conf.level=0.90)"
+    "Sample estimates: $\\hat p_1 - \\hat p_2 = 0.147$, $SE(\\hat p_1 - \\hat p_2) = 0.121$. A two-sided 90% CI uses $z_{0.95} = 1.645$:\n\n$$0.147 \\pm 1.645 \\cdot 0.121 = [-0.052,\\; 0.346].$$\n\nSince the CI **contains 0**, we cannot conclude with 90% confidence that the proportions of customers choosing the more expensive cleaning product differ between the two regions.",
+    "n1 <- 278;  p1 <- 0.64\nn2 <- 189;  p2 <- 0.418\nSE <- 0.121         # given by the source\n0.147 + c(-1,1) * 1.645 * SE\n## [1] -0.052  0.346\nCI.diffprop(x, y, conf.level=0.90)"
 ), "images": ["statistics/images/exam_g2_2026_prices.png"]}
 
 past_exams["exam_g2_2026_2a"] = {
@@ -393,7 +393,7 @@ past_exams["exam_july_2024_2a"] = {
 "is_exam": True, "topic_hint": "G9",
 "content": _q(
     "Ex2 indicates the percentage of enrolled students from the top 10% of high-school classes (`Top10`), and the variable `Phd` as a faculty quality indicator. **Assess how strong is the linear association** between the variables `Top10` and `Phd`, computing the linear correlation coefficient and specifying which are the criteria used to answer your considerations.",
-    "**Setup.** Both variables are quantitative ($n = 408$ colleges). The natural single-number summary of *linear* association is **Pearson's correlation** $r \\in [-1, 1]$:\n$$r \\;=\\; \\frac{\\sum_i (x_i - \\bar x)(y_i - \\bar y)}{\\sqrt{\\sum_i(x_i-\\bar x)^2}\\,\\sqrt{\\sum_i(y_i-\\bar y)^2}} \\;=\\; \\frac{\\Cov(X,Y)}{s_X\\,s_Y}.$$\n\n**Sample value.** From the `.Rdata`:\n$$r = \\mathrm{cor}(\\texttt{Top10},\\,\\texttt{Phd}) \\approx 0.5657.$$\n\n**Interpretation criteria.**\n\n| $|r|$ | strength | here |\n|---|---|---|\n| $0$ | none | |\n| $(0, 0.3]$ | weak | |\n| $(0.3, 0.7]$ | **moderate** | **$0.566$** |\n| $(0.7, 1)$ | strong | |\n| $1$ | perfect | |\n\n**Reading.** $r \\approx +0.57$ is **positive** (colleges enrolling more top-10% high-school students tend to have a higher `Phd` faculty-quality index) and **moderate** — there is a real linear dependence, but it is *far from $1$*, so a sizeable share of the variation in `Phd` is *not* explained by `Top10` alone. Equivalently, $r^2 \\approx 0.32$: about 32% of the variability of one variable is linearly accounted for by the other.\n\n**Caveats — why $r$ alone is not enough.** Pearson's $r$ only captures *linear* association; it is sensitive to outliers and misleading for curvilinear relationships. Always pair the number with a scatterplot — here the cloud is roughly linear with no extreme leverage points, so $r$ is a reliable summary of the (moderate, positive) linear association.",
+    "**Setup.** Both variables are quantitative ($n = 408$ colleges). The natural single-number summary of *linear* association is **Pearson's correlation** $r \\in [-1, 1]$:\n$$r \\;=\\; \\frac{\\sum_i (x_i - \\bar x)(y_i - \\bar y)}{\\sqrt{\\sum_i(x_i-\\bar x)^2}\\,\\sqrt{\\sum_i(y_i-\\bar y)^2}} \\;=\\; \\frac{\\operatorname{Cov}(X,Y)}{s_X\\,s_Y}.$$\n\n**Sample value.** From the `.Rdata`:\n$$r = \\mathrm{cor}(\\texttt{Top10},\\,\\texttt{Phd}) \\approx 0.5657.$$\n\n**Interpretation criteria.**\n\n| $\\lvert r\\rvert$ | strength | here |\n|---|---|---|\n| $0$ | none | |\n| $(0, 0.3]$ | weak | |\n| $(0.3, 0.7]$ | **moderate** | **$0.566$** |\n| $(0.7, 1)$ | strong | |\n| $1$ | perfect | |\n\n**Reading.** $r \\approx +0.57$ is **positive** (colleges enrolling more top-10% high-school students tend to have a higher `Phd` faculty-quality index) and **moderate** — there is a real linear dependence, but it is *far from $1$*, so a sizeable share of the variation in `Phd` is *not* explained by `Top10` alone. Equivalently, $r^2 \\approx 0.32$: about 32% of the variability of one variable is linearly accounted for by the other.\n\n**Caveats — why $r$ alone is not enough.** Pearson's $r$ only captures *linear* association; it is sensitive to outliers and misleading for curvilinear relationships. Always pair the number with a scatterplot — here the cloud is roughly linear with no extreme leverage points, so $r$ is a reliable summary of the (moderate, positive) linear association.",
     "# linear correlation Pearson\ncor(Colleges$Top10, Colleges$Phd, use='complete')\n## [1] 0.5657305\n\n# visual backup -- scatter with OLS fit\ndistr.plot.xy(Top10, Phd, plot.type='scatter', fitline=TRUE, data=Colleges)\n\n# coefficient of determination r^2 (share of variance explained linearly)\ncor(Colleges$Top10, Colleges$Phd, use='complete')^2\n## [1] 0.3200512"
 ), "images": ["statistics/images/exam_july_2024_top10_phd.png"]}
 
@@ -586,8 +586,8 @@ past_exams["exam_g1_2026_3a"] = {
 "is_exam": True, "topic_hint": "G14",
 "content": _q(
     'We are interested in whether the reason for requesting a loan (`PurposeLoan`) and the employment status (`EmplStatus`) are associated using an appropriate test. Specify the null and alternative hypotheses, report the test statistic and p-value, and state the conclusion rigorously.',
-    '**Hypotheses** (Chi² test of independence):\n\n$$H_0:\\; \\text{the two variables are independent} \\quad\\text{vs}\\quad H_1:\\; \\text{the two variables are associated.}$$\n\n**Test statistic & p-value**: $\\chi^2_{\\text{obs}} = 11.107$ on $df = (r-1)(c-1) = 4$, giving\n\n$$p\\text{-value} = P(\\chi^2_4 > 11.107) = 0.0254.$$\n\nEquivalently, in R: `1 - pchisq(11.107, 4)`.\n\n**Interpretation**: probability of obtaining a value as extreme or more extreme than the one observed in the sample, $11.107$, under the assumption that $H_0$ is true (i.e. the variables are independent).\n\n**Conclusion**: since p-value $= 0.0254 < 0.05$, we **reject $H_0$** at the 5% level. We do not have enough empirical evidence to conclude that the variables are independent — `PurposeLoan` and `EmplStatus` appear associated.',
-    'tab <- table(Credit$PurposeLoan, Credit$EmplStatus)\nchisq.test(tab)\n## X-squared = 11.107, df = 4, p-value = 0.0254\n# Manual p-value\n1 - pchisq(11.107, df = 4)\n## [1] 0.0254'
+    '**Hypotheses** (Chi² test of independence):\n\n$$H_0:\\; \\text{the two variables are independent} \\quad\\text{vs}\\quad H_1:\\; \\text{the two variables are associated.}$$\n\n**Test statistic & p-value**: $\\chi^2_{\\text{obs}} = 11.107$ on $df = (r-1)(c-1) = 8$ (the source uses `1-pchisq(11.107, 8)`), giving\n\n$$p\\text{-value} = P(\\chi^2_8 > 11.107) \\approx 0.196.$$\n\nEquivalently, in R: `1 - pchisq(11.107, 8)`.\n\n**Interpretation**: probability of obtaining a value as extreme or more extreme than the one observed in the sample, $11.107$, under the assumption that $H_0$ is true (i.e. the variables are independent).\n\n**Conclusion**: since p-value $\\approx 0.196 > 0.05$ (and $> 0.10$), we **do not reject $H_0$** at any common level. The data are consistent with `PurposeLoan` and `EmplStatus` being independent.',
+    'tab <- table(Credit$PurposeLoan, Credit$EmplStatus)\nchisq.test(tab)\n## X-squared = 11.107, df = 8, p-value = 0.1958\n# Manual p-value\n1 - pchisq(11.107, df = 8)\n## [1] 0.1958'
 ), "images": []}
 
 past_exams["exam_g1_2026_3b"] = {
@@ -633,7 +633,7 @@ past_exams["exam_g2_2026_1b"] = {
 "is_exam": True, "topic_hint": "G13",
 "content": _q(
     "Report the **analytical expression** of the estimated standard error of the estimator for the difference between the two considered proportions, providing the numerical values of the involved quantities.",
-    "$$\\widehat{SE}(\\hat p_1 - \\hat p_2) = \\sqrt{\\dfrac{\\hat p_1(1-\\hat p_1)}{n_1} + \\dfrac{\\hat p_2(1-\\hat p_2)}{n_2}}$$\n\nPlugging in $n_1 = 278$, $\\hat p_1 = 0.64$, $n_2 = 189$, $\\hat p_2 = 0.418$:\n\n$$\\widehat{SE} = \\sqrt{\\dfrac{0.64\\cdot(1-0.64)}{278} + \\dfrac{0.418\\cdot(1-0.418)}{189}} = 0.121.$$\n\nThis is the SE used in 1a's CI (width $= 2\\cdot 1.96\\cdot 0.121$).",
+    "$$\\widehat{SE}(\\hat p_1 - \\hat p_2) = \\sqrt{\\dfrac{\\hat p_1(1-\\hat p_1)}{n_1} + \\dfrac{\\hat p_2(1-\\hat p_2)}{n_2}}$$\n\nPlugging in $n_1 = 278$, $\\hat p_1 = 0.64$, $n_2 = 189$, $\\hat p_2 = 0.418$:\n\n$$\\widehat{SE} = \\sqrt{\\dfrac{0.64\\cdot(1-0.64)}{278} + \\dfrac{0.418\\cdot(1-0.418)}{189}} = 0.121.$$\n\nThis is the SE used in 1a's 90% CI (width $= 2\\cdot 1.645\\cdot 0.121 \\approx 0.398$).",
     "n1 <- 278; p1 <- 0.64\nn2 <- 189; p2 <- 0.418\nSE_diff <- sqrt(p1*(1-p1)/n1 + p2*(1-p2)/n2)\nSE_diff\n## [1] 0.121\n# Pooled SE (only for the H0: p1=p2 test, not for the CI)\np_pool <- (n1*p1 + n2*p2)/(n1+n2)\nse_0   <- sqrt(p_pool*(1-p_pool)*(1/n1 + 1/n2))"
 ), "images": []}
 
@@ -641,9 +641,9 @@ past_exams["exam_g2_2026_1c"] = {
 "title": "G2-2026 Ex1c — One-sided interpretation (cleaning category more expensive)",
 "is_exam": True, "topic_hint": "G13",
 "content": _q(
-    "Report the interpretation of the estimated standard error of the estimator for the difference between the two considered proportions, providing the numerical values of the involved quantities.\n\n**Interval: (0.147 ± 0.238) = [-0.091, 0.385]. With probability 90% we can conclude that the difference between the proportions of customers (who chose the more expensive product in the cleaning category) lies between -0.091 and 0.385.**",
-    "The estimated standard error $\\widehat{SE}(\\hat p_1 - \\hat p_2) = 0.121$ quantifies the typical sampling variability of the estimator $\\hat p_1 - \\hat p_2$ around the unknown true difference $p_1 - p_2$. Inserting it in the 90% CI:\n\n$$0.147 \\pm 1.96\\cdot 0.121 \\;=\\; (-0.091,\\; 0.385).$$\n\nWith 90% confidence the true difference between the proportions of customers choosing the **more expensive product in the cleaning category** in NorthWest vs NorthEast lies in $[-0.091, 0.385]$. Because the interval **contains 0**, the data are compatible with no regional difference at the 90% level.",
-    "n1 <- 278; p1 <- 0.64\nn2 <- 189; p2 <- 0.418\nSE <- sqrt(p1*(1-p1)/n1 + p2*(1-p2)/n2)\nSE                              # 0.121\n(p1 - p2) + c(-1,1) * 1.96 * SE  # 90% CI: -0.091, 0.385\n## [1] -0.091  0.385"
+    "Report the interpretation of the estimated standard error of the estimator for the difference between the two considered proportions, providing the numerical values of the involved quantities.\n\n**Interval: 0.147 ± 1.645·0.121 = [-0.052, 0.346]. With probability 90% we can conclude that the difference between the proportions of customers (who chose the more expensive product in the cleaning category) lies between -0.052 and 0.346.**",
+    "The estimated standard error $\\widehat{SE}(\\hat p_1 - \\hat p_2) = 0.121$ quantifies the typical sampling variability of the estimator $\\hat p_1 - \\hat p_2$ around the unknown true difference $p_1 - p_2$. Inserting it in the 90% CI:\n\n$$0.147 \\pm 1.645\\cdot 0.121 \\;=\\; (-0.052,\\; 0.346).$$\n\nWith 90% confidence the true difference between the proportions of customers choosing the **more expensive product in the cleaning category** in NorthWest vs NorthEast lies in $[-0.052, 0.346]$. Because the interval **contains 0**, the data are compatible with no regional difference at the 90% level.",
+    "n1 <- 278; p1 <- 0.64\nn2 <- 189; p2 <- 0.418\nSE <- sqrt(p1*(1-p1)/n1 + p2*(1-p2)/n2)\nSE                              # 0.121\n(p1 - p2) + c(-1,1) * 1.645 * SE  # 90% CI: -0.052, 0.346\n## [1] -0.052  0.346"
 ), "images": []}
 
 past_exams["exam_g2_2026_2b"] = {

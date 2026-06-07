@@ -639,20 +639,21 @@ ex0["ex1h"] = {"title": "Ex 0 / 1h — Cumulative for Happyness.Level (ordinal)"
 **Answer.** Tabulate with `freq="cum"`:
 ```r
 distr.table.x(x=Happyness.Level, freq="cum", data=Data_USA)
-##  Happyness.Level  Count  Prop   Cum.Count  Cum.Prop
-##  Unhappiest         10   0.20      10        0.20
-##  Quite unhappy      12   0.24      22        0.45
-##  So and so          12   0.24      34        0.69
-##  Quite happy         8   0.16      42        0.86
-##  Happiest            7   0.14      49        1.00
-##  TOTAL              49   1.00
+##  Happyness.Level  Count   Prop   Cum.Count  Cum.Prop
+##  Unhappiest         10   0.2041     10       0.2041
+##  Quite unhappy      12   0.2449     22       0.4490
+##  So and so          12   0.2449     34       0.6939
+##  Quite happy         8   0.1633     42       0.8571
+##  Happiest            7   0.1429     49       1.0000
+##  TOTAL              49   1.0000
 ```
+*(Two states have NA in `Happyness.Level`, so N = 49 not 51.)*
 The % *happiest or quite happy* is the sum of the two top relative frequencies (equivalently, sum of absolute frequencies / N, ×100):
 ```r
-0.14 + 0.16            # 0.3
+0.1429 + 0.1633        # 0.3062
 (8 + 7) / 49           # 0.3061224
 ```
-The proportion cumulated at *So and so* is **0.69** (the value of `Cum.Prop` at that level).
+The proportion cumulated at *So and so* is **0.6939** (the value of `Cum.Prop` at that level).
 
 *[At the exam: don't worry about rounding — use the digits you need but explain your procedure.]*
 """,
@@ -767,13 +768,13 @@ ex0["ex2a3"] = {"title": "Ex 0 / 2a3 — Ogive of fare",
 
 | fare interval | Prop | Cum.Prop |
 |---------------|-----:|---------:|
-| $[0, 10)$     | 0.38 | 0.38 |
-| $[10, 20)$    | 0.20 | 0.58 |
-| $[20, 30)$    | 0.16 | 0.74 |
-| $[30, 60)$    | 0.13 | 0.86 |
-| $[60, 100)$   | 0.08 | 0.94 |
-| $[100, 180)$  | 0.04 | 0.97 |
-| $[180, 270)$  | 0.03 | 1.00 |
+| $[0, 10)$     | 0.3765 | 0.3765 |
+| $[10, 20)$    | 0.2002 | 0.5767 |
+| $[20, 30)$    | 0.1580 | 0.7347 |
+| $[30, 60)$    | 0.1257 | 0.8604 |
+| $[60, 100)$   | 0.0784 | 0.9388 |
+| $[100, 180)$  | 0.0352 | 0.9740 |
+| $[180, 270)$  | 0.0261 | 1.0001 |
 
 **Ogive:** horizontal axis = `fare` (with class boundaries as kinks); vertical axis = cumulative relative frequency. Plot the points $(a_1, 0), (b_1, F_1), (b_2, F_2), \\ldots$ and connect with straight segments. Slope on class $i$ = density $d_i = f_i / w_i$.
 """,
@@ -908,9 +909,9 @@ distr.plot.x(Sales, plot.type="hist", breaks=15, data=pizzerie)
 distr.plot.x(Sales, plot.type="hist",
              breaks=c(10000,15000,20000,25000,35000,50000,70000), data=pizzerie)
 ```
-Both histograms show high concentration in low–medium sales classes, with extreme values in the right tail (also observed with very few frequencies, defining a tail to the right). The custom-width histogram is more effective to summarize the distribution by using fewer classes and excessive loss of information, **making the shape of the distribution clear**.
+Both histograms show high concentration in low–medium sales classes, with extreme values in the right tail (also observed with very few frequencies, defining a tail to the right). The custom-width histogram is more effective at summarising the distribution by using fewer classes **without excessive loss of information**, making the shape of the distribution clear.
 
-With reference to the comment "absolute or relative frequencies can be reported on the y-axis": this is **only correct when all classes have equal widths**. When widths differ (as in the custom binning), the y-axis must be **density** $f_i/w_i$; otherwise areas mislead. In the second histogram above, the y-axis is therefore *density*, and it is the **area** (not the height) of each bar that represents the proportion of states in that class.
+With reference to the comment "absolute or relative frequencies can be reported on the y-axis": this is **only correct when all classes have equal widths**. When widths differ (as in the custom binning), the y-axis must be **density** $f_i/w_i$; otherwise areas mislead. In the second histogram above, the y-axis is therefore *density*, and it is the **area** (not the height) of each bar that represents the proportion of pizzerias in that class.
 """,
 "images": ["statistics/images/ex1_1d-sales-hists.png"]}
 
@@ -1351,7 +1352,7 @@ ex1["1_4a3"] = {"title": "Ex 1.4 a3 — Mode, median, mean of Quantity_New",
 - **Median = 2.** From the cumulative frequencies, the first value where cum. percent exceeds 50% is **2** (cum at 1 is 22.3%, at 2 is 52.6% — the first to cross 50%).
 - **Mean** (weighted average using counts as weights):
 $$
-\\bar x = \\frac{\\sum_i n_i \\cdot x_i}{n} = \\frac{5401 \\cdot 1 + 7340 \\cdot 2 + 8238 \\cdot 3 + 2561 \\cdot 4 + 700 \\cdot 6}{24\\,240} \\approx 2.447.
+\\bar x = \\frac{\\sum_i n_i \\cdot x_i}{n} = \\frac{5401 \\cdot 1 + 7340 \\cdot 2 + 8238 \\cdot 3 + 2561 \\cdot 4 + 700 \\cdot 6}{24\\,240} = \\frac{59\\,239}{24\\,240} \\approx 2.444.
 $$
 ```r
 x      <- 1:6
@@ -1360,7 +1361,6 @@ xbar   <- sum(counts*x) / sum(counts)
 xbar
 ## [1] 2.443853
 ```
-*(Tiny discrepancy from 2.447 — comes from the source's higher-precision use of `Quantity_New`.)*
 """,
 "images": []}
 
@@ -1630,7 +1630,7 @@ ex1["1_6b"] = {"title": "Ex 1.6b — Approximate median and mean from the histog
 
 ---
 
-**Answer.** Yes — frequencies of all intervals can be obtained as density × width. The frequency of the unclear $[120,160)$ class can be inferred as $1 - \\sum (\\text{other frequencies})$:
+**Answer.** Yes — frequencies of all intervals are obtained as density × width (small rounding errors aside; any unclear class can be recovered as $1 - \\sum(\\text{other frequencies})$):
 
 | expenses     | width | Density | Frequency |
 |--------------|------:|--------:|----------:|
@@ -1691,11 +1691,11 @@ SUBTOPIC_COLOR = {
 
 T_G13_CI = """## G13 — Confidence intervals
 
-A confidence interval (CI) is a range $[L, U]$ for an unknown population parameter $\\theta$, constructed from data so that:
+A confidence interval (CI) is a random interval $[L, U]$ for an unknown population parameter $\\theta$, constructed from data so that, before observing the sample,
 $$
-\\Pr(\\theta \\in [L, U]) = 1 - \\alpha.
+\\Pr([L, U] \\ni \\theta) = 1 - \\alpha.
 $$
-$1-\\alpha$ is the **confidence level** (often 0.90, 0.95, 0.99).
+$1-\\alpha$ is the **confidence level** (often 0.90, 0.95, 0.99). The endpoints $L, U$ are random; $\\theta$ is fixed. Once data are observed and a specific interval is computed, the interval either does or does not contain $\\theta$ — the $1-\\alpha$ refers to the long-run coverage of the procedure.
 
 ### Key formulas
 - **CI for the mean (known $\\sigma$):** $\\bar X \\pm z_{1-\\alpha/2} \\cdot \\sigma/\\sqrt{n}$.
@@ -1735,9 +1735,11 @@ Test $H_0: \\theta = \\theta_0$ vs $H_1$. Compute a test statistic; compare to a
 - Equivalent: reject if the observed statistic is outside the $1-\\alpha$ acceptance region.
 
 ### Two-sided p-value
+For a $z$- or $t$-statistic, the two-sided p-value is
 $$
-p\\text{-value} = 2\\cdot\\Pr(|Z| > |z_{\\text{obs}}|).
+p\\text{-value} = 2\\cdot\\Pr\\!\\big(T > |t_{\\text{obs}}|\\big),
 $$
+where $T$ is the reference distribution under $H_0$ (standard normal for $z$, $t_{\\nu}$ for $t$).
 
 ### Common tests
 - **One-sample mean test** (known $\\sigma$): $z = (\\bar X - \\mu_0)/(\\sigma/\\sqrt{n})$.
@@ -1782,7 +1784,7 @@ $$
 ### Inference
 - **t-test for each $\\beta_j$:** $t = \\hat\\beta_j / \\text{SE}(\\hat\\beta_j)$, df $= n-k-1$.
 - **CI for $\\beta_j$:** $\\hat\\beta_j \\pm t_{n-k-1,\\;1-\\alpha/2}\\cdot \\text{SE}(\\hat\\beta_j)$.
-- **R² = SSR/SST = 1 - SSE/SST**: fraction of variance explained by the model.
+- **R² = SS$_{\\text{reg}}$/SST = 1 − SSE/SST**: fraction of variance of $Y$ explained by the model, where SST $= \\sum (Y_i - \\bar Y)^2$, SS$_{\\text{reg}} = \\sum (\\hat Y_i - \\bar Y)^2$, SSE $= \\sum (Y_i - \\hat Y_i)^2$.
 - **Adjusted R²:** $R^2_{\\text{adj}} = 1 - \\dfrac{SSE/(n-k-1)}{SST/(n-1)}$ — penalizes adding predictors.
 - **Confidence interval** for the mean response: narrower; **prediction interval** for a single new observation: wider (adds $\\sigma_\\epsilon$).
 
@@ -2120,10 +2122,13 @@ A value $x$ is flagged as an **outlier** with respect to a distribution if it li
 These thresholds are computed from the **quartiles** of the distribution; the multiplier $1.5$ is the standard convention used by the boxplot.
 
 ### Counting outliers
-Once the thresholds are computed, count them with a boolean mask:
+Once $Q_1, Q_3$ are computed (e.g. with `distr.summary.x(..., stats="fivenumber")` or `quantile(DF$Var, c(.25,.75))`), count outliers with a boolean mask:
 ```r
-sum(DF$Var > Q3 + 1.5*(Q3 - Q1))   # upper outliers
-mean(DF$Var < Q1 - 1.5*(Q3 - Q1) | DF$Var > Q3 + 1.5*(Q3 - Q1))  # % outliers
+Q1 <- quantile(DF$Var, 0.25); Q3 <- quantile(DF$Var, 0.75)
+IQR <- Q3 - Q1
+sum(DF$Var > Q3 + 1.5*IQR)                                   # upper outliers
+sum(DF$Var < Q1 - 1.5*IQR)                                   # lower outliers
+mean(DF$Var < Q1 - 1.5*IQR | DF$Var > Q3 + 1.5*IQR)          # % outliers
 ```
 
 ### Why care

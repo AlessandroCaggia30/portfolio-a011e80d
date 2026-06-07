@@ -91,45 +91,52 @@ $$H_0: p_\\text{POST} = p_\\text{PRE} \\quad \\text{vs} \\quad H_1: p_\\text{POS
 Pooled proportion under $H_0$:
 $$\\hat p = \\frac{n_\\text{PRE}\\hat p_\\text{PRE} + n_\\text{POST}\\hat p_\\text{POST}}{n_\\text{PRE}+n_\\text{POST}} = 0.7859$$
 
-Standard error and z-statistic:
+Standard error under $H_0$ and observed difference:
 $$se = \\sqrt{\\hat p(1-\\hat p)\\!\\left(\\tfrac{1}{n_\\text{PRE}}+\\tfrac{1}{n_\\text{POST}}\\right)} = 0.0475, \\quad \\hat p_\\text{POST}-\\hat p_\\text{PRE} = 0.0273$$
 
-p-value = $P(Z > 0.0273/0.0475) = 0.2827$ → **do not reject** $H_0$: no significant increase in visit propensity.
+z-statistic and p-value:
+$$z = \\frac{0.0273}{0.0475} \\approx 0.575, \\quad \\text{p-value} = P(Z > 0.575) = 0.2827$$
+
+**Do not reject** $H_0$ at any standard $\\alpha$ (≤ 0.10): no empirical evidence that the promotion increases visit propensity, so **do not extend** it to other bookstores.
 
 ```r
 nPRE <- 140; nPOST <- 159
 pPRE <- (140-32)/140; pPOST <- (159-32)/159
 phat <- (nPRE*pPRE + nPOST*pPOST)/(nPRE+nPOST); phat
 se   <- sqrt(phat*(1-phat)*(1/nPRE + 1/nPOST)); se
-1 - pnorm(pPOST - pPRE, mean=0, sd=se)              # ≈ 0.28
-1 - pnorm((pPOST - pPRE)/se)
+1 - pnorm(pPOST - pPRE, mean=0, sd=se)              # p-value ≈ 0.2827
 TEST.diffprop(x=Stops_POST>=1, y=Stops_PRE>=1,
               pdiff=0, alternative="greater")
 ```
 """, "images": []}
 
 ex7["7_3b"] = {"title": "Ex 7.3b — Two-proportion test: visiting >4 times/month pre vs post",
-"content": """**Question.** Assess whether the promotion has a significant impact on the proportion of customers who visit the cafeteria **more than 4 times** a month.
+"content": """**Question.** Assess whether the promotion has a significant impact on the proportion of customers who visit the cafeteria **more than 4 times** a month. Report all the measures you refer to.
 
 ---
 
-**Answer.** Count customers with >4 stops: pre = 23/140, post = 37/159.
+**Answer.** Let $p_\\text{PRE}, p_\\text{POST}$ now denote the proportions of customers who visit the cafeteria **more than 4 times** per month. Count customers with >4 stops directly from the frequency table — pre: $13+5+0+5=23$ out of 140; post: $17+6+5+9=37$ out of 159.
 $$\\hat p_\\text{PRE} = 23/140 = 0.1643, \\quad \\hat p_\\text{POST} = 37/159 = 0.2327$$
 
-Hypotheses (one-sided, hoping the promotion increases heavy users):
+Same one-sided framing as part (a) — the most serious error is extending an ineffective promotion to other branches:
 $$H_0: p_\\text{POST} = p_\\text{PRE} \\quad \\text{vs} \\quad H_1: p_\\text{POST} > p_\\text{PRE}$$
 
-Pooled $\\hat p = 0.2007$, $se_0 = \\sqrt{\\hat p(1-\\hat p)(1/n_\\text{PRE}+1/n_\\text{POST})} = 0.0464$. Observed difference $\\hat p_\\text{POST}-\\hat p_\\text{PRE}=0.0684$.
+Sample sizes are large enough for the **normal approximation**. Pooled proportion and standard error under $H_0$:
+$$\\hat p = \\frac{n_\\text{PRE}\\hat p_\\text{PRE} + n_\\text{POST}\\hat p_\\text{POST}}{n_\\text{PRE}+n_\\text{POST}} = 0.2007, \\quad se_0 = \\sqrt{\\hat p(1-\\hat p)\\!\\left(\\tfrac{1}{n_\\text{PRE}}+\\tfrac{1}{n_\\text{POST}}\\right)} = 0.0464$$
 
-p-value = $P(Z > 0.0684/0.0464) \\approx 0.07$ → **do not reject** at α=0.05, but rejected at α=0.10. Borderline evidence of a positive impact on heavy users.
+Observed difference $\\hat p_\\text{POST}-\\hat p_\\text{PRE}=0.0684$, so
+
+$$\\text{p-value} = P(Z > 0.0684/0.0464) = P(Z > 1.474) \\approx 0.0703$$
+
+**Decision.** At $\\alpha=0.05$ we **do not reject** $H_0$; at $\\alpha=0.10$ we would. Heavy-user growth from 16.4% to 23.3% is borderline — using $\\alpha=0.10$ is the *less conservative* choice toward the null and risks rolling out a promotion that does not actually expand the heavy-user base.
 
 ```r
 nPRE <- 140; nPOST <- 159
 pPRE <- 23/140; pPOST <- 37/159
 phat <- (nPRE*pPRE + nPOST*pPOST)/(nPRE+nPOST); phat   # 0.2007
 se   <- sqrt(phat*(1-phat)*(1/nPRE + 1/nPOST)); se     # 0.0464
-1 - pnorm(pPOST - pPRE, mean=0, sd=se)                 # ≈ 0.07
-1 - pnorm((pPOST - pPRE)/se)
+1 - pnorm(pPOST - pPRE, mean=0, sd=se)                 # ≈ 0.0703
+1 - pnorm((pPOST - pPRE)/se)                           # equivalent
 TEST.diffprop(x=Stops_POST>4, y=Stops_PRE>4,
               pdiff=0, alternative="greater")
 ```
@@ -234,56 +241,72 @@ p-value $\\approx 4.4\\cdot 10^{-5}$ (normal) or $\\approx 6.1\\cdot 10^{-5}$ (S
 """, "images": []}
 
 ex7["7_6a"] = {"title": "Ex 7.6a — Arcade wi-fi: paired test on average daily revenue (n=7, before vs after)",
-"content": """**Question.** Daily revenues (hundreds of €) were recorded for $n=7$ days in a typical week **before** wi-fi installation and again 3 months **after**. Summaries: $\\bar X_\\text{PRE}=13$, $s^2_\\text{PRE}=12$, $\\bar X_\\text{POST}=16$, $s^2_\\text{POST}=21$, and covariance between the two weeks $=11$. Test at $\\alpha=0.05$ whether wi-fi increased average revenues.
+"content": """**Question.** The manager of an arcade chain recently activated free wi-fi at one of its premises. Before extending the service to the other premises, he wants to check — accounting for the costs to be sustained — whether the service will promote an **increase in daily revenues**. He compares daily revenues (hundreds of €) recorded in a typical week **before** the installation ($n=7$) with those recorded in a week **three months after** ($n=7$). Sample summaries:
+
+| | Mean | Variance |
+|---|---|---|
+| PRE  | $\\bar X_\\text{PRE}=13$  | $s^2_\\text{PRE}=12$ |
+| POST | $\\bar X_\\text{POST}=16$ | $s^2_\\text{POST}=21$ |
+
+A covariance of $s_\\text{PRE,POST}=11$ was also observed between the daily revenues recorded in the two weeks.
+
+State the hypotheses and the assumptions required; then decide at $\\alpha=0.05$ whether it is reasonable to extend the wi-fi service to the other premises.
 
 ---
 
-**Answer.** The two samples are **paired** (same days of the week, before vs after) and small ($n=7$), so we assume **joint normality** of the two populations and work on the differences $D_i=X^\\text{POST}_i-X^\\text{PRE}_i$.
+**Answer.** The two samples are **paired** (same days of the week, observed before vs after on the *same* premises), so we work on the differences $D_i = X^\\text{POST}_i - X^\\text{PRE}_i$. Because $n=7$ is small we cannot invoke the CLT — we must **assume joint normality** of the two populations, which makes the differences $D_i$ also normal.
 
-Hypotheses (one-sided, "wi-fi does not increase revenues" as $H_0$):
+Hypotheses (one-sided — wi-fi extension is justified only if revenues *increase*, so "no increase" goes in $H_0$):
 $$H_0: \\mu_\\text{POST}=\\mu_\\text{PRE} \\quad \\text{vs} \\quad H_1: \\mu_\\text{POST} > \\mu_\\text{PRE}.$$
 
-Sample mean of differences: $\\bar D = 16-13 = 3$. Sample variance of differences:
-$$s_D^2 = s^2_\\text{PRE}+s^2_\\text{POST} - 2\\,s_\\text{PRE,POST} = 21+12-22 = 11.$$
-Standard error: $se(\\bar D)=\\sqrt{11/7}=1.2536$.
+Sample mean of the differences: $\\bar D = 16-13 = 3$. Sample variance of the differences (using the formula for paired data, which **exploits the covariance**):
+$$s_D^2 = s^2_\\text{POST}+s^2_\\text{PRE} - 2\\,s_\\text{PRE,POST} = 21+12-2\\cdot 11 = 11.$$
+Standard error of $\\bar D$: $se(\\bar D)=\\sqrt{s_D^2/n}=\\sqrt{11/7}=1.2536$.
 
-**Rejection-region approach** (Student's $t_{n-1}=t_6$):
-$$\\bar D > t_{6,0.05}\\cdot se(\\bar D) = 1.94318\\cdot 1.2536 = 2.4359.$$
+**Rejection-region approach** (test statistic under $H_0$ is Student's $t_{n-1}=t_6$):
+$$\\bar D > t_{6,\\,0.05}\\cdot se(\\bar D) = 1.94318\\cdot 1.2536 = 2.4359.$$
 Observed $\\bar D = 3 > 2.4359$ → **reject $H_0$**.
 
 **p-value approach**:
-$$\\Pr(t_6 > \\bar D/se(\\bar D)) = \\Pr(t_6 > 3/1.2536) = 0.027.$$
+$$\\text{p-value}=\\Pr(t_6 > \\bar D/se(\\bar D)) = \\Pr(t_6 > 3/1.2536)=\\Pr(t_6 > 2.3931)\\approx 0.027.$$
 
 ```r
 dbar <- 16 - 13                       # 3
-sD2  <- 21 + 12 - 2*11                # 11
+sD2  <- 21 + 12 - 2*11                # 11   (paired-data formula)
 seD  <- sqrt(sD2/7)                   # 1.2536
-qt(0.95, df=6)                        # 1.94318  -> threshold
-qt(0.95, df=6)*seD                    # 2.4359
+qt(0.95, df=6)                        # 1.94318  -> t-critical
+qt(0.95, df=6)*seD                    # 2.4359   -> RR threshold for Dbar
+dbar/seD                              # 2.3931   -> observed t
 1 - pt(dbar/seD, df=6)                # p-value ≈ 0.027
 ```
 
-p-value $\\approx 0.027 < 0.05$ → **reject $H_0$**: wi-fi has increased average daily revenues. (At $\\alpha=0.01$, $H_0$ would **not** be rejected.)
+**Decision.** p-value $\\approx 0.027 < 0.05$ → **reject $H_0$**: at the 5% level the data provide evidence that the wi-fi service has increased average daily revenues, so it is reasonable to **extend the service** to the other premises. (Note: at the more conservative $\\alpha=0.01$ the conclusion would flip — $H_0$ would *not* be rejected, since $0.027 > 0.01$.)
 """, "images": []}
 
 ex7["7_6b"] = {"title": "Ex 7.6b — Effect on the decision if statistics referred to 2 weeks (n=14)",
-"content": """**Question.** Without making calculations, would the decision in (a) change if the sample statistics referred to **2 weeks** (n=14) instead of 1?
+"content": """**Question.** Without making calculations but carefully justifying the answer, say whether the decision in (a) would change if the sample statistics referred to **2 weeks** (n=14) instead of 1.
 
 ---
 
-**Answer.** With $n=14$ days the **degrees of freedom** of Student's t increase ($t_6 \\to t_{13}$) and the **standard error** $se(\\bar D)=\\sqrt{s_D^2/n}$ decreases (larger denominator):
+**Answer.** If the data referred to 2 weeks, i.e. $n=14$ days, the **standard error** $se(\\bar D)=\\sqrt{s_D^2/n}$ would **decrease** and the **degrees of freedom** $n-1$ of Student's t would **increase**, since the sample size increases.
 
-- *Rejection-region threshold*: $t_{13,0.05} < t_{6,0.05}$ (the t-distribution's quantile decreases as df grows), and is multiplied by a *smaller* $se(\\bar D)$. So the threshold $t_{13,0.05}\\cdot se(\\bar D_{14}) < t_{6,0.05}\\cdot se(\\bar D_7) = 2.4359$. The observed $\\bar D = 3$ still exceeds it → **still reject $H_0$**.
-- *p-value*: increases the standardised statistic $\\bar D/se(\\bar D)$ and is evaluated on a t with more degrees of freedom (lighter tails). Both effects shrink the p-value:
-$$\\Pr(t_{13} > \\bar D/se(\\bar D_{14})) < \\Pr(t_6 > \\bar D/se(\\bar D_7)) = 0.027.$$
+*Rejection-region threshold.* The threshold $t_{n-1,\\alpha}\\cdot se(\\bar D)$ would be **lower**: an increase in df reduces the percentile of Student's t, so $t_{13,0.05} < t_{6,0.05}$, and this is multiplied by a smaller standard error since $se(\\bar D_7) > se(\\bar D_{14})$. Hence
+$$t_{13,0.05}\\cdot se(\\bar D_{14}) \\;<\\; t_{6,0.05}\\cdot se(\\bar D_7) = 2.4359.$$
+The observed $\\bar D = 3$ still exceeds this lower threshold → **still reject $H_0$**.
 
-So the conclusion is **reinforced** — $H_0$ is rejected at the 0.05 level (and very likely also at the 0.01 level, contrary to (a)).
+*p-value.* The standardised statistic $\\bar D/se(\\bar D)$ would **increase** (smaller denominator) and would be evaluated on a Student's t with **more degrees of freedom**, whose tails are *lighter* (the right-tail probability decreases as df grows). Both effects shrink the right-tail probability:
+$$\\Pr\\!\\left(t_{13} > \\tfrac{\\bar D}{se(\\bar D_{14})}\\right) \\;<\\; \\Pr\\!\\left(t_{6} > \\tfrac{\\bar D}{se(\\bar D_{14})}\\right) \\;<\\; \\Pr\\!\\left(t_{6} > \\tfrac{\\bar D}{se(\\bar D_7)}\\right) = 0.027.$$
+
+In both approaches the conclusion is **reinforced**: $H_0$ is rejected at $\\alpha=0.05$, and very likely also at $\\alpha=0.01$ (contrary to part (a), where $H_0$ was not rejected at 0.01).
 
 ```r
 # Illustration: assume the same sample statistics carry over to n=14
-seD14 <- sqrt(11/14)                     # smaller than 1.2536
-qt(0.95, df=13)*seD14                    # smaller threshold
-1 - pt(3/seD14, df=13)                   # smaller p-value
+seD7  <- sqrt(11/7)                      # 1.2536  (original)
+seD14 <- sqrt(11/14)                     # 0.8864  (smaller)
+qt(0.95, df=6) *seD7                     # 2.4359  threshold n=7
+qt(0.95, df=13)*seD14                    # 1.5673  threshold n=14 (lower)
+1 - pt(3/seD7 , df=6)                    # 0.0270  p-value  n=7
+1 - pt(3/seD14, df=13)                   # 0.0035  p-value  n=14 (< 0.01)
 ```
 """, "images": []}
 

@@ -179,7 +179,7 @@ p_F - p_M                      # 0.12
 # SE of phat_F - phat_M (separate variances; true p_F, p_M unknown
 # so the SE itself can only be ESTIMATED from the data):
 se_diff <- sqrt(p_F*(1-p_F)/850 + p_M*(1-p_M)/650)
-se_diff                        # ~0.02554
+se_diff                        # ~0.02525
 ```
 
 For a CI/test, use $\\hat p_F - \\hat p_M \\pm z_{1-\\alpha/2} \\cdot se$.
@@ -300,11 +300,11 @@ ex5["5_7b"] = {"title": "Ex 5.7b — Pizzeria price difference: known unequal & 
 
 **(i) Known, unequal variances.**
 
-$$\\operatorname{SE} = \\sqrt{\\frac{\\sigma^2_{\\text{GT4}}}{n_{\\text{GT4}}} + \\frac{\\sigma^2_{\\text{LE4}}}{n_{\\text{LE4}}}} = \\sqrt{\\frac{1.7}{45} + \\frac{1.2}{55}} \\approx 0.2399.$$
+$$\\operatorname{SE} = \\sqrt{\\frac{\\sigma^2_{\\text{GT4}}}{n_{\\text{GT4}}} + \\frac{\\sigma^2_{\\text{LE4}}}{n_{\\text{LE4}}}} = \\sqrt{\\frac{1.7}{45} + \\frac{1.2}{55}} \\approx 0.2441.$$
 
 **(ii) Unknown variances, NOT assumed equal (Welch).**
 
-$$\\widehat{\\operatorname{SE}} = \\sqrt{\\frac{s^2_{\\text{GT4}}}{n_{\\text{GT4}}} + \\frac{s^2_{\\text{LE4}}}{n_{\\text{LE4}}}} = \\sqrt{\\frac{1.7}{45} + \\frac{1.6}{55}} \\approx 0.2389.$$
+$$\\widehat{\\operatorname{SE}} = \\sqrt{\\frac{s^2_{\\text{GT4}}}{n_{\\text{GT4}}} + \\frac{s^2_{\\text{LE4}}}{n_{\\text{LE4}}}} = \\sqrt{\\frac{1.7}{45} + \\frac{1.6}{55}} \\approx 0.2586.$$
 
 **(iii) Unknown variances, ASSUMED equal (pooled).** The pooled variance is
 
@@ -312,7 +312,7 @@ $$s^2_{\\text{pool}} = \\frac{(n_{\\text{GT4}}-1)\\,s^2_{\\text{GT4}} + (n_{\\te
 
 and
 
-$$\\widehat{\\operatorname{SE}} = \\sqrt{s^2_{\\text{pool}}\\!\\left(\\frac{1}{n_{\\text{GT4}}} + \\frac{1}{n_{\\text{LE4}}}\\right)} \\approx 0.2580.$$
+$$\\widehat{\\operatorname{SE}} = \\sqrt{s^2_{\\text{pool}}\\!\\left(\\frac{1}{n_{\\text{GT4}}} + \\frac{1}{n_{\\text{LE4}}}\\right)} \\approx 0.2578.$$
 
 ```r
 n_GT4 <- 45; n_LE4 <- 55
@@ -320,12 +320,12 @@ n_GT4 <- 45; n_LE4 <- 55
 # (i) Known, unequal variances
 sigma2_GT4 <- 1.7; sigma2_LE4 <- 1.2
 se_known_uneq <- sqrt(sigma2_GT4/n_GT4 + sigma2_LE4/n_LE4); se_known_uneq
-## [1] 0.2399
+## [1] 0.2441
 
 # (ii) Unknown variances - Welch (separate sample variances)
 s2_GT4 <- 1.7; s2_LE4 <- 1.6
 se_welch <- sqrt(s2_GT4/n_GT4 + s2_LE4/n_LE4); se_welch
-## [1] 0.2389
+## [1] 0.2586
 
 # (iii) Unknown variances - pooled
 s2_pool <- ((n_GT4-1)*s2_GT4 + (n_LE4-1)*s2_LE4) / (n_GT4 + n_LE4 - 2)
@@ -474,11 +474,14 @@ se(\\hat p) \\;=\\; \\sqrt{\\dfrac{\\hat p (1-\\hat p)}{n}}.
 $$
 
 ```r
-var(pizzerie$Sales)
-sqrt(var(pizzerie$Sales) / nrow(pizzerie))
-# Proportion + SE (alternative):
-# phat <- mean(pizzerie$SmokingArea[pizzerie$District=="Milano"] == "No")
-# sqrt(phat*(1-phat) / n_Mi)
+# Restrict to Milan pizzerias
+smoke_Mi <- pizzerie$SmokingArea[pizzerie$District=="Milano"]
+n_Mi  <- length(smoke_Mi); n_Mi
+phat  <- mean(smoke_Mi == "No"); phat
+# Estimated SE of phat
+se_phat <- sqrt(phat*(1-phat) / n_Mi); se_phat
+# Approximate 95% CI (CLT-based)
+phat + c(-1, 1) * qnorm(0.975) * se_phat
 ```
 
 **Reliability** of the estimate is best communicated through (i) the standard error $se(\\hat p)$, and (ii) an approximate **confidence interval** $\\hat p \\pm z_{1-\\alpha/2}\\, se(\\hat p)$, valid under the CLT when $n\\hat p \\ge 5$ and $n(1-\\hat p) \\ge 5$.

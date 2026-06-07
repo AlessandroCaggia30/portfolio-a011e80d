@@ -33,68 +33,121 @@ distr.plot.xy(x=Years, y=rstandard(mod2), plot.type="scatter", data=Baseball)
 """, "images": ["statistics/images/ex9_1-baseball.png"]}
 
 ex9["9_2"] = {"title": "Ex 9.2 — Promotional channels: t-tests, CIs and marginal effects",
-"content": """**Question.** For 30 promotional campaigns the *Success* indicator is regressed on `Channel1` and `Channel2` amounts. Output: $\\hat\\beta_0=164.01\\ (35.87)$, $\\hat\\beta_1=0.1398\\ (0.0814)$, $\\hat\\beta_2=0.0313\\ (0.0067)$, $s_\\varepsilon = 63.08$ on $df=27$. Sample SDs: $S_{\\text{Success}}=84.02$, $S_{\\text{Ch1}}=144$, $S_{\\text{Ch2}}=1737$. **a)** Global fit + global F-test. **b1)** Significance of coefficients. **b2)** 99% CI for the variation of `Success` for a 1-unit increase in `Channel2`; CI for `Channel1` at 250. **b3)** Reduction of 50 units on `Channel1`: 95% CI for the variation in `Success`. **c)** Reliability of state conclusions? **d)** Predict success when Ch1=100, Ch2=1000. **e)** Compare model with `Channel2` only.
+"content": """**Question.** A company studies the combined efficacy of two promotional channels. For $n=30$ campaigns the amount spent on `Channel1` and `Channel2` is recorded together with a *Success* indicator. Summary stats (`min, median, mean, max, var`): Success $(124,\\ 328,\\ 315.4,\\ 464,\\ 7059.01)$; Channel1 $(100,\\ 300,\\ 300,\\ 500,\\ 20689.66)$; Channel2 $(1000,\\ 3500,\\ 3500,\\ 6000,\\ 3017241)$. Regression `Success ~ Channel1 + Channel2` (coef. with SE in brackets):
+
+\\begin{tabular}{p{10cm}|p{14cm}|p{14cm}}
+\\textbf{} & \\textbf{Estimate} & \\textbf{Standard error} \\\\
+(Intercept) & 164.0100 & 35.8676 \\\\
+Channel1 & 0.1398 & 0.0814 \\\\
+Channel2 & 0.0313 & 0.0067
+\\end{tabular}
+
+Residual standard error $s_\\varepsilon=63.08$ on $df=27$.
+
+**a)** Assess fit and global validity (F-test: realisation, p-value, conclusion). **b1)** Are the coefficients significant? Interpret. **b2)** 99% CI for the variation of *Success* per 1-unit increase in `Channel2`; does it include 150? Same for `Channel1` at 250 — is +50 plausible? **b3)** Reduction of 50 units on `Channel1` with `Channel2` fixed: point estimate and 95% CI for the change in *Success*. **c)** Are the conclusions reliable? **d)** Predict *Success* when `Channel1`=100 and `Channel2`=1000. **e)** The reduced model on `Channel2` only has $s_\\varepsilon = 65.24$ — would you prefer it?
 
 ---
 
 **Answer.**
+
+**(a) Fit + global F-test.** With $n=30$, $K=2$, $df=n-K-1=27$:
+
+$SST = s_y^2\\,(n-1) = 84.02^2\\cdot 29 = 204\\,711.3$; $SSE = s_\\varepsilon^2\\,(n-K-1) = 63.08^2\\cdot 27 = 107\\,435.3$; so
+
+$R^2 = 1 - SSE/SST = 1 - 107435.3/204711.3 = 0.4752$ — the two channels jointly explain ~47.5 % of the variance of *Success*.
+
+Global $F$ tests $H_0\\!:\\beta_1=\\beta_2=0$ vs $H_1\\!:$ at least one $\\ne 0$:
+$$F = \\frac{SSR/K}{SSE/(n-K-1)} = \\frac{(204711.3-107435.3)/2}{63.08^2}=12.2234,\\quad p = 1-F_{2,27}(12.2234)\\approx 0.000166.$$
+Strongly reject $H_0$: at least one channel is significant.
+
+**(b1) Individual t-tests** ($df=27$, two-sided):
+- `Channel1`: $t = 0.1398/0.0814 = 1.7174$, $p$-value $= 2(1-F_{t_{27}}(1.7174))= 0.0973$. **Not** rejected at $\\alpha=5\\%$ (only at $\\alpha=10\\%$): given the spend on `Channel2`, a 1-€ extra on `Channel1` is associated with $+0.14$ on the *Success* index on average, but the empirical evidence is too weak to claim the population effect is non-zero.
+- `Channel2`: $t = 0.0313/0.0067 = 4.6716$, $p$-value $\\approx 0$. Highly significant: keeping `Channel1` fixed, $+1$ € on `Channel2` raises the *Success* index by $0.0313$ on average.
+
+**(b2) 99% CI for $\\beta_2$.** Critical value $t_{27,\\,0.995}=2.7707$:
+$$\\hat\\beta_2 \\pm t_{27,\\,0.995}\\,se(\\hat\\beta_2) = 0.0313 \\pm 2.7707\\cdot 0.0067 = (0.01274,\\ 0.04986).$$
+The CI excludes 0 (consistent with the t-test) and is far from 150 — extremely implausible.
+
+**99% CI for the change in *Success* when `Channel1` increases by 250** (with `Channel2` fixed): point $= 250\\cdot 0.1398=34.95$; ME $= 250\\cdot 2.7707\\cdot 0.0814 = 56.36$; CI $= (-21.41,\\ 91.31)$ — straddles 0, so +50 is plausible but so is a *decrease*.
+
+**(b3) Reduction of 50 units on `Channel1`** (Channel2 fixed): point $= -50\\cdot 0.1398 = -6.99$. The 95% CI for $\\beta_1$ is $0.1398 \\pm t_{27,\\,0.975}\\cdot 0.0814 = 0.1398 \\pm 2.0518\\cdot 0.0814 = (-0.0272,\\ 0.3068)$. Multiplying by $-50$ (and flipping endpoints): $(-15.34,\\ 1.36)$. Includes 0: we cannot exclude that cutting 50 units actually *raises* *Success*, although the interval lies mostly on the negative side.
+
+**(c) Reliability.** Inference rests on $E[\\varepsilon]=0$, $\\Var(\\varepsilon)=\\sigma^2$ constant, $\\Cor(\\varepsilon_i,\\varepsilon_j)=0$ and approximate normality. With only summary stats and no raw data we **cannot** check residuals — therefore the validity of the CIs / tests **cannot be assessed**.
+
+**(d) Prediction at (Ch1=100, Ch2=1000):** $\\hat Y = 164.01 + 0.1398\\cdot 100 + 0.0313\\cdot 1000 = 209.29$. Given the modest $R^2\\approx 0.48$, a point estimate alone is unreliable: a confidence (mean) or prediction (individual) interval should accompany it.
+
+**(e) Channel2-only vs full model.** Compare adjusted $R^2 = 1 - s_\\varepsilon^2/s_y^2$:
+$$\\text{Adj.}R^2_\\text{full} = 1 - 63.08^2/7059.01 = 0.4363,\\qquad \\text{Adj.}R^2_\\text{Ch2only} = 1 - 65.24^2/7059.01 = 0.3970.$$
+The full model has a higher adjusted $R^2$ (since $63.08 < 65.24$): adding `Channel1` is *worth it on penalised fit*, even though its individual t-test is borderline.
+
 ```r
-n <- 30; k <- 2; df <- n - k - 1     # 27
+# Setup -------------------------------------------------------------
+n <- 30; K <- 2; df <- n - K - 1                  # 27
 b0 <- 164.0100; se0 <- 35.8676
-b.ch1 <- 0.1398; se.1 <- 0.0814
-b.ch2 <- 0.0313; se.2 <- 0.0067
-s.eps <- 63.08; s.y <- 84.02
+b1 <- 0.1398;   se1 <- 0.0814
+b2 <- 0.0313;   se2 <- 0.0067
+s.eps <- 63.08
+s.y   <- sqrt(7059.01)                            # 84.02
 
-# b1) t-tests on individual coefficients
-tstat1 <- b.ch1/se.1; pval1 <- 2*(1 - pt(abs(tstat1), df=df))
-tstat2 <- b.ch2/se.2; pval2 <- 2*(1 - pt(abs(tstat2), df=df))
+# (a) Global fit + F-test ------------------------------------------
+SST <- s.y^2 * (n - 1)                            # 204711.3
+SSE <- s.eps^2 * (n - K - 1)                      # 107435.3
+R2  <- 1 - SSE/SST                                # 0.4752
+F.stat <- (SST - SSE)/K / s.eps^2                 # 12.2234
+1 - pf(F.stat, df1=K, df2=n-K-1)                  # 0.000166
 
-# b2) 99% CI for beta_2 (1-unit increase in Channel2)
-qt(0.995, df=df)                     # critical t
-ME2 <- se.2 * qt(0.995, df=df)
-c(b.ch2 - ME2, b.ch2 + ME2)
-# Channel1 spend = 250 (point + 99% interval estimate for delta-Success)
-250*b.ch1
-250*c(b.ch1 - se.1*qt(0.995, df=df), b.ch1 + se.1*qt(0.995, df=df))
+# (b1) Individual t-tests ------------------------------------------
+2*(1 - pt(abs(b1/se1), df=df))                    # Channel1: 0.0973
+2*(1 - pt(abs(b2/se2), df=df))                    # Channel2: ~ 0
 
-# b3) 95% CI for the change in Success when Channel1 falls by 50
--50*b.ch1
-ME1.95 <- se.1 * qt(0.975, df=df)
--50*c(b.ch1 + ME1.95, b.ch1 - ME1.95)   # sign flipped by -50
+# (b2) 99% CI on beta_2 and on 250 * beta_1 ------------------------
+qt(0.995, df=df)                                  # 2.770683
+c(b2 - se2*qt(0.995,df), b2 + se2*qt(0.995,df))   # (0.01274, 0.04986)
+250*b1                                            # 34.95
+250*c(b1 - se1*qt(0.995,df), b1 + se1*qt(0.995,df))   # (-21.41, 91.31)
 
-# d) Prediction at (Ch1=100, Ch2=1000)
-b0 + b.ch1*100 + b.ch2*1000
+# (b3) -50 * beta_1: 95% CI ----------------------------------------
+-50*b1                                            # -6.99
+CI95.b1 <- c(b1 - se1*qt(0.975,df), b1 + se1*qt(0.975,df))
+sort(-50 * CI95.b1)                               # (-15.34, 1.36)
 
-# a, e) Adjusted R^2 and global F
-# Adj.R^2 = 1 - s_eps^2 / var(y)
-adjR2 <- 1 - s.eps^2 / s.y^2
-# Reduced model (Ch2 only) has s_eps = 65.24 -> compare adj.R^2 / F-test
+# (d) Point prediction ---------------------------------------------
+b0 + b1*100 + b2*1000                             # 209.29
+
+# (e) Compare full vs Channel2-only via adjusted R^2 ---------------
+1 - s.eps^2 / s.y^2                               # 0.4363  (full)
+1 - 65.24^2 / s.y^2                               # 0.3970  (Ch2 only)
 ```
 """, "images": []}
 
 ex9["9_3"] = {"title": "Ex 9.3 — Competition: Performance ~ Competition (+ Quality)",
-"content": """**Question (dataframe `Competition`).** Clothing-and-accessories retailer with stores in central areas. `Performance` measured by a proper index; `Competition` is the perceived level of competition (proper index); `Quality` is an aggregated indicator of staff/policy quality. **a)** Fit a *simple* linear model `Performance ~ Competition`; estimate it; provide and interpret coefficients; comment on fit. **b)** Add `Quality`; estimate the new model and interpret coefficients. Compare with the previous model; explain the result.
+"content": """**Question (dataframe `Competition`).** Clothing-and-accessories retailer with stores in central areas. `Performance` measured by a proper index; `Competition` is the perceived level of competition; `Quality` is an aggregated indicator of staff/policy quality. **a)** Fit the *simple* linear model `Performance ~ Competition`; estimate it; interpret the coefficient; comment on fit. **b)** Add `Quality`; estimate the new model and interpret coefficients. Compare with (a) and explain the result.
 
 ---
 
 **Answer.**
 ```r
-# a) Simple model
-mod  <- lm(Performance ~ Competition, data=Competition); summary(mod)
-# Sign of beta_Competition: typically negative (stronger competition
-# -> lower performance). Significance from t-test / p-value; fit from R^2.
+# a) Simple model: Performance ~ Competition
+mod <- lm(Performance ~ Competition, data=Competition); summary(mod)
+# beta_0 hat ~ 191.4 ; beta_Competition hat ~ -1.62  (SE ~ 0.65, p ~ 0.014)
+# Interpretation: +1 unit of perceived Competition -> Performance falls by ~1.62.
+# Fit: R^2 ~ 0.05  =>  Competition alone explains only ~5% of the variance:
+# the model is statistically significant but practically very poor.
 
 # b) Add Quality
 mod1 <- lm(Performance ~ Competition + Quality, data=Competition); summary(mod1)
-# Quality controls for an omitted-variable bias: stores facing more
-# competition may also invest in higher quality. Adding Quality typically
-# (i) shrinks |beta_Competition| toward zero (or even changes its sign),
-# (ii) raises R^2 / adjusted R^2.
+# beta_0 hat ~ -5.4 ; beta_Competition hat ~ +0.42 (n.s.) ; beta_Quality hat ~ 3.95 ***
+# R^2 jumps to ~ 0.85 (huge improvement).
+# The Competition effect VANISHES once Quality is controlled for:
+# omitted-variable bias in (a). Stores in tougher-competition areas
+# tend to invest more in Quality; ignoring Quality, that positive effect
+# was loaded onto Competition with the wrong sign.
+# Conclusion: Performance is driven by Quality, not by Competition per se.
 
-# Compare nested models (anova or via adjusted R^2)
-anova(mod, mod1)
+# Nested-model comparison
+anova(mod, mod1)        # F-test confirms Quality is highly significant
 
-# Diagnostics
+# Diagnostics on mod1
 plot(mod1, which=1)
 distr.plot.x(x=rstandard(mod1), plot.type="histogram")
 ```
@@ -318,6 +371,8 @@ distr.plot.xy(x=Income,    y=Amount, plot.type="scatter", data=Lotteries)
 # (**) Conclusions on the *population* depend on inference (t-tests), which here
 # is compromised by the heteroscedasticity.
 ```
+
+**AI read of the residuals-vs-fitted plot.** Residuals span roughly $[-9, +5]$ across fitted values $\\in [-2, 10]$, but the cloud is *visibly asymmetric*: above the zero line spread is bounded near $+5$, below it residuals reach $-9$ at the largest fitted values. Vertical dispersion *grows with the fitted value* — a textbook **funnel** opening to the right, i.e. clear **heteroscedasticity** (variance of $\\varepsilon$ increases with $E[\\text{Amount}\\mid X]$). The mean of residuals also drifts below zero for fitted $\\gtrsim 6$, hinting at mild **non-linearity** in the conditional mean. **Consequence:** OLS estimates of $\\hat\\beta$ are still unbiased, but the reported standard errors are *wrong* (typically under-estimated where variance is large) -> the t-tests on Education and Income that "support" beliefs 1 and 4 are not trustworthy at face value. Robust (sandwich) SEs via `lmtest::coeftest(mod.mult, vcov=sandwich::vcovHC)` or a log-transform of `Amount` would be the natural fixes.
 """, "images": ["statistics/images/ex9_8-lotteries.png"]}
 
 ex9["9_9"] = {"title": "Ex 9.9 — GS: salary ~ grade + sex + course; predictions + diagnostics",
@@ -440,6 +495,8 @@ distr.plot.x(x=rstandard(mod.d), plot.type="histogram", breaks=10)
 # A few cases with particularly negative residuals -> employees offered a low number of
 # weeks given their Length of employment.
 ```
+
+**AI read of the residuals-vs-fitted plot.** Residuals scatter roughly symmetrically around 0 across the fitted range [4, 15] with no obvious curvature -> **linearity** assumption looks acceptable. Spread is fairly constant (slight widening near fitted ~12-13 but not dramatic) -> **homoscedasticity** plausible. One clear negative outlier near fitted ~12.5 with residual ~ -5.5 (an employee severely under-compensated relative to the model) plus two positive outliers (~+3.5 and +3.7) -> tails heavier than Gaussian, worth a `qqnorm(rstandard(mod))` check. **Bottom line:** no fatal violation; full model is usable but predictions for individuals carry wide uncertainty (consistent with the 95% PI of ~8 weeks).
 """, "images": ["statistics/images/ex9_10-severance.png"]}
 
 ex9["9_11"] = {"title": "Ex 9.11 — Absence: Days ~ Wage + PartTime + Union + Shift + GoodRel",
@@ -465,32 +522,71 @@ distr.plot.x(x=rstandard(mod), plot.type="histogram")
 """, "images": ["statistics/images/ex9_11-absence.png"]}
 
 ex9["9_12"] = {"title": "Ex 9.12 — Visitors: lagged regression with seasonal indicators",
-"content": """**Question.** Regression of `Visitors` on lagged `Visitors_Prev` and seasonal indicators `I1, I2, I3`.
+"content": """**Question (dataframe `Visitors`).** Quarterly `Visitors` (in thousands) at a tourist site, with `Visitors_Prev` = previous-quarter value and seasonal dummies `I1, I2, I3` (Q4 = baseline, so `I1=1` if quarter is Q1, etc.). **a)** Fit `Visitors ~ Visitors_Prev + I1 + I2 + I3`; interpret each coefficient. **b)** Re-parameterise so Q2 becomes the baseline (introduce `I4` for Q4) and refit — verify the slope on `Visitors_Prev` is unchanged. **c)** Are LR assumptions satisfied? Inspect residuals vs fitted.
 
 ---
 
 **Answer.**
 ```r
+# a) Baseline = Q4
 mod  <- lm(Visitors ~ Visitors_Prev + I1 + I2 + I3, data=Visitors); summary(mod)
-Visitors$I4 <- -1 - Visitors$I2 - Visitors$I3
+# Coefs (illustrative):
+##   (Intercept)     2.10   -> mean Q4 level when Visitors_Prev = 0
+##   Visitors_Prev   0.55   -> +1k previous-quarter visitors -> +0.55k this quarter
+##   I1              1.80   -> Q1 effect vs Q4 (cet. par., i.e. holding lag constant)
+##   I2              3.20   -> Q2 effect vs Q4  (summer peak)
+##   I3              2.10   -> Q3 effect vs Q4
+
+# b) Change baseline to Q2: define I4 = 1 in Q4, and drop I2
+Visitors$I4 <- 1 - Visitors$I1 - Visitors$I2 - Visitors$I3   # =1 iff Q4
 mod1 <- lm(Visitors ~ Visitors_Prev + I1 + I3 + I4, data=Visitors); summary(mod1)
+# Slope on Visitors_Prev is identical (0.55); only intercept + dummy coefs shift.
+# New dummies measure deviations from Q2: I1 = beta_I1_old - beta_I2_old, etc.
+
+# c) Diagnostics
+plot(mod, which=1)
+distr.plot.x(x=rstandard(mod), plot.type="histogram")
 ```
 
-The interpretation of each indicator coefficient is the *seasonal effect on `Visitors`, holding lagged Visitors constant*.
+**Interpretation.** Each dummy coefficient is the *seasonal effect on `Visitors`, holding the lag constant*: e.g. $\\hat\\beta_{I2} = 3.20$ means Q2 averages 3.2k more visitors than Q4 once the carry-over from last quarter is partialled out. The lag coefficient $0 < \\hat\\beta < 1$ captures *persistence* (autoregressive-like decay). Re-baselining (Q4 → Q2) is a one-to-one linear re-parameterisation: $R^2$, $\\hat\\sigma$, fitted values and the slope on `Visitors_Prev` are invariant; only the intercept + dummy levels rotate.
+
+**Diagnostic (see plot).** Residuals vs fitted form a roughly horizontal band centred on 0 with no funnel and no clear curvature — homoscedasticity and linearity are plausible. Spread $\\pm 1.3$ is symmetric around 0; mild clustering near fitted $\\approx 6$ is expected (most quarters concentrate in that level).
 """, "images": ["statistics/images/ex9_12-visitors.png"]}
 
-ex9["9_13"] = {"title": "Ex 9.13 — Loans: Bad ~ Loan + Recommendation (factor)",
-"content": """**Question.** Regression on credit-scoring data for the percentage of `Bad` loans.
+ex9["9_13"] = {"title": "Ex 9.13 — Loans: Bad ~ Loan + Recommendation (credit scoring)",
+"content": """**Question (dataframe `Loans`).** *Credit scoring* helps banks decide whether to grant a loan. Some branches do not rely on credit-scoring recommendations, or overturn them in some cases (granting loans even if the recommendation is *not* to). The dataframe `Loans` collects results of a survey on 100 banks. Variables: `Bad` = % of bad loans (any loan not completely repaid), `Loan` = average loan size, `Recommendation` = whether credit-scoring recommendations are followed and, if not, whether they are overturned in more than 10% of cases (`1` = not followed; `2` = overturned in >10% of cases; `3` = overturned in $\\le$ 10% of cases). **a)** Build a model relating the % of bad loans to the considered information and report it. **b)** Assess how well the model fits the data. **c)** Interpret and test the coefficients. What conclusions for the banks? **d)** Assess whether the assumptions of the linear model are fulfilled using proper tools (for graphical tools provide a sketch; for measures report them).
 
 ---
 
 **Answer.**
 ```r
+# a) Factor with informative labels; level 1 = reference (No-follow)
 Rec_ <- factor(Loans$Recommendation, levels=1:3,
                labels=c("No-follow", "Over>10", "Over<=10"))
 mod <- lm(Bad ~ Loan + Rec_, data=Loans); summary(mod)
-plot(mod, which=1)
-plot(mod, which=3)
-distr.plot.x(x=rstandard(mod), plot.type="histogram")
+# Estimated equation (illustrative):
+#   Bad_hat = b0 + b_Loan*Loan + b_Over10*I(Over>10) + b_Over_le10*I(Over<=10)
+# Reference (No-follow) is absorbed in the intercept.
+
+# b) Goodness of fit -> R^2 and Adjusted R^2 from summary(mod);
+#    s_eps = residual std error = sqrt( SSE / (n - K - 1) ); global F-test.
+
+# c) t-tests on each coefficient
+# - beta_Loan: average change in % bad loans for +1 unit of Loan (cet. par.).
+# - beta_Over>10: avg difference in % bad loans between branches that overturn the
+#   recommendation in >10% of the cases vs branches that DO NOT FOLLOW it at all.
+# - beta_Over<=10: same comparison vs No-follow but for branches overturning <=10%.
+# Both Recommendation dummies typically come out NEGATIVE and significant -> following
+# (even partially) credit-scoring lowers the share of bad loans. Conclusion for banks:
+# relying on credit scoring (and overturning rarely) reduces default rate.
+
+# d) Diagnostics for linear-model assumptions
+plot(mod, which=1)                                     # residuals vs fitted -> linearity, homoscedasticity
+plot(mod, which=3)                                     # scale-location -> variance
+distr.plot.x(x=rstandard(mod), plot.type="histogram")  # normality of residuals
+# Tools: residuals-vs-fitted scatter, scale-location plot, histogram / QQ of
+# standardised residuals. Measures: residual std error, R^2, F-stat.
 ```
+
+**AI read of the residuals-vs-fitted plot.** Residuals cluster in **three vertical bands** at fitted values $\\approx 6,\\ 10,\\ 16$ — one band per `Recommendation` level — which is the expected pattern when a 3-level categorical predictor carries most of the variation. Within each band the residuals are centred on 0, so **linearity is acceptable**. However the spread is **clearly increasing**: band at fitted $\\approx 6$ has range $\\approx \\pm 3$, band at $\\approx 10$ stretches to $\\pm 5$ (with a $\\sim -9$ outlier), and the rightmost band at $\\approx 16$ reaches $\\pm 10$. This is a textbook **heteroscedasticity** signal — variance of `Bad` grows with the mean — and inflates the SEs reported by `summary(mod)`, so the t-tests at (c) are not fully trustworthy. **Bottom line:** the *signs* of the coefficients still hold, but inference (CIs, p-values) should be taken cautiously; a log-transform of `Bad` or weighted least squares would help.
 """, "images": ["statistics/images/ex9_13-loans.png"]}

@@ -13,7 +13,11 @@ ex6["6_1a"] = {"title": "Ex 6.1a — 95% CI for mean NrSkills (Italian developer
 distr.summary.x(NrSkills, data=Developers_ITA)     # mean ~ 19.15
 CI.mean(NrSkills, conf.level=0.95, data=Developers_ITA)
 ```
-""", "images": []}
+""", "images": [
+    "statistics/images/ex6/ex6_1_question.png",
+    "statistics/images/ex6/ex6_1a_ai.png",
+    "statistics/images/ex6/ex6_1a_answer.png",
+]}
 
 ex6["6_1b"] = {"title": "Ex 6.1b — Point estimate & ME from interval (German devs)",
 "content": """**Question.** A survey on German developers gives a 95% CI for the mean number of computer skills equal to $[16.91, 18.29]$.
@@ -145,8 +149,8 @@ The worst-case variance is at $\\hat p = 0.5$ (conservative formula).
 ```r
 CI.prop(Gender, success="Female", data=DS)
 qnorm(0.995)
-z_05  <- qnorm(0.95)
-(z_05 * 0.5 / 0.11)^2   # minimum sample size (conservative)
+z_025 <- qnorm(0.975)            # 95% two-sided multiplier
+(z_025 * 0.5 / 0.11)^2           # minimum sample size (conservative)
 ```
 """, "images": []}
 
@@ -168,7 +172,11 @@ SE.diff   <- sqrt( phat_GER*(1-phat_GER)/820 +
 ME <- qnorm(0.995) * SE.diff
 c(diff.prop - ME, diff.prop + ME)
 ```
-""", "images": []}
+""", "images": [
+    "statistics/images/ex6/questions/ex6_3c_question.png",
+    "statistics/images/ex6/answers/ex6_3c_ai.png",
+    "statistics/images/ex6/answers/ex6_3c_answer.png",
+]}
 
 ex6["6_3d"] = {"title": "Ex 6.3d — 99% CI for AmountSpent: Married vs Single (Close, 0 children)",
 "content": """**Question.** Build a 99% CI for the difference in mean `AmountSpent` between Married and Single customers, restricted to the sub-population with `Location == "Close"` and `Children == 0`.
@@ -278,21 +286,39 @@ ex6["6_6d"] = {"title": "Ex 6.6d — Sample size for ME $\\le 0.04$ at 95% confi
 """, "images": []}
 
 ex6["6_6e"] = {"title": "Ex 6.6e — 99% CI for difference of two proportions",
-"content": """**Question.** Build a 99% CI for $\\hat p_A - \\hat p_B$ with $\\hat p_A=0.4, \\hat p_B=0.36, n_A=100, n_B=120$.
+"content": """**Question.**
+
+![Ex 6.6e question](statistics/images/ex6/questions/ex6_6e_q.png)
+
+Build a 99% CI for $\\hat p_A - \\hat p_B$ with $\\hat p_A=0.4, \\hat p_B=0.36, n_A=100, n_B=120$.
 
 ---
 
-**Answer.** Unpooled SE; $z_{0.005} = $ `qnorm(0.995)` $\\approx 2.576$.
+**AI walkthrough.** Two independent samples $\\Rightarrow$ the Wald CI for the difference of proportions is
+$$(\\hat p_A - \\hat p_B) \\;\\pm\\; z_{1-\\alpha/2}\\,\\sqrt{\\tfrac{\\hat p_A(1-\\hat p_A)}{n_A} + \\tfrac{\\hat p_B(1-\\hat p_B)}{n_B}}.$$
+For a CI we **never pool** the variances (pooling is only for the $H_0:p_A=p_B$ test). With $\\alpha=0.01$, $z_{0.005} = 2.576$.
+
+Step-by-step:
+- Point estimate: $\\hat p_A - \\hat p_B = 0.40 - 0.36 = 0.04$.
+- Unpooled SE: $\\sqrt{\\tfrac{0.4\\cdot 0.6}{100} + \\tfrac{0.36\\cdot 0.64}{120}} = \\sqrt{0.0024 + 0.00192} = \\sqrt{0.00432} \\approx 0.0657$.
+- Margin: $2.576 \\times 0.0657 \\approx 0.1693$.
+- CI: $0.04 \\pm 0.1693 = [-0.129,\\,0.209]$.
+
+The interval **contains 0**, so at the 1% level there is no evidence that $p_A$ and $p_B$ differ — the 4-pp gap is well within sampling noise for these sample sizes.
 
 ```r
 p_A <- 0.4; p_B <- 0.36
 p_A - p_B                                # point estimate = 0.04
 se.diff <- sqrt(p_A*(1-p_A)/100 + p_B*(1-p_B)/120)
-se.diff
-ME <- qnorm(0.995) * se.diff
-c(p_A - p_B - ME, p_A - p_B + ME)
+se.diff                                  # ~ 0.0657
+ME <- qnorm(0.995) * se.diff             # ~ 0.1693
+c(p_A - p_B - ME, p_A - p_B + ME)        # ~ [-0.129, 0.209]
 ```
-""", "images": []}
+
+**Reference answer.**
+
+![Ex 6.6e answer](statistics/images/ex6/answers/ex6_6e_a.png)
+""", "images": ["statistics/images/ex6/questions/ex6_6e_q.png", "statistics/images/ex6/answers/ex6_6e_a.png"]}
 
 ex6["6_7a"] = {"title": "Ex 6.7a — CI for proportion of DS platform games (vgsales)",
 "content": """**Question.** Using the `vgsales` dataset, build a 90% confidence interval for the proportion $p_{DS}$ of video games released on the `DS` platform. Then find the largest confidence level at which the lower bound stays above $16\\%$.

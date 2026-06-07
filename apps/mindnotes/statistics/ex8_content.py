@@ -144,17 +144,15 @@ plot(mod, which=3)                              # scale-location
 distr.plot.x(x=rstandard(mod), plot.type="histogram")
 ```
 
-The fitted line is $\\widehat{\\text{Weeks}} = -19.5262 + 1.6098\\cdot\\text{Age}$.
+**a)** OLS estimation gives the fitted line $\\widehat{\\text{Weeks}} = -19.5262 + 1.6098\\cdot\\text{Age}$: each extra year of age raises the expected number of weeks needed to find a new job by $\\approx 1.61$. Test $H_0:\\beta_1=0$ vs $H_1:\\beta_1\\neq 0$ with $t=\\hat\\beta_1/\\text{se}(\\hat\\beta_1)\\sim t_{n-2}$ under $H_0$. The printout returns a very small $p$-value ⇒ **reject $H_0$** at any conventional level: the relation between `Age` and `Weeks` is **significant** — older workers tend to need on average more weeks to find a new job.
 
-**a)** Test $H_0:\\beta_1=0$ vs $H_1:\\beta_1\\neq 0$. The printout gives a small $p$-value ⇒ **reject $H_0$**: `Age` is significant — older workers need on average more weeks to find a new job.
+**b)** 90% CI for $\\beta_1$ from `confint(mod, level=0.9)`: $[1.502505,\\,1.877065]$. Multiplying the extremes by $5$ gives the 90% CI for the change in expected `Weeks` corresponding to $+5$ years of age: $[7.512523,\\,9.385327]$ weeks.
 
-**b)** 90% CI for $\\beta_1$: from `confint(mod, level=0.9)` $[1.5025,\\,1.7170]$. Multiplied by 5: change for $+5$ years of age $\\in [7.5125,\\,9.3852]$ weeks.
+**c)** Goodness-of-fit measured by $R^2 = SSR/SST$: in this case $R^2 \\approx 0.40$ ⇒ `Age` alone explains about $40\\%$ of the variability of `Weeks`.
 
-**c)** $R^2$ from the printout: the proportion of variability of `Weeks` explained by `Age` (around $40\\%$).
+**d)** 99% prediction interval at $\\text{Age}=36$: $[22.14825,\\,60.46381]$ weeks.
 
-**d)** 99% prediction interval at $\\text{Age}=36$: approximately $[24.1482,\\,60.4638]$ weeks.
-
-**e)** Diagnostic plots: residuals vs fitted reasonably flat, scale-location stable, histogram of standardized residuals roughly symmetric ⇒ assumptions of linearity, homoscedasticity and normality are **broadly satisfied**.
+**e)** **Linearity:** the scatterplot of `Weeks` vs `Age` is well approximated by a straight line. **Homoscedasticity:** the residuals-vs-fitted and scale-location plots show somewhat **higher dispersion at central predicted values**, due to the lower number of very young and very old workers — the assumption is only **approximately** satisfied. **Normality:** the histogram of standardized residuals is approximately **symmetric** and bell-shaped ⇒ broadly consistent with a normal erratic component. Overall the linear-model assumptions are **reasonably fulfilled**.
 """, "images": ["statistics/images/ex8_3-weeks-age.png"]}
 
 ex8["8_4a"] = {"title": "Ex 8.4a — Restaurants: revenues ~ surface + diagnostics",

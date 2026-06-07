@@ -183,7 +183,7 @@ qnorm(0.15, 180, sqrt(1600))
 **c)** The proportion of phone calls that would be interrupted, $\\Pr(X > 300)$, is **0.135%**:
 ```r
 1 - pnorm(300, 180, sqrt(1600))
-## [1] 0.000349898
+## [1] 0.001349898
 ```
 """,
 "images": [],
@@ -192,10 +192,10 @@ qnorm(0.15, 180, sqrt(1600))
 ex4["4_4b"] = {
 "title": "Ex 4.4 d–g — Sum of 5 calls, sample of 210, CLT for proportion",
 "content": """**Question.**
-**d)** Let $S$ denote the duration of 5 calls (random sample): probability that processing all the calls takes more than 15 minutes (900 sec)?
+**d)** Let $S$ denote the total duration of 5 calls (random sample): probability that processing all the calls takes more than 15 minutes (900 sec)?
 **e)** Suppose 210 calls come into the call center in a specific time slot on a business day; excluding 10% of the most extreme scenarios, what is the interval in which we can expect the total time required to process all calls to vary?
-**f)** Suppose an operator has to handle 5 calls in a queue. What is the probability that the time required to process all calls is more than 15 minutes?
-**g)** Suppose 600 calls into the call center: probability that at least 15% will be resolved without an intervention by the operator (the proportion of calls of duration > 600 s requires a callback in 12% of cases)?
+**f)** Suppose 600 calls come into the call center. Assume that 12% of calls are resolved without an intervention by the operator. What is the probability that at least 15% of these 600 calls will be resolved without operator intervention?
+**g)** Discuss for each of the previous points (a–f) under what assumptions on $X$ the calculation is justified.
 
 ---
 
@@ -473,7 +473,7 @@ ex4["4_9a"] = {
 
 ```r
 pnorm(22500, 25000, sqrt(9800^2/81))
-## [1] 0.0104027
+## [1] 0.01083864
 ```
 """,
 "images": [],
