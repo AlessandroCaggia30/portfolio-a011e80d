@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": 1780867682137,
+  "exportedAt": 1780867729935,
   "data": {
     "topics": [
       {
@@ -3636,16 +3636,20 @@
               {
                 "id": "4_3c",
                 "title": "Ex 4.3c — P(total receipt of 10 customers > €135)",
-                "content": "**Question.** What is the probability that 10 customers will have a receipt of more than €135 on *private label* products?\n\n---\n\n**Answer.** Let $S$ denote the total expenditure of the 10 customers (assuming they represent a random sample). Then $S$ is distributed according to a Normal distribution with\n\n$$\nE(S) = 10\\cdot E(X) = 10\\cdot 13.2 = 132, \\qquad \\mathrm{Var}(S) = 10\\cdot \\mathrm{Var}(X) = 10\\cdot 1.2^2 = 14.4,\n$$\n\nso $S \\sim N(132, 14.4)$. The probability that 10 customers will have a receipt of more than €135 on private label products, $\\Pr(S > 135)$, is **0.2146**:\n\n\n%%RBLOCK%%\n`1 - pnorm(135, 132, sqrt(14.4))`\n`## [1] 0.2145977`\n%%/RBLOCK%%\n\n",
+                "content": "**Question.** What is the probability that 10 customers will have a receipt of more than €135 on *private label* products?\n\n![Ex 4.3c question](statistics/images/ex4/questions/ex4_4_3c_question.png)\n\n---\n\n**Setup.** Let $X_i$ be the expenditure of customer $i$ on private-label products in a single receipt, with $X_i \\sim N(13.2,\\,1.2^2)$ i.i.d. across the 10 customers (assuming they form a random sample). Let $S = \\sum_{i=1}^{10} X_i$ denote the **total** expenditure of the 10 customers.\n\nA linear combination of independent normals is again normal, so $S$ is exactly $N(\\mu_S, \\sigma_S^2)$ with\n\n$$\n\\mu_S \\;=\\; E(S) \\;=\\; \\sum_{i=1}^{10} E(X_i) \\;=\\; 10\\cdot 13.2 \\;=\\; 132, \\qquad\n\\sigma_S^2 \\;=\\; \\mathrm{Var}(S) \\;=\\; \\sum_{i=1}^{10} \\mathrm{Var}(X_i) \\;=\\; 10\\cdot 1.2^2 \\;=\\; 14.4,\n$$\n\nso $S \\sim N(132,\\,14.4)$ and $\\sigma_S = \\sqrt{14.4} \\approx 3.7947$ euros.\n\n---\n\n**Standardisation.** With $Z = (S - 132)/\\sqrt{14.4} \\sim N(0,1)$,\n\n$$\n\\Pr(S > 135) \\;=\\; \\Pr\\!\\left(Z > \\frac{135 - 132}{\\sqrt{14.4}}\\right) \\;=\\; \\Pr(Z > 0.7906) \\;=\\; 1 - \\Phi(0.7906) \\;\\approx\\; 0.2146.\n$$\n\nThe threshold $s = 135$ sits about $0.79$ standard deviations **above** the mean, so the right-tail mass is appreciably less than 50%.\n\n---\n\n**Answer.** The probability that 10 customers will have a receipt of more than €135 on private-label products, $\\Pr(S > 135)$, is **0.2146**:\n\n\n%%RBLOCK%%\n`1 - pnorm(135, 132, sqrt(14.4))`\n`## [1] 0.2145977`\n%%/RBLOCK%%\n\n\nEquivalently, via standardisation:\n\n\n%%RBLOCK%%\n`1 - pnorm((135 - 132) / sqrt(14.4))`\n`## [1] 0.2145977`\n%%/RBLOCK%%\n\n\n---\n\n**AI walkthrough.** The key step is recognising that \"10 customers\" turns the problem about a *single* receipt $X$ into one about the *sum* $S = X_1 + \\dots + X_{10}$. Because the $X_i$ are i.i.d. normal, $S$ is **exactly** normal — no CLT approximation needed — with mean scaled by $n$ and variance scaled by $n$ (so SD scaled by $\\sqrt{n}$).\n\n1. **Distribution of $S$.** $\\mu_S = n\\mu = 10\\cdot 13.2 = 132$ and $\\sigma_S^2 = n\\sigma^2 = 10\\cdot 1.44 = 14.4$, giving $\\sigma_S = \\sqrt{14.4} \\approx 3.7947$. So $S \\sim N(132,\\,14.4)$.\n2. **Locate the threshold.** $z = (135 - 132)/\\sqrt{14.4} \\approx 0.7906$ — the cut-off sits less than one SD above the mean.\n3. **Read the tail.** $\\Pr(S > 135) = 1 - \\Phi(0.7906) \\approx 0.2146$. Roughly a **21%** chance that the 10 receipts sum to more than €135.\n4. **Sanity check vs the single-customer case.** A single customer has $E(X) = 13.2$, so €135 is far above their *individual* mean — but for the sum of 10 it is just barely above the aggregate mean of €132. Aggregation pulls the threshold closer to the centre of the distribution, which is why the tail probability is moderate rather than tiny.\n5. **Take-away.** For sums of i.i.d. normals: $E$ scales linearly with $n$, $\\mathrm{Var}$ scales linearly with $n$, and SD scales with $\\sqrt{n}$. Always standardise before reading off `pnorm`/`1-pnorm` to avoid sign mistakes.\n\n![Ex 4.3c AI walkthrough](statistics/images/ex4/ex4_4_3c_ai.png)\n\n---\n\n**Reference answer.**\n\n![Ex 4.3c answer](statistics/images/ex4/answers/ex4_4_3c_answer.png)\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex4/questions/ex4_4_3c_question.png",
+                  "statistics/images/ex4/ex4_4_3c_ai.png",
+                  "statistics/images/ex4/answers/ex4_4_3c_answer.png"
+                ],
                 "links": [
                   "th_g10"
                 ],
                 "x": 25000,
                 "y": 1360,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "lightblue",
                 "column": 32
               },
