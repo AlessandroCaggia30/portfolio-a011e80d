@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-07T09:53:35.134Z",
+  "exportedAt": "2026-06-07T09:53:41.504Z",
   "data": {
     "topics": [
       {
@@ -272,7 +272,7 @@
               {
                 "id": "ts17786690819136137",
                 "title": "Example 2: categorical time series (state is observed)",
-                "content": "\\textbf{\\textcolor{red}{EXAMPLE 2 --- CATEGORICAL TIME SERIES \n  (PANEL ON VOTE INTENTION)}}                                   \n                                                                \n  14 Only the things in yellow!                                 \n  Usual assumptions.                                            \n\n  \\textbf{\\textcolor{red}{Common setup (preamble, shared by all \n  sub-exercises).}}\n                                                                \n  \\emph{States:} $1$ = Rep., $2$ = Dem., $3$ = Don't know.      \n  \n  \\emph{Transition matrix} $\\mathbf P$ (given):                 \n                  \n  \\begin{tabular}{|c|c|c|c|}                                    \n  \\hline\n  $t-1 ;\\backslash; t$ & $1$ & $2$ & $3$ \\                      \n  \\hline                                                        \n  $1$ & $0.6$ & $0.3$ & $0.1$ \\\n  $2$ & $0.1$ & $0.7$ & $0.2$ \\                                 \n  $3$ & $0.0$ & $0.4$ & $0.6$ \\                                 \n  \\hline\n  \\end{tabular}             ",
+                "content": "",
                 "flashcard": true,
                 "images": [],
                 "links": [],
