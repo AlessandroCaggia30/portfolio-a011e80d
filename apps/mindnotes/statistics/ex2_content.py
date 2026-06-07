@@ -14,15 +14,27 @@ ex2["2_1a"] = {
 
 ---
 
-**Answer.** The required interval is the one whose endpoints are the first and the third quartile of the variable `Sales`:
+**Answer.** The required interval is the one whose endpoints are the **first and third quartiles** of the variable `Sales`: by definition, $[Q_1, Q_3]$ leaves 25% of the data below $Q_1$ and 25% above $Q_3$, hence it contains the **central 50%** of observations.
 
 ```r
 distr.summary.x(x=Sales, stats=c("q1","q3"), data=pizzerie)
-##  n n.a    q1     q3
-## 100   0  17683.25  28975
+##   n  n.a       q1     q3
+## 100    0  17683.25  28975
 ```
 
-Thus, the interval that contains the 50% central data on `Sales` is $[17\\,683.25;\\, 28\\,975]$. The width of the interval, called the **interquartile range** ($IQR$), is approximately equal to $28\\,975 - 17\\,683 = 11\\,292$. This measure is an index of dispersion: small values of $IQR$ indicate the concentration of 50% of data in a relatively small interval and thus denote great concentration of the distribution at least "around the centre".
+Thus, the interval that contains the 50% central data on `Sales` is
+
+$$
+[Q_1,\\, Q_3] \\;=\\; [17\\,683.25;\\; 28\\,975].
+$$
+
+The width of this interval, called the **interquartile range** ($IQR$), is
+
+$$
+IQR \\;=\\; Q_3 - Q_1 \\;=\\; 28\\,975 - 17\\,683.25 \\;\\approx\\; 11\\,292.
+$$
+
+This measure is an **index of dispersion**: small values of $IQR$ indicate the concentration of 50% of data in a relatively small interval and thus denote great concentration of the distribution at least "around the centre". Conversely, large values of $IQR$ signal heterogeneity even among the central units.
 """,
 "images": [],
 }
@@ -106,11 +118,35 @@ ex2["2_1e"] = {
 
 ex2["2_1f"] = {
 "title": "Ex 2.1f — Minimum revenue of the 10% pizzerias with the highest Sales",
-"content": """**Question.** What is the minimum revenue of the 10% of pizzeria with the highest revenues (`Sales`)?
+"content": """**Question.**
+
+![Ex 2.1f question](statistics/images/ex2/questions/ex2_1f_question.png)
+
+What is the minimum revenue of the 10% of pizzerias with the highest revenues (`Sales`)?
 
 ---
 
-**Answer.** The minimum revenue of the 10% of pizzerias with the highest revenue corresponds to the 90th-percentile. Therefore:
+**Setup.** "The 10% with the highest `Sales`" is the **upper tail** of the distribution, i.e. the observations above the **90th percentile** $p_{0.90}$. By definition, $p_{0.90}$ is the value that leaves $90\\%$ of the data **below** it and $10\\%$ **above** it. Therefore the **minimum** revenue inside that top decile is exactly $p_{0.90}$ — any value smaller than $p_{0.90}$ would, by definition, lie *below* the top $10\\%$.
+
+---
+
+**AI walkthrough.**
+
+**Quantile recap.** For a sample of size $n=100$ the $90$-th percentile is obtained from the **empirical CDF**: the smallest value $x_{(k)}$ such that $F_n(x_{(k)}) \\geq 0.90$. With $n=100$, position $\\lceil 0.90 \\cdot 100 \\rceil = 90$ in the ordered sample gives $p_{0.90}$ (R's `quantile` uses linear interpolation of order-statistics, giving $35\\,773.6$ here).
+
+**Reading the output.** R reports
+$$
+p_{0.90} \\;=\\; 35\\,773.6.
+$$
+Hence the **minimum revenue of the top 10% of pizzerias** is $\\approx 35\\,774$.
+
+**Comparison with $Q_3$ (the upper quartile, from 2.1a).** $Q_3 = 28\\,975$ is the 75-th percentile — the threshold for the top *25%*. Tightening the tail from the top $25\\%$ to the top $10\\%$ raises the threshold from $28\\,975$ to $35\\,774$, a jump of $\\approx 6\\,800$. A jump of this size in just $15$ percentage-points of mass confirms the **right-skewness** already visible from the boxplot in 2.1b–c: the distribution stretches further on the high side than on the low side.
+
+**Sanity check vs. outlier fence.** The Tukey upper fence computed in 2.1d was $Q_3 + 1.5\\cdot IQR = 45\\,912.62$. The $90$-th percentile $35\\,774$ sits **below** that fence, so the top $10\\%$ is not the same set as the outliers — the outliers ($54\\,418$, $63\\,683$, $58\\,762$) are a *sub-set* of the top decile.
+
+---
+
+**Answer.** The minimum revenue of the 10% of pizzerias with the highest revenue corresponds to the **90-th percentile**:
 
 ```r
 distr.summary.x(x=Sales, stats="p90", data=pizzerie)
@@ -119,8 +155,17 @@ distr.summary.x(x=Sales, stats="p90", data=pizzerie)
 ```
 
 Thus, **10% of pizzerias in the sample have a revenue higher than $35\\,774$**, whereas the third quartile equals $28\\,975$. This information helps to better understand the characteristics of the right tail of the distribution, which, as noted in the previous points, makes the distribution skewed to the right.
+
+---
+
+**Reference answer.**
+
+![Ex 2.1f answer](statistics/images/ex2/answers/ex2_1f_answer.png)
 """,
-"images": [],
+"images": [
+    "statistics/images/ex2/questions/ex2_1f_question.png",
+    "statistics/images/ex2/answers/ex2_1f_answer.png",
+],
 }
 
 ex2["2_1g"] = {
