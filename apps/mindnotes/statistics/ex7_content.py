@@ -163,19 +163,23 @@ ex7["7_4b"] = {"title": "Ex 7.4b — Goodness of fit on History within the two L
 
 ---
 
-**Answer.** Apply the same goodness-of-fit approach to each sub-population separately:
+**Answer.** Restrict the goodness-of-fit test of (a) to each `Location` stratum. Same null in each stratum:
+$$H_0: p_{Low}=p_{Med}=p_{High}=p_{None}=0.25 \\quad \\text{vs} \\quad H_1: \\text{at least one } p \\neq 0.25,$$
+with test statistic $\\chi^2=\\sum_k (O_k-E_k)^2/E_k \\sim \\chi^2_{4-1}=\\chi^2_3$ under $H_0$. Critical value at $\\alpha=0.05$: $\\chi^2_{3,\\,0.95}=7.815$.
 
 ```r
 chisq.test(x=table(DS$History[DS$Location=="Close"]),
            p=c(0.25, 0.25, 0.25, 0.25))
 chisq.test(x=table(DS$History[DS$Location=="Far"]),
            p=c(0.25, 0.25, 0.25, 0.25))
+qchisq(0.95, df=3)                                       # 7.815
 ```
 
-For **Location = Close**: test statistic $= 25.556$, p-value $= 0.00832$ — reject $H_0$.
-For **Location = Far**:   test statistic $\\approx 63.766$, p-value $\\approx 0$ — reject $H_0$ at any level.
+**Location = Close** ($n=360$, $E_k=90$ each): observed counts give $\\chi^2 = 25.556$, p-value $= 0.0000118$. Since $25.556 > 7.815$ → **reject $H_0$**.
 
-The conclusion of (a) is **confirmed**: in both sub-populations the four `History` levels are not equally frequent.
+**Location = Far** ($n=390$, $E_k=97.5$ each): $\\chi^2 \\approx 63.766$, p-value $\\approx 9.3\\cdot 10^{-14} \\approx 0$. Since $63.766 \\gg 7.815$ → **reject $H_0$** at any level.
+
+**Conclusion.** The answer to (a) is **confirmed and reinforced** in both strata: in each `Location` sub-population the four `History` levels are not equally frequent. The non-uniformity of (a) is therefore not an artifact of mixing two homogeneous sub-populations — it is genuinely present at *both* distances from the competitor.
 """, "images": []}
 
 ex7["7_5a"] = {"title": "Ex 7.5a — Fish-diet vs cholesterol: setup, pooled variance, rejection region (normal)",
@@ -206,17 +210,43 @@ ex7["7_5b"] = {"title": "Ex 7.5b — Student's t version of the rejection-region
 
 ---
 
-**Answer.** Under equal variances and (approximately) normal populations, the test statistic
-$$T = \\frac{(\\bar X_\\text{Std}-\\bar X_\\text{Sea}) - 10}{\\sqrt{2\\, s^2_\\text{pool}/n}} \\sim t_{n_1+n_2-2} = t_{198}.$$
+**Answer.** Same hypotheses as (a): $H_0:\\mu_\\text{Std}-\\mu_\\text{Sea}\\le 10$ vs $H_1:\\mu_\\text{Std}-\\mu_\\text{Sea}>10$.
 
-The 0.05-level critical value is $t_{198,0.05} \\approx 1.653$ (vs $z_{0.05}=1.645$), giving a rejection threshold $10 + 1.653\\cdot \\sqrt{0.7090} \\approx 11.39$, **almost identical** to the normal case because the two large samples ($n=100$ each) make $t$ and $z$ percentiles nearly equal.
+**Assumptions for the t-version.** (i) **Normality** of cholesterol in both populations (the t-statistic is *exactly* $t_{n_1+n_2-2}$ only when the populations are normal; with $n_1=n_2=100$ the CLT already protects against mild departures); (ii) **equal variances** (justifies the pooled $s^2_\\text{pool}=35.45$, with $s^2_\\text{Std}/s^2_\\text{Sea}=37.4/33.5=1.12$ — easily compatible with equality).
+
+**Test statistic.** Under $H_0$ (taking equality at the boundary $\\mu_\\text{Std}-\\mu_\\text{Sea}=10$),
+$$T = \\frac{(\\bar X_\\text{Std}-\\bar X_\\text{Sea}) - 10}{\\sqrt{s^2_\\text{pool}(1/n_1 + 1/n_2)}} = \\frac{(\\bar X_\\text{Std}-\\bar X_\\text{Sea}) - 10}{\\sqrt{2\\,s^2_\\text{pool}/n}} \\sim t_{n_1+n_2-2}=t_{198}.$$
+
+**Rejection region.** Reject $H_0$ when $T > t_{198,\\,0.05}=1.6526$, i.e. when
+$$\\bar X_\\text{Std}-\\bar X_\\text{Sea} > 10 + t_{198,\\,0.05}\\cdot\\sqrt{2\\cdot 35.45/100} = 10 + 1.6526\\cdot 0.8420 = 11.392.$$
+
+**Decision.** Observed difference $13.3 > 11.392$ → **reject $H_0$** at $\\alpha=0.05$. Realised t-statistic: $t_\\text{obs}=(13.3-10)/0.8420=3.92$, far in the right tail.
+
+**Comparison with the normal version of (a).**
+
+| | Normal (a) | Student's t (b) |
+|---|---|---|
+| Critical value | $z_{0.05}=1.6449$ | $t_{198,\\,0.05}=1.6526$ |
+| Rejection threshold for $\\bar X_\\text{Std}-\\bar X_\\text{Sea}$ | $11.385$ | $11.392$ |
+| Observed difference | $13.3$ | $13.3$ |
+| Decision | Reject $H_0$ | Reject $H_0$ |
+
+The two thresholds differ by less than 0.01 cholesterol units. With df $=198$, Student's t is virtually indistinguishable from the standard normal (tails differ at the 4th decimal); the gap matters only for small $n$ — e.g. with $n_1=n_2=5$ (df=8) the critical value would jump to $t_{8,\\,0.05}=1.860$, materially shifting the threshold.
 
 ```r
-qt(0.95, df=198)                                # 1.653
-10 + qt(0.95, df=198)*sqrt(2*35.45/100)         # 11.39
+xbar.s <- 210.1; var.s <- 37.4; n.s <- 100
+xbar.f <- 196.8; var.f <- 33.5; n.f <- 100
+s2.pool <- ((n.s-1)*var.s + (n.f-1)*var.f)/(n.s + n.f - 2)   # 35.45
+se      <- sqrt(2*s2.pool/n.s)                              # 0.8420
+qt(0.95, df=198)                                            # 1.6526
+thresh.t <- 10 + qt(0.95, df=198)*se;  thresh.t             # 11.392
+t.obs    <- ((xbar.s - xbar.f) - 10)/se; t.obs              # 3.92
+1 - pt(t.obs, df=198)                                       # p-value ~ 6e-5
+# Built-in equivalent (provides the same t, df, threshold, p-value):
+# TEST.diffmean(... alternative="greater", mu0=10, var.test=TRUE)
 ```
 
-Conclusion unchanged: the observed 13.3 exceeds the threshold → **reject $H_0$**.
+**Conclusion.** The Student's t test reproduces (a) almost exactly — same decision, virtually the same threshold — confirming that with $n=100$ per group the normal approximation of (a) is fully adequate.
 """, "images": []}
 
 ex7["7_5c"] = {"title": "Ex 7.5c — p-value of the sample realisation",

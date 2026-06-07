@@ -83,14 +83,36 @@ ex6["6_2a"] = {"title": "Ex 6.2a — Mean difference NA vs EU sales (vgsales, Ac
 
 ---
 
-**Answer.** Each game is observed in **both** markets, so the two samples are *paired* (matched on game). The natural estimator is the matched-pair mean $\\bar D = \\bar X_{NA} - \\bar X_{EU}$. Independence between NA and EU sales is implausible because the **same** game drives both.
+**Setup.** Two columns (`NA_Sales`, `EU_Sales`) are recorded for the *same* game, so the observations come in **matched pairs**. Define the within-game difference $D_i = X_{NA,i} - X_{EU,i}$; its sample mean estimates the population mean difference
+$$\\bar D = \\bar X_{NA} - \\bar X_{EU}, \\qquad E[\\bar D] = \\mu_{NA} - \\mu_{EU}.$$
+With independent samples we would use $\\operatorname{Var}(\\bar X_{NA} - \\bar X_{EU}) = \\sigma_{NA}^2/n + \\sigma_{EU}^2/n$, but here that is wrong: a popular title inflates *both* NA and EU sales, so $\\operatorname{Cov}(X_{NA}, X_{EU}) > 0$ and the correct variance is
+$$\\operatorname{Var}(\\bar D) = \\tfrac{1}{n}\\bigl(\\sigma_{NA}^2 + \\sigma_{EU}^2 - 2\\,\\operatorname{Cov}(X_{NA}, X_{EU})\\bigr) < \\tfrac{\\sigma_{NA}^2 + \\sigma_{EU}^2}{n}.$$
+Pairing therefore **shrinks** the SE relative to an (incorrect) independent-samples treatment.
+
+**AI walkthrough.** Step by step:
+1. **Filter** the dataframe to `Genre == "Action"`. Each row is one Action title and carries both `NA_Sales` and `EU_Sales`.
+2. **Compute the two sample means** $\\bar x_{NA}$ and $\\bar x_{EU}$.
+3. **Take the difference** $\\bar x_{NA} - \\bar x_{EU}$; equivalently compute $D_i$ first and take its mean — the two are numerically identical because the mean is linear: $\\overline{X-Y} = \\bar X - \\bar Y$.
+4. **Assumption.** Same titles in both markets $\\Rightarrow$ NA and EU sales are *positively correlated* $\\Rightarrow$ samples are **paired**, not independent. The CI/HT in 6.2b must use `type="paired"`.
+
+**Answer.** The point estimate is $\\bar D = \\bar X_{NA} - \\bar X_{EU}$. The appropriate assumption is that the two samples are **paired** (matched on game): independence between NA and EU sales is implausible because a single title drives both markets.
 
 ```r
 xbar_NA <- mean(vgsales$NA_Sales[vgsales$Genre=="Action"])
 xbar_EU <- mean(vgsales$EU_Sales[vgsales$Genre=="Action"])
-xbar_NA - xbar_EU
+xbar_NA - xbar_EU                                            # point estimate of mu_NA - mu_EU
+# Equivalent matched-pair form (one D per game):
+D <- vgsales$NA_Sales[vgsales$Genre=="Action"] -
+     vgsales$EU_Sales[vgsales$Genre=="Action"]
+mean(D)                                                      # same number
+cor(vgsales$NA_Sales[vgsales$Genre=="Action"],
+    vgsales$EU_Sales[vgsales$Genre=="Action"])               # strongly positive => paired
 ```
-""", "images": []}
+""", "images": [
+    "statistics/images/ex6/questions/ex6_2a_question.png",
+    "statistics/images/ex6/ex6_2a_ai.png",
+    "statistics/images/ex6/answers/ex6_2a_answer.png",
+]}
 
 ex6["6_2b"] = {"title": "Ex 6.2b — 98% paired CI for NA-EU mean difference",
 "content": """**Question.** Build a 98% confidence interval for the mean difference. *(c)* Comment on the claim: "Since NA and EU markets are different, the two samples can be assumed independent."
@@ -138,7 +160,11 @@ n.females / 750          # sample proportion
 """, "images": []}
 
 ex6["6_3b2"] = {"title": "Ex 6.3b2 — 99% CI for female proportion + sample-size planning",
-"content": """**Question.** Build a 99% CI for the proportion of female customers. Then determine the minimum sample size to achieve a target margin of error at 95% confidence.
+"content": """**Question.**
+
+![Ex 6.3b2 question](statistics/images/ex6/questions/ex6_3b2_question.png)
+
+Build a 99% CI for the proportion of female customers. Then determine the minimum sample size to achieve a target margin of error at 95% confidence.
 
 ---
 
@@ -152,7 +178,49 @@ qnorm(0.995)
 z_025 <- qnorm(0.975)            # 95% two-sided multiplier
 (z_025 * 0.5 / 0.11)^2           # minimum sample size (conservative)
 ```
-""", "images": []}
+
+---
+
+**AI walkthrough.** With $n = 750$ customers, $\\hat p = 389/750 \\approx 0.5187$ (sample share of females from b1). The large-$n$ Wald CI for a proportion is
+$$\\hat p \\;\\pm\\; z_{1-\\alpha/2}\\,\\sqrt{\\tfrac{\\hat p(1-\\hat p)}{n}}.$$
+
+*99% CI for the female proportion.* $z_{0.005} \\approx 2.576$ and the estimated SE is $\\sqrt{0.5187 \\cdot 0.4813 / 750} \\approx 0.01824$. The interval is $0.5187 \\pm 2.576 \\times 0.01824 = 0.5187 \\pm 0.0470 \\approx [0.472,\\,0.566]$ — it sits just above $0.5$ but **does include** values $\\le 0.5$ once we go to 99% confidence; the sample is therefore consistent with a population female share between roughly 47% and 57%.
+
+*Sample-size planning at 95% confidence.* Invert $\\text{ME} \\le \\text{ME}^\\star$: $n \\ge (z_{1-\\alpha/2}\\sqrt{\\hat p(1-\\hat p)}/\\text{ME}^\\star)^2$. The maximum of $\\hat p(1-\\hat p)$ is $0.25$ at $\\hat p = 0.5$, giving the **conservative** lower bound $n \\ge (z_{1-\\alpha/2}\\cdot 0.5/\\text{ME}^\\star)^2$. With $z_{0.025}=1.96$ and $\\text{ME}^\\star = 0.11$: $n \\ge (1.96 \\cdot 0.5 / 0.11)^2 \\approx 79.34 \\Rightarrow n = 80$. Plugging in the sample $\\hat p \\approx 0.5187$ in place of $0.5$ gives essentially the same number, because $\\hat p$ is very close to the worst case.
+
+*Take-aways.* (i) Raising confidence from 95% to 99% widens the CI by the factor $2.576/1.96 \\approx 1.31$ — the SE itself does not move. (ii) The minimum-$n$ formula scales as $n \\propto 1/\\text{ME}^{\\star\\,2}$: halving the target ME quadruples the required sample size. (iii) Use $\\hat p = 0.5$ as the safe default whenever no prior estimate is available — it gives the largest $n$ and hence the most cautious plan.
+
+```r
+# Point estimate from b1
+phat <- 389/750            # ~ 0.5187
+n    <- 750
+
+# 99% CI for the proportion (manual)
+se     <- sqrt(phat*(1-phat)/n)          # ~ 0.01824
+z_099  <- qnorm(0.995)                   # 2.576
+ME_99  <- z_099 * se                     # ~ 0.0470
+c(phat - ME_99, phat + ME_99)            # ~ [0.472, 0.566]
+
+# Same via CI.prop
+CI.prop(Gender, success="Female", conf.level=0.99, data=DS)
+
+# Minimum n for ME <= 0.11 at 95% confidence (conservative, p=0.5)
+z_095 <- qnorm(0.975)                    # 1.96
+(z_095 * 0.5 / 0.11)^2                   # ~ 79.34  -> n = 80
+
+# Plug-in version using phat from the sample
+(z_095 * sqrt(phat*(1-phat)) / 0.11)^2   # ~ 79.28  -> n = 80
+```
+
+---
+
+**Reference answer.**
+
+![Ex 6.3b2 answer](statistics/images/ex6/answers/ex6_3b2_answer.png)
+""", "images": [
+    "statistics/images/ex6/questions/ex6_3b2_question.png",
+    "statistics/images/ex6/answers/ex6_3b2_answer.png",
+]}
 
 ex6["6_3c"] = {"title": "Ex 6.3c — 99% CI for diff in Employment proportions (GER vs ITA)",
 "content": """**Question.** Compare the proportions of `Employment == "Employed, full-time"` between German and Italian developers and build a 99% CI for the difference (`Developers_ITA`).
@@ -241,19 +309,35 @@ c(phat - ME, phat + ME) # interval
 """, "images": []}
 
 ex6["6_6b"] = {"title": "Ex 6.6b — Same 95% CI with $n = 1000$",
-"content": """**Question.** Build the 95% CI again with $n=1000$ (same $\\hat p = 0.4$). Comment on the gain in precision.
+"content": """**Question.** Build the 95% CI for the proportion again with $n=1000$ (same $\\hat p = 0.4$). Comment on how precision changes relative to the $n=100$ case.
 
 ---
 
-**Answer.** SE shrinks as $1/\\sqrt{n}$, so the interval is roughly $\\sqrt{10}\\approx 3.16$ times narrower.
+**AI walkthrough.** With a large $n$ the CLT guarantees $\\hat p \\overset{a}{\\sim} \\mathcal{N}\\!\\left(p,\\;\\tfrac{p(1-p)}{n}\\right)$, so the Wald CI is
+$$\\hat p \\;\\pm\\; z_{1-\\alpha/2}\\,\\sqrt{\\tfrac{\\hat p(1-\\hat p)}{n}}.$$
+
+Plug in $\\hat p = 0.4$, $n=1000$, $z_{0.975}=1.96$:
+- Variance: $\\tfrac{0.4\\cdot 0.6}{1000} = 2.4\\times 10^{-4}$.
+- SE: $\\sqrt{2.4\\times 10^{-4}} \\approx 0.01549$.
+- ME: $1.96 \\times 0.01549 \\approx 0.0304$.
+- CI: $0.4 \\pm 0.0304 = [0.370,\\;0.430]$.
+
+**Comparison with $n=100$.** Same $\\hat p$, same confidence level, so only the SE changes. Because $\\text{SE} \\propto 1/\\sqrt{n}$, multiplying $n$ by 10 divides the SE — and the half-width — by $\\sqrt{10}\\approx 3.16$. The interval shrinks from $[0.304,\\,0.496]$ (width $\\approx 0.192$) to $[0.370,\\,0.430]$ (width $\\approx 0.061$): a tenfold sample buys a $\\sim 3.16\\times$ precision gain (diminishing returns of $1/\\sqrt{n}$).
 
 ```r
-se_p1000  <- sqrt(0.4*0.6/1000)
-se_p1000
+phat <- 0.4
+se_p1000  <- sqrt(phat*(1-phat)/1000)
+se_p1000                              # ~ 0.01549
 ME_p1000  <- qnorm(0.975) * se_p1000
-c(0.4 - ME_p1000, 0.4 + ME_p1000)
+ME_p1000                              # ~ 0.0304
+c(phat - ME_p1000, phat + ME_p1000)   # [0.370, 0.430]
+# Precision-gain factor relative to n=100:
+sqrt(1000/100)                        # ~ 3.162
 ```
-""", "images": []}
+""", "images": [
+    "statistics/images/ex6/questions/ex6_6b_question.png",
+    "statistics/images/ex6/answers/ex6_6b_answer.png",
+]}
 
 ex6["6_6c"] = {"title": "Ex 6.6c — Lower confidence level (90% two-sided, $z_{0.05}$)",
 "content": """**Question.** Re-do the proportion CI but using $z = q_{0.95} = 1.645$ instead of $z_{0.025}$ — i.e. a 90% two-sided CI (or equivalently, a one-sided 95% bound).

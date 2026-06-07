@@ -271,17 +271,18 @@ xbar   <- 50.5; ybar  <- 12.4
 var.x  <- 660;  var.y <- 3.5
 cor.xy <- 0.8
 
-# a) slope, intercept from covariance = r*sqrt(var.x*var.y)
-cov.xy <- cor.xy*sqrt(var.x*var.y)          # 38.39
+# a) OLS estimates via cov(x,y) = r*sx*sy
+cov.xy <- cor.xy*sqrt(var.x*var.y)          # 38.4500
 b1 <- cov.xy/var.x                          # 0.0583
-b0 <- ybar - b1*xbar                        # 9.458
+b0 <- ybar - b1*xbar                        # 9.4583
 R2 <- cor.xy^2                              # 0.64
 
 # e) significance test on beta_1
-SSE        <- (1 - R2)*var.y*(n-1)          # 44.1
-s2_e       <- SSE/(n-2)                     # 1.297
-se_beta1   <- sqrt(s2_e/((n-1)*var.x))      # 0.0075
-tstat      <- b1/se_beta1                   # 7.77
+SSE        <- (1 - R2)*var.y*(n-1)          # 44.10
+s2_e       <- SSE/(n-2)                     # 1.2971
+se_beta1   <- sqrt(s2_e/((n-1)*var.x))      # 0.00749
+tstat      <- b1/se_beta1                   # 7.775
+t_crit     <- qt(0.975, df=n-2)             # 2.0322
 2*(1 - pt(tstat, df=n-2))                   # p-value ≈ 0
 
 # f1) 99% PREDICTION interval at x_g = 48 (single new campaign)
@@ -289,14 +290,20 @@ x_g       <- 48
 yhat_g    <- b0 + b1*x_g                    # 12.2546
 se_yhat_g <- sqrt(s2_e)*sqrt(1 + 1/n + ((x_g - xbar)^2)/((n-1)*var.x))
 MEg       <- se_yhat_g * qt(0.995, df=n-2)  # 3.1506
-c(yhat_g - MEg, yhat_g + MEg)               # (9.1038 ; 15.4050)
+c(yhat_g - MEg, yhat_g + MEg)               # (9.1040 ; 15.4052)
 ```
 
-**a)** $\\widehat{y} = 9.458 + 0.0583\\,x$. Each extra unit of advertising raises expected efficacy by $\\approx 0.058$ — the slope value depends on the units of $X$ and $Y$ so on its own it is not a measure of "strength".
+**a)** Closed-form OLS estimates: $\\hat\\beta_1=s_{xy}/s^2_x$ with $s_{xy}=r_{xy}\\,s_x s_y = 0.8\\sqrt{660\\cdot 3.5}=38.45$, so $\\hat\\beta_1=38.45/660=0.0583$ and $\\hat\\beta_0=\\bar y-\\hat\\beta_1\\bar x = 12.4-0.0583\\cdot 50.5 = 9.458$. Regression line:
+$$\\widehat{y} = 9.458 + 0.0583\\,x.$$
+Each extra unit of advertising raises expected efficacy by $\\approx 0.058$ units; since this depends on the units of $X,Y$, it is **not** itself a measure of association strength — for that look at $R^2=r_{xy}^2=0.64$ (64% of the variability of efficacy is explained by the regression).
 
-**e)** $H_0:\\beta_1=0$ vs $H_1:\\beta_1\\neq 0$. $t = 0.0583/0.0075 = 7.77$ with $34$ df, $p\\approx 0$ ⇒ **reject $H_0$**: the slope is significant at any level.
+**e)** Test $H_0:\\beta_1=0$ vs $H_1:\\beta_1\\neq 0$ at $\\alpha=5\\%$ with statistic
+$$t=\\frac{\\hat\\beta_1}{\\text{se}(\\hat\\beta_1)},\\qquad \\text{se}(\\hat\\beta_1)=\\sqrt{\\frac{s^2_\\epsilon}{(n-1)s^2_x}},\\qquad s^2_\\epsilon=\\frac{SSE}{n-2}=\\frac{(1-R^2)(n-1)s^2_y}{n-2}=\\frac{0.36\\cdot 35\\cdot 3.5}{34}=1.297.$$
+So $\\text{se}(\\hat\\beta_1)=\\sqrt{1.297/(35\\cdot 660)}=0.00749$ and $t=0.0583/0.00749=7.78$ on $n-2=34$ df. Critical value $t_{0.975,34}=2.03$: $|t|=7.78\\gg 2.03$ (equivalently $p\\approx 0$) ⇒ **reject $H_0$**, the slope is highly significant.
 
-**f1)** Predicting a **single new campaign** ⇒ use the **prediction interval** (with the extra $+1$ inside the square root). The $99\\%$ PI at $x_g=48$ is $\\approx (9.10,\\,15.40)$.
+**f1)** A *single future campaign* is a new observation, **not** a mean ⇒ use the **prediction interval** (CI would underestimate uncertainty by dropping the irreducible noise term):
+$$\\hat y_g \\pm t_{0.995,\\,34}\\cdot s_\\epsilon\\sqrt{1+\\tfrac{1}{n}+\\tfrac{(x_g-\\bar x)^2}{(n-1)s^2_x}}.$$
+At $x_g=48$: $\\hat y_g=12.255$, $s_\\epsilon=1.139$, leverage term $1+1/36+(2.5)^2/(35\\cdot 660)=1.0281$, $t_{0.995,34}=2.728$ ⇒ margin $3.151$. The 99% PI is $\\approx (9.10,\\,15.40)$ — with 99% confidence the efficacy of the next campaign at expense $48$ falls in this range.
 """, "images": []}
 
 ex8["8_10a"] = {"title": "Ex 8.10a — Sales on discount: CI for $\\beta_1$, PI at $x=12$, extrapolation at $x=30$",

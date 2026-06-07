@@ -2,31 +2,61 @@
 
 ex9 = {}
 
-ex9["9_1"] = {"title": "Ex 9.1 — Baseball: Major ~ Minor + Age (prediction, multicollinearity)",
-"content": """**Question (dataframe `Baseball`).** Major-league home-run hits in the first two full years (`Major`), modelled on `Minor` (home runs in last full minor-league year) and `Age`. **a)** Fit `Major ~ Minor + Age`; assess fit; interpret coefficients. **b)** Test the intercept. **c)** Predict for a 25-yr-old with 22 minor-league hits (point + interval). **d)** Predict the *difference* in `Major` for two players differing by 2 years of `Age`. **e)** Does the model change if `Years` (years of pro experience) is added? **f)** Are LR assumptions satisfied?
+ex9["9_1"] = {"title": "Ex 9.1 — Baseball: Major ~ Minor + Age (fit, prediction, multicollinearity, diagnostics)",
+"content": """**Question (dataframe `Baseball`).** The GM of a baseball team is evaluating minor-league players with particular attention to performance with respect to home-run hits. For a random sample of players, the dataset collects: number of home runs hit in the first two full years as a major-league player (`Major`, dependent), number of home runs in the last full year in the minor leagues (`Minor`), age (`Age`) and number of years of professional baseball (`Years`). Results are in `Baseball`.
+**a)** Analyse the model relating `Major` to `Minor` and `Age`. How well does it fit? Report the analytic expression of the considered statistics and explain the meaning / definition of the quantities they are based upon.
+**b)** Assess the significance of the explanatory variables and interpret the observed coefficients. Can you interpret the intercept in the model?
+**c)** Predict the number of home runs in the first two years in the major league for a player aged 25 who hit 22 home runs in his last year in the minor league. Would you use a point or an interval estimate? Why?
+**d)** Can you predict the difference in the average number of home runs in the first two years in the major league (`Major`) for two players differing by 2 years of age? If yes, would you use a point or an interval estimate? Why? If not, explain why it is not possible, whether specific assumptions are needed and, in this case, answer under such assumptions.
+**e)** Does the model change when `Years` is also included among the explanatory variables? Does the significance of the other explanatory variables change? How do you explain the obtained results? Which model would you finally propose?
+**f)** For the model selected at point e), determine whether the LR assumptions are satisfied. If they are not, can you explain why?
 
 ---
 
 **Answer.**
+
+**a) Goodness of fit.** The coefficient of determination is
+
+$$R^2 \\;=\\; 1-\\dfrac{SSE}{SST} \\;=\\; 1-\\dfrac{\\sum_{i=1}^{n}(y_i-\\hat y_i)^2}{\\sum_{i=1}^{n}(y_i-\\bar y)^2}$$
+
+where $SSE$ is the sum of squared regression errors (observed minus predicted) and $SST$ is the total sum of squares (deviations of $y_i$ around $\\bar y$). $R^2\\in[0,1]$ is the share of the variance of $y$ explained by the linear model. Here $R^2\\approx 0.3348$: **relatively low**, so the model does not fit data particularly well. Still, **at least one regressor matters**: the global F-statistic tests $H_0:\\beta_{\\text{Minor}}=\\beta_{\\text{Age}}=0$ vs $H_1:$ at least one $\\neq 0$, with
+
+$$F \\;=\\; \\dfrac{SSR/K}{SSE/(n-K-1)}$$
+
+($K$ = number of regressors). The realised $F\\approx 30.95$ has $p\\!\\approx\\!0$, so there is high dispersion around the regression plane but a significant linear relation with `Major`.
+
+**b) Individual significance & interpretation.** `Minor` is **highly significant** ($t\\approx 7.444$, $p\\!\\approx\\!0$): we reject $H_0:\\beta_{\\text{Minor}}=0$. The estimate $\\hat\\beta_{\\text{Minor}}\\approx 0.65112$ means that, holding `Age` fixed, **one extra minor-league home run is associated with an expected $+0.65$ home runs in the first two major-league years**. For `Age` the test outcome depends on the significance level: with $\\hat\\beta_{\\text{Age}}\\approx 0.81406$, the coefficient is significant only at levels above $\\approx 0.024$ (e.g. 0.025 or 0.05). Interpretation: holding `Minor` fixed, **+1 year of age is associated with $+0.81$ expected major-league HRs**. The **intercept** corresponds to the predicted value when `Minor = Age = 0`, which has **no meaningful interpretation** here.
+
+**c) Prediction at Age=25, Minor=22.** Point prediction $\\hat y \\approx 22.2555$. Because $R^2$ is low (large residual variance), one should report a **prediction interval** rather than the point alone. The 95% PI is $[7.874212,\\;36.63678]$.
+
+**d) Effect of $+2$ years of `Age`.** It is **not possible to predict a variation in the mean of `Major`** for a 2-year increase in `Age` *unless one assumes the two players have the same number of home runs in their last full year in the minor leagues* (`Minor`): the coefficient on `Age` measures the partial effect with the other regressors held constant. Under that assumption a $+2$ year change in `Age` corresponds to an expected variation $2\\,\\hat\\beta_{\\text{Age}} = 2\\cdot 0.81 = 1.62$ extra home runs. Since dispersion is large, **report an interval**: multiply the 95% CI for $\\beta_{\\text{Age}}$ by 2 — endpoints $2\\cdot(0.108\\,;\\,1.52)=(0.216\\,;\\,3.04)$.
+
+**e) Adding `Years`.** When `Years` is added, the **adjusted $R^2$ barely changes**; `Minor` stays significant, but `Age` becomes non-significant and `Years` is significant only at the 10% level. The reason is **multicollinearity**: good baseball players start at similar ages and so the time of their career is connected to their age — $\\mathrm{cor}(\\text{Age},\\text{Years})\\approx 0.73$. Not perfect collinearity, but including both is redundant: the marginal contribution of `Age` given `Minor` and `Years` is non-significant, and so is `Years` given `Minor` and `Age`. **Reasonable choice:** a model with `Minor` and `Years` only — its adjusted $R^2$ is higher than the alternatives and `Years` becomes significant at the 0.5% level (its joint contribution with `Minor` is rejected unless $\\alpha$ very small, $\\sim 0.001$).
+
+**f) Diagnostics.** The plot of residuals vs fitted shows a clear **violation of homoscedasticity**: dispersion grows with $\\hat y$ (and with `Minor` and `Years`). Plotting standardised residuals against each regressor confirms heteroscedasticity, mainly driven by `Minor`.
+
 ```r
+# a-b) Fit and inspect
 mod <- lm(Major ~ Minor + Age, data=Baseball); summary(mod)
-# Interpretation: +1 minor-league HR -> +beta_Minor major hits (cet. par.);
-# +1 yr of age -> +beta_Age major hits (cet. par.).
-# Intercept t-test: p-value gives the test of H0: beta_0 = 0.
+## R^2 ~ 0.3348, F ~ 30.95 (p ~ 0)
+## beta_Minor ~ 0.65112 (t = 7.444, p ~ 0)
+## beta_Age   ~ 0.81406 (p ~ 0.024)
 
 # c) Point + 95% prediction interval at Age=25, Minor=22
 predict(mod, newdata=data.frame(Age=25, Minor=22), interval="prediction")
+## fit = 22.2555 ; lwr = 7.874212 ; upr = 36.63678
 
-# d) Difference for +2 years of Age: 2 * beta_Age, CI = 2 * confint(beta_Age)
-2*confint(mod)[3,]
+# d) Variation for +2 years of Age (under "same Minor"): 2 * beta_Age and 2 * CI
+2*coef(mod)["Age"]               # ~ 1.62
+2*confint(mod)["Age", ]          # ~ (0.216 ; 3.04)
 
-# e) Add Years (correlated with Age -> multicollinearity)
-mod1 <- lm(Major ~ Minor + Years + Age, data=Baseball); summary(mod1)
-cor(Baseball$Age, Baseball$Years)        # high -> drop one
-mod2 <- lm(Major ~ Minor + Years, data=Baseball); summary(mod2)
+# e) Add Years -> multicollinearity diagnostics
+mod1 <- lm(Major ~ Minor + Age + Years, data=Baseball); summary(mod1)
+cor(Baseball$Age, Baseball$Years)         # ~ 0.73
+mod2 <- lm(Major ~ Minor + Years, data=Baseball); summary(mod2)   # preferred
 
-# f) Diagnostics: residuals vs fitted + vs each predictor
-plot(mod2, which=1)
+# f) Residual diagnostics for the preferred model
+plot(mod2, which=1)                        # residuals vs fitted
 distr.plot.xy(x=Minor, y=rstandard(mod2), plot.type="scatter", data=Baseball)
 distr.plot.xy(x=Years, y=rstandard(mod2), plot.type="scatter", data=Baseball)
 ```
