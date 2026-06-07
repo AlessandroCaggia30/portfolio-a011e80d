@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-07T11:05:52.171Z",
+  "exportedAt": "2026-06-07T11:05:58.820Z",
   "data": {
     "topics": [
       {
@@ -652,7 +652,7 @@
               {
                 "id": "1778862798236",
                 "title": "SSM flexibility — no stationarity required",
-                "content": "15a \n\n\\begin{keydef}\n\\textbf{\\textcolor{red}{Why standard ARMA models require stationarity.}}\n\nAn ARMA model provides a \"predefined\" structure constrained by constant parameters.  Under these conditions, the resulting process has time-invariant statistical properties: constant mean, constant variance, and autocovariances that depend only on the lag.\n\nA DLM is a model , capable of capturing non-stationarities such as deterministic\ntrends, evolving seasonal patterns, or time-varying volatility.\n\n\\end{keydef}",
+                "content": "15a \n\n\\begin{keydef}\n\\textbf{\\textcolor{red}{Why standard ARMA models require stationarity.}}\n\nAn ARMA model provides a \"predefined\" structure constrained by constant parameters.  Under these conditions, the resulting process has time-invariant statistical properties: constant mean, constant variance, and autocovariances that depend only on the lag.\n\nA DLM is a model more prone to flexibility, capable of capturing non-stationarities such as deterministic\ntrends, evolving seasonal patterns, or time-varying volatility.\n\n\\end{keydef}",
                 "flashcard": true,
                 "images": [],
                 "links": [
