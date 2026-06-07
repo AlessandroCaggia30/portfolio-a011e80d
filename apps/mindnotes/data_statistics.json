@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": 1780866469893,
+  "exportedAt": 1780866839799,
   "data": {
     "topics": [
       {
@@ -2746,33 +2746,41 @@
               },
               {
                 "id": "3_12b",
-                "title": "<span class=\"exam-question-text\">Ex 3.12b — Proportion Medium / Medium-Low: In-Store vs Online</span>",
-                "content": "<span class=\"exam-question-text\">**Question.** Can you say that the proportion of customers for whom the campaign had medium or medium-low effectiveness (`Effectiveness = Medium` or `Medium-Low`) is higher among customers who prefer to buy in-store (`Channel = In-Store`) than among customers who prefer to buy online (`Channel = Online`)? Clearly justify your answer, indicating the measures you use and their numerical values.</span>\n\n---\n\n**Answer.** Compare the two conditional proportions read off the table in 3.12a.\n\nFor customers who buy **in-store**:\n$$\n\\Pr(\\text{Eff} = \\text{Medium or Medium-Low} \\mid \\text{Channel} = \\text{In-Store}) = \\frac{38 + 90}{324} = 0.117 + 0.278 = 0.395.\n$$\n\nFor customers who buy **online**:\n$$\n\\Pr(\\text{Eff} = \\text{Medium or Medium-Low} \\mid \\text{Channel} = \\text{Online}) = \\frac{76 + 36}{180} = 0.422 + 0.200 = 0.622.\n$$\n\nSince $0.395 < 0.622$, the proportion of customers with medium or medium-low effectiveness is in fact **lower** among in-store customers than among online customers. The statement is therefore **false**.\n\n\n%%RBLOCK%%\n`distr.table.xy(x=Channel, y=Effectiveness, freq=\"percentage\", data=Campaign)`\n%%/RBLOCK%%\n\n",
+                "title": "Ex 3.12b — Proportion Medium / Medium-Low: In-Store vs Online",
+                "content": "![Ex 3.12b question](statistics/images/ex3/questions/ex3_12b_question.png)\n\n**Question.** Can you say that the proportion of customers for whom the campaign had medium or medium-low effectiveness (`Effectiveness = Medium` or `Medium-Low`) is higher among customers who prefer to buy in-store (`Channel = In-Store`) than among customers who prefer to buy online (`Channel = Online`)? Clearly justify your answer, indicating the measures you use and their numerical values.\n\n---\n\n**Answer.** Compare the two conditional proportions read off the table in 3.12a.\n\nFor customers who buy **in-store**:\n$$\n\\Pr(\\text{Eff} = \\text{Medium or Medium-Low} \\mid \\text{Channel} = \\text{In-Store}) = \\frac{38 + 90}{324} = 0.117 + 0.278 = 0.395.\n$$\n\nFor customers who buy **online**:\n$$\n\\Pr(\\text{Eff} = \\text{Medium or Medium-Low} \\mid \\text{Channel} = \\text{Online}) = \\frac{76 + 36}{180} = 0.422 + 0.200 = 0.622.\n$$\n\nSince $0.395 < 0.622$, the proportion of customers with medium or medium-low effectiveness is in fact **lower** among in-store customers than among online customers. The statement is therefore **false**.\n\n\n%%RBLOCK%%\n`distr.table.xy(x=Channel, y=Effectiveness, freq=\"percentage\", data=Campaign)`\n%%/RBLOCK%%\n\n\n![Ex 3.12b AI walkthrough](statistics/images/ex3/ex3_12b_ai.png)\n\nThe stacked bars make the comparison visual: on the In-Store row the {Medium-Low + Medium} block covers about 40% of the bar, while on the Online row the same two categories cover over 60%. The head-to-head bars confirm $0.395 < 0.622$, so the claim in the question is **false** — the Medium / Medium-Low share is actually larger online than in-store.\n\n![Ex 3.12b answer](statistics/images/ex3/answers/ex3_12b_answer.png)\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex3/questions/ex3_12b_question.png",
+                  "statistics/images/ex3/ex3_12b_ai.png",
+                  "statistics/images/ex3/answers/ex3_12b_answer.png"
+                ],
                 "links": [
                   "th_g7"
                 ],
                 "x": 22600,
                 "y": 600,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "yellow",
                 "column": 29
               },
               {
                 "id": "3_12c",
-                "title": "<span class=\"exam-question-text\">Ex 3.12c — Does pushing In-Store cause higher Effectiveness?</span>",
-                "content": "<span class=\"exam-question-text\">**Question.** Based on the observed data and assuming that customers will behave in the same way in future campaigns, do you think it is reasonable to conclude that if you encourage customers to buy in-store (`Channel = In-Store`), a campaign will be more effective (`Effectiveness`)? Explain why.</span>\n\n---\n\n**Answer.** From 3.12a–3.12b we know that, **conditional on** `Channel = In-Store`, the distribution of `Effectiveness` is shifted toward higher categories (median = `Medium-High`, only 39.5% of customers at `Medium` or below) compared with `Channel = Online` (median = `Medium-Low`, 62.2% of customers at `Medium` or below). This is a **descriptive association** between `Effectiveness` and `Channel`.\n\nIt is **not** legitimate to translate this association into a causal recommendation. The propensity to shop in-store (and the sensitivity to promotional campaigns) is likely linked to other customer characteristics — income, age category, level of loyalty, purchasing power, geographic area, etc. — which act as confounders. Forcing online customers to use the in-store channel would not automatically transfer the higher effectiveness observed on the (self-selected) in-store population.\n\n**Conclusion.** The data show a strong association between `Channel` and `Effectiveness`, but the comparative experiment needed for a causal conclusion is missing. We cannot say that pushing customers in-store will, by itself, make campaigns more effective.\n\n\n%%RBLOCK%%\n`distr.plot.xy(x=Channel, y=Effectiveness, plot.type=\"bars\", freq.type=\"percentage\", data=Campaign)`\n%%/RBLOCK%%\n\n",
+                "title": "Ex 3.12c — Does pushing In-Store cause higher Effectiveness?",
+                "content": "![Ex 3.12c question](statistics/images/ex3/questions/ex3_12c_question.png)\n\n**Question.** Based on the observed data and assuming that customers will behave in the same way in future campaigns, do you think it is reasonable to conclude that if you encourage customers to buy in-store (`Channel = In-Store`), a campaign will be more effective (`Effectiveness`)? Explain why.\n\n---\n\n**Answer.** From 3.12a–3.12b we know that, **conditional on** `Channel = In-Store`, the distribution of `Effectiveness` is shifted toward higher categories (median = `Medium-High`, only 39.5% of customers at `Medium` or below) compared with `Channel = Online` (median = `Medium-Low`, 62.2% of customers at `Medium` or below). This is a **descriptive association** between `Effectiveness` and `Channel`.\n\nIt is **not** legitimate to translate this association into a causal recommendation. The propensity to shop in-store (and the sensitivity to promotional campaigns) is likely linked to other customer characteristics — income, age category, level of loyalty, purchasing power, geographic area, etc. — which act as confounders. Forcing online customers to use the in-store channel would not automatically transfer the higher effectiveness observed on the (self-selected) in-store population.\n\n![Ex 3.12c AI walkthrough](statistics/images/ex3/ex3_12c_ai.png)\n\n**Conclusion.** The data show a strong association between `Channel` and `Effectiveness`, but the comparative experiment needed for a causal conclusion is missing. We cannot say that pushing customers in-store will, by itself, make campaigns more effective.\n\n\n%%RBLOCK%%\n`distr.plot.xy(x=Channel, y=Effectiveness, plot.type=\"bars\", freq.type=\"percentage\", data=Campaign)`\n%%/RBLOCK%%\n\n\n![Ex 3.12c answer](statistics/images/ex3/answers/ex3_12c_answer.png)\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex3/questions/ex3_12c_question.png",
+                  "statistics/images/ex3/ex3_12c_ai.png",
+                  "statistics/images/ex3/answers/ex3_12c_answer.png"
+                ],
                 "links": [
                   "th_g7"
                 ],
                 "x": 22600,
-                "y": 1000,
+                "y": 1180,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "yellow",
                 "column": 29
               },
@@ -3371,10 +3379,12 @@
               {
                 "id": "3_11c",
                 "title": "Ex 3.11c — Relationship Sales vs Revenues and Sales vs Costs",
-                "content": "**Question.** Consider the relationship between `Sales` and `Revenues`, and between `Sales` and `Costs`. Which has the stronger relationship?\n\n---\n\n**Answer.** In order to assess the relationship between the two variables, it is essential to consider scatterplots to analyze the type of relationship between the variables. In the case of linear relationships, it is possible to refer to the correlation coefficient to quantify their intensity.\n\n\n%%RBLOCK%%\n`distr.plot.xy(x=Revenues, y=Sales, plot.type=\"scatter\",`\n`              fitline=T, data=Campaign)`\n`distr.plot.xy(x=Costs,    y=Sales, plot.type=\"scatter\",`\n`              fitline=T, data=Campaign)`\n%%/RBLOCK%%\n\n\nFrom the plots, it can be observed that the strongest and most structured relationship is that between **Costs and Sales**, even though it is characterised by a non-linear trend in that a greater dispersion of campaign effectiveness is observed at higher costs (`Sales`). The relationship between `Revenues` and `Sales`, on the other hand, is particularly weak despite a number of observations arranged along a straight line. Note that the tendency of the data to concentrate around a line is more pronounced in the first plot. Neglecting therefore the non-linearity of the relationship between `Costs` and `Sales`, we note that the correlation coefficients are similar:\n\n\n%%RBLOCK%%\n`cor(Campaign$Costs,    Campaign$Sales)`\n`## [1] 0.7588883`\n`cor(Campaign$Revenues, Campaign$Sales)`\n`## [1] 0.7580242`\n%%/RBLOCK%%\n\n\nNonetheless the second coefficient is unreliable, as the link between `Sales` and `Revenues` is positive but of weak intensity, and definitely does not summarise the level of concentration of data around a straight line. The first coefficient — despite the fact that the relationship is not linear — synthesizes better the concentration of data around a straight line, although it would not explain the data relative to higher costs adequately.\n",
+                "content": "![Ex 3.11c question](statistics/images/ex3/questions/ex3_11c_question.png)\n\n**Question.** Consider the relationship between `Sales` and `Revenues`, and between `Sales` and `Costs`. Which has the stronger relationship?\n\n---\n\n**Answer.** In order to assess the relationship between the two variables, it is essential to consider scatterplots to analyze the type of relationship between the variables. In the case of linear relationships, it is possible to refer to the correlation coefficient to quantify their intensity.\n\n\n%%RBLOCK%%\n`distr.plot.xy(x=Revenues, y=Sales, plot.type=\"scatter\",`\n`              fitline=T, data=Campaign)`\n`distr.plot.xy(x=Costs,    y=Sales, plot.type=\"scatter\",`\n`              fitline=T, data=Campaign)`\n%%/RBLOCK%%\n\n\nFrom the plots, it can be observed that the strongest and most structured relationship is that between **Costs and Sales**, even though it is characterised by a non-linear trend in that a greater dispersion of campaign effectiveness is observed at higher costs (`Sales`). The relationship between `Revenues` and `Sales`, on the other hand, is particularly weak despite a number of observations arranged along a straight line. Note that the tendency of the data to concentrate around a line is more pronounced in the first plot. Neglecting therefore the non-linearity of the relationship between `Costs` and `Sales`, we note that the correlation coefficients are similar:\n\n\n%%RBLOCK%%\n`cor(Campaign$Costs,    Campaign$Sales)`\n`## [1] 0.7588883`\n`cor(Campaign$Revenues, Campaign$Sales)`\n`## [1] 0.7580242`\n%%/RBLOCK%%\n\n\n![Ex 3.11c AI walkthrough](statistics/images/ex3/ex3_11c_ai.png)\n\nNonetheless the second coefficient is unreliable, as the link between `Sales` and `Revenues` is positive but of weak intensity, and definitely does not summarise the level of concentration of data around a straight line. The first coefficient — despite the fact that the relationship is not linear — synthesizes better the concentration of data around a straight line, although it would not explain the data relative to higher costs adequately.\n\n![Ex 3.11c answer](statistics/images/ex3/answers/ex3_11c_answer.png)\n",
                 "flashcard": false,
                 "images": [
-                  "statistics/images/ex3_11c-sales-scatter-pair.png"
+                  "statistics/images/ex3/questions/ex3_11c_question.png",
+                  "statistics/images/ex3/ex3_11c_ai.png",
+                  "statistics/images/ex3/answers/ex3_11c_answer.png"
                 ],
                 "links": [
                   "th_g9"
