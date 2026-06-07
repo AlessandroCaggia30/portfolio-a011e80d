@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": 1780831026182,
+  "exportedAt": 1780832324430,
   "data": {
     "topics": [
       {
@@ -3464,96 +3464,112 @@
               {
                 "id": "4_1a",
                 "title": "Ex 4.1a — P(X > 10) for X ~ N(8, 1.2²)",
-                "content": "**Question.** The amount (in cl) of tea poured into each glass from a vending machine has a normal distribution with $\\mu = 8$ and $\\sigma = 1.2$. If glasses can hold a maximum of 10 cl, what is the probability that a cup will be filled beyond the limit?\n\n---\n\n**Answer.** Let $X$ denote the amount (in cl) of tea poured into each glass. Then $X \\sim N(8, 1.2^2)$. The probability that a cup will be filled beyond the limit, $\\Pr(X > 10)$, is **0.0478**:\n\n\n%%RBLOCK%%\n`1 - pnorm(10, mean=8, sd=1.2)`\n`## [1] 0.04779035`\n%%/RBLOCK%%\n\n",
+                "content": "**Question.** The amount (in cl) of tea poured into each glass from a vending machine has a normal distribution with $\\mu = 8$ and $\\sigma = 1.2$. If glasses can hold a maximum of 10 cl, what is the probability that a cup will be filled beyond the limit?\n\n---\n\n**Answer.** Let $X$ denote the amount (in cl) of tea poured into each glass. Then $X \\sim N(8, 1.2^2)$. The probability that a cup will be filled beyond the limit, $\\Pr(X > 10)$, is **0.0478**:\n\n\n%%RBLOCK%%\n`1 - pnorm(10, mean=8, sd=1.2)`\n`## [1] 0.04779035`\n%%/RBLOCK%%\n\n\n**Walkthrough.** The threshold $x = 10$ sits $z = (10-8)/1.2 \\approx 1.6667$ standard deviations above the mean — so $\\Pr(X > 10) = \\Pr(Z > 1.6667) \\approx 0.0478$. The shaded right tail in the figure is the overflow probability on both the original and the standardized scales.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex4/ex4_1a_ai.png"
+                ],
                 "links": [
                   "th_g10"
                 ],
                 "x": 23400,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "lightblue",
                 "column": 30
               },
               {
                 "id": "4_1b",
                 "title": "Ex 4.1b — P(X < 7.5) for X ~ N(8, 1.2²)",
-                "content": "**Question.** What is the probability that the amount of tea poured into a glass is less than 7.5 cl?\n\n---\n\n**Answer.** The probability that the amount of tea poured into a glass is less than 7.5 cl, $P(X < 7.5)$, is **0.3385**:\n\n\n%%RBLOCK%%\n`pnorm(7.5, mean=8, sd=1.2)`\n`## [1] 0.3384611`\n%%/RBLOCK%%\n\n",
+                "content": "**Question.** What is the probability that the amount of tea poured into a glass is less than 7.5 cl?\n\n---\n\n**Answer.** The probability that the amount of tea poured into a glass is less than 7.5 cl, $P(X < 7.5)$, is **0.3385**:\n\n\n%%RBLOCK%%\n`pnorm(7.5, mean=8, sd=1.2)`\n`## [1] 0.3384611`\n%%/RBLOCK%%\n\n\n**Walkthrough.** The threshold $x = 7.5$ sits $z = (7.5 - 8)/1.2 \\approx -0.4167$ standard deviations below the mean — less than half a $\\sigma$ to the left of $\\mu$. So $\\Pr(X < 7.5) = \\Pr(Z < -0.4167) \\approx 0.3385$. The shaded left tail in the figure marks this mass on both the original scale (cl) and the standardized $Z$-scale, with the same area in both panels.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex4/questions/ex4_1b_question.png",
+                  "statistics/images/ex4/answers/ex4_1b_answer.png",
+                  "statistics/images/ex4/ex4_1b_ai.png"
+                ],
                 "links": [
                   "th_g10"
                 ],
                 "x": 23400,
-                "y": 600,
+                "y": 780,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "lightblue",
                 "column": 30
               },
               {
                 "id": "4_2a",
                 "title": "Ex 4.2a — P(X < 24) for battery life X ~ N(27, 3.2²)",
-                "content": "**Question.** The battery life of a particular cell phone model, after two years of use, is normally distributed with mean 27 hours and standard deviation of 3.2 hours. What is the probability that a cell phone of that model, after two years of use, will have a battery life of less than 24 hours?\n\n---\n\n**Answer.** Let $X$ denote the battery life. Then $X \\sim N(27, 3.2^2)$. The probability that a cell phone has battery life less than 24 hours, $P(X < 24)$, is **0.1743**:\n\n\n%%RBLOCK%%\n`pnorm(24, mean=27, sd=3.2)`\n`## [1] 0.1742507`\n%%/RBLOCK%%\n\n",
+                "content": "**Question.** The battery life of a particular cell phone model, after two years of use, is normally distributed with mean 27 hours and standard deviation of 3.2 hours. What is the probability that a cell phone of that model, after two years of use, will have a battery life of less than 24 hours?\n\n![Ex 4.2a question](statistics/images/ex4/questions/ex4_2a_question.png)\n\n---\n\n**Answer.** Let $X$ denote the battery life. Then $X \\sim N(27, 3.2^2)$. The probability that a cell phone has battery life less than 24 hours, $P(X < 24)$, is **0.1743**:\n\n\n%%RBLOCK%%\n`pnorm(24, mean=27, sd=3.2)`\n`## [1] 0.1742507`\n%%/RBLOCK%%\n\n\n**Walkthrough.** The threshold $x = 24$ sits $z = (24-27)/3.2 = -0.9375$ standard deviations below the mean — slightly less than one $\\sigma$ to the left of $\\mu$. So $\\Pr(X < 24) = \\Pr(Z < -0.9375) \\approx 0.1743$. The shaded left tail in the figure marks this mass on both the original scale (hours) and the standardized $Z$-scale, with the same area in both panels.\n\n![Ex 4.2a AI walkthrough](statistics/images/ex4/ex4_2a_ai.png)\n\n---\n\n**Reference answer (textbook).**\n\n![Ex 4.2a answer](statistics/images/ex4/answers/ex4_2a_answer.png)\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex4/questions/ex4_2a_question.png",
+                  "statistics/images/ex4/ex4_2a_ai.png",
+                  "statistics/images/ex4/answers/ex4_2a_answer.png"
+                ],
                 "links": [
                   "th_g10"
                 ],
                 "x": 24200,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "lightblue",
                 "column": 31
               },
               {
                 "id": "4_2b",
                 "title": "Ex 4.2b — Minimum life of the longest-lasting 20% (80th percentile)",
-                "content": "**Question.** What is the minimum battery life of the 20% of cell phones of that model that last the longest after two years of use?\n\n---\n\n**Answer.** The minimum battery life of the 20% of cell phones that last the longest after two years of use is the **80-th percentile** of the distribution and is equal to **29.6932 hours**:\n\n\n%%RBLOCK%%\n`qnorm(0.8, 27, 3.2)`\n`## [1] 29.69319`\n%%/RBLOCK%%\n\n",
+                "content": "**Question.** What is the minimum battery life of the 20% of cell phones of that model that last the longest after two years of use?\n\n---\n\n**Setup.** Let $X$ denote the battery life (in hours) after two years of use. From Ex 4.2, $X \\sim N(\\mu, \\sigma^2)$ with $\\mu = 27$ and $\\sigma = 3.2$. The \"longest-lasting 20%\" are the phones whose battery life exceeds 80% of the others, i.e. those for which $X > q_{0.80}$, where $q_{0.80}$ is the **80-th percentile** of the distribution of $X$:\n\n$$\n\\Pr(X \\le q_{0.80}) \\;=\\; 0.80 \\qquad \\Longleftrightarrow \\qquad \\Pr(X > q_{0.80}) \\;=\\; 0.20.\n$$\n\nThe minimum battery life of a \"long-lasting\" phone is exactly that threshold $q_{0.80}$.\n\n---\n\n**Closed-form via standardisation.** Using $Z = (X - \\mu)/\\sigma \\sim N(0,1)$,\n\n$$\nq_{0.80} \\;=\\; \\mu + z_{0.80}\\,\\sigma, \\qquad z_{0.80} \\;=\\; \\Phi^{-1}(0.80) \\;\\approx\\; 0.8416.\n$$\n\nPlugging in:\n\n$$\nq_{0.80} \\;=\\; 27 + 0.8416\\cdot 3.2 \\;=\\; 27 + 2.6932 \\;=\\; \\mathbf{29.6932}\\;\\text{hours}.\n$$\n\n---\n\n**Answer.** The minimum battery life of the 20% of cell phones that last the longest after two years of use is the **80-th percentile** of the distribution and is equal to **29.6932 hours**:\n\n\n%%RBLOCK%%\n`qnorm(0.8, 27, 3.2)`\n`## [1] 29.69319`\n%%/RBLOCK%%\n\n\nEquivalently, via standardisation:\n\n%%RBLOCK%%\n`27 + qnorm(0.8) * 3.2`\n`## [1] 29.69319`\n`qnorm(0.8)`\n`## [1] 0.8416212`\n%%/RBLOCK%%\n\n\nA quick consistency check — the upper tail at $q_{0.80}$ should have mass $0.20$:\n\n%%RBLOCK%%\n`1 - pnorm(29.69319, 27, 3.2)`\n`## [1] 0.2`\n%%/RBLOCK%%\n\n\n---\n\n**AI walkthrough.**\n\n![Ex 4.2b AI walkthrough](statistics/images/ex4/ex4_2b_ai.png)\n\n**Interpretation.** The dashed red line marks $q_{0.80} = 29.6932$ hours. The shaded right tail has area $0.20$ — exactly the longest-lasting 20% of phones. The right-hand panel shows the equivalent picture on the **standard** scale: $z_{0.80} = 0.8416$, then unstandardised back to $x_{0.80} = \\mu + z_{0.80}\\sigma$.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex4/ex4_2b_ai.png"
+                ],
                 "links": [
                   "th_g10"
                 ],
                 "x": 24200,
-                "y": 600,
+                "y": 780,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "lightblue",
                 "column": 31
               },
               {
                 "id": "4_3a",
                 "title": "Ex 4.3a — P(X > 12) for spending X ~ N(13.2, 1.2²)",
-                "content": "**Question.** For a large retail chain, the expenditure (in a single act of purchase, in a single receipt) of a generic customer on the purchase of *private label* products (marketed under the distributor's brand name instead of the manufacturer's brand name) can be assumed to be normally distributed with mean 13.2 euros and standard deviation 1.2 euros.\n\nWhat is the probability that a customer will spend more than 12 euros for private label products?\n\n---\n\n**Answer.** Let $X$ denote the expenditure on private label products; $X \\sim N(13.2, 1.2^2)$. The probability that a customer will spend more than 12 euros is **0.8413**:\n\n\n%%RBLOCK%%\n`1 - pnorm(12, 13.2, 1.2)`\n`## [1] 0.8413447`\n%%/RBLOCK%%\n\n",
+                "content": "**Question.** For a large retail chain, the expenditure (in a single act of purchase, in a single receipt) of a generic customer on the purchase of *private label* products (marketed under the distributor's brand name instead of the manufacturer's brand name) can be assumed to be normally distributed with mean 13.2 euros and standard deviation 1.2 euros.\n\nWhat is the probability that a customer will spend more than 12 euros for private label products?\n\n---\n\n**Answer.** Let $X$ denote the expenditure on private label products; $X \\sim N(13.2, 1.2^2)$. The probability that a customer will spend more than 12 euros is **0.8413**:\n\n\n%%RBLOCK%%\n`1 - pnorm(12, 13.2, 1.2)`\n`## [1] 0.8413447`\n%%/RBLOCK%%\n\n\n**Walkthrough.** Standardising, $z = (12 - 13.2)/1.2 = -1$, so\n\n$$\n\\Pr(X > 12) \\;=\\; \\Pr(Z > -1) \\;=\\; 1 - \\Phi(-1) \\;=\\; \\Phi(1) \\;\\approx\\; 0.8413.\n$$\n\nThe threshold $x = 12$ sits **one standard deviation below the mean**, so the right tail above it covers the central mass plus the upper half — about 84% of the distribution. The figure shows the same shaded area on the original scale ($X$, left) and on the standardised scale ($Z$, right).\n\n![Ex 4.3a walkthrough](statistics/images/ex4/ex4_3a_ai.png)\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex4/ex4_3a_ai.png"
+                ],
                 "links": [
                   "th_g10"
                 ],
                 "x": 25000,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "lightblue",
                 "column": 32
               },
               {
                 "id": "4_3b",
                 "title": "Ex 4.3b — Minimum expenditure of the top 10% customers (90th percentile)",
-                "content": "**Question.** Let us consider the \"top\" customers with reference to expenditure on private label products, i.e., those who spend more than 90% of other customers (in a single act of purchase) on private label products. What is the minimum amount these customers spend on private label products?\n\n---\n\n**Answer.** The minimum expenditure of the 10% of \"top\" customers is the 90-th percentile of the distribution, and is equal to **14.7379**:\n\n\n%%RBLOCK%%\n`qnorm(0.9, 13.2, 1.2)`\n`## [1] 14.73786`\n%%/RBLOCK%%\n\n",
+                "content": "**Question.** Let us consider the \"top\" customers with reference to expenditure on private label products, i.e., those who spend more than 90% of other customers (in a single act of purchase) on private label products. What is the minimum amount these customers spend on private label products?\n\n---\n\n**Setup.** Let $X$ denote a generic customer's expenditure on private-label products in a single receipt. From Ex 4.3, $X \\sim N(\\mu, \\sigma^2)$ with $\\mu = 13.2$ and $\\sigma = 1.2$. The \"top 10% of customers\" are those whose spending exceeds 90% of others, i.e. those for whom $X > q_{0.90}$, where $q_{0.90}$ is the **90-th percentile** of the distribution of $X$:\n\n$$\n\\Pr(X \\le q_{0.90}) \\;=\\; 0.90 \\qquad \\Longleftrightarrow \\qquad \\Pr(X > q_{0.90}) \\;=\\; 0.10.\n$$\n\nThe minimum amount that a \"top customer\" spends is exactly that threshold $q_{0.90}$.\n\n---\n\n**Closed-form via standardisation.** Using $Z = (X - \\mu)/\\sigma \\sim N(0,1)$,\n\n$$\nq_{0.90} \\;=\\; \\mu + z_{0.90}\\,\\sigma, \\qquad z_{0.90} \\;=\\; \\Phi^{-1}(0.90) \\;\\approx\\; 1.2816.\n$$\n\nPlugging in:\n\n$$\nq_{0.90} \\;=\\; 13.2 + 1.2816\\cdot 1.2 \\;=\\; 13.2 + 1.5379 \\;=\\; \\mathbf{14.7379}\\;\\text{euros}.\n$$\n\n---\n\n**Answer.** The minimum expenditure of the 10% of \"top\" customers is the 90-th percentile of the distribution, and is equal to **€14.7379**:\n\n\n%%RBLOCK%%\n`qnorm(0.9, 13.2, 1.2)`\n`## [1] 14.73786`\n%%/RBLOCK%%\n\n\nEquivalently, via standardisation:\n\n%%RBLOCK%%\n`13.2 + qnorm(0.9) * 1.2`\n`## [1] 14.73786`\n`qnorm(0.9)`\n`## [1] 1.281552`\n%%/RBLOCK%%\n\n\nA quick consistency check — the upper tail at $q_{0.90}$ should have mass $0.10$:\n\n%%RBLOCK%%\n`1 - pnorm(14.73786, 13.2, 1.2)`\n`## [1] 0.1`\n%%/RBLOCK%%\n\n\n---\n\n**AI walkthrough.**\n\n![Ex 4.3b AI walkthrough](statistics/images/ex4/ex4_3b_ai.png)\n\n**Interpretation.** The dashed red line marks $q_{0.90} = 14.7379$. The shaded right tail has area $0.10$ — exactly the top decile of customers. The right-hand panel shows the equivalent picture on the **standard** scale: $z_{0.90} = 1.2816$, then unstandardised back to $x_{0.90} = \\mu + z_{0.90}\\sigma$.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex4/ex4_3b_ai.png"
+                ],
                 "links": [
                   "th_g10"
                 ],
                 "x": 25000,
-                "y": 600,
+                "y": 780,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "lightblue",
                 "column": 32
               },
@@ -3567,7 +3583,7 @@
                   "th_g10"
                 ],
                 "x": 25000,
-                "y": 1000,
+                "y": 1360,
                 "width": 600,
                 "height": 360,
                 "color": "lightblue",
@@ -3639,48 +3655,58 @@
               {
                 "id": "4_3d",
                 "title": "Ex 4.3d — P(≥ 80% of 150 customers spend > 12€) — CLT for proportion",
-                "content": "**Question.** Consider the 150 customers in a store: what is the probability that at least 80% will spend more than 12 Euros to purchase *private label* products?\n\n---\n\n**Answer.** Let $W$ denote the variable that indicates whether a customer spends more than 12 Euro (success). Then $W \\sim \\mathrm{Bernoulli}(p)$ with $p = 0.8413$, the probability that a generic customer spends more than 12 Euro determined in **a)**.\n\nLet $\\bar P$ be the proportion of customers who spend more than 12 Euro among the 150 customers of the shop. By the Central Limit Theorem the distribution of $\\bar P$ can be approximated by a Normal distribution:\n\n$$\n\\bar P \\approx N\\!\\left(p,\\; \\frac{p(1-p)}{n}\\right) = N\\!\\left(0.8413,\\; \\frac{0.8413(1-0.8413)}{150}\\right) = N(0.8413,\\; 0.0298^2).\n$$\n\nThe probability that at least 80% of the 150 customers will spend more than 12 Euros, $\\Pr(\\bar P > 0.8)$, is **0.9171**:\n\n%%RBLOCK%%\n`1 - pnorm(0.8, 0.8413, 0.0298)`\n`## [1] 0.9171122`\n%%/RBLOCK%%\n\n",
+                "content": "**Question.** Consider the 150 customers in a store: what is the probability that at least 80% will spend more than 12 Euros to purchase *private label* products?\n\n---\n\n**Answer.** Let $W$ denote the variable that indicates whether a customer spends more than 12 Euro (success). Then $W \\sim \\mathrm{Bernoulli}(p)$ with $p = 0.8413$, the probability that a generic customer spends more than 12 Euro determined in **a)**.\n\nLet $\\bar P$ be the proportion of customers who spend more than 12 Euro among the 150 customers of the shop. By the Central Limit Theorem the distribution of $\\bar P$ can be approximated by a Normal distribution:\n\n$$\n\\bar P \\approx N\\!\\left(p,\\; \\frac{p(1-p)}{n}\\right) = N\\!\\left(0.8413,\\; \\frac{0.8413(1-0.8413)}{150}\\right) = N(0.8413,\\; 0.0298^2).\n$$\n\nThe probability that at least 80% of the 150 customers will spend more than 12 Euros, $\\Pr(\\bar P > 0.8)$, is **0.9171**:\n\n%%RBLOCK%%\n`1 - pnorm(0.8, 0.8413, 0.0298)`\n`## [1] 0.9171122`\n%%/RBLOCK%%\n\n\n---\n\n**AI walkthrough.** The trick is to go **one level up**: in 4.3a we computed the probability that *a single customer* spends more than €12 — call it $p = 0.8413$. Here we ask about the *proportion* of customers (out of $n = 150$) who do so. That proportion $\\bar P$ is itself a random variable; the CLT tells us its sampling distribution.\n\n1. **Single customer $\\to$ Bernoulli.** Define $W_i = \\mathbb 1\\{X_i > 12\\}$, so $W_i \\sim \\mathrm{Bernoulli}(p)$ with $p = \\Pr(X > 12) = 0.8413$ from 4.3a. Then $\\bar P = \\tfrac{1}{n}\\sum_{i=1}^{n} W_i$ — exactly the sample mean of i.i.d. Bernoulli trials.\n2. **CLT $\\Rightarrow$ Normal approximation.** With $n = 150$ (large), the CLT gives\n$$\\bar P \\;\\approx\\; N\\!\\left(p,\\; \\tfrac{p(1-p)}{n}\\right) \\;=\\; N(0.8413,\\; 0.0298^2), \\quad \\mathrm{SE}(\\bar P) = \\sqrt{p(1-p)/n} \\approx 0.0298.$$\nA quick rule-of-thumb check: $np = 126.2 \\gg 10$ and $n(1-p) = 23.8 \\gg 10$, so the normal approximation is safe.\n3. **Translate \"at least 80%\" to a tail event.** \"At least 80% out of 150\" $\\Leftrightarrow \\bar P > 0.80$. The threshold $0.80$ is **below** the mean $p = 0.8413$, so we expect a large probability (well over 50%).\n4. **Standardise.** $z = (0.80 - 0.8413)/0.0298 = -1.385$, so\n$$\\Pr(\\bar P > 0.80) \\;=\\; \\Pr(Z > -1.385) \\;=\\; \\Phi(1.385) \\;\\approx\\; 0.9171.$$\n5. **Take-away.** Because $0.80$ is about $1.4$ standard errors below the population proportion $p$, the event \"$\\geq 80\\%$ of 150 customers spend more than €12\" is very likely — roughly a **92%** chance. As $n$ grows, $\\mathrm{SE}(\\bar P)$ shrinks like $1/\\sqrt{n}$ and this tail probability gets even closer to 1.\n\n![Ex 4.3d AI walkthrough](statistics/images/ex4/ex4_3d_ai.png)\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex4/ex4_3d_ai.png"
+                ],
                 "links": [
                   "th_g11"
                 ],
                 "x": 25000,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "teal",
                 "column": 32
               },
               {
                 "id": "4_4a1",
                 "title": "Ex 4.4 a–c — Call duration: P(X>120), 15th percentile, P(X>5·60)",
-                "content": "**Question.** A mobile phone company estimated that the duration of a customer's call to the call-center follows the normal distribution with mean 180 seconds and variance 1600 sec². Let $X \\sim N(180, 1600)$.\n\n**a)** Probability that a customer's call to the call center will last for more than 120 seconds, $\\Pr(X > 120)$.\n**b)** Maximum duration of the 15% shortest phone calls (15-th percentile).\n**c)** To avoid an excessive waiting time, consider interrupting the call (proposing a callback) if its duration is longer than 5 minutes. What is the proportion of phone calls that would be interrupted, $\\Pr(X > 5 \\cdot 60)$?\n\n---\n\n**Answer.**\n\n**a)** $\\Pr(X > 120)$ is **0.9332**:\n\n%%RBLOCK%%\n`1 - pnorm(120, 180, sqrt(1600))`\n`## [1] 0.9331928`\n%%/RBLOCK%%\n\n\n**b)** The 15-th percentile of $X$ is **138.5427** seconds:\n\n%%RBLOCK%%\n`qnorm(0.15, 180, sqrt(1600))`\n`## [1] 138.5427`\n%%/RBLOCK%%\n\n\n**c)** The proportion of phone calls that would be interrupted, $\\Pr(X > 300)$, is **0.135%**:\n\n%%RBLOCK%%\n`1 - pnorm(300, 180, sqrt(1600))`\n`## [1] 0.001349898`\n%%/RBLOCK%%\n\n",
+                "content": "<span class=\"exam-question-text\">**Question.** A mobile phone company estimated that the duration of a customer's call to the call-center follows the normal distribution with mean 180 seconds and variance 1600 sec². Let $X \\sim N(180, 1600)$.\n\n**a)** Probability that a customer's call to the call center will last for more than 120 seconds, $\\Pr(X > 120)$.\n**b)** Maximum duration of the 15% shortest phone calls (15-th percentile).\n**c)** To avoid an excessive waiting time, consider interrupting the call (proposing a callback) if its duration is longer than 5 minutes. What is the proportion of phone calls that would be interrupted, $\\Pr(X > 5 \\cdot 60)$?</span>\n\n![Ex 4.4 a–c question](statistics/images/ex4/questions/ex4_4a1_question.png)\n\n---\n\n**AI walkthrough.** The same Normal density $X\\sim N(180,\\,40^2)$ (since $\\sigma=\\sqrt{1600}=40$) drives all three questions — only the cut-off and tail change.\n\n1. **Pin down the parameters.** Mean $\\mu=180$ s, SD $\\sigma=\\sqrt{1600}=40$ s. So $X$ is centred at 3 min with a 40-second spread.\n2. **Part a — right tail at 120 s.** Standardise: $z=(120-180)/40=-1.5$. We want $\\Pr(X>120)=\\Pr(Z>-1.5)=\\Phi(1.5)\\approx 0.9332$. Most calls ($>93\\%$) last longer than 2 minutes — the cut-off sits 1.5 SDs *below* the mean.\n3. **Part b — left-tail percentile.** Invert the CDF at 0.15: $z_{0.15}=\\Phi^{-1}(0.15)\\approx -1.0364$. Un-standardise: $q_{0.15}=\\mu+z_{0.15}\\,\\sigma=180-1.0364\\cdot 40\\approx 138.54$ s. The shortest 15% of calls finish within $\\approx 2$ min 18 s.\n4. **Part c — far right tail at 5 min.** With cut-off 300 s, $z=(300-180)/40=3$. Three SDs in the right tail $\\Rightarrow \\Pr(X>300)=1-\\Phi(3)\\approx 0.00135$. Only $\\approx 0.135\\%$ of calls would be interrupted — a *very* permissive policy.\n5. **Take-away.** Switch between \"probability of a cut-off\" (`pnorm`) and \"cut-off at a given probability\" (`qnorm`); a sketch of the density with the target tail/percentile shaded prevents 1−p mistakes.\n\n![Ex 4.4 a–c AI walkthrough](statistics/images/ex4/ex4_4a1_ai.png)\n\n---\n\n**Answer.**\n\n**a)** $\\Pr(X > 120)$ is **0.9332**:\n\n%%RBLOCK%%\n`1 - pnorm(120, 180, sqrt(1600))`\n`## [1] 0.9331928`\n%%/RBLOCK%%\n\n\n**b)** The 15-th percentile of $X$ is **138.5427** seconds:\n\n%%RBLOCK%%\n`qnorm(0.15, 180, sqrt(1600))`\n`## [1] 138.5427`\n%%/RBLOCK%%\n\n\n**c)** The proportion of phone calls that would be interrupted, $\\Pr(X > 300)$, is **0.135%**:\n\n%%RBLOCK%%\n`1 - pnorm(300, 180, sqrt(1600))`\n`## [1] 0.001349898`\n%%/RBLOCK%%\n\n\n---\n\n**Reference answer.**\n\n![Ex 4.4 a–c answer](statistics/images/ex4/answers/ex4_4a1_answer.png)\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex4/questions/ex4_4a1_question.png",
+                  "statistics/images/ex4/ex4_4a1_ai.png",
+                  "statistics/images/ex4/answers/ex4_4a1_answer.png"
+                ],
                 "links": [
                   "th_g11"
                 ],
                 "x": 25800,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "teal",
                 "column": 33
               },
               {
                 "id": "4_4b",
                 "title": "Ex 4.4 d–g — Sum of 5 calls, sample of 210, CLT for proportion",
-                "content": "**Question.**\n**d)** Let $S$ denote the total duration of 5 calls (random sample): probability that processing all the calls takes more than 15 minutes (900 sec)?\n**e)** Suppose 210 calls come into the call center in a specific time slot on a business day; excluding 10% of the most extreme scenarios, what is the interval in which we can expect the total time required to process all calls to vary?\n**f)** Suppose 600 calls come into the call center. Assume that 12% of calls are resolved without an intervention by the operator. What is the probability that at least 15% of these 600 calls will be resolved without operator intervention?\n**g)** Discuss for each of the previous points (a–f) under what assumptions on $X$ the calculation is justified.\n\n---\n\n**Answer.**\n\n**d)** $S = X_1 + \\ldots + X_5 \\sim N(5\\cdot 180,\\; 5\\cdot 1600) = N(900, 8000)$. Since 900 is exactly the mean (= median = mode), $\\Pr(S > 900) = 0.5$.\n\n**e)** With $n = 210$, $S \\sim N(210\\cdot 180,\\; 210\\cdot 1600) = N(37800, 336000)$. The 90% central interval is bounded by the 5-th and 95-th percentiles of the distribution:\n\n%%RBLOCK%%\n`qnorm(0.05, 37800, sqrt(336000))`\n`## [1] 36846.55`\n`qnorm(0.95, 37800, sqrt(336000))`\n`## [1] 38753.45`\n%%/RBLOCK%%\n\nWe expect that the total time required to process all calls, excluding the 10% most extreme cases, will be between **36846.55** and **38753.45** seconds (≈ 10.235 and 10.765 hours).\n\n**f)** The variable indicating whether a call is resolved without operator (success) follows $\\mathrm{Bernoulli}(0.12)$. With $n = 600$ calls, by CLT:\n\n$$\n\\bar P \\approx N\\!\\left(0.12,\\; \\frac{0.12(1-0.12)}{600}\\right).\n$$\n\nThe probability that at least 15% of these calls will be resolved without an intervention, $\\Pr(\\bar P > 0.15)$:\n\n%%RBLOCK%%\n`1 - pnorm(0.15, 0.12, sqrt((0.12*(1-0.12))/600))`\n`## [1] 0.01186926`\n%%/RBLOCK%%\n\n\n**g)** Points **a, b, c** rely directly on the distribution of $X$ — the assumption of normality is crucial there. Point **d** requires the assumption of normality (small sample $n = 5$, sum of normals). Point **e** involves a larger sample so by the CLT the distribution of $X$ need not be normal. Point **f** requires only that the proportion can be approximated by a Normal (CLT for proportions: only Bernoulli, not normal, is needed).\n",
+                "content": "<span class=\"exam-question-text\">**Question.** A mobile phone company estimated that the duration $X$ of a customer's call to the call-center follows $X\\sim N(180, 1600)$ (in seconds).\n\n**d)** Let $S$ denote the total duration of 5 calls (random sample): probability that processing all the calls takes more than 15 minutes (900 sec)?\n**e)** Suppose 210 calls come into the call center in a specific time slot on a business day; excluding 10% of the most extreme scenarios, what is the interval in which we can expect the total time required to process all calls to vary?\n**f)** Suppose 600 calls come into the call center. Assume that 12% of calls are resolved without an intervention by the operator. What is the probability that at least 15% of these 600 calls will be resolved without operator intervention?\n**g)** Discuss for each of the previous points (a–f) under what assumptions on $X$ the calculation is justified.</span>\n\n![Ex 4.4 d–g question](statistics/images/ex4/questions/ex4_4b_question.png)\n\n---\n\n**AI walkthrough.** All three numerical parts boil down to writing the right sampling distribution and reading a tail/quantile off the Normal. The key is whether normality is assumed for $X$ or earned via CLT.\n\n1. **Part d — sum of $n=5$ normals.** Independence + normality give $S=\\sum_{i=1}^{5} X_i \\sim N(5\\mu,\\,5\\sigma^2) = N(900,\\,8000)$. The cut-off 900 s **is** the mean, so $\\Pr(S>900)=0.5$ exactly. No CLT needed — the answer relies on the input being Normal.\n2. **Part e — sum of $n=210$ calls.** Same rule: $S\\sim N(210\\cdot 180,\\,210\\cdot 1600)=N(37800,\\,336000)$. With $n=210$ large, CLT does the heavy lifting — $X$ need *not* be Normal. The central 90% interval is just the 5-th and 95-th percentiles of this distribution: $[\\,q_{0.05},\\,q_{0.95}\\,] \\approx [36846.55,\\,38753.45]$ s ($\\approx 10.235$ to $10.765$ h).\n3. **Part f — sample proportion.** Each call is Bernoulli($p=0.12$); the sample proportion of \"no-operator\" calls in $n=600$ trials is, by CLT for proportions, $\\bar P\\approx N\\!\\left(p,\\,\\frac{p(1-p)}{n}\\right)=N(0.12,\\,1.76\\times 10^{-4})$. Standardising the cut-off 0.15: $z=(0.15-0.12)/\\sqrt{0.12\\cdot 0.88/600}\\approx 2.26$, so $\\Pr(\\bar P>0.15)\\approx 0.0119$ — about a 1% chance.\n4. **Part g — normality assumptions.** **a, b, c**: rely directly on $X$'s distribution, so Normality of $X$ is *essential*. **d**: small $n=5$, sum of normals — Normality still needed. **e**: $n=210$, CLT covers us — $X$ need not be Normal. **f**: only requires CLT for proportions ($n=600$ Bernoulli), so Normality of $X$ is irrelevant.\n5. **Take-away.** Translate the question into the sampling distribution first; only then choose `pnorm` (tail) vs. `qnorm` (quantile). Whether you need an assumption on $X$ depends entirely on the **sample size** and on whether you sum the $X$'s or count Bernoulli successes.\n\n![Ex 4.4 d–g AI walkthrough](statistics/images/ex4/ex4_4b_ai.png)\n\n---\n\n**Answer.**\n\n**d)** $S = X_1 + \\ldots + X_5 \\sim N(5\\cdot 180,\\; 5\\cdot 1600) = N(900, 8000)$. Since 900 is exactly the mean (= median = mode), $\\Pr(S > 900) = 0.5$.\n\n**e)** With $n = 210$, $S \\sim N(210\\cdot 180,\\; 210\\cdot 1600) = N(37800, 336000)$. The 90% central interval is bounded by the 5-th and 95-th percentiles of the distribution:\n\n%%RBLOCK%%\n`qnorm(0.05, 37800, sqrt(336000))`\n`## [1] 36846.55`\n`qnorm(0.95, 37800, sqrt(336000))`\n`## [1] 38753.45`\n%%/RBLOCK%%\n\nWe expect that the total time required to process all calls, excluding the 10% most extreme cases, will be between **36846.55** and **38753.45** seconds (≈ 10.235 and 10.765 hours).\n\n**f)** The variable indicating whether a call is resolved without operator (success) follows $\\mathrm{Bernoulli}(0.12)$. With $n = 600$ calls, by CLT:\n\n$$\n\\bar P \\approx N\\!\\left(0.12,\\; \\frac{0.12(1-0.12)}{600}\\right).\n$$\n\nThe probability that at least 15% of these calls will be resolved without an intervention, $\\Pr(\\bar P > 0.15)$:\n\n%%RBLOCK%%\n`1 - pnorm(0.15, 0.12, sqrt((0.12*(1-0.12))/600))`\n`## [1] 0.01186926`\n%%/RBLOCK%%\n\n\n**g)** Points **a, b, c** rely directly on the distribution of $X$ — the assumption of normality is crucial there. Point **d** requires the assumption of normality (small sample $n = 5$, sum of normals). Point **e** involves a larger sample so by the CLT the distribution of $X$ need not be normal. Point **f** requires only that the proportion can be approximated by a Normal (CLT for proportions: only Bernoulli, not normal, is needed).\n\n---\n\n**Reference answer.**\n\n![Ex 4.4 d–g answer](statistics/images/ex4/answers/ex4_4b_answer.png)\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex4/questions/ex4_4b_question.png",
+                  "statistics/images/ex4/ex4_4b_ai.png",
+                  "statistics/images/ex4/answers/ex4_4b_answer.png"
+                ],
                 "links": [
                   "th_g11"
                 ],
                 "x": 25800,
-                "y": 600,
+                "y": 780,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "teal",
                 "column": 33
               },
@@ -3951,48 +3977,58 @@
               {
                 "id": "4_5",
                 "title": "Ex 4.5 — Take-away: E[X+Y], Var(X+Y) with ρ = 0.22, and independence case",
-                "content": "**Question.** Consider the time $X$ required for a customer in line for a take-away to make an order and the subsequent time $Y$ required for the customer's order to be filled. Assume that $X$ and $Y$ have a linear correlation coefficient of $+0.22$ and that:\n\n\\begin{tabular}{p{12.67cm}|p{12.67cm}|p{12.67cm}}\n\\hline\n & Expected value & Standard deviation \\\\\n\\hline\nVariable $X$ & 3.5 minutes & 1.5 minutes \\\\\nVariable $Y$ & 1.6 minutes & 0.2 minutes \\\\\n\\hline\n\\end{tabular}\n\n**a)** Calculate the expected value and the standard deviation of the time it takes for a customer to pick up his or her order.\n**b)** Is it possible to calculate the probability that the time (the sum of point **a**) is more than 7 minutes? Under what assumptions?\n**c)** Determine whether and how the previous results would change if $X$ and $Y$ were independent.\n\n---\n\n**Answer.**\n\n**a)** Let $T = X + Y$. The expected value is\n\n$$\nE[T] = E[X] + E[Y] = 3.5 + 1.6 = 5.1 \\text{ minutes},\n$$\n\nand the variance is\n\n$$\n\\mathrm{Var}(T) = \\mathrm{Var}(X) + \\mathrm{Var}(Y) + 2\\,\\mathrm{Cov}(X, Y) = 1.5^2 + 0.2^2 + 2\\cdot 0.22\\cdot 1.5\\cdot 0.2 = 2.422 \\text{ minutes}^2.\n$$\n\nThe standard deviation is $\\sqrt{2.422} \\approx \\mathbf{1.5563}$ minutes.\n\n**b)** The probability that one customer has to wait more than 7 minutes can be computed only under the assumption that the joint distribution of $(X, Y)$ is a bivariate Normal distribution. Under this assumption, $X + Y \\sim N(5.1, 1.5563^2)$, and the probability $\\Pr(X + Y > 7)$ is:\n\n%%RBLOCK%%\n`1 - pnorm(7, 5.1, 1.5563)`\n`## [1] 0.1110725`\n%%/RBLOCK%%\n\n\n**c)** If $X$ and $Y$ were independent the expected value of $X + Y$ would be the same, while the variance would be\n\n$$\n\\mathrm{Var}(X + Y) = \\mathrm{Var}(X) + \\mathrm{Var}(Y) = 1.5^2 + 0.2^2 = 2.29,\n$$\n\nleading to a standard deviation of $\\sqrt{2.29} \\approx 1.5133$. Under the assumption of independence (and joint normality), the probability $\\Pr(X + Y > 7)$ would be:\n\n%%RBLOCK%%\n`1 - pnorm(7, 5.1, 1.5133)`\n`## [1] 0.1045973`\n%%/RBLOCK%%\n\n",
+                "content": "**Question.** Consider the time $X$ required for a customer in line for a take-away to make an order and the subsequent time $Y$ required for the customer's order to be filled. Assume that $X$ and $Y$ have a linear correlation coefficient of $+0.22$ and that:\n\n\\begin{tabular}{p{12.67cm}|p{12.67cm}|p{12.67cm}}\n\\hline\n & Expected value & Standard deviation \\\\\n\\hline\nVariable $X$ & 3.5 minutes & 1.5 minutes \\\\\nVariable $Y$ & 1.6 minutes & 0.2 minutes \\\\\n\\hline\n\\end{tabular}\n\n**a)** Calculate the expected value and the standard deviation of the time it takes for a customer to pick up his or her order.\n**b)** Is it possible to calculate the probability that the time (the sum of point **a**) is more than 7 minutes? Under what assumptions?\n**c)** Determine whether and how the previous results would change if $X$ and $Y$ were independent.\n\n![Ex 4.5 question](statistics/images/ex4/questions/ex4_5_question.png)\n\n---\n\n**AI walkthrough.** This is the canonical \"linear combination of correlated normals\" template — three connected ideas, none of them more than one line of algebra each.\n\n1. **Linearity of expectation is unconditional.** $E[X+Y]=E[X]+E[Y]=3.5+1.6=\\mathbf{5.1}$ minutes — true with *or* without independence, with *or* without normality. Always start here; it never depends on $\\rho$.\n2. **Variance of a sum carries a covariance term.** $\\mathrm{Var}(X+Y)=\\sigma_X^2+\\sigma_Y^2+2\\,\\mathrm{Cov}(X,Y)$, with $\\mathrm{Cov}(X,Y)=\\rho\\,\\sigma_X\\sigma_Y=0.22\\cdot 1.5\\cdot 0.2=0.066$. Plug in: $\\mathrm{Var}(T)=2.25+0.04+2(0.066)=\\mathbf{2.422}$, so $\\sigma_T=\\sqrt{2.422}\\approx\\mathbf{1.5563}$. Panel (a) shows that $\\mathrm{Var}(X)$ dominates ($\\approx 93\\%$ of the total) but the covariance bump ($+0.132$) is still $\\approx 5.5\\%$ of $\\mathrm{Var}(T)$ — small, but not zero.\n3. **Tail probabilities need a distributional assumption.** $\\mu_T$ and $\\sigma_T$ alone do *not* give $\\Pr(T>7)$. The standard add-on assumption is **bivariate normality** of $(X,Y)$: any linear combination of jointly normal r.v.s is itself normal, so $T\\sim N(5.1,\\,1.5563^2)$. Standardise: $z=(7-5.1)/1.5563\\approx 1.221$, hence $\\Pr(T>7)=\\Pr(Z>1.221)\\approx\\mathbf{0.1111}$. About **1 customer in 9** waits more than 7 minutes.\n4. **Independence kills the covariance term only.** Set $\\rho=0$: $\\mathrm{Var}(T)=2.29$, $\\sigma_T\\approx 1.5133$ — the mean is unchanged. Under the same normality assumption, $\\Pr(T>7)\\approx\\mathbf{0.1046}$. Positive correlation *fattens* the right tail by $+0.0064$ ($\\approx +6\\%$ relative): when $X$ runs long, $Y$ tends to run long *too*, so extreme totals are slightly more likely. Panel (c) overlays the two densities — same centre, slightly wider when $\\rho>0$.\n5. **Why a *positive* $\\rho$ makes intuitive sense here.** Busy moments at the counter lengthen both the ordering step *and* the filling step (more staff load, more queue), so the two times move together. A negative $\\rho$ would have shrunk $\\mathrm{Var}(T)$ below the independent baseline — a useful sanity check whenever the correlation flips sign.\n\n![Ex 4.5 AI walkthrough](statistics/images/ex4/ex4_5_ai.png)\n\n---\n\n**Answer.**\n\n**a)** Let $T = X + Y$. The expected value is\n\n$$\nE[T] = E[X] + E[Y] = 3.5 + 1.6 = 5.1 \\text{ minutes},\n$$\n\nand the variance is\n\n$$\n\\mathrm{Var}(T) = \\mathrm{Var}(X) + \\mathrm{Var}(Y) + 2\\,\\mathrm{Cov}(X, Y) = 1.5^2 + 0.2^2 + 2\\cdot 0.22\\cdot 1.5\\cdot 0.2 = 2.422 \\text{ minutes}^2.\n$$\n\nThe standard deviation is $\\sqrt{2.422} \\approx \\mathbf{1.5563}$ minutes.\n\n**b)** The probability that one customer has to wait more than 7 minutes can be computed only under the assumption that the joint distribution of $(X, Y)$ is a bivariate Normal distribution. Under this assumption, $X + Y \\sim N(5.1, 1.5563^2)$, and the probability $\\Pr(X + Y > 7)$ is:\n\n%%RBLOCK%%\n`1 - pnorm(7, 5.1, 1.5563)`\n`## [1] 0.1110725`\n%%/RBLOCK%%\n\n\n**c)** If $X$ and $Y$ were independent the expected value of $X + Y$ would be the same, while the variance would be\n\n$$\n\\mathrm{Var}(X + Y) = \\mathrm{Var}(X) + \\mathrm{Var}(Y) = 1.5^2 + 0.2^2 = 2.29,\n$$\n\nleading to a standard deviation of $\\sqrt{2.29} \\approx 1.5133$. Under the assumption of independence (and joint normality), the probability $\\Pr(X + Y > 7)$ would be:\n\n%%RBLOCK%%\n`1 - pnorm(7, 5.1, 1.5133)`\n`## [1] 0.1045973`\n%%/RBLOCK%%\n\n\n---\n\n**Reference answer.**\n\n![Ex 4.5 answer](statistics/images/ex4/answers/ex4_5_answer.png)\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex4/questions/ex4_5_question.png",
+                  "statistics/images/ex4/ex4_5_ai.png",
+                  "statistics/images/ex4/answers/ex4_5_answer.png"
+                ],
                 "links": [
                   "th_g12"
                 ],
                 "x": 26600,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "gold",
                 "column": 34
               },
               {
                 "id": "4_6",
                 "title": "Ex 4.6 — Bus travel: find σ from quartiles, P(X>120), 30th pct, CLT, +15%",
-                "content": "**Question.** The time taken by a bus to travel its entire route on a working day without any special events is assumed to be normally distributed. Based on past experience, on 25% of days with less traffic the time taken is at most 80 minutes, while on 25% of days with more traffic it is at least 100 minutes. The two quartiles are therefore $q_1 = 80$ and $q_3 = 100$, the middle point between them being 90 minutes (the assumed mean).\n\n**a1)** Find the expected value and the standard deviation of the time taken by the bus to travel its entire route (round intermediate results to 4 decimals).\n**a2)** Probability that on a generic workday without special events the bus takes more than 2 hours, $\\Pr(X > 120)$.\n**a3)** The travel time exceeded on 70% of days (30-th percentile).\n**a4)** Travel time is monitored on 45 days (simple random sample). What is the probability that the bus takes less than 82 minutes on at least 10% of the days?\n**b)** In case of special events that cause an increase in the level of traffic, the travel time increases by 15%, so $Y = 1.15\\,X$. Redo parts **a2–a4** under this scenario.\n\n---\n\n**Answer.**\n\n**a1)** Between a generic normal $N(\\mu, \\sigma^2)$ and the standard normal, $(X - 90)/\\sigma$ has a standard normal distribution. Since $\\Pr(X < 80) = 0.25$, the value $(80 - 90)/\\sigma$ is the first quartile of a standard normal:\n\n%%RBLOCK%%\n`qnorm(0.25)`\n`## [1] -0.6744898`\n%%/RBLOCK%%\n\nSo $(80 - 90)/\\sigma = -0.6745$, leading to $\\sigma = 14.826$. Therefore $X \\sim N(90, 14.826^2)$.\n\n**a2)** $\\Pr(X > 120)$:\n\n%%RBLOCK%%\n`1 - pnorm(120, 90, 14.826)`\n`## [1] 0.02151224`\n%%/RBLOCK%%\n\n\n**a3)** 30-th percentile:\n\n%%RBLOCK%%\n`qnorm(0.3, 90, 14.826)`\n`## [1] 82.2524`\n%%/RBLOCK%%\n\n\n**a4)** Bernoulli with $p = \\Pr(X < 82)$:\n\n%%RBLOCK%%\n`pnorm(82, 90, 14.826)`\n`## [1] 0.294739`\n%%/RBLOCK%%\n\n\nThe proportion of buses over 45 taking less than 82 minutes, $\\bar P$, has a distribution approximated by the Normal via the CLT:\n\n$$\n\\bar P \\approx N\\!\\left(p,\\; \\frac{p(1-p)}{n}\\right) = N\\!\\left(0.295,\\; \\frac{0.295(1 - 0.295)}{45}\\right).\n$$\n\nProbability that the bus takes less than 82 minutes on at least 10% of the days, $\\Pr(\\bar P > 0.10)$:\n\n%%RBLOCK%%\n`1 - pnorm(0.10, 0.295, sqrt((0.295*(1-0.295))/45))`\n`## [1] 0.9979167`\n%%/RBLOCK%%\n\n\n**b)** Let $Y = 1.15\\,X$ denote the travel time in case of special events. Then\n\n$$\nE[Y] = 1.15\\cdot 90 = 103.5, \\qquad \\mathrm{Var}(Y) = 1.15^2\\cdot 14.826^2 = 289.68,\n$$\n\nso $Y \\sim N(103.5,\\; (1.15\\cdot 14.826)^2)$.\n\nProbability of taking more than 2 hours, $\\Pr(Y > 120)$:\n\n%%RBLOCK%%\n`1 - pnorm(120, 103.5, 1.15*14.826)`\n`## [1] 0.1665852`\n%%/RBLOCK%%\n\n\nTravel time exceeded on 70% of days (30-th percentile):\n\n%%RBLOCK%%\n`qnorm(0.3, 1.15*90, 1.15*14.826)`\n`## [1] 94.55902`\n%%/RBLOCK%%\n\n\nProbability of travel time below 82 minutes:\n\n%%RBLOCK%%\n`pnorm(82, 1.15*90, 1.15*14.826)`\n`## [1] 0.1036536`\n%%/RBLOCK%%\n\n",
+                "content": "<span class=\"exam-question-text\">**Question.** The time taken by a bus to travel its entire route on a working day without any special events is assumed to be normally distributed. Based on past experience, on 25% of days with less traffic the time taken is at most 80 minutes, while on 25% of days with more traffic it is at least 100 minutes. The two quartiles are therefore $q_1 = 80$ and $q_3 = 100$, the middle point between them being 90 minutes (the assumed mean).\n\n**a1)** Find the expected value and the standard deviation of the time taken by the bus to travel its entire route (round intermediate results to 4 decimals).\n**a2)** Probability that on a generic workday without special events the bus takes more than 2 hours, $\\Pr(X > 120)$.\n**a3)** The travel time exceeded on 70% of days (30-th percentile).\n**a4)** Travel time is monitored on 45 days (simple random sample). What is the probability that the bus takes less than 82 minutes on at least 10% of the days?\n**b)** In case of special events that cause an increase in the level of traffic, the travel time increases by 15%, so $Y = 1.15\\,X$. Redo parts **a2–a4** under this scenario.</span>\n\n![Ex 4.6 question](statistics/images/ex4/questions/ex4_6_q.png)\n\n---\n\n**AI walkthrough.** All five sub-parts ride on the *same* Normal $X\\sim N(90,\\sigma^2)$ — only $\\sigma$ has to be calibrated first, then everything follows mechanically.\n\n1. **Anchor the mean.** The \"middle point\" between the two quartiles is the mean by symmetry of a Normal: $\\mu = (80 + 100)/2 = 90$.\n2. **Calibrate $\\sigma$ from a quartile.** $\\Pr(X<80)=0.25$ means $(80-90)/\\sigma=\\Phi^{-1}(0.25)\\approx -0.6745$, hence $\\sigma=10/0.6745\\approx \\mathbf{14.826}$. The same number falls out of $q_3=100$ by symmetry — useful as a sanity check.\n3. **Part a2 — right tail at 120 min.** Standardise: $z=(120-90)/14.826\\approx 2.024$. Two SDs into the right tail $\\Rightarrow\\Pr(X>120)\\approx \\mathbf{0.0215}$ — buses *rarely* take more than 2 hours on a normal day.\n4. **Part a3 — \"exceeded on 70% of days\" = 30-th percentile.** Invert the CDF at 0.30: $q_{0.30}=90+\\Phi^{-1}(0.30)\\cdot 14.826\\approx 90-0.5244\\cdot 14.826\\approx \\mathbf{82.25}$ min.\n5. **Part a4 — CLT for a proportion.** $p=\\Pr(X<82)\\approx 0.2947$. For a 45-day sample, $\\bar P\\approx N(p,\\,p(1-p)/n)$ with SE $=\\sqrt{0.2947\\cdot 0.7053/45}\\approx 0.068$. The threshold 0.10 sits $\\approx (0.10-0.2947)/0.068\\approx -2.87$ SDs *below* the mean of $\\bar P$ — so $\\Pr(\\bar P>0.10)\\approx \\mathbf{0.998}$. Almost certainly the proportion exceeds 10%.\n6. **Part b — multiply by 1.15.** $Y=1.15X$ is still Normal: $E[Y]=103.5$, $\\sigma_Y=1.15\\cdot 14.826\\approx 17.05$. The right tail shifts visibly: $\\Pr(Y>120)\\approx \\mathbf{0.1666}$ — about **8× larger** than the baseline 0.0215. Similarly $q_{0.30}(Y)\\approx 94.56$ and $\\Pr(Y<82)\\approx 0.1037$.\n7. **Take-away.** A linear scaling $Y=aX$ moves *both* $\\mu$ and $\\sigma$ by the factor $a$, which is why a \"small\" 15% traffic shock blows up the probability of taking >2 hours from 2% to 17%. The CLT step is independent of the scaling — only $p$ and $n$ matter for the sampling distribution of $\\bar P$.\n\n![Ex 4.6 AI walkthrough](statistics/images/ex4/ex4_6_ai.png)\n\n---\n\n**Answer.**\n\n**a1)** Between a generic normal $N(\\mu, \\sigma^2)$ and the standard normal, $(X - 90)/\\sigma$ has a standard normal distribution. Since $\\Pr(X < 80) = 0.25$, the value $(80 - 90)/\\sigma$ is the first quartile of a standard normal:\n\n%%RBLOCK%%\n`qnorm(0.25)`\n`## [1] -0.6744898`\n%%/RBLOCK%%\n\nSo $(80 - 90)/\\sigma = -0.6745$, leading to $\\sigma = 14.826$. Therefore $X \\sim N(90, 14.826^2)$.\n\n**a2)** $\\Pr(X > 120)$:\n\n%%RBLOCK%%\n`1 - pnorm(120, 90, 14.826)`\n`## [1] 0.02151224`\n%%/RBLOCK%%\n\n\n**a3)** 30-th percentile:\n\n%%RBLOCK%%\n`qnorm(0.3, 90, 14.826)`\n`## [1] 82.2524`\n%%/RBLOCK%%\n\n\n**a4)** Bernoulli with $p = \\Pr(X < 82)$:\n\n%%RBLOCK%%\n`pnorm(82, 90, 14.826)`\n`## [1] 0.294739`\n%%/RBLOCK%%\n\n\nThe proportion of buses over 45 taking less than 82 minutes, $\\bar P$, has a distribution approximated by the Normal via the CLT:\n\n$$\n\\bar P \\approx N\\!\\left(p,\\; \\frac{p(1-p)}{n}\\right) = N\\!\\left(0.295,\\; \\frac{0.295(1 - 0.295)}{45}\\right).\n$$\n\nProbability that the bus takes less than 82 minutes on at least 10% of the days, $\\Pr(\\bar P > 0.10)$:\n\n%%RBLOCK%%\n`1 - pnorm(0.10, 0.295, sqrt((0.295*(1-0.295))/45))`\n`## [1] 0.9979167`\n%%/RBLOCK%%\n\n\n**b)** Let $Y = 1.15\\,X$ denote the travel time in case of special events. Then\n\n$$\nE[Y] = 1.15\\cdot 90 = 103.5, \\qquad \\mathrm{Var}(Y) = 1.15^2\\cdot 14.826^2 = 289.68,\n$$\n\nso $Y \\sim N(103.5,\\; (1.15\\cdot 14.826)^2)$.\n\nProbability of taking more than 2 hours, $\\Pr(Y > 120)$:\n\n%%RBLOCK%%\n`1 - pnorm(120, 103.5, 1.15*14.826)`\n`## [1] 0.1665852`\n%%/RBLOCK%%\n\n\nTravel time exceeded on 70% of days (30-th percentile):\n\n%%RBLOCK%%\n`qnorm(0.3, 1.15*90, 1.15*14.826)`\n`## [1] 94.55902`\n%%/RBLOCK%%\n\n\nProbability of travel time below 82 minutes:\n\n%%RBLOCK%%\n`pnorm(82, 1.15*90, 1.15*14.826)`\n`## [1] 0.1036536`\n%%/RBLOCK%%\n\n\n---\n\n**Reference answer.**\n\n![Ex 4.6 answer](statistics/images/ex4/answers/ex4_6_a.png)\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex4/questions/ex4_6_q.png",
+                  "statistics/images/ex4/ex4_6_ai.png",
+                  "statistics/images/ex4/answers/ex4_6_a.png"
+                ],
                 "links": [
                   "th_g12"
                 ],
                 "x": 27400,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "gold",
                 "column": 35
               },
               {
                 "id": "4_7",
                 "title": "Ex 4.7 — Airport security: Y = B + D, P(Y ≥ 45), arrival time",
-                "content": "**Question.** At an airport, the distributions of times (in minutes) required for hand baggage screening ($B$) and document screening ($D$) in a workday are jointly normal. It is further assumed that $B \\sim N(10, 4)$ and $D \\sim N(3, 1)$, and that the linear correlation coefficient between $B$ and $D$ is $\\rho = 0.4375$.\n\n**a)** What is the distribution of the time required to pass both checks ($Y = B + D$)?\n**b)** Your flight leaves at 5 p.m. and you want to be done with security at least 45 minutes before your flight. At what time should you show up so that the probability of getting through security in the desired time is at least 90%?\n\n---\n\n**Answer.**\n\n**a)** Let $Y = B + D$. Then\n\n$$\nE[Y] = E[B] + E[D] = 10 + 3 = 13,\n$$\n\n$$\n\\mathrm{Var}(Y) = \\mathrm{Var}(B) + \\mathrm{Var}(D) + 2\\,\\mathrm{Cov}(B, D) = 4 + 1 + 2\\cdot 0.4375\\cdot 2\\cdot 1 = 6.75.\n$$\n\n(Note: $\\mathrm{Cov}(B, D) = \\rho_{B,D}\\,\\sigma_B\\,\\sigma_D = 0.4375 \\cdot 2 \\cdot 1 = 0.875$.) Since the joint distribution is bivariate normal, $Y$ is itself normal: $Y \\sim N(13,\\; 6.75)$.\n\n**b)** We need the 90-th percentile of $Y$, corresponding to the 10% longest times required to pass both checks:\n\n%%RBLOCK%%\n`qnorm(0.9, 13, sqrt(6.75))`\n`## [1] 16.32957`\n%%/RBLOCK%%\n\n\nSo you need to allow about **16.33 minutes** for security. Adding 45 minutes for buffer, you should be at the airport at least $45 + 16.33 \\approx 61.33$ minutes before the flight. If the flight leaves at 5:00 p.m., you should arrive at around **3:59 p.m.**\n",
+                "content": "**Question.** At an airport, the distributions of times (in minutes) required for hand baggage screening ($B$) and document screening ($D$) in a workday are jointly normal. It is further assumed that $B \\sim N(10, 4)$ and $D \\sim N(3, 1)$, and that the linear correlation coefficient between $B$ and $D$ is $\\rho = 0.4375$.\n\n**a)** What is the distribution of the time required to pass both checks ($Y = B + D$)?\n**b)** Your flight leaves at 5 p.m. and you want to be done with security at least 45 minutes before your flight. At what time should you show up so that the probability of getting through security in the desired time is at least 90%?\n\n---\n\n**AI walkthrough.** Two independent ingredients: (i) the **distribution of $Y$** (a linear combination of jointly normal r.v.s is normal — only mean and variance to compute), and (ii) the **90-th percentile** (how long security can take on the worst 10% of days).\n\n1. **Mean of $Y$.** Linearity of expectation: $E[Y]=E[B]+E[D]=10+3=13$ min.\n2. **Variance of $Y$.** Variance of a sum is *not* just the sum of variances when correlated — add $2\\,\\mathrm{Cov}(B,D)$:\n$$\\mathrm{Cov}(B,D)=\\rho\\,\\sigma_B\\,\\sigma_D = 0.4375\\cdot 2\\cdot 1 = 0.875,\\qquad \\mathrm{Var}(Y)=4+1+2(0.875)=6.75.$$\nSo $\\sigma_Y=\\sqrt{6.75}\\approx 2.598$ min.\n3. **Why normal?** Jointly normal $\\Rightarrow$ any linear combination is normal — no CLT needed, no sample size involved. $Y\\sim N(13,\\,6.75)$.\n4. **90-th percentile of $Y$.** We want $q$ with $P(Y\\le q)=0.90$, i.e. plan for \"all but the worst 10% of days\":\n$$q_{0.90}= 13 + z_{0.90}\\cdot\\sqrt{6.75} = 13 + 1.2816\\cdot 2.598 \\approx 16.33 \\text{ min}.$$\n5. **From \"security time\" to \"arrival time\".** You want to be **done** with security $\\geq 45$ min before takeoff. Allow $q_{0.90}\\approx 16.33$ min for the security queue itself, then a $45$-min buffer: total $\\approx 61.33$ min before 17:00, i.e. arrival at **15:59**.\n\n![Ex 4.7 AI walkthrough](statistics/images/ex4/ex4_7_ai.png)\n\n---\n\n**Answer.**\n\n**a)** Let $Y = B + D$. Then\n\n$$\nE[Y] = E[B] + E[D] = 10 + 3 = 13,\n$$\n\n$$\n\\mathrm{Var}(Y) = \\mathrm{Var}(B) + \\mathrm{Var}(D) + 2\\,\\mathrm{Cov}(B, D) = 4 + 1 + 2\\cdot 0.4375\\cdot 2\\cdot 1 = 6.75.\n$$\n\n(Note: $\\mathrm{Cov}(B, D) = \\rho_{B,D}\\,\\sigma_B\\,\\sigma_D = 0.4375 \\cdot 2 \\cdot 1 = 0.875$.) Since the joint distribution is bivariate normal, $Y$ is itself normal: $Y \\sim N(13,\\; 6.75)$.\n\n**b)** We need the 90-th percentile of $Y$, corresponding to the 10% longest times required to pass both checks:\n\n%%RBLOCK%%\n`qnorm(0.9, 13, sqrt(6.75))`\n`## [1] 16.32957`\n%%/RBLOCK%%\n\n\nSo you need to allow about **16.33 minutes** for security. Adding 45 minutes for buffer, you should be at the airport at least $45 + 16.33 \\approx 61.33$ minutes before the flight. If the flight leaves at 5:00 p.m., you should arrive at around **3:59 p.m.**\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex4/ex4_7_ai.png"
+                ],
                 "links": [
                   "th_g12"
                 ],
                 "x": 28200,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "gold",
                 "column": 36
               },
@@ -4337,96 +4373,109 @@
               {
                 "id": "5_8a",
                 "title": "Ex 5.8a — Unbiased estimator of mean profitability ($Company$)",
-                "content": "**Question.** Let $X$ be the random variable describing the profitability of clients in the population (`Company` dataframe). Propose an unbiased estimator of the population mean $\\mu_X$ and prove unbiasedness.\n\n---\n\n**Answer.** The natural estimator is the **sample mean**\n\n$$\\bar X = \\frac{1}{n}\\sum_{i=1}^{n} X_i,$$\n\nwith $X_1,\\dots,X_n$ an i.i.d. sample from the same distribution as $X$. Unbiasedness follows from linearity of expectation:\n\n$$\\Exp{\\bar X} = \\frac{1}{n}\\sum_{i=1}^{n} \\Exp{X_i} = \\frac{1}{n}\\,n\\,\\mu_X = \\mu_X,$$\n\nso $\\bar X$ is unbiased for $\\mu_X$ for **any** sample size $n$.\n\n\n%%RBLOCK%%\n`# Sample mean as estimator of mu_X`\n`xbar <- mean(Company$Profitability); xbar`\n`n    <- length(Company$Profitability); n`\n%%/RBLOCK%%\n\n\n**Assumptions.** The clients in the dataframe form an i.i.d. sample from the population of all clients (representative sampling).\n",
+                "content": "**Question.** (dataframe `Company`). **(a)** Let $X$ be the random variable that describes the *profitability* of clients in the population. Propose an unbiased estimator of the mean $\\mu_X$ of $X$, justify why the estimator is unbiased, and obtain the estimate of $\\mu_X$ produced by the available sample.\n\n---\n\n**Answer.** The natural estimator is the **sample mean**\n\n$$\\bar X \\;=\\; \\frac{1}{n}\\sum_{i=1}^{n} X_i,$$\n\nwith $X_1,\\dots,X_n$ an i.i.d. sample drawn from the same distribution as $X$.\n\n**Unbiasedness.** An estimator $\\hat\\theta$ is *unbiased* for $\\theta$ iff $\\Exp{\\hat\\theta} = \\theta$ for every value of $\\theta$. By linearity of expectation,\n\n$$\\Exp{\\bar X} \\;=\\; \\frac{1}{n}\\sum_{i=1}^{n}\\Exp{X_i} \\;=\\; \\frac{1}{n}\\,n\\,\\mu_X \\;=\\; \\mu_X,$$\n\nso $\\bar X$ is unbiased for $\\mu_X$ for **any** sample size $n$ and **any** distribution of $X$ (no normality required).\n\n**Point estimate.** From the available sample of $n=668$ clients,\n\n$$\\bar x \\;=\\; \\frac{1}{668}\\sum_{i=1}^{668} x_i \\;\\approx\\; 930.27.$$\n\n\n%%RBLOCK%%\n`n    <- nrow(Company); n                      # 668`\n`xbar <- mean(Company$Profitability); xbar     # 930.27`\n%%/RBLOCK%%\n\n\n%%RBLOCK%%\n`## [1] 668`\n`## [1] 930.2691`\n%%/RBLOCK%%\n\n\n**Assumptions.** The clients in `Company` form an i.i.d. sample from the population of all clients (representative sampling); $\\mu_X = \\Exp{X}$ exists and is finite.\n\n---\n\n**Reference answer.**\n\n![Ex 5.8a answer](statistics/images/ex5/answers/ex5_8a_answer.png)\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex5/questions/ex5_8a_question.png",
+                  "statistics/images/ex5/answers/ex5_8a_answer.png"
+                ],
                 "links": [
                   "th_g13a"
                 ],
                 "x": 34600,
                 "y": 2920,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "navy",
                 "column": 44
               },
               {
                 "id": "5_8b",
                 "title": "Ex 5.8b — Estimated SE and point estimate of $\\mu_X$ (Company)",
-                "content": "**Question.** The standard error of $\\bar X$ cannot be computed exactly because the population standard deviation $\\sigma_X$ is unknown. Obtain an estimate of $\\operatorname{SE}(\\bar X)$ from the sample, report the observed point estimate of $\\mu_X$, and comment on what we can (and cannot) say about how close the realized $\\bar x$ is to $\\mu_X$.\n\n---\n\n**Answer.** Because $\\sigma_X$ is unknown, plug in the sample standard deviation $s_X$:\n\n$$\\widehat{\\operatorname{SE}}(\\bar X) = \\frac{s_X}{\\sqrt{n}} = \\frac{365.3158}{\\sqrt{668}} \\approx 14.13.$$\n\nThe point estimate from the sample is $\\bar x = 930.27$.\n\n\n%%RBLOCK%%\n`n    <- nrow(Company)               # 668`\n`xbar <- mean(Company$Profitability); xbar   # 930.27`\n`s_x  <- sd(Company$Profitability);   s_x    # 365.3158`\n`se_hat <- s_x / sqrt(n); se_hat              # 14.13`\n%%/RBLOCK%%\n\n\n**Interpretation.** The SE quantifies the **typical** sampling variability of $\\bar X$ across hypothetical resamples — it does **not** tell us how far the realized $\\bar x = 930.27$ is from the unknown $\\mu_X$ for this particular sample. To bound that distance probabilistically, we need a confidence interval (which uses $\\bar x$, $\\widehat{\\operatorname{SE}}$ and a normal/$t$ quantile).\n",
+                "content": "**Question.** The standard error of $\\bar X$ cannot be computed exactly because the population standard deviation $\\sigma_X$ is unknown. Obtain an estimate of $\\operatorname{SE}(\\bar X)$ from the sample, report the observed point estimate of $\\mu_X$, and comment on what we can (and cannot) say about how close the realized $\\bar x$ is to $\\mu_X$.\n\n---\n\n**Answer.** Because $\\sigma_X$ is unknown, plug in the sample standard deviation $s_X$:\n\n$$\\widehat{\\operatorname{SE}}(\\bar X) = \\frac{s_X}{\\sqrt{n}} = \\frac{365.3158}{\\sqrt{668}} \\approx 14.13.$$\n\nThe point estimate from the sample is $\\bar x = 930.27$.\n\n\n%%RBLOCK%%\n`n    <- nrow(Company)               # 668`\n`xbar <- mean(Company$Profitability); xbar   # 930.27`\n`s_x  <- sd(Company$Profitability);   s_x    # 365.3158`\n`se_hat <- s_x / sqrt(n); se_hat              # 14.13`\n%%/RBLOCK%%\n\n\n**Interpretation.** The SE quantifies the **typical** sampling variability of $\\bar X$ across hypothetical resamples — it does **not** tell us how far the realized $\\bar x = 930.27$ is from the unknown $\\mu_X$ for this particular sample. To bound that distance probabilistically, we need a confidence interval (which uses $\\bar x$, $\\widehat{\\operatorname{SE}}$ and a normal/$t$ quantile).\n\n![Ex 5.8b AI walkthrough](statistics/images/ex5/ex5_8b_ai.png)\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex5/ex5_8b_ai.png"
+                ],
                 "links": [
                   "th_g13a"
                 ],
                 "x": 34600,
-                "y": 3320,
+                "y": 3500,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "navy",
                 "column": 44
               },
               {
                 "id": "5_10b",
                 "title": "Ex 5.10b — SE of mean profitability + interpretation",
-                "content": "**Question.** (b) For the dataframe `Company` (sample of $n=668$ clients), the standard error of the estimator of the mean profitability $\\mu_X$ cannot be obtained exactly, because the population's standard deviation is unknown. Obtain an estimate of $SE(\\bar X)$ as the ratio between the sample standard deviation and $\\sqrt{n}$. (c) Report the point estimate $\\bar X$ from the available sample. (d) Can we draw conclusions about how far this specific estimate lies from $\\mu_X$?\n\n---\n\n**Answer.**\n\n**(b)** The SE is estimated by\n$$\nse(\\bar X) \\;=\\; \\frac{s_x}{\\sqrt{n}} \\;=\\; \\frac{365.3158}{\\sqrt{668}} \\;=\\; 14.13.\n$$\n\n\n%%RBLOCK%%\n`sd(Company$Profitability)`\n`sd(Company$Profitability) / sqrt(668)`\n%%/RBLOCK%%\n\n\n**(c)** The point estimate of $\\mu_X$ based on the available sample is\n$$\n\\bar X \\;=\\; 930.27,\n$$\nobtained with `mean(Company$Profitability)`.\n\n**(d)** It is **not** possible to draw conclusions about this specific estimate from the population's characteristics. The SE only quantifies the dispersion of estimates produced by *generic* random samples of size $668$ around $\\mu_X$; it does **not** tell us the deviation of the *specific* available estimate, because that deviation $|\\bar x - \\mu_X|$ depends on the unknown parameter $\\mu_X$ and is therefore unknown.\n",
+                "content": "**Question.** (b) For the dataframe `Company` (sample of $n=668$ clients), the standard error of the estimator of the mean profitability $\\mu_X$ cannot be obtained exactly, because the population's standard deviation is unknown. Obtain an estimate of $SE(\\bar X)$ as the ratio between the sample standard deviation and $\\sqrt{n}$. (c) Report the point estimate $\\bar X$ from the available sample. (d) Can we draw conclusions about how far this specific estimate lies from $\\mu_X$?\n\n---\n\n**AI walkthrough.** Step by step:\n\n1. **Why $SE(\\bar X)$ is not directly computable.** From the i.i.d. sampling assumption $\\Var(\\bar X)=\\sigma_X^{2}/n$, so $SE(\\bar X)=\\sigma_X/\\sqrt n$. But $\\sigma_X$ is a **population** quantity — unknown unless we observe the entire population — so the formula is not directly usable. (Left panel: from the sample we only have access to $\\bar x$ and $s_x$.)\n\n2. **Plug-in estimator.** Replace $\\sigma_X$ with its unbiased estimator, the **sample standard deviation** $s_x$, giving\n$$\\widehat{SE}(\\bar X) \\;=\\; \\frac{s_x}{\\sqrt n} \\;=\\; \\frac{365.3158}{\\sqrt{668}} \\;\\approx\\; 14.13.$$\nThis is itself an estimator: by the LLN $s_x \\xrightarrow{P} \\sigma_X$, so $\\widehat{SE}\\xrightarrow{P} SE$. For $n=668$ the plug-in is very accurate.\n\n3. **Point estimate.** The realised value $\\bar x = 930.27$ is **one draw** from the random variable $\\bar X$. The sampling distribution of $\\bar X$ is centred on $\\mu_X$ (unbiasedness) with spread $\\approx 14.13$ on the original scale (middle panel: three plausible values of $\\mu_X$ give three different bell curves, each consistent with our observed $\\bar x$ — we cannot tell which is the truth).\n\n4. **What the SE does and does not tell us.** $\\widehat{SE}$ describes the **typical** distance between $\\bar X$ and $\\mu_X$ across hypothetical resamples of size $n=668$ — a property of the *estimator*, not of our *specific* realisation. The deviation $|\\bar x - \\mu_X|$ for **this** sample is a single unknown number (it depends on the unknown $\\mu_X$). It could be smaller than $\\widehat{SE}$, equal to it, or several SEs away — we cannot tell from the SE alone. (Right panel: across $B=2000$ hypothetical resamples drawn from an assumed $\\mu$, the spread is $\\widehat{SE}$, but our observed $\\bar x$ is a single dot in that cloud.)\n\n5. **Bridge to inference.** To turn $\\widehat{SE}$ into a *probabilistic* statement about how far $\\bar x$ can be from $\\mu_X$, one needs a **distributional** assumption: under $X \\sim N(\\mu_X,\\sigma_X^2)$ (or by CLT for large $n=668$),\n$$T \\;=\\; \\frac{\\bar X - \\mu_X}{\\widehat{SE}} \\;\\sim\\; t_{n-1} \\;\\approx\\; N(0,1).$$\nThis yields the confidence interval $\\bar x \\pm z_{1-\\alpha/2}\\,\\widehat{SE} = 930.27 \\pm 1.96\\cdot 14.13 = [902.6,\\,957.9]$ at 95%.\n\n![Ex 5.10b AI walkthrough](statistics/images/ex5/ex5_10b_ai.png)\n\n---\n\n**Answer.**\n\n**(b)** The SE is estimated by\n$$\nse(\\bar X) \\;=\\; \\frac{s_x}{\\sqrt{n}} \\;=\\; \\frac{365.3158}{\\sqrt{668}} \\;=\\; 14.13.\n$$\n\n\n%%RBLOCK%%\n`sd(Company$Profitability)`\n`sd(Company$Profitability) / sqrt(668)`\n%%/RBLOCK%%\n\n\n**(c)** The point estimate of $\\mu_X$ based on the available sample is\n$$\n\\bar X \\;=\\; 930.27,\n$$\nobtained with `mean(Company$Profitability)`.\n\n**(d)** It is **not** possible to draw conclusions about this specific estimate from the population's characteristics. The SE only quantifies the dispersion of estimates produced by *generic* random samples of size $668$ around $\\mu_X$; it does **not** tell us the deviation of the *specific* available estimate, because that deviation $|\\bar x - \\mu_X|$ depends on the unknown parameter $\\mu_X$ and is therefore unknown.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex5/ex5_10b_ai.png"
+                ],
                 "links": [
                   "th_g13a"
                 ],
                 "x": 35400,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "navy",
                 "column": 45
               },
               {
                 "id": "5_13a1",
                 "title": "Ex 5.13 a1 — Unbiased estimator of mean monthly turnover (Milano)",
-                "content": "**Question.** (dataframe `pizzerie`). Assume the monthly turnover `Sales` of pizzerias in Milan has known standard deviation $\\sigma = €11\\,500$. Denote by $\\mu$ the mean monthly turnover in the population of Milan pizzerias. **(a1)** Propose an unbiased estimator for $\\mu$, justify why it is unbiased (giving the definition of the property), and compute the estimate of $\\mu$ obtained from the sample in `pizzerie`.\n\n---\n\n**Answer.**\n\nAn **unbiased** estimator for $\\mu$ is the **sample mean**\n$$\n\\bar X \\;=\\; \\frac{1}{n}\\sum_{i=1}^n X_i.\n$$\nAn estimator $\\hat\\theta$ is *unbiased* for $\\theta$ iff $\\E[\\hat\\theta] = \\theta$ for every value of $\\theta$. Since $\\E[\\bar X] = \\mu$ for any distribution of $X$ and any sample size, $\\bar X$ is unbiased for $\\mu$.\n\nThe point estimate obtained from the Milan sub-sample is computed in R as:\n\n\n%%RBLOCK%%\n`mean(pizzerie$Sales[pizzerie$District==\"Milano\"])`\n`# SE with known sigma:`\n`11500 / sqrt(nrow(pizzerie))`\n%%/RBLOCK%%\n\n\nThe SE is $\\sigma/\\sqrt{n} = 11500/\\sqrt{n}$, since $\\sigma$ is known.\n",
+                "content": "**Question.** (dataframe `pizzerie`). Assume the monthly turnover `Sales` of pizzerias in Milan has known standard deviation $\\sigma = €11\\,500$. Denote by $\\mu$ the mean monthly turnover in the population of Milan pizzerias. **(a1)** Propose an unbiased estimator for $\\mu$, justify why it is unbiased (giving the definition of the property), and compute the estimate of $\\mu$ obtained from the sample in `pizzerie`.\n\n---\n\n**AI walkthrough.** Step by step:\n\n1. **Sampling model.** Treat the $n$ Milan pizzerias as i.i.d. draws $X_1,\\dots,X_n$ from a population with mean $\\mu$ and **known** variance $\\sigma^2 = 11\\,500^2$. We want an estimator $\\hat\\theta = T(X_1,\\dots,X_n)$ for $\\mu$.\n\n2. **Definition of unbiasedness.** $\\hat\\theta$ is **unbiased** for $\\theta$ iff $\\E[\\hat\\theta] = \\theta$ for *every* admissible value of $\\theta$. The bias is $\\Bias(\\hat\\theta) = \\E[\\hat\\theta] - \\theta$; an unbiased estimator has zero bias identically. (Left panel: across $B = 2000$ hypothetical resamples of size $n$, the histogram of $\\bar x$ is centred *exactly* on $\\mu = 32\\,000$ — the empirical average $32{,}020$ is within Monte-Carlo noise.)\n\n3. **Choosing the sample mean.** A natural candidate is $\\bar X = \\frac{1}{n}\\sum_{i=1}^n X_i$. By linearity of expectation,\n$$\\E[\\bar X] \\;=\\; \\frac{1}{n}\\sum_{i=1}^n \\E[X_i] \\;=\\; \\frac{1}{n}(n\\mu) \\;=\\; \\mu,$$\nso $\\bar X$ is **unbiased for every** $\\mu$ — no distributional assumption required.\n\n4. **Spread of the estimator.** Since the $X_i$ are independent,\n$$\\Var(\\bar X) \\;=\\; \\frac{\\sigma^2}{n}, \\qquad SE(\\bar X) \\;=\\; \\frac{\\sigma}{\\sqrt n} \\;=\\; \\frac{11\\,500}{\\sqrt n}.$$\n$\\sigma$ being **known** means $SE$ is exact, not estimated. (Right panel: doubling $n$ shrinks the SE by $\\sqrt 2$ — going from $n=30 \\to 60 \\to 120$ collapses the density around $\\mu$.)\n\n5. **Point estimate from the data.** Plug in the observed Milan sub-sample: $\\hat\\mu = \\bar x_{\\text{Mi}}$, computed in R by `mean(pizzerie$Sales[pizzerie$District==\"Milano\"])`. Different realised samples give different numerical values of $\\bar x$, but the *procedure* is unbiased: across all possible samples it averages out to $\\mu$.\n\n![Ex 5.13 a1 AI walkthrough](statistics/images/ex5/ex5_13a1_ai.png)\n\n---\n\n**Answer.**\n\nAn **unbiased** estimator for $\\mu$ is the **sample mean**\n$$\n\\bar X \\;=\\; \\frac{1}{n}\\sum_{i=1}^n X_i.\n$$\nAn estimator $\\hat\\theta$ is *unbiased* for $\\theta$ iff $\\E[\\hat\\theta] = \\theta$ for every value of $\\theta$. Since $\\E[\\bar X] = \\mu$ for any distribution of $X$ and any sample size, $\\bar X$ is unbiased for $\\mu$.\n\nThe point estimate obtained from the Milan sub-sample is computed in R as:\n\n\n%%RBLOCK%%\n`mean(pizzerie$Sales[pizzerie$District==\"Milano\"])`\n`# SE with known sigma:`\n`11500 / sqrt(nrow(pizzerie))`\n%%/RBLOCK%%\n\n\nThe SE is $\\sigma/\\sqrt{n} = 11500/\\sqrt{n}$, since $\\sigma$ is known.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex5/ex5_13a1_ai.png"
+                ],
                 "links": [
                   "th_g13a"
                 ],
                 "x": 35400,
-                "y": 600,
+                "y": 780,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "navy",
                 "column": 45
               },
               {
                 "id": "5_13a2",
                 "title": "Ex 5.13 a2 — P(|estimate − μ| > SE) under Normality",
-                "content": "**Question.** **(a2)** Is it possible to evaluate the probability that the distance (the absolute deviation) of our generic estimator from $\\mu$ is greater than the standard error? Specify whether specific assumptions are needed and, if so, provide the answer under those assumptions.\n\n---\n\n**Answer.**\n\nWe need to compute $\\Prob{|\\bar X - \\mu| > SE(\\bar X)}$. Standardising,\n$$\nZ \\;=\\; \\frac{\\bar X - \\mu}{SE(\\bar X)},\n$$\nso the event becomes $\\{|Z|>1\\}$.\n\nTo evaluate this probability we need the **distribution** of $Z$. With $\\sigma$ known and assuming $X \\sim N(\\mu, \\sigma^2)$ (or invoking the **CLT** for large $n$), $Z \\sim N(0,1)$. Then:\n$$\n\\Prob{|Z|>1} \\;=\\; 2\\bigl(1 - \\Phi(1)\\bigr) \\;\\approx\\; 2(1-0.8413) \\;\\approx\\; 0.3173.\n$$\n\n\n%%RBLOCK%%\n`2*(1 - pnorm(1))`\n`# ~ 0.3173`\n%%/RBLOCK%%\n\n\nWithout the Normality / CLT assumption, the probability cannot be computed exactly — Chebyshev only gives the loose bound $\\Prob{|Z|>1} \\le 1$.\n",
+                "content": "**Question.** **(a2)** Is it possible to evaluate the probability that the distance (the absolute deviation) of our generic estimator from $\\mu$ is greater than the standard error? Specify whether specific assumptions are needed and, if so, provide the answer under those assumptions.\n\n---\n\n**AI walkthrough.** Reframe the event in standardised units, then check what we need to evaluate the resulting tail probability.\n\n1. **Standardise.** Define $Z = (\\bar X - \\mu)/SE(\\bar X)$. Then $|\\bar X - \\mu| > SE(\\bar X) \\iff |Z| > 1$. The target probability is just the **two-sided tail of $Z$ beyond $\\pm 1$**.\n2. **What distribution does $Z$ follow?** We can only compute $\\Prob{|Z|>1}$ once we know the law of $Z$. Two routes deliver $Z \\sim N(0,1)$:\n   - **Exact:** assume $X \\sim N(\\mu,\\sigma^2)$. Then $\\bar X \\sim N(\\mu,\\sigma^2/n)$ exactly, hence $Z \\sim N(0,1)$ exactly.\n   - **Approximate:** invoke the **CLT** for large $n$ — for any finite-variance $X$, $\\bar X \\overset{d}{\\to} N(\\mu,\\sigma^2/n)$, so $Z \\approx N(0,1)$.\n3. **Compute the tail.** Under $Z \\sim N(0,1)$, by symmetry of the Normal density:\n   $$\\Prob{|Z|>1} = 2\\bigl(1-\\Phi(1)\\bigr) = 2(1-0.8413) \\approx 0.3173.$$\n   So roughly **31.7%** of generic samples deviate from $\\mu$ by **more than one SE** — equivalently the empirical-rule \"68% within $\\pm 1\\sigma$\" sends $\\approx 32\\%$ outside.\n4. **Without Normality / CLT.** Only Chebyshev applies: $\\Prob{|Z|>1} \\le 1/1^2 = 1$ — totally uninformative. Hence the Normality / CLT assumption is **essential** to deliver a sharp answer.\n\n![Ex 5.13 a2 AI walkthrough](statistics/images/ex5/ex5_13a2_ai.png)\n\n---\n\n**Answer.**\n\nWe need to compute $\\Prob{|\\bar X - \\mu| > SE(\\bar X)}$. Standardising,\n$$\nZ \\;=\\; \\frac{\\bar X - \\mu}{SE(\\bar X)},\n$$\nso the event becomes $\\{|Z|>1\\}$.\n\nTo evaluate this probability we need the **distribution** of $Z$. With $\\sigma$ known and assuming $X \\sim N(\\mu, \\sigma^2)$ (or invoking the **CLT** for large $n$), $Z \\sim N(0,1)$. Then:\n$$\n\\Prob{|Z|>1} \\;=\\; 2\\bigl(1 - \\Phi(1)\\bigr) \\;\\approx\\; 2(1-0.8413) \\;\\approx\\; 0.3173.\n$$\n\n\n%%RBLOCK%%\n`2*(1 - pnorm(1))`\n`# ~ 0.3173`\n%%/RBLOCK%%\n\n\nWithout the Normality / CLT assumption, the probability cannot be computed exactly — Chebyshev only gives the loose bound $\\Prob{|Z|>1} \\le 1$.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex5/ex5_13a2_ai.png"
+                ],
                 "links": [
                   "th_g13a"
                 ],
                 "x": 35400,
-                "y": 1000,
+                "y": 1360,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "navy",
                 "column": 45
               },
               {
                 "id": "5_13a3",
                 "title": "Ex 5.13 a3 — Proportion of no-smoking pizzerias + reliability",
-                "content": "**Question.** **(a3)** Estimate the proportion of pizzerias in Milan in which smoking is **not** allowed (`SmokingArea = No`), specifying whether and what assumptions are needed to answer the question. What measures would you use to effectively communicate the *reliability* of the estimate?\n\n---\n\n**Answer.**\n\nLet $p$ be the population proportion of Milan pizzerias with `SmokingArea = No`. Modelling each pizzeria as an i.i.d. Bernoulli($p$) draw, the **sample proportion**\n$$\n\\hat p \\;=\\; \\frac{1}{n}\\sum_{i=1}^n \\mathbb{1}\\{\\text{SmokingArea}_i = \\text{No}\\}\n$$\nis unbiased: $\\E[\\hat p] = p$. Its standard error, since $\\Var(\\hat p) = p(1-p)/n$, is estimated by\n$$\nse(\\hat p) \\;=\\; \\sqrt{\\dfrac{\\hat p (1-\\hat p)}{n}}.\n$$\n\n\n%%RBLOCK%%\n`# Restrict to Milan pizzerias`\n`smoke_Mi <- pizzerie$SmokingArea[pizzerie$District==\"Milano\"]`\n`n_Mi  <- length(smoke_Mi); n_Mi`\n`phat  <- mean(smoke_Mi == \"No\"); phat`\n`# Estimated SE of phat`\n`se_phat <- sqrt(phat*(1-phat) / n_Mi); se_phat`\n`# Approximate 95% CI (CLT-based)`\n`phat + c(-1, 1) * qnorm(0.975) * se_phat`\n%%/RBLOCK%%\n\n\n**Reliability** of the estimate is best communicated through (i) the standard error $se(\\hat p)$, and (ii) an approximate **confidence interval** $\\hat p \\pm z_{1-\\alpha/2}\\, se(\\hat p)$, valid under the CLT when $n\\hat p \\ge 5$ and $n(1-\\hat p) \\ge 5$.\n",
+                "content": "**Question.** **(a3)** Estimate the proportion of pizzerias in Milan in which smoking is **not** allowed (`SmokingArea = No`), specifying whether and what assumptions are needed to answer the question. What measures would you use to effectively communicate the *reliability* of the estimate?\n\n---\n\n**AI walkthrough.** Two pieces: a **point estimator** (sample proportion) and a **measure of precision** (SE + CI).\n\n1. **Model.** Encode each Milan pizzeria as a Bernoulli draw: $Y_i = \\mathbb{1}\\{\\text{SmokingArea}_i = \\text{No}\\}$, $Y_i \\sim \\text{Bern}(p)$ i.i.d. The natural unbiased estimator of $p$ is the **sample proportion** $\\hat p = \\bar Y = \\tfrac{1}{n}\\sum_i Y_i$. Unbiasedness: $\\E[\\hat p] = \\E[Y_1] = p$. **Only assumption needed for the point estimate:** the Milan sub-sample is i.i.d. — no distributional assumption beyond Bernoulli, which is automatic for a binary variable.\n2. **Variance of $\\hat p$.** Since $\\Var(Y_i) = p(1-p)$, $\\Var(\\hat p) = p(1-p)/n$. We don't know $p$, so plug in $\\hat p$: $\\widehat{se}(\\hat p) = \\sqrt{\\hat p(1-\\hat p)/n}$.\n3. **Communicating reliability.** Report (i) $\\widehat{se}(\\hat p)$ and (ii) an approximate **95% confidence interval** $\\hat p \\pm z_{0.975}\\,\\widehat{se}(\\hat p)$. The CI requires an extra **CLT** assumption to treat $\\hat p$ as approximately Normal — the rule-of-thumb check is $n\\hat p \\ge 5$ AND $n(1-\\hat p) \\ge 5$. Both hold easily here.\n4. **Illustrative numbers.** With (say) $n = 80$ Milan pizzerias and $\\hat p = 0.55$, $\\widehat{se}(\\hat p) = \\sqrt{0.55\\cdot 0.45/80} \\approx 0.0556$, giving 95% CI $\\approx [0.441,\\,0.659]$ — a fairly wide interval, signalling moderate precision; doubling $n$ shrinks SE by $\\sqrt{2}$.\n5. **Why SE+CI and not just $\\hat p$.** A bare estimate $\\hat p = 0.55$ hides whether it came from $n = 10$ or $n = 1000$. The SE quantifies the **typical sampling fluctuation**; the CI converts it into an interpretable range under repeated sampling.\n\n![Ex 5.13 a3 AI walkthrough](statistics/images/ex5/ex5_13a3_ai.png)\n\n---\n\n**Answer.**\n\nLet $p$ be the population proportion of Milan pizzerias with `SmokingArea = No`. Modelling each pizzeria as an i.i.d. Bernoulli($p$) draw, the **sample proportion**\n$$\n\\hat p \\;=\\; \\frac{1}{n}\\sum_{i=1}^n \\mathbb{1}\\{\\text{SmokingArea}_i = \\text{No}\\}\n$$\nis unbiased: $\\E[\\hat p] = p$. Its standard error, since $\\Var(\\hat p) = p(1-p)/n$, is estimated by\n$$\nse(\\hat p) \\;=\\; \\sqrt{\\dfrac{\\hat p (1-\\hat p)}{n}}.\n$$\n\n\n%%RBLOCK%%\n`# Restrict to Milan pizzerias`\n`smoke_Mi <- pizzerie$SmokingArea[pizzerie$District==\"Milano\"]`\n`n_Mi  <- length(smoke_Mi); n_Mi`\n`phat  <- mean(smoke_Mi == \"No\"); phat`\n`# Estimated SE of phat`\n`se_phat <- sqrt(phat*(1-phat) / n_Mi); se_phat`\n`# Approximate 95% CI (CLT-based)`\n`phat + c(-1, 1) * qnorm(0.975) * se_phat`\n%%/RBLOCK%%\n\n\n**Reliability** of the estimate is best communicated through (i) the standard error $se(\\hat p)$, and (ii) an approximate **confidence interval** $\\hat p \\pm z_{1-\\alpha/2}\\, se(\\hat p)$, valid under the CLT when $n\\hat p \\ge 5$ and $n(1-\\hat p) \\ge 5$.\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex5/ex5_13a3_ai.png"
+                ],
                 "links": [
                   "th_g13a"
                 ],
                 "x": 35400,
-                "y": 1400,
+                "y": 1940,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "navy",
                 "column": 45
               },

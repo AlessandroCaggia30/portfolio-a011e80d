@@ -815,28 +815,46 @@ se_pool  <- sqrt(s2_pool * (1/n_GT4 + 1/n_LE4)); se_pool
 ]}
 
 ex5["5_8a"] = {"title": "Ex 5.8a — Unbiased estimator of mean profitability ($Company$)",
-"content": """**Question.** Let $X$ be the random variable describing the profitability of clients in the population (`Company` dataframe). Propose an unbiased estimator of the population mean $\\mu_X$ and prove unbiasedness.
+"content": """**Question.** (dataframe `Company`). **(a)** Let $X$ be the random variable that describes the *profitability* of clients in the population. Propose an unbiased estimator of the mean $\\mu_X$ of $X$, justify why the estimator is unbiased, and obtain the estimate of $\\mu_X$ produced by the available sample.
 
 ---
 
 **Answer.** The natural estimator is the **sample mean**
 
-$$\\bar X = \\frac{1}{n}\\sum_{i=1}^{n} X_i,$$
+$$\\bar X \\;=\\; \\frac{1}{n}\\sum_{i=1}^{n} X_i,$$
 
-with $X_1,\\dots,X_n$ an i.i.d. sample from the same distribution as $X$. Unbiasedness follows from linearity of expectation:
+with $X_1,\\dots,X_n$ an i.i.d. sample drawn from the same distribution as $X$.
 
-$$\\Exp{\\bar X} = \\frac{1}{n}\\sum_{i=1}^{n} \\Exp{X_i} = \\frac{1}{n}\\,n\\,\\mu_X = \\mu_X,$$
+**Unbiasedness.** An estimator $\\hat\\theta$ is *unbiased* for $\\theta$ iff $\\Exp{\\hat\\theta} = \\theta$ for every value of $\\theta$. By linearity of expectation,
 
-so $\\bar X$ is unbiased for $\\mu_X$ for **any** sample size $n$.
+$$\\Exp{\\bar X} \\;=\\; \\frac{1}{n}\\sum_{i=1}^{n}\\Exp{X_i} \\;=\\; \\frac{1}{n}\\,n\\,\\mu_X \\;=\\; \\mu_X,$$
+
+so $\\bar X$ is unbiased for $\\mu_X$ for **any** sample size $n$ and **any** distribution of $X$ (no normality required).
+
+**Point estimate.** From the available sample of $n=668$ clients,
+
+$$\\bar x \\;=\\; \\frac{1}{668}\\sum_{i=1}^{668} x_i \\;\\approx\\; 930.27.$$
 
 ```r
-# Sample mean as estimator of mu_X
-xbar <- mean(Company$Profitability); xbar
-n    <- length(Company$Profitability); n
+n    <- nrow(Company); n                      # 668
+xbar <- mean(Company$Profitability); xbar     # 930.27
+```
+```
+## [1] 668
+## [1] 930.2691
 ```
 
-**Assumptions.** The clients in the dataframe form an i.i.d. sample from the population of all clients (representative sampling).
-""", "images": []}
+**Assumptions.** The clients in `Company` form an i.i.d. sample from the population of all clients (representative sampling); $\\mu_X = \\Exp{X}$ exists and is finite.
+
+---
+
+**Reference answer.**
+
+![Ex 5.8a answer](statistics/images/ex5/answers/ex5_8a_answer.png)
+""", "images": [
+    "statistics/images/ex5/questions/ex5_8a_question.png",
+    "statistics/images/ex5/answers/ex5_8a_answer.png",
+]}
 
 ex5["5_8b"] = {"title": "Ex 5.8b — Estimated SE and point estimate of $\\mu_X$ (Company)",
 "content": """**Question.** The standard error of $\\bar X$ cannot be computed exactly because the population standard deviation $\\sigma_X$ is unknown. Obtain an estimate of $\\operatorname{SE}(\\bar X)$ from the sample, report the observed point estimate of $\\mu_X$, and comment on what we can (and cannot) say about how close the realized $\\bar x$ is to $\\mu_X$.
@@ -857,10 +875,34 @@ se_hat <- s_x / sqrt(n); se_hat              # 14.13
 ```
 
 **Interpretation.** The SE quantifies the **typical** sampling variability of $\\bar X$ across hypothetical resamples — it does **not** tell us how far the realized $\\bar x = 930.27$ is from the unknown $\\mu_X$ for this particular sample. To bound that distance probabilistically, we need a confidence interval (which uses $\\bar x$, $\\widehat{\\operatorname{SE}}$ and a normal/$t$ quantile).
-""", "images": []}
+
+![Ex 5.8b AI walkthrough](statistics/images/ex5/ex5_8b_ai.png)
+""", "images": [
+    "statistics/images/ex5/ex5_8b_ai.png",
+]}
 
 ex5["5_10b"] = {"title": "Ex 5.10b — SE of mean profitability + interpretation",
 "content": """**Question.** (b) For the dataframe `Company` (sample of $n=668$ clients), the standard error of the estimator of the mean profitability $\\mu_X$ cannot be obtained exactly, because the population's standard deviation is unknown. Obtain an estimate of $SE(\\bar X)$ as the ratio between the sample standard deviation and $\\sqrt{n}$. (c) Report the point estimate $\\bar X$ from the available sample. (d) Can we draw conclusions about how far this specific estimate lies from $\\mu_X$?
+
+---
+
+**AI walkthrough.** Step by step:
+
+1. **Why $SE(\\bar X)$ is not directly computable.** From the i.i.d. sampling assumption $\\Var(\\bar X)=\\sigma_X^{2}/n$, so $SE(\\bar X)=\\sigma_X/\\sqrt n$. But $\\sigma_X$ is a **population** quantity — unknown unless we observe the entire population — so the formula is not directly usable. (Left panel: from the sample we only have access to $\\bar x$ and $s_x$.)
+
+2. **Plug-in estimator.** Replace $\\sigma_X$ with its unbiased estimator, the **sample standard deviation** $s_x$, giving
+$$\\widehat{SE}(\\bar X) \\;=\\; \\frac{s_x}{\\sqrt n} \\;=\\; \\frac{365.3158}{\\sqrt{668}} \\;\\approx\\; 14.13.$$
+This is itself an estimator: by the LLN $s_x \\xrightarrow{P} \\sigma_X$, so $\\widehat{SE}\\xrightarrow{P} SE$. For $n=668$ the plug-in is very accurate.
+
+3. **Point estimate.** The realised value $\\bar x = 930.27$ is **one draw** from the random variable $\\bar X$. The sampling distribution of $\\bar X$ is centred on $\\mu_X$ (unbiasedness) with spread $\\approx 14.13$ on the original scale (middle panel: three plausible values of $\\mu_X$ give three different bell curves, each consistent with our observed $\\bar x$ — we cannot tell which is the truth).
+
+4. **What the SE does and does not tell us.** $\\widehat{SE}$ describes the **typical** distance between $\\bar X$ and $\\mu_X$ across hypothetical resamples of size $n=668$ — a property of the *estimator*, not of our *specific* realisation. The deviation $|\\bar x - \\mu_X|$ for **this** sample is a single unknown number (it depends on the unknown $\\mu_X$). It could be smaller than $\\widehat{SE}$, equal to it, or several SEs away — we cannot tell from the SE alone. (Right panel: across $B=2000$ hypothetical resamples drawn from an assumed $\\mu$, the spread is $\\widehat{SE}$, but our observed $\\bar x$ is a single dot in that cloud.)
+
+5. **Bridge to inference.** To turn $\\widehat{SE}$ into a *probabilistic* statement about how far $\\bar x$ can be from $\\mu_X$, one needs a **distributional** assumption: under $X \\sim N(\\mu_X,\\sigma_X^2)$ (or by CLT for large $n=668$),
+$$T \\;=\\; \\frac{\\bar X - \\mu_X}{\\widehat{SE}} \\;\\sim\\; t_{n-1} \\;\\approx\\; N(0,1).$$
+This yields the confidence interval $\\bar x \\pm z_{1-\\alpha/2}\\,\\widehat{SE} = 930.27 \\pm 1.96\\cdot 14.13 = [902.6,\\,957.9]$ at 95%.
+
+![Ex 5.10b AI walkthrough](statistics/images/ex5/ex5_10b_ai.png)
 
 ---
 
@@ -883,10 +925,32 @@ $$
 obtained with `mean(Company$Profitability)`.
 
 **(d)** It is **not** possible to draw conclusions about this specific estimate from the population's characteristics. The SE only quantifies the dispersion of estimates produced by *generic* random samples of size $668$ around $\\mu_X$; it does **not** tell us the deviation of the *specific* available estimate, because that deviation $|\\bar x - \\mu_X|$ depends on the unknown parameter $\\mu_X$ and is therefore unknown.
-""", "images": []}
+""", "images": [
+    "statistics/images/ex5/ex5_10b_ai.png",
+]}
 
 ex5["5_13a1"] = {"title": "Ex 5.13 a1 — Unbiased estimator of mean monthly turnover (Milano)",
 "content": """**Question.** (dataframe `pizzerie`). Assume the monthly turnover `Sales` of pizzerias in Milan has known standard deviation $\\sigma = €11\\,500$. Denote by $\\mu$ the mean monthly turnover in the population of Milan pizzerias. **(a1)** Propose an unbiased estimator for $\\mu$, justify why it is unbiased (giving the definition of the property), and compute the estimate of $\\mu$ obtained from the sample in `pizzerie`.
+
+---
+
+**AI walkthrough.** Step by step:
+
+1. **Sampling model.** Treat the $n$ Milan pizzerias as i.i.d. draws $X_1,\\dots,X_n$ from a population with mean $\\mu$ and **known** variance $\\sigma^2 = 11\\,500^2$. We want an estimator $\\hat\\theta = T(X_1,\\dots,X_n)$ for $\\mu$.
+
+2. **Definition of unbiasedness.** $\\hat\\theta$ is **unbiased** for $\\theta$ iff $\\E[\\hat\\theta] = \\theta$ for *every* admissible value of $\\theta$. The bias is $\\Bias(\\hat\\theta) = \\E[\\hat\\theta] - \\theta$; an unbiased estimator has zero bias identically. (Left panel: across $B = 2000$ hypothetical resamples of size $n$, the histogram of $\\bar x$ is centred *exactly* on $\\mu = 32\\,000$ — the empirical average $32{,}020$ is within Monte-Carlo noise.)
+
+3. **Choosing the sample mean.** A natural candidate is $\\bar X = \\frac{1}{n}\\sum_{i=1}^n X_i$. By linearity of expectation,
+$$\\E[\\bar X] \\;=\\; \\frac{1}{n}\\sum_{i=1}^n \\E[X_i] \\;=\\; \\frac{1}{n}(n\\mu) \\;=\\; \\mu,$$
+so $\\bar X$ is **unbiased for every** $\\mu$ — no distributional assumption required.
+
+4. **Spread of the estimator.** Since the $X_i$ are independent,
+$$\\Var(\\bar X) \\;=\\; \\frac{\\sigma^2}{n}, \\qquad SE(\\bar X) \\;=\\; \\frac{\\sigma}{\\sqrt n} \\;=\\; \\frac{11\\,500}{\\sqrt n}.$$
+$\\sigma$ being **known** means $SE$ is exact, not estimated. (Right panel: doubling $n$ shrinks the SE by $\\sqrt 2$ — going from $n=30 \\to 60 \\to 120$ collapses the density around $\\mu$.)
+
+5. **Point estimate from the data.** Plug in the observed Milan sub-sample: $\\hat\\mu = \\bar x_{\\text{Mi}}$, computed in R by `mean(pizzerie$Sales[pizzerie$District=="Milano"])`. Different realised samples give different numerical values of $\\bar x$, but the *procedure* is unbiased: across all possible samples it averages out to $\\mu$.
+
+![Ex 5.13 a1 AI walkthrough](statistics/images/ex5/ex5_13a1_ai.png)
 
 ---
 
@@ -907,10 +971,27 @@ mean(pizzerie$Sales[pizzerie$District=="Milano"])
 ```
 
 The SE is $\\sigma/\\sqrt{n} = 11500/\\sqrt{n}$, since $\\sigma$ is known.
-""", "images": []}
+""", "images": [
+    "statistics/images/ex5/ex5_13a1_ai.png",
+]}
 
 ex5["5_13a2"] = {"title": "Ex 5.13 a2 — P(|estimate − μ| > SE) under Normality",
 "content": """**Question.** **(a2)** Is it possible to evaluate the probability that the distance (the absolute deviation) of our generic estimator from $\\mu$ is greater than the standard error? Specify whether specific assumptions are needed and, if so, provide the answer under those assumptions.
+
+---
+
+**AI walkthrough.** Reframe the event in standardised units, then check what we need to evaluate the resulting tail probability.
+
+1. **Standardise.** Define $Z = (\\bar X - \\mu)/SE(\\bar X)$. Then $|\\bar X - \\mu| > SE(\\bar X) \\iff |Z| > 1$. The target probability is just the **two-sided tail of $Z$ beyond $\\pm 1$**.
+2. **What distribution does $Z$ follow?** We can only compute $\\Prob{|Z|>1}$ once we know the law of $Z$. Two routes deliver $Z \\sim N(0,1)$:
+   - **Exact:** assume $X \\sim N(\\mu,\\sigma^2)$. Then $\\bar X \\sim N(\\mu,\\sigma^2/n)$ exactly, hence $Z \\sim N(0,1)$ exactly.
+   - **Approximate:** invoke the **CLT** for large $n$ — for any finite-variance $X$, $\\bar X \\overset{d}{\\to} N(\\mu,\\sigma^2/n)$, so $Z \\approx N(0,1)$.
+3. **Compute the tail.** Under $Z \\sim N(0,1)$, by symmetry of the Normal density:
+   $$\\Prob{|Z|>1} = 2\\bigl(1-\\Phi(1)\\bigr) = 2(1-0.8413) \\approx 0.3173.$$
+   So roughly **31.7%** of generic samples deviate from $\\mu$ by **more than one SE** — equivalently the empirical-rule "68% within $\\pm 1\\sigma$" sends $\\approx 32\\%$ outside.
+4. **Without Normality / CLT.** Only Chebyshev applies: $\\Prob{|Z|>1} \\le 1/1^2 = 1$ — totally uninformative. Hence the Normality / CLT assumption is **essential** to deliver a sharp answer.
+
+![Ex 5.13 a2 AI walkthrough](statistics/images/ex5/ex5_13a2_ai.png)
 
 ---
 
@@ -933,10 +1014,24 @@ $$
 ```
 
 Without the Normality / CLT assumption, the probability cannot be computed exactly — Chebyshev only gives the loose bound $\\Prob{|Z|>1} \\le 1$.
-""", "images": []}
+""", "images": [
+    "statistics/images/ex5/ex5_13a2_ai.png",
+]}
 
 ex5["5_13a3"] = {"title": "Ex 5.13 a3 — Proportion of no-smoking pizzerias + reliability",
 "content": """**Question.** **(a3)** Estimate the proportion of pizzerias in Milan in which smoking is **not** allowed (`SmokingArea = No`), specifying whether and what assumptions are needed to answer the question. What measures would you use to effectively communicate the *reliability* of the estimate?
+
+---
+
+**AI walkthrough.** Two pieces: a **point estimator** (sample proportion) and a **measure of precision** (SE + CI).
+
+1. **Model.** Encode each Milan pizzeria as a Bernoulli draw: $Y_i = \\mathbb{1}\\{\\text{SmokingArea}_i = \\text{No}\\}$, $Y_i \\sim \\text{Bern}(p)$ i.i.d. The natural unbiased estimator of $p$ is the **sample proportion** $\\hat p = \\bar Y = \\tfrac{1}{n}\\sum_i Y_i$. Unbiasedness: $\\E[\\hat p] = \\E[Y_1] = p$. **Only assumption needed for the point estimate:** the Milan sub-sample is i.i.d. — no distributional assumption beyond Bernoulli, which is automatic for a binary variable.
+2. **Variance of $\\hat p$.** Since $\\Var(Y_i) = p(1-p)$, $\\Var(\\hat p) = p(1-p)/n$. We don't know $p$, so plug in $\\hat p$: $\\widehat{se}(\\hat p) = \\sqrt{\\hat p(1-\\hat p)/n}$.
+3. **Communicating reliability.** Report (i) $\\widehat{se}(\\hat p)$ and (ii) an approximate **95% confidence interval** $\\hat p \\pm z_{0.975}\\,\\widehat{se}(\\hat p)$. The CI requires an extra **CLT** assumption to treat $\\hat p$ as approximately Normal — the rule-of-thumb check is $n\\hat p \\ge 5$ AND $n(1-\\hat p) \\ge 5$. Both hold easily here.
+4. **Illustrative numbers.** With (say) $n = 80$ Milan pizzerias and $\\hat p = 0.55$, $\\widehat{se}(\\hat p) = \\sqrt{0.55\\cdot 0.45/80} \\approx 0.0556$, giving 95% CI $\\approx [0.441,\\,0.659]$ — a fairly wide interval, signalling moderate precision; doubling $n$ shrinks SE by $\\sqrt{2}$.
+5. **Why SE+CI and not just $\\hat p$.** A bare estimate $\\hat p = 0.55$ hides whether it came from $n = 10$ or $n = 1000$. The SE quantifies the **typical sampling fluctuation**; the CI converts it into an interpretable range under repeated sampling.
+
+![Ex 5.13 a3 AI walkthrough](statistics/images/ex5/ex5_13a3_ai.png)
 
 ---
 
@@ -963,7 +1058,9 @@ phat + c(-1, 1) * qnorm(0.975) * se_phat
 ```
 
 **Reliability** of the estimate is best communicated through (i) the standard error $se(\\hat p)$, and (ii) an approximate **confidence interval** $\\hat p \\pm z_{1-\\alpha/2}\\, se(\\hat p)$, valid under the CLT when $n\\hat p \\ge 5$ and $n(1-\\hat p) \\ge 5$.
-""", "images": []}
+""", "images": [
+    "statistics/images/ex5/ex5_13a3_ai.png",
+]}
 
 ex5["5_13b"] = {"title": "Ex 5.13b — Difference of proportions: Milano vs Pavia",
 "content": """**Question.** **(b)** Estimate the **difference** between the proportion of pizzerias in which smoking is not allowed (`SmokingArea = No`) in **Milano** vs **Pavia**. Specify whether any assumptions are needed.

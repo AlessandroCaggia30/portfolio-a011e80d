@@ -19,8 +19,10 @@ ex4["4_1a"] = {
 1 - pnorm(10, mean=8, sd=1.2)
 ## [1] 0.04779035
 ```
+
+**Walkthrough.** The threshold $x = 10$ sits $z = (10-8)/1.2 \\approx 1.6667$ standard deviations above the mean — so $\\Pr(X > 10) = \\Pr(Z > 1.6667) \\approx 0.0478$. The shaded right tail in the figure is the overflow probability on both the original and the standardized scales.
 """,
-"images": [],
+"images": ["statistics/images/ex4/ex4_1a_ai.png"],
 }
 
 ex4["4_1b"] = {
@@ -35,8 +37,14 @@ ex4["4_1b"] = {
 pnorm(7.5, mean=8, sd=1.2)
 ## [1] 0.3384611
 ```
+
+**Walkthrough.** The threshold $x = 7.5$ sits $z = (7.5 - 8)/1.2 \\approx -0.4167$ standard deviations below the mean — less than half a $\\sigma$ to the left of $\\mu$. So $\\Pr(X < 7.5) = \\Pr(Z < -0.4167) \\approx 0.3385$. The shaded left tail in the figure marks this mass on both the original scale (cl) and the standardized $Z$-scale, with the same area in both panels.
 """,
-"images": [],
+"images": [
+    "statistics/images/ex4/questions/ex4_1b_question.png",
+    "statistics/images/ex4/answers/ex4_1b_answer.png",
+    "statistics/images/ex4/ex4_1b_ai.png",
+],
 }
 
 # ========== EXERCISE 4.2 (battery life) ==========
@@ -44,6 +52,8 @@ pnorm(7.5, mean=8, sd=1.2)
 ex4["4_2a"] = {
 "title": "Ex 4.2a — P(X < 24) for battery life X ~ N(27, 3.2²)",
 "content": """**Question.** The battery life of a particular cell phone model, after two years of use, is normally distributed with mean 27 hours and standard deviation of 3.2 hours. What is the probability that a cell phone of that model, after two years of use, will have a battery life of less than 24 hours?
+
+![Ex 4.2a question](statistics/images/ex4/questions/ex4_2a_question.png)
 
 ---
 
@@ -53,13 +63,51 @@ ex4["4_2a"] = {
 pnorm(24, mean=27, sd=3.2)
 ## [1] 0.1742507
 ```
+
+**Walkthrough.** The threshold $x = 24$ sits $z = (24-27)/3.2 = -0.9375$ standard deviations below the mean — slightly less than one $\\sigma$ to the left of $\\mu$. So $\\Pr(X < 24) = \\Pr(Z < -0.9375) \\approx 0.1743$. The shaded left tail in the figure marks this mass on both the original scale (hours) and the standardized $Z$-scale, with the same area in both panels.
+
+![Ex 4.2a AI walkthrough](statistics/images/ex4/ex4_2a_ai.png)
+
+---
+
+**Reference answer (textbook).**
+
+![Ex 4.2a answer](statistics/images/ex4/answers/ex4_2a_answer.png)
 """,
-"images": [],
+"images": [
+    "statistics/images/ex4/questions/ex4_2a_question.png",
+    "statistics/images/ex4/ex4_2a_ai.png",
+    "statistics/images/ex4/answers/ex4_2a_answer.png",
+],
 }
 
 ex4["4_2b"] = {
 "title": "Ex 4.2b — Minimum life of the longest-lasting 20% (80th percentile)",
 "content": """**Question.** What is the minimum battery life of the 20% of cell phones of that model that last the longest after two years of use?
+
+---
+
+**Setup.** Let $X$ denote the battery life (in hours) after two years of use. From Ex 4.2, $X \\sim N(\\mu, \\sigma^2)$ with $\\mu = 27$ and $\\sigma = 3.2$. The "longest-lasting 20%" are the phones whose battery life exceeds 80% of the others, i.e. those for which $X > q_{0.80}$, where $q_{0.80}$ is the **80-th percentile** of the distribution of $X$:
+
+$$
+\\Pr(X \\le q_{0.80}) \\;=\\; 0.80 \\qquad \\Longleftrightarrow \\qquad \\Pr(X > q_{0.80}) \\;=\\; 0.20.
+$$
+
+The minimum battery life of a "long-lasting" phone is exactly that threshold $q_{0.80}$.
+
+---
+
+**Closed-form via standardisation.** Using $Z = (X - \\mu)/\\sigma \\sim N(0,1)$,
+
+$$
+q_{0.80} \\;=\\; \\mu + z_{0.80}\\,\\sigma, \\qquad z_{0.80} \\;=\\; \\Phi^{-1}(0.80) \\;\\approx\\; 0.8416.
+$$
+
+Plugging in:
+
+$$
+q_{0.80} \\;=\\; 27 + 0.8416\\cdot 3.2 \\;=\\; 27 + 2.6932 \\;=\\; \\mathbf{29.6932}\\;\\text{hours}.
+$$
 
 ---
 
@@ -69,8 +117,32 @@ ex4["4_2b"] = {
 qnorm(0.8, 27, 3.2)
 ## [1] 29.69319
 ```
+
+Equivalently, via standardisation:
+```r
+27 + qnorm(0.8) * 3.2
+## [1] 29.69319
+qnorm(0.8)
+## [1] 0.8416212
+```
+
+A quick consistency check — the upper tail at $q_{0.80}$ should have mass $0.20$:
+```r
+1 - pnorm(29.69319, 27, 3.2)
+## [1] 0.2
+```
+
+---
+
+**AI walkthrough.**
+
+![Ex 4.2b AI walkthrough](statistics/images/ex4/ex4_2b_ai.png)
+
+**Interpretation.** The dashed red line marks $q_{0.80} = 29.6932$ hours. The shaded right tail has area $0.20$ — exactly the longest-lasting 20% of phones. The right-hand panel shows the equivalent picture on the **standard** scale: $z_{0.80} = 0.8416$, then unstandardised back to $x_{0.80} = \\mu + z_{0.80}\\sigma$.
 """,
-"images": [],
+"images": [
+    "statistics/images/ex4/ex4_2b_ai.png",
+],
 }
 
 # ========== EXERCISE 4.3 (private-label spending) ==========
@@ -89,8 +161,18 @@ What is the probability that a customer will spend more than 12 euros for privat
 1 - pnorm(12, 13.2, 1.2)
 ## [1] 0.8413447
 ```
+
+**Walkthrough.** Standardising, $z = (12 - 13.2)/1.2 = -1$, so
+
+$$
+\\Pr(X > 12) \\;=\\; \\Pr(Z > -1) \\;=\\; 1 - \\Phi(-1) \\;=\\; \\Phi(1) \\;\\approx\\; 0.8413.
+$$
+
+The threshold $x = 12$ sits **one standard deviation below the mean**, so the right tail above it covers the central mass plus the upper half — about 84% of the distribution. The figure shows the same shaded area on the original scale ($X$, left) and on the standardised scale ($Z$, right).
+
+![Ex 4.3a walkthrough](statistics/images/ex4/ex4_3a_ai.png)
 """,
-"images": [],
+"images": ["statistics/images/ex4/ex4_3a_ai.png"],
 }
 
 ex4["4_3b"] = {
@@ -99,14 +181,62 @@ ex4["4_3b"] = {
 
 ---
 
-**Answer.** The minimum expenditure of the 10% of "top" customers is the 90-th percentile of the distribution, and is equal to **14.7379**:
+**Setup.** Let $X$ denote a generic customer's expenditure on private-label products in a single receipt. From Ex 4.3, $X \\sim N(\\mu, \\sigma^2)$ with $\\mu = 13.2$ and $\\sigma = 1.2$. The "top 10% of customers" are those whose spending exceeds 90% of others, i.e. those for whom $X > q_{0.90}$, where $q_{0.90}$ is the **90-th percentile** of the distribution of $X$:
+
+$$
+\\Pr(X \\le q_{0.90}) \\;=\\; 0.90 \\qquad \\Longleftrightarrow \\qquad \\Pr(X > q_{0.90}) \\;=\\; 0.10.
+$$
+
+The minimum amount that a "top customer" spends is exactly that threshold $q_{0.90}$.
+
+---
+
+**Closed-form via standardisation.** Using $Z = (X - \\mu)/\\sigma \\sim N(0,1)$,
+
+$$
+q_{0.90} \\;=\\; \\mu + z_{0.90}\\,\\sigma, \\qquad z_{0.90} \\;=\\; \\Phi^{-1}(0.90) \\;\\approx\\; 1.2816.
+$$
+
+Plugging in:
+
+$$
+q_{0.90} \\;=\\; 13.2 + 1.2816\\cdot 1.2 \\;=\\; 13.2 + 1.5379 \\;=\\; \\mathbf{14.7379}\\;\\text{euros}.
+$$
+
+---
+
+**Answer.** The minimum expenditure of the 10% of "top" customers is the 90-th percentile of the distribution, and is equal to **€14.7379**:
 
 ```r
 qnorm(0.9, 13.2, 1.2)
 ## [1] 14.73786
 ```
+
+Equivalently, via standardisation:
+```r
+13.2 + qnorm(0.9) * 1.2
+## [1] 14.73786
+qnorm(0.9)
+## [1] 1.281552
+```
+
+A quick consistency check — the upper tail at $q_{0.90}$ should have mass $0.10$:
+```r
+1 - pnorm(14.73786, 13.2, 1.2)
+## [1] 0.1
+```
+
+---
+
+**AI walkthrough.**
+
+![Ex 4.3b AI walkthrough](statistics/images/ex4/ex4_3b_ai.png)
+
+**Interpretation.** The dashed red line marks $q_{0.90} = 14.7379$. The shaded right tail has area $0.10$ — exactly the top decile of customers. The right-hand panel shows the equivalent picture on the **standard** scale: $z_{0.90} = 1.2816$, then unstandardised back to $x_{0.90} = \\mu + z_{0.90}\\sigma$.
 """,
-"images": [],
+"images": [
+    "statistics/images/ex4/ex4_3b_ai.png",
+],
 }
 
 ex4["4_3c"] = {
@@ -150,19 +280,50 @@ The probability that at least 80% of the 150 customers will spend more than 12 E
 1 - pnorm(0.8, 0.8413, 0.0298)
 ## [1] 0.9171122
 ```
+
+---
+
+**AI walkthrough.** The trick is to go **one level up**: in 4.3a we computed the probability that *a single customer* spends more than €12 — call it $p = 0.8413$. Here we ask about the *proportion* of customers (out of $n = 150$) who do so. That proportion $\\bar P$ is itself a random variable; the CLT tells us its sampling distribution.
+
+1. **Single customer $\\to$ Bernoulli.** Define $W_i = \\mathbb 1\\{X_i > 12\\}$, so $W_i \\sim \\mathrm{Bernoulli}(p)$ with $p = \\Pr(X > 12) = 0.8413$ from 4.3a. Then $\\bar P = \\tfrac{1}{n}\\sum_{i=1}^{n} W_i$ — exactly the sample mean of i.i.d. Bernoulli trials.
+2. **CLT $\\Rightarrow$ Normal approximation.** With $n = 150$ (large), the CLT gives
+$$\\bar P \\;\\approx\\; N\\!\\left(p,\\; \\tfrac{p(1-p)}{n}\\right) \\;=\\; N(0.8413,\\; 0.0298^2), \\quad \\mathrm{SE}(\\bar P) = \\sqrt{p(1-p)/n} \\approx 0.0298.$$
+A quick rule-of-thumb check: $np = 126.2 \\gg 10$ and $n(1-p) = 23.8 \\gg 10$, so the normal approximation is safe.
+3. **Translate "at least 80%" to a tail event.** "At least 80% out of 150" $\\Leftrightarrow \\bar P > 0.80$. The threshold $0.80$ is **below** the mean $p = 0.8413$, so we expect a large probability (well over 50%).
+4. **Standardise.** $z = (0.80 - 0.8413)/0.0298 = -1.385$, so
+$$\\Pr(\\bar P > 0.80) \\;=\\; \\Pr(Z > -1.385) \\;=\\; \\Phi(1.385) \\;\\approx\\; 0.9171.$$
+5. **Take-away.** Because $0.80$ is about $1.4$ standard errors below the population proportion $p$, the event "$\\geq 80\\%$ of 150 customers spend more than €12" is very likely — roughly a **92%** chance. As $n$ grows, $\\mathrm{SE}(\\bar P)$ shrinks like $1/\\sqrt{n}$ and this tail probability gets even closer to 1.
+
+![Ex 4.3d AI walkthrough](statistics/images/ex4/ex4_3d_ai.png)
 """,
-"images": [],
+"images": [
+    "statistics/images/ex4/ex4_3d_ai.png",
+],
 }
 
 # ========== EXERCISE 4.4 (call-center — duration X ~ N(180, 1600)) ==========
 
 ex4["4_4a1"] = {
 "title": "Ex 4.4 a–c — Call duration: P(X>120), 15th percentile, P(X>5·60)",
-"content": """**Question.** A mobile phone company estimated that the duration of a customer's call to the call-center follows the normal distribution with mean 180 seconds and variance 1600 sec². Let $X \\sim N(180, 1600)$.
+"content": """<span class="exam-question-text">**Question.** A mobile phone company estimated that the duration of a customer's call to the call-center follows the normal distribution with mean 180 seconds and variance 1600 sec². Let $X \\sim N(180, 1600)$.
 
 **a)** Probability that a customer's call to the call center will last for more than 120 seconds, $\\Pr(X > 120)$.
 **b)** Maximum duration of the 15% shortest phone calls (15-th percentile).
-**c)** To avoid an excessive waiting time, consider interrupting the call (proposing a callback) if its duration is longer than 5 minutes. What is the proportion of phone calls that would be interrupted, $\\Pr(X > 5 \\cdot 60)$?
+**c)** To avoid an excessive waiting time, consider interrupting the call (proposing a callback) if its duration is longer than 5 minutes. What is the proportion of phone calls that would be interrupted, $\\Pr(X > 5 \\cdot 60)$?</span>
+
+![Ex 4.4 a–c question](statistics/images/ex4/questions/ex4_4a1_question.png)
+
+---
+
+**AI walkthrough.** The same Normal density $X\\sim N(180,\\,40^2)$ (since $\\sigma=\\sqrt{1600}=40$) drives all three questions — only the cut-off and tail change.
+
+1. **Pin down the parameters.** Mean $\\mu=180$ s, SD $\\sigma=\\sqrt{1600}=40$ s. So $X$ is centred at 3 min with a 40-second spread.
+2. **Part a — right tail at 120 s.** Standardise: $z=(120-180)/40=-1.5$. We want $\\Pr(X>120)=\\Pr(Z>-1.5)=\\Phi(1.5)\\approx 0.9332$. Most calls ($>93\\%$) last longer than 2 minutes — the cut-off sits 1.5 SDs *below* the mean.
+3. **Part b — left-tail percentile.** Invert the CDF at 0.15: $z_{0.15}=\\Phi^{-1}(0.15)\\approx -1.0364$. Un-standardise: $q_{0.15}=\\mu+z_{0.15}\\,\\sigma=180-1.0364\\cdot 40\\approx 138.54$ s. The shortest 15% of calls finish within $\\approx 2$ min 18 s.
+4. **Part c — far right tail at 5 min.** With cut-off 300 s, $z=(300-180)/40=3$. Three SDs in the right tail $\\Rightarrow \\Pr(X>300)=1-\\Phi(3)\\approx 0.00135$. Only $\\approx 0.135\\%$ of calls would be interrupted — a *very* permissive policy.
+5. **Take-away.** Switch between "probability of a cut-off" (`pnorm`) and "cut-off at a given probability" (`qnorm`); a sketch of the density with the target tail/percentile shaded prevents 1−p mistakes.
+
+![Ex 4.4 a–c AI walkthrough](statistics/images/ex4/ex4_4a1_ai.png)
 
 ---
 
@@ -185,17 +346,42 @@ qnorm(0.15, 180, sqrt(1600))
 1 - pnorm(300, 180, sqrt(1600))
 ## [1] 0.001349898
 ```
+
+---
+
+**Reference answer.**
+
+![Ex 4.4 a–c answer](statistics/images/ex4/answers/ex4_4a1_answer.png)
 """,
-"images": [],
+"images": [
+    "statistics/images/ex4/questions/ex4_4a1_question.png",
+    "statistics/images/ex4/ex4_4a1_ai.png",
+    "statistics/images/ex4/answers/ex4_4a1_answer.png",
+],
 }
 
 ex4["4_4b"] = {
 "title": "Ex 4.4 d–g — Sum of 5 calls, sample of 210, CLT for proportion",
-"content": """**Question.**
+"content": """<span class="exam-question-text">**Question.** A mobile phone company estimated that the duration $X$ of a customer's call to the call-center follows $X\\sim N(180, 1600)$ (in seconds).
+
 **d)** Let $S$ denote the total duration of 5 calls (random sample): probability that processing all the calls takes more than 15 minutes (900 sec)?
 **e)** Suppose 210 calls come into the call center in a specific time slot on a business day; excluding 10% of the most extreme scenarios, what is the interval in which we can expect the total time required to process all calls to vary?
 **f)** Suppose 600 calls come into the call center. Assume that 12% of calls are resolved without an intervention by the operator. What is the probability that at least 15% of these 600 calls will be resolved without operator intervention?
-**g)** Discuss for each of the previous points (a–f) under what assumptions on $X$ the calculation is justified.
+**g)** Discuss for each of the previous points (a–f) under what assumptions on $X$ the calculation is justified.</span>
+
+![Ex 4.4 d–g question](statistics/images/ex4/questions/ex4_4b_question.png)
+
+---
+
+**AI walkthrough.** All three numerical parts boil down to writing the right sampling distribution and reading a tail/quantile off the Normal. The key is whether normality is assumed for $X$ or earned via CLT.
+
+1. **Part d — sum of $n=5$ normals.** Independence + normality give $S=\\sum_{i=1}^{5} X_i \\sim N(5\\mu,\\,5\\sigma^2) = N(900,\\,8000)$. The cut-off 900 s **is** the mean, so $\\Pr(S>900)=0.5$ exactly. No CLT needed — the answer relies on the input being Normal.
+2. **Part e — sum of $n=210$ calls.** Same rule: $S\\sim N(210\\cdot 180,\\,210\\cdot 1600)=N(37800,\\,336000)$. With $n=210$ large, CLT does the heavy lifting — $X$ need *not* be Normal. The central 90% interval is just the 5-th and 95-th percentiles of this distribution: $[\\,q_{0.05},\\,q_{0.95}\\,] \\approx [36846.55,\\,38753.45]$ s ($\\approx 10.235$ to $10.765$ h).
+3. **Part f — sample proportion.** Each call is Bernoulli($p=0.12$); the sample proportion of "no-operator" calls in $n=600$ trials is, by CLT for proportions, $\\bar P\\approx N\\!\\left(p,\\,\\frac{p(1-p)}{n}\\right)=N(0.12,\\,1.76\\times 10^{-4})$. Standardising the cut-off 0.15: $z=(0.15-0.12)/\\sqrt{0.12\\cdot 0.88/600}\\approx 2.26$, so $\\Pr(\\bar P>0.15)\\approx 0.0119$ — about a 1% chance.
+4. **Part g — normality assumptions.** **a, b, c**: rely directly on $X$'s distribution, so Normality of $X$ is *essential*. **d**: small $n=5$, sum of normals — Normality still needed. **e**: $n=210$, CLT covers us — $X$ need not be Normal. **f**: only requires CLT for proportions ($n=600$ Bernoulli), so Normality of $X$ is irrelevant.
+5. **Take-away.** Translate the question into the sampling distribution first; only then choose `pnorm` (tail) vs. `qnorm` (quantile). Whether you need an assumption on $X$ depends entirely on the **sample size** and on whether you sum the $X$'s or count Bernoulli successes.
+
+![Ex 4.4 d–g AI walkthrough](statistics/images/ex4/ex4_4b_ai.png)
 
 ---
 
@@ -225,8 +411,18 @@ The probability that at least 15% of these calls will be resolved without an int
 ```
 
 **g)** Points **a, b, c** rely directly on the distribution of $X$ — the assumption of normality is crucial there. Point **d** requires the assumption of normality (small sample $n = 5$, sum of normals). Point **e** involves a larger sample so by the CLT the distribution of $X$ need not be normal. Point **f** requires only that the proportion can be approximated by a Normal (CLT for proportions: only Bernoulli, not normal, is needed).
+
+---
+
+**Reference answer.**
+
+![Ex 4.4 d–g answer](statistics/images/ex4/answers/ex4_4b_answer.png)
 """,
-"images": [],
+"images": [
+    "statistics/images/ex4/questions/ex4_4b_question.png",
+    "statistics/images/ex4/ex4_4b_ai.png",
+    "statistics/images/ex4/answers/ex4_4b_answer.png",
+],
 }
 
 # ========== EXERCISE 4.5 (take-away — X (order) + Y (filling), rho = 0.22) ==========
@@ -243,6 +439,20 @@ ex4["4_5"] = {
 **a)** Calculate the expected value and the standard deviation of the time it takes for a customer to pick up his or her order.
 **b)** Is it possible to calculate the probability that the time (the sum of point **a**) is more than 7 minutes? Under what assumptions?
 **c)** Determine whether and how the previous results would change if $X$ and $Y$ were independent.
+
+![Ex 4.5 question](statistics/images/ex4/questions/ex4_5_question.png)
+
+---
+
+**AI walkthrough.** This is the canonical "linear combination of correlated normals" template — three connected ideas, none of them more than one line of algebra each.
+
+1. **Linearity of expectation is unconditional.** $E[X+Y]=E[X]+E[Y]=3.5+1.6=\\mathbf{5.1}$ minutes — true with *or* without independence, with *or* without normality. Always start here; it never depends on $\\rho$.
+2. **Variance of a sum carries a covariance term.** $\\mathrm{Var}(X+Y)=\\sigma_X^2+\\sigma_Y^2+2\\,\\mathrm{Cov}(X,Y)$, with $\\mathrm{Cov}(X,Y)=\\rho\\,\\sigma_X\\sigma_Y=0.22\\cdot 1.5\\cdot 0.2=0.066$. Plug in: $\\mathrm{Var}(T)=2.25+0.04+2(0.066)=\\mathbf{2.422}$, so $\\sigma_T=\\sqrt{2.422}\\approx\\mathbf{1.5563}$. Panel (a) shows that $\\mathrm{Var}(X)$ dominates ($\\approx 93\\%$ of the total) but the covariance bump ($+0.132$) is still $\\approx 5.5\\%$ of $\\mathrm{Var}(T)$ — small, but not zero.
+3. **Tail probabilities need a distributional assumption.** $\\mu_T$ and $\\sigma_T$ alone do *not* give $\\Pr(T>7)$. The standard add-on assumption is **bivariate normality** of $(X,Y)$: any linear combination of jointly normal r.v.s is itself normal, so $T\\sim N(5.1,\\,1.5563^2)$. Standardise: $z=(7-5.1)/1.5563\\approx 1.221$, hence $\\Pr(T>7)=\\Pr(Z>1.221)\\approx\\mathbf{0.1111}$. About **1 customer in 9** waits more than 7 minutes.
+4. **Independence kills the covariance term only.** Set $\\rho=0$: $\\mathrm{Var}(T)=2.29$, $\\sigma_T\\approx 1.5133$ — the mean is unchanged. Under the same normality assumption, $\\Pr(T>7)\\approx\\mathbf{0.1046}$. Positive correlation *fattens* the right tail by $+0.0064$ ($\\approx +6\\%$ relative): when $X$ runs long, $Y$ tends to run long *too*, so extreme totals are slightly more likely. Panel (c) overlays the two densities — same centre, slightly wider when $\\rho>0$.
+5. **Why a *positive* $\\rho$ makes intuitive sense here.** Busy moments at the counter lengthen both the ordering step *and* the filling step (more staff load, more queue), so the two times move together. A negative $\\rho$ would have shrunk $\\mathrm{Var}(T)$ below the independent baseline — a useful sanity check whenever the correlation flips sign.
+
+![Ex 4.5 AI walkthrough](statistics/images/ex4/ex4_5_ai.png)
 
 ---
 
@@ -279,21 +489,47 @@ leading to a standard deviation of $\\sqrt{2.29} \\approx 1.5133$. Under the ass
 1 - pnorm(7, 5.1, 1.5133)
 ## [1] 0.1045973
 ```
+
+---
+
+**Reference answer.**
+
+![Ex 4.5 answer](statistics/images/ex4/answers/ex4_5_answer.png)
 """,
-"images": [],
+"images": [
+    "statistics/images/ex4/questions/ex4_5_question.png",
+    "statistics/images/ex4/ex4_5_ai.png",
+    "statistics/images/ex4/answers/ex4_5_answer.png",
+],
 }
 
 # ========== EXERCISE 4.6 (bus travel — find sigma from quartiles, then CLT) ==========
 
 ex4["4_6"] = {
 "title": "Ex 4.6 — Bus travel: find σ from quartiles, P(X>120), 30th pct, CLT, +15%",
-"content": """**Question.** The time taken by a bus to travel its entire route on a working day without any special events is assumed to be normally distributed. Based on past experience, on 25% of days with less traffic the time taken is at most 80 minutes, while on 25% of days with more traffic it is at least 100 minutes. The two quartiles are therefore $q_1 = 80$ and $q_3 = 100$, the middle point between them being 90 minutes (the assumed mean).
+"content": """<span class="exam-question-text">**Question.** The time taken by a bus to travel its entire route on a working day without any special events is assumed to be normally distributed. Based on past experience, on 25% of days with less traffic the time taken is at most 80 minutes, while on 25% of days with more traffic it is at least 100 minutes. The two quartiles are therefore $q_1 = 80$ and $q_3 = 100$, the middle point between them being 90 minutes (the assumed mean).
 
 **a1)** Find the expected value and the standard deviation of the time taken by the bus to travel its entire route (round intermediate results to 4 decimals).
 **a2)** Probability that on a generic workday without special events the bus takes more than 2 hours, $\\Pr(X > 120)$.
 **a3)** The travel time exceeded on 70% of days (30-th percentile).
 **a4)** Travel time is monitored on 45 days (simple random sample). What is the probability that the bus takes less than 82 minutes on at least 10% of the days?
-**b)** In case of special events that cause an increase in the level of traffic, the travel time increases by 15%, so $Y = 1.15\\,X$. Redo parts **a2–a4** under this scenario.
+**b)** In case of special events that cause an increase in the level of traffic, the travel time increases by 15%, so $Y = 1.15\\,X$. Redo parts **a2–a4** under this scenario.</span>
+
+![Ex 4.6 question](statistics/images/ex4/questions/ex4_6_q.png)
+
+---
+
+**AI walkthrough.** All five sub-parts ride on the *same* Normal $X\\sim N(90,\\sigma^2)$ — only $\\sigma$ has to be calibrated first, then everything follows mechanically.
+
+1. **Anchor the mean.** The "middle point" between the two quartiles is the mean by symmetry of a Normal: $\\mu = (80 + 100)/2 = 90$.
+2. **Calibrate $\\sigma$ from a quartile.** $\\Pr(X<80)=0.25$ means $(80-90)/\\sigma=\\Phi^{-1}(0.25)\\approx -0.6745$, hence $\\sigma=10/0.6745\\approx \\mathbf{14.826}$. The same number falls out of $q_3=100$ by symmetry — useful as a sanity check.
+3. **Part a2 — right tail at 120 min.** Standardise: $z=(120-90)/14.826\\approx 2.024$. Two SDs into the right tail $\\Rightarrow\\Pr(X>120)\\approx \\mathbf{0.0215}$ — buses *rarely* take more than 2 hours on a normal day.
+4. **Part a3 — "exceeded on 70% of days" = 30-th percentile.** Invert the CDF at 0.30: $q_{0.30}=90+\\Phi^{-1}(0.30)\\cdot 14.826\\approx 90-0.5244\\cdot 14.826\\approx \\mathbf{82.25}$ min.
+5. **Part a4 — CLT for a proportion.** $p=\\Pr(X<82)\\approx 0.2947$. For a 45-day sample, $\\bar P\\approx N(p,\\,p(1-p)/n)$ with SE $=\\sqrt{0.2947\\cdot 0.7053/45}\\approx 0.068$. The threshold 0.10 sits $\\approx (0.10-0.2947)/0.068\\approx -2.87$ SDs *below* the mean of $\\bar P$ — so $\\Pr(\\bar P>0.10)\\approx \\mathbf{0.998}$. Almost certainly the proportion exceeds 10%.
+6. **Part b — multiply by 1.15.** $Y=1.15X$ is still Normal: $E[Y]=103.5$, $\\sigma_Y=1.15\\cdot 14.826\\approx 17.05$. The right tail shifts visibly: $\\Pr(Y>120)\\approx \\mathbf{0.1666}$ — about **8× larger** than the baseline 0.0215. Similarly $q_{0.30}(Y)\\approx 94.56$ and $\\Pr(Y<82)\\approx 0.1037$.
+7. **Take-away.** A linear scaling $Y=aX$ moves *both* $\\mu$ and $\\sigma$ by the factor $a$, which is why a "small" 15% traffic shock blows up the probability of taking >2 hours from 2% to 17%. The CLT step is independent of the scaling — only $p$ and $n$ matter for the sampling distribution of $\\bar P$.
+
+![Ex 4.6 AI walkthrough](statistics/images/ex4/ex4_6_ai.png)
 
 ---
 
@@ -361,8 +597,18 @@ Probability of travel time below 82 minutes:
 pnorm(82, 1.15*90, 1.15*14.826)
 ## [1] 0.1036536
 ```
+
+---
+
+**Reference answer.**
+
+![Ex 4.6 answer](statistics/images/ex4/answers/ex4_6_a.png)
 """,
-"images": [],
+"images": [
+    "statistics/images/ex4/questions/ex4_6_q.png",
+    "statistics/images/ex4/ex4_6_ai.png",
+    "statistics/images/ex4/answers/ex4_6_a.png",
+],
 }
 
 # ========== EXERCISE 4.7 (airport: B + D, bivariate normal) ==========
@@ -373,6 +619,21 @@ ex4["4_7"] = {
 
 **a)** What is the distribution of the time required to pass both checks ($Y = B + D$)?
 **b)** Your flight leaves at 5 p.m. and you want to be done with security at least 45 minutes before your flight. At what time should you show up so that the probability of getting through security in the desired time is at least 90%?
+
+---
+
+**AI walkthrough.** Two independent ingredients: (i) the **distribution of $Y$** (a linear combination of jointly normal r.v.s is normal — only mean and variance to compute), and (ii) the **90-th percentile** (how long security can take on the worst 10% of days).
+
+1. **Mean of $Y$.** Linearity of expectation: $E[Y]=E[B]+E[D]=10+3=13$ min.
+2. **Variance of $Y$.** Variance of a sum is *not* just the sum of variances when correlated — add $2\\,\\mathrm{Cov}(B,D)$:
+$$\\mathrm{Cov}(B,D)=\\rho\\,\\sigma_B\\,\\sigma_D = 0.4375\\cdot 2\\cdot 1 = 0.875,\\qquad \\mathrm{Var}(Y)=4+1+2(0.875)=6.75.$$
+So $\\sigma_Y=\\sqrt{6.75}\\approx 2.598$ min.
+3. **Why normal?** Jointly normal $\\Rightarrow$ any linear combination is normal — no CLT needed, no sample size involved. $Y\\sim N(13,\\,6.75)$.
+4. **90-th percentile of $Y$.** We want $q$ with $P(Y\\le q)=0.90$, i.e. plan for "all but the worst 10% of days":
+$$q_{0.90}= 13 + z_{0.90}\\cdot\\sqrt{6.75} = 13 + 1.2816\\cdot 2.598 \\approx 16.33 \\text{ min}.$$
+5. **From "security time" to "arrival time".** You want to be **done** with security $\\geq 45$ min before takeoff. Allow $q_{0.90}\\approx 16.33$ min for the security queue itself, then a $45$-min buffer: total $\\approx 61.33$ min before 17:00, i.e. arrival at **15:59**.
+
+![Ex 4.7 AI walkthrough](statistics/images/ex4/ex4_7_ai.png)
 
 ---
 
@@ -398,7 +659,9 @@ qnorm(0.9, 13, sqrt(6.75))
 
 So you need to allow about **16.33 minutes** for security. Adding 45 minutes for buffer, you should be at the airport at least $45 + 16.33 \\approx 61.33$ minutes before the flight. If the flight leaves at 5:00 p.m., you should arrive at around **3:59 p.m.**
 """,
-"images": [],
+"images": [
+    "statistics/images/ex4/ex4_7_ai.png",
+],
 }
 
 # ========== EXERCISE 4.8 (bivariate normal G = 0.4X + 0.6Y) ==========
