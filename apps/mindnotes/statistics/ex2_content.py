@@ -396,9 +396,48 @@ c(Q1 = Q1, Q3 = Q3, IQR = IQR.approx)
 
 ex2["2_2f"] = {
 "title": "Ex 2.2f — Compare SD and CV: primary vs middle school pupils",
-"content": """**Question.** On a sample of 250 middle school pupils the following summaries were observed: mean equal to 35.51 hours and variance equal to 600.84 hours². Compare the standard deviation and the coefficient of variation for pupils in primary and middle school. What information is provided by the two measures, and how would you interpret them with reference to the considered data?
+"content": """**Question.**
+
+![Ex 2.2f question](statistics/images/ex2/questions/ex2_2f_question.png)
+
+On a sample of 250 middle school pupils the following summaries were observed: mean equal to 35.51 hours and variance equal to 600.84 hours². Compare the standard deviation and the coefficient of variation for pupils in primary and middle school. What information is provided by the two measures, and how would you interpret them with reference to the considered data?
 
 """ + EX22_PROMPT_TABLE + """
+
+---
+
+**Setup.** Dispersion can be reported on **two distinct scales**: (i) the **standard deviation** $s$ — same units as the variable (hours here), measuring the "average distance" of observations from the mean — and (ii) the **coefficient of variation** $\\mathrm{CV} = s/\\bar x$ — a pure number, rescaling $s$ by the mean so that two distributions with **different means** become comparable. The question asks for both, on the primary-school sample (whose moments come from point c) and on the middle-school sample (whose moments are *given* in the prompt).
+
+---
+
+**AI walkthrough.**
+
+**1. Plug numbers into $s = \\sqrt{s^{2}}$ and $\\mathrm{CV} = s/\\bar x$.**
+
+| School | $n$ | $\\bar x$ (hours) | $s^{2}$ (hours²) | $s = \\sqrt{s^{2}}$ | $\\mathrm{CV} = s/\\bar x$ |
+|:-------|---:|------------------:|-----------------:|-------------------:|--------------------------:|
+| Primary (from 2.2c) | 300 | $23.375$ | $106.1507$ | $\\sqrt{106.1507}\\approx 10.303$ | $10.303/23.375 \\approx 0.441$ |
+| Middle (prompt)     | 250 | $35.51$  | $600.84$   | $\\sqrt{600.84}\\approx 24.51$    | $24.51/35.51 \\approx 0.690$  |
+
+**2. Absolute scale ($s$, hours).** $s_M = 24.51 > s_P = 10.30$ — the typical deviation from the mean is **more than twice** as large for middle-school pupils. In concrete terms, a "standard" weekly usage falls in:
+$$
+[\\bar x_P - s_P,\\; \\bar x_P + s_P] \\;\\approx\\; [13.07,\\; 33.68] \\text{ hours (primary)},
+$$
+$$
+[\\bar x_M - s_M,\\; \\bar x_M + s_M] \\;\\approx\\; [11.00,\\; 60.02] \\text{ hours (middle)}.
+$$
+The middle-school band is **about $2.4\\times$ wider** ($49\\,h$ vs $20.6\\,h$), even though the lower endpoints are similar — the right edge stretches dramatically to the right.
+
+**3. Relative scale (CV, pure number).** Both means are themselves different, so dividing $s$ by $\\bar x$ rescales the spread on a common (dimensionless) ruler:
+$$
+\\mathrm{CV}_P \\approx 0.44 \\;(44\\%\\text{ of the mean}),\\qquad
+\\mathrm{CV}_M \\approx 0.69 \\;(69\\%\\text{ of the mean}).
+$$
+The middle-school CV is **still larger** — about $1.56\\times$ the primary one — so the verdict on which group is more heterogeneous **does not flip** when we switch scales (contrast with Ex 2.3a, where the absolute and relative rankings disagree).
+
+**4. Interpretation in words.** For primary-school pupils a "standard" weekly usage lies between $56\\%$ and $144\\%$ of the average ($\\bar x_P \\pm s_P$ in relative terms); for middle-school pupils it lies between $31\\%$ and $169\\%$ — a much wider relative band. Middle-school pupils are therefore more heterogeneous **both** in absolute hours **and** relative to their own (already higher) mean. Reading the figure: the left panel shows the two $\\bar x \\pm s$ bands on the same hours-axis (middle-school band visibly wider); the right panel puts the two scales side by side as bars — navy $s$ (left axis) and warm-yellow CV (right axis) — confirming the middle-school sample wins on both rulers.
+
+![Ex 2.2f AI walkthrough — SD vs CV across schools](statistics/images/ex2/ex2_2f_ai.png)
 
 ---
 
@@ -421,8 +460,18 @@ rbind(primary = c(sd = sd.p, cv = cv.p),
 ## primary 10.30295 0.4407672
 ## middle  24.51204 0.6902575
 ```
+
+---
+
+**Reference answer.**
+
+![Ex 2.2f answer](statistics/images/ex2/answers/ex2_2f_answer.png)
 """,
-"images": [],
+"images": [
+    "statistics/images/ex2/questions/ex2_2f_question.png",
+    "statistics/images/ex2/ex2_2f_ai.png",
+    "statistics/images/ex2/answers/ex2_2f_answer.png",
+],
 }
 
 # ============== EXERCISE 2.3 (DS — AmountSpent) ==============
@@ -462,6 +511,51 @@ ex2["2_3b"] = {
 
 ---
 
+**Setup.** "Extreme high expenditure" is operationalised through the **Tukey upper fence**: an observation is an **upper outlier** iff
+$$
+x_i \\;>\\; F_U \\;:=\\; Q_3 + 1.5\\,\\mathrm{IQR}, \\qquad \\mathrm{IQR} = Q_3 - Q_1.
+$$
+The procedure is therefore: (i) get $Q_1$, $Q_3$, $\\mathrm{IQR}$; (ii) compute $F_U$; (iii) count the observations above $F_U$. The $1.5$ multiplier is a Tukey convention chosen so that under a roughly bell-shaped distribution outliers are rare ($<1\\%$ in each tail); whether $F_U$ flags genuinely anomalous customers — or just the natural right tail of a skewed spending distribution — must always be cross-checked with the **boxplot** and the **histogram** (see 2.3c for the right-skew diagnosis here).
+
+---
+
+**AI walkthrough.**
+
+**1. Pull the five-number summary from R.**
+
+```r
+distr.summary.x(AmountSpent, stats="summary", data=DS)
+##  n n.a min q1 median mean   q3   max  sd     var
+## 750  0  38  451  983 1228.44 1713.75 5878 970 940900.9
+```
+
+So $Q_1 = 451$, $Q_3 = 1713.75$, $\\mathrm{IQR} = Q_3 - Q_1 = 1262.75$, $\\min = 38$, $\\max = 5\\,878$.
+
+**2. Construct the upper fence.**
+
+$$
+F_U \\;=\\; Q_3 + 1.5\\,\\mathrm{IQR} \\;=\\; 1713.75 + 1.5 \\times 1262.75 \\;=\\; 1713.75 + 1894.125 \\;=\\; 3607.875.
+$$
+
+Sanity check: $\\max = 5\\,878 > F_U$, so **at least one** upper outlier must exist (the maximum itself). The lower fence $F_L = Q_1 - 1.5\\,\\mathrm{IQR} = 451 - 1894.125 = -1443.125 < 0$, but `AmountSpent` $\\ge 0$ by construction — so there are **no** lower outliers and the whole question is about the right tail.
+
+**3. Count them.**
+
+```r
+sum(DS$AmountSpent > 3607.875)
+## [1] 17
+```
+
+**17 customers out of 750** ($\\approx 2.3\\%$ of the sample) spend more than $F_U$. These are the "extreme spenders" the analyst is after.
+
+**4. Read the picture.** The left panel shows the boxplot with $F_U$ drawn as the red dashed line; the $\\mathrm{IQR}$ bracket and the $1.5\\,\\mathrm{IQR}$ extension are annotated above $Q_3$ so the construction is transparent. The right panel overlays $F_U$ on the histogram: the bars whose left edge sits past $F_U$ are recoloured red — those are exactly the 17 outliers. Two things are immediately visible from the boxplot alone: (a) **outliers exist** (the right whisker stops well before the maximum, with stray dots beyond it), (b) the distribution is **right-skewed** (median much closer to $Q_1$ than to $Q_3$, long right tail) — the topic of 2.3c.
+
+**5. Caveat on visual counting.** Reading the *number* of outliers off the boxplot is unreliable: stacked dots in R's `distr.plot.x` can collapse into a single visual mark when many observations share the same value. Use `sum(x > Q3 + 1.5*IQR)` for the count, and the boxplot only for the **existence** of outliers and the **shape** diagnosis.
+
+![Ex 2.3b AI walkthrough — upper fence and outlier identification](statistics/images/ex2/ex2_3b_ai.png)
+
+---
+
 **Answer.** To assess whether there are customers with 'extreme' high expenditures, we need to verify whether there are any **upper outliers** in the distribution of the variable `AmountSpent`. At this aim, we first compute the main summary measures of the distribution:
 
 ```r
@@ -485,7 +579,10 @@ distr.plot.x(AmountSpent, plot.type = "boxplot", data=DS)
 
 It is immediately evident that there are outliers (as the right whisker extends from the third quartile to the highest value below $Q_3 + 1.5(Q_3 - Q_1)$). However, it is **not** possible from the plot to identify exactly the limit of the right whisker nor to count the number of outliers correctly (the points reported could be related to several observations in the case of repeated data).
 """,
-"images": ["statistics/images/ex2_3bc-amountspent-box-hist.png"],
+"images": [
+    "statistics/images/ex2/ex2_3b_ai.png",
+    "statistics/images/ex2_3bc-amountspent-box-hist.png",
+],
 }
 
 ex2["2_3c"] = {
@@ -594,9 +691,59 @@ approx(cumprop, endpoints, xout = 0.90)$y
 
 ex2["2_4d"] = {
 "title": "Ex 2.4d — Variability: range, IQR, mean and SD from the ogive",
-"content": """**Question.** To measure the variability, the range is not recommended because the lower endpoint of the first class, 0, seems not an accurate value for the minimum. Compute the IQR, variance and SD.
+"content": """**Question.**
+
+![Ex 2.4d question](statistics/images/ex2/questions/ex2_4d_question.png)
+
+To measure the variability, the range is not recommended because the lower endpoint of the first class, 0, seems not an accurate value for the minimum. Compute the IQR, variance and SD.
 
 """ + EX24_TABLE + """
+
+---
+
+**Setup.** For **grouped data** (we only have the ogive — class endpoints and cumulative frequencies — not the raw observations), the standard practice is to **approximate** each observation by the **midpoint** $m_k$ of its class. The mean, the mean of squares and the variance then become weighted sums with the **relative frequencies** $p_k$ as weights. The range $R = \\max - \\min$ is unreliable here because the "min" is just the lower endpoint of the first class ($0$), not an actually observed value — so we report $\\mathrm{IQR}$, $\\sigma^2$ and $\\sigma$ instead.
+
+---
+
+**AI walkthrough.**
+
+**Step 1 — IQR (carried over from 2.4b).** Linear interpolation on the ogive gives $Q_1 = 22.5$ and $Q_3 = 72$, hence
+
+$$
+\\mathrm{IQR} \\;=\\; Q_3 - Q_1 \\;=\\; 49.5.
+$$
+
+**Step 2 — Mean by midpoint-mass.** With midpoints $m_k$ and relative frequencies $p_k$:
+
+| Class | $m_k$ | $p_k$ | $m_k\\,p_k$ | $m_k^2\\,p_k$ |
+|:------|------:|------:|------------:|--------------:|
+| $[0,10)$    | 5   | 0.10 | 0.50  | 2.50    |
+| $[10,20)$   | 15  | 0.10 | 1.50  | 22.50   |
+| $[20,30)$   | 25  | 0.20 | 5.00  | 125.00  |
+| $[30,60)$   | 45  | 0.25 | 11.25 | 506.25  |
+| $[60,90)$   | 75  | 0.25 | 18.75 | 1406.25 |
+| $[90,150]$  | 120 | 0.10 | 12.00 | 1440.00 |
+| **Total**   |     | 1.00 | **49.00** | **3502.50** |
+
+$$
+\\bar x \\;\\approx\\; \\sum_k m_k\\,p_k \\;=\\; 49, \\qquad E[X^2] \\;\\approx\\; \\sum_k m_k^2\\,p_k \\;=\\; 3502.5.
+$$
+
+**Step 3 — Variance with Bessel correction.** Using the shortcut $E[X^2] - \\bar x^2$ and then multiplying by $n/(n-1)$ (because R's default `var` divides by $n-1$, not $n$):
+
+$$
+\\sigma^2 \\;\\approx\\; (3502.5 - 49^2) \\cdot \\frac{2000}{1999} \\;=\\; 1101.5 \\cdot 1.0005 \\;=\\; 1102.051.
+$$
+
+$$
+\\sigma \\;\\approx\\; \\sqrt{1102.051} \\;=\\; 33.197.
+$$
+
+**Step 4 — Why we skip the range.** The range $R = 150 - 0 = 150$ would more than triple $\\sigma$, but its endpoints are **class boundaries**, not observed values, so the apparent spread is partly an artifact of the binning. $\\mathrm{IQR} = 49.5$ (close to $\\bar x = 49$) and $\\sigma = 33.20$ are both **interpolated** but rely on the bulk of the data, not on the (unreliable) extremes.
+
+**Step 5 — Relative spread (CV).** $\\mathrm{CV} = \\sigma/\\bar x \\approx 33.20/49 \\approx 0.68$ — the "typical" deviation is about $68\\%$ of the mean. The distribution is **highly heterogeneous** (a CV close to or above $0.5$ already signals strong dispersion).
+
+![Ex 2.4d AI walkthrough — IQR, variance, SD from the ogive](statistics/images/ex2/ex2_4d_ai.png)
 
 ---
 
@@ -628,8 +775,18 @@ var.approx
 sqrt(var.approx)
 ## [1] 33.19715
 ```
+
+---
+
+**Reference answer.**
+
+![Ex 2.4d answer](statistics/images/ex2/answers/ex2_4d_answer.png)
 """,
-"images": [],
+"images": [
+    "statistics/images/ex2/questions/ex2_4d_question.png",
+    "statistics/images/ex2/ex2_4d_ai.png",
+    "statistics/images/ex2/answers/ex2_4d_answer.png",
+],
 }
 
 # ============== EXERCISE 2.5 (customer_habits Age) ==============
@@ -678,7 +835,44 @@ Based on the available sample, **5% of the youngest customers are at most 32 yea
 
 ex2["2_5c"] = {
 "title": "Ex 2.5c — Proportions in overlapping age intervals",
-"content": """**Question.** Determine the proportions of customers in ages 20-40, 30-50, 40-60, and over 50. Which target group is the best?
+"content": """**Question.**
+
+![Ex 2.5c question](statistics/images/ex2/questions/ex2_5c_question.png)
+
+Determine the proportions of customers in ages 20-40, 30-50, 40-60, and over 50. Which target group is the best?
+
+---
+
+**Setup.** The four intervals $[20,40]$, $[30,50]$, $[40,60]$, and $(50,\\infty)$ **overlap**, so they do *not* form a partition: their proportions need not sum to one, and we cannot build a single frequency distribution over them. The textbook trick is therefore to compute each share **independently** as the **sample mean of an indicator**:
+
+$$
+\\widehat p_{[a,b]} \\;=\\; \\frac{1}{n}\\sum_{i=1}^{n} \\mathbf 1\\{a \\le \\text{Age}_i \\le b\\}.
+$$
+
+In R the comparison operators `>=`/`<=` return a **logical vector** (TRUE/FALSE). Under coercion `TRUE = 1` and `FALSE = 0`, so `mean(logical_vec) = (# TRUE)/n` — exactly the desired proportion.
+
+---
+
+**AI walkthrough.**
+
+**Why `mean()` of a logical vector?** Each comparison gives a logical of length $n$. `sum()` counts the TRUEs, `mean()` divides that count by $n$. So `mean(Age >= 20 & Age <= 40)` is identical to `sum(Age >= 20 & Age <= 40) / length(Age)` — the *relative frequency* of customers in $[20,40]$.
+
+**Numbers from the dataset (n = 34 866).**
+
+| Interval | Proportion | % of sample |
+|---:|---:|---:|
+| $[20, 40]$ | $0.2801$ | $28.0\\%$ |
+| $[30, 50]$ | $0.6257$ | $62.6\\%$ |
+| $[40, 60]$ | $\\mathbf{0.6470}$ | $\\mathbf{64.7\\%}$ |
+| $> 50$     | $0.3459$ | $34.6\\%$ |
+
+The proportions **sum to $1.899 > 1$** — concrete proof that the intervals overlap (a customer aged $45$ is counted in three of the four sets).
+
+**Cross-check with the boxplot (Ex 2.5a).** The five-number summary of `Age` is $\\text{min}=16$, $Q_1=40$, $\\text{Me}=46$, $Q_3=54$, $\\text{max}=96$. So **by construction** about $50\\%$ of the data lie in $[Q_1, Q_3] = [40, 54] \\subset [40, 60]$. The interval $[40, 60]$ stretches a bit beyond $Q_3$, picking up an extra $\\approx 15\\%$ of mass and reaching $\\approx 65\\%$ — exactly the proportion we computed. The interval $[30, 50]$ does the symmetric thing on the lower side ($Q_1 = 40$ inside it) and lands at $\\approx 63\\%$, just below $[40, 60]$.
+
+**Why $[40, 60]$ wins.** Among the four candidates it is the one most tightly centered on the **median age ($46$)** and on the **box** of the boxplot — the densest part of the empirical distribution. The narrower $[20, 40]$ catches only the lower tail; $> 50$ leaves out the bulk centered around the median; $[30, 50]$ is slightly off-center relative to $[40, 60]$.
+
+![Ex 2.5c AI walkthrough](statistics/images/ex2/ex2_5c_ai.png)
 
 ---
 
@@ -708,13 +902,80 @@ mean(customer_habits$Age > 50)
 ```
 
 Based on these results, it seems convenient to **target customers between 40 and 60 years of age** (who make up approximately 65% of the sample). This conclusion could be reached, at least approximately, also based on the box plot.
+
+---
+
+**Reference answer.**
+
+![Ex 2.5c answer](statistics/images/ex2/answers/ex2_5c_answer.png)
 """,
-"images": [],
+"images": [
+    "statistics/images/ex2/questions/ex2_5c_question.png",
+    "statistics/images/ex2/ex2_5c_ai.png",
+    "statistics/images/ex2/answers/ex2_5c_answer.png",
+],
 }
 
 ex2["2_5d"] = {
 "title": "Ex 2.5d — Identify outliers and their share",
-"content": """**Question.** Determine the outliers and compute their percentage on the sample.
+"content": """**Question.**
+
+![Ex 2.5d question](statistics/images/ex2/questions/ex2_5d_question.png)
+
+Determine the outliers and compute their percentage on the sample.
+
+---
+
+**Setup.** In the **boxplot convention** an observation is flagged as an **outlier** when it lies further than $1.5 \\cdot \\mathrm{IQR}$ from the *box* — i.e., outside the **Tukey fences**
+
+$$
+\\big[\\,Q_1 - 1.5\\,\\mathrm{IQR},\\; Q_3 + 1.5\\,\\mathrm{IQR}\\,\\big],\\qquad \\mathrm{IQR} = Q_3 - Q_1.
+$$
+
+The fences therefore depend only on the **five-number summary**, *not* on the mean or the sd. The constant $1.5$ is conventional: under a Normal model it flags roughly $0.7\\%$ of the data, so anything *substantially* above that on a real dataset is informative about the tails.
+
+---
+
+**AI walkthrough.**
+
+**1. Read the five-number summary.**
+
+```r
+distr.summary.x(Age, stats="fivenumber", digits=2, data=customer_habits)
+##  n n.a min q1 median q3 max
+## 34866 0 16 40   46  54  96
+```
+
+So $Q_1 = 40$, $Q_3 = 54$, $\\mathrm{IQR} = Q_3 - Q_1 = 14$.
+
+**2. Compute the Tukey fences.**
+
+$$
+\\text{upper fence} \\;=\\; Q_3 + 1.5 \\cdot \\mathrm{IQR} \\;=\\; 54 + 1.5 \\cdot 14 \\;=\\; 75,
+$$
+
+$$
+\\text{lower fence} \\;=\\; Q_1 - 1.5 \\cdot \\mathrm{IQR} \\;=\\; 40 - 1.5 \\cdot 14 \\;=\\; 19.
+$$
+
+Hence the **regular region** is $[19,\\,75]$; outliers are the customers with `Age` $< 19$ or `Age` $> 75$.
+
+**3. Count and share.** A logical vector turned into a mean returns the proportion of `TRUE` values:
+
+```r
+100*mean(customer_habits$Age < 19 | customer_habits$Age > 75)
+## [1] 0.9952389
+```
+
+That is $347$ customers out of $34\\,866$, i.e. $\\approx 0.995\\%$ of the sample.
+
+**4. Sanity checks.**
+
+- The fences are **symmetric in IQR-units** around the box (both at distance $1.5 \\cdot 14 = 21$), but **not** symmetric around the median: the upper fence sits at $75 = \\text{Me} + 29$, the lower at $19 = \\text{Me} - 27$ — visually almost symmetric in `Age` units because the central half of the distribution is itself nearly symmetric.
+- Compared with the $5$th and $95$th percentiles from 2.5b ($32$ and $66$), the **fences are wider**: $[19,\\,75] \\supset [32,\\,66]$. The two tools answer different questions — percentiles cut off a *fixed mass* ($5\\%$ on each side), Tukey fences cut off a *fixed distance from the box*.
+- The share $< 1\\%$ confirms that, although the right tail of `Age` reaches up to $96$, **the heavy region is short**: the bulk of the customers over $54$ are at most $75$.
+
+![Ex 2.5d AI walkthrough — Tukey fences and outliers of Age](statistics/images/ex2/ex2_5d_ai.png)
 
 ---
 
@@ -739,8 +1000,18 @@ The percentage of outliers in the sample is:
 ```
 
 Thus, the outliers represent **less than 1% of the dataset**, or, to be precise, 0.995% of all customers; their weight is therefore residual. This indicates that the majority of customers over the age of 54 are at most 75 years old.
+
+---
+
+**Reference answer.**
+
+![Ex 2.5d answer](statistics/images/ex2/answers/ex2_5d_answer.png)
 """,
-"images": ["statistics/images/ex2_5a-age-boxplot.png"],
+"images": [
+    "statistics/images/ex2/questions/ex2_5d_question.png",
+    "statistics/images/ex2/ex2_5d_ai.png",
+    "statistics/images/ex2/answers/ex2_5d_answer.png",
+],
 }
 
 ex2["2_5f"] = {
@@ -997,13 +1268,36 @@ ex2["2_7d"] = {
 "title": "Ex 2.7d — Range, IQR and other measures for Nr_visits",
 "content": """**Question.** Based on the five-number summary in c), determine the range and the interquartile range of `Nr_visits` and discuss their interpretation.
 
+![Ex 2.7d question](statistics/images/ex2/questions/ex2_7d_question.png)
+
 """ + EX27_TABLE + """
 
 ---
 
 **Answer.** From the five-number summary statistics, it is possible to determine the range of variation and the interquartile range, which are respectively $R = 24 - 1 = 23$ and $IQR = Q_3 - Q_1 = 14 - 3 = 11$. Observe that the range is high in relative terms: some clients visited the shop only once, whereas other almost twice a month. Similar considerations hold for the interquartile range, assessing the width of the interval including the 50% of the central data. Within this group there are clients who visited the shop only 3 times a year and clients who visited the shop 14 times. About one third of the average number of visits was needed; this group is quite heterogeneous too, particularly if one considers than the interviewed clients visited the shop a maximum of 24 times. Note actually that the interval for the first three (lower) quartiles covers about half of the entire range $(IQR/R = 11/23 = 0.48)$. Thus, also central data and not only the tails (the whiskers in the boxplot) are quite heterogeneous.
+
+```r
+# From the 5-number summary obtained in 2.7c
+fiveN <- c(min=1, q1=3, median=10, q3=14, max=24)
+R     <- fiveN["max"] - fiveN["min"]   # range
+IQR   <- fiveN["q3"]  - fiveN["q1"]    # interquartile range
+ratio <- IQR / R                       # share of the range covered by the central 50%
+c(R=R, IQR=IQR, ratio=round(ratio,2))
+##   R IQR ratio
+##  23  11  0.48
+```
+
+![Ex 2.7d original answer](statistics/images/ex2/answers/ex2_7d_answer.png)
+
+**AI walkthrough.** Both indices are read off the 5-number summary $(1, 3, 10, 14, 24)$ obtained in 2.7c. On the boxplot, the **Range** is the *full vertical extent* from lower cap to upper cap, while the **IQR** is the *height of the box itself*. The two brackets in the plot below show how much of the variation lives in the central 50%: the IQR bracket (yellow) is roughly **half** of the Range bracket (red), giving $IQR/R = 11/23 \\approx 0.48$. That is the punchline of the exercise — even after stripping the two tails (the whiskers), the central 50% still covers almost half of the entire range, so `Nr_visits` is heterogeneous *throughout*, not just at the extremes.
+
+![Ex 2.7d AI walkthrough — Range vs IQR from the 5-number summary](statistics/images/ex2/ex2_7d_ai.png)
 """,
-"images": [],
+"images": [
+    "statistics/images/ex2/questions/ex2_7d_question.png",
+    "statistics/images/ex2/answers/ex2_7d_answer.png",
+    "statistics/images/ex2/ex2_7d_ai.png",
+],
 }
 
 ex2["2_7e"] = {
@@ -1030,6 +1324,31 @@ ex2["2_7f"] = {
 "content": """**Question.** Compute the mean, SD, and CV of `Nr_visits`. Comment on the dispersion.
 
 """ + EX27_TABLE + """
+
+![Ex 2.7f question](statistics/images/ex2/questions/ex2_7f_question.png)
+
+---
+
+**Setup.** The data are given as a **discrete frequency distribution** $(x_k, f_k)$ with $K = 14$ distinct values of `Nr_visits` and total sample size $n = 2200$. From this representation the **sample mean** and the **(uncorrected) sample variance** are exactly the weighted moments
+$$
+\\bar x \\;=\\; \\sum_k f_k\\,x_k, \\qquad
+\\widetilde\\sigma^{2} \\;=\\; \\sum_k f_k\\,x_k^{2} \\;-\\; \\bar x^{2},
+$$
+and the bias-corrected sample standard deviation just multiplies by $\\sqrt{n/(n-1)}$ (negligible here: $n/(n-1) = 2200/2199 \\approx 1.00045$). The **coefficient of variation** $\\text{CV} = \\sigma/\\bar x \\cdot 100\\%$ rescales the SD by the mean and is the natural unit-free measure of relative dispersion — useful precisely because `Nr_visits` is strictly positive.
+
+---
+
+**AI walkthrough.**
+
+1. **Mean as a weighted average.** $\\bar x = \\sum_k f_k\\,x_k = 0.088\\cdot 1 + 0.124\\cdot 2 + \\dots + 0.094\\cdot 24 = 10.106$. The big contributions come from the heavy bins at $x = 10, 12, 24$ (with $f_k = 0.104, 0.140, 0.094$), which together account for $\\approx 4.8$ of the $10.1$ visits on average.
+
+2. **Variance from the second moment.** $\\sum_k f_k\\,x_k^{2}$ collects $1^{2}\\cdot 0.088 + 2^{2}\\cdot 0.124 + \\dots + 24^{2}\\cdot 0.094 \\approx 151.41$. Subtracting $\\bar x^{2} = 10.106^{2} = 102.13$ gives $\\widetilde\\sigma^{2} \\approx 49.28$, hence $\\sigma \\approx \\sqrt{49.28} \\approx 7.02$.
+
+3. **CV and verdict.** $\\text{CV} = 7.02/10.11 \\approx 0.6945 = 69.45\\%$. The usual rule of thumb is $\\text{CV} > 30\\% \\Rightarrow$ **very dispersed**: here the SD is about $70\\%$ of the mean, consistent with the **long upper whisker** found in 2.7e — the bin at $x = 24$ alone holds $9.4\\%$ of the customers and sits more than $2\\sigma$ above $\\bar x$.
+
+4. **Sanity check via the mean $\\pm$ SD band.** The interval $\\bar x \\pm \\sigma \\approx [3.09,\\,17.12]$ covers the bins $\\{4, 6, 8, 9, 10, 12, 14, 15, 16\\}$, whose proportions sum to $\\approx 0.55$, i.e. about $55\\%$ of the sample — much less than the $\\approx 68\\%$ one would expect under a normal, consistent with the heavy right tail.
+
+![Ex 2.7f AI walkthrough](statistics/images/ex2/ex2_7f_ai.png)
 
 ---
 
@@ -1062,8 +1381,18 @@ cv
 ```
 
 Small differences with the values computed from the table are due to rounding. The coefficient of variation is approximately 69.45%. This indicates that the data are very dispersed (cv > 30%): the standard deviation is in fact about 70% of the average number of visits. This information is consistent with the heterogeneity of the data revealed by the box plot, with the heterogeneity referring to the tails (the whiskers) and the most/least regular customers (lower and upper part of the box) lying between 1 and 3 visits.
+
+---
+
+**Reference answer.**
+
+![Ex 2.7f answer](statistics/images/ex2/answers/ex2_7f_answer.png)
 """,
-"images": [],
+"images": [
+    "statistics/images/ex2/questions/ex2_7f_question.png",
+    "statistics/images/ex2/ex2_7f_ai.png",
+    "statistics/images/ex2/answers/ex2_7f_answer.png",
+],
 }
 
 # ============== EXERCISE 2.8 (customer_habits Margin_perc) ==============
