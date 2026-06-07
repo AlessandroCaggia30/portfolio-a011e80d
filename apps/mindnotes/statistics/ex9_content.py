@@ -88,7 +88,7 @@ $R^2 = 1 - SSE/SST = 1 - 107435.3/204711.3 = 0.4752$ — the two channels jointl
 
 Global $F$ tests $H_0\\!:\\beta_1=\\beta_2=0$ vs $H_1\\!:$ at least one $\\ne 0$:
 $$F = \\frac{SSR/K}{SSE/(n-K-1)} = \\frac{(204711.3-107435.3)/2}{63.08^2}=12.2234,\\quad p = 1-F_{2,27}(12.2234)\\approx 0.000166.$$
-Strongly reject $H_0$: at least one channel is significant.
+Equivalent form using $R^2$: $F=\\dfrac{R^2/K}{(1-R^2)/(n-K-1)}=\\dfrac{0.4752/2}{0.5248/27}=12.22$. Strongly reject $H_0$: at least one channel is significant.
 
 **(b1) Individual t-tests** ($df=27$, two-sided):
 - `Channel1`: $t = 0.1398/0.0814 = 1.7174$, $p$-value $= 2(1-F_{t_{27}}(1.7174))= 0.0973$. **Not** rejected at $\\alpha=5\\%$ (only at $\\alpha=10\\%$): given the spend on `Channel2`, a 1-€ extra on `Channel1` is associated with $+0.14$ on the *Success* index on average, but the empirical evidence is too weak to claim the population effect is non-zero.
@@ -102,7 +102,7 @@ The CI excludes 0 (consistent with the t-test) and is far from 150 — extremely
 
 **(b3) Reduction of 50 units on `Channel1`** (Channel2 fixed): point $= -50\\cdot 0.1398 = -6.99$. The 95% CI for $\\beta_1$ is $0.1398 \\pm t_{27,\\,0.975}\\cdot 0.0814 = 0.1398 \\pm 2.0518\\cdot 0.0814 = (-0.0272,\\ 0.3068)$. Multiplying by $-50$ (and flipping endpoints): $(-15.34,\\ 1.36)$. Includes 0: we cannot exclude that cutting 50 units actually *raises* *Success*, although the interval lies mostly on the negative side.
 
-**(c) Reliability.** Inference rests on $E[\\varepsilon]=0$, $\\Var(\\varepsilon)=\\sigma^2$ constant, $\\Cor(\\varepsilon_i,\\varepsilon_j)=0$ and approximate normality. With only summary stats and no raw data we **cannot** check residuals — therefore the validity of the CIs / tests **cannot be assessed**.
+**(c) Reliability.** Inference rests on $E[\\varepsilon]=0$, $\\mathrm{Var}(\\varepsilon)=\\sigma^2$ constant, $\\mathrm{Cor}(\\varepsilon_i,\\varepsilon_j)=0$ and approximate normality. With only summary stats and no raw data we **cannot** check residuals — therefore the validity of the CIs / tests **cannot be assessed** from the information given.
 
 **(d) Prediction at (Ch1=100, Ch2=1000):** $\\hat Y = 164.01 + 0.1398\\cdot 100 + 0.0313\\cdot 1000 = 209.29$. Given the modest $R^2\\approx 0.48$, a point estimate alone is unreliable: a confidence (mean) or prediction (individual) interval should accompany it.
 
@@ -184,73 +184,177 @@ distr.plot.x(x=rstandard(mod1), plot.type="histogram")
 """, "images": ["statistics/images/ex9_3-competition.png"]}
 
 ex9["9_4"] = {"title": "Ex 9.4 — superstore: MntMeatProducts ~ IncomeK + Age (+ KidsAtHome)",
-"content": """**Question (dataframe `superstore`).** Customers of a food retailer through different channels. Variables include `Age`, `IncomeK` (k euro), `KidsAtHome` (No/Yes), amounts spent on `MntWines, MntFruits, MntMeatProducts, MntFishProducts, MntSweetProducts, MntGoldProds`, deals/web/catalog/store purchases. **a)** Estimate `MntMeatProducts ~ IncomeK + Age`; report. **a1)** Is `Age` significant? Test it. **a2)** Interpret the coefficient of `Age`. **b)** Estimate `MntMeatProducts ~ IncomeK + KidsAtHome`; write the equations with/without children. **c)** Estimate `MntMeatProducts ~ IncomeK + Age + KidsAtHome`; is `Age` globally significant ($\\alpha=0.05$)? **c1)** Prediction for a 40-year-old client with `IncomeK=75` and children. **c2)** 95% interval for the average amount spent (clients aged 40, `IncomeK=75`, with children). **c3)** Reliability of predictions?
+"content": """**Question (dataframe `superstore`, $n=256$).** Customers of a food retailer through different channels. Variables include `Age`, `IncomeK` (k euro), `KidsAtHome` (No/Yes), amounts spent on `MntWines, MntFruits, MntMeatProducts, MntFishProducts, MntSweetProducts, MntGoldProds`, deals/web/catalog/store purchases. **a)** Estimate `MntMeatProducts ~ IncomeK + Age`; report. **a1)** Is `Age` significant? Test it. **a2)** Interpret the coefficient of `Age`. **b)** Estimate `MntMeatProducts ~ IncomeK + KidsAtHome`; write the equations with/without children. **c)** Estimate `MntMeatProducts ~ IncomeK + Age + KidsAtHome`; is `Age` globally significant ($\\alpha=0.05$)? **c1)** Prediction for a 40-year-old client with `IncomeK=75` and children. **c2)** 95% interval for the average amount spent (clients aged 40, `IncomeK=75`, with children). **c3)** Reliability of predictions?
 
 ---
 
 **Answer.**
+
+**(a) Model with continuous predictors.** OLS gives
+
+$$\\widehat{\\text{MntMeat}} = -115.68 + 7.954\\,\\text{IncomeK} - 2.903\\,\\text{Age}.$$
+
+Fit: $R^2 = 0.550$, adjusted $R^2 = 0.546$ — the two predictors jointly explain $\\approx 55\\%$ of the variance. Global $F_{2,253}=154.3$ ($p\\approx 0$): at least one slope is non-zero.
+
+**(a1) Significance of `Age`.** Test $H_0:\\beta_{\\text{Age}}=0$ vs $H_1:\\ne 0$ at $\\alpha=0.05$. From the summary $\\hat\\beta_{\\text{Age}}=-2.903$, $\\widehat{\\text{se}}=0.884$, so $t=-2.903/0.884=-3.284$ on $df=n-K-1=253$. The two-sided $p$-value is $\\approx 0.0012 < 0.05$: **reject $H_0$**, `Age` is significant.
+
+**(a2) Interpretation.** Holding `IncomeK` fixed, **one extra year of age is associated with a decrease of $\\approx 2.90\\,$€ in expected spending on meat products** — older customers in this sample buy less meat once income is controlled for.
+
+**(b) Model with dummy `KidsAtHome`.** With `No` as reference and $D=\\mathbb{1}\\{\\text{KidsAtHome="Yes"}\\}$:
+
+$$\\widehat{\\text{MntMeat}} = -176.08 + 5.778\\,\\text{IncomeK} + 168.09\\,D,\\qquad R^2=0.618.$$
+
+Two parallel lines (same slope on `IncomeK`, different intercepts):
+
+- $D=0$ (no kids): $\\widehat{\\text{MntMeat}} = -176.08 + 5.778\\,\\text{IncomeK}$
+- $D=1$ (with kids): $\\widehat{\\text{MntMeat}} = (-176.08+168.09) + 5.778\\,\\text{IncomeK} = -7.99 + 5.778\\,\\text{IncomeK}$
+
+The shift $+168.09$ €  is highly significant ($t=7.633$, $p\\approx 0$): customers with kids spend systematically more on meat at any given income.
+
+**(c) Full model.**
+
+$$\\widehat{\\text{MntMeat}} = -73.77 + 6.132\\,\\text{IncomeK} - 2.793\\,\\text{Age} + 166.75\\,D,$$
+
+with $R^2 = 0.636$, adjusted $R^2=0.632$, $F_{3,252}=146.8$ ($p\\approx 0$). The marginal test $H_0:\\beta_{\\text{Age}}=0$: $t=-2.793/0.796=-3.508$, $p\\approx 0.0005 < 0.05$ → **`Age` remains significant** also globally / after controlling for kids.
+
+**(c1) Point prediction** at $(\\text{IncomeK}=75,\\,\\text{Age}=40,\\,D=1)$:
+
+$$\\hat y = -73.77 + 6.132\\cdot 75 - 2.793\\cdot 40 + 166.75 = 441.18\\,\\text{€}.$$
+
+**(c2) 95% CI for the conditional mean** $E[\\text{MntMeat}\\mid x_0]$: $(408.62,\\;473.73)$. Width $\\approx 65$ €. (For reference, no-kids same profile: $\\hat y\\approx 274.43$, CI $(239.64,\\;309.21)$.)
+
+**(c3) Reliability.** The residual standard error is $s_\\varepsilon\\approx 134.6$ €  — large relative to the predicted mean — and the **residuals-vs-fitted plot for model (a) shows a clear funnel pattern** (variance grows with $\\hat y$): heteroscedasticity. Residuals are also right-skewed (omnibus + JB tests reject normality, $p\\approx 0$). The 95% **prediction interval** for an individual customer at the same profile is $(174.0,\\;708.3)$ — extremely wide. Conclusion: the CI on the mean is informative, but **individual predictions are very uncertain**; the usual SE-based inference should be taken with caution given the heteroscedasticity.
+
 ```r
 # a) Continuous predictors
 mod <- lm(MntMeatProducts ~ IncomeK + Age, data=superstore); summary(mod)
-# a1) H0: beta_Age = 0 vs H1: != 0 -> read t-stat / p-value from summary
-# a2) +1 yr of age -> +beta_Age euros spent on meat (cet. par.).
+## (Intercept) -115.683 (40.852)  t=-2.832  p=0.005
+## IncomeK        7.954 ( 0.453)  t=17.544  p~0
+## Age           -2.903 ( 0.884)  t=-3.284  p=0.001
+## R^2 = 0.550,  F(2,253) = 154.3,  p ~ 0,  s_eps = 137.4
 
-# b) Categorical KidsAtHome (factor: No = reference, Yes = indicator)
-moddisc <- lm(MntMeatProducts ~ IncomeK + KidsAtHome, data=superstore)
-summary(moddisc)
+# a1) Significance of Age: t = -3.284, p ~ 0.001 < 0.05  =>  reject H0
+# a2) +1 yr of Age  =>  -2.90 EUR expected meat spend (IncomeK fixed)
+
+# b) Dummy KidsAtHome (No = reference)
+moddisc <- lm(MntMeatProducts ~ IncomeK + KidsAtHome, data=superstore); summary(moddisc)
+## (Intercept)    -176.08
+## IncomeK           5.778 ***
+## KidsAtHomeYes   168.09 ***   R^2 = 0.618
 # Equations:
-#   KidsAtHome="No":  MntMeat = b0       + b_Income*IncomeK
-#   KidsAtHome="Yes": MntMeat = (b0+b_K) + b_Income*IncomeK
+#   No  : MntMeat = -176.08          + 5.778*IncomeK
+#   Yes : MntMeat = (-176.08+168.09) + 5.778*IncomeK = -7.99 + 5.778*IncomeK
 
 # c) All three predictors
-modter <- lm(MntMeatProducts ~ IncomeK + Age + KidsAtHome, data=superstore)
-summary(modter)
-# Test H0: beta_Age = 0 -> p-value vs alpha=0.05.
+modter <- lm(MntMeatProducts ~ IncomeK + Age + KidsAtHome, data=superstore); summary(modter)
+## (Intercept)     -73.77 (37.19)  t=-1.98  p=0.048
+## IncomeK           6.132 ( 0.47)  t=13.01  p~0
+## Age              -2.793 ( 0.80)  t=-3.51  p=0.0005   *** significant at 5%
+## KidsAtHomeYes   166.75 (21.55)  t= 7.74  p~0
+## R^2 = 0.636,  adj R^2 = 0.632,  F(3,252) = 146.8
 
 # c1) Point prediction at (IncomeK=75, Age=40, KidsAtHome="Yes")
 predict(modter, newdata=data.frame(IncomeK=75, Age=40, KidsAtHome="Yes"))
-# c2) 95% confidence interval for the mean response
+## fit = 441.18
+
+# c2) 95% CI for the conditional mean
 predict(modter, newdata=data.frame(IncomeK=75, Age=40, KidsAtHome="Yes"),
         interval="confidence")
-# Same for "No" to compare
+## fit = 441.18  lwr = 408.62  upr = 473.73
+# (no-kids profile, for comparison)
 predict(modter, newdata=data.frame(IncomeK=75, Age=40, KidsAtHome="No"),
         interval="confidence")
+## fit = 274.43  lwr = 239.64  upr = 309.21
 
-# c3) Diagnostics for reliability
-plot(modter, which=1)
+# c3) Reliability diagnostics
+predict(modter, newdata=data.frame(IncomeK=75, Age=40, KidsAtHome="Yes"),
+        interval="prediction")   # PI for an individual: ~ (174 ; 708)
+plot(mod, which=1)                          # funnel pattern -> heteroscedasticity
 distr.plot.x(x=rstandard(modter), plot.type="histogram")
 ```
 """, "images": ["statistics/images/ex9_4-superstore.png"]}
 
 ex9["9_5"] = {"title": "Ex 9.5 — Restaurants: revenues ~ seats + area + days_open + evening_only",
-"content": """**Question (dataframe `restaurants`).** Model `revenues` on `seats`, `area` (factor: North, NorthWest, SouthEast, Center), `days_open`, `evening_only` (1/0). **a)** Write the estimated equation; interpret the coefficient of `days_open`. **c)** Is it convenient to open only for dinner? Other things equal? **d)** Does the model say nothing about restaurants in the *Center*? **e)** Are revenues in the *Center* lower, ceteris paribus? **f)** What can you say about restaurants in the *NorthWest*? **g)** Compare with a simpler 2-predictor model `surface + avg_daily`. **h)** Residual diagnostics at point a).
+"content": """**Question (dataframe `restaurants`).**
+**a)** Estimate the model relating `revenues` to the number of `seats`, the `area`, the number of days open (`days_open`) and to whether or not the restaurant is opened only for dinner (`evening_only`). Write the equation of the estimated model.
+**b)** Provide an interpretation of the estimated coefficient of the variable `days_open`.
+**c)** Based on the model can you conclude that it is convenient for a restaurant to be opened only for dinner, other things being equal?
+**d)** Is it correct to state that the model does not provide any indication about restaurants located in the *Center*?
+**e)** Is it correct to state that restaurants in central area have lower average revenues, other things being equal?
+**f)** What can you say about the restaurants in the *NorthWest* area?
+**g)** Would you consider a simpler model based only on the two variables `surface` and `avg_daily`?
+**h)** Provide an analysis of residuals for the model estimated at point **a)**.
 
 ---
 
 **Answer.**
+
+**a) Estimated model equation.** OLS on `restaurants` gives
+
+$$\\widehat{\\text{revenues}}\\;=\\;89.004+1.756\\,\\text{seats}+38.193\\,\\text{areaNorthWest}+0.997\\,\\text{areaSouthEast}+13.015\\,\\text{days\\_open}-171.704\\,\\text{evening\\_only1}.$$
+
+Revenues are in hundreds of euros; `area` enters via dummies for NorthWest and SouthEast (Center is the reference), and `evening_only1` is the dummy for the "dinner only" level.
+
+**b) Interpretation of $\\hat\\beta_{\\text{days\\_open}}=13.015$.** Other conditions being equal (same `seats`, `area`, `evening_only`), each **additional day of opening per month** is associated with an **average increase of about 13.01 hundred euros** ($\\approx 1{,}301$ €) in monthly revenues.
+
+**c) Is dinner-only convenient?** No. The estimated coefficient on the dummy `evening_only1` is $\\hat\\beta\\approx -171.7045$ and is **significantly different from 0** ($p$ very small). Hence, for given values of the other regressors, **opening only in the evening lowers expected revenues by $\\approx 171.7$ hundred euros** ($\\approx 17{,}170$ €) — clearly **not** convenient ceteris paribus.
+
+**d) "The model says nothing about the Center."** **False.** `Center` is the **reference category** of the factor `area`: its effect is absorbed into the **intercept** $\\beta_0=89.004$. The model **does** describe Center restaurants; the equation specialised to Center (with `evening_only=0`) is
+
+$$\\widehat{\\text{revenues}}_{\\text{Center}}\\;=\\;89.004+1.756\\,\\text{seats}+13.015\\,\\text{days\\_open}-171.704\\,\\text{evening\\_only1}.$$
+
+The dummies on NorthWest and SouthEast measure **contrasts vs Center**.
+
+**e) "Center has lower average revenues, c.p."** **No.** The two area dummies (NorthWest, SouthEast) measure the gap **relative to Center**. The SouthEast dummy is **not significant** ($\\hat\\beta\\approx 0.997$, near zero): no detectable difference between Center and SouthEast. So one **cannot** conclude that Center has systematically lower revenues than the other areas, c.p.
+
+**f) NorthWest.** The dummy `areaNorthWest` has coefficient $\\approx +38.193$ and is **significant**: c.p., restaurants in the **NorthWest area earn on average $\\approx 38{,}193$ €/month more** than restaurants in the Center (and, by the SE-vs-Center result, also more than SouthEast).
+
+**g) Simpler model with `surface` and `avg_daily`?** Compare the two specifications using the **adjusted $R^2$** (which penalises complexity and is comparable across models with different numbers of regressors):
+
+- Model (a) `seats + area + days_open + evening_only`: $R^2_{\\text{adj}}\\approx 0.5538$.
+- Reduced model `surface + avg_daily`: $R^2_{\\text{adj}}\\approx 0.4457$.
+
+Model (a) is **preferable**: it explains more variability of `revenues` even after adjusting for the extra parameters.
+
+**h) Residual analysis for model (a).** The diagnostic plots are **not entirely satisfactory**:
+- **Residuals vs fitted** shows a **structural pattern**: the model tends to **underestimate** revenues for high fitted values, and a handful of **outliers** is visible. Residual **dispersion grows with the predicted value** — sign of **heteroscedasticity** (also confirmed by an increasing trend in the scale-location plot, not shown).
+- The **histogram of standardised residuals** is **left-skewed**, departing from the normal benchmark.
+
+So homoscedasticity is plausibly violated and the error distribution is asymmetric; OLS standard errors and the corresponding CIs/tests should be taken with caution.
+
 ```r
+# a) Estimate the model and read the equation
 mod <- lm(revenues ~ seats + area + days_open + evening_only,
-          data=restaurants); summary(mod)
+          data = restaurants)
+summary(mod)
+## (Intercept)        89.004
+## seats               1.756
+## areaNorthWest      38.193
+## areaSouthEast       0.997   # n.s.
+## days_open          13.015
+## evening_only1    -171.704
 
-# Example fitted equation (signs/levels as in summary):
-# rev_hat = b0 + b_seats * seats + b_NW * AreaNorthWest
-#               + b_SE * AreaSouthEast + b_days * days_open
-#               + b_eve * evening_only
-# - b_days: +1 extra day open -> +b_days euros in revenues (cet. par.).
-# - evening_only=1 vs 0: revenues shift by b_eve (negative -> less convenient).
-# - Center is the *reference* level of `area` (its effect is absorbed in b0):
-#   so the model DOES describe Center; coefficients on NW/SE are
-#   contrasts vs Center. Significance of those tells whether NW/SE
-#   differ from Center.
+# b) Coefficient of days_open
+coef(mod)["days_open"]            # ~ 13.015 (hundreds of euros per extra day)
 
-# g) Reduced 2-predictor model
-mod2 <- lm(revenues ~ surface + avg_daily, data=restaurants); summary(mod2)
-anova(mod2, mod)        # nested F-test (when models are nested)
+# c) Dinner-only effect and its significance
+summary(mod)$coefficients["evening_only1", ]   # estimate ~ -171.70, p ~ 0
 
-# h) Residual diagnostics
-plot(mod, which=1)      # residuals vs fitted (linearity, homoscedasticity)
-plot(mod, which=3)      # scale-location (variance)
-distr.plot.x(x=rstandard(mod), plot.type="histogram")  # normality
+# d-e-f) Area contrasts are vs the reference level (Center)
+levels(restaurants$area)          # "Center" should be first (reference)
+# Specialise to Center: drop area dummies (they are 0 for Center)
+
+# g) Reduced 2-predictor model and adjusted R^2 comparison
+mod2 <- lm(revenues ~ surface + avg_daily, data = restaurants)
+summary(mod2)$adj.r.squared       # ~ 0.4457
+summary(mod)$adj.r.squared        # ~ 0.5538  -> prefer model (a)
+
+# h) Residual diagnostics for model (a)
+plot(mod, which = 1)              # residuals vs fitted (pattern + heterosked.)
+plot(mod, which = 3)              # scale-location (variance trend)
+hist(rstandard(mod),
+     breaks = 20, main = "Histogram: rstandard(mod)",
+     xlab = "rstandard(mod)")     # left-skew
 ```
 """, "images": ["statistics/images/ex9_5-restaurants-multi.png"]}
 
@@ -260,48 +364,68 @@ ex9["9_6"] = {"title": "Ex 9.6 — MBA.1 / MBA.2: MBA.GPA ~ UnderGPA + GMAT + Wo
 ---
 
 **Answer.**
+
+**a) Fit on `MBA.1`.** Estimating $\\text{MBA.GPA}=\\beta_0+\\beta_1\\text{UnderGPA}+\\beta_2\\text{GMAT}+\\beta_3\\text{Work}+\\varepsilon$ by OLS yields
+
+$$\\widehat{\\text{MBA.GPA}}\\;=\\;0.466+0.0628\\,\\text{UnderGPA}+0.0113\\,\\text{GMAT}+0.0926\\,\\text{Work}.$$
+
+**Global significance** is tested with $F=\\dfrac{SSR/K}{SSE/(n-K-1)}$ under $H_0:\\beta_1=\\beta_2=\\beta_3=0$: $F\\approx 24.48$ on $(3,85)$ df, $p\\!\\approx\\!0$ — reject $H_0$, the model is globally significant. **Goodness of fit** $R^2=1-SSE/SST\\approx 0.4635$: the three regressors jointly explain $\\approx 46.4\\%$ of the variability of `MBA.GPA`.
+
+**b1) Test on `Work`.** Under $H_0:\\beta_{\\text{Work}}=0$, $t=\\hat\\beta_{\\text{Work}}/se(\\hat\\beta_{\\text{Work}})\\sim t_{n-K-1}=t_{85}$. With $\\hat\\beta_{\\text{Work}}=0.092595$ and $se=0.030909$: $t=2.996$, two-sided $p\\approx 0.0036$ — reject at every usual $\\alpha$. **Other things equal, an extra year of work experience is associated with $\\approx +0.093$ expected MBA.GPA.**
+
+**b2) Is the 5-year effect $<0.8$?** $H_0:5\\beta_{\\text{Work}}\\ge 0.8$ (i.e. $\\beta_{\\text{Work}}\\ge 0.16$) vs $H_1:\\beta_{\\text{Work}}<0.16$. One-sided $t=(0.092595-0.16)/0.030909=-2.181$, lower-tail $p\\approx 0.016$: **reject at $\\alpha=5\\%$, not at $\\alpha=1\\%$**.
+
+**c) Coefficients.** `GMAT` highly significant ($p\\!\\approx\\!0$): $+1$ GMAT point $\\to +0.011$ expected MBA.GPA, ceteris paribus. `Work` significant (see b1). **`UnderGPA` not significant** ($p>0.05$): once GMAT and Work are controlled for, undergrad GPA brings no extra explanatory power.
+
+**d) Assumptions and diagnostics.** OLS needs $E[\\varepsilon]=0$, $\\mathrm{Var}(\\varepsilon)=\\sigma^2$ (homoscedasticity), $\\mathrm{Cor}(\\varepsilon_i,\\varepsilon_j)=0$, and approximate normality for inference (with $n=89$ the CLT covers the last one). The **residuals-vs-fitted** plot scatters around zero with no funnel and only mild curvature — no severe violation of mean-zero or constant variance.
+
+**e) Add `TypeDegree` (reference = `Other`).**
+
+$$\\widehat{\\text{MBA.GPA}}=0.190-0.006\\,\\text{UnderGPA}+0.0112\\,\\text{GMAT}+0.0982\\,\\text{Work}-0.345\\,D_{BA}+0.706\\,D_{BBA}+0.035\\,D_{BEng\\_BSc}.$$
+
+$R^2$ rises to $\\approx 0.557$; `GMAT`, `Work` still significant (higher t-stats). Vs Other: BA $-0.345$ (n.s.), **BBA $+0.706$ (significant)**, BEng/BSc $+0.035$ (n.s.). Only the BBA-vs-Other gap is reliable at the population level.
+
+**f) "BBA worse than the others"?** Re-level so BBA is the reference: the three new dummies all come out **negative** (BA $-1.05$, BEng/BSc $-0.67$, Other $-0.71$ vs BBA), with BA highly significant and BEng/BSc & Other significant at small $\\alpha$ ($\\sim 0.009/0.004$). The claim is **rejected**: BBA holders perform **better**, not worse, than each of the other groups.
+
+**g) Prediction.** For `UnderGPA=19, GMAT=560, Work=5, TypeDegree=BBA`, the 95% **confidence interval** for the conditional mean of MBA.GPA is $\\approx(6.47,\\;10.44)$ (Italian-style grade scale, hence the magnitude).
+
 ```r
+# a) Fit on MBA.1 and goodness of fit
 mod <- lm(MBA.GPA ~ UnderGPA + GMAT + Work, data=MBA.1); summary(mod)
-# Estimated: MBA.GPA_hat = 0.466 + 0.0628*UnderGPA + 0.0113*GMAT + 0.0926*Work
-# F = 24.48 (p ~ 0) -> reject H0: all beta = 0 -> globally significant
-# R^2 = 0.4635 -> the 3 predictors explain 46.35% of the variance in MBA.GPA
+## MBA.GPA_hat = 0.466 + 0.0628*UnderGPA + 0.0113*GMAT + 0.0926*Work
+## F = 24.48 on (3, 85) df, p ~ 0  -> reject H0: all beta = 0
+## R^2 = 0.4635   -> 46.35% of Var(MBA.GPA) explained
 
-# b1) H0: beta_Work = 0 vs H1 != 0  (n = 89, K = 3, df = n - K - 1 = 85)
-# t = b_Work / se(b_Work) = 0.092595 / 0.030909 = 2.996
-2*(1 - pt(2.996, df=85))   # p = 0.00359 -> reject H0 at usual alpha (< 0.003)
+# b1) H0: beta_Work = 0 vs H1 != 0   (n = 89, df = n - K - 1 = 85)
+t.b1 <- 0.092595 / 0.030909          # = 2.996
+2*(1 - pt(t.b1, df=85))              # p = 0.00359 -> reject H0
 
-# b2) H0: 5*beta_Work >= 0.8 (i.e. beta_Work >= 0.16) vs H1: beta_Work < 0.16
-t.stat <- (0.092595 - 0.16) / 0.030909   # = -2.180756
-pt(t.stat, df=85)          # p = 0.016 -> reject at 5%, not at 1%
+# b2) H0: 5*beta_Work >= 0.8 (beta_Work >= 0.16) vs H1: beta_Work < 0.16
+t.b2 <- (0.092595 - 0.16) / 0.030909 # = -2.180756
+pt(t.b2, df=85)                      # p = 0.016 -> reject at 5%, NOT at 1%
 
-# c) GMAT and Work significantly contribute; UnderGPA does NOT (p > 0.05).
+# c) GMAT and Work significant; UnderGPA NOT significant (p > 0.05)
 
-# d) Assumptions: E(eps)=0, Var(eps)=sigma^2 constant, Cor(eps_i,eps_j)=0
-#    (normality for inference; here n is large so CLT applies).
-plot(mod, which=1)         # residuals vs fitted: slight curvature, no severe issue
+# d) Diagnostic: residuals vs fitted (check E(eps)=0, Var=sigma^2)
+plot(mod, which=1)                   # mild curvature, no severe issue
 
-# e) Add TypeDegree (factor, Other = alphabetical reference)
+# e) Add TypeDegree (Other = reference, alphabetical)
 mod2 <- lm(MBA.GPA ~ UnderGPA + GMAT + Work + TypeDegree, data=MBA.2); summary(mod2)
-# MBA.GPA = 0.1898 - 0.006*UnderGPA + 0.0112*GMAT + 0.0982*Work
-#           - 0.345*BA + 0.7057*BBA + 0.0348*BEng_BSc
-# R^2 up to 0.5566; GMAT and Work still significant, t-stats higher.
-# BA holders: 0.345 lower than Other (NOT significant at population level).
-# BBA holders: 0.706 higher than Other (significant).
-# BEng_BSc:   0.0348 higher than Other (NOT significant).
+## MBA.GPA_hat = 0.190 - 0.006*UnderGPA + 0.0112*GMAT + 0.0982*Work
+##               - 0.345*BA + 0.7057*BBA + 0.0348*BEng_BSc
+## R^2 = 0.5566 ; GMAT, Work significant; only BBA dummy significant
 
-# f) Re-level so BBA is the reference -> BBA vs each of the others
+# f) Re-level so BBA is reference -> tests BBA vs each of the others
 MBA.2$TypeDegree <- relevel(MBA.2$TypeDegree, ref="BBA")
 mod3 <- lm(MBA.GPA ~ UnderGPA + GMAT + Work + TypeDegree, data=MBA.2); summary(mod3)
-# MBA.GPA = 0.1898 - 0.006*UnderGPA + 0.0112*GMAT + 0.0982*Work
-#           - 1.0507*BA + 0.6709*BEng_BSc - 0.7057*Other
-# All three are NEGATIVE: BA highly significant; BEng_BSc & Other significant
-# only at 0.009 / 0.004 (depends on chosen alpha).
+## All three dummies NEGATIVE -> BBA performs BETTER than every other group
+## BA: highly significant; BEng_BSc, Other: significant only at small alpha (~0.009, 0.004)
 
 # g) 95% CI for the mean MBA.GPA at UnderGPA=19, Work=5, GMAT=560, TypeDegree=BBA
 predict(mod3,
         newdata=data.frame(UnderGPA=19, GMAT=560, Work=5, TypeDegree="BBA"),
         interval="confidence")
-# 95% CI ~ (6.4701, 10.4404)
+## 95% CI ~ (6.4701, 10.4404)
 ```
 """, "images": ["statistics/images/ex9_6-mba1.png"]}
 
@@ -358,6 +482,8 @@ plot(mod.d, which=1)
 # Quadratic / non-linear pattern + locally different averages of residuals
 # + outliers with very high cash flow / employees -> reliability concerns.
 ```
+
+**AI read of the residuals-vs-fitted plot.** The cloud is **densely packed for fitted $\\lesssim 1500$** and thins out toward the right, where a handful of high-leverage points sit at fitted values of $\\approx 2500$-$3500$. Vertical spread is **not constant**: in the bulk region residuals range $\\approx [-1000, +700]$, but at the extremes individual residuals reach $+1050$ and $+950$ on one side and $-870$ on the other -> mild **heteroscedasticity** plus **influential observations** (very large companies whose `Market.Value` is poorly tracked by the linear fit). The mean residual line is *not flat*: it dips below zero around fitted $\\approx 1000$-$1500$ and rises again afterwards, a faint **non-linear** (curvature) signal. **Consequence:** OLS $\\hat\\beta$ remain unbiased but SEs are mis-stated and the few extreme-value firms drive a disproportionate share of fit; reliability of the model at point (d) is *questionable*. Natural fixes: a log-transform of `Market.Value`, robust (sandwich) SEs via `lmtest::coeftest(mod.d, vcov=sandwich::vcovHC)`, or fitting on the bulk after flagging the right-tail outliers.
 """, "images": ["statistics/images/ex9_7-performance.png"]}
 
 ex9["9_8"] = {"title": "Ex 9.8 — Lotteries: Amount ~ Education + Age + Children + Income",
@@ -406,65 +532,108 @@ distr.plot.xy(x=Income,    y=Amount, plot.type="scatter", data=Lotteries)
 """, "images": ["statistics/images/ex9_8-lotteries.png"]}
 
 ex9["9_9"] = {"title": "Ex 9.9 — GS: salary ~ grade + sex + course; predictions + diagnostics",
-"content": """**Question (dataframe `GS`).** Italian employees with similar positions; `salary` (annual at 5 yrs from graduation, k euros), `grade` (graduation grade), `sex` (F/M on id document), `course` (degree course, 4 categories: a, b, c, d). **a)** Estimate `salary ~ grade + sex`. Based on the model, can you predict a sex-based effect of the grade on the salary? **a1)** Based on the estimated model, can you predict sex-based differences in the average salary for graduates with the same `grade`? **a2)** What is the standard error of the model, what does it summarize and how is it calculated? **a3)** Predict the average salary for females with `grade=105`. The prediction of the salary of one specific female with `grade=105`. Do you think such predictions are reliable? Why? If not, what tools would you use instead? **b)** Estimate `salary ~ course`. What indications based on the model? **c)** Estimate `salary ~ course + grade`. For which course the highest average salary is predicted, for a given graduation grade? **c1)** Build the 99% interval for the average salary of graduates who attended course d and have a `grade=100`, and interpret it. **c2)** Will the interval at the previous point change if you are interested to predict the salary for a specific graduate with the described characteristics? If yes, in what respect? Verify numerically your answer. **d)** Based on the results obtained above, to explain/predict salary, would you refer to the model based on `grade + sex` or on `grade + course`? Explain why. **e)** Does the analysis of residuals emphasise any violations of the assumptions? Plot the standardised residuals against `grade`. Considerations?
+"content": """**Question (dataframe `GS`).**
+
+![Ex 9.9 question](statistics/images/ex9/questions/ex9_9_question.png)
+
+The dataframe `GS` includes data on Italian employees with similar positions concerning their `salary` (annual at 5 yrs from graduation, k euros), `grade` (graduation grade), `sex` (F/M on id document), and `course` (degree course, 4 categories: a, b, c, d). **a)** Estimate `salary ~ grade + sex`. Based on the model, can you predict a sex-based *effect of the grade* on the salary? **a1)** Based on the estimated model, can you predict sex-based differences in the *average salary* for graduates with the same `grade`? **a2)** What is the standard error of the model, what does it summarise and how is it calculated? **a3)** Predict the average salary for females with `grade=105`. The prediction of the salary of one specific female with `grade=105`. Are such predictions reliable? Why? If not, what tools would you use instead? **b)** Estimate `salary ~ course`. What indications based on the model? **c)** Estimate `salary ~ course + grade`. For which course is the highest average salary predicted, for a given graduation grade? **c1)** Build the 99% interval for the average salary of graduates who attended course `d` and have `grade=100`, and interpret it. **c2)** Will the interval at the previous point change if you are interested to predict the salary for a *specific* graduate with the described characteristics? If yes, in what respect? Verify numerically. **d)** Based on the results obtained above, to explain/predict salary, would you refer to the model based on `grade + sex` or on `grade + course`? Why? **e)** Does the analysis of residuals emphasise any violations of the assumptions? Plot the standardised residuals against `grade`. Considerations?
 
 ---
 
-**Answer.**
+**Answer (textbook).**
+
+![Ex 9.9 answer](statistics/images/ex9/answers/ex9_9_answer.png)
+
+**a)** The fitted line is $\\widehat{\\text{salary}} = -37.94 + 0.9044\\cdot\\text{grade} - 8.3332\\cdot\\mathbf 1_{\\text{sexM}}$. The model is **additive**: each extra grade point increases salary by **0.9044** k euros *for both* men and women — the grade effect is the **same** across sexes (there is no `grade:sex` interaction). So no, the model cannot predict a sex-based effect of the grade.
+
+**a1)** At equal `grade`, women earn on average **8.33** k less than men ($p = 0.003$). The difference is therefore significant at any $\\alpha > 0.003$ (only a very conservative test would fail to reject).
+
+**a2)** $s_\\varepsilon = \\sqrt{\\mathrm{SSE}/(n-K-1)} \\approx 13.5$ k euros — the estimated standard deviation of the residuals around the regression plane, computed from the SSE with $n - K - 1 = 96-2-1=93$ degrees of freedom. It summarises *how far*, on average, observed salaries deviate from the model's fit.
+
+**a3)** Point prediction: $\\widehat{\\text{salary}}_F = -37.94 + 0.9044\\cdot 105 - 8.33 = \\mathbf{48.69}$ k euros. The same point is the prediction for **both** the average female with $\\text{grade}=105$ *and* for a single female (we cannot know whether she sits above or below average). However, $R^2 \\approx 0.3$ means the dispersion is non-negligible, so point predictions are unreliable — use **interval** estimates: at 95%, the **CI for the mean** is $(44.04,\\,53.34)$, while the **prediction interval** for a single person is much wider, $(21.49,\\,75.89)$.
+
+**b)** Course `a` is the reference. Estimated mean differences vs course `a`: course `b` $\\Delta = +1.547$ ($p = 0.7$, **not significant**); course `c` $\\Delta = +11.522$ ($p = 0.0107$, significant at $\\alpha > 1.07\\%$); course `d` $\\Delta = +14.988$ ($p \\approx 4\\times 10^{-4}$, **highly significant**).
+
+**c)** With `salary ~ grade + course`, the highest predicted average salary at any given grade is for course **`d`** (largest course intercept shift). Course `b` and `c` intercepts are not significantly different from `a`; only `d` stands out.
+
+**c1)** The 99% **confidence interval** at $\\text{grade}=100$, $\\text{course}=\\text{d}$ is $\\mathbf{(48.17,\\,63.31)}$: with 99% confidence the mean salary of graduates with these characteristics lies in this interval.
+
+**c2)** The 99% **prediction interval** for a *single* graduate is $\\mathbf{(19.02,\\,92.45)}$ — wider, because it also accounts for the deviation of individual salaries from the mean. It is so wide as to be uninformative (the sample's salaries themselves span 18–86), again because of low $R^2$.
+
+**d)** Compare via **Adjusted $R^2$** (different number of predictors). $\\overline{R}^2_{\\text{(grade+sex)}} = 0.288$ vs $\\overline{R}^2_{\\text{(grade+course)}} = 0.271$. Both are low and aligned; neither is particularly useful, with a slight preference for `grade + sex`.
+
+**e)** The Residuals-vs-Fitted plot for `salary ~ grade + course` shows no extreme violation but a few large positive residuals and a mild increase in dispersion at higher fitted values. The scatter of standardised residuals against `grade` reveals a **curvilinear pattern** plus larger dispersion at high `grade` $\\Rightarrow$ assumptions of linearity and homoscedasticity are not fully met; the model is **not fully reliable**. The same holds for the `grade + sex` model.
+
+---
+
+**R commands.**
 ```r
 # a) salary ~ grade + sex   (n = 96, K = 2, df = 93)
 mod.1 <- lm(salary ~ grade + sex, data=GS); summary(mod.1)
-# salary_hat = b0 + 0.9044*grade - 8.3332*sexM   (intercept depends on F/M reference)
-# The grade effect is the SAME for both sexes (additive model, no interaction).
-# a1) At equal grade, women earn on average 8.33 lower than men (p = 0.003 -> significant
-# at any alpha > 0.003).
-
-# a2) Standard error of the model = sqrt( SSE / (n - K - 1) ) = 13.5
-# It is the estimate of the std deviation of the residuals, computed from the SSE.
+# salary_hat = -37.9397 + 0.9044*grade - 8.3332*sexM    (F is the reference)
+# a1) sexM coefficient: -8.33, p-value = 0.003
+# a2) Residual standard error of the model
 n <- 96; K <- 2
-# s_eps = sqrt(sum(residuals(mod.1)^2) / (n - K - 1))
+s_eps <- sqrt(sum(residuals(mod.1)^2) / (n - K - 1)); s_eps     # ~ 13.5
 
-# a3) Prediction for the average salary for F, grade=105
+# a3) Average prediction (CI) and single-person prediction (PI) for F, grade=105
 predict(mod.1, newdata=data.frame(grade=105, sex="F"), interval="confidence")
-# salaring_g_hat = -37.9397 + 0.9044*105 - 8.3332 (= 48.69 k euros)
-# 95% CI for the mean: (44.0406, 53.3429)
-# 95% prediction interval (for a SINGLE person): (21.4902, 75.8934)
-# R^2 ~ 0.3 -> non-negligible dispersion -> prefer interval predictions over point.
+#       fit      lwr      upr
+# 48.69230 44.04055 53.34406
 predict(mod.1, newdata=data.frame(grade=105, sex="F"), interval="prediction")
+#       fit      lwr      upr
+# 48.69230 21.49019 75.89441
 
-# b) salary ~ course   (course = a is the reference)
+# b) salary ~ course (a is the reference)
 mod.2 <- lm(salary ~ course, data=GS); summary(mod.2)
-# course b vs a: +1.547  (p = 0.7  -> NOT significant)
-# course c vs a: +11.522 (p = 0.011 -> significant at 1.07%)
-# course d vs a: +14.988 (p ~ 4e-4 -> highly significant)
+#   courseb +1.547   p = 0.7
+#   coursec +11.522  p = 0.0107
+#   coursed +14.988  p = 4e-4
 
-# c) salary ~ course + grade
+# c) salary ~ grade + course
 mod.3 <- lm(salary ~ grade + course, data=GS); summary(mod.3)
-# Highest average salary for course d (largest course coefficient).
+# Highest intercept shift for course d -> highest predicted average salary.
 
-# c1) 99% confidence interval at grade=100, course="d"
+# c1) 99% CI for the mean at grade=100, course="d"
 predict(mod.3, newdata=data.frame(grade=100, course="d"),
         interval="confidence", level=0.99)        # (48.17 ; 63.31)
 
-# c2) 99% prediction interval for a SPECIFIC graduate
+# c2) 99% PI for a SINGLE graduate -> wider, accounts for individual deviation
 predict(mod.3, newdata=data.frame(grade=100, course="d"),
         interval="prediction", level=0.99)        # (19.02 ; 92.45)
-# Wider, because adds uncertainty around the average. Range too wide to be informative
-# as salaries in the sample vary between 18 and 86.
-distr.summary.x(salary, data=GS)
 
-# d) Compare via Adjusted R^2 (different #predictors)
-# mod.1 (grade + sex):    Adj-R^2 = 0.288
-# mod.3 (grade + course): Adj-R^2 = 0.2713
-# Both low and aligned -> neither very useful, slight preference for mod.1.
+distr.summary.x(salary, data=GS)                  # salaries range 18..86
+
+# d) Adjusted R^2 comparison
+summary(mod.1)$adj.r.squared                       # 0.288   (grade + sex)
+summary(mod.3)$adj.r.squared                       # 0.2713  (grade + course)
 
 # e) Diagnostics
-plot(mod.3, which=1)                  # no extreme violation, increasing dispersion at top
+plot(mod.3, which=1)                              # residuals vs fitted
 distr.plot.xy(x=GS$grade, y=rstandard(mod.1), plot.type="scatter")
 distr.plot.xy(x=GS$grade, y=rstandard(mod.3), plot.type="scatter")
-# Curvilinear trend + increased dispersion at high grade -> model NOT fully reliable.
+# Curvilinear trend + dispersion growing at high grade -> assumptions partially violated.
 ```
-""", "images": ["statistics/images/ex9_9-gs.png"]}
+
+---
+
+**AI walkthrough — why the *same* point estimate has two very different intervals.** The point prediction $\\hat y_0 = \\hat\\beta_0 + \\hat\\beta_{\\text{grade}}\\cdot 105 + \\hat\\beta_{\\text{sexF}}$ is identical whether we ask about the *mean* or about a *single* female. But the variance we put around it is very different:
+
+- **CI for the mean** uses $\\mathrm{Var}(\\hat y_0) = s_\\varepsilon^2\\, x_0^\\top (X^\\top X)^{-1} x_0$. This captures only **estimation error** of $\\hat\\beta$.
+- **PI for a single value** adds the *idiosyncratic* shock $\\varepsilon_0 \\sim \\mathcal N(0,\\sigma_\\varepsilon^2)$: $\\mathrm{Var}(\\hat y_0 - y_0) = \\sigma_\\varepsilon^2\\,[1 + x_0^\\top (X^\\top X)^{-1} x_0]$ — the extra "$+1$" is the individual deviation.
+
+For Ex 9.9, $s_\\varepsilon \\approx 13.5$ and the leverage term $x_0^\\top(X^\\top X)^{-1}x_0$ is small, so the CI half-width is $\\approx 2.6$ k while the PI half-width is $\\approx 27$ k — about **ten times wider**, dominated by the residual $\\sigma$. This is the structural reason why low-$R^2$ models give useful CIs for the mean but essentially uninformative PIs for individuals: low $R^2 \\Leftrightarrow$ large $\\sigma_\\varepsilon^2/\\mathrm{Var}(y)$, and that $\\sigma_\\varepsilon^2$ goes straight into the PI.
+
+**Diagnostic plot (residuals vs fitted, model `salary ~ grade + course`):**
+
+![Ex 9.9 residual diagnostics](statistics/images/ex9_9-gs.png)
+
+The cloud is roughly centred on zero with no obvious trend, but the spread on the right side ($\\hat y \\in [50, 65]$) reaches both $+33$ and $-32$ vs only $[-14, +14]$ on the left — a hint of **heteroscedasticity** consistent with the curvilinear pattern seen when plotting standardised residuals against `grade`. Coupled with $R^2 \\approx 0.3$, this confirms the textbook's caveat: the model is informative about *average* differences (sex penalty, course `d` premium) but inadequate for *individual* predictions.
+""", "images": [
+    "statistics/images/ex9/questions/ex9_9_question.png",
+    "statistics/images/ex9/answers/ex9_9_answer.png",
+    "statistics/images/ex9_9-gs.png",
+]}
 
 ex9["9_10"] = {"title": "Ex 9.10 — Severance: Weeks ~ Age + Length + Salary",
 "content": """**Question (dataframe `Severance`).** After a restructuring a company offers severance packages to terminated employees. A terminated employee wants to verify the relation between `Weeks` (weeks of severance), `Age` (yrs), `Length` (yrs of employment), `Salary` (k$). **a)** Estimate `Weeks ~ Age + Length + Salary`. Is the statement "older and high-salary employees are penalised" (other things equal) confirmed? **b)** Based on (a), is it correct to claim that `Age` does NOT contribute significantly to a model that already includes `Length` and `Salary`? **c)** Compare the model based only on `Age` with the model at (a). Is one preferable? Refer to a measure used to compare regression models with a different number of explanatory variables, and report its definition. **d)** Would you consider the model based only on `Length` rather than the model estimated at (a)? Why? **e)** The employee is 36 years old, worked 10 years, currently earns 32 k$/yr, and the package offered is 5 weeks' pay. Point prediction of weeks of severance using the models at (a) and (d). Do you think the predictions are reliable? Why? **f)** Could the employee claim that their package is not aligned with what is applied based on the obtained results? **g)** Are there reasons to suspect that the results obtained are unreliable because some of the model assumptions are not met?
@@ -530,25 +699,80 @@ distr.plot.x(x=rstandard(mod.d), plot.type="histogram", breaks=10)
 """, "images": ["statistics/images/ex9_10-severance.png"]}
 
 ex9["9_11"] = {"title": "Ex 9.11 — Absence: Days ~ Wage + PartTime + Union + Shift + GoodRel",
-"content": """**Question.** Regression for absence days; compute CIs; predict at specific profile.
+"content": """**Question (dataframe `Absence`).** $n=100$ firms; for each: `Days` (mean annual days of absence per employee, $Y$), `Wage` (mean hourly wage, $/h), `PartTime` (% part-time workforce), `Union` (% unionised), `Shift` (1 = at least one shift-rotation regime, 0 otherwise), `GoodRel` (1 = good labour-relations climate as declared by management, 0 otherwise). **a)** Fit `Days ~ Wage + PartTime + Union + Shift + GoodRel`; assess global fit and individual significance. **b)** Translate the `Wage` coefficient into "extra Days for a one-standard-deviation increase in Wage" and build its 95% CI. **c)** Build a 99% confidence interval for every $\\beta_k$ — which regressors stay significant at $\\alpha=1\\%$? **d)** For a firm with `Wage=20, PartTime=10, Union=68, Shift=1, GoodRel=0`, give the 95% confidence interval for the *mean* `Days` and the 95% prediction interval for a *single* firm. Comment on the gap. **e)** Diagnostics on residuals vs fitted + histogram of standardised residuals — are LR assumptions satisfied?
 
 ---
 
 **Answer.**
+
+**a) Fit and global significance.** OLS on `Days ~ Wage + PartTime + Union + Shift + GoodRel` (n=100, K=5, df=94) yields
+
+$$\\widehat{\\text{Days}}\\;=\\;10.265\\;-\\;0.2033\\,\\text{Wage}\\;-\\;0.1069\\,\\text{PartTime}\\;+\\;0.0599\\,\\text{Union}\\;+\\;1.562\\,\\text{Shift}\\;-\\;2.637\\,\\text{GoodRel}.$$
+
+Global $F$ under $H_0:\\beta_1=\\cdots=\\beta_5=0$: $F=\\dfrac{SSR/K}{SSE/(n-K-1)}\\approx 21.40$ on $(5,94)$ df, $p\\approx 3\\!\\times\\!10^{-14}$ — strongly reject, the model is globally significant. **Goodness of fit:** $R^2\\approx 0.532$, Adj-$R^2\\approx 0.507$ -> the five predictors jointly explain $\\approx 53\\%$ of the variability of `Days`. **All five t-tests reject $H_0:\\beta_k=0$ at $\\alpha=1\\%$** ($|t|$ between $3.11$ and $5.69$, every $p\\le 0.002$). Sign reading (ceteris paribus): higher wages, more part-timers and a good industrial-relations climate *reduce* absence; higher unionisation and the presence of shift work *increase* it.
+
+**b) One-sd-Wage effect.** $sd(\\text{Wage})\\approx 6.656$ $/h. A $+1\\,sd$ increase in `Wage` (other things equal) shifts expected `Days` by
+
+$$sd(\\text{Wage})\\cdot\\hat\\beta_{\\text{Wage}}\\;=\\;6.656\\cdot(-0.2033)\\;\\approx\\;-1.353\\ \\text{days/yr}.$$
+
+The 95% CI for $\\beta_{\\text{Wage}}$ is $(-0.2742,\\,-0.1324)$ — rescaling by $sd(\\text{Wage})$ gives the 95% CI for the one-sd-Wage effect: $(-1.825,\\,-0.881)$. Strictly negative and economically sizeable: a typical 1-sd pay rise saves between $\\approx 0.9$ and $1.8$ days of absence per employee per year.
+
+**c) 99% CIs and significance at $\\alpha=1\\%$.** With $t_{94,\\,0.995}\\approx 2.629$:
+
+\\begin{tabular}{p{14cm}|p{12cm}|p{12cm}}
+Coefficient & 99% CI & Significant at $\\alpha=1\\%$? \\\\
+$\\hat\\beta_{\\text{Wage}}=-0.2033$ & $(-0.2972,\\,-0.1094)$ & yes (0 excluded) \\\\
+$\\hat\\beta_{\\text{PartTime}}=-0.1069$ & $(-0.1844,\\,-0.0293)$ & yes \\\\
+$\\hat\\beta_{\\text{Union}}=+0.0599$ & $(+0.0272,\\,+0.0925)$ & yes \\\\
+$\\hat\\beta_{\\text{Shift}}=+1.562$ & $(+0.240,\\,+2.884)$ & yes (barely — lower limit close to 0) \\\\
+$\\hat\\beta_{\\text{GoodRel}}=-2.637$ & $(-3.931,\\,-1.343)$ & yes \\\\
+\\end{tabular}
+
+All five remain significant at $1\\%$, although `Shift` is the weakest (its 99% CI almost touches 0).
+
+**d) Prediction at the target firm profile.** Plugging `Wage=20, PartTime=10, Union=68, Shift=1, GoodRel=0`:
+
+$$\\hat Y\\;=\\;10.265 - 0.2033\\cdot 20 - 0.1069\\cdot 10 + 0.0599\\cdot 68 + 1.562\\cdot 1 - 2.637\\cdot 0\\;\\approx\\;10.76\\ \\text{days/yr}.$$
+
+- **95% confidence interval for the conditional mean** $E[\\text{Days}\\mid X]$: $(9.70,\\;11.82)$ — width $\\approx 2.1$ days.
+- **95% prediction interval for a single firm**: $(5.97,\\;15.56)$ — width $\\approx 9.6$ days, $\\sim\\!4.5\\times$ wider.
+
+The PI inflates because it adds the irreducible residual variance $\\hat\\sigma^2$ on top of the sampling uncertainty of $\\hat Y$: $\\Var(\\hat Y_0)+\\hat\\sigma^2$ vs $\\Var(\\hat Y_0)$ alone. With Adj-$R^2\\approx 0.51$ the unexplained share is still large, so any **individual-firm** forecast carries substantial uncertainty even though the **average** firm with that profile is pinned down quite tightly.
+
+**e) Diagnostics.** Residuals vs fitted (homoscedasticity + linearity) and histogram of $\\text{rstandard}(\\text{mod})$ (approximate normality for inference) — see plot below and AI read.
+
 ```r
+# a) Fit and global significance
 mod <- lm(Days ~ Wage + PartTime + Union + Shift + GoodRel, data=Absence); summary(mod)
+## Days_hat = 10.265 - 0.2033*Wage - 0.1069*PartTime + 0.0599*Union + 1.562*Shift - 2.637*GoodRel
+## F(5, 94) = 21.40, p ~ 3e-14         R^2 = 0.532, Adj-R^2 = 0.507
+## All five |t| in [3.11, 5.69], every p <= 0.002 -> reject every H0: beta_k = 0 at 1%
+
+# b) One-sd-Wage effect and its 95% CI
+sd(Absence$Wage)                                  # 6.656194
+sd(Absence$Wage) * coef(mod)["Wage"]              # ~ -1.353 days for +1 sd of Wage
+sd(Absence$Wage) * confint(mod, level=0.95)[2, ]  # ( -1.825 , -0.881 )
+
+# c) 99% CIs on every coefficient
 confint(mod, level=0.99)
-sd(Absence$Wage)
-sd(Absence$Wage)*(-0.20330)
-sd(Absence$Wage)*confint(mod, level=0.95)[2,]
+##              0.5 %     99.5 %
+## Wage       -0.2972   -0.1094
+## PartTime   -0.1844   -0.0293
+## Union       0.0272    0.0925
+## Shift       0.2404    2.8835   # 99% CI for Shift almost touches 0
+## GoodRel    -3.9306   -1.3426
 
+# d) Prediction at Wage=20, PartTime=10, Union=68, Shift=1, GoodRel=0
 newdata <- data.frame(Wage=20, PartTime=10, Union=68, Shift=1, GoodRel=0)
-predict(mod, newdata, interval="prediction")
-predict(mod, newdata, interval="confidence")
+predict(mod, newdata, interval="confidence")      # ( 9.70 , 11.82 )   point 10.76
+predict(mod, newdata, interval="prediction")      # ( 5.97 , 15.56 )   PI ~ 4.5x wider
 
-plot(mod, which=1)
+# e) Diagnostics
+plot(mod, which=1)                                # residuals vs fitted (see plot)
 distr.plot.x(x=rstandard(mod), plot.type="histogram")
 ```
+
+**AI read of the residuals-vs-fitted plot.** Residuals span roughly $[-4.5,\\,+7.7]$ over fitted values $[1,\\,12]$ and scatter on **both sides of zero** with no clear funnel — vertical spread looks broadly constant, so **homoscedasticity** is acceptable. The mean-residual line stays close to $0$ across the whole fitted range, with no visible curvature -> **linearity** holds. One positive outlier near (fitted $\\approx 5.7$, residual $\\approx +7.7$) and a small cluster of $\\approx -4.5$ residuals at fitted $\\in [6,9]$ point to mildly **right-skewed** tails (Jarque-Bera $p\\approx 0.055$ confirms borderline non-normality), but with $n=100$ the CLT covers the t- and F-tests reported above. **Bottom line:** no violation severe enough to invalidate the inference at (a)-(d); the PI at (d) is the right tool for one-firm forecasts because the residual dispersion ($\\hat\\sigma\\approx 2.36$ days) — not the sampling noise on $\\hat\\beta$ — is what dominates individual uncertainty.
 """, "images": ["statistics/images/ex9_11-absence.png"]}
 
 ex9["9_12"] = {"title": "Ex 9.12 — Visitors: lagged regression with seasonal indicators",

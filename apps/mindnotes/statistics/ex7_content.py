@@ -492,31 +492,81 @@ qchisq(0.95, df=3)                                  # critical value 7.815
 ```
 """, "images": []}
 
-ex7["7_9b"] = {"title": "Ex 7.9b — Chi-squared goodness of fit: DS$Age vs Italian age bands",
-"content": """**Question.** Test whether the distribution of customers across age groups in `DS` matches the Italian population on the defined bands: 30% Young, 50% Middle, 20% Senior.
+ex7["7_9b"] = {"title": "Ex 7.9b — Chi-squared goodness-of-fit in R: are the 4 supermarket entrances used equally?",
+"content": """**Question.** Continuing Ex 7.9: a manager surveyed the $n=130$ customers entering a supermarket on a working day and recorded which of the **four entrances** they used:
+
+| Entrance | I | II | III | IV |
+|---|---|---|---|---|
+| Observed $O_k$ | 24 | 30 | 36 | 40 |
+
+Draw a conclusion about the hypotheses specified in part a) at the **5% significance level**, using an appropriate R function and reporting the syntax used.
 
 ---
 
-**Answer.** Sample composition: Young→216 (0.29), Middle→390 (0.52), Senior→144 (0.19). The chi-squared statistic equals **0.5488** on $\\text{df}=2$, giving a very high p-value. **Do not reject $H_0$**: the distribution of customers by age group reflects that of the Italian population.
+**Answer.** The hypotheses set in a) test whether the four entrances are used with the **same frequency**:
+$$H_0:\\ p_1=p_2=p_3=p_4=\\tfrac14 \\quad \\text{vs} \\quad H_1:\\ \\exists\\,k:\\ p_k\\neq\\tfrac14$$
+
+This is a one-sample multinomial vs a **fully specified** reference $\\Rightarrow$ chi-squared **goodness-of-fit** test. Under $H_0$ the expected counts are $E_k = n\\,p_{0k} = 130/4 = 32.5$ for every cell; all $E_k\\geq 5$, so the asymptotic $\\chi^2_{K-1}=\\chi^2_3$ approximation is valid.
+
+*Realisation of the test statistic.*
+$$X^2 = \\sum_{k=1}^{4}\\frac{(O_k-E_k)^2}{E_k} = \\frac{(24-32.5)^2 + (30-32.5)^2 + (36-32.5)^2 + (40-32.5)^2}{32.5} = \\frac{147}{32.5} \\approx 4.5231$$
+
+*Decision rule (α = 0.05).* Critical value $\\chi^2_{0.95,\\,3} = 7.815$. Since $X^2 = 4.5231 < 7.815$, equivalently the p-value
+$$\\text{p-value} = P(\\chi^2_3 > 4.5231) \\approx 0.2104 \\;>\\; 0.05,$$
+we **do not reject $H_0$** at the 5% level: the data are compatible with the four entrances being used with equal frequency.
+
+*Sanity check.* The biggest residual contribution comes from entrance IV ($(40-32.5)^2/32.5 \\approx 1.73$); spread across 3 d.f. this is well within ordinary sampling variation when each cell expects ~32.5 visits.
 
 ```r
-distr.table.x(DS$Age)
-chisq.test(c(216, 390, 144), p=c(0.3, 0.5, 0.2))
+# Goodness-of-fit test, fully specified p0 = (1/4, 1/4, 1/4, 1/4)
+chisq.test(x = c(24, 30, 36, 40), p = c(0.25, 0.25, 0.25, 0.25))
+## X-squared = 4.5231, df = 3, p-value = 0.2104
+
+# Manual cross-check
+O  <- c(24, 30, 36, 40); p0 <- rep(1/4, 4); n <- sum(O)   # n = 130
+E  <- n * p0; E                                            # 32.5 32.5 32.5 32.5
+X2 <- sum((O - E)^2 / E); X2                               # 4.5231
+1 - pchisq(X2, df = length(O) - 1)                         # p-value ≈ 0.2104
+qchisq(0.95, df = 3)                                       # critical value 7.8147
 ```
 """, "images": []}
 
 ex7["7_10a"] = {"title": "Ex 7.10a — Two-sample test on pooled summary stats: considered vs competing company",
-"content": """**Question.** A survey on 800 customers of a competing company gives mean expenditure $\\bar y=1300$ and $s_y=960$. The considered company (the 750 women in `DS`) has $\\bar x=1228.44$ and $s_x^2=940900.9$. Test at $\\alpha=10\\%$ whether the considered-company average expenditure is significantly **higher** than the competitor's: $H_0:\\mu_x = \\mu_y$ vs $H_1:\\mu_x > \\mu_y$.
+"content": """**Question.** A survey on $n_y = 800$ customers of a competing company gives mean expenditure $\\bar y=1300$ and standard deviation $s_y=960$. The considered company (the $n_x = 750$ women in `DS`) has $\\bar x=1228.44$ and $s_x^2=940{,}900.9$. Test at $\\alpha=10\\%$ whether the considered-company average expenditure is significantly **higher** than the competitor's: $H_0:\\mu_x = \\mu_y$ vs $H_1:\\mu_x > \\mu_y$.
 
 ---
 
-**Answer.** Pooled variance $s_p^2 = \\dfrac{(n_x-1)s_x^2 + (n_y-1)s_y^2}{n_x+n_y-2}=930938.7$. The standardized statistic equals $|\\bar x-\\bar y|/\\sqrt{s_p^2/n_x + s_p^2/n_y} = 1.4592$. Using the normal approximation, the p-value is $\\Pr(Z\\ge 1.4592)\\approx 0.072$. At $\\alpha=10\\%$ **do not reject $H_0$**: the average expenditure of the considered company is **not** significantly higher than that of the competing company.
+**Answer.**
+
+*Setup.* Two **independent** samples, both very large ($n_x, n_y \\geq 30$), so by the CLT the sample means are approximately normal without needing normality of the underlying expenditure variable. Population variances are unknown; assuming they are reasonably close, use the **pooled-variance two-sample t-test** (with such large samples the t and Z critical values coincide).
+
+*Pooled variance.* Note $s_y^2 = 960^2 = 921{,}600$.
+$$s_p^2 = \\frac{(n_x-1)\\,s_x^2 + (n_y-1)\\,s_y^2}{n_x+n_y-2} = \\frac{749 \\cdot 940{,}900.9 + 799 \\cdot 921{,}600}{1548} = 930{,}938.7$$
+
+*Standard error of the difference.*
+$$\\text{SE}(\\bar x - \\bar y) = \\sqrt{s_p^2\\left(\\tfrac{1}{n_x}+\\tfrac{1}{n_y}\\right)} = \\sqrt{930{,}938.7\\,(1/750 + 1/800)} = \\sqrt{2402.92} \\approx 49.02$$
+
+*Test statistic (one-sided, upper tail).*
+$$T_\\text{obs} = \\frac{\\bar x - \\bar y}{\\text{SE}} = \\frac{1228.44 - 1300}{49.02} = \\frac{-71.56}{49.02} \\approx -1.4592$$
+
+*Decision (α = 0.10).* Critical value $z_{0.90} = 1.2816$ (or equivalently $t_{0.90,\\,1548}\\approx 1.2824$). Since $T_\\text{obs} = -1.4592 < 1.2816$, we **do not reject $H_0$**. Equivalently, the one-sided p-value is
+$$\\text{p-value} = \\Pr(Z \\geq -1.4592) = 1 - \\Phi(-1.4592) \\approx 0.9277 \\gg 0.10.$$
+
+*Interpretation.* The considered company's mean ($1228.44$) is actually **lower** than the competitor's ($1300$), so the data move in the opposite direction of $H_1$. There is no evidence that the considered company spends more per customer; if anything, the reverse appears mildly suggestive (the two-sided p-value would be $\\approx 0.145$, still not significant at 10%).
 
 ```r
+# Summary-stats two-sample test (pooled variance), H1: mu_x > mu_y
 xbar <- 1228.44; s2.x <- 940900.9; n.x <- 750
-ybar <- 1300;    s2.y <- 960^2;    n.y <- 800
-s2.pool <- ((n.x-1)*s2.x + (n.y-1)*s2.y) / (n.x + n.y - 2)   # 930938.7
-t.stat  <- abs(xbar - ybar) / sqrt(s2.pool/n.x + s2.pool/n.y); t.stat  # 1.4592
-1 - pnorm(t.stat)                                            # one-sided p-value ~ 0.072
+ybar <- 1300;    s2.y <- 960^2;    n.y <- 800              # s2.y = 921600
+
+s2.pool <- ((n.x-1)*s2.x + (n.y-1)*s2.y) / (n.x + n.y - 2) # 930938.7
+se.diff <- sqrt(s2.pool * (1/n.x + 1/n.y));      se.diff   # 49.02
+t.stat  <- (xbar - ybar) / se.diff;              t.stat    # -1.4592
+
+# One-sided (upper) p-value: Pr(T >= t.stat)
+1 - pnorm(t.stat)                                          # ~ 0.9277  -> do NOT reject
+1 - pt(t.stat, df = n.x + n.y - 2)                         # ~ 0.9277
+
+qnorm(0.90)                                                # 1.2816 (critical value)
 ```
 """, "images": []}

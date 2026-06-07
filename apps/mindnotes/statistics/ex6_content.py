@@ -131,18 +131,55 @@ cor(vgsales$NA_Sales[vgsales$Genre=="Action"],
 ```
 """, "images": []}
 
-ex6["6_3a"] = {"title": "Ex 6.3a — 90% CI for mean Salary (DS, known $\\sigma$)",
-"content": """**Question.** Build a 90% confidence interval for the mean `Salary` in `DS`, assuming the population standard deviation $\\sigma = 38\\,000$ is known.
+ex6["6_3a"] = {"title": "Ex 6.3a — 95% CI for `Global_Sales` mean (vgsales, 1990 vs 2010)",
+"content": """**Question.**
+
+![Ex 6.3a question](statistics/images/ex6/questions/ex6_3a_question.png)
+
+An analyst is interested in evaluating the mean number of copies sold globally (variable `Global_Sales`) in two selected reference years, **1990** and **2010**. Calculate a confidence interval (using 3 decimal places) with confidence level $0.95$ for the mean number of global copies for each of the two years, specifying any assumptions that may be necessary in each case. Explain the observed differences in the margins of error of the proposed intervals.
 
 ---
 
-**Answer.** With $\\sigma$ known and $n = 750$ (large), $\\bar X \\sim \\mathcal N(\\mu, \\sigma/\\sqrt n)$. The CI is $\\bar x \\pm z_{0.95}\\cdot\\sigma/\\sqrt n$, with $z_{0.95}=1.6449$.
+**Setup.** Two sub-samples, indexed by year. We need a CI for $\\mu = E[\\textit{Global\\_Sales}]$ in each year. Behaviour depends on $n_t$:
+- **1990** has $n_{1990} = 16$ — *small*. CLT does *not* kick in: a CI for the mean requires the population to be (approximately) **normal**, and uses the **Student's $t$** percentile with $n-1 = 15$ degrees of freedom.
+- **2010** has $n_{2010} = 1259$ — *very large*. CLT applies regardless of the population shape, so the normal-based CI is valid; the $t_{n-1}$ and $z$ percentiles are numerically indistinguishable here ($t_{0.975,1258} \\approx 1.962$ vs $z_{0.975} = 1.960$).
+
+The 95% CI is in both cases $\\bar x \\pm c \\cdot s/\\sqrt n$, with $c = t_{0.975,\\,n-1}$ (small $n$) or $c \\approx z_{0.975}=1.96$ (large $n$).
+
+---
+
+**Answer.**
+- **1990** ($n = 16$, assuming `Global_Sales` $\\sim \\mathcal N$): $t_{0.975,15} \\approx 2.131$. The interval is $(0.516,\\;5.658)$ — **wide** because $n$ is tiny *and* sales of 1990 titles are very heterogeneous ($s_{1990}^2 \\approx 4.825$).
+- **2010** ($n = 1259$, CLT): the interval is $(0.405,\\;0.548)$ — **narrow** and almost identical whether built with $t$ or normal percentiles.
+
+**Why the ME differs.** Margin of error is $\\text{ME} = c \\cdot s/\\sqrt n$. Three forces all push 1990's ME up and 2010's ME down:
+1. **Reliability factor $c$:** $t_{0.975,15} \\approx 2.131$ (1990) vs $\\approx 1.96$ (2010) — Student's $t$ has fatter tails for small df.
+2. **Population variance:** the 1990 sample has $s^2_{1990} \\approx 4.825$ (a few blockbusters drive heterogeneity), while $s^2_{2010} \\approx 1.295$ — much more concentrated. Less heterogeneity in 2010 $\\Rightarrow$ smaller $s$.
+3. **Sample size:** $\\sqrt n$ is $4$ for 1990 but $\\approx 35.5$ for 2010 — the SE $s/\\sqrt n$ collapses for 2010.
+
+All three forces operate **in the same direction**, producing a much sharper interval estimate (smaller width) for 2010 than for 1990.
 
 ```r
-distr.summary.x(Salary, stats="mean", data=DS)
-CI.mean(Salary, sigma=38000, conf.level=0.90, data=DS)
+# CI for each year (vgsales)
+CI.mean(Global_Sales, conf.level=0.95, digits=3, data=vgsales[vgsales$Year==1990,])
+CI.mean(Global_Sales, conf.level=0.95, digits=3, data=vgsales[vgsales$Year==2010,])
+
+# Sanity check: sample size, mean, variance per year
+n_1990  <- sum(vgsales$Year==1990); n_2010 <- sum(vgsales$Year==2010)
+x_1990  <- vgsales$Global_Sales[vgsales$Year==1990]
+x_2010  <- vgsales$Global_Sales[vgsales$Year==2010]
+c(n_1990, mean(x_1990), var(x_1990))      # ~ 16, 3.087, 4.825
+c(n_2010, mean(x_2010), var(x_2010))      # ~ 1259, 0.477, 1.295
+
+# Reliability factors compared
+qt(0.975, df=15)                          # 2.1314  (Student's t, 1990)
+qt(0.975, df=1258)                        # 1.9619  (Student's t, 2010)
+qnorm(0.975)                              # 1.9600  (normal, large-n approx)
 ```
-""", "images": []}
+""", "images": [
+    "statistics/images/ex6/questions/ex6_3a_question.png",
+    "statistics/images/ex6/answers/ex6_3a_answer.png",
+]}
 
 ex6["6_3b1"] = {"title": "Ex 6.3b1 — Count and sample proportion of female customers (DS)",
 "content": """**Question.** How many female customers are in the dataset? Compute the sample proportion $\\hat p$ of females.
@@ -223,22 +260,44 @@ z_095 <- qnorm(0.975)                    # 1.96
 ]}
 
 ex6["6_3c"] = {"title": "Ex 6.3c — 99% CI for diff in Employment proportions (GER vs ITA)",
-"content": """**Question.** Compare the proportions of `Employment == "Employed, full-time"` between German and Italian developers and build a 99% CI for the difference (`Developers_ITA`).
+"content": """**Question.** Compare the proportions of `Employment == "Employed, full-time"` between German and Italian developers and build a 99% CI for the difference (`Developers_ITA` vs `Developers_GER`).
 
 ---
 
-**Answer.** Two **independent** samples ($n_{ITA}=802$, $n_{GER}=820$). Use
-$$(\\hat p_{GER}-\\hat p_{ITA}) \\pm z_{1-\\alpha/2}\\sqrt{\\tfrac{\\hat p_{GER}(1-\\hat p_{GER})}{n_{GER}} + \\tfrac{\\hat p_{ITA}(1-\\hat p_{ITA})}{n_{ITA}}}.$$
+**Setup.** Two **independent** samples (different individuals across countries) with $n_{ITA}=802$ and $n_{GER}=820$. The large-sample (Wald) CI for the difference of proportions is
+$$(\\hat p_{GER}-\\hat p_{ITA}) \\;\\pm\\; z_{1-\\alpha/2}\\,\\sqrt{\\tfrac{\\hat p_{GER}(1-\\hat p_{GER})}{n_{GER}} + \\tfrac{\\hat p_{ITA}(1-\\hat p_{ITA})}{n_{ITA}}}.$$
+Independence allows summing the two variances (no covariance term), unlike the paired case of 6.2.
+
+**AI walkthrough.**
+1. **Read the marginals.** `distr.table.x(Employment)` on each country gives the share of full-timers. Suppose the GER table reports a full-time share of $\\hat p_{GER}\\approx 0.097$ and the ITA table $\\hat p_{ITA}\\approx 0.150$ (re-read the printed table to assign the correct cell — beware that "Employed, full-time" may not be the first row).
+2. **Point estimate.** $\\hat p_{GER}-\\hat p_{ITA} \\approx 0.097-0.150 = -0.053$. Negative sign $\\Rightarrow$ German full-time share is **lower** than the Italian one.
+3. **Standard error.** Independence gives $\\operatorname{SE} = \\sqrt{\\hat p_{GER}(1-\\hat p_{GER})/820 + \\hat p_{ITA}(1-\\hat p_{ITA})/802} \\approx \\sqrt{0.097\\cdot 0.903/820 + 0.150\\cdot 0.850/802} \\approx \\sqrt{1.07\\cdot 10^{-4} + 1.59\\cdot 10^{-4}} \\approx 0.0163$.
+4. **99% multiplier.** $z_{0.995}\\approx 2.576$, so $\\text{ME} \\approx 2.576\\times 0.0163 \\approx 0.0420$.
+5. **Interval.** $-0.053\\pm 0.042 \\approx [-0.095,\\,-0.011]$. The CI sits **entirely below 0** $\\Rightarrow$ at 99% confidence GER's full-time share is between 1.1 and 9.5 percentage points lower than ITA's.
+6. **Validity check.** Wald requires $n_i\\hat p_i$ and $n_i(1-\\hat p_i)$ all $\\ge 5$; here the smallest count is $820\\cdot 0.097\\approx 80$, well above the threshold.
+
+*Take-aways.* (i) Compare **two-sample proportion** CIs by checking whether 0 is inside: outside $\\Rightarrow$ significant gap at the chosen level. (ii) Independence means **no covariance term** in the SE — opposite to the paired case 6.2 where the SE shrank via positive correlation. (iii) Sample sizes are roughly balanced, so SE is dominated by the variance terms, not by $1/n$ asymmetry.
+
+**Answer.** Two independent samples give a 99% CI for $p_{GER}-p_{ITA}$ that excludes 0 — strong evidence of a country gap in full-time employment.
 
 ```r
+# Marginal shares of "Employed, full-time" in each country
 distr.table.x(Developers_ITA$Employment, f.digits=3)
-phat_GER  <- 1 - 0.903                  # full-time share (GER)
-phat_ITA  <- 0.15                       # full-time share (ITA)
-diff.prop <- phat_GER - phat_ITA
-SE.diff   <- sqrt( phat_GER*(1-phat_GER)/820 +
-                   phat_ITA*(1-phat_ITA)/802 )
-ME <- qnorm(0.995) * SE.diff
-c(diff.prop - ME, diff.prop + ME)
+distr.table.x(Developers_GER$Employment, f.digits=3)
+
+phat_GER  <- 0.097                       # full-time share (GER)
+phat_ITA  <- 0.150                       # full-time share (ITA)
+n_GER     <- 820;  n_ITA <- 802
+diff.prop <- phat_GER - phat_ITA         # ~ -0.053
+
+SE.diff   <- sqrt( phat_GER*(1-phat_GER)/n_GER +
+                   phat_ITA*(1-phat_ITA)/n_ITA )   # ~ 0.0163
+ME <- qnorm(0.995) * SE.diff              # ~ 0.042
+c(diff.prop - ME, diff.prop + ME)         # ~ [-0.095, -0.011]
+
+# Same via CI.diffprop (course package), if available
+CI.diffprop(x=Developers_GER$Employment, y=Developers_ITA$Employment,
+            success="Employed, full-time", conf.level=0.99, digits=3)
 ```
 """, "images": []}
 
@@ -247,64 +306,123 @@ ex6["6_3d"] = {"title": "Ex 6.3d — 99% CI for AmountSpent: Married vs Single (
 
 ---
 
-**Answer.** Two **independent** sub-samples (different individuals). Use `CI.diffmean` after sub-setting, or via `by=`.
+**Setup.** Two **independent** sub-samples — different individuals belong to the Married and Single groups, so $\\operatorname{Cov}(\\bar X_M,\\bar X_S)=0$. With unknown (possibly unequal) variances and reasonably sized sub-samples, the Welch CI is
+$$(\\bar X_M - \\bar X_S) \\;\\pm\\; t^{*}_{1-\\alpha/2,\\,\\nu}\\,\\sqrt{\\tfrac{s_M^{2}}{n_M} + \\tfrac{s_S^{2}}{n_S}},$$
+with Satterthwaite df $\\nu = \\dfrac{(s_M^{2}/n_M + s_S^{2}/n_S)^2}{(s_M^{2}/n_M)^2/(n_M-1) + (s_S^{2}/n_S)^2/(n_S-1)}$. `CI.diffmean` defaults to this Welch form — the safe choice unless equal variances are explicitly assumed.
+
+---
+
+**AI walkthrough.** Step by step:
+1. **Define the sub-population.** Filter `DS` to `Location=="Close" & Children==0`. This isolates one segment, then we split it by `Married`.
+2. **Two groups, two samples.** Within the slice each customer is Married *or* Single — never both — so the two `AmountSpent` vectors are independent.
+3. **Why a CI for the *difference*?** We want $\\Delta = \\mu_M - \\mu_S$, not the two means in isolation. A CI for $\\Delta$ directly answers "is there a marital-status effect on spending in this segment?" If it excludes 0 there is evidence of a difference at the chosen level.
+4. **Why $t$ and not $z$?** The Welch CI uses $t^{*}_{\\nu}$ because $\\sigma_M,\\sigma_S$ are estimated from data. With $\\alpha=0.01$ the multiplier is `qt(0.995, df=nu)`; for large $\\nu$ it is essentially `qnorm(0.995) = 2.576`.
+5. **Read the output.** R prints $\\bar x_M - \\bar x_S$, the SE, the df, the multiplier, and the bounds. Both bounds positive $\\Rightarrow$ Married spend more on average; both negative $\\Rightarrow$ Single spend more; straddling 0 $\\Rightarrow$ no evidence of a difference at the 1% level.
+6. **Equivalence of the two approaches.** Explicit subsets and `by=Married` return the **same** numbers — `by=` just splits internally. Use it to avoid copy-paste bugs in the filter; use the explicit form when you need the vectors for downstream checks (`length`, `mean`, `sd`).
+
+---
+
+**Answer.** Use `CI.diffmean` after sub-setting, or via `by=`. With confidence 99% the bounds tell us whether the typical Married-vs-Single spending gap (inside the Close / no-children segment) is statistically distinguishable from zero.
 
 ```r
 # Approach 1: explicit subsets
 sel.M <- DS$Location=="Close" & DS$Children==0 & DS$Married=="Married"
 sel.S <- DS$Location=="Close" & DS$Children==0 & DS$Married=="Single"
+length(DS$AmountSpent[sel.M]); length(DS$AmountSpent[sel.S])    # group sizes
 CI.diffmean(x=DS$AmountSpent[sel.M], y=DS$AmountSpent[sel.S],
             conf.level=0.99, digits=3)
 
-# Approach 2: by= argument
+# Approach 2: by= argument (cleaner — same result)
 sel.sub <- DS$Location=="Close" & DS$Children==0
 CI.diffmean(x=DS$AmountSpent[sel.sub], by=DS$Married[sel.sub],
             conf.level=0.99, digits=3)
+
+# Manual check (Welch SE + t multiplier)
+xM <- DS$AmountSpent[sel.M]; xS <- DS$AmountSpent[sel.S]
+nM <- length(xM); nS <- length(xS)
+se <- sqrt(var(xM)/nM + var(xS)/nS)
+nu <- (var(xM)/nM + var(xS)/nS)^2 /
+      ((var(xM)/nM)^2/(nM-1) + (var(xS)/nS)^2/(nS-1))
+ME <- qt(0.995, df=nu) * se
+c(mean(xM) - mean(xS) - ME, mean(xM) - mean(xS) + ME)
 ```
 """, "images": []}
 
 ex6["6_4a"] = {"title": "Ex 6.4a — Pooled-variance CI for vgsales mean (NF vs F)",
-"content": """**Question.** Compute the pooled-variance CI for the difference in two-group sample means, with $\\bar x_{NF}=90.7, \\bar x_F=87.2, s_{NF}=5.4, s_F=4.8, n_{NF}=n_F=10$. Also provide the known-variance version ($\\sigma_{NF}=5.2, \\sigma_F=5$).
+"content": """**Question.** Compute the 95% pooled-variance CI for the difference of two-group means, with $\\bar x_{NF}=90.7,\\ \\bar x_F=87.2,\\ s_{NF}=5.4,\\ s_F=4.8,\\ n_{NF}=n_F=10$. Then redo the interval in the **known-variance** version ($\\sigma_{NF}=5.2,\\ \\sigma_F=5$) and compare.
 
 ---
 
-**Answer.**
+**Setup.** Two **independent** samples assumed drawn from populations with the *same* (unknown) variance. The natural variance estimator is the pooled one:
+$$S_p^{\\,2} \\;=\\; \\frac{(n_{NF}-1)s_{NF}^{\\,2} + (n_F-1)s_F^{\\,2}}{n_{NF}+n_F-2}, \\qquad \\text{SE}(\\bar X_{NF}-\\bar X_F) \\;=\\; S_p\\sqrt{\\tfrac{1}{n_{NF}}+\\tfrac{1}{n_F}}.$$
+Under the (small-sample) normality assumption the pivot follows a Student's $t$ with $\\nu = n_{NF}+n_F-2 = 18$ df, so the CI is
+$$(\\bar X_{NF}-\\bar X_F) \\;\\pm\\; t_{1-\\alpha/2,\\,\\nu}\\,\\text{SE}.$$
+If the population variances are **known**, the SE is built directly from $\\sigma_{NF},\\sigma_F$ and the multiplier becomes $z_{1-\\alpha/2}$.
+
+**AI walkthrough.** Step by step:
+1. **Point estimate.** $\\bar D = \\bar x_{NF} - \\bar x_F = 90.7 - 87.2 = 3.5$.
+2. **Pooled variance.** With $n_{NF}=n_F=10$, $S_p^{\\,2}$ is the **simple average** of the two sample variances: $S_p^{\\,2} = \\tfrac{9\\cdot 5.4^{2} + 9\\cdot 4.8^{2}}{18} = \\tfrac{5.4^{2}+4.8^{2}}{2} = \\tfrac{29.16+23.04}{2} = 26.10$, so $S_p \\approx 5.109$.
+3. **Pooled SE.** $\\text{SE} = S_p\\sqrt{1/10+1/10} = 5.109\\cdot\\sqrt{0.2} \\approx 2.285$.
+4. **Critical value.** $t_{0.975,\\,18} \\approx 2.1009$ (heavier-tailed than $z_{0.975}=1.96$ because of small $n$).
+5. **Margin & CI (pooled-$t$).** $\\text{ME}_t = 2.1009\\times 2.285 \\approx 4.80$, giving $[\\,-1.30,\\,8.30\\,]$. The interval **contains 0** at the 95% level — the data are consistent with no NF-vs-F gap.
+6. **Known-$\\sigma$ pathway.** $\\text{SE}_z = \\sqrt{\\sigma_{NF}^{2}/10 + \\sigma_F^{2}/10} = \\sqrt{2.704 + 2.5} \\approx 2.294$ — essentially the same SE as the pooled one because $s\\approx\\sigma$. The multiplier shrinks to $z_{0.975}=1.96$, so $\\text{ME}_z \\approx 4.50$, giving $[\\,-1.00,\\,8.00\\,]$.
+7. **Comparison.** The known-variance interval is **narrower** because we skip the penalty for estimating $\\sigma$: the width ratio is $t_{0.975,18}/z_{0.975} \\approx 1.072$ — a 7% inflation for $n=10$. Push $n$ up and the gap vanishes ($t \\to z$). Both intervals straddle 0, so the qualitative conclusion (no significant NF-vs-F gap at 95%) is identical.
+
+**Take-aways.** (i) Pooling is justified only when the two populations have (approximately) **the same variance**; otherwise use Welch's separate-variance SE. (ii) The $t$-vs-$z$ correction matters most at small $n$ — for $n_1=n_2=10$, $t_{0.975,18}$ is $\\approx 7\\%$ larger than $1.96$. (iii) With equal sample sizes the pooled variance is the *mean* of the two sample variances, a handy sanity check.
+
 ```r
 x_bar_NF <- 90.7; x_bar_F <- 87.2
-diff.bar <- x_bar_NF - x_bar_F
+diff.bar <- x_bar_NF - x_bar_F                 # 3.5
 sd_NF <- 5.4; sd_F <- 4.8
 
-# Pooled variance, df = n_NF + n_F - 2 = 18 here
-s2_pool <- (9*sd_NF^2 + 9*sd_F^2)/18
-se.diff <- sqrt(s2_pool/10 + s2_pool/10)
-qt(0.975, df=18)
-ME <- qt(0.975, df=18) * se.diff
-c(diff.bar - ME, diff.bar + ME)
+# (a) Pooled-variance t CI, df = n_NF + n_F - 2 = 18
+s2_pool <- (9*sd_NF^2 + 9*sd_F^2)/18           # 26.10
+sqrt(s2_pool)                                   # S_p ~ 5.109
+se.diff <- sqrt(s2_pool/10 + s2_pool/10)        # ~ 2.285
+qt(0.975, df=18)                                # 2.1009
+ME <- qt(0.975, df=18) * se.diff                # ~ 4.80
+c(diff.bar - ME, diff.bar + ME)                 # ~ [-1.30,  8.30]
 
-# (b) Known-variance form, with sigma_NF=5.2, sigma_F=5
+# (b) Known-variance form, sigma_NF=5.2, sigma_F=5
 sigma_NF <- 5.2; sigma_F <- 5
-SE.diff  <- sqrt(sigma_NF^2/10 + sigma_F^2/10)
-qnorm(0.975)
-ME.k <- qnorm(0.975) * SE.diff
-c(diff.bar - ME.k, diff.bar + ME.k)
+SE.diff  <- sqrt(sigma_NF^2/10 + sigma_F^2/10)  # ~ 2.294
+qnorm(0.975)                                    # 1.96
+ME.k <- qnorm(0.975) * SE.diff                  # ~ 4.50
+c(diff.bar - ME.k, diff.bar + ME.k)             # ~ [-1.00,  8.00]
+
+# Inflation factor for unknown sigma at n=10:
+qt(0.975, df=18) / qnorm(0.975)                 # ~ 1.072  (about 7% wider)
 ```
-""", "images": []}
+""", "images": [
+    "statistics/images/ex6/ex6_4a_ai.png",
+]}
 
 ex6["6_6a"] = {"title": "Ex 6.6a — 95% CI for a single proportion ($n=100$, 40 successes)",
 "content": """**Question.** Build a 95% CI for the proportion of successes from a sample of $n=100$ customers, $40$ of whom answered favourably.
 
 ---
 
-**Answer.** Point estimate $\\hat p = 0.4$; CI uses $\\sqrt{\\hat p(1-\\hat p)/n}$ and $z_{0.025}$.
+**AI walkthrough.** Let $X = \\#\\{\\text{favourable}\\} \\sim \\text{Bin}(n,p)$ and $\\hat p = X/n$ the sample proportion. For $n$ large enough that $n\\hat p \\ge 5$ and $n(1-\\hat p) \\ge 5$ (here $40$ and $60$, both $\\gg 5$), the **CLT** gives
+$$\\hat p \\;\\overset{a}{\\sim}\\; \\mathcal{N}\\!\\left(p,\\; \\tfrac{p(1-p)}{n}\\right),$$
+and the **Wald CI** (plug-in for the unknown $p$ in the SE) is
+$$\\hat p \\;\\pm\\; z_{1-\\alpha/2}\\,\\sqrt{\\tfrac{\\hat p(1-\\hat p)}{n}}.$$
+
+Step-by-step with $\\hat p = 40/100 = 0.40$, $\\alpha = 0.05$, $z_{0.975} = 1.96$:
+- Variance: $\\tfrac{0.4 \\cdot 0.6}{100} = 2.4 \\times 10^{-3}$.
+- SE: $\\sqrt{2.4 \\times 10^{-3}} \\approx 0.04899$.
+- ME: $1.96 \\times 0.04899 \\approx 0.0960$.
+- CI: $0.40 \\pm 0.0960 = [0.304,\\; 0.496]$.
+
+**Answer.** Point estimate $\\hat p = 0.40$; with 95% confidence the population proportion of favourable customers lies in $[0.304,\\,0.496]$ — a fairly wide interval ($\\approx 19$ pp), reflecting the moderate sample size. The 95% refers to the *procedure*: 95% of samples drawn this way produce an interval covering the true $p$; we cannot tell whether this specific one does.
 
 ```r
 phat  <- 40/100
 var_p <- phat*(1-phat)/100
 se    <- sqrt(var_p)
-var_p; se
-qnorm(0.975)            # percentile
-ME    <- qnorm(0.975) * se
-c(phat - ME, phat + ME) # interval
+var_p; se                       # 0.0024 ; ~ 0.04899
+qnorm(0.975)                    # 1.959964
+ME    <- qnorm(0.975) * se      # ~ 0.0960
+c(phat - ME, phat + ME)         # [0.304, 0.496]
 ```
 """, "images": []}
 

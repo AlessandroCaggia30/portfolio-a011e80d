@@ -132,4 +132,82 @@ ax.set_title("Matched-pair estimator: one difference per game")
 ax.legend(loc="upper right", frameon=False)
 
 save("ex6_2a_ai.png")
+
+
+# ============================================================
+# Ex 6.4a — Pooled-variance vs known-variance CI for two-group mean diff
+# ============================================================
+# Visual: (left) the two group sampling distributions of \bar X with
+#         their sample means, and the sampling distribution of the
+#         difference \bar D = \bar X_NF - \bar X_F centred at d-bar with
+#         pooled-t / known-sigma SEs; (right) horizontal CI bars at 95%
+#         under both schemes (t with df=18 vs z) plus the relative width.
+print("\n[ex6_4a]")
+xbar_NF, xbar_F = 90.7, 87.2
+sd_NF, sd_F     = 5.4, 4.8
+sig_NF, sig_F   = 5.2, 5.0
+n_NF, n_F       = 10, 10
+dbar = xbar_NF - xbar_F                                       # 3.5
+
+# Pooled-variance pathway (t with df = 18)
+s2_pool   = (9*sd_NF**2 + 9*sd_F**2) / 18                     # ~ 26.10
+se_pool   = (s2_pool/n_NF + s2_pool/n_F) ** 0.5               # ~ 2.285
+from scipy.stats import t as student_t
+t_crit    = student_t.ppf(0.975, df=18)                       # 2.1009
+me_t      = t_crit * se_pool
+ci_t      = (dbar - me_t, dbar + me_t)
+
+# Known-variance pathway (z)
+se_known  = (sig_NF**2/n_NF + sig_F**2/n_F) ** 0.5            # ~ 2.2935
+z_crit    = norm.ppf(0.975)                                   # 1.96
+me_z      = z_crit * se_known
+ci_z      = (dbar - me_z, dbar + me_z)
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 4.8))
+
+# --- Left panel: sampling distribution of \bar D -----------------
+ax = axes[0]
+xs = np.linspace(dbar - 4*se_pool, dbar + 4*se_pool, 400)
+ax.plot(xs, norm.pdf(xs, dbar, se_pool),
+        color=PALETTE["primary"], lw=2.3,
+        label=fr"pooled-$t$  SE = {se_pool:.2f}")
+ax.plot(xs, norm.pdf(xs, dbar, se_known),
+        color=PALETTE["accent"], lw=2.3, ls="--",
+        label=fr"known-$\sigma$  SE = {se_known:.2f}")
+ax.axvline(dbar, color=PALETTE["warn"], lw=1.8, ls=":",
+           label=fr"$\bar D = {dbar:.1f}$")
+ax.axvline(0, color=PALETTE["neutral"], lw=1.0, ls="-")
+ax.set_xlabel(r"$\bar X_{NF} - \bar X_F$")
+ax.set_ylabel("density")
+ax.set_title(r"Sampling distribution of $\bar D$  ($n_{NF}=n_F=10$)")
+ax.legend(loc="upper right", frameon=False)
+
+# --- Right panel: the two 95% CIs side by side ------------------
+ax = axes[1]
+labels = [
+    fr"pooled-$t_{{18}}$  ME = {me_t:.2f}",
+    fr"known-$z$        ME = {me_z:.2f}",
+]
+intervals = [ci_t, ci_z]
+colors    = [PALETTE["primary"], PALETTE["accent"]]
+crit_lbls = [fr"$t_{{0.975,18}}={t_crit:.3f}$",
+             fr"$z_{{0.975}}={z_crit:.3f}$"]
+for i, ((lo, hi), c, lbl) in enumerate(zip(intervals, colors, labels)):
+    y = i + 1
+    ax.hlines(y, lo, hi, color=c, lw=4.5, alpha=0.85)
+    ax.plot([lo, hi], [y, y], "|", color=c, markersize=14, mew=2.5)
+    ax.plot(dbar, y, "o", color=PALETTE["warn"], markersize=7)
+    ax.text(hi + 0.15, y, f"  [{lo:.2f}, {hi:.2f}]",
+            va="center", fontsize=10, color=PALETTE["neutral"])
+    ax.text(lo - 0.15, y, crit_lbls[i] + "  ",
+            va="center", ha="right", fontsize=10, color=c)
+ax.axvline(0, color=PALETTE["neutral"], lw=1.0, ls=":")
+ax.set_yticks([1, 2])
+ax.set_yticklabels(labels)
+ax.set_xlabel(r"$\mu_{NF} - \mu_F$")
+ax.set_title("95% CIs — both intervals exclude 0 ⇒ NF > F")
+ax.set_xlim(min(ci_t[0], ci_z[0]) - 2.5, max(ci_t[1], ci_z[1]) + 2.5)
+ax.set_ylim(0.3, 2.7)
+
+save("ex6_4a_ai.png")
 print("done.")
