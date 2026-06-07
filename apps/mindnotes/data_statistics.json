@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": 1780866839799,
+  "exportedAt": 1780867011794,
   "data": {
     "topics": [
       {
@@ -2730,17 +2730,21 @@
               },
               {
                 "id": "3_12a",
-                "title": "<span class=\"exam-question-text\">Ex 3.12a — Effectiveness | Channel: medians for Online vs In-Store</span>",
-                "content": "<span class=\"exam-question-text\">**Question.** Comment on the variable `Effectiveness` for customers who typically buy online (`Channel = Online`) and for customers who typically buy in-store (`Channel = In-Store`). What are your comments on the conditional distributions of `Effectiveness` and on the procedure followed to obtain them? What are your considerations on the median for each channel and on the procedure followed to obtain it?</span>\n\nA company launched a promotional campaign. An in-depth analysis is carried out on a sample of 720 customers. For these customers the effectiveness of the campaign (`Effectiveness`) and the purchasing channel typically used (`Channel`) is measured, among other things. The results are reported in the following table:\n\n\\begin{tabular}{p{6.33cm}|p{6.33cm}|p{6.33cm}|p{6.33cm}|p{6.33cm}|p{6.33cm}}\n\\hline\nEffectiveness Channel & Low & Medium-Low & Medium & Medium-High & High \\\\\n\\hline\nOnline & 16 & 76 & 36 & 30 & 22 \\\\\nMobile App & 56 & 68 & 72 & 12 & 16 \\\\\nIn-Store & 25 & 38 & 90 & 108 & 63 \\\\\n\\hline\n\\end{tabular}\n\n\n---\n\n**Answer.** Build the conditional distribution of `Effectiveness` given `Channel = Online` and given `Channel = In-Store` (relative + cumulative frequencies):\n\n\\begin{tabular}{p{4.75cm}|p{4.75cm}|p{4.75cm}|p{4.75cm}|p{4.75cm}|p{4.75cm}|p{4.75cm}|p{4.75cm}}\n\\hline\nChannel &  & Low & Medium-Low & Medium & Medium-High & High & tot \\\\\n\\hline\nOnline & Fr.Absolute & 16 & 76 & 36 & 30 & 22 & 180 \\\\\n & Fr.Relative & 0.089 & 0.422 & 0.2 & 0.167 & 0.122 & 1 \\\\\n & Fr.Cumulate & 0.089 & 0.511 & 0.711 & 0.878 & 1 &  \\\\\nIn-Store & Fr.Absolute & 25 & 38 & 90 & 108 & 63 & 324 \\\\\n & Fr.Relative & 0.077 & 0.117 & 0.278 & 0.333 & 0.194 & 1 \\\\\n & Fr.Cumulate & 0.077 & 0.194 & 0.472 & 0.805 & 1 &  \\\\\n\\hline\n\\end{tabular}\n\nThe **mode** of `Effectiveness | Channel = Online` is the highest-frequency category (`Medium-Low`, relative frequency 0.422), and it is also the **median** (first level whose cumulative relative frequency exceeds 0.5: 0.511). For `Channel = In-Store` the mode and the median both equal `Medium-High` (first level whose cumulative relative frequency exceeds 0.5: 0.805). A higher campaign effectiveness is therefore observed for customers who prefer to shop in-store.\n\n`Effectiveness` is an **ordinal** qualitative variable, so the median is obtained from the cumulative relative frequencies; the arithmetic mean is **not** defined on ordinal categories.\n\n\n%%RBLOCK%%\n`distr.table.xy(x=Channel, y=Effectiveness, freq=c(\"percentage\",\"cumulative\"), data=Campaign)`\n%%/RBLOCK%%\n\n",
+                "title": "Ex 3.12a — Effectiveness | Channel: medians for Online vs In-Store",
+                "content": "![Ex 3.12a question](statistics/images/ex3/questions/ex3_12a_question.png)\n\n**Question.** Comment on the variable `Effectiveness` for customers who typically buy online (`Channel = Online`) and for customers who typically buy in-store (`Channel = In-Store`). What are your comments on the conditional distributions of `Effectiveness` and on the procedure followed to obtain them? What are your considerations on the median for each channel and on the procedure followed to obtain it?\n\nA company launched a promotional campaign. An in-depth analysis is carried out on a sample of 720 customers. For these customers the effectiveness of the campaign (`Effectiveness`) and the purchasing channel typically used (`Channel`) is measured, among other things. The results are reported in the following table:\n\n\\begin{tabular}{p{6.33cm}|p{6.33cm}|p{6.33cm}|p{6.33cm}|p{6.33cm}|p{6.33cm}}\n\\hline\nEffectiveness Channel & Low & Medium-Low & Medium & Medium-High & High \\\\\n\\hline\nOnline & 16 & 76 & 36 & 30 & 22 \\\\\nMobile App & 56 & 68 & 72 & 12 & 16 \\\\\nIn-Store & 25 & 38 & 90 & 108 & 63 \\\\\n\\hline\n\\end{tabular}\n\n\n---\n\n**Answer.** Build the conditional distribution of `Effectiveness` given `Channel = Online` and given `Channel = In-Store` (relative + cumulative frequencies):\n\n\\begin{tabular}{p{4.75cm}|p{4.75cm}|p{4.75cm}|p{4.75cm}|p{4.75cm}|p{4.75cm}|p{4.75cm}|p{4.75cm}}\n\\hline\nChannel &  & Low & Medium-Low & Medium & Medium-High & High & tot \\\\\n\\hline\nOnline & Fr.Absolute & 16 & 76 & 36 & 30 & 22 & 180 \\\\\n & Fr.Relative & 0.089 & 0.422 & 0.2 & 0.167 & 0.122 & 1 \\\\\n & Fr.Cumulate & 0.089 & 0.511 & 0.711 & 0.878 & 1 &  \\\\\nIn-Store & Fr.Absolute & 25 & 38 & 90 & 108 & 63 & 324 \\\\\n & Fr.Relative & 0.077 & 0.117 & 0.278 & 0.333 & 0.194 & 1 \\\\\n & Fr.Cumulate & 0.077 & 0.194 & 0.472 & 0.805 & 1 &  \\\\\n\\hline\n\\end{tabular}\n\nThe **mode** of `Effectiveness | Channel = Online` is the highest-frequency category (`Medium-Low`, relative frequency 0.422), and it is also the **median** (first level whose cumulative relative frequency exceeds 0.5: 0.511). For `Channel = In-Store` the mode and the median both equal `Medium-High` (first level whose cumulative relative frequency exceeds 0.5: 0.805). A higher campaign effectiveness is therefore observed for customers who prefer to shop in-store.\n\n`Effectiveness` is an **ordinal** qualitative variable, so the median is obtained from the cumulative relative frequencies; the arithmetic mean is **not** defined on ordinal categories.\n\n![Ex 3.12a AI walkthrough](statistics/images/ex3/ex3_12a_ai.png)\n\nThe two panels make the comparison visual: **bars** are the relative frequencies, the **dark line** is the cumulative relative frequency, and the **yellow star** sits on the first level whose cumulative crosses **0.5** — that is the **median class**. For `Online` the median lands on **Medium-Low** (cum = 0.511, only just above 0.5), while for `In-Store` it shifts two levels to the right to **Medium-High** (cum = 0.805), confirming the rightward shift toward higher effectiveness.\n\n\n%%RBLOCK%%\n`distr.table.xy(x=Channel, y=Effectiveness, freq=c(\"percentage\",\"cumulative\"), data=Campaign)`\n%%/RBLOCK%%\n\n\n![Ex 3.12a answer](statistics/images/ex3/answers/ex3_12a_answer.png)\n",
                 "flashcard": false,
-                "images": [],
+                "images": [
+                  "statistics/images/ex3/questions/ex3_12a_question.png",
+                  "statistics/images/ex3/ex3_12a_ai.png",
+                  "statistics/images/ex3/answers/ex3_12a_answer.png"
+                ],
                 "links": [
                   "th_g7"
                 ],
                 "x": 22600,
                 "y": 200,
                 "width": 600,
-                "height": 360,
+                "height": 540,
                 "color": "yellow",
                 "column": 29
               },
@@ -2758,7 +2762,7 @@
                   "th_g7"
                 ],
                 "x": 22600,
-                "y": 600,
+                "y": 780,
                 "width": 600,
                 "height": 540,
                 "color": "yellow",
@@ -2778,7 +2782,7 @@
                   "th_g7"
                 ],
                 "x": 22600,
-                "y": 1180,
+                "y": 1360,
                 "width": 600,
                 "height": 540,
                 "color": "yellow",
