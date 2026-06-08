@@ -11999,7 +11999,16 @@ function renderStatsTable() {
 }
 
 function findStatsNode(nodeId) {
+    // Search canvas topics first
     for (const t of (State.data?.topics || [])) {
+        for (const s of (t.subtopics || [])) {
+            for (const n of (s.nodes || [])) {
+                if (n.id === nodeId) return n;
+            }
+        }
+    }
+    // Also search examTable topics (time-series hyper-table)
+    for (const t of (State.data?.examTable?.topics || [])) {
         for (const s of (t.subtopics || [])) {
             for (const n of (s.nodes || [])) {
                 if (n.id === nodeId) return n;
