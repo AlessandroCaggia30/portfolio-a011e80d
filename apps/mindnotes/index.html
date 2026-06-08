@@ -4686,7 +4686,7 @@ async function loadData() {
                         const backup = await resp.json();
                         State.data = backup.data || backup;
                         if (!State.data.trash) State.data.trash = [];
-                        await _commitSave();
+                        await _commitSave({skipPush: true});
                         console.log('Loaded from bundled ' + seedFile);
                     } else {
                         State.data = (dataKey === 'mindnotes_advmath' || dataKey === 'mindnotes2')
