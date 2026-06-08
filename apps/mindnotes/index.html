@@ -11832,6 +11832,16 @@ async function selectSubject(subject) {
         document.getElementById('statsTableView').classList.add('hidden');
     }
 
+    // Time-series: relabel the Quiz tab as "Exam Table" (drives statsTable view).
+    const quizTab = document.getElementById('tabQuiz');
+    if (quizTab) {
+        if (subject.id === 'time-series') {
+            quizTab.innerHTML = '<span class="icon">\uD83D\uDCCA</span> Exam Table';
+        } else {
+            quizTab.innerHTML = '<span class="icon">\uD83E\uDDE0</span> Quiz';
+        }
+    }
+
     switchView('notes');
     // Load local data first so the UI appears instantly.
     await loadData();
