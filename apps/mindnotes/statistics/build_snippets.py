@@ -2671,6 +2671,7 @@ TOPIC_META = {
 
 COLUMN_HEADERS = [
     {"col": 1, "label": "Theory"},
+    {"col": 100, "label": "Master Exam Ready (consolidated)"},
     {"col": 2, "label": "Ex 0 / Q1 (USA states)"},
     {"col": 3, "label": "Ex 0 / Q2 (Titanic)"},
     {"col": 4, "label": "Ex 1.1 (pizzerie)"},
@@ -2769,7 +2770,6 @@ COLUMN_HEADERS = [
     {"col": 97, "label": "Past exam — July 2025"},
     {"col": 98, "label": "Past exam — September 2024"},
     {"col": 99, "label": "Past exam — September 2025"},
-    {"col": 100, "label": "Master Exam Ready (consolidated)"},
 ]
 
 # ---------------------------------------------------------------------
