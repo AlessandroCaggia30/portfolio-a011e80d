@@ -163,39 +163,59 @@ def node(node_id, title, content, x, y, color, w=SNIPPET_W, h=H_NORMAL,
 
 T_G1A_PIE = """## Pie chart
 
-A **pie chart** displays the relative frequencies of a **qualitative variable** as proportional slices of a disk.
+A **pie chart** displays the **relative frequencies** of a **qualitative variable** as proportional slices of a disk. The angle (equivalently, the area) of each slice equals the share of the corresponding category in the sample.
 
-**When to use:**
-- Qualitative (categorical) variables, especially **nominal** ones with few categories (≤5).
-- Highlights relative weight of categories; absolute and relative frequency representations look identical.
-- Useful when the *ordering* of categories should not be implied (the disk has no axis).
+### Definition
+Given a qualitative variable $X$ with categories $c_1,\\dots,c_K$ and absolute frequencies $n_1,\\dots,n_K$ with $n=\\sum_k n_k$, the slice for category $c_k$ has:
+$$
+\\text{angle}_k = 2\\pi\\,\\frac{n_k}{n}, \\qquad \\text{area}_k \\propto \\frac{n_k}{n} = f_k .
+$$
+Because slices depend only on the *shares* $f_k$, the pie looks **identical** whether you pass absolute counts, relative frequencies, or percentages.
 
-**When NOT to use:**
-- Variables with many categories — slices become unreadable.
-- **Ordinal** variables — pie loses the natural order; prefer a bar plot.
-- Continuous or discrete numerical variables — use a histogram or spike plot.
+![Theory illustration](statistics/images/theory/th_g1a_ai.png)
+
+### When to use
+- Variable is **qualitative** (categorical).
+- Especially well-suited to **nominal** variables — the disk has no axis, so no ordering is implied.
+- **Few categories** (rule of thumb $K\\le 5$): humans compare angles poorly, so too many slices become unreadable.
+- The goal is to show **relative share** of each class, not absolute counts.
+
+### When NOT to use
+- **Ordinal** variables — the natural order of categories is lost on a disk. Prefer a **bar plot**, which keeps categories on an ordered x-axis.
+- **Many categories** ($K>5$) — slices become small and indistinguishable; a bar plot is more readable.
+- **Numerical** variables (continuous or discrete) — use a **histogram** or a **spike plot** instead.
+
+### Reading a pie chart
+- Two pies are comparable only after fixing the same legend / category ordering; the absolute sample sizes $n$ are not visible from the pie alone (state $n$ in the caption).
+- Slice **labels** should report the percentage (and optionally the count) — otherwise small slices are hard to rank.
 
 **R commands:**
 ```r
 distr.plot.x(x=Var, plot.type="pie", freq="perc", data=DF)
 distr.table.x(x=Var, freq=c("count","perc"), data=DF)
 ```
-
-The pie does not depend on whether absolute or relative frequencies are used — slice areas are the same.
 """
 
 T_G1B_BAR = """## Bar plot
 
-A **bar plot** uses bars of equal width whose **height** is proportional to the (absolute, relative or percentage) frequency of each category.
+A **bar plot** uses bars of **equal width** whose **height** is proportional to the (absolute, relative, or percentage) frequency of each category. The categorical variable goes on the x-axis; the frequency on the y-axis.
 
 **When to use:**
-- Qualitative variables, especially **ordinal** ones — categories are plotted along the x-axis in their natural order, allowing direct visual comparison.
-- Nominal variables when you want to compare magnitudes precisely (the disk shape of a pie chart makes comparison harder).
+- **Qualitative** variables, especially **ordinal** ones — categories are plotted along the x-axis in their natural order, allowing direct visual comparison of magnitudes.
+- **Nominal** variables when you want to compare frequencies precisely (the disk shape of a pie chart makes magnitude comparison harder).
+- **Discrete numerical** variables only when consecutive integer values are present with no gaps and uniform spacing (otherwise use a **spike plot**).
+
+![Theory illustration](statistics/images/theory/th_g1b_ai.png)
+
+**How to read it:**
+- Each bar = one category. Bar **width** is fixed and meaningless; only **height** encodes information.
+- The y-axis can be **counts** $n_i$, **relative frequencies** $f_i = n_i/n$, or **percentages** $100 \\cdot f_i$ — the *shape* of the chart is identical; only the y-axis label and scale change.
 
 **Cautions:**
-- For **nominal** variables, the default R ordering is alphabetical; do not draw conclusions from bar position.
-- Bar plot heights all carry the same meaning whether absolute, relative, or percentage frequencies are used — the *shape* of the chart is identical.
-- For **ordered** variables, define the factor explicitly with `levels=` so categories appear in the correct sequence.
+- For **nominal** variables, R orders bars **alphabetically by default** — do not draw conclusions from bar position; only heights are interpretable.
+- For **ordinal** variables, define the factor explicitly with `levels=` so categories appear in the correct sequence (e.g. `None < Low < Medium < High`).
+- Do **not** use a bar plot for a **continuous** variable (use a histogram) or for a discrete numerical variable with gaps (use a spike plot).
+- Keep the y-axis starting at **zero**; truncated axes exaggerate differences.
 
 **R commands:**
 ```r
@@ -203,30 +223,38 @@ distr.plot.x(x=Var, plot.type="bars", data=DF)
 # Ordering an ordinal variable first:
 DF$Var_recode <- factor(DF$Var, levels=c("None","Low","Medium","High"))
 distr.plot.x(x=DF$Var_recode, plot.type="bars")
+# Percentage instead of count on the y-axis:
+distr.plot.x(x=Var, plot.type="bars", freq="perc", data=DF)
 ```
 """
 
 T_G1C_HIST = """## Histogram (continuous variables)
 
-A **histogram** represents the distribution of a **continuous numerical** variable. Each bar spans a class interval $[a_i, b_i)$, and its **area** equals the relative frequency $f_i$ of that class.
+A **histogram** represents the distribution of a **continuous numerical** variable. Each bar spans a class interval $[a_i, b_i)$, and its **area** — not its height — encodes information. The defining invariant is:
+$$
+\\text{area}_i \\;=\\; d_i \\cdot w_i \\;=\\; f_i, \\qquad \\sum_i f_i = 1,
+$$
+where $w_i = b_i - a_i$ is the class width, $d_i$ is the density on the y-axis, and $f_i$ is the relative frequency.
 
 ### Equal-width classes
-With constant width $w$, plotting *frequency on the y-axis* is fine because bar areas are proportional to bar heights.
+With a constant width $w$, plotting **counts** $n_i$ or **frequencies** $f_i$ on the y-axis is fine: every bar shares the same width, so bar areas are proportional to bar heights and the visual ordering is preserved.
 
 ### Unequal-width classes — the density rule (compulsory)
-Whenever class widths differ ($w_i \\ne w_j$), the y-axis must be **density**:
+Whenever class widths differ ($w_i \\ne w_j$), the y-axis **must** be **density**:
 $$
-d_i = \\frac{f_i}{w_i}, \\qquad \\text{area of bar }= f_i.
+d_i = \\frac{f_i}{w_i}.
 $$
-Without this correction, wider classes look more important than they are.
+Without this correction, wider classes look more important than they are — the *area-as-frequency* principle is what makes a histogram honest across bins of different sizes.
+
+The figure below contrasts the two choices on the same dataset with unequal widths. The left panel plots **counts**: the wide tail bar visually competes with the bulk despite holding only 12% of the sample. The right panel plots **density**: each bar's area equals its relative frequency $f_i$, restoring honest proportions (annotation shows $d_3 \\cdot w_3 = 0.25$).
 
 ### Choice of number / boundaries of classes
-- **Too few classes** (e.g. 5) hide structure (peaks, skewness, tails blur).
-- **Too many classes** (e.g. 20–30) introduce noise, especially in sparse tails.
-- A **custom binning** — narrow widths in the bulk, broad widths in the tail — is often the best compromise.
+- **Too few classes** (e.g. 5) hide structure — peaks, skewness, multimodality and tail behaviour all blur together.
+- **Too many classes** (e.g. 20–30) introduce sampling noise, especially in sparse tails where each bar carries only one or two observations.
+- A **custom binning** — narrow widths in the bulk, broad widths in the tail — is often the best compromise. The moment widths become unequal, density on the y-axis is mandatory.
 
 ### Comparing distributions across subgroups
-Plot two histograms on the same x-axis and use **densities** (so that subsamples of unequal size are visually comparable).
+Plot the histograms on the **same x-axis** and use **densities** (not counts). This way subsamples of unequal size become visually comparable, since areas integrate to 1 in both groups regardless of their absolute sample sizes.
 
 **R commands:**
 ```r
@@ -239,14 +267,36 @@ distr.plot.x(x=Var[group=="B"], plot.type="hist", breaks=B, data=DF)
 
 T_G1D_SPIKE = """## Spike plot (discrete numerical variables)
 
-A **spike plot** ("spike diagram" / "lollipop") draws a vertical stick at each observed integer (or each discrete value), with height proportional to the absolute or relative frequency.
+A **spike plot** ("spike diagram" / "lollipop") represents the distribution of a **discrete numerical** variable by drawing a **zero-width vertical stick** at each observed value $x_i$ on a **numerical axis**, with **height** proportional to the absolute or relative frequency $n_i$ (or $f_i$).
 
-**Why not a histogram or a bar plot?**
-- A **histogram** is wrong for a discrete numerical variable — values between two consecutive integers are not possible, so a continuous bar of positive width would suggest mass that does not exist.
-- A **bar plot** is wrong in general because it treats all categories as equally spaced — but for a discrete numerical variable the distance between values is meaningful (skipping a value should leave a visible gap).
-- The spike plot honours both constraints: zero-width sticks at the actual values, with empty gaps for missing integers.
+### Definition
+Given a discrete numerical variable $X$ with observed values $x_1 < x_2 < \\dots < x_K$ and frequencies $n_k$ (or $f_k = n_k/n$), the spike at $x_k$ has:
+$$
+\\text{position}_k = x_k \\;\\;\\text{on the numerical axis}, \\qquad \\text{height}_k = n_k \\;\\;\\text{(or }f_k\\text{)}.
+$$
+Two features distinguish the spike plot from a bar plot:
+1. The x-axis is **numerical**, not categorical — distances between values are real distances.
+2. Sticks have **zero width** — there is no claim of mass between consecutive integers.
 
-**Acceptable substitute:** a bar plot is acceptable only when consecutive integer values are present with no gaps and the spacing is uniform.
+![Theory illustration](statistics/images/theory/th_g1d_ai.png)
+
+### Why not a histogram or a bar plot?
+- A **histogram** is wrong for a discrete numerical variable: values strictly between two consecutive integers are impossible, so a bar of positive width would *visually claim* mass that does not exist (see the right panel above — the bar covering $[2, 3)$ wrongly suggests values like $2.3$ occur).
+- A **bar plot** treats categories as equally spaced and orderable but not metric: it cannot show a **gap** where a value is absent (e.g. nobody has exactly 5 children). The spike plot keeps the integer spacing, so a missing value is visible as empty space on the axis.
+- The spike plot honours both constraints: **zero-width sticks** at the actual values, and **empty gaps** for values with zero frequency.
+
+### When to use
+- **Discrete numerical** variables: counts of children, number of visits, number of rooms, etc.
+- Whenever the *spacing* between values is meaningful (one unit apart, two units apart, etc.).
+- Both for absolute frequencies (counts) and relative frequencies / percentages — only the y-axis label changes.
+
+### When a bar plot is an acceptable substitute
+Only when **all consecutive integer values are present with no gaps** and the spacing is uniform. In that case sticks and equal-width bars carry the same information. If even one integer is missing in the observed range, use a spike plot to preserve the gap.
+
+### Reading a spike plot
+- The y-axis can be **counts** $n_i$ or **relative frequencies** $f_i$; the shape is identical — only the scale changes.
+- An empty integer position with no stick means **zero observations** at that value (it is *not* a missing category, it is a meaningful zero).
+- The **mode** is the value with the tallest stick; **symmetry / skewness** are read from the stick profile just as with a histogram.
 
 **R commands:**
 ```r
@@ -258,91 +308,161 @@ distr.table.x(x=Var, freq=c("counts","perc"), data=DF)
 
 T_G1E_CUM = """## Cumulative plots: ogive and step diagram
 
-The **cumulative distribution** $F(x)$ at a point $x$ is the proportion of observations $\\le x$. Its graphical form depends on whether the variable is continuous or discrete.
+The **cumulative distribution** $F(x)$ at a point $x$ is the proportion of observations $\\le x$:
+$$
+F(x) \\;=\\; \\frac{\\#\\{i : x_i \\le x\\}}{n} \\;=\\; \\sum_{x_i \\le x} f_i.
+$$
+$F$ is non-decreasing, starts at $0$ and ends at $1$. Its graphical form depends on whether the variable is **discrete** (only jumps) or **continuous in classes** (piecewise linear).
 
 ### Ogive — continuous variable presented in classes
-Plot the points $(b_i, F_i)$ where $b_i$ is the upper bound of class $i$ and $F_i$ the cumulative relative frequency at that bound. Connect with **straight lines** starting at $(a_1, 0)$. Between two kinks the curve is straight: its slope on class $i$ equals the **density** $d_i = f_i/w_i$.
+Plot the points $(b_i, F_i)$ where $b_i$ is the upper bound of class $i$ and $F_i$ the cumulative relative frequency at that bound, then connect with **straight lines** starting at $(a_1, 0)$. Between two kinks the curve is straight, and its slope on class $i$ equals the **density** $d_i = f_i / w_i$ (under the implicit **uniform-on-interval** assumption that the $f_i$ mass is evenly spread across $[a_i, b_i)$).
 
-Use the ogive to **estimate quantiles** (median, percentiles) — under the uniform-on-interval assumption,
+**Quantile read-off.** Find the class $i$ where $F_{i-1} \\le q < F_i$, then interpolate linearly:
 $$
-p_q \\approx a_i + \\frac{q - F_{i-1}}{d_i}, \\qquad q = 0.5\\text{ for the median}.
+p_q \\;\\approx\\; a_i + \\frac{q - F_{i-1}}{d_i}
+\\;=\\; a_i + \\frac{q - F_{i-1}}{F_i - F_{i-1}}\\,(b_i - a_i), \\qquad q = 0.5\\text{ for the median}.
 $$
 
 ### Step diagram — discrete numerical variable
-Cumulative frequency is **constant between consecutive observed values** and **jumps by $f_i$** at each observed value $x_i$. No interpolation: the curve has horizontal flats and vertical jumps.
+$F$ is **constant between consecutive observed values** and **jumps by $f_i$** at each observed value $x_i$ (no interpolation). The curve has horizontal flats and vertical jumps; a closed dot marks the value of $F$ at each $x_i$ (right-continuous convention).
+
+### Illustration (image below)
+
+- **Left panel — step diagram** (discrete family-size data): each jump equals the relative frequency $f_i$ of value $x_i$; flats in between, closed dots at the top of each jump (right-continuous convention).
+- **Right panel — ogive** (continuous time-in-class data): slope on each segment is the density $d_i = f_i / w_i$; the dashed yellow guides show the **median read-off** at $F = 0.5$ — drop a horizontal at $F=0.5$, intersect the ogive, then drop a vertical to the x-axis.
 
 **R commands:**
 ```r
-distr.plot.x(x=Var, plot.type="cumfreq", data=DF)    # ogive (continuous)
-distr.plot.x(x=Var, plot.type="cumfreq", data=DF)    # step diagram (discrete)
-distr.table.x(x=Var, freq="cum", data=DF)
+distr.plot.x(x=Var, plot.type="cumfreq", data=DF)    # ogive (continuous) or step (discrete)
+distr.table.x(x=Var, freq="cum", data=DF)            # numerical cumulative table
 ```
 """
 
 T_G2A_EXACT = """## Exact proportions from frequency tables
 
-When a frequency table is given, computing a proportion of a subset is **exact** in two cases:
+When a frequency table is given, computing the proportion of cases in a query subset is **exact** in two situations only:
 
-1. **Discrete** or **categorical** variable: simply sum the relative frequencies of the values/categories in the query set.
-2. **Continuous** variable in classes, and the query interval $[L, U)$ is a **union of full classes** (i.e. $L, U$ coincide with class boundaries). Then $P(L \\le X < U) = \\sum_i f_i$ over the included classes.
+1. **Discrete** or **categorical** variable: just sum the relative frequencies of the values / categories in the query set,
+$$
+P(X \\in A) = \\sum_{k:\\, c_k \\in A} f_k .
+$$
+2. **Continuous** variable grouped in classes, **and** the query interval $[L, U)$ is a **union of full classes** — i.e. $L$ and $U$ coincide with class boundaries. Then
+$$
+P(L \\le X < U) = \\sum_{i:\\,[a_i,b_i)\\subseteq[L,U)} f_i .
+$$
 
-Two equivalent computational shortcuts when answering from raw data instead of a table:
+In any other case (continuous variable with $L$ or $U$ falling **inside** a class), the table alone is not enough — see uniform-on-interval (G2.B).
+
+![Theory illustration](statistics/images/theory/th_g2a_ai.png)
+
+### Why exact?
+A frequency table gives us the count in each full class **exactly**. Summing whole-class frequencies is just arithmetic on known counts — no assumption is made about how cases are distributed *inside* a class. The moment we need a slice that does not align with class boundaries, we must interpolate, and the answer becomes approximate.
+
+### Computational shortcuts from raw data
+When the raw data are available (not just the table), two equivalent routes:
 ```r
-# 1) Boolean vector + mean (counts TRUEs / total)
+# 1) Boolean vector + mean -- counts TRUEs / n
 mean(DF$Var >= L & DF$Var < U)
-# 2) Use the cumulative distribution table
+# 2) Read from the cumulative distribution table
 distr.table.x(x=Var, freq="cum", data=DF)
 ```
 
-**Cumulative table primitives:**
+### Cumulative table primitives
 ```r
 distr.table.x(x=Var, freq=c("counts","prop","cum"), data=DF)
 ```
-Cumulative proportion $F_i$ at the boundary $b_i$ is read directly from the `Cum.Prop` column.
+The cumulative proportion $F_i = F(b_i)$ at the boundary $b_i$ is the `Cum.Prop` column. For a union-of-classes interval $[L, U) = [b_j, b_k)$,
+$$
+P(L \\le X < U) = F(b_k) - F(b_j) ,
+$$
+which is the standard CDF-difference identity (no interpolation involved).
 
-**Why exact?** Because we know the count in each full class exactly — we are not interpolating inside any class.
+### Worked numerical example (mirrors the figure)
+Classes $[0,10),\\,[10,20),\\,[20,40),\\,[40,60),\\,[60,100)$ with $f = (0.08,\\,0.20,\\,0.32,\\,0.22,\\,0.18)$. Query $[20, 60)$ aligns with boundaries, so
+$$
+P(20 \\le X < 60) = f_{[20,40)} + f_{[40,60)} = 0.32 + 0.22 = 0.54 \\quad (\\text{exact}).
+$$
+
+> **Always report whether your answer is exact or approximate.** Exact = the query is a union of full classes (or you are dealing with a discrete / categorical variable).
 """
 
 T_G2B_APPROX = """## Approximate proportions: uniform-on-interval
 
-When the query interval $[L, U)$ has endpoints that fall **inside** a class $[a_i, b_i)$ (not at a boundary), the proportion of cases in $[L, U) \\cap [a_i, b_i)$ is unknown from the table alone. The standard assumption is:
+When the query interval $[L, U)$ has endpoints that fall **inside** a class $[a_i, b_i)$ (not at a class boundary), the count in $[L, U) \\cap [a_i, b_i)$ is **unknown** from the table alone. The standard assumption is:
 
 > **Uniform on the interval:** the $f_i$ units of mass are evenly distributed across $[a_i, b_i)$, so the density is constant and equal to $d_i = f_i / w_i$.
 
-Under this assumption:
+### Two equivalent views
+
+**(1) Histogram view — density × overlap.**
 $$
-P\\big(X \\in [L, U) \\cap [a_i, b_i)\\big) \\approx d_i \\cdot \\text{length}\\big([L, U) \\cap [a_i, b_i)\\big) = f_i \\cdot \\frac{\\text{overlap}}{w_i}.
+P\\big(X \\in [L, U) \\cap [a_i, b_i)\\big) \\;\\approx\\; d_i \\cdot \\text{length}\\big([L, U) \\cap [a_i, b_i)\\big) \\;=\\; f_i \\cdot \\frac{\\text{overlap}}{w_i}.
 $$
 
-**Working recipe.** Split the query into full classes ∪ partial classes; for each partial piece apply density × overlap; sum.
+**(2) Cumulative (ogive) view — linear interpolation of $F$ inside the class.**
+$$
+F(x) \\;\\approx\\; F(a_i) + \\frac{x - a_i}{b_i - a_i}\\,\\big(F(b_i) - F(a_i)\\big), \\qquad x \\in [a_i, b_i),
+$$
+so for a query in $[L, U) \\subset [a_i, b_i)$ one reads $P([L,U)) \\approx F(U) - F(L)$ off the **straight segment** of the ogive.
 
-**Example.** $P(15 \\le \\text{Time} \\le 50)$ when classes are $[10,20),\\,[20,30),\\,[30,60)$:
+The two views are the **same assumption**: constant density on $[a_i, b_i)$ $\\Leftrightarrow$ linear $F$ on $[a_i, b_i)$.
+
+![Theory illustration](statistics/images/theory/th_g2b_ai.png)
+
+### Working recipe
+Split the query into **full classes** $\\cup$ **partial classes**; for each full class add $f_i$; for each partial piece apply density $\\times$ overlap; sum.
+
+**Example.** $P(15 \\le \\text{Time} < 50)$ when classes are $[10,20),\\,[20,30),\\,[30,60)$:
 $$
 \\underbrace{\\tfrac{1}{2}\\cdot f_{[10,20)}}_{\\text{half of }[10,20)} \\;+\\; \\underbrace{f_{[20,30)}}_{\\text{full}} \\;+\\; \\underbrace{\\tfrac{20}{30}\\cdot f_{[30,60)}}_{\\text{2/3 of }[30,60)}.
 $$
 
-**R checks:** the source-of-truth `distr.table.x` gives the table; the arithmetic above is then done by hand or with R as a verification.
+### Edge cases & sanity checks
+- If $L$ **and** $U$ are both class boundaries, the result is **exact** — no interpolation is used (see Theory — Exact proportions).
+- Reliable when each class is narrow enough that the within-class shape is nearly uniform; for very wide or strongly skewed classes the error grows.
+- Each partial coefficient lies in $[0, 1]$; the total cannot exceed $1$.
+
+**R checks:** the source-of-truth `distr.table.x` gives the table; the arithmetic above is then done by hand or verified in R.
+
+```r
+distr.table.x(x=Var, breaks=brks, data=DF)
+```
 
 > Always **report whether your answer is exact or approximate**, and which assumption was used.
 """
 
 T_G3_DERIVED = """## Constructing derived variables for meaningful comparison
 
-Raw counts almost always mislead when compared across units of different sizes. The fix is to **normalize**.
+Raw counts almost always **mislead** when compared across units of different sizes — a city with 10 000 burglaries is not necessarily more dangerous than one with 1 000 if it has 100× the population. The fix is to **normalize**: build a *derived variable* whose values are comparable across units.
+
+![Theory illustration](statistics/images/theory/th_g3_ai.png)
 
 ### Rate = count / exposure (× scale)
 $$
 \\text{Rate} = \\frac{\\text{count}}{\\text{exposure}} \\cdot k.
 $$
-The scaling $k$ chooses units (e.g. "per 100 000 inhabitants" → $k=10^5$); the **denominator** is the substantive choice and depends on what is at risk.
+- **Count** = the raw number of events for the unit (crimes, cases, sales, ...).
+- **Exposure** = the substantive denominator — the quantity *at risk* of producing the count (population, area, person-years, etc.).
+- **Scale $k$** = chosen so the rate is on a human-readable range (e.g. *"per 100 000 inhabitants"* → $k = 10^5$).
 
-- Crime → population.
-- Disease incidence → at-risk population.
-- Population density → area.
-- Property crimes → population.
+The hard part is choosing the **denominator**; the scale $k$ is just cosmetic.
+
+| Phenomenon | Substantive denominator | Resulting derived variable |
+|------------|------------------------|----------------------------|
+| Crime / property crime | Population | Crime rate per 100 k inhabitants |
+| Disease incidence | At-risk population (or person-years) | Incidence rate |
+| Population concentration | Area (km$^2$) | Population density |
+| Births / deaths | Total population | Crude birth / death rate |
+
+> **Worked example.** Region $A$: 8.5 M people, 170 000 km$^2$ → density $= 50$ /km$^2$. Region $D$: 1.4 M people, 3 500 km$^2$ → density $= 400$ /km$^2$. Raw counts put $A$ ahead 6×; the derived variable density flips the ranking and reveals $D$ is **8× more crowded**.
 
 ### Categorical splits from a continuous variable
-Often the goal is "do dense and sparse states behave differently?" — threshold a continuous variable at a meaningful value (e.g. Density $\\ge 100$) and compare distributions of the two subsets.
+A second kind of derived variable: *bin* a continuous variable at a meaningful threshold to compare distributions across groups. The question shifts from "what is the distribution of $X$?" to "do high-$X$ and low-$X$ units behave differently on $Y$?".
+
+Recipe:
+1. Choose a threshold $\\tau$ on substantive grounds (e.g. Density $\\ge 100$ = "urbanized").
+2. Build `Group <- ifelse(X >= τ, "Hi", "Lo")`.
+3. Compare the distributions of the response on the two subsets (histogram, summary, boxplot).
 
 **R commands:**
 ```r
@@ -351,12 +471,22 @@ DF$Density <- DF$Population / DF$Area
 DF$Group <- ifelse(DF$Density >= 100, "Hi", "Lo")
 distr.plot.x(x=Var, plot.type="hist", data=subset(DF, Group=="Hi"))
 distr.plot.x(x=Var, plot.type="hist", data=subset(DF, Group=="Lo"))
+distr.summary.x(x=Var, stats="summary", data=subset(DF, Group=="Hi"))
 ```
 
-**Checks:** correct denominator, non-zero for every unit, intended scale, comparability of the new variable.
+### Checklist before reporting a derived variable
+- **Denominator is substantively right** — what is actually at risk?
+- **Denominator is non-zero for every unit** (otherwise the derived value is undefined).
+- **Scale $k$ is documented** ("per 100 k", "per km$^2$", etc.).
+- **New variable is comparable across units** — same definition everywhere.
+- **State explicitly** whether subsequent statistics are computed on the *raw* or the *derived* variable.
 """
 
 T_G4A_BYTYPE = """## Mode, median, mean — choosing by variable type
+
+The choice of central-tendency measure is **dictated by the variable's scale of measurement**. Each measure requires a stronger mathematical structure than the previous one: only frequencies for the mode, an order for the median, and a meaningful notion of distance for the mean.
+
+### Decision table
 
 | Variable type | Mode | Median | Mean |
 |---------------|:----:|:------:|:----:|
@@ -365,12 +495,26 @@ T_G4A_BYTYPE = """## Mode, median, mean — choosing by variable type
 | Discrete numerical  | ✔ | ✔ | ✔ |
 | Continuous numerical | (modal *class*) | ✔ | ✔ |
 
-- **Mode** = the value (or category) with highest frequency. Works for any variable type. Beware: when the mode's share is small (e.g. 35%) it is *not* a representative summary.
-- **Median** = the value that splits the ordered distribution in two halves of equal weight. Requires an order on the values — works from ordinal onward.
-- **Mean** = $\\bar x = \\frac{1}{n}\\sum_i x_i = \\sum_i f_i \\cdot x_i$ when the data are summarised by a frequency table. Requires that the *distances* between values are meaningful — works from interval-scale numerical variables onward.
+![Theory illustration](statistics/images/theory/th_g4a_ai.png)
+
+### The three measures — definition and minimum structure required
+
+- **Mode** = the value (or category) with the highest frequency. Needs only a frequency table, so it works for **any** variable type — including pure labels like *colour* or *brand*. Caveat: when the modal share is small (e.g. 30–35%) the mode is *not* a representative summary of the distribution; report it together with its share.
+- **Median** = the value that splits the ordered distribution into two halves of equal weight (the $0.50$ quantile). Requires an **order** on the values, so it works from **ordinal** variables onward. For an even sample size on numerical data the median is conventionally taken as the average of the two central order statistics.
+- **Mean** = $\\bar x = \\dfrac{1}{n}\\sum_{i=1}^{n} x_i = \\sum_k f_k \\cdot x_k$ (the second form when the data are summarised by a frequency table over distinct values $x_k$). Requires that **distances** between values be meaningful — so it works only on **numerical** variables (interval or ratio scale). Computing a mean of ordinal codes like *low=1, medium=2, high=3* is misleading because the gap between codes has no metric meaning.
 
 ### Modal class (continuous variable in classes with **unequal widths**)
-Use **densities**, not counts: the modal class is the class with **highest density** $d_i = f_i / w_i$. A wider class can have more cases but a lower density — it is not the modal class.
+For a continuous variable summarised by a frequency table with **unequal class widths**, the modal class is **not** the class with the highest count: it is the class with the **highest density**
+$$
+d_i = \\frac{f_i}{w_i} = \\frac{\\text{relative frequency}}{\\text{class width}}.
+$$
+A wider class can collect many observations and still have a low density — it is not the modal class. When all widths are equal, densities are proportional to counts and the two criteria coincide.
+
+### Worked micro-example
+- *Brand of phone* (nominal): only the **mode** is meaningful — there is no order, so no median or mean.
+- *Satisfaction* on a 5-point scale (ordinal): **mode** and **median** are meaningful; the **mean** of the scores is conventional but not strictly valid.
+- *Number of children per household* (discrete numerical): all three measures are valid.
+- *Income in classes* $[0,10)$, $[10,20)$, $[20,50)$ thousand euro (continuous, unequal widths): the modal class is the one with the largest **density** $f_i/w_i$, not the largest count.
 
 **R commands:**
 ```r
@@ -382,25 +526,37 @@ distr.summary.x(x=Var, stats="central tendency measures", data=DF)
 
 T_G4B_SKEW = """## Mean vs median under skewness
 
-- For a **symmetric** distribution, mean ≈ median.
-- For a **right-skewed** distribution (long right tail), **mean > median** — the mean is pulled up by extreme values.
-- For a **left-skewed** distribution, **mean < median**.
+### The rule of thumb
+- **Symmetric** distribution: $\\bar x \\approx \\text{median}$.
+- **Right-skewed** (long right tail): $\\bar x > \\text{median}$ — the long right tail pulls the mean **above** the median.
+- **Left-skewed** (long left tail): $\\bar x < \\text{median}$ — the long left tail pulls the mean **below** the median.
 
-The mean is **more sensitive** to outliers and to changes in the extreme values; the median is **robust**.
+The mean is a **sum** — every observation contributes its value, so extreme values exert leverage. The median is a **rank** statistic — only the position of values matters, not their magnitude. That is why the median is **robust** to outliers and heavy tails, while the mean is not.
 
-**Practical decision:**
-- If the distribution is *concentrated near a central value with a long tail* → report the **median** (more representative of typical cases).
-- If the distribution is *symmetric* and there are no outliers → either is fine; the mean is slightly more efficient.
+![Theory illustration](statistics/images/theory/th_g4b_ai.png)
 
-**Reading skewness from a histogram or summary:**
-- `mean > median`  ⇒ right-skewed.
-- `mean ≈ median`  ⇒ symmetric.
-- `mean < median`  ⇒ left-skewed.
+### Practical decision: which to report?
+- Distribution *concentrated near a central value with a long tail* (income, house prices, durations) → report the **median**: it represents a *typical* case, not pulled by a handful of extremes.
+- Distribution *symmetric* with no outliers → either is fine; the mean is slightly more efficient and combines additively across subgroups.
+
+### Diagnosing skewness without a plot
+From a numerical summary alone:
+- $\\bar x > \\text{median}$ $\\Rightarrow$ **right-skewed**.
+- $\\bar x \\approx \\text{median}$ $\\Rightarrow$ **symmetric** (approximately).
+- $\\bar x < \\text{median}$ $\\Rightarrow$ **left-skewed**.
+
+The *size* of the gap $\\bar x - \\text{median}$, relative to the spread (e.g. IQR or sd), measures how strong the skew is.
+
+### Quick worked example
+For wages $\\{18,\\,20,\\,22,\\,24,\\,26,\\,200\\}$ (thousand euro):
+$$\\text{median} = 23, \\qquad \\bar x = 51.7.$$
+The single value 200 drags the mean far above the median — **mean > median**, right-skewed, and the median (23) is clearly more representative.
 
 **R commands:**
 ```r
 distr.summary.x(x=Var, stats="summary", digits=2, data=DF)
 # Returns: min, q1, median, mean, q3, max, sd, ...
+# Compare mean and median to read skewness directly.
 ```
 """
 
@@ -423,6 +579,8 @@ $$
 
 Where $F_{k-1}$ is the cumulative relative frequency at the lower bound of the median class, $f_k$ the median class's relative frequency, $w_k$ its width, $d_k = f_k/w_k$ its density.
 
+![Theory illustration](statistics/images/theory/th_g4c_ai.png)
+
 ### Why approximate?
 We do not know how the $f_k$ mass is distributed inside the class — the uniform assumption is just the simplest.
 
@@ -430,6 +588,8 @@ We do not know how the $f_k$ mass is distributed inside the class — the unifor
 """
 
 T_G4D_COMPARE = """## Comparing central tendency across subgroups or periods
+
+![Cross-subgroup comparison of mode, median, mean](statistics/images/theory/th_g4d_ai.png)
 
 When a population breaks down into meaningful subgroups (e.g. customers with Time < 30 vs > 30 minutes; survey years 2015–2016 vs 2022–2023), compute **mode, median, and mean for each subgroup** and compare.
 
@@ -1673,8 +1833,16 @@ from ex7_content import ex7
 from ex8_content import ex8
 from ex9_content import ex9
 from past_exams_content import past_exams  # 13 past exams (2024-2026)
+from master_exercises_content import master_exercises  # one per subtopic, col 100
+
+# Tag master exercises so the table can give them a distinct style
+for _mid, _m in master_exercises.items():
+    _m.setdefault("is_master", True)
 
 ALL = {**ex0, **ex1, **ex2, **ex3, **ex4, **ex5, **ex6, **ex7, **ex8, **ex9, **past_exams}
+# Master exercises get keyed by `master_<sid>` so they never clash with snippet ids
+for _sid, _m in master_exercises.items():
+    ALL[f"master_{_sid}"] = _m
 
 def th(tid, ttitle, tcontent):
     return {"id": tid, "title": ttitle, "content": tcontent}
@@ -1724,6 +1892,8 @@ CI.diffmean(x, y, type=c("independent","paired"), var.test=TRUE,
 CI.diffprop(x, y, conf.level=0.95, data=DF)
 qnorm(0.975); qt(0.975, df=n-1)                        # critical values
 ```
+
+![Confidence interval band and long-run coverage](statistics/images/theory/th_g13_ai.png)
 """
 
 T_G14_HT = """## G14 — Hypothesis tests
@@ -1766,6 +1936,8 @@ fisher.test(table_)              # exact test for 2x2
 2*(1 - pnorm(abs(z)))            # two-sided p-value (z-test)
 2*(1 - pt(abs(t), df=n-1))       # two-sided p-value (t-test)
 ```
+
+![Hypothesis testing: rejection regions, p-value, Type I/II errors](statistics/images/theory/th_g14_ai.png)
 """
 
 T_G15_REG = """## G15 — Linear regression (simple and multiple)
@@ -1809,6 +1981,8 @@ plot(mod, which=3)   # scale-location
 plot(mod, which=4)   # Cook's distance
 distr.plot.x(rstandard(mod), plot.type="histogram")
 ```
+
+![OLS fit with residuals, R² decomposition, and multivariate regression plane](statistics/images/theory/th_g15_ai.png)
 """
 
 # G10 / G11 / G12 — Probability theory snippets
@@ -1845,9 +2019,13 @@ pnorm(z); qnorm(q)
 - "what is the probability the value exceeds threshold $T$" → $1 - \\Pr(X \\le T)$.
 - "what is the minimum value of the top $\\alpha\\%$" → $(1 - \\alpha)$-th quantile.
 - "what is the 90th percentile" → `qnorm(0.9, mu, sigma)`.
+
+![Normal density: 68/95/99.7 rule and standardization](statistics/images/theory/th_g10_ai.png)
 """
 
 T_G11_SAMP = """## G11 — Sampling distributions and the Central Limit Theorem
+
+![Theory illustration](statistics/images/theory/th_g11_ai.png)
 
 When we draw a sample of size $n$ from a population and compute a statistic (e.g. sample mean $\\bar X$, sample proportion $\\bar P$), the statistic itself has a **distribution** — the *sampling distribution*.
 
@@ -1884,6 +2062,8 @@ pnorm(value, mean=p,             sd=sqrt(p*(1-p)/n))             # P(P-bar <= va
 """
 
 T_G12_LINCOMB = """## G12 — Linear combinations of independent random variables
+
+![X+Y vs X-Y: variance depends on Cov(X,Y)](statistics/images/theory/th_g12_ai.png)
 
 Given $X_1, \\ldots, X_n$ independent random variables (not necessarily normal) and constants $a_0, a_1, \\ldots, a_n$, define
 $$
@@ -1926,6 +2106,8 @@ T_G7_BIVQUAL = """## G7 — Two-way tables: joint, marginal, conditional distrib
 
 Bivariate analysis of **two qualitative variables** $X, Y$.
 
+![Theory illustration](statistics/images/theory/th_g7_ai.png)
+
 ### Joint, marginal, conditional frequencies
 For each cell $(i, j)$:
 - **Joint count** $n_{ij}$; **joint relative frequency** $f_{ij} = n_{ij}/n$.
@@ -1958,6 +2140,8 @@ T_G8_CONDSUMM = """## G8 — Conditional summary measures (mixed-type bivariate)
 
 When **one variable is qualitative** and the other is **numerical**, we compare the *distribution* of the numerical variable across categories of the qualitative variable.
 
+![Theory illustration](statistics/images/theory/th_g8_ai.png)
+
 ### Tools
 - **Side-by-side boxplots**: the most effective single graph for comparing many groups at once. Each box shows the conditional median, quartiles and whiskers; outliers are visible.
 - **Conditional five-number summary, mean, variance, SD, CV.** Computed within each subgroup.
@@ -1981,6 +2165,8 @@ distr.summary.x(NumVar, by=QualVar, stats=c("mean","dispersion"), data=DF)
 """
 
 T_G9_COVCOR = """## G9 — Covariance, correlation and scatter for two numerical variables
+
+![Theory illustration](statistics/images/theory/th_g9_ai.png)
 
 ### Scatter plot
 First step: a **scatterplot** to see the shape of the joint variation. The relationship may be:
@@ -2027,6 +2213,8 @@ cor(DF$Xvar, DF$Yvar)
 T_G5_DISP = """## G5 — Dispersion measures (range, IQR, variance, SD, CV)
 
 Dispersion quantifies how far the data are spread around (or away from) a central reference.
+
+![Theory illustration](statistics/images/theory/th_g5_ai.png)
 
 ### Range and interquartile range
 - **Range** $R = \\max - \\min$. Simple but driven by the most extreme observation, so sensitive to outliers.
@@ -2089,6 +2277,8 @@ distr.summary.x(x=Var, stats="p90", data=DF)
 distr.summary.x(x=Var, stats=c("p5","p95"), data=DF)
 distr.summary.x(x=Var, stats="deciles", data=DF)
 ```
+
+![Ogive read-off and rank rule](statistics/images/theory/th_g6a_ai.png)
 """
 
 T_G6B_BOX = """## G6.B — Boxplots and the five-number summary
@@ -2099,6 +2289,8 @@ The **five-number summary** is $(\\min, Q_1, \\text{median}, Q_3, \\max)$ — a 
 - The **box** spans $[Q_1, Q_3]$; the **median** is drawn inside it.
 - **Whiskers** extend from the box to the most extreme regular (non-outlier) values, i.e. up to $Q_3 + 1.5\\cdot IQR$ on the right and down to $Q_1 - 1.5\\cdot IQR$ on the left.
 - Observations beyond the whiskers are flagged as **outliers** (small circles).
+
+![Theory illustration](statistics/images/theory/th_g6b_ai.png)
 
 ### Reading skewness from the box
 - The median **inside the box**: if it sits closer to $Q_1$ than to $Q_3$ → right skew; closer to $Q_3$ → left skew; centered → symmetric.
@@ -2137,6 +2329,8 @@ Outliers can **inflate the mean** and the SD without changing the median or IQR 
 ### Limitations
 - The 1.5·IQR rule is a convention — not a probabilistic threshold. For very large or very small samples, alternative criteria (e.g. 3·IQR for "extreme" outliers) may be more informative.
 - For grouped data given as a frequency table, the same logic applies once $Q_1$ and $Q_3$ are computed from the ogive.
+
+![IQR fences on boxplot and number line](statistics/images/theory/th_g6c_ai.png)
 """
 
 # For each subtopic: theory + dict {col_idx: [ex_ids]} (col 2 = first exercise of set 0 = Ex1 of set 0; etc.)
@@ -2144,9 +2338,11 @@ Outliers can **inflate the mean** and the SD without changing the median or IQR 
 # col 6 = "Ex 1.3", col 7 = "Ex 1.4", col 8 = "Ex 1.5", col 9 = "Ex 1.6".
 
 # Helper to build subtopic content dicts.
-def sub(group, sid, sname, theory_id, theory_title, theory_content, columns):
+def sub(group, sid, sname, theory_id, theory_title, theory_content, columns,
+        theory_images=None):
     return {"group": group, "sid": sid, "sname": sname,
             "theory": (theory_id, theory_title, theory_content),
+            "theory_images": theory_images or [],
             "columns": columns}
 
 SUBTOPICS = [
@@ -2165,7 +2361,7 @@ SUBTOPICS = [
         12: ["2_3c"],
         14: ["2_5g"],
         15: ["2_6a3"],
-  }),
+  }, theory_images=["statistics/images/theory/th_g1c_ai.png"]),
   sub("G1", "g1d_spike", "Spike plot", "th_g1d", "Theory — Spike plot", T_G1D_SPIKE, {
         3: ["ex2b2"],
         5: ["1_2c"],
@@ -2179,7 +2375,7 @@ SUBTOPICS = [
         8: ["1_5d"],
         13: ["2_4a"],         # Ex 2.4a — identify the ogive
         16: ["2_7a"],         # Ex 2.7a — reading ogive of Nr_visits
-  }),
+  }, theory_images=["statistics/images/theory/th_g1e_ai.png"]),
   # ===== G2 — Proportions =====
   sub("G2", "g2a_exact", "Exact proportions",
       "th_g2a", "Theory — Exact proportions", T_G2A_EXACT, {
@@ -2191,20 +2387,20 @@ SUBTOPICS = [
         8: ["1_5b"],
         14: ["2_5c"],         # Ex 2.5c — proportions in overlapping age intervals
         15: ["2_6b"],         # Ex 2.6b — products sold below cost
-  }),
+  }, theory_images=["statistics/images/theory/th_g2a_ai.png"]),
   sub("G2", "g2b_approx", "Uniform-on-interval approximation",
       "th_g2b", "Theory — Uniform-on-interval", T_G2B_APPROX, {
         2: ["ex1g"],
         3: ["ex2a2"],
         8: ["1_5a", "1_5c"],
         11: ["2_2a", "2_2a1"], # Ex 2.2a and 2.2a1
-  }),
+  }, theory_images=["statistics/images/theory/th_g2b_ai.png"]),
   # ===== G3 — Derived variables =====
   sub("G3", "g3_main", "Constructing derived variables",
       "th_g3", "Theory — Constructing derived variables", T_G3_DERIVED, {
         2: ["ex1b", "ex1d"],
         17: ["2_8a"],         # Ex 2.8a — Margin_perc
-  }),
+  }, theory_images=["statistics/images/theory/th_g3_ai.png"]),
   # ===== G4 — Central tendency =====
   sub("G4", "g4a_bytype", "Mode, median, mean by variable type",
       "th_g4a", "Theory — Choosing mode/median/mean by variable type", T_G4A_BYTYPE, {
@@ -2221,18 +2417,18 @@ SUBTOPICS = [
         6: ["1_3f", "1_3i"],
         9: ["1_6a"],
         14: ["2_5f"],         # Ex 2.5f — Age mean vs median
-  }),
+  }, theory_images=["statistics/images/theory/th_g4b_ai.png"]),
   sub("G4", "g4c_grouped", "Approximate mean & median from grouped data",
       "th_g4c", "Theory — Approximate mean & median (grouped data)", T_G4C_GROUPED, {
         4: ["1_1i"],
         8: ["1_5f"],
         9: ["1_6b"],
-  }),
+  }, theory_images=["statistics/images/theory/th_g4c_ai.png"]),
   sub("G4", "g4d_compare", "Cross-subgroup / period comparison",
       "th_g4d", "Theory — Cross-subgroup comparison", T_G4D_COMPARE, {
         7: ["1_4b"],
         8: ["1_5h"],
-  }),
+  }, theory_images=["statistics/images/theory/th_g4d_ai.png"]),
   # ===== G5 — Dispersion =====
   sub("G5", "g5_disp", "Dispersion measures (range, IQR, var, SD, CV)",
       "th_g5", "Theory — Dispersion measures", T_G5_DISP, {
@@ -2243,7 +2439,7 @@ SUBTOPICS = [
         15: ["2_6c"],
         16: ["2_7d", "2_7f"],
         17: ["2_8c"],
-  }),
+  }, theory_images=["statistics/images/theory/th_g5_ai.png"]),
   # ===== G6 — Quantiles, boxplots, outliers =====
   sub("G6", "g6a_quant", "Quantiles, percentiles, deciles",
       "th_g6a", "Theory — Quantiles and percentiles", T_G6A_QUANT, {
@@ -2254,7 +2450,7 @@ SUBTOPICS = [
         15: ["2_6a1"],
         16: ["2_7b", "2_7c"],
         17: ["2_8d"],
-  }),
+  }, theory_images=["statistics/images/theory/th_g6a_ai.png"]),
   sub("G6", "g6b_box", "Boxplots and the 5-number summary",
       "th_g6b", "Theory — Boxplots and 5-number summary", T_G6B_BOX, {
         10: ["2_1b", "2_1c", "2_1e"],
@@ -2262,13 +2458,13 @@ SUBTOPICS = [
         15: ["2_6a2"],
         16: ["2_7e"],
         17: ["2_8b"],
-  }),
+  }, theory_images=["statistics/images/theory/th_g6b_ai.png"]),
   sub("G6", "g6c_outliers", "Outliers and extreme values",
       "th_g6c", "Theory — Outliers", T_G6C_OUT, {
         10: ["2_1d"],
         12: ["2_3b", "2_3c"],
         13: ["2_4b"],
-  }),
+  }, theory_images=["statistics/images/theory/th_g6c_ai.png"]),
   # ===== G7 — Two-way tables / conditional distributions (qualitative × qualitative) =====
   sub("G7", "g7_twoway", "Two-way tables: joint, marginal, conditional",
       "th_g7", "Theory — Two-way tables and independence", T_G7_BIVQUAL, {
@@ -2279,7 +2475,7 @@ SUBTOPICS = [
         26: ["3_9a1"],
         27: ["3_10a1", "3_10a2"],
         29: ["3_12a", "3_12b", "3_12c"],
-  }),
+  }, theory_images=["statistics/images/theory/th_g7_ai.png"]),
   # ===== G8 — Conditional summary measures (qualitative × numerical) =====
   sub("G8", "g8_condsumm", "Conditional summary measures",
       "th_g8", "Theory — Conditional summary measures", T_G8_CONDSUMM, {
@@ -2291,7 +2487,7 @@ SUBTOPICS = [
         25: ["3_8a"],
         26: ["3_9b", "3_9c"],
         28: ["3_11a", "3_11b"],
-  }),
+  }, theory_images=["statistics/images/theory/th_g8_ai.png"]),
   # ===== G9 — Covariance, correlation, scatter =====
   sub("G9", "g9_corr", "Covariance, correlation and scatter",
       "th_g9", "Theory — Covariance and correlation", T_G9_COVCOR, {
@@ -2299,14 +2495,14 @@ SUBTOPICS = [
         19: ["3_2l"],
         20: ["3_3a"],
         28: ["3_11c"],
-  }),
+  }, theory_images=["statistics/images/theory/th_g9_ai.png"]),
   # ===== G10 — Normal distribution =====
   sub("G10", "g10_normal", "Normal distribution",
       "th_g10", "Theory — Normal distribution", T_G10_NORMAL, {
         30: ["4_1a", "4_1b"],         # Ex 4.1
         31: ["4_2a", "4_2b"],         # Ex 4.2
         32: ["4_3a", "4_3b", "4_3c"], # Ex 4.3
-  }),
+  }, theory_images=["statistics/images/theory/th_g10_ai.png"]),
   # ===== G11 — Sampling distributions and CLT =====
   sub("G11", "g11_clt", "Sampling distributions and CLT",
       "th_g11", "Theory — Sampling distributions / CLT", T_G11_SAMP, {
@@ -2316,7 +2512,7 @@ SUBTOPICS = [
         39: ["4_10a", "4_10b"],
         41: ["4_12a", "4_12b"],
         42: ["4_13a"],
-  }),
+  }, theory_images=["statistics/images/theory/th_g11_ai.png"]),
   # ===== G12 — Linear combinations of random variables =====
   sub("G12", "g12_lincomb", "Linear combinations of normals",
       "th_g12", "Theory — Linear combinations", T_G12_LINCOMB, {
@@ -2325,66 +2521,122 @@ SUBTOPICS = [
         36: ["4_7"],
         37: ["4_8a"],
         40: ["4_11a"],
-  }),
-  # ===== G13 — Confidence intervals (Ex 5 + Ex 6 dominate) =====
-  sub("G13", "g13_ci_mean", "CIs for means and differences",
+  }, theory_images=["statistics/images/theory/th_g12_ai.png"]),
+  # ===== G13 — Confidence intervals (split into 5 subtopics) =====
+  sub("G13", "g13a_ci_one_mean", "CI for one mean (known/unknown σ)",
       "th_g13a", "Theory — Confidence intervals", T_G13_CI, {
-        43: ["5_1a","5_1b","5_1f","5_2a","5_2b"],
-        44: ["5_4","5_6b","5_6d","5_7a","5_7b","5_8a","5_8b"],
-        45: ["5_10b","5_13a1","5_13a2","5_13a3"],
-        46: ["6_1a","6_1b","6_1c","6_1d"],
-        47: ["6_2a","6_2b"],
-        48: ["6_3a","6_3b1","6_3b2","6_3c","6_3d"],
-        49: ["6_4a"],
-        50: ["6_6a","6_6b","6_6c","6_6d","6_6e"],
-        51: ["6_7a"],
-        52: ["6_8a1","6_8a2","6_8b","6_8c1","6_8d"],
-        53: ["6_9a"],
-        54: ["6_10a"],
-        55: ["6_11a"],
-        56: ["6_12a","6_12b"],
-        57: ["6_13a","6_13d"],
-        58: ["6_14a"],
-        59: ["6_15a","6_15b"],
-        60: ["6_17a","6_18b"],
+        43: ["5_1a","5_1b","5_2a","5_2b"],
+        45: ["5_8a","5_8b","5_10b"],
+        46: ["6_1a","6_1b","6_1d"],
+        48: ["6_3a"],
+        52: ["6_8a1"],
+        57: ["6_13d"],
         61: ["5_3a","5_3b"],
+  }, theory_images=["statistics/images/theory/th_g13_ai.png"]),
+  sub("G13", "g13b_ci_one_prop", "CI for one proportion + sample-size planning",
+      "th_g13a", "Theory — Confidence intervals", T_G13_CI, {
+        44: ["5_6b"],
+        45: ["5_13a3"],
+        46: ["6_1c"],
+        48: ["6_3b1","6_3b2"],
+        50: ["6_6a","6_6b","6_6c","6_6d"],
+        51: ["6_7a"],
+        56: ["6_12a","6_12b"],
+        57: ["6_13a"],
   }),
-  # ===== G14 — Hypothesis tests =====
-  sub("G14", "g14_tests", "Hypothesis tests + chi-squared",
-      "th_g14", "Theory — Hypothesis tests", T_G14_HT, {
+  sub("G13", "g13c_ci_diff_means", "CI for difference of two means (independent)",
+      "th_g13a", "Theory — Confidence intervals", T_G13_CI, {
+        43: ["5_1f"],
+        44: ["5_6a","5_7a","5_7b"],
+        48: ["6_3d"],
+        49: ["6_4a"],
+        52: ["6_8a2","6_8b","6_8d"],
+        54: ["6_10a"],
+        59: ["6_15a","6_15b"],
+  }),
+  sub("G13", "g13d_ci_diff_prop", "CI for difference of two proportions",
+      "th_g13a", "Theory — Confidence intervals", T_G13_CI, {
         43: ["5_5a","5_5b"],
-        62: ["7_3a","7_3b"],
-        63: ["7_4a","7_4b"],
-        64: ["7_5a"],
-        65: ["7_6a","7_6b"],
-        66: ["7_7a","7_7b"],
-        67: ["7_8a"],
-        68: ["7_9a","7_9b"],
-        69: ["7_10a"],
+        48: ["6_3c"],
+        50: ["6_6e"],
+        53: ["6_9a"],
+        58: ["6_14a"],
         70: ["5_13b"],
   }),
+  sub("G13", "g13e_ci_paired", "Paired CI (matched observations)",
+      "th_g13a", "Theory — Confidence intervals", T_G13_CI, {
+        44: ["5_4","5_6d"],
+        47: ["6_2a","6_2b"],
+        52: ["6_8c1"],
+        55: ["6_11a"],
+        60: ["6_17a","6_18b"],
+  }),
+  sub("G13", "g13f_estimation", "Unbiased estimators and sampling SE",
+      "th_g13a", "Theory — Confidence intervals", T_G13_CI, {
+        45: ["5_13a1","5_13a2"],
+  }),
+  # ===== G14 — Hypothesis tests (split into 5 subtopics) =====
+  sub("G14", "g14a_one_sample", "One-sample tests (mean & proportion)",
+      "th_g14", "Theory — Hypothesis tests", T_G14_HT, {
+        62: ["7_1a","7_1c"],
+        67: ["7_8a"],
+  }, theory_images=["statistics/images/theory/th_g14_ai.png"]),
+  sub("G14", "g14b_two_sample", "Two-sample tests (means & proportions, independent)",
+      "th_g14", "Theory — Hypothesis tests", T_G14_HT, {
+        62: ["7_3a","7_3b"],
+        64: ["7_5a"],
+        66: ["7_7a"],
+        69: ["7_10a"],
+  }),
+  sub("G14", "g14c_paired", "Paired tests",
+      "th_g14", "Theory — Hypothesis tests", T_G14_HT, {
+        65: ["7_6a","7_6b"],
+  }),
+  sub("G14", "g14d_chi_squared", "Chi-squared (goodness-of-fit + independence)",
+      "th_g14", "Theory — Hypothesis tests", T_G14_HT, {
+        63: ["7_4a","7_4b"],
+        66: ["7_7b"],
+        68: ["7_9a","7_9b"],
+  }),
+  sub("G14", "g14e_power", "Power, Type II error & sample-size effects",
+      "th_g14", "Theory — Hypothesis tests", T_G14_HT, {
+        62: ["7_1b"],
+  }),
   # ===== Past-exam sub-parts: distribute by topic_hint =====
-  # (Done at the bottom by a small loop — see PAST_EXAM_COLUMN_MAP below.)
-  # ===== G15 — Linear regression (simple + multiple) =====
-  sub("G15", "g15_regression", "Linear regression (simple + multiple)",
+  # ===== G15 — Linear regression (split into 5 subtopics) =====
+  sub("G15", "g15a_simple_reg", "Simple regression: estimation, R², slope test",
       "th_g15", "Theory — Linear regression", T_G15_REG, {
-        62: ["7_1a","7_1b","7_1c"],
-        71: ["8_1a","8_1b","8_1c"],
-        72: ["8_2a","8_2b"],
+        71: ["8_1a","8_1b"],
+        72: ["8_2a"],
         73: ["8_3a"],
-        74: ["8_4a"],
-        75: ["8_5a","8_8a","8_10a"],
+        75: ["8_5a","8_8a"],
+  }, theory_images=["statistics/images/theory/th_g15_ai.png"]),
+  sub("G15", "g15b_prediction", "Prediction intervals & CI for the mean response",
+      "th_g15", "Theory — Linear regression", T_G15_REG, {
+        71: ["8_1c"],
+        72: ["8_2b"],
+        75: ["8_10a"],
+  }),
+  sub("G15", "g15c_multi_reg", "Multiple regression",
+      "th_g15", "Theory — Linear regression", T_G15_REG, {
         76: ["9_1","9_2"],
         77: ["9_3"],
         78: ["9_4"],
-        79: ["9_5"],
-        80: ["9_6","9_7"],
         81: ["9_8"],
-        82: ["9_9"],
         83: ["9_10"],
         84: ["9_11"],
         85: ["9_12"],
         86: ["9_13"],
+  }),
+  sub("G15", "g15d_categorical", "Categorical predictors / dummies / interactions",
+      "th_g15", "Theory — Linear regression", T_G15_REG, {
+        79: ["9_5"],
+        80: ["9_6","9_7"],
+        82: ["9_9"],
+  }),
+  sub("G15", "g15e_diagnostics", "Residual diagnostics & multicollinearity",
+      "th_g15", "Theory — Linear regression", T_G15_REG, {
+        74: ["8_4a"],
   }),
 ]
 
@@ -2517,6 +2769,7 @@ COLUMN_HEADERS = [
     {"col": 97, "label": "Past exam — July 2025"},
     {"col": 98, "label": "Past exam — September 2024"},
     {"col": 99, "label": "Past exam — September 2025"},
+    {"col": 100, "label": "Master Exam Ready (consolidated)"},
 ]
 
 # ---------------------------------------------------------------------
@@ -2534,7 +2787,7 @@ TOPIC_HINT_MAP = {
     "G4":  "g4a_bytype","G5":  "g5_disp",     "G6":  "g6b_box",
     "G7":  "g7_twoway", "G8":  "g8_condsumm", "G9":  "g9_corr",
     "G10": "g10_normal","G11": "g11_clt",     "G12": "g12_lincomb",
-    "G13": "g13_ci_mean","G14":"g14_tests",   "G15": "g15_regression",
+    "G13": "g13a_ci_one_mean", "G14": "g14a_one_sample", "G15": "g15a_simple_reg",
 }
 def _col_for_exam_id(eid):
     for prefix, col in PAST_EXAM_COL.items():
@@ -2550,6 +2803,11 @@ for eid, d in past_exams.items():
         if stm["sid"] == sub_target:
             stm["columns"].setdefault(col, []).append(eid)
             break
+
+# Inject master exercises into column 100 of their owning subtopic.
+for stm in SUBTOPICS:
+    if stm["sid"] in master_exercises:
+        stm["columns"].setdefault(100, []).append(f"master_{stm['sid']}")
 
 topics_out = {}
 total_nodes_count = 0
@@ -2573,7 +2831,7 @@ for stm in SUBTOPICS:
         md_table_count += converted_th_content.count("\\begin{tabular}")
     th_node = node(th_id, th_title, converted_th_content,
                    COL_X[0], TOP_Y, "yellow", w=SNIPPET_W, h=H_THEORY,
-                   links=theory_links)
+                   links=theory_links, images=stm.get("theory_images", []))
     th_node["column"] = 1
     nodes_in_subtopic.append(th_node)
 

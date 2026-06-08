@@ -4,12 +4,18 @@ ex9 = {}
 
 ex9["9_1"] = {"title": "Ex 9.1 — Baseball: Major ~ Minor + Age (fit, prediction, multicollinearity, diagnostics)",
 "content": """**Question (dataframe `Baseball`).** The GM of a baseball team is evaluating minor-league players with particular attention to performance with respect to home-run hits. For a random sample of players, the dataset collects: number of home runs hit in the first two full years as a major-league player (`Major`, dependent), number of home runs in the last full year in the minor leagues (`Minor`), age (`Age`) and number of years of professional baseball (`Years`). Results are in `Baseball`.
-**a)** Analyse the model relating `Major` to `Minor` and `Age`. How well does it fit? Report the analytic expression of the considered statistics and explain the meaning / definition of the quantities they are based upon.
-**b)** Assess the significance of the explanatory variables and interpret the observed coefficients. Can you interpret the intercept in the model?
-**c)** Predict the number of home runs in the first two years in the major league for a player aged 25 who hit 22 home runs in his last year in the minor league. Would you use a point or an interval estimate? Why?
-**d)** Can you predict the difference in the average number of home runs in the first two years in the major league (`Major`) for two players differing by 2 years of age? If yes, would you use a point or an interval estimate? Why? If not, explain why it is not possible, whether specific assumptions are needed and, in this case, answer under such assumptions.
-**e)** Does the model change when `Years` is also included among the explanatory variables? Does the significance of the other explanatory variables change? How do you explain the obtained results? Which model would you finally propose?
-**f)** For the model selected at point e), determine whether the LR assumptions are satisfied. If they are not, can you explain why?
+
+![Ex 9.1 question](statistics/images/ex9/questions/ex9_9_1_question.png)
+
+---
+
+**AI walkthrough.** The panel below shows the workflow for the multiple regression `Major ~ Minor + Age` and the multicollinearity check for the extended model:
+1. **Partial effects (a, b).** *Component-plus-residual* (CCPR) plots isolate the contribution of each regressor *holding the other fixed*. The slope on each panel equals the estimated coefficient ($\\hat\\beta_{\\text{Minor}}\\approx 0.65$, $\\hat\\beta_{\\text{Age}}\\approx 0.81$) — exactly what the t-tests assess.
+2. **Goodness-of-fit (c).** Observed vs fitted shows $R^2\\approx 0.33$: points scatter widely around the 45° line — the global $F\\approx 31$ is highly significant but the residual variance is large, hence the need for *interval* (not point) predictions.
+3. **Multicollinearity (d, e).** Adding `Years` is risky because $\\text{cor}(\\text{Age},\\text{Years})\\approx 0.73$: the *variance inflation factor* $\\text{VIF}_j=1/(1-R_j^2)$ shoots up on Age and Years, inflating $\\widehat{\\text{se}}(\\hat\\beta_j)$ and dragging both coefficients toward non-significance. One of the two has to go.
+4. **Prediction (f).** At $\\text{Age}=25,\\,\\text{Minor}=22$ the point estimate $\\hat y\\approx 22.3$ has a wide **prediction interval** (≈ $[7.9,\\,36.6]$): individual-level dispersion dominates, so report the PI, not just the point.
+
+![Ex 9.1 AI walkthrough](statistics/images/ex9/ex9_9_1_ai.png)
 
 ---
 
@@ -60,10 +66,24 @@ plot(mod2, which=1)                        # residuals vs fitted
 distr.plot.xy(x=Minor, y=rstandard(mod2), plot.type="scatter", data=Baseball)
 distr.plot.xy(x=Years, y=rstandard(mod2), plot.type="scatter", data=Baseball)
 ```
-""", "images": ["statistics/images/ex9_1-baseball.png"]}
+
+---
+
+**Reference answer.**
+
+![Ex 9.1 answer](statistics/images/ex9/answers/ex9_9_1_answer.png)
+""", "images": [
+    "statistics/images/ex9/questions/ex9_9_1_question.png",
+    "statistics/images/ex9/ex9_9_1_ai.png",
+    "statistics/images/ex9/answers/ex9_9_1_answer.png",
+]}
 
 ex9["9_2"] = {"title": "Ex 9.2 — Promotional channels: t-tests, CIs and marginal effects",
-"content": """**Question.** A company studies the combined efficacy of two promotional channels. For $n=30$ campaigns the amount spent on `Channel1` and `Channel2` is recorded together with a *Success* indicator. Summary stats (`min, median, mean, max, var`): Success $(124,\\ 328,\\ 315.4,\\ 464,\\ 7059.01)$; Channel1 $(100,\\ 300,\\ 300,\\ 500,\\ 20689.66)$; Channel2 $(1000,\\ 3500,\\ 3500,\\ 6000,\\ 3017241)$. Regression `Success ~ Channel1 + Channel2` (coef. with SE in brackets):
+"content": """**Question.**
+
+![Ex 9.2 question](statistics/images/ex9/questions/ex9_9_2_question.png)
+
+A company studies the combined efficacy of two promotional channels. For $n=30$ campaigns the amount spent on `Channel1` and `Channel2` is recorded together with a *Success* indicator. Summary stats (`min, median, mean, max, var`): Success $(124,\\ 328,\\ 315.4,\\ 464,\\ 7059.01)$; Channel1 $(100,\\ 300,\\ 300,\\ 500,\\ 20689.66)$; Channel2 $(1000,\\ 3500,\\ 3500,\\ 6000,\\ 3017241)$. Regression `Success ~ Channel1 + Channel2` (coef. with SE in brackets):
 
 \\begin{tabular}{p{10cm}|p{14cm}|p{14cm}}
 \\textbf{} & \\textbf{Estimate} & \\textbf{Standard error} \\\\
@@ -78,7 +98,9 @@ Residual standard error $s_\\varepsilon=63.08$ on $df=27$.
 
 ---
 
-**Answer.**
+**Answer (textbook).**
+
+![Ex 9.2 answer](statistics/images/ex9/answers/ex9_9_2_answer.png)
 
 **(a) Fit + global F-test.** With $n=30$, $K=2$, $df=n-K-1=27$:
 
@@ -148,47 +170,113 @@ b0 + b1*100 + b2*1000                             # 209.29
 1 - s.eps^2 / s.y^2                               # 0.4363  (full)
 1 - 65.24^2 / s.y^2                               # 0.3970  (Ch2 only)
 ```
-""", "images": []}
-
-ex9["9_3"] = {"title": "Ex 9.3 — Competition: Performance ~ Competition (+ Quality)",
-"content": """**Question (dataframe `Competition`).** Clothing-and-accessories retailer with stores in central areas. `Performance` measured by a proper index; `Competition` is the perceived level of competition; `Quality` is an aggregated indicator of staff/policy quality. **a)** Fit the *simple* linear model `Performance ~ Competition`; estimate it; interpret the coefficient; comment on fit. **b)** Add `Quality`; estimate the new model and interpret coefficients. Compare with (a) and explain the result.
 
 ---
 
-**Answer.**
+**AI visual — t-tests & marginal-effect intervals.**
+
+![Ex 9.2 AI](statistics/images/ex9/ex9_9_2_ai.png)
+
+*Left panel.* The bars compare $|t|$ for each slope against the two critical lines $t_{27,0.975}=2.052$ (5%) and $t_{27,0.995}=2.771$ (1%). `Channel2`'s $t=4.67$ towers above *both* — significance at any standard $\\alpha$ is overwhelming. `Channel1`'s $t=1.72$ sits *below* the 5% line: even with a generous 10% test we are at the edge. The visual reinforces why one cannot reject $\\beta_1=0$ at conventional levels despite a positive point estimate.
+
+*Right panel.* Three marginal-effect scenarios, each plotted with point estimate (•) and the appropriate CI:
+- **+1000 Channel2 (99% CI):** $[12.7,\\ 49.9]$ — *strictly positive*, consistent with the strong t-test on $\\beta_2$.
+- **+250 Channel1 (99% CI):** $[-21.4,\\ 91.3]$ — straddles 0; a +50 outcome is plausible, but so is a *negative* one.
+- **−50 Channel1 (95% CI):** $[-15.3,\\ 1.4]$ — also straddles 0; mostly negative but cannot rule out a small *increase*.
+
+The interval lengths are driven by the same SEs as the t-tests, so visual "straddles-0" and the t-conclusion are two faces of one coin: only Channel2's marginal effect is decisively signed.
+""", "images": [
+    "statistics/images/ex9/questions/ex9_9_2_question.png",
+    "statistics/images/ex9/answers/ex9_9_2_answer.png",
+    "statistics/images/ex9/ex9_9_2_ai.png",
+]}
+
+ex9["9_3"] = {"title": "Ex 9.3 — Competition: Performance ~ Competition (+ Quality)",
+"content": """**Question (dataframe `Competition`, $n=107$).**
+
+![Ex 9.3 question](statistics/images/ex9/questions/ex9_9_3_question.png)
+
+Clothing-and-accessories retailer with stores in central areas. `Performance` measured by a proper index; `Competition` is the perceived level of competition; `Quality` is an aggregated indicator of staff/policy quality. **a)** Fit the *simple* linear model `Performance ~ Competition`; estimate it; interpret the coefficient; comment on fit. **b)** Add `Quality`; estimate the new model and interpret coefficients. Compare with (a) and explain the result.
+
+---
+
+**Answer (textbook scan).**
+
+![Ex 9.3 answer](statistics/images/ex9/answers/ex9_9_3_answer.png)
+
+**(a) Simple model.** OLS on the actual `Competition` dataframe gives
+$$\\widehat{\\text{Performance}} \\;=\\; 46.49 \\;+\\; 0.877\\,\\text{Competition},$$
+with $R^2\\approx 0.41$ and $\\hat\\beta_{\\text{Competition}}$ highly significant. **Interpretation.** +1 unit of perceived Competition is associated, *marginally*, with +0.88 units of Performance — at face value, *more* competition seems to *boost* performance.
+
+**(b) Add Quality.** With both predictors:
+$$\\widehat{\\text{Performance}} \\;=\\; 50.31 \\;-\\; 0.998\\,\\text{Competition} \\;+\\; 1.997\\,\\text{Quality},$$
+$R^2\\approx 0.85$ (huge jump). Once `Quality` is in the model, the **sign of Competition flips** to negative and Quality dominates ($\\hat\\beta_Q\\approx +2.0$, highly significant). This is a clean case of **omitted-variable bias** in (a): stores in tougher-competition areas tend to invest *more* in Quality (Competition and Quality are positively correlated), so the marginal slope in (a) was loading the *Quality* effect onto `Competition`. *Ceteris paribus*, more competition actually *hurts* performance; the apparent positive marginal link is the confounder talking.
+
+---
+
+**R commands.**
 ```r
 # a) Simple model: Performance ~ Competition
 mod <- lm(Performance ~ Competition, data=Competition); summary(mod)
-# beta_0 hat ~ 191.4 ; beta_Competition hat ~ -1.62  (SE ~ 0.65, p ~ 0.014)
-# Interpretation: +1 unit of perceived Competition -> Performance falls by ~1.62.
-# Fit: R^2 ~ 0.05  =>  Competition alone explains only ~5% of the variance:
-# the model is statistically significant but practically very poor.
+# beta_0 hat ~ 46.49 ; beta_Competition hat ~ +0.877  (highly significant)
+# Fit: R^2 ~ 0.41  -> Competition alone explains ~41% of the variance,
+# but the *sign* of the slope is misleading because of confounding.
 
 # b) Add Quality
 mod1 <- lm(Performance ~ Competition + Quality, data=Competition); summary(mod1)
-# beta_0 hat ~ -5.4 ; beta_Competition hat ~ +0.42 (n.s.) ; beta_Quality hat ~ 3.95 ***
+# beta_0 hat ~ 50.31 ; beta_Competition hat ~ -0.998 ; beta_Quality hat ~ +1.997
 # R^2 jumps to ~ 0.85 (huge improvement).
-# The Competition effect VANISHES once Quality is controlled for:
+# Once Quality is controlled for, the Competition effect flips sign ->
 # omitted-variable bias in (a). Stores in tougher-competition areas
-# tend to invest more in Quality; ignoring Quality, that positive effect
-# was loaded onto Competition with the wrong sign.
-# Conclusion: Performance is driven by Quality, not by Competition per se.
+# tend to invest more in Quality; the positive marginal effect was the
+# Quality channel masquerading as a Competition effect.
 
 # Nested-model comparison
 anova(mod, mod1)        # F-test confirms Quality is highly significant
+
+# Check the lurking link
+cor(Competition$Competition, Competition$Quality)  # positive, ~ +0.7
 
 # Diagnostics on mod1
 plot(mod1, which=1)
 distr.plot.x(x=rstandard(mod1), plot.type="histogram")
 ```
-""", "images": ["statistics/images/ex9_3-competition.png"]}
-
-ex9["9_4"] = {"title": "Ex 9.4 — superstore: MntMeatProducts ~ IncomeK + Age (+ KidsAtHome)",
-"content": """**Question (dataframe `superstore`, $n=256$).** Customers of a food retailer through different channels. Variables include `Age`, `IncomeK` (k euro), `KidsAtHome` (No/Yes), amounts spent on `MntWines, MntFruits, MntMeatProducts, MntFishProducts, MntSweetProducts, MntGoldProds`, deals/web/catalog/store purchases. **a)** Estimate `MntMeatProducts ~ IncomeK + Age`; report. **a1)** Is `Age` significant? Test it. **a2)** Interpret the coefficient of `Age`. **b)** Estimate `MntMeatProducts ~ IncomeK + KidsAtHome`; write the equations with/without children. **c)** Estimate `MntMeatProducts ~ IncomeK + Age + KidsAtHome`; is `Age` globally significant ($\\alpha=0.05$)? **c1)** Prediction for a 40-year-old client with `IncomeK=75` and children. **c2)** 95% interval for the average amount spent (clients aged 40, `IncomeK=75`, with children). **c3)** Reliability of predictions?
 
 ---
 
-**Answer.**
+**AI walkthrough — omitted-variable bias visualised.**
+
+![Ex 9.3 AI walkthrough](statistics/images/ex9/ex9_9_3_ai.png)
+
+The three panels decompose the puzzle of "why does the same predictor flip sign?".
+- **Panel (a)** plots `Performance` against `Competition`, with each point coloured by `Quality`. The dashed red line is the *marginal* fit, slope $\\approx +0.88$. Notice how high-Quality points (yellow/lime) cluster at the top-right and low-Quality points (purple/blue) at the bottom-left — the colour gradient *aligns* with the fitted trend, which is the visual fingerprint of a lurking variable.
+- **Panel (b)** shows the lurking link: `Competition` vs `Quality` is strongly positive (slope $\\approx +0.7$). Stores facing tougher competition invest in better staff/policies — a fact about the *design of the predictors*, not about the response.
+- **Panel (c)** is the **added-variable plot** for `Competition`: on the $x$-axis we put $\\text{Competition} - \\widehat{E}[\\text{Competition}\\mid\\text{Quality}]$ and on the $y$-axis $\\text{Performance} - \\widehat{E}[\\text{Performance}\\mid\\text{Quality}]$. The slope here equals the *partial* coefficient $\\hat\\beta_{\\text{Competition}\\mid Q}\\approx -1.00$ — exactly what the full-model summary reports. After purging the variation that `Quality` already explains, more competition is associated with *less* performance.
+
+**Algebra of the bias.** The bias formula for a two-regressor model is
+$$E[\\hat\\beta_C^{\\text{simple}}] \\;=\\; \\beta_C \\;+\\; \\beta_Q\\,\\frac{\\mathrm{Cov}(C,Q)}{\\mathrm{Var}(C)}.$$
+Plugging in: $\\beta_C\\approx -1.00$, $\\beta_Q\\approx +2.00$, and $\\mathrm{Cov}(C,Q)/\\mathrm{Var}(C)\\approx +0.93$, so the marginal slope is $\\approx -1.00 + 2.00\\cdot 0.93 \\approx +0.86$ — recovering panel (a)'s slope to within rounding. **Conclusion.** Performance is driven by Quality; Competition has a small *negative* partial effect that the simple model entirely missed.
+""", "images": [
+    "statistics/images/ex9/questions/ex9_9_3_question.png",
+    "statistics/images/ex9/answers/ex9_9_3_answer.png",
+    "statistics/images/ex9/ex9_9_3_ai.png",
+    "statistics/images/ex9_3-competition.png",
+]}
+
+ex9["9_4"] = {"title": "Ex 9.4 — superstore: MntMeatProducts ~ IncomeK + Age (+ KidsAtHome)",
+"content": """**Question (dataframe `superstore`, $n=256$).**
+
+![Ex 9.4 question](statistics/images/ex9/questions/ex9_9_4_question.png)
+
+Customers of a food retailer through different channels. Variables include `Age`, `IncomeK` (k euro), `KidsAtHome` (No/Yes), amounts spent on `MntWines, MntFruits, MntMeatProducts, MntFishProducts, MntSweetProducts, MntGoldProds`, deals/web/catalog/store purchases. **a)** Estimate `MntMeatProducts ~ IncomeK + Age`; report. **a1)** Is `Age` significant? Test it. **a2)** Interpret the coefficient of `Age`. **b)** Estimate `MntMeatProducts ~ IncomeK + KidsAtHome`; write the equations with/without children. **c)** Estimate `MntMeatProducts ~ IncomeK + Age + KidsAtHome`; is `Age` globally significant ($\\alpha=0.05$)? **c1)** Prediction for a 40-year-old client with `IncomeK=75` and children. **c2)** 95% interval for the average amount spent (clients aged 40, `IncomeK=75`, with children). **c3)** Reliability of predictions?
+
+---
+
+**Answer (textbook scan).**
+
+![Ex 9.4 answer](statistics/images/ex9/answers/ex9_9_4_answer.png)
+
+**Detailed walkthrough.**
 
 **(a) Model with continuous predictors.** OLS gives
 
@@ -272,10 +360,31 @@ predict(modter, newdata=data.frame(IncomeK=75, Age=40, KidsAtHome="Yes"),
 plot(mod, which=1)                          # funnel pattern -> heteroscedasticity
 distr.plot.x(x=rstandard(modter), plot.type="histogram")
 ```
-""", "images": ["statistics/images/ex9_4-superstore.png"]}
+
+---
+
+**AI walkthrough — parallel lines, partial Age effect, residual funnel.**
+
+![Ex 9.4 AI walkthrough](statistics/images/ex9/ex9_9_4_ai.png)
+
+The three panels condense the whole exercise.
+- **Panel (a)** plots `MntMeatProducts` against `IncomeK`, coloured by `KidsAtHome`. The two dashed lines are model **(b)**: same slope on income ($+5.78$ €/k€) but two parallel intercepts — Kids = Yes is shifted up by $+168.09$ €. The yellow (with-kids) cloud sits visibly above the navy (no-kids) cloud at every income level, which is exactly what a dummy-only model captures.
+- **Panel (b)** is the **added-variable plot for `Age`** in the full model. After partialling out `IncomeK` and `KidsAtHome` from both `Age` and `MntMeat`, the residual scatter shows a slope of $\\approx -2.79$ — *identically* the coefficient $\\hat\\beta_{\\text{Age}}$ in the joint regression (this is the geometric meaning of "partial effect": the bivariate fit on residuals reproduces the multiple-regression coefficient).
+- **Panel (c)** is the **residuals-vs-fitted plot** for model (a). The yellow envelope highlights the funnel: residual dispersion grows with $\\hat y$, the textbook signature of heteroscedasticity. Combined with the right-skewed residual histogram, this is why part (c3) warns that **individual** predictions carry huge uncertainty — the SE-based 95 % PI is $\\approx (174;\\,708)$ €.
+
+Together: panel (a) shows *why* the dummy matters (parallel shift), panel (b) shows *why* `Age` survives globally (its partial slope is non-zero after controls), and panel (c) shows *why* point predictions are unreliable (variance is not constant).
+""", "images": [
+    "statistics/images/ex9/questions/ex9_9_4_question.png",
+    "statistics/images/ex9/answers/ex9_9_4_answer.png",
+    "statistics/images/ex9/ex9_9_4_ai.png",
+    "statistics/images/ex9_4-superstore.png",
+]}
 
 ex9["9_5"] = {"title": "Ex 9.5 — Restaurants: revenues ~ seats + area + days_open + evening_only",
 "content": """**Question (dataframe `restaurants`).**
+
+![Ex 9.5 question](statistics/images/ex9/questions/ex9_9_5_question.png)
+
 **a)** Estimate the model relating `revenues` to the number of `seats`, the `area`, the number of days open (`days_open`) and to whether or not the restaurant is opened only for dinner (`evening_only`). Write the equation of the estimated model.
 **b)** Provide an interpretation of the estimated coefficient of the variable `days_open`.
 **c)** Based on the model can you conclude that it is convenient for a restaurant to be opened only for dinner, other things being equal?
@@ -287,7 +396,9 @@ ex9["9_5"] = {"title": "Ex 9.5 — Restaurants: revenues ~ seats + area + days_o
 
 ---
 
-**Answer.**
+**Answer (textbook scan).**
+
+![Ex 9.5 answer](statistics/images/ex9/answers/ex9_9_5_answer.png)
 
 **a) Estimated model equation.** OLS on `restaurants` gives
 
@@ -356,10 +467,50 @@ hist(rstandard(mod),
      breaks = 20, main = "Histogram: rstandard(mod)",
      xlab = "rstandard(mod)")     # left-skew
 ```
-""", "images": ["statistics/images/ex9_5-restaurants-multi.png"]}
+
+---
+
+**AI walkthrough — coefficients, area contrasts, residual funnel, model comparison.**
+
+![Ex 9.5 AI walkthrough](statistics/images/ex9/ex9_9_5_ai.png)
+
+Four panels condense the whole exercise.
+- **Panel (1)** plots the six OLS coefficients (with 95 % CIs) for the full model. Navy markers cross the red zero line — those are **significant** (`Intercept`, `seats`, `areaNorthWest`, `days_open`, `evening_only1`); the gray marker on `areaSouthEast` straddles zero ($\\hat\\beta\\approx +1.00$), confirming part **(e)**: no detectable Center-vs-SouthEast gap.
+- **Panel (2)** holds `seats` and `days_open` at their sample means and `evening_only=0`, then shows the model-predicted revenue for each area. **NorthWest stands out** ($\\approx +38$ hundred €/month above Center), Center and SouthEast are virtually tied — the visual translation of parts **(d)–(f)**.
+- **Panel (3)** is the **residuals-vs-fitted** plot. The yellow envelope is a rolling-window standard deviation: it widens to the right, the textbook signature of **heteroscedasticity** flagged in part **(h)**. A handful of outliers above the red zero line also pull predictions down at high $\\hat y$ — the "structural underestimation" pattern.
+- **Panel (4)** compares **adjusted $R^2$** for the full vs reduced specification: $0.5538$ vs $0.4457$. Even after the penalty for the extra parameters, the four-predictor model explains $\\approx 11$ pp more variance — the quantitative answer to part **(g)**.
+
+Together: panels (1)–(2) show *which* coefficients move predictions (and which do not); panel (3) shows *why* SE-based CIs/tests must be taken with caution; panel (4) shows *why* the larger model is still the better one despite Occam.
+""", "images": [
+    "statistics/images/ex9/questions/ex9_9_5_question.png",
+    "statistics/images/ex9/answers/ex9_9_5_answer.png",
+    "statistics/images/ex9/ex9_9_5_ai.png",
+    "statistics/images/ex9_5-restaurants-multi.png",
+]}
 
 ex9["9_6"] = {"title": "Ex 9.6 — MBA.1 / MBA.2: MBA.GPA ~ UnderGPA + GMAT + Work (+ TypeDegree)",
-"content": """**Question (dataframes `MBA.1` and `MBA.2`).** Admissions to a 1-year MBA require 3 years of work experience and an undergraduate degree with a B-average. The dean wants to predict performance using `UnderGPA` (undergrad GPA), `GMAT` (test score) and `Work` (years of experience). **a)** Estimate the model on `MBA.1`; report it; assess global significance and goodness of fit; clarify the statistic used. **b)** Focus on `Work`. **b1)** Build the test of $H_0:\\beta_{\\text{Work}}=0$ vs $H_1\\neq 0$, report the output and the R functions used. **b2)** Other things equal, can we conclude that the average variation in MBA GPA for a change of 5 years of `Work` is significantly lower than 0.8? **c)** With the model in (a), draw conclusions on each of the three variables. **d)** Are the assumptions guaranteeing the reliability of the results met? How to check them? Then `MBA.2` adds `TypeDegree` with levels BA, BBA, BEng.BSc, Other. **e)** Include `TypeDegree` to assess differences between Other (reference) and the rest. **f)** Test the statement: "applicants with a BBA degree perform significantly worse than the others". **g)** Predict the MBA performance of a BBA applicant with `UnderGPA=19`, `Work=5`, `GMAT=560`.
+"content": """**Question (dataframes `MBA.1` and `MBA.2`).**
+
+![Ex 9.6 question](statistics/images/ex9/questions/ex9_9_6_question.png)
+
+Admissions to a 1-year MBA require 3 years of work experience and an undergraduate degree with a B-average. The dean wants to predict performance using `UnderGPA` (undergrad GPA), `GMAT` (test score) and `Work` (years of experience). **a)** Estimate the model on `MBA.1`; report it; assess global significance and goodness of fit; clarify the statistic used. **b)** Focus on `Work`. **b1)** Build the test of $H_0:\\beta_{\\text{Work}}=0$ vs $H_1\\neq 0$, report the output and the R functions used. **b2)** Other things equal, can we conclude that the average variation in MBA GPA for a change of 5 years of `Work` is significantly lower than 0.8? **c)** With the model in (a), draw conclusions on each of the three variables. **d)** Are the assumptions guaranteeing the reliability of the results met? How to check them? Then `MBA.2` adds `TypeDegree` with levels BA, BBA, BEng.BSc, Other. **e)** Include `TypeDegree` to assess differences between Other (reference) and the rest. **f)** Test the statement: "applicants with a BBA degree perform significantly worse than the others". **g)** Predict the MBA performance of a BBA applicant with `UnderGPA=19`, `Work=5`, `GMAT=560`.
+
+---
+
+**Answer (textbook scan).**
+
+![Ex 9.6 answer](statistics/images/ex9/answers/ex9_9_6_answer.png)
+
+---
+
+**AI walkthrough.**
+
+![Ex 9.6 AI walkthrough](statistics/images/ex9/ex9_9_6_ai.png)
+
+Three panels distill the whole exercise:
+1. **(a) Added-variable plot for `Work`.** After partialling out `UnderGPA` and `GMAT`, the residual slope equals $\\hat\\beta_{\\text{Work}}\\approx 0.093$ — the same number tested in **b1**. The points scatter loosely around the red line, in line with $R^2\\approx 0.46$ for the full model: `Work` is significant but explains only a small slice of MBA.GPA variation on its own.
+2. **(b) Coefficient with 95% CI and the b2 threshold.** The dot/whisker shows $\\hat\\beta_{\\text{Work}}$ and its 95% CI; the **red dashed line at $\\beta=0.16$** marks the b2 boundary ($5\\beta=0.8$). The CI excludes 0 (so b1 rejects $H_0$) but the one-sided distance from 0.16 is moderate — exactly the **reject-at-5%-but-not-at-1%** verdict of b2.
+3. **(c) `MBA.GPA` by `TypeDegree`.** Box-and-jitter of MBA.GPA across the four degree types in `MBA.2`. **BBA sits visibly above the others**, which is why the BBA dummy is the only significant one in model (e) ($+0.706$ vs Other) and why the claim "BBA worse than the others" is rejected in (f).
 
 ---
 
@@ -427,10 +578,28 @@ predict(mod3,
         interval="confidence")
 ## 95% CI ~ (6.4701, 10.4404)
 ```
-""", "images": ["statistics/images/ex9_6-mba1.png"]}
+""", "images": [
+    "statistics/images/ex9/questions/ex9_9_6_question.png",
+    "statistics/images/ex9/answers/ex9_9_6_answer.png",
+    "statistics/images/ex9/ex9_9_6_ai.png",
+    "statistics/images/ex9_6-mba1.png",
+]}
 
 ex9["9_7"] = {"title": "Ex 9.7 — Performance: Market.Value ~ Assets + Sales + Profits + Cash.Flow + Employees (+ Sector)",
-"content": """**Question (dataframe `Performance`).** Large companies. Focus on `Market.Value` (M$) and its drivers `Assets`, `Sales`, `Profits`, `Cash.Flow` (M$) and `Employees` (thousands). **a)** Estimate the linear regression; write its equation. **a1)** Write the expression of the estimated model. **a2)** Is `Assets` significant? State the hypotheses, the realisation of the statistic, the test (with R), interpret the coefficient. **b)** Consider two models for `Market.Value`: first on `Asset, Profits, Sales`; second on `Assets, Employees, Cash.Flow`. How do you explain the obtained results? **c)** Based on the results and the considerations at (b), which model would you use to explain `Market.Value`? Why? What measure could you refer to to support your conclusions, reporting its definition. **d)** Include the factor `Sector` (companies' economic sector). Propose at (c) a model that controls for whether the company is financial (`Sector=Finance`) or energy (`Sector=Energy`); verify based on a properly defined model, explaining the estimated effects. **e)** Using the model estimated at (e), obtain point and 95% interval predictions for the market value of a manufacturing company with `Assets=3000`, `Sales=2500`, `Profits=200`, `Cash.Flow=300`, `Employees=12`. How do predictions change if the model at (d) (not including info on the considered sectors) is used? **f)** Based on the analysis of residuals, would you consider as reliable the model proposed at (d)?
+"content": """**Question (dataframe `Performance`).**
+
+![Ex 9.7 question](statistics/images/ex9/questions/ex9_9_7_question.png)
+
+Large companies. Focus on `Market.Value` (M$) and its drivers `Assets`, `Sales`, `Profits`, `Cash.Flow` (M$) and `Employees` (thousands). **a)** Estimate the linear regression; write its equation. **a1)** Write the expression of the estimated model. **a2)** Is `Assets` significant? State the hypotheses, the realisation of the statistic, the test (with R), interpret the coefficient. **b)** Consider two models for `Market.Value`: first on `Asset, Profits, Sales`; second on `Assets, Employees, Cash.Flow`. How do you explain the obtained results? **c)** Based on the results and the considerations at (b), which model would you use to explain `Market.Value`? Why? What measure could you refer to to support your conclusions, reporting its definition. **d)** Include the factor `Sector` (companies' economic sector). Propose at (c) a model that controls for whether the company is financial (`Sector=Finance`) or energy (`Sector=Energy`); verify based on a properly defined model, explaining the estimated effects. **e)** Using the model estimated at (e), obtain point and 95% interval predictions for the market value of a manufacturing company with `Assets=3000`, `Sales=2500`, `Profits=200`, `Cash.Flow=300`, `Employees=12`. How do predictions change if the model at (d) (not including info on the considered sectors) is used? **f)** Based on the analysis of residuals, would you consider as reliable the model proposed at (d)?
+
+---
+
+**AI walkthrough.** The figure below contrasts the **multi-predictor specifications** with the **Sector dummy** extension:
+1. **Coefficients (left).** For the full 5-predictor model $\\hat\\beta$'s for `Cash.Flow` ($\\approx 3.24$) and `Employees` ($\\approx 10.46$) are large and *highly* significant; `Assets` is statistically zero ($\\hat\\beta=0.0298$, $p\\approx 0.36$). Dropping `Sales` and `Profits` (model b2) leaves the surviving coefficients essentially unchanged — strong evidence that `Sales`/`Profits` were carrying *correlated* information, not unique signal.
+2. **Multicollinearity diagnostic.** `Sales` is strongly correlated with `Employees`, and `Profits` with `Cash.Flow` — the canonical reason the full model inflates SEs without raising adjusted $R^2$.
+3. **Sector dummies (right).** Using Manufacturing as reference, `Finance` companies sit on average ~224 M$ below ($p=0.33$) and `Energy` ~107 M$ below ($p=0.57$). Both 95% CIs cross zero, so the sector adjustment is **not statistically supported** — confirming the simpler `Employees + Cash.Flow` model is preferable.
+
+![Ex 9.7 AI walkthrough](statistics/images/ex9/ex9_9_7_ai.png)
 
 ---
 
@@ -484,10 +653,36 @@ plot(mod.d, which=1)
 ```
 
 **AI read of the residuals-vs-fitted plot.** The cloud is **densely packed for fitted $\\lesssim 1500$** and thins out toward the right, where a handful of high-leverage points sit at fitted values of $\\approx 2500$-$3500$. Vertical spread is **not constant**: in the bulk region residuals range $\\approx [-1000, +700]$, but at the extremes individual residuals reach $+1050$ and $+950$ on one side and $-870$ on the other -> mild **heteroscedasticity** plus **influential observations** (very large companies whose `Market.Value` is poorly tracked by the linear fit). The mean residual line is *not flat*: it dips below zero around fitted $\\approx 1000$-$1500$ and rises again afterwards, a faint **non-linear** (curvature) signal. **Consequence:** OLS $\\hat\\beta$ remain unbiased but SEs are mis-stated and the few extreme-value firms drive a disproportionate share of fit; reliability of the model at point (d) is *questionable*. Natural fixes: a log-transform of `Market.Value`, robust (sandwich) SEs via `lmtest::coeftest(mod.d, vcov=sandwich::vcovHC)`, or fitting on the bulk after flagging the right-tail outliers.
-""", "images": ["statistics/images/ex9_7-performance.png"]}
+
+---
+
+**Reference answer.**
+
+![Ex 9.7 answer](statistics/images/ex9/answers/ex9_9_7_answer.png)
+""", "images": [
+    "statistics/images/ex9/questions/ex9_9_7_question.png",
+    "statistics/images/ex9/ex9_9_7_ai.png",
+    "statistics/images/ex9/answers/ex9_9_7_answer.png",
+]}
 
 ex9["9_8"] = {"title": "Ex 9.8 — Lotteries: Amount ~ Education + Age + Children + Income",
-"content": """**Question (dataframe `Lotteries`).** Lotteries are sometimes considered a tax on the poor / uneducated. Is it of interest to test the beliefs: **1)** less educated people spend more than more educated; **2)** older people spend more than younger; **3)** people with more children spend more than people with less children; **4)** poorer people spend more than richer. Random sample of 100 adults; `Amount` = % of total household income (`Income`) spent on lottery tickets; other variables are `Education` (years), `Age`, `Children`. **a)** Compare multiple vs four simple linear regressions; how do the interpretations of the coefficients differ when moving from simple to multiple? **b)** Based on (a), what are your considerations about the considered beliefs? **c)** Are the conclusions reliable? Explain clearly what are the problems possibly affecting your conclusions and what type of consequences they could have. **(\\*\\*)** Based on the tools used to answer the question, can you make a guess about the population of the obtained results?
+"content": """**Question (dataframe `Lotteries`).**
+
+![Ex 9.8 question](statistics/images/ex9/questions/ex9_9_8_question.png)
+
+Lotteries are sometimes considered a tax on the poor / uneducated. Is it of interest to test the beliefs: **1)** less educated people spend more than more educated; **2)** older people spend more than younger; **3)** people with more children spend more than people with less children; **4)** poorer people spend more than richer. Random sample of 100 adults; `Amount` = % of total household income (`Income`) spent on lottery tickets; other variables are `Education` (years), `Age`, `Children`. **a)** Compare multiple vs four simple linear regressions; how do the interpretations of the coefficients differ when moving from simple to multiple? **b)** Based on (a), what are your considerations about the considered beliefs? **c)** Are the conclusions reliable? Explain clearly what are the problems possibly affecting your conclusions and what type of consequences they could have. **(\\*\\*)** Based on the tools used to answer the question, can you make a guess about the population of the obtained results?
+
+---
+
+**AI walkthrough.** The panel below contrasts the four simple regressions with the joint multiple regression and inspects the diagnostics:
+1. **Coefficients (a).** Side-by-side bars for $\\hat\\beta_j$ in simple vs multiple. `Age` and `Children` shrink toward zero in the multiple model (correlation with the other regressors absorbs their *apparent* effect); `Education` and `Income` keep the same sign in both, supporting **beliefs 1 and 4**.
+2. **Partial slope (b).** Scatter of `Amount` vs `Education` with both the simple-OLS line ($\\hat\\beta\\approx-0.70$) and the partial slope from the multiple model ($\\hat\\beta\\approx-0.43$). The partial slope is **flatter** because part of the marginal Education effect is captured by Income.
+3. **Confounding (c).** Strong correlation ($r\\approx 0.78$) between `Education` and `Income` is the structural reason simple slopes mis-attribute effects.
+4. **Residuals (d).** Classic **funnel** opening to the right: $\\mathrm{Var}(\\varepsilon\\mid X)$ grows with $E[\\text{Amount}\\mid X]$ — clear **heteroscedasticity**.
+5. **Distribution (e).** Standardised residuals are roughly bell-shaped but with a heavier left tail vs the $N(0,1)$ benchmark.
+6. **Verdict (f).** Beliefs 1 and 4 are supported (sign correct + significant), 2 and 3 are not — but t-tests are *not trustworthy* until heteroscedasticity is fixed (sandwich SEs or log-transform).
+
+![Ex 9.8 AI walkthrough](statistics/images/ex9/ex9_9_8_ai.png)
 
 ---
 
@@ -529,12 +724,22 @@ distr.plot.xy(x=Income,    y=Amount, plot.type="scatter", data=Lotteries)
 ```
 
 **AI read of the residuals-vs-fitted plot.** Residuals span roughly $[-9, +5]$ across fitted values $\\in [-2, 10]$, but the cloud is *visibly asymmetric*: above the zero line spread is bounded near $+5$, below it residuals reach $-9$ at the largest fitted values. Vertical dispersion *grows with the fitted value* — a textbook **funnel** opening to the right, i.e. clear **heteroscedasticity** (variance of $\\varepsilon$ increases with $E[\\text{Amount}\\mid X]$). The mean of residuals also drifts below zero for fitted $\\gtrsim 6$, hinting at mild **non-linearity** in the conditional mean. **Consequence:** OLS estimates of $\\hat\\beta$ are still unbiased, but the reported standard errors are *wrong* (typically under-estimated where variance is large) -> the t-tests on Education and Income that "support" beliefs 1 and 4 are not trustworthy at face value. Robust (sandwich) SEs via `lmtest::coeftest(mod.mult, vcov=sandwich::vcovHC)` or a log-transform of `Amount` would be the natural fixes.
-""", "images": ["statistics/images/ex9_8-lotteries.png"]}
+
+---
+
+**Reference answer.**
+
+![Ex 9.8 answer](statistics/images/ex9/answers/ex9_9_8_answer.png)
+""", "images": [
+    "statistics/images/ex9/questions/ex9_9_8_question.png",
+    "statistics/images/ex9/ex9_9_8_ai.png",
+    "statistics/images/ex9/answers/ex9_9_8_answer.png",
+]}
 
 ex9["9_9"] = {"title": "Ex 9.9 — GS: salary ~ grade + sex + course; predictions + diagnostics",
 "content": """**Question (dataframe `GS`).**
 
-![Ex 9.9 question](statistics/images/ex9/questions/ex9_9_question.png)
+![Ex 9.9 question](statistics/images/ex9/questions/ex9_9_9_question.png)
 
 The dataframe `GS` includes data on Italian employees with similar positions concerning their `salary` (annual at 5 yrs from graduation, k euros), `grade` (graduation grade), `sex` (F/M on id document), and `course` (degree course, 4 categories: a, b, c, d). **a)** Estimate `salary ~ grade + sex`. Based on the model, can you predict a sex-based *effect of the grade* on the salary? **a1)** Based on the estimated model, can you predict sex-based differences in the *average salary* for graduates with the same `grade`? **a2)** What is the standard error of the model, what does it summarise and how is it calculated? **a3)** Predict the average salary for females with `grade=105`. The prediction of the salary of one specific female with `grade=105`. Are such predictions reliable? Why? If not, what tools would you use instead? **b)** Estimate `salary ~ course`. What indications based on the model? **c)** Estimate `salary ~ course + grade`. For which course is the highest average salary predicted, for a given graduation grade? **c1)** Build the 99% interval for the average salary of graduates who attended course `d` and have `grade=100`, and interpret it. **c2)** Will the interval at the previous point change if you are interested to predict the salary for a *specific* graduate with the described characteristics? If yes, in what respect? Verify numerically. **d)** Based on the results obtained above, to explain/predict salary, would you refer to the model based on `grade + sex` or on `grade + course`? Why? **e)** Does the analysis of residuals emphasise any violations of the assumptions? Plot the standardised residuals against `grade`. Considerations?
 
@@ -542,7 +747,7 @@ The dataframe `GS` includes data on Italian employees with similar positions con
 
 **Answer (textbook).**
 
-![Ex 9.9 answer](statistics/images/ex9/answers/ex9_9_answer.png)
+![Ex 9.9 answer](statistics/images/ex9/answers/ex9_9_9_answer.png)
 
 **a)** The fitted line is $\\widehat{\\text{salary}} = -37.94 + 0.9044\\cdot\\text{grade} - 8.3332\\cdot\\mathbf 1_{\\text{sexM}}$. The model is **additive**: each extra grade point increases salary by **0.9044** k euros *for both* men and women — the grade effect is the **same** across sexes (there is no `grade:sex` interaction). So no, the model cannot predict a sex-based effect of the grade.
 
@@ -626,17 +831,30 @@ For Ex 9.9, $s_\\varepsilon \\approx 13.5$ and the leverage term $x_0^\\top(X^\\
 
 **Diagnostic plot (residuals vs fitted, model `salary ~ grade + course`):**
 
-![Ex 9.9 residual diagnostics](statistics/images/ex9_9-gs.png)
+![Ex 9.9 residual diagnostics](statistics/images/ex9/ex9_9_9_ai.png)
 
 The cloud is roughly centred on zero with no obvious trend, but the spread on the right side ($\\hat y \\in [50, 65]$) reaches both $+33$ and $-32$ vs only $[-14, +14]$ on the left — a hint of **heteroscedasticity** consistent with the curvilinear pattern seen when plotting standardised residuals against `grade`. Coupled with $R^2 \\approx 0.3$, this confirms the textbook's caveat: the model is informative about *average* differences (sex penalty, course `d` premium) but inadequate for *individual* predictions.
 """, "images": [
-    "statistics/images/ex9/questions/ex9_9_question.png",
-    "statistics/images/ex9/answers/ex9_9_answer.png",
-    "statistics/images/ex9_9-gs.png",
+    "statistics/images/ex9/questions/ex9_9_9_question.png",
+    "statistics/images/ex9/answers/ex9_9_9_answer.png",
+    "statistics/images/ex9/ex9_9_9_ai.png",
 ]}
 
 ex9["9_10"] = {"title": "Ex 9.10 — Severance: Weeks ~ Age + Length + Salary",
 "content": """**Question (dataframe `Severance`).** After a restructuring a company offers severance packages to terminated employees. A terminated employee wants to verify the relation between `Weeks` (weeks of severance), `Age` (yrs), `Length` (yrs of employment), `Salary` (k$). **a)** Estimate `Weeks ~ Age + Length + Salary`. Is the statement "older and high-salary employees are penalised" (other things equal) confirmed? **b)** Based on (a), is it correct to claim that `Age` does NOT contribute significantly to a model that already includes `Length` and `Salary`? **c)** Compare the model based only on `Age` with the model at (a). Is one preferable? Refer to a measure used to compare regression models with a different number of explanatory variables, and report its definition. **d)** Would you consider the model based only on `Length` rather than the model estimated at (a)? Why? **e)** The employee is 36 years old, worked 10 years, currently earns 32 k$/yr, and the package offered is 5 weeks' pay. Point prediction of weeks of severance using the models at (a) and (d). Do you think the predictions are reliable? Why? **f)** Could the employee claim that their package is not aligned with what is applied based on the obtained results? **g)** Are there reasons to suspect that the results obtained are unreliable because some of the model assumptions are not met?
+
+![Ex 9.10 question](statistics/images/ex9/questions/ex9_9_10_question.png)
+
+---
+
+**AI walkthrough.** The panel below summarises the workflow for `Severance`:
+1. **Coefficient summary (a).** In the full model `Weeks ~ Age + Length + Salary` only `Length` is significant; `Age` and `Salary` have small negative point estimates but $p$-values well above any standard level — the "older/high-salary employees penalised" claim is **not** confirmed.
+2. **Correlation matrix (b).** `Age` and `Length` are nearly collinear ($\\approx 0.81$); `Length` correlates strongest with `Weeks` ($\\approx 0.83$). This multicollinearity is why `Age` looks insignificant in the full model yet highly significant alone ($\\hat\\beta\\approx 6.25$).
+3. **Length vs Weeks (c).** The single regressor `Length` recovers essentially the same Adj-$R^2$ (0.69) as the three-regressor model (0.68) -> **parsimony favours model (d)**.
+4. **Residuals (d, e).** For `mod.d = lm(Weeks ~ Length)` residuals scatter around 0 with no curvature or funnel; a couple of strongly negative cases (employees offered fewer weeks than predicted) stand out — distribution is roughly Gaussian with a slightly heavy left tail. **Assumptions broadly OK**.
+5. **Prediction (f).** At Age=36, Length=10, Salary=32, both models give $\\approx 9.5$ weeks with 95% PI $\\approx[5.5,\\,13.5]$. The offered **5 weeks lies below the PI lower bound** -> the package is **not aligned** with the company's own pattern (caveat: non-disclosing terminated employees are unobserved).
+
+![Ex 9.10 AI walkthrough](statistics/images/ex9/ex9_9_10_ai.png)
 
 ---
 
@@ -696,10 +914,36 @@ distr.plot.x(x=rstandard(mod.d), plot.type="histogram", breaks=10)
 ```
 
 **AI read of the residuals-vs-fitted plot.** Residuals scatter roughly symmetrically around 0 across the fitted range [4, 15] with no obvious curvature -> **linearity** assumption looks acceptable. Spread is fairly constant (slight widening near fitted ~12-13 but not dramatic) -> **homoscedasticity** plausible. One clear negative outlier near fitted ~12.5 with residual ~ -5.5 (an employee severely under-compensated relative to the model) plus two positive outliers (~+3.5 and +3.7) -> tails heavier than Gaussian, worth a `qqnorm(rstandard(mod))` check. **Bottom line:** no fatal violation; full model is usable but predictions for individuals carry wide uncertainty (consistent with the 95% PI of ~8 weeks).
-""", "images": ["statistics/images/ex9_10-severance.png"]}
+
+---
+
+**Reference answer.**
+
+![Ex 9.10 answer](statistics/images/ex9/answers/ex9_9_10_answer.png)
+""", "images": [
+    "statistics/images/ex9/questions/ex9_9_10_question.png",
+    "statistics/images/ex9/ex9_9_10_ai.png",
+    "statistics/images/ex9/answers/ex9_9_10_answer.png",
+]}
 
 ex9["9_11"] = {"title": "Ex 9.11 — Absence: Days ~ Wage + PartTime + Union + Shift + GoodRel",
-"content": """**Question (dataframe `Absence`).** $n=100$ firms; for each: `Days` (mean annual days of absence per employee, $Y$), `Wage` (mean hourly wage, $/h), `PartTime` (% part-time workforce), `Union` (% unionised), `Shift` (1 = at least one shift-rotation regime, 0 otherwise), `GoodRel` (1 = good labour-relations climate as declared by management, 0 otherwise). **a)** Fit `Days ~ Wage + PartTime + Union + Shift + GoodRel`; assess global fit and individual significance. **b)** Translate the `Wage` coefficient into "extra Days for a one-standard-deviation increase in Wage" and build its 95% CI. **c)** Build a 99% confidence interval for every $\\beta_k$ — which regressors stay significant at $\\alpha=1\\%$? **d)** For a firm with `Wage=20, PartTime=10, Union=68, Shift=1, GoodRel=0`, give the 95% confidence interval for the *mean* `Days` and the 95% prediction interval for a *single* firm. Comment on the gap. **e)** Diagnostics on residuals vs fitted + histogram of standardised residuals — are LR assumptions satisfied?
+"content": """**Question (dataframe `Absence`).**
+
+![Ex 9.11 question](statistics/images/ex9/questions/ex9_9_11_question.png)
+
+$n=100$ firms; for each: `Days` (mean annual days of absence per employee, $Y$), `Wage` (mean hourly wage, $/h), `PartTime` (% part-time workforce), `Union` (% unionised), `Shift` (1 = at least one shift-rotation regime, 0 otherwise), `GoodRel` (1 = good labour-relations climate as declared by management, 0 otherwise). **a)** Fit `Days ~ Wage + PartTime + Union + Shift + GoodRel`; assess global fit and individual significance. **b)** Translate the `Wage` coefficient into "extra Days for a one-standard-deviation increase in Wage" and build its 95% CI. **c)** Build a 99% confidence interval for every $\\beta_k$ — which regressors stay significant at $\\alpha=1\\%$? **d)** For a firm with `Wage=20, PartTime=10, Union=68, Shift=1, GoodRel=0`, give the 95% confidence interval for the *mean* `Days` and the 95% prediction interval for a *single* firm. Comment on the gap. **e)** Diagnostics on residuals vs fitted + histogram of standardised residuals — are LR assumptions satisfied?
+
+---
+
+**AI walkthrough.** The panel below tells the full story:
+1. **(a) Coefficient table** with 95% CIs + global $F=21.40$ on $(5,94)$, $p\\approx 3\\!\\times\\!10^{-14}$, Adj-$R^2=0.507$.
+2. **(b) Standardised effects** — bars of $\\hat\\beta_k\\cdot sd(X_k)$ ("extra Days per +1 sd of $X_k$"): `Wage` ($-1.35$) and `GoodRel` ($-1.32$) are the largest one-sd movers; `Shift` is the weakest in sd-equivalent units.
+3. **(c) 99% CIs** — all five exclude 0 at $\\alpha=1\\%$; `Shift` is the weakest (lower limit close to 0).
+4. **(d) CI vs PI** at the target firm: PI width $\\approx 9.6$ days vs CI width $\\approx 2.1$ — $\\sim\\!4.5\\times$ wider, dominated by $\\hat\\sigma^2$.
+5. **(e) Residuals vs fitted** — flat band around 0, no funnel, one mild positive outlier.
+6. **(f) Standardised residuals** vs $N(0,1)$: borderline normality (JB $p\\approx 0.055$); with $n=100$ the CLT covers t- and F-tests.
+
+![Ex 9.11 AI walkthrough](statistics/images/ex9/ex9_9_11_ai.png)
 
 ---
 
@@ -773,10 +1017,33 @@ distr.plot.x(x=rstandard(mod), plot.type="histogram")
 ```
 
 **AI read of the residuals-vs-fitted plot.** Residuals span roughly $[-4.5,\\,+7.7]$ over fitted values $[1,\\,12]$ and scatter on **both sides of zero** with no clear funnel — vertical spread looks broadly constant, so **homoscedasticity** is acceptable. The mean-residual line stays close to $0$ across the whole fitted range, with no visible curvature -> **linearity** holds. One positive outlier near (fitted $\\approx 5.7$, residual $\\approx +7.7$) and a small cluster of $\\approx -4.5$ residuals at fitted $\\in [6,9]$ point to mildly **right-skewed** tails (Jarque-Bera $p\\approx 0.055$ confirms borderline non-normality), but with $n=100$ the CLT covers the t- and F-tests reported above. **Bottom line:** no violation severe enough to invalidate the inference at (a)-(d); the PI at (d) is the right tool for one-firm forecasts because the residual dispersion ($\\hat\\sigma\\approx 2.36$ days) — not the sampling noise on $\\hat\\beta$ — is what dominates individual uncertainty.
-""", "images": ["statistics/images/ex9_11-absence.png"]}
+
+---
+
+**Reference answer.**
+
+![Ex 9.11 answer](statistics/images/ex9/answers/ex9_9_11_answer.png)
+""", "images": [
+    "statistics/images/ex9/questions/ex9_9_11_question.png",
+    "statistics/images/ex9/ex9_9_11_ai.png",
+    "statistics/images/ex9/answers/ex9_9_11_answer.png",
+]}
 
 ex9["9_12"] = {"title": "Ex 9.12 — Visitors: lagged regression with seasonal indicators",
-"content": """**Question (dataframe `Visitors`).** Quarterly `Visitors` (in thousands) at a tourist site, with `Visitors_Prev` = previous-quarter value and seasonal dummies `I1, I2, I3` (Q4 = baseline, so `I1=1` if quarter is Q1, etc.). **a)** Fit `Visitors ~ Visitors_Prev + I1 + I2 + I3`; interpret each coefficient. **b)** Re-parameterise so Q2 becomes the baseline (introduce `I4` for Q4) and refit — verify the slope on `Visitors_Prev` is unchanged. **c)** Are LR assumptions satisfied? Inspect residuals vs fitted.
+"content": """**Question (dataframe `Visitors`).**
+
+![Ex 9.12 question](statistics/images/ex9/questions/ex9_9_12_question.png)
+
+Quarterly `Visitors` (in thousands) at a tourist site, with `Visitors_Prev` = previous-quarter value and seasonal dummies `I1, I2, I3` (Q4 = baseline, so `I1=1` if quarter is Q1, etc.). **a)** Fit `Visitors ~ Visitors_Prev + I1 + I2 + I3`; interpret each coefficient. **b)** Re-parameterise so Q2 becomes the baseline (introduce `I4` for Q4) and refit — verify the slope on `Visitors_Prev` is unchanged. **c)** Are LR assumptions satisfied? Inspect residuals vs fitted.
+
+---
+
+**AI walkthrough.** The three panels distill the exercise:
+1. **(a) Visitors over time, coloured by season** — clear seasonal swing (spring/summer peaks) on top of an AR(1)-like lag from the previous quarter; the fitted line tracks the data tightly.
+2. **(b) Residuals vs Fitted** — flat band around 0 with no funnel and no curvature; homoscedasticity and linearity are plausible (residual sd $\\approx 0.5$ k visitors).
+3. **(c) Re-baselining check** — bars compare seasonal effects under Q4-baseline (navy) vs Q2-baseline (yellow). The dummy *levels* shift by a constant, but the **slope on `Visitors_Prev` is identical** ($\\hat\\beta_{\\text{lag}}\\approx 0.298$) across the two parameterisations, exactly as theory predicts for a one-to-one linear re-parameterisation.
+
+![Ex 9.12 AI walkthrough](statistics/images/ex9/ex9_9_12_ai.png)
 
 ---
 
@@ -805,10 +1072,30 @@ distr.plot.x(x=rstandard(mod), plot.type="histogram")
 **Interpretation.** Each dummy coefficient is the *seasonal effect on `Visitors`, holding the lag constant*: e.g. $\\hat\\beta_{I2} = 3.20$ means Q2 averages 3.2k more visitors than Q4 once the carry-over from last quarter is partialled out. The lag coefficient $0 < \\hat\\beta < 1$ captures *persistence* (autoregressive-like decay). Re-baselining (Q4 → Q2) is a one-to-one linear re-parameterisation: $R^2$, $\\hat\\sigma$, fitted values and the slope on `Visitors_Prev` are invariant; only the intercept + dummy levels rotate.
 
 **Diagnostic (see plot).** Residuals vs fitted form a roughly horizontal band centred on 0 with no funnel and no clear curvature — homoscedasticity and linearity are plausible. Spread $\\pm 1.3$ is symmetric around 0; mild clustering near fitted $\\approx 6$ is expected (most quarters concentrate in that level).
-""", "images": ["statistics/images/ex9_12-visitors.png"]}
+
+---
+
+**Reference answer.**
+
+![Ex 9.12 answer](statistics/images/ex9/answers/ex9_9_12_answer.png)
+""", "images": [
+    "statistics/images/ex9/questions/ex9_9_12_question.png",
+    "statistics/images/ex9/ex9_9_12_ai.png",
+    "statistics/images/ex9/answers/ex9_9_12_answer.png",
+]}
 
 ex9["9_13"] = {"title": "Ex 9.13 — Loans: Bad ~ Loan + Recommendation (credit scoring)",
-"content": """**Question (dataframe `Loans`).** *Credit scoring* helps banks decide whether to grant a loan. Some branches do not rely on credit-scoring recommendations, or overturn them in some cases (granting loans even if the recommendation is *not* to). The dataframe `Loans` collects results of a survey on 100 banks. Variables: `Bad` = % of bad loans (any loan not completely repaid), `Loan` = average loan size, `Recommendation` = whether credit-scoring recommendations are followed and, if not, whether they are overturned in more than 10% of cases (`1` = not followed; `2` = overturned in >10% of cases; `3` = overturned in $\\le$ 10% of cases). **a)** Build a model relating the % of bad loans to the considered information and report it. **b)** Assess how well the model fits the data. **c)** Interpret and test the coefficients. What conclusions for the banks? **d)** Assess whether the assumptions of the linear model are fulfilled using proper tools (for graphical tools provide a sketch; for measures report them).
+"content": """**Question (dataframe `Loans`).**
+
+![Ex 9.13 question](statistics/images/ex9/questions/ex9_9_13_question.png)
+
+*Credit scoring* helps banks decide whether to grant a loan. Some branches do not rely on credit-scoring recommendations, or overturn them in some cases (granting loans even if the recommendation is *not* to). The dataframe `Loans` collects results of a survey on 100 banks. Variables: `Bad` = % of bad loans (any loan not completely repaid), `Loan` = average loan size, `Recommendation` = whether credit-scoring recommendations are followed and, if not, whether they are overturned in more than 10% of cases (`1` = not followed; `2` = overturned in >10% of cases; `3` = overturned in $\\le$ 10% of cases). **a)** Build a model relating the % of bad loans to the considered information and report it. **b)** Assess how well the model fits the data. **c)** Interpret and test the coefficients. What conclusions for the banks? **d)** Assess whether the assumptions of the linear model are fulfilled using proper tools (for graphical tools provide a sketch; for measures report them).
+
+---
+
+**AI walkthrough.**
+
+![Ex 9.13 AI walkthrough](statistics/images/ex9/ex9_9_13_ai.png)
 
 ---
 
@@ -843,4 +1130,14 @@ distr.plot.x(x=rstandard(mod), plot.type="histogram")  # normality of residuals
 ```
 
 **AI read of the residuals-vs-fitted plot.** Residuals cluster in **three vertical bands** at fitted values $\\approx 6,\\ 10,\\ 16$ — one band per `Recommendation` level — which is the expected pattern when a 3-level categorical predictor carries most of the variation. Within each band the residuals are centred on 0, so **linearity is acceptable**. However the spread is **clearly increasing**: band at fitted $\\approx 6$ has range $\\approx \\pm 3$, band at $\\approx 10$ stretches to $\\pm 5$ (with a $\\sim -9$ outlier), and the rightmost band at $\\approx 16$ reaches $\\pm 10$. This is a textbook **heteroscedasticity** signal — variance of `Bad` grows with the mean — and inflates the SEs reported by `summary(mod)`, so the t-tests at (c) are not fully trustworthy. **Bottom line:** the *signs* of the coefficients still hold, but inference (CIs, p-values) should be taken cautiously; a log-transform of `Bad` or weighted least squares would help.
-""", "images": ["statistics/images/ex9_13-loans.png"]}
+
+---
+
+**Answer (textbook).**
+
+![Ex 9.13 answer](statistics/images/ex9/answers/ex9_9_13_answer.png)
+""", "images": [
+    "statistics/images/ex9/questions/ex9_9_13_question.png",
+    "statistics/images/ex9/ex9_9_13_ai.png",
+    "statistics/images/ex9/answers/ex9_9_13_answer.png",
+]}

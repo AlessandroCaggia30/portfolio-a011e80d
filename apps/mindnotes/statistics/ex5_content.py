@@ -5,6 +5,14 @@ ex5 = {}
 ex5["5_1a"] = {"title": "Ex 5.1a — Point estimate + SE of mean AmountSpent (DS)",
 "content": """**Question.** (dataframe `DS`, $n_X = 750$). Let $X$ be the random variable describing the amount spent by the firm's customers (`AmountSpent`) and let $\\mu_X = \\Exp{X}$. **(a)** What is the estimate of the mean amount spent by the firm's customers? Can the standard error of the estimator be determined exactly? Can it be estimated? Determine or estimate the standard error of the estimator. Round all intermediate results to 3 decimals.
 
+![Ex 5.1a question](statistics/images/ex5/questions/ex5_5_1a_question.png)
+
+---
+
+**AI walkthrough.** $\\bar X$ is the unbiased point estimator. The **exact** SE $=\\sigma_X/\\sqrt{n_X}$ needs the unknown $\\sigma_X$, so we **plug in** the sample variance to get the estimated SE $se(\\bar X)=\\sqrt{s^2_X/n_X}$ — the typical sampling spread of $\\bar X$ around $\\mu_X$.
+
+![Ex 5.1a AI walkthrough](statistics/images/ex5/ex5_5_1a_ai.png)
+
 ---
 
 **Answer.**
@@ -47,10 +55,24 @@ se_Xbar <- sqrt(s2_x / n_X); se_Xbar    # 35.419
 **Interpretation.** $se(\\bar X)$ measures the **typical** sampling variability of $\\bar X$ across hypothetical resamples of size $n_X = 750$ — it is *not* the deviation of this specific $\\bar x = 1222.437$ from the unknown $\\mu_X$, which cannot be quantified without further assumptions (CI or test).
 
 **Assumptions.** The $n_X = 750$ customers are an i.i.d. sample from the population of the firm's customers; representativeness ensures $\\bar X$ is unbiased for $\\mu_X$.
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 5.1a answer](statistics/images/ex5/answers/ex5_5_1a_answer.png)
+""", "images": [
+    "statistics/images/ex5/questions/ex5_5_1a_question.png",
+    "statistics/images/ex5/ex5_5_1a_ai.png",
+    "statistics/images/ex5/answers/ex5_5_1a_answer.png",
+]}
 
 ex5["5_1b"] = {"title": "Ex 5.1b — Point estimate + SE for the competitor sample",
-"content": """**Question.** Repeat the calculation of 5.1a for a **competitor** company, whose sample summaries are reported as a **total amount spent** of $\\sum_{i=1}^{n_Y} y_i = 682\\,000$, a sample size $n_Y = 620$, and a sample variance $s_Y^2 = 921\\,486$. Provide a point estimate and an estimate of the standard error of the mean amount spent $\\mu_Y$ for the competitor.
+"content": """**Question.**
+
+![Ex 5.1b question](statistics/images/ex5/questions/ex5_5_1b_question.png)
+
+Repeat the calculation of 5.1a for a **competitor** company, whose sample summaries are reported as a **total amount spent** of $\\sum_{i=1}^{n_Y} y_i = 682\\,000$, a sample size $n_Y = 620$, and a sample variance $s_Y^2 = 921\\,486$. Provide a point estimate and an estimate of the standard error of the mean amount spent $\\mu_Y$ for the competitor.
 
 ---
 
@@ -70,6 +92,8 @@ $$
 ---
 
 **AI walkthrough.**
+
+![Ex 5.1b AI walkthrough](statistics/images/ex5/ex5_5_1b_ai.png)
 
 **Point estimate of $\\mu_Y$.** Recover $\\bar y$ from the reported total:
 $$
@@ -99,12 +123,22 @@ se_Ybar <- sqrt(s2_y / n_Y); se_Ybar    # ~38.552
 **Interpretation.** $se(\\bar Y) \\approx 38.55$ measures the **typical** sampling variability of $\\bar Y$ across hypothetical i.i.d. samples of size $620$ from the competitor's customer population — it is *not* the deviation of this specific $\\bar y = 1100$ from the unknown $\\mu_Y$.
 
 **Assumptions.** The 620 competitor customers form an i.i.d., representative sample from the competitor's customer population.
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 5.1b answer](statistics/images/ex5/answers/ex5_5_1b_answer.png)
+""", "images": [
+    "statistics/images/ex5/questions/ex5_5_1b_question.png",
+    "statistics/images/ex5/ex5_5_1b_ai.png",
+    "statistics/images/ex5/answers/ex5_5_1b_answer.png",
+]}
 
 ex5["5_1f"] = {"title": "Ex 5.1f — SE of difference in means: known/unknown/equal variances",
 "content": """**Question.**
 
-![Ex 5.1f question](statistics/images/ex5/questions/ex5_1f_question.png)
+![Ex 5.1f question](statistics/images/ex5/questions/ex5_5_1f_question.png)
 
 Consider the difference in mean amount spent between the firm's customers ($X$, $n_X=750$, $\\bar x = 1222.437$, $s_X^2 = 940\\,900.9$) and the competitor's customers ($Y$, $n_Y=620$, $\\bar y = 682\\,000/620 = 1100.000$, $s_Y^2 = 921\\,486$). **Determine** (or estimate) the standard error of $\\bar X - \\bar Y$ under three different sets of assumptions:
 **f1)** $\\sigma_X^2,\\,\\sigma_Y^2$ are both **unknown** and **not assumed equal** (Welch);
@@ -130,6 +164,8 @@ which is the **best (lowest-variance) unbiased estimator** of the common varianc
 ---
 
 **AI walkthrough.**
+
+![Ex 5.1f AI walkthrough](statistics/images/ex5/ex5_5_1f_ai.png)
 
 **Point estimate of the difference.** Independent of the assumptions,
 $$
@@ -208,14 +244,17 @@ SE_known <- sqrt(sigma2 * (1/n_x + 1/n_y));  SE_known  # ~ 48.852
 
 **Reference answer.**
 
-![Ex 5.1f answer](statistics/images/ex5/answers/ex5_1f_answer.png)
+![Ex 5.1f answer](statistics/images/ex5/answers/ex5_5_1f_answer.png)
 """, "images": [
-    "statistics/images/ex5/questions/ex5_1f_question.png",
-    "statistics/images/ex5/answers/ex5_1f_answer.png",
+    "statistics/images/ex5/questions/ex5_5_1f_question.png",
+    "statistics/images/ex5/ex5_5_1f_ai.png",
+    "statistics/images/ex5/answers/ex5_5_1f_answer.png",
 ]}
 
 ex5["5_2a"] = {"title": "Ex 5.2a — Standard error of $\\bar X$ with known population variance",
 "content": """**Question.** From a sample of size $n=15$, the following summary statistics are available: $\\sum_{i=1}^{n} x_i = 2755$ and $\\sum_{i=1}^{n} x_i^2 = 585\\,203$. Assuming the population variance is **known** and equal to $\\sigma^2 = 6500$, propose an unbiased estimator of the population mean $\\mu$, compute the point estimate $\\bar x$, and determine the standard error $SE(\\bar X)$. Then repeat the SE computation for the larger sample size $n=50$.
+
+![Ex 5.2a question](statistics/images/ex5/questions/ex5_5_2a_question.png)
 
 ---
 
@@ -252,6 +291,8 @@ $$
 
 5. **Why "known" matters.** With $\\sigma^2$ known, $SE$ has no estimation uncertainty and inference uses the **standard normal** quantiles ($z$); with $\\sigma^2$ unknown the SE must be estimated from $s^2$ and inference uses the **$t$ distribution** with $n-1$ degrees of freedom (see Ex 5.2b).
 
+![Ex 5.2a AI walkthrough](statistics/images/ex5/ex5_5_2a_ai.png)
+
 ---
 
 **Answer.**
@@ -281,7 +322,16 @@ SE_Xbar.b / SE_Xbar                          # ~0.5477 = sqrt(15/50)
 ```
 
 **Assumptions.** The 15 (resp. 50) observations are an i.i.d. sample from the population, and $\\sigma^2 = 6500$ is the true (known) population variance. No Normality of $X$ is needed for unbiasedness or for $SE(\\bar X) = \\sigma/\\sqrt{n}$; Normality (or CLT for large $n$) is only required to attach a $z$-based interval/test to this SE.
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 5.2a answer](statistics/images/ex5/answers/ex5_5_2a_answer.png)
+""", "images": [
+    "statistics/images/ex5/questions/ex5_5_2a_question.png",
+    "statistics/images/ex5/answers/ex5_5_2a_answer.png",
+]}
 
 ex5["5_2b"] = {"title": "Ex 5.2b — SE with unknown population variance",
 "content": """<span class="exam-question-text">**Question.** Same setting as 5.2a ($n=15$, $\\sum x = 2755$, $\\sum x^2 = 585\\,203$; and a second sample with $n=50$, $\\bar x = 205$, $s = 91.5$), but now $\\sigma^2$ is **unknown** — estimate it from the data and obtain the standard error of $\\bar X$ for both sample sizes. Compare with the known-variance case (5.2a).</span>
@@ -348,6 +398,8 @@ ex5["5_3a"] = {"title": "Ex 5.3a — Mean customers, known variance ($n=15$ vs $
 4. **Larger sample $n=50$.** The point estimate is $\\hat\\mu = \\bar x = 205$. With $\\sigma^2 = 6500$ still known, $SE = \\sqrt{6500/50} = \\sqrt{130} \\approx 11.40$.
 5. **Effect of $n$.** $SE$ shrinks as $1/\\sqrt{n}$: going from $n=15$ to $n=50$ multiplies the SE by $\\sqrt{15/50} \\approx 0.548$, i.e. cuts it almost in half ($20.82 \\to 11.40$). This is the textbook $\\sqrt{n}$-consistency of the sample mean.
 
+![Ex 5.3a AI walkthrough](statistics/images/ex5/ex5_3a_ai.png)
+
 ---
 
 **Answer.**
@@ -375,17 +427,18 @@ With $\\sigma^2$ known, $SE(\\bar X) = \\sigma/\\sqrt{n}$ is exact. A larger $n$
 ![Ex 5.3a answer](statistics/images/ex5/answers/ex5_3a_answer.png)
 """, "images": [
     "statistics/images/ex5/questions/ex5_3a_question.png",
+    "statistics/images/ex5/ex5_3a_ai.png",
     "statistics/images/ex5/answers/ex5_3a_answer.png",
 ]}
 
 ex5["5_3b"] = {"title": "Ex 5.3b — Closeness claim + SE with unknown variance",
-"content": """<span class="exam-question-text">**Question.** Same setting as 5.3a — store manager, $n=15$ sample with $\\sum x_i = 2755$, $\\sum x_i^2 = 585\\,203$ (giving $\\bar x = 183.667$), and a second sample of $n=50$ with $\\bar x = 205$, $s = 91.5$.
+"content": """**Question.** Same setting as 5.3a — store manager, $n=15$ sample with $\\sum x_i = 2755$, $\\sum x_i^2 = 585\\,203$ (giving $\\bar x = 183.667$), and a second sample of $n=50$ with $\\bar x = 205$, $s = 91.5$.
 
 **c)** Comment on the statement: *"the estimate obtained in (b) is closer to $\\mu$ than the estimate obtained in (a)"* — is it true or false? If it is true, explain clearly why; if it is false, rephrase it correctly.
 
-**d)** What would be the evaluation of the standard errors of the estimators at points (a) and (b) **if the variance were not assumed to be known**?</span>
+**d)** What would be the evaluation of the standard errors of the estimators at points (a) and (b) **if the variance were not assumed to be known**?
 
-![Ex 5.3b question](statistics/images/ex5/questions/ex5_3b_question.png)
+![Ex 5.3b question](statistics/images/ex5/questions/ex5_5_3b_question.png)
 
 ---
 
@@ -397,7 +450,7 @@ ex5["5_3b"] = {"title": "Ex 5.3b — Closeness claim + SE with unknown variance"
 4. **$n=50$ sample.** $s = 91.5$ is given directly, so $\\widehat{SE} = 91.5/\\sqrt{50} \\approx 12.94$ — slightly **larger** than the known-$\\sigma^2$ value $11.40$, because here $s^2 = 91.5^2 = 8372.25$ over-shoots $\\sigma^2 = 6500$.
 5. **Take-away.** Larger $n$ gives both a smaller SE **and** a more stable estimate of $\\sigma^2$. Sample-by-sample, $s^2$ is noisy (unbiased but variable); inference under unknown $\\sigma^2$ also requires replacing the $z$-quantile by a $t_{n-1}$-quantile to account for that extra noise.
 
-![Ex 5.3b AI walkthrough](statistics/images/ex5/ex5_3b_ai.png)
+![Ex 5.3b AI walkthrough](statistics/images/ex5/ex5_5_3b_ai.png)
 
 ---
 
@@ -433,11 +486,11 @@ For $n=15$, the variance estimate ($5657.24$) is below the assumed true $\\sigma
 
 **Reference answer.**
 
-![Ex 5.3b answer](statistics/images/ex5/answers/ex5_3b_answer.png)
+![Ex 5.3b answer](statistics/images/ex5/answers/ex5_5_3b_answer.png)
 """, "images": [
-    "statistics/images/ex5/questions/ex5_3b_question.png",
-    "statistics/images/ex5/ex5_3b_ai.png",
-    "statistics/images/ex5/answers/ex5_3b_answer.png",
+    "statistics/images/ex5/questions/ex5_5_3b_question.png",
+    "statistics/images/ex5/ex5_5_3b_ai.png",
+    "statistics/images/ex5/answers/ex5_5_3b_answer.png",
 ]}
 
 ex5["5_4"] = {"title": "Ex 5.4 — Mean difference for paired data (pre/post)",
@@ -472,6 +525,8 @@ $$\\widehat{SE}(\\bar D) \\;=\\; \\sqrt{\\frac{s^2_{\\text{pre}} + s^2_{\\text{p
 
 6. **(c) Distance to the truth.** The SE measures the typical sampling variability of $\\bar D$ around the unknown true increase $\\mu_{\\text{post}} - \\mu_{\\text{pre}}$ — it does **not** quantify how far the realized $\\bar d = 9.2$ is from that truth. To bound the realized error we need a CI: $9.2 \\pm z_{1-\\alpha/2}\\cdot 0.3776$, e.g. an approximate $95\\%$ CI $\\approx [8.46,\\,9.94]$, comfortably excluding zero.
 
+![Ex 5.4 AI walkthrough](statistics/images/ex5/ex5_4_ai.png)
+
 ---
 
 **Answer.**
@@ -505,12 +560,13 @@ For paired data, the SE of the difference uses the **covariance** between pre an
 """, "images": [
     "statistics/images/ex5/questions/ex5_4_question.png",
     "statistics/images/ex5/answers/ex5_4_answer.png",
+    "statistics/images/ex5/ex5_4_ai.png",
 ]}
 
 ex5["5_5a"] = {"title": "Ex 5.5a — Difference between male/female proportions (bookstore)",
-"content": """<span class="exam-question-text">**Question.** A bookstore chain surveys 650 male and 850 female customers in 2022 about whether they bought $\\ge 2$ books. Heavy readers: 221 males, 391 females. Estimate the difference between the proportions of male and female heavy readers, and the standard error of the estimator.</span>
+"content": """**Question.** A bookstore chain surveys 650 male and 850 female customers in 2022 about whether they bought $\\ge 2$ books. Heavy readers: 221 males, 391 females. Estimate the difference between the proportions of male and female heavy readers, and the standard error of the estimator.
 
-![Ex 5.5a question](statistics/images/ex5/questions/ex5_5a_question.png)
+![Ex 5.5a question](statistics/images/ex5/questions/ex5_5_5a_question.png)
 
 ---
 
@@ -521,6 +577,8 @@ ex5["5_5a"] = {"title": "Ex 5.5a — Difference between male/female proportions 
 3. **Variance adds (independence).** $\\Var(\\hat p_F - \\hat p_M) = \\Var(\\hat p_F) + \\Var(\\hat p_M) = p_F(1-p_F)/n_F + p_M(1-p_M)/n_M$ — no covariance term because the two samples are drawn independently of each other.
 4. **Plug-in SE.** The population $p_F,p_M$ are unknown, so estimate the SE by plugging $\\hat p_F,\\hat p_M$: $\\widehat{SE} = \\sqrt{0.46\\cdot 0.54/850 + 0.34\\cdot 0.66/650} \\approx \\sqrt{2.92\\cdot 10^{-4} + 3.45\\cdot 10^{-4}} \\approx 0.02525$.
 5. **Sanity check.** The gap is roughly $0.12/0.02525 \\approx 4.75$ SEs from $0$ — a normal-approx $95\\%$ CI is $0.12 \\pm 1.96\\cdot 0.02525 \\approx [0.070,\\,0.170]$, clearly excluding zero.
+
+![Ex 5.5a AI walkthrough](statistics/images/ex5/ex5_5_5a_ai.png)
 
 ---
 
@@ -544,16 +602,17 @@ For a CI/test, use $\\hat p_F - \\hat p_M \\pm z_{1-\\alpha/2} \\cdot se$.
 
 **Reference answer.**
 
-![Ex 5.5a answer](statistics/images/ex5/answers/ex5_5a_answer.png)
+![Ex 5.5a answer](statistics/images/ex5/answers/ex5_5_5a_answer.png)
 """, "images": [
-    "statistics/images/ex5/questions/ex5_5a_question.png",
-    "statistics/images/ex5/answers/ex5_5a_answer.png",
+    "statistics/images/ex5/questions/ex5_5_5a_question.png",
+    "statistics/images/ex5/ex5_5_5a_ai.png",
+    "statistics/images/ex5/answers/ex5_5_5a_answer.png",
 ]}
 
 ex5["5_5b"] = {"title": "Ex 5.5b — Change in proportion 2015 vs 2022",
-"content": """<span class="exam-question-text">**Question.** A previous survey conducted on $n=1000$ customers in **2015** found the proportion of heavy readers to be $\\hat p_{2015} = 0.45$. Propose an estimator for the change in the percentage of customers buying at least 2 books from 2015 to 2022 based on the available data, and evaluate its estimate and standard error.</span>
+"content": """**Question.** A previous survey conducted on $n=1000$ customers in **2015** found the proportion of heavy readers to be $\\hat p_{2015} = 0.45$. Propose an estimator for the change in the percentage of customers buying at least 2 books from 2015 to 2022 based on the available data, and evaluate its estimate and standard error.
 
-![Ex 5.5b question](statistics/images/ex5/questions/ex5_5b_question.png)
+![Ex 5.5b question](statistics/images/ex5/questions/ex5_5_5b_question.png)
 
 ---
 
@@ -565,6 +624,8 @@ ex5["5_5b"] = {"title": "Ex 5.5b — Change in proportion 2015 vs 2022",
 4. **Variance adds (independence).** $\\Var(\\hat p_{2015} - \\hat p_{2022}) = p_{2015}(1-p_{2015})/n_{2015} + p_{2022}(1-p_{2022})/n_{2022}$ — no covariance term because the surveys are run on different cohorts.
 5. **Plug-in SE.** Both $p$'s unknown $\\Rightarrow$ plug in the sample proportions: $\\widehat{SE} = \\sqrt{0.45\\cdot 0.55/1000 + 0.408\\cdot 0.592/1500} \\approx \\sqrt{2.475\\cdot 10^{-4} + 1.610\\cdot 10^{-4}} \\approx 0.02021$.
 6. **Sanity check.** The gap is only $0.042/0.02021 \\approx 2.08$ SEs from 0 — borderline; a normal-approx 95% CI is $0.042 \\pm 1.96\\cdot 0.02021 \\approx [0.0024,\\,0.0816]$, *just* excluding zero.
+
+![Ex 5.5b AI walkthrough](statistics/images/ex5/ex5_5_5b_ai.png)
 
 ---
 
@@ -588,27 +649,71 @@ Independent-samples SE; same logic as 5.5a but across two years instead of two s
 
 **Reference answer.**
 
-![Ex 5.5b answer](statistics/images/ex5/answers/ex5_5b_answer.png)
+![Ex 5.5b answer](statistics/images/ex5/answers/ex5_5_5b_answer.png)
 """, "images": [
-    "statistics/images/ex5/questions/ex5_5b_question.png",
-    "statistics/images/ex5/answers/ex5_5b_answer.png",
+    "statistics/images/ex5/questions/ex5_5_5b_question.png",
+    "statistics/images/ex5/ex5_5_5b_ai.png",
+    "statistics/images/ex5/answers/ex5_5_5b_answer.png",
 ]}
 
-ex5["5_6a"] = {"title": "Ex 5.6a — Conditional summary of AmountSpent by Sex",
-"content": """**Question.** Get the variance of `AmountSpent` for each Sex group in `DS`.
+ex5["5_6a"] = {"title": "Ex 5.6a — Difference of mean AmountSpent by Sex (pooled vs Welch SE)",
+"content": """**Question.** It is of interest to estimate the difference between the **mean amount spent** (`AmountSpent`) by female and male customers in dataframe `DS`. Propose an unbiased estimator for the parameter of interest. Estimate the standard error of the estimator under the assumption that the variances in the two groups are **equal** and under the assumption that they are **different** (both unknown).
+
+![Ex 5.6a question](statistics/images/ex5/questions/ex5_5_6a_question.png)
 
 ---
 
-**Answer.**
+**AI walkthrough.** Two **independent** samples (female and male customers), means compared — the estimator is the **difference of sample means**, and the SE depends on whether the unknown population variances are assumed equal (pooled) or not (Welch).
+
+1. **Parameter and estimator.** Let $\\mu_F, \\mu_M$ be the population mean spends. The parameter of interest is $\\mu_F - \\mu_M$; its natural unbiased estimator is the **difference of sample means** $\\bar X_F - \\bar X_M$, since $\\Exp{\\bar X_F - \\bar X_M} = \\mu_F - \\mu_M$ by linearity (no pairing — independent samples).
+2. **Variance adds (independence).** $\\Var(\\bar X_F - \\bar X_M) = \\sigma^2_F/n_F + \\sigma^2_M/n_M$ — no covariance term because the two groups are sampled independently.
+3. **Sample inputs (textbook).** $n_F = 389$, $n_M = 361$, $s^2_F = 826{,}529.2$, $s^2_M = 996{,}823.7$ — male variance is about 20% larger.
+4. **Case A — equal variances (pooled).** Assuming $\\sigma^2_F = \\sigma^2_M = \\sigma^2$, pool the two sample variances by their degrees of freedom: $s^2_{pool} = \\frac{(n_F-1)s^2_F + (n_M-1)s^2_M}{n_F + n_M - 2} = \\frac{388 \\cdot 826529.2 + 360 \\cdot 996823.7}{748} \\approx 908{,}489.1$. Then $\\widehat{SE}_{pool} = \\sqrt{s^2_{pool}\\,(1/n_F + 1/n_M)} = \\sqrt{908489.1 \\cdot (1/389 + 1/361)} \\approx \\mathbf{69.6566}$.
+5. **Case B — unequal variances (Welch).** Drop the equality assumption: $\\widehat{SE}_{W} = \\sqrt{s^2_F/n_F + s^2_M/n_M} = \\sqrt{826529.2/389 + 996823.7/361} \\approx \\sqrt{2124.75 + 2761.28} \\approx \\sqrt{4886.03} \\approx \\mathbf{69.9002}$.
+6. **Comparison.** The two SEs differ by only $\\approx 0.24$ (about 0.35%) because (i) the sample variances are fairly close and (ii) the sample sizes are nearly balanced — in that regime pooled and Welch SEs almost coincide. The Welch SE is slightly larger because it puts the larger variance on the smaller sample.
+
+![Ex 5.6a AI walkthrough](statistics/images/ex5/ex5_5_6a_ai.png)
+
+---
+
+**Answer.** Unbiased estimator: the **difference of sample means** $\\hat\\theta = \\bar X_F - \\bar X_M$ (unbiased because $\\Exp{\\bar X_F - \\bar X_M} = \\mu_F - \\mu_M$). The two SE estimates are
+
+$$\\widehat{SE}_{equal} \\;=\\; \\sqrt{s^2_{pool}\\left(\\tfrac{1}{n_F}+\\tfrac{1}{n_M}\\right)} \\;\\approx\\; 69.6566, \\qquad \\widehat{SE}_{unequal} \\;=\\; \\sqrt{\\tfrac{s^2_F}{n_F}+\\tfrac{s^2_M}{n_M}} \\;\\approx\\; 69.9002.$$
+
 ```r
-distr.summary.x(x=AmountSpent, by1=Sex, stats="var", digits=3, data=DS)
-s2_F <- 826529.2; s2_M <- 996823.7
+# Sample sizes and variances from distr.summary.x(x=AmountSpent, by1=Sex, data=DS)
 n_F <- 389;       n_M <- 361
+s2_F <- 826529.2; s2_M <- 996823.7
+
+# Case A -- equal variances (pooled)
+s2_pool <- ((n_F - 1)*s2_F + (n_M - 1)*s2_M) / (n_F + n_M - 2); s2_pool   # ~908489.1
+SE_pool <- sqrt(s2_pool * (1/n_F + 1/n_M)); SE_pool                       # ~69.6566
+
+# Case B -- unequal variances (Welch)
+SE_welch <- sqrt(s2_F/n_F + s2_M/n_M); SE_welch                           # ~69.9002
+
+# Same numbers from the data:
+t.test(AmountSpent ~ Sex, data = DS, var.equal = TRUE)$stderr             # ~69.6566
+t.test(AmountSpent ~ Sex, data = DS, var.equal = FALSE)$stderr            # ~69.9002
 ```
-""", "images": []}
+
+When sample sizes are balanced and the variances are close, pooled and Welch SEs are nearly indistinguishable — but Welch is the **safe default** because it does not require the equal-variance assumption.
+
+---
+
+**Reference answer.**
+
+![Ex 5.6a answer](statistics/images/ex5/answers/ex5_5_6a_answer.png)
+""", "images": [
+    "statistics/images/ex5/questions/ex5_5_6a_question.png",
+    "statistics/images/ex5/ex5_5_6a_ai.png",
+    "statistics/images/ex5/answers/ex5_5_6a_answer.png",
+]}
 
 ex5["5_6b"] = {"title": "Ex 5.6b — Unbiased estimator: fraction of employees who improved",
-"content": """<span class="exam-question-text">**Question.** Propose an unbiased estimator for the fraction of employees in the company whose productivity improved after the transition ($\\text{Post} - \\text{Pre} > 0$). State the required assumptions.</span>
+"content": """**Question.** Propose an unbiased estimator for the fraction of employees in the company whose productivity improved after the transition ($\\text{Post} - \\text{Pre} > 0$). State the required assumptions.
+
+![Ex 5.6b question](statistics/images/ex5/questions/ex5_5_6b_question.png)
 
 ---
 
@@ -638,7 +743,7 @@ $$\\hat p \\;=\\; \\tfrac{52}{80} \\;=\\; 0.65, \\qquad \\widehat{SE}(\\hat p) \
 The CLT rule of thumb requires $n\\hat p = 52 \\ge 5$ and $n(1-\\hat p) = 28 \\ge 5$ — both satisfied — so an approximate 95% CI for $p$ is
 $$0.65 \\pm 1.96 \\cdot 0.0533 \\;=\\; [0.546,\\; 0.754].$$
 
-![Ex 5.6b AI walkthrough](statistics/images/ex5/ex5_6b_ai.png)
+![Ex 5.6b AI walkthrough](statistics/images/ex5/ex5_5_6b_ai.png)
 
 ---
 
@@ -663,12 +768,48 @@ phat + c(-1, 1) * qnorm(0.975) * se_phat
 ```
 
 **Take-aways.** (i) Sign-based problems on paired data ("did the outcome improve?") reduce to a one-sample proportion estimate — no magnitude information is used. (ii) The sample proportion is unbiased *regardless of sample size and shape of the distributions* — Bernoulli expectations are linear. (iii) For CIs/tests, invoke the CLT (rule of thumb $n\\hat p, n(1-\\hat p) \\ge 5$) and use $\\hat p \\pm z_{1-\\alpha/2}\\,\\widehat{SE}(\\hat p)$.
+
+---
+
+**Reference answer.**
+
+![Ex 5.6b answer](statistics/images/ex5/answers/ex5_5_6b_answer.png)
 """, "images": [
-    "statistics/images/ex5/ex5_6b_ai.png",
+    "statistics/images/ex5/questions/ex5_5_6b_question.png",
+    "statistics/images/ex5/ex5_5_6b_ai.png",
+    "statistics/images/ex5/answers/ex5_5_6b_answer.png",
 ]}
 
 ex5["5_6d"] = {"title": "Ex 5.6d — SE of mean Post$-$Pre difference with cor = 0.58",
 "content": """**Question.** Estimate the standard error of the estimator $\\bar X_{\\text{Post}} - \\bar X_{\\text{Pre}}$ under the assumption that the variances of Pre and Post productivity are equal and that $\\operatorname{cor}(\\text{Pre},\\text{Post}) = 0.58$. Use the subsample of employees with at least 2 children, 2015–2022, from `Exe5_Data.Rdata`.
+
+![Ex 5.6d question](statistics/images/ex5/questions/ex5_5_6d_question.png)
+
+---
+
+**Setup.** Pre and Post productivity are measured on the **same** $n$ employees, so $\\bar X_{\\text{Pre}}$ and $\\bar X_{\\text{Post}}$ are **not independent** — they share within-employee variation. The variance of their difference therefore carries a covariance term that the independent-samples formula misses.
+
+---
+
+**AI walkthrough.** Step by step:
+
+1. **Why pairing matters.** Each employee contributes one $(\\text{Pre}_i,\\text{Post}_i)$ pair, so $\\bar X_{\\text{Post}} - \\bar X_{\\text{Pre}} = \\bar D$ where $D_i = \\text{Post}_i - \\text{Pre}_i$. The two sample means are built from the same employees and are strongly positively related: the **left panel** shows the synthetic Pre–Post scatter with $\\widehat\\rho \\approx 0.58$ — points cluster around the OLS line (slope $\\approx \\rho$), so high-Pre employees tend to have high-Post values.
+
+2. **General paired variance formula.** For dependent means with $\\rho = \\operatorname{cor}(\\text{Pre}_i,\\text{Post}_i)$,
+$$\\Var(\\bar X_{\\text{Post}} - \\bar X_{\\text{Pre}}) = \\frac{\\sigma^2_{\\text{Post}} + \\sigma^2_{\\text{Pre}} - 2\\,\\rho\\,\\sigma_{\\text{Post}}\\sigma_{\\text{Pre}}}{n}.$$
+The covariance term $-2\\rho\\sigma_{\\text{Post}}\\sigma_{\\text{Pre}}/n$ is the *only* difference from the independent-samples formula — and it is **subtracted** when $\\rho>0$.
+
+3. **Collapse under equal variances.** Assume $\\sigma^2_{\\text{Post}} = \\sigma^2_{\\text{Pre}} = \\sigma^2$. The expression simplifies to
+$$\\Var(\\bar X_{\\text{Post}} - \\bar X_{\\text{Pre}}) \\;=\\; \\frac{2\\sigma^2(1-\\rho)}{n} \\;\\;\\Longrightarrow\\;\\; \\widehat{\\operatorname{SE}} \\;=\\; \\sqrt{\\dfrac{2\\,s^2_{\\text{pool}}\\,(1-\\rho)}{n}},$$
+with the pooled sample variance $s^2_{\\text{pool}} = (s^2_{\\text{Pre}} + s^2_{\\text{Post}})/2$ (equal weights because both groups have the same $n$ — the data are paired).
+
+4. **The factor $1-\\rho$ controls the SE reduction.** The **middle panel** plots the multiplier $1-\\rho$ across $\\rho\\in[-1,1]$. At $\\rho=0$ we recover the independent-samples variance ($\\times 1$); at $\\rho=0.58$ the variance is multiplied by $1-0.58=0.42$, so the SE shrinks by $\\sqrt{0.42}\\approx 0.65$, i.e. a $\\sim$35% reduction. Negative $\\rho$ would *inflate* the SE — which is why pairing only helps when within-unit correlation is positive.
+
+5. **Numerical illustration.** Take $n=120$, $s^2_{\\text{Pre}}=38$, $s^2_{\\text{Post}}=42$ so $s^2_{\\text{pool}}=40$. Then
+$$\\widehat{\\operatorname{SE}}_{\\text{paired}} \\;=\\; \\sqrt{\\dfrac{2\\cdot 40\\cdot(1-0.58)}{120}} \\;=\\; \\sqrt{0.28} \\;\\approx\\; 0.529,$$
+while the (wrong) independent-samples SE with the same variances would be $\\sqrt{2\\cdot 40/120}\\approx 0.816$ — about $1/\\sqrt{1-\\rho}\\approx 1.54\\times$ larger. The **right panel** overlays both sampling distributions of $\\bar X_{\\text{Post}}-\\bar X_{\\text{Pre}}$: the paired one (navy/yellow) is visibly tighter than the independent-samples baseline (grey). Ignoring the covariance would over-state the uncertainty and weaken any subsequent test or CI.
+
+![Ex 5.6d AI walkthrough](statistics/images/ex5/ex5_5_6d_ai.png)
 
 ---
 
@@ -703,12 +844,22 @@ se_diff <- sqrt(2 * s2_pool * (1 - rho) / n); se_diff
 $$\\widehat{\\operatorname{SE}} = \\sqrt{\\dfrac{2\\cdot 40\\cdot(1-0.58)}{120}} = \\sqrt{0.28} \\approx 0.529.$$
 
 The **independent-samples** SE with the same variances would be $\\sqrt{2\\cdot 40/120}\\approx 0.816$ — about $1/\\sqrt{1-\\rho}\\approx 1.54\\times$ larger. The positive within-employee correlation shrinks the SE substantially.
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 5.6d answer](statistics/images/ex5/answers/ex5_5_6d_answer.png)
+""", "images": [
+    "statistics/images/ex5/questions/ex5_5_6d_question.png",
+    "statistics/images/ex5/ex5_5_6d_ai.png",
+    "statistics/images/ex5/answers/ex5_5_6d_answer.png",
+]}
 
 ex5["5_7a"] = {"title": "Ex 5.7a — Pizzeria price difference, known equal variances",
-"content": """<span class="exam-question-text">**Question.** Pizzerias are split by workforce size: **LE4** = at most 4 employees, **GT4** = more than 4 employees. Independent random samples yield $n_{\\text{LE4}} = 55$ and $n_{\\text{GT4}} = 45$. Assume that the population variances of `Price` are **known and equal** to $\\sigma^2 = 2.2$. Estimate the standard error of the estimator $\\bar X_{\\text{GT4}} - \\bar X_{\\text{LE4}}$.</span>
+"content": """**Question.** Pizzerias are split by workforce size: **LE4** = at most 4 employees, **GT4** = more than 4 employees. Independent random samples yield $n_{\\text{LE4}} = 55$ and $n_{\\text{GT4}} = 45$. Assume that the population variances of `Price` are **known and equal** to $\\sigma^2 = 2.2$. Estimate the standard error of the estimator $\\bar X_{\\text{GT4}} - \\bar X_{\\text{LE4}}$.
 
-![Ex 5.7a question](statistics/images/ex5/questions/ex5_7a_question.png)
+![Ex 5.7a question](statistics/images/ex5/questions/ex5_5_7a_question.png)
 
 ---
 
@@ -719,6 +870,8 @@ ex5["5_7a"] = {"title": "Ex 5.7a — Pizzeria price difference, known equal vari
 3. **Plug numbers.** $1/45 + 1/55 = 55/2475 + 45/2475 = 100/2475 \\approx 0.04040$, so $\\Var \\approx 2.2 \\cdot 0.04040 \\approx 0.08889$.
 4. **Take the square root.** $\\operatorname{SE} = \\sqrt{0.08889} \\approx 0.2981$.
 5. **"Known" $=$ exact.** Because $\\sigma^2$ is given, this SE is **not** an estimate — there is no sample variance involved and no plug-in uncertainty. Compare with 5.7b where $\\sigma^2$ becomes unknown and we must replace it with $s^2$.
+
+![Ex 5.7a AI walkthrough](statistics/images/ex5/ex5_5_7a_ai.png)
 
 ---
 
@@ -741,20 +894,23 @@ se_diff_known_eq
 
 **Reference answer.**
 
-![Ex 5.7a answer](statistics/images/ex5/answers/ex5_7a_answer.png)
+![Ex 5.7a answer](statistics/images/ex5/answers/ex5_5_7a_answer.png)
 """, "images": [
-    "statistics/images/ex5/questions/ex5_7a_question.png",
-    "statistics/images/ex5/answers/ex5_7a_answer.png",
+    "statistics/images/ex5/questions/ex5_5_7a_question.png",
+    "statistics/images/ex5/ex5_5_7a_ai.png",
+    "statistics/images/ex5/answers/ex5_5_7a_answer.png",
 ]}
 
 ex5["5_7b"] = {"title": "Ex 5.7b — Pizzeria price difference: known unequal & unknown variances",
 "content": """**Question.** Same setup as 5.7a ($n_{\\text{LE4}} = 55$, $n_{\\text{GT4}} = 45$). Estimate the standard error of $\\bar X_{\\text{GT4}} - \\bar X_{\\text{LE4}}$ in three more scenarios: (i) **known unequal** variances $\\sigma^2_{\\text{LE4}} = 1.2$, $\\sigma^2_{\\text{GT4}} = 1.7$; (ii) **unknown** variances that are **not** assumed equal (Welch — sample variances $s^2_{\\text{LE4}} = 1.6$, $s^2_{\\text{GT4}} = 1.7$); (iii) **unknown** variances that **are** assumed equal (pooled variance).
 
-![Ex 5.7b question](statistics/images/ex5/questions/ex5_7b_question.png)
+![Ex 5.7b question](statistics/images/ex5/questions/ex5_5_7b_question.png)
 
 ---
 
 **AI walkthrough.** Two **independent** groups (LE4 vs GT4), so variances add — but the SE formula switches with what we assume about each group's variance.
+
+![Ex 5.7b AI walkthrough](statistics/images/ex5/ex5_5_7b_ai.png)
 
 1. **Independence kills the covariance.** $\\Var(\\bar X_{\\text{GT4}} - \\bar X_{\\text{LE4}}) = \\Var(\\bar X_{\\text{GT4}}) + \\Var(\\bar X_{\\text{LE4}}) = \\sigma^2_{\\text{GT4}}/n_{\\text{GT4}} + \\sigma^2_{\\text{LE4}}/n_{\\text{LE4}}$ — no covariance term because the two pizzeria samples are drawn independently.
 2. **(i) Known, unequal $\\sigma^2$.** Just plug the known numbers straight in: $\\sqrt{1.7/45 + 1.2/55} = \\sqrt{0.0378 + 0.0218} \\approx \\sqrt{0.0596} \\approx 0.2441$. This is **exact**, not estimated.
@@ -808,32 +964,40 @@ se_pool  <- sqrt(s2_pool * (1/n_GT4 + 1/n_LE4)); se_pool
 
 **Reference answer.**
 
-![Ex 5.7b answer](statistics/images/ex5/answers/ex5_7b_answer.png)
+![Ex 5.7b answer](statistics/images/ex5/answers/ex5_5_7b_answer.png)
 """, "images": [
-    "statistics/images/ex5/questions/ex5_7b_question.png",
-    "statistics/images/ex5/answers/ex5_7b_answer.png",
+    "statistics/images/ex5/questions/ex5_5_7b_question.png",
+    "statistics/images/ex5/ex5_5_7b_ai.png",
+    "statistics/images/ex5/answers/ex5_5_7b_answer.png",
 ]}
 
 ex5["5_8a"] = {"title": "Ex 5.8a — Unbiased estimator of mean profitability ($Company$)",
 "content": """**Question.** (dataframe `Company`). **(a)** Let $X$ be the random variable that describes the *profitability* of clients in the population. Propose an unbiased estimator of the mean $\\mu_X$ of $X$, justify why the estimator is unbiased, and obtain the estimate of $\\mu_X$ produced by the available sample.
 
+![Ex 5.8a question](statistics/images/ex5/questions/ex5_5_8a_question.png)
+
 ---
 
-**Answer.** The natural estimator is the **sample mean**
+**AI walkthrough.** Step by step:
 
-$$\\bar X \\;=\\; \\frac{1}{n}\\sum_{i=1}^{n} X_i,$$
+1. **Parameter and natural estimator.** The parameter is the population mean $\\mu_X = \\Exp{X}$. With an i.i.d. sample $X_1,\\dots,X_n$ from the same distribution as $X$, the natural plug-in estimator is the **sample mean**
+$$\\bar X \\;=\\; \\frac{1}{n}\\sum_{i=1}^{n} X_i.$$
 
-with $X_1,\\dots,X_n$ an i.i.d. sample drawn from the same distribution as $X$.
+2. **Unbiasedness — by linearity of expectation.** An estimator $\\hat\\theta$ is *unbiased* for $\\theta$ iff $\\Exp{\\hat\\theta} = \\theta$. Using $\\Exp{X_i} = \\mu_X$ for every $i$,
+$$\\Exp{\\bar X} \\;=\\; \\frac{1}{n}\\sum_{i=1}^{n}\\Exp{X_i} \\;=\\; \\frac{1}{n}\\,n\\,\\mu_X \\;=\\; \\mu_X.$$
+This holds for **any** $n$ and **any** distribution of $X$ — no normality, no symmetry, no finite variance required (only $\\mu_X$ finite). The right panel of the figure shows the sampling distribution of $\\bar X$ centred exactly on $\\mu_X$.
 
-**Unbiasedness.** An estimator $\\hat\\theta$ is *unbiased* for $\\theta$ iff $\\Exp{\\hat\\theta} = \\theta$ for every value of $\\theta$. By linearity of expectation,
+3. **Plug in the data.** On the `Company` sample of $n=668$ clients the realised value is
+$$\\bar x \\;=\\; \\frac{1}{668}\\sum_{i=1}^{668} x_i \\;\\approx\\; 930.27,$$
+so the point estimate of $\\mu_X$ is $\\hat\\mu_X = 930.27$ (left panel: the orange line marks $\\bar x$ on top of the realised sample).
 
-$$\\Exp{\\bar X} \\;=\\; \\frac{1}{n}\\sum_{i=1}^{n}\\Exp{X_i} \\;=\\; \\frac{1}{n}\\,n\\,\\mu_X \\;=\\; \\mu_X,$$
+4. **What unbiasedness does *not* tell us.** $\\Exp{\\bar X} = \\mu_X$ only means $\\bar X$ is *centred* on $\\mu_X$ on average across hypothetical resamples — it says **nothing** about how far the *realised* $\\bar x = 930.27$ is from $\\mu_X$. Quantifying that distance requires the standard error $SE(\\bar X) = \\sigma_X/\\sqrt n$ (treated in 5.8b).
 
-so $\\bar X$ is unbiased for $\\mu_X$ for **any** sample size $n$ and **any** distribution of $X$ (no normality required).
+![Ex 5.8a AI walkthrough](statistics/images/ex5/ex5_5_8a_ai.png)
 
-**Point estimate.** From the available sample of $n=668$ clients,
+---
 
-$$\\bar x \\;=\\; \\frac{1}{668}\\sum_{i=1}^{668} x_i \\;\\approx\\; 930.27.$$
+**Answer.** The unbiased estimator is the **sample mean** $\\bar X = \\frac{1}{n}\\sum_i X_i$, unbiased because $\\Exp{\\bar X} = \\mu_X$ by linearity. The point estimate on `Company` is $\\bar x \\approx 930.27$.
 
 ```r
 n    <- nrow(Company); n                      # 668
@@ -850,14 +1014,31 @@ xbar <- mean(Company$Profitability); xbar     # 930.27
 
 **Reference answer.**
 
-![Ex 5.8a answer](statistics/images/ex5/answers/ex5_8a_answer.png)
+![Ex 5.8a answer](statistics/images/ex5/answers/ex5_5_8a_answer.png)
 """, "images": [
-    "statistics/images/ex5/questions/ex5_8a_question.png",
-    "statistics/images/ex5/answers/ex5_8a_answer.png",
+    "statistics/images/ex5/questions/ex5_5_8a_question.png",
+    "statistics/images/ex5/ex5_5_8a_ai.png",
+    "statistics/images/ex5/answers/ex5_5_8a_answer.png",
 ]}
 
 ex5["5_8b"] = {"title": "Ex 5.8b — Estimated SE and point estimate of $\\mu_X$ (Company)",
 "content": """**Question.** The standard error of $\\bar X$ cannot be computed exactly because the population standard deviation $\\sigma_X$ is unknown. Obtain an estimate of $\\operatorname{SE}(\\bar X)$ from the sample, report the observed point estimate of $\\mu_X$, and comment on what we can (and cannot) say about how close the realized $\\bar x$ is to $\\mu_X$.
+
+![Ex 5.8b question](statistics/images/ex5/questions/ex5_5_8b_question.png)
+
+---
+
+**AI walkthrough.** Step by step:
+
+1. **Why $\\operatorname{SE}(\\bar X)$ is not directly computable.** With i.i.d. sampling, $\\Var(\\bar X)=\\sigma_X^{2}/n$, so $\\operatorname{SE}(\\bar X)=\\sigma_X/\\sqrt n$. But $\\sigma_X$ is a **population** quantity — unknown unless we observe the entire population. (Left panel: from the sample we read off $\\bar x = 930.27$ and $s_x = 365.3158$ — these are what enter the plug-in.)
+2. **Plug-in estimator.** Replace $\\sigma_X$ with its sample analogue $s_x$:
+$$\\widehat{\\operatorname{SE}}(\\bar X) \\;=\\; \\frac{s_x}{\\sqrt n} \\;=\\; \\frac{365.3158}{\\sqrt{668}} \\;\\approx\\; 14.13.$$
+By the LLN $s_x \\xrightarrow{P} \\sigma_X$, so $\\widehat{\\operatorname{SE}} \\xrightarrow{P} \\operatorname{SE}$. For $n=668$ the plug-in is very accurate.
+3. **Point estimate.** $\\bar x = 930.27$ is **one draw** from $\\bar X$. The sampling distribution of $\\bar X$ is centred on the **unknown** $\\mu_X$ with spread $\\approx 14.13$. (Middle panel: three plausible values of $\\mu_X$ each give a bell curve consistent with our observed $\\bar x$ — we cannot tell which is the truth.)
+4. **What the SE does and does not tell us.** $\\widehat{\\operatorname{SE}}$ describes the **typical** distance between $\\bar X$ and $\\mu_X$ across hypothetical resamples of size $n=668$ — a property of the *estimator*, not of *our* realisation. The deviation $|\\bar x - \\mu_X|$ for this sample is a single unknown number (it depends on the unknown $\\mu_X$). (Right panel: across $B=2000$ resamples drawn from an assumed $\\mu$, the cloud spread is $\\widehat{\\operatorname{SE}}$, but our specific $\\bar x$ is one point in it.)
+5. **Bridge to inference.** To turn $\\widehat{\\operatorname{SE}}$ into a probabilistic statement about $|\\bar x - \\mu_X|$, invoke the CLT: $T = (\\bar X - \\mu_X)/\\widehat{\\operatorname{SE}} \\approx N(0,1)$, giving the 95% CI $930.27 \\pm 1.96\\cdot 14.13 = [902.6,\\,957.9]$.
+
+![Ex 5.8b AI walkthrough](statistics/images/ex5/ex5_5_8b_ai.png)
 
 ---
 
@@ -876,13 +1057,23 @@ se_hat <- s_x / sqrt(n); se_hat              # 14.13
 
 **Interpretation.** The SE quantifies the **typical** sampling variability of $\\bar X$ across hypothetical resamples — it does **not** tell us how far the realized $\\bar x = 930.27$ is from the unknown $\\mu_X$ for this particular sample. To bound that distance probabilistically, we need a confidence interval (which uses $\\bar x$, $\\widehat{\\operatorname{SE}}$ and a normal/$t$ quantile).
 
-![Ex 5.8b AI walkthrough](statistics/images/ex5/ex5_8b_ai.png)
+---
+
+**Reference answer.**
+
+![Ex 5.8b answer](statistics/images/ex5/answers/ex5_5_8b_answer.png)
 """, "images": [
-    "statistics/images/ex5/ex5_8b_ai.png",
+    "statistics/images/ex5/questions/ex5_5_8b_question.png",
+    "statistics/images/ex5/ex5_5_8b_ai.png",
+    "statistics/images/ex5/answers/ex5_5_8b_answer.png",
 ]}
 
 ex5["5_10b"] = {"title": "Ex 5.10b — SE of mean profitability + interpretation",
-"content": """**Question.** (b) For the dataframe `Company` (sample of $n=668$ clients), the standard error of the estimator of the mean profitability $\\mu_X$ cannot be obtained exactly, because the population's standard deviation is unknown. Obtain an estimate of $SE(\\bar X)$ as the ratio between the sample standard deviation and $\\sqrt{n}$. (c) Report the point estimate $\\bar X$ from the available sample. (d) Can we draw conclusions about how far this specific estimate lies from $\\mu_X$?
+"content": """**Question.**
+
+![Ex 5.10b question](statistics/images/ex5/questions/ex5_5_10b_question.png)
+
+(b) For the dataframe `Company` (sample of $n=668$ clients), the standard error of the estimator of the mean profitability $\\mu_X$ cannot be obtained exactly, because the population's standard deviation is unknown. Obtain an estimate of $SE(\\bar X)$ as the ratio between the sample standard deviation and $\\sqrt{n}$. (c) Report the point estimate $\\bar X$ from the available sample. (d) Can we draw conclusions about how far this specific estimate lies from $\\mu_X$?
 
 ---
 
@@ -902,7 +1093,7 @@ This is itself an estimator: by the LLN $s_x \\xrightarrow{P} \\sigma_X$, so $\\
 $$T \\;=\\; \\frac{\\bar X - \\mu_X}{\\widehat{SE}} \\;\\sim\\; t_{n-1} \\;\\approx\\; N(0,1).$$
 This yields the confidence interval $\\bar x \\pm z_{1-\\alpha/2}\\,\\widehat{SE} = 930.27 \\pm 1.96\\cdot 14.13 = [902.6,\\,957.9]$ at 95%.
 
-![Ex 5.10b AI walkthrough](statistics/images/ex5/ex5_10b_ai.png)
+![Ex 5.10b AI walkthrough](statistics/images/ex5/ex5_5_10b_ai.png)
 
 ---
 
@@ -925,12 +1116,22 @@ $$
 obtained with `mean(Company$Profitability)`.
 
 **(d)** It is **not** possible to draw conclusions about this specific estimate from the population's characteristics. The SE only quantifies the dispersion of estimates produced by *generic* random samples of size $668$ around $\\mu_X$; it does **not** tell us the deviation of the *specific* available estimate, because that deviation $|\\bar x - \\mu_X|$ depends on the unknown parameter $\\mu_X$ and is therefore unknown.
+
+---
+
+**Reference answer.**
+
+![Ex 5.10b answer](statistics/images/ex5/answers/ex5_5_10b_answer.png)
 """, "images": [
-    "statistics/images/ex5/ex5_10b_ai.png",
+    "statistics/images/ex5/questions/ex5_5_10b_question.png",
+    "statistics/images/ex5/ex5_5_10b_ai.png",
+    "statistics/images/ex5/answers/ex5_5_10b_answer.png",
 ]}
 
 ex5["5_13a1"] = {"title": "Ex 5.13 a1 — Unbiased estimator of mean monthly turnover (Milano)",
 "content": """**Question.** (dataframe `pizzerie`). Assume the monthly turnover `Sales` of pizzerias in Milan has known standard deviation $\\sigma = €11\\,500$. Denote by $\\mu$ the mean monthly turnover in the population of Milan pizzerias. **(a1)** Propose an unbiased estimator for $\\mu$, justify why it is unbiased (giving the definition of the property), and compute the estimate of $\\mu$ obtained from the sample in `pizzerie`.
+
+![Ex 5.13 a1 question](statistics/images/ex5/questions/ex5_5_13a1_question.png)
 
 ---
 
@@ -950,7 +1151,7 @@ $\\sigma$ being **known** means $SE$ is exact, not estimated. (Right panel: doub
 
 5. **Point estimate from the data.** Plug in the observed Milan sub-sample: $\\hat\\mu = \\bar x_{\\text{Mi}}$, computed in R by `mean(pizzerie$Sales[pizzerie$District=="Milano"])`. Different realised samples give different numerical values of $\\bar x$, but the *procedure* is unbiased: across all possible samples it averages out to $\\mu$.
 
-![Ex 5.13 a1 AI walkthrough](statistics/images/ex5/ex5_13a1_ai.png)
+![Ex 5.13 a1 AI walkthrough](statistics/images/ex5/ex5_5_13a1_ai.png)
 
 ---
 
@@ -971,12 +1172,18 @@ mean(pizzerie$Sales[pizzerie$District=="Milano"])
 ```
 
 The SE is $\\sigma/\\sqrt{n} = 11500/\\sqrt{n}$, since $\\sigma$ is known.
+
+![Ex 5.13 a1 answer](statistics/images/ex5/answers/ex5_5_13a1_answer.png)
 """, "images": [
-    "statistics/images/ex5/ex5_13a1_ai.png",
+    "statistics/images/ex5/questions/ex5_5_13a1_question.png",
+    "statistics/images/ex5/ex5_5_13a1_ai.png",
+    "statistics/images/ex5/answers/ex5_5_13a1_answer.png",
 ]}
 
 ex5["5_13a2"] = {"title": "Ex 5.13 a2 — P(|estimate − μ| > SE) under Normality",
 "content": """**Question.** **(a2)** Is it possible to evaluate the probability that the distance (the absolute deviation) of our generic estimator from $\\mu$ is greater than the standard error? Specify whether specific assumptions are needed and, if so, provide the answer under those assumptions.
+
+![Ex 5.13 a2 question](statistics/images/ex5/questions/ex5_5_13a2_question.png)
 
 ---
 
@@ -1014,12 +1221,22 @@ $$
 ```
 
 Without the Normality / CLT assumption, the probability cannot be computed exactly — Chebyshev only gives the loose bound $\\Prob{|Z|>1} \\le 1$.
+
+---
+
+**Reference answer.**
+
+![Ex 5.13 a2 answer](statistics/images/ex5/answers/ex5_5_13a2_answer.png)
 """, "images": [
+    "statistics/images/ex5/questions/ex5_5_13a2_question.png",
     "statistics/images/ex5/ex5_13a2_ai.png",
+    "statistics/images/ex5/answers/ex5_5_13a2_answer.png",
 ]}
 
 ex5["5_13a3"] = {"title": "Ex 5.13 a3 — Proportion of no-smoking pizzerias + reliability",
 "content": """**Question.** **(a3)** Estimate the proportion of pizzerias in Milan in which smoking is **not** allowed (`SmokingArea = No`), specifying whether and what assumptions are needed to answer the question. What measures would you use to effectively communicate the *reliability* of the estimate?
+
+![Ex 5.13 a3 question](statistics/images/ex5/questions/ex5_5_13a3_question.png)
 
 ---
 
@@ -1031,7 +1248,7 @@ ex5["5_13a3"] = {"title": "Ex 5.13 a3 — Proportion of no-smoking pizzerias + r
 4. **Illustrative numbers.** With (say) $n = 80$ Milan pizzerias and $\\hat p = 0.55$, $\\widehat{se}(\\hat p) = \\sqrt{0.55\\cdot 0.45/80} \\approx 0.0556$, giving 95% CI $\\approx [0.441,\\,0.659]$ — a fairly wide interval, signalling moderate precision; doubling $n$ shrinks SE by $\\sqrt{2}$.
 5. **Why SE+CI and not just $\\hat p$.** A bare estimate $\\hat p = 0.55$ hides whether it came from $n = 10$ or $n = 1000$. The SE quantifies the **typical sampling fluctuation**; the CI converts it into an interpretable range under repeated sampling.
 
-![Ex 5.13 a3 AI walkthrough](statistics/images/ex5/ex5_13a3_ai.png)
+![Ex 5.13 a3 AI walkthrough](statistics/images/ex5/ex5_5_13a3_ai.png)
 
 ---
 
@@ -1058,12 +1275,34 @@ phat + c(-1, 1) * qnorm(0.975) * se_phat
 ```
 
 **Reliability** of the estimate is best communicated through (i) the standard error $se(\\hat p)$, and (ii) an approximate **confidence interval** $\\hat p \\pm z_{1-\\alpha/2}\\, se(\\hat p)$, valid under the CLT when $n\\hat p \\ge 5$ and $n(1-\\hat p) \\ge 5$.
+
+---
+
+**Reference answer.**
+
+![Ex 5.13 a3 answer](statistics/images/ex5/answers/ex5_5_13a3_answer.png)
 """, "images": [
-    "statistics/images/ex5/ex5_13a3_ai.png",
+    "statistics/images/ex5/questions/ex5_5_13a3_question.png",
+    "statistics/images/ex5/ex5_5_13a3_ai.png",
+    "statistics/images/ex5/answers/ex5_5_13a3_answer.png",
 ]}
 
 ex5["5_13b"] = {"title": "Ex 5.13b — Difference of proportions: Milano vs Pavia",
 "content": """**Question.** **(b)** Estimate the **difference** between the proportion of pizzerias in which smoking is not allowed (`SmokingArea = No`) in **Milano** vs **Pavia**. Specify whether any assumptions are needed.
+
+![Ex 5.13b question](statistics/images/ex5/questions/ex5_5_13b_question.png)
+
+---
+
+**AI walkthrough.** Two independent sub-samples, one binary variable per pizzeria — exactly the setup for a **difference of two proportions**.
+
+1. **Model the binary outcome district by district.** For each pizzeria in district $d \\in \\{\\text{Mi}, \\text{Pa}\\}$ set $Y_i^{(d)} = \\mathbb{1}\\{\\text{SmokingArea}_i = \\text{No}\\}$. Within each district the draws are i.i.d. Bernoulli($p_d$); **across** districts the two sub-samples are independent. The natural unbiased estimator of $p_d$ is the sample proportion $\\hat p_d$, so the natural estimator of the **difference** is $\\hat p_{Mi} - \\hat p_{Pa}$. Unbiasedness follows by linearity: $\\E[\\hat p_{Mi} - \\hat p_{Pa}] = p_{Mi} - p_{Pa}$.
+2. **Variance adds because of independence.** With independent samples, $\\Var(\\hat p_{Mi} - \\hat p_{Pa}) = \\Var(\\hat p_{Mi}) + \\Var(\\hat p_{Pa}) = p_{Mi}(1-p_{Mi})/n_{Mi} + p_{Pa}(1-p_{Pa})/n_{Pa}$. Plugging in the sample proportions yields the **estimated standard error** $\\widehat{se}(\\hat p_{Mi}-\\hat p_{Pa}) = \\sqrt{\\hat p_{Mi}(1-\\hat p_{Mi})/n_{Mi} + \\hat p_{Pa}(1-\\hat p_{Pa})/n_{Pa}}$. (Left panel: the two district-level sampling distributions, centred at their respective $\\hat p_d$, are independent — variances add, with no covariance term.)
+3. **Read the cell counts off a contingency table.** `distr.table.xy(x=District, y=SmokingArea, data=pizzerie)` gives a 2 × (#districts) table. For each of Milano and Pavia, divide the `No` count by the district's row total to obtain $\\hat p_{Mi}$ and $\\hat p_{Pa}$; then subtract.
+4. **Illustrative numbers.** With (say) $n_{Mi}=80$, $\\hat p_{Mi}=0.55$ and $n_{Pa}=50$, $\\hat p_{Pa}=0.40$: point estimate $\\hat p_{Mi}-\\hat p_{Pa} = 0.15$; $\\widehat{se} = \\sqrt{0.55\\cdot 0.45/80 + 0.40\\cdot 0.60/50} \\approx 0.0888$; 95% CI $\\approx 0.15 \\pm 1.96 \\cdot 0.0888 = [-0.024,\\,0.324]$ — wide enough to include $0$, so the data would **not** rule out $p_{Mi}=p_{Pa}$ at 5%. (Right panel: Normal sampling distribution of the difference with 95% CI shaded; the black solid vertical at $0$ marks the null.)
+5. **Assumptions to spell out.** Point estimate: only **independent i.i.d. Bernoulli** sub-samples — nothing distributional. For the CI / z-test on the difference: additionally invoke the **CLT** in each district, with the usual rule-of-thumb $n_d \\hat p_d \\ge 5$ and $n_d(1-\\hat p_d) \\ge 5$ for $d \\in \\{\\text{Mi}, \\text{Pa}\\}$.
+
+![Ex 5.13b AI walkthrough](statistics/images/ex5/ex5_5_13b_ai.png)
 
 ---
 
@@ -1093,4 +1332,14 @@ distr.table.xy(x=District, y=SmokingArea, data=pizzerie)
 ```
 
 **Assumptions:** the two samples are independent random samples; each district's sample is i.i.d. Bernoulli. For inference (CI / z-test on the difference) we additionally invoke the **CLT**, valid when both $n_d \\hat p_d \\ge 5$ and $n_d(1-\\hat p_d) \\ge 5$ for $d \\in \\{\\text{Mi}, \\text{Pa}\\}$.
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 5.13b answer](statistics/images/ex5/answers/ex5_5_13b_answer.png)
+""", "images": [
+    "statistics/images/ex5/questions/ex5_5_13b_question.png",
+    "statistics/images/ex5/ex5_5_13b_ai.png",
+    "statistics/images/ex5/answers/ex5_5_13b_answer.png",
+]}

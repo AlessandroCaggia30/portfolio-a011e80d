@@ -3,13 +3,26 @@
 ex8 = {}
 
 ex8["8_1a"] = {"title": "Ex 8.1a — TeleDebt: regression of Debt on Television and significance test",
-"content": """<span class="exam-question-text">**EXERCISE 8.1.** (dataframe `TeleDebt`) A sociologist theorized that people who watch television frequently are exposed to many commercials, which in turn leads them to buy more, finally resulting in increasing debt. To test this belief, a sample of $n=430$ families was drawn. For each, the total debt (`Debt`) and the number of hours the television is turned on in a week (`Television`) were recorded.
+"content": """**Question.**
 
-**a)** Estimate the regression model of `Debt` on `Television`. Report the estimated regression coefficients and interpret them. Assess whether the variable `Television` is significant. Explain exactly what it means, what hypotheses are referred to, what is the test statistic that the test is based upon and what is the procedure followed to run the test.</span>
+![Ex 8.1a question](statistics/images/ex8/questions/ex8_8_1a_question.png)
+
+**EXERCISE 8.1.** (dataframe `TeleDebt`) A sociologist theorized that people who watch television frequently are exposed to many commercials, which in turn leads them to buy more, finally resulting in increasing debt. To test this belief, a sample of $n=430$ families was drawn. For each, the total debt (`Debt`) and the number of hours the television is turned on in a week (`Television`) were recorded.
+
+**a)** Estimate the regression model of `Debt` on `Television`. Report the estimated regression coefficients and interpret them. Assess whether the variable `Television` is significant. Explain exactly what it means, what hypotheses are referred to, what is the test statistic that the test is based upon and what is the procedure followed to run the test.
+
+---
+
+**AI walkthrough.**
+
+![Ex 8.1a — OLS fit and t-test for the slope](statistics/images/ex8/ex8_8_1a_ai.png)
 
 ---
 
 **Answer.**
+
+![Ex 8.1a answer](statistics/images/ex8/answers/ex8_8_1a_answer.png)
+
 ```r
 mod <- lm(Debt ~ Television, data=TeleDebt)
 summary(mod)
@@ -32,10 +45,28 @@ $$t = \\frac{\\hat\\beta_1 - 0}{\\widehat{\\text{se}}(\\hat\\beta_1)} \\;\\overs
 
 - **Procedure.** (i) Fit the model and read $\\hat\\beta_1$ and $\\widehat{\\text{se}}(\\hat\\beta_1)$; (ii) compute $t_{\\text{obs}}$; (iii) compare with the critical value $\\pm t_{1-\\alpha/2,\\,428}$ (reject if $|t_{\\text{obs}}|>t_{1-\\alpha/2,\\,428}$), or equivalently use the two-sided $p$-value $= 2\\cdot P(T_{428}>|t_{\\text{obs}}|)$ and reject if $p<\\alpha$.
 - **Conclusion.** `summary(mod)` reports $t_{\\text{obs}}\\approx 12.57$ with $p$-value $\\approx 0$ ⇒ we **reject $H_0$** at any usual $\\alpha$ (1%, 5%, 10%): `Television` is a **strongly significant** predictor of `Debt`, confirming a positive linear association in the population.
-""", "images": ["statistics/images/ex8_1-debt-television.png"]}
+""", "images": [
+    "statistics/images/ex8/questions/ex8_8_1a_question.png",
+    "statistics/images/ex8/ex8_8_1a_ai.png",
+    "statistics/images/ex8/answers/ex8_8_1a_answer.png",
+]}
 
 ex8["8_1b"] = {"title": "Ex 8.1b — TeleDebt: goodness-of-fit index ($R^2$)",
-"content": """<span class="exam-question-text">**b)** How would you assess the quality of the model? Write down the expression of the index you would consider and interpret its value, also describing the rationale behind it.</span>
+"content": """**b)** How would you assess the quality of the model? Write down the expression of the index you would consider and interpret its value, also describing the rationale behind it.
+
+![Ex 8.1b question](statistics/images/ex8/questions/ex8_8_1b_question.png)
+
+---
+
+**AI walkthrough.** $R^2$ is a *ratio*: how much of the spread of $y$ around $\\bar y$ does the regression line account for?
+
+1. **Decompose each deviation.** For every observation $y_i-\\bar y = (\\hat y_i-\\bar y) + (y_i-\\hat y_i)$ — an *explained* part (movement along the fitted line) plus a *residual* part (vertical distance from the line). Under OLS the cross-product sums to zero, so squaring and summing gives $SST=SSR+SSE$, a clean orthogonal split.
+2. **Take the explained share.** Define $R^2=SSR/SST$. Because both numerator and denominator are non-negative and $SSR\\le SST$, we automatically get $R^2\\in[0,1]$ — interpretable as the *fraction of $\\Var(Y)$ captured by the model*.
+3. **Equivalent form via residuals.** $R^2=1-SSE/SST$ — useful in code (residuals are what `lm` returns directly) and makes it obvious that $R^2=1$ iff $SSE=0$ (perfect fit) and $R^2=0$ iff $SSE=SST$ (the line adds nothing over $\\bar y$).
+4. **Simple-regression shortcut.** With a single $X$, $R^2=r_{xy}^2$: the squared sample correlation. So a strong linear association ($|r|$ close to 1) and a high $R^2$ are the same statement.
+5. **Read it off `summary`.** For TeleDebt, `summary(mod)$r.squared` $=0.7784$ — about $78\\%$ of debt variability is linear-in-TV-hours; the remaining $22\\%$ is unexplained noise from omitted drivers (income, household size, …).
+
+![Ex 8.1b AI walkthrough](statistics/images/ex8/ex8_8_1b_ai.png)
 
 ---
 
@@ -60,14 +91,37 @@ $$R^2 \\;=\\; \\frac{SSR}{SST} \\;=\\; 1-\\frac{SSE}{SST}\\;\\in\\;[0,1].$$
 Properties: $R^2=0$ when the fitted line is flat ($\\hat\\beta_1=0$, model explains nothing beyond $\\bar y$); $R^2=1$ when residuals vanish (perfect fit); in simple linear regression $R^2=r_{xy}^2$, the squared sample correlation.
 
 **Interpretation on TeleDebt.** From `summary(mod)` we read $R^2=0.7784$: about $\\mathbf{77.84\\%}$ of the variability of `Debt` across families is explained by hours of `Television` per week — a high value, the linear model fits the data well. The remaining $\\approx 22\\%$ is residual variability driven by factors not captured by the single regressor `Television`.
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 8.1b answer](statistics/images/ex8/answers/ex8_8_1b_answer.png)
+""", "images": [
+    "statistics/images/ex8/questions/ex8_8_1b_question.png",
+    "statistics/images/ex8/ex8_8_1b_ai.png",
+    "statistics/images/ex8/answers/ex8_8_1b_answer.png",
+]}
 
 ex8["8_1c"] = {"title": "Ex 8.1c — TeleDebt: 99% prediction interval at Television=33, PI vs CI, causality",
-"content": """<span class="exam-question-text">**c)** Build the 99% interval for the debt predicted for a family whose television was turned on for 33 hours in a week; interpret the obtained interval and list the quantities determining its width.
+"content": """**c)** Build the 99% interval for the debt predicted for a family whose television was turned on for 33 hours in a week; interpret the obtained interval and list the quantities determining its width.
 
 **d)** At the same significance level, do you expect a wider or a narrower interval for the prediction of the average debt of families whose television was turned on for 33 hours in a week? Explain your answer and verify it numerically.
 
-**e)** Can you conclude based on the obtained results that a decrease in the number of hours the television is turned on will lead to a decrease of the debt, at least on average?</span>
+**e)** Can you conclude based on the obtained results that a decrease in the number of hours the television is turned on will lead to a decrease of the debt, at least on average?
+
+![Ex 8.1c question](statistics/images/ex8/questions/ex8_8_1c_question.png)
+
+---
+
+**AI walkthrough.** Two intervals, one fitted line — the only thing that changes is whether you account for the noise of a brand-new observation.
+
+1. **Point prediction.** Plug $x_g=33$ into the fitted line: $\\hat y_g = 1479.262 + 99.7471\\cdot 33 \\approx 4770.92$ \\$ — the same number anchors **both** PI and CI.
+2. **Two error sources, two formulas.** The CI for the **mean** $E(Y\\mid X=33)$ captures only the uncertainty in the *line position* at $x_g$, while the PI for a **single new** family adds the irreducible scatter $\\epsilon$ around the line. Algebraically the PI radical has an extra "$1$" inside: $\\sqrt{1+\\tfrac{1}{n}+\\text{leverage}}$ vs $\\sqrt{\\tfrac{1}{n}+\\text{leverage}}$.
+3. **Magnitudes.** With $s_\\epsilon\\approx 670$, $n=430$, $t_{0.995,428}\\approx 2.587$ and $x_g=33$ near $\\bar x$, the leverage term is tiny. So PI half-width $\\approx t\\cdot s_\\epsilon\\cdot\\sqrt{1+1/n}\\approx 1733.78$, while CI half-width $\\approx t\\cdot s_\\epsilon\\cdot\\sqrt{1/n}\\approx 79.58$ — a factor $\\sim 22\\times$.
+4. **Causality cap.** A significant slope means **association**, not causation. The study is observational, so confounders (income, household size, age) and reverse causality (indebted families staying home) are not ruled out — slashing TV hours is not guaranteed to lower mean debt.
+
+![Ex 8.1c AI walkthrough — PI vs CI bands](statistics/images/ex8/ex8_8_1c_ai.png)
 
 ---
 
@@ -92,22 +146,26 @@ $$\\hat y_g \\;\\pm\\; t_{0.995,\\,n-2}\\cdot s_\\epsilon\\sqrt{\\tfrac{1}{n}+\\
 Numerically: PI half-width $\\approx 1733.78$ vs CI half-width $\\approx 79.58$ — the PI is about $22\\times$ wider, confirming the inequality.
 
 **e)** **No.** The fitted model only documents an **association** between `Television` and `Debt` in the observed sample. Causal claims require an experiment or strong identifying assumptions: here the study is **observational**, with likely **confounders** (income, household size, age) and possible **reverse causality** (indebted families staying home more), neither of which are controlled for. Reducing TV hours would not necessarily lower debt on average.
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 8.1c answer](statistics/images/ex8/answers/ex8_8_1c_answer.png)
+""", "images": [
+    "statistics/images/ex8/questions/ex8_8_1c_question.png",
+    "statistics/images/ex8/ex8_8_1c_ai.png",
+    "statistics/images/ex8/answers/ex8_8_1c_answer.png",
+]}
 
 ex8["8_2a"] = {"title": "Ex 8.2a — DS: OLS criterion and AmountSpent on Salary",
-"content": """<span class="exam-question-text">**EXERCISE 8.2.** (dataframe `DS`)
-
-**a)** What is the optimality criterion used to determine the estimates of the coefficients in a regression model?
-
-**b)** Consider the model explaining `AmountSpent` based on `Salary`.
-
-**b1)** Write the estimated equation of the regression line.
-
-**b2)** Define what is meant by "homoscedasticity of errors" in a regression model, and assess whether the assumption of homoscedasticity is met for the considered model, explaining your reasoning and reporting the tools supporting your conclusions.</span>
+"content": """![Ex 8.2a question](statistics/images/ex8/questions/ex8_8_2a_question.png)
 
 ---
 
 **Answer.**
+
+![Ex 8.2a AI plot](statistics/images/ex8/ex8_8_2a_ai.png)
 
 **a)** OLS — **ordinary least squares**: $(\\hat\\beta_0,\\hat\\beta_1)=\\arg\\min_{\\beta_0,\\beta_1}\\sum_{i=1}^n (y_i-\\beta_0-\\beta_1 x_i)^2$.
 
@@ -123,16 +181,40 @@ $$\\widehat{\\text{AmountSpent}} = -8.0264 + 0.022\\cdot\\text{Salary}.$$
 plot(mod, which=1)   # residuals vs fitted
 ```
 The residuals-vs-fitted plot shows a clear **cone** shape: dispersion of the residuals grows with the fitted value $\\hat y$ ⇒ the assumption is **violated** (heteroscedasticity). Consequence: the residuals are not a homogeneous sample, so they cannot be pooled to estimate one common variance — this will undermine SEs, CIs and prediction intervals in b3–b4.
-""", "images": ["statistics/images/ex8_2a-amountspent-salary.png"]}
+
+![Ex 8.2a answer](statistics/images/ex8/answers/ex8_8_2a_answer.png)
+""", "images": [
+    "statistics/images/ex8/questions/ex8_8_2a_question.png",
+    "statistics/images/ex8/ex8_8_2a_ai.png",
+    "statistics/images/ex8/answers/ex8_8_2a_answer.png",
+]}
 
 ex8["8_2b"] = {"title": "Ex 8.2b — DS: significance test and (in)appropriate prediction interval",
-"content": """<span class="exam-question-text">**b3)** Would you suggest using the estimated model to assess the significance of the slope of the regression line? If yes, draw your conclusions on significance; otherwise, explain why it is not recommendable.
+"content": """**Question.**
 
-**b4)** Would you suggest using the estimated model to build a prediction interval for the amount spent by a customer with a salary equal to 0? If yes, obtain the 99% interval; otherwise explain why it is not recommendable.</span>
+![Ex 8.2b question](statistics/images/ex8/questions/ex8_8_2b_question.png)
+
+**b3)** Would you suggest using the estimated model to assess the significance of the slope of the regression line? If yes, draw your conclusions on significance; otherwise, explain why it is not recommendable.
+
+**b4)** Would you suggest using the estimated model to build a prediction interval for the amount spent by a customer with a salary equal to 0? If yes, obtain the 99% interval; otherwise explain why it is not recommendable.
 
 ---
 
-**Answer.** Both questions inherit the **heteroscedasticity** flagged in b2: the residuals-vs-fitted plot of `lm(AmountSpent ~ Salary)` shows a clear cone — error variance grows with $\\hat y$, violating $\\Var(\\epsilon_i\\mid X)=\\sigma^2$. Every classical inferential tool downstream of $\\widehat{\\text{se}}(\\hat\\beta_1)$ inherits that bias.
+**AI walkthrough.** Both questions inherit the **cone-shaped residuals** flagged in b2 — every classical OLS tool downstream of $\\widehat{se}(\\hat\\beta_1)$ is biased.
+
+1. **b3 — slope significance test.** The classical $t$ uses $\\widehat{se}_{\\mathrm{OLS}}(\\hat\\beta_1)=s_\\epsilon/\\sqrt{(n-1)s_x^2}$, which assumes constant $\\sigma^2$. Under heteroscedasticity $s_\\epsilon^2$ is a biased estimator of a *non-existent* common variance, so the $t$-statistic does not follow $t_{n-2}$ and the printed $p$-value is unreliable (typically too small at high-leverage points, **overstating** significance). **Remedy:** use a heteroscedasticity-robust (White / HC3) standard error via `lmtest::coeftest(mod, vcov.=sandwich::vcovHC(mod, type="HC3"))` and re-read the $p$-value.
+2. **b4 — PI at Salary $= 0$: two strikes.** (i) **Extrapolation.** Observed `Salary` lives in roughly $[10\\,000,\\,170\\,000]$; $x_g=0$ sits far *below* the leftmost observation, so the linear-mean assumption $E[Y\\mid X]=\\beta_0+\\beta_1 X$ has no empirical support there — the point prediction $\\hat y_g(0)\\approx -15.7$ is already negative (impossible for a spending amount). (ii) **Heteroscedasticity again.** Even setting (i) aside, the single $s_\\epsilon$ in the PI formula misrepresents the true variance (large at high salaries, small at low ones) so the half-width is wrong regardless of $x_g$.
+3. **Magnitudes.** With $\\bar x\\approx 56\\,104$, $s_x\\approx 30\\,616$, $s_\\epsilon\\approx 663$, $n=1000$, $t_{0.995,998}\\approx 2.581$: the leverage factor $\\sqrt{1+1/n+(x_g-\\bar x)^2/((n-1)s_x^2)}\\approx 2.087$ at $x_g=0$ vs $\\approx 1$ at $\\bar x$ — the PI blows up to $\\approx[-3587,\\,3555]$ (a useless answer).
+
+![Ex 8.2b — slope test under heteroscedasticity and PI at Salary = 0](statistics/images/ex8/ex8_8_2b_ai.png)
+
+---
+
+**Answer.**
+
+![Ex 8.2b answer](statistics/images/ex8/answers/ex8_8_2b_answer.png)
+
+Both questions inherit the **heteroscedasticity** flagged in b2: the residuals-vs-fitted plot of `lm(AmountSpent ~ Salary)` shows a clear cone — error variance grows with $\\hat y$, violating $\\Var(\\epsilon_i\\mid X)=\\sigma^2$. Every classical inferential tool downstream of $\\widehat{\\text{se}}(\\hat\\beta_1)$ inherits that bias.
 
 **b3) Significance test on the slope — NOT recommendable.** The $t$-statistic reported by `summary(mod)` relies on
 $$\\widehat{\\text{se}}(\\hat\\beta_1)=\\frac{s_\\epsilon}{\\sqrt{(n-1)s^2_x}},\\qquad t=\\frac{\\hat\\beta_1}{\\widehat{\\text{se}}(\\hat\\beta_1)} \\overset{H_0}{\\sim} t_{n-2}.$$
@@ -172,26 +254,42 @@ mod1 <- lm(AmountSpent ~ Catalogs, data=DS)
 summary(mod1)
 plot(mod1, which=1)                                    # less pronounced cone
 ```
-""", "images": ["statistics/images/ex8_2b-amountspent-catalogs.png"]}
+""", "images": [
+    "statistics/images/ex8/questions/ex8_8_2b_question.png",
+    "statistics/images/ex8/ex8_8_2b_ai.png",
+    "statistics/images/ex8/answers/ex8_8_2b_answer.png",
+    "statistics/images/ex8_2b-amountspent-catalogs.png",
+]}
 
 ex8["8_3a"] = {"title": "Ex 8.3a — NewHired: Weeks on Age, CI for slope, $R^2$, prediction at Age=36",
-"content": """<span class="exam-question-text">**EXERCISE 8.3.** (dataframe `NewHired`)
+"content": """**Question.**
+
+![Ex 8.3a question](statistics/images/ex8/questions/ex8_8_3a_question.png)
+
+**EXERCISE 8.3.** (dataframe `NewHired`)
 
 **a)** Based on the information available for the workers who were able to change their jobs (relying on the job agency), evaluate the relation between the number of weeks needed to find a new job (`Weeks`) and age (`Age`) and assess whether it is significant. Report the sample results you refer to and clarify what are your conclusions on the relation between the two variables.
 
 **b)** Propose a 0.9 interval estimate for the variation in the average number of weeks needed to find a new job corresponding to an increase of 5 years of age.
 
-**c)** Assess what it the proportion of the variance of the number of weeks needed to find a new job explained by age.
+**c)** Assess what is the proportion of the variance of the number of weeks needed to find a new job explained by age.
 
 **d)** Predict the number of weeks needed to find a new job for an individual aged 36 (with characteristics similar to those of the job agency's workers) using a 99% interval.
 
-**e)** Verify, based on the analysis of residuals, whether the assumptions at the basis of the linear model are fulfilled or not.</span>
+**e)** Verify, based on the analysis of residuals, whether the assumptions at the basis of the linear model are fulfilled or not.
 
-![Ex 8.3a question](statistics/images/ex8/questions/ex8_3a_question.png)
+---
+
+**AI walkthrough.**
+
+![Ex 8.3a — OLS fit, 99% PI at Age=36, and 90% CI for slope](statistics/images/ex8/ex8_8_3a_ai.png)
 
 ---
 
 **Answer.**
+
+![Ex 8.3a answer](statistics/images/ex8/answers/ex8_8_3a_answer.png)
+
 ```r
 mod <- lm(Weeks ~ Age, data=NewHired)
 summary(mod)                                    # coef, t-stats, R^2
@@ -229,22 +327,18 @@ With 99% confidence, a 36-year-old worker (with characteristics similar to the a
 - **Normality of errors:** the histogram of standardized residuals is approximately **symmetric** and bell-shaped ⇒ broadly consistent with a normal erratic component.
 
 Overall the linear-model assumptions are **reasonably fulfilled**, so the inference at points (a)–(d) is trustworthy.
-
----
-
-**Reference answer.**
-
-![Ex 8.3a answer (part 1)](statistics/images/ex8/answers/ex8_3a_answer.png)
-
-![Ex 8.3a answer (part 2)](statistics/images/ex8/answers/ex8_3a_answer2.png)
 """, "images": [
-    "statistics/images/ex8/questions/ex8_3a_question.png",
-    "statistics/images/ex8/answers/ex8_3a_answer.png",
-    "statistics/images/ex8/answers/ex8_3a_answer2.png",
+    "statistics/images/ex8/questions/ex8_8_3a_question.png",
+    "statistics/images/ex8/ex8_8_3a_ai.png",
+    "statistics/images/ex8/answers/ex8_8_3a_answer.png",
 ]}
 
 ex8["8_4a"] = {"title": "Ex 8.4a — Restaurants: revenues ~ surface, rescaling, diagnostics, evening_only",
-"content": """<span class="exam-question-text">**EXERCISE 8.4.** (dataframe `restaurants`)
+"content": """**Question.**
+
+![Ex 8.4a question](statistics/images/ex8/questions/ex8_8_4a_question.png)
+
+**EXERCISE 8.4.** (dataframe `restaurants`)
 
 **d1)** Report the equation of the regression line, provide an interpretation of the slope of the line and assess its significance. Evaluate the model with reference to its explanatory ability.
 
@@ -252,11 +346,20 @@ ex8["8_4a"] = {"title": "Ex 8.4a — Restaurants: revenues ~ surface, rescaling,
 
 **d3)** Assess whether the considered model (refer to the model at point d1) can be used to make predictions, reporting the tools (graphs — in this case only a sketch is required — and/or summary measures) you rely on to answer.
 
-**d4)** Consider the relation between the standardized residuals and the variable `evening_only` using a suitable graphical tool (report a sketch of the graph). What are your considerations on the model and on the assumptions it is based upon?</span>
+**d4)** Consider the relation between the standardized residuals and the variable `evening_only` using a suitable graphical tool (report a sketch of the graph). What are your considerations on the model and on the assumptions it is based upon?
+
+---
+
+**AI walkthrough.** Six panels execute d1–d4 in one go: (a) OLS straight line fit on the (surface, revenues-in-kEUR) cloud; (b) the same fit after rescaling $Y$ by 1000 — slope and intercept multiply by 1000, $R^2$ is identical (rescaling $Y$ is a linear bijection, so $SSR/SST$ is invariant); (c) residuals-vs-fitted reveal the *cone* (heteroscedasticity) plus a smoother that bends ⇒ linearity is violated; (d) the scale-location plot $\\sqrt{|r^{\\text{std}}|}$ vs $\\hat y$ formalises the cone — variance grows with the level; (e) histogram of standardized residuals checks roughly-zero mean and symmetry; (f) side-by-side boxplots of $r^{\\text{std}}$ split by `evening_only` show *different medians and dispersions* ⇒ $E(\\epsilon\\mid X)\\neq 0$ once we condition on the dummy — the slope is biased and `evening_only` must enter the specification.
+
+![Ex 8.4a AI walkthrough](statistics/images/ex8/ex8_8_4a_ai.png)
 
 ---
 
 **Answer.**
+
+![Ex 8.4a answer](statistics/images/ex8/answers/ex8_8_4a_answer.png)
+
 ```r
 mod <- lm(revenues ~ surface, data=restaurants)
 summary(mod)
@@ -309,10 +412,14 @@ Only the *units* of the predicted value and of the residual standard error chang
 - **Different dispersions** — boxes have visibly different widths ⇒ another sign of heteroscedasticity, here with a structural (discrete-group) source.
 
 **Interpretation.** The erratic component depends structurally on `evening_only`: $E(\\epsilon\\mid X)=0$ does not hold once we condition on this covariate. A specification with `evening_only` included — e.g. $\\text{revenues}\\sim\\text{surface}+\\text{evening\\_only}$, possibly with an interaction $\\text{surface}\\times\\text{evening\\_only}$ — is required to absorb this systematic effect and recover unbiased inference.
-""", "images": ["statistics/images/ex8_4-revenues-surface.png"]}
+""", "images": [
+    "statistics/images/ex8/questions/ex8_8_4a_question.png",
+    "statistics/images/ex8/ex8_8_4a_ai.png",
+    "statistics/images/ex8/answers/ex8_8_4a_answer.png",
+]}
 
 ex8["8_5a"] = {"title": "Ex 8.5a — Salary on experience: manual estimation, $R^2$, significance, PI at $x=5,7$",
-"content": """<span class="exam-question-text">**EXERCISE 8.5.** It is of interest to estimate a model explaining the initial monthly salary ($Y$) offered to a company's new hired based on the years of work experience ($X$). The following statistics have been measured on a random sample of $n=47$ employees:
+"content": """**EXERCISE 8.5.** It is of interest to estimate a model explaining the initial monthly salary ($Y$) offered to a company's new hired based on the years of work experience ($X$). The following statistics have been measured on a random sample of $n=47$ employees:
 
 $$\\sum_{i=1}^{47} y_i = 99150,\\quad s^2_y = 345722,\\quad \\sum_{i=1}^{47} x_i = 297,\\quad s^2_x = 27.048,\\quad s_{xy} = 2697.96.$$
 
@@ -324,7 +431,7 @@ $$\\sum_{i=1}^{47} y_i = 99150,\\quad s^2_y = 345722,\\quad \\sum_{i=1}^{47} x_i
 
 **d)** Build the 99% interval for the initial monthly salary of two new hired having respectively 5 and 7 years of work experience. Explain why the lengths of the two intervals are different.
 
-![Ex 8.5a question](statistics/images/ex8/questions/ex8_5a_question.png)</span>
+![Ex 8.5a question](statistics/images/ex8/questions/ex8_5a_question.png)
 
 ---
 
@@ -394,7 +501,7 @@ c(yhat_7 - ME_7, yhat_7 + ME_7)             # ≈ (1417.49 ; 2937.49)
 ]}
 
 ex8["8_8a"] = {"title": "Ex 8.8a — Advertising → efficacy: estimation, significance and 99% PI at $x=48$",
-"content": """<span class="exam-question-text">**EXERCISE 8.8.** The marketing department of a company presents data on $n=36$ campaigns: advertising expenses ($X$) and efficacy ($Y$). The aggregated statistics are:
+"content": """**EXERCISE 8.8.** The marketing department of a company presents data on $n=36$ campaigns: advertising expenses ($X$) and efficacy ($Y$). The aggregated statistics are:
 
 $$\\bar x = 50.5,\\quad \\bar y = 12.4,\\quad s^2_x = 660,\\quad s^2_y = 3.5,\\quad r_{xy} = 0.8.$$
 
@@ -402,7 +509,21 @@ $$\\bar x = 50.5,\\quad \\bar y = 12.4,\\quad s^2_x = 660,\\quad s^2_y = 3.5,\\q
 
 **e)** Test the significance of the slope of the line at $5\\%$ (report the realization of the test statistic and the procedure used to compute it).
 
-**f1)** Assume the company is planning to spend $48$ in the next campaign. Which interval would you use to predict the efficacy of the campaign with a $99\\%$ level of confidence?</span>
+**f1)** Assume the company is planning to spend $48$ in the next campaign. Which interval would you use to predict the efficacy of the campaign with a $99\\%$ level of confidence?
+
+![Ex 8.8a question](statistics/images/ex8/questions/ex8_8_8a_question.png)
+
+---
+
+**AI walkthrough.** The whole exercise is just three textbook moves on the same fitted line — and every piece we need is already inside the five summary numbers.
+
+1. **From summaries to OLS coefficients.** We never see the raw points, but $r_{xy}$, $s^2_x$ and $s^2_y$ encode the OLS recipe: rebuild $s_{xy}=r_{xy}\\,s_x s_y$, then $\\hat\\beta_1=s_{xy}/s^2_x$ and $\\hat\\beta_0=\\bar y-\\hat\\beta_1\\bar x$. The line always passes through $(\\bar x,\\bar y)$ — that anchor is what lets us shift from slope to intercept.
+2. **From $R^2$ to noise scale.** $R^2=r_{xy}^2$ gives the explained share ($0.64$); the *unexplained* share $1-R^2$ converts the total spread $SST=(n-1)s^2_y$ into $SSE$, hence $s^2_\\epsilon=SSE/(n-2)$. This $s_\\epsilon\\approx 1.14$ is the irreducible noise we carry into the slope SE and into the prediction band.
+3. **Significance = signal/noise on $\\hat\\beta_1$.** $\\widehat{\\text{se}}(\\hat\\beta_1)=s_\\epsilon/\\sqrt{(n-1)s^2_x}$: bigger sample, more spread in $X$, smaller noise ⇒ tighter SE. The $t$-statistic $\\hat\\beta_1/\\widehat{\\text{se}}$ on $n-2=34$ df is $\\approx 7.78$ — far past $t_{0.975,34}=2.03$, so we reject $H_0:\\beta_1=0$ instantly.
+4. **PI vs CI at $x_g=48$.** A *single future* campaign has its own noise term $\\epsilon_g$ on top of the uncertainty in the fitted mean. The PI carries the extra "$1+$" inside the root, the CI does not. Since $48$ is only $2.5$ from $\\bar x=50.5$, the leverage term $(x_g-\\bar x)^2/((n-1)s^2_x)$ is tiny — the PI width is close to its minimum $2t_{0.995,34}s_\\epsilon\\sqrt{1+1/n}$.
+5. **Plug in.** $\\hat y_g=12.255$, $t_{0.995,34}=2.728$, leverage factor $1.0281$ ⇒ ME $=3.151$ and PI $\\approx (9.10,\\,15.40)$.
+
+![Ex 8.8a AI walkthrough — OLS fit, slope t-test and 99% PI at $x_g=48$](statistics/images/ex8/ex8_8_8a_ai.png)
 
 ---
 
@@ -446,14 +567,28 @@ So $\\text{se}(\\hat\\beta_1)=\\sqrt{1.297/(35\\cdot 660)}=0.00749$ and $t=0.058
 **f1)** A *single future campaign* is a new observation, **not** a mean ⇒ use the **prediction interval** (CI would underestimate uncertainty by dropping the irreducible noise term):
 $$\\hat y_g \\pm t_{0.995,\\,34}\\cdot s_\\epsilon\\sqrt{1+\\tfrac{1}{n}+\\tfrac{(x_g-\\bar x)^2}{(n-1)s^2_x}}.$$
 At $x_g=48$: $\\hat y_g=12.255$, $s_\\epsilon=1.139$, leverage term $1+1/36+(2.5)^2/(35\\cdot 660)=1.0281$, $t_{0.995,34}=2.728$ ⇒ margin $3.151$. The 99% PI is $\\approx (9.10,\\,15.40)$ — with 99% confidence the efficacy of the next campaign at expense $48$ falls in this range.
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 8.8a answer](statistics/images/ex8/answers/ex8_8_8a_answer.png)
+""", "images": [
+    "statistics/images/ex8/questions/ex8_8_8a_question.png",
+    "statistics/images/ex8/ex8_8_8a_ai.png",
+    "statistics/images/ex8/answers/ex8_8_8a_answer.png",
+]}
 
 ex8["8_10a"] = {"title": "Ex 8.10a — Sales on discount: CI for $\\beta_1$, PI at $x=12$, extrapolation at $x=30$",
-"content": """<span class="exam-question-text">**EXERCISE 8.10.** A company analyses the relation between sales $Y$ (thousands of units) and the applied percent discount $X$ on $n=50$ shops. The sample statistics are:
+"content": """**EXERCISE 8.10.** A company analyses the relation between sales $Y$ (thousands of units) and the applied percent discount $X$ on $n=50$ shops. The sample statistics are:
 
 $$\\sum_{i=1}^{50} x_i = 500,\\quad \\sum_{i=1}^{50} y_i = 3000,\\quad \\sum_{i=1}^{50}(y_i-\\bar y)^2 = 40000,\\quad \\sum_{i=1}^{50}(x_i-\\bar x)^2 = 25000,\\quad SSR = 36000.$$
 
-**a)** Estimate the parameters of the linear model of $Y$ on $X$. **b)** Estimate the variance of the model. **c)** Build the $95\\%$ confidence interval for $\\beta_1$ and interpret it. **d)** Obtain the point prediction of sales for a shop with a $12\\%$ discount and build the $95\\%$ prediction interval. **e)** What is the $95\\%$ interval for the **expected** (mean) amount of sales at $12\\%$? **f)** Would you use the model to predict sales for a shop where a $30\\%$ discount will be applied? Why?</span>
+**a)** Estimate the parameters of the linear model of $Y$ on $X$. **b)** Estimate the variance of the model. **c)** Build the $95\\%$ confidence interval for $\\beta_1$ and interpret it. **d)** Obtain the point prediction of sales for a shop with a $12\\%$ discount and build the $95\\%$ prediction interval. **e)** What is the $95\\%$ interval for the **expected** (mean) amount of sales at $12\\%$? **f)** Would you use the model to predict sales for a shop where a $30\\%$ discount will be applied? Why?
+
+![Ex 8.10a question](statistics/images/ex8/questions/ex8_8_10a_question.png)
+
+![Ex 8.10a AI walkthrough](statistics/images/ex8/ex8_8_10a_ai.png)
 
 ---
 
@@ -513,4 +648,14 @@ The interval is far from $0$ ⇒ slope highly significant; with $95\\%$ confiden
 **e)** $95\\%$ CI for the **expected** sales at $x=12$: drop the $1$ inside the square root (no irreducible noise) ⇒ margin $2.011\\cdot 9.129\\cdot\\sqrt{0.02016}=2.61$, so $(59.79,\\,65.01)$ — much narrower than the PI because it does not include the individual-shop variability.
 
 **f)** **Not recommended.** $30\\%$ is far outside the observed range (mean $\\bar x=10\\%$, $s_x=\\sqrt{25000/49}\\approx 22.6$): predicting there is an **extrapolation**. The linearity assumption may break down beyond the data, and the leverage term $(30-10)^2/25000=0.016$ blows up the interval: $\\hat y=84$ with $95\\%$ PI $\\approx (65.32,\\,102.68)$ — a $\\pm 18.7$ window that is hardly informative for decision-making.
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 8.10a answer](statistics/images/ex8/answers/ex8_8_10a_answer.png)
+""", "images": [
+    "statistics/images/ex8/questions/ex8_8_10a_question.png",
+    "statistics/images/ex8/ex8_8_10a_ai.png",
+    "statistics/images/ex8/answers/ex8_8_10a_answer.png",
+]}

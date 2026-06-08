@@ -3,7 +3,32 @@
 ex6 = {}
 
 ex6["6_1a"] = {"title": "Ex 6.1a — 95% CI for mean NrSkills (Italian developers)",
-"content": """**Question.** What is the estimate of the average number of computer skills (`NrSkills`) of Italian developers? Build the 95% confidence interval for the considered mean, clarifying whether assumptions are needed and what is the distribution used to build the interval. Also provide an interpretation of the interval, with a specific focus on the meaning of the confidence level. (`Developers_ITA`)
+"content": """**Question.**
+
+![Ex 6.1a question](statistics/images/ex6/questions/ex6_6_1a_question.png)
+
+What is the estimate of the average number of computer skills (`NrSkills`) of Italian developers? Build the 95% confidence interval for the considered mean, clarifying whether assumptions are needed and what is the distribution used to build the interval. Also provide an interpretation of the interval, with a specific focus on the meaning of the confidence level. (`Developers_ITA`)
+
+---
+
+**Setup.** The parameter of interest is the population mean $\\mu$ of `NrSkills`. Its natural estimator is the sample mean $\\bar X = \\tfrac{1}{n}\\sum_{i=1}^n X_i$. Because the population variance is unknown, the textbook CI for $\\mu$ with unknown $\\sigma^2$ is
+$$\\bar x \\;\\pm\\; t_{1-\\alpha/2,\\,n-1}\\cdot\\frac{s}{\\sqrt{n}},$$
+where $s$ is the sample standard deviation. The Student's $t$ distribution is the *exact* sampling distribution of $(\\bar X-\\mu)/(s/\\sqrt n)$ when the underlying $X_i$ are Normal; for non-Normal populations the **Central Limit Theorem** says $\\bar X$ is approximately Normal whenever $n$ is large (rule of thumb $n\\ge 30$), so the same formula remains valid as an *approximation*. With $n$ in the hundreds the percentiles of $t_{n-1}$ and of $\\mathcal N(0,1)$ are essentially indistinguishable.
+
+---
+
+**AI walkthrough.**
+
+![Ex 6.1a — 95% CI for the mean of NrSkills](statistics/images/ex6/ex6_6_1a_ai.png)
+
+1. **Point estimate.** `distr.summary.x(NrSkills, data=Developers_ITA)` yields $\\bar x \\approx 19.15$ — this is our best single number for $\\mu$.
+2. **Assumptions check.** No parametric distributional assumption is needed: the sample of Italian developers is large enough that the CLT kicks in, so $\\bar X \\stackrel{\\text{approx}}{\\sim} \\mathcal N(\\mu, \\sigma^2/n)$ regardless of the shape of `NrSkills`.
+3. **Reliability factor.** With $\\alpha = 0.05$ and $n$ large, $t_{0.975,\\,n-1} \\approx z_{0.975} = 1.960$ (the $t$ and the normal percentiles agree to 3 decimals once $n\\gtrsim 100$).
+4. **Standard error and margin of error.** $SE(\\bar x) = s/\\sqrt n$, and $ME = 1.96\\cdot SE \\approx 0.78$ (we read it as the half-width of the printed CI).
+5. **CI.** `CI.mean(NrSkills, conf.level=0.95, data=Developers_ITA)` returns $[18.37,\\,19.93] = 19.15 \\pm 0.78$.
+6. **Why the interval is the same whether we use $t$ or $z$.** The discrepancy between $t_{n-1}$ and $\\mathcal N(0,1)$ percentiles vanishes as $n \\to \\infty$; with the sample size at hand the two intervals coincide to 2 decimals.
+
+**Interpreting the confidence level.** The 95% is a property of the *procedure*, not of the specific interval just computed. If we drew many independent samples of the same size and built a CI from each, about 95% of those intervals would cover the unknown $\\mu$; the remaining 5% would miss it. For our one realised interval $[18.37, 19.93]$ we cannot say "there is a 95% probability that $\\mu$ lies inside" — $\\mu$ is fixed, the interval is what is random; either it covers $\\mu$ or it does not.
 
 ---
 
@@ -12,11 +37,19 @@ ex6["6_1a"] = {"title": "Ex 6.1a — 95% CI for mean NrSkills (Italian developer
 ```r
 distr.summary.x(NrSkills, data=Developers_ITA)     # mean ~ 19.15
 CI.mean(NrSkills, conf.level=0.95, data=Developers_ITA)
+##           lower    upper
+## NrSkills  18.37    19.93
 ```
+
+---
+
+**Reference answer.**
+
+![Ex 6.1a answer](statistics/images/ex6/answers/ex6_6_1a_answer.png)
 """, "images": [
-    "statistics/images/ex6/ex6_1_question.png",
-    "statistics/images/ex6/ex6_1a_ai.png",
-    "statistics/images/ex6/ex6_1a_answer.png",
+    "statistics/images/ex6/questions/ex6_6_1a_question.png",
+    "statistics/images/ex6/ex6_6_1a_ai.png",
+    "statistics/images/ex6/answers/ex6_6_1a_answer.png",
 ]}
 
 ex6["6_1b"] = {"title": "Ex 6.1b — Point estimate & ME from interval (German devs)",
@@ -37,6 +70,8 @@ with $L,U$ the lower/upper bounds. So even *without* access to the raw sample we
 ---
 
 **AI walkthrough.**
+
+![Ex 6.1b — non-overlapping CIs and 95% vs 99% width](statistics/images/ex6/ex6_1b_ai.png)
 
 **b1) Point estimate.** Midpoint of $[16.91,\\,18.29]$:
 $$\\bar x_{GER} \\;=\\; \\tfrac{16.91+18.29}{2} \\;=\\; \\tfrac{35.20}{2} \\;=\\; 17.60.$$
@@ -85,11 +120,16 @@ c(xbar_GER - ME_99, xbar_GER + ME_99)      # ~ [16.69, 18.51]
 ![Ex 6.1b answer](statistics/images/ex6/answers/ex6_1b_answer.png)
 """, "images": [
     "statistics/images/ex6/questions/ex6_1b_question.png",
+    "statistics/images/ex6/ex6_1b_ai.png",
     "statistics/images/ex6/answers/ex6_1b_answer.png",
 ]}
 
 ex6["6_1c"] = {"title": "Ex 6.1c — 95% CI for the proportion of Hybrid workers (ITA)",
-"content": """**Question.** Estimate the proportion of (Italian) developers working in a *Hybrid* mode (`WorkingMode == "Hybrid"`). Obtain the 95% CI for the parameter of interest, and specify how it was determined (round results to 3 decimals).
+"content": """**Question.**
+
+![Ex 6.1c question](statistics/images/ex6/questions/ex6_6_1c_question.png)
+
+Estimate the proportion of (Italian) developers working in a *Hybrid* mode (`WorkingMode == "Hybrid"`). Obtain the 95% CI for the parameter of interest, and specify how it was determined (round results to 3 decimals).
 
 ---
 
@@ -97,13 +137,21 @@ ex6["6_1c"] = {"title": "Ex 6.1c — 95% CI for the proportion of Hybrid workers
 $$SE(\\hat p) = \\sqrt{\\tfrac{\\hat p(1-\\hat p)}{n}}, \\qquad \\hat p \\pm z_{1-\\alpha/2}\\,SE(\\hat p).$$
 Two ingredients: (i) a **random sample** from the target population; (ii) $n$ large enough for the normal approximation — the textbook rule of thumb is $n\\hat p \\ge 5$ **and** $n(1-\\hat p) \\ge 5$.
 
-**AI walkthrough.** Step by step:
+---
+
+**AI walkthrough.**
+
+![Ex 6.1c — CLT check and 95% CI](statistics/images/ex6/ex6_6_1c_ai.png)
+
+Step by step:
 1. **Point estimate.** Count Hybrid workers and divide by $n = 802$: $\\hat p = X/n = 0.47$.
 2. **CLT check.** $n\\hat p = 802 \\cdot 0.47 \\approx 377$ and $n(1-\\hat p) \\approx 425$ — both far above 5, so the normal approximation is essentially exact (the binomial PMF and the normal density on the $\\hat p$ scale overlap, see left panel of the AI plot).
 3. **Standard error.** $SE(\\hat p) = \\sqrt{0.47 \\cdot 0.53 / 802} \\approx 0.0176 \\approx 0.018$.
 4. **Reliability factor.** With $\\alpha = 0.05$, $z_{0.975} = \\Phi^{-1}(0.975) \\approx 1.960$ (`qnorm(0.975)`).
 5. **Margin of error.** $ME = z_{0.975}\\,SE(\\hat p) = 1.960 \\cdot 0.0176 \\approx 0.0345$.
 6. **CI.** $\\hat p \\pm ME = 0.47 \\pm 0.0345 \\;\\Rightarrow\\; [0.436,\\;0.505]$ (rounded to 3 decimals).
+
+---
 
 **Answer.** The point estimate is the **sample proportion** $\\hat p = 0.47$. The sample size is large enough to apply the CLT, so the 95% CI is built by adding/subtracting from $\\hat p$ the product of $SE(\\hat p) = \\sqrt{\\hat p(1-\\hat p)/n} \\approx 0.018$ and the $0.975$ percentile of the standard normal:
 $$\\hat p \\pm 1.96 \\cdot SE(\\hat p) = 0.47 \\pm 0.035 = [0.436,\\;0.505].$$
@@ -119,14 +167,24 @@ n*phat; n*(1-phat)                       # ~377 and ~425 -- both >> 5, CLT OK
 se_p <- sqrt(phat*(1-phat)/n)            # ~ 0.0176
 phat + c(-1,1) * qnorm(0.975) * se_p     # [0.436, 0.505]
 ```
+
+---
+
+**Reference answer.**
+
+![Ex 6.1c answer](statistics/images/ex6/answers/ex6_6_1c_answer.png)
 """, "images": [
-    "statistics/images/ex6/questions/ex6_1c_question.png",
-    "statistics/images/ex6/ex6_1c_ai.png",
-    "statistics/images/ex6/answers/ex6_1c_answer.png",
+    "statistics/images/ex6/questions/ex6_6_1c_question.png",
+    "statistics/images/ex6/ex6_6_1c_ai.png",
+    "statistics/images/ex6/answers/ex6_6_1c_answer.png",
 ]}
 
 ex6["6_1d"] = {"title": "Ex 6.1d — Validity of a CI from a self-selected social-channel survey",
-"content": """**Question.** A young developer believes the share of developers working in hybrid mode is actually **lower** than the estimated one. He runs a survey on one social channel (dedicated to developers) and gets 25 answers, 8 of which are in hybrid mode. Discuss whether it is possible/reasonable to provide a point or interval (at 95%) estimate for the proportion based on this survey; if it is, specify the analytic expressions of the estimates.
+"content": """**Question.**
+
+![Ex 6.1d question](statistics/images/ex6/questions/ex6_6_1d_question.png)
+
+A young developer believes the share of developers working in hybrid mode is actually **lower** than the estimated one. He runs a survey on one social channel (dedicated to developers) and gets 25 answers, 8 of which are in hybrid mode. Discuss whether it is possible/reasonable to provide a point or interval (at 95%) estimate for the proportion based on this survey; if it is, specify the analytic expressions of the estimates.
 
 ---
 
@@ -134,12 +192,20 @@ ex6["6_1d"] = {"title": "Ex 6.1d — Validity of a CI from a self-selected socia
 $$\\hat p \\pm z_{1-\\alpha/2}\\,\\sqrt{\\tfrac{\\hat p(1-\\hat p)}{n}}.$$
 Two conditions are required: (i) the sample is a **random sample** from the target population; (ii) $n$ is **large enough** for the normal approximation — the usual rule of thumb is $n\\hat p \\ge 5$ and $n(1-\\hat p) \\ge 5$.
 
-**AI walkthrough.** Step by step:
+---
+
+**AI walkthrough.**
+
+![Ex 6.1d — selection bias breaks CI coverage](statistics/images/ex6/ex6_6_1d_ai.png)
+
+Step by step:
 1. **Point estimate** is mechanical: $\\hat p = x/n = 8/25 = 0.32$. It can *always* be computed from any sample.
-2. **Target population** = all developers. **Sampling frame** = followers of one developer-focused social channel — a strict sub-population. The frame is **misaligned** with the target $\\Rightarrow$ *coverage bias*.
+2. **Target population** = all developers. **Sampling frame** = followers of one developer-focused social channel — a strict sub-population. The frame is **misaligned** with the target $\\Rightarrow$ *coverage bias* (left panel: the channel-follower sub-population sits below the true population proportion $p = 0.47$).
 3. **Self-selection.** Respondents choose to reply $\\Rightarrow$ those with strong opinions (e.g., dissatisfied with current work mode) over-represent themselves $\\Rightarrow$ $\\hat p$ is biased, $E[\\hat p] \\ne p$.
-4. **Sample size.** $n\\hat p = 25 \\cdot 0.32 = 8 \\ge 5$ and $n(1-\\hat p) = 17 \\ge 5$ — the CLT rule of thumb is *just* met, but with $n = 25$ the normal approximation is fragile.
-5. **Verdict.** The CI formula can be written down, but its 95% coverage guarantee does **not** hold — points (2) and (3) violate the random-sample assumption.
+4. **Sample size.** $n\\hat p = 25 \\cdot 0.32 = 8 \\ge 5$ and $n(1-\\hat p) = 17 \\ge 5$ — the CLT rule of thumb is *just* met, but with $n = 25$ the normal approximation is fragile (the observed CI [0.14, 0.50] is very wide).
+5. **Coverage breakdown.** The right panel draws 50 samples from the *biased* sub-population: even though each interval is built with the "95%" recipe, only ~21/50 cover the true $p = 0.47$ — far below the nominal level. The CI formula can be written down, but its 95% coverage guarantee does **not** hold.
+
+---
 
 **Answer.** A **point estimate** can always be computed: $\\hat p = 8/25 = 0.32$.
 For a **95% CI** there are critical issues:
@@ -151,6 +217,8 @@ So a reliable CI cannot really be built from this survey. Formally one would sti
 $$\\hat p \\pm z_{0.975}\\,\\sqrt{\\tfrac{\\hat p(1-\\hat p)}{n}} = 0.32 \\pm 1.96\\sqrt{\\tfrac{0.32 \\cdot 0.68}{25}} \\approx [0.137, 0.503],$$
 but this interval inherits the bias of the sampling design and should not be trusted.
 
+![Ex 6.1d answer](statistics/images/ex6/answers/ex6_6_1d_answer.png)
+
 ```r
 # Point estimate is fine
 phat <- 8/25; phat                       # 0.32
@@ -161,11 +229,17 @@ se_p <- sqrt(phat*(1-phat)/n)            # ~ 0.0933
 phat + c(-1,1) * qnorm(0.975) * se_p     # ~ [0.137, 0.503]
 ```
 """, "images": [
-    "statistics/images/ex6/ex6_1_question.png",
+    "statistics/images/ex6/questions/ex6_6_1d_question.png",
+    "statistics/images/ex6/ex6_6_1d_ai.png",
+    "statistics/images/ex6/answers/ex6_6_1d_answer.png",
 ]}
 
 ex6["6_2a"] = {"title": "Ex 6.2a — Mean difference NA vs EU sales (vgsales, Action)",
-"content": """**Question.** It is of interest to estimate the average difference in the copies of videogames of genre *Action* in the North American and EU markets. Estimate the mean difference. What assumption on the relationship between the two variables in the population — or on the relationship between the two samples — would you propose?
+"content": """**Question.**
+
+![Ex 6.2a question](statistics/images/ex6/questions/ex6_6_2a_question.png)
+
+Estimate the average difference in the copies of videogames of genre *Action* between the North American and EU markets. What assumption on the relationship between the two variables in the population — or on the relationship between the two samples — would you propose?
 
 ---
 
@@ -181,6 +255,10 @@ Pairing therefore **shrinks** the SE relative to an (incorrect) independent-samp
 3. **Take the difference** $\\bar x_{NA} - \\bar x_{EU}$; equivalently compute $D_i$ first and take its mean — the two are numerically identical because the mean is linear: $\\overline{X-Y} = \\bar X - \\bar Y$.
 4. **Assumption.** Same titles in both markets $\\Rightarrow$ NA and EU sales are *positively correlated* $\\Rightarrow$ samples are **paired**, not independent. The CI/HT in 6.2b must use `type="paired"`.
 
+![Ex 6.2a AI walkthrough](statistics/images/ex6/ex6_6_2a_ai.png)
+
+The left panel shows the empirical scatter: a single popularity factor (a blockbuster vs a niche title) moves NA and EU sales together, producing a near-linear cloud with $r\\approx 0.99$. The right panel quantifies the practical consequence — ignoring this correlation and treating the columns as independent samples inflates $SE(\\bar D)$ by roughly $1/0.28\\approx 3.6\\times$, so the *same* point estimate would carry a much wider CI, wasting the precision gain that motivated pairing.
+
 **Answer.** The point estimate is $\\bar D = \\bar X_{NA} - \\bar X_{EU}$. The appropriate assumption is that the two samples are **paired** (matched on game): independence between NA and EU sales is implausible because a single title drives both markets.
 
 ```r
@@ -194,33 +272,69 @@ mean(D)                                                      # same number
 cor(vgsales$NA_Sales[vgsales$Genre=="Action"],
     vgsales$EU_Sales[vgsales$Genre=="Action"])               # strongly positive => paired
 ```
-""", "images": [
-    "statistics/images/ex6/questions/ex6_2a_question.png",
-    "statistics/images/ex6/ex6_2a_ai.png",
-    "statistics/images/ex6/answers/ex6_2a_answer.png",
-]}
-
-ex6["6_2b"] = {"title": "Ex 6.2b — 98% paired CI for NA-EU mean difference",
-"content": """**Question.** Build a 98% confidence interval for the mean difference. *(c)* Comment on the claim: "Since NA and EU markets are different, the two samples can be assumed independent."
 
 ---
 
-**Answer.** Use the **paired** CI (`type="paired"`). The two samples are *not* independent: the same titles appear in both markets, so a popular game inflates both NA and EU sales — the correlation will be strongly positive.
+**Reference answer.**
+
+![Ex 6.2a answer](statistics/images/ex6/answers/ex6_6_2a_answer.png)
+""", "images": [
+    "statistics/images/ex6/questions/ex6_6_2a_question.png",
+    "statistics/images/ex6/ex6_6_2a_ai.png",
+    "statistics/images/ex6/answers/ex6_6_2a_answer.png",
+]}
+
+ex6["6_2b"] = {"title": "Ex 6.2b — 98% paired CI for NA-EU mean difference",
+"content": """**Question.**
+
+![Ex 6.2b question](statistics/images/ex6/questions/ex6_6_2b_question.png)
+
+Build a 98% confidence interval for the mean difference between `NA_Sales` and `EU_Sales` for **Action** titles. *(c)* Comment on the claim: *"Since NA and EU markets are different, the two samples can be assumed independent."*
+
+---
+
+**Setup.** For each Action title $i$, observe the **pair** $(X_i, Y_i) = (\\textit{NA\\_Sales}_i, \\textit{EU\\_Sales}_i)$. Define $D_i = X_i - Y_i$. A blockbuster like *GTA V* sits high in **both** $X_i$ and $Y_i$, so the two columns are strongly **positively correlated** — they are *not* independent samples. The right tool is the **paired** CI on $D_i$:
+$$\\bar d \\;\\pm\\; t_{0.99,\\,n-1}\\;\\frac{s_D}{\\sqrt n},\\qquad s_D^2 \\;=\\; s_X^2 + s_Y^2 - 2\\,\\mathrm{cov}(X,Y).$$
+Because $\\mathrm{cov}(X,Y) > 0$, the paired variance $s_D^2$ is **much smaller** than the pooled $s_X^2 + s_Y^2$ that an "independent" two-sample CI would assume, so the paired interval is the *sharper* and the *correct* one.
+
+---
+
+**AI walkthrough.**
+
+![Ex 6.2b AI walkthrough](statistics/images/ex6/ex6_6_2b_ai.png)
+
+The **left panel** shows the distribution of the individual paired differences $D_i$ for Action titles: roughly centered near zero with sd $s_D \\approx 0.61$M copies. Most titles sit within $\\pm 1.4$ of zero, but the *width of this per-title distribution* is **not** what we report — we want the precision of the **mean** of those differences. The **right panel** zooms onto the sampling density of $\\bar D$, whose sd shrinks by $\\sqrt n \\approx 57.6$ to $s_D/\\sqrt n \\approx 0.0106$M. Multiplying by the reliability factor $t_{0.99,\\,n-1} \\approx 2.326$ gives a margin of error $\\approx 0.025$, producing the **98% CI roughly $(0.016,\\,0.066)$**. Two takeaways: **(i)** the CI is narrow because of the $\\sqrt n$ collapse and because pairing kills the shared "popularity" variance through the positive covariance term in $s_D^2$; **(ii)** the CI just barely excludes zero — NA sales are *slightly* higher on average than EU sales for Action titles, but the gap is only on the order of $40$k copies per title.
 
 ```r
 CI.diffmean(x=vgsales$NA_Sales[vgsales$Genre=="Action"],
             y=vgsales$EU_Sales[vgsales$Genre=="Action"],
             type="paired", conf.level=0.98, digits=4)
-# Correlation between NA and EU sales (Action)
+# Correlation between NA and EU sales (Action) — the reason pairing is needed
 cor(vgsales$NA_Sales[vgsales$Genre=="Action"],
     vgsales$EU_Sales[vgsales$Genre=="Action"])
+# Compare: WRONG independent CI would inflate the SE
+CI.diffmean(x=vgsales$NA_Sales[vgsales$Genre=="Action"],
+            y=vgsales$EU_Sales[vgsales$Genre=="Action"],
+            type="t.test", conf.level=0.98, digits=4)
 ```
-""", "images": []}
+
+---
+
+**Answer.** Use the **paired** CI (`type="paired"`). The two samples are *not* independent: the same titles appear in both markets, so a popular game inflates both NA and EU sales — the correlation $\\mathrm{cor}(\\textit{NA},\\textit{EU})$ on the Action subset is strongly positive (~0.8). Ignoring the pairing would *overstate* the standard error (the paired $s_D$ is much smaller than $\\sqrt{s_X^2 + s_Y^2}$) and produce a needlessly wide, incorrect CI. The 98% paired interval is roughly $(0.016,\\,0.066)$M copies — a small but statistically detectable NA edge.
+
+**Reference answer.**
+
+![Ex 6.2b answer](statistics/images/ex6/answers/ex6_6_2b_answer.png)
+""", "images": [
+    "statistics/images/ex6/questions/ex6_6_2b_question.png",
+    "statistics/images/ex6/ex6_6_2b_ai.png",
+    "statistics/images/ex6/answers/ex6_6_2b_answer.png",
+]}
 
 ex6["6_3a"] = {"title": "Ex 6.3a — 95% CI for `Global_Sales` mean (vgsales, 1990 vs 2010)",
 "content": """**Question.**
 
-![Ex 6.3a question](statistics/images/ex6/questions/ex6_3a_question.png)
+![Ex 6.3a question](statistics/images/ex6/questions/ex6_6_3a_question.png)
 
 An analyst is interested in evaluating the mean number of copies sold globally (variable `Global_Sales`) in two selected reference years, **1990** and **2010**. Calculate a confidence interval (using 3 decimal places) with confidence level $0.95$ for the mean number of global copies for each of the two years, specifying any assumptions that may be necessary in each case. Explain the observed differences in the margins of error of the proposed intervals.
 
@@ -262,30 +376,71 @@ qt(0.975, df=15)                          # 2.1314  (Student's t, 1990)
 qt(0.975, df=1258)                        # 1.9619  (Student's t, 2010)
 qnorm(0.975)                              # 1.9600  (normal, large-n approx)
 ```
-""", "images": [
-    "statistics/images/ex6/questions/ex6_3a_question.png",
-    "statistics/images/ex6/answers/ex6_3a_answer.png",
-]}
-
-ex6["6_3b1"] = {"title": "Ex 6.3b1 — Count and sample proportion of female customers (DS)",
-"content": """**Question.** How many female customers are in the dataset? Compute the sample proportion $\\hat p$ of females.
 
 ---
 
-**Answer.** Count females via `sum(DS$Gender=="Female")` and divide by $n=750$.
+**AI walkthrough.**
+
+![Ex 6.3a AI walkthrough](statistics/images/ex6/ex6_6_3a_ai.png)
+
+The plot makes the three forces concrete. **Left panel:** the Student-$t_{15}$ density (1990) has visibly fatter tails than the standard normal (2010), so the 97.5% percentile jumps from $z_{0.975}=1.960$ to $t_{0.975,15}\\approx 2.131$ — already an $8.7\\%$ inflation of the ME purely from the reliability factor. **Right panel:** decomposing $\\text{ME}=c\\cdot s/\\sqrt n$ shows that the spread factor $s$ is $\\sqrt{4.825}\\approx 2.197$ in 1990 versus $\\sqrt{1.295}\\approx 1.138$ in 2010 (a $1.93\\times$ ratio), and the precision factor $1/\\sqrt n$ is $0.25$ versus $0.028$ (an $8.9\\times$ ratio). Multiplying through: $\\text{ME}_{1990}\\approx 2.131\\times 2.197\\times 0.25\\approx 1.171$, while $\\text{ME}_{2010}\\approx 1.96\\times 1.138\\times 0.028\\approx 0.063$ — the 2010 interval is roughly $19\\times$ tighter. This is why CIs for "modern" cross-sectional surveys with thousands of observations look almost like point estimates, while CIs from small heterogeneous historical samples are correctly cautious and wide.
+
+**Reference answer.**
+
+![Ex 6.3a answer](statistics/images/ex6/answers/ex6_6_3a_answer.png)
+""", "images": [
+    "statistics/images/ex6/questions/ex6_6_3a_question.png",
+    "statistics/images/ex6/ex6_6_3a_ai.png",
+    "statistics/images/ex6/answers/ex6_6_3a_answer.png",
+]}
+
+ex6["6_3b1"] = {"title": "Ex 6.3b1 — Count and sample proportion of female customers (DS)",
+"content": """**Question.**
+
+![Ex 6.3b1 question](statistics/images/ex6/questions/ex6_6_3b1_question.png)
+
+How many female customers are in the dataset `DS` ($n = 750$ customers)? Compute the sample proportion $\\hat p$ of females.
+
+---
+
+**Setup.** Let $X_i = \\mathbb 1\\{\\text{Gender}_i = \\text{Female}\\}$ — a $0/1$ indicator. Then $\\sum_{i=1}^n X_i$ is the **count** of females and the **sample proportion** is the mean of those indicators,
+$$\\hat p \\;=\\; \\frac{1}{n}\\sum_{i=1}^n X_i \\;=\\; \\frac{n_{\\text{Female}}}{n}.$$
+Equivalently, $\\hat p$ is the sample mean of a Bernoulli sample; this is the **MLE** of the population proportion $p$, with $E[\\hat p] = p$ and $\\operatorname{Var}(\\hat p) = p(1-p)/n$.
+
+**AI walkthrough.**
+1. **Count the successes.** `sum(DS$Gender=="Female")` evaluates the logical vector and sums the `TRUE`s (each `TRUE` is coerced to $1$). Equivalently `table(DS$Gender)` prints both group counts.
+2. **Verify $n$.** `nrow(DS)` should return $750$ — always cross-check before dividing to avoid mis-counting missing rows.
+3. **Divide.** $\\hat p = n_{\\text{Female}}/n = 389/750 \\approx 0.5187$. Slightly above 50%, so females are the (slight) majority gender in the sample.
+4. **Bridge to b2.** This $\\hat p$ is the point estimate feeding the next sub-part: the 99% Wald CI uses $\\hat p \\pm z_{0.995}\\sqrt{\\hat p(1-\\hat p)/n}$, so getting the count right here is the foundation for the interval estimate in 6.3b2.
+
+![Ex 6.3b1 AI walkthrough](statistics/images/ex6/ex6_6_3b1_ai.png)
+
+The left panel shows the raw counts (389 Female vs 361 Male); the right panel highlights how close $\\hat p \\approx 0.519$ is to the conservative reference $p = 0.5$ — a useful sanity check that motivates the worst-case sample-size formula reused in 6.3b2.
+
+**Answer.** $n_{\\text{Female}} = 389$ and $\\hat p = 389/750 \\approx 0.5187$.
 
 ```r
-n.females <- sum(DS$Gender=="Female"); n.females
-table(DS$Gender)         # alternative
-nrow(DS)                 # number of cases
-n.females / 750          # sample proportion
+n.females <- sum(DS$Gender=="Female"); n.females   # 389
+table(DS$Gender)                                   # alternative breakdown
+nrow(DS)                                           # 750  (number of cases)
+n.females / 750                                    # 0.5186667  (sample proportion)
 ```
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 6.3b1 answer](statistics/images/ex6/answers/ex6_6_3b1_answer.png)
+""", "images": [
+    "statistics/images/ex6/questions/ex6_6_3b1_question.png",
+    "statistics/images/ex6/ex6_6_3b1_ai.png",
+    "statistics/images/ex6/answers/ex6_6_3b1_answer.png",
+]}
 
 ex6["6_3b2"] = {"title": "Ex 6.3b2 — 99% CI for female proportion + sample-size planning",
 "content": """**Question.**
 
-![Ex 6.3b2 question](statistics/images/ex6/questions/ex6_3b2_question.png)
+![Ex 6.3b2 question](statistics/images/ex6/questions/ex6_6_3b2_question.png)
 
 Build a 99% CI for the proportion of female customers. Then determine the minimum sample size to achieve a target margin of error at 95% confidence.
 
@@ -306,6 +461,8 @@ z_025 <- qnorm(0.975)            # 95% two-sided multiplier
 
 **AI walkthrough.** With $n = 750$ customers, $\\hat p = 389/750 \\approx 0.5187$ (sample share of females from b1). The large-$n$ Wald CI for a proportion is
 $$\\hat p \\;\\pm\\; z_{1-\\alpha/2}\\,\\sqrt{\\tfrac{\\hat p(1-\\hat p)}{n}}.$$
+
+![Ex 6.3b2 AI walkthrough](statistics/images/ex6/ex6_6_3b2_ai.png)
 
 *99% CI for the female proportion.* $z_{0.005} \\approx 2.576$ and the estimated SE is $\\sqrt{0.5187 \\cdot 0.4813 / 750} \\approx 0.01824$. The interval is $0.5187 \\pm 2.576 \\times 0.01824 = 0.5187 \\pm 0.0470 \\approx [0.472,\\,0.566]$ — it sits just above $0.5$ but **does include** values $\\le 0.5$ once we go to 99% confidence; the sample is therefore consistent with a population female share between roughly 47% and 57%.
 
@@ -339,20 +496,27 @@ z_095 <- qnorm(0.975)                    # 1.96
 
 **Reference answer.**
 
-![Ex 6.3b2 answer](statistics/images/ex6/answers/ex6_3b2_answer.png)
+![Ex 6.3b2 answer](statistics/images/ex6/answers/ex6_6_3b2_answer.png)
 """, "images": [
-    "statistics/images/ex6/questions/ex6_3b2_question.png",
-    "statistics/images/ex6/answers/ex6_3b2_answer.png",
+    "statistics/images/ex6/questions/ex6_6_3b2_question.png",
+    "statistics/images/ex6/ex6_6_3b2_ai.png",
+    "statistics/images/ex6/answers/ex6_6_3b2_answer.png",
 ]}
 
 ex6["6_3c"] = {"title": "Ex 6.3c — 99% CI for diff in Employment proportions (GER vs ITA)",
-"content": """**Question.** Compare the proportions of `Employment == "Employed, full-time"` between German and Italian developers and build a 99% CI for the difference (`Developers_ITA` vs `Developers_GER`).
+"content": """**Question.**
+
+![Ex 6.3c question](statistics/images/ex6/questions/ex6_6_3c_question.png)
+
+Compare the proportions of `Employment == "Employed, full-time"` between German and Italian developers and build a 99% CI for the difference (`Developers_ITA` vs `Developers_GER`).
 
 ---
 
 **Setup.** Two **independent** samples (different individuals across countries) with $n_{ITA}=802$ and $n_{GER}=820$. The large-sample (Wald) CI for the difference of proportions is
 $$(\\hat p_{GER}-\\hat p_{ITA}) \\;\\pm\\; z_{1-\\alpha/2}\\,\\sqrt{\\tfrac{\\hat p_{GER}(1-\\hat p_{GER})}{n_{GER}} + \\tfrac{\\hat p_{ITA}(1-\\hat p_{ITA})}{n_{ITA}}}.$$
 Independence allows summing the two variances (no covariance term), unlike the paired case of 6.2.
+
+![Ex 6.3c AI plot](statistics/images/ex6/ex6_6_3c_ai.png)
 
 **AI walkthrough.**
 1. **Read the marginals.** `distr.table.x(Employment)` on each country gives the share of full-timers. Suppose the GER table reports a full-time share of $\\hat p_{GER}\\approx 0.097$ and the ITA table $\\hat p_{ITA}\\approx 0.150$ (re-read the printed table to assign the correct cell — beware that "Employed, full-time" may not be the first row).
@@ -385,10 +549,22 @@ c(diff.prop - ME, diff.prop + ME)         # ~ [-0.095, -0.011]
 CI.diffprop(x=Developers_GER$Employment, y=Developers_ITA$Employment,
             success="Employed, full-time", conf.level=0.99, digits=3)
 ```
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 6.3c answer](statistics/images/ex6/answers/ex6_6_3c_answer.png)
+""", "images": [
+    "statistics/images/ex6/questions/ex6_6_3c_question.png",
+    "statistics/images/ex6/ex6_6_3c_ai.png",
+    "statistics/images/ex6/answers/ex6_6_3c_answer.png",
+]}
 
 ex6["6_3d"] = {"title": "Ex 6.3d — 99% CI for AmountSpent: Married vs Single (Close, 0 children)",
 "content": """**Question.** Build a 99% CI for the difference in mean `AmountSpent` between Married and Single customers, restricted to the sub-population with `Location == "Close"` and `Children == 0`.
+
+![Ex 6.3d question](statistics/images/ex6/questions/ex6_6_3d_question.png)
 
 ---
 
@@ -397,6 +573,8 @@ $$(\\bar X_M - \\bar X_S) \\;\\pm\\; t^{*}_{1-\\alpha/2,\\,\\nu}\\,\\sqrt{\\tfra
 with Satterthwaite df $\\nu = \\dfrac{(s_M^{2}/n_M + s_S^{2}/n_S)^2}{(s_M^{2}/n_M)^2/(n_M-1) + (s_S^{2}/n_S)^2/(n_S-1)}$. `CI.diffmean` defaults to this Welch form — the safe choice unless equal variances are explicitly assumed.
 
 ---
+
+![Ex 6.3d AI plot](statistics/images/ex6/ex6_6_3d_ai.png)
 
 **AI walkthrough.** Step by step:
 1. **Define the sub-population.** Filter `DS` to `Location=="Close" & Children==0`. This isolates one segment, then we split it by `Married`.
@@ -432,10 +610,24 @@ nu <- (var(xM)/nM + var(xS)/nS)^2 /
 ME <- qt(0.995, df=nu) * se
 c(mean(xM) - mean(xS) - ME, mean(xM) - mean(xS) + ME)
 ```
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 6.3d answer](statistics/images/ex6/answers/ex6_6_3d_answer.png)
+""", "images": [
+    "statistics/images/ex6/questions/ex6_6_3d_question.png",
+    "statistics/images/ex6/ex6_6_3d_ai.png",
+    "statistics/images/ex6/answers/ex6_6_3d_answer.png",
+]}
 
 ex6["6_4a"] = {"title": "Ex 6.4a — Pooled-variance CI for vgsales mean (NF vs F)",
-"content": """**Question.** Compute the 95% pooled-variance CI for the difference of two-group means, with $\\bar x_{NF}=90.7,\\ \\bar x_F=87.2,\\ s_{NF}=5.4,\\ s_F=4.8,\\ n_{NF}=n_F=10$. Then redo the interval in the **known-variance** version ($\\sigma_{NF}=5.2,\\ \\sigma_F=5$) and compare.
+"content": """**Question.**
+
+![Ex 6.4a question](statistics/images/ex6/questions/ex6_6_4a_question.png)
+
+Compute the 95% pooled-variance CI for the difference of two-group means, with $\\bar x_{NF}=90.7,\\ \\bar x_F=87.2,\\ s_{NF}=5.4,\\ s_F=4.8,\\ n_{NF}=n_F=10$. Then redo the interval in the **known-variance** version ($\\sigma_{NF}=5.2,\\ \\sigma_F=5$) and compare.
 
 ---
 
@@ -445,13 +637,15 @@ Under the (small-sample) normality assumption the pivot follows a Student's $t$ 
 $$(\\bar X_{NF}-\\bar X_F) \\;\\pm\\; t_{1-\\alpha/2,\\,\\nu}\\,\\text{SE}.$$
 If the population variances are **known**, the SE is built directly from $\\sigma_{NF},\\sigma_F$ and the multiplier becomes $z_{1-\\alpha/2}$.
 
+![Ex 6.4a AI plot](statistics/images/ex6/ex6_6_4a_ai.png)
+
 **AI walkthrough.** Step by step:
 1. **Point estimate.** $\\bar D = \\bar x_{NF} - \\bar x_F = 90.7 - 87.2 = 3.5$.
 2. **Pooled variance.** With $n_{NF}=n_F=10$, $S_p^{\\,2}$ is the **simple average** of the two sample variances: $S_p^{\\,2} = \\tfrac{9\\cdot 5.4^{2} + 9\\cdot 4.8^{2}}{18} = \\tfrac{5.4^{2}+4.8^{2}}{2} = \\tfrac{29.16+23.04}{2} = 26.10$, so $S_p \\approx 5.109$.
 3. **Pooled SE.** $\\text{SE} = S_p\\sqrt{1/10+1/10} = 5.109\\cdot\\sqrt{0.2} \\approx 2.285$.
 4. **Critical value.** $t_{0.975,\\,18} \\approx 2.1009$ (heavier-tailed than $z_{0.975}=1.96$ because of small $n$).
 5. **Margin & CI (pooled-$t$).** $\\text{ME}_t = 2.1009\\times 2.285 \\approx 4.80$, giving $[\\,-1.30,\\,8.30\\,]$. The interval **contains 0** at the 95% level — the data are consistent with no NF-vs-F gap.
-6. **Known-$\\sigma$ pathway.** $\\text{SE}_z = \\sqrt{\\sigma_{NF}^{2}/10 + \\sigma_F^{2}/10} = \\sqrt{2.704 + 2.5} \\approx 2.294$ — essentially the same SE as the pooled one because $s\\approx\\sigma$. The multiplier shrinks to $z_{0.975}=1.96$, so $\\text{ME}_z \\approx 4.50$, giving $[\\,-1.00,\\,8.00\\,]$.
+6. **Known-$\\sigma$ pathway.** $\\text{SE}_z = \\sqrt{\\sigma_{NF}^{2}/10 + \\sigma_F^{2}/10} = \\sqrt{2.704 + 2.5} = \\sqrt{5.204} \\approx 2.281$ — essentially the same SE as the pooled one because $s\\approx\\sigma$. The multiplier shrinks to $z_{0.975}=1.96$, so $\\text{ME}_z \\approx 4.47$, giving $[\\,-0.97,\\,7.97\\,]$.
 7. **Comparison.** The known-variance interval is **narrower** because we skip the penalty for estimating $\\sigma$: the width ratio is $t_{0.975,18}/z_{0.975} \\approx 1.072$ — a 7% inflation for $n=10$. Push $n$ up and the gap vanishes ($t \\to z$). Both intervals straddle 0, so the qualitative conclusion (no significant NF-vs-F gap at 95%) is identical.
 
 **Take-aways.** (i) Pooling is justified only when the two populations have (approximately) **the same variance**; otherwise use Welch's separate-variance SE. (ii) The $t$-vs-$z$ correction matters most at small $n$ — for $n_1=n_2=10$, $t_{0.975,18}$ is $\\approx 7\\%$ larger than $1.96$. (iii) With equal sample sizes the pooled variance is the *mean* of the two sample variances, a handy sanity check.
@@ -471,24 +665,40 @@ c(diff.bar - ME, diff.bar + ME)                 # ~ [-1.30,  8.30]
 
 # (b) Known-variance form, sigma_NF=5.2, sigma_F=5
 sigma_NF <- 5.2; sigma_F <- 5
-SE.diff  <- sqrt(sigma_NF^2/10 + sigma_F^2/10)  # ~ 2.294
+SE.diff  <- sqrt(sigma_NF^2/10 + sigma_F^2/10)  # ~ 2.281
 qnorm(0.975)                                    # 1.96
-ME.k <- qnorm(0.975) * SE.diff                  # ~ 4.50
-c(diff.bar - ME.k, diff.bar + ME.k)             # ~ [-1.00,  8.00]
+ME.k <- qnorm(0.975) * SE.diff                  # ~ 4.47
+c(diff.bar - ME.k, diff.bar + ME.k)             # ~ [-0.97,  7.97]
 
 # Inflation factor for unknown sigma at n=10:
 qt(0.975, df=18) / qnorm(0.975)                 # ~ 1.072  (about 7% wider)
 ```
-""", "images": [
-    "statistics/images/ex6/ex6_4a_ai.png",
-]}
-
-ex6["6_6a"] = {"title": "Ex 6.6a — 95% CI for a single proportion ($n=100$, 40 successes)",
-"content": """**Question.** Build a 95% CI for the proportion of successes from a sample of $n=100$ customers, $40$ of whom answered favourably.
 
 ---
 
-**AI walkthrough.** Let $X = \\#\\{\\text{favourable}\\} \\sim \\text{Bin}(n,p)$ and $\\hat p = X/n$ the sample proportion. For $n$ large enough that $n\\hat p \\ge 5$ and $n(1-\\hat p) \\ge 5$ (here $40$ and $60$, both $\\gg 5$), the **CLT** gives
+**Reference answer.**
+
+![Ex 6.4a answer](statistics/images/ex6/answers/ex6_6_4a_answer.png)
+""", "images": [
+    "statistics/images/ex6/questions/ex6_6_4a_question.png",
+    "statistics/images/ex6/ex6_6_4a_ai.png",
+    "statistics/images/ex6/answers/ex6_6_4a_answer.png",
+]}
+
+ex6["6_6a"] = {"title": "Ex 6.6a — 95% CI for a single proportion ($n=100$, 40 successes)",
+"content": """**Question.**
+
+![Ex 6.6a question](statistics/images/ex6/questions/ex6_6_6a_question.png)
+
+Build a 95% CI for the proportion of successes from a sample of $n=100$ customers, $40$ of whom answered favourably.
+
+---
+
+**AI walkthrough.**
+
+![Ex 6.6a — Wald 95% CI for a proportion](statistics/images/ex6/ex6_6_6a_ai.png)
+
+Let $X = \\#\\{\\text{favourable}\\} \\sim \\text{Bin}(n,p)$ and $\\hat p = X/n$ the sample proportion. For $n$ large enough that $n\\hat p \\ge 5$ and $n(1-\\hat p) \\ge 5$ (here $40$ and $60$, both $\\gg 5$), the **CLT** gives
 $$\\hat p \\;\\overset{a}{\\sim}\\; \\mathcal{N}\\!\\left(p,\\; \\tfrac{p(1-p)}{n}\\right),$$
 and the **Wald CI** (plug-in for the unknown $p$ in the SE) is
 $$\\hat p \\;\\pm\\; z_{1-\\alpha/2}\\,\\sqrt{\\tfrac{\\hat p(1-\\hat p)}{n}}.$$
@@ -510,7 +720,17 @@ qnorm(0.975)                    # 1.959964
 ME    <- qnorm(0.975) * se      # ~ 0.0960
 c(phat - ME, phat + ME)         # [0.304, 0.496]
 ```
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 6.6a answer](statistics/images/ex6/answers/ex6_6_6a_answer.png)
+""", "images": [
+    "statistics/images/ex6/questions/ex6_6_6a_question.png",
+    "statistics/images/ex6/ex6_6_6a_ai.png",
+    "statistics/images/ex6/answers/ex6_6_6a_answer.png",
+]}
 
 ex6["6_6b"] = {"title": "Ex 6.6b — Same 95% CI with $n = 1000$",
 "content": """**Question.** Build the 95% CI for the proportion again with $n=1000$ (same $\\hat p = 0.4$). Comment on how precision changes relative to the $n=100$ case.
@@ -539,16 +759,25 @@ c(phat - ME_p1000, phat + ME_p1000)   # [0.370, 0.430]
 sqrt(1000/100)                        # ~ 3.162
 ```
 """, "images": [
-    "statistics/images/ex6/questions/ex6_6b_question.png",
-    "statistics/images/ex6/answers/ex6_6b_answer.png",
+    "statistics/images/ex6/questions/ex6_6_6b_question.png",
+    "statistics/images/ex6/answers/ex6_6_6b_answer.png",
+    "statistics/images/ex6/ex6_6_6b_ai.png",
 ]}
 
 ex6["6_6c"] = {"title": "Ex 6.6c — Lower confidence level (90% two-sided, $z_{0.05}$)",
-"content": """**Question.** Re-do the proportion CI (with $\\hat p = 0.40$, $n = 100$) but using $z = q_{0.95} = 1.645$ instead of $z_{0.975} = 1.96$ — i.e. a 90% two-sided CI (or equivalently, the multiplier of a one-sided 95% bound). Compare the width to the 95% CI of part (a).
+"content": """**Question.**
+
+![Ex 6.6c question](statistics/images/ex6/questions/ex6_6_6c_question.png)
+
+Re-do the proportion CI (with $\\hat p = 0.40$, $n = 100$) but using $z = q_{0.95} = 1.645$ instead of $z_{0.975} = 1.96$ — i.e. a 90% two-sided CI (or equivalently, the multiplier of a one-sided 95% bound). Compare the width to the 95% CI of part (a).
 
 ---
 
-**AI walkthrough.** The Wald CI structure is unchanged,
+**AI walkthrough.**
+
+![Ex 6.6c — 90% vs 95% CI for a proportion](statistics/images/ex6/ex6_6_6c_ai.png)
+
+The Wald CI structure is unchanged,
 $$\\hat p \\;\\pm\\; z_{1-\\alpha/2}\\,\\sqrt{\\tfrac{\\hat p(1-\\hat p)}{n}},$$
 only the **confidence level** moves from $1-\\alpha = 0.95$ down to $0.90$, so the critical value drops from $z_{0.975}=1.96$ to $z_{0.95}=1.645$. The SE is identical to part (a) because $\\hat p$ and $n$ are unchanged.
 
@@ -574,7 +803,15 @@ c(phat - ME_90, phat + ME_90)     # [0.319, 0.481]
 # Width-shrink factor vs 95% CI (part a):
 qnorm(0.95) / qnorm(0.975)        # ~ 0.839
 ```
-""", "images": []}
+
+**Reference answer.**
+
+![Ex 6.6c answer](statistics/images/ex6/answers/ex6_6_6c_answer.png)
+""", "images": [
+    "statistics/images/ex6/questions/ex6_6_6c_question.png",
+    "statistics/images/ex6/ex6_6_6c_ai.png",
+    "statistics/images/ex6/answers/ex6_6_6c_answer.png",
+]}
 
 ex6["6_6d"] = {"title": "Ex 6.6d — Sample size for ME $\\le 0.04$ at 95% confidence",
 "content": """**Question.** What sample size guarantees a margin of error $\\le 0.04$ at 95% confidence, with **no prior information** on $p$?
@@ -606,12 +843,24 @@ ceiling(n_pilot)                  # 385
 # Sanity check: ME at n = 601, p = 0.5
 qnorm(0.975) * sqrt(0.25/601)     # ~ 0.03997  (< 0.04 OK)
 ```
-""", "images": []}
+""", "images": [
+    "statistics/images/ex6/questions/ex6_6_6d_question.png",
+    "statistics/images/ex6/answers/ex6_6_6d_answer.png",
+    "statistics/images/ex6/ex6_6_6d_ai.png",
+]}
 
 ex6["6_6e"] = {"title": "Ex 6.6e — 99% CI for difference of two proportions",
 "content": """**Question.**
 
+![Question](statistics/images/ex6/questions/ex6_6_6e_question.png)
+
 Build a 99% CI for $\\hat p_A - \\hat p_B$ with $\\hat p_A=0.4, \\hat p_B=0.36, n_A=100, n_B=120$.
+
+---
+
+**Answer.**
+
+![Answer](statistics/images/ex6/answers/ex6_6_6e_answer.png)
 
 ---
 
@@ -627,6 +876,8 @@ Step-by-step:
 
 The interval **contains 0**, so at the 1% level there is no evidence that $p_A$ and $p_B$ differ — the 4-pp gap is well within sampling noise for these sample sizes.
 
+![AI walkthrough](statistics/images/ex6/ex6_6_6e_ai.png)
+
 ```r
 p_A <- 0.4; p_B <- 0.36
 p_A - p_B                                # point estimate = 0.04
@@ -636,19 +887,28 @@ ME <- qnorm(0.995) * se.diff             # ~ 0.1693
 c(p_A - p_B - ME, p_A - p_B + ME)        # ~ [-0.129, 0.209]
 ```
 
-""", "images": [
-    "statistics/images/ex6/questions/ex6_6e_question.png",
-    "statistics/images/ex6/answers/ex6_6e_answer.png",
-]}
+""", "images": []}
 
 ex6["6_7a"] = {"title": "Ex 6.7a — CI for proportion of DS platform games (vgsales)",
-"content": """**Question.** Using the `vgsales` dataset, build a $90\\%$ confidence interval for the proportion $p_{DS}$ of video games released on the `DS` platform. Then find the **largest** confidence level $c$ at which the lower bound of the (two-sided) CI still stays above $16\\%$.
+"content": """**Question.**
+
+![Ex 6.7a question](statistics/images/ex6/questions/ex6_6_7a_question.png)
+
+Using the `vgsales` dataset, build a $90\\%$ confidence interval for the proportion $p_{DS}$ of video games released on the `DS` platform. Then find the **largest** confidence level $c$ at which the lower bound of the (two-sided) CI still stays above $16\\%$.
 
 ---
 
 **Setup.** Let $\\hat p_n$ be the sample share of DS games. With $n$ large the CLT gives the **Wald** CI
 $$\\hat p_n \\;\\pm\\; z_{1-\\alpha/2}\\,SE(\\hat p_n),\\qquad SE(\\hat p_n)=\\sqrt{\\tfrac{\\hat p_n(1-\\hat p_n)}{n}}.$$
 The lower bound is $\\hat p_n - z_{1-\\alpha/2}\\,SE$. As $c=1-\\alpha$ **increases**, the multiplier $z_{1-\\alpha/2}$ grows and the lower bound **drops**, so we look for the *largest* $c$ that keeps it above $0.16$.
+
+---
+
+**AI walkthrough.**
+
+![Ex 6.7a — Largest c with CI lower bound above 0.16](statistics/images/ex6/ex6_6_7a_ai.png)
+
+The lower bound starts at $\\hat p = 0.1628$ for $c \\to 0$ and falls monotonically as $c$ grows: at $c = 90\\%$ it already sits at $0.146$, well below the $0.16$ floor. The "binding" level is where the lower bound just touches $0.16$ — solving $\\hat p - z^{*}\\,SE = 0.16$ gives $c^{\\star} \\approx 0.219$ ($\\approx 22\\%$).
 
 ---
 
@@ -682,12 +942,28 @@ phat - qnorm(1 - (1 - c.max)/2) * SE   # ~ 0.16
 ```
 
 **Interpretation.** Even at $90\\%$ the lower bound $0.146$ already sits *below* $0.16$, so the binding level is much smaller than $90\\%$. The lower bound just touches $0.16$ at $c \\approx 22\\%$: any higher confidence widens the interval and pushes the lower bound under $16\\%$.
-""", "images": []}
-
-ex6["6_8a1"] = {"title": "Ex 6.8 a1 — 99% CI for mean Skills.Idx (Developers_ITA)",
-"content": """**Question.** Using the `Developers_ITA` dataset, build a 99% confidence interval for the mean of `Skills.Idx` and for the mean of `NrSkills`. Comment on the assumptions needed.
 
 ---
+
+**Reference answer.**
+
+![Ex 6.7a answer](statistics/images/ex6/answers/ex6_6_7a_answer.png)
+""", "images": [
+    "statistics/images/ex6/questions/ex6_6_7a_question.png",
+    "statistics/images/ex6/ex6_6_7a_ai.png",
+    "statistics/images/ex6/answers/ex6_6_7a_answer.png",
+]}
+
+ex6["6_8a1"] = {"title": "Ex 6.8 a1 — 99% CI for mean Skills.Idx (Developers_ITA)",
+"content": """**Question.**
+
+![Ex 6.8 a1 question](statistics/images/ex6/questions/ex6_6_8a1_question.png)
+
+Using the `Developers_ITA` dataset, build a 99% confidence interval for the mean of `Skills.Idx` and for the mean of `NrSkills`. Comment on the assumptions needed.
+
+---
+
+![Ex 6.8 a1 — 99% t-CI for mean Skills.Idx](statistics/images/ex6/ex6_6_8a1_ai.png)
 
 **Setup.** Population variance $\\sigma^2$ is unknown $\\Rightarrow$ standardise with the sample SD $S_n$:
 $$T_n \\;=\\; \\tfrac{\\bar X_n - \\mu}{S_n/\\sqrt n} \\;\\sim\\; t_{n-1}.$$
@@ -723,13 +999,20 @@ c(xbar - ME, xbar + ME)              # [76.94, 79.49]
 qt(0.995, df=819)    # 2.5818
 qnorm(0.995)         # 2.5758
 ```
+
+![Ex 6.8 a1 answer](statistics/images/ex6/answers/ex6_6_8a1_answer.png)
 """, "images": [
-    "statistics/images/ex6/questions/ex6_8a1_question.png",
-    "statistics/images/ex6/answers/ex6_8a1_answer.png",
+    "statistics/images/ex6/questions/ex6_6_8a1_question.png",
+    "statistics/images/ex6/ex6_6_8a1_ai.png",
+    "statistics/images/ex6/answers/ex6_6_8a1_answer.png",
 ]}
 
 ex6["6_8a2"] = {"title": "Ex 6.8 a2 — Pooled-variance CI: NrSkills GER vs ITA",
-"content": """**Question.** A previous study on German developers reports $\\bar x_{GER} = 17.6$, $s_{GER} = 10.12$ from a sample of $n_{GER} = 802$ observations. Combine this with the Italian sample ($\\bar x_{ITA} = 19.22$, $s_{ITA} = 11.33$, $n_{ITA} = 820$ from `Developers_ITA`) to build a 99% confidence interval for the mean difference $\\mu_{ITA} - \\mu_{GER}$ of `NrSkills`, **assuming equal population variances**.
+"content": """**Question.**
+
+![Ex 6.8 a2 question](statistics/images/ex6/questions/ex6_6_8a2_question.png)
+
+A previous study on German developers reports $\\bar x_{GER} = 17.6$, $s_{GER} = 10.12$ from a sample of $n_{GER} = 802$ observations. Combine this with the Italian sample ($\\bar x_{ITA} = 19.22$, $s_{ITA} = 11.33$, $n_{ITA} = 820$ from `Developers_ITA`) to build a 99% confidence interval for the mean difference $\\mu_{ITA} - \\mu_{GER}$ of `NrSkills`, **assuming equal population variances**.
 
 ---
 
@@ -739,7 +1022,11 @@ The Wald CI is
 $$(\\bar X_{ITA} - \\bar X_{GER}) \\;\\pm\\; z_{1-\\alpha/2}\\,\\text{SE}_{pool}.$$
 Both samples are large ($n_1+n_2 = 1622 \\gg 30$), so we use $z$ instead of $t_{1620}$ (they agree to four decimals). With $\\alpha = 0.01$, $z_{0.995} = 2.576$.
 
-**AI walkthrough.** Step-by-step numerical breakdown:
+**AI walkthrough.**
+
+![Ex 6.8 a2 — pooled-variance 99% CI for ITA − GER mean NrSkills](statistics/images/ex6/ex6_6_8a2_ai.png)
+
+Step-by-step numerical breakdown:
 - **Point estimate.** $\\bar X_{ITA} - \\bar X_{GER} = 19.22 - 17.60 = 1.62$.
 - **Weighted SS.** $(n_{GER}-1)s_{GER}^{2} = 801 \\cdot 10.12^{2} \\approx 801 \\cdot 102.41 \\approx 82{,}033$ and $(n_{ITA}-1)s_{ITA}^{2} = 819 \\cdot 11.33^{2} \\approx 819 \\cdot 128.37 \\approx 105{,}131$.
 - **Pooled variance.** $S_p^{2} = \\dfrac{82{,}033 + 105{,}131}{1620} = \\dfrac{187{,}164}{1620} \\approx 115.53$, so $S_p \\approx 10.75$.
@@ -765,11 +1052,21 @@ ME <- qnorm(0.995) * se.diff                             # ~ 1.376
 c(diff.bar - ME, diff.bar + ME)                          # ~ [0.244, 2.996]
 ```
 
+![Ex 6.8 a2 answer](statistics/images/ex6/answers/ex6_6_8a2_answer.png)
+
 **Remarks.** (i) Pooling is justified here only by the *assumption* of equal variances — exercise 6.8b drops it (Welch) and obtains a virtually identical CI because $n_{GER} \\approx n_{ITA}$. (ii) The same pooled $S_p^{2}$ enters both terms of $\\text{SE}_{pool}$; do **not** mix $s_{GER}^{2}/n_{GER}$ with $s_{ITA}^{2}/n_{ITA}$ — that would be the Welch SE, not the pooled SE.
-""", "images": []}
+""", "images": [
+    "statistics/images/ex6/questions/ex6_6_8a2_question.png",
+    "statistics/images/ex6/ex6_6_8a2_ai.png",
+    "statistics/images/ex6/answers/ex6_6_8a2_answer.png",
+]}
 
 ex6["6_8b"] = {"title": "Ex 6.8b — Welch's SE (unequal variances)",
-"content": """**Question.** Repeat the previous comparison of mean `NrSkills` between Italian and German developers **without assuming equal variances**. Does the conclusion change?
+"content": """**Question.**
+
+![Ex 6.8b question](statistics/images/ex6/questions/ex6_6_8b_question.png)
+
+Repeat the previous comparison of mean `NrSkills` between Italian and German developers **without assuming equal variances**. Does the conclusion change?
 
 ---
 
@@ -801,12 +1098,30 @@ se.welch / se.pool                                         # 0.9991
 - 99% CI (Welch): $[0.25,\\,2.99]$; 99% CI (pooled): $[0.25,\\,2.99]$ — identical to two decimals.
 
 **Conclusion.** The interval is essentially the **same** as the pooled-variance version because (i) the sample sizes are nearly balanced ($n_{GER} \\approx n_{ITA}$), which makes the pooled and unpooled SEs algebraically very close, and (ii) the variance ratio $s_{ITA}^{2}/s_{GER}^{2} \\approx 1.25$ is mild. Both intervals lie entirely **above $0$**, so the qualitative conclusion (Italian developers have on average *more* skills than German developers, by between $0.25$ and $2.99$ skills with $99\\%$ confidence) is **robust** to the equal-variance assumption.
-""", "images": []}
+
+---
+
+**Visual intuition (Welch SE vs pooled SE).**
+
+![Ex 6.8b AI](statistics/images/ex6/ex6_6_8b_ai.png)
+
+The left panel plots both standard errors as a function of the variance ratio $r = s_{ITA}^{2}/s_{GER}^{2}$ at the exercise's sample sizes ($n_{GER}=802$, $n_{ITA}=820$): the two curves are essentially **on top of each other** because the design is nearly balanced. The right panel shows the ratio $\\text{SE}_W/\\text{SE}_{pool}$ in two regimes — at balance (navy, the exercise) the ratio stays within $\\pm 0.1\\%$ of $1$ over the whole range of $r$, while under strong imbalance ($n_1=100,\\,n_2=900$, yellow) pooling can over- or under-state the true SE by $20\\%$ or more. So the agreement we observe in Ex 6.8b is a **balance-driven coincidence**, not a vindication of pooling in general.
+
+---
+
+**Reference answer.**
+
+![Ex 6.8b answer](statistics/images/ex6/answers/ex6_6_8b_answer.png)
+""", "images": [
+    "statistics/images/ex6/questions/ex6_6_8b_question.png",
+    "statistics/images/ex6/ex6_6_8b_ai.png",
+    "statistics/images/ex6/answers/ex6_6_8b_answer.png",
+]}
 
 ex6["6_8c1"] = {"title": "Ex 6.8 c1 — Paired CI for FinSkills vs Skills",
 "content": """**Question.**
 
-![Ex 6.8c1 question](statistics/images/ex6/questions/ex6_8c1_question.png)
+![Ex 6.8c1 question](statistics/images/ex6/questions/ex6_6_8c1_question.png)
 
 In `Developers_ITA` each developer reports both a financial-skills index (`FinSkills.Idx`) and a general skills index (`Skills.Idx`). Build a **90% confidence interval** for the mean within-developer difference $\\mu_D = \\mu_{Fin} - \\mu_{Skills}$. Are the two indices on average different?
 
@@ -825,11 +1140,17 @@ CI.diffmean(x=FinSkills.Idx, y=Skills.Idx, type="paired",
 
 ---
 
-**AI walkthrough.** With $n = 820$ Italian developers, the sample mean difference is $\\bar D = \\bar X_F - \\bar X_S \\approx -1.66$ and the sample SD of the differences is $S_D \\approx 9.41$. The standard error of $\\bar D$ is
+**AI walkthrough.**
+
+![Ex 6.8c1 — Paired 90% CI for FinSkills − Skills](statistics/images/ex6/ex6_6_8c1_ai.png)
+
+With $n = 820$ Italian developers, the sample mean difference is $\\bar D = \\bar X_F - \\bar X_S \\approx -1.66$ and the sample SD of the differences is $S_D \\approx 9.41$. The standard error of $\\bar D$ is
 $$\\text{SE}(\\bar D) = \\tfrac{S_D}{\\sqrt n} = \\tfrac{9.41}{\\sqrt{820}} \\approx 0.3287.$$
 At 90% confidence the critical value is $t_{0.95,\\,819} \\approx 1.6464$ (essentially $z_{0.95}=1.645$ because $n$ is large), giving margin of error
 $$\\text{ME} = 1.6464 \\times 0.3287 \\approx 0.541.$$
-Therefore the 90% CI is $-1.66 \\pm 0.541 \\approx [-2.20,\\,-1.12]$. Because the interval lies **entirely below 0**, financial skills are on average lower than general skills, by between $1.12$ and $2.20$ points (with 90% confidence). The **independent-samples** version (which ignores the pairing) would inflate the SE — pairing matters here because a developer with high general skills also tends to have higher financial skills, so the within-pair correlation reduces the variance of $D$.
+Therefore the 90% CI is $-1.66 \\pm 0.541 \\approx [-2.20,\\,-1.12]$. Because the interval lies **entirely below 0**, financial skills are on average lower than general skills, by between $1.12$ and $2.20$ points (with 90% confidence).
+
+The **left panel** of the plot shows the paired scatter `FinSkills` vs `Skills` against the $y = x$ reference: most points fall *below* the diagonal, the visual signature of $\\bar D < 0$. The **right panel** shows the histogram of $D_i$, the paired-CI band around $\\bar D$, and (as a grey error bar) the corresponding **independent-samples** CI. The independent-samples SE is roughly $0.49$ — about $50\\%$ wider than the paired SE of $0.33$ — because ignoring the pairing throws away the strong within-developer correlation between the two indices.
 
 ```r
 # Manual paired CI
@@ -851,20 +1172,27 @@ CI.diffmean(x=FinSkills.Idx, y=Skills.Idx, type="paired",
 
 **Reference answer.**
 
-![Ex 6.8c1 answer](statistics/images/ex6/answers/ex6_8c1_answer.png)
+![Ex 6.8c1 answer](statistics/images/ex6/answers/ex6_6_8c1_answer.png)
 """, "images": [
-    "statistics/images/ex6/questions/ex6_8c1_question.png",
-    "statistics/images/ex6/answers/ex6_8c1_answer.png",
+    "statistics/images/ex6/questions/ex6_6_8c1_question.png",
+    "statistics/images/ex6/ex6_6_8c1_ai.png",
+    "statistics/images/ex6/answers/ex6_6_8c1_answer.png",
 ]}
 
 ex6["6_8d"] = {"title": "Ex 6.8d — CI for Skills mean: Full-time vs Freelance",
-"content": """**Question.** Within `Developers_ITA`, compare the mean number of computer skills (`NrSkills`) between **full-time employees** (`Employment == "Employed, full-time"`) and **freelancers** (`Employment == "Contractor/Freelance"`). Build the default CI and comment on whether the two groups differ on average.
+"content": """**Question.**
+
+![Ex 6.8d question](statistics/images/ex6/questions/ex6_6_8d_question.png)
+
+Within `Developers_ITA`, compare the mean number of computer skills (`NrSkills`) between **full-time employees** (`Employment == "Employed, full-time"`) and **freelancers** (`Employment == "Contractor/Freelance"`). Build the default CI and comment on whether the two groups differ on average.
 
 ---
 
 **Setup.** Two independent sub-samples from the same survey, *not* paired (a freelancer is a different person from a full-timer). Use the *independent-samples* CI for $\\mu_{Full}-\\mu_{Free}$ with **Welch's SE** (default in `CI.diffmean`, since the two variances and sample sizes need not match):
 $$(\\bar X_{Full} - \\bar X_{Free}) \\;\\pm\\; t^{*}_{\\nu}\\,\\sqrt{\\tfrac{s_{Full}^{2}}{n_{Full}} + \\tfrac{s_{Free}^{2}}{n_{Free}}}, \\qquad \\nu = \\text{Welch d.f.}$$
 The default confidence level is $95\\%$; with $n_{Full}, n_{Free}$ both in the hundreds, $t^{*}_{\\nu} \\approx 1.96$.
+
+**AI walkthrough.** From the reported summary $\\bar X_F - \\bar X_R \\approx 0.42$ with 95% CI $[0.05,\\,0.79]$, the implied Welch SE is $(0.79-0.05)/(2\\cdot 1.96)\\approx 0.189$ and ME $\\approx 0.37$. The left panel of the figure shows the two one-sample 95% group means — Full-time sits about $0.42$ skills above Freelance — but eyeballing overlap on the *mean* axis would be misleading. What matters is the CI for the **difference** itself (right panel): the Welch sampling distribution is centred at $0.42$, the yellow 95% band $[0.05,\\,0.79]$ only just clears the red $H_0\\!:\\!\\Delta=0$ line, giving a **borderline** rejection at $\\alpha = 5\\%$.
 
 **Answer.**
 ```r
@@ -877,11 +1205,27 @@ CI.diffmean(x=Skills.Full, y=Skills.Freelance)   # default conf.level = 0.95
 ## 95% CI    ~  [0.05, 0.79]
 ```
 
+![Ex 6.8d — Welch CI for diff in mean NrSkills (Full-time vs Freelance)](statistics/images/ex6/ex6_6_8d_ai.png)
+
 The 95% CI lies **entirely above 0** (but barely), so at the 5% level full-timers report on average *slightly more* computer skills than freelancers — about $0.4$ extra skills, with a margin of error between roughly $0.05$ and $0.79$. The effect is statistically detectable but **practically small** relative to the scale of `NrSkills`, so it should not drive any career-level conclusion.
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 6.8d answer](statistics/images/ex6/answers/ex6_6_8d_answer.png)
+""", "images": [
+    "statistics/images/ex6/questions/ex6_6_8d_question.png",
+    "statistics/images/ex6/ex6_6_8d_ai.png",
+    "statistics/images/ex6/answers/ex6_6_8d_answer.png",
+]}
 
 ex6["6_9a"] = {"title": "Ex 6.9a — CI for proportion difference (vgsales action genre)",
-"content": """**Question.** Two independent samples of *Action*-genre video games from the `vgsales` dataset give $23$ "hits" out of $n_X = 140$ in market $X$ and $37$ "hits" out of $n_Y = 159$ in market $Y$. Build a **99% confidence interval** for the difference $p_Y - p_X$ of population success-proportions and judge whether one market has a higher hit rate.
+"content": """**Question.**
+
+![Ex 6.9a question](statistics/images/ex6/questions/ex6_6_9a_question.png)
+
+Two independent samples of *Action*-genre video games from the `vgsales` dataset give $23$ "hits" out of $n_X = 140$ in market $X$ and $37$ "hits" out of $n_Y = 159$ in market $Y$. Build a **99% confidence interval** for the difference $p_Y - p_X$ of population success-proportions and judge whether one market has a higher hit rate.
 
 ---
 
@@ -904,10 +1248,10 @@ For $c = 0.99$ the reliability factor is $z_{0.995} \\approx 2.5758$.
 | $\\widehat\\Delta$ | $\\hat p_Y - \\hat p_X$ | $0.0684$ |
 | $s^2_X/n_X$ | $\\hat p_X(1-\\hat p_X)/140$ | $0.000981$ |
 | $s^2_Y/n_Y$ | $\\hat p_Y(1-\\hat p_Y)/159$ | $0.001124$ |
-| $\\text{SE}(\\widehat\\Delta)$ | $\\sqrt{0.000981 + 0.001124}$ | $0.04501$ |
+| $\\text{SE}(\\widehat\\Delta)$ | $\\sqrt{0.000981 + 0.001124}$ | $0.04587$ |
 | $z_{0.995}$ | `qnorm(.995)` | $2.5758$ |
-| ME | $z \\cdot \\text{SE}$ | $0.1159$ |
-| 99% CI | $[0.0684 - 0.1159,\\; 0.0684 + 0.1159]$ | $[-0.0476,\\; 0.1843]$ |
+| ME | $z \\cdot \\text{SE}$ | $0.1181$ |
+| 99% CI | $[0.0684 - 0.1181,\\; 0.0684 + 0.1181]$ | $[-0.0497,\\; 0.1866]$ |
 
 **Answer.**
 ```r
@@ -916,25 +1260,29 @@ y <- 37;  n_Y <- 159                 # Market Y
 p_X_hat <- x/n_X                     # 0.1643
 p_Y_hat <- y/n_Y                     # 0.2327
 Delta_hat <- p_Y_hat - p_X_hat       # 0.0684
-SE <- sqrt(p_X_hat*(1-p_X_hat)/n_X + p_Y_hat*(1-p_Y_hat)/n_Y)   # 0.04501
+SE <- sqrt(p_X_hat*(1-p_X_hat)/n_X + p_Y_hat*(1-p_Y_hat)/n_Y)   # 0.04587
 z <- qnorm(.995)                     # 2.5758
-ME <- z * SE                         # 0.1159
-c(Delta_hat - ME, Delta_hat + ME)    # [-0.0476, 0.1843]
+ME <- z * SE                         # 0.1181
+c(Delta_hat - ME, Delta_hat + ME)    # [-0.0497, 0.1866]
 # Sanity check via prop.test (large-sample CI)
 prop.test(c(y, x), c(n_Y, n_X), conf.level = 0.99, correct = FALSE)$conf.int
 ```
 
-![Ex 6.9a — two 99% one-sample CIs and the sampling distribution of $\\widehat\\Delta$](statistics/images/ex6/ex6_9a_ai.png)
+![Ex 6.9a — two 99% one-sample CIs and the sampling distribution of $\\widehat\\Delta$](statistics/images/ex6/ex6_6_9a_ai.png)
 
-**Interpretation.** The 99% CI for $p_Y - p_X$ is $[-0.048,\\; 0.184]$ and **contains 0**. At the $\\alpha = 1\\%$ level we cannot conclude that one market has a higher Action-game hit rate than the other: an observed gap of $\\approx 6.8$ percentage points is well within sampling noise given $n_X = 140$, $n_Y = 159$. The left panel of the figure shows why — the two one-sample 99% CIs $[0.084,\\,0.245]$ and $[0.146,\\,0.319]$ overlap substantially. To detect a gap of this size at 99% confidence, samples roughly $(2.5758/1.96)^2 \\approx 1.73\\times$ larger would be needed to push the same ME below $|\\widehat\\Delta|$.
+**Interpretation.** The 99% CI for $p_Y - p_X$ is $[-0.050,\\; 0.187]$ and **contains 0**. At the $\\alpha = 1\\%$ level we cannot conclude that one market has a higher Action-game hit rate than the other: an observed gap of $\\approx 6.8$ percentage points is well within sampling noise given $n_X = 140$, $n_Y = 159$. The left panel of the figure shows why — the two one-sample 99% CIs overlap substantially. To detect a gap of this size at 99% confidence, samples roughly $(2.5758/1.96)^2 \\approx 1.73\\times$ larger would be needed to push the same ME below $|\\widehat\\Delta|$.
+
+![Ex 6.9a answer](statistics/images/ex6/answers/ex6_6_9a_answer.png)
 """, "images": [
-    "statistics/images/ex6/ex6_9a_ai.png",
+    "statistics/images/ex6/questions/ex6_6_9a_question.png",
+    "statistics/images/ex6/ex6_6_9a_ai.png",
+    "statistics/images/ex6/answers/ex6_6_9a_answer.png",
 ]}
 
 ex6["6_10a"] = {"title": "Ex 6.10a — CI for diff in JP sales: Strategy vs Role-Playing",
 "content": """**Question.**
 
-![Ex 6.10a question](statistics/images/ex6/questions/ex6_10a_question.png)
+![Ex 6.10a question](statistics/images/ex6/questions/ex6_6_10a_question.png)
 
 Referring to sales in the Japanese market (`JP_Sales`), the interest lies in comparing video games of the genres **Strategy** and **Role-Playing**. Assess the average difference in the number of copies sold in the Japanese market between *Strategy* and *Role-Playing* videogames using a **90% confidence interval**. Would it be sensible for a company producing Strategy and Role-Playing games to reposition itself in the market by increasing investment in the second genre of games?
 
@@ -951,6 +1299,8 @@ with **unequal variances** (Welch). For a 90% CI, $\\alpha = 0.10$ and the relia
 4. **RStudio output**: $ci_{0.90}(\\mu_{JP,S} - \\mu_{JP,R}) = (-0.1938,\\,-0.1345)$.
 5. **Inference**: the interval lies **entirely below 0**, so at the 10% significance level Strategy sells *significantly less* than Role-Playing in the JP market.
 6. **Business reading**: repositioning toward Role-Playing is supported — with 90% confidence, every Role-Playing title brings on average between **134\\,500 and 193\\,800 extra copies** in Japan vs. a Strategy title (`JP_Sales` is in millions).
+
+![Ex 6.10a — group means and sampling distribution of $\\widehat\\Delta$ with the 90% CI](statistics/images/ex6/ex6_6_10a_ai.png)
 
 ---
 
@@ -973,19 +1323,17 @@ diff <- mean(vgsales$JP_Sales[vgsales$Genre=="Strategy"]) -
 diff                                                   # ~ -0.1642
 ```
 
-![Ex 6.10a answer — interval (start)](statistics/images/ex6/answers/ex6_10a_answer1.png)
-
-![Ex 6.10a answer — interval (cont.)](statistics/images/ex6/answers/ex6_10a_answer2.png)
+![Ex 6.10a answer](statistics/images/ex6/answers/ex6_6_10a_answer.png)
 """, "images": [
-    "statistics/images/ex6/questions/ex6_10a_question.png",
-    "statistics/images/ex6/answers/ex6_10a_answer1.png",
-    "statistics/images/ex6/answers/ex6_10a_answer2.png",
+    "statistics/images/ex6/questions/ex6_6_10a_question.png",
+    "statistics/images/ex6/ex6_6_10a_ai.png",
+    "statistics/images/ex6/answers/ex6_6_10a_answer.png",
 ]}
 
 ex6["6_11a"] = {"title": "Ex 6.11a — Paired 90% CI: blood indicator before vs after test",
 "content": """**Question.**
 
-![Ex 6.11a question](statistics/images/ex6/questions/ex6_11a_question.png)
+![Ex 6.11a question](statistics/images/ex6/questions/ex6_6_11a_question.png)
 
 A researcher believes that a physical test alters the values of a certain blood indicator. To evaluate the average level of the indicator of interest, 25 patients are randomly selected to undergo the physical test, and the level of the blood indicator is measured **before** and **after** the test. The results are:
 
@@ -1035,14 +1383,19 @@ ME      <- qt(0.95, df=n-1)*se_D              # 1.6722
 c(diff.BA - ME, diff.BA + ME)                 # 1.928, 5.272
 ```
 
-![Ex 6.11a answer](statistics/images/ex6/answers/ex6_11a_answer.png)
+![Ex 6.11a answer](statistics/images/ex6/answers/ex6_6_11a_answer.png)
+
+![Ex 6.11a AI visualization](statistics/images/ex6/ex6_6_11a_ai.png)
 """, "images": [
-    "statistics/images/ex6/questions/ex6_11a_question.png",
-    "statistics/images/ex6/answers/ex6_11a_answer.png",
+    "statistics/images/ex6/questions/ex6_6_11a_question.png",
+    "statistics/images/ex6/answers/ex6_6_11a_answer.png",
+    "statistics/images/ex6/ex6_6_11a_ai.png",
 ]}
 
 ex6["6_12a"] = {"title": "Ex 6.12a — 99% CI for Adventure high-sales proportion",
 "content": """**Question.** We are interested in evaluating which are the most popular video games, those that have sold more than 1 million copies globally (`Global_Sales`). Estimate the proportion of videogames of genre **Adventure** that exceed one million copies sold globally (`Global_Sales`). Assess if it is possible to obtain a 99% confidence interval (using 4 decimal places) for this proportion and, if so, determine and interpret the obtained result.
+
+![Ex 6.12a question](statistics/images/ex6/questions/ex6_6_12a_question.png)
 
 ---
 
@@ -1078,10 +1431,22 @@ n*p_hat;  n*(1-p_hat)         # both must be >= 5
 ME <- qnorm(0.995)*sqrt(p_hat*(1-p_hat)/n)
 c(p_hat - ME, p_hat + ME)
 ```
-""", "images": []}
+
+![Ex 6.12a answer](statistics/images/ex6/answers/ex6_6_12a_answer.png)
+
+![Ex 6.12a AI plot](statistics/images/ex6/ex6_6_12a_ai.png)
+""", "images": [
+    "statistics/images/ex6/questions/ex6_6_12a_question.png",
+    "statistics/images/ex6/answers/ex6_6_12a_answer.png",
+    "statistics/images/ex6/ex6_6_12a_ai.png",
+]}
 
 ex6["6_12b"] = {"title": "Ex 6.12b — Expression of the CI and margin of error",
-"content": """**Question.** Provide the expression of the confidence interval determined in the previous point, specifying the quantities on which it depends and their numerical values (also referring to the output obtained using RStudio). What is the margin of error?
+"content": """**Question.**
+
+![Ex 6.12b question](statistics/images/ex6/questions/ex6_6_12b_question.png)
+
+Provide the expression of the confidence interval determined in the previous point, specifying the quantities on which it depends and their numerical values (also referring to the output obtained using RStudio). What is the margin of error?
 
 ---
 
@@ -1111,6 +1476,8 @@ so the interval depends on exactly **three** quantities: the point estimate $\\h
 
 **Answer.** $ME \\approx 0.0125$, i.e. about **1.25 percentage points**. Equivalently, the 99% CI can be written as $\\hat p \\pm ME = 0.0311 \\pm 0.0125$.
 
+![Ex 6.12b — CI on the proportion axis and ME = z * SE decomposition](statistics/images/ex6/ex6_6_12b_ai.png)
+
 **Take-aways.** (i) The Wald CI half-width *is* the margin of error — read the CI off the RStudio output and divide by 2 to recover $ME$ without recomputing $SE$. (ii) Because $SE \\propto 1/\\sqrt{n}$, halving the margin of error at the same confidence requires **quadrupling** $n$. (iii) Tightening confidence from 95% to 99% inflates $ME$ by the factor $z_{0.995}/z_{0.975} = 2.5758/1.96 \\approx 1.31$, i.e. roughly $+31\\%$ wider.
 
 ```r
@@ -1126,7 +1493,13 @@ c(p_hat - ME, p_hat + ME)                # (0.0186, 0.0436) -- matches Ex 6.12a
 # Cross-check: read CI off the RStudio output and halve it
 (0.0436 - 0.0186)/2                      # 0.0125 -- OK
 ```
-""", "images": []}
+
+![Ex 6.12b answer](statistics/images/ex6/answers/ex6_6_12b_answer.png)
+""", "images": [
+    "statistics/images/ex6/questions/ex6_6_12b_question.png",
+    "statistics/images/ex6/ex6_6_12b_ai.png",
+    "statistics/images/ex6/answers/ex6_6_12b_answer.png",
+]}
 
 ex6["6_13a"] = {"title": "Ex 6.13a — 99% CI for cafeteria-visit proportion (≥1 visit/month)",
 "content": """**Question.** A bookstore was recently renovated, and a cafeteria area was added. It is of interest to assess the customers' frequency of visits to the cafeteria. Interviews to 140 randomly chosen customers led to the following counts for the **number of visits in the last month**:
@@ -1171,12 +1544,16 @@ visits <- rep(0:8, c(32,43,14,10,18,13,5,0,5))
 at_least_one <- visits >= 1
 CI.prop(at_least_one, success=TRUE, conf.level=0.99, digits=4)
 ```
-""", "images": []}
+
+![Question](images/ex6/questions/ex6_6_13a_question.png)
+
+![Answer](images/ex6/answers/ex6_6_13a_answer.png)
+
+![AI walkthrough](images/ex6/ex6_6_13a_ai.png)
+""", "images": ["images/ex6/questions/ex6_6_13a_question.png", "images/ex6/answers/ex6_6_13a_answer.png", "images/ex6/ex6_6_13a_ai.png"]}
 
 ex6["6_13d"] = {"title": "Ex 6.13d — 90% CI for average monthly visits (cafeteria)",
 "content": """**Question.** Building on the cafeteria data of Ex 6.13 (`nr.Visits` = 0..8 with frequencies 32, 43, 14, 10, 18, 13, 5, 0, 5; $n=140$), determine — if feasible on the available data — a **90% confidence interval for the average monthly number of visits**.
-
-![Question](images/ex6/ex6_13_question.png)
 
 ---
 
@@ -1216,10 +1593,20 @@ c(xbar - ME, xbar + ME)                                      # ~ [1.905, 2.495]
 mean(visits); var(visits)                                    # 2.2 ; 4.4921
 CI.mean(visits, conf.level=0.90, digits=4)
 ```
-""", "images": ["images/ex6/ex6_13_question.png", "images/ex6/ex6_13d_answer.png"]}
+
+![Question](images/ex6/questions/ex6_6_13d_question.png)
+
+![Answer](images/ex6/answers/ex6_6_13d_answer.png)
+
+![AI walkthrough](images/ex6/ex6_6_13d_ai.png)
+""", "images": ["images/ex6/questions/ex6_6_13d_question.png", "images/ex6/answers/ex6_6_13d_answer.png", "images/ex6/ex6_6_13d_ai.png"]}
 
 ex6["6_14a"] = {"title": "Ex 6.14a — 90% CI for diff in proportions: EA vs Activision best-sellers",
-"content": """**Question.** Using the `vgsales` dataset, a game is labeled **best-seller** when North-American sales exceed 1 million units (`NA_Sales > 1`). Build a **90% confidence interval for the difference in the population proportions of best-sellers** between **Electronic Arts** (group 1) and **Activision** (group 2).
+"content": """**Question.**
+
+![Question](images/ex6/questions/ex6_6_14a_question.png)
+
+Using the `vgsales` dataset, a game is labeled **best-seller** when North-American sales exceed 1 million units (`NA_Sales > 1`). Build a **90% confidence interval for the difference in the population proportions of best-sellers** between **Electronic Arts** (group 1) and **Activision** (group 2).
 
 ---
 
@@ -1263,10 +1650,18 @@ se <- sqrt(p1*(1-p1)/n1 + p2*(1-p2)/n2)
 z  <- qnorm(0.95)
 c((p1-p2) - z*se, (p1-p2) + z*se)
 ```
-""", "images": []}
+
+![AI walkthrough](images/ex6/ex6_6_14a_ai.png)
+
+![Answer](images/ex6/answers/ex6_6_14a_answer.png)
+""", "images": ["images/ex6/questions/ex6_6_14a_question.png", "images/ex6/answers/ex6_6_14a_answer.png", "images/ex6/ex6_6_14a_ai.png"]}
 
 ex6["6_15a"] = {"title": "Ex 6.15a — Mean difference from supplied summary stats",
-"content": """**Question.** Two independent samples give $\\bar x = -39.34$ and $\\bar y = -49.71$. Compute the **sample mean difference** $\\bar d = \\bar x - \\bar y$, the natural point estimate of $\\mu_X - \\mu_Y$.
+"content": """**Question.**
+
+![Question](images/ex6/questions/ex6_6_15a_question.png)
+
+Two independent samples give $\\bar x = -39.34$ and $\\bar y = -49.71$. Compute the **sample mean difference** $\\bar d = \\bar x - \\bar y$, the natural point estimate of $\\mu_X - \\mu_Y$.
 
 ---
 
@@ -1280,6 +1675,8 @@ By linearity of expectation $\\mathbb E[\\bar X - \\bar Y] = \\mu_X - \\mu_Y$ (u
 $$\\bar d \\;=\\; \\bar x - \\bar y \\;=\\; (-39.34) - (-49.71) \\;=\\; -39.34 + 49.71 \\;=\\; 10.37.$$
 *Interpretation.* Both group means are negative (so both populations sit below zero on whatever scale this is — log-returns, deviations from a reference, etc.), but $X$ is **less negative** than $Y$: on average $X$ exceeds $Y$ by $10.37$ units. Equivalently, $\\bar y$ is $10.37$ units *below* $\\bar x$.
 
+![AI walkthrough](images/ex6/ex6_6_15a_ai.png)
+
 *Why this matters for parts b–c.* The 95% CI for $\\mu_X - \\mu_Y$ is centred at exactly this $\\bar d$, with half-width $t_{1-\\alpha/2}\\cdot \\text{SE}$ depending on the variance assumption (pooled vs Welch — see 6.15b). If that CI excludes zero, we reject $H_0\\!: \\mu_X = \\mu_Y$ at the same level; if it straddles zero, we cannot.
 
 ---
@@ -1292,10 +1689,16 @@ ybar <- -49.71
 diff.bar <- xbar - ybar
 diff.bar                # 10.37
 ```
-""", "images": []}
+
+![Answer](images/ex6/answers/ex6_6_15a_answer.png)
+""", "images": ["images/ex6/questions/ex6_6_15a_question.png", "images/ex6/answers/ex6_6_15a_answer.png", "images/ex6/ex6_6_15a_ai.png"]}
 
 ex6["6_15b"] = {"title": "Ex 6.15b — Pooled vs separate t-CI",
-"content": """**Question.** Build the 95% CI for the mean difference $\\mu_X - \\mu_Y$ using sample variances $s^2_x = 118.93,\\ n_x = 20,\\ s^2_y = 129.55,\\ n_y = 28$ (with $\\bar d = \\bar x - \\bar y = 10.37$ from part a). Compare the **separate-variances (Welch)** and **pooled** standard errors.
+"content": """**Question.**
+
+![Question](images/ex6/questions/ex6_6_15b_question.png)
+
+Build the 95% CI for the mean difference $\\mu_X - \\mu_Y$ using sample variances $s^2_x = 118.93,\\ n_x = 20,\\ s^2_y = 129.55,\\ n_y = 28$ (with $\\bar d = \\bar x - \\bar y = 10.37$ from part a). Compare the **separate-variances (Welch)** and **pooled** standard errors.
 
 ---
 
@@ -1307,6 +1710,12 @@ The two SEs are close when $s_x^2 \\approx s_y^2$ — true here (118.93 vs 129.5
 
 ---
 
+**AI walkthrough.** Plug in: Welch gives $\\text{SE}_W=\\sqrt{118.93/20 + 129.55/28}=\\sqrt{5.9465+4.6268}=\\sqrt{10.573}\\approx 3.252$, with Satterthwaite df $\\approx 42.12$ and $t^*_{0.975}\\approx 2.018$, hence CI $\\approx 10.37\\pm 6.562=[3.81,\\ 16.93]$. Pooled gives $s_p^2=(19\\cdot 118.93+27\\cdot 129.55)/46=(2259.67+3497.85)/46\\approx 125.16$, $\\text{SE}_P=\\sqrt{125.16(1/20+1/28)}=\\sqrt{125.16\\cdot 0.08571}=\\sqrt{10.728}\\approx 3.275$, with df $=46$ and $t^*\\approx 2.013$, hence CI $\\approx 10.37\\pm 6.593=[3.78,\\ 16.96]$. The two intervals overlap almost perfectly — the half-widths differ by $\\sim 0.03$ — because the variance ratio $s_X^2/s_Y^2=0.918$ is very close to one. Both CIs lie strictly above $0$, so we reject $H_0:\\mu_X=\\mu_Y$ at the 5% level. *Rule of thumb.* When $\\tfrac{1}{2}\\le s_X^2/s_Y^2\\le 2$ and the sample sizes are not wildly different, pooled and Welch agree to two decimals; otherwise prefer **Welch**, which keeps nominal coverage even under heteroskedasticity.
+
+![AI walkthrough](images/ex6/ex6_6_15b_ai.png)
+
+---
+
 **Answer.**
 ```r
 diff.bar <- 10.37
@@ -1314,20 +1723,22 @@ s2_x <- 118.93; n_x <- 20
 s2_y <- 129.55; n_y <- 28
 
 # Separate variances (Welch)
-se_unequal <- sqrt(s2_x/n_x + s2_y/n_y); se_unequal
+se_unequal <- sqrt(s2_x/n_x + s2_y/n_y); se_unequal          # 3.2517
 df_welch   <- (s2_x/n_x + s2_y/n_y)^2 /
-              ((s2_x/n_x)^2/(n_x-1) + (s2_y/n_y)^2/(n_y-1)); df_welch
+              ((s2_x/n_x)^2/(n_x-1) + (s2_y/n_y)^2/(n_y-1)); df_welch  # 42.12
 c(diff.bar - qt(0.975, df_welch)*se_unequal,
-  diff.bar + qt(0.975, df_welch)*se_unequal)
+  diff.bar + qt(0.975, df_welch)*se_unequal)                 # [3.81, 16.93]
 
 # Pooled variance
-s2_pool  <- ((n_x-1)*s2_x + (n_y-1)*s2_y) / (n_x + n_y - 2); s2_pool
-se_equal <- sqrt(s2_pool*(1/n_x + 1/n_y)); se_equal
-qt(0.975, 46)
+s2_pool  <- ((n_x-1)*s2_x + (n_y-1)*s2_y) / (n_x + n_y - 2); s2_pool   # 125.16
+se_equal <- sqrt(s2_pool*(1/n_x + 1/n_y)); se_equal          # 3.2754
+qt(0.975, 46)                                                # 2.0129
 c(diff.bar - qt(0.975, 46)*se_equal,
-  diff.bar + qt(0.975, 46)*se_equal)
+  diff.bar + qt(0.975, 46)*se_equal)                         # [3.78, 16.96]
 ```
-""", "images": []}
+
+![Answer](images/ex6/answers/ex6_6_15b_answer.png)
+""", "images": ["images/ex6/questions/ex6_6_15b_question.png", "images/ex6/answers/ex6_6_15b_answer.png", "images/ex6/ex6_6_15b_ai.png"]}
 
 ex6["6_17a"] = {"title": "Ex 6.17a — Paired 99% CI for dwell-time difference (23 stores, two weeks)",
 "content": """**Question.**
@@ -1383,7 +1794,7 @@ c(dbar - t_crit*seD, dbar + t_crit*seD)                # 99% CI -> ~ [7.78, 12.4
 ex6["6_18b"] = {"title": "Ex 6.18b — Paired 98% CI: NA vs EU sales (Action)",
 "content": """**Question.**
 
-![Ex 6.18b question](statistics/images/ex6/questions/ex6_18b_question.png)
+![Ex 6.18b question](statistics/images/ex6/questions/ex6_6_18b_question.png)
 
 For the `vgsales` dataset restricted to genre **Action**, build a **98% confidence interval** for the mean difference in copies sold in North America vs the European market. Each title contributes a NA_Sales and an EU_Sales value, so the two samples are **paired by game** (same row of the dataset).
 
@@ -1399,6 +1810,8 @@ The 98% two-sided level gives $\\alpha/2 = 0.01$, so the reliability factor is $
 
 **Answer.** Use `CI.diffmean` with `type="paired"` and `conf.level=0.98`. The point estimate is $\\bar d = \\overline{\\text{NA}} - \\overline{\\text{EU}}$ (positive in this dataset — Action games sell more in NA than in EU on average), and the CI is centred on it. Because NA and EU sales are highly correlated across games (large positive `cor(NA,EU)`), the paired SE is much smaller than the independent-samples SE would have been, yielding a tight interval.
 
+![Ex 6.18b — strong within-game pairing collapses the SE: 98% paired vs independent CI](statistics/images/ex6/ex6_6_18b_ai.png)
+
 ```r
 # Paired 98% CI for mean(NA_Sales - EU_Sales) on Action titles
 CI.diffmean(x = vgsales$NA_Sales[vgsales$Genre=="Action"],
@@ -1412,8 +1825,9 @@ cor(vgsales$NA_Sales[vgsales$Genre=="Action"],
 
 **Conclusion.** If the resulting CI lies entirely above 0, Action games sell significantly more in NA than in EU on average at the 98% level; if it straddles 0, the paired data do not support a regional difference.
 
-![Ex 6.18b answer](statistics/images/ex6/answers/ex6_18b_answer.png)
+![Ex 6.18b answer](statistics/images/ex6/answers/ex6_6_18b_answer.png)
 """, "images": [
-    "statistics/images/ex6/questions/ex6_18b_question.png",
-    "statistics/images/ex6/answers/ex6_18b_answer.png",
+    "statistics/images/ex6/questions/ex6_6_18b_question.png",
+    "statistics/images/ex6/ex6_6_18b_ai.png",
+    "statistics/images/ex6/answers/ex6_6_18b_answer.png",
 ]}

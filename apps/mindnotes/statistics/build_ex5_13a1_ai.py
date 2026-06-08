@@ -17,7 +17,7 @@ from scipy.stats import norm
 
 apply_style()
 
-OUT = "/Users/Alessandro/Repos/portfolio-a011e80d/apps/mindnotes/statistics/images/ex5/ex5_13a1_ai.png"
+OUT = "/Users/Alessandro/Repos/portfolio-a011e80d/apps/mindnotes/statistics/images/ex5/ex5_5_13a1_ai.png"
 
 # --- Assumed problem setup (illustrative) ---
 mu_true   = 32_000          # illustrative population mean turnover (EUR)

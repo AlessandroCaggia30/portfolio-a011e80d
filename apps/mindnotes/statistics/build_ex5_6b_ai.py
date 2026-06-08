@@ -9,7 +9,7 @@ from scipy.stats import binom, norm
 
 apply_style()
 
-OUT = "/Users/Alessandro/Repos/portfolio-a011e80d/apps/mindnotes/statistics/images/ex5/ex5_6b_ai.png"
+OUT = "/Users/Alessandro/Repos/portfolio-a011e80d/apps/mindnotes/statistics/images/ex5/ex5_5_6b_ai.png"
 
 # --- Illustrative numerical setup (worked example used in the walkthrough) ---
 n        = 80                          # employees in the sample

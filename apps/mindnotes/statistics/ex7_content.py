@@ -3,7 +3,21 @@
 ex7 = {}
 
 ex7["7_1a"] = {"title": "Ex 7.1a — One-sample t-test on Weeks (H1: μ<45), NewHired",
-"content": """**Question.** With the `NewHired` sample (n=47), assess whether on average people who relied on the job agency found a new job in **less than 45 weeks**. a1) Assumptions needed. a2) Test statistic, realisation, p-value, conclusion at α=0.05. a3) Would the conclusion change at α=0.01? a4) Meaning of the significance level.
+"content": """**Question.**
+
+![Question](images/ex7/questions/ex7_7_1a_question.png)
+
+With the `NewHired` sample (n=47), assess whether on average people who relied on the job agency found a new job in **less than 45 weeks**. a1) Assumptions needed. a2) Test statistic, realisation, p-value, conclusion at α=0.05. a3) Would the conclusion change at α=0.01? a4) Meaning of the significance level.
+
+---
+
+**Setup.** One-sample mean test, $\\sigma^2$ unknown $\\Rightarrow$ Student $t$. Direction (lower-tail) is dictated by what would be the most damaging error: claiming the average is below 45 weeks when it is not. Place that claim in $H_1$.
+
+---
+
+**AI walkthrough.** Plug in $\\bar X = 40.1915$, $S = 17.2206$, $n=47$: $\\text{SE}=S/\\sqrt n = 17.2206/\\sqrt{47}=2.5119$. Then $t_{obs}=(40.1915-45)/2.5119=-1.9143$. Under $H_0$, $T\\sim t_{46}$; the one-sided p-value is $P(t_{46}\\le -1.9143)=0.0309$ (normal approximation: $\\Phi(-1.9143)=0.0278$ — close because df=46 is large). Critical values: $t_{0.05,46}=-1.679$ and $t_{0.01,46}=-2.410$. Since $t_{obs}=-1.914$ lies **between** the two critical values, we reject at the 5% level but **not** at the 1% level. The plot shades both rejection tails and marks $t_{obs}$ so you can read off both decisions visually: the yellow-hatched tail (p-value) covers more area than the dark-red 1% tail but less than the light-red 5% tail.
+
+![AI walkthrough](images/ex7/ex7_7_1a_ai.png)
 
 ---
 
@@ -31,10 +45,18 @@ pnorm(tstat)                   # normal approximation
 **a3)** At α=0.01 the p-value (0.0309) > α, so we would **not reject** $H_0$.
 
 **a4)** α is the maximum probability of a **Type I error** (rejecting $H_0$ when true). Since $H_0$ specifies a set of values, the max is attained at the value closest to $H_1$, i.e. μ=45.
-""", "images": []}
+
+![Answer](images/ex7/answers/ex7_7_1a_answer.png)
+""", "images": ["images/ex7/questions/ex7_7_1a_question.png", "images/ex7/answers/ex7_7_1a_answer.png", "images/ex7/ex7_7_1a_ai.png"]}
 
 ex7["7_1b"] = {"title": "Ex 7.1b — Known σ²=16: power and Type II error probabilities",
-"content": """**Question.** Now assume the variance of `Weeks` is known and equal to 16. b1) At level α=0.1, what is the probability of concluding the average is < 45 weeks when it is actually **50** weeks? b2) Same probability when it is actually **43** weeks?
+"content": """**Question.**
+
+![Ex 7.1b question](statistics/images/ex7/questions/ex7_7_1b_question.png)
+
+Now assume the variance of `Weeks` is known and equal to 16. b1) At level α=0.1, what is the probability of concluding the average is < 45 weeks when it is actually **50** weeks? b2) Same probability when it is actually **43** weeks?
+
+![Ex 7.1b AI walkthrough](statistics/images/ex7/ex7_7_1b_ai.png)
 
 ---
 
@@ -53,7 +75,13 @@ crit <- 45 - 1.28 * 4/sqrt(47); crit                # 44.25
 pnorm(crit, mean=50, sd=4/sqrt(47))                 # b1) ≈ 0
 1 - pnorm(crit, mean=43, sd=4/sqrt(47))             # b2) ≈ 0.016
 ```
-""", "images": []}
+
+![Ex 7.1b answer](statistics/images/ex7/answers/ex7_7_1b_answer.png)
+""", "images": [
+    "statistics/images/ex7/questions/ex7_7_1b_question.png",
+    "statistics/images/ex7/ex7_7_1b_ai.png",
+    "statistics/images/ex7/answers/ex7_7_1b_answer.png",
+]}
 
 ex7["7_1c"] = {"title": "Ex 7.1c — One-proportion test: struggle >52 weeks vs p₀=0.10",
 "content": """**Question.** A worker claims the **proportion** of agency-relying workers who struggle more than one year (>52 weeks) to find a job is higher than 10%. Test at α=0.05.
@@ -75,10 +103,28 @@ z <- (phat - p0) / sqrt(p0*(1-p0)/n); z              # ≈ 1.12
 1 - pnorm(z)                                         # p-value ≈ 0.13
 TEST.prop(Weeks > 52, p0=0.10, alternative="greater", data=NewHired)
 ```
-""", "images": []}
+
+![Ex 7.1c answer](statistics/images/ex7/answers/ex7_7_1c_answer.png)
+""", "images": [
+    "statistics/images/ex7/questions/ex7_7_1c_question.png",
+    "statistics/images/ex7/ex7_7_1c_ai.png",
+    "statistics/images/ex7/answers/ex7_7_1c_answer.png",
+]}
 
 ex7["7_3a"] = {"title": "Ex 7.3a — Two-proportion z-test: cafeteria visit pre/post promotion",
-"content": """**Question.** Pre-promotion (n=140) and post-promotion (n=159) samples of monthly cafeteria visits. Test whether the promotion **increases the proportion** of customers visiting at least once a month.
+"content": """**Question.**
+
+![Ex 7.3a question](statistics/images/ex7/questions/ex7_7_3a_question.png)
+
+Pre-promotion (n=140) and post-promotion (n=159) samples of monthly cafeteria visits. Test whether the promotion **increases the proportion** of customers visiting at least once a month.
+
+---
+
+**AI walkthrough.**
+
+![Ex 7.3a — two-proportion z-test (pre vs post)](statistics/images/ex7/ex7_7_3a_ai.png)
+
+The left panel contrasts $\\hat p_\\text{PRE}=0.7714$ with $\\hat p_\\text{POST}=0.7987$; the pooled proportion $\\hat p=0.7859$ sits in between. The right panel plots the $H_0$ standard-normal distribution: $z_\\text{obs}\\approx 0.575$ lies well inside the do-not-reject region and the yellow right-tail (p-value $\\approx 0.2827$) dwarfs the red rejection region beyond $z_{0.05}=1.6449$. Visually it is obvious that the observed gap is too small to discriminate $H_1$ from $H_0$ — the promotion's effect on general visit propensity is statistically indistinguishable from noise.
 
 ---
 
@@ -108,10 +154,32 @@ se   <- sqrt(phat*(1-phat)*(1/nPRE + 1/nPOST)); se
 TEST.diffprop(x=Stops_POST>=1, y=Stops_PRE>=1,
               pdiff=0, alternative="greater")
 ```
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 7.3a answer](statistics/images/ex7/answers/ex7_7_3a_answer.png)
+""", "images": [
+    "statistics/images/ex7/questions/ex7_7_3a_question.png",
+    "statistics/images/ex7/ex7_7_3a_ai.png",
+    "statistics/images/ex7/answers/ex7_7_3a_answer.png",
+]}
 
 ex7["7_3b"] = {"title": "Ex 7.3b — Two-proportion test: visiting >4 times/month pre vs post",
-"content": """**Question.** Assess whether the promotion has a significant impact on the proportion of customers who visit the cafeteria **more than 4 times** a month. Report all the measures you refer to.
+"content": """**Question.**
+
+![Ex 7.3b question](statistics/images/ex7/questions/ex7_7_3b_question.png)
+
+Same pre/post samples as part (a); now test whether the promotion **increases the proportion of heavy users** — customers visiting the cafeteria **more than 4 times** per month.
+
+---
+
+**AI walkthrough.**
+
+![Ex 7.3b — two-proportion z-test, heavy users](statistics/images/ex7/ex7_7_3b_ai.png)
+
+The left panel contrasts $\\hat p_\\text{PRE}=0.1643$ (23/140) with $\\hat p_\\text{POST}=0.2327$ (37/159); the yellow arrow marks the observed gap $0.0684$. The right panel plots the $H_0$ standard-normal: $z_\\text{obs}=1.474$ sits **just inside** the critical $z_{0.05}=1.6449$, with a yellow right-tail p-value $\\approx 0.0703$ — borderline. At $\\alpha=0.05$ the tail does not cross the threshold, so we **do not reject**; at $\\alpha=0.10$ it would. The heavy-user signal is suggestive but inconclusive at the conventional 5% level.
 
 ---
 
@@ -140,10 +208,32 @@ se   <- sqrt(phat*(1-phat)*(1/nPRE + 1/nPOST)); se     # 0.0464
 TEST.diffprop(x=Stops_POST>4, y=Stops_PRE>4,
               pdiff=0, alternative="greater")
 ```
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 7.3b answer](statistics/images/ex7/answers/ex7_7_3b_answer.png)
+""", "images": [
+    "statistics/images/ex7/questions/ex7_7_3b_question.png",
+    "statistics/images/ex7/ex7_7_3b_ai.png",
+    "statistics/images/ex7/answers/ex7_7_3b_answer.png",
+]}
 
 ex7["7_4a"] = {"title": "Ex 7.4a — Chi-squared goodness of fit: DS$History uniform (0.25 each)",
-"content": """**Question (DS).** Are the frequencies of the levels of the variable `History` equal to each other? What conclusion do you reach using a significance level of 0.05? Report the R functions used.
+"content": """**Question (DS).**
+
+![Ex 7.4a question](statistics/images/ex7/questions/ex7_7_4a_question.png)
+
+Are the frequencies of the levels of the variable `History` equal to each other? What conclusion do you reach using a significance level of 0.05? Report the R functions used.
+
+---
+
+**AI walkthrough.**
+
+![Ex 7.4a — chi-squared goodness of fit (uniform over History)](statistics/images/ex7/ex7_7_4a_ai.png)
+
+The left panel contrasts the four observed counts (Low 181, Medium 150, High 205, None 214) with the flat expected value $E_k=187.5$ implied by the uniform null. Medium is the largest negative deviation and None the largest positive one; the per-cell contributions $(O_k-E_k)^2/E_k$ sum to $\\chi^2_\\text{obs}=13.104$. The right panel plots the $\\chi^2_3$ reference density with the critical value at $\\alpha=0.05$, $\\chi^2_{3,\\,0.95}=7.815$: the rejection region is the red right-tail beyond it. $\\chi^2_\\text{obs}=13.104$ lies well inside this region, and the yellow tail beyond the observed value visualises the very small p-value $\\approx 0.0044$. Visually it is clear the four `History` levels are **not** equally likely.
 
 ---
 
@@ -151,15 +241,39 @@ ex7["7_4a"] = {"title": "Ex 7.4a — Chi-squared goodness of fit: DS$History uni
 $$H_0: p_{Low}=p_{Med}=p_{High}=p_{None}=0.25 \\quad \\text{vs} \\quad H_1: \\text{at least one } p \\neq 0.25.$$
 Observed counts (n=750): High 205 (0.27), Low 181 (0.24), Medium 150 (0.20), None 214 (0.29). Expected under $H_0$: $0.25\\cdot 750 = 187.5$ in each cell.
 
+The test statistic is $\\chi^2 = \\sum_k (O_k - E_k)^2/E_k = 13.104$, with **p-value $= 0.0044$**. Critical value at $\\alpha=0.05$ from $\\chi^2_{4-1}=\\chi^2_3$: $\\chi^2_{3,\\,0.95}=7.815$, and $13.104 > 7.815$ → **reject $H_0$** at any level $> 0.0044$ (in particular at $\\alpha=0.05$): the variable `History` is **not** uniformly distributed.
+
 ```r
 chisq.test(x=table(DS$History), p=c(0.25, 0.25, 0.25, 0.25))
+qchisq(0.95, df=3)                                      # 7.815
+1 - pchisq(13.104, df=3)                                # p-value ≈ 0.0044
 ```
 
-The test statistic is $\\chi^2 = \\sum_k (O_k - E_k)^2/E_k = 13.104$, with **p-value $= 0.0044$**. Reject $H_0$ at any level $> 0.0044$ (in particular at $\\alpha=0.05$): the variable `History` is **not** uniformly distributed.
-""", "images": []}
+---
+
+**Reference answer.**
+
+![Ex 7.4a answer](statistics/images/ex7/answers/ex7_7_4a_answer.png)
+""", "images": [
+    "statistics/images/ex7/questions/ex7_7_4a_question.png",
+    "statistics/images/ex7/ex7_7_4a_ai.png",
+    "statistics/images/ex7/answers/ex7_7_4a_answer.png",
+]}
 
 ex7["7_4b"] = {"title": "Ex 7.4b — Goodness of fit on History within the two Location sub-populations",
-"content": """**Question.** Would your answer to point (a) change if you referred separately to the distribution of `History` in the two sub-populations of customers who live near (`Close`) or far from a competing physical store (`Location`)?
+"content": """**Question.**
+
+![Ex 7.4b question](statistics/images/ex7/questions/ex7_7_4b_question.png)
+
+Would your answer to point (a) change if you referred separately to the distribution of `History` in the two sub-populations of customers who live near (`Close`) or far from a competing physical store (`Location`)?
+
+---
+
+**AI walkthrough.**
+
+![Ex 7.4b — GoF on History within Location strata](statistics/images/ex7/ex7_7_4b_ai.png)
+
+Each panel overlays observed `History` counts (navy) against the uniform expectation $E_k$ (gold dashed horizontal). In the **Close** stratum ($n=360$, $E=90$) the bars deviate strongly enough to give $\\chi^2_\\text{obs}=25.556$, well past the $\\chi^2_3$ critical $7.815$ (p-value $\\approx 1.18\\cdot 10^{-5}$). In the **Far** stratum ($n=390$, $E=97.5$) the imbalance is even sharper, with $\\chi^2_\\text{obs}=63.766$ and p-value $\\approx 9.3\\cdot 10^{-14}$ — essentially zero. Both panels reject the uniform null decisively, so the conclusion of (a) is not driven by mixing the two `Location` sub-populations: non-uniformity is **present at both distances from the competitor**.
 
 ---
 
@@ -180,10 +294,24 @@ qchisq(0.95, df=3)                                       # 7.815
 **Location = Far** ($n=390$, $E_k=97.5$ each): $\\chi^2 \\approx 63.766$, p-value $\\approx 9.3\\cdot 10^{-14} \\approx 0$. Since $63.766 \\gg 7.815$ → **reject $H_0$** at any level.
 
 **Conclusion.** The answer to (a) is **confirmed and reinforced** in both strata: in each `Location` sub-population the four `History` levels are not equally frequent. The non-uniformity of (a) is therefore not an artifact of mixing two homogeneous sub-populations — it is genuinely present at *both* distances from the competitor.
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 7.4b answer](statistics/images/ex7/answers/ex7_7_4b_answer.png)
+""", "images": [
+    "statistics/images/ex7/questions/ex7_7_4b_question.png",
+    "statistics/images/ex7/ex7_7_4b_ai.png",
+    "statistics/images/ex7/answers/ex7_7_4b_answer.png",
+]}
 
 ex7["7_5a"] = {"title": "Ex 7.5a — Fish-diet vs cholesterol: rejection region (normal & t) and p-value",
-"content": """**Question.** Two independent samples of 100 males each, with similar baseline cholesterol, are assigned for 6 months to a **Standard** diet vs a **Seafood** diet (fish-rich). End-of-study cholesterol summaries:
+"content": """**Question.**
+
+![Ex 7.5a question](statistics/images/ex7/questions/ex7_7_5a_question.png)
+
+Two independent samples of 100 males each, with similar baseline cholesterol, are assigned for 6 months to a **Standard** diet vs a **Seafood** diet (fish-rich). End-of-study cholesterol summaries:
 
 | Diet | Mean | Variance |
 |---|---|---|
@@ -191,6 +319,14 @@ ex7["7_5a"] = {"title": "Ex 7.5a — Fish-diet vs cholesterol: rejection region 
 | Seafood  | $\\bar X_\\text{Sea}=196.8$ | $s^2_\\text{Sea}=33.5$ |
 
 Assuming the variance of cholesterol is the same regardless of diet, the researchers claim: "a fish-rich diet promotes a reduction in cholesterol; in particular, the mean difference $\\mu_\\text{Std}-\\mu_\\text{Sea}$ is significantly **greater than 10**" at $\\alpha=0.05$. Evaluate the claim by determining **both the rejection region and the p-value** of the sample realisation (report the R functions used).
+
+---
+
+**AI walkthrough.**
+
+![Ex 7.5a — RR (normal & t) and p-value](statistics/images/ex7/ex7_7_5a_ai.png)
+
+The left panel plots, under $H_0$, the density of $\\bar X_\\text{Std}-\\bar X_\\text{Sea}$ centred at $\\mu_0=10$ with $se=0.842$: the normal (CLT) and the Student $t_{198}$ curves visually coincide because df=198 makes the two distributions indistinguishable to four decimals. The red right-tail shades the rejection region $\\bar D>11.385$; the observed $\\bar D=13.3$ (green) sits **far inside** the RR, more than 3.9 standard errors above $\\mu_0$. The right panel restates the test on the standardised scale: the p-value is the tiny right-tail area beyond $t_\\text{obs}=3.92$, namely $4.4\\cdot 10^{-5}$ (normal) and $6.1\\cdot 10^{-5}$ ($t_{198}$) — orders of magnitude below any conventional $\\alpha$.
 
 ---
 
@@ -234,10 +370,24 @@ qt(0.95, df=198)                                              # 1.6526
 # Built-in equivalent (same t, df, threshold, p-value):
 # TEST.diffmean(..., alternative="greater", mu0=10, var.test=TRUE)
 ```
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 7.5a answer](statistics/images/ex7/answers/ex7_7_5a_answer.png)
+""", "images": [
+    "statistics/images/ex7/questions/ex7_7_5a_question.png",
+    "statistics/images/ex7/ex7_7_5a_ai.png",
+    "statistics/images/ex7/answers/ex7_7_5a_answer.png",
+]}
 
 ex7["7_6a"] = {"title": "Ex 7.6a — Arcade wi-fi: paired test on average daily revenue (n=7, before vs after)",
-"content": """**Question.** The manager of an arcade chain recently activated free wi-fi at one of its premises. Before extending the service to the other premises, he wants to check — accounting for the costs to be sustained — whether the service will promote an **increase in daily revenues**. He compares daily revenues (hundreds of €) recorded in a typical week **before** the installation ($n=7$) with those recorded in a week **three months after** ($n=7$). Sample summaries:
+"content": """**Question.**
+
+![Ex 7.6a question](statistics/images/ex7/questions/ex7_7_6a_question.png)
+
+The manager of an arcade chain recently activated free wi-fi at one of its premises. Before extending the service to the other premises, he wants to check — accounting for the costs to be sustained — whether the service will promote an **increase in daily revenues**. He compares daily revenues (hundreds of €) recorded in a typical week **before** the installation ($n=7$) with those recorded in a week **three months after** ($n=7$). Sample summaries:
 
 | | Mean | Variance |
 |---|---|---|
@@ -247,6 +397,12 @@ ex7["7_6a"] = {"title": "Ex 7.6a — Arcade wi-fi: paired test on average daily 
 A covariance of $s_\\text{PRE,POST}=11$ was also observed between the daily revenues recorded in the two weeks.
 
 State the hypotheses and the assumptions required; then decide at $\\alpha=0.05$ whether it is reasonable to extend the wi-fi service to the other premises.
+
+---
+
+**AI walkthrough.**
+
+![Ex 7.6a — paired t-test (n=7), RR and p-value](statistics/images/ex7/ex7_7_6a_ai.png)
 
 ---
 
@@ -277,14 +433,34 @@ dbar/seD                              # 2.3931   -> observed t
 ```
 
 **Decision.** p-value $\\approx 0.027 < 0.05$ → **reject $H_0$**: at the 5% level the data provide evidence that the wi-fi service has increased average daily revenues, so it is reasonable to **extend the service** to the other premises. (Note: at the more conservative $\\alpha=0.01$ the conclusion would flip — $H_0$ would *not* be rejected, since $0.027 > 0.01$.)
-""", "images": []}
-
-ex7["7_6b"] = {"title": "Ex 7.6b — Effect on the decision if statistics referred to 2 weeks (n=14)",
-"content": """**Question.** Without making calculations but carefully justifying the answer, say whether the decision in (a) would change if the sample statistics referred to **2 weeks** (n=14) instead of 1.
 
 ---
 
-**Answer.** If the data referred to 2 weeks, i.e. $n=14$ days, the **standard error** $se(\\bar D)=\\sqrt{s_D^2/n}$ would **decrease** and the **degrees of freedom** $n-1$ of Student's t would **increase**, since the sample size increases.
+**Reference answer.**
+
+![Ex 7.6a answer](statistics/images/ex7/answers/ex7_7_6a_answer.png)
+""", "images": [
+    "statistics/images/ex7/questions/ex7_7_6a_question.png",
+    "statistics/images/ex7/ex7_7_6a_ai.png",
+    "statistics/images/ex7/answers/ex7_7_6a_answer.png",
+]}
+
+ex7["7_6b"] = {"title": "Ex 7.6b — Effect on the decision if statistics referred to 2 weeks (n=14)",
+"content": """**Question.**
+
+![Ex 7.6b question](statistics/images/ex7/questions/ex7_7_6b_question.png)
+
+Without making calculations but carefully justifying the answer, say whether the decision in (a) would change if the sample statistics referred to **2 weeks** (n=14) instead of 1.
+
+---
+
+**AI walkthrough.**
+
+![Ex 7.6b — effect of doubling n on SE, critical c, and p-value](statistics/images/ex7/ex7_7_6b_ai.png)
+
+---
+
+**Answer.** If the data referred to 2 weeks, i.e. $n=14$ days, the **standard error** $se(\\bar D)=\\sqrt{s_D^2/n}$ would **decrease** (shrinks by a factor $\\sqrt{2}$: from $\\sqrt{11/7}=1.2536$ down to $\\sqrt{11/14}=0.8864$) and the **degrees of freedom** $n-1$ of Student's t would **increase** (from 6 to 13), since the sample size increases.
 
 *Rejection-region threshold.* The threshold $t_{n-1,\\alpha}\\cdot se(\\bar D)$ would be **lower**: an increase in df reduces the percentile of Student's t, so $t_{13,0.05} < t_{6,0.05}$, and this is multiplied by a smaller standard error since $se(\\bar D_7) > se(\\bar D_{14})$. Hence
 $$t_{13,0.05}\\cdot se(\\bar D_{14}) \\;<\\; t_{6,0.05}\\cdot se(\\bar D_7) = 2.4359.$$
@@ -300,18 +476,40 @@ In both approaches the conclusion is **reinforced**: $H_0$ is rejected at $\\alp
 seD7  <- sqrt(11/7)                      # 1.2536  (original)
 seD14 <- sqrt(11/14)                     # 0.8864  (smaller)
 qt(0.95, df=6) *seD7                     # 2.4359  threshold n=7
-qt(0.95, df=13)*seD14                    # 1.5673  threshold n=14 (lower)
-1 - pt(3/seD7 , df=6)                    # 0.0270  p-value  n=7
-1 - pt(3/seD14, df=13)                   # 0.0035  p-value  n=14 (< 0.01)
+qt(0.95, df=13)*seD14                    # 1.5698  threshold n=14 (lower)
+1 - pt(3/seD7 , df=6)                    # 0.0269  p-value  n=7
+1 - pt(3/seD14, df=13)                   # 0.0024  p-value  n=14 (< 0.01)
 ```
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 7.6b answer](statistics/images/ex7/answers/ex7_7_6b_answer.png)
+""", "images": [
+    "statistics/images/ex7/questions/ex7_7_6b_question.png",
+    "statistics/images/ex7/ex7_7_6b_ai.png",
+    "statistics/images/ex7/answers/ex7_7_6b_answer.png",
+]}
 
 ex7["7_7a"] = {"title": "Ex 7.7a — Two-proportion z-test: AI-tool use by Younger vs Senior (Developers_ITA)",
-"content": """**Question.** We focus on whether the developers use AI tools, such as ChatGPT or others, in their work. Is it reasonable to conclude that the proportion of **younger** developers (`Younger=TRUE`) using such tools is **higher** than the proportion of more **senior** developers (`Younger=FALSE`)? State the hypotheses, discuss the assumptions needed, and report your conclusions.
+"content": """**Question.**
+
+![Ex 7.7a question](statistics/images/ex7/questions/ex7_7_7a_question.png)
+
+We focus on whether the developers use AI tools, such as ChatGPT or others, in their work. Is it reasonable to conclude that the proportion of **younger** developers (`Younger=TRUE`) using such tools is **higher** than the proportion of more **senior** developers (`Younger=FALSE`)? State the hypotheses, discuss the assumptions needed, and report your conclusions.
+
+---
+
+**AI walkthrough.**
+
+![Ex 7.7a — two-proportion z-test (Younger vs Senior)](statistics/images/ex7/ex7_7_7a_ai.png)
 
 ---
 
 **Answer.**
+
+![Ex 7.7a answer](statistics/images/ex7/answers/ex7_7_7a_answer.png)
 
 **Hypotheses.** Let $p_\\text{Young}$, $p_\\text{Senior}$ be the population proportions of younger / senior developers who use AI tools at work. The claim "younger use them *more*" is the research hypothesis we want empirical support for, so it goes in $H_1$ (one-sided):
 $$H_0:\\, p_\\text{Young} = p_\\text{Senior} \\quad \\text{vs} \\quad H_1:\\, p_\\text{Young} > p_\\text{Senior}.$$
@@ -342,16 +540,33 @@ z      <- (phat_y - phat_s)/se0; z                                              
 1 - pnorm(z)                                                                     # p-value < 1e-4
 ```
 """, "images": [
-    "statistics/images/ex7/ex7_7_question.png",
-    "statistics/images/ex7/ex7_7a_answer.png",
+    "statistics/images/ex7/questions/ex7_7_7a_question.png",
+    "statistics/images/ex7/ex7_7_7a_ai.png",
+    "statistics/images/ex7/answers/ex7_7_7a_answer.png",
 ]}
 
 ex7["7_7b"] = {"title": "Ex 7.7b — Chi-squared independence: Age_Class × LearnTool (Developers_ITA)",
-"content": """**Question.** Can we conclude that there is **association** between developers' age (`Age_Class`, 5 levels) and the tools used to improve coding skills (`LearnTool`, 5 levels)? If yes, answer using a test at the **0.1 level**, reporting the realisation of the test statistic, its p-value, and the threshold of the rejection region (report the R functions used).
+"content": """**Question.**
+
+![Ex 7.7b question](statistics/images/ex7/questions/ex7_7_7b_question.png)
+
+Can we conclude that there is **association** between developers' age (`Age_Class`, 5 levels) and the tools used to improve coding skills (`LearnTool`, 5 levels)? If yes, answer using a test at the **0.1 level**, reporting the realisation of the test statistic, its p-value, and the threshold of the rejection region (report the R functions used).
+
+---
+
+**AI walkthrough.**
+
+![Ex 7.7b — chi-squared independence (Age_Class x LearnTool)](statistics/images/ex7/ex7_7_7b_ai.png)
+
+The $5\\times 5$ contingency table $O_{ij}$ shows a clear age-skewed pattern: younger developers concentrate on **AI tools** and **forums/Q&A**, mid-age on **online courses**, and seniors shift toward **books** and **other**. Computing $\\widehat E_{ij} = n_{i\\cdot}n_{\\cdot j}/n$ under $H_0$ and the **standardised Pearson residuals** $(O_{ij}-\\widehat E_{ij})/\\sqrt{\\widehat E_{ij}}$ exposes *where* the dependence lives — large positive residuals where pairs co-occur **more** than independence predicts, large negative residuals where they co-occur **less**. Squaring and summing the residuals gives $X^2_\\text{obs} = 115.69$, sitting deep in the right tail of the reference $\\chi^2_{16}$ distribution whose 0.9-quantile (the $\\alpha=0.1$ critical value) is only $23.54$. The observed statistic is so far out that the p-value is numerically zero and **no reasonable $\\alpha$** keeps $H_0$ alive.
+
+**Why the expected-counts check matters.** Cells with $\\widehat E_{ij} < 5$ inflate the $(O-E)^2/E$ ratio (small denominators), breaking the $\\chi^2$ approximation. Point c of the same exercise — pairing `Age_Class` with `AISearch` — fails this check (`AISearch=Other` has $\\widehat E \\approx 2.77$), which is why the **independence test cannot be reported there** even though arithmetically `chisq.test` would still output a number.
 
 ---
 
 **Answer.**
+
+![Ex 7.7b answer](statistics/images/ex7/answers/ex7_7_7b_answer.png)
 
 **Assumptions.** This is a **chi-squared test of independence** on the $5\\times 5$ contingency table $\\texttt{Age\\_Class}\\times\\texttt{LearnTool}$. The approximation to $\\chi^2$ requires the **expected counts** $\\widehat{E}_{ij} = n_{i\\cdot}\\,n_{\\cdot j}/n$ to be **$\\geq 5$** in (almost) every cell — a condition that holds here (unlike point c, where `AISearch=Other` has expected count $\\approx 2.77$ and the test cannot be used).
 
@@ -379,14 +594,31 @@ qchisq(0.9, df=16)   # 23.54
 
 # Sanity check: same p-value computed by hand from the statistic
 1 - pchisq(115.69, df=16)   # ~ 0
+
+# Inspect expected counts and residuals (where does the dependence live?)
+ct  <- table(Developers_ITA$Age_Class, Developers_ITA$LearnTool)
+res <- chisq.test(ct)
+res$expected     # all >= 5 here, so the chi^2 approx is valid
+res$stdres       # standardized Pearson residuals (|.| > ~2 == cell drives X^2)
 ```
 """, "images": [
-    "statistics/images/ex7/ex7_7_question.png",
-    "statistics/images/ex7/ex7_7a_answer.png",
+    "statistics/images/ex7/questions/ex7_7_7b_question.png",
+    "statistics/images/ex7/ex7_7_7b_ai.png",
+    "statistics/images/ex7/answers/ex7_7_7b_answer.png",
 ]}
 
 ex7["7_8a"] = {"title": "Ex 7.8a — One-sample t-test on Children (H1: μ<1.5): give up baby products?",
-"content": """**Question.** The sales manager considers **giving up the sale of baby products** if the average number of children per customer (`DS$Children`) does **not exceed 1.5**. Specify the assumptions, indicate the statistical test, report the realisation of the test statistic and its p-value, and define / interpret the p-value on the available data.
+"content": """**Question.**
+
+![Question](images/ex7/questions/ex7_7_8a_question.png)
+
+The sales manager considers **giving up the sale of baby products** if the average number of children per customer (`DS$Children`) does **not exceed 1.5**. Specify the assumptions, indicate the statistical test, report the realisation of the test statistic and its p-value, and define / interpret the p-value on the available data.
+
+---
+
+**AI walkthrough.** Under $H_0:\\mu=1.5$ the test statistic $T=(\\bar X-1.5)/(S/\\sqrt n)\\sim t_{749}$, essentially indistinguishable from a standard normal at this df. The realised $t_\\text{obs}=(0.9213-1.5)/0.03885\\approx -14.90$ lies far outside the lower-tail 5% rejection region ($t<-1.6473$) — so far that the corresponding p-value is numerically zero. Equivalently, in the original units, the lower-tail RR for $\\bar X$ is $\\bar x<1.436$ and we observe $\\bar x=0.921$, deeply below it. The two-sided 95% CI $[0.845,\\,0.997]$ does **not** contain $1.5$, the same one-line cross-check.
+
+![AI walkthrough](images/ex7/ex7_7_8a_ai.png)
 
 ---
 
@@ -404,9 +636,11 @@ $$t_\\text{obs} = \\frac{\\bar x - 1.5}{S/\\sqrt{n}} = -14.91 \\;\\;\\sim\\; t_{
 
 **Decision & interpretation.** Reject $H_0$ at any conventional $\\alpha$ (0.10, 0.05, 0.01, 0.001). There is overwhelming evidence that the **average number of children per customer is significantly less than 1.5**, so it is **convenient to give up the sale of baby products**.
 
+![Answer](images/ex7/answers/ex7_7_8a_answer.png)
+
 ---
 
-**AI walkthrough.** The empirical distribution behind $\\bar x \\approx 0.92$ is the one given in Ex 7.9a: $360$ customers with 0 children, $184$ with 1, $111$ with 2, $95$ with 3+. Hence
+**Behind-the-scenes derivation.** The empirical distribution behind $\\bar x \\approx 0.92$ is the one given in Ex 7.9a: $360$ customers with 0 children, $184$ with 1, $111$ with 2, $95$ with 3+. Hence
 $$\\bar x = \\frac{0\\cdot 360 + 1\\cdot 184 + 2\\cdot 111 + 3\\cdot 95}{750} = \\frac{691}{750} \\approx 0.9213.$$
 The sample variance (treating 3+ as 3) is
 $$s^2 = \\frac{1}{n-1}\\sum_i (x_i-\\bar x)^2 \\approx 1.132 \\Rightarrow s \\approx 1.0640,\\quad s/\\sqrt{n} \\approx 0.03885.$$
@@ -438,12 +672,28 @@ CI.mean(Children, conf.level=0.95, data=DS)         # ≈ [0.845, 0.997]
 # Built-in wrapper
 TEST.mean(Children, mu0=1.5, alternative="less", data=DS)
 ```
-""", "images": []}
+""", "images": [
+    "images/ex7/questions/ex7_7_8a_question.png",
+    "images/ex7/ex7_7_8a_ai.png",
+    "images/ex7/answers/ex7_7_8a_answer.png",
+]}
 
 ex7["7_9a"] = {"title": "Ex 7.9a — Chi-squared goodness of fit: DS$Children vs Italian distribution",
-"content": """**Question (Ex 7.17a, `DS`).** What is the distribution of the number of children observed at the sample level? Is it possible to conclude that, at the population level, the distribution of customers by number of children mirrors that observed for the Italian population (**72% households without children**, 13% with 1 child, 9% with 2 children, 2% with 3+ children)?
+"content": """**Question (Ex 7.17a, `DS`).**
+
+![Ex 7.9a question](statistics/images/ex7/questions/ex7_7_9a_question.png)
+
+What is the distribution of the number of children observed at the sample level? Is it possible to conclude that, at the population level, the distribution of customers by number of children mirrors that observed for the Italian population (**72% households without children**, 13% with 1 child, 9% with 2 children, 2% with 3+ children)?
 
 > *Textbook typo*: 0.72+0.13+0.09+0.02 = 0.96 ≠ 1. The intended value (used in the official solution and the R call below) is **0.76** for "no children", so the population vector is $p_0 = (0.76, 0.13, 0.09, 0.02)$.
+
+---
+
+**AI walkthrough.**
+
+![Ex 7.9a — chi-squared GoF, Children vs Italian distribution](statistics/images/ex7/ex7_7_9a_ai.png)
+
+The left panel sets the observed `DS$Children` counts (navy) against the Italian-population expectations $E_k = n p_{0k}$ (gold). Two huge gaps jump out: childless households are **under-represented** (360 observed vs 570 expected) while households with **3+ children** are massively **over-represented** (95 vs 15). Per-cell contributions $(O_k-E_k)^2/E_k$ are printed below each pair; the "3+" cell alone contributes $\\approx 426.67$ to the test statistic, the "0" and "1" cells add $\\approx 77.4$ and $76.7$, and "2" adds $28.0$, summing to $\\chi^2_\\text{obs}\\approx 608.81$. The right panel plots the reference $\\chi^2_3$ density with the 5 % rejection region (red right-tail beyond $\\chi^2_{3,0.95}=7.815$); $\\chi^2_\\text{obs}=608.81$ sits *vastly* beyond the critical value, so the p-value is numerically zero — the `DS` sample is incompatible with the Italian distribution at any conventional level.
 
 ---
 
@@ -490,16 +740,38 @@ X2 <- sum((O - E)^2 / E); X2                        # 608.81
 1 - pchisq(X2, df=length(O)-1)                      # p-value ~ 0
 qchisq(0.95, df=3)                                  # critical value 7.815
 ```
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 7.9a answer](statistics/images/ex7/answers/ex7_7_9a_answer.png)
+""", "images": [
+    "statistics/images/ex7/questions/ex7_7_9a_question.png",
+    "statistics/images/ex7/ex7_7_9a_ai.png",
+    "statistics/images/ex7/answers/ex7_7_9a_answer.png",
+]}
 
 ex7["7_9b"] = {"title": "Ex 7.9b — Chi-squared goodness-of-fit in R: are the 4 supermarket entrances used equally?",
-"content": """**Question.** Continuing Ex 7.9: a manager surveyed the $n=130$ customers entering a supermarket on a working day and recorded which of the **four entrances** they used:
+"content": """**Question.**
+
+![Ex 7.9b question](statistics/images/ex7/questions/ex7_7_9b_question.png)
+
+Continuing Ex 7.9: a manager surveyed the $n=130$ customers entering a supermarket on a working day and recorded which of the **four entrances** they used:
 
 | Entrance | I | II | III | IV |
 |---|---|---|---|---|
 | Observed $O_k$ | 24 | 30 | 36 | 40 |
 
 Draw a conclusion about the hypotheses specified in part a) at the **5% significance level**, using an appropriate R function and reporting the syntax used.
+
+---
+
+**AI walkthrough.**
+
+![Ex 7.9b — chi-squared GoF, 4 supermarket entrances](statistics/images/ex7/ex7_7_9b_ai.png)
+
+The left panel sets the observed entrance counts (navy) against the equal-usage expectations $E_k = n p_{0k} = 130/4 = 32.5$ (gold). The four cells are close to expected: entrance IV is slightly busiest (40 vs 32.5), entrance I slightly quietest (24 vs 32.5); per-cell contributions $(O_k-E_k)^2/E_k$ are printed below each pair and sum to $X^2 = 147/32.5 \\approx 4.523$. The right panel plots the reference $\\chi^2_3$ density with the 5% right-tail rejection region (red, beyond $\\chi^2_{3,0.95}=7.815$); the observed $X^2_\\text{obs}=4.523$ (gold dashed) sits **well inside** the acceptance region, giving p-value $\\approx 0.2104 \\gg 0.05$ — the four entrances are compatible with equal usage.
 
 ---
 
@@ -529,10 +801,32 @@ X2 <- sum((O - E)^2 / E); X2                               # 4.5231
 1 - pchisq(X2, df = length(O) - 1)                         # p-value ≈ 0.2104
 qchisq(0.95, df = 3)                                       # critical value 7.8147
 ```
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 7.9b answer](statistics/images/ex7/answers/ex7_7_9b_answer.png)
+""", "images": [
+    "statistics/images/ex7/questions/ex7_7_9b_question.png",
+    "statistics/images/ex7/ex7_7_9b_ai.png",
+    "statistics/images/ex7/answers/ex7_7_9b_answer.png",
+]}
 
 ex7["7_10a"] = {"title": "Ex 7.10a — Two-sample test on pooled summary stats: considered vs competing company",
-"content": """**Question.** A survey on $n_y = 800$ customers of a competing company gives mean expenditure $\\bar y=1300$ and standard deviation $s_y=960$. The considered company (the $n_x = 750$ women in `DS`) has $\\bar x=1228.44$ and $s_x^2=940{,}900.9$. Test at $\\alpha=10\\%$ whether the considered-company average expenditure is significantly **higher** than the competitor's: $H_0:\\mu_x = \\mu_y$ vs $H_1:\\mu_x > \\mu_y$.
+"content": """**Question.**
+
+![Ex 7.10a question](statistics/images/ex7/questions/ex7_7_10a_question.png)
+
+A survey on $n_y = 800$ customers of a competing company gives mean expenditure $\\bar y=1300$ and standard deviation $s_y=960$. The considered company (the $n_x = 750$ women in `DS`) has $\\bar x=1228.44$ and $s_x^2=940{,}900.9$. Test at $\\alpha=10\\%$ whether the considered-company average expenditure is significantly **higher** than the competitor's: $H_0:\\mu_x = \\mu_y$ vs $H_1:\\mu_x > \\mu_y$.
+
+---
+
+**AI walkthrough.**
+
+![Ex 7.10a — pooled two-sample test, considered vs competitor](statistics/images/ex7/ex7_7_10a_ai.png)
+
+The left panel shows the two sample means with their $\\pm 1.96\\,\\text{SE}(\\bar{\\cdot})$ intervals: the considered company's bar ($\\bar x=1228.44$) sits **below** the competitor's ($\\bar y=1300$) by a gap of $-71.56$ — the data already lean against $H_1:\\mu_x>\\mu_y$. The right panel plots the standard-normal null distribution of the pooled two-sample statistic with the right-tail rejection region $\\{z\\geq z_{0.90}=1.2816\\}$ (orange) shaded and the observed $T_\\text{obs}=-1.4592$ (gold dashed) sitting far in the **left** tail — exactly opposite to where $H_1$ predicts. The one-sided p-value $\\Pr(Z\\geq-1.4592)\\approx 0.9277 \\gg 0.10$, so we **do not reject $H_0$**: there is no evidence the considered company's mean expenditure exceeds the competitor's.
 
 ---
 
@@ -569,4 +863,14 @@ t.stat  <- (xbar - ybar) / se.diff;              t.stat    # -1.4592
 
 qnorm(0.90)                                                # 1.2816 (critical value)
 ```
-""", "images": []}
+
+---
+
+**Reference answer.**
+
+![Ex 7.10a answer](statistics/images/ex7/answers/ex7_7_10a_answer.png)
+""", "images": [
+    "statistics/images/ex7/questions/ex7_7_10a_question.png",
+    "statistics/images/ex7/ex7_7_10a_ai.png",
+    "statistics/images/ex7/answers/ex7_7_10a_answer.png",
+]}

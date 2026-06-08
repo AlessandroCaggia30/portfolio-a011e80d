@@ -9,7 +9,7 @@ from scipy.stats import norm
 
 apply_style()
 
-OUT = "/Users/Alessandro/Repos/portfolio-a011e80d/apps/mindnotes/statistics/images/ex4/ex4_6_ai.png"
+OUT = "/Users/Alessandro/Repos/portfolio-a011e80d/apps/mindnotes/statistics/images/ex4/ex4_4_6_ai.png"
 
 # --- Given / derived ---
 mu_X    = 90.0

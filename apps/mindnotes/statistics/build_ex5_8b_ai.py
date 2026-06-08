@@ -15,7 +15,7 @@ from scipy.stats import norm
 
 apply_style()
 
-OUT = "/Users/Alessandro/Repos/portfolio-a011e80d/apps/mindnotes/statistics/images/ex5/ex5_8b_ai.png"
+OUT = "/Users/Alessandro/Repos/portfolio-a011e80d/apps/mindnotes/statistics/images/ex5/ex5_5_8b_ai.png"
 
 # --- Numbers from the exercise ---
 n      = 668

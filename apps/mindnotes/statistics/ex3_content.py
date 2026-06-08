@@ -1024,7 +1024,9 @@ The class **Assassin** looks the most promising, with the highest percentage of 
 
 ex3["3_9b"] = {
 "title": "Ex 3.9b — KDA conditioned on role",
-"content": """**Question.** Compare the distribution of `KDA` across the levels of `role` using side-by-side boxplots.
+"content": """![Ex 3.9b question](statistics/images/ex3/questions/ex3_9b_question.png)
+
+**Question.** Compare the distribution of `KDA` across the levels of `role` using side-by-side boxplots.
 
 ---
 
@@ -1035,13 +1037,25 @@ distr.plot.xy(x=role, y=KDA, plot.type="boxplot", data=LoL)
 ```
 
 By comparing the boxplots, we observe the highest quartiles for roles **JUNGLE** and **SUPPORT**. In addition, the first quartile of **ADC** is lower than the first quartile of **TOP**; in fact, the third quartile of the latter is also at a higher level than the first quartile of the others. The IQR is similar for all the roles. The medians, instead, are aligned along the value 3.5, even if the median for **SUPPORT** is the highest. As to the upper outliers (no lower outliers in the boxplots), they are very different among groups, both for number and for value. Both the number and the value attain a peak for the group of role **SUPPORT**.
+
+![Ex 3.9b AI walkthrough](statistics/images/ex3/ex3_9b_ai.png)
+
+The boxplots make the comparison immediate: **same scale** for all roles, but **shifted distributions**. Q3 is markedly higher for **JUNGLE** and **SUPPORT** (≈ 4.8–4.9); Q1 is lowest for **ADC** (≈ 2.4); IQR is roughly **homogeneous** across roles, so dispersion is similar. The medians cluster around **3.5**, with **SUPPORT** the highest (≈ 3.7). Only **upper** outliers appear — the right tail is heaviest for **SUPPORT** (both in count and in value), confirming that this role has the most extreme KDA performances.
+
+![Ex 3.9b answer](statistics/images/ex3/answers/ex3_9b_answer.png)
 """,
-"images": ["statistics/images/ex3_9b-kda-by-role.png"],
+"images": [
+    "statistics/images/ex3/questions/ex3_9b_question.png",
+    "statistics/images/ex3/ex3_9b_ai.png",
+    "statistics/images/ex3/answers/ex3_9b_answer.png",
+],
 }
 
 ex3["3_9c"] = {
 "title": "Ex 3.9 c-d - score vs pick_perc, colored by role",
-"content": """**Question.**
+"content": """![Ex 3.9 c question](statistics/images/ex3/questions/ex3_9c_question.png)
+
+**Question.**
 
 **c)** Discuss the relation between `score` and `pick_perc` of the champions, and the role of `role` in this relation.
 
@@ -1060,15 +1074,27 @@ distr.plot.xy(x=score, y=pick_perc, plot.type="scatter", var.c=role, data=LoL)
 ```
 
 Thus, given a certain score, champions of role **ADC** are chosen more frequently compared to champions with other roles, and the percentage of games where they are chosen increases with the score at a higher rate compared to the other classes. Even if less clear, we note alignments along slightly different lines also for the other roles.
+
+![Ex 3.9 c AI walkthrough](statistics/images/ex3/ex3_9c_ai.png)
+
+The AI panel makes the **group-wise linearity** explicit: a steeper cluster line for **ADC** (high pick rate for a given score) and a shallower line shared by the other roles. The overall Pearson **r ≈ 0.79** confirms the strong but mixture-driven correlation, and the flagged outliers are exactly the points worth investigating individually.
+
+![Ex 3.9 c answer](statistics/images/ex3/answers/ex3_9c_answer.png)
 """,
-"images": ["statistics/images/ex3_9c-score-pick-by-role.png"],
+"images": [
+    "statistics/images/ex3/questions/ex3_9c_question.png",
+    "statistics/images/ex3/ex3_9c_ai.png",
+    "statistics/images/ex3/answers/ex3_9c_answer.png",
+],
 }
 
 # ========== EXERCISE 3.10 (Company - Prod | Channel) ==========
 
 ex3["3_10a1"] = {
 "title": "Ex 3.10 a1 — Marginal distribution of Prod",
-"content": """**Question.** Obtain the frequency distribution of `Prod` (most-used product type).
+"content": """![Ex 3.10 a1 question](statistics/images/ex3/questions/ex3_10a1_question.png)
+
+**Question.** Consider the variable `Prod`, describing the type of product typically bought. Report the frequency distribution of the variable. Which summary measures would you use to summarize the central tendency of the variable? Report their values. What measure would you use to summarize the variable, and why?
 
 ---
 
@@ -1094,13 +1120,25 @@ distr.summary.x(Company$Prod, stats=c("median","mode"))
 ```
 
 The median is ML and the mode is ML; nonetheless the more suitable measure is the median. Indeed, the mode is not representative, since the distribution of `Prod` is almost bi-modal, with both the levels ML and M observed on about 30% of the clients.
+
+![Ex 3.10 a1 AI walkthrough](statistics/images/ex3/ex3_10a1_ai.png)
+
+Because `Prod` is **ordinal**, the **mean is undefined** — only the mode and the median apply. The bar plot shows that ML (30.5%) and M (29.6%) are essentially tied, so the **mode alone is not representative**. The cumulative-share staircase makes the median visible at a glance: ML is the first level whose cumulative proportion reaches 0.5, so **median = ML** and is the **preferred summary**.
+
+![Ex 3.10 a1 answer](statistics/images/ex3/answers/ex3_10a1_answer.png)
 """,
-"images": [],
+"images": [
+    "statistics/images/ex3/questions/ex3_10a1_question.png",
+    "statistics/images/ex3/ex3_10a1_ai.png",
+    "statistics/images/ex3/answers/ex3_10a1_answer.png",
+],
 }
 
 ex3["3_10a2"] = {
 "title": "Ex 3.10 a2 — Distribution of Prod conditional on Channel",
-"content": """**Question.** Compare the distributions of `Prod` conditional on `Channel`.
+"content": """![Ex 3.10 a2 question](statistics/images/ex3/questions/ex3_10a2_question.png)
+
+**Question.** Do the summary measures obtained at the previous point change — and if yes, why — depending on whether the preferred purchase channel is the traditional one (`Channel = Trad`) or mobile (`Channel = Mobile`)? Indicate the measures you refer to in your answer and report their values. What considerations on the two groups of clients?
 
 ---
 
@@ -1124,8 +1162,18 @@ distr.plot.xy(Company$Prod, Company$Channel, plot.type="bars",
 ```
 
 Referring to the modes and the medians of `Prod`, we note that such measures change depending on the customers' preferred purchase channel. Specifically, the mode and the median of `Prod` among clients who prefer the smartphone (Mob) are both medium-low (mode=median=ML), whereas customers keen to buy offline buy mostly products with medium-high profitability (mod=median=MH).
+
+![Ex 3.10 a2 AI walkthrough](statistics/images/ex3/ex3_10a2_ai.png)
+
+The four column-conditional distributions of `Prod | Channel` differ in **both location and shape** — so `Prod` and `Channel` are clearly **associated**. Mob and Ecomm clients cluster on **ML** (53% and 49% respectively), Multi customers concentrate sharply on **M** (71%, the spikiest distribution), and Trad customers shift the mass right to **MH** (37%) with a non-trivial **H** tail. Reading the 50% reference line, only Mob has its cumulative crossing already inside ML; Ecomm crosses near the ML/M boundary, Multi well inside M, and Trad only inside MH — the same ordering as the medians.
+
+![Ex 3.10 a2 answer](statistics/images/ex3/answers/ex3_10a2_answer.png)
 """,
-"images": ["statistics/images/ex3_10a2-prod-by-channel.png"],
+"images": [
+    "statistics/images/ex3/questions/ex3_10a2_question.png",
+    "statistics/images/ex3/ex3_10a2_ai.png",
+    "statistics/images/ex3/answers/ex3_10a2_answer.png",
+],
 }
 
 # ========== EXERCISE 3.11 (Campaign - Loyalty | store category, then Revenues boxplot) ==========
@@ -1195,7 +1243,13 @@ The level of loyalty is therefore **more dispersed in the previous company (A) t
 
 ex3["3_11b"] = {
 "title": "Ex 3.11b — Revenues boxplot construction and reading",
-"content": """**Question.** Construct the boxplot of `Revenues` and compare the distributions across store categories (Location).
+"content": """![Ex 3.11b question](statistics/images/ex3/questions/ex3_11b_question.png)
+
+**Question.**
+
+**b1)** Refer to the boxplot representing the distribution of `Revenues` (standard profitability of the stores). Indicate what the extremes of the box and the end points of the whiskers of the boxplot represent, and report their numerical values, clarifying what are the quantities underlying your answer.
+
+**b2)** Propose a graphical representation to compare in a concise but comprehensive way the distributions of the standard profitability of the stores (variable `Revenues`) according to their location with respect to the city centre (`Location`). Report the graph obtained (a simple sketch, just to understand what your comments refer to) and **describe** the distinctive features of the distributions, specifying clearly the aspects and measures you refer to.
 
 ---
 
@@ -1219,13 +1273,25 @@ distr.plot.xy(x=Location, y=Revenues, plot.type="boxplot", data=Campaign)
 The shapes of the distributions of `Revenues` conditioning on `Location` are different. With the exception of stores in the **Centre** — for which the distribution is close to symmetry — the other distributions show positive skew, mainly due to the presence of upper outliers, excluding which the two distributions are quite symmetrical. This asymmetry is particularly pronounced in **Hinterland** supermarkets, where the distance between the third quartile and the maximum is considerably greater than the distance between the first quartile and the minimum, and the box is also right-skewed. Higher quartiles are observed in Hinterland supermarkets, where distribution is significantly skewed to the right: in particular, the third quartile is higher than the highest non-extreme values of the other distributions. Excluding stores with particularly high Revenues (in suburbs and semi-central areas), about 25% of stores in the Hinterland have higher revenues than almost all stores in other areas. Stores in semi-central areas also have higher quartiles than stores in suburban or central areas, as well as a number of stores with very high revenues. Distributions for Hinterland and semi-central areas are also those with the highest range; we also note significant differences in terms of inter-quartile range, much higher for Revenues of stores in the Hinterland, and very small for Revenues of stores located in the suburbs and in the centre.
 
 In conclusion, we can say that among the stores in the Hinterland, some have much higher Revenues than the stores located in other areas; even for the semi-central areas, some stores with very high Revenues can be observed. Supermarkets located in peripheral or central areas generally have lower revenues, with 75% having lower revenues than stores in semi-central and hinterland areas.
+
+![Ex 3.11b AI walkthrough](statistics/images/ex3/ex3_11b_ai.png)
+
+The AI panel decomposes the boxplot into its building blocks. The **box** spans Q1–Q3 (IQR = 397.81) and is split by the median; the **upper fence** $Q_3 + 1.5\\cdot\\mathrm{IQR} = 1799.075$ marks where the whisker stops and the **upper outliers** begin (here all the way up to 3312.54). The lower fence (207.285) sits below the minimum (105.82), but the data has no lower outliers — confirming positive skew. The side-by-side panel makes the **Hinterland** dominance and the **Centre** symmetry visually obvious.
+
+![Ex 3.11b answer](statistics/images/ex3/answers/ex3_11b_answer.png)
 """,
-"images": ["statistics/images/ex3_11b-revenues-boxplot.png"],
+"images": [
+    "statistics/images/ex3/questions/ex3_11b_question.png",
+    "statistics/images/ex3/ex3_11b_ai.png",
+    "statistics/images/ex3/answers/ex3_11b_answer.png",
+],
 }
 
 ex3["3_11c"] = {
 "title": "Ex 3.11c — Relationship Sales vs Revenues and Sales vs Costs",
-"content": """**Question.** Consider the relationship between `Sales` and `Revenues`, and between `Sales` and `Costs`. Which has the stronger relationship?
+"content": """![Ex 3.11c question](statistics/images/ex3/questions/ex3_11c_question.png)
+
+**Question.** Consider the relationship between `Sales` and `Revenues`, and between `Sales` and `Costs`. Which has the stronger relationship?
 
 ---
 
@@ -1247,9 +1313,17 @@ cor(Campaign$Revenues, Campaign$Sales)
 ## [1] 0.7580242
 ```
 
+![Ex 3.11c AI walkthrough](statistics/images/ex3/ex3_11c_ai.png)
+
 Nonetheless the second coefficient is unreliable, as the link between `Sales` and `Revenues` is positive but of weak intensity, and definitely does not summarise the level of concentration of data around a straight line. The first coefficient — despite the fact that the relationship is not linear — synthesizes better the concentration of data around a straight line, although it would not explain the data relative to higher costs adequately.
+
+![Ex 3.11c answer](statistics/images/ex3/answers/ex3_11c_answer.png)
 """,
-"images": ["statistics/images/ex3_11c-sales-scatter-pair.png"],
+"images": [
+    "statistics/images/ex3/questions/ex3_11c_question.png",
+    "statistics/images/ex3/ex3_11c_ai.png",
+    "statistics/images/ex3/answers/ex3_11c_answer.png",
+],
 }
 
 # ========== EXERCISE 3.12 (Effectiveness × Channel) ==========
@@ -1264,8 +1338,10 @@ EX312_TABLE = """A company launched a promotional campaign. An in-depth analysis
 """
 
 ex3["3_12a"] = {
-"title": "<span class=\"exam-question-text\">Ex 3.12a — Effectiveness | Channel: medians for Online vs In-Store</span>",
-"content": """<span class="exam-question-text">**Question.** Comment on the variable `Effectiveness` for customers who typically buy online (`Channel = Online`) and for customers who typically buy in-store (`Channel = In-Store`). What are your comments on the conditional distributions of `Effectiveness` and on the procedure followed to obtain them? What are your considerations on the median for each channel and on the procedure followed to obtain it?</span>
+"title": "Ex 3.12a — Effectiveness | Channel: medians for Online vs In-Store",
+"content": """![Ex 3.12a question](statistics/images/ex3/questions/ex3_12a_question.png)
+
+**Question.** Comment on the variable `Effectiveness` for customers who typically buy online (`Channel = Online`) and for customers who typically buy in-store (`Channel = In-Store`). What are your comments on the conditional distributions of `Effectiveness` and on the procedure followed to obtain them? What are your considerations on the median for each channel and on the procedure followed to obtain it?
 
 """ + EX312_TABLE + """
 
@@ -1286,16 +1362,28 @@ The **mode** of `Effectiveness | Channel = Online` is the highest-frequency cate
 
 `Effectiveness` is an **ordinal** qualitative variable, so the median is obtained from the cumulative relative frequencies; the arithmetic mean is **not** defined on ordinal categories.
 
+![Ex 3.12a AI walkthrough](statistics/images/ex3/ex3_12a_ai.png)
+
+The two panels make the comparison visual: **bars** are the relative frequencies, the **dark line** is the cumulative relative frequency, and the **yellow star** sits on the first level whose cumulative crosses **0.5** — that is the **median class**. For `Online` the median lands on **Medium-Low** (cum = 0.511, only just above 0.5), while for `In-Store` it shifts two levels to the right to **Medium-High** (cum = 0.805), confirming the rightward shift toward higher effectiveness.
+
 ```r
 distr.table.xy(x=Channel, y=Effectiveness, freq=c("percentage","cumulative"), data=Campaign)
 ```
+
+![Ex 3.12a answer](statistics/images/ex3/answers/ex3_12a_answer.png)
 """,
-"images": [],
+"images": [
+    "statistics/images/ex3/questions/ex3_12a_question.png",
+    "statistics/images/ex3/ex3_12a_ai.png",
+    "statistics/images/ex3/answers/ex3_12a_answer.png",
+],
 }
 
 ex3["3_12b"] = {
-"title": "<span class=\"exam-question-text\">Ex 3.12b — Proportion Medium / Medium-Low: In-Store vs Online</span>",
-"content": """<span class="exam-question-text">**Question.** Can you say that the proportion of customers for whom the campaign had medium or medium-low effectiveness (`Effectiveness = Medium` or `Medium-Low`) is higher among customers who prefer to buy in-store (`Channel = In-Store`) than among customers who prefer to buy online (`Channel = Online`)? Clearly justify your answer, indicating the measures you use and their numerical values.</span>
+"title": "Ex 3.12b — Proportion Medium / Medium-Low: In-Store vs Online",
+"content": """![Ex 3.12b question](statistics/images/ex3/questions/ex3_12b_question.png)
+
+**Question.** Can you say that the proportion of customers for whom the campaign had medium or medium-low effectiveness (`Effectiveness = Medium` or `Medium-Low`) is higher among customers who prefer to buy in-store (`Channel = In-Store`) than among customers who prefer to buy online (`Channel = Online`)? Clearly justify your answer, indicating the measures you use and their numerical values.
 
 ---
 
@@ -1316,13 +1404,25 @@ Since $0.395 < 0.622$, the proportion of customers with medium or medium-low eff
 ```r
 distr.table.xy(x=Channel, y=Effectiveness, freq="percentage", data=Campaign)
 ```
+
+![Ex 3.12b AI walkthrough](statistics/images/ex3/ex3_12b_ai.png)
+
+The stacked bars make the comparison visual: on the In-Store row the {Medium-Low + Medium} block covers about 40% of the bar, while on the Online row the same two categories cover over 60%. The head-to-head bars confirm $0.395 < 0.622$, so the claim in the question is **false** — the Medium / Medium-Low share is actually larger online than in-store.
+
+![Ex 3.12b answer](statistics/images/ex3/answers/ex3_12b_answer.png)
 """,
-"images": [],
+"images": [
+    "statistics/images/ex3/questions/ex3_12b_question.png",
+    "statistics/images/ex3/ex3_12b_ai.png",
+    "statistics/images/ex3/answers/ex3_12b_answer.png",
+],
 }
 
 ex3["3_12c"] = {
-"title": "<span class=\"exam-question-text\">Ex 3.12c — Does pushing In-Store cause higher Effectiveness?</span>",
-"content": """<span class="exam-question-text">**Question.** Based on the observed data and assuming that customers will behave in the same way in future campaigns, do you think it is reasonable to conclude that if you encourage customers to buy in-store (`Channel = In-Store`), a campaign will be more effective (`Effectiveness`)? Explain why.</span>
+"title": "Ex 3.12c — Does pushing In-Store cause higher Effectiveness?",
+"content": """![Ex 3.12c question](statistics/images/ex3/questions/ex3_12c_question.png)
+
+**Question.** Based on the observed data and assuming that customers will behave in the same way in future campaigns, do you think it is reasonable to conclude that if you encourage customers to buy in-store (`Channel = In-Store`), a campaign will be more effective (`Effectiveness`)? Explain why.
 
 ---
 
@@ -1330,11 +1430,19 @@ ex3["3_12c"] = {
 
 It is **not** legitimate to translate this association into a causal recommendation. The propensity to shop in-store (and the sensitivity to promotional campaigns) is likely linked to other customer characteristics — income, age category, level of loyalty, purchasing power, geographic area, etc. — which act as confounders. Forcing online customers to use the in-store channel would not automatically transfer the higher effectiveness observed on the (self-selected) in-store population.
 
+![Ex 3.12c AI walkthrough](statistics/images/ex3/ex3_12c_ai.png)
+
 **Conclusion.** The data show a strong association between `Channel` and `Effectiveness`, but the comparative experiment needed for a causal conclusion is missing. We cannot say that pushing customers in-store will, by itself, make campaigns more effective.
 
 ```r
 distr.plot.xy(x=Channel, y=Effectiveness, plot.type="bars", freq.type="percentage", data=Campaign)
 ```
+
+![Ex 3.12c answer](statistics/images/ex3/answers/ex3_12c_answer.png)
 """,
-"images": [],
+"images": [
+    "statistics/images/ex3/questions/ex3_12c_question.png",
+    "statistics/images/ex3/ex3_12c_ai.png",
+    "statistics/images/ex3/answers/ex3_12c_answer.png",
+],
 }
