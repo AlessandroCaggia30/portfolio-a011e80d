@@ -4659,7 +4659,7 @@ async function loadData() {
                         State.data = seedData;
                     }
                     if (!State.data.trash) State.data.trash = [];
-                    await _commitSave();
+                    await _commitSave({skipPush: true});
                     localStorage.setItem(dataKey + '_seedVersion', String(seedVersion));
                     console.log('Refreshed from updated seed ' + seedFile + ' (v' + seedVersion + ')');
                 } else if (data) {
