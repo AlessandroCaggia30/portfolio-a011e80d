@@ -5658,9 +5658,12 @@ function formatContent(text) {
             latexBlocks.push(match);
             return `%%LATEX${latexBlocks.length - 1}%%`;
         })
-        .replace(/\$([^\$]+?)\$/g, (match) => {
-            latexBlocks.push(match);
-            return `%%LATEX${latexBlocks.length - 1}%%`;
+        // Inline math: $...$ — but only when delimiters are NOT touching letters/digits.
+        // This protects R-style references like `DS$Children`, `data$Sex` from being
+        // misread as math when authors forget to wrap them in backticks.
+        .replace(/(^|[^A-Za-z0-9_])\$([^\$\n]+?)\$(?![A-Za-z0-9_])/g, (m, pre, body) => {
+            latexBlocks.push('$' + body + '$');
+            return `${pre}%%LATEX${latexBlocks.length - 1}%%`;
         });
 
     // Process LaTeX structural commands (after math is safely extracted)
