@@ -12076,6 +12076,10 @@ function renderStatsTable() {
     html += '<div class="stats-table-header">';
     html += '<button class="stats-back-btn" onclick="backToSubjects()" title="Back to subjects">← Back</button>';
     html += '<h2>' + escapeHtml((State.currentSubject && State.currentSubject.name) || 'Statistics') + '</h2>';
+    if (State.currentSubject && State.currentSubject.id === 'time-series') {
+        html += '<button class="stats-pattern-btn" onclick="showExamPatternAnalysis()" '
+              + 'title="Trends, cycles &amp; per-sitting differences">📈 Exam Pattern Analysis</button>';
+    }
     html += '</div>';
     html += '<div class="stats-table-scroll"><table class="stats-table"><thead><tr>';
     html += '<th class="stats-row-head stats-corner">Topic / Subtopic</th>';
