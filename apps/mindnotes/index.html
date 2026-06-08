@@ -12087,7 +12087,8 @@ function renderStatsTable() {
                     if (node.cardColor === 'red')   cls += ' card-color-red';
                     if (node.cardColor === 'green') cls += ' card-color-green';
                     const ctxAttr = isMaster
-                        ? ` oncontextmenu="event.preventDefault(); event.stopPropagation(); showCardColorMenu(event, '${escapeHtml(node.id)}'); return false;"`
+                        ? ` ondblclick="event.preventDefault(); event.stopPropagation(); showCardColorMenu(event, '${escapeHtml(node.id)}'); return false;"`
+                          + ` oncontextmenu="event.preventDefault(); event.stopPropagation(); showCardColorMenu(event, '${escapeHtml(node.id)}'); return false;"`
                         : '';
                     html += '<div class="' + cls + '"' + ctxAttr
                           + ' onclick="openStatsSnippet(\'' + escapeHtml(node.id) + '\')">'
