@@ -4658,8 +4658,31 @@ async function loadData() {
                                 data.topics.push(seedTopic);
                             }
                         });
-                        // Also pick up examTable from seed (generated hyper-table).
-                        if (seedData.examTable) data.examTable = seedData.examTable;
+                        // Merge examTable (hyper-table) — preserve userEdited content + cardColor.
+                        if (seedData.examTable) {
+                            if (data.examTable && Array.isArray(data.examTable.topics)) {
+                                // Shallow merge node-by-node so user edits + colors survive.
+                                const userById = {};
+                                data.examTable.topics.forEach(t => (t.subtopics||[]).forEach(s => (s.nodes||[]).forEach(n => {
+                                    if (n && n.id) userById[n.id] = n;
+                                })));
+                                seedData.examTable.topics.forEach(t => (t.subtopics||[]).forEach(s => (s.nodes||[]).forEach(n => {
+                                    const u = userById[n.id];
+                                    if (u) {
+                                        if (u.userEdited === true) {
+                                            // Keep user's content; copy nothing from seed for this node.
+                                            n.content = u.content;
+                                            if (u.title) n.title = u.title;
+                                            if (u.images) n.images = u.images;
+                                            n.userEdited = true;
+                                            if (u.userEditedAt) n.userEditedAt = u.userEditedAt;
+                                        }
+                                        if (u.cardColor) n.cardColor = u.cardColor;
+                                    }
+                                })));
+                            }
+                            data.examTable = seedData.examTable;
+                        }
                         State.data = data;
                     } else {
                         State.data = seedData;
