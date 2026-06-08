@@ -4608,7 +4608,7 @@ async function loadData() {
                         const seedData = backup.data || backup;
                         if (seedData.examTable) {
                             State.data.examTable = seedData.examTable;
-                            await _commitSave();
+                            await _commitSave({skipPush: true});
                         }
                     }
                 } catch (e) { /* non-fatal */ }
