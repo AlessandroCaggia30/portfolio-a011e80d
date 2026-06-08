@@ -93,25 +93,32 @@ past_exams_ts["exam_sep_2025_q4"] = {
 ---
 
 **Solution.** \textbf{(a) DLM} (DLMwR \S 2.3; keydef \textbf{16a}).
-$\theta_t=G_t\theta_{t-1}+w_t$, $w_t\overset{\text{iid}}{\sim}\Nd_p(0,W_t)$;
-$Y_t=F_t\theta_t+v_t$, $v_t\overset{\text{iid}}{\sim}\Nd_q(0,V_t)$;
-$\theta_0\sim\Nd_p(m_0,C_0)$; $\{w_t\},\{v_s\},\theta_0$ mutually independent.
+$\theta_t=G_t\theta_{t-1}+w_t$, $w_t\overset{\text{iid}}{\sim}\mathcal{N}_p(0,W_t)$;
+$Y_t=F_t\theta_t+v_t$, $v_t\overset{\text{iid}}{\sim}\mathcal{N}_q(0,V_t)$;
+$\theta_0\sim\mathcal{N}_p(m_0,C_0)$; $\{w_t\},\{v_s\},\theta_0$ mutually independent.
 
 \textbf{(b)} $Y_t\perp Y_{1:t-1}\mid\theta_t$ (conditional indep.\ of obs.), so
-$Y_t\mid(\theta_t,Y_{1:t-1})\sim\Nd_q(F_t\theta_t,V_t)$.
+$Y_t\mid(\theta_t,Y_{1:t-1})\sim\mathcal{N}_q(F_t\theta_t,V_t)$.
 
 \textbf{(c)} $(\theta_t)$ Markov, so
-$\theta_t\mid\theta_{0:t-1}\sim\Nd_p(G_t\theta_{t-1},W_t)$.
+$\theta_t\mid\theta_{0:t-1}\sim\mathcal{N}_p(G_t\theta_{t-1},W_t)$.
 
 \textbf{(d) Prediction step (DLMwR \S 2.7.2, Prop.\ 2.2).}
-Given $\theta_{t-1}\mid y_{1:t-1}\sim\Nd_p(m_{t-1},C_{t-1})$:
+Given $\theta_{t-1}\mid y_{1:t-1}\sim\mathcal{N}_p(m_{t-1},C_{t-1})$:
+\emph{Step 1 — propagate the state mean and covariance through $G_t$:} since $\theta_t=G_t\theta_{t-1}+w_t$ with $w_t\perp\theta_{t-1}$ and both Gaussian,
 $$
-\theta_t\mid y_{1:t-1}\sim\Nd_p(a_t,R_t),\quad a_t=G_t m_{t-1},\;R_t=G_t C_{t-1}G_t^{\top}+W_t,
+\theta_t\mid y_{1:t-1}\sim\mathcal{N}_p(a_t,R_t),\quad a_t=G_t m_{t-1},\;R_t=G_t C_{t-1}G_t^{\top}+W_t.
 $$
+\emph{Step 2 — propagate through the observation equation $Y_t=F_t\theta_t+v_t$, $v_t\perp\theta_t$:}
 $$
-\boxed{\;Y_t\mid y_{1:t-1}\sim\Nd_q(f_t,Q_t),\quad f_t=F_t a_t,\;Q_t=F_t R_t F_t^{\top}+V_t.\;}
+\boxed{\;Y_t\mid y_{1:t-1}\sim\mathcal{N}_q(f_t,Q_t),\quad f_t=F_t a_t,\;Q_t=F_t R_t F_t^{\top}+V_t.\;}
 $$
-Linear combination of independent Gaussians is Gaussian.""",
+Linear combination of independent Gaussians is Gaussian.
+
+\emph{R sketch (one-step predictive for a fitted DLM):}
+`library(dlm); mod <- dlmModPoly(2); kf <- dlmFilter(y, mod)`
+`a_t <- kf$a[t,]; R_t <- with(kf, U.R[[t]] %*% diag(D.R[t,]^2) %*% t(U.R[[t]]))`
+`f_t <- kf$f[t]; Q_t <- mod$FF %*% R_t %*% t(mod$FF) + mod$V`""",
     "is_exam": True,
     "topic_hint": "t6a",
     "images": []
@@ -132,13 +139,15 @@ with $(w_{1,t})$ and $(w_{2,t})$ independent, and independent of $(\mu_0,\beta_0
 
 ---
 
-**Solution.** Local linear trend (DLMwR \S 3.2.2). Take $\theta_t=(\mu_t,\beta_t)^{\top}$:
+**Solution.** Local linear trend (DLMwR \S 3.2.2). Take $\theta_t=(\mu_t,\beta_t)^{\top}$ (2-dim. state stacking level $\mu_t$ and slope $\beta_t$). Then $\mu_t=\mu_{t-1}+\beta_{t-1}+w_{1,t}$ reads as the first row of $G\theta_{t-1}=(\mu_{t-1}+\beta_{t-1},\beta_{t-1})$; $\beta_t=\beta_{t-1}+w_{2,t}$ is the second. The observation $Y_t=\mu_t+\varepsilon_t=(1,0)\theta_t+\varepsilon_t$ gives $F$, $V$:
 $$
 \boxed{\;
 F=(1,\,0),\;V=\sigma^2,\quad
 G=\begin{pmatrix}1&1\\0&1\end{pmatrix},\;W=\begin{pmatrix}\sigma_{w_1}^2&0\\0&\sigma_{w_2}^2\end{pmatrix},\;\;
-\theta_0=\begin{pmatrix}\mu_0\\\beta_0\end{pmatrix}\sim\Nd_2(m_0,C_0).\;}
-$$""",
+\theta_0=\begin{pmatrix}\mu_0\\\beta_0\end{pmatrix}\sim\mathcal{N}_2(m_0,C_0).\;}
+$$
+
+\emph{R:} `mod <- dlmModPoly(order = 2, dV = sigma^2, dW = c(sw1^2, sw2^2))` — `dlmModPoly(2)` is exactly the local linear trend DLM.""",
     "is_exam": True,
     "topic_hint": "t7b",
     "images": []
@@ -171,7 +180,13 @@ $(n_{i,1},n_{i,2},n_{i,3})\sim\mathrm{Multinom}(n_{i,+};p_{i,:})$, so
 $\sqrt{n_{i,+}}(\widehat p_{ij}-p_{ij})\xrightarrow{d}\mathcal{N}(0,p_{ij}(1-p_{ij}))$. Wald $(1-\alpha)$ CI:
 $$
 \boxed{\;\widehat p_{ij}\pm z_{\alpha/2}\sqrt{\widehat p_{ij}(1-\widehat p_{ij})/n_{i,+}}.\;}
-$$""",
+$$
+
+\emph{R (pool transition counts across $n$ locations, then row-normalise):}
+`N <- matrix(0, 3, 3); for(i in 1:n) for(t in 2:101) N[Y[i,t-1], Y[i,t]] <- N[Y[i,t-1], Y[i,t]] + 1`
+`Phat <- N / rowSums(N)`
+`se  <- sqrt(Phat*(1-Phat) / rowSums(N))`
+`ci_lo <- Phat - 1.96*se; ci_hi <- Phat + 1.96*se`""",
     "is_exam": True,
     "topic_hint": "t4a",
     "images": []
@@ -195,13 +210,15 @@ then plug their MLE $\hat\phi$ in the model and proceed by Kalman filter or smoo
 
 ---
 
-**Solution.** \textbf{(a)} Prediction-error decomposition (DLMwR \S 4.1, eq.\ 4.1, p.\ 144):
+**Solution.** \textbf{(a)} Prediction-error decomposition (DLMwR \S 4.1, eq.\ 4.1, p.\ 144). \emph{Key fact:} by the chain rule $p(y_{1:T}\mid\phi)=\prod_t p(y_t\mid y_{1:t-1},\phi)$, and the KF gives precisely $p(y_t\mid y_{1:t-1},\phi)=\mathcal{N}_q(f_t(\phi),Q_t(\phi))$. Therefore
 $$
-L(\phi\mid y_{1:T})=\prod_{t=1}^T \Nd_q\bigl(y_t;f_t(\phi),Q_t(\phi)\bigr),
+L(\phi\mid y_{1:T})=\prod_{t=1}^T \mathcal{N}_q\bigl(y_t;f_t(\phi),Q_t(\phi)\bigr),
 $$
 with $(f_t,Q_t)$ from the Kalman filter at $\phi$. Equivalently
-$\ell(\phi)=-\tfrac12\sum_t[\,q\log(2\pi)+\log|Q_t|+e_t^{\top} Q_t^{-1}e_t\,]$.
+$\ell(\phi)=-\tfrac12\sum_t[\,q\log(2\pi)+\log|Q_t|+e_t^{\top} Q_t^{-1}e_t\,]$, where $e_t=y_t-f_t$.
 $\widehat\phi$ numerically (BFGS / EM).
+
+\emph{R:} `fit <- dlmMLE(y, parm = c(0,0), build = function(p) dlmModPoly(2, dV=exp(p[1]), dW=c(0, exp(p[2]))))`
 
 \textbf{(b) Definitions.}
 \emph{Filtering:} $\pi(\theta_t\mid y_{1:t})$ --- state given data \emph{up to now}.
@@ -210,7 +227,7 @@ $\widehat\phi$ numerically (BFGS / EM).
 (including \emph{after} $t$).
 
 \textbf{(c) RTS smoother} (DLMwR Prop.\ 2.4, p.\ 61). Run KF forward, store $(m_t,C_t)$ and
-$(a_{t+1},R_{t+1})$. Backward, with $\theta_t\mid y_{1:T}\sim\Nd_p(s_t,S_t)$:
+$(a_{t+1},R_{t+1})$. Backward, with $\theta_t\mid y_{1:T}\sim\mathcal{N}_p(s_t,S_t)$:
 $$
 \boxed{\;
 s_T=m_T,\,S_T=C_T;\quad
@@ -254,8 +271,16 @@ $$
 \frac{1}{C_n}=\frac{1}{C_0}+\frac{n}{\sigma^2},\quad m_n=C_n\Bigl(\tfrac{m_0}{C_0}+\tfrac{n\bar y_n}{\sigma^2}\Bigr).\;}
 $$
 (Precision adds; $m_n$ = precision-weighted average of $m_0$ and $\bar y_n$.)
-\emph{Numerics ($\sigma^2=1$, $n=20$, $\bar y_n=4$, flat prior):} $C_n=1/20=0.05$, $m_n=4$, so
-$\theta\mid y_{1:20}\sim\mathcal{N}(4,0.05)$; 95\% CI $4\pm 1.96\sqrt{0.05}\approx[3.56,4.44]$.""",
+
+\emph{Derivation sketch.} $p(\theta\mid y_{1:n})\propto p(\theta)\prod_s p(y_s\mid\theta)\propto\exp\bigl(-\tfrac{1}{2C_0}(\theta-m_0)^2-\tfrac{1}{2\sigma^2}\sum_s(y_s-\theta)^2\bigr)$; completing the square in $\theta$ gives the boxed Gaussian with precision $1/C_n=1/C_0+n/\sigma^2$ and mean $m_n=C_n(m_0/C_0+\sum_s y_s/\sigma^2)$. With $\sum_s y_s=n\bar y_n$ this is the formula above.
+
+\emph{Numerics ($\sigma^2=1$, $n=20$, $\bar y_n=4$, flat prior $C_0\to\infty$):} $1/C_n=0+20/1=20$, so $C_n=1/20=0.05$; $m_n=C_n\cdot n\bar y_n/\sigma^2=0.05\cdot 80=4$. Hence $\theta\mid y_{1:20}\sim\mathcal{N}(4,0.05)$; 95\% CI $4\pm 1.96\sqrt{0.05}\approx[3.56,4.44]$.
+
+\emph{R:}
+`n <- 20; ybar <- 4; sigma2 <- 1; C0 <- Inf; m0 <- 0`
+`Cn <- 1/(1/C0 + n/sigma2)            ## 0.05`
+`mn <- Cn*(m0/C0 + n*ybar/sigma2)     ## 4`
+`mn + c(-1,1)*qnorm(0.975)*sqrt(Cn)   ## 95% CI`""",
     "is_exam": True,
     "topic_hint": "t13a",
     "images": []
@@ -338,10 +363,20 @@ $\sqrt{n_{1,+}}(\widehat p_{1,1}-p_{1,1})\xrightarrow{d}\mathcal{N}(0,p_{1,1}(1-
 Step 1: estimated July YES probability via plug-in
 $\widehat p_{\text{YES}}=\sum_i\widehat\pi_i^{(5)}\,\widehat p_{i,1}$, with
 $\widehat\pi^{(5)}\propto(150,250,100)$ the empirical state distribution in June.
-This gives $\widehat p_{\text{YES}}=(150\cdot.467+250\cdot.300+100\cdot.300)/500=175/500=0.35$.
-Step 2: $\bar Y_{\text{July}}\approx\mathcal{N}(0.35,\,0.35\cdot 0.65/n)$ (panel proportion CLT).
-$\sqrt{0.35\cdot 0.65/1000}\approx 0.015$.
-$\widehat q=1-\Phi((0.5-0.35)/0.015)=1-\Phi(10)\approx 0$.""",
+Plug-in MLEs: $\widehat p_{1,1}=70/150\approx 0.467$, $\widehat p_{2,1}=75/250=0.300$, $\widehat p_{3,1}=30/100=0.300$.
+This gives $\widehat p_{\text{YES}}=(150\cdot 0.467+250\cdot 0.300+100\cdot 0.300)/500=(70+75+30)/500=175/500=0.35$.
+Step 2: by the panel proportion CLT (sample of $n=1000$ i.i.d.\ Bernoulli outcomes per individual),
+$\bar Y_{\text{July}}\approx\mathcal{N}(0.35,\,0.35\cdot 0.65/n)$, hence $\mathrm{SE}=\sqrt{0.35\cdot 0.65/1000}\approx 0.0151$.
+Step 3: $\widehat q=\mathbb{P}(\bar Y_{\text{July}}>0.5)=1-\Phi\bigl((0.5-0.35)/0.0151\bigr)=1-\Phi(9.93)\approx 0$.
+
+\emph{R:}
+`N <- matrix(c(70,30,50, 75,120,55, 30,34,36), 3, 3, byrow=TRUE)`
+`Phat <- N / rowSums(N); pi5 <- rowSums(N) / sum(N)`
+`p_yes <- sum(pi5 * Phat[,1])           ## 0.35`
+`se <- sqrt(p_yes*(1-p_yes)/1000)`
+`q_hat <- 1 - pnorm((0.5 - p_yes)/se)   ## ~ 0`
+`ci_lo <- Phat[1,1] - 1.65*sqrt(Phat[1,1]*(1-Phat[1,1])/rowSums(N)[1])`
+`ci_hi <- Phat[1,1] + 1.65*sqrt(Phat[1,1]*(1-Phat[1,1])/rowSums(N)[1])`""",
     "is_exam": True,
     "topic_hint": "t4b",
     "images": []
@@ -353,14 +388,9 @@ past_exams_ts["exam_jun_2025_q3"] = {
 
 **(b)** In state-space models, filtering consists in recursively providing a point estimate
         of the state $\theta_t$ given $y_{1:t}$. Is this correct?
-        \begin{itemize}[leftmargin=1.6em]
+        Answer as either: **A. Yes, because:** ... or **B. No, because:** ...
 
-**(c)** [A.] \textbf{Yes}, because:
-
-**(d)** [B.] \textbf{No}, because:
-        \end{itemize}
-
-**(e)** Now consider a Dynamic Linear Model (DLM). If $\theta_t\mid\theta_{t-1}\sim\Nd_p(m_{t-1},C_{t-1})$,
+**(c)** Now consider a Dynamic Linear Model (DLM). If $\theta_{t-1}\mid y_{1:t-1}\sim\mathcal{N}_p(m_{t-1},C_{t-1})$,
         what is the distribution of $\theta_t\mid y_{1:t}$? Prove your claims.</span>
 
 ---
@@ -373,16 +403,23 @@ $Y_t\mid\theta_t\sim f(y_t\mid\theta_t)$ (conditional indep.\ of obs.\ given sta
 a point estimate. The conditional mean is one summary; uncertainty (variance, credible
 region) requires the full distribution.
 
-\textbf{(c) DLM filtering update.} \emph{Predict} (Q4d of Exam 1):
-$\theta_t\mid y_{1:t-1}\sim\mathcal{N}(a_t,R_t)$, $a_t=Gm_{t-1}$, $R_t=GC_{t-1}G^{\top}+W$;
-$Y_t\mid y_{1:t-1}\sim\mathcal{N}(f_t,Q_t)$, $f_t=Fa_t$, $Q_t=FR_tF^{\top}+V$.
-\emph{Update} via Bayes: $p(\theta_t\mid y_{1:t})\propto p(y_t\mid\theta_t)p(\theta_t\mid y_{1:t-1})$;
-Gaussian $\times$ Gaussian $=$ Gaussian. The joint $(\theta_t,Y_t)\mid y_{1:t-1}$ is Gaussian
-with cross-covariance $R_tF^{\top}$; conditioning on $Y_t=y_t$ gives
+\textbf{(c) DLM filtering update.} Three steps.
+
+\emph{Step 1 — predict} (state \& obs.\ one-step-ahead, as in Sep 2025 Q4d):
+$\theta_t\mid y_{1:t-1}\sim\mathcal{N}_p(a_t,R_t)$ with $a_t=Gm_{t-1}$, $R_t=GC_{t-1}G^{\top}+W$;
+$Y_t\mid y_{1:t-1}\sim\mathcal{N}_q(f_t,Q_t)$ with $f_t=Fa_t$, $Q_t=FR_tF^{\top}+V$.
+
+\emph{Step 2 — joint Gaussian.} Because $Y_t=F\theta_t+v_t$ is linear in $\theta_t$ with $v_t\perp\theta_t$, the joint
+$(\theta_t,Y_t)\mid y_{1:t-1}$ is Gaussian with cross-covariance $\mathrm{Cov}(\theta_t,Y_t\mid y_{1:t-1})=R_tF^{\top}$.
+
+\emph{Step 3 — Bayes via Gaussian conditioning.} $p(\theta_t\mid y_{1:t})\propto p(y_t\mid\theta_t)\,p(\theta_t\mid y_{1:t-1})$ (Bayes' rule); Gaussian $\times$ Gaussian $=$ Gaussian. The standard formulas for conditional Normals applied to the joint give:
 $$
-\boxed{\;\theta_t\mid y_{1:t}\sim\mathcal{N}(m_t,C_t),\quad
+\boxed{\;\theta_t\mid y_{1:t}\sim\mathcal{N}_p(m_t,C_t),\quad
 m_t=a_t+K_t(y_t-f_t),\;C_t=R_t-K_tQ_tK_t^{\top},\;K_t=R_tF^{\top} Q_t^{-1}.\;}
-$$""",
+$$
+$K_t$ is the \emph{Kalman gain}; $y_t-f_t$ is the \emph{innovation}.
+
+\emph{R:} `kf <- dlmFilter(y, mod); m_t <- kf$m[t+1,]; C_t <- dlmSvd2var(kf$U.C[[t+1]], kf$D.C[t+1,])`""",
     "is_exam": True,
     "topic_hint": "t8b",
     "images": []
@@ -403,21 +440,27 @@ $Y_{jt}$ represents the price of financial asset $j$ in a portfolio at time $t$.
 
 ---
 
-**Solution.** \textbf{(a)} Same as Q4(a) Exam 1.
+**Solution.** \textbf{(a) General DLM} (DLMwR \S 2.3).
+$\theta_t=G_t\theta_{t-1}+w_t$, $w_t\overset{\text{iid}}{\sim}\mathcal{N}_p(0,W_t)$;
+$Y_t=F_t\theta_t+v_t$, $v_t\overset{\text{iid}}{\sim}\mathcal{N}_m(0,V_t)$;
+$\theta_0\sim\mathcal{N}_p(m_0,C_0)$; $\{w_t\},\{v_s\},\theta_0$ mutually independent.
 
-\textbf{(b)} $\theta_{j,t}=\theta_{j,t-1}+w_{j,t}$, $Y_{j,t}=\theta_{j,t}+v_{j,t}$ for $j=1,2$:
+\textbf{(b)} For $m=2$ independent RW + noise: latent ideal price $\theta_{j,t}=\theta_{j,t-1}+w_{j,t}$ and observation $Y_{j,t}=\theta_{j,t}+v_{j,t}$ for $j=1,2$, with $(w_{j,t})$, $(v_{j,t})$ all mutually independent. Stacking:
 $$
 \boxed{\;F=I_2,\;G=I_2,\;V=\mathrm{diag}(\sigma_{v_1}^2,\sigma_{v_2}^2),\;
 W=\mathrm{diag}(\sigma_{w_1}^2,\sigma_{w_2}^2).\;}
 $$
 
-\textbf{(c)} Three options.
-(1) \emph{Correlated state noise:} make $W$ non-diagonal, $W_{12}=\rho_w\sigma_{w_1}\sigma_{w_2}$
---- contemporaneous correlation of increments.
-(2) \emph{Common latent factor:} $\theta_t=Af_t$ with $f_t$ a 1-dim.\ RW
-(common stochastic trend, factor / cointegration).
+\textbf{(c)} Three options to introduce dependence between the two latent random walks.
+
+(1) \emph{Correlated state noise:} make $W$ non-diagonal, $W_{12}=\rho_w\sigma_{w_1}\sigma_{w_2}$ --- contemporaneous correlation of increments. Innovations to asset 1 and asset 2 move together within a period.
+
+(2) \emph{Common latent factor:} $\theta_t=Af_t$ with $f_t$ a 1-dim.\ RW (common stochastic trend; gives a factor / cointegration structure). Both prices share one underlying random walk.
+
 (3) \emph{Cross terms in $G$:} $G=\bigl(\begin{smallmatrix}1&\delta\\0&1\end{smallmatrix}\bigr)$
-or full $G$ (states evolve as a VAR(1)).""",
+or full $G$ (states evolve as a VAR(1)) --- past innovations in one asset spill over into the level of the other.
+
+\emph{R (option 1, correlated state noise):} `mod <- dlm(FF=diag(2), GG=diag(2), V=diag(c(sv1^2,sv2^2)), W=matrix(c(sw1^2, rho*sw1*sw2, rho*sw1*sw2, sw2^2),2,2), m0=c(0,0), C0=diag(2)*1e7)`""",
     "is_exam": True,
     "topic_hint": "t7d",
     "images": []
@@ -434,9 +477,15 @@ Show that $\mathbb{E}(e_t)=0$.</span>
 
 ---
 
-**Solution.** By definition of conditional expectation and the tower property:
-$\mathbb{E}[e_t]=\mathbb{E}[Y_t-\mathbb{E}(Y_t\mid Y_{1:t-1})]=\mathbb{E}[Y_t]-\mathbb{E}[\mathbb{E}(Y_t\mid Y_{1:t-1})]=\mathbb{E}[Y_t]-\mathbb{E}[Y_t]=0$.
-(One line: $\mathbb{E}[e_t\mid\mathcal F_{t-1}]=0$, so unconditionally $\mathbb{E}[e_t]=0$.)""",
+**Solution.** Interpret $f_t=\mathbb{E}(Y_t\mid Y_{1:t-1})$ (the standard one-step-ahead predictive mean from the KF; the prompt's $Y_{t-1}$ is shorthand for the past). Apply linearity and the tower property of conditional expectation:
+$$\mathbb{E}[e_t]=\mathbb{E}[Y_t]-\mathbb{E}\bigl[\mathbb{E}(Y_t\mid Y_{1:t-1})\bigr]=\mathbb{E}[Y_t]-\mathbb{E}[Y_t]=0,$$
+since $\mathbb{E}[\mathbb{E}(X\mid\mathcal F)]=\mathbb{E}[X]$.
+
+Equivalently, in one step, $\mathbb{E}[e_t\mid\mathcal F_{t-1}]=\mathbb{E}[Y_t\mid\mathcal F_{t-1}]-f_t=f_t-f_t=0$, so $\mathbb{E}[e_t]=\mathbb{E}[\mathbb{E}[e_t\mid\mathcal F_{t-1}]]=0$.
+
+\emph{Why this matters.} Zero-mean forecast errors are the foundation of likelihood-based DLM estimation (prediction-error decomposition): each $e_t\sim\mathcal{N}(0,Q_t)$ independently, so $\ell(\phi)=-\tfrac12\sum_t[\log|Q_t|+e_t^{\top}Q_t^{-1}e_t]+\text{const}$.
+
+\emph{R diagnostic check:} `kf <- dlmFilter(y, mod); e <- residuals(kf, sd=FALSE); mean(e)  ## should be ~ 0`""",
     "is_exam": True,
     "topic_hint": "t11a",
     "images": []
@@ -453,14 +502,23 @@ in a Bayesian approach? Write its expression and comment briefly.</span>
 
 ---
 
-**Solution.** Put a prior $\pi(\phi)$. The predictive marginalises both the state \emph{and} the parameters:
+**Solution.** Put a prior $\pi(\phi)$ on the unknown parameters. The Bayesian predictive marginalises out \emph{both} the state \emph{and} the parameters. Starting from the joint $p(y_{t+1},\phi\mid y_{1:t})=p(y_{t+1}\mid y_{1:t},\phi)\,p(\phi\mid y_{1:t})$ and integrating out $\phi$:
 $$
 \boxed{\;p(y_{t+1}\mid y_{1:t})=\int p(y_{t+1}\mid y_{1:t},\phi)\,p(\phi\mid y_{1:t})\,d\phi.\;}
 $$
-For each fixed $\phi$, $p(y_{t+1}\mid y_{1:t},\phi)=\mathcal{N}(f_{t+1}(\phi),Q_{t+1}(\phi))$ from the KF.
-$p(\phi\mid y_{1:t})\propto L(\phi)\pi(\phi)$ is explored by MCMC. The integral is a
-mixture of Gaussians: properly inflated for parameter uncertainty (\emph{wider} than the
-plug-in $\mathcal{N}(f_{t+1}(\widehat\phi),Q_{t+1}(\widehat\phi))$).""",
+
+\emph{Each ingredient.}
+- For each fixed $\phi$, $p(y_{t+1}\mid y_{1:t},\phi)=\mathcal{N}(f_{t+1}(\phi),Q_{t+1}(\phi))$ from the Kalman filter (one-step-ahead predictive of a DLM).
+- $p(\phi\mid y_{1:t})\propto L(\phi)\,\pi(\phi)$ — typically intractable, explored by MCMC (Metropolis-Hastings or Gibbs over $(\phi,\theta_{0:t})$ via FFBS).
+
+The integral is therefore a \emph{mixture of Gaussians}, generally non-Gaussian. Monte-Carlo approximation: draw $\phi^{(s)}\sim p(\phi\mid y_{1:t})$ for $s=1,\dots,S$, run the KF at each draw, then
+$$p(y_{t+1}\mid y_{1:t})\approx\frac{1}{S}\sum_{s=1}^S\mathcal{N}\bigl(y_{t+1};f_{t+1}(\phi^{(s)}),Q_{t+1}(\phi^{(s)})\bigr).$$
+
+\emph{Honest uncertainty:} the Bayesian predictive is \emph{wider} than the plug-in $\mathcal{N}(f_{t+1}(\widehat\phi),Q_{t+1}(\widehat\phi))$ which ignores parameter uncertainty.
+
+\emph{R (rough sketch):}
+`samples <- dlmGibbsDIG(y, mod=buildFun, n.sample=2000)`
+`pred <- sapply(samples$dV, function(v){ mod_s <- buildFun(c(log(v))); kf <- dlmFilter(y, mod_s); rnorm(1, kf$f[length(y)+1], sqrt(kf$Q[length(y)+1])) })`""",
     "is_exam": True,
     "topic_hint": "t13b",
     "images": []
@@ -469,32 +527,20 @@ plug-in $\mathcal{N}(f_{t+1}(\widehat\phi),Q_{t+1}(\widehat\phi))$).""",
 past_exams_ts["exam_may_2025_q1"] = {
     "title": 'May 2025 — Q1',
     "content": r"""<span class="exam-question-text">Consider a univariate time series $(Y_t)_{t\ge 1}$.
-**(a)** The \emph{autocovariance function} (acf) can be defined only if the time series is stationary.
-        \begin{itemize}[leftmargin=1.6em]
 
-**(b)** [A.] \textbf{Yes}, because:
+**(a)** The \emph{autocovariance function} (acf) can be defined only if the time series is stationary. Answer as either: **A. Yes, because:** ... or **B. No, because:** ...
 
-**(c)** [B.] \textbf{No}, because:
-        \end{itemize}
-
-**(d)** The correlogram can be used to estimate the acf only if the time series is stationary.
-        \begin{itemize}[leftmargin=1.6em]
-
-**(e)** [A.] \textbf{Yes}, because:
-
-**(f)** [B.] \textbf{No}, because:
-        \end{itemize}</span>
+**(b)** The correlogram can be used to estimate the acf only if the time series is stationary. Answer as either: **A. Yes, because:** ... or **B. No, because:** ...</span>
 
 ---
 
-**Solution.** \textbf{(a) NO.} The ACF is defined as $\gamma(s,t)=\operatorname{Cov}(Y_s,Y_t)$ whenever
-$\mathbb{E}[Y_t^2]<\infty$. Stationarity merely allows reducing it to a 1-arg function $\gamma(h)$
-of the lag.
+**Solution.** \textbf{(a) NO.} The autocovariance function is defined as $\gamma(s,t)=\operatorname{Cov}(Y_s,Y_t)$ for \emph{any} time series with $\mathbb{E}[Y_t^2]<\infty$ — it is a function of two arguments $(s,t)$. Stationarity is \emph{not} required to define it; it merely allows the reduction to a 1-argument function $\gamma(h)=\gamma(t,t+h)$ of the lag $h$ only (since under weak stationarity $\gamma(s,t)$ depends only on $|s-t|$).
 
-\textbf{(b) YES} (essentially). The correlogram
-$\hat\gamma(h)=T^{-1}\sum_{t}(Y_t-\bar Y)(Y_{t+|h|}-\bar Y)$ \emph{pools} across $t$ to
-estimate one function: meaningful only if the true ACVF depends solely on the lag. Without
-(weak) stationarity + ergodicity it has no clean interpretation.""",
+\textbf{(b) YES} (essentially). The correlogram estimator
+$$\hat\gamma(h)=\frac{1}{T}\sum_{t=1}^{T-|h|}(Y_t-\bar Y)(Y_{t+|h|}-\bar Y)$$
+\emph{pools} across $t$ to estimate one function of the lag. This is meaningful only if the true ACVF depends solely on the lag — i.e.\ under (weak) stationarity. Plus ergodicity is needed for consistency (the time-average $T^{-1}\sum_t\to\mathbb{E}$). Without these, $\hat\gamma(h)$ has no clean interpretation as an estimate of "the" autocovariance.
+
+\emph{R:} `acf_est <- acf(y, lag.max=40, plot=TRUE, type="covariance")  ## sample ACVF`""",
     "is_exam": True,
     "topic_hint": "t2b",
     "images": []
@@ -503,14 +549,25 @@ estimate one function: meaningful only if the true ACVF depends solely on the la
 past_exams_ts["exam_may_2025_q2"] = {
     "title": 'May 2025 — Q2',
     "content": r"""<span class="exam-question-text">Consider a stochastic process $(Y_t)_{t\ge 1}$ starting at $Y_0=0$, where
-$Y_t=\sum_{i=1}^t Z_i$ and $Z_i$ is i.i.d.\ with $\Prob(Z_i=-1)=p$ and $\Prob(Z_i=1)=1-p$. Is
+$Y_t=\sum_{i=1}^t Z_i$ and $Z_i$ is i.i.d.\ with $\mathbb{P}(Z_i=-1)=p$ and $\mathbb{P}(Z_i=1)=1-p$. Is
 $(Y_t)_{t\ge 1}$ a Markov process?</span>
 
 ---
 
-**Solution.** \textbf{YES.} $Y_t=Y_{t-1}+Z_t$ with $Z_t$ independent of $Y_{0:t-1}$. Hence
-$\Prob(Y_t=y_t\mid Y_{0:t-1})=\Prob(Z_t=y_t-Y_{t-1})=\Prob(Y_t\mid Y_{t-1})$
-(Markov property; cf.\ Example 1 RW). \emph{It is also non-stationary} ($\operatorname{Var}(Y_t)=4p(1-p)\,t$).""",
+**Solution.** \textbf{YES.} Observe that $Y_t=Y_{t-1}+Z_t$ where $Z_t$ is independent of $(Z_1,\dots,Z_{t-1})$ and therefore independent of $Y_{0:t-1}=(Y_0,\dots,Y_{t-1})$.
+
+Hence for any $y_{0:t}$,
+$$\mathbb{P}(Y_t=y_t\mid Y_{0:t-1}=y_{0:t-1})=\mathbb{P}(Z_t=y_t-y_{t-1}\mid Y_{0:t-1}=y_{0:t-1})=\mathbb{P}(Z_t=y_t-y_{t-1}),$$
+which depends only on $y_{t-1}$ (and not on $y_{0:t-2}$). That is the Markov property:
+$$\mathbb{P}(Y_t=y_t\mid Y_{0:t-1})=\mathbb{P}(Y_t=y_t\mid Y_{t-1}).$$
+This is the canonical \emph{random walk} construction (Example 1).
+
+\emph{Side remark.} The chain is \emph{not stationary}: $\mathbb{E}[Z_i]=1-2p$ and $\operatorname{Var}(Z_i)=4p(1-p)$, so $\mathbb{E}[Y_t]=(1-2p)t$ and $\operatorname{Var}(Y_t)=4p(1-p)\,t$ both grow with $t$ (unless $p=1/2$ for the mean; the variance grows regardless).
+
+\emph{R simulation:}
+`p <- 0.4; T <- 1000`
+`Z <- sample(c(-1,1), T, replace=TRUE, prob=c(p, 1-p))`
+`Y <- cumsum(Z); var(Y[1:500])/250  ## should ~ 4*p*(1-p) = 0.96`""",
     "is_exam": True,
     "topic_hint": "t3a",
     "images": []
@@ -532,20 +589,27 @@ representing $k$ possible topics.
 
 ---
 
-**Solution.** \textbf{(a) HMM} (keydef \textbf{15b}, HMM variant).
-Latent topic $(S_t)\in\{1,\dots,k\}$ homogeneous Markov, $S_0\sim\pi$, transition $\mathbf P=[p_{ij}]$.
-Observed word $Y_t\in\{1,\dots,M\}$, emission
-$e_{i,w}=\Prob(Y_t=w\mid S_t=i)$, $\sum_w e_{i,w}=1$. Conditional indep.\ of obs.\ given the state.
+**Solution.** \textbf{(a) HMM} (keydef \textbf{15b}, HMM variant). \emph{Assumptions:}
 
-\textbf{(b)} $\phi=(\pi,\mathbf P,\mathbf E)$: $(k-1)+k(k-1)+k(M-1)$ free parameters.
+(i) \emph{Latent topic chain.} $(S_t)_{t\ge 1}\in\{1,\dots,k\}$ is a homogeneous Markov chain, with initial law $S_1\sim\pi=(\pi_1,\dots,\pi_k)$ and transition matrix $\mathbf P=[p_{ij}]_{i,j=1}^k$, $p_{ij}=\mathbb{P}(S_{t+1}=j\mid S_t=i)$.
 
-\textbf{(c) Likelihood (forward algorithm).} Define $\alpha_t(i)=\Prob(Y_{1:t}=y_{1:t},S_t=i;\phi)$:
-$\alpha_1(i)=\pi_i e_{i,y_1}$; $\alpha_t(j)=\bigl(\sum_i\alpha_{t-1}(i)p_{ij}\bigr)e_{j,y_t}$.
-Then
+(ii) \emph{Emission.} Conditional on $S_t=i$, the observed word is $Y_t\in\{1,\dots,M\}$ with $e_{i,w}=\mathbb{P}(Y_t=w\mid S_t=i)$, $\sum_{w=1}^M e_{i,w}=1$. Store as $\mathbf E=[e_{i,w}]\in\mathbb{R}^{k\times M}$.
+
+(iii) \emph{Conditional independence of observations} given the latent path: $Y_t\perp(S_{-t},Y_{-t})\mid S_t$ — words depend on the topic only at the same time.
+
+\textbf{(b)} $\phi=(\pi,\mathbf P,\mathbf E)$, with simplex constraints:
+$$\#\text{free} = \underbrace{(k-1)}_{\pi}+\underbrace{k(k-1)}_{\mathbf P\text{ rows}}+\underbrace{k(M-1)}_{\mathbf E\text{ rows}}.$$
+
+\textbf{(c) Likelihood (forward algorithm).} The naive sum $L(\phi)=\sum_{s_{1:t}}\mathbb{P}(Y_{1:t},S_{1:t})$ has $k^t$ terms. The forward variable $\alpha_t(i)=\mathbb{P}(Y_{1:t}=y_{1:t},S_t=i;\phi)$ admits the recursion
+$$\alpha_1(i)=\pi_i\,e_{i,y_1};\qquad \alpha_t(j)=\Bigl(\sum_{i=1}^k\alpha_{t-1}(i)\,p_{ij}\Bigr)e_{j,y_t},$$
+because $\mathbb{P}(Y_{1:t},S_t=j)=\sum_i\mathbb{P}(Y_{1:t-1},S_{t-1}=i)p_{ij}\,e_{j,y_t}$ (marginalising $S_{t-1}$). Then
 $$
-L(\phi;y_{1:t})=\sum_{i=1}^k\alpha_t(i),
+\boxed{\;L(\phi;y_{1:t})=\sum_{i=1}^k\alpha_t(i)\;}
 $$
-computed in $O(k^2 t)$ instead of $O(k^t)$. MLE by EM / Baum--Welch.""",
+computed in $O(k^2 t)$ instead of $O(k^t)$. MLE by EM / Baum--Welch (E-step uses forward-backward; M-step has closed-form updates for $\pi,\mathbf P,\mathbf E$).
+
+\emph{R:} `library(HMM); hmm <- initHMM(States=1:k, Symbols=1:M); fit <- baumWelch(hmm, observation=y)$hmm`
+`logL <- forward(fit, y); sum(exp(logL[,length(y)]))  ## likelihood`""",
     "is_exam": True,
     "topic_hint": "t5a",
     "images": []
@@ -573,24 +637,29 @@ may fail to capture residual temporal dependence.
 
 ---
 
-**Solution.** \textbf{(a)} State $\theta_t=(\alpha_t,\beta_t)^{\top}$; $F_t=(1,x_t)$:
+**Solution.** \textbf{(a) Time-varying-coefficient DLM.} Let $\theta_t=(\alpha_t,\beta_t)^{\top}$ be the 2-dim.\ latent state of intercept and slope at time $t$; observation $F_t=(1,\;x_t)$ encodes the regressor:
 $$
-Y_t=F_t\theta_t+v_t,\;v_t\sim\mathcal{N}(0,\sigma^2);\quad
-\theta_t=\theta_{t-1}+w_t,\;w_t\sim\Nd_2(0,W).
+Y_t=F_t\theta_t+v_t,\;v_t\overset{\text{iid}}{\sim}\mathcal{N}(0,\sigma^2);\qquad
+\theta_t=\theta_{t-1}+w_t,\;w_t\overset{\text{iid}}{\sim}\mathcal{N}_2(0,W),\;\theta_0\sim\mathcal{N}_2(m_0,C_0).
 $$
+The static-coefficient linear regression is recovered by setting $W=0$. Letting $W$ be positive lets $\alpha_t,\beta_t$ drift smoothly with $t$, capturing dose-response nonlinearities and temporal dependence.
 
-\textbf{(b)} Smoothing distribution $=\pi(\theta_{0:n}\mid y_{1:n})$ (joint) or
-$\pi(\theta_t\mid y_{1:n})=\Nd_2(s_t,S_t)$ (marginal at $t$, by RTS).
-Pools \emph{past and future} data, more informative than filtering.
+\textbf{(b) Smoothing distribution.} Either the \emph{joint smoothing} $\pi(\theta_{0:n}\mid y_{1:n})$ (the full latent path conditional on all data) or the \emph{marginal smoothing} $\pi(\theta_t\mid y_{1:n})=\mathcal{N}_2(s_t,S_t)$ at a fixed $t$ (computed by the RTS backward recursion). Pools \emph{past and future} data — strictly more informative than filtering $\pi(\theta_t\mid y_{1:t})$, useful for retrospective analysis.
 
-\textbf{(c) $\sigma^2$ unknown.} Either (i) MLE: maximise the prediction-error likelihood
-$\ell(\sigma^2,W)$ (Exam 1 Q7a) and plug $\hat\sigma^2$ into the KF; or (ii) Bayesian
-conjugate: $\sigma^2\sim\mathrm{IG}$, $W\sim\mathrm{IW}$, FFBS Gibbs on $(\theta_{0:n},\sigma^2,W)$.
+\textbf{(c) $\sigma^2$ unknown.} Two routes:
 
-\textbf{(d) Hierarchical DLM.} For hospitals $h=1,2$, one DLM each
-$\theta_t^{(h)}$, tied via a shared population mean $\theta_0^{(h)}\sim\Nd_2(\mu,T)$,
-hyperprior $\mu\sim\Nd_2(0,\Sigma_0)$. Inference shrinks each hospital's coefficient toward
-$\mu$; degree of shrinkage learned from data.""",
+(i) \emph{MLE plug-in.} Maximise the prediction-error log-likelihood (Sep 2025 Q7a) $\ell(\sigma^2,W)=-\tfrac12\sum_t[\log|Q_t|+e_t^2/Q_t]+\text{const}$ over $(\sigma^2,W)$; plug $(\widehat\sigma^2,\widehat W)$ into KF/smoother (empirical Bayes).
+
+(ii) \emph{Fully Bayesian.} Conjugate priors $\sigma^2\sim\mathrm{IG}(a_v,b_v)$, $W\sim\mathrm{IW}(\nu,S)$, then run Gibbs on $(\theta_{0:n},\sigma^2,W)$ with FFBS (forward-filter, backward-sample) for $\theta_{0:n}$ and the conjugate updates for $(\sigma^2,W)$.
+
+\textbf{(d) Hierarchical DLM (borrowing strength).} For hospitals $h=1,2$, one DLM each:
+$$Y_t^{(h)}=F_t^{(h)}\theta_t^{(h)}+v_t^{(h)},\qquad \theta_t^{(h)}=\theta_{t-1}^{(h)}+w_t^{(h)},$$
+tied via a \emph{shared population mean} on the initial states $\theta_0^{(h)}\sim\mathcal{N}_2(\mu,T)$, hyperprior $\mu\sim\mathcal{N}_2(0,\Sigma_0)$. Inference shrinks each hospital's $\theta_0^{(h)}$ (and hence its path) toward the shared $\mu$; degree of shrinkage learned from data. Variants: shared $W$, shared error variance, or shared dynamics with hospital-specific intercept.
+
+\emph{R sketch (single-hospital fit):}
+`build <- function(p) dlmModReg(X=xt, addInt=TRUE, dV=exp(p[1]), dW=exp(p[2:3]))`
+`fit <- dlmMLE(y, parm=c(0,0,0), build=build)`
+`smo <- dlmSmooth(y, build(fit$par)); s_t <- smo$s   ## (alpha_t, beta_t) smoothed`""",
     "is_exam": True,
     "topic_hint": "t7c",
     "images": []
@@ -601,32 +670,40 @@ past_exams_ts["exam_may_2025_q5"] = {
     "content": r"""<span class="exam-question-text">**(a)** Define the random walk plus noise model.
 
 **(b)** Given
-        $$\theta_{t-1}\mid y_{1:t-1}\sim\Nd_p(m_{t-1},C_{t-1}),$$
+        $$\theta_{t-1}\mid y_{1:t-1}\sim\mathcal{N}(m_{t-1},C_{t-1}),$$
         what are the steps of the Kalman filter recursions, i.e.\ to obtain that, when a new
         observation $y_t$ becomes available, the filtering distribution of $\theta_t$ is
-        $$\theta_t\mid y_{1:t}\sim\Nd_p(m_t,C_t)\,?$$
+        $$\theta_t\mid y_{1:t}\sim\mathcal{N}(m_t,C_t)\,?$$
 
-**(c)** \textbf{Optional question.} Does the variance $C_t$ converge to zero as $t\to\infty$?
-        \begin{itemize}[leftmargin=1.6em]
-
-**(d)** [A.] \textbf{YES}, because (give intuitive explanation).
-
-**(e)** [B.] \textbf{NO}, because (give intuitive explanation).
-        \end{itemize}</span>
+**(c)** \textbf{Optional question.} Does the variance $C_t$ converge to zero as $t\to\infty$? Answer as either: **A. YES, because** ... or **B. NO, because** ... (give intuitive explanation).</span>
 
 ---
 
-**Solution.** \textbf{(a)} $Y_t=\theta_t+v_t$, $\theta_t=\theta_{t-1}+w_t$, $v_t\overset{\text{iid}}{\sim}\mathcal{N}(0,V)$, $w_t\overset{\text{iid}}{\sim}\mathcal{N}(0,W)$,
-$\theta_0\sim\mathcal{N}(m_0,C_0)$, indep. (DLMwR \S 2.3.2.)
+**Solution.** \textbf{(a) Random walk plus noise (local level, DLMwR \S 2.3.2).}
+$$Y_t=\theta_t+v_t,\quad \theta_t=\theta_{t-1}+w_t,\quad v_t\overset{\text{iid}}{\sim}\mathcal{N}(0,V),\;w_t\overset{\text{iid}}{\sim}\mathcal{N}(0,W),\;\theta_0\sim\mathcal{N}(m_0,C_0),$$
+with $\{v_t\},\{w_t\},\theta_0$ mutually independent. Univariate $F=G=1$.
 
-\textbf{(b) KF steps.}
-\emph{Predict}: $a_t=m_{t-1}$, $R_t=C_{t-1}+W$; $f_t=a_t$, $Q_t=R_t+V$.
-\emph{Gain}: $K_t=R_t/Q_t$.
-\emph{Update}: $m_t=a_t+K_t(y_t-f_t)$, $C_t=(1-K_t)R_t=V R_t/Q_t$.
+\textbf{(b) KF recursions} (scalar case).
 
-\textbf{(c) NO} (unless $W=0$). The fixed point of $C^*=V(C^*+W)/(C^*+W+V)$ is
-$C^*=\tfrac12(-W+\sqrt{W^2+4VW})>0$. The injection of fresh noise $W$ at every step prevents
-$C_t\to 0$. (If $W=0$ the state is static and $C_t=VC_0/(V+tC_0)\to 0$ as $1/t$.)""",
+\emph{Step 1 — predict the state.} $\theta_t=\theta_{t-1}+w_t$, $w_t\perp\theta_{t-1}\mid y_{1:t-1}$, so
+$$\theta_t\mid y_{1:t-1}\sim\mathcal{N}(a_t,R_t),\quad a_t=m_{t-1},\;R_t=C_{t-1}+W.$$
+
+\emph{Step 2 — predict the observation.} $Y_t=\theta_t+v_t$, $v_t\perp\theta_t\mid y_{1:t-1}$, so
+$$Y_t\mid y_{1:t-1}\sim\mathcal{N}(f_t,Q_t),\quad f_t=a_t,\;Q_t=R_t+V.$$
+
+\emph{Step 3 — Kalman gain.} $K_t=\mathrm{Cov}(\theta_t,Y_t\mid y_{1:t-1})/Q_t=R_t/Q_t\in(0,1)$.
+
+\emph{Step 4 — update via Gaussian conditioning} on $Y_t=y_t$:
+$$\boxed{\;m_t=a_t+K_t(y_t-f_t),\qquad C_t=(1-K_t)R_t=\frac{V\,R_t}{Q_t}=\frac{V(C_{t-1}+W)}{C_{t-1}+W+V}.\;}$$
+
+\textbf{(c) NO} (unless $W=0$). The recursion $C_t=V(C_{t-1}+W)/(C_{t-1}+W+V)$ converges to the unique positive fixed point of $C^*=V(C^*+W)/(C^*+W+V)$. Rearranging gives $C^{*2}+WC^*-VW=0$, so
+$$C^*=\tfrac12\bigl(-W+\sqrt{W^2+4VW}\bigr)>0.$$
+Intuition: fresh state noise $W$ is injected every step, so even after infinite data the current state $\theta_t$ has irreducible uncertainty inherited from the most recent innovation $w_t$. (If $W=0$ the state is static and $C_t=VC_0/(V+tC_0)\to 0$ at rate $1/t$.)
+
+\emph{R (iterate the Riccati recursion to the limit):}
+`V <- 1; W <- 0.5; C <- 1`
+`for (t in 1:200) C <- V*(C+W)/(C+W+V)`
+`C   ## ~ 0.5*(-W + sqrt(W^2+4*V*W))`""",
     "is_exam": True,
     "topic_hint": "t8b",
     "images": []
@@ -643,15 +720,20 @@ past_exams_ts["exam_may_2025_q6"] = {
 
 ---
 
-**Solution.** \textbf{(a)} Prior $\pi(\phi)$; $\theta_0\sim\Nd_p(m_0,C_0)$;
-$Y_t=F_t\theta_t+v_t$, $v_t\sim\Nd_m(0,V_t(\phi))$;
-$\theta_t=G_t\theta_{t-1}+w_t$, $w_t\sim\Nd_p(0,W_t(\phi))$.
+**Solution.** \textbf{(a) Bayesian SSM with parameter uncertainty.} Put a prior $\pi(\phi)$ on the unknown parameters. The state-space process for $(Y_t)_{t\ge 1}$ (with $Y_t\in\mathbb{R}^m$) is then
+$$\theta_0\sim\mathcal{N}_p(m_0,C_0);\quad \theta_t=G_t\theta_{t-1}+w_t,\;w_t\sim\mathcal{N}_p(0,W_t(\phi));\quad Y_t=F_t\theta_t+v_t,\;v_t\sim\mathcal{N}_m(0,V_t(\phi));$$
+with $\{w_t\},\{v_s\},\theta_0$ mutually independent given $\phi$. Inference is on the joint posterior $p(\theta_{0:t},\phi\mid y_{1:t})\propto p(y_{1:t}\mid\theta_{0:t},\phi)\,p(\theta_{0:t}\mid\phi)\,\pi(\phi)$.
 
-\textbf{(b)} $p(\theta_t\mid y_{1:t})=\int p(\theta_t\mid y_{1:t},\phi)p(\phi\mid y_{1:t})d\phi$.
-For each $\phi$ fixed, $p(\theta_t\mid y_{1:t},\phi)=\Nd_p(m_t(\phi),C_t(\phi))$ (KF). The
-marginal is a \emph{mixture of Gaussians}, generally non-Gaussian. Approximated by MCMC
-(draw $\phi^{(s)}$, run KF, average). Wider intervals than the plug-in at $\widehat\phi$
-(honest uncertainty).""",
+\textbf{(b) Filtering distribution} — marginalise $\phi$ from the joint:
+$$\boxed{\;p(\theta_t\mid y_{1:t})=\int p(\theta_t\mid y_{1:t},\phi)\,p(\phi\mid y_{1:t})\,d\phi.\;}$$
+For each fixed $\phi$, the inner factor $p(\theta_t\mid y_{1:t},\phi)=\mathcal{N}_p(m_t(\phi),C_t(\phi))$ comes from the Kalman filter; $p(\phi\mid y_{1:t})\propto L(\phi)\pi(\phi)$ from the prediction-error likelihood.
+
+\emph{Comments.}
+- The marginal is a \emph{mixture of Gaussians}, generally non-Gaussian.
+- Approximated by MCMC: draw $\phi^{(s)}\sim p(\phi\mid y_{1:t})$ ($s=1,\dots,S$), run the KF at each draw to get $(m_t^{(s)},C_t^{(s)})$, then mix.
+- Intervals are \emph{wider} than the plug-in $\mathcal{N}_p(m_t(\widehat\phi),C_t(\widehat\phi))$, which ignores parameter uncertainty (honest uncertainty quantification).
+
+\emph{R:} `gibbs <- dlmGibbsDIG(y, mod=buildFun, n.sample=2000); theta_t <- gibbs$theta[t,,]  ## posterior samples`""",
     "is_exam": True,
     "topic_hint": "t13b",
     "images": []
@@ -666,13 +748,19 @@ past_exams_ts["exam_jun_2024_q1"] = {
 
 ---
 
-**Solution.** \textbf{(a)} $\mathbb{E}[Y_t]$ and $\mathbb{E}[Y_tY_{t+h}]$ finite and independent of $t$, $\forall h$:
-$\mu(t)=\mu$, $\sigma^2(t)=\sigma^2$, $\gamma(t,t+h)=\tilde\gamma(h)$.
+**Solution.** \textbf{(a) Weak stationarity.} The series $(Y_t)$ is weakly (covariance-)stationary iff $\mathbb{E}[Y_t]$ and $\mathbb{E}[Y_tY_{t+h}]$ are finite and \emph{do not depend on $t$}, for every $h$:
+$$\mu(t)=\mu,\qquad \sigma^2(t)=\sigma^2,\qquad \gamma(t,t+h)=\tilde\gamma(h).$$
+Equivalently, mean is constant and the autocovariance depends on the lag only.
 
-\textbf{(b)} \emph{White noise} $Y_t\overset{\text{iid}}{\sim}\mathcal{N}(0,\sigma^2)$: $\mu=0$, $\gamma(h)=\sigma^2\mathbf{1}\{h=0\}$.
-Or \emph{causal AR(1)} $Y_t=\phi Y_{t-1}+\varepsilon_t$, $|\phi|<1$, started in stationary
-distribution: $\mu=0$, $\gamma(h)=\sigma^2\phi^{|h|}/(1-\phi^2)$ (Example 3.A; the
-``$|\varphi|<1\Rightarrow$ stationary'' proof in the notes).""",
+\textbf{(b) Two canonical examples.}
+
+(i) \emph{White noise.} $Y_t\overset{\text{iid}}{\sim}\mathcal{N}(0,\sigma^2)$: $\mu=0$, $\gamma(h)=\sigma^2\,\mathbf{1}\{h=0\}$ — manifestly $t$-free.
+
+(ii) \emph{Causal AR(1).} $Y_t=\phi Y_{t-1}+\varepsilon_t$, $\varepsilon_t\overset{\text{iid}}{\sim}\mathcal{N}(0,\sigma^2)$, with $|\phi|<1$ and started in the stationary distribution (i.e.\ $Y_0\sim\mathcal{N}(0,\sigma^2/(1-\phi^2))$). \emph{Why stationary:} by causal MA expansion $Y_t=\sum_{j\ge 0}\phi^j\varepsilon_{t-j}$ (geometric series converges since $|\phi|<1$), so $\mathbb{E}[Y_t]=0$ and $\gamma(h)=\sigma^2\phi^{|h|}/(1-\phi^2)$ — both $t$-free.
+
+\emph{R simulation:}
+`y <- arima.sim(model=list(ar=0.7), n=500, sd=1)`
+`acf(y, lag.max=20)   ## sample ACF should match phi^h / (1-phi^2)`""",
     "is_exam": True,
     "topic_hint": "t2a",
     "images": []

@@ -16,7 +16,10 @@ For most of this exercise the population variance $\sigma^2$ is **unknown** and 
 
 ---
 
-**(a) Point estimate of $\mu$ and unbiasedness.** Propose an unbiased estimator of $\mu$, justify why it is unbiased, and compute the point estimate from the sample.
+<details class="master-subpart" open>
+<summary><span class="tag tag-4plus">≥4 ex</span> (a) Point estimate of $\mu$ and unbiasedness</summary>
+
+Propose an unbiased estimator of $\mu$, justify why it is unbiased, and compute the point estimate from the sample.
 
 The sample mean
 $$\bar X \;=\; \frac{1}{n}\sum_{i=1}^{n} X_i$$
@@ -31,9 +34,12 @@ xbar                                # 23947  -> point estimate of mu
 
 *Interpretation.* $\bar x = 23\,947$ is a single realised draw from the sampling distribution of $\bar X$, which is *centred* on the unknown $\mu$. Unbiasedness says nothing about how close *this* particular $\bar x$ is to $\mu$ — that needs an SE and a CI (parts (b)–(d)).
 
----
+</details>
 
-**(b) Estimated standard error with unknown $\sigma$.** Since $\sigma$ is unknown we cannot use $SE(\bar X) = \sigma/\sqrt n$ exactly; we plug in the sample SD:
+<details class="master-subpart">
+<summary><span class="tag tag-4plus">≥4 ex</span> (b) Estimated standard error with unknown $\sigma$</summary>
+
+Since $\sigma$ is unknown we cannot use $SE(\bar X) = \sigma/\sqrt n$ exactly; we plug in the sample SD:
 $$\widehat{SE}(\bar X) \;=\; \frac{s}{\sqrt n} \;=\; \frac{8\,200}{\sqrt{100}} \;=\; 820.$$
 
 ```r
@@ -52,9 +58,12 @@ then $\widehat{SE} = s/\sqrt n$.
 
 *What the SE does and does not tell us.* $\widehat{SE}$ measures the **typical** sampling variability of $\bar X$ across hypothetical resamples of size $n=100$ — a property of the *estimator*. It does **not** tell us how far the realised $\bar x = 23\,947$ is from $\mu$ for *this* sample; that distance $|\bar x - \mu|$ depends on the unknown $\mu$. To bound it probabilistically we need a CI.
 
----
+</details>
 
-**(c) Exact SE with known $\sigma$.** If instead the population SD were *known*, $\sigma = 8\,000$, then
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (c) Exact SE with known $\sigma$</summary>
+
+If instead the population SD were *known*, $\sigma = 8\,000$, then
 $$SE(\bar X) \;=\; \frac{\sigma}{\sqrt n} \;=\; \frac{8\,000}{\sqrt{100}} \;=\; 800$$
 — **exact**, no plug-in needed; inference uses $z$-quantiles. With $\sigma$ unknown (the realistic case) we use $t_{n-1}$-quantiles to compensate for the extra noise in $s^2$.
 
@@ -63,9 +72,12 @@ sigma <- 8000
 SE_exact <- sigma / sqrt(n);  SE_exact   # 800  (only if sigma is KNOWN)
 ```
 
----
+</details>
 
-**(d) 95% confidence interval for $\mu$.** Because $n=100$ is large, the CLT gives $\bar X \overset{a}{\sim} \mathcal N(\mu,\sigma^2/n)$ regardless of the shape of $X$; with $\sigma$ unknown, $(\bar X - \mu)/(s/\sqrt n) \sim t_{n-1}$. The two-sided CI is
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (d) 95% confidence interval for $\mu$</summary>
+
+Because $n=100$ is large, the CLT gives $\bar X \overset{a}{\sim} \mathcal N(\mu,\sigma^2/n)$ regardless of the shape of $X$; with $\sigma$ unknown, $(\bar X - \mu)/(s/\sqrt n) \sim t_{n-1}$. The two-sided CI is
 $$\bar x \;\pm\; t_{1-\alpha/2,\,n-1}\,\frac{s}{\sqrt n}.$$
 With $\alpha=0.05$ and $n-1=99$, $t_{0.975,\,99} \approx 1.984$ (and $z_{0.975} = 1.960$ — essentially the same at this $n$). Then
 $$ME_{95} \;=\; 1.984 \cdot 820 \;\approx\; 1\,627, \qquad CI_{95} \;=\; 23\,947 \pm 1\,627 \;=\; [22\,320,\;25\,574].$$
@@ -81,9 +93,12 @@ c(xbar - ME_95, xbar + ME_95)                        # [22320, 25574]
 
 ![Master illustration](statistics/images/master/master_g13a_ai.png)
 
----
+</details>
 
-**(e) Effect of a higher confidence level (99% CI).** The SE depends only on the sample, *not* on the confidence level. Raising the level inflates only the reliability factor: with $n-1=99$, $t_{0.995,\,99} \approx 2.626$ (and $z_{0.995}=2.576$ — again essentially equal). Then
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (e) Effect of a higher confidence level (99% CI)</summary>
+
+The SE depends only on the sample, *not* on the confidence level. Raising the level inflates only the reliability factor: with $n-1=99$, $t_{0.995,\,99} \approx 2.626$ (and $z_{0.995}=2.576$ — again essentially equal). Then
 $$ME_{99} \;=\; 2.626 \cdot 820 \;\approx\; 2\,153, \qquad CI_{99} \;\approx\; [21\,794,\;26\,100],$$
 about **32% wider** than the 95% interval (ratio $t_{0.995,\,99}/t_{0.975,\,99} \approx 2.626/1.984 \approx 1.32$). *Rule:* higher confidence ⇒ wider interval.
 
@@ -93,9 +108,12 @@ c(xbar - ME_99, xbar + ME_99)                       # ~[21794, 26100]
 qt(0.995, df=n-1) / qt(0.975, df=n-1)               # ~1.323 inflation
 ```
 
----
+</details>
 
-**(f) Margin-of-error decomposition.** The ME factors cleanly into
+<details class="master-subpart">
+<summary>(f) Margin-of-error decomposition</summary>
+
+The ME factors cleanly into
 $$ME \;=\; \underbrace{c}_{\text{reliability}} \;\cdot\; \underbrace{s/\sqrt n}_{\text{SE}}.$$
 From a printed CI one can always read off
 $$\bar x \;=\; \tfrac{L+U}{2}, \qquad ME \;=\; \tfrac{U-L}{2}.$$
@@ -107,9 +125,12 @@ L <- 22320; U <- 25574
 (U - L)/2                       # 1627  = ME_95
 ```
 
----
+</details>
 
-**(g) Effect of the sample size on the SE.** $SE \propto 1/\sqrt n$. Compare two sample sizes with the same $s$:
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (g) Effect of the sample size on the SE</summary>
+
+$SE \propto 1/\sqrt n$. Compare two sample sizes with the same $s$:
 $$SE(n=15) \;=\; \frac{8\,200}{\sqrt{15}} \;\approx\; 2\,117, \qquad SE(n=50) \;=\; \frac{8\,200}{\sqrt{50}} \;\approx\; 1\,160.$$
 Going from $n=15$ to $n=50$ shrinks the SE by $\sqrt{15/50} \approx 0.548$ — almost in half. With $n=100$ the SE drops to $820$, sharper still.
 
@@ -119,17 +140,23 @@ Going from $n=15$ to $n=50$ shrinks the SE by $\sqrt{15/50} \approx 0.548$ — a
 sqrt(15/50)                      # 0.548 -- shrinkage factor 15 -> 50
 ```
 
----
+</details>
 
-**(h) "Closeness" claim — true or false?** *Claim:* "The estimate $\bar x_{100} = 23\,947$ from $n=100$ is closer to $\mu$ than the estimate $\bar x_{15}$ would be."
+<details class="master-subpart">
+<summary>(h) "Closeness" claim — true or false?</summary>
+
+*Claim:* "The estimate $\bar x_{100} = 23\,947$ from $n=100$ is closer to $\mu$ than the estimate $\bar x_{15}$ would be."
 
 **FALSE.** A larger $n$ gives a smaller $SE(\bar X) = \sigma/\sqrt n$, so the *sampling distribution* of $\bar X$ is more **concentrated** around $\mu$. But a *specific realisation* from that tighter distribution is **not guaranteed** to land closer to $\mu$ than a realisation from the smaller-$n$ distribution — you can always be unlucky. The correct rephrasing is probabilistic: for any fixed $c>0$,
 $$\Pr(|\bar X_{100} - \mu| \le c) \;\ge\; \Pr(|\bar X_{15} - \mu| \le c),$$
 so on average across hypothetical resamples, the large-$n$ estimator is more concentrated.
 
----
+</details>
 
-**(i) Validity of the CI — selection bias, sample size, discrete data.** Two conditions must hold for the CI to deliver its nominal 95% coverage:
+<details class="master-subpart">
+<summary>(i) Validity of the CI — selection bias, sample size, discrete data</summary>
+
+Two conditions must hold for the CI to deliver its nominal 95% coverage:
 1. **Random sample** from the target population (no selection bias). If, e.g., the firm only surveyed pizzerias that *replied to a voluntary online questionnaire*, respondents would self-select — $\bar x$ would be biased ($\mathbb E[\bar X] \ne \mu$) and the CI formula would still produce an interval, but its 95% guarantee **would not hold**.
 2. **Normality or large-$n$ CLT.** With $n=100$ the CLT applies to $\bar X$ regardless of the shape of `Sales` — **right-skewed, heavy-tailed, even discrete count data are all fine**, because the variable being inferred is the *mean* $\mu$ (real-valued); the CLT smooths the sampling distribution of $\bar X$. For small $n$ ($n\le 30$), `Sales` should be approximately normal for the $t_{n-1}$ CI to be exact; otherwise coverage degrades.
 
@@ -137,9 +164,12 @@ so on average across hypothetical resamples, the large-$n$ estimator is more con
 
 The CI procedure cannot fix a biased sampling design — it can only correct for sampling noise under valid random sampling.
 
----
+</details>
 
-**(j) Closeness probability $\Pr(|\bar X - \mu| \le \varepsilon)$.** Under the CLT, $\bar X \approx \mathcal N(\mu,\,(s/\sqrt n)^2)$, so
+<details class="master-subpart">
+<summary>(j) Closeness probability $\Pr(|\bar X - \mu| \le \varepsilon)$</summary>
+
+Under the CLT, $\bar X \approx \mathcal N(\mu,\,(s/\sqrt n)^2)$, so
 $$\Pr(|\bar X - \mu| \le \varepsilon) \;\approx\; 2\Phi\!\left(\frac{\varepsilon}{s/\sqrt n}\right) - 1.$$
 For $\varepsilon = 1\,000$ €:
 $$\Pr(|\bar X - \mu| \le 1000) \;\approx\; 2\Phi(1000/820) - 1 \;=\; 2\Phi(1.220) - 1 \;\approx\; 2(0.8888) - 1 \;=\; 0.7776.$$
@@ -151,9 +181,12 @@ eps <- 1000
 
 So roughly 78% of resamples produce a $\bar X$ within 1 000 € of $\mu$.
 
----
+</details>
 
-**(k) One-sided 95% CI (lower bound only).** When only an *upper* bound on the risk of "too low a mean" matters (e.g., a lender wants to be 95% confident that average turnover is at least some level), use a one-sided CI:
+<details class="master-subpart">
+<summary>(k) One-sided 95% CI (lower bound only)</summary>
+
+When only an *upper* bound on the risk of "too low a mean" matters (e.g., a lender wants to be 95% confident that average turnover is at least some level), use a one-sided CI:
 $$\bar x \;-\; t_{1-\alpha,\,n-1}\,\tfrac{s}{\sqrt n} \;\le\; \mu.$$
 With $\alpha=0.05$, $t_{0.95,\,99} \approx 1.660$, so
 $$\mu \;\ge\; 23\,947 - 1.660 \cdot 820 \;\approx\; 22\,586.$$
@@ -165,9 +198,12 @@ xbar - tcrit_one * se_hat                            # ~22586
 
 With 95% confidence the average monthly turnover is at least 22 586 €. (One-sided CIs at level $1-\alpha$ use $z_{1-\alpha}$, **not** $z_{1-\alpha/2}$.)
 
----
+</details>
 
-**(l) Required sample size for a target margin of error.** From $ME = z_{1-\alpha/2}\,\sigma/\sqrt n$, solve for $n$:
+<details class="master-subpart">
+<summary>(l) Required sample size for a target margin of error</summary>
+
+From $ME = z_{1-\alpha/2}\,\sigma/\sqrt n$, solve for $n$:
 $$n \;=\; \left(\frac{z_{1-\alpha/2}\,\sigma}{ME}\right)^{2}.$$
 Suppose we want a 95% CI of half-width $ME = 500$ €, using the plug-in $\sigma \approx s = 8\,200$:
 $$n \;\ge\; \left(\frac{1.96 \cdot 8\,200}{500}\right)^{2} \;\approx\; (32.14)^{2} \;\approx\; 1\,034.$$
@@ -181,6 +217,8 @@ n_req                                # 1034
 ```
 
 *Take-away.* Halving the ME quadruples the required $n$ — the $\sqrt n$ rate is the binding cost of precision.
+
+</details>
 
 ---
 
@@ -211,7 +249,8 @@ Consolidates the unique sub-tasks asked in **Ex 7.1a** (mean, $H_1:\mu<45$, NewH
 
 ---
 
-### (a) One-sample $t$-test for the mean — small $n$, $H_1:\mu<45$ (Ex 7.1a)
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> (a) One-sample $t$-test for the mean — small $n$, $H_1:\mu<45$ (Ex 7.1a)</summary>
 
 **Assumptions.** Representative sample; $n=47$ is large enough for the **CLT** $\Rightarrow$ $\bar X$ approximately normal without a normality assumption on `Weeks`. $\sigma^2$ unknown $\Rightarrow$ Student-$t$.
 
@@ -240,9 +279,10 @@ TEST.mean(Weeks, mu0 = 45, alternative = "less", data = NewHired)
 
 ![Master illustration](statistics/images/master/master_g14a_ai.png)
 
----
+</details>
 
-### (b) Two-sided variant for context ($H_1:\mu \neq 45$)
+<details class="master-subpart">
+<summary>(b) Two-sided variant for context ($H_1:\mu \neq 45$)</summary>
 
 Same $t_\text{obs} = -1.9143$; the rejection region splits in two tails:
 - $\alpha=0.05$: $R = \{|t| > t_{0.975,\,46}\} = \{|t| > 2.013\}$. Since $1.9143 < 2.013$ $\Rightarrow$ **do not reject**.
@@ -255,9 +295,10 @@ qt(0.975, df = n-1)                                    # 2.013
 2 * pt(-abs(tstat), df = n-1)                          # 0.0618
 ```
 
----
+</details>
 
-### (c) One-proportion $z$-test, $H_1:p>0.10$ (Ex 7.1c)
+<details class="master-subpart">
+<summary>(c) One-proportion $z$-test, $H_1:p>0.10$ (Ex 7.1c)</summary>
 
 **Setting.** A worker claims that the proportion of agency-relying workers who **struggle more than one year** ($>52$ weeks) exceeds 10%.
 
@@ -288,9 +329,10 @@ qnorm(0.95); qnorm(0.99)                                # 1.6449, 2.326
 TEST.prop(Weeks > 52, p0 = 0.10, alternative = "greater", data = NewHired)
 ```
 
----
+</details>
 
-### (d) One-sample $t$-test, large $n$, $H_1:\mu<1.5$ (Ex 7.8a — `DS$Children`)
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (d) One-sample $t$-test, large $n$, $H_1:\mu<1.5$ (Ex 7.8a — `DS$Children`)</summary>
 
 **Setting.** The sales manager will **drop baby products** if the average number of children per customer does not exceed 1.5. Same template as (a), but $n = 750$: CLT applies trivially and $t_{749}$ is indistinguishable from $N(0,1)$.
 
@@ -321,9 +363,10 @@ CI.mean(Children, conf.level = 0.95, data = DS)       # [0.845, 0.997]
 TEST.mean(Children, mu0 = 1.5, alternative = "less", data = DS)
 ```
 
----
+</details>
 
-### (e) Unified decision rule (mean & proportion, any tail)
+<details class="master-subpart">
+<summary>(e) Unified decision rule (mean & proportion, any tail)</summary>
 
 Let $T$ be the test statistic ($t_{n-1}$ for the mean with $\sigma$ unknown; $Z\sim N(0,1)$ for the proportion), $\nu$ the appropriate df, $\theta\in\{\mu,p\}$:
 
@@ -337,15 +380,18 @@ $$\boxed{\;\text{Reject } H_0 \iff t_\text{obs}\in R_\alpha \iff p \leq \alpha.\
 
 The two formulations always agree. A large p-value $\neq$ "$H_0$ true"; it only means the data lack the strength to reject at the chosen level.
 
----
+</details>
 
-### (f) Side-by-side summary of the three applications
+<details class="master-subpart">
+<summary>(f) Side-by-side summary of the three applications</summary>
 
 | Application | $H_1$ | Statistic | $t_\text{obs}/z_\text{obs}$ | p-value | @ 5% | @ 1% |
 |---|---|---|---|---|---|---|
 | (a) `Weeks` mean, $\mu_0=45$ | $\mu<45$ | $t_{46}$ | $-1.9143$ | $0.0309$ | reject | retain |
 | (c) `Weeks>52` proportion, $p_0=0.10$ | $p>0.10$ | $Z$ | $1.12$ | $0.13$ | retain | retain |
 | (d) `Children` mean, $\mu_0=1.5$ | $\mu<1.5$ | $t_{749}$ | $-14.91$ | $<10^{-4}$ | reject | reject |
+
+</details>
 
 ---
 
@@ -620,7 +666,8 @@ Residual std error $\hat\sigma_\varepsilon = 134.50$ on $df = n-K-1 = 2196$. Mul
 
 ---
 
-**(a) Read the estimated equation; interpret each slope (ceteris paribus).**
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> (a) Read the estimated equation; interpret each slope (ceteris paribus)</summary>
 
 The fitted multiple-regression hyperplane is
 $$\widehat{\text{MntMeat}} \;=\; -74.10 \;+\; 6.142\,\text{IncomeK} \;-\; 2.805\,\text{Age} \;-\; 78.40\,\text{KidsAtHome}.$$
@@ -632,9 +679,12 @@ Partial-slope reading — *each $\hat\beta_j$ is the expected change in `MntMeat
 - $\hat\beta_3 = -78.40$ €/kid — at fixed income and age, **+1 child at home is associated with $-78.4$ € on expected meat spend**.
 - $\hat\beta_0 = -74.10$ has no useful interpretation (a 0-k€-income, 0-year-old customer with 0 kids — outside the data).
 
+</details>
+
 ---
 
-**(b) Goodness of fit: multiple $R^2$, adjusted $R^2$, and why the penalty.**
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (b) Goodness of fit: multiple $R^2$, adjusted $R^2$, and why the penalty</summary>
 
 $$R^2 \;=\; 1 - \frac{\text{SSE}}{\text{SST}} \;=\; \frac{\text{SSR}}{\text{SST}} \;=\; 0.6361,\qquad R^2_{\text{adj}} \;=\; 1 - \frac{\text{SSE}/(n-K-1)}{\text{SST}/(n-1)} \;=\; 0.6356.$$
 
@@ -647,9 +697,12 @@ summary(mod)$r.squared           # 0.6361
 summary(mod)$adj.r.squared       # 0.6356
 ```
 
+</details>
+
 ---
 
-**(c) Global $F$-test (all slopes = 0).**
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (c) Global $F$-test (all slopes = 0)</summary>
 
 $H_0: \beta_1=\beta_2=\beta_3=0$ vs $H_1:$ at least one $\beta_j\ne 0$, with statistic
 $$F \;=\; \frac{\text{SSR}/K}{\text{SSE}/(n-K-1)} \;=\; \frac{R^2/K}{(1-R^2)/(n-K-1)} \;=\; \frac{0.6361/3}{0.3639/2196} \;=\; 1279.7,$$
@@ -660,9 +713,12 @@ qf(0.95, df1=3, df2=2196)        # ~ 2.61
 # Realised F = 1279.7 >> 2.61  =>  reject H0 at any usual alpha.
 ```
 
+</details>
+
 ---
 
-**(d) Individual $t$-tests on each coefficient.**
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (d) Individual $t$-tests on each coefficient</summary>
 
 For $H_0:\beta_j=0$ vs $H_1:\beta_j\ne 0$, $t_j = \hat\beta_j / \widehat{\text{se}}(\hat\beta_j) \sim t_{n-K-1}=t_{2196}$ under $H_0$. With $t_{2196,\,0.975}\approx 1.961$:
 
@@ -680,9 +736,12 @@ summary(mod)                     # t-values & p-values in the coefficients table
 qt(0.975, df=2196)               # 1.961  (df = n-K-1)
 ```
 
+</details>
+
 ---
 
-**(e) 95% confidence interval for each $\beta_j$.**
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (e) 95% confidence interval for each $\beta_j$</summary>
 
 $\hat\beta_j \pm t_{2196,\,0.975}\cdot\widehat{\text{se}}(\hat\beta_j) = \hat\beta_j \pm 1.961\,\widehat{\text{se}}(\hat\beta_j)$:
 
@@ -704,9 +763,12 @@ confint(mod, level=0.95)
 ## KidsAtHome    -93.34    -63.46
 ```
 
+</details>
+
 ---
 
-**(f) Marginal effect over a non-unit change: $\beta\cdot\Delta x$ and its 95% CI.**
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (f) Marginal effect over a non-unit change: $\beta\cdot\Delta x$ and its 95% CI</summary>
 
 Question: how much extra meat spend is expected, on average, for a **+10 k€ pay rise** (other things equal)?
 
@@ -722,9 +784,12 @@ Same logic for the **+5-year-of-age** scenario: $5\hat\beta_2=-14.03$ €, 95% C
 5  * confint(mod, "Age",     level=0.95)   # (-16.83 ; -11.22)
 ```
 
+</details>
+
 ---
 
-**(g) Confounding / omitted-variable bias — *why* including all 3 regressors matters.**
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (g) Confounding / omitted-variable bias — *why* including all 3 regressors matters</summary>
 
 Run instead the *simple* regression `MntMeat ~ IncomeK`:
 $$\widehat{\text{MntMeat}}_{\text{simple}} \;=\; -101.5 \;+\; 5.380\,\text{IncomeK},\qquad R^2_{\text{simple}} \;=\; 0.521.$$
@@ -742,9 +807,12 @@ cor(superstore$IncomeK, superstore$KidsAtHome)   # ~ -0.34
 # OVB shrinks the simple slope toward 5.38; controlling for KidsAtHome restores 6.14.
 ```
 
+</details>
+
 ---
 
-**(h) Prediction at a target customer profile (`IncomeK = 70, Age = 45, KidsAtHome = 1`).**
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (h) Prediction at a target customer profile (`IncomeK = 70, Age = 45, KidsAtHome = 1`)</summary>
 
 Point prediction:
 $$\hat y_0 \;=\; -74.10 + 6.142\cdot 70 - 2.805\cdot 45 - 78.40\cdot 1 \;=\; -74.10 + 429.94 - 126.23 - 78.40 \;=\; 151.21\;\text{€}.$$
@@ -766,9 +834,12 @@ predict(mod, newdata, interval="prediction", level=0.95)
 ##  151.21  -112.6    414.9
 ```
 
+</details>
+
 ---
 
-**(i) Mini-diagnostic checklist (linear-model assumptions).**
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (i) Mini-diagnostic checklist (linear-model assumptions)</summary>
 
 OLS inference rests on: $E[\varepsilon\mid X]=0$ (linearity), $\mathrm{Var}(\varepsilon\mid X)=\sigma^2$ (homoscedasticity), $\mathrm{Cor}(\varepsilon_i,\varepsilon_j)=0$, approximate normality of $\varepsilon$ (CLT covers it at $n=2200$). Standard checks: `plot(mod, which=1)` (residuals vs fitted — funnel = heteroscedasticity; curvature = non-linearity), `hist(rstandard(mod))` (right-skew / heavy tails). In `superstore`, residuals vs fitted typically show a funnel (variance grows with $\hat y$) and right-skewed residuals — so the CIs/PI above should be taken with caution; sandwich SEs (`lmtest::coeftest(mod, vcov=sandwich::vcovHC)`) or a log-transform of `MntMeat` are the usual fixes.
 
@@ -1281,7 +1352,8 @@ This master exercise consolidates the seven sub-topics of `g13d_ci_diff_prop` (C
 
 ---
 
-### Part (1) — Sample proportions and point estimate of the gap
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> Part (1) — Sample proportions and point estimate of the gap</summary>
 
 Each sample is a sequence of i.i.d. Bernoulli draws. The unbiased estimator of $p_i$ is the sample proportion $\hat p_i = X_i/n_i$, and the natural unbiased estimator of $\delta = p_M - p_F$ is the **difference of sample proportions**
 $$\hat\delta \;=\; \hat p_M - \hat p_F, \qquad \mathbb E[\hat\delta] = p_M - p_F = \delta.$$
@@ -1300,9 +1372,12 @@ phat_F <- x_F / n_F;  phat_F       # 0.6015
 dhat   <- phat_M - phat_F;  dhat   # 0.1632
 ```
 
+</details>
+
 ---
 
-### Part (2) — Standard error of $\hat p_M - \hat p_F$
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> Part (2) — Standard error of $\hat p_M - \hat p_F$</summary>
 
 Under independence, the variance of a difference equals the sum of the variances:
 $$\operatorname{Var}(\hat p_M - \hat p_F) \;=\; \operatorname{Var}(\hat p_M) + \operatorname{Var}(\hat p_F) \;=\; \frac{p_M(1-p_M)}{n_M} + \frac{p_F(1-p_F)}{n_F}.$$
@@ -1320,9 +1395,12 @@ SE_diff <- sqrt( phat_M*(1-phat_M)/n_M + phat_F*(1-phat_F)/n_F )
 SE_diff                            # ~ 0.02409
 ```
 
+</details>
+
 ---
 
-### Part (3) — Two-sided 95% Wald CI for $p_M - p_F$
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> Part (3) — Two-sided 95% Wald CI for $p_M - p_F$</summary>
 
 By the CLT, for large $n_M, n_F$,
 $$\frac{\hat\delta - \delta}{\widehat{SE}(\hat\delta)} \;\overset{a}{\sim}\; \mathcal{N}(0,1) \quad\Longrightarrow\quad \delta \in \hat\delta \pm z_{1-\alpha/2}\,\widehat{SE}(\hat\delta) \text{ with probability } 1-\alpha.$$
@@ -1345,9 +1423,12 @@ CI95                               # ~ [0.1159, 0.2104]
 
 ![Master illustration](statistics/images/master/master_g13d_ai.png)
 
+</details>
+
 ---
 
-### Part (4) — Two-sided 99% CI and comparison with 95%
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> Part (4) — Two-sided 99% CI and comparison with 95%</summary>
 
 Raising the confidence level only changes the reliability factor $z_{1-\alpha/2}$ (point estimate and SE are unchanged):
 $$z_{0.995} \approx 2.5758, \qquad ME_{99\%} \;=\; 2.5758\cdot 0.02409 \;\approx\; 0.06205,$$
@@ -1369,9 +1450,12 @@ CI99 <- c(dhat - ME99, dhat + ME99)
 CI99                               # ~ [0.1011, 0.2252]
 ```
 
+</details>
+
 ---
 
-### Part (5) — Does the CI contain 0? Plausible-null interpretation
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> Part (5) — Does the CI contain 0? Plausible-null interpretation</summary>
 
 The reasoning is the duality between CIs and two-sided tests of $H_0: \delta = 0$:
 $$0 \in CI_{1-\alpha}(\delta) \;\iff\; H_0\!: p_M = p_F \text{ is NOT rejected at level } \alpha.$$
@@ -1386,9 +1470,12 @@ In our master dataset $0 \notin [0.1159, 0.2104]$, so the hypothesis "males and 
 0 >= CI99[1] & 0 <= CI99[2]          # FALSE -> reject H0 at 1%
 ```
 
+</details>
+
 ---
 
-### Part (6) — One-sided lower confidence bound
+<details class="master-subpart">
+<summary>Part (6) — One-sided lower confidence bound</summary>
 
 If the bookstore only cares whether **male** heavy-reader share exceeds the female one (decisions like "should we tilt marketing budget toward male customers?"), a **one-sided** lower bound is more informative than a two-sided CI: it puts the entire miss-mass $\alpha$ into the upper tail of $\hat\delta$, so the lower endpoint is **higher** than the two-sided one at the same nominal level.
 
@@ -1407,9 +1494,12 @@ ME90 <- qnorm(0.95) * SE_diff
 c(dhat - ME90, dhat + ME90)                        # lower endpoint matches L_one
 ```
 
+</details>
+
 ---
 
-### Part (7) — Validity check (CLT condition)
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> Part (7) — Validity check (CLT condition)</summary>
 
 The Wald CI relies on the joint normal approximation of $(\hat p_M, \hat p_F)$. Rule of thumb: for **each** sample,
 $$n_i \hat p_i \ge 5 \quad\text{AND}\quad n_i (1-\hat p_i) \ge 5.$$
@@ -1430,6 +1520,8 @@ All four counts are in the hundreds — the normal approximation is **excellent*
 n_M * phat_M;  n_M * (1 - phat_M)      # 650 ; 200
 n_F * phat_F;  n_F * (1 - phat_F)      # 391 ; 259  -- all >> 5
 ```
+
+</details>
 
 ---
 
@@ -1481,7 +1573,8 @@ For most of this exercise the population variances are **unknown** and estimated
 
 ---
 
-### Part (a) — Why paired? Same unit, twice.
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> Part (a) — Why paired? Same unit, twice.</summary>
 
 Each store has its own intrinsic level (location, footfall, mix of products), and **that** store-level heterogeneity is the dominant source of variation in raw weekly sales. If we treated the 23 "before" values and the 23 "after" values as two **independent** samples we would inherit *all* of that between-store noise in both $\bar X$ and $\bar Y$, and the SE of $\bar Y - \bar X$ would balloon.
 
@@ -1493,9 +1586,12 @@ is unbiased for $\mu_D = \mu_Y - \mu_X$ and inherits only the residual within-st
 
 **Assumptions for inference.** The pairs $(X_i, Y_i)$ are i.i.d. across stores (random sample). For small $n=23$ we additionally need $D_i$ approximately **normal** so that $\bar D$ has a $t_{n-1}$ pivot; with larger $n$ the CLT would cover this automatically.
 
+</details>
+
 ---
 
-### Part (b) — Compute $\bar d$ and $s_d$ from the differences.
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> Part (b) — Compute $\bar d$ and $s_d$ from the differences.</summary>
 
 Given the summary statistics:
 $$\bar d \;=\; \bar y - \bar x \;=\; 10.1 \quad (\text{€1000s per week}), \qquad s_d \;=\; 4.2.$$
@@ -1511,9 +1607,12 @@ dbar  <- 10.1          # mean of the within-store differences
 sd_d  <- 4.2           # sample SD of the differences
 ```
 
+</details>
+
 ---
 
-### Part (c) — Standard error of the paired mean.
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> Part (c) — Standard error of the paired mean.</summary>
 
 Treat $\bar D$ as a one-sample mean on the *differences*. The estimated standard error is
 $$\widehat{SE}_{\text{paired}}(\bar D) \;=\; \frac{s_d}{\sqrt n} \;=\; \frac{4.2}{\sqrt{23}} \;=\; \frac{4.2}{4.7958} \;\approx\; \boxed{0.876}.$$
@@ -1524,9 +1623,12 @@ That's the **only** SE we need: once $D_i$ is formed, the problem is *literally*
 se_paired <- sd_d / sqrt(n);   se_paired         # ~ 0.876
 ```
 
+</details>
+
 ---
 
-### Part (d) — Why the paired SE is so small: $\Var(X-Y) = \Var(X)+\Var(Y) - 2\Cov(X,Y)$.
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> Part (d) — Why the paired SE is so small: $\Var(X-Y) = \Var(X)+\Var(Y) - 2\Cov(X,Y)$.</summary>
 
 To see the *mechanism* of the SE shrinkage, expand the variance of the difference of two random variables:
 $$\Var(X - Y) \;=\; \Var(X) + \Var(Y) - 2\,\Cov(X, Y) \;=\; \sigma_X^2 + \sigma_Y^2 - 2\rho\,\sigma_X\sigma_Y.$$
@@ -1544,9 +1646,12 @@ In our data, $\rho \approx 0.86$ between pre- and post-campaign weekly sales: hi
 Equivalently, on the *mean* of differences,
 $$\Var(\bar D) \;=\; \frac{\sigma_X^2 + \sigma_Y^2 - 2\rho\sigma_X\sigma_Y}{n}.$$
 
+</details>
+
 ---
 
-### Part (e) — Paired vs wrong-independent SE on this dataset.
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> Part (e) — Paired vs wrong-independent SE on this dataset.</summary>
 
 Suppose (for the comparison) $s_X \approx s_Y \approx 8.0$ (typical store-level week-to-week SD) with sample covariance $s_{XY}$ implied by $s_d^2 = s_X^2 + s_Y^2 - 2 s_{XY}$:
 $$s_d^2 = 4.2^2 = 17.64, \qquad s_X^2 + s_Y^2 = 64 + 64 = 128 \;\;\Rightarrow\;\; s_{XY} = \tfrac{128 - 17.64}{2} \approx 55.18,$$
@@ -1569,9 +1674,12 @@ se_indep <- sqrt( (sx^2 + sy^2) / n );   se_indep   # ~ 2.359
 se_indep / se_paired                                 # ~ 2.69
 ```
 
+</details>
+
 ---
 
-### Part (f) — $t$-CI: 90%, 95%, 99%.
+<details class="master-subpart">
+<summary><span class="tag tag-4plus">≥4 ex</span> Part (f) — $t$-CI: 90%, 95%, 99%.</summary>
 
 For small $n=23$ and unknown variance, the pivot is
 $$T \;=\; \frac{\bar D - \mu_D}{s_d/\sqrt n} \;\sim\; t_{n-1} \;=\; t_{22}.$$
@@ -1604,9 +1712,12 @@ c(dbar - t99*se, dbar + t99*se)                     # 99% CI
 
 ![Master illustration](statistics/images/master/master_g13e_ai.png)
 
+</details>
+
 ---
 
-### Part (g) — Side-by-side: paired (correct) vs independent (wrong) CIs.
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> Part (g) — Side-by-side: paired (correct) vs independent (wrong) CIs.</summary>
 
 Using the same point estimate $\bar d = 10.1$ but the **wrong** SE $= 2.359$:
 
@@ -1618,9 +1729,12 @@ Using the same point estimate $\bar d = 10.1$ but the **wrong** SE $= 2.359$:
 
 The wrong intervals are about $2.7\times$ wider. **Crucially**, even the wrong 99% CI still excludes $0$ here because the effect is large — but in a marginal case the wrong analysis can flip the conclusion from "significant" to "inconclusive". The lesson is procedural, not numerical: *paired design $\Rightarrow$ paired SE*.
 
+</details>
+
 ---
 
-### Part (h) — Decision: does the campaign work?
+<details class="master-subpart">
+<summary><span class="tag tag-4plus">≥4 ex</span> Part (h) — Decision: does the campaign work?</summary>
 
 All three CIs lie strictly **above $0$**:
 $$[8.60,\,11.60]_{90\%} \;\subset\; [8.28,\,11.92]_{95\%} \;\subset\; [7.63,\,12.57]_{99\%}.$$
@@ -1631,6 +1745,8 @@ So $\mu_D = 0$ is **incompatible** with the data at every conventional level. We
 If, hypothetically, the 95% CI had been $[-1.2,\,3.0]$ — i.e. **containing $0$** — the conclusion would have been the opposite: the data would be consistent with no change, and the campaign's effect could not be distinguished from sampling noise (at the 5% level).
 
 **Operational meaning.** Multiply $\bar d$ by the number of stores and the duration of effect to get an aggregate revenue gain; compare with the campaign cost to assess ROI. The CI quantifies the precision of the per-store estimate, not the cost-benefit.
+
+</details>
 
 ---
 
@@ -1682,7 +1798,10 @@ The standard error is $SE = \sigma/\sqrt n = 4/\sqrt{47} \approx 0.5835$ weeks.
 
 ---
 
-**(a) Two error types — definitions and decision matrix.** A hypothesis test takes a yes/no decision on $H_0$ from random data, so two distinct mistakes are possible:
+<details class="master-subpart" open>
+<summary>(a) Two error types — definitions and decision matrix</summary>
+
+A hypothesis test takes a yes/no decision on $H_0$ from random data, so two distinct mistakes are possible:
 
 | | $H_0$ true | $H_0$ false |
 |---|---|---|
@@ -1695,9 +1814,14 @@ The standard error is $SE = \sigma/\sqrt n = 4/\sqrt{47} \approx 0.5835$ weeks.
 
 The two errors are in tension: shrinking $\alpha$ shifts the critical value *toward* the null, which inflates $\beta$. The only way to reduce both simultaneously is to add information — i.e. increase $n$.
 
+</details>
+
 ---
 
-**(b) Critical value on the $\bar X$ scale.** For a lower-tailed test at level $\alpha$, $H_0$ is rejected when $Z < -z_{1-\alpha} = -z_\alpha^{(\text{tail})}$ — equivalently when $\bar X$ falls below
+<details class="master-subpart">
+<summary>(b) Critical value on the $\bar X$ scale</summary>
+
+For a lower-tailed test at level $\alpha$, $H_0$ is rejected when $Z < -z_{1-\alpha} = -z_\alpha^{(\text{tail})}$ — equivalently when $\bar X$ falls below
 $$\boxed{\;c \;=\; \mu_0 \;-\; z_{1-\alpha}\,\frac{\sigma}{\sqrt n}\;}$$
 With $\alpha = 0.10$, $z_{0.90} = 1.2816$:
 $$c \;=\; 45 \;-\; 1.2816 \cdot \frac{4}{\sqrt{47}} \;=\; 45 - 0.748 \;\approx\; 44.252\ \text{weeks}.$$
@@ -1710,9 +1834,14 @@ zalp <- qnorm(1 - alpha);                zalp      # 1.2816
 c    <- mu0 - zalp*se;                   c         # ~ 44.252
 ```
 
+</details>
+
 ---
 
-**(c) Two complementary truths — $\mu \in H_0$ (Type I face) vs $\mu \in H_1$ (Type II face).** The same critical value $c=44.252$ has *two* error roles depending on where the *true* $\mu$ lives — and Ex 7.1b asks us to compute both faces explicitly.
+<details class="master-subpart">
+<summary>(c) Two complementary truths — $\mu \in H_0$ (Type I face) vs $\mu \in H_1$ (Type II face)</summary>
+
+The same critical value $c=44.252$ has *two* error roles depending on where the *true* $\mu$ lives — and Ex 7.1b asks us to compute both faces explicitly.
 
 *(c1) True $\mu = 50$ (well inside $H_0$, since $50\ge 45$).* Concluding "$\bar X < 45$" — i.e. **rejecting** $H_0$ — would be a **Type I error** because $\mu=50$ belongs to $H_0$. Its probability is
 $$P(\bar X < c \mid \mu = 50) \;=\; P\!\left(Z < \frac{44.252 - 50}{0.5835}\right) \;=\; P(Z < -9.85) \;\approx\; 0.$$
@@ -1735,17 +1864,27 @@ beta  <- 1 - pnorm(c, mean = mu1, sd = se);   beta   # ~ 0.0159
 power <- 1 - beta;                            power  # ~ 0.9841
 ```
 
+</details>
+
 ---
 
-**(d) Power $= 1 - \beta$.** Power is the area under the $H_1$ density *below* the cutoff $c$:
+<details class="master-subpart">
+<summary>(d) Power $= 1 - \beta$</summary>
+
+Power is the area under the $H_1$ density *below* the cutoff $c$:
 $$\text{Power} \;=\; 1 - \beta \;=\; P(\bar X < c \mid \mu = \mu_1) \;\approx\; 0.9841.$$
 With $n = 47$, $\sigma = 4$, $\alpha = 0.10$, and a true mean $2$ weeks below the null boundary, the test rejects roughly **98.4%** of the time — a very powerful design.
 
 ![Master illustration](statistics/images/master/master_g14e_ai.png)
 
+</details>
+
 ---
 
-**(e) Effect of sample size $n$ — sketch + table.** The SE shrinks as $\sigma/\sqrt n$, so both densities (under $H_0$ and $H_1$) get **narrower** as $n$ grows. The critical value
+<details class="master-subpart">
+<summary>(e) Effect of sample size $n$ — sketch + table</summary>
+
+The SE shrinks as $\sigma/\sqrt n$, so both densities (under $H_0$ and $H_1$) get **narrower** as $n$ grows. The critical value
 $$c(n) \;=\; \mu_0 - z_{1-\alpha}\,\sigma/\sqrt n$$
 moves **closer** to $\mu_0 = 45$. Since $\mu_1 = 43$ is fixed and below $c$, the $H_1$-tail above $c$ shrinks, so $\beta \downarrow$ and power $\uparrow$.
 
@@ -1767,9 +1906,14 @@ sapply(ns, function(n){
 })
 ```
 
+</details>
+
 ---
 
-**(f) Effect of the effect size $|\mu_1 - \mu_0|$.** Fix $n = 47$, $\alpha = 0.10$. The further $\mu_1$ is *into* the alternative region, the smaller the $H_1$-tail above $c = 44.252$:
+<details class="master-subpart">
+<summary>(f) Effect of the effect size $|\mu_1 - \mu_0|$</summary>
+
+Fix $n = 47$, $\alpha = 0.10$. The further $\mu_1$ is *into* the alternative region, the smaller the $H_1$-tail above $c = 44.252$:
 
 | $\mu_1$ | $z^* = (c - \mu_1)/SE$ | $\beta$ | Power |
 |---|---|---|---|
@@ -1781,9 +1925,14 @@ sapply(ns, function(n){
 
 **Edge case.** As $\mu_1 \uparrow \mu_0 = 45$, $\beta \to 1 - \alpha$ and power $\to \alpha$ — i.e. when there is *no* real effect, the test rejects only at its nominal Type I rate.
 
+</details>
+
 ---
 
-**(g) Effect of $\alpha$.** Increasing $\alpha$ moves $c$ *further from* $\mu_0$ (toward the alternative region), enlarging the rejection set and therefore boosting power — at the cost of more false alarms.
+<details class="master-subpart">
+<summary>(g) Effect of $\alpha$</summary>
+
+Increasing $\alpha$ moves $c$ *further from* $\mu_0$ (toward the alternative region), enlarging the rejection set and therefore boosting power — at the cost of more false alarms.
 
 | $\alpha$ | $z_{1-\alpha}$ | $c$ | $\beta$ at $\mu_1 = 43$ | Power |
 |---|---|---|---|---|
@@ -1800,6 +1949,8 @@ sapply(alphas, function(a){
   c <- mu0 - qnorm(1-a)*se;  1 - pnorm(c, mu1, se)
 })                                              # beta column
 ```
+
+</details>
 
 ---
 
@@ -1849,7 +2000,8 @@ Decision rule (any tail): $\text{Reject } H_0 \iff t_\text{obs}\in R_\alpha \iff
 
 ---
 
-### (a) Two-proportion $z$-test, cafeteria visit pre/post (Ex 7.3a)
+<details class="master-subpart" open>
+<summary>(a) Two-proportion $z$-test, cafeteria visit pre/post (Ex 7.3a)</summary>
 
 **Data.** Pre-promotion sample $n_\text{PRE}=140$ (108 visitors $\Rightarrow$ $\hat p_\text{PRE} = 108/140 = 0.7714$); post-promotion $n_\text{POST}=159$ (127 visitors $\Rightarrow$ $\hat p_\text{POST} = 127/159 = 0.7987$). A "visitor" is a customer with $\geq 1$ stop in the month.
 
@@ -1881,9 +2033,10 @@ TEST.diffprop(x = Stops_POST >= 1, y = Stops_PRE >= 1, pdiff = 0, alternative = 
 
 ![Master illustration](statistics/images/master/master_g14b_ai.png)
 
----
+</details>
 
-### (b) Two-proportion $z$-test, heavy users (Ex 7.3b)
+<details class="master-subpart">
+<summary>(b) Two-proportion $z$-test, heavy users (Ex 7.3b)</summary>
 
 **Cutoff change.** Now a customer is a **heavy user** if they visited **more than 4 times** per month. Counts: pre 23/140, post 37/159.
 $$\hat p_\text{PRE} = 23/140 = 0.1643, \qquad \hat p_\text{POST} = 37/159 = 0.2327.$$
@@ -1909,9 +2062,10 @@ z    <- (x2/n2 - x1/n1)/se0;  z            # 1.474
 qnorm(0.95); qnorm(0.90)                   # 1.6449, 1.2816
 ```
 
----
+</details>
 
-### (c) Pooled two-sample $t$ with $\Delta_0 \neq 0$ — fish-diet cholesterol (Ex 7.5a)
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (c) Pooled two-sample $t$ with $\Delta_0 \neq 0$ — fish-diet cholesterol (Ex 7.5a)</summary>
 
 **Data.** Two independent groups of $n_1 = n_2 = 100$ males, assigned for 6 months to **Standard** vs **Seafood** diet:
 
@@ -1953,9 +2107,10 @@ qt(0.95, df = ns+nf-2);  qnorm(0.95)               # 1.6526, 1.6449
 TEST.diffmean(..., alternative = "greater", mu0 = 10, var.test = TRUE)
 ```
 
----
+</details>
 
-### (d) Two-proportion $z$-test, AI-tool use Younger vs Senior (Ex 7.7a)
+<details class="master-subpart">
+<summary>(d) Two-proportion $z$-test, AI-tool use Younger vs Senior (Ex 7.7a)</summary>
 
 **Data (`Developers_ITA`).** Sample proportions of developers using AI tools (e.g. ChatGPT) at work: $\hat p_\text{Young} \approx 0.57$, $\hat p_\text{Senior} \approx 0.40$ (sub-samples large; the textbook reports $z_\text{obs} \approx 4.77$ from the raw data).
 
@@ -1985,9 +2140,10 @@ z    <- (phY - phS)/se0;  z                # ~4.77
 1 - pnorm(z)                                # < 1e-4
 ```
 
----
+</details>
 
-### (e) Pooled two-sample $t$ from summary stats, $\alpha=0.10$ (Ex 7.10a)
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (e) Pooled two-sample $t$ from summary stats, $\alpha=0.10$ (Ex 7.10a)</summary>
 
 **Data.** Competing company: $n_y=800$, $\bar y = 1300$, $s_y = 960$. Considered company (the $n_x=750$ women in `DS`): $\bar x = 1228.44$, $s_x^2 = 940{,}900.9$.
 
@@ -2019,9 +2175,10 @@ t   <- (xbar - ybar)/se;                    t         # -1.459
 qnorm(0.90)                                           # 1.2816 (one-sided crit at 10%)
 ```
 
----
+</details>
 
-### (f) Side-by-side summary
+<details class="master-subpart">
+<summary>(f) Side-by-side summary</summary>
 
 | # | Application | Template | $H_1$ | Diff. | SE | Stat | p-value | @ chosen $\alpha$ |
 |---|---|---|---|---|---|---|---|---|
@@ -2031,9 +2188,10 @@ qnorm(0.90)                                           # 1.2816 (one-sided crit a
 | (d) | AI tools Younger vs Senior (Ex 7.7a) | P | $p_\text{Young}>p_\text{Senior}$ | $0.17$ | (built-in) | $z \approx 4.77$ | $<10^{-4}$ | reject @ 0.05 |
 | (e) | Considered vs competitor mean (Ex 7.10a) | M | $\mu_x>\mu_y$ | $-71.56$ | $49.02$ | $t \approx -1.459$ | $0.9277$ | retain @ 0.10 |
 
----
+</details>
 
-### (g) Master take-aways
+<details class="master-subpart">
+<summary>(g) Master take-aways</summary>
 
 1. **One shape, three SEs.** $T = (\text{diff} - \Delta_0)/\widehat{\text{SE}}$ is the same across (M), (W), (P); only $\widehat{\text{SE}}$ and the reference distribution change.
 2. **Means with $\sigma$'s unknown.** Pooled-$t$ (template M) assumes $\sigma_1 = \sigma_2$. Welch (template W) drops that assumption — safe default. When $n_1=n_2$ the two SEs **numerically coincide**.
@@ -2041,6 +2199,8 @@ qnorm(0.90)                                           # 1.2816 (one-sided crit a
 4. **Direction matters.** Place the directional claim (the one whose false rejection is the most damaging error) in $H_1$. Never pick the side after seeing the data; the two-sided p-value is twice the one-sided **only** when $T$ points in the $H_1$ direction (else $\approx 1-\text{one-sided}$).
 5. **Non-zero $\Delta_0$ goes into the numerator.** Ex 7.5a tests $\Delta_0=10$, not $\Delta_0=0$: subtract 10 from the observed mean gap before dividing by SE.
 6. **Equivalent decisions.** $t_\text{obs}\in R_\alpha \iff p\leq\alpha$. Large $p$ $\neq$ "$H_0$ true"; only "insufficient evidence at $\alpha$".
+
+</details>
 
 ---
 
@@ -2081,7 +2241,8 @@ $$n = 7,\qquad \bar d \;=\; 120\;\text{€},\qquad s_d \;=\; 110\;\text{€}.$$
 
 ---
 
-### (a) Why **paired** design? — removing between-store variability
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> (a) Why **paired** design? — removing between-store variability</summary>
 
 The two columns $X^\text{B}$ and $X^\text{A}$ are **not** two independent samples: they share the same set of stores. A small arcade in a sleepy suburb has *both* a low $X^\text{B}$ and a low $X^\text{A}$; a busy city-centre arcade has both high values. The store-level shock is **common to the two measurements**, so taking the difference $D_i$ literally **subtracts it out**:
 $$\Var(D) \;=\; \Var(X^\text{A}) + \Var(X^\text{B}) \;-\; 2\,\Cov(X^\text{A},X^\text{B}).$$
@@ -2095,9 +2256,10 @@ For instance, with $s_\text{POST}^2=21,\,s_\text{PRE}^2=12,\,s_\text{PRE,POST}=1
 
 Because $n=7$ is small the CLT does not apply; we assume the **differences are normal**, $D_i \stackrel{iid}{\sim} N(\mu_D,\sigma_D^2)$ with $\sigma_D^2$ unknown.
 
----
+</details>
 
-### (b) Hypotheses and test statistic
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (b) Hypotheses and test statistic</summary>
 
 Wi-fi extension is justified **only** if revenues **increase**. The most serious error is to roll out wi-fi chain-wide when there is no real gain, so the directional claim sits in $H_1$:
 $$H_0:\mu_D \;\leq\; 0 \quad\text{vs}\quad H_1:\mu_D \;>\; 0.$$
@@ -2116,9 +2278,10 @@ se7   <- sd_d / sqrt(n7);     se7              # 41.576
 tobs7 <- dbar / se7;          tobs7            # 2.8863
 ```
 
----
+</details>
 
-### (c) Rejection regions at $\alpha=0.05$ and $\alpha=0.01$ (one-sided upper)
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (c) Rejection regions at $\alpha=0.05$ and $\alpha=0.01$ (one-sided upper)</summary>
 
 Reject $H_0$ when $T$ is **too large**. Critical values from $t_6$:
 $$t_{0.95,\,6} \;=\; 1.9432, \qquad t_{0.99,\,6} \;=\; 3.1427.$$
@@ -2138,9 +2301,10 @@ qt(0.95, df = n7 - 1) * se7                    # 80.79   (RR on Dbar, 5%)
 qt(0.99, df = n7 - 1) * se7                    # 130.66  (RR on Dbar, 1%)
 ```
 
----
+</details>
 
-### (d) One-sided $p$-value
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (d) One-sided $p$-value</summary>
 
 $$p \;=\; P\!\left(t_6 > t_\text{obs}\right) \;=\; P(t_6 > 2.8863) \;\approx\; 0.0139.$$
 
@@ -2154,9 +2318,10 @@ Sanity check vs the RR table: $\alpha = 0.05$: $p \approx 0.014 < 0.05 \Rightarr
 
 ![Master illustration](statistics/images/master/master_g14c_ai.png)
 
----
+</details>
 
-### (e) Worked numerical summary ($n=7$)
+<details class="master-subpart">
+<summary>(e) Worked numerical summary ($n=7$)</summary>
 
 | Quantity | Formula | Value |
 |---|---|---|
@@ -2170,9 +2335,10 @@ Sanity check vs the RR table: $\alpha = 0.05$: $p \approx 0.014 < 0.05 \Rightarr
 | Decision at $5\%$ | $p < 0.05$ | **reject $H_0$** |
 | Decision at $1\%$ | $p > 0.01$ | retain $H_0$ |
 
----
+</details>
 
-### (f) Effect of doubling the sample to $n=14$ (Ex 7.6b)
+<details class="master-subpart">
+<summary>(f) Effect of doubling the sample to $n=14$ (Ex 7.6b)</summary>
 
 Suppose the same per-store summaries $\bar d = 120$, $s_d = 110$ are obtained from a sample of **$n=14$** stores (or, equivalently, two weeks of paired observations on the same 7 stores producing the same $\bar d$ and $s_d$). Three things change *systematically*, **without** recomputing from raw data — the scaling laws are exact.
 
@@ -2220,14 +2386,17 @@ qt(0.99, df = n14 - 1) * se14                  # 77.92   (RR on Dbar, 1%)
 # t.test(After, Before, paired = TRUE, alternative = "greater")
 ```
 
----
+</details>
 
-### (g) Final decision
+<details class="master-subpart">
+<summary>(g) Final decision</summary>
 
 - **At $n=7$:** $p \approx 0.014$ — reject $H_0$ at $5\%$, retain at $1\%$. Wi-fi extension is *moderately* supported.
 - **At $n=14$:** $p \approx 0.00065$ — reject $H_0$ at *both* $5\%$ and $1\%$. Strong evidence of a revenue increase.
 
 In both cases the **direction** is the same (revenues went up by 120 € on average per store-week). What changes with $n$ is the **strength of evidence** that this is more than sampling noise.
+
+</details>
 
 ---
 
@@ -2512,7 +2681,8 @@ The two tests share the same machinery — a Pearson statistic $X^2 = \sum (O-E)
 
 ---
 
-### Part (a) — Goodness-of-fit: is `History` uniform?
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> Part (a) — Goodness-of-fit: is `History` uniform?</summary>
 
 Take a single categorical variable with $K$ levels and **hypothesised** probabilities $(p_1^0,\dots,p_K^0)$ summing to 1. Here the manager wants to test whether the four `History` levels are equally likely, i.e. $p_k^0 = 0.25$ for every $k$.
 
@@ -2564,9 +2734,12 @@ chisq.test(x = O, p = p0)                             # X-sq=13.104, df=3, p=0.0
 
 ![Master illustration](statistics/images/master/master_g14d_ai.png)
 
+</details>
+
 ---
 
-### Part (b) — Independence: is `History` related to `Location`?
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> Part (b) — Independence: is `History` related to `Location`?</summary>
 
 Now we have a $4\times 2$ contingency table $O_{ij}$ and want to test whether `History` (row variable, $r=4$ levels) and `Location` (column variable, $c=2$ levels) are statistically **independent**.
 
@@ -2638,9 +2811,12 @@ chisq.test(O, correct = FALSE)                       # X-sq=13.315, df=3, p=0.00
 chisq.test(O, correct = FALSE)$stdres                # |z| > ~2 == driver cell
 ```
 
+</details>
+
 ---
 
-### Part (c) — Side-by-side: GoF vs Independence.
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> Part (c) — Side-by-side: GoF vs Independence</summary>
 
 The two tests share a common skeleton but differ in what is "known" vs "estimated":
 
@@ -2659,9 +2835,12 @@ The two tests share a common skeleton but differ in what is "known" vs "estimate
 
 Both tests reject at $\alpha=0.05$ — but they reject *different* nulls. The GoF result alone could have come from a perfectly *independent* but *non-uniform* `History`; the independence result alone could have come from a *uniform* `History` with a stratum effect. The two are **complementary**, not redundant.
 
+</details>
+
 ---
 
-### Part (d) — Validity: why all $\widehat E_{ij} \geq 5$ matters.
+<details class="master-subpart">
+<summary>Part (d) — Validity: why all $\widehat E_{ij} \geq 5$ matters</summary>
 
 The $\chi^2$ approximation rests on a **normal approximation** to each cell count: $(O_{ij}-E_{ij})/\sqrt{E_{ij}} \approx \mathcal{N}(0,1)$ under $H_0$. This breaks down when $E_{ij}$ is small because (i) the count is approximately Poisson with a fat right tail and (ii) the squared ratio $(O-E)^2/E$ is dominated by tiny denominators, producing spuriously large $X^2$. The standard **Cochran rule** (and the warning R prints) is
 
@@ -2679,9 +2858,12 @@ fisher.test(O)                                       # exact, no asymptotics
 chisq.test(O, correct=FALSE, simulate.p.value=TRUE, B=10000)
 ```
 
+</details>
+
 ---
 
-### Part (d.5) — Two cross-check GoF cases: non-uniform null *rejected*, uniform null *retained*.
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> Part (d.5) — Two cross-check GoF cases: non-uniform null *rejected*, uniform null *retained*</summary>
 
 The master so far showcased a single GoF where uniform $H_0$ is **rejected**. Two linked snippets sharpen the lesson by varying both the null shape and the conclusion.
 
@@ -2709,9 +2891,12 @@ chisq.test(c(24, 30, 36, 40), p = rep(1/4, 4))
 # X-sq = 4.523, df = 3, p = 0.2104
 ```
 
+</details>
+
 ---
 
-### Part (e) — Df when parameters are estimated (composite GoF nulls).
+<details class="master-subpart">
+<summary>Part (e) — Df when parameters are estimated (composite GoF nulls)</summary>
 
 The general rule is
 $$\text{df}_\text{GoF} \;=\; K \;-\; 1 \;-\; p,$$
@@ -2733,6 +2918,8 @@ qchisq(0.95, df = K - 1 - 0)        # 7.815   (uniform / fully specified)
 qchisq(0.95, df = K - 1 - 1)        # 5.991   (Poisson, 1 par estimated)
 qchisq(0.95, df = K - 1 - 2)        # 3.841   (Normal, 2 par estimated)
 ```
+
+</details>
 
 ---
 
@@ -2970,9 +3157,10 @@ The total area of all bars equals 1: $0.18+0.28+0.30+0.14+0.10 = 1$.
 
 ![Master illustration](statistics/images/master/master_g1c_hist_ai.png)
 
----
+</details>
 
-### Part (d) — How many classes? Sturges and $\sqrt n$.
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (d) How many classes? Sturges and $\sqrt n$.</summary>
 
 When *we* design the bins (rather than receiving them pre-binned), two classical rules of thumb give a starting number of classes $K$:
 
@@ -2994,9 +3182,10 @@ length(hist(sales, breaks = "FD",      plot = FALSE)$breaks) - 1   # often more,
 
 The pre-given $K=5$ unequal-width design here is *coarser* than Sturges (8) — a deliberate choice because the tail $[40,80)$ is sparse.
 
----
+</details>
 
-### Part (e) — Reading the picture: skew, mode, gaps.
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (e) Reading the picture: skew, mode, gaps.</summary>
 
 Once drawn on the density scale, the histogram tells a story:
 
@@ -3012,9 +3201,10 @@ mean(sales);  median(sales);  e1071::skewness(sales)        # mean > median, ske
 table(cut(sales, breaks = br, right = FALSE))
 ```
 
----
+</details>
 
-### Part (f) — The common error: plotting counts $f_i$ with unequal widths.
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (f) The common error: plotting counts $f_i$ with unequal widths.</summary>
 
 If we mistakenly use the **frequency scale** with the *unequal* bins, R will (silently in older versions, with a warning in current versions) draw bars with heights $f_i$ and widths $w_i$ — so the **areas** become $f_i \cdot w_i$, which is **no longer proportional to the share of data**. Concretely:
 
@@ -3040,6 +3230,8 @@ The rule is simple and exam-friendly:
 
 - **Equal widths** $\Rightarrow$ either scale is fine (`freq = TRUE` or `FALSE` give the same shape).
 - **Unequal widths** $\Rightarrow$ **density only** (`freq = FALSE`); plotting counts is a textbook misleading-graph error.
+
+</details>
 
 ---
 
@@ -3083,7 +3275,8 @@ Let $\mu$ and $\sigma^2$ denote the (unknown) population mean and variance of `S
 
 ---
 
-**(a) Unbiased estimators: definition, and why $\bar X$ and $S^2$ qualify.**
+<details class="master-subpart" open>
+<summary>(a) Unbiased estimators: definition, and why $\bar X$ and $S^2$ qualify.</summary>
 
 **Definition.** An estimator $T = T(X_1,\dots,X_n)$ of a parameter $\theta$ is **unbiased** if
 $$\mathbb E[T] \;=\; \theta \quad \text{for every value of } \theta.$$
@@ -3116,9 +3309,12 @@ S2_naive <- rowMeans((samp - rowMeans(samp))^2)  # divisor n -> biased
 mean(S2_un);     mean(S2_naive)              # ~1.000   ~0.800  ((n-1)/n=0.8)
 ```
 
+</details>
+
 ---
 
-**(b) What does the SE measure? — $P(|\bar X-\mu|>SE)$ under Normality.**
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (b) What does the SE measure? — $P(|\bar X-\mu|>SE)$ under Normality.</summary>
 
 The **standard error** of $\bar X$ is the SD of its sampling distribution:
 $$SE(\bar X) \;=\; \sqrt{\operatorname{Var}(\bar X)} \;=\; \frac{\sigma}{\sqrt n}.$$
@@ -3144,9 +3340,12 @@ mean(abs(xb - mu) > sig/sqrt(n))          # ~0.317
 
 *Caveat.* The 0.317 figure assumed (i) Normal data and (ii) **known** $\sigma$. Under unknown $\sigma$ the exact statement uses $T=(\bar X-\mu)/(S/\sqrt n)\sim t_{n-1}$ and gives $P(|T|>1)=2[1-F_{t_{n-1}}(1)]\approx 0.3197$ at $n=100$ — practically the same; the gap matters only for very small $n$.
 
+</details>
+
 ---
 
-**(c) Effect of sample size on the SE — the $1/\sqrt n$ law.**
+<details class="master-subpart">
+<summary>(c) Effect of sample size on the SE — the $1/\sqrt n$ law.</summary>
 
 Because $SE(\bar X) = \sigma/\sqrt n$, the SE **shrinks as the square root** of $n$, not linearly. Concretely, multiplying $n$ by $k$ divides the SE by $\sqrt k$:
 
@@ -3181,6 +3380,8 @@ ceiling( (qnorm(0.975) * s / target_ME)^2 ) # 6147 pizzerias needed
 ```
 
 ![Master illustration](statistics/images/master/master_g13f_ai.png)
+
+</details>
 
 ---
 
@@ -4046,7 +4247,8 @@ Only the **counts in each class are known** — the raw $x_i$ values inside each
 
 ---
 
-### (a) The Uniform-on-interval assumption
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> (a) The Uniform-on-interval assumption</summary>
 
 The only statement the grouped table makes is: **a fraction $f_j$ of the data lies in $[L_j,R_j)$.** To turn this into a function $\widehat F(x)$ at every $x$, we need an assumption about **how** those $n_j$ points are spread *inside* the class. The standard, minimal-information choice is:
 
@@ -4059,9 +4261,12 @@ This is the **histogram density** — the height of the histogram bar drawn so t
 1. The grouped CDF $\widehat F$ is **piecewise linear**: flat-slope ramps inside each class, joined at the class boundaries.
 2. At a boundary $R_j$, $\widehat F(R_j)=F_j$ (the cumulative entry from the table); inside the class we **linearly interpolate**.
 
+</details>
+
 ---
 
-### (b) Linear-interpolation formula for $\widehat F(x)$, $x\in[L_j,R_j)$
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (b) Linear-interpolation formula for $\widehat F(x)$, $x\in[L_j,R_j)$</summary>
 
 The fraction of class $j$'s width that lies to the left of $x$ is $(x-L_j)/w_j$. Under Uniform-on-interval, the same fraction of class $j$'s mass $f_j$ lies to the left of $x$:
 $$\widehat F(x)\;=\;F_{j-1}\;+\;\frac{x-L_j}{w_j}\,f_j\qquad\text{(linear ramp inside class }j\text{)}.$$
@@ -4069,9 +4274,12 @@ Equivalently in **density-times-overlap** form,
 $$\widehat F(x)\;=\;F_{j-1}\;+\;\widehat f(x)\cdot(x-L_j)\;=\;F_{j-1}\;+\;\frac{f_j}{w_j}\,(x-L_j),$$
 which is the **same number** — just two different bookkeeping views of one straight-line interpolation.
 
+</details>
+
 ---
 
-### (c) Worked example: $\widehat{\mathbb P}(X\le 15)$
+<details class="master-subpart">
+<summary><span class="tag tag-4plus">≥4 ex</span> (c) Worked example: $\widehat{\mathbb P}(X\le 15)$</summary>
 
 $x=15$ lies in class $j=2$, namely $[L_2,R_2)=[10,30)$, with $w_2=20$, $f_2=0.40$, $F_1=0.10$.
 
@@ -4110,18 +4318,24 @@ approx(x = c(L[1], R), y = c(0, F_cum), xout = 15)$y   # 0.20
 
 ![Master illustration](statistics/images/master/master_g2b_approx_ai.png)
 
+</details>
+
 ---
 
-### (d) Two boundary checks (always do these)
+<details class="master-subpart">
+<summary>(d) Two boundary checks (always do these)</summary>
 
 1. **At $x=L_j$** (left edge of class $j$): the formula gives $\widehat F(L_j)=F_{j-1}+0\cdot f_j=F_{j-1}$ — matches the cumulative entry just before class $j$.
 2. **At $x=R_j$** (right edge): $\widehat F(R_j)=F_{j-1}+1\cdot f_j=F_j$ — matches the cumulative entry at the end of class $j$.
 
 So $\widehat F$ is **continuous and increasing**, made of straight segments whose slopes are the histogram densities $f_j/w_j$. In our table the slopes are $\{0.010,\,0.020,\,0.010,\,0.0033\}$ per second — call density is highest in class 2 (steepest ramp).
 
+</details>
+
 ---
 
-### (e) Quantile (inverse) direction — same machinery in reverse
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (e) Quantile (inverse) direction — same machinery in reverse</summary>
 
 To find the median (or any quantile $q$), locate the class containing $q$ and invert the linear ramp. With $q=0.5$, $F_1=0.10<0.5\le F_2=0.50$, so the median lies in class 2, and
 $$x_{0.5}\;=\;L_2\;+\;\frac{q-F_{j-1}}{f_j}\,w_j\;=\;10\;+\;\frac{0.5-0.10}{0.40}\cdot 20\;=\;10+20\;=\;30.$$
@@ -4136,13 +4350,18 @@ q_hat <- function(q) {
 q_hat(0.25); q_hat(0.50); q_hat(0.75)               # 17.5  30.0  52.5
 ```
 
+</details>
+
 ---
 
-### (f) When is Uniform-on-interval reasonable?
+<details class="master-subpart">
+<summary>(f) When is Uniform-on-interval reasonable?</summary>
 
 - **Reasonable** when class widths are small *relative to the variation of the true density* — within $[10,30)$ a true unimodal density is approximately flat over 20 seconds.
 - **Suspect** in the *first* and *last* class when widths are large or the distribution is heavy-tailed: e.g. $[60,120)$ is 60 s wide; if calls really follow a decreasing density there, Uniform-on-interval **overestimates** $F(x)$ at $x$ just past 60 and **underestimates** near 120. This is the **grouping bias** of all summary statistics computed from the table (mean-from-midpoints, variance, etc.).
 - **Diagnostic.** If you also have raw data on a subset, overlay the piecewise-linear $\widehat F$ on the empirical CDF; large deviations inside wide classes warn you to either keep classes narrow at registration time or use a smoother model (e.g., midpoint-based spline, or a parametric fit such as $\mathrm{Exp}(\lambda)$ matched to the grouped mean).
+
+</details>
 
 ---
 
@@ -4200,17 +4419,23 @@ head(crime[order(-crime$Rate.Violent), c("State", "Population",
 
 **What changed?** California ($n_\text{crime}\approx 175{,}000$) drops out of the top five entirely once you normalise by population, and Alaska — small absolute numbers but a tiny denominator — jumps to #1. This is the **whole reason** derived variables exist: raw counts confound *intensity* with *size*.
 
+</details>
+
 ---
 
-### (b) Why per-100k (a "rate") rather than the raw ratio?
+<details class="master-subpart">
+<summary>(b) Why per-100k (a "rate") rather than the raw ratio?</summary>
 
 The ratio $\text{ViolentCrimes}/\text{Population}$ is **already** a unit-free comparison; multiplying by $10^5$ just rescales for readability. Equivalently you can interpret Rate.Violent as
 $$\widehat{\mathbb P}(\text{a randomly drawn inhabitant was a violent-crime victim this year})\times 100\,000.$$
 So Alaska's $862$ means roughly $0.86\%$ of Alaskans were victims of a recorded violent crime — a probability statement on the **same scale** for every state regardless of size.
 
+</details>
+
 ---
 
-### (c) Bin-and-compare workflow
+<details class="master-subpart">
+<summary>(c) Bin-and-compare workflow</summary>
 
 Once Rate.Violent exists, all standard distribution-comparison tools become available — but applied to the *derived* variable, not the raw count.
 
@@ -4248,9 +4473,12 @@ boxplot(Rate.Violent ~ Group, data = crime, col = c("#fbb35a", "#1d2b54"))
 
 ![Master illustration](statistics/images/master/master_g3_main_ai.png)
 
+</details>
+
 ---
 
-### (d) The same template for other common derived variables
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (d) The same template for other common derived variables</summary>
 
 Whenever the raw measurement is a *count or a total* and you want a *comparable* number, divide by the natural "size" variable:
 
@@ -4280,9 +4508,12 @@ The structural pattern is always the same:
 3. **Rescale** for readability (×100 for %, ×100k for rates, leave raw for densities).
 4. **Replace the raw variable** with the derived one throughout the analysis.
 
+</details>
+
 ---
 
-### (e) Pitfalls and sanity checks
+<details class="master-subpart">
+<summary>(e) Pitfalls and sanity checks</summary>
 
 1. **Zero-denominator rows.** If any Population (or Area, Revenue, ...) is 0 or near-0, the rate is undefined or explodes. Drop or winsorise:
    ```r
@@ -4294,9 +4525,12 @@ The structural pattern is always the same:
 4. **Margin% with near-zero revenue.** $(\text{Rev}-\text{Cost})/\text{Rev}$ is unstable when Rev is tiny; consider log-revenue or absolute profit instead.
 5. **Do not double-normalise.** Rate.Violent is already per-capita; do not then divide by Population again when comparing across states.
 
+</details>
+
 ---
 
-### (f) Putting it together — the analysis pipeline
+<details class="master-subpart">
+<summary>(f) Putting it together — the analysis pipeline</summary>
 
 ```r
 # 1. Load and audit
@@ -4322,6 +4556,8 @@ boxplot(Rate.Violent ~ Group, data = crime)
 # 6. (Optional) Quantify the SE for small states
 crime$Rate.SE <- sqrt(crime$ViolentCrimes) / crime$Population * 1e5
 ```
+
+</details>
 
 ---
 
@@ -4517,7 +4753,8 @@ The mean is **above** the median by about $7\%$. The histogram of `Sales` (see m
 
 ---
 
-### (a) Rule of thumb --- the sign of $\bar x - \widehat{\text{Me}}$ encodes the skew
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> (a) Rule of thumb --- the sign of $\bar x - \widehat{\text{Me}}$ encodes the skew</summary>
 
 | Shape of the distribution | Relation | Visual cue |
 |---|---|---|
@@ -4533,9 +4770,12 @@ is positive ($s$ here is the sample standard deviation, around $11\,500$€, giv
 
 ![Master illustration](statistics/images/master/master_g4b_skew_ai.png)
 
+</details>
+
 ---
 
-### (b) Why the mean is pulled by the tail --- **sum** vs **rank**
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (b) Why the mean is pulled by the tail --- **sum** vs **rank**</summary>
 
 The mean and median answer different optimisation problems, which is the entire reason they react differently to outliers.
 
@@ -4566,9 +4806,12 @@ mean(x);    median(x)                         # 23.89   23
 mean(xo);   median(xo)                        # 42.22   23   <- median unmoved
 ```
 
+</details>
+
 ---
 
-### (c) Robustness --- the **breakdown point**
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (c) Robustness --- the **breakdown point**</summary>
 
 The *breakdown point* of an estimator is the smallest fraction of observations that one must corrupt (replace by $\pm\infty$) to send the estimator to $\pm\infty$.
 
@@ -4579,9 +4822,12 @@ The *breakdown point* of an estimator is the smallest fraction of observations t
 
 The median is the **most robust** of all sensible location estimators --- you cannot do better than $50\%$ breakdown, and the median attains the bound. This is exactly why the toy demonstration above moves the mean but not the median: corrupting $1$ out of $9$ points is $11\%$ contamination, well within the median's tolerance but already infinite for the mean.
 
+</details>
+
 ---
 
-### (d) Decision rule --- when to report the **median** and when the **mean**
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (d) Decision rule --- when to report the **median** and when the **mean**</summary>
 
 | Situation | Preferred summary | Why |
 |---|---|---|
@@ -4601,6 +4847,8 @@ mean(sales) - median(sales)                    # 1597    -> positive -> right sk
 # Robustness check: 5%-trimmed mean is close to the median, far from the raw mean
 mean(sales, trim = 0.05)                       # ~ 22900 -> confirms skew, not noise
 ```
+
+</details>
 
 ---
 
@@ -4635,7 +4883,8 @@ We must reconstruct the **mean** and **median** of turnover without access to th
 
 ---
 
-### (a) Approximate mean — midpoint weighting
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> (a) Approximate mean — midpoint weighting</summary>
 
 When the raw data are unavailable, every observation in class $[a_i,b_i)$ is **collapsed to its midpoint** $m_i=(a_i+b_i)/2$. The grouped-data mean is then the weighted average of those midpoints, with weights equal to the relative frequencies:
 $$\bar x_g \;=\; \sum_{i=1}^{K} f_i\, m_i.$$
@@ -4654,9 +4903,12 @@ mid <- (a + b)/2                          # 7.5, 22.5, 60
 xbar_g <- sum(f * mid);  xbar_g           # 25.35
 ```
 
+</details>
+
 ---
 
-### (b) Approximate median — linear interpolation inside the median class
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (b) Approximate median — linear interpolation inside the median class</summary>
 
 **Step 1 — locate the median class.** The median is the value at cumulative frequency $0.5$. From the $F_i$ column:
 $$F_1 = 0.21,\qquad F_2 = 0.84,\qquad F_3 = 1.00.$$
@@ -4683,9 +4935,12 @@ med_g                                     # ~ 21.905
 
 ![Master illustration](statistics/images/master/master_g4c_grouped_ai.png)
 
+</details>
+
 ---
 
-### (c) Why these are *approximations* — the uniform-on-interval assumption
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (c) Why these are *approximations* — the uniform-on-interval assumption</summary>
 
 Both formulae above rely on the same hidden hypothesis:
 > **Within each class $[a_i,b_i)$, the original observations are uniformly distributed.**
@@ -4716,6 +4971,8 @@ sim <- unlist(lapply(seq_along(f), function(i)
         runif(round(100*f[i]), a[i], b[i])))
 mean(sim);  median(sim)                   # should be ~ 25.35 and ~ 21.9
 ```
+
+</details>
 
 ---
 
@@ -4769,7 +5026,8 @@ The question is the *cross-subgroup* one: do the subgroups differ in central ten
 
 ---
 
-### (a) Compute mean / median per subgroup
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> (a) Compute mean / median per subgroup</summary>
 
 **Case A (Time subgroups).** The per-subgroup mean and median are computed by the grouped-data formulas (midpoints / linear interpolation, see master **g4c**):
 $$\bar x_A = 17.06,\quad \widetilde{\mathrm{med}}_A = 17.05,\qquad \bar x_B = 79.65,\quad \widetilde{\mathrm{med}}_B = 76.06.$$
@@ -4790,9 +5048,10 @@ xbarB <- sum(midB*fB);  xbarB                      # 79.65
 (836*xbarA + 964*xbarB)/1800                       # ~ 50.58
 ```
 
----
+</details>
 
-### (b) Compare the gap — absolute and relative
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (b) Compare the gap — absolute and relative</summary>
 
 **Case A — absolute gap (means).**
 $$\Delta\bar x = \bar x_B - \bar x_A = 79.65 - 17.06 = \mathbf{62.59}\ \text{min}.$$
@@ -4818,9 +5077,10 @@ xbar_1516 - xbar_2223                          # 0.19  -> small shift, but mode 
 
 ![Master illustration](statistics/images/master/master_g4d_compare_ai.png)
 
----
+</details>
 
-### (c) Interpret — which subgroup has the higher central tendency?
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (c) Interpret — which subgroup has the higher central tendency?</summary>
 
 **Case A.** Both summaries point the same way:
 $$\bar x_B = 79.65 > 17.06 = \bar x_A,\qquad \widetilde{\mathrm{med}}_B = 76.06 > 17.05 = \widetilde{\mathrm{med}}_A.$$
@@ -4837,9 +5097,10 @@ Benchmarks (Cohen): $|d|\approx 0.2$ small, $0.5$ medium, $0.8$ large. For Case 
 * The gap is *descriptive*; the survey is not randomised, so unobserved confounders (e.g. day of week, customer demographics) may drive the visit-length split.
 * For the period comparison (Case B), 2015-16 and 2022-23 differ on *many* dimensions beyond `Quantity` (price levels, promotional regime, COVID aftermath) --- the change cannot be attributed to any single cause.
 
----
+</details>
 
-### (d) Simpson's paradox warning — when pooling can lie
+<details class="master-subpart">
+<summary>(d) Simpson's paradox warning — when pooling can lie</summary>
 
 Whenever we move from *subgroup* summaries to a *pooled* summary, two things must be checked.
 
@@ -4867,6 +5128,8 @@ In the present cases, no further stratification is available in the printed tabl
 # tapply(Time, VisitType, mean)              # pooled gap
 # If within-day gaps reverse the pooled gap, suspect Simpson.
 ```
+
+</details>
 
 ---
 
@@ -5264,11 +5527,19 @@ sum(tbl)                                  # n = 500
 
 ---
 
-**(a) Joint absolute frequencies $n_{ij}$.** The entries above *are* the joint absolute frequencies: $n_{ij}$ counts customers simultaneously in row category $i$ and column category $j$. They satisfy $n_{ij} \ge 0$ and $\sum_{i,j} n_{ij} = n$. Each cell answers the question "how many customers are *both* of sex $i$ *and* history $j$?" — e.g.\ $n_{F,\text{Yes}} = 140$ means $140$ customers are female *and* repeat purchasers.
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> (a) Joint absolute frequencies $n_{ij}$</summary>
+
+The entries above *are* the joint absolute frequencies: $n_{ij}$ counts customers simultaneously in row category $i$ and column category $j$. They satisfy $n_{ij} \ge 0$ and $\sum_{i,j} n_{ij} = n$. Each cell answers the question "how many customers are *both* of sex $i$ *and* history $j$?" — e.g.\ $n_{F,\text{Yes}} = 140$ means $140$ customers are female *and* repeat purchasers.
+
+</details>
 
 ---
 
-**(b) Marginal distributions.** Sum across one index to collapse the joint table to a univariate distribution.
+<details class="master-subpart">
+<summary><span class="tag tag-4plus">≥4 ex</span> (b) Marginal distributions</summary>
+
+Sum across one index to collapse the joint table to a univariate distribution.
 
 * **Row marginal** $n_{i\cdot} = \sum_j n_{ij}$: this is the **distribution of `Sex` ignoring `History`** — $(210, 230, 40, 20)$ for $(F, M, NB, NA)$. Proportions: $(0.420, 0.460, 0.080, 0.040)$.
 * **Column marginal** $n_{\cdot j} = \sum_i n_{ij}$: distribution of `History` ignoring `Sex` — $(305, 195)$ for (Yes, No). Proportions: $(0.610, 0.390)$.
@@ -5280,9 +5551,14 @@ rowSums(tbl)                              # n_{i.} = 210 230 40 20
 colSums(tbl)                              # n_{.j} = 305 195
 ```
 
+</details>
+
 ---
 
-**(c) Joint proportions $p_{ij} = n_{ij}/n$.** Divide every joint cell by $n = 500$:
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (c) Joint proportions $p_{ij} = n_{ij}/n$</summary>
+
+Divide every joint cell by $n = 500$:
 
 \begin{tabular}{p{7cm}|p{7cm}|p{7cm}|p{7cm}|p{10cm}}
 \textbf{Sex \textbackslash{} History} & \textbf{Yes} & \textbf{No} & \textbf{Row $p_{i\cdot}$} & \\
@@ -5299,9 +5575,14 @@ These are *empirical joint probabilities* — $p_{F,\text{Yes}} = 0.280$ means $
 prop.table(tbl)                           # divides by n -> p_ij
 ```
 
+</details>
+
 ---
 
-**(d) Row-conditional distributions $p(j \mid i) = n_{ij}/n_{i\cdot}$.** "Given a customer is of sex $i$, what is the chance of history $j$?" Divide each cell by *its own row total*:
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (d) Row-conditional distributions $p(j \mid i) = n_{ij}/n_{i\cdot}$</summary>
+
+"Given a customer is of sex $i$, what is the chance of history $j$?" Divide each cell by *its own row total*:
 
 \begin{tabular}{p{7cm}|p{7cm}|p{7cm}|p{7cm}|p{10cm}}
 \textbf{Sex \textbackslash{} History} & \textbf{Yes} & \textbf{No} & \textbf{Sum} & \\
@@ -5317,9 +5598,14 @@ Each row now sums to $1$. Females are the **most history-rich** group ($66.7\%$ 
 prop.table(tbl, margin = 1)               # each row sums to 1 -> p(j|i)
 ```
 
+</details>
+
 ---
 
-**(e) Column-conditional distributions $p(i \mid j) = n_{ij}/n_{\cdot j}$.** "Given a customer's history is $j$, what is the chance of sex $i$?" Divide by *column totals* $(305, 195)$:
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (e) Column-conditional distributions $p(i \mid j) = n_{ij}/n_{\cdot j}$</summary>
+
+"Given a customer's history is $j$, what is the chance of sex $i$?" Divide by *column totals* $(305, 195)$:
 
 \begin{tabular}{p{7cm}|p{7cm}|p{7cm}|p{10cm}}
 \textbf{Sex \textbackslash{} History} & \textbf{Yes ($/305$)} & \textbf{No ($/195$)} & \\
@@ -5336,9 +5622,14 @@ Among **repeat** buyers, females are the largest group ($45.9\%$); among **first
 prop.table(tbl, margin = 2)               # each column sums to 1 -> p(i|j)
 ```
 
+</details>
+
 ---
 
-**(f) Independence check.** Under statistical independence of `Sex` and `History`,
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (f) Independence check</summary>
+
+Under statistical independence of `Sex` and `History`,
 $$p(j \mid i) \;=\; p_{\cdot j} \quad \text{for every } i, j,$$
 i.e.\ the row-conditional distributions should all coincide with the marginal column distribution $(0.610, 0.390)$. Compare row by row:
 
@@ -5358,9 +5649,14 @@ matrix(colSums(tbl)/sum(tbl), nrow = 4, ncol = 2, byrow = TRUE,
        dimnames = dimnames(tbl))          # H0 conditional (= marginal)
 ```
 
+</details>
+
 ---
 
-**(g) Qualitative reading of association.** Putting the conditional comparisons together:
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (g) Qualitative reading of association</summary>
+
+Putting the conditional comparisons together:
 
 * **Sex moves the history rate** by up to $\approx 17$ pp (from $50\%$ for `NA` to $66.7\%$ for `F`).
 * The **direction** is: females are over-represented among repeat buyers, males among first-time buyers — *a modest positive association between `F` and `Yes`*.
@@ -5373,6 +5669,8 @@ mosaicplot(tbl, shade = TRUE, main = "Sex x History (Pearson residuals)")
 barplot(prop.table(tbl, 1), beside = TRUE, legend.text = TRUE,
         main = "Row-conditional p(History | Sex)")
 ```
+
+</details>
 
 ---
 
@@ -5408,7 +5706,8 @@ The conditional medians (computed from the raw vectors) are $\tilde x_L = 20\,90
 
 ---
 
-**(a) Conditional mean, median, and standard deviation per group.**
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> (a) Conditional mean, median, and standard deviation per group</summary>
 
 For a quantitative variable $X$ stratified by a qualitative variable $G$ taking levels $g \in \{L, M, P\}$, the **conditional summaries given $G = g$** are computed *only* on the rows with $G_i = g$:
 $$\bar x_g = \frac{1}{n_g}\sum_{i:\,G_i = g} x_i, \qquad
@@ -5438,9 +5737,14 @@ tapply(pizzerie$Sales, pizzerie$District, mean)
 tapply(pizzerie$Sales, pizzerie$District, sd)
 ```
 
+</details>
+
 ---
 
-**(b) Side-by-side boxplots.** A boxplot per District places the five-number summary (min, Q1, median, Q3, max) on a common $y$-axis so the eye can compare **levels** (medians) and **spreads** (IQRs) at once. Schematically:
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (b) Side-by-side boxplots</summary>
+
+A boxplot per District places the five-number summary (min, Q1, median, Q3, max) on a common $y$-axis so the eye can compare **levels** (medians) and **spreads** (IQRs) at once. Schematically:
 
 ```
 Sales (€)
@@ -5470,18 +5774,28 @@ boxplot(Sales ~ District, data = pizzerie,
 abline(h = mean(pizzerie$Sales), lty = 2)        # grand mean reference
 ```
 
+</details>
+
 ---
 
-**(c) Between-group gap vs within-group spread.** The substantive question is whether the District *level* effect is **large relative to within-District noise**. Define:
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (c) Between-group gap vs within-group spread</summary>
+
+The substantive question is whether the District *level* effect is **large relative to within-District noise**. Define:
 
 $$\text{Between-gap (max)} = \bar x_P - \bar x_L = 26\,400 - 21\,500 = 4\,900 \text{ €}.$$
 $$\text{Within-group SD (pooled)} = s_{\text{pool}} = \sqrt{\frac{\sum_g (n_g - 1)s_g^2}{n - G}} = \sqrt{\frac{34\cdot 7800^2 + 32\cdot 8400^2 + 31\cdot 8100^2}{97}} \approx 8\,100.$$
 
 The pooled within-group SD ($\approx 8\,100$ €) is **almost double the max between-group gap** ($4\,900$ €). Individual pizzerias scatter much more than group means. Visually, the boxes in (b) **overlap heavily** — a randomly chosen Loreto pizzeria can easily out-earn a randomly chosen Porta Romana one.
 
+</details>
+
 ---
 
-**(d) Effect size.** Several standardised measures formalise (c):
+<details class="master-subpart">
+<summary>(d) Effect size</summary>
+
+Several standardised measures formalise (c):
 
 * **Cohen's $d$ (L vs P)**: $d = (\bar x_P - \bar x_L)/s_{\text{pool}} = 4\,900/8\,100 \approx 0.60$ — a *medium* effect.
 * **$\eta^2$ (between/total SS)**: with $SS_{\text{between}} = \sum_g n_g (\bar x_g - \bar x)^2 \approx 4.0\times 10^8$ and $SS_{\text{total}} \approx (n-1)s^2 = 99\cdot 8200^2 \approx 6.66\times 10^9$, $\eta^2 \approx 0.060$ — **District explains $\approx 6\%$ of total variance in Sales**. A small-to-medium effect.
@@ -5500,9 +5814,14 @@ library(effsize)
 cohen.d(Sales ~ District, data = subset(pizzerie, District %in% c("L","P")))
 ```
 
+</details>
+
 ---
 
-**(e) Simpson's paradox warning.** Conditional summaries can **reverse the marginal story** when a lurking variable correlates with both group membership and outcome.
+<details class="master-subpart">
+<summary>(e) Simpson's paradox warning</summary>
+
+Conditional summaries can **reverse the marginal story** when a lurking variable correlates with both group membership and outcome.
 
 *Concrete scenario.* Suppose `Type` $\in \{$takeaway, sit-down$\}$ also matters, and the District–Type mix is unbalanced: Porta Romana is $80\%$ sit-down while Loreto is $30\%$ sit-down. If sit-down pizzerias earn much more on average, the *unconditional* District comparison conflates **location** with **format**. The naive conclusion "Porta R. is a better location" may collapse — or even reverse — once you condition on `Type`:
 
@@ -5518,6 +5837,8 @@ interaction.plot(pizzerie$District, pizzerie$Type, pizzerie$Sales,
                  ylab = "Mean Sales", xlab = "District",
                  trace.label = "Type")
 ```
+
+</details>
 
 ---
 
@@ -5545,7 +5866,8 @@ $$\min = 200,\quad Q_1 = 600,\quad Q_2 = \text{median}\;(\text{not given}),\quad
 
 ---
 
-### (a) Range = max − min
+<details class="master-subpart" open>
+<summary><span class="tag tag-4plus">≥4 ex</span> (a) Range = max − min</summary>
 
 The crudest spread measure: distance between the two extremes.
 $$\boxed{\;\text{Range} \;=\; \max - \min \;=\; 4500 - 200 \;=\; 4300\;\text{euros}.\;}$$
@@ -5558,9 +5880,12 @@ range(DS$AmountSpent)            # min and max
 diff(range(DS$AmountSpent))      # range = max - min   -> 4300
 ```
 
+</details>
+
 ---
 
-### (b) Interquartile range IQR = $Q_3 - Q_1$
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (b) Interquartile range IQR = $Q_3 - Q_1$</summary>
 
 Spread of the **central 50%** of the data --- robust by construction.
 $$\boxed{\;\text{IQR} \;=\; Q_3 - Q_1 \;=\; 1700 - 600 \;=\; 1100\;\text{euros}.\;}$$
@@ -5572,9 +5897,12 @@ quantile(DS$AmountSpent, c(0.25, 0.75))
 IQR(DS$AmountSpent)              # Q3 - Q1             -> 1100
 ```
 
+</details>
+
 ---
 
-### (c) Sample variance $s^2 = \tfrac{1}{n-1}\sum(x_i - \bar x)^2$
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (c) Sample variance $s^2 = \tfrac{1}{n-1}\sum(x_i - \bar x)^2$</summary>
 
 The **mean squared deviation from the centre**, the workhorse spread measure:
 $$\boxed{\;s^2 \;=\; \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar x)^2.\;}$$
@@ -5593,9 +5921,12 @@ s^2 \;=\; \frac{\sum x_i^2 - n\bar x^2}{n-1}.$$
 var(DS$AmountSpent)              # uses (n-1)          -> 722500
 ```
 
+</details>
+
 ---
 
-### (d) Standard deviation $s = \sqrt{s^2}$
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (d) Standard deviation $s = \sqrt{s^2}$</summary>
 
 Variance brought back to the **original units** of the data:
 $$\boxed{\;s \;=\; \sqrt{s^2} \;=\; \sqrt{722\,500} \;=\; 850\;\text{euros}.\;}$$
@@ -5620,9 +5951,12 @@ mean(abs(DS$AmountSpent - mean(DS$AmountSpent)) <= 2 * sd(DS$AmountSpent))  # ~0
 
 ![Master illustration](statistics/images/master/master_g5_disp_ai.png)
 
+</details>
+
 ---
 
-### (e) Coefficient of variation CV = $s / \bar x$ (unit-free)
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (e) Coefficient of variation CV = $s / \bar x$ (unit-free)</summary>
 
 A spread measure **divided by the centre**, so units cancel:
 $$\boxed{\;\text{CV} \;=\; \frac{s}{\bar x} \;=\; \frac{850}{1200} \;=\; 0.7083\ldots \;\approx\; 70.8\%.\;}$$
@@ -5649,9 +5983,12 @@ Our value $\text{CV} \approx 0.71$ falls in the **high-variability** range --- s
 sd(DS$AmountSpent) / mean(DS$AmountSpent)   # 0.7083  (i.e. 70.8%)
 ```
 
+</details>
+
 ---
 
-### (f) Putting it all together --- interpretation for `AmountSpent`
+<details class="master-subpart">
+<summary><span class="tag tag-4plus">≥4 ex</span> (f) Putting it all together --- interpretation for `AmountSpent`</summary>
 
 | Measure | Value | What it tells us |
 |---|---:|---|
@@ -5679,6 +6016,8 @@ fivenum(DS$AmountSpent)          # Tukey's five-number summary
 boxplot(DS$AmountSpent, horizontal = TRUE,
         main = "AmountSpent (euros)", col = "#f4c95d")
 ```
+
+</details>
 
 ---
 
@@ -5717,7 +6056,8 @@ Quantiles answer the **inverse** question to the ECDF: *"below which value does 
 
 ---
 
-### (a) Definition of the $q$-th quantile
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> (a) Definition of the $q$-th quantile</summary>
 
 For $q \in (0,1)$, the **$q$-th quantile** $x_q$ of a distribution with CDF $F$ is any value such that
 $$\boxed{\;F(x_q) \;=\; q \;\;\Longleftrightarrow\;\; x_q \;=\; F^{-1}(q).\;}$$
@@ -5734,9 +6074,12 @@ In words: $x_q$ is the threshold below which a proportion $q$ of the population 
 
 For a **continuous** CDF, $F^{-1}(q)$ is uniquely defined. For a **discrete** or **empirical** CDF (a step function), there is a small ambiguity (a whole interval of $x$ values can satisfy $F(x)=q$); the conventions below resolve it.
 
+</details>
+
 ---
 
-### (b) Sorted-data (empirical) percentile rule --- "smallest $k$"
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (b) Sorted-data (empirical) percentile rule --- "smallest $k$"</summary>
 
 Given raw sorted observations $x_{(1)} \le x_{(2)} \le \cdots \le x_{(n)}$, the empirical CDF is
 $$F_n(x) \;=\; \frac{\#\{i : x_i \le x\}}{n}.$$
@@ -5760,9 +6103,12 @@ quantile(DS$Time, probs = c(0.25, 0.5, 0.75, 0.9), type = 1)
 quantile(DS$Time, probs = c(0.25, 0.5, 0.75, 0.9))
 ```
 
+</details>
+
 ---
 
-### (c) Ogive linear interpolation for grouped data
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (c) Ogive linear interpolation for grouped data</summary>
 
 The **ogive** is the polygon obtained by joining the points $(U_j,\,F(U_j))$ at consecutive class endpoints with straight lines. It is the **piecewise-linear interpolant** of the cumulative relative frequency, equivalent to assuming a **uniform distribution within each class**.
 
@@ -5788,9 +6134,12 @@ xq                                       # 20.00, 30.00, 42.50, 55.00
 
 ![Master illustration](statistics/images/master/master_g6a_quant_ai.png)
 
+</details>
+
 ---
 
-### (d) Computing $Q_1$, $Q_2$ (median), $Q_3$, $P_{90}$, deciles for `Time`
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (d) Computing $Q_1$, $Q_2$ (median), $Q_3$, $P_{90}$, deciles for `Time`</summary>
 
 **(i) $Q_1$ ($q = 0.25$).** Locate $q=0.25$ in the cumulative column: $F(10)=0.10 < 0.25 \le F(20)=0.25$ $\Rightarrow$ $Q_1$ lies in $[10,\,20)$ (and in fact right at the upper endpoint). Apply the formula:
 $$Q_1 \;=\; 10 + (20-10)\cdot\frac{0.25 - 0.10}{0.25 - 0.10} \;=\; 10 + 10\cdot 1 \;=\; 20.$$
@@ -5830,9 +6179,12 @@ names(deciles) <- paste0("D", 1:9)
 deciles                                  # D1=10, D2=16.67, ..., D9=55
 ```
 
+</details>
+
 ---
 
-### (e) Reading quantiles off the ECDF / ogive
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (e) Reading quantiles off the ECDF / ogive</summary>
 
 Geometrically, the quantile $x_q$ is found by:
 1. Drawing a **horizontal line** at height $q$ across the ogive.
@@ -5862,6 +6214,8 @@ plot(endpoints, cumprop, type = "b", pch = 19, col = "#1f3a5f",
 abline(h = c(0.25, 0.5, 0.75, 0.9), lty = 3, col = "gray60")
 abline(v = xq, lty = 3, col = "#f4c95d")
 ```
+
+</details>
 
 ---
 
@@ -5897,7 +6251,8 @@ The joint behaviour is captured by **covariance** and **correlation**, the two s
 
 ---
 
-### (a) Covariance — the formula and what it measures
+<details class="master-subpart" open>
+<summary><span class="tag tag-2plus">≥2 ex</span> (a) Covariance — the formula and what it measures</summary>
 
 The **sample covariance** is
 $$\boxed{\;\operatorname{cov}(X,Y) \;=\; \frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar x)(y_i-\bar y)\;}$$
@@ -5910,9 +6265,10 @@ Each term $(x_i-\bar x)(y_i-\bar y)$ is **positive** when both deviations have t
 
 **The unit problem.** Covariance carries the **product of the units** of $X$ and $Y$. For pizzerie, $\operatorname{cov}(P,S)$ is measured in $\in\cdot(\text{thousand }\in)$ --- not directly interpretable. Worse, rescaling $X$ (say, expressing Price in cents instead of euros) multiplies the covariance by $100$ without changing the underlying relationship. We therefore **standardise** $\Rightarrow$ correlation.
 
----
+</details>
 
-### (b) Pearson correlation coefficient $r$
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (b) Pearson correlation coefficient $r$</summary>
 
 Divide covariance by the product of the two standard deviations:
 $$\boxed{\;r_{XY} \;=\; \frac{\operatorname{cov}(X,Y)}{s_X \, s_Y} \;=\; \frac{\sum_i (x_i-\bar x)(y_i-\bar y)}{\sqrt{\sum_i (x_i-\bar x)^2}\,\sqrt{\sum_i (y_i-\bar y)^2}}\;}$$
@@ -5947,9 +6303,10 @@ sum((price - mean(price)) * (sales - mean(sales))) /
   sqrt(sum((price - mean(price))^2) * sum((sales - mean(sales))^2))   # r
 ```
 
----
+</details>
 
-### (c) Reading a scatterplot — direction, form, strength
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (c) Reading a scatterplot — direction, form, strength</summary>
 
 Before computing $r$ you should always **look** at the cloud. Three descriptors:
 
@@ -5979,9 +6336,10 @@ plot(price, sales,
 abline(lm(sales ~ price), col = "navy", lwd = 2)
 ```
 
----
+</details>
 
-### (d) Coefficient of determination $r^2$ — variance explained
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (d) Coefficient of determination $r^2$ — variance explained</summary>
 
 Squaring the correlation gives a percentage interpretation:
 $$\boxed{\;r^2 \;=\; \text{fraction of }\operatorname{Var}(Y)\text{ linearly explained by }X.\;}$$
@@ -5995,9 +6353,10 @@ $$\operatorname{Var}(Y) \;=\; \underbrace{r^2\operatorname{Var}(Y)}_{\text{expla
 cor(price, sales)^2             # 0.0222 -> r^2 = 2.2% variance explained
 ```
 
----
+</details>
 
-### (e) Correlation $\neq$ causation
+<details class="master-subpart">
+<summary>(e) Correlation $\neq$ causation</summary>
 
 A strong $|r|$ proves only that two variables **co-vary**, not that one **causes** the other. Three competing explanations always coexist:
 
@@ -6007,9 +6366,10 @@ A strong $|r|$ proves only that two variables **co-vary**, not that one **causes
 
 For pizzerie, $Z$ = neighbourhood income is an obvious confounder. To make causal claims one needs **randomised experiments**, **controlled regression** (multivariate adjustment), **instrumental variables**, or **natural experiments** --- never $r$ alone.
 
----
+</details>
 
-### (f) Sensitivity to outliers
+<details class="master-subpart">
+<summary>(f) Sensitivity to outliers</summary>
 
 Pearson's $r$ is built from sums of *products of deviations*, so a single extreme point can **dominate** the calculation. A high-leverage outlier in the upper-right corner can drag $r$ from near $0$ up to $+0.8$, or *vice versa*. Diagnostic habits:
 
@@ -6023,9 +6383,10 @@ idx_out <- which.max(abs(scale(price)) + abs(scale(sales)))
 cor(price[-idx_out], sales[-idx_out])    # r without the most extreme point
 ```
 
----
+</details>
 
-### (g) Spearman rank correlation $r_S$ — for monotonic but non-linear association
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (g) Spearman rank correlation $r_S$ — for monotonic but non-linear association</summary>
 
 Replace each $x_i$ by its **rank** $R(x_i)$ within the $X$ sample, and each $y_i$ by its rank $R(y_i)$ within the $Y$ sample. Then compute the *Pearson correlation of the ranks*:
 $$\boxed{\;r_S \;=\; \operatorname{corr}\bigl(R(X), R(Y)\bigr).\;}$$
@@ -6048,6 +6409,9 @@ cor(price, sales, method = "kendall")    # Kendall's tau
 cor.test(price, sales)                   # Pearson, t-test on r
 cor.test(price, sales, method = "spearman")
 ```
+
+</details>
+
 
 ---
 
@@ -6073,7 +6437,8 @@ master_exercises["g10_normal"] = {
 
 ---
 
-### (a) Density formula
+<details class="master-subpart" open>
+<summary>(a) Density formula</summary>
 
 The probability density function of $X \sim \mathcal{N}(\mu,\sigma^2)$ is
 $$\boxed{\;f(x) \;=\; \frac{1}{\sigma\sqrt{2\pi}}\;\exp\!\left(-\,\frac{(x-\mu)^2}{2\sigma^2}\right),\qquad x\in\mathbb{R}.\;}$$
@@ -6101,9 +6466,10 @@ abline(v = mu, col = "darkorange", lwd = 1.5, lty = 2)
 | Total area | $\int_{-\infty}^{+\infty} f(x)\,dx = 1$ (normalising constant $1/(\sigma\sqrt{2\pi})$ ensures this). |
 | Moments | $\mathbb{E}[X] = \mu = 100$, $\operatorname{Var}(X) = \sigma^2 = 100$, skewness $=0$, excess kurtosis $=0$. |
 
----
+</details>
 
-### (b) Empirical 68–95–99.7 rule
+<details class="master-subpart">
+<summary>(b) Empirical 68–95–99.7 rule</summary>
 
 For *any* normal distribution, fixed proportions of probability mass lie within $k$ standard deviations of the mean:
 $$\boxed{\;
@@ -6128,9 +6494,10 @@ pnorm(mu + 2*sigma, mu, sigma) - pnorm(mu - 2*sigma, mu, sigma)  # 0.9545
 pnorm(mu + 3*sigma, mu, sigma) - pnorm(mu - 3*sigma, mu, sigma)  # 0.9973
 ```
 
----
+</details>
 
-### (c) Standardisation $Z = (X-\mu)/\sigma$
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (c) Standardisation $Z = (X-\mu)/\sigma$</summary>
 
 The **Z-score** transforms any normal $X$ to the **standard normal** $Z \sim \mathcal{N}(0,1)$:
 $$\boxed{\;Z \;=\; \frac{X - \mu}{\sigma} \;\sim\; \mathcal{N}(0,1).\;}$$
@@ -6148,9 +6515,10 @@ Why this works: subtracting $\mu$ shifts the distribution to mean $0$; dividing 
 
 A z-score is unitless; it expresses *how many standard deviations away* an observation is.
 
----
+</details>
 
-### (d) Computing $\mathbb{P}(X \le x)$ via $\Phi$
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (d) Computing $\mathbb{P}(X \le x)$ via $\Phi$</summary>
 
 The CDF of any normal is obtained from the **standard** normal CDF $\Phi$:
 $$\boxed{\;F(x) \;=\; \mathbb{P}(X \le x) \;=\; \Phi\!\left(\frac{x-\mu}{\sigma}\right).\;}$$
@@ -6183,9 +6551,10 @@ pnorm(1.5)                                       # 0.9332 -- standardisation che
 
 **Symmetry shortcut:** $\Phi(-z) = 1 - \Phi(z)$.
 
----
+</details>
 
-### (e) Quantile inversion $x_q = \mu + z_q \cdot \sigma$
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (e) Quantile inversion $x_q = \mu + z_q \cdot \sigma$</summary>
 
 Given a target probability $q\in(0,1)$, the **$q$-quantile** of $X\sim\mathcal{N}(\mu,\sigma^2)$ is
 $$\boxed{\;x_q \;=\; \mu + z_q \cdot \sigma,\qquad z_q = \Phi^{-1}(q).\;}$$
@@ -6212,9 +6581,10 @@ qnorm(p = 0.975, mean = mu, sd = sigma)          # 119.60
 qnorm(c(0.25, 0.50, 0.75), mu, sigma)            # 93.26, 100.00, 106.74
 ```
 
----
+</details>
 
-### (f) Tail probabilities
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (f) Tail probabilities</summary>
 
 Right tail:
 $$\mathbb{P}(X > x) \;=\; 1 - F(x) \;=\; 1 - \Phi\!\left(\tfrac{x-\mu}{\sigma}\right).$$
@@ -6246,6 +6616,9 @@ mean(x >= 90 & x <= 110)                         # ~ 0.683
 quantile(x, c(0.025, 0.975))                     # ~ 80.4, 119.6
 ```
 
+</details>
+
+
 ---
 
 **Master take-aways.**
@@ -6272,7 +6645,8 @@ is itself a random variable, with its own distribution called the **sampling dis
 
 ---
 
-### (a) Mean, variance, and standard error of $\bar X$
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> (a) Mean, variance, and standard error of $\bar X$</summary>
 
 Regardless of the population distribution (continuous, discrete, skewed, anything --- as long as $\mu, \sigma^2$ exist):
 $$\boxed{\;E[\bar X] \;=\; \mu, \qquad \text{Var}(\bar X) \;=\; \frac{\sigma^2}{n}, \qquad \text{SE}(\bar X) \;=\; \frac{\sigma}{\sqrt{n}}\;}$$
@@ -6296,9 +6670,12 @@ se <- sigma / sqrt(n)             # 2
 c(E_Xbar = mu, Var_Xbar = sigma^2/n, SE_Xbar = se)
 ```
 
+</details>
+
 ---
 
-### (b) Normal population $\Rightarrow$ $\bar X$ is *exactly* Normal
+<details class="master-subpart">
+<summary>(b) Normal population $\Rightarrow$ $\bar X$ is *exactly* Normal</summary>
 
 If $X_i \stackrel{\text{iid}}{\sim} N(\mu, \sigma^2)$ then
 $$\bar X \;\sim\; N\!\left(\mu,\; \frac{\sigma^2}{n}\right) \quad \text{for every } n \ge 1.$$
@@ -6311,9 +6688,12 @@ hist(xbar_sim, breaks = 40, freq = FALSE, main = "X-bar from Normal pop")
 curve(dnorm(x, mu, se), add = TRUE, col = "red", lwd = 2)
 ```
 
+</details>
+
 ---
 
-### (c) Central Limit Theorem (CLT) --- the universal saviour
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (c) Central Limit Theorem (CLT) --- the universal saviour</summary>
 
 For **any** population with finite mean $\mu$ and variance $\sigma^2$, as $n \to \infty$:
 $$\frac{\bar X - \mu}{\sigma/\sqrt{n}} \;\xrightarrow{d}\; N(0,1) \qquad \Longleftrightarrow \qquad \bar X \;\stackrel{\text{approx}}{\sim}\; N\!\left(\mu, \frac{\sigma^2}{n}\right).$$
@@ -6328,9 +6708,12 @@ hist(xbar_exp, breaks = 40, freq = FALSE, main = "X-bar from Exp pop (n=36)")
 curve(dnorm(x, mu, mu/sqrt(n)), add = TRUE, col = "red", lwd = 2)
 ```
 
+</details>
+
 ---
 
-### (d) Rule of thumb: when is $n$ "large enough"?
+<details class="master-subpart">
+<summary><span class="tag tag-4plus">≥4 ex</span> (d) Rule of thumb: when is $n$ "large enough"?</summary>
 
 The standard practical threshold:
 $$\boxed{\;n \;\ge\; 30\;}$$
@@ -6354,9 +6737,12 @@ for (n_try in c(2, 5, 10, 30, 100)) {
 }
 ```
 
+</details>
+
 ---
 
-### (e) Sampling distribution of a proportion $\hat p$
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (e) Sampling distribution of a proportion $\hat p$</summary>
 
 Let $X_1, \dots, X_n \stackrel{\text{iid}}{\sim} \text{Bernoulli}(p)$, so each $X_i \in \{0,1\}$ with $P(X_i=1)=p$. The **sample proportion**
 $$\hat p \;=\; \frac{1}{n}\sum_{i=1}^n X_i$$
@@ -6374,9 +6760,12 @@ se_p <- sqrt(p * (1 - p) / n)         # 0.04899
 pnorm(0.45, mean = p, sd = se_p)      # P(p_hat <= 0.45) ~ 0.8472
 ```
 
+</details>
+
 ---
 
-### (f) Worked example --- computing $P(\bar X \le c)$
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (f) Worked example --- computing $P(\bar X \le c)$</summary>
 
 **Problem.** A population has $\mu = 50$, $\sigma = 12$ (shape unknown but not crazy). Draw $n = 36$ i.i.d. observations. Find $P(\bar X \le 53)$.
 
@@ -6396,6 +6785,8 @@ $$P(\bar X \le 53) \;\approx\; 0.9332.$$
 pnorm(53, mean = 50, sd = 12/sqrt(36))     # 0.9331928
 pnorm((53 - 50) / (12/sqrt(36)))           # 0.9331928 (standardised form)
 ```
+
+</details>
 
 ---
 
@@ -6423,7 +6814,8 @@ For constants $a, b, c \in \mathbb{R}$, consider the linear combination $W = aX 
 
 ---
 
-### (a) Expectation --- linearity always holds
+<details class="master-subpart" open>
+<summary><span class="tag tag-4plus">≥4 ex</span> (a) Expectation --- linearity always holds</summary>
 
 $$\boxed{\;E[aX + bY + c] \;=\; a\,\mu_X \;+\; b\,\mu_Y \;+\; c\;}$$
 This is **pure linearity** of expectation --- no Normality, no independence, no assumptions whatsoever beyond finite means. Constants pull out; expectation of a sum equals the sum of expectations.
@@ -6437,9 +6829,12 @@ a <- 1; b <- 1; c0 <- 0
 mu_W <- a * mu_X + b * mu_Y + c0     # 2500
 ```
 
+</details>
+
 ---
 
-### (b) Variance --- the covariance term matters
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (b) Variance --- the covariance term matters</summary>
 
 $$\boxed{\;\text{Var}(aX + bY) \;=\; a^2\sigma_X^2 \;+\; b^2\sigma_Y^2 \;+\; 2ab\,\text{Cov}(X,Y)\;}$$
 
@@ -6464,9 +6859,12 @@ var_W  <- a^2 * sig_X^2 + b^2 * sig_Y^2 + 2 * a * b * cov_XY   # 370000
 sd_W   <- sqrt(var_W)                                          # 608.28
 ```
 
+</details>
+
 ---
 
-### (c) Normality is preserved under linear combinations
+<details class="master-subpart">
+<summary><span class="tag tag-4plus">≥4 ex</span> (c) Normality is preserved under linear combinations</summary>
 
 If $(X, Y)$ is **bivariate Normal**, then for *any* constants $a, b, c$:
 $$\boxed{\;aX + bY + c \;\sim\; N\!\left(a\mu_X + b\mu_Y + c,\; a^2\sigma_X^2 + b^2\sigma_Y^2 + 2ab\,\text{Cov}(X,Y)\right)\;}$$
@@ -6477,9 +6875,12 @@ This is the **defining feature** of the multivariate Normal family: every linear
 $$\sum_{i=1}^k a_i X_i + c \;\sim\; N\!\left(\sum a_i\mu_i + c,\;\; \sum_i a_i^2\sigma_i^2 + 2\sum_{i<j} a_i a_j \,\text{Cov}(X_i,X_j)\right).$$
 This is exactly the engine behind master `g11_clt` (the sample mean $\bar X = \tfrac{1}{n}\sum X_i$ is a linear combination with $a_i = 1/n$).
 
+</details>
+
 ---
 
-### (d) Special cases
+<details class="master-subpart">
+<summary><span class="tag tag-4plus">≥4 ex</span> (d) Special cases</summary>
 
 Set up everyone's most-used formulas (writing $\sigma_{XY} = \text{Cov}(X,Y)$):
 
@@ -6499,9 +6900,12 @@ var_sum <- sig_X^2 + sig_Y^2 + 2 * cov_XY     # 370000
 var_dif <- sig_X^2 + sig_Y^2 - 2 * cov_XY     # 130000 (smaller because rho > 0)
 ```
 
+</details>
+
 ---
 
-### (e) Independence is the magical simplifier
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (e) Independence is the magical simplifier</summary>
 
 If $X \perp\!\!\!\perp Y$, then $\text{Cov}(X,Y) = 0$, so:
 $$\text{Var}(aX + bY) \;=\; a^2\sigma_X^2 \;+\; b^2\sigma_Y^2 \qquad (\text{cross-term vanishes}).$$
@@ -6514,9 +6918,12 @@ And $X + Y \sim N(\mu_X + \mu_Y, \sigma_X^2 + \sigma_Y^2)$, $X - Y \sim N(\mu_X 
 var_sum_ind <- sig_X^2 + sig_Y^2              # 250000
 ```
 
+</details>
+
 ---
 
-### (f) Worked example --- $P(X + Y > k)$
+<details class="master-subpart">
+<summary><span class="tag tag-4plus">≥4 ex</span> (f) Worked example --- $P(X + Y > k)$</summary>
 
 **Problem.** Daily revenue at branch A: $X \sim N(\mu_X = 1000, \sigma_X^2 = 90000)$ (so $\sigma_X = 300$). Daily revenue at branch B: $Y \sim N(\mu_Y = 1500, \sigma_Y^2 = 160000)$ (so $\sigma_Y = 400$). $(X,Y)$ are bivariate Normal with $\rho = 0.5$. Find $P(X + Y > 2800)$.
 
@@ -6546,6 +6953,8 @@ Sigma <- matrix(c(sig_X^2, cov_XY, cov_XY, sig_Y^2), 2, 2)
 samp  <- mvrnorm(1e6, mu = c(mu_X, mu_Y), Sigma = Sigma)
 mean(rowSums(samp) > 2800)                    # ~0.311 -- matches theory
 ```
+
+</details>
 
 ---
 
@@ -6582,7 +6991,8 @@ The **interquartile range** is $\text{IQR} = Q_3 - Q_1 = 28.6 - 17.9 = \mathbf{1
 
 ---
 
-### (a) The 5-number summary --- what it captures, and what it doesn't
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> (a) The 5-number summary --- what it captures, and what it doesn't</summary>
 
 The 5-number summary $(\min, Q_1, \widetilde{m}, Q_3, \max)$ is a **distribution-free** snapshot: it is built from ranks, so it requires *no* parametric assumption (no normality, no symmetry). It partitions the sorted sample into **four equal-count groups of $\approx n/4$ observations each**:
 
@@ -6604,9 +7014,10 @@ quantile(sales, probs = c(0,0.25,0.5,0.75,1))
 IQR(sales)                                  # 10.7 (Q3 - Q1)
 ```
 
----
+</details>
 
-### (b) The box: from $Q_1$ to $Q_3$ --- the middle 50%
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (b) The box: from $Q_1$ to $Q_3$ --- the middle 50%</summary>
 
 The rectangular **box** spans from $Q_1$ to $Q_3$. Its *width* on the axis is the IQR:
 $$\text{box width} \;=\; Q_3 - Q_1 \;=\; \text{IQR} \;=\; 10.7 \text{ k€}.$$
@@ -6623,9 +7034,10 @@ boxplot(sales,
         xlab  = "Sales (k EUR)")
 ```
 
----
+</details>
 
-### (c) The median line inside the box
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (c) The median line inside the box</summary>
 
 A horizontal (or, in `boxplot(..., horizontal = TRUE)`, vertical) **line at $\widetilde{m}$** is drawn *inside* the box. Three things matter about its position:
 
@@ -6642,9 +7054,10 @@ med <- median(sales); q1 <- quantile(sales,0.25); q3 <- quantile(sales,0.75)
 abline(v = median(sales), col = "darkblue", lwd = 2)   # median line on boxplot
 ```
 
----
+</details>
 
-### (d) Whiskers --- to the nearest data within $1.5\cdot\text{IQR}$ of the fences
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (d) Whiskers --- to the nearest data within $1.5\cdot\text{IQR}$ of the fences</summary>
 
 The **whiskers** are line segments extending from the edges of the box to the *most extreme observations that are still inside the fences*. The fences are
 $$L \;=\; Q_1 - 1.5\cdot\text{IQR} \;=\; 17.9 - 1.5(10.7) \;=\; \mathbf{1.85} \text{ k€},$$
@@ -6668,9 +7081,10 @@ min(sales[sales >= L]); max(sales[sales <= U])
 
 ![Master illustration](statistics/images/master/master_g6b_box_ai.png)
 
----
+</details>
 
-### (e) Outliers --- points beyond the fences
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (e) Outliers --- points beyond the fences</summary>
 
 Any datum $x_i < L$ or $x_i > U$ is plotted as an **individual dot** (a "fly", in Tukey's original terminology) outside the whiskers. It is *not* part of the whisker; it is a singled-out point.
 
@@ -6683,9 +7097,10 @@ sales[sales < L | sales > U]                # flagged outliers
 length(sales[sales > U])                    # count of upper outliers
 ```
 
----
+</details>
 
-### (f) Reading the boxplot --- skew, spread, outliers in one glance
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (f) Reading the boxplot --- skew, spread, outliers in one glance</summary>
 
 A boxplot is most useful as a **shape diagnostic**. Three checks, in order:
 
@@ -6713,6 +7128,8 @@ boxplot(Sales ~ District, data = pizzerie, horizontal = TRUE,
 boxplot(sales, notch = TRUE, horizontal = TRUE)
 ```
 
+</details>
+
 ---
 
 **Master take-aways.**
@@ -6737,7 +7154,8 @@ master_exercises["g6c_outliers"] = {
 
 ---
 
-### (a) The IQR rule (Tukey, the default in `boxplot()`)
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> (a) The IQR rule (Tukey, the default in `boxplot()`)</summary>
 
 **Definition.** A datum $x_i$ is flagged as a **mild outlier** if it lies beyond the *fences*
 $$x_i \;<\; Q_1 - 1.5\cdot\text{IQR} \qquad \textbf{or} \qquad x_i \;>\; Q_3 + 1.5\cdot\text{IQR}.$$
@@ -6763,9 +7181,10 @@ boxplot(sales, plot = FALSE)$out                      # same numbers via boxplot
 
 ![Master illustration](statistics/images/master/master_g6c_outliers_ai.png)
 
----
+</details>
 
-### (b) The $3\cdot\text{IQR}$ rule --- extreme outliers
+<details class="master-subpart">
+<summary>(b) The $3\cdot\text{IQR}$ rule --- extreme outliers</summary>
 
 Tukey also defined a second, stricter set of fences for **extreme outliers**:
 $$x_i \;<\; Q_1 - 3\cdot\text{IQR} \qquad \textbf{or} \qquad x_i \;>\; Q_3 + 3\cdot\text{IQR}.$$
@@ -6789,9 +7208,10 @@ extreme <- sales[sales < L3 | sales > U3]             # extreme outliers
 length(extreme)
 ```
 
----
+</details>
 
-### (c) The z-score rule
+<details class="master-subpart">
+<summary>(c) The z-score rule</summary>
 
 An alternative, more **parametric** flagging rule transforms each observation to its **standard score**
 $$z_i \;=\; \frac{x_i - \bar x}{s}$$
@@ -6827,9 +7247,10 @@ zM <- 0.6745 * (sales - median(sales)) / mad(sales, constant = 1)
 sales[abs(zM) > 3.5]                                  # robust outliers
 ```
 
----
+</details>
 
-### (d) Impact on summary statistics --- non-robust vs robust
+<details class="master-subpart">
+<summary>(d) Impact on summary statistics --- non-robust vs robust</summary>
 
 Outliers warp some statistics dramatically and leave others almost untouched. The pizzerie Sales numbers make the contrast vivid:
 
@@ -6866,9 +7287,10 @@ c(median(sales), median(clean))                       # 22.4 -> 22.3 (robust)
 c(IQR(sales),    IQR(clean))                          # 10.7 -> 10.5 (robust)
 ```
 
----
+</details>
 
-### (e) What to do with outliers --- a decision protocol
+<details class="master-subpart">
+<summary>(e) What to do with outliers --- a decision protocol</summary>
 
 The single biggest mistake is to **blindly delete** outliers because they are inconvenient. Tukey's advice, still standard, is *investigate first, decide second*. A useful protocol:
 
@@ -6891,6 +7313,8 @@ out_summary <- rbind(
                           c(mean(sales),sd(sales),median(sales),IQR(sales)) - 1), 1))
 out_summary
 ```
+
+</details>
 
 ---
 
