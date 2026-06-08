@@ -1041,6 +1041,29 @@
                   "lastReview": null,
                   "dueDate": "2026-05-26T16:20:40.367Z"
                 }
+              },
+              {
+                "id": "exam_gaps_1780913746",
+                "title": "Exam gaps",
+                "content": "\\textbf{\\textcolor{red}{EXAM GAPS --- topics asked in past exams (May 2021 -- Sept 2025) with thin or missing coverage in these notes.}}\n\n\\textbf{Source:} 9 past exams (May 2021, May 2022, June 2022, May 2023, May 2024, June 2024, May 2025, June 2025, Sept 2025). All 104 question parts map to at least one snippet (no orphans), but the topics below are under-developed relative to how the exams probe them.\n\n\\textbf{\\textcolor{red}{Tier 1 --- high priority (exam-asked, weak coverage).}}\n\n\\begin{itemize}\n\\item \\textbf{ARMA models and stationarity} \\;[Sept 2025 Q5]. Currently only touched in ``Example 3: AR(1)'' and ``SSM flexibility.'' Missing: formal AR($p$)/MA($q$) definitions, characteristic polynomial / roots-outside-unit-circle stationarity condition, invertibility of MA, ACF/PACF identification patterns. \\emph{Bridges classical TS theory to DLM flexibility.}\n\n\\item \\textbf{MCMC for Bayesian DLM} \\;[May 2022 Q8]. Implicit only in ``SSM filtering and prediction.'' Missing: Gibbs sampler for $(\\theta_{1:T}, V, W)$, forward-filter--backward-sample (FFBS), Metropolis-Hastings step for hyperparameters, convergence diagnostics (trace plots, $\\hat R$). \\emph{Standard computational tool when $V, W$ are unknown.}\n\\end{itemize}\n\n\\textbf{\\textcolor{red}{Tier 2 --- medium priority.}}\n\n\\begin{itemize}\n\\item \\textbf{Signal-to-noise ratio (SNR)} \\;[June 2024 Q13]. Hidden in filtering node. Missing: explicit definition $\\mathrm{SNR} = W/V$ (or $\\mathrm{tr}(W)/\\mathrm{tr}(V)$ in multivariate), interpretation (high SNR $\\Rightarrow$ filter trusts data, low SNR $\\Rightarrow$ filter trusts prior), effect on steady-state gain.\n\n\\item \\textbf{Asymptotics of Markov-chain MLE} \\;[June 2025 Q6]. ``Asymptotics'' node exists but is under-spec'd. Missing: CLT for $\\hat p_{ij} = N_{ij}/N_{i\\cdot}$, asymptotic variance $\\hat p_{ij}(1-\\hat p_{ij})/N_{i\\cdot}$, Wald CIs, delta-method for stationary distribution.\n\n\\item \\textbf{Stochastic process fundamentals} \\;[Sept 2025 Q1--2]. Split across ``Time series as stochastic processes'' and ``How to assign the Probability law.'' Missing: consolidated definition (index set, state space, finite-dimensional distributions / Kolmogorov extension), examples (IID, RW, MA(1), Markov), notation discipline.\n\n\\item \\textbf{Mean function and autocovariance / ACF} \\;[Sept 2025 Q3]. In ``Summaries of a stochastic process'' but sparse. Missing: formal definitions of $\\mu(t)$, $\\gamma(s,t)$, $\\rho(s,t)$; why ACF is only well-defined as a function of lag under (weak) stationarity; sample ACF estimator; correlogram visualization.\n\\end{itemize}\n\n\\textbf{\\textcolor{red}{Tier 3 --- curriculum gaps (not in the 9-exam sample, but likely course material).}}\n\n\\begin{itemize}\n\\item \\textbf{Yule-Walker equations} --- AR($p$) parameter estimation from autocovariances; method-of-moments alternative to MLE.\n\\item \\textbf{Likelihood-ratio tests \\& model selection} --- AIC / BIC for DLM and ARMA; nested-model LRT.\n\\item \\textbf{Partial autocorrelation (PACF)} --- definition via Yule-Walker; AR vs MA identification (PACF cuts off for AR, ACF cuts off for MA).\n\\item \\textbf{Seasonal ARIMA / SARIMA} --- beyond the simple seasonal-factor DLM.\n\\item \\textbf{Exogenous variables in DLM} --- time-varying covariates $X_t$ in obs/state equations (dynamic regression).\n\\item \\textbf{Advanced extensions} --- time-varying variances (stochastic volatility / GARCH-in-DLM), long memory (ARFIMA), spectral density / periodogram, unit-root tests (ADF / KPSS), VARMA.\n\\end{itemize}\n\n\\textbf{\\textcolor{red}{Quick-win plan if time-constrained.}}\n\n\\begin{enumerate}\n\\item Add ``ARMA stationarity \\& invertibility'' (Tier 1) --- directly hits Sept 2025 Q5.\n\\item Expand ``Asymptotics'' with Markov-chain MLE specifics (Tier 2) --- hits June 2025 Q6.\n\\item Add ``SNR in DLM'' (Tier 2) --- hits June 2024 Q13.\n\\item Consolidate ``stochastic process fundamentals'' (Tier 2) --- hits Sept 2025 Q1--2.\n\\end{enumerate}\n\n\\emph{Frequency check (concept asked across the 9 exams):} Markov chains (20$\\times$), Kalman filter (17$\\times$), DLM definition (12$\\times$), Bayesian inference (10$\\times$), weak stationarity (9$\\times$), HMM likelihood (8$\\times$), multivariate DLM (7$\\times$). Top 3 cover $\\approx$47\\% of all parts --- notes are well-aligned to the dominant topics; the gaps above are refinements, not foundational holes.",
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "x": 1349.948039395928,
+                "y": 755.5506713891073,
+                "width": 600,
+                "height": 320,
+                "color": "coral",
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null
+                }
               }
             ]
           }
