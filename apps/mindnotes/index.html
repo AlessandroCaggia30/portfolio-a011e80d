@@ -12124,6 +12124,48 @@ function findStatsNode(nodeId) {
     return null;
 }
 
+// Right-click menu on a Master card in the hyper-table → choose card colour.
+function showCardColorMenu(ev, nodeId) {
+    const old = document.getElementById('cardColorMenu');
+    if (old) old.remove();
+    const menu = document.createElement('div');
+    menu.id = 'cardColorMenu';
+    menu.style.cssText = 'position:fixed;left:' + ev.clientX + 'px;top:' + ev.clientY + 'px;'
+        + 'background:white;border:1px solid #ccc;border-radius:8px;padding:8px;'
+        + 'box-shadow:0 6px 20px rgba(0,0,0,0.18);z-index:2000;display:flex;gap:8px;';
+    const swatches = [
+        { c: 'white', bg: '#ffffff', border: '#aaa', title: 'White (default)' },
+        { c: 'red',   bg: '#ff6b6b', border: '#b00', title: 'Red' },
+        { c: 'green', bg: '#4caf6e', border: '#0a7d3a', title: 'Green' }
+    ];
+    swatches.forEach(s => {
+        const btn = document.createElement('button');
+        btn.title = s.title;
+        btn.style.cssText = 'width:26px;height:26px;border-radius:50%;cursor:pointer;'
+            + 'border:2px solid ' + s.border + ';background:' + s.bg + ';';
+        btn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const node = findStatsNode(nodeId);
+            if (node) {
+                if (s.c === 'white') delete node.cardColor;
+                else node.cardColor = s.c;
+                try { if (typeof _commitSave === 'function') await _commitSave(); } catch (err) {}
+                renderStatsTable();
+            }
+            menu.remove();
+        });
+        menu.appendChild(btn);
+    });
+    document.body.appendChild(menu);
+    setTimeout(() => {
+        document.addEventListener('click', function close() {
+            const m = document.getElementById('cardColorMenu');
+            if (m) m.remove();
+            document.removeEventListener('click', close);
+        }, { once: true });
+    }, 50);
+}
+
 function openStatsSnippet(nodeId) {
     const node = findStatsNode(nodeId);
     if (!node) return;
