@@ -5639,21 +5639,10 @@ function formatContent(text) {
     processed = restoreColorMarkers(processed);
     processed = restoreFormattingMarkers(processed);
 
-    // Re-allow specific safe HTML tags that escapeHtml killed:
-    // <details>, <summary>, and our frequency-tag <span class="tag tag-*"> badges.
-    // We must allow `&quot;` (escaped attribute quotes) inside the attribute list,
-    // so use a non-greedy `.*?` rather than `[^&]*?`.
-    // escapeHtml uses div.textContent which only escapes `<`, `>`, `&` (not `"`).
-    // So attribute quotes stay as literal `"` in the output, not `&quot;`.
-    processed = processed
-        .replace(/&lt;details(\s[^&]*?)?&gt;/g, (m, attrs) =>
-            '<details' + (attrs || '') + '>')
-        .replace(/&lt;\/details&gt;/g, '</details>')
-        .replace(/&lt;summary(\s[^&]*?)?&gt;/g, (m, attrs) =>
-            '<summary' + (attrs || '') + '>')
-        .replace(/&lt;\/summary&gt;/g, '</summary>')
-        .replace(/&lt;span class="(tag tag-(?:exam|2plus|4plus))"&gt;([\s\S]*?)&lt;\/span&gt;/g,
-            (m, cls, txt) => '<span class="' + cls + '">' + txt + '</span>');
+    // Restore trusted HTML tag placeholders (set up at the very top of formatContent)
+    htmlBlocks.forEach((block, i) => {
+        processed = processed.replace(`%%HTMTAG${i}%%`, () => block);
+    });
 
     latexBlocks.forEach((block, i) => {
         processed = processed.replace(`%%LATEX${i}%%`, () => block);
