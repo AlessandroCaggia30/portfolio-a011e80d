@@ -191,141 +191,165 @@ n_req                                # 1034
 
 
 master_exercises["g14a_one_sample"] = {
-    "title": "Master — One-sample tests (mean & proportion), NewHired dataset",
-    "content": r"""**Master exercise — One-sample tests for a mean (σ unknown) and a proportion.**
+    "title": "Master — One-sample tests (mean & proportion): NewHired + DS",
+    "content": r"""**Master exercise — One-sample tests for a mean ($\sigma$ unknown) and a proportion.**
 
-This single exercise consolidates the unique sub-tasks asked across **Ex 7.1a**, **Ex 7.1c** and **Ex 7.8a**: hypothesis formulation, t-statistic for the mean, z-statistic for a proportion, rejection regions at α=0.05 and α=0.01, one-sided vs two-sided p-values, and the decision rule.
+Consolidates the unique sub-tasks asked in **Ex 7.1a** (mean, $H_1:\mu<45$, NewHired), **Ex 7.1c** (proportion, $H_1:p>0.10$, NewHired) and **Ex 7.8a** (mean, $H_1:\mu<1.5$, large $n$ on DS$Children — p-value definition + CI cross-check). Unified workflow: assumptions $\to$ hypotheses $\to$ statistic $\to$ rejection region $\to$ p-value $\to$ decision.
 
 ![Master illustration](statistics/images/master/master_g14a_ai.png)
 
 ---
 
-### Dataset (single, shared by all parts)
+### Datasets (two scenarios, one workflow)
 
-`NewHired` — $n=47$ workers who relied on a job agency. Variable of interest: `Weeks` = time (in weeks) to find a new job.
+**Scenario A — `NewHired`** ($n=47$). Variable `Weeks` = time (weeks) to find a new job.
+- Summary: $\bar x = 40.1915$, $s = 17.2206$, $\widehat{\text{SE}} = s/\sqrt n = 2.5119$.
+- Count: **7 of 47** workers took **more than 52 weeks** $\Rightarrow$ $\hat p = 7/47 = 0.1489$.
+- Targets: $\mu_0 = 45$ weeks; $p_0 = 0.10$.
 
-**Summary statistics** (provided / pre-computed):
-- $\bar x = 40.1915$ weeks, $s = 17.2206$ weeks, $\text{SE} = s/\sqrt{n} = 17.2206/\sqrt{47} = 2.5119$.
-- Auxiliary count: **12 out of 47** workers took **more than 52 weeks** to find a job, so $\hat p = 12/47 \approx 0.2553$.
-
-Baseline values to be tested: $\mu_0 = 45$ weeks (mean), $p_0 = 0.10$ (proportion struggling > 52 weeks).
+**Scenario B — `DS$Children`** ($n=750$). Variable `Children` = number of children per customer.
+- Summary: $\bar x = 0.9213$, $s = 1.0640$, $\widehat{\text{SE}} = s/\sqrt n = 0.03885$.
+- Target: $\mu_0 = 1.5$ (cutoff under which the manager drops baby products).
 
 ---
 
-### (a) One-sample t-test for the mean (one-sided, $H_1:\mu<45$)
+### (a) One-sample $t$-test for the mean — small $n$, $H_1:\mu<45$ (Ex 7.1a)
 
-**Assumptions.** Sample is representative of the population; $n=47$ is large enough for the **CLT**, so $\bar X$ is approximately normal without a normality assumption on `Weeks`. $\sigma^2$ unknown $\Rightarrow$ Student-$t$.
+**Assumptions.** Representative sample; $n=47$ is large enough for the **CLT** $\Rightarrow$ $\bar X$ approximately normal without a normality assumption on `Weeks`. $\sigma^2$ unknown $\Rightarrow$ Student-$t$.
 
-**Hypotheses.** The most serious error is concluding the average is below 45 weeks when in fact it is not. Place the directional claim in $H_1$:
+**Hypotheses.** Most serious error = declaring the average $<45$ when it is not. Put the directional claim in $H_1$:
 $$H_0:\mu \geq 45 \quad \text{vs} \quad H_1:\mu < 45.$$
 
-**Test statistic** (under $H_0$):
-$$T = \frac{\bar X - \mu_0}{S/\sqrt{n}} \sim t_{n-1} = t_{46}.$$
+**Statistic & realisation.**
+$$T = \frac{\bar X - \mu_0}{S/\sqrt n} \;\overset{H_0}{\sim}\; t_{46}, \qquad t_\text{obs} = \frac{40.1915 - 45}{2.5119} = -1.9143.$$
 
-**Realisation.**
-$$t_\text{obs} = \frac{40.1915 - 45}{2.5119} = -1.9143.$$
+**Rejection regions (lower tail).**
+- $\alpha = 0.05$: $R = \{t < -t_{0.95,\,46}\} = \{t < -1.679\}$. Since $-1.9143 < -1.679$ $\Rightarrow$ **reject $H_0$**.
+- $\alpha = 0.01$: $R = \{t < -t_{0.99,\,46}\} = \{t < -2.410\}$. Since $-1.9143 > -2.410$ $\Rightarrow$ **do not reject $H_0$**.
 
-**Rejection regions.**
-- At $\alpha=0.05$: $R = \{t < -t_{0.05,\,46}\} = \{t < -1.679\}$. Since $-1.9143 < -1.679 \Rightarrow$ **reject $H_0$**.
-- At $\alpha=0.01$: $R = \{t < -t_{0.01,\,46}\} = \{t < -2.410\}$. Since $-1.9143 > -2.410 \Rightarrow$ **do not reject $H_0$**.
+**One-sided p-value.** $p = P(t_{46} \leq -1.9143) \approx 0.0309$ (normal approx.: $\Phi(-1.9143)\approx 0.0278$, since df $=46$ is large). Since $0.01 < p < 0.05$: reject at 5%, retain at 1%.
 
-**One-sided p-value.**
-$$p = P(t_{46} \leq -1.9143) \approx 0.0309.$$
-Equivalently, $\Phi(-1.9143)\approx 0.0278$ (normal approximation, df=46 is large).
-
-**Decision rule.** Reject $H_0$ iff $p < \alpha$ (equivalently iff $t_\text{obs}$ falls in $R$). Here $0.01 < p \approx 0.031 < 0.05$ — reject at 5%, retain at 1%.
-
-**Interpretation.** At the 5% level there is enough evidence that, on average, agency-relying workers find a new job in less than 45 weeks. At the stricter 1% level the evidence is insufficient. The significance level $\alpha$ is the maximum probability of a **Type I error** (rejecting a true $H_0$); the maximum is attained at the boundary value $\mu = 45$.
+**Type I error.** $\alpha$ caps the probability of rejecting a true $H_0$; on $H_0:\mu\geq 45$ this max is attained at the boundary $\mu = 45$.
 
 ```r
-# --- Part (a): one-sample t-test, lower-tail, alpha = 0.05 / 0.01 -----------
+# (a) NewHired: lower-tail t-test, mu0 = 45
 xbar <- 40.1915; s <- 17.2206; n <- 47; mu0 <- 45
-tstat <- (xbar - mu0) / (s/sqrt(n)); tstat              # -1.9143
-qt(0.05, df = n-1); qt(0.01, df = n-1)                  # -1.679, -2.410
-pt(tstat, df = n-1)                                     # p ~ 0.0309
-# Built-in wrapper on the raw data:
+tstat <- (xbar - mu0)/(s/sqrt(n)); tstat               # -1.9143
+qt(0.05, df = n-1); qt(0.01, df = n-1)                 # -1.679, -2.410
+pt(tstat, df = n-1)                                    # 0.0309
 TEST.mean(Weeks, mu0 = 45, alternative = "less", data = NewHired)
 ```
 
 ---
 
-### (b) Two-sided variant of the mean test ($H_1:\mu \neq 45$)
+### (b) Two-sided variant for context ($H_1:\mu \neq 45$)
 
-For completeness, if the alternative were two-sided:
-$$H_0:\mu = 45 \quad \text{vs} \quad H_1:\mu \neq 45.$$
+Same $t_\text{obs} = -1.9143$; the rejection region splits in two tails:
+- $\alpha=0.05$: $R = \{|t| > t_{0.975,\,46}\} = \{|t| > 2.013\}$. Since $1.9143 < 2.013$ $\Rightarrow$ **do not reject**.
+- Two-sided p-value: $p_{2} = 2\cdot 0.0309 = 0.0618 > 0.05$.
 
-- Same $t_\text{obs} = -1.9143$.
-- **Two-sided rejection region** at $\alpha=0.05$: $R = \{|t| > t_{0.025,\,46}\} = \{|t| > 2.013\}$. Since $|-1.9143| = 1.9143 < 2.013 \Rightarrow$ **do not reject $H_0$**.
-- **Two-sided p-value:** $p_{\text{two-sided}} = 2\cdot P(t_{46} \leq -1.9143) \approx 2\cdot 0.0309 = 0.0618 > 0.05$.
-
-Doubling the p-value flips the 5%-level decision: the same data are *not* significant against the two-sided alternative.
+Doubling the p-value flips the 5%-level decision — the same data are **not** significant two-sided. The direction of $H_1$ must be pre-specified from subject-matter knowledge, never picked after seeing the data.
 
 ```r
-# --- Part (b): two-sided variant -------------------------------------------
-qt(0.975, df = n-1)                                     # 2.013 (two-sided crit)
-2 * pt(-abs(tstat), df = n-1)                           # p ~ 0.0618
+qt(0.975, df = n-1)                                    # 2.013
+2 * pt(-abs(tstat), df = n-1)                          # 0.0618
 ```
 
 ---
 
-### (c) One-proportion z-test ($H_1:p>0.10$)
+### (c) One-proportion $z$-test, $H_1:p>0.10$ (Ex 7.1c)
 
-**Claim.** A worker argues the proportion of agency-relying workers who struggle more than one year (>52 weeks) is **above 10%**.
+**Setting.** A worker claims that the proportion of agency-relying workers who **struggle more than one year** ($>52$ weeks) exceeds 10%.
 
-**Hypotheses.** Most serious error = concluding $p>0.10$ when it is not. Put the claim in $H_1$:
+**Hypotheses.** Most serious error = declaring $p>0.10$ when it is not. Put the claim in $H_1$:
 $$H_0:p \leq 0.10 \quad \text{vs} \quad H_1:p > 0.10.$$
 
-**Test statistic.** Under $H_0$, using $p_0$ to standardise the standard error (textbook convention for a one-proportion test):
-$$Z = \frac{\hat p - p_0}{\sqrt{p_0(1-p_0)/n}} \;\;\dot\sim\;\; N(0,1).$$
+**Statistic.** Under $H_0$ the SE is built with $p_0$ (textbook one-prop convention):
+$$Z = \frac{\hat p - p_0}{\sqrt{p_0(1-p_0)/n}} \;\dot\sim\; N(0,1).$$
 
-**Realisation.** With $\hat p = 12/47 = 0.2553$, $p_0 = 0.10$, $n = 47$:
-$$\text{SE}_0 = \sqrt{\frac{0.10\cdot 0.90}{47}} = \sqrt{0.001915} = 0.04376,$$
-$$z_\text{obs} = \frac{0.2553 - 0.10}{0.04376} = \frac{0.1553}{0.04376} \approx 3.55.$$
+**Realisation.** With $\hat p = 7/47 = 0.1489$, $p_0 = 0.10$, $n = 47$:
+$$\widehat{\text{SE}}_0 = \sqrt{\frac{0.10\cdot 0.90}{47}} = 0.04376, \qquad z_\text{obs} = \frac{0.1489 - 0.10}{0.04376} \approx 1.12.$$
 
-```r
-# --- Part (c): one-proportion z-test, upper-tail ---------------------------
-phat <- 12/47; p0 <- 0.10
-se0 <- sqrt(p0*(1-p0)/n); se0                           # 0.04376
-zstat <- (phat - p0) / se0; zstat                       # 3.55
-```
+**Rejection region (upper tail).**
+- $\alpha=0.05$: $R = \{z > z_{0.95}\} = \{z > 1.6449\}$. $1.12 < 1.6449$ $\Rightarrow$ **do not reject**.
+- $\alpha=0.01$: $R = \{z > z_{0.99}\} = \{z > 2.326\}$ — also not rejected.
 
-**Rejection region** (upper tail).
-- At $\alpha=0.05$: $R = \{z > z_{0.05}\} = \{z > 1.645\}$.
-- At $\alpha=0.01$: $R = \{z > z_{0.01}\} = \{z > 2.326\}$.
+**One-sided p-value.** $p = 1 - \Phi(1.12) \approx 0.13 > 0.05$ — confirms the RR decision.
 
-Since $z_\text{obs} \approx 3.55$ exceeds **both** critical values, reject $H_0$ at both the 5% and 1% levels.
+**Conclusion.** Insufficient evidence that more than 10% of agency-relying workers struggle over a year. The worker's claim is not statistically supported.
 
 ```r
-qnorm(0.95); qnorm(0.99)                                # 1.645, 2.326
-```
-
-**One-sided p-value.**
-$$p = P(Z > 3.55) = 1 - \Phi(3.55) \approx 0.00019.$$
-
-```r
-1 - pnorm(zstat)                                        # p ~ 0.00019
+# (c) NewHired: one-proportion z-test, upper tail, p0 = 0.10
+phat <- 7/47; p0 <- 0.10; n <- 47
+se0   <- sqrt(p0*(1-p0)/n);              se0           # 0.04376
+zstat <- (phat - p0)/se0;                zstat          # 1.12
+1 - pnorm(zstat)                                        # 0.13
+qnorm(0.95); qnorm(0.99)                                # 1.6449, 2.326
 TEST.prop(Weeks > 52, p0 = 0.10, alternative = "greater", data = NewHired)
 ```
 
-**Decision & interpretation.** $p \approx 0.0002 \ll 0.01$ $\Rightarrow$ **reject $H_0$**. There is very strong evidence that more than 10% of agency-relying workers struggle for over a year to find a job.
+---
+
+### (d) One-sample $t$-test, large $n$, $H_1:\mu<1.5$ (Ex 7.8a — `DS$Children`)
+
+**Setting.** The sales manager will **drop baby products** if the average number of children per customer does not exceed 1.5. Same template as (a), but $n = 750$: CLT applies trivially and $t_{749}$ is indistinguishable from $N(0,1)$.
+
+**Hypotheses.** Most serious error = dropping a still-profitable product line. Put the "stop selling" claim in $H_1$:
+$$H_0:\mu \geq 1.5 \quad \text{vs} \quad H_1:\mu < 1.5.$$
+
+**Statistic & realisation.**
+$$t_\text{obs} = \frac{0.9213 - 1.5}{0.03885} \approx -14.91 \;\overset{H_0}{\sim}\; t_{749}.$$
+
+**p-value.** $p = P(t_{749} \leq -14.91) < 10^{-4}$ — numerically zero. Reject $H_0$ at **any** conventional $\alpha$.
+
+**p-value definition.** Probability, **under $H_0$**, of a statistic at least as extreme (in the direction of $H_1$) as the realised one. Here it is the area to the left of $-14.91$ under $t_{749}$.
+
+**Cross-checks** (all equivalent forms of the same decision):
+- RR on $\bar X$ at $\alpha=0.05$: $\bar x < 1.5 + (-1.6473)\cdot 0.03885 \approx 1.436$. Observed $0.9213 \ll 1.436$ $\Rightarrow$ reject.
+- 95% two-sided CI for $\mu$: $0.9213 \pm 1.96\cdot 0.03885 = [0.845,\;0.997]$. **Does not contain** $1.5$ $\Rightarrow$ two-sided null rejected at 5%; a fortiori the one-sided $H_0:\mu\geq 1.5$ is rejected.
+
+**Conclusion.** Overwhelming evidence that the average number of children is below 1.5 — drop the baby-products line.
+
+```r
+# (d) DS: large-n lower-tail t-test, mu0 = 1.5
+xbar <- 0.9213; s <- 1.0640; n <- 750; mu0 <- 1.5
+tstat <- (xbar - mu0)/(s/sqrt(n)); tstat              # -14.91
+pt(tstat, df = n-1)                                   # < 1e-4
+qt(0.05, df = n-1)                                    # -1.6473
+mu0 + qt(0.05, df = n-1)*(s/sqrt(n))                  # 1.436 (RR upper edge on xbar)
+CI.mean(Children, conf.level = 0.95, data = DS)       # [0.845, 0.997]
+TEST.mean(Children, mu0 = 1.5, alternative = "less", data = DS)
+```
 
 ---
 
-### (d) Summary of the decision rule (unifying mean & proportion)
+### (e) Unified decision rule (mean & proportion, any tail)
 
-For any one-sample test with test statistic $T$ (Student-$t$ for the mean with $\sigma$ unknown, standard normal $Z$ for the proportion), the rule is identical:
+Let $T$ be the test statistic ($t_{n-1}$ for the mean with $\sigma$ unknown; $Z\sim N(0,1)$ for the proportion), $\nu$ the appropriate df, $\theta\in\{\mu,p\}$:
 
-| Alternative | Rejection region at level $\alpha$ | p-value |
+| $H_1$ | Rejection region (level $\alpha$) | p-value |
 |---|---|---|
-| $H_1: \theta < \theta_0$ (lower) | $T < -t_{\alpha,\,\nu}$ (or $Z < -z_\alpha$) | $P(T \leq t_\text{obs})$ |
-| $H_1: \theta > \theta_0$ (upper) | $T > t_{\alpha,\,\nu}$ (or $Z > z_\alpha$)   | $P(T \geq t_\text{obs})$ |
-| $H_1: \theta \neq \theta_0$ (two) | $|T| > t_{\alpha/2,\,\nu}$ (or $|Z|>z_{\alpha/2}$) | $2\,P(T \geq |t_\text{obs}|)$ |
+| $\theta < \theta_0$ | $T < -t_{1-\alpha,\,\nu}$ (or $Z<-z_{1-\alpha}$) | $P(T \leq t_\text{obs})$ |
+| $\theta > \theta_0$ | $T > t_{1-\alpha,\,\nu}$ (or $Z>z_{1-\alpha}$) | $P(T \geq t_\text{obs})$ |
+| $\theta \neq \theta_0$ | $|T| > t_{1-\alpha/2,\,\nu}$ (or $|Z|>z_{1-\alpha/2}$) | $2\,P(T \geq |t_\text{obs}|)$ |
 
-**Reject $H_0$ iff $p < \alpha$.** Equivalently, reject iff $t_\text{obs}$ falls in the rejection region. Both formulations always agree.
+$$\boxed{\;\text{Reject } H_0 \iff t_\text{obs}\in R_\alpha \iff p \leq \alpha.\;}$$
+
+The two formulations always agree. A large p-value $\neq$ "$H_0$ true"; it only means the data lack the strength to reject at the chosen level.
 
 ---
 
-**Linked snippets:** Ex 7.1a (mean, one-sided lower), Ex 7.1c (proportion, one-sided upper), Ex 7.8a (mean, one-sided lower, large $n$). All three reduce to the unified template above.
+### (f) Side-by-side summary of the three applications
+
+| Application | $H_1$ | Statistic | $t_\text{obs}/z_\text{obs}$ | p-value | @ 5% | @ 1% |
+|---|---|---|---|---|---|---|
+| (a) `Weeks` mean, $\mu_0=45$ | $\mu<45$ | $t_{46}$ | $-1.9143$ | $0.0309$ | reject | retain |
+| (c) `Weeks>52` proportion, $p_0=0.10$ | $p>0.10$ | $Z$ | $1.12$ | $0.13$ | retain | retain |
+| (d) `Children` mean, $\mu_0=1.5$ | $\mu<1.5$ | $t_{749}$ | $-14.91$ | $<10^{-4}$ | reject | reject |
+
+---
+
+**Linked snippets:** Ex 7.1a (mean, $H_1:\mu<45$, NewHired) $\to$ part (a); Ex 7.1c (proportion, $H_1:p>0.10$, NewHired) $\to$ part (c); Ex 7.8a (mean, $H_1:\mu<1.5$, DS$Children — large-$n$, p-value definition, CI cross-check) $\to$ part (d). All three are instances of the unified template (e).
 """,
     "images": ["statistics/images/master/master_g14a_ai.png"],
 }
@@ -352,12 +376,14 @@ A job agency tracks $n=47$ workers who managed to find a new job. For each worke
 - $Y = \text{Weeks}$ (weeks needed to find a new job)
 
 Sample summary statistics:
-$$\bar x = 38.617,\qquad \bar y = 45.745,\qquad s^2_x = 88.246,\qquad s^2_y = 35.711,\qquad s_{xy} = 149.110,\qquad r_{xy} = 0.6315.$$
+$$\bar x = 38.617,\qquad \bar y = 45.745,\qquad s^2_x = 88.246,\qquad s^2_y = 631.589,\qquad s_{xy} = 149.110,\qquad r_{xy} = 0.6315.$$
+
+(Consistency check: $r_{xy}=s_{xy}/\sqrt{s^2_x\,s^2_y}=149.110/\sqrt{88.246\cdot 631.589}=149.110/236.16=0.6315$ ✓.)
 
 ```r
 n      <- 47
 xbar   <- 38.617;  ybar  <- 45.745
-s2_x   <- 88.246;  s2_y  <- 35.711
+s2_x   <- 88.246;  s2_y  <- 631.589
 s_xy   <- 149.110; r_xy  <- 0.6315
 ```
 
@@ -421,8 +447,8 @@ $$R^2 \;=\; 0.6315^2 \;=\; 0.3988.$$
 
 ```r
 R2  <- r_xy^2;            R2                # 0.3988
-SST <- (n-1)*s2_y;        SST               # 1642.706
-SSR <- R2*SST;            SSE <- SST - SSR  # 655.30 ; 987.41
+SST <- (n-1)*s2_y;        SST               # 29053.1
+SSR <- R2*SST;            SSE <- SST - SSR  # 11586.4 ; 17466.7
 ```
 
 ---
@@ -430,18 +456,18 @@ SSR <- R2*SST;            SSE <- SST - SSR  # 655.30 ; 987.41
 ### (e) Standard errors of $\hat\beta_1$ and $\hat\beta_0$
 
 **Step 1 — total and residual SS.**
-$$SST \;=\; (n-1)\,s^2_y \;=\; 46\cdot 35.711 \;=\; 1{,}642.706,$$
-$$SSE \;=\; (1-R^2)\,SST \;=\; 0.6012\cdot 1{,}642.706 \;=\; 987.4051,$$
-$$SSR \;=\; R^2\cdot SST \;=\; 0.3988\cdot 1{,}642.706 \;=\; 655.3009.$$
+$$SST \;=\; (n-1)\,s^2_y \;=\; 46\cdot 631.589 \;=\; 29{,}053.1,$$
+$$SSE \;=\; (1-R^2)\,SST \;=\; 0.6012\cdot 29{,}053.1 \;=\; 17{,}466.7,$$
+$$SSR \;=\; R^2\cdot SST \;=\; 0.3988\cdot 29{,}053.1 \;=\; 11{,}586.4.$$
 
 **Step 2 — residual variance.**
-$$s^2_\epsilon \;=\; \frac{SSE}{n-2} \;=\; \frac{987.4051}{45} \;=\; 21.9423,\qquad s_\epsilon \;=\; 4.6843.$$
+$$s^2_\epsilon \;=\; \frac{SSE}{n-2} \;=\; \frac{17{,}466.7}{45} \;=\; 388.15,\qquad s_\epsilon \;=\; 19.70.$$
 
 **Step 3 — slope SE.**
-$$\widehat{\text{se}}(\hat\beta_1) \;=\; \frac{s_\epsilon}{\sqrt{(n-1)\,s^2_x}} \;=\; \frac{4.6843}{\sqrt{46\cdot 88.246}} \;=\; \frac{4.6843}{63.7245} \;=\; 0.0735.$$
+$$\widehat{\text{se}}(\hat\beta_1) \;=\; \frac{s_\epsilon}{\sqrt{(n-1)\,s^2_x}} \;=\; \frac{19.70}{\sqrt{46\cdot 88.246}} \;=\; \frac{19.70}{63.7245} \;=\; 0.3092.$$
 
 **Step 4 — intercept SE.**
-$$\widehat{\text{se}}(\hat\beta_0) \;=\; s_\epsilon\sqrt{\frac{1}{n} + \frac{\bar x^2}{(n-1)\,s^2_x}} \;=\; 4.6843\sqrt{0.02128 + 0.36651} \;=\; 4.6843\cdot 0.6228 \;=\; 2.9176.$$
+$$\widehat{\text{se}}(\hat\beta_0) \;=\; s_\epsilon\sqrt{\frac{1}{n} + \frac{\bar x^2}{(n-1)\,s^2_x}} \;=\; 19.70\sqrt{0.02128 + 0.36728} \;=\; 19.70\cdot 0.6234 \;=\; 12.281.$$
 
 Intuition: $\widehat{\text{se}}(\hat\beta_1)$ shrinks with sample size $n$, with the spread of $X$ ($s^2_x$), and with low noise $s_\epsilon$ — same three drivers that show up in every regression SE.
 
@@ -461,9 +487,9 @@ se_b0  <- s_eps*sqrt(1/n + xbar^2/((n-1)*s2_x));  se_b0
 $$T \;=\; \frac{\hat\beta_1 - 0}{\widehat{\text{se}}(\hat\beta_1)} \;\overset{H_0}{\sim}\; t_{n-2} \;=\; t_{45}.$$
 
 **Realisation.** Using the SE from (e):
-$$t_\text{obs} \;=\; \frac{1.6898}{0.0735} \;\approx\; 22.99.$$
+$$t_\text{obs} \;=\; \frac{1.6898}{0.3092} \;\approx\; 5.464.$$
 
-(Equivalently, using the algebraic identity $t^2 = (n-2)\,R^2/(1-R^2)$ that avoids rounding propagation: $t^2 = 45\cdot 0.3988/0.6012 = 29.85 \Rightarrow |t| = 5.464$. The two values differ only because of the 4-digit rounding of $s_{xy}$ feeding into $\widehat{\text{se}}(\hat\beta_1)$; both lead to the same exam-grade conclusion below.)
+(Cross-check via the algebraic identity $t^2 = (n-2)\,R^2/(1-R^2) = 45\cdot 0.3988/0.6012 = 29.85 \Rightarrow |t| = 5.464$ ✓ — the two routes agree exactly because $t^2 = F = \text{SSR}/\text{MSE}$ holds in any simple OLS regression.)
 
 **Rejection region** at $\alpha=0.05$ (two-sided): $R = \{|t| > t_{0.975,\,45}\} = \{|t| > 2.014\}$.
 
@@ -482,15 +508,16 @@ qt(0.975, df=n-2)                                           # 2.014
 
 ### (g) 95% confidence interval for $\beta_1$
 
-$$\hat\beta_1 \;\pm\; t_{0.975,\,n-2}\,\widehat{\text{se}}(\hat\beta_1) \;=\; 1.6898 \;\pm\; 2.014\cdot \widehat{\text{se}}(\hat\beta_1).$$
+$$\hat\beta_1 \;\pm\; t_{0.975,\,n-2}\,\widehat{\text{se}}(\hat\beta_1) \;=\; 1.6898 \;\pm\; 2.014\cdot 0.3092.$$
 
-Using $\widehat{\text{se}}(\hat\beta_1) = \hat\beta_1/|t_\text{obs}|$ (the SE consistent with the algebraic $|t|=5.464$, $\widehat{\text{se}} = 0.3093$):
-$$CI_{95}(\beta_1) \;=\; 1.6898 \;\pm\; 2.014\cdot 0.3093 \;=\; [1.0668,\;2.3128].$$
+Numerically:
+$$CI_{95}(\beta_1) \;=\; 1.6898 \;\pm\; 0.6227 \;=\; [1.0671,\;2.3125].$$
 
 **Interpretation.** With 95% confidence, the population slope lies between $\approx 1.07$ and $\approx 2.31$ extra weeks per additional year of age. **Zero is far outside the interval**, which is consistent — by duality — with rejecting $H_0:\beta_1=0$ at the 5% level in part (f). The CI procedure and the two-sided $t$-test are equivalent: $0 \in CI_{1-\alpha} \iff$ retain $H_0$ at level $\alpha$.
 
 ```r
-ME <- qt(0.975, df=n-2)*(b1/t_obs)
+se_b1 <- 0.3092
+ME    <- qt(0.975, df=n-2) * se_b1
 c(b1 - ME, b1 + ME)                                         # [1.067, 2.313]
 ```
 
@@ -502,13 +529,13 @@ For simple regression with $k=1$ predictor, the **ANOVA $F$-test** of $H_0:\beta
 
 | Source | SS | df | MS |
 |---|---|---|---|
-| Regression | $SSR = 655.3009$ | $1$ | $MSR = 655.3009$ |
-| Residual   | $SSE = 987.4051$ | $n-2 = 45$ | $MSE = s^2_\epsilon = 21.9423$ |
-| Total      | $SST = 1{,}642.706$ | $n-1 = 46$ | — |
+| Regression | $SSR = 11{,}586.4$ | $1$ | $MSR = 11{,}586.4$ |
+| Residual   | $SSE = 17{,}466.7$ | $n-2 = 45$ | $MSE = s^2_\epsilon = 388.15$ |
+| Total      | $SST = 29{,}053.1$ | $n-1 = 46$ | — |
 
-$$F_\text{obs} \;=\; \frac{MSR}{MSE} \;=\; \frac{655.3009}{21.9423} \;=\; 29.86 \;\overset{H_0}{\sim}\; F_{1,\,45}.$$
+$$F_\text{obs} \;=\; \frac{MSR}{MSE} \;=\; \frac{11{,}586.4}{388.15} \;=\; 29.85 \;\overset{H_0}{\sim}\; F_{1,\,45}.$$
 
-Critical value at $\alpha=0.05$: $F_{0.95;\,1,\,45} \approx 4.06$. Since $29.86 \gg 4.06$, **reject $H_0:\beta_1 = 0$**. The $p$-value is $1 - P(F_{1,45} \leq 29.86) \approx 1.8\times 10^{-6}$.
+Critical value at $\alpha=0.05$: $F_{0.95;\,1,\,45} \approx 4.06$. Since $29.85 \gg 4.06$, **reject $H_0:\beta_1 = 0$**. The $p$-value is $1 - P(F_{1,45} \leq 29.85) \approx 1.8\times 10^{-6}$.
 
 **The $F = t^2$ identity.** In simple regression with one predictor,
 $$F \;=\; t^2 \quad\text{exactly.}$$
@@ -541,13 +568,13 @@ anova(mod)          # ANOVA decomposition
 | $\hat\beta_0$ | $-19.5262$ | $\bar y - \hat\beta_1\bar x$ |
 | $\hat\beta_1$ | $1.6898$ | $s_{xy}/s^2_x$ |
 | $R^2$ | $0.3988$ | $r_{xy}^2 = SSR/SST$ |
-| $SST,\,SSR,\,SSE$ | $1642.71,\,655.30,\,987.41$ | variance decomposition |
-| $s_\epsilon$ | $4.6843$ | $\sqrt{SSE/(n-2)}$ |
-| $\widehat{\text{se}}(\hat\beta_1)$ | $\approx 0.31$ | $s_\epsilon/\sqrt{(n-1)s^2_x}$ |
-| $\widehat{\text{se}}(\hat\beta_0)$ | $\approx 2.92$ | $s_\epsilon\sqrt{1/n+\bar x^2/((n-1)s^2_x)}$ |
+| $SST,\,SSR,\,SSE$ | $29053.1,\,11586.4,\,17466.7$ | variance decomposition |
+| $s_\epsilon$ | $19.70$ | $\sqrt{SSE/(n-2)}$ |
+| $\widehat{\text{se}}(\hat\beta_1)$ | $0.3092$ | $s_\epsilon/\sqrt{(n-1)s^2_x}$ |
+| $\widehat{\text{se}}(\hat\beta_0)$ | $12.28$ | $s_\epsilon\sqrt{1/n+\bar x^2/((n-1)s^2_x)}$ |
 | $t_\text{obs}$ ($H_0:\beta_1=0$) | $5.464$, $p\approx 1.8\times 10^{-6}$ | $\hat\beta_1/\widehat{\text{se}}(\hat\beta_1)$ |
 | 95% CI for $\beta_1$ | $[1.067,\,2.313]$ | $\hat\beta_1 \pm t_{0.975,45}\widehat{\text{se}}$ |
-| $F_\text{obs}$ | $29.86 = t_\text{obs}^2$, $p\approx 1.8\times 10^{-6}$ | $MSR/MSE$ |
+| $F_\text{obs}$ | $29.85 = t_\text{obs}^2$, $p\approx 1.8\times 10^{-6}$ | $MSR/MSE$ |
 
 **Conclusion across (a)–(h).** Age is a **strongly significant** linear predictor of the number of Weeks needed to find a new job. The slope is positive ($+1.69$ weeks per extra year of age), the relation explains about 40% of the variability of Weeks, and the $t$-test on $\beta_1$, the 95% CI for $\beta_1$ and the $F$-test on the full model all reach the *same* conclusion — algebraically inevitable in simple regression because $F = t^2$.
 
@@ -1692,7 +1719,13 @@ c    <- mu0 - zalp*se;                   c         # ~ 44.252
 
 ---
 
-**(c) Type II error probability $\beta$ at $\mu_1 = 43$.** Under $H_1$, $\bar X \sim \mathcal N(\mu_1,\,\sigma^2/n)$. A Type II error happens whenever the data fails to reject, i.e. $\bar X \ge c$:
+**(c) Two complementary truths — $\mu \in H_0$ (Type I face) vs $\mu \in H_1$ (Type II face).** The same critical value $c=44.252$ has *two* error roles depending on where the *true* $\mu$ lives — and Ex 7.1b asks us to compute both faces explicitly.
+
+*(c1) True $\mu = 50$ (well inside $H_0$, since $50\ge 45$).* Concluding "$\bar X < 45$" — i.e. **rejecting** $H_0$ — would be a **Type I error** because $\mu=50$ belongs to $H_0$. Its probability is
+$$P(\bar X < c \mid \mu = 50) \;=\; P\!\left(Z < \frac{44.252 - 50}{0.5835}\right) \;=\; P(Z < -9.85) \;\approx\; 0.$$
+At $\mu=50$ the rejection probability collapses to **essentially zero** — far below the nominal $\alpha=0.10$, because $\mu=50$ sits $5$ weeks **above** the boundary of $H_0$ and the test virtually never reaches the lower critical region. This is the *flip side* of the formal guarantee $\sup_{\mu\in H_0} P(\text{reject})=\alpha$: at the *boundary* $\mu=\mu_0=45$ the rejection rate is exactly $\alpha=0.10$; **deeper inside $H_0$** it drops toward zero. Plotting this rejection probability as a function of $\mu$ traces the **power curve** — flat-low across $H_0$ (Type I face) and ramping up across $H_1$ (power face).
+
+*(c2) True $\mu_1 = 43$ (inside $H_1$, since $43 < 45$).* Under $H_1$, $\bar X \sim \mathcal N(\mu_1,\,\sigma^2/n)$. A **Type II error** happens whenever the data *fails* to reject, i.e. $\bar X \ge c$:
 $$\beta \;=\; P(\bar X \ge c \mid \mu = \mu_1)
 \;=\; P\!\left(Z \ge \frac{c - \mu_1}{\sigma/\sqrt n}\right)
 \;=\; P\!\left(Z \ge \frac{44.252 - 43}{0.5835}\right)
@@ -1702,6 +1735,9 @@ Geometrically, $\beta$ is the area under the $H_1$ density $\mathcal N(43,\,SE^2
 
 ```r
 mu1   <- 43
+# (c1) Type I face at mu = 50 (deep inside H0)
+pnorm(c, mean = 50, sd = se)                  # ~ 0   (P(reject | mu=50))
+# (c2) Type II face at mu1 = 43 (inside H1)
 beta  <- 1 - pnorm(c, mean = mu1, sd = se);   beta   # ~ 0.0159
 power <- 1 - beta;                            power  # ~ 0.9841
 ```
@@ -1797,160 +1833,229 @@ sapply(alphas, function(a){
 
 
 master_exercises["g14b_two_sample"] = {
-    "title": "Master Exam — Two-sample independent tests (consolidated)",
-    "content": r"""**Setup.** A retail chain runs **two** independent comparisons on the same customer base:
+    "title": "Master Exam — Two-sample independent tests (means & proportions)",
+    "content": r"""**Master exercise — Independent two-sample tests for means and proportions.**
 
-1. *Cafeteria promotion (proportions).* Two independent random samples are drawn **before** and **after** an in-store cafeteria promotion. A customer is a *visitor* if they came at least once in the month. Pre-promotion: $n_1=140$, $x_1=108$ visitors, $\hat p_1 = 108/140 = 0.7714$. Post-promotion: $n_2=148$, $x_2=118$ visitors, $\hat p_2 = 118/148 = 0.7973$.
-2. *Average expenditure by sex (means).* From the chain's customer database `DS`, the variable `AmountSpent` (€) is summarised by `Sex`. Females: $\bar x_F = 1200$, $s_F = 850$, $n_F = 250$. Males: $\bar x_M = 1100$, $s_M = 900$, $n_M = 250$.
+Consolidates the unique sub-tasks asked in **Ex 7.3a** (two-prop $z$, cafeteria pre/post visit), **Ex 7.3b** (two-prop $z$, heavy-user cutoff $>4$), **Ex 7.5a** (pooled two-sample $t$ vs $\mu_0=10$, fish-diet cholesterol), **Ex 7.7a** (two-prop $z$, AI-tool use Younger vs Senior), **Ex 7.10a** (pooled two-sample $t$ on summary stats, competing-company comparison at $\alpha=0.10$).
 
-Throughout, the two samples are **independent** (different individuals in the two groups). We will run **two-sample tests** at $\alpha = 0.05$ unless stated otherwise.
+Unified workflow (independent samples): assumptions $\to$ hypotheses $\to$ pick SE (Welch / pooled $t$ / pooled-$\hat p$ for proportions) $\to$ statistic $\to$ rejection region $\to$ p-value $\to$ decision.
 
 ![Master illustration](statistics/images/master/master_g14b_ai.png)
 
 ---
 
-**(a) Two-sample t-test for means — Welch vs pooled.** Test whether average expenditure differs between sexes: $H_0:\mu_F = \mu_M$ vs $H_1:\mu_F \neq \mu_M$ (two-sided). Compare the two standard versions of the test.
+### Master template — three independent-samples building blocks
 
-*Test statistic.* For two independent samples with means $\bar x_1,\bar x_2$, variances $s_1^2,s_2^2$ and sizes $n_1,n_2$,
-$$T \;=\; \frac{\bar x_1 - \bar x_2 - \Delta_0}{\widehat{\text{SE}}(\bar x_1 - \bar x_2)}, \qquad \Delta_0 = 0 \text{ under } H_0.$$
-The difference between the **Welch** and **pooled** versions is entirely in the SE (and the degrees of freedom).
-
-| Variant | Assumption on variances | SE formula | df |
+| Setting | Statistic | SE under $H_0$ | Reference distr. |
 |---|---|---|---|
-| **Welch** | $\sigma_1^2 \neq \sigma_2^2$ allowed | $\sqrt{\dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2}}$ | Welch–Satterthwaite (approx) |
-| **Pooled** | $\sigma_1^2 = \sigma_2^2 = \sigma^2$ | $s_p\sqrt{\dfrac{1}{n_1}+\dfrac{1}{n_2}}$, $s_p^2=\dfrac{(n_1-1)s_1^2+(n_2-1)s_2^2}{n_1+n_2-2}$ | $n_1+n_2-2$ |
+| **(M)** Mean comparison, $\sigma$'s unknown, equal-var assumption | $T = \dfrac{\bar x_1-\bar x_2-\Delta_0}{\widehat{\text{SE}}}$ | $s_p\sqrt{\tfrac{1}{n_1}+\tfrac{1}{n_2}}$, $s_p^2 = \tfrac{(n_1-1)s_1^2+(n_2-1)s_2^2}{n_1+n_2-2}$ | $t_{n_1+n_2-2}$ |
+| **(W)** Welch variant, unequal variances | same $T$ | $\sqrt{s_1^2/n_1 + s_2^2/n_2}$ | $t$ on Welch–Satterthwaite df |
+| **(P)** Proportion comparison | $Z = \dfrac{\hat p_1-\hat p_2}{\widehat{\text{SE}}_0}$ | $\sqrt{\hat p(1-\hat p)(\tfrac{1}{n_1}+\tfrac{1}{n_2})}$ with $\hat p = \tfrac{x_1+x_2}{n_1+n_2}$ | $N(0,1)$ |
 
-*Welch computation.* With $\bar x_F - \bar x_M = 1200 - 1100 = 100$,
-$$\widehat{\text{SE}}_{\text{Welch}} = \sqrt{\frac{850^2}{250} + \frac{900^2}{250}} = \sqrt{\frac{722{,}500 + 810{,}000}{250}} = \sqrt{6130} \approx 78.29.$$
-$$T_{\text{Welch}} = \frac{100}{78.29} \approx 1.277, \qquad \text{df}_{\text{Welch}} \approx 496.6.$$
+Decision rule (any tail): $\text{Reject } H_0 \iff t_\text{obs}\in R_\alpha \iff p\leq\alpha$.
 
-*Pooled computation.* Pooled variance
-$$s_p^2 = \frac{249\cdot 850^2 + 249\cdot 900^2}{498} = \frac{850^2 + 900^2}{2} = 766{,}250, \quad s_p \approx 875.36.$$
-$$\widehat{\text{SE}}_{\text{pool}} = 875.36\sqrt{\tfrac{1}{250}+\tfrac{1}{250}} = 875.36 \cdot \sqrt{0.008} \approx 78.29, \quad T_{\text{pool}} \approx 1.277, \quad \text{df} = 498.$$
+---
 
-Because $n_F=n_M$ the two SEs **coincide** numerically; with very large df, the $t$-quantiles match $z$-quantiles to three decimals.
+### (a) Two-proportion $z$-test, cafeteria visit pre/post (Ex 7.3a)
 
-*Two-sided p-value & rejection region (df $\approx 498$).*
-$$\text{p-value} = 2\Pr(T_{498} \geq 1.277) \approx 0.2024, \qquad \text{RR}_{0.05} = \{|T| > t_{0.975,\,498}\} \approx \{|T|>1.965\}.$$
-Since $|1.277| < 1.965$ (equivalently p $\approx 0.20 > 0.05$), **do not reject $H_0$**: the €100 average gap between female and male expenditure is **not** statistically distinguishable from sampling noise at $\alpha=0.05$.
+**Data.** Pre-promotion sample $n_\text{PRE}=140$ (108 visitors $\Rightarrow$ $\hat p_\text{PRE} = 108/140 = 0.7714$); post-promotion $n_\text{POST}=159$ (127 visitors $\Rightarrow$ $\hat p_\text{POST} = 127/159 = 0.7987$). A "visitor" is a customer with $\geq 1$ stop in the month.
+
+**Hypotheses (one-sided upper).** Most serious error = rolling out an ineffective promotion to other branches:
+$$H_0:\,p_\text{POST}=p_\text{PRE} \quad\text{vs}\quad H_1:\,p_\text{POST}>p_\text{PRE}.$$
+
+**Assumptions.** Two independent samples; both $n\hat p$, $n(1-\hat p) \gg 5$ $\Rightarrow$ CLT holds; under $H_0$ the two proportions share a common $p$.
+
+**Pooled-$\hat p$ SE (template P).**
+$$\hat p = \frac{108+127}{140+159} = \frac{235}{299} = 0.7860, \qquad \widehat{\text{SE}}_0 = \sqrt{0.7860\cdot 0.2140\cdot\bigl(\tfrac{1}{140}+\tfrac{1}{159}\bigr)} \approx 0.0475.$$
+
+**Statistic & p-value.**
+$$z_\text{obs} = \frac{0.7987 - 0.7714}{0.0475} = \frac{0.0273}{0.0475} \approx 0.575, \qquad p = 1 - \Phi(0.575) \approx 0.2827.$$
+
+**Decision.** RR$_{0.05} = \{z > 1.6449\}$. $0.575 < 1.6449$ (equivalently $0.28 \gg 0.05$) $\Rightarrow$ **do not reject $H_0$**. No evidence the promotion increases the visit rate — **do not extend** it.
 
 ```r
-# Welch (default) — two independent groups
-xbarF <- 1200; sF <- 850; nF <- 250
-xbarM <- 1100; sM <- 900; nM <- 250
-
-se.welch <- sqrt(sF^2/nF + sM^2/nM);          se.welch    # 78.29
-t.welch  <- (xbarF - xbarM)/se.welch;         t.welch     # 1.277
-
-# Welch-Satterthwaite df
-df.welch <- (sF^2/nF + sM^2/nM)^2 /
-            ((sF^2/nF)^2/(nF-1) + (sM^2/nM)^2/(nM-1)); df.welch   # ~496.6
-2*(1 - pt(abs(t.welch), df = df.welch))                  # p ~ 0.2024
-qt(0.975, df = df.welch)                                  # ~1.965
-
-# Pooled-variance version (equal variances assumed)
-sp2 <- ((nF-1)*sF^2 + (nM-1)*sM^2) / (nF + nM - 2);  sp2   # 766250
-se.pool <- sqrt(sp2*(1/nF + 1/nM));                  se.pool # 78.29
-t.pool  <- (xbarF - xbarM)/se.pool;                  t.pool  # 1.277
-2*(1 - pt(abs(t.pool), df = nF + nM - 2))                    # p ~ 0.2024
-
-# If raw data DS$AmountSpent and DS$Sex were available:
-# t.test(AmountSpent ~ Sex, data = DS)                       # Welch (default)
-# t.test(AmountSpent ~ Sex, data = DS, var.equal = TRUE)     # Pooled
+# (a) Ex 7.3a: cafeteria visit pre/post, two-prop z, upper tail
+n1 <- 140; x1 <- 108                       # PRE
+n2 <- 159; x2 <- 127                       # POST
+ph1 <- x1/n1; ph2 <- x2/n2; c(ph1, ph2)    # 0.7714, 0.7987
+phat <- (x1+x2)/(n1+n2);  phat             # 0.7860 pooled
+se0  <- sqrt(phat*(1-phat)*(1/n1 + 1/n2)); se0   # 0.0475
+z    <- (ph2 - ph1)/se0;  z                # 0.575
+1 - pnorm(z)                               # 0.2827
+qnorm(0.95)                                # 1.6449
+TEST.diffprop(x = Stops_POST >= 1, y = Stops_PRE >= 1, pdiff = 0, alternative = "greater")
 ```
 
 ---
 
-**(b) Two-proportion z-test using POOLED $\hat p$ under $H_0$.** Test whether the cafeteria promotion increased the visit proportion: $H_0:p_2 = p_1$ vs $H_1:p_2 > p_1$ (one-sided, upper tail).
+### (b) Two-proportion $z$-test, heavy users (Ex 7.3b)
 
-*Why pool under $H_0$.* Under $H_0$ the two proportions share a common value $p$. The most efficient estimator of that common $p$ uses **both** samples — the *pooled* proportion:
-$$\hat p \;=\; \frac{x_1 + x_2}{n_1 + n_2} \;=\; \frac{n_1 \hat p_1 + n_2 \hat p_2}{n_1 + n_2} \;=\; \frac{108+118}{140+148} \;=\; \frac{226}{288} \;=\; 0.7847.$$
-The null SE then uses $\hat p$ (not $\hat p_1, \hat p_2$ separately):
-$$\text{SE}_0 = \sqrt{\hat p (1-\hat p)\!\left(\tfrac{1}{n_1}+\tfrac{1}{n_2}\right)}.$$
-With $0.7847\cdot 0.2153 = 0.16894$ and $1/140 + 1/148 = 0.013879$, $\text{SE}_0 = \sqrt{0.16894\cdot 0.013879} = \sqrt{0.002345} \approx 0.04843$.
+**Cutoff change.** Now a customer is a **heavy user** if they visited **more than 4 times** per month. Counts: pre 23/140, post 37/159.
+$$\hat p_\text{PRE} = 23/140 = 0.1643, \qquad \hat p_\text{POST} = 37/159 = 0.2327.$$
 
-*z-statistic.* Observed difference $\hat p_2 - \hat p_1 = 0.7973 - 0.7714 = 0.0259$, hence
-$$z_\text{obs} = \frac{\hat p_2 - \hat p_1}{\text{SE}_0} = \frac{0.0259}{0.04843} \approx 0.535.$$
+**Hypotheses.** Same one-sided framing as (a): $H_0:p_\text{POST}=p_\text{PRE}$ vs $H_1:p_\text{POST}>p_\text{PRE}$.
 
-*One-sided p-value & RR.*
-$$\text{p-value} = \Pr(Z \geq 0.535) = 1 - \Phi(0.535) \approx 0.2964, \qquad \text{RR}_{0.05} = \{Z > z_{0.95}\} = \{Z > 1.6449\}.$$
-$z_\text{obs} = 0.535 < 1.6449$ (equivalently p $\approx 0.30 \gg 0.05$): **do not reject $H_0$**. The promotion has no statistically detectable effect on the visit proportion.
+**Pooled-$\hat p$ SE.**
+$$\hat p = \frac{23+37}{140+159} = \frac{60}{299} = 0.2007, \qquad \widehat{\text{SE}}_0 = \sqrt{0.2007\cdot 0.7993\cdot\bigl(\tfrac{1}{140}+\tfrac{1}{159}\bigr)} \approx 0.0464.$$
+
+**Statistic & p-value.**
+$$z_\text{obs} = \frac{0.0684}{0.0464} \approx 1.474, \qquad p = 1 - \Phi(1.474) \approx 0.0703.$$
+
+**Decision.** RR$_{0.05} = \{z > 1.6449\}$. $1.474 < 1.6449$ $\Rightarrow$ **do not reject** at 5%. But **at $\alpha=0.10$**, $1.474 < z_{0.90}=1.2816$ is FALSE — $1.474 > 1.2816$ $\Rightarrow$ **reject** at 10%. Borderline; growth from 16.4% to 23.3% in heavy-user share is suggestive but not conclusive at conventional 5%.
 
 ```r
-n1 <- 140; x1 <- 108
-n2 <- 148; x2 <- 118
-phat1 <- x1/n1;  phat2 <- x2/n2;  c(phat1, phat2)         # 0.7714, 0.7973
-
-phat  <- (x1 + x2)/(n1 + n2);   phat                       # 0.7847 (pooled, under H0)
-se0   <- sqrt(phat*(1-phat)*(1/n1 + 1/n2));  se0           # 0.04843
-z.obs <- (phat2 - phat1)/se0;   z.obs                      # 0.535
-1 - pnorm(z.obs)                                           # one-sided p ~ 0.2964
-qnorm(0.95)                                                # 1.6449 (RR boundary)
-
-# Built-in wrapper (continuity correction OFF for textbook match):
-prop.test(x = c(x2, x1), n = c(n2, n1),
-          alternative = "greater", correct = FALSE)
-# TEST.diffprop(x = visit_POST, y = visit_PRE,
-#               pdiff = 0, alternative = "greater")
+# (b) Ex 7.3b: heavy users (>4 stops), two-prop z, upper tail
+n1 <- 140; x1 <- 23                        # PRE heavy
+n2 <- 159; x2 <- 37                        # POST heavy
+phat <- (x1+x2)/(n1+n2);  phat             # 0.2007
+se0  <- sqrt(phat*(1-phat)*(1/n1 + 1/n2)); se0   # 0.0464
+z    <- (x2/n2 - x1/n1)/se0;  z            # 1.474
+1 - pnorm(z)                               # 0.0703
+qnorm(0.95); qnorm(0.90)                   # 1.6449, 1.2816
 ```
 
 ---
 
-**(c) One-sided vs two-sided, RR and p-value — the decision rule.** Same statistic $T$ (or $z$), three frameworks for the same decision:
+### (c) Pooled two-sample $t$ with $\Delta_0 \neq 0$ — fish-diet cholesterol (Ex 7.5a)
 
-| $H_1$ shape | Rejection region (level $\alpha$) | p-value |
+**Data.** Two independent groups of $n_1 = n_2 = 100$ males, assigned for 6 months to **Standard** vs **Seafood** diet:
+
+| Diet | $\bar x$ | $s^2$ |
 |---|---|---|
-| Two-sided $\mu_1 \neq \mu_2$ | $\{\,\|T\| > t_{1-\alpha/2,\,\text{df}}\,\}$ | $2\,\Pr(T \geq \|t_\text{obs}\|)$ |
-| Upper one-sided $\mu_1 > \mu_2$ | $\{\,T > t_{1-\alpha,\,\text{df}}\,\}$ | $\Pr(T \geq t_\text{obs})$ |
-| Lower one-sided $\mu_1 < \mu_2$ | $\{\,T < -t_{1-\alpha,\,\text{df}}\,\}$ | $\Pr(T \leq t_\text{obs})$ |
+| Standard | $210.1$ | $37.4$ |
+| Seafood | $196.8$ | $33.5$ |
 
-**Decision rule (equivalent forms).** Given level $\alpha$:
-$$\text{Reject } H_0 \iff t_\text{obs} \in \text{RR}_\alpha \iff \text{p-value} \leq \alpha.$$
+Researchers claim the mean difference $\mu_\text{Std} - \mu_\text{Sea}$ is **strictly greater than 10**.
 
-*Application to our two tests at $\alpha = 0.05$.*
+**Hypotheses (one-sided upper, $\Delta_0 = 10$).**
+$$H_0:\,\mu_\text{Std} - \mu_\text{Sea} \leq 10 \quad\text{vs}\quad H_1:\,\mu_\text{Std} - \mu_\text{Sea} > 10.$$
 
-| Test | $H_1$ | Stat | RR boundary | p-value | Decision |
-|---|---|---|---|---|---|
-| Means (Welch) | $\mu_F \neq \mu_M$ | $T = 1.277$ | $\pm 1.965$ | $0.2024$ | **Do not reject** |
-| Proportions (pooled) | $p_2 > p_1$ | $z = 0.535$ | $1.6449$ | $0.2964$ | **Do not reject** |
+**Assumptions.** Independence; equal variances assumed $\Rightarrow$ pooled-variance template (M). $n=100$ each $\Rightarrow$ CLT, so normal & $t_{198}$ critical values match to four decimals.
 
-*If we had flipped the means test to one-sided $H_1:\mu_F > \mu_M$,* the p-value would have been $0.2024/2 \approx 0.1012$ and the RR boundary $t_{0.95,498}\approx 1.648$ — still **not** rejected at $\alpha=0.05$, but now within striking distance at $\alpha=0.10$. The choice of side must be **pre-specified** from subject-matter knowledge, never picked after looking at the data.
+**Pooled variance & SE.**
+$$s_p^2 = \frac{99\cdot 37.4 + 99\cdot 33.5}{198} = 35.45, \qquad \widehat{\text{SE}} = \sqrt{2 s_p^2/n} = \sqrt{0.7090} = 0.8420.$$
+
+**Statistic & RR.** Observed $\bar x_\text{Std}-\bar x_\text{Sea} = 13.3$.
+$$t_\text{obs} = \frac{13.3 - 10}{0.8420} = 3.92, \qquad R_{0.05} = \{T > t_{0.95,\,198}\} \approx \{T > 1.6526\}.$$
+
+Equivalently, the RR on $\bar x_\text{Std}-\bar x_\text{Sea}$ is $> 10 + 1.6526\cdot 0.8420 = 11.39$. Since $13.3 > 11.39$ $\Rightarrow$ **reject $H_0$**.
+
+**p-value.** $p = 1 - F_{t_{198}}(3.92) \approx 6.1\cdot 10^{-5}$ (normal approx.: $4.4\cdot 10^{-5}$).
+
+**Conclusion.** Overwhelming evidence the Seafood diet lowers mean cholesterol by **more than 10** units.
 
 ```r
-# Two-sided -> one-sided p-value conversion (when T points the right way)
-p.two  <- 2*(1 - pt(abs(1.277), df = 498));  p.two           # 0.2024
-p.one  <- 1 - pt(1.277, df = 498);           p.one           # 0.1012
-qt(0.95,  df = 498)                                          # ~1.648 (one-sided RR)
-qt(0.975, df = 498)                                          # ~1.965 (two-sided RR)
+# (c) Ex 7.5a: pooled two-sample t with Delta0 = 10, one-sided upper
+xs <- 210.1; vs <- 37.4; ns <- 100         # Standard diet
+xf <- 196.8; vf <- 33.5; nf <- 100         # Seafood diet
+sp2 <- ((ns-1)*vs + (nf-1)*vf)/(ns+nf-2);  sp2     # 35.45
+se  <- sqrt(2*sp2/ns);                     se      # 0.8420
+t   <- (xs - xf - 10)/se;                  t       # 3.92
+qt(0.95, df = ns+nf-2);  qnorm(0.95)               # 1.6526, 1.6449
+10 + qt(0.95, df = 198)*se                          # 11.39 (RR on diff)
+1 - pt(t, df = ns+nf-2)                             # 6.1e-5
+1 - pnorm(t)                                         # 4.4e-5
+TEST.diffmean(..., alternative = "greater", mu0 = 10, var.test = TRUE)
 ```
 
 ---
 
-**(d) Decision rule in plain language.** Compute the test statistic, **either** compare it to the critical value(s) **or** compute the p-value, then apply
-$$\boxed{\;\text{Reject } H_0 \text{ at level } \alpha \iff \text{p-value} \leq \alpha\;}$$
-Both data scenarios above produce p-values around $0.20$–$0.30$, an order of magnitude above $\alpha = 0.05$: the data are perfectly consistent with $H_0$ in both cases. Neither the $\sim 2.6$-percentage-point bump in visit proportion nor the €100 mean expenditure gap is large enough — relative to sampling noise at these sample sizes — to be declared significant.
+### (d) Two-proportion $z$-test, AI-tool use Younger vs Senior (Ex 7.7a)
+
+**Data (`Developers_ITA`).** Sample proportions of developers using AI tools (e.g. ChatGPT) at work: $\hat p_\text{Young} \approx 0.57$, $\hat p_\text{Senior} \approx 0.40$ (sub-samples large; the textbook reports $z_\text{obs} \approx 4.77$ from the raw data).
+
+**Hypotheses (one-sided upper).** The "younger use them more" claim is the research hypothesis:
+$$H_0:\,p_\text{Young} = p_\text{Senior} \quad\text{vs}\quad H_1:\,p_\text{Young} > p_\text{Senior}.$$
+
+**Assumptions.** Independent sub-samples (Younger=TRUE vs FALSE are disjoint); each sub-sample large enough for CLT; under $H_0$ a common $p$, estimated by the pooled $\hat p$.
+
+**Statistic.** With template (P) (pooled $\hat p$, pooled SE) the realised $z \approx 4.77$, giving $p = 1 - \Phi(4.77) < 10^{-4}$.
+
+**Decision.** $4.77 \gg z_{0.95}=1.6449$ at any conventional $\alpha$ (5%, 1%, 0.1%, …) $\Rightarrow$ **reject $H_0$**. Overwhelming evidence that younger developers adopt AI tools more.
+
+```r
+# (d) Ex 7.7a: AI-tool use Younger vs Senior, two-prop z (built-in)
+TEST.diffprop(x = Developers_ITA$ChatGPT[Developers_ITA$Younger == TRUE],
+              y = Developers_ITA$ChatGPT[Developers_ITA$Younger == FALSE],
+              success.x = "Yes", pdiff = 0, alternative = "greater", digits = 4)
+
+# Manual cross-check:
+phY <- mean(Developers_ITA$ChatGPT[Developers_ITA$Younger == TRUE]  == "Yes")  # ~0.57
+phS <- mean(Developers_ITA$ChatGPT[Developers_ITA$Younger == FALSE] == "Yes")  # ~0.40
+nY  <- sum(Developers_ITA$Younger == TRUE)
+nS  <- sum(Developers_ITA$Younger == FALSE)
+phat <- (nY*phY + nS*phS)/(nY + nS)
+se0  <- sqrt(phat*(1-phat)*(1/nY + 1/nS))
+z    <- (phY - phS)/se0;  z                # ~4.77
+1 - pnorm(z)                                # < 1e-4
+```
 
 ---
 
-### Summary
+### (e) Pooled two-sample $t$ from summary stats, $\alpha=0.10$ (Ex 7.10a)
 
-| Test | Difference | SE | Statistic | RR (level $0.05$) | p-value | Decision |
-|---|---|---|---|---|---|---|
-| Welch t (means, two-sided) | $100$ | $78.29$ | $T = 1.277$ | $\|T\|>1.965$ | $0.2024$ | Do not reject |
-| Pooled t (means, two-sided) | $100$ | $78.29$ | $T = 1.277$ | $\|T\|>1.965$ | $0.2024$ | Do not reject |
-| Two-prop z (pooled $\hat p$, upper) | $0.0259$ | $0.04843$ | $z = 0.535$ | $Z>1.6449$ | $0.2964$ | Do not reject |
+**Data.** Competing company: $n_y=800$, $\bar y = 1300$, $s_y = 960$. Considered company (the $n_x=750$ women in `DS`): $\bar x = 1228.44$, $s_x^2 = 940{,}900.9$.
 
-**Master take-aways.**
-1. **Two-sample $T = (\bar x_1 - \bar x_2)/\text{SE}$** has the same shape across Welch / pooled / two-proportion tests; only the SE definition (and df) changes.
-2. **Welch vs pooled** — Welch is the safe default; pooled gains a tiny bit of efficiency *only* if $\sigma_1 \approx \sigma_2$. With equal $n_1=n_2$ the two SEs are numerically equal.
-3. **Two-proportion z-test pools $\hat p$ under $H_0$**: $\hat p = (x_1+x_2)/(n_1+n_2)$, then $\text{SE}_0 = \sqrt{\hat p(1-\hat p)(1/n_1+1/n_2)}$. Use $\hat p_1,\hat p_2$ separately only for CIs, **not** for the test SE.
-4. **Decision rule**: reject $\iff t_\text{obs}\in\text{RR}_\alpha \iff \text{p-value}\leq\alpha$ — all equivalent statements of the same call.
-5. **One-sided p-value is half the two-sided** *only* when $T$ points in the direction of $H_1$; otherwise it is close to 1.
-6. Large p-value $\neq$ "$H_0$ is true" — it just means the data do not give enough evidence to reject at the chosen level.
+**Hypotheses (one-sided upper).** Claim: considered-company mean expenditure is higher than competitor's:
+$$H_0:\,\mu_x = \mu_y \quad\text{vs}\quad H_1:\,\mu_x > \mu_y.$$
+
+**Assumptions.** Independent samples; large $n$'s $\Rightarrow$ CLT (no normality of expenditure needed); pooled-variance template (M) with $s_y^2 = 960^2 = 921{,}600$.
+
+**Pooled variance & SE.**
+$$s_p^2 = \frac{749\cdot 940{,}900.9 + 799\cdot 921{,}600}{1548} \approx 930{,}938.7, \qquad \widehat{\text{SE}} = \sqrt{s_p^2(\tfrac{1}{750}+\tfrac{1}{800})} = \sqrt{2402.92} \approx 49.02.$$
+
+**Statistic.**
+$$t_\text{obs} = \frac{1228.44 - 1300}{49.02} = \frac{-71.56}{49.02} \approx -1.459.$$
+
+**Decision at $\alpha=0.10$.** RR $= \{T > z_{0.90}\} = \{T > 1.2816\}$ (with df $=1548$, $t$ matches $z$). $-1.459 < 1.2816$ $\Rightarrow$ **do not reject**. Equivalently $p = 1 - \Phi(-1.459) \approx 0.9277 \gg 0.10$.
+
+**Interpretation.** Observed difference is in the **wrong direction** ($\bar x < \bar y$): not only is there no evidence for "considered $>$ competitor", the data point mildly the opposite way. (The two-sided p-value would be $\approx 0.145$, still not significant at 10%.)
+
+```r
+# (e) Ex 7.10a: pooled two-sample t from summary stats, one-sided upper, alpha = 0.10
+xbar <- 1228.44; s2x <- 940900.9; nx <- 750
+ybar <- 1300;    s2y <- 960^2;    ny <- 800           # 921600
+
+sp2 <- ((nx-1)*s2x + (ny-1)*s2y)/(nx+ny-2); sp2       # 930938.7
+se  <- sqrt(sp2*(1/nx + 1/ny));             se        # 49.02
+t   <- (xbar - ybar)/se;                    t         # -1.459
+1 - pnorm(t)                                          # 0.9277  (one-sided upper)
+1 - pt(t, df = nx+ny-2)                                # 0.9277
+qnorm(0.90)                                           # 1.2816 (one-sided crit at 10%)
+```
 
 ---
 
-**Linked snippets:** Ex 7.3a (two-proportion z-test for cafeteria pre/post, pooled $\hat p$ under $H_0$, one-sided p-value); Ex 7.7a (two-proportion z-test for AI-tool use Younger vs Senior in `Developers_ITA`, pooled SE, large-z rejection); Ex 7.10a (two-sample pooled-variance t-test on summary stats, $\mu_x>\mu_y$ at $\alpha=0.10$ — decision via RR and p-value).
+### (f) Side-by-side summary
+
+| # | Application | Template | $H_1$ | Diff. | SE | Stat | p-value | @ chosen $\alpha$ |
+|---|---|---|---|---|---|---|---|---|
+| (a) | Visit $\geq 1$ pre/post (Ex 7.3a) | P (pooled $\hat p$) | $p_\text{POST}>p_\text{PRE}$ | $0.0273$ | $0.0475$ | $z = 0.575$ | $0.2827$ | retain @ 0.05 |
+| (b) | Heavy users $>4$ pre/post (Ex 7.3b) | P | $p_\text{POST}>p_\text{PRE}$ | $0.0684$ | $0.0464$ | $z = 1.474$ | $0.0703$ | retain @ 0.05; reject @ 0.10 |
+| (c) | Cholesterol Std vs Sea, $\Delta_0=10$ (Ex 7.5a) | M (pooled $t$) | $\mu_\text{Std}-\mu_\text{Sea}>10$ | $13.3$ | $0.8420$ | $t_{198} = 3.92$ | $6\cdot 10^{-5}$ | reject @ 0.05 |
+| (d) | AI tools Younger vs Senior (Ex 7.7a) | P | $p_\text{Young}>p_\text{Senior}$ | $0.17$ | (built-in) | $z \approx 4.77$ | $<10^{-4}$ | reject @ 0.05 |
+| (e) | Considered vs competitor mean (Ex 7.10a) | M | $\mu_x>\mu_y$ | $-71.56$ | $49.02$ | $t \approx -1.459$ | $0.9277$ | retain @ 0.10 |
+
+---
+
+### (g) Master take-aways
+
+1. **One shape, three SEs.** $T = (\text{diff} - \Delta_0)/\widehat{\text{SE}}$ is the same across (M), (W), (P); only $\widehat{\text{SE}}$ and the reference distribution change.
+2. **Means with $\sigma$'s unknown.** Pooled-$t$ (template M) assumes $\sigma_1 = \sigma_2$. Welch (template W) drops that assumption — safe default. When $n_1=n_2$ the two SEs **numerically coincide**.
+3. **Proportions: pool under $H_0$.** Use $\hat p = (x_1+x_2)/(n_1+n_2)$ in the SE because, under $H_0$, the two proportions share a common $p$. Separate $\hat p_1,\hat p_2$ are for CIs, not for the test SE.
+4. **Direction matters.** Place the directional claim (the one whose false rejection is the most damaging error) in $H_1$. Never pick the side after seeing the data; the two-sided p-value is twice the one-sided **only** when $T$ points in the $H_1$ direction (else $\approx 1-\text{one-sided}$).
+5. **Non-zero $\Delta_0$ goes into the numerator.** Ex 7.5a tests $\Delta_0=10$, not $\Delta_0=0$: subtract 10 from the observed mean gap before dividing by SE.
+6. **Equivalent decisions.** $t_\text{obs}\in R_\alpha \iff p\leq\alpha$. Large $p$ $\neq$ "$H_0$ true"; only "insufficient evidence at $\alpha$".
+
+---
+
+**Linked snippets:**
+Ex 7.3a (cafeteria visit pre/post, pooled-$\hat p$ $z$) $\to$ part (a);
+Ex 7.3b (heavy users $>4$, same template, borderline at 10%) $\to$ part (b);
+Ex 7.5a (pooled $t$ with $\Delta_0=10$, fish-diet cholesterol, RR & p-value) $\to$ part (c);
+Ex 7.7a (Younger vs Senior AI-tool use, pooled-$\hat p$ $z$, large-$z$ rejection) $\to$ part (d);
+Ex 7.10a (pooled $t$ on summary stats, considered vs competitor at $\alpha=0.10$) $\to$ part (e).
+All five are instances of the unified independent-samples template above.
 """,
     "images": ["statistics/images/master/master_g14b_ai.png"],
 }
@@ -1990,6 +2095,10 @@ $$\Var(D) \;=\; \Var(X^\text{A}) + \Var(X^\text{B}) \;-\; 2\,\Cov(X^\text{A},X^\
 With a positive within-store correlation ($\rho>0$) — which is exactly what we expect across two snapshots of the same store — $\Var(D)$ is **smaller** than the independent-samples variance $\Var(X^\text{A}) + \Var(X^\text{B})$. Pairing therefore **increases statistical power** at fixed $n$: same data, smaller SE, larger $|t|$, smaller $p$.
 
 > *Intuition.* Comparing "store $i$ to itself, three months later" is much sharper than comparing "the average of 7 stores to the average of 7 other stores". Pairing exploits the design to **cancel** the between-unit variance.
+
+**From per-group summaries to $s_d$ via the covariance.** If — as in Ex 7.6a's original wording — the data come as separate PRE/POST means and *variances* plus the cross-**covariance** $s_{\text{PRE,POST}}$, you reconstruct $s_d$ without raw data:
+$$s_d^2 \;=\; s_\text{POST}^2 + s_\text{PRE}^2 \;-\; 2\,s_\text{PRE,POST}.$$
+For instance, with $s_\text{POST}^2=21,\,s_\text{PRE}^2=12,\,s_\text{PRE,POST}=11$ one gets $s_d^2 = 21+12-22 = 11$ — the variance is dramatically smaller than the independent-samples sum $21+12=33$ precisely *because* of the positive covariance. The master proceeds with the seed values $\bar d=120,\,s_d=110$; the covariance route is the bridge from textbook input data to the differences' SD.
 
 Because $n=7$ is small the CLT does not apply; we assume the **differences are normal**, $D_i \stackrel{iid}{\sim} N(\mu_D,\sigma_D^2)$ with $\sigma_D^2$ unknown.
 
@@ -2230,16 +2339,16 @@ c(yhat - ME_pi, yhat + ME_pi)                    # [3037.14, 6504.69]
 ### Part (e) — 99% CI for the mean response at $x_0 = 33$: the narrow interval.
 
 Drop the "$1+$" inside the radical:
-$$\text{SE}_{\text{mean}}(33) \;\approx\; s_\epsilon\sqrt{\,1/n\,} \;\approx\; 670/\sqrt{430} \;\approx\; 32.32 \;\;(\text{leverage at }x_0\approx\bar x\text{ is negligible}),$$
-$$\text{ME}_{\text{CI}} \;=\; 2.587 \cdot 30.76 \;\approx\; 79.58, \qquad \text{CI}_{99\%} \;=\; 4770.92 \pm 79.58 \;=\; \boxed{[\,4691.34,\;4850.50\,]\;\text{\$}.}$$
+$$\text{SE}_{\text{mean}}(33) \;\approx\; s_\epsilon\sqrt{\,1/n + (x_0-\bar x)^2/((n-1)s_x^2)\,} \;\approx\; 670\sqrt{1/430 + \text{small}} \;\approx\; 32.32 \;\;(\text{leverage at }x_0\approx\bar x\text{ is dominated by the }1/n\text{ term}),$$
+$$\text{ME}_{\text{CI}} \;=\; 2.587 \cdot 32.32 \;\approx\; 83.61, \qquad \text{CI}_{99\%} \;=\; 4770.92 \pm 83.61 \;=\; \boxed{[\,4687.31,\;4854.53\,]\;\text{\$}.}$$
 
 ```r
-se_mean <- s_e * sqrt(lev);       se_mean        # ~ 30.76
-ME_ci   <- tcrit * se_mean;       ME_ci          # ~ 79.58
-c(yhat - ME_ci, yhat + ME_ci)                    # [4691.34, 4850.50]
+se_mean <- s_e * sqrt(lev);       se_mean        # ~ 32.32
+ME_ci   <- tcrit * se_mean;       ME_ci          # ~ 83.61
+c(yhat - ME_ci, yhat + ME_ci)                    # [4687.31, 4854.53]
 ```
 
-**Interpretation.** With 99% confidence, the **average** debt across **all** families with $\text{TV}=33$ hours/week lies in $[\$4691,\,\$4851]$ — a much narrower window because we no longer have to absorb the noise of one specific household.
+**Interpretation.** With 99% confidence, the **average** debt across **all** families with $\text{TV}=33$ hours/week lies in $[\$4687,\,\$4855]$ — a much narrower window because we no longer have to absorb the noise of one specific household.
 
 ---
 
@@ -2247,10 +2356,10 @@ c(yhat - ME_ci, yhat + ME_ci)                    # [4691.34, 4850.50]
 
 | Quantity | $\sqrt{\cdot}$ factor | SE at $x_0=33$ | ME (99%) | Interval |
 |---|---|---|---|---|
-| CI for mean $E[Y\mid X=33]$ | $\sqrt{1/n + (x_0-\bar x)^2/((n-1)s_x^2)}$ | $\approx 30.76$ | $79.58$ | $[4691,\,4851]$ |
+| CI for mean $E[Y\mid X=33]$ | $\sqrt{1/n + (x_0-\bar x)^2/((n-1)s_x^2)}$ | $\approx 32.32$ | $83.61$ | $[4687,\,4855]$ |
 | **PI** for a single $Y_0(33)$ | $\sqrt{1 + 1/n + (x_0-\bar x)^2/((n-1)s_x^2)}$ | $\approx 670.78$ | $1733.78$ | $[3037,\,6505]$ |
 
-Ratio of half-widths: $1733.78 / 79.58 \approx 21.8$ — the PI is roughly **22× wider** than the CI on this dataset. The exact algebraic identity is
+Ratio of half-widths: $1733.78 / 83.61 \approx 20.7$ — the PI is roughly **21× wider** than the CI on this dataset. The exact algebraic identity is
 $$\text{SE}_{\text{pred}}^2 - \text{SE}_{\text{mean}}^2 \;=\; s_\epsilon^2 \;\;\Rightarrow\;\; \frac{\text{SE}_{\text{pred}}}{\text{SE}_{\text{mean}}} \;=\; \sqrt{1 + \frac{1}{h(x_0)}}.$$
 With large $n$ and $x_0$ near $\bar x$, $h(x_0) \approx 1/n$ is tiny, so the ratio explodes — exactly what we see. **The PI is the conservative tool when "one specific future observation" is what we care about.**
 
@@ -2340,7 +2449,7 @@ predict(mod, newdata = data.frame(Television = 33),
 predict(mod, newdata = data.frame(Television = 33),
         interval = "confidence", level = 0.99)
 ##        fit       lwr       upr
-## 1   4770.92   4691.34   4850.50
+## 1   4770.92   4687.31   4854.53
 
 # Visual check: leverage curve fans out as x0 leaves xbar
 newdf <- data.frame(Television = seq(5, 40, length = 100))
@@ -2357,13 +2466,13 @@ matplot(newdf$Television, cbind(pi, ci[,2:3]), type="l",
 | Quantity | Value | Where |
 |---|---|---|
 | Point prediction $\hat y_0$ at $x_0=33$ | $4770.92$ \$ | Part (a) |
-| $\text{SE}_{\text{mean}}(33)$ | $\approx 30.76$ \$ | Part (e) |
+| $\text{SE}_{\text{mean}}(33)$ | $\approx 32.32$ \$ | Part (e) |
 | $\text{SE}_{\text{pred}}(33)$ | $\approx 670.78$ \$ | Part (d) |
-| Identity $\text{SE}_{\text{pred}}^2 - \text{SE}_{\text{mean}}^2 = s_\epsilon^2$ | $670.78^2 - 30.76^2 \approx 670^2$ | Part (c) |
+| Identity $\text{SE}_{\text{pred}}^2 - \text{SE}_{\text{mean}}^2 = s_\epsilon^2$ | $670.78^2 - 32.32^2 \approx 670^2$ | Part (c) |
 | $t_{0.995,\,428}$ | $\approx 2.587$ | Part (d) |
-| 99% CI for $E[Y\mid X=33]$ | $[4691.34,\,4850.50]$ \$ | Part (e) |
+| 99% CI for $E[Y\mid X=33]$ | $[4687.31,\,4854.53]$ \$ | Part (e) |
 | 99% PI for $Y_0$ at $X=33$ | $[3037.14,\,6504.69]$ \$ | Part (d) |
-| PI / CI half-width ratio | $\approx 21.8\times$ | Part (f) |
+| PI / CI half-width ratio | $\approx 20.7\times$ | Part (f) |
 | 95% PI at $x_0=12$ (Ex 8.10) | $(43.86,\,80.94)$ | Part (h) |
 | 95% CI at $x_0=12$ (Ex 8.10) | $(59.79,\,65.01)$ | Part (h) |
 | 95% PI at $x_0=30$ (extrapolation, Ex 8.10) | $(65.32,\,102.68)$ — **risky** | Part (i) |
@@ -2586,6 +2695,36 @@ chisq.test(O, correct=FALSE, simulate.p.value=TRUE, B=10000)
 
 ---
 
+### Part (d.5) — Two cross-check GoF cases: non-uniform null *rejected*, uniform null *retained*.
+
+The master so far showcased a single GoF where uniform $H_0$ is **rejected**. Two linked snippets sharpen the lesson by varying both the null shape and the conclusion.
+
+**(i) Non-uniform fully-specified null — Ex 7.9a (`DS$Children` vs Italian distribution).** Here $H_0$ is *not* uniform: $p_0 = (0.76,\,0.13,\,0.09,\,0.02)$ for $K=4$ ordered categories $0,1,2,3+$ children. Observed $O=(360,184,111,95)$ on $n=750$ give expected $E = n\,p_0 = (570,\,97.5,\,67.5,\,15)$ — all $\ge 5$, valid. The Pearson statistic is
+$$X^2 = \tfrac{(360-570)^2}{570} + \tfrac{(184-97.5)^2}{97.5} + \tfrac{(111-67.5)^2}{67.5} + \tfrac{(95-15)^2}{15} = 77.37+76.74+28.03+426.67 \;=\; 608.81,$$
+with df $=K-1=3$ (fully specified $p_0$, no parameter estimation). Critical $\chi^2_{3,0.95}=7.815$, p-value $\approx 0$ — **reject decisively**. The "3+" cell alone contributes $426.67$ out of $608.81$: the `DS` customer base hugely **over-represents** large families relative to the national distribution. *Take-away:* the GoF machinery handles any fully-specified $p_0$, not just the uniform — only $E_k$ changes.
+
+**(ii) Uniform null *retained* — Ex 7.9b (4 supermarket entrances).** Same uniform null as Part (a) — $H_0: p_k=1/4$ — but on much smaller, more even data: $O=(24,30,36,40)$ on $n=130$, so $E_k = 32.5$ everywhere. The statistic is
+$$X^2 = \tfrac{(24-32.5)^2+(30-32.5)^2+(36-32.5)^2+(40-32.5)^2}{32.5} = \tfrac{72.25+6.25+12.25+56.25}{32.5} = \tfrac{147}{32.5} \;\approx\; 4.523,$$
+df $=3$, p-value $=\Pr(\chi^2_3>4.523)\approx 0.2104 > 0.05$ — **do not reject**. Entrance IV is mildly busier than the others, but the four counts are well within sampling noise around equal usage. *Take-away:* a non-significant GoF documents *compatibility* with the null (never "proof"), and the same template (df=$K-1$, upper-tail $\chi^2$) decides both cases.
+
+| Case | Null shape | $n$ | $X^2_\text{obs}$ | df | p-value | Decision @ $\alpha=0.05$ |
+|---|---|---|---|---|---|---|
+| Master (a) — `History` uniform | $(0.25,0.25,0.25,0.25)$ | 750 | 13.104 | 3 | 0.0044 | **reject** |
+| Ex 7.9a — `Children` vs IT | $(0.76,0.13,0.09,0.02)$ | 750 | 608.81 | 3 | $\approx 0$ | **reject** |
+| Ex 7.9b — 4 entrances | $(0.25,0.25,0.25,0.25)$ | 130 | 4.523 | 3 | 0.2104 | retain |
+
+```r
+# (i) Non-uniform p0 — Ex 7.9a
+chisq.test(c(360,184,111,95), p = c(0.76, 0.13, 0.09, 0.02))
+# X-sq = 608.81, df = 3, p < 2.2e-16
+
+# (ii) Uniform p0, small n — Ex 7.9b
+chisq.test(c(24, 30, 36, 40), p = rep(1/4, 4))
+# X-sq = 4.523, df = 3, p = 0.2104
+```
+
+---
+
 ### Part (e) — Df when parameters are estimated (composite GoF nulls).
 
 The general rule is
@@ -2635,7 +2774,7 @@ qchisq(0.95, df = K - 1 - 2)        # 3.841   (Normal, 2 par estimated)
 
 ---
 
-**Linked snippets:** Ex 7.4a (GoF uniform on `History`, $n=750$, $\chi^2_\text{obs}=13.104$ — the marginal counts that seed this master); Ex 7.4b (same GoF stratified by `Location`, showing the imbalance is present in *both* sub-populations); Ex 7.7b (chi-squared independence on a $5\times 5$ table `Age_Class`$\times$`LearnTool` with $X^2_\text{obs}=115.69$ on $\chi^2_{16}$, and a worked example of the $\widehat E_{ij}<5$ validity failure in its part (c)).
+**Linked snippets:** Ex 7.4a (GoF uniform on `History`, $n=750$, $\chi^2_\text{obs}=13.104$ — the marginal counts that seed this master); Ex 7.4b (same GoF stratified by `Location`, showing the imbalance is present in *both* sub-populations); Ex 7.7b (chi-squared independence on a $5\times 5$ table `Age_Class`$\times$`LearnTool` with $X^2_\text{obs}=115.69$ on $\chi^2_{16}$, and a worked example of the $\widehat E_{ij}<5$ validity failure in its part (c)); Ex 7.9a (GoF against a **non-uniform** Italian-population $p_0=(0.76,0.13,0.09,0.02)$ on `DS$Children`, $X^2=608.81$ — null *rejected* spectacularly, mostly via the "3+" cell); Ex 7.9b (GoF uniform on 4 supermarket entrances, $n=130$, $X^2=4.523$, $p=0.2104$ — same template, null *retained* — the contrast case to Part (a)).
 """,
     "images": ["statistics/images/master/master_g14d_ai.png"],
 }
@@ -2932,7 +3071,11 @@ The rule is simple and exam-friendly:
 
 ---
 
-**Linked snippets:** Ex 0.1a/c/e/i (histogram of pizzerie Sales — design choices, equal vs unequal widths, density scale); Ex 1.1c/1.1d (reading a histogram: modal class and skew on a related continuous variable); Ex 1.3a/g/h (histogram + boxplot side-by-side for shape diagnostics); Ex 1.5g (counting observations from histogram areas).
+**Bimodality — when the picture shows *two* peaks.** A *unimodal* histogram has one tall central class; a *bimodal* histogram has **two locally-tall classes separated by a valley**. Bimodality is a diagnostic for **two mixed sub-populations** (e.g. customers with short vs long visits, two brands sharing the variable). In **Ex 1.5g** the variable `Time` ($n=1800$) has two local density highs at $[10,20)$ (the modal class) and $[60,90)$, separated by the much lower-density class $[30,60)$ — the visual signature of *two typical customer behaviours* (a quick visit and a long visit). With bimodal data, **a single mean and median both fall in the valley** and mis-represent both sub-populations: report the *bimodality* as the headline finding and consider splitting the sample.
+
+---
+
+**Linked snippets:** Ex 0.1a/c/e/i (histogram of pizzerie `Sales` — design choices, equal vs unequal widths, density scale); Ex 1.1c (variable type → choose histogram); Ex 1.1d (equal vs unequal-width bins — the density-vs-frequency lesson); Ex 1.3a (variable inventory, identifying numerical/continuous); Ex 1.3g (10 equal-width breaks on `Revenue`, right-skew reading); Ex 1.3h (alternative bin widths on `Revenue` — when more bins do *not* add information); Ex 1.5g (densities for `Time` with unequal widths and bimodality); Ex 2.3c, 2.5g, 2.6a3 (histogram + grouped-data shape diagnostics in second-block exams).
 """,
     "images": ["statistics/images/master/master_g1c_hist_ai.png"],
 }
@@ -3069,7 +3212,7 @@ ceiling( (qnorm(0.975) * s / target_ME)^2 ) # 6147 pizzerias needed
 
 ---
 
-**Linked snippets:** Ex 5.13a1 (definition $\mathbb E[T]=\theta$; $\bar X$ unbiased for $\mu$, $S^2$ unbiased for $\sigma^2$ — the algebraic identity behind the $n-1$); Ex 5.13a2 ($P(|\bar X-\mu|>SE)\approx 0.317$ under Normality, plus the effect of $n$ on $SE = \sigma/\sqrt n$).
+**Linked snippets:** Ex 5.13a1 (definition $\mathbb E[T]=\theta$ and unbiasedness of $\bar X$ for $\mu$ via linearity of expectation, with $\sigma$ **known** so $SE=\sigma/\sqrt n$ is exact); Ex 5.13a2 (standardising the event $|\bar X-\mu|>SE$ to $|Z|>1$, the resulting $P\approx 0.3173$ under Normality or CLT, and the Chebyshev fallback when neither assumption holds). The Bessel correction ($S^2$ unbiased for $\sigma^2$, $n-1$ vs $n$) and the $1/\sqrt n$ sample-size law in part (c) live **only** in this master — they consolidate beyond the two snippets.
 """,
     "images": ["statistics/images/master/master_g13f_ai.png"],
 }
@@ -3806,20 +3949,39 @@ barplot(table(District))                           # x-axis is labels, not metri
 
 Quantitative summaries that are *consistent* with the spike plot for `Children`:
 
-* **Mode** = $2$ (tallest spike).
+* **Mode** = $2$ (tallest spike, $f_2=29$).
 * **Sample mean** = $\bar x = \tfrac{1}{n}\sum_x x f_x = \tfrac{0\cdot24 + 1\cdot27 + 2\cdot29 + 3\cdot15 + 4\cdot3 + 5\cdot2}{100} = \tfrac{0+27+58+45+12+10}{100} = \tfrac{152}{100} = 1.52$.
-* **Median** = $2$ (cumulative count exceeds $50$ at $x=2$: $24+27=51$? — cumulative at $x=1$ is $51$, so the median is actually $1$).
-* **Skewness:** with $\text{mean} = 1.52$, $\text{median} = 1$, $\text{mode} = 2$, the relationship $\text{mean} > \text{median}$ confirms **right (positive) skew** — visible in the long thin right tail of the spike plot ($x=4,5$).
+* **Median** = $1$. Recipe: "smallest $x$ with cumulative count $\ge n/2 = 50$". Cumulative counts: $24$ at $x=0$; $24+27=51$ at $x=1$ — already $\ge 50$, so $\widetilde x = 1$. *(No interpolation: for a discrete variable the median is always one of the observed values.)*
+* **Skewness:** with $\text{mean}=1.52$, $\text{median}=1$, $\text{mode}=2$, the relationship $\text{mean} > \text{median}$ confirms **right (positive) skew** — visible in the long thin right tail of the spike plot ($x=4,5$).
 
 ```r
 # Recompute the sample summaries from the frequency table
 x  <- 0:5
 fx <- c(24, 27, 29, 15, 3, 2)
 sum(x * fx) / sum(fx)                              # 1.52  (mean)
-# median: cumulative >= n/2 -> x at which cumsum(fx) >= 50
-x[which(cumsum(fx) >= 50)[1]]                      # 1
-x[which.max(fx)]                                   # 2  (mode)
+# median: smallest x with cumsum(fx) >= n/2 = 50
+x[which(cumsum(fx) >= 50)[1]]                      # 1    (median)
+x[which.max(fx)]                                   # 2    (mode)
 ```
+
+---
+
+**(f) Gaps in the support — when an observed value is *missing*.**
+
+A subtlety arises when the support is **not** a contiguous integer range. In **Ex 1.4a1** the variable `Quantity_New` takes values $\{1,2,3,4,6\}$ — the value $5$ is **never observed** in the sample ($n=24\,240$). A correct spike plot must leave a **visible blank** at $x=5$:
+
+```r
+# Quantity_New: value 5 is NEVER observed
+x  <- c(1, 2, 3, 4, 6);  fx <- c(5401, 7340, 8238, 2561, 700)
+plot(x, fx, type = "h", lwd = 3, xlim = c(0, 7),
+     xlab = "Quantity_New", ylab = "Frequency")
+points(x, fx, pch = 16)
+# Note the visible gap at x = 5: "no one bought exactly 5 items".
+```
+
+Why a **bar plot is wrong here.** A bar plot's $x$-axis is a *label* axis, so placing the labels `"1" "2" "3" "4" "6"` next to one another would draw five bars side by side and **close the visual gap between 4 and 6**, falsely suggesting a smooth transition. Only the spike plot, with its **metric** $x$-axis, honestly displays the missing $x=5$.
+
+This is the canonical exam pitfall: *whenever the discrete support has gaps (unobserved integers inside the range), only a spike plot represents the data without distortion.*
 
 ---
 
@@ -3829,11 +3991,12 @@ x[which.max(fx)]                                   # 2  (mode)
 2. **Metric $x$-axis.** The visible *gaps* between spikes encode the impossibility of non-integer values — this is the structural difference from a bar plot (label axis) and from a histogram (touching bars on a continuous axis).
 3. **Histograms mislead for discrete data:** their touching bars imply a continuum, their boundary choices are arbitrary, and unequal classes force a density rescaling that breaks intuition.
 4. **Shape invariance** under frequency $\leftrightarrow$ relative frequency $\leftrightarrow$ percentage holds exactly as for bar plots — the same global rescaling, the same picture.
-5. For `Children` here, the spike plot reveals a **right-skewed discrete distribution** with mode at $2$, mean $\bar x = 1.52$, and a thin tail at $x=4,5$ — the canonical pattern for low-count variables.
+5. **Gaps in the support** (unobserved integers inside the range, e.g. `Quantity_New` skipping $5$) make the spike plot *mandatory*: a bar plot would collapse the gap and mislead.
+6. For `Children` here, the spike plot reveals a **right-skewed discrete distribution** with mode at $2$, mean $\bar x = 1.52$, median $=1$, and a thin tail at $x=4,5$.
 
 ---
 
-**Linked snippets:** Ex 1, Q1.2a/b (`Children`, discrete counts $\{0,\dots,5\}$ — the dataset used here; the original snippet asks for both the spike plot and the sample mean / median); Ex 0.1a/c (`Sales`, continuous — the contrast case where a histogram is correct); Ex 1, Q1.1b (`District`, nominal categorical — the contrast case where a bar plot with gaps is correct).
+**Linked snippets:** Ex 0.2b2 (spike plot — discrete count contrast case); Ex 1.2c (`Children`, discrete counts $\{0,1,2,3\}$ with $n=750$ — companion dataset); Ex 1.3e (`Age`, discrete with many values — spike preferred over histogram when frequencies are similar); Ex 1.4a1 (`Quantity_New`, gap at $x=5$ — the structural case in part (f), where a bar plot would close the gap).
 """,
     "images": ["statistics/images/master/master_g1d_spike_ai.png"],
 }
@@ -3966,7 +4129,7 @@ q_hat(0.25); q_hat(0.50); q_hat(0.75)               # 17.5  30.0  52.5
 
 ---
 
-**Linked snippets.** Ex 0.2b2 (cumulative proportion inside a class), Ex 0.2b3 (median from grouped table), Theory g2b (grouped-data CDF and density).
+**Linked snippets.** Ex 0.1g (approx P(Frost < 80) via uniform-on-interval on a grouped table); Ex 0.2a2 (approx P(50 $\le$ fare < 100) via the same linear interpolation); Ex 1.5a (P(Time $\le$ 5) from a grouped histogram); Ex 1.5c (P(15 $\le$ Time $\le$ 50) by subtracting two linear-interp values on the ogive); Ex 2.2a / 2.2a1 (cumulative-frequency table $\to$ ogive $\to$ interpolated probabilities); master `g2a_exact` (the exact counterpart, used when raw data are available).
 """,
     "images": ["statistics/images/master/master_g2b_approx_ai.png"],
 }
@@ -4146,7 +4309,7 @@ crime$Rate.SE <- sqrt(crime$ViolentCrimes) / crime$Population * 1e5
 
 ---
 
-**Linked snippets.** Ex 0.1b (constructing Rate.Violent from Population and ViolentCrimes), Ex 0.1g (bin-and-compare on a derived variable), Theory g3 (derived variables and the per-unit normalisation principle).
+**Linked snippets.** Ex 0.1b (building the Density variable: Population $\div$ Area --- a derived "per-area" magnitude); Ex 0.1d (building Rate.Violent = ViolentCrimes / Population $\times 10^5$ --- the canonical per-capita rate used throughout this master); Ex 2.8a (Margin = (Revenue $-$ Cost)/Revenue, the *difference-over-total* template applied to firm-level profitability).
 """,
     "images": ["statistics/images/master/master_g3_main_ai.png"],
 }
@@ -4159,7 +4322,7 @@ master_exercises["g4a_bytype"] = {
 ![Master illustration](statistics/images/master/master_g4a_bytype_ai.png)
 
 
-This master organises the rule around the four scales used throughout Ex 1 (`District`, `History`, `Children`, `Sales`) and works one numeric example per scale.
+This master organises the rule around the four scales used throughout Ex 1 / Ex 2 (`District` / `Country` --- nominal; `Age_recode` --- ordinal; `Quantity_New` --- discrete numerical; `Sales` / `Time` --- continuous numerical) and works one numeric example per scale.
 
 ---
 
@@ -4194,7 +4357,7 @@ $$\{A,A,A,A,A,A,A,A,\;B,B,B,B,B,\;C,C,C,C,\;D,D,D\}.$$
 * **Median?** Even if we sort the *labels* alphabetically, "alphabetical" is a label property, not a property of the underlying variable: the order $A < B < C < D$ is **arbitrary** (re-label and "the median" changes). **Not defined.**
 * **Mean?** Would require $(A+A+B+\dots)/n$, which is symbolic nonsense. **Not defined.**
 
-The *only* legitimate summary is "the modal district is $A$, with $40\%$ of customers". This is exactly the situation of **Ex 1, Q1.1f** for `SmokingArea` and **Q1.3d** for `Sex`.
+The *only* legitimate summary is "the modal district is $A$, with $40\%$ of customers". This is exactly the situation of **Ex 1, Q1.1f** for `District` (pizzerie, mode = `Lodi`) and **Q1.3d** for `Country` (customer_habits, dominant European country).
 
 ```r
 District <- factor(c(rep("A",8), rep("B",5), rep("C",4), rep("D",3)))
@@ -4230,7 +4393,7 @@ median(History)                                # Medium      <- ordinal median i
 # mean(as.numeric(History))                    # 2.64 -- arbitrary, do NOT report
 ```
 
-This is the situation of **Ex 1, Q1.2b** (`History`) and the contrast case discussed in **Q1.5e**.
+This is the situation of **Ex 1, Q1.2b** (`Age_recode` --- ordinal, mode + median = `Middle`); the contrast case for a *continuous* modal-class reading is discussed in **Q1.5e** (`Time`).
 
 ---
 
@@ -4254,7 +4417,7 @@ median(Children)                              # 1
 mean(Children)                                # 1.4
 ```
 
-This is the situation of **Ex 1, Q1.4a3** (`Children`).
+This is the situation of **Ex 1, Q1.4a3** (`Quantity_New` --- discrete count of products jointly purchased, mode = 3, median = 2, mean $\approx 2.44$).
 
 ---
 
@@ -4283,7 +4446,7 @@ h <- hist(Sales, breaks = c(15,20,25,30,35,50), plot = FALSE)
 h$mids[which.max(h$counts)]                   # 22.5  <- modal-class midpoint
 ```
 
-This is the situation of **Ex 1, Q1.5e** and **Ex 2, Q2.2b** (modal class for grouped data).
+This is the situation of **Ex 1, Q1.5e** (`Time` --- modal class by *density*, $[10,20)$ wins over the larger-count $[60,90)$) and **Ex 2, Q2.2b** (modal class identification for grouped hours of device access, $[25,30)$).
 
 ---
 
@@ -4297,7 +4460,7 @@ This is the situation of **Ex 1, Q1.5e** and **Ex 2, Q2.2b** (modal class for gr
 
 ---
 
-**Linked snippets:** Ex 1, Q1.1f (`District` --- nominal, mode only); Ex 1, Q1.2b (`History` --- ordinal, mode + median); Ex 1, Q1.3d (`Sex` --- second nominal example); Ex 1, Q1.4a3 (`Children` --- discrete numerical, all three); Ex 1, Q1.5e (`Sales` --- continuous, all three); Ex 2, Q2.2b (modal class for grouped `Sales`).
+**Linked snippets:** Ex 1, Q1.1f (`District` --- nominal, mode only); Ex 1, Q1.2b (`Age_recode` --- ordinal, mode + median); Ex 1, Q1.3d (`Country` --- second nominal example); Ex 1, Q1.4a3 (`Quantity_New` --- discrete numerical, all three); Ex 1, Q1.5e (`Time` --- continuous, modal class by density); Ex 2, Q2.2b (modal class identification for grouped data, unequal widths).
 """,
     "images": ["statistics/images/master/master_g4a_bytype_ai.png"],
 }
@@ -4419,7 +4582,7 @@ mean(sales, trim = 0.05)                       # ~ 22900 -> confirms skew, not n
 
 master_exercises["g4c_grouped"] = {
     "title": "Master Exam — Approximate mean & median from grouped data (consolidated)",
-    "content": r"""**Setup.** A municipal survey of $n=100$ **Brescia pizzerie** has been pre-binned into three **unequal-width** classes of *daily turnover* (€/100). The published table is
+    "content": r"""**Setup.** A municipal survey of $n=88$ **Brescia pizzerie** has been pre-binned into three **unequal-width** classes of *monthly Sales* (€, in thousands). The published table is (cf. Ex 1, Q1.1i for the raw € version)
 
 ![Master illustration](statistics/images/master/master_g4c_grouped_ai.png)
 
@@ -4442,9 +4605,9 @@ $$\bar x_g \;=\; \sum_{i=1}^{K} f_i\, m_i.$$
 
 Plug in:
 $$\bar x_g \;=\; 0.21\cdot 7.5 \;+\; 0.63\cdot 22.5 \;+\; 0.16\cdot 60.0
-\;=\; 1.575 \;+\; 14.175 \;+\; 9.600 \;=\; \mathbf{25.35}\ \text{(€/100)}.$$
+\;=\; 1.575 \;+\; 14.175 \;+\; 9.600 \;=\; \mathbf{25.35}\ \text{(k€/month)}.$$
 
-**Reading.** The "average" Brescia pizzeria takes in $\approx 2{,}535$ € per day. Note how the open-ended-feeling third class $[30,90)$ — *only* $16\%$ of shops, but $60$-wide — single-handedly pulls the mean up by $9.6$ units: that is the lever a wide right-tail class exerts on the midpoint-weighted mean.
+**Reading.** The "average" Brescia pizzeria takes in $\approx 25\,350$ € per month (matches Ex 1.1i to the euro). Note how the open-ended-feeling third class $[30,90)$ — *only* $16\%$ of shops, but $60$-wide — single-handedly pulls the mean up by $9.6$ units: that is the lever a wide right-tail class exerts on the midpoint-weighted mean.
 
 ```r
 # Approximate mean from grouped data
@@ -4469,9 +4632,9 @@ Here $a_M=15$, $w_M=15$, $F_{M-1}=F_1=0.21$, $f_M=0.63$:
 $$\widetilde{\mathrm{med}} \;=\; 15 \;+\; 15\cdot\frac{0.5 - 0.21}{0.63}
 \;=\; 15 \;+\; 15\cdot\frac{0.29}{0.63}
 \;=\; 15 \;+\; 15\cdot 0.4603
-\;=\; 15 \;+\; 6.905 \;\approx\; \mathbf{21.91}\ \text{(€/100)}.$$
+\;=\; 15 \;+\; 6.905 \;\approx\; \mathbf{21.91}\ \text{(k€/month)}.$$
 
-**Reading.** Half the pizzerie take in $\le 2{,}191$ € per day; the other half take in more. Note that $\widetilde{\mathrm{med}}\approx 21.9 < \bar x_g \approx 25.3$ — a textbook **right-skew signature**, driven by the heavy, wide third class.
+**Reading.** Half the pizzerie take in $\le 21\,905$ € per month; the other half take in more (matches Ex 1.1i: $p_{50} \approx 21\,904.76$ €). Note that $\widetilde{\mathrm{med}}\approx 21.9 < \bar x_g \approx 25.3$ — a textbook **right-skew signature**, driven by the heavy, wide third class.
 
 ```r
 # Approximate median by linear interpolation inside the median class
@@ -4521,7 +4684,7 @@ mean(sim);  median(sim)                   # should be ~ 25.35 and ~ 21.9
 
 | Quantity | Formula | Brescia value | Interpretation |
 |---|---|---:|---|
-| Approx. mean   | $\bar x_g=\sum f_i m_i$ | $25.35$ | Average daily turnover (€/100) |
+| Approx. mean   | $\bar x_g=\sum f_i m_i$ | $25.35$ | Average monthly turnover (k€) |
 | Approx. median | $a_M + w_M(0.5-F_{M-1})/f_M$ | $21.91$ | Half the shops are below |
 | Mean $>$ median | gap $\approx 3.4$ | --- | **Right-skew** signature |
 
@@ -4543,87 +4706,98 @@ mean(sim);  median(sim)                   # should be ~ 25.35 and ~ 21.9
 
 master_exercises["g4d_compare"] = {
     "title": "Master Exam — Cross-subgroup comparison (consolidated)",
-    "content": r"""**Setup.** From the **NewHired** master dataset ($n=80$ new hires) we examine `Weeks` — the number of weeks each employee needed to reach full productivity — split by `Sex` (F / M). The published per-subgroup summary is
+    "content": r"""**Setup.** Two running cross-subgroup cases from Ex 1 anchor this master:
+
+* **Case A --- `Time` ≤30 min vs >30 min** (Ex 1.5h, $n=1800$ customers, grouped data). Splitting customers by visit length yields two near-disjoint behavioural profiles.
+* **Case B --- `Quantity` 2015-16 vs 2022-23** (Ex 1.4b, discrete count of jointly purchased products). Splitting by *period* tracks how customer habits have shifted over time.
 
 ![Master illustration](statistics/images/master/master_g4d_compare_ai.png)
 
 
-| Subgroup | $n_g$ | $\bar x_g$ (weeks) | $\widetilde{\mathrm{med}}_g$ | $s_g$ |
-|---|---:|---:|---:|---:|
-| F | $40$ | $42$ | $41$ | $9.5$ |
-| M | $40$ | $38$ | $37$ | $8.7$ |
-| **Pooled** | $80$ | $40$ | $39$ | $9.4$ |
+For Case A the per-subgroup approximate summaries (computed in Ex 1.5h) are:
 
-The question is the *cross-subgroup* one: do F and M differ in central tendency, by how much, and how should we interpret the gap?
+| Subgroup | $n_g$ | $\bar x_g$ (min) | $\widetilde{\mathrm{med}}_g$ (min) |
+|---|---:|---:|---:|
+| Short visit (≤30) | $836$ | $17.06$ | $17.05$ |
+| Long visit (>30)  | $964$ | $79.65$ | $76.06$ |
+| **Pooled (all $n=1800$)** | $1800$ | $50.58$ | $41.01$ |
+
+For Case B (Ex 1.4b, mode / median / mean of `Quantity`):
+
+| Period | Mode | $\widetilde{\mathrm{med}}$ | $\bar x$ |
+|---|:---:|:---:|---:|
+| 2015-16 | 3 | 3 | 2.64 |
+| 2022-23 | 3 | 2 | 2.45 |
+
+The question is the *cross-subgroup* one: do the subgroups differ in central tendency, by how much, and how should we interpret the gap?
 
 ---
 
 ### (a) Compute mean / median per subgroup
 
-The per-subgroup mean and median are read directly off the summary:
-$$\bar x_F = 42,\quad \widetilde{\mathrm{med}}_F = 41,\qquad \bar x_M = 38,\quad \widetilde{\mathrm{med}}_M = 37.$$
+**Case A (Time subgroups).** The per-subgroup mean and median are computed by the grouped-data formulas (midpoints / linear interpolation, see master **g4c**):
+$$\bar x_A = 17.06,\quad \widetilde{\mathrm{med}}_A = 17.05,\qquad \bar x_B = 79.65,\quad \widetilde{\mathrm{med}}_B = 76.06.$$
 
-A **pooled** mean (i.e. ignoring the grouping) is the weighted average of the subgroup means with weights $n_g/n$:
-$$\bar x = \frac{n_F\bar x_F + n_M\bar x_M}{n_F+n_M} = \frac{40\cdot 42 + 40\cdot 38}{80} = \frac{1680+1520}{80} = \mathbf{40.0}\ \text{weeks}.$$
-
-The pooled median ($39$) is *not* in general the weighted average of subgroup medians — it must be recomputed on the merged sample. Here the table gives $\widetilde{\mathrm{med}} = 39$, consistent with two roughly symmetric subgroups.
+The **pooled** mean (ignoring the split) is the weighted average of the subgroup means with weights $n_g/n$:
+$$\bar x = \frac{n_A\bar x_A + n_B\bar x_B}{n_A+n_B} = \frac{836\cdot 17.06 + 964\cdot 79.65}{1800} \approx 50.58\ \text{min},$$
+matching the overall mean reported in Ex 1.5f. The pooled median ($\approx 41$) is *not* in general the weighted average of subgroup medians --- it must be recomputed on the merged sample.
 
 ```r
-# Subgroup means & medians (toy reconstruction)
-weeks <- c(rnorm(40, 42, 9.5), rnorm(40, 38, 8.7))
-sex   <- factor(rep(c("F","M"), each = 40))
-tapply(weeks, sex, mean)                # 42-ish, 38-ish
-tapply(weeks, sex, median)              # 41-ish, 37-ish
-mean(weeks);  median(weeks)             # pooled
+# Subgroup means & medians from grouped data (Time, Ex 1.5h)
+# Group A: Time <= 30
+midA <- c(5, 15, 25);  fA <- c(0.146, 0.502, 0.352)
+xbarA <- sum(midA*fA);  xbarA                      # 17.06
+# Group B: Time > 30
+midB <- c(45, 75, 120); fB <- c(0.183, 0.592, 0.225)
+xbarB <- sum(midB*fB);  xbarB                      # 79.65
+# Pooled mean from subgroup means (weights = n_g)
+(836*xbarA + 964*xbarB)/1800                       # ~ 50.58
 ```
 
 ---
 
 ### (b) Compare the gap — absolute and relative
 
-**Absolute gap (means).**
-$$\Delta\bar x = \bar x_F - \bar x_M = 42 - 38 = \mathbf{4}\ \text{weeks}.$$
+**Case A — absolute gap (means).**
+$$\Delta\bar x = \bar x_B - \bar x_A = 79.65 - 17.06 = \mathbf{62.59}\ \text{min}.$$
 
-**Absolute gap (medians).** $\Delta\widetilde{\mathrm{med}} = 41-37 = 4$ weeks — coherent with the mean gap, suggesting the gap is not driven by tail observations.
+**Absolute gap (medians).** $\Delta\widetilde{\mathrm{med}} = 76.06 - 17.05 = 59.01$ min — same direction and order of magnitude as the mean gap. The two subgroups occupy *almost disjoint* regions of the support, so the gap is a *huge location shift*, not a tail artefact.
 
 **Relative gap** (against the pooled mean):
-$$\frac{\Delta\bar x}{\bar x} = \frac{4}{40} = 10\%.$$
+$$\frac{\Delta\bar x}{\bar x} = \frac{62.59}{50.58} \approx 124\%.$$
+A relative gap above 100% confirms that "average" and "subgroup average" are essentially unrelated --- this is the signature of a **mixture distribution** (the two profiles flagged in Ex 1.5g as "short visit ~10-30 min" vs "long visit ~60-90 min"). Ex 1.5h's punchline is that the *subgroup* mean and median fall in the corresponding *modal class*, whereas the *pooled* mean (50.58) and median (41.01) fall in low-density classes --- a textbook reason why pooling is misleading here.
 
-**Standardised gap (Cohen's $d$).** Pool the SDs (similar values here, so a simple average is fine):
-$$s_p \approx \sqrt{\tfrac{(n_F-1)s_F^2+(n_M-1)s_M^2}{n_F+n_M-2}}
-= \sqrt{\tfrac{39\cdot 90.25 + 39\cdot 75.69}{78}} \approx 9.1,$$
-so
-$$d \;=\; \frac{\bar x_F - \bar x_M}{s_p} \;=\; \frac{4}{9.1} \;\approx\; \mathbf{0.44}.$$
-By Cohen's conventional benchmarks ($0.2$ small, $0.5$ medium, $0.8$ large), $d\approx 0.44$ is a **moderate** effect — the subgroup means differ by roughly *half a within-group standard deviation*. Reporting *both* the raw gap (4 weeks) and the standardised gap ($d\approx 0.44$) is best practice.
+**Case B — Quantity periods.** The mean fell from $2.64\to 2.45$ (a $0.19$-unit drop, $\approx 7\%$ relative), the median from $3\to 2$. Mode is $3$ in both periods (the source's reported "Mode 3 / 2" is flagged in Ex 1.4b as a likely typo --- recomputation gives $3$ in 2022-23 too, since $34.0\% > 30.3\%$). The shift toward bundles of $1$-$2$ items (combined share $52.6\%$ in 2022-23 vs $38.6\%$ in 2015-16) is a genuine, *non-tail* re-weighting.
 
 ```r
-# Effect size
-sF <- 9.5;  sM <- 8.7;  nF <- 40;  nM <- 40
-sp <- sqrt(((nF-1)*sF^2 + (nM-1)*sM^2)/(nF+nM-2));  sp   # ~ 9.1
-d  <- (42 - 38) / sp;  d                                  # ~ 0.44 (moderate)
+# Case A: Time-subgroup gap (Ex 1.5h)
+xbarA <- 17.06;  xbarB <- 79.65
+xbarA - xbarB                                  # -62.59  (B is 62.6 min higher)
+(xbarB - xbarA) / ((836*xbarA + 964*xbarB)/1800)   # ~ 1.24  -> 124% rel. gap
+
+# Case B: Quantity period gap (Ex 1.4b)
+xbar_1516 <- 2.64;  xbar_2223 <- 2.45
+xbar_1516 - xbar_2223                          # 0.19  -> small shift, but mode 3 in both
 ```
 
 ---
 
 ### (c) Interpret — which subgroup has the higher central tendency?
 
-Both summaries point the same way:
-$$\bar x_F = 42 > 38 = \bar x_M,\qquad \widetilde{\mathrm{med}}_F = 41 > 37 = \widetilde{\mathrm{med}}_M.$$
+**Case A.** Both summaries point the same way:
+$$\bar x_B = 79.65 > 17.06 = \bar x_A,\qquad \widetilde{\mathrm{med}}_B = 76.06 > 17.05 = \widetilde{\mathrm{med}}_A.$$
+"Long-visit" customers stay $\approx 60$ min longer than short-visit customers, and the coincidence of mean and median gaps in each subgroup ($\bar x_g \approx \widetilde{\mathrm{med}}_g$) tells us each subgroup is **locally roughly symmetric** --- the right-skewness of the *pooled* distribution disappears once we condition on visit type. This is the master-level reason why **subgroup analysis recovers symmetry that pooled analysis hides**.
 
-So **female new hires take, on average, $4$ more weeks** to reach full productivity than male new hires — a $10\%$ relative gap and a moderate standardised effect. The coincidence of mean and median gaps tells us the difference is a *location* shift of the entire distribution, not a tail artefact.
+**Case B.** From 2015-16 to 2022-23, *all three* central-tendency measures move down (mean $2.64\to 2.45$, median $3\to 2$, modal share of value 1+2 grows from $38.6\%$ to $52.6\%$). The shift is small in mean but large in *distribution shape*: 2022-23 has a bimodal-looking pattern with mass at $1,2,3$, while 2015-16 was concentrated at $3$. A 0.19-unit mean gap masks the much larger compositional change visible in the frequency table.
+
+**Standardised gap (Cohen's $d$).** When subgroup SDs are reported, the gap can be normalised:
+$$d \;=\; \frac{\bar x_g - \bar x_{g'}}{s_p},\qquad s_p = \sqrt{\tfrac{(n_g-1)s_g^2+(n_{g'}-1)s_{g'}^2}{n_g+n_{g'}-2}}.$$
+Benchmarks (Cohen): $|d|\approx 0.2$ small, $0.5$ medium, $0.8$ large. For Case A the SDs are not in the Ex 1.5h summary, but the *raw* gap of $62.59$ min against any plausible within-class SD ($\lesssim 30$ min) yields $|d|\gtrsim 2$ --- an enormous standardised effect, consistent with the disjoint-supports picture.
 
 **Caveats before any causal reading.**
 
-* The gap is *descriptive*; the survey is not randomised over sex, so unobserved confounders (role assigned, prior experience, training programme) may drive it.
-* A **CI / hypothesis test** quantifies sampling noise: with $n_F=n_M=40$, $s_p\approx 9.1$,
-$$\mathrm{SE}(\Delta\bar x) = s_p\sqrt{\tfrac{1}{n_F}+\tfrac{1}{n_M}} \approx 9.1\sqrt{1/20} \approx 2.04,$$
-so $t = 4/2.04 \approx 1.96$, two-sided $p\approx 0.053$ — *borderline*. The gap is meaningful in size but only marginally significant given $n=80$.
-
-```r
-# Inference on the gap (two-sample t)
-xF <- rnorm(40, 42, 9.5);  xM <- rnorm(40, 38, 8.7)
-t.test(xF, xM, var.equal = TRUE)        # CI and p-value for the mean gap
-```
+* The gap is *descriptive*; the survey is not randomised, so unobserved confounders (e.g. day of week, customer demographics) may drive the visit-length split.
+* For the period comparison (Case B), 2015-16 and 2022-23 differ on *many* dimensions beyond `Quantity` (price levels, promotional regime, COVID aftermath) --- the change cannot be attributed to any single cause.
 
 ---
 
@@ -4633,43 +4807,49 @@ Whenever we move from *subgroup* summaries to a *pooled* summary, two things mus
 
 **(i) The pooled mean is a weighted average of subgroup means.**
 $$\bar x = \sum_g \tfrac{n_g}{n}\,\bar x_g.$$
-If the subgroup sizes $n_g$ are very unequal, the pooled mean is dragged toward the larger group's mean. Here $n_F=n_M=40$ are *equal*, so $\bar x=(42+38)/2=40$ — the unweighted midpoint. No issue.
+If the subgroup sizes $n_g$ are very unequal, the pooled mean is dragged toward the larger group's mean. In Case A, $n_A=836$, $n_B=964$ are *slightly imbalanced* but close to equal; the pooled mean $50.58$ lies between $17.06$ and $79.65$ but closer to the *long-visit* group, reflecting the larger $n_B$.
 
-**(ii) Simpson's paradox.** A direction of association at the *pooled* level can be **reversed** at the *subgroup* level, if a confounder is unevenly distributed across the third variable. Classic skeleton: suppose `Weeks` is also broken down by `Department` (Sales vs Engineering), and
-$$\bar x_{F,\text{Sales}} < \bar x_{M,\text{Sales}},\qquad \bar x_{F,\text{Eng}} < \bar x_{M,\text{Eng}},$$
-yet
-$$\bar x_{F,\text{pooled}} > \bar x_{M,\text{pooled}}.$$
-Pooled mean comparisons hide departments. The paradox arises because Sales and Engineering have different baseline `Weeks` levels *and* different F/M mix.
+**(ii) Simpson's paradox.** A direction of association at the *pooled* level can be **reversed** at the *subgroup* level, if a confounder is unevenly distributed across the third variable. Skeleton: suppose `Time` is also broken down by `Day` (weekday vs weekend), and
+$$\bar x_{A,\text{weekday}} < \bar x_{B,\text{weekday}},\qquad \bar x_{A,\text{weekend}} < \bar x_{B,\text{weekend}},$$
+yet a careless period comparison (Case B style) finds
+$$\bar x_{2015\text{-}16,\text{pooled}} > \bar x_{2022\text{-}23,\text{pooled}}.$$
+Pooled mean comparisons can hide a confounder (e.g. the weekend share of the sample differs between periods). The paradox arises because the third variable (`Day`) has different baseline `Time` levels *and* different shares across periods.
 
 **Practical guard.**
 
-* Whenever you report a pooled gap $\bar x_F-\bar x_M$, also check the **stratified** gaps within plausible confounders (department, role, age band).
-* If stratified gaps go the *opposite* way, **do not aggregate** — report the stratified picture.
+* Whenever you report a pooled gap $\bar x_g-\bar x_{g'}$, also check the **stratified** gaps within plausible confounders (day, age, region).
+* If stratified gaps go the *opposite* way, **do not aggregate** --- report the stratified picture.
 * If stratified gaps point the same way, the pooled gap is a fair summary.
 
-In the present table, no further stratification is available, so the $4$-week gap stands as a *marginal* comparison. Treat it as a description of the dataset, not a causal statement about sex.
+In the present cases, no further stratification is available in the printed tables, so the gaps stand as *marginal* comparisons. Treat them as descriptions of the dataset, not as causal statements.
 
 ```r
-# Simpson check (toy example with two departments)
-dept <- factor(c(rep("Sales",30), rep("Eng",10),    # F: 30 Sales, 10 Eng
-                 rep("Sales",10), rep("Eng",30)))    # M: 10 Sales, 30 Eng
-tapply(weeks, list(sex, dept), mean)                  # within-dept means
-tapply(weeks, sex, mean)                              # pooled means
-# If within-dept gaps reverse the pooled gap, suspect Simpson.
+# Simpson check (skeleton)
+# tapply(Time, list(VisitType, Day), mean)   # stratified gap
+# tapply(Time, VisitType, mean)              # pooled gap
+# If within-day gaps reverse the pooled gap, suspect Simpson.
 ```
 
 ---
 
 ### Summary
 
+**Case A --- Time subgroups (Ex 1.5h).**
+
 | Quantity | Value | Reading |
 |---|---:|---|
-| $\bar x_F,\ \bar x_M$            | $42,\ 38$         | F slower by $4$ weeks |
-| $\widetilde{\mathrm{med}}_F,\ \widetilde{\mathrm{med}}_M$ | $41,\ 37$ | Same direction, $4$-week median gap |
-| Relative gap                     | $10\%$            | Moderate in size |
-| Cohen's $d$                      | $\approx 0.44$    | Moderate effect |
-| Pooled mean / median             | $40,\ 39$         | Useful only because subgroups are balanced |
-| Two-sample $t$                   | $t\approx 1.96$, $p\approx 0.053$ | Borderline significant |
+| $\bar x_A,\ \bar x_B$            | $17.06,\ 79.65$   | Long-visit group $\approx 63$ min higher |
+| $\widetilde{\mathrm{med}}_A,\ \widetilde{\mathrm{med}}_B$ | $17.05,\ 76.06$ | Same direction (location shift, not tail) |
+| Relative gap                     | $\approx 124\%$   | Huge --- mixture distribution signature |
+| Pooled mean / median             | $50.58,\ 41.01$   | Falls in low-density classes (Ex 1.5g) |
+
+**Case B --- Quantity periods (Ex 1.4b).**
+
+| Quantity | 2015-16 | 2022-23 | Reading |
+|---|---:|---:|---|
+| Mode   | $3$    | $3$    | Same (source typo flagged) |
+| Median | $3$    | $2$    | Down by one unit |
+| Mean   | $2.64$ | $2.45$ | Down $\approx 7\%$ |
 
 **Master take-aways.**
 
@@ -4681,7 +4861,7 @@ tapply(weeks, sex, mean)                              # pooled means
 
 ---
 
-**Linked snippets:** Ex 1, Q1.4b (NewHired Weeks by Sex --- the dataset used here); Ex 1, Q1.5h (Pizzerie Sales by Period --- a second cross-subgroup case); Theory G4d (cross-subgroup / period comparison).
+**Linked snippets:** Ex 1, Q1.4b (`Quantity` across periods 2015-16 vs 2022-23 --- Case B above); Ex 1, Q1.5h (`Time` ≤30 vs >30 subgroups --- Case A above, grouped-data summaries per subgroup); Theory G4d (cross-subgroup / period comparison).
 """,
     "images": ["statistics/images/master/master_g4d_compare_ai.png"],
 }
@@ -4851,7 +5031,7 @@ distr.plot.x(Time, plot.type = "cumulative", data = mydata)
 
 ---
 
-**Linked snippets:** Ex 1.2c (`Children` spike plot --- same discrete variable whose ECDF we build here); Ex 2.4a (identify the ogive); Ex 2.4b/c (Q1, Q3, P90 read off the ogive --- concrete linear-interpolation practice); Ex 2.7a (ogive of `Nr_visits`).
+**Linked snippets:** Ex 0.2a3 (ogive of `fare` from class densities --- the construction recipe with cumulated proportions); Ex 0.2b3 (step diagram for `size.family` --- discrete case, no interpolation); Ex 1.2c (`Children` spike plot --- the same discrete variable whose ECDF we build here); Ex 1.4a2 (cumulative percentage table and step plot for discrete `Quantity_New` with a *gap* at value $5$); Ex 1.5d (ogive of `Time`, $n=1800$, median estimation via linear interpolation inside the median class); Ex 2.4a (identify the ogive); Ex 2.7a (ogive of `Nr_visits`, $n=2200$ --- reading increments as relative frequencies).
 """,
     "images": ["statistics/images/master/master_g1e_cum_ai.png"],
 }
@@ -5149,7 +5329,7 @@ barplot(prop.table(tbl, 1), beside = TRUE, legend.text = TRUE,
 
 ---
 
-**Linked snippets:** Ex 1.4 family (DS Sex × History joint table); Ex 1.5 (marginal distributions); Ex 1.6 (row/col conditionals); master `g7_twoway` (this).
+**Linked snippets:** Ex 3.1b (joint table SmokingArea × District); Ex 3.2c/2e/2g/2h (DS conditional distributions); Ex 3.6a–g (Country × Sex full family — joint, marginal, conditional, χ² independence); Ex 3.7a1/a3 (Product × Sex two-way splits); Ex 3.9a1 (LoL tier × class); Ex 3.10a1/a2 (Company Prod × Channel); Ex 3.12a/b/c (Effectiveness × Channel two-way table).
 """,
     "images": ["images/master/master_g7_twoway_ai.png"],
 }
@@ -5294,7 +5474,7 @@ interaction.plot(pizzerie$District, pizzerie$Type, pizzerie$Sales,
 
 ---
 
-**Linked snippets:** Ex 1.7 (conditional mean of `Sales` by `District`); Ex 1.8 (conditional SD and CV); Ex 3 family (boxplots by group); master `g8_condsumm` (this).
+**Linked snippets:** Ex 3.1a/1c/1d (conditional mean/median/SD of Sales by SmokingArea); Ex 3.2a/2b/2d/2f/2i/2m (DS AmountSpent conditional summaries by demographic groups); Ex 3.4a1/a2/b (Services Expenses conditional spread); Ex 3.5a1/a2 (TotUsers × Weather conditional summaries); Ex 3.7b1 (conditional summary by Sex); Ex 3.8a (Quantity | Product); Ex 3.9b/9c (LoL conditional distributions); Ex 3.11a/b (Campaign Loyalty conditional summaries).
 """,
     "images": ["images/master/master_g8_condsumm_ai.png"],
 }
@@ -5826,7 +6006,7 @@ cor.test(price, sales, method = "spearman")
 
 ---
 
-**Linked snippets:** Ex 2.8a (covariance/correlation of `Unit_Price` vs `Quantity`); Ex 3.1a (scatterplot reading); Ex 3.2e (Spearman vs Pearson contrast); master `g8_var` (variance / SD --- the building blocks of $s_X s_Y$ in the denominator); master `g11_lr` (simple linear regression --- where $r^2$ becomes $R^2$).
+**Linked snippets:** Ex 3.1e (Price vs Sales scatter + cov + Pearson r ≈ 0.67); Ex 3.2l (DS continuous-continuous correlation diagnostic); Ex 3.3a (Satisfaction scatter — direction/form/strength assessment); Ex 3.11c (Campaign Loyalty: Sales vs Revenues vs Costs — weak linear vs non-linear contrast).
 """,
     "images": ["images/master/master_g9_corr_ai.png"],
 }
