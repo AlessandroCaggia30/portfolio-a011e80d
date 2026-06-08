@@ -4841,8 +4841,10 @@ async function _commitSave(opts) {
         // Trigger file system autosave (non-blocking)
         autoSaveToFileSystem(dataKey, State.data);
 
-        // Schedule GitHub push (non-blocking, debounced)
-        if (typeof schedulePush === 'function') schedulePush();
+        // Schedule GitHub push (non-blocking, debounced).
+        // Skip when called from internal hydration paths (seed merges,
+        // examTable loads) so we don't auto-overwrite remote with stale state.
+        if (!skipPush && typeof schedulePush === 'function') schedulePush();
 
         _dataIsDirty = false;
         const btn = document.getElementById('saveNowBtn');
