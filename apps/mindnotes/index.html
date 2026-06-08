@@ -4633,13 +4633,19 @@ async function loadData() {
                                         seedSub.nodes.forEach(seedNode => {
                                             const existingNode = existingSub.nodes.find(n => n.id === seedNode.id);
                                             if (existingNode) {
-                                                // Update content from seed; preserve user's layout/flashcard state
-                                                if (seedNode.title !== undefined) existingNode.title = seedNode.title;
-                                                if (seedNode.content !== undefined) existingNode.content = seedNode.content;
-                                                if (seedNode.images !== undefined) existingNode.images = seedNode.images;
-                                                if (seedNode.imageWidths !== undefined) existingNode.imageWidths = seedNode.imageWidths;
-                                                if (seedNode.links !== undefined) existingNode.links = seedNode.links;
-                                                // Preserve: x, y, width, height, flashcard, fsrs, sectionNumber
+                                                // Preserve user-edited content. If the user touched this
+                                                // node via the Edit button, userEdited=true is set; in
+                                                // that case do NOT clobber title/content/images/links
+                                                // from the seed. Always preserve layout, FSRS, cardColor.
+                                                const userOwned = existingNode.userEdited === true;
+                                                if (!userOwned) {
+                                                    if (seedNode.title !== undefined) existingNode.title = seedNode.title;
+                                                    if (seedNode.content !== undefined) existingNode.content = seedNode.content;
+                                                    if (seedNode.images !== undefined) existingNode.images = seedNode.images;
+                                                    if (seedNode.imageWidths !== undefined) existingNode.imageWidths = seedNode.imageWidths;
+                                                    if (seedNode.links !== undefined) existingNode.links = seedNode.links;
+                                                }
+                                                // Preserve: x, y, width, height, flashcard, fsrs, sectionNumber, cardColor, userEdited
                                             } else {
                                                 existingSub.nodes.push(seedNode);
                                             }
