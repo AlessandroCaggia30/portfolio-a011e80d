@@ -7,7 +7,6 @@
 
 master_exercises = {}
 
-
 master_exercises["g13a_ci_one_mean"] = {
     "title": "Master Exam — CI for one mean (consolidated)",
     "content": r"""**Setup.** A market-research firm collected the monthly turnover `Sales` (in €) for a random sample of $n=100$ pizzerias in Milan. The sample summaries are
@@ -227,7 +226,6 @@ n_req                                # 1034
     "images": ["statistics/images/master/master_g13a_ai.png"]
 }
 
-
 master_exercises["g14a_one_sample"] = {
     "title": "Master — One-sample tests (mean & proportion): NewHired + DS",
     "content": r"""**Master exercise — One-sample tests for a mean ($\sigma$ unknown) and a proportion.**
@@ -392,14 +390,9 @@ The two formulations always agree. A large p-value $\neq$ "$H_0$ true"; it only 
 | (d) `Children` mean, $\mu_0=1.5$ | $\mu<1.5$ | $t_{749}$ | $-14.91$ | $<10^{-4}$ | reject | reject |
 
 </details>
-
----
-
-**Linked snippets:** Ex 7.1a (mean, $H_1:\mu<45$, NewHired) $\to$ part (a); Ex 7.1c (proportion, $H_1:p>0.10$, NewHired) $\to$ part (c); Ex 7.8a (mean, $H_1:\mu<1.5$, DS$Children — large-$n$, p-value definition, CI cross-check) $\to$ part (d). All three are instances of the unified template (e).
 """,
     "images": ["statistics/images/master/master_g14a_ai.png"],
 }
-
 
 # =====================================================================
 # g15a_simple_reg — Simple regression: estimation, R^2, slope test
@@ -440,7 +433,8 @@ Round to 4 decimals throughout.
 
 ---
 
-### (a) OLS criterion
+<details class="master-subpart" open>
+<summary><span class="tag tag-4plus">≥4 ex</span> (a) OLS criterion</summary>
 
 The OLS estimators are defined as the minimisers of the residual sum of squares:
 $$(\hat\beta_0,\hat\beta_1) \;=\; \arg\min_{\beta_0,\beta_1}\sum_{i=1}^{n}\bigl(y_i-\beta_0-\beta_1 x_i\bigr)^2.$$
@@ -449,10 +443,12 @@ The first-order conditions (the *normal equations*) yield the closed-form soluti
 $$\boxed{\;\hat\beta_1 \;=\; \frac{s_{xy}}{s^2_x},\qquad \hat\beta_0 \;=\; \bar y - \hat\beta_1\bar x.\;}$$
 
 The intercept formula encodes the fact that the OLS line **always passes through the centre of mass** $(\bar x,\bar y)$. No distributional assumption on $\epsilon$ is needed for these estimators to be defined or unbiased — Gauss–Markov requires only zero-mean, homoscedastic, uncorrelated errors.
+</details>
 
 ---
 
-### (b) Point estimates of $\beta_0$ and $\beta_1$
+<details class="master-subpart">
+<summary><span class="tag tag-4plus">≥4 ex</span> (b) Point estimates of $\beta_0$ and $\beta_1$</summary>
 
 Plug the sample moments into the formulas:
 $$\hat\beta_1 \;=\; \frac{149.110}{88.246} \;=\; 1.6898,$$
@@ -465,18 +461,22 @@ $$\boxed{\;\widehat{\text{Weeks}} \;=\; -19.5262 \;+\; 1.6898\cdot\text{Age}.\;}
 b1 <- s_xy/s2_x;          b1                # 1.6898
 b0 <- ybar - b1*xbar;     b0                # -19.5262
 ```
+</details>
 
 ---
 
-### (c) Interpretation of the slope
+<details class="master-subpart">
+<summary><span class="tag tag-4plus">≥4 ex</span> (c) Interpretation of the slope</summary>
 
 $\hat\beta_1 = 1.6898$ means that a $+1$-year increase in Age is associated, **on average**, with $\approx 1.69$ *additional* weeks needed to find a new job. The sign is **positive**, so older agency-relying workers tend to need *longer* job searches — consistent with labour-market intuition (skill obsolescence, age-based hiring frictions, narrower set of suitable openings).
 
 The intercept $\hat\beta_0 = -19.53$ is **not** economically meaningful on its own: it corresponds to $\text{Age}=0$, which is far outside the observed range, and is mathematically allowed to be negative even though Weeks must be $\geq 0$ in reality.
+</details>
 
 ---
 
-### (d) Goodness of fit — $R^2$ via the variance decomposition
+<details class="master-subpart">
+<summary><span class="tag tag-4plus">≥4 ex</span> (d) Goodness of fit — $R^2$ via the variance decomposition</summary>
 
 For every observation,
 $$y_i - \bar y \;=\; \underbrace{(\hat y_i - \bar y)}_{\text{explained}} \;+\; \underbrace{(y_i - \hat y_i)}_{\text{residual}}.$$
@@ -496,10 +496,12 @@ R2  <- r_xy^2;            R2                # 0.3988
 SST <- (n-1)*s2_y;        SST               # 29053.1
 SSR <- R2*SST;            SSE <- SST - SSR  # 11586.4 ; 17466.7
 ```
+</details>
 
 ---
 
-### (e) Standard errors of $\hat\beta_1$ and $\hat\beta_0$
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (e) Standard errors of $\hat\beta_1$ and $\hat\beta_0$</summary>
 
 **Step 1 — total and residual SS.**
 $$SST \;=\; (n-1)\,s^2_y \;=\; 46\cdot 631.589 \;=\; 29{,}053.1,$$
@@ -522,10 +524,12 @@ s2_eps <- SSE/(n-2);      s_eps <- sqrt(s2_eps)            # 21.94 ; 4.6843
 se_b1  <- s_eps/sqrt((n-1)*s2_x);          se_b1
 se_b0  <- s_eps*sqrt(1/n + xbar^2/((n-1)*s2_x));  se_b0
 ```
+</details>
 
 ---
 
-### (f) Slope significance — two-sided $t$-test
+<details class="master-subpart">
+<summary><span class="tag tag-4plus">≥4 ex</span> (f) Slope significance — two-sided $t$-test</summary>
 
 **Hypotheses.** $H_0:\beta_1 = 0$ (no linear relation between Age and Weeks) vs $H_1:\beta_1\neq 0$.
 
@@ -549,10 +553,12 @@ t_obs <- sqrt((n-2)*R2/(1-R2));            t_obs           # 5.464
 2*(1 - pt(abs(t_obs), df=n-2))                              # p ~ 1.8e-6
 qt(0.975, df=n-2)                                           # 2.014
 ```
+</details>
 
 ---
 
-### (g) 95% confidence interval for $\beta_1$
+<details class="master-subpart">
+<summary>(g) 95% confidence interval for $\beta_1$</summary>
 
 $$\hat\beta_1 \;\pm\; t_{0.975,\,n-2}\,\widehat{\text{se}}(\hat\beta_1) \;=\; 1.6898 \;\pm\; 2.014\cdot 0.3092.$$
 
@@ -566,10 +572,12 @@ se_b1 <- 0.3092
 ME    <- qt(0.975, df=n-2) * se_b1
 c(b1 - ME, b1 + ME)                                         # [1.067, 2.313]
 ```
+</details>
 
 ---
 
-### (h) $F$-test (overall model significance) and the $F = t^2$ identity
+<details class="master-subpart">
+<summary>(h) $F$-test (overall model significance) and the $F = t^2$ identity</summary>
 
 For simple regression with $k=1$ predictor, the **ANOVA $F$-test** of $H_0:\beta_1=0$ vs $H_1:\beta_1\neq 0$ uses:
 
@@ -604,10 +612,12 @@ summary(mod)        # b0, b1, t-stats, R^2, F
 confint(mod, level=0.95)
 anova(mod)          # ANOVA decomposition
 ```
+</details>
 
 ---
 
-### (i) Summary box
+<details class="master-subpart">
+<summary>(i) Summary box</summary>
 
 | Quantity | Value | Source |
 |---|---|---|
@@ -623,16 +633,10 @@ anova(mod)          # ANOVA decomposition
 | $F_\text{obs}$ | $29.85 = t_\text{obs}^2$, $p\approx 1.8\times 10^{-6}$ | $MSR/MSE$ |
 
 **Conclusion across (a)–(h).** Age is a **strongly significant** linear predictor of the number of Weeks needed to find a new job. The slope is positive ($+1.69$ weeks per extra year of age), the relation explains about 40% of the variability of Weeks, and the $t$-test on $\beta_1$, the 95% CI for $\beta_1$ and the $F$-test on the full model all reach the *same* conclusion — algebraically inevitable in simple regression because $F = t^2$.
-
----
-
-**Linked snippets:** Ex 8.1a (OLS + slope significance), Ex 8.1b ($R^2$ via variance decomposition), Ex 8.2a (OLS criterion), Ex 8.3a (Weeks ~ Age fit + 90% CI for slope), Ex 8.5a (closed-form estimation from summary statistics + $R^2$ + $t$-test), Ex 8.8a (estimation from summary statistics + slope $t$-test). All six reduce to the unified workflow above.
-
-![Master G15a — scatter+OLS+residuals, SS decomposition, t-test, CI for slope](statistics/images/master/master_g15a_ai.png)
+</details>
 """,
     "images": ["statistics/images/master/master_g15a_ai.png"],
 }
-
 
 # ---------------------------------------------------------------------
 # G15c — Multiple regression  (master exercise)
@@ -850,6 +854,8 @@ hist(rstandard(mod), breaks=30)  # right-skew?
 # library(sandwich); library(lmtest); coeftest(mod, vcov=vcovHC(mod, type="HC3"))
 ```
 
+</details>
+
 ---
 
 **Concept map covered by this single exercise.**
@@ -873,7 +879,6 @@ Residual diagnostics (assumption check) & part (i) \\
     "images": ["statistics/images/master/master_g15c_ai.png"],
 }
 
-
 master_exercises["g13b_ci_one_prop"] = {
     "title": "Master Exam — CI for one proportion (consolidated)",
     "content": r"""**Master dataset.** A retailer interviews $n = 500$ random customers about whether they returned to the store within the last month. The result is $X = 200$ returning customers, i.e. a sample proportion $\hat p = X/n = 200/500 = 0.40$. We reuse this single dataset across every part below — only $n$, the confidence level $1-\alpha$, or the target margin of error change.
@@ -890,7 +895,8 @@ This master exercise consolidates the unique sub-questions of the 13 linked snip
 
 ---
 
-### Part (1) — Point estimate and standard error
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> Part (1) — Point estimate and standard error</summary>
 
 Model each customer as $Y_i = \mathbb{1}\{\text{returns}\} \sim \text{Bernoulli}(p)$ i.i.d. The natural unbiased estimator of $p$ is the sample proportion
 $$\hat p \;=\; \frac{1}{n}\sum_{i=1}^{n} Y_i \;=\; \frac{X}{n} \;=\; \frac{200}{500} \;=\; 0.40.$$
@@ -918,9 +924,10 @@ phat; se
 
 The reduction is mechanical and **does not require any extra assumption** beyond i.i.d. sampling — the Bernoulli model is fully specified by $p$ once each $Y_i \in \{0,1\}$. Once $\hat p$ and $n$ are in hand, the same Wald machinery of Parts (2)–(8) applies *verbatim*.
 
----
+</details>
 
-### Part (2) — 95% Wald confidence interval
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> Part (2) — 95% Wald confidence interval</summary>
 
 By the CLT, when $n$ is large enough that $n\hat p \ge 5$ and $n(1-\hat p) \ge 5$,
 $$\hat p \;\overset{a}{\sim}\; \mathcal{N}\!\left(p,\; \tfrac{p(1-p)}{n}\right) \quad\Longrightarrow\quad \hat p \;\pm\; z_{1-\alpha/2}\,\widehat{SE}(\hat p).$$
@@ -938,9 +945,10 @@ CI.prop(returns, success = "yes", conf.level = 0.95, data = customers)
 
 ![Master illustration](statistics/images/master/master_g13b_ai.png)
 
----
+</details>
 
-### Part (3) — Effect of sample size: $n=100$ vs $n=1000$ (same $\hat p$)
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> Part (3) — Effect of sample size: $n=100$ vs $n=1000$ (same $\hat p$)</summary>
 
 Holding $\hat p$ and confidence level fixed, only the SE changes. Because $SE \propto 1/\sqrt n$, multiplying $n$ by 10 divides the half-width by $\sqrt{10}\approx 3.16$ — **diminishing returns**.
 
@@ -961,9 +969,10 @@ for (n_i in c(100, 500, 1000)) {
 }
 ```
 
----
+</details>
 
-### Part (4) — Effect of confidence level: 90% vs 95% vs 99% (same $n=500$, same $\hat p$)
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> Part (4) — Effect of confidence level: 90% vs 95% vs 99% (same $n=500$, same $\hat p$)</summary>
 
 Only the multiplier $z_{1-\alpha/2}$ changes; SE is fixed at $0.02191$.
 
@@ -984,9 +993,10 @@ for (lvl in c(0.90, 0.95, 0.99)) {
 }
 ```
 
----
+</details>
 
-### Part (5) — Sample-size planning: $ME \le m$ at confidence $1-\alpha$
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> Part (5) — Sample-size planning: $ME \le m$ at confidence $1-\alpha$</summary>
 
 Invert the margin-of-error formula:
 $$ME \;=\; z_{1-\alpha/2}\,\sqrt{\tfrac{p(1-p)}{n}} \;\le\; m \quad\Longleftrightarrow\quad n \;\ge\; \left(\tfrac{z_{1-\alpha/2}}{m}\right)^{\!2}\, p(1-p).$$
@@ -1015,9 +1025,10 @@ ceiling(n_pilot)                   # 577
 qnorm(0.975) * sqrt(0.25/601)      # ~ 0.03997 < 0.04 OK
 ```
 
----
+</details>
 
-### Part (6) — Margin-of-error decomposition
+<details class="master-subpart">
+<summary>Part (6) — Margin-of-error decomposition</summary>
 
 The Wald CI can be written compactly as
 $$\hat p \;\pm\; \underbrace{z_{1-\alpha/2}}_{\text{reliability factor}}\;\underbrace{\sqrt{\tfrac{\hat p(1-\hat p)}{n}}}_{SE(\hat p)} \;=\; \hat p \pm ME.$$
@@ -1035,9 +1046,10 @@ So the interval depends on **exactly three quantities**: point estimate $\hat p$
 
 **Quick recovery trick.** Read the CI off the RStudio output and **halve the width** to recover $ME$ without recomputing $SE$: $(0.443 - 0.357)/2 = 0.043$. Then $SE = ME/z$.
 
----
+</details>
 
-### Part (7) — One-sided lower confidence bound
+<details class="master-subpart">
+<summary>Part (7) — One-sided lower confidence bound</summary>
 
 For decisions of the form *"is $p$ at least $p_0$?"* a **one-sided** CI is more efficient than a two-sided one. The $(1-\alpha)$ lower confidence bound uses $z_{1-\alpha}$ (one-tail) instead of $z_{1-\alpha/2}$ (two-tail):
 $$\big[\,\hat p - z_{1-\alpha}\,SE(\hat p),\;+\infty\big).$$
@@ -1058,9 +1070,10 @@ z_star <- (phat - 0.36)/se                 # ~ 1.826
 c_star <- 2*pnorm(z_star) - 1              # ~ 0.932
 ```
 
----
+</details>
 
-### Part (8) — Validity check (CLT condition)
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> Part (8) — Validity check (CLT condition)</summary>
 
 The Wald CI relies on the CLT approximation $\hat p \overset{a}{\sim} \mathcal{N}(p, p(1-p)/n)$. Rule of thumb:
 $$n\hat p \;\ge\; 5 \quad\text{AND}\quad n(1-\hat p) \;\ge\; 5.$$
@@ -1080,6 +1093,8 @@ n_s*phat_s;  n_s*(1-phat_s)        # 1.5 ; 28.5 -- FAILS the 5/5 rule
 binom.test(x = 1, n = 30)$conf.int
 ```
 
+</details>
+
 ---
 
 ### Summary table (master dataset $n=500$, $\hat p = 0.40$)
@@ -1096,22 +1111,9 @@ binom.test(x = 1, n = 30)$conf.int
 | $n$ for $ME \le 0.04$, pilot $\hat p=0.4$ | $577$ | Part 5 |
 | One-sided 95% lower bound | $0.364$ | Part 7 |
 | CLT check $(n\hat p,\,n(1-\hat p))$ | $(200,\,300)$ — OK | Part 8 |
-
-**Master take-aways.**
-1. CI half-width = $ME = z_{1-\alpha/2}\cdot SE$; only **three** levers control it: $\hat p$, $n$, confidence.
-2. Precision improves at rate $1/\sqrt n$ — **quadrupling** $n$ halves $ME$.
-3. Higher confidence $\Rightarrow$ wider CI (linear in $z$).
-4. Sample-size planning: $n \ge (z/m)^2\,p(1-p)$, with $p = 0.5$ as the safe upper bound; pilot $\hat p$ can save substantially when far from $0.5$.
-5. One-sided $95\%$ lower bound coincides with the lower endpoint of the two-sided $90\%$ CI.
-6. Always check $n\hat p \ge 5$ and $n(1-\hat p) \ge 5$ before trusting the Wald CI.
-
----
-
-**Linked snippets:** Ex 5.6b, Ex 5.13 a3 (sample proportion + SE as unbiased estimator of $p$); Ex 6.1c (95% CI for proportion); Ex 6.3b1, Ex 6.3b2 (sample proportion + 99% CI with sample-size planning); Ex 6.6a–d (full sequence: 95% CI at $n=100$, $n=1000$, 90% level, sample size for $ME\le 0.04$); Ex 6.7a (CI + largest $c$ keeping lower bound above a threshold); Ex 6.12a, 6.12b (99% CI + ME decomposition with CLT check); Ex 6.13a (99% CI with CLT validity).
 """,
     "images": ["statistics/images/master/master_g13b_ai.png"],
 }
-
 
 master_exercises["g13c_ci_diff_means"] = {
     "title": "Master Exam — CI for the difference of two independent means (consolidated)",
@@ -1126,7 +1128,8 @@ The two samples are **independent** (different customers). Let $\mu_M,\mu_S$ be 
 
 ---
 
-### Part (1) — Point estimate and interpretation
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> Part (1) — Point estimate and interpretation</summary>
 
 The natural unbiased estimator of $\delta = \mu_M - \mu_S$ is the **difference of sample means**
 $$\hat\delta \;=\; \bar X_M - \bar X_S, \qquad \mathbb E[\hat\delta] \;=\; \mu_M - \mu_S \;=\; \delta$$
@@ -1142,9 +1145,10 @@ s_M    <- 900;   s_S    <- 800
 delta_hat <- xbar_M - xbar_S;  delta_hat        # 200
 ```
 
----
+</details>
 
-### Part (2) — SE under **known** variances $\sigma_M,\sigma_S$
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> Part (2) — SE under **known** variances $\sigma_M,\sigma_S$</summary>
 
 Because the samples are independent, variance **adds**:
 $$\Var(\bar X_M - \bar X_S) \;=\; \Var(\bar X_M) + \Var(\bar X_S) \;=\; \frac{\sigma_M^2}{n_M} + \frac{\sigma_S^2}{n_S}.$$
@@ -1158,9 +1162,10 @@ SE_known <- sqrt(900^2/n_M + 800^2/n_S);  SE_known    # 78.235
 
 *Why no covariance term?* The two samples are **independent**, so $\Cov(\bar X_M,\bar X_S) = 0$. Pairing (Sec. g13d) is the case when this fails — then SE involves the variance of paired differences, not the sum.
 
----
+</details>
 
-### Part (3) — SE under **unknown** but **assumed equal** variances (pooled)
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> Part (3) — SE under **unknown** but **assumed equal** variances (pooled)</summary>
 
 If the variances are unknown but we are willing to assume $\sigma_M^2 = \sigma_S^2 = \sigma^2$, we **pool** the two sample variances by their degrees of freedom:
 $$s_p^2 \;=\; \frac{(n_M-1)\,s_M^2 + (n_S-1)\,s_S^2}{n_M + n_S - 2} \;=\; \frac{204\cdot 810000 + 294\cdot 640000}{498} \;=\; \frac{353\,400\,000}{498} \;\approx\; \mathbf{709\,638.55}.$$
@@ -1176,9 +1181,10 @@ df_pool <- n_M + n_S - 2;                                       df_pool  # 498
 
 The pooled **variance** $s_p^2$ is a weighted average of the two within-group sample variances (weights $= n_i - 1$); the pooled SE is then $\sqrt{s_p^2(1/n_M+1/n_S)}$. Pooled is **more efficient** than Welch *when* the equal-variance assumption is correct (smaller SE, narrower CI), at the cost of being **biased** if the assumption fails.
 
----
+</details>
 
-### Part (4) — SE under **unknown unequal** variances (Welch)
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> Part (4) — SE under **unknown unequal** variances (Welch)</summary>
 
 If we are *not* willing to assume equal variances, plug in each sample variance separately:
 $$\widehat{SE}_{W} \;=\; \sqrt{\frac{s_M^2}{n_M} + \frac{s_S^2}{n_S}} \;=\; \sqrt{\frac{810000}{205} + \frac{640000}{295}} \;=\; \sqrt{6120.71} \;\approx\; \mathbf{78.235\ \text{€}}.$$
@@ -1195,9 +1201,10 @@ den   <- (s_M^2/n_M)^2/(n_M-1) + (s_S^2/n_S)^2/(n_S-1)
 df_W  <- num / den;                    df_W                               # 404.8
 ```
 
----
+</details>
 
-### Part (5) — Pooled df vs Welch df at a glance
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> Part (5) — Pooled df vs Welch df at a glance</summary>
 
 | Quantity | Pooled (equal var.) | Welch (unequal var.) |
 |---|---:|---:|
@@ -1210,9 +1217,10 @@ df_W  <- num / den;                    df_W                               # 404.
 
 Difference here: pooled SE is **2% smaller** than Welch's. With nearly balanced sample sizes the two are very close; the gap widens when both $n$'s and variances are unbalanced.
 
----
+</details>
 
-### Part (6) — 95% confidence interval for $\delta$
+<details class="master-subpart">
+<summary><span class="tag tag-4plus">≥4 ex</span> Part (6) — 95% confidence interval for $\delta$</summary>
 
 The two-sided CI for $\delta$ at level $1-\alpha$ is
 $$(\bar x_M - \bar x_S) \;\pm\; t_{1-\alpha/2,\,df}\;\widehat{SE}.$$
@@ -1244,9 +1252,10 @@ t.test(AmountSpent ~ MaritalStatus, data = DS, var.equal = TRUE )$conf.int  # Po
 
 ![Master illustration](statistics/images/master/master_g13c_ai.png)
 
----
+</details>
 
-### Part (7) — 99% confidence interval for $\delta$
+<details class="master-subpart">
+<summary>Part (7) — 99% confidence interval for $\delta$</summary>
 
 Only the reliability factor changes; SE is identical.
 
@@ -1263,9 +1272,10 @@ qt(0.995, df = df_W)   * SE_W       # 202.40   -> Welch ME at 99%
 qt(0.995, df = df_pool)* SE_pool    # 198.08   -> Pooled ME at 99%
 ```
 
----
+</details>
 
-### Part (8) — Does the CI contain $0$?
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> Part (8) — Does the CI contain $0$?</summary>
 
 The CI is the set of values of $\delta = \mu_M - \mu_S$ that are *compatible* with the data at the stated confidence. Checking whether **$0 \in CI$** is the CI's most-used decision tool:
 
@@ -1278,9 +1288,10 @@ The CI is the set of values of $\delta = \mu_M - \mu_S$ that are *compatible* wi
 
 This is the **CI–test duality**: $0 \notin CI_{1-\alpha}$ ⇔ $H_0: \delta = 0$ rejected at level $\alpha$. The borderline behaviour at 99% (Welch contains 0, pooled does not) is a small reminder that pooled and Welch can give different qualitative answers when the test is close to the threshold — another reason Welch is the safer default.
 
----
+</details>
 
-### Part (9) — Pooled vs Welch: choosing in practice
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> Part (9) — Pooled vs Welch: choosing in practice</summary>
 
 | Situation | Use |
 |---|---|
@@ -1298,6 +1309,8 @@ ratio <- max(s_M^2, s_S^2) / min(s_M^2, s_S^2);  ratio    # 1.266 -- safe
 var.test(AmountSpent ~ MaritalStatus, data = DS)$p.value
 ```
 
+</details>
+
 ---
 
 ### Summary table (master dataset, $\hat\delta = 200$ €)
@@ -1312,23 +1325,9 @@ var.test(AmountSpent ~ MaritalStatus, data = DS)$p.value
 | $t_{0.995}$ or $z_{0.995}$ | $2.586$ | $2.587$ | $2.576$ |
 | $ME_{99}$ | $198.08$ | $202.40$ | $201.54$ |
 | **99% CI** | $[1.92,\,398.08]$ | $[-2.40,\,402.40]$ | $[-1.54,\,401.54]$ |
-
-**Master take-aways.**
-1. The point estimate of $\mu_1 - \mu_2$ is $\bar x_1 - \bar x_2$ (unbiased, independent samples).
-2. **Variance adds**: $\Var(\bar X_1 - \bar X_2) = \sigma_1^2/n_1 + \sigma_2^2/n_2$ because samples are independent (covariance = 0).
-3. Three SE variants: **known $\sigma$** (exact, $z$), **pooled** ($t$, $df = n_1+n_2-2$, assumes equal var.), **Welch** ($t$, Satterthwaite $df$, no equal-var. assumption).
-4. Pooled $s_p^2$ = weighted average of the two within-group sample variances (weights $= n_i - 1$); Welch SE keeps the per-group variances separate ($\sqrt{s_1^2/n_1 + s_2^2/n_2}$); numerically the Welch SE equals the known-$\sigma$ SE when one plugs $s$ in for $\sigma$.
-5. $0 \in CI$ ⇔ "no significant difference at level $\alpha$" — the CI–test duality.
-6. **Default = Welch.** Use pooled only when the equal-variance assumption is justified; it is anti-conservative when the larger variance sits in the smaller sample.
-
----
-
-**Linked snippets:** Ex 5.1f (SE of difference: known / unknown equal / unknown unequal variances); Ex 5.6a (pooled vs Welch SE for AmountSpent by Sex); Ex 5.7a, Ex 5.7b (pizzeria price difference under known equal, known unequal, and unknown variances); Ex 6.3d (99% CI for AmountSpent, Married vs Single, Close × 0 children); Ex 6.4a (pooled-variance CI for vgsales mean NF vs F); Ex 6.8 a2 (pooled CI: NrSkills GER vs ITA); Ex 6.8b (Welch SE for unequal variances); Ex 6.8d (CI for Skills mean Full-time vs Freelance); Ex 6.10a (95% CI for difference of means); Ex 6.15a, Ex 6.15b (CI for difference of two means and reading whether it contains zero).
 """,
     "images": ["statistics/images/master/master_g13c_ai.png"],
 }
-
-
 
 master_exercises["g13d_ci_diff_prop"] = {
     "title": "Master Exam — CI for difference of two proportions (consolidated)",
@@ -1538,22 +1537,9 @@ n_F * phat_F;  n_F * (1 - phat_F)      # 391 ; 259  -- all >> 5
 | Is $0 \in$ CI? | No (at 95% or 99%) | Part 5 |
 | One-sided 95% lower bound | $0.1236$ | Part 6 |
 | CLT counts $(n_M\hat p_M,n_M(1{-}\hat p_M),n_F\hat p_F,n_F(1{-}\hat p_F))$ | $(650,\,200,\,391,\,259)$ — OK | Part 7 |
-
-**Master take-aways.**
-1. With independent samples, $\widehat{SE}(\hat p_1 - \hat p_2) = \sqrt{\hat p_1(1-\hat p_1)/n_1 + \hat p_2(1-\hat p_2)/n_2}$ — variances add, no covariance.
-2. Wald CI: $(\hat p_1 - \hat p_2) \pm z_{1-\alpha/2}\,\widehat{SE}$ — same skeleton as the one-proportion CI, only the SE changes.
-3. Raising confidence widens the CI linearly in $z$; point estimate and SE do not move.
-4. CI contains $0$ $\iff$ two-sided test of $p_1 = p_2$ is not rejected at level $\alpha$. In our data the CI excludes 0 at both 5% and 1% — strong evidence of a sex gap.
-5. One-sided 95% lower bound = lower endpoint of the two-sided 90% CI — use this trick to read it off any 90% CI.
-6. Validity needs **four** counts $\ge 5$: $n_i\hat p_i$ and $n_i(1-\hat p_i)$ for $i=1,2$. Easily satisfied here.
-
----
-
-**Linked snippets:** Ex 5.5a (proportions + SE for $\hat p_F - \hat p_M$ in the bookstore survey); Ex 5.5b (change in heavy-reader share 2015 vs 2022, same SE-of-difference logic across two independent cohorts); Ex 5.13b (point estimate + SE for the Milano vs Pavia proportion gap); Ex 6.3c (99% CI for diff in employment proportions GER vs ITA with CLT validity check); Ex 6.6e (99% CI for difference of two proportions, full Wald skeleton); Ex 6.9a (Wald CI for proportion difference, vgsales action genre); Ex 6.14a (90% CI for diff in best-seller proportions EA vs Activision).
 """,
     "images": ["statistics/images/master/master_g13d_ai.png"],
 }
-
 
 master_exercises["g13e_ci_paired"] = {
     "title": "Master Exam — CI for paired mean (consolidated)",
@@ -1763,29 +1749,9 @@ If, hypothetically, the 95% CI had been $[-1.2,\,3.0]$ — i.e. **containing $0$
 | 95% CI | $[8.28,\,11.92]$ | Part (f) |
 | 99% CI | $[7.63,\,12.57]$ | Part (f) |
 | Contains $0$? | **No** (all 3 levels) | Part (h) |
-
-**Master take-aways.**
-1. *Paired* means the **same unit** is measured **twice** — the design *creates* dependence on purpose, to **subtract out** unit-level variance.
-2. The mechanism is the covariance term: $\Var(X-Y) = \Var(X) + \Var(Y) - 2\,\Cov(X,Y)$; with $\rho > 0$ this **shrinks** the variance of the difference (and the SE).
-3. Once differences $D_i$ are formed the problem collapses to a one-sample CI: $\bar d \pm t_{1-\alpha/2,\,n-1}\,s_d/\sqrt n$.
-4. Always use $t_{n-1}$ (small $n$) or $z$ (large $n$ via CLT) — *never* mix $s_d$ with a $z$ quantile when $n$ is small.
-5. Ignoring pairing and running an independent-samples CI **inflates the SE** by $1/\sqrt{1-\rho}$ at equal variances (here $\approx 2.7\times$): correct *design* in, correct *SE* out.
-6. CI excludes $0$ ⇒ evidence of an effect at the chosen level; CI contains $0$ ⇒ data consistent with no change.
-
----
-
-**Linked snippets.**
-- **Ex 5.4** — paired estimator + paired SE for a pre/post customer-spending survey ($n=315$, $\hat\rho=0.65$); illustrates the SE inflation when pairing is ignored.
-- **Ex 5.6d** — derivation of the equal-variance collapse $\Var(\bar D) = 2\sigma^2(1-\rho)/n$ and the pooled-variance plug-in $s^2_{\text{pool}} = (s_X^2+s_Y^2)/2$; explains why pairing only helps when $\rho>0$.
-- **Ex 6.2a, 6.2b** — NA vs EU sales for Action titles: assumption of paired sampling (6.2a) + matching 98% paired CI (6.2b).
-- **Ex 6.8 c1** — paired 90% CI for FinSkills − Skills on the same developer ($n=820$); side-by-side comparison with the wider independent-samples CI.
-- **Ex 6.11a** — paired 90% CI for a blood indicator before/after a physical test ($n=25$, $\rho=0.6$, $t_{24}$).
-- **Ex 6.17a** — paired 99% CI for dwell time across two weeks at $n=23$ stores; this master is the consolidated/rounded version of that exercise (master uses rounded $s_d=4.2$, SE $\approx 0.876$; 6.17a derives $s_d \approx 3.95$, SE $\approx 0.824$ from the original $s_{XY}=34.6$).
-- **Ex 6.18b** — paired 98% CI for NA vs EU sales on Action titles (large $n$, CLT covers normality of $\bar D$).
 """,
     "images": ["statistics/images/master/master_g13e_ai.png"],
 }
-
 
 master_exercises["g14e_power"] = {
     "title": "Master Exam — Power, Type II error, and sample-size effects (consolidated)",
@@ -1961,22 +1927,9 @@ sapply(alphas, function(a){
 | $n \uparrow$           | $SE \downarrow$, $c$ closer to $\mu_0$, $H_1$-tail shrinks | $\uparrow$ | data collection |
 | $|\mu_1 - \mu_0| \uparrow$ | $H_1$ density centred further from $c$            | $\uparrow$ | not a design choice — set by reality |
 | $\alpha \uparrow$       | $c$ moves further from $\mu_0$ into the alternative side | $\uparrow$ | more Type I errors |
-
-**Master take-aways.**
-1. $\alpha$ is *chosen*; $\beta$ is *induced* — but both depend on the same critical value $c$ on the $\bar X$ scale.
-2. $c = \mu_0 - z_{1-\alpha}\,\sigma/\sqrt n$ for a lower-tailed test; flip the sign for upper-tailed; use $z_{1-\alpha/2}$ for two-sided.
-3. $\beta = P(\bar X \ge c \mid \mu = \mu_1)$ is just a tail of the $\mathcal N(\mu_1,\,\sigma^2/n)$ density — no new machinery.
-4. Power grows monotonically in $n$, in the effect size $|\mu_1-\mu_0|$, and in $\alpha$.
-5. The Type I / Type II trade-off can only be *escaped* — not balanced — by raising $n$.
-6. In our worked case ($n=47$, $\sigma=4$, $\mu_0=45$, $\mu_1=43$, $\alpha=0.10$): $c = 44.252$, $\beta \approx 0.016$, power $\approx 0.984$.
-
----
-
-**Linked snippets:** Ex 7.1b (NewHired Weeks: σ²=16 known, α=0.10 lower-tailed test; computes $\beta$ at $\mu = 50$ — Type I error case — and at $\mu = 43$ — Type II error case ≈ 0.016 — the dataset that anchors this master).
 """,
     "images": ["statistics/images/master/master_g14e_ai.png"],
 }
-
 
 master_exercises["g14b_two_sample"] = {
     "title": "Master Exam — Two-sample independent tests (means & proportions)",
@@ -2190,31 +2143,9 @@ qnorm(0.90)                                           # 1.2816 (one-sided crit a
 
 </details>
 
-<details class="master-subpart">
-<summary>(g) Master take-aways</summary>
-
-1. **One shape, three SEs.** $T = (\text{diff} - \Delta_0)/\widehat{\text{SE}}$ is the same across (M), (W), (P); only $\widehat{\text{SE}}$ and the reference distribution change.
-2. **Means with $\sigma$'s unknown.** Pooled-$t$ (template M) assumes $\sigma_1 = \sigma_2$. Welch (template W) drops that assumption — safe default. When $n_1=n_2$ the two SEs **numerically coincide**.
-3. **Proportions: pool under $H_0$.** Use $\hat p = (x_1+x_2)/(n_1+n_2)$ in the SE because, under $H_0$, the two proportions share a common $p$. Separate $\hat p_1,\hat p_2$ are for CIs, not for the test SE.
-4. **Direction matters.** Place the directional claim (the one whose false rejection is the most damaging error) in $H_1$. Never pick the side after seeing the data; the two-sided p-value is twice the one-sided **only** when $T$ points in the $H_1$ direction (else $\approx 1-\text{one-sided}$).
-5. **Non-zero $\Delta_0$ goes into the numerator.** Ex 7.5a tests $\Delta_0=10$, not $\Delta_0=0$: subtract 10 from the observed mean gap before dividing by SE.
-6. **Equivalent decisions.** $t_\text{obs}\in R_\alpha \iff p\leq\alpha$. Large $p$ $\neq$ "$H_0$ true"; only "insufficient evidence at $\alpha$".
-
-</details>
-
----
-
-**Linked snippets:**
-Ex 7.3a (cafeteria visit pre/post, pooled-$\hat p$ $z$) $\to$ part (a);
-Ex 7.3b (heavy users $>4$, same template, borderline at 10%) $\to$ part (b);
-Ex 7.5a (pooled $t$ with $\Delta_0=10$, fish-diet cholesterol, RR & p-value) $\to$ part (c);
-Ex 7.7a (Younger vs Senior AI-tool use, pooled-$\hat p$ $z$, large-$z$ rejection) $\to$ part (d);
-Ex 7.10a (pooled $t$ on summary stats, considered vs competitor at $\alpha=0.10$) $\to$ part (e).
-All five are instances of the unified independent-samples template above.
 """,
     "images": ["statistics/images/master/master_g14b_ai.png"],
 }
-
 
 # =====================================================================
 # g14c_paired — Paired hypothesis test (one-sided)
@@ -2397,14 +2328,9 @@ qt(0.99, df = n14 - 1) * se14                  # 77.92   (RR on Dbar, 1%)
 In both cases the **direction** is the same (revenues went up by 120 € on average per store-week). What changes with $n$ is the **strength of evidence** that this is more than sampling noise.
 
 </details>
-
----
-
-**Linked snippets:** Ex 7.6a (paired $t$-test with $n=7$, before vs after wi-fi, RR + $p$-value at $\alpha=0.05$); Ex 7.6b (qualitative effect of doubling the sample to $n=14$ on SE, RR threshold and $p$-value — same conclusion *reinforced*, with the $1\%$ decision flipping to reject).
 """,
     "images": ["statistics/images/master/master_g14c_ai.png"],
 }
-
 
 master_exercises["g15b_prediction"] = {
     "title": "Master Exam — Prediction intervals & CI for the mean response (consolidated)",
@@ -2423,7 +2349,8 @@ The questions in this master:
 
 ---
 
-### Part (a) — Point prediction $\hat y_0 = \hat\beta_0 + \hat\beta_1 x_0$ (single number, two interpretations).
+<details class="master-subpart" open>
+<summary><span class="tag tag-2plus">≥2 ex</span> (a) Point prediction $\hat y_0 = \hat\beta_0 + \hat\beta_1 x_0$ (single number, two interpretations)</summary>
 
 Once the line is fitted, both the *best guess* for one new family and the *best guess* for the population mean at $X=x_0$ collapse to the **same number** — plug $x_0$ into the equation:
 $$\hat y_0 \;=\; \hat\beta_0 + \hat\beta_1 x_0.$$
@@ -2442,10 +2369,12 @@ b0 <- 1479.262;  b1 <- 99.7471
 x0 <- 33
 yhat <- b0 + b1*x0;   yhat        # 4770.92
 ```
+</details>
 
 ---
 
-### Part (b) — Two error sources: line uncertainty vs irreducible noise.
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (b) Two error sources: line uncertainty vs irreducible noise</summary>
 
 The data-generating model is $Y_i = \beta_0 + \beta_1 X_i + \varepsilon_i$ with $\varepsilon_i \sim \mathcal{N}(0, \sigma_\epsilon^2)$ i.i.d. and independent of $X$. Now compare the **two questions** about a target value $x_0$:
 
@@ -2461,10 +2390,12 @@ $$\underbrace{\Var(\hat Y_0)}_{\text{line uncertainty at }x_0} \;=\; \sigma_\eps
 $$\underbrace{\Var(Y_0 - \hat Y_0)}_{\text{forecast error}} \;=\; \underbrace{\sigma_\epsilon^2}_{\varepsilon_0} \;+\; \underbrace{\sigma_\epsilon^2\, h(x_0)}_{\text{line noise}} \;=\; \sigma_\epsilon^2\,[\,1 + h(x_0)\,].$$
 
 The "$1+$" inside the bracket is **the** difference between a PI and a CI — it adds the variance of the *single* future $\varepsilon_0$ that the CI does not need to forecast (the CI targets a non-random parameter).
+</details>
 
 ---
 
-### Part (c) — The two standard errors.
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (c) The two standard errors</summary>
 
 Plugging in the residual-standard-error estimate $s_\epsilon$:
 $$\text{SE}_{\text{mean}}(x_0) \;=\; s_\epsilon\,\sqrt{\frac{1}{n} + \frac{(x_0-\bar x)^2}{(n-1)s_x^2}}, \qquad \text{SE}_{\text{pred}}(x_0) \;=\; s_\epsilon\,\sqrt{1 + \frac{1}{n} + \frac{(x_0-\bar x)^2}{(n-1)s_x^2}}.$$
@@ -2473,10 +2404,12 @@ Equivalently $\text{SE}_{\text{pred}}^2 = \text{SE}_{\text{mean}}^2 + s_\epsilon
 
 - **Sample-mean tower.** At $x_0 = \bar x$ the leverage $(x_0-\bar x)^2$ term vanishes, so $\text{SE}_{\text{mean}} = s_\epsilon/\sqrt n$ (familiar one-sample SE on $\bar Y$). $\text{SE}_{\text{pred}}$ still carries $s_\epsilon\sqrt{1+1/n} \to s_\epsilon$ — it never shrinks to zero, no matter how large $n$ is.
 - **Limit $n \to \infty$.** $\text{SE}_{\text{mean}} \to 0$ (we eventually pin the line *exactly*), but $\text{SE}_{\text{pred}} \to s_\epsilon$ — there is **always** the noise of the next draw, even when $\beta_0, \beta_1$ are known. **No amount of data can shrink a PI below $\sim s_\epsilon$.**
+</details>
 
 ---
 
-### Part (d) — 99% PI at $x_0 = 33$ on TeleDebt: the wide interval.
+<details class="master-subpart">
+<summary>(d) 99% PI at $x_0 = 33$ on TeleDebt: the wide interval</summary>
 
 For TeleDebt, $x_0=33$ is essentially at the centre of the sample (close to $\bar x$), so the leverage term is negligible and
 $$\text{SE}_{\text{pred}}(33) \;\approx\; s_\epsilon\sqrt{1 + 1/n} \;\approx\; 670\sqrt{1 + 1/430} \;\approx\; 670.78.$$
@@ -2504,10 +2437,12 @@ predict(mod, newdata = data.frame(Television = 33),
 ```
 
 **Interpretation.** With 99% confidence, a *single* family that watches $33$ hours of TV per week has debt between **\$3 037 and \$6 505**. The interval reflects (i) line-position noise (tiny at the centre) and (ii) the irreducible scatter $\varepsilon_0$ around the line (dominant).
+</details>
 
 ---
 
-### Part (e) — 99% CI for the mean response at $x_0 = 33$: the narrow interval.
+<details class="master-subpart">
+<summary>(e) 99% CI for the mean response at $x_0 = 33$: the narrow interval</summary>
 
 Drop the "$1+$" inside the radical:
 $$\text{SE}_{\text{mean}}(33) \;\approx\; s_\epsilon\sqrt{\,1/n + (x_0-\bar x)^2/((n-1)s_x^2)\,} \;\approx\; 670\sqrt{1/430 + \text{small}} \;\approx\; 32.32 \;\;(\text{leverage at }x_0\approx\bar x\text{ is dominated by the }1/n\text{ term}),$$
@@ -2526,10 +2461,12 @@ predict(mod, newdata = data.frame(Television = 33),
 ```
 
 **Interpretation.** With 99% confidence, the **average** debt across **all** families with $\text{TV}=33$ hours/week lies in $[\$4687,\,\$4855]$ — a much narrower window because we no longer have to absorb the noise of one specific household.
+</details>
 
 ---
 
-### Part (f) — Side-by-side PI vs CI: PI is **always** wider.
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (f) Side-by-side PI vs CI: PI is **always** wider</summary>
 
 | Quantity | $\sqrt{\cdot}$ factor | SE at $x_0=33$ | ME (99%) | Interval |
 |---|---|---|---|---|
@@ -2539,10 +2476,12 @@ predict(mod, newdata = data.frame(Television = 33),
 Ratio of half-widths: $1733.78 / 83.61 \approx 20.7$ — the PI is roughly **21× wider** than the CI on this dataset. The exact algebraic identity is
 $$\text{SE}_{\text{pred}}^2 - \text{SE}_{\text{mean}}^2 \;=\; s_\epsilon^2 \;\;\Rightarrow\;\; \frac{\text{SE}_{\text{pred}}}{\text{SE}_{\text{mean}}} \;=\; \sqrt{1 + \frac{1}{h(x_0)}}.$$
 With large $n$ and $x_0$ near $\bar x$, $h(x_0) \approx 1/n$ is tiny, so the ratio explodes — exactly what we see. **The PI is the conservative tool when "one specific future observation" is what we care about.**
+</details>
 
 ---
 
-### Part (g) — Why both intervals widen as $x_0$ moves away from $\bar x$ (leverage curve).
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (g) Why both intervals widen as $x_0$ moves away from $\bar x$ (leverage curve)</summary>
 
 Inside both square roots sits the **leverage term**
 $$\frac{(x_0 - \bar x)^2}{(n-1) s_x^2}.$$
@@ -2568,10 +2507,12 @@ ci    <- predict(mod, newdata = newdf, interval = "confidence", level = 0.99)
 matplot(newdf$Television, cbind(pi, ci[,2:3]), type="l",
         lty = c(1,2,2,3,3), col = c("black","red","red","blue","blue"))
 ```
+</details>
 
 ---
 
-### Part (h) — Sales-on-discount cross-check (Ex 8.10): PI vs CI at $x_0 = 12$.
+<details class="master-subpart">
+<summary>(h) Sales-on-discount cross-check (Ex 8.10): PI vs CI at $x_0 = 12$</summary>
 
 Different dataset, same machinery. With $n=50$, $\bar x = 10$, $\sum(x_i-\bar x)^2 = 25\,000$, $s_\epsilon^2 = 83.33$, $\hat\beta_0=48$, $\hat\beta_1=1.2$:
 $$\hat y(12) \;=\; 48 + 1.2 \cdot 12 \;=\; 62.4.$$
@@ -2584,10 +2525,12 @@ $$\text{ME}_{\text{PI}} \;=\; 2.011 \cdot 9.129 \cdot \sqrt{1 + 0.02016} \;\appr
 $$\text{ME}_{\text{CI}} \;=\; 2.011 \cdot 9.129 \cdot \sqrt{\;\;\;\;\;\,0.02016} \;\approx\; \;\,2.61 \;\Rightarrow\; \text{CI}_{95\%} \;=\; (59.79,\,65.01).$$
 
 Ratio $18.54/2.61 \approx 7.1$ — the PI is again much wider. (The ratio is smaller than on TeleDebt because $n$ is smaller, so the line-position SE is not negligible relative to $s_\epsilon$.)
+</details>
 
 ---
 
-### Part (i) — Extrapolation at $x_0 = 30$: **risky** even with the leverage term.
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (i) Extrapolation at $x_0 = 30$: **risky** even with the leverage term</summary>
 
 The leverage factor in the PI/CI formula already inflates the half-width as $x_0$ leaves $\bar x$ — so isn't that "honest enough"? **No.** The formula's inflation is *inside the linear-mean model*: it tells you how uncertain $\hat y_0$ is **assuming** $E[Y\mid X]=\beta_0+\beta_1 X$ still holds at $x_0$. Outside the modelled range, *the assumption itself* may break.
 
@@ -2613,6 +2556,7 @@ c(yhat - ME, yhat + ME)                                # (65.32, 102.68) -- extr
 # At Salary=0, observed Salary ranges [10000, 170000] -> 0 is FAR outside support.
 # Naive PI even ends up centred on a negative point prediction yhat(0) = -15.7$.
 ```
+</details>
 
 ---
 
@@ -2631,26 +2575,9 @@ c(yhat - ME, yhat + ME)                                # (65.32, 102.68) -- extr
 | 95% PI at $x_0=12$ (Ex 8.10) | $(43.86,\,80.94)$ | Part (h) |
 | 95% CI at $x_0=12$ (Ex 8.10) | $(59.79,\,65.01)$ | Part (h) |
 | 95% PI at $x_0=30$ (extrapolation, Ex 8.10) | $(65.32,\,102.68)$ — **risky** | Part (i) |
-
-**Master take-aways.**
-1. **One point estimate, two questions.** $\hat y_0 = \hat\beta_0 + \hat\beta_1 x_0$ is *both* the estimator of $E[Y\mid X=x_0]$ and the forecast of a single $Y_0$ — the questions differ only in *uncertainty*, not in the point.
-2. **PI = CI plus irreducible noise.** $\text{SE}_{\text{pred}}^2 = \text{SE}_{\text{mean}}^2 + s_\epsilon^2$. The "$1+$" inside the radical encodes the variance of the next $\varepsilon_0$ — a CI doesn't carry it because it targets a parameter, not a future draw.
-3. **PI is always wider than CI** at the same $x_0$ and level — by a factor that can be enormous when $n$ is large and $x_0$ is near $\bar x$ ($\approx 22\times$ on TeleDebt).
-4. **PI has a floor.** As $n\to\infty$, CI shrinks to $0$ but PI tends to $s_\epsilon \cdot t_{\alpha/2}$ — more data **cannot** save you from $\varepsilon_0$.
-5. **Both intervals widen as $x_0$ moves away from $\bar x$** via the leverage term $(x_0-\bar x)^2/((n-1)s_x^2)$ — the "fan" or "hourglass" prediction band. Minimum width at $x_0 = \bar x$, growing quadratically with distance.
-6. **Extrapolation $\Rightarrow$ risky.** The leverage term inflates intervals *inside* the linear-mean model only. Outside the observed support of $X$, the mean function or the variance may break — and the formula has no way to tell. Refuse to publish PI/CI at $x_0$ outside $[\min(x_i),\,\max(x_i)]$ without strong domain backing.
-7. **R one-liners.** `predict(mod, newdata=..., interval="prediction"|"confidence", level=...)`. Both are reported as `fit / lwr / upr`; only the `interval=` argument changes.
-8. **Causality cap (carried over from Ex 8.1c).** Even a tight CI for $E[Y\mid X=x_0]$ documents *association*, not causation; observational data and confounders (income, household size, age, reverse causality) forbid claims like "lowering $X$ would lower mean $Y$".
-
----
-
-**Linked snippets:** Ex 8.1c (99% PI and CI at $\text{Television}=33$ on TeleDebt — *the* source dataset for this master, both intervals computed, $22\times$ width ratio, causality cap); Ex 8.2b (PI at $\text{Salary}=0$ on AmountSpent — extrapolation diagnosis far below the support of $X$, **plus** heteroscedasticity invalidating $s_\epsilon$); Ex 8.10a (sales-on-discount cross-check: 95% PI vs 95% CI at $x_0=12$ in-sample, and 95% PI at $x_0=30$ as an extrapolation warning — same machinery, smaller $n$, smaller PI/CI ratio).
-
-![Master G15b — fitted line with CI and PI bands, leverage curve, CI vs PI, extrapolation](statistics/images/master/master_g15b_ai.png)
 """,
     "images": ["statistics/images/master/master_g15b_ai.png"],
 }
-
 
 master_exercises["g14d_chi_squared"] = {
     "title": "Master Exam — Chi-squared (GoF + independence) (consolidated)",
@@ -2936,22 +2863,9 @@ qchisq(0.95, df = K - 1 - 2)        # 3.841   (Normal, 2 par estimated)
 | $\chi^2_{3,\,0.95}$ | $7.815$ | $7.815$ |
 | p-value | $0.00442$ | $0.00400$ |
 | Decision @ $\alpha=0.05$ | reject — non-uniform | reject — associated |
-
-**Master take-aways.**
-1. **One template, two tests:** $X^2 = \sum (O-E)^2/E$ approximately $\chi^2_\text{df}$ under $H_0$; only **how you build $E$** and **how you count df** change.
-2. **GoF $E$ comes from the null** $(E_k=n\,p_k^0)$; **independence $E$ comes from the data** $(\widehat E_{ij}=n_{i\cdot}n_{\cdot j}/n)$.
-3. **Df = (cells) $-1-$ (parameters estimated to build $E$).** Fully-specified GoF: df=$K-1$. Composite GoF with $p$ estimated parameters: df=$K-1-p$. Independence: df=$(r-1)(c-1)$.
-4. **Always check $\widehat E_{ij}\ge 5$** (Cochran's rule); otherwise merge categories, switch to Fisher's exact test, or simulate the p-value.
-5. **Rejection region** is the **upper tail** of $\chi^2_\text{df}$: $X^2 > \chi^2_{\text{df},\,1-\alpha}$ (equivalently $p<\alpha$). The $\chi^2$ test is **inherently one-sided** because large $X^2$ is the only direction of incompatibility with $H_0$.
-6. **Where does the rejection live?** Inspect **standardised Pearson residuals** $(O-\widehat E)/\sqrt{\widehat E}$ — cells with $|z|\gtrsim 2$ drive the statistic and tell the substantive story (here: Low $\uparrow$ Far, None $\uparrow$ Close).
-
----
-
-**Linked snippets:** Ex 7.4a (GoF uniform on `History`, $n=750$, $\chi^2_\text{obs}=13.104$ — the marginal counts that seed this master); Ex 7.4b (same GoF stratified by `Location`, showing the imbalance is present in *both* sub-populations); Ex 7.7b (chi-squared independence on a $5\times 5$ table `Age_Class`$\times$`LearnTool` with $X^2_\text{obs}=115.69$ on $\chi^2_{16}$, and a worked example of the $\widehat E_{ij}<5$ validity failure in its part (c)); Ex 7.9a (GoF against a **non-uniform** Italian-population $p_0=(0.76,0.13,0.09,0.02)$ on `DS$Children`, $X^2=608.81$ — null *rejected* spectacularly, mostly via the "3+" cell); Ex 7.9b (GoF uniform on 4 supermarket entrances, $n=130$, $X^2=4.523$, $p=0.2104$ — same template, null *retained* — the contrast case to Part (a)).
 """,
     "images": ["statistics/images/master/master_g14d_ai.png"],
 }
-
 
 master_exercises["g1a_pie"] = {
     "title": "Master Exam — Pie chart (consolidated)",
@@ -3061,24 +2975,9 @@ barplot(table(History))                             # do NOT use pie() here
 ```
 
 </details>
-
----
-
-**Master take-aways.**
-
-1. A pie chart is appropriate for a **nominal** variable with **few exhaustive** categories — never for ordinal data, never for many categories, never for two-group comparisons.
-2. Build it in three steps: **relative frequencies $\hat p_i = n_i/n$ $\to$ slice angles $\theta_i = \hat p_i\times 360°$ $\to$ draw**; check $\sum_i\hat p_i = 1$ and $\sum_i\theta_i = 360°$.
-3. Read it by **ranking slice sizes** and identifying the modal category; do not try to extract precise numbers from the angles.
-4. The default safe alternative is a **vertical bar plot** — it generalises to ordinal data and to large $K$, and uses length (a more accurate visual channel than angle).
-5. For `SmokingArea` here, the two slices are nearly identical ($49\%$ vs $51\%$, $176.4°$ vs $183.6°$): the chart's qualitative message is **"balanced sample"**.
-
----
-
-**Linked snippets:** Ex 1, Q1.1a (`SmokingArea`, Yes/No — the dataset used here); Ex 1, Q1.2d (`History`, ordinal None/Low/Medium/High — the *counter-example* where a pie chart loses the meaningful order); Ex 1, Q1.3c (`Sex`, nominal F/M — a second valid use case, with the same construction recipe).
 """,
     "images": ["statistics/images/master/master_g1a_pie_ai.png"],
 }
-
 
 master_exercises["g1c_hist"] = {
     "title": "Master Exam — Histogram (consolidated)",
@@ -3248,24 +3147,12 @@ The rule is simple and exam-friendly:
 | Skew (here) | right (positive): tail toward high Sales |
 | Common error | `freq = TRUE` with unequal widths $\Rightarrow$ areas wrong |
 
-**Master take-aways.**
-1. **Histogram $=$ density picture for a continuous variable.** Bars touch because the $x$-axis is metric.
-2. **Area, not height, encodes proportion.** $\text{area}_i = h_i \, w_i = f_i/n$ by construction.
-3. **Equal widths are forgiving:** counts and densities give the same shape. **Unequal widths are not:** counts on the $y$-axis produce *misleading areas* — always use density (`freq = FALSE`).
-4. **Pick $K$ with Sturges ($1+\log_2 n$) or $\sqrt n$**; then adjust by eye. Too few bins hide structure; too many turn the picture into noise.
-5. **Read shape from the density:** modal class (tallest density), skew (asymmetry around the mode), and gaps/light tails (low or zero density bars).
-
 ---
 
 **Bimodality — when the picture shows *two* peaks.** A *unimodal* histogram has one tall central class; a *bimodal* histogram has **two locally-tall classes separated by a valley**. Bimodality is a diagnostic for **two mixed sub-populations** (e.g. customers with short vs long visits, two brands sharing the variable). In **Ex 1.5g** the variable `Time` ($n=1800$) has two local density highs at $[10,20)$ (the modal class) and $[60,90)$, separated by the much lower-density class $[30,60)$ — the visual signature of *two typical customer behaviours* (a quick visit and a long visit). With bimodal data, **a single mean and median both fall in the valley** and mis-represent both sub-populations: report the *bimodality* as the headline finding and consider splitting the sample.
-
----
-
-**Linked snippets:** Ex 0.1a/c/e/i (histogram of pizzerie `Sales` — design choices, equal vs unequal widths, density scale); Ex 1.1c (variable type → choose histogram); Ex 1.1d (equal vs unequal-width bins — the density-vs-frequency lesson); Ex 1.3a (variable inventory, identifying numerical/continuous); Ex 1.3g (10 equal-width breaks on `Revenue`, right-skew reading); Ex 1.3h (alternative bin widths on `Revenue` — when more bins do *not* add information); Ex 1.5g (densities for `Time` with unequal widths and bimodality); Ex 2.3c, 2.5g, 2.6a3 (histogram + grouped-data shape diagnostics in second-block exams).
 """,
     "images": ["statistics/images/master/master_g1c_hist_ai.png"],
 }
-
 
 master_exercises["g13f_estimation"] = {
     "title": "Master Exam — Unbiased estimators and sampling SE (consolidated)",
@@ -3396,22 +3283,9 @@ ceiling( (qnorm(0.975) * s / target_ME)^2 ) # 6147 pizzerias needed
 | $P(|\bar X-\mu|>2\,SE)$ | $2[1-\Phi(2)]$ | $0.0455$ | The "2-SE rule of thumb" $\approx 95\%$ |
 | $P(|\bar X-\mu|>1.96\,SE)$ | $2[1-\Phi(1.96)]$ | $0.0500$ | Exact 95% calibration |
 | SE at $n=400$ | $s/\sqrt{400}$ | $400$ € | Quadruple $n$ to halve the SE |
-
-**Master take-aways.**
-1. **Unbiased $\ne$ accurate for this sample.** $\mathbb E[T]=\theta$ is a property of the *sampling distribution*, not of the realised $\hat\theta$. Two unbiased estimators can still differ by their variance — the one with **smaller variance** (and hence smaller SE) is preferred.
-2. **The $n-1$ in $S^2$ is the price for using $\bar X$ in place of $\mu$.** One degree of freedom is consumed; dividing by $n-1$ restores $\mathbb E[S^2]=\sigma^2$. **Beware:** $S$ is still slightly biased for $\sigma$, but the bias is $O(1/n)$ and irrelevant for $n=100$.
-3. **SE measures variability of the *estimator*, not of the data.** $SE(\bar X) = \sigma/\sqrt n$ is far smaller than $\sigma$ (the data's spread); confusing the two is one of the most common inference mistakes.
-4. **The "1-SE band" misses about a third of the time** under Normality ($P(|Z|>1)\approx 0.317$). Use $\pm 1.96\,SE$ for 95% (with known $\sigma$, large $n$) or $\pm t_{0.975,n-1}\,\widehat{SE}$ otherwise.
-5. **$1/\sqrt n$ scaling is brutal.** Halving the SE costs $4\times$ the sample; cutting it to a tenth costs $100\times$. Plan the sample size from the *target ME*, not from intuition.
-6. **Why this matters downstream.** The CI of master g13a, the test statistics of g14a–g14c, and the regression SEs of g15a all start from the SE computed here. Get the SE wrong (e.g. forget Bessel, use $\sigma$ instead of $\sigma/\sqrt n$, mis-scale with $n$) and every interval and p-value built on top of it is wrong by the same factor.
-
----
-
-**Linked snippets:** Ex 5.13a1 (definition $\mathbb E[T]=\theta$ and unbiasedness of $\bar X$ for $\mu$ via linearity of expectation, with $\sigma$ **known** so $SE=\sigma/\sqrt n$ is exact); Ex 5.13a2 (standardising the event $|\bar X-\mu|>SE$ to $|Z|>1$, the resulting $P\approx 0.3173$ under Normality or CLT, and the Chebyshev fallback when neither assumption holds). The Bessel correction ($S^2$ unbiased for $\sigma^2$, $n-1$ vs $n$) and the $1/\sqrt n$ sample-size law in part (c) live **only** in this master — they consolidate beyond the two snippets.
 """,
     "images": ["statistics/images/master/master_g13f_ai.png"],
 }
-
 
 master_exercises["g15d_categorical"] = {
     "title": "Master Exam — Categorical predictors, dummies & interactions (consolidated)",
@@ -3427,7 +3301,10 @@ with $R^2 = 0.612$, residual SD $\hat\sigma = 620$, and residual df $n-p-1 = 100
 
 ---
 
-**(a) Why $k$ categories become $k-1$ dummies — the dummy-variable trap.** For a nominal variable with $k$ levels $\{L_1,\dots,L_k\}$ we **cannot** put $k$ indicator columns into a regression that also has an intercept: the $k$ dummies sum to the all-ones vector, which is the intercept column, so the design matrix $\mathbf X$ has rank $\le p$ and $(\mathbf X^\top\mathbf X)^{-1}$ does not exist. The standard fix — **treatment / reference coding** — drops one level (the **baseline**) and keeps $k-1$ dummies:
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> (a) Why $k$ categories become $k-1$ dummies — the dummy-variable trap</summary>
+
+For a nominal variable with $k$ levels $\{L_1,\dots,L_k\}$ we **cannot** put $k$ indicator columns into a regression that also has an intercept: the $k$ dummies sum to the all-ones vector, which is the intercept column, so the design matrix $\mathbf X$ has rank $\le p$ and $(\mathbf X^\top\mathbf X)^{-1}$ does not exist. The standard fix — **treatment / reference coding** — drops one level (the **baseline**) and keeps $k-1$ dummies:
 
 $$D^{course}_{b,i} \;=\; \begin{cases}1 & course_i = b\\ 0 & \text{otherwise}\end{cases},\qquad D^{course}_{c,i} \;=\; \begin{cases}1 & course_i = c\\ 0 & \text{otherwise}\end{cases}.$$
 
@@ -3444,9 +3321,14 @@ summary(fit1)                                            # -> beta0=1400, beta_g
 
 *Three coding alternatives* (same fit, different parametrisation): **treatment** (baseline absorbed; coefficients = level vs baseline — the default and what we use), **sum-to-zero** (deviations from the grand mean, `contr.sum`), **no-intercept + all $k$ dummies** (cell means, `lm(y ~ 0 + course)`). All produce identical fitted values; they differ only in *what each coefficient means*.
 
+</details>
+
 ---
 
-**(b) Reference-category interpretation.** With $sex=F$ and $course=a$ as the reference levels, the intercept gives the expected `Salary` for a *reference* employee with all dummies zero **and** all continuous predictors zero:
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (b) Reference-category interpretation</summary>
+
+With $sex=F$ and $course=a$ as the reference levels, the intercept gives the expected `Salary` for a *reference* employee with all dummies zero **and** all continuous predictors zero:
 
 $$\mathbb E[\text{Salary}\mid grade=0,\; sex=F,\; course=a] \;=\; \hat\beta_0 \;=\; 1\,400 \text{ €}.$$
 
@@ -3461,9 +3343,14 @@ all.equal(fitted(fit1), fitted(fit1c))                   # TRUE
 
 **Practical rule.** Choose the baseline that makes the *comparisons of interest* read off most naturally — e.g. control vs treatment, or the largest/most-stable cell.
 
+</details>
+
 ---
 
-**(c) Reading a dummy coefficient (level vs baseline, ceteris paribus).** Each dummy coefficient is the **mean shift** in $y$ between that level and the baseline, **holding all other regressors fixed**:
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (c) Reading a dummy coefficient (level vs baseline, ceteris paribus)</summary>
+
+Each dummy coefficient is the **mean shift** in $y$ between that level and the baseline, **holding all other regressors fixed**:
 
 - $\hat\beta_M = +2\,000$: at the same `grade` and the same `course`, **men** earn on average **2 000 € more per month** than **women**. *That is the conditional gender gap implied by this model.* It is **not** a causal effect — it could reflect any omitted variable correlated with `sex` and `Salary` (seniority, hours, role). Significance: $t = \hat\beta_M / \widehat{SE}(\hat\beta_M)$; with $\widehat{SE}\approx 130$ this is $t\approx 15.4$ on $95$ df, $p<10^{-26}$ — clearly significant.
 - $\hat\beta_b = +450$: at the same `grade` and same `sex`, attending **course $b$** is associated with **+450 €/month** vs the baseline **course $a$**.
@@ -3486,9 +3373,14 @@ V <- vcov(fit1);  L <- c(0,0,0,1,-1)
 sqrt(t(L) %*% V %*% L)                                   # e.g. ~ 165 -> t ~ 3.6
 ```
 
+</details>
+
 ---
 
-**(d) Joint significance of `course` — partial $F$ test.** Whether *the categorical variable as a whole* matters is **not** answered by looking at the two individual dummies separately (one can be non-significant while the variable jointly is) — we need a joint test of
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (d) Joint significance of `course` — partial $F$ test</summary>
+
+Whether *the categorical variable as a whole* matters is **not** answered by looking at the two individual dummies separately (one can be non-significant while the variable jointly is) — we need a joint test of
 
 $$H_0:\; \beta_b = \beta_c = 0 \qquad\text{vs.}\qquad H_1:\; \beta_b \neq 0 \text{ or } \beta_c \neq 0.$$
 
@@ -3516,9 +3408,14 @@ qf(0.95, df1 = p1 - p0, df2 = n - p1 - 1)                            # 3.094
 
 **Why not just look at the two $t$-stats?** Because the $t$ tests are **marginal** (each given the *other* predictors including the other course dummy). The joint $F$ is the right global test — it is what a "drop the variable?" decision should rest on, and it generalises immediately to any group of regressors (interactions, polynomials, splines).
 
+</details>
+
 ---
 
-**(e) Interaction $sex\times grade$ — letting the slope differ by group.** The model so far assumes the marginal effect of `grade` on `Salary` is the **same** for women and men: $\partial \mathbb E[Salary]/\partial grade = \beta_g$ regardless of $sex$. To let the slope **differ by sex**, add the interaction:
+<details class="master-subpart">
+<summary>(e) Interaction $sex\times grade$ — letting the slope differ by group</summary>
+
+The model so far assumes the marginal effect of `grade` on `Salary` is the **same** for women and men: $\partial \mathbb E[Salary]/\partial grade = \beta_g$ regardless of $sex$. To let the slope **differ by sex**, add the interaction:
 
 $$\mathcal M_2:\; \text{Salary} \;=\; \beta_0 + \beta_g\,grade + \beta_M\,D^{sex}_M + \beta_b\,D^{course}_b + \beta_c\,D^{course}_c + \gamma\,(D^{sex}_M\cdot grade) + \varepsilon.$$
 
@@ -3541,9 +3438,14 @@ gam  <- coef(fit2)["grade:sexM"];     b_g + gam                    # 42  -> men
 
 *Centering tip.* If $\hat\beta_M$ is hard to interpret because $grade=0$ is far outside the data, **centre** `grade` (subtract its mean): the main effect of `sex` then reads off as the gender gap at the **average grade**, not at $grade=0$.
 
+</details>
+
 ---
 
-**(f) Parallel-lines vs separate-lines models — geometry & test.** Holding `course` at the baseline $a$ for clarity, $\mathcal M_1$ and $\mathcal M_2$ trace, in the $(grade, Salary)$ plane, two **lines** — one for women, one for men:
+<details class="master-subpart">
+<summary>(f) Parallel-lines vs separate-lines models — geometry & test</summary>
+
+Holding `course` at the baseline $a$ for clarity, $\mathcal M_1$ and $\mathcal M_2$ trace, in the $(grade, Salary)$ plane, two **lines** — one for women, one for men:
 
 | Model | Women: intercept | Women: slope | Men: intercept | Men: slope | Geometry |
 |---|---|---|---|---|---|
@@ -3575,6 +3477,8 @@ legend("topleft", lty=c(1,2,1,2), col=c("navy","navy","darkorange","darkorange")
 
 **Decision rule.** Test $H_0:\gamma=0$ (interaction zero) via the $t$ on $\hat\gamma$ or `anova(fit1, fit2)`. If **not** rejected, prefer $\mathcal M_1$ (parallel lines — simpler, more df for the residual, identical slope for all groups). If **rejected**, keep $\mathcal M_2$ (separate slopes — the effect of the continuous predictor genuinely differs across groups).
 
+</details>
+
 ---
 
 **Summary table — the GS model family.**
@@ -3588,25 +3492,9 @@ legend("topleft", lty=c(1,2,1,2), col=c("navy","navy","darkorange","darkorange")
 | Lines in $(grade,Salary)$ by sex (at $course=a$) | one line per sex, **parallel** | one line per sex, **parallel** | one line per sex, **non-parallel** |
 | Test for "course matters" | n/a | partial $F_{2,95}$ on dropping $\{b,c\}$ | partial $F_{2,94}$ on dropping $\{b,c\}$ |
 | Test for "slope differs by sex" | n/a | n/a | $t$ on $\hat\gamma$ $\equiv$ partial $F_{1,94}$ |
-
-**Master take-aways.**
-1. **A categorical variable with $k$ levels enters as $k-1$ dummies** (when the model has an intercept). The omitted level is the **reference / baseline** and lives inside $\hat\beta_0$.
-2. **The choice of baseline is arbitrary for the fit but matters for interpretation** — coefficients are always *level vs baseline*. Re-levelling relabels coefficients but leaves predictions, $R^2$, and $F$-tests unchanged.
-3. **Each dummy coefficient = mean shift in $y$ vs baseline, ceteris paribus.** Differences between *two non-baseline* levels are linear combinations — get their SE from $\mathbf{L}^\top \widehat{\text{Var}}(\hat\beta) \mathbf{L}$ or by re-levelling.
-4. **Joint significance of a $k$-level factor uses the partial $F$** on all $k-1$ dummies simultaneously (`anova(fit0, fit1)`) — *never* read it off a single $t$, which is marginal.
-5. **An interaction $D\cdot x$ lets the slope on a continuous $x$ differ across the levels of a categorical $D$.** $\gamma=0$ $\Leftrightarrow$ **parallel-lines** model; $\gamma\neq 0$ $\Leftrightarrow$ **separate-slope** model.
-6. **Always interpret main effects in the presence of interactions carefully**: with $sex\times grade$ in the model, $\hat\beta_M$ is the gender gap at $grade=0$ — centre `grade` (subtract $\bar{grade}$) to read it as the gap at the *average* grade instead.
-
----
-
-**Linked snippets:** Ex 9.5 (Restaurants: `evening_only` as a single dummy — special case $k=2$ of part (a)–(c)); Ex 9.6 (MBA `TypeDegree` with multiple levels — the $k-1$ coding rule and joint test of part (a),(d)); Ex 9.7 (Performance vs `Sector` — reference-category interpretation and partial $F$, parts (b)–(d)); Ex 9.9 (GS `sex + course` on Salary — the dataset that seeds this master, including the interaction discussion of parts (e)–(f)).
-
-![Master G15d — boxplots by group, parallel vs separate lines, coefficient heatmap](statistics/images/master/master_g15d_ai.png)
 """,
     "images": ["statistics/images/master/master_g15d_ai.png"],
 }
-
-
 
 # =====================================================================
 # g15e_diagnostics --- Residual diagnostics & multicollinearity
@@ -3643,7 +3531,8 @@ n    <- nobs(mod);  p <- length(coef(mod))       # 50 obs, 2 parameters
 
 ---
 
-### (a) Raw residuals $e_i$ and standardised residuals $r_i^{\text{std}}$
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> (a) Raw residuals $e_i$ and standardised residuals $r_i^{\text{std}}$</summary>
 
 The **raw residual** is the empirical counterpart of the unobservable error $\epsilon_i$:
 $$e_i \;=\; y_i \;-\; \hat y_i \;=\; y_i \;-\; (\hat\beta_0 + \hat\beta_1 x_i).$$
@@ -3669,9 +3558,12 @@ sum(restaurants$surface * e)                     # ~ 0
 mean(abs(r_std) > 2)                             # share of "worth-inspecting" points
 ```
 
+</details>
+
 ---
 
-### (b) Plot $e$ vs $\hat y$ --- funnel $\Rightarrow$ heteroscedasticity
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (b) Plot $e$ vs $\hat y$ --- funnel $\Rightarrow$ heteroscedasticity</summary>
 
 The **residuals-vs-fitted** plot is the single most informative diagnostic. Under the Gauss--Markov assumptions, $e_i$ should look like noise around zero with **constant vertical spread** for every value of $\hat y$. Failure patterns:
 
@@ -3699,9 +3591,12 @@ bptest(mod)                                     # Breusch-Pagan; p < 0.05 -> rej
 bptest(mod, ~ surface + I(surface^2))           # White-style (squares included)
 ```
 
+</details>
+
 ---
 
-### (c) Plot $e$ vs each $x$ --- functional-form check
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (c) Plot $e$ vs each $x$ --- functional-form check</summary>
 
 Whereas $e$ vs $\hat y$ pools information across *all* predictors, plotting **residuals against each predictor separately** isolates which variable is misspecified. Expected pattern under correct specification: a **flat horizontal band**, with the LOWESS smoother hugging zero. Telltale failures:
 
@@ -3719,9 +3614,12 @@ abline(h = 0, lty = 2)
 lines(lowess(restaurants$surface, e), col = "firebrick", lwd = 2)
 ```
 
+</details>
+
 ---
 
-### (d) Histogram + Q-Q of residuals --- Normality
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (d) Histogram + Q-Q of residuals --- Normality</summary>
 
 Normality of $\epsilon$ is **not** needed for OLS unbiasedness or consistency --- it is needed for **exact** small-sample $t$- and $F$-inference and for prediction *intervals*. Two visual tools:
 
@@ -3749,9 +3647,12 @@ par(mfrow = c(1, 1))
 shapiro.test(r_std)                              # H0: Normal; reject if p < 0.05
 ```
 
+</details>
+
 ---
 
-### (e) Cook's distance, leverage, influence
+<details class="master-subpart">
+<summary>(e) Cook's distance, leverage, influence</summary>
 
 A point can be unusual in three distinct ways --- and we need three distinct diagnostics:
 
@@ -3784,9 +3685,12 @@ plot(mod)                                        # 4 canonical diagnostic plots
 par(mfrow = c(1, 1))
 ```
 
+</details>
+
 ---
 
-### (f) VIF for multicollinearity (multiple regression)
+<details class="master-subpart">
+<summary>(f) VIF for multicollinearity (multiple regression)</summary>
 
 In a *multiple* regression $Y \sim X_1+\dots+X_k$, the variance of $\hat\beta_j$ inflates whenever $X_j$ can be linearly predicted from the *other* regressors:
 
@@ -3813,9 +3717,12 @@ vif(modM)                                        # one number per regressor
 cor(restaurants[, c("surface", "seats", "evening_only")])
 ```
 
+</details>
+
 ---
 
-### (g) Remedies
+<details class="master-subpart">
+<summary>(g) Remedies</summary>
 
 Pair each diagnostic failure with its standard fix:
 
@@ -3861,6 +3768,8 @@ cv <- cv.glmnet(X, y, alpha = 0)                 # alpha=0 -> ridge
 coef(cv, s = "lambda.min")
 ```
 
+</details>
+
 ---
 
 ### Summary diagnostic checklist
@@ -3875,13 +3784,6 @@ coef(cv, s = "lambda.min")
 | 6 | Cook's $D_i$ | $<4/n$ | Large $D_i$ $\Rightarrow$ influential ; refit without and report |
 | 7 | VIF$_j$ | $<5$ | $>10$ $\Rightarrow$ drop, combine, or ridge |
 
-**Master take-aways.**
-1. **Diagnostics are sequential, not parallel** --- you always look at $e$ vs $\hat y$ first; everything else is conditional on what that plot reveals.
-2. **Standardise before judging residuals** --- raw $e_i$ are heteroscedastic by construction (variance $\propto 1-h_{ii}$); use $r_i^{\text{std}}$ or $r_i^{\text{stud}}$ for cross-observation comparisons.
-3. **Outlier $\ne$ leverage $\ne$ influence** --- Cook's $D_i$ multiplies the two ingredients; only points that are *both* outlying *and* high-leverage actually move the fit.
-4. **VIF measures redundancy, not importance** --- a regressor can have huge VIF and still be the right scientific variable; the remedy is ridge or substantive simplification, not blind deletion.
-5. **One transformation often kills two birds** --- $\log Y$ usually fixes both right-skew (Normality) and funnel (heteroscedasticity) simultaneously, because both arise from multiplicative noise.
-
 ---
 
 **Linked snippet:** Ex 8.4a (Restaurants: revenues ~ surface, $n=50$, $\hat\beta_0=246.81$, $\hat\beta_1=0.4049$ kEUR/$m^2$, $R^2\approx 0.61$ --- the dataset whose residual plot exhibits the funnel that motivates this entire master).
@@ -3890,7 +3792,6 @@ coef(cv, s = "lambda.min")
 """,
     "images": ["statistics/images/master/master_g15e_ai.png"],
 }
-
 
 master_exercises["g1b_bar"] = {
     "title": "Master Exam — Bar plot (consolidated)",
@@ -4030,25 +3931,9 @@ hist(pizzerie$Sales, freq = FALSE)            # bars touch; metric x-axis
 ```
 
 </details>
-
----
-
-**Master take-aways.**
-
-1. A bar plot is the **default** display for categorical data (nominal *and* ordinal). Bars have **gaps** because the $x$-axis carries labels, not distances.
-2. **Axis ordering** depends on the scale: nominal $\Rightarrow$ any order (alphabetical or Pareto); ordinal $\Rightarrow$ natural order, **never** sorted by frequency.
-3. **Shape is invariant** under frequency $\leftrightarrow$ relative frequency $\leftrightarrow$ percentage — the rescaling is the same constant for every bar. Pick the scale by audience and by whether two samples are being compared.
-4. **Orientation** (vertical vs horizontal) is a readability choice — go horizontal when names are long or $K$ is large.
-5. **Always include zero on the value axis** — bars encode counts by *length*, so a truncated axis breaks the visual proportionality and misleads the reader.
-6. For `District` here, the three counts (35 / 33 / 32) lie inside the multinomial sampling-noise band, so the chart's qualitative message is **"districts are balanced; no dominant one"**.
-
----
-
-**Linked snippets:** Ex 1, Q1.1b (`District`, nominal Lodi/Milano/Pavia — the dataset used here); Ex 1, Q1.2d (`History`, ordinal None/Low/Medium/High — the *counter-example* for axis ordering, where Pareto sorting would be wrong); Ex 0.1a/c (`Sales`, continuous — the contrast case where one must use a histogram, not a bar plot).
 """,
     "images": ["statistics/images/master/master_g1b_bar_ai.png"],
 }
-
 
 master_exercises["g1d_spike"] = {
     "title": "Master Exam — Spike plot (consolidated)",
@@ -4211,25 +4096,9 @@ Why a **bar plot is wrong here.** A bar plot's $x$-axis is a *label* axis, so pl
 This is the canonical exam pitfall: *whenever the discrete support has gaps (unobserved integers inside the range), only a spike plot represents the data without distortion.*
 
 </details>
-
----
-
-**Master take-aways.**
-
-1. **Spike plot $=$ honest display of a discrete numerical variable.** Each spike is a vertical line of zero width at an integer $x$-value, so the picture never suggests fractional outcomes.
-2. **Metric $x$-axis.** The visible *gaps* between spikes encode the impossibility of non-integer values — this is the structural difference from a bar plot (label axis) and from a histogram (touching bars on a continuous axis).
-3. **Histograms mislead for discrete data:** their touching bars imply a continuum, their boundary choices are arbitrary, and unequal classes force a density rescaling that breaks intuition.
-4. **Shape invariance** under frequency $\leftrightarrow$ relative frequency $\leftrightarrow$ percentage holds exactly as for bar plots — the same global rescaling, the same picture.
-5. **Gaps in the support** (unobserved integers inside the range, e.g. `Quantity_New` skipping $5$) make the spike plot *mandatory*: a bar plot would collapse the gap and mislead.
-6. For `Children` here, the spike plot reveals a **right-skewed discrete distribution** with mode at $2$, mean $\bar x = 1.52$, median $=1$, and a thin tail at $x=4,5$.
-
----
-
-**Linked snippets:** Ex 0.2b2 (spike plot — discrete count contrast case); Ex 1.2c (`Children`, discrete counts $\{0,1,2,3\}$ with $n=750$ — companion dataset); Ex 1.3e (`Age`, discrete with many values — spike preferred over histogram when frequencies are similar); Ex 1.4a1 (`Quantity_New`, gap at $x=5$ — the structural case in part (f), where a bar plot would close the gap).
 """,
     "images": ["statistics/images/master/master_g1d_spike_ai.png"],
 }
-
 
 master_exercises["g2b_approx"] = {
     "title": "Master Exam — Approximating cumulative proportions inside a grouped class (Uniform-on-interval)",
@@ -4362,24 +4231,9 @@ q_hat(0.25); q_hat(0.50); q_hat(0.75)               # 17.5  30.0  52.5
 - **Diagnostic.** If you also have raw data on a subset, overlay the piecewise-linear $\widehat F$ on the empirical CDF; large deviations inside wide classes warn you to either keep classes narrow at registration time or use a smoother model (e.g., midpoint-based spline, or a parametric fit such as $\mathrm{Exp}(\lambda)$ matched to the grouped mean).
 
 </details>
-
----
-
-### Master take-aways
-
-1. **One assumption** — Uniform-on-interval — converts a histogram into a fully-specified estimator of $\widehat F$ and $\widehat f$.
-2. **Inside a class, $\widehat F$ is a straight line**; two equivalent computations: (i) $F_{j-1}+\frac{x-L_j}{w_j}f_j$, (ii) $F_{j-1}+\frac{f_j}{w_j}(x-L_j)$. Pick whichever is easier to read off the table.
-3. **Boundaries match the table**: $\widehat F(L_j)=F_{j-1}$, $\widehat F(R_j)=F_j$ — always sanity-check at the edges.
-4. **Quantiles invert the same ramp** — useful for grouped-data median / IQR.
-5. **The approximation is exactly as good as the class widths are narrow** relative to the true density's variation; wide tail-classes are the usual culprits for grouping bias.
-
----
-
-**Linked snippets.** Ex 0.1g (approx P(Frost < 80) via uniform-on-interval on a grouped table); Ex 0.2a2 (approx P(50 $\le$ fare < 100) via the same linear interpolation); Ex 1.5a (P(Time $\le$ 5) from a grouped histogram); Ex 1.5c (P(15 $\le$ Time $\le$ 50) by subtracting two linear-interp values on the ogive); Ex 2.2a / 2.2a1 (cumulative-frequency table $\to$ ogive $\to$ interpolated probabilities); master `g2a_exact` (the exact counterpart, used when raw data are available).
 """,
     "images": ["statistics/images/master/master_g2b_approx_ai.png"],
 }
-
 
 master_exercises["g3_main"] = {
     "title": "Master Exam — Derived variables (rates, densities, margins) and the bin-and-compare workflow",
@@ -4558,25 +4412,9 @@ crime$Rate.SE <- sqrt(crime$ViolentCrimes) / crime$Population * 1e5
 ```
 
 </details>
-
----
-
-### Master take-aways
-
-1. **Raw counts confound size with intensity** — *never* compare counts across units that differ in scale. Always derive a per-unit quantity first.
-2. **Per-capita rate, density, and margin %** are three instances of the **same recipe**: numerator divided by the natural size variable, then rescaled for readability.
-3. **The scale factor ($\times 100$, $\times 10^3$, $\times 10^5$) is cosmetic** — it changes readability, not rankings or inference.
-4. **Bin the *derived* variable**, not the raw one, when running histogram / median-split / two-group comparison workflows.
-5. **Watch small denominators**: rates from tiny denominators have huge Poisson SE; report uncertainty or drop them.
-6. **Audit before deriving**: zero/missing denominators, mismatched reference periods, and units (per-year vs. per-month) are the most common silent bugs.
-
----
-
-**Linked snippets.** Ex 0.1b (building the Density variable: Population $\div$ Area --- a derived "per-area" magnitude); Ex 0.1d (building Rate.Violent = ViolentCrimes / Population $\times 10^5$ --- the canonical per-capita rate used throughout this master); Ex 2.8a (Margin = (Revenue $-$ Cost)/Revenue, the *difference-over-total* template applied to firm-level profitability).
 """,
     "images": ["statistics/images/master/master_g3_main_ai.png"],
 }
-
 
 master_exercises["g4a_bytype"] = {
     "title": "Master Exam — Mode, median, mean by variable type (consolidated)",
@@ -4724,24 +4562,9 @@ h$mids[which.max(h$counts)]                   # 22.5  <- modal-class midpoint
 This is the situation of **Ex 1, Q1.5e** (`Time` --- modal class by *density*, $[10,20)$ wins over the larger-count $[60,90)$) and **Ex 2, Q2.2b** (modal class identification for grouped hours of device access, $[25,30)$).
 
 </details>
-
----
-
-### Master take-aways
-
-1. **Pick the measure from the *scale*, not from the question.** The flowchart is mechanical: nominal $\Rightarrow$ mode; ordinal $\Rightarrow$ mode + median; numerical $\Rightarrow$ mode + median + mean.
-2. **The mean is forbidden for ordinal data** even though a numeric coding makes it computable: the result depends on the *arbitrary* spacing between levels and so is not a property of the data.
-3. **The median requires an order**, which is why it is undefined for nominal data --- it depends on a meaningful "next" value.
-4. **For continuous variables the raw mode is not useful**; report the *modal class* from a histogram (highest density bin), as in Ex 2, Q2.2b.
-5. The ordering **Mo $\le$ Me $\le\bar x$** (or its reverse) is itself diagnostic: when the three measures disagree on a numerical variable, the distribution is **skewed** --- the bridge to master **g4b**.
-
----
-
-**Linked snippets:** Ex 1, Q1.1f (`District` --- nominal, mode only); Ex 1, Q1.2b (`Age_recode` --- ordinal, mode + median); Ex 1, Q1.3d (`Country` --- second nominal example); Ex 1, Q1.4a3 (`Quantity_New` --- discrete numerical, all three); Ex 1, Q1.5e (`Time` --- continuous, modal class by density); Ex 2, Q2.2b (modal class identification for grouped data, unequal widths).
 """,
     "images": ["statistics/images/master/master_g4a_bytype_ai.png"],
 }
-
 
 master_exercises["g4b_skew"] = {
     "title": "Master Exam — Mean vs median under skewness (consolidated)",
@@ -4849,24 +4672,9 @@ mean(sales, trim = 0.05)                       # ~ 22900 -> confirms skew, not n
 ```
 
 </details>
-
----
-
-### Master take-aways
-
-1. **Read the skew off the sign:** $\bar x > \widehat{\text{Me}}$ $\Rightarrow$ **right** skew; $\bar x < \widehat{\text{Me}}$ $\Rightarrow$ **left** skew; equality $\Rightarrow$ symmetry. For `Sales` the gap is $+1\,597$€ $\Rightarrow$ right-skewed.
-2. **Why it happens:** the mean is the minimiser of *squared* distance and so depends on every observation's **value**; the median is the minimiser of *absolute* distance and depends only on **ranks**. The tail moves the value, not the rank.
-3. **Robustness in one number:** breakdown point is $0$ for the mean, $50\%$ for the median --- one corrupted observation is enough to ruin the mean, half the sample is required to ruin the median.
-4. **Decision rule:** for *skewed* data report the **median**; for symmetric data with light tails report the **mean** (more efficient); always *report both* when they disagree, because their gap *is* a skewness diagnostic.
-5. **Applied to pizzerie Sales:** the typical shop earns **22 350 €/month** (median), not 23 947 €/month (mean); the $+1\,597$€ gap *is the right tail*, not noise.
-
----
-
-**Linked snippets:** Ex 1, Q1.1h (`Sales` mean vs median, full sample); Ex 1, Q1.3f and Q1.3i (subgroup comparison of mean & median); Ex 1, Q1.6a (overall `Sales` central-tendency summary); Ex 2, Q2.5f (`Age` mean vs median --- the *counter*-case where the two essentially agree after cleaning).
 """,
     "images": ["statistics/images/master/master_g4b_skew_ai.png"],
 }
-
 
 master_exercises["g4c_grouped"] = {
     "title": "Master Exam — Approximate mean & median from grouped data (consolidated)",
@@ -4983,22 +4791,9 @@ mean(sim);  median(sim)                   # should be ~ 25.35 and ~ 21.9
 | Approx. mean   | $\bar x_g=\sum f_i m_i$ | $25.35$ | Average monthly turnover (k€) |
 | Approx. median | $a_M + w_M(0.5-F_{M-1})/f_M$ | $21.91$ | Half the shops are below |
 | Mean $>$ median | gap $\approx 3.4$ | --- | **Right-skew** signature |
-
-**Master take-aways.**
-
-1. **Mean from grouped data** = weighted average of class **midpoints**, weights = relative frequencies — exact only if observations are uniformly distributed within each class.
-2. **Median from grouped data** = **linear interpolation** inside the class where the cumulative relative frequency crosses $0.5$ — again exact only under within-class uniformity.
-3. **Both formulae are approximations.** Their accuracy degrades with **wide** classes, **open** extremes, and **strong within-class skew**.
-4. **Mean vs median gap reads as skewness** even in grouped form: $\bar x_g > \widetilde{\mathrm{med}}$ here $\Rightarrow$ right-skew, driven by the wide $[30,90)$ class.
-5. **Default reporting rule.** With open or very wide extreme classes, **report the grouped median**, not the grouped mean — the median is far more robust to the within-class uniformity assumption at the tails.
-
----
-
-**Linked snippets:** Ex 1, Q1.1i (grouped-data mean from frequency table); Ex 1, Q1.5f (median by interpolation, equal-width classes); Ex 1, Q1.6b (mean & median from a frequency distribution); Theory G4c (approximate mean & median, grouped data).
 """,
     "images": ["statistics/images/master/master_g4c_grouped_ai.png"],
 }
-
 
 master_exercises["g4d_compare"] = {
     "title": "Master Exam — Cross-subgroup comparison (consolidated)",
@@ -5151,22 +4946,9 @@ In the present cases, no further stratification is available in the printed tabl
 | Mode   | $3$    | $3$    | Same (source typo flagged) |
 | Median | $3$    | $2$    | Down by one unit |
 | Mean   | $2.64$ | $2.45$ | Down $\approx 7\%$ |
-
-**Master take-aways.**
-
-1. **Cross-subgroup comparison = same descriptive recipe applied twice**, then compare $\bar x_g$, $\widetilde{\mathrm{med}}_g$, and dispersion side by side; the *gap* is the headline number.
-2. **Report both absolute and standardised gaps.** Raw gap is interpretable in original units; Cohen's $d$ makes it comparable across studies and contexts.
-3. **Mean gap $\approx$ median gap** signals a *location shift* of the whole distribution; a divergence between the two signals a *tail-driven* effect.
-4. **Pooled mean** = $\sum_g (n_g/n)\bar x_g$ — biased toward the larger subgroup when group sizes are unequal; equal $n_g$ removes that distortion.
-5. **Simpson's paradox.** A pooled gap can *reverse* when an unmeasured stratifier is introduced. Always cross-tabulate against plausible confounders before claiming the marginal gap reflects a real subgroup difference.
-
----
-
-**Linked snippets:** Ex 1, Q1.4b (`Quantity` across periods 2015-16 vs 2022-23 --- Case B above); Ex 1, Q1.5h (`Time` ≤30 vs >30 subgroups --- Case A above, grouped-data summaries per subgroup); Theory G4d (cross-subgroup / period comparison).
 """,
     "images": ["statistics/images/master/master_g4d_compare_ai.png"],
 }
-
 
 master_exercises["g1e_cum"] = {
     "title": "Master Exam — Cumulative plots: ECDF + ogive (consolidated)",
@@ -5210,7 +4992,6 @@ It is **monotone non-decreasing**, starts at $0$ (left of the support) and ends 
 * For **continuous (grouped)** data: probability mass is *spread* across the class width. The simplest assumption is **uniform-within-class** $\Rightarrow$ $F$ grows *linearly* across each class $\Rightarrow$ **piecewise-linear ogive**.
 </details>
 
-
 ---
 
 <details class="master-subpart">
@@ -5246,7 +5027,6 @@ quantile(DS$Children, 0.5, type = 1)       # 1  (discrete quantile)
 distr.plot.x(Children, plot.type = "cumulative", data = DS)   # course-package equiv.
 ```
 </details>
-
 
 ---
 
@@ -5296,7 +5076,6 @@ approx(cumprop, endpoints, xout = 0.90)$y  # 90   (P90) -- matches Ex 2.4c
 ![Master illustration](statistics/images/master/master_g1e_cum_ai.png)
 </details>
 
-
 ---
 
 <details class="master-subpart">
@@ -5309,7 +5088,6 @@ approx(cumprop, endpoints, xout = 0.90)$y  # 90   (P90) -- matches Ex 2.4c
 
 The *visual* recipe is identical: trace the horizontal line $y=0.5$ until it hits the curve, drop a vertical line to the $x$-axis, read off the value. The *arithmetic* differs only in what "the curve" is — a step or a slanted line.
 </details>
-
 
 ---
 
@@ -5335,22 +5113,9 @@ distr.plot.x(Time, plot.type = "cumulative", data = mydata)
 ---
 
 </details>
-
-**Master take-aways.**
-
-1. **Same idea, two shapes.** $F(x)=\sum_{x_i\le x}\hat p_i$ is *monotone non-decreasing* from $0$ to $1$; it is a **step** for discrete data and a **piecewise-linear ogive** for continuous-grouped data.
-2. **Jumps vs slopes.** ECDF jumps equal relative frequencies $\hat p_i$; ogive slopes equal histogram densities $h_i=\hat p_i/w_i$ --- so an ogive *is* the integral of the histogram.
-3. **Right-continuity matters.** The ECDF jumps *up* at $x_i$ and *stays at* the higher level (so $F(x_i)=\hat p_1+\dots+\hat p_i$, not $\hat p_1+\dots+\hat p_{i-1}$).
-4. **Quantile reading is the universal use case.** Median at $F=0.5$; quartiles at $0.25, 0.75$; percentiles at any $\alpha\in(0,1)$ --- *step lookup* for discrete, *linear interpolation* for grouped.
-5. **Choose the right tool.** Few distinct values $\Rightarrow$ ECDF; pre-binned continuous data $\Rightarrow$ ogive; raw continuous data $\Rightarrow$ true ECDF via `ecdf()` (asymptotically equivalent to the ogive).
-
----
-
-**Linked snippets:** Ex 0.2a3 (ogive of `fare` from class densities --- the construction recipe with cumulated proportions); Ex 0.2b3 (step diagram for `size.family` --- discrete case, no interpolation); Ex 1.2c (`Children` spike plot --- the same discrete variable whose ECDF we build here); Ex 1.4a2 (cumulative percentage table and step plot for discrete `Quantity_New` with a *gap* at value $5$); Ex 1.5d (ogive of `Time`, $n=1800$, median estimation via linear interpolation inside the median class); Ex 2.4a (identify the ogive); Ex 2.7a (ogive of `Nr_visits`, $n=2200$ --- reading increments as relative frequencies).
 """,
     "images": ["statistics/images/master/master_g1e_cum_ai.png"],
 }
-
 
 master_exercises["g2a_exact"] = {
     "title": "Master Exam — Exact proportions from raw data (consolidated)",
@@ -5483,24 +5248,9 @@ prop.test(sum(customer_habits$Sex == "F"), n)                  # CI + test, one 
 The sample is **slightly male-skewed** --- a $56.3\%$ vs $43.7\%$ split --- but well within the range usually treated as "approximately balanced" for downstream analyses.
 
 </details>
-
----
-
-**Master take-aways.**
-
-1. **`mean(condition)` is the universal exact-proportion formula** in R: it works for *any* condition on *any* raw vector (categorical, discrete, continuous) and equals $\#TRUE / n$ by construction.
-2. **Three operations on a logical vector cover everything**: `length` = $n$, `sum` = count of TRUEs, `mean` = proportion of TRUEs. Memorise this triple --- it replaces every textbook proportion formula.
-3. **Exact vs approximate is decided by the data, not the variable type.** If raw observations are available $\Rightarrow$ exact via `mean()`; if only grouped frequencies $\Rightarrow$ approximate via uniform-on-interval (linear interpolation on the ogive).
-4. **Composite events become Boolean expressions** with `&`, `|`, `!`. No new formula is needed --- set theory and R's element-wise logic do the bookkeeping.
-5. **For `Sex` in `customer_habits`:** $\hat p_F = 15\,235/34\,866 = 0.4370$ and $\hat p_M = 0.5630$ --- *exact* point estimates with $\widehat{\text{SE}}\approx 0.0027$, so the 95% CI for $p_F$ is roughly $[0.432, 0.442]$, comfortably below $0.5$.
-
----
-
-**Linked snippets:** Ex 1.3b (`Sex` frequency table for `customer_habits` --- the source of the numbers used throughout this master); Ex 2.5c (exact proportion of customers with $20\le \text{Age}\le 40$ via `mean()`); Ex 2.6b (exact proportion of products sold below cost via a Boolean condition on raw `Unit_Price`/`Unit_Cost`); master `g2b_approx` (the *approximate* counterpart, used when only grouped data are available).
 """,
     "images": ["statistics/images/master/master_g2a_exact_ai.png"],
 }
-
 
 master_exercises["g7_twoway"] = {
     "title": "Master Exam — Two-way tables (consolidated)",
@@ -5671,24 +5421,9 @@ barplot(prop.table(tbl, 1), beside = TRUE, legend.text = TRUE,
 ```
 
 </details>
-
----
-
-**Master take-aways.**
-
-1. **Joint vs marginal vs conditional are three different normalisations of the same table** — divide by $n$, by row sums, or by column sums. Always state which.
-2. **Row-conditional $\ne$ column-conditional** — Bayes' rule connects them: $p(i\mid j) = p(j\mid i)\,p_{i\cdot}/p_{\cdot j}$. Direction of conditioning matters.
-3. **Independence is a *uniformity* statement**: every row-conditional row equals the marginal column distribution (equivalently every column-conditional equals the marginal row). Visually, all rows of `prop.table(tbl,1)` look identical.
-4. **Quantify deviations** via the $\chi^2$ statistic (sum of $(o-e)^2/e$) and translate to a $p$-value with $df = (K_R-1)(K_C-1)$. Use `mosaicplot(... , shade = TRUE)` for a visual residual map.
-5. **Always do a consistency check**: row totals and column totals must both sum to $n$, and joint proportions must sum to $1$.
-
----
-
-**Linked snippets:** Ex 3.1b (joint table SmokingArea × District); Ex 3.2c/2e/2g/2h (DS conditional distributions); Ex 3.6a–g (Country × Sex full family — joint, marginal, conditional, χ² independence); Ex 3.7a1/a3 (Product × Sex two-way splits); Ex 3.9a1 (LoL tier × class); Ex 3.10a1/a2 (Company Prod × Channel); Ex 3.12a/b/c (Effectiveness × Channel two-way table).
 """,
     "images": ["images/master/master_g7_twoway_ai.png"],
 }
-
 
 master_exercises["g8_condsumm"] = {
     "title": "Master Exam — Conditional summary measures (consolidated)",
@@ -5839,20 +5574,6 @@ interaction.plot(pizzerie$District, pizzerie$Type, pizzerie$Sales,
 ```
 
 </details>
-
----
-
-**Master take-aways.**
-
-1. **Conditional summaries = univariate stats restricted to one level of $G$.** Apply mean, median, SD, CV exactly as in the unconditional case — *only the subset changes*.
-2. **Side-by-side boxplots beat tables** for comparing $G \ge 3$ groups: they show levels (medians), spreads (IQRs), skew (whisker asymmetry), and outliers simultaneously on a common scale.
-3. **The substantive question is gap-vs-noise.** A $4\,900$ € between-mean gap looks impressive *until* you see the within-group SD is $\approx 8\,100$ € — most variation lives *inside* groups, not between them. Effect sizes ($d$, $\eta^2$) formalise this ratio.
-4. **Always quantify with $\eta^2$ or Cohen's $d$**, not just with the $p$-value: a significant test on $n = 100$ can still mean tiny practical effect.
-5. **Simpson's paradox is the killer of naive group comparisons.** Whenever a third variable plausibly correlates with both group membership and outcome, **stratify and re-check** before drawing causal-sounding conclusions about the grouping variable.
-
----
-
-**Linked snippets:** Ex 3.1a/1c/1d (conditional mean/median/SD of Sales by SmokingArea); Ex 3.2a/2b/2d/2f/2i/2m (DS AmountSpent conditional summaries by demographic groups); Ex 3.4a1/a2/b (Services Expenses conditional spread); Ex 3.5a1/a2 (TotUsers × Weather conditional summaries); Ex 3.7b1 (conditional summary by Sex); Ex 3.8a (Quantity | Product); Ex 3.9b/9c (LoL conditional distributions); Ex 3.11a/b (Campaign Loyalty conditional summaries).
 """,
     "images": ["images/master/master_g8_condsumm_ai.png"],
 }
@@ -6018,25 +5739,9 @@ boxplot(DS$AmountSpent, horizontal = TRUE,
 ```
 
 </details>
-
----
-
-**Master take-aways.**
-
-1. **Range, IQR, variance, SD, CV** form a hierarchy of dispersion measures from coarsest (range, two points) to most refined (variance/SD, all points) to relative (CV, unit-free).
-2. **Variance has the wrong unit (squared)**; SD restores the original unit and is the everyday spread measure.
-3. **Bessel's $n-1$ correction** makes $s^2$ unbiased --- one df spent on $\bar x$.
-4. **IQR is robust**, range is fragile, SD is in between (squaring amplifies outliers).
-5. **CV is the *only* dispersion measure that allows comparison across different scales/units** --- but it requires $\bar x > 0$ and a ratio scale.
-6. For `AmountSpent`: large CV ($0.71$) + asymmetric extremes ($\max - Q_3 \gg Q_1 - \min$) $\Rightarrow$ **right-skewed, high-variability** spending distribution.
-
----
-
-**Linked snippets:** master `g4a_bytype` (which measures of *centre* go with which dispersion measure by variable type); master `g4b_skew` (using mean/median/SD to diagnose skew); master `g6a_quant` (Q1, Q3, percentiles --- the building blocks of the IQR); Ex 2.5d (computing SD/CV on `Age` and comparing variables); Ex 2.7d (boxplot reading from five-number summary).
 """,
     "images": ["statistics/images/master/master_g5_disp_ai.png"],
 }
-
 
 master_exercises["g6a_quant"] = {
     "title": "Master Exam — Quantiles, percentiles, deciles: definition and computation (consolidated)",
@@ -6216,27 +5921,9 @@ abline(v = xq, lty = 3, col = "#f4c95d")
 ```
 
 </details>
-
----
-
-**Master take-aways.**
-
-1. **A quantile inverts the CDF**: $x_q = F^{-1}(q)$. Median, quartiles, deciles, percentiles are just special $q$'s.
-2. **Two computation rules** depending on data:
-   * Raw data $\Rightarrow$ **sorted-data rule** ("smallest $k$" with $k = \lceil nq\rceil$, or linear interpolation between order statistics).
-   * Grouped data $\Rightarrow$ **ogive linear interpolation**, assuming uniform spread within each class.
-3. **Grouped quantile formula:** $x_q = L_j + (U_j - L_j)\dfrac{q - F(L_j)}{F(U_j) - F(L_j)}$ inside the class containing $q$.
-4. **Geometric read-off:** horizontal at $y=q$ $\to$ ogive intersection $\to$ vertical to $x$-axis.
-5. **Coherence:** quantiles are monotone non-decreasing in $q$; $\text{IQR} = Q_3 - Q_1$, range covered by deciles widens where density is low.
-6. For `Time`: $Q_1=20$, $Q_2=30$, $Q_3=42.5$, $P_{90}=55$, $\text{IQR}=22.5$ min. The class $[30,\,45)$ contains $D_6, D_7, D_8$ --- the densest portion of the distribution.
-
----
-
-**Linked snippets:** master `g1e_cum` (ECDF, ogive --- the object we invert here); master `g2b_approx` (uniform-on-interval assumption underlying the linear interpolation); master `g5_disp` (IQR as a dispersion measure built from $Q_1, Q_3$); Ex 2.4b/c (Q1, Q3, P90 read off the Nr-contracts ogive); Ex 2.7a/d (ogive and quantiles of `Nr_visits`).
 """,
     "images": ["statistics/images/master/master_g6a_quant_ai.png"],
 }
-
 
 master_exercises["g9_corr"] = {
     "title": "Master Exam — Covariance & correlation (pizzerie Price vs Sales)",
@@ -6411,25 +6098,9 @@ cor.test(price, sales, method = "spearman")
 ```
 
 </details>
-
-
----
-
-**Master take-aways.**
-
-1. **Covariance gives direction; correlation gives direction + strength on a universal scale $[-1,+1]$.** Divide by $s_X s_Y$ to standardise.
-2. **$r^2$ is the percentage of variance linearly explained.** For pizzerie, $r=-0.149 \Rightarrow r^2 = 2.2\%$ --- Price is a weak predictor of Sales.
-3. **Always plot first.** Direction, form, strength are visual; $r$ only summarises *linear* association.
-4. **Correlation is not causation.** Confounders, reverse causation, and chance all produce non-zero $r$.
-5. **Pearson is outlier-sensitive.** Use Spearman or Kendall for monotonic-but-curved or outlier-prone data; both work on ranks.
-
----
-
-**Linked snippets:** Ex 3.1e (Price vs Sales scatter + cov + Pearson r ≈ 0.67); Ex 3.2l (DS continuous-continuous correlation diagnostic); Ex 3.3a (Satisfaction scatter — direction/form/strength assessment); Ex 3.11c (Campaign Loyalty: Sales vs Revenues vs Costs — weak linear vs non-linear contrast).
 """,
     "images": ["images/master/master_g9_corr_ai.png"],
 }
-
 
 master_exercises["g10_normal"] = {
     "title": "Master Exam — Normal distribution N(100, 100)",
@@ -6617,25 +6288,9 @@ quantile(x, c(0.025, 0.975))                     # ~ 80.4, 119.6
 ```
 
 </details>
-
-
----
-
-**Master take-aways.**
-
-1. **The Gaussian density is fully determined by $(\mu,\sigma^2)$:** $\mu$ locates the centre, $\sigma$ sets the width, the shape is always the same bell.
-2. **68 / 95 / 99.7** is the must-memorise rule of thumb: $\pm 1, \pm 2, \pm 3$ SDs cover those probabilities for *any* normal.
-3. **Standardisation $Z=(X-\mu)/\sigma$** converts every normal question to a question about $\mathcal{N}(0,1)$, whose CDF $\Phi$ is tabulated / available via `pnorm`.
-4. **CDF $\to$ probabilities, inverse CDF $\to$ quantiles.** $\mathbb{P}(X\le x)=\Phi((x-\mu)/\sigma)$ and $x_q = \mu + z_q\sigma$.
-5. **In R:** `dnorm` for density, `pnorm` for CDF and tail probabilities, `qnorm` for quantiles, `rnorm` for simulation. With $\mathcal{N}(100,100)$: central $95\%$ interval is $[80.40, 119.60]$.
-
----
-
-**Linked snippets:** Ex 4.1a / Ex 4.2a (basic normal probability computations); Ex 4.3a (z-score practice); Ex 4.3b (inverse CDF / quantile); master `g8_var` (variance --- the $\sigma^2$ parameter); master `g11_clt` (Central Limit Theorem --- why $\mathcal{N}$ is ubiquitous as a sampling distribution); master `g13_inf` (z- and t-intervals built on normality).
 """,
     "images": ["images/master/master_g10_normal_ai.png"],
 }
-
 
 master_exercises["g11_clt"] = {
     "title": "Master — Sampling distributions & the CLT",
@@ -6787,24 +6442,9 @@ pnorm((53 - 50) / (12/sqrt(36)))           # 0.9331928 (standardised form)
 ```
 
 </details>
-
----
-
-**Master take-aways.**
-
-1. **$E[\bar X] = \mu$ and $\text{Var}(\bar X) = \sigma^2/n$** *always* hold (i.i.d. + finite variance). The standard error $\sigma/\sqrt n$ is the single most important number in inferential statistics.
-2. **Normal population $\Rightarrow$ exact Normal $\bar X$**; otherwise the CLT gives an *approximate* Normal $\bar X$ once $n$ is large enough.
-3. **$n \ge 30$** is the universal rule of thumb --- but stretch it to $50\text{--}100$ for heavily skewed populations and check $np, n(1-p) \ge 5$ for proportions.
-4. **A proportion is just a Bernoulli sample mean**: $\hat p \sim N(p, p(1-p)/n)$ approximately.
-5. **Probability calculations**: always standardise $Z = (\bar X - \mu)/(\sigma/\sqrt n)$ and look up $\Phi(z)$ (or use `pnorm` in R).
-
----
-
-**Linked snippets:** master `g12_lincomb` (linear combinations of Normals --- where the "Normal pop $\Rightarrow$ Normal $\bar X$" claim is proved); confidence-intervals and hypothesis-testing snippets (every CI/test uses SE $= \sigma/\sqrt n$ as its scale).
 """,
     "images": ["images/master/master_g11_clt_ai.png"],
 }
-
 
 master_exercises["g12_lincomb"] = {
     "title": "Master — Linear combinations of Normal random variables",
@@ -6955,25 +6595,9 @@ mean(rowSums(samp) > 2800)                    # ~0.311 -- matches theory
 ```
 
 </details>
-
----
-
-**Master take-aways.**
-
-1. **Mean is always linear**: $E[aX + bY + c] = a\mu_X + b\mu_Y + c$ regardless of distribution or dependence.
-2. **Variance has a cross-term**: $\text{Var}(aX + bY) = a^2\sigma_X^2 + b^2\sigma_Y^2 + 2ab\,\text{Cov}(X,Y)$. The constant $c$ never affects variance.
-3. **Normality is preserved**: any linear combination of jointly Normal variables is Normal --- *exactly*, not approximately. This is the backbone of master `g11_clt`'s "Normal pop $\Rightarrow$ Normal $\bar X$" claim.
-4. **$X - Y$ trap**: variance is $\sigma_X^2 + \sigma_Y^2 - 2\sigma_{XY}$ (still **plus** $\sigma_Y^2$); only the covariance term flips sign.
-5. **Independence kills the cross-term**: $\text{Cov} = 0 \Rightarrow \text{Var}(X \pm Y) = \sigma_X^2 + \sigma_Y^2$ (sum and difference share the same variance).
-6. **For probabilities** $P(aX + bY + c \le k)$: compute the new mean and SD, standardise, and use $\Phi$ (or `pnorm`).
-
----
-
-**Linked snippets:** master `g11_clt` (uses linear-combination Normality to justify "$X \sim$ Normal $\Rightarrow \bar X \sim$ Normal exactly"); covariance/correlation snippets (where $\rho$ and $\text{Cov}$ are defined); bivariate-Normal and conditional-distribution snippets.
 """,
     "images": ["images/master/master_g12_lincomb_ai.png"],
 }
-
 
 master_exercises["g6b_box"] = {
     "title": "Master Exam — Boxplots & the 5-number summary",
@@ -7129,24 +6753,9 @@ boxplot(sales, notch = TRUE, horizontal = TRUE)
 ```
 
 </details>
-
----
-
-**Master take-aways.**
-
-1. **The boxplot is the 5-number summary, drawn.** Box $=[Q_1, Q_3]$, line $=\widetilde{m}$, whiskers $=$ nearest data within $[Q_1-1.5\text{IQR},\;Q_3+1.5\text{IQR}]$, dots $=$ outliers beyond.
-2. **The box covers the middle 50%**; its width is the IQR --- a robust spread measure unaffected by tail values.
-3. **The whisker does *not* reach the fence**; it reaches the *most extreme actual datum* still inside the fence.
-4. **Read skew from two cues simultaneously:** (i) position of the median line in the box, (ii) asymmetry of whisker lengths. Both pointing the same way confirms the direction of skew.
-5. **For pizzerie Sales:** $(\min, Q_1, \widetilde{m}, Q_3, \max) = (8.0, 17.9, 22.4, 28.6, 80.0)$ k€, $\text{IQR}=10.7$; median sits closer to $Q_1$, upper whisker is longer, and roughly $4$ shops appear as upper outliers $\Rightarrow$ **clear right-skew with a heavy right tail**.
-
----
-
-**Linked snippets:** Ex 2.1b (5-number summary of `Sales` --- source of the numbers above); Ex 2.1c (boxplot of `Sales`); Ex 2.1e (reading skew off the boxplot); Ex 2.5a (boxplot of `Age`, the *symmetric* counter-case); Ex 2.5d (boxplot comparison by group); Ex 2.6a2 (side-by-side boxplots of `Sales` by `District`); Ex 2.7e (boxplot interpretation in a past exam); Ex 2.8b (boxplot + skew diagnostic); masters `g6a_quant` (quartiles --- the inputs to the box), `g6c_outliers` (formal outlier rules --- the dots beyond whiskers), `g4b_skew` (mean vs median for `Sales`), `g1c_hist` (histogram view of the same right-tail).
 """,
     "images": ["statistics/images/master/master_g6b_box_ai.png"],
 }
-
 
 master_exercises["g6c_outliers"] = {
     "title": "Master Exam — Outliers & extreme values",
@@ -7315,20 +6924,6 @@ out_summary
 ```
 
 </details>
-
----
-
-**Master take-aways.**
-
-1. **Two rules to remember:** **IQR** (mild $1.5$, extreme $3$ --- *robust*) and **z-score** ($|z|>2$ or $3$ --- *non-robust*, parametric). For unknown-shape data, prefer IQR; for Normal data with no extreme contamination, z is fine.
-2. **The z-score rule masks its own outliers**: a very extreme point inflates $s$, shrinks $|z|$, and can leave the offender undetected. The robust **modified z-score** ($\widetilde{m}, \text{MAD}$) fixes this.
-3. **Mean and SD are extremely sensitive; median and IQR are not.** For pizzerie Sales, dropping the $\approx 4$ upper outliers cuts $s$ by $36\%$ but moves the median by $0.1$ k€. Always report **both** summaries when outliers are suspected.
-4. **Don't blindly delete.** *Investigate*: typo? unit error? out of scope? Otherwise consider a heavy-tailed model or a robust estimator. **Delete only with documentation**, and **always run sensitivity analyses**.
-5. **For pizzerie Sales:** the $1.5\cdot\text{IQR}$ rule flags $\approx 4$ upper outliers above $44.65$ k€; the $3\cdot\text{IQR}$ extreme rule flags only the $\max=80$ k€; the $|z|>3$ rule agrees with the extreme rule ($z_{\max}=4.84$). The right-tail is real --- a few high-revenue pizzerie --- not a data-entry artefact, so they should be **kept** in the analysis but accompanied by **robust** summary statistics.
-
----
-
-**Linked snippets:** Ex 2.1d (outlier flagging on `Sales` via IQR rule --- the running example); Ex 2.3b (outlier impact on mean vs median, side-by-side); Ex 2.3c (sensitivity check: re-compute with/without outliers); Ex 2.4b (outlier discussion on grouped data); masters `g6a_quant` (quartiles --- the inputs to fences), `g6b_box` (boxplot --- where outliers appear as dots), `g5_disp` (variance vs IQR vs MAD --- robust vs non-robust spread), `g4b_skew` (mean-median gap, which the right tail creates).
 """,
     "images": ["statistics/images/master/master_g6c_outliers_ai.png"],
 }

@@ -268,6 +268,20 @@ try:
 except Exception:
     MASTERS_TS = {}
 
+# Authored Theory (Column 1) — merged from per-wave files _theory_T*.py.
+THEORY_AUTHORED = {}
+import glob, importlib, os
+_here = os.path.dirname(os.path.abspath(__file__))
+for _fp in sorted(glob.glob(os.path.join(_here, "_theory_T*.py"))):
+    _modname = os.path.basename(_fp)[:-3]
+    try:
+        _mod = importlib.import_module(_modname)
+        if hasattr(_mod, "theory_content_ts"):
+            THEORY_AUTHORED.update(_mod.theory_content_ts)
+    except Exception as e:
+        print(f"  [theory load WARN] {_modname}: {e}")
+print(f"  [theory load] authored sub-topics: {len(THEORY_AUTHORED)}")
+
 def make_master_placeholder(sid, sname):
     if sid in MASTERS_TS:
         m = MASTERS_TS[sid]
@@ -412,8 +426,23 @@ for stm in SUBTOPICS:
     merged_images = []
     seen_link_targets = set()
     seen_imgs = set()
-    # Concatenate the canvas nodes' content with bold title prefix.
-    if theory_nodes:
+
+    # Prefer authored theory if available; fall back to concatenated canvas nodes.
+    authored = THEORY_AUTHORED.get(sid)
+    if authored:
+        merged_content = authored["content"]
+        # Pull existing canvas-node links so cross-nav still works
+        for n in theory_nodes:
+            for lk in n.get("links", []) or []:
+                t = lk.get("target") if isinstance(lk, dict) else None
+                if t and t not in seen_link_targets:
+                    seen_link_targets.add(t)
+                    merged_links.append(lk)
+        absorbed_titles_per_sid[sid] = ["[authored theory]"]
+        # If the authored entry overrides the title, use it
+        if authored.get("title"):
+            theory_title = authored["title"]
+    elif theory_nodes:
         parts = []
         for n in theory_nodes:
             chunk_title = n.get("title", "(untitled)")
@@ -433,8 +462,7 @@ for stm in SUBTOPICS:
     else:
         merged_content = (
             f"## Theory — {sname}\n\n"
-            f"_(no canvas theory node currently mapped to **{sid}**; "
-            "add one in time_series/build_snippets_ts.py NODE_TITLE_TO_SUBTOPICS.)_"
+            f"_(no theory authored yet for **{sid}**.)_"
         )
         absorbed_titles_per_sid[sid] = []
         empty_cells.append((sid, 1))

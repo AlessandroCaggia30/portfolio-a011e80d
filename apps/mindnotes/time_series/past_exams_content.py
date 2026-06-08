@@ -820,28 +820,36 @@ $$
 
 **(b)** This Markov chain is \emph{aperiodic}. As $n\to\infty$, does $\Prob(Y_n=j\mid Y_0=1)$
         converge for each $j\in\{1,2,3\}$?
-        \begin{itemize}[leftmargin=1.6em]
+\begin{itemize}[leftmargin=1.6em]
+  \item[A.] \textbf{Yes}, because:
+  \item[B.] \textbf{No}, because:
+  \item[C.] \textbf{Yes}, under the conditions:
+\end{itemize}
 
-**(c)** [A.] \textbf{Yes}, because:
-
-**(d)** [B.] \textbf{No}, because:
-
-**(e)** [C.] \textbf{Yes}, under the conditions:
-        \end{itemize}
-
-**(f)** And how about $\Prob(Y_n=j)$?</span>
+**(c)** And how about $\Prob(Y_n=j)$?</span>
 
 ---
 
-**Solution.** \textbf{(a)} Rows sum to 1: $P=\bigl(\begin{smallmatrix}.6&0&.4\\.1&.6&.3\\.3&.1&.6\end{smallmatrix}\bigr)$.
+**Solution.** \textbf{(a)} Each row of a stochastic matrix sums to 1. Row 1: $.6+0+\square=1\Rightarrow \square=.4$. Row 2: $\square+.6+.3=1\Rightarrow \square=.1$. Row 3: $.3+\square+.6=1\Rightarrow \square=.1$. Hence
+$$P=\begin{pmatrix}.6&0&.4\\.1&.6&.3\\.3&.1&.6\end{pmatrix}.$$
 
-\textbf{(b) YES.} $P$ is irreducible on $\{1,2,3\}$ ($1\to3\to2$, $2\to1$, $3\to1$ reach every
-state) and aperiodic ($p_{11}>0$). By Theorem 2.1 (keydef \textbf{11d}), there is a unique
-stationary $\pi$ and $\Prob(Y_n=j\mid Y_0=i)\to\pi_j$ for every $i,j$.
-Solving $\pi P=\pi$: $\pi\approx(0.394,\,0.121,\,0.485)$.
+\textbf{(b) YES.} $P$ is irreducible on $\{1,2,3\}$ (e.g.\ $1\to3\to2$, $2\to1$, $3\to1$ reach every state with positive prob) and aperiodic ($p_{11}>0\Rightarrow\gcd$ of return times $=1$). By the convergence theorem for finite, irreducible, aperiodic Markov chains (Theorem 2.1, keydef \textbf{11d}), there is a unique stationary distribution $\pi$ with $\pi P=\pi$ and
+$$\Prob(Y_n=j\mid Y_0=i)\to\pi_j\quad\text{for every }i,j.$$
+Solving $\pi P=\pi$, $\pi_1+\pi_2+\pi_3=1$: linear system
+$\pi_1=.6\pi_1+.1\pi_2+.3\pi_3$, $\pi_2=.6\pi_2+.1\pi_3$, $\pi_3=.4\pi_1+.3\pi_2+.6\pi_3$. From the second: $.4\pi_2=.1\pi_3\Rightarrow\pi_3=4\pi_2$. Substituting and normalising gives $\pi\approx(0.394,\,0.121,\,0.485)$.
 
-\textbf{(c) YES.} $\Prob(Y_n=j)=\sum_i\nu_i\Prob(Y_n=j\mid Y_0=i)\to\pi_j$ regardless of the
-initial law $\nu$.""",
+```r
+P <- matrix(c(.6,0,.4, .1,.6,.3, .3,.1,.6), nrow=3, byrow=TRUE)
+# Stationary distribution: left eigenvector of eigenvalue 1
+ev <- eigen(t(P))
+pi <- Re(ev$vectors[,1]) ; pi <- pi/sum(pi)
+pi  # ~ 0.394 0.121 0.485
+# Check P^n convergence
+library(expm) ; P %^% 50
+```
+
+\textbf{(c) YES.} $\Prob(Y_n=j)=\sum_i\nu_i\Prob(Y_n=j\mid Y_0=i)\to\sum_i\nu_i\pi_j=\pi_j$ regardless of the
+initial law $\nu$ (finite weighted sum of converging sequences).""",
     "is_exam": True,
     "topic_hint": "t3b",
     "images": []
@@ -854,19 +862,17 @@ first quarter of 2024, and its status is coded as $1=$``healthy'', $2=$``critica
 Let $Y_t$ be the status of the start-up at time $t$.
 **(a)** For simplicity, let us model the time series $(Y_t)_{t\ge 0}$ as a homogeneous Markov
         chain. Set the first quarter of 2021 as $t=0$, and fix $Y_0=1$. The observed data are
-        $(y_1,\dots,y_{13})=(2,1,1,1,2,3,3,2,1,1,2,3)$.. Before taking the sample, what was the
+        $(y_1,\dots,y_{13})=(2,1,1,1,2,3,3,2,1,1,2,3)$. Before taking the sample, what was the
         probability of observing such a result?
 
 **(b)** Let us now use a Hidden Markov Model (HMM) with two latent states. Set the first
         quarter of 2021 as $t=1$ and $y_1=1$.
-        \begin{enumerate}[label=\roman*.,leftmargin=1.8em]
 
-**(c)** Write the model in a clean and precise way. What are the unknown parameters of the model?
+  **(i)** Write the model in a clean and precise way. What are the unknown parameters of the model?
 
-**(d)** Write the expression of the likelihood of the unknown parameters.
+  **(ii)** Write the expression of the likelihood of the unknown parameters.
 
-**(e)** Then explain how you would solve decoding.
-\end{enumerate}</span>
+  **(iii)** Then explain how you would solve decoding.</span>
 
 ---
 
@@ -1339,26 +1345,33 @@ past_exams_ts["exam_jun_2022_q4"] = {
         Explain how you obtain the expression of $f_t$ and $Q_t$.
 
 **(c)** What is the point forecast of $Y_t$ given $y_{1:t-1}$ with respect to:
-        \begin{enumerate}[label=\roman*.,leftmargin=1.8em]
 
-**(d)** Quadratic loss?
+  **(i)** Quadratic loss?
 
-**(e)** Absolute loss $L(y_t,\hat y_t)=|y_t-\hat y_t|$?
-\end{enumerate}</span>
+  **(ii)** Absolute loss $L(y_t,\hat y_t)=|y_t-\hat y_t|$?</span>
 
 ---
 
-**Solution.** \textbf{(a)} As Exam 5 Q3a.
+**Solution.** \textbf{(a)} \emph{Random walk plus noise (local level DLM):}
+$Y_t=\theta_t+v_t$, $v_t\overset{\text{iid}}{\sim}\mathcal{N}(0,V)$;
+$\theta_t=\theta_{t-1}+w_t$, $w_t\overset{\text{iid}}{\sim}\mathcal{N}(0,W)$;
+$\theta_0\sim\mathcal{N}(m_0,C_0)$; $\{v_t\},\{w_t\},\theta_0$ mutually independent.
+This is the DLM with $F_t=G_t=1$, $V_t=V$, $W_t=W$.
 
-\textbf{(b)} KF predict step: $a_t=m_{t-1}$, $R_t=C_{t-1}+W$;
-$f_t=a_t=m_{t-1}$, $Q_t=R_t+V=C_{t-1}+W+V$.
+\textbf{(b)} \emph{KF predict step.}
+\emph{Step 1 (state prediction):} $\theta_t\mid y_{1:t-1}\sim\mathcal{N}(a_t,R_t)$ with
+$a_t=m_{t-1}$, $R_t=C_{t-1}+W$ (since $G_t=1$).
+\emph{Step 2 (obs prediction):} $Y_t=\theta_t+v_t$ with $v_t\perp y_{1:t-1}$, so
+$f_t=\mathbb{E}[Y_t\mid y_{1:t-1}]=a_t=m_{t-1}$,
+$Q_t=\operatorname{Var}(Y_t\mid y_{1:t-1})=R_t+V=C_{t-1}+W+V$.
 
 \textbf{(c.i) Quadratic loss.} Bayes estimator = conditional mean:
 $\hat y_t=\mathbb{E}[Y_t\mid y_{1:t-1}]=f_t=m_{t-1}$.
 
 \textbf{(c.ii) Absolute loss.} Bayes estimator = conditional median.
-$Y_t\mid y_{1:t-1}\sim\mathcal{N}(f_t,Q_t)$ symmetric $\Rightarrow$ median $=$ mean,
-so $\hat y_t=f_t=m_{t-1}$ as well. (Differ in non-Gaussian / asymmetric predictives.)""",
+$Y_t\mid y_{1:t-1}\sim\mathcal{N}(f_t,Q_t)$ is symmetric $\Rightarrow$ median $=$ mean,
+so $\hat y_t=f_t=m_{t-1}$ as well. (The two estimators would differ in non-Gaussian /
+asymmetric predictives.)""",
     "is_exam": True,
     "topic_hint": "t10b",
     "images": []
@@ -1398,7 +1411,7 @@ Which state-space model could you suggest? Write your proposed model and motivat
 
 **Solution.** \emph{Time-varying-coefficients DLM:}
 $Y_t=\alpha_t+\beta_t x_t+v_t$; $(\alpha_t,\beta_t)^{\top}=(\alpha_{t-1},\beta_{t-1})^{\top}+w_t$,
-$w_t\sim\Nd_2(0,W)$.
+$w_t\sim\mathcal{N}_2(0,W)$.
 State $\theta_t=(\alpha_t,\beta_t)^{\top}$, $F_t=(1,x_t)$, $G=I_2$. \emph{Motivation:} no
 parametric non-linear form; coefficients drift smoothly (RW), with $W$ controlling adaptation
 speed.""",
@@ -1418,14 +1431,30 @@ use Bayes' rule to obtain the conditional distribution of $\theta_n\mid y_{1:n}$
 
 ---
 
-**Solution.** $W=0\Rightarrow\theta_t=\theta_0=:\theta$ constant. Conjugate static-$\theta$ model
-(Case A; ``Posterior mean and precision''):
+**Solution.** $W=0\Rightarrow\theta_t=\theta_{t-1}$ for all $t$, so $\theta_t\equiv\theta_0=:\theta$ is
+constant. The model collapses to the conjugate static-$\theta$ Gaussian model:
+$\theta\sim\mathcal{N}(m_0,C_0)$ (prior); $Y_i\mid\theta\overset{\text{iid}}{\sim}\mathcal{N}(\theta,V)$, $i=1,\dots,n$.
+
+\emph{Bayes' rule:} $\pi(\theta\mid y_{1:n})\propto p(y_{1:n}\mid\theta)\pi(\theta)$.
+
+\emph{Likelihood:}
+$p(y_{1:n}\mid\theta)\propto\exp\!\left\{-\tfrac{1}{2V}\sum_{i=1}^n(y_i-\theta)^2\right\}
+\propto\exp\!\left\{-\tfrac{n}{2V}(\theta-\bar y_n)^2\right\}$,
+where $\bar y_n=n^{-1}\sum_i y_i$.
+
+\emph{Prior:} $\pi(\theta)\propto\exp\!\left\{-\tfrac{1}{2C_0}(\theta-m_0)^2\right\}$.
+
+\emph{Product (complete the square in $\theta$):} the exponent reads
+$-\tfrac{1}{2}\bigl[\tfrac{1}{C_0}+\tfrac{n}{V}\bigr]\theta^2+\bigl[\tfrac{m_0}{C_0}+\tfrac{n\bar y_n}{V}\bigr]\theta+\text{const}$.
+Matching to $\mathcal{N}(m_n,C_n)$ yields
 $$
-\boxed{\;\theta_n\mid y_{1:n}\sim\mathcal{N}(m_n,C_n),\quad
+\boxed{\;\theta\mid y_{1:n}\sim\mathcal{N}(m_n,C_n),\quad
 \tfrac{1}{C_n}=\tfrac{1}{C_0}+\tfrac{n}{V},\quad
-m_n=C_n\bigl(\tfrac{m_0}{C_0}+\tfrac{n\bar y_n}{V}\bigr).\;}
+m_n=C_n\!\left(\tfrac{m_0}{C_0}+\tfrac{n\bar y_n}{V}\right).\;}
 $$
-(Closed form: $m_n=(Vm_0+nC_0\bar y_n)/(V+nC_0)$, $C_n=C_0V/(V+nC_0)$.)""",
+(Closed form: $m_n=\dfrac{V m_0+nC_0\bar y_n}{V+nC_0}$, $C_n=\dfrac{C_0V}{V+nC_0}$.)
+\emph{Interpretation:} posterior precision $1/C_n$ = prior precision $+$ $n\times$ data precision;
+posterior mean is the precision-weighted average of $m_0$ and $\bar y_n$.""",
     "is_exam": True,
     "topic_hint": "t13a",
     "images": []
@@ -1498,7 +1527,24 @@ any $j=1,2,3$?
 ---
 
 **Solution.** \textbf{YES.} Identical to Exam 4 Q3b: irreducible + aperiodic on a finite state space $\Rightarrow$
-ergodic (Theorem 2.1); $\Prob(Y_n=j\mid Y_0=1)\to\pi_j$, with $\pi\approx(0.394,0.121,0.485)$.""",
+ergodic (Theorem 2.1); $\Prob(Y_n=j\mid Y_0=1)\to\pi_j$ \emph{independently of the starting
+state} $i=1$, where $\pi$ is the unique stationary distribution solving $\pi=\pi\mathbf P$,
+$\sum_j\pi_j=1$.
+
+\emph{Note: $\mathbf P$ uses rows $i$ = ``from'' and columns $j$ = ``to'', so each row sums to 1
+(check: $.6+0+.4=1$, $.1+.6+.3=1$, $.3+.1+.6=1$).}
+
+\emph{Compute $\pi$ in R} (left eigenvector with eigenvalue 1):
+
+`P <- matrix(c(.6,0,.4, .1,.6,.3, .3,.1,.6), nrow=3, byrow=TRUE)`
+
+`ev <- eigen(t(P)); v <- Re(ev$vectors[, which.min(abs(ev$values-1))])`
+
+`pi <- v / sum(v); round(pi, 3)`
+
+`## [1] 0.394 0.121 0.485`
+
+So $\pi\approx(0.394,\,0.121,\,0.485)$.""",
     "is_exam": True,
     "topic_hint": "t3b",
     "images": []
@@ -1569,13 +1615,38 @@ matrix $\mathbf P=[p_{ij}]$.
 
 ---
 
-**Solution.** \textbf{(a)} \emph{Estimated:} the formula
-$=p_{13}p_{33}^2 p_{31}$ is known, but its numerical value depends on the unknown $\mathbf P$.
+**Solution.** \textbf{(a)} \emph{Structure:} starting from $Y_{1,0}=1$, the path is
+$1\to 3\to 3\to 3\to 1$, with three intermediate transitions $3\to 3$ and one final
+$3\to 1$. By the Markov property and homogeneity,
+$$
+\Prob(Y_{1,1}=3,Y_{1,2}=3,Y_{1,3}=3,Y_{1,4}=1\mid Y_{1,0}=1)=p_{13}\,p_{33}\,p_{33}\,p_{31}=p_{13}\,p_{33}^2\,p_{31}.
+$$
+The \emph{formula} is known; its \emph{numerical value} depends on the unknown $\mathbf P$, so
+it must be \textbf{estimated}.
 
-\textbf{(b)} $\widehat p_{3,1}=30/170\approx 0.176$. 95\% CI:
-$0.176\pm 1.96\sqrt{0.176\cdot 0.824/170}=0.176\pm 0.057=\boxed{[0.119,0.234]}$.
-\emph{MLE properties used:} consistency (plug-in $\widehat p_{3,1}$ in the SE is valid by
-Slutsky) and asymptotic normality (Anderson--Goodman, keydef \textbf{13}).""",
+\textbf{(b)} The MLE for a Markov chain transition probability is the
+\emph{conditional sample proportion} (Anderson--Goodman): for row $i=3$ (currently undecided),
+$$
+\widehat p_{3,1}=\frac{n_{31}}{n_{3\cdot}}=\frac{30}{170}\approx 0.1765.
+$$
+\emph{Asymptotic normality} (Anderson--Goodman, keydef \textbf{13}):
+$\sqrt{n_{3\cdot}}(\widehat p_{3,1}-p_{3,1})\overset{d}{\to}\mathcal{N}(0,\,p_{3,1}(1-p_{3,1}))$,
+so $\widehat{\mathrm{SE}}=\sqrt{\widehat p_{3,1}(1-\widehat p_{3,1})/n_{3\cdot}}$ (consistency
+$+$ Slutsky justifies plug-in). The 95\% CI is
+$\widehat p_{3,1}\pm z_{0.975}\,\widehat{\mathrm{SE}}$ with $z_{0.975}=1.96$:
+
+`p_hat <- 30/170`
+
+`se <- sqrt(p_hat*(1-p_hat)/170)`
+
+`ci <- p_hat + c(-1, 1) * 1.96 * se; round(c(p_hat, se, ci), 4)`
+
+`## [1] 0.1765 0.0292 0.1192 0.2337`
+
+So $\widehat p_{3,1}\approx 0.176$, $\widehat{\mathrm{SE}}\approx 0.029$, and
+$$\text{95\% CI}=\boxed{[0.119,\,0.234]}.$$
+\emph{MLE properties used:} (i) consistency of $\widehat p_{3,1}$, so plug-in in the SE is
+asymptotically valid by Slutsky; (ii) asymptotic normality of the MLE (Anderson--Goodman).""",
     "is_exam": True,
     "topic_hint": "t4b",
     "images": []
@@ -1605,7 +1676,7 @@ $Y_t\mid S_t=i\sim\mathcal{N}(0,\sigma_i^2)$, $i=1,2,3$.
 
 past_exams_ts["exam_may_2022_q7"] = {
     "title": 'May 2022 — Q7',
-    "content": r"""<span class="exam-question-text">Define a general DLM $((Y_t,\theta_t))_{t\ge 1}$ starting at $\theta_0\sim\Nd_p(m_0,C_0)$,
+    "content": r"""<span class="exam-question-text">Define a general DLM $((Y_t,\theta_t))_{t\ge 1}$ starting at $\theta_0\sim\mathcal{N}_p(m_0,C_0)$,
 where $Y_t$ is $m$-dimensional and $\theta_t$ is $p$-dimensional.
 
 What is the difference between filtering and smoothing?</span>
@@ -1638,15 +1709,16 @@ past_exams_ts["exam_may_2022_q8"] = {
 **Solution.** \textbf{(a)} Prior $\pi(\phi)$, posterior $p(\phi\mid y_{1:t-1})\propto L(\phi)\pi(\phi)$ via
 MCMC. Predictive:
 $$
-p(y_t\mid y_{1:t-1})=\int p(y_t\mid y_{1:t-1},\phi)p(\phi\mid y_{1:t-1})d\phi
-\approx\tfrac{1}{S}\sum_s\Nd_q(y_t;f_t(\phi^{(s)}),Q_t(\phi^{(s)})),
+p(y_t\mid y_{1:t-1})=\int p(y_t\mid y_{1:t-1},\phi)\,p(\phi\mid y_{1:t-1})\,d\phi
+\approx\tfrac{1}{S}\sum_s\mathcal{N}_q\bigl(y_t;\,f_t(\phi^{(s)}),Q_t(\phi^{(s)})\bigr),
 $$
-mixture of Gaussians, properly inflated for $\phi$-uncertainty.
+a Monte-Carlo mixture of Gaussians (one KF run per draw $\phi^{(s)}$), properly inflated for
+$\phi$-uncertainty.
 
 \textbf{(b)} MCMC constructs an ergodic Markov chain on the parameter/latent space whose
 \emph{stationary distribution} is the target posterior. Detailed balance
 $\pi(x)K(x,y)=\pi(y)K(y,x)$ ensures $\pi$-invariance; ergodicity (irreducibility + aperiodicity)
-gives the LLN $\tfrac1S\sum_s h(X^{(s)})\to\Exp_\pi[h(X)]$ (Theorem 2.1 applied to the
+gives the LLN $\tfrac1S\sum_s h(X^{(s)})\to\mathbb{E}_\pi[h(X)]$ (Theorem 2.1 applied to the
 sampler's chain). So MCMC \emph{is} a Markov chain, designed to converge to the right limit
 distribution.""",
     "is_exam": True,
@@ -1687,7 +1759,13 @@ only if $(Y_t)$ is stationary. It that correct?
 
 ---
 
-**Solution.** \textbf{NO}, see Exam 3 Q1a / Exam 8 Q2.""",
+**Solution.** \textbf{NO}. The ACVF $\gamma(s,t)=\operatorname{Cov}(Y_s,Y_t)$ is well-defined for any
+process with $\mathbb{E}[Y_t^2]<\infty$ (so $\operatorname{Var}(Y_t),\operatorname{Var}(Y_s)<\infty$ and
+Cauchy--Schwarz gives $|\gamma(s,t)|<\infty$). Stationarity is \emph{not} required for the ACVF
+to \emph{exist}; what stationarity buys you is that $\gamma(s,t)=\tilde\gamma(t-s)$ depends only
+on the lag, i.e.\ the ACVF reduces to a function of one argument. (For non-stationary
+processes — e.g.\ a random walk — $\gamma(s,t)=\sigma^2\min(s,t)$ is perfectly defined but
+genuinely depends on both $s$ and $t$.)""",
     "is_exam": True,
     "topic_hint": "t2b",
     "images": []
