@@ -12083,7 +12083,9 @@ function openStatsSnippet(nodeId) {
     const titleEl = document.getElementById('statsSnippetTitle');
     const contentEl = document.getElementById('statsSnippetContent');
 
-    titleEl.textContent = node.title || nodeId;
+    const rawTitle = node.title || nodeId;
+    titleEl.innerHTML = formatContent(rawTitle).replace(/<br>/g, ' ');
+    renderMath(titleEl);
     let html = formatContent(node.content || '');
     // Collapse %%RBLOCK%%…%%/RBLOCK%% markers (emitted by build_snippets.py
     // around fenced code) into a single unified R code/console block so the
