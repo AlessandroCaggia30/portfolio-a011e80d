@@ -4675,7 +4675,7 @@ async function loadData() {
             if (oldData) {
                 State.data = JSON.parse(oldData);
                 if (!State.data.trash) State.data.trash = [];
-                await _commitSave();
+                await _commitSave({skipPush: true});
                 localStorage.removeItem(dataKey);
                 console.log('Migrated from localStorage to IndexedDB');
             } else if (seedFile) {
