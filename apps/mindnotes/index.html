@@ -3133,15 +3133,21 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
     color: white;
 }
 
-/* Collapsible subpart sections */
+/* Collapsible subpart sections — bar moved out to the left so it clears
+   any bullet/list markers inside the body. Bar color matches the tag color. */
 .stats-snippet-modal-inner details.master-subpart {
-    margin: 14px 0;
-    border-left: 3px solid #d4d6dc;
-    padding-left: 14px;
+    margin: 14px 0 14px -22px;        /* negative left margin pulls the whole block out */
+    border-left: 4px solid #d4d6dc;
+    padding-left: 18px;
 }
 .stats-snippet-modal-inner details.master-subpart[open] {
     border-left-color: #1b3a64;
 }
+/* Bar color follows the tag color of the first child span inside <summary>.
+   :has() lets us pick the bar color based on the tag inside. */
+.stats-snippet-modal-inner details.master-subpart:has(.tag-exam)   { border-left-color: #c62828; }
+.stats-snippet-modal-inner details.master-subpart:has(.tag-4plus)  { border-left-color: #ef6c00; }
+.stats-snippet-modal-inner details.master-subpart:has(.tag-2plus)  { border-left-color: #b8860b; }
 .stats-snippet-modal-inner details.master-subpart > summary {
     cursor: pointer;
     font-weight: 600;
