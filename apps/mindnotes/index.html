@@ -5565,6 +5565,9 @@ function processLatexCommands(text) {
     // \ (backslash followed by space) — LaTeX explicit interword space, common after periods
     // (e.g. "Dr.\ Smith" or "iid\ N(0,1)"). Convert to a normal space.
     result = result.replace(/\\ /g, ' ');
+    // \textbackslash{} → literal backslash. Must come AFTER the \-space handler above so
+    // a subsequent space isn't eaten as interword spacing.
+    result = result.replace(/\\textbackslash\s*(?:\{\s*\})?/g, '\\');
     result = result.replace(/\\noindent\s*/g, '');
     result = result.replace(/\\indent\s*/g, '');
     result = result.replace(/\\par\b\s*/g, '\n\n');
