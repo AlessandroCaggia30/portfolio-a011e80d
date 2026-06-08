@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-08T13:08:56.973Z",
+  "exportedAt": "2026-06-08T13:16:06.341Z",
   "data": {
     "topics": [
       {
@@ -2391,7 +2391,8 @@
                   "height": 360,
                   "color": "lightblue",
                   "column": 2,
-                  "isMaster": true
+                  "isMaster": true,
+                  "cardColor": "green"
                 },
                 {
                   "id": "exam_sep_2025_q1",
