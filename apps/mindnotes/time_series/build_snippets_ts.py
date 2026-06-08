@@ -540,11 +540,18 @@ output = {
     "version": existing_data.get("version", "2.0"),
     "exportedAt": int(time.time() * 1000),
     "data": {
-        "topics": topics_list,
+        # NEVER overwrite the canvas topics. Preserve the user's original
+        # topics[] (e.g. "Lecture 1 & Stationarity" with the curated
+        # SSM-filtering + Exam-gaps nodes) untouched.
+        "topics": existing_data.get("data", {}).get("topics", []),
         "trash": existing_data.get("data", {}).get("trash", []),
-        "tableLayout": {
+        # The hyper-table lives in its OWN field so the canvas view never
+        # sees T1-T13. renderStatsTable in index.html reads from
+        # data.examTable when present.
+        "examTable": {
             "subject": "time-series",
             "columns": COLUMN_HEADERS,
+            "topics": topics_list,
         },
     },
 }
@@ -572,8 +579,8 @@ if _re.search(r"^(?:<{7} |={7}$|>{7} )", _raw, _re.M):
     raise SystemExit(f"build_snippets_ts: {OUT} contains merge-conflict markers — aborting")
 try:
     _check = json.loads(_raw)
-    assert _check.get("data", {}).get("topics"), "no topics array"
-    assert _check.get("data", {}).get("tableLayout"), "no tableLayout"
+    assert _check.get("data", {}).get("topics"), "canvas topics[] was wiped!"
+    assert _check.get("data", {}).get("examTable", {}).get("topics"), "no examTable.topics"
 except Exception as _e:
     raise SystemExit(f"build_snippets_ts: {OUT} did not round-trip as JSON: {_e}")
 

@@ -923,24 +923,23 @@ For $k=2$, CI: $m_t\pm z_{1-\alpha/2}\sqrt{C_t+2W+V}$.""",
 past_exams_ts["exam_jun_2024_q6"] = {
     "title": 'Jun 2024 — Q6',
     "content": r"""<span class="exam-question-text">**(a)** Dynamic linear models (DLMs) can be only defined for univariate time series. Is that correct?
-        \begin{itemize}[leftmargin=1.6em]
+\begin{itemize}[leftmargin=1.6em]
+  \item[A.] \textbf{Yes}, because:
+  \item[B.] \textbf{No}, because:
+\end{itemize}
 
-**(b)** [A.] \textbf{Yes}, because:
-
-**(c)** [B.] \textbf{No}, because:
-        \end{itemize}
-
-**(d)** Now consider a DLM with state process $(\theta_t)_{t\ge 0}$. Given data $y_{1:t-1}$,
+**(b)** Now consider a DLM with state process $(\theta_t)_{t\ge 0}$. Given data $y_{1:t-1}$,
         we know that
         $$\theta_t\mid y_{1:t-1}\sim\mathcal{N}(a_t,R_t);$$
         explain how one obtains the one-step-ahead predictive distribution of $y_t$ given $y_{1:t-1}$.</span>
 
 ---
 
-**Solution.** \textbf{(a) NO.} $Y_t\in\mathbb{R}^q$ general; $F_t$ is $q\times p$.
+**Solution.** \textbf{(a) NO.} A DLM is defined in general for a $q$-dimensional observation $Y_t\in\mathbb{R}^q$ and a $p$-dimensional state $\theta_t\in\mathbb{R}^p$, with $F_t$ a $q\times p$ matrix and $G_t$ a $p\times p$ matrix. The univariate case ($q=1$) is just a special case.
 
-\textbf{(b)} $Y_t=F_t\theta_t+v_t$, $v_t\perp\theta_t$, $v_t\sim\Nd_q(0,V_t)$. Linear combo:
-$\boxed{Y_t\mid y_{1:t-1}\sim\Nd_q(F_t a_t,\,F_t R_t F_t^{\top}+V_t)=\Nd_q(f_t,Q_t)}$.""",
+\textbf{(b)} Observation equation $Y_t=F_t\theta_t+v_t$, with $v_t\perp\theta_t$ and $v_t\sim\mathcal{N}_q(0,V_t)$. Since $\theta_t\mid y_{1:t-1}\sim\mathcal{N}(a_t,R_t)$ and $v_t$ is Gaussian independent of $\theta_t$ and of $y_{1:t-1}$, $Y_t\mid y_{1:t-1}$ is a linear combination of independent Gaussians, hence Gaussian. Compute mean and variance:
+$$f_t=\mathbb{E}[Y_t\mid y_{1:t-1}]=F_t a_t,\qquad Q_t=\operatorname{Var}(Y_t\mid y_{1:t-1})=F_t R_t F_t^{\top}+V_t.$$
+$$\boxed{Y_t\mid y_{1:t-1}\sim\mathcal{N}_q(F_t a_t,\,F_t R_t F_t^{\top}+V_t)=\mathcal{N}_q(f_t,Q_t)}.$$""",
     "is_exam": True,
     "topic_hint": "t10a",
     "images": []
@@ -956,15 +955,13 @@ past_exams_ts["exam_jun_2024_q7"] = {
 
 ---
 
-**Solution.** \textbf{(a)} Frequentist: $p(y_{1:n}\mid\phi)=\prod_t\Nd_q(y_t;f_t(\phi),Q_t(\phi))$
-(prediction-error decomposition, DLMwR eq.\ 4.1). \emph{Yes, depends on $\phi$.}
+**Solution.** \textbf{(a) Frequentist.} The parameter $\phi$ is unknown but fixed. The joint density is obtained from the prediction-error decomposition (DLMwR \S 4.1): for each $t$, $Y_t\mid y_{1:t-1},\phi\sim\mathcal{N}_q(f_t(\phi),Q_t(\phi))$ from the Kalman filter, so
+$$p(y_{1:n}\mid\phi)=\prod_{t=1}^{n}\mathcal{N}_q(y_t;f_t(\phi),Q_t(\phi)).$$
+\emph{Yes, it depends on $\phi$} — this is in fact the likelihood $L(\phi)$ used for ML estimation.
 
-\textbf{(b)} Bayesian: prior predictive (evidence)
-$$
-p(y_{1:n})=\int p(y_{1:n}\mid\phi)\pi(\phi)d\phi,
-$$
-does \emph{not} depend on $\phi$ (integrated out). Typically intractable; used for Bayes
-factors.""",
+\textbf{(b) Bayesian.} $\phi$ is treated as random with prior $\pi(\phi)$. The marginal (prior predictive / evidence) is obtained by integrating out $\phi$:
+$$p(y_{1:n})=\int p(y_{1:n}\mid\phi)\,\pi(\phi)\,d\phi.$$
+This \emph{does not} depend on $\phi$ (it has been integrated out). Typically intractable in closed form; estimated by MCMC. Used for Bayes factors / model comparison.""",
     "is_exam": True,
     "topic_hint": "t12a",
     "images": []
@@ -1018,12 +1015,29 @@ not have to estimate the initial probabilities).
 
 ---
 
-**Solution.** \textbf{(a)} $L(\mathbf P)=\prod_{ij}p_{ij}^{n_{ij}}$ (conditioned on fixed $y_{i,0}$).
+**Solution.** \textbf{(a)} Conditioning on fixed initial values $y_{k,0}$, by the Markov property each individual contributes $\prod_t p_{y_{k,t-1},y_{k,t}}$. Aggregating across $k$ and time, with $n_{ij}=\#\{(k,t): y_{k,t-1}=i,y_{k,t}=j\}$:
+$$L(\mathbf P)=\prod_{i,j}p_{ij}^{n_{ij}},\qquad \sum_j p_{ij}=1\;\;\forall i.$$
 
-\textbf{(b)} Row-by-row Lagrangian gives $\widehat p_{ij}=n_{ij}/n_{i,+}$.
+\textbf{(b)} Take log: $\ell(\mathbf P)=\sum_{i,j}n_{ij}\log p_{ij}$. Maximise row-by-row under $\sum_j p_{ij}=1$ via Lagrange multipliers: $\partial/\partial p_{ij}[\ell-\lambda_i(\sum_j p_{ij}-1)]=n_{ij}/p_{ij}-\lambda_i=0\Rightarrow p_{ij}=n_{ij}/\lambda_i$. The constraint gives $\lambda_i=n_{i,+}=\sum_j n_{ij}$. Hence
+$$\boxed{\widehat p_{ij}=\frac{n_{ij}}{n_{i,+}}}.$$
 
-\textbf{(c)} Required: $\widehat p_{3,1}=30/100=0.30$. Wald 90\% CI:
-$0.30\pm 1.65\sqrt{0.30\cdot 0.70/100}=0.30\pm 0.076$, i.e.\ $\boxed{[0.224,\,0.376]}$.""",
+\textbf{(c)} "Uncertain in May, in favour in June" $\Rightarrow$ transition $3\to1$.
+$\widehat p_{3,1}=n_{31}/n_{3,+}=30/100=0.30$.
+
+Asymptotic distribution: $\sqrt{n_{3,+}}(\widehat p_{31}-p_{31})\xrightarrow{d}\mathcal{N}(0,p_{31}(1-p_{31}))$, so SE $=\sqrt{\widehat p_{31}(1-\widehat p_{31})/n_{3,+}}=\sqrt{0.3\cdot 0.7/100}\approx 0.0458$.
+
+90\% Wald CI uses $z_{0.95}=1.65$:
+$$0.30\pm 1.65\cdot 0.0458 = 0.30\pm 0.0756,\qquad\boxed{[0.224,\,0.376]}.$$
+
+```r
+n31 <- 30 ; n3p <- 100 ; p_hat <- n31/n3p
+se <- sqrt(p_hat*(1-p_hat)/n3p)
+z <- qnorm(0.95)  # 1.6449
+ci <- p_hat + c(-1,1)*z*se
+round(c(p_hat=p_hat, se=se, lo=ci[1], hi=ci[2]), 3)
+## p_hat    se    lo    hi
+## 0.300 0.046 0.225 0.375
+```""",
     "is_exam": True,
     "topic_hint": "t4a",
     "images": []
@@ -1082,12 +1096,14 @@ past_exams_ts["exam_may_2024_q5"] = {
 
 ---
 
-**Solution.** \textbf{(a)} As Exam 1 Q4a (keydef \textbf{16a}).
+**Solution.** \textbf{(a)} Multivariate DLM:
+$$Y_t=F_t\theta_t+v_t,\quad v_t\sim\mathcal{N}_q(0,V_t),$$
+$$\theta_t=G_t\theta_{t-1}+w_t,\quad w_t\sim\mathcal{N}_p(0,W_t),$$
+$\theta_0\sim\mathcal{N}_p(m_0,C_0)$, with $\{v_t\}$, $\{w_t\}$, $\theta_0$ mutually independent. Here $Y_t\in\mathbb{R}^q$, $\theta_t\in\mathbb{R}^p$, $F_t\in\mathbb{R}^{q\times p}$, $G_t\in\mathbb{R}^{p\times p}$.
 
-\textbf{(b)} $\theta_t=G_t\theta_{t-1}+w_t$, $w_t\perp\theta_{t-1}\mid y_{1:t-1}$. So
-$$
-\boxed{\;\theta_t\mid y_{1:t-1}\sim\Nd_p(a_t,R_t),\quad a_t=G_t m_{t-1},\;R_t=G_t C_{t-1}G_t^{\top}+W_t.\;}
-$$""",
+\textbf{(b)} State equation $\theta_t=G_t\theta_{t-1}+w_t$, with $w_t\sim\mathcal{N}_p(0,W_t)$ independent of $\theta_{t-1}$ and of $y_{1:t-1}$. By induction $\theta_{t-1}\mid y_{1:t-1}\sim\mathcal{N}(m_{t-1},C_{t-1})$ is Gaussian, so as a linear combination of independent Gaussians,
+$$\boxed{\;\theta_t\mid y_{1:t-1}\sim\mathcal{N}_p(a_t,R_t),\quad a_t=G_t m_{t-1},\;R_t=G_t C_{t-1}G_t^{\top}+W_t.\;}$$
+(This is the Kalman \emph{predict} step.)""",
     "is_exam": True,
     "topic_hint": "t6a",
     "images": []
@@ -1131,18 +1147,17 @@ past_exams_ts["exam_may_2024_q7"] = {
 
 ---
 
-**Solution.** \textbf{(a)} Prediction-error decomposition (DLMwR \S 4.1):
-$L(\phi)=\prod_t\Nd_q(y_t;f_t(\phi),Q_t(\phi))$.
-$\widehat\phi=\argmax_\phi\ell(\phi)$ by numerical optimization (BFGS), each evaluation = one
-KF pass.
+**Solution.** \textbf{(a)} \emph{Prediction-error decomposition} (DLMwR \S 4.1). The Kalman filter yields, for each $t$, $Y_t\mid y_{1:t-1},\phi\sim\mathcal{N}_q(f_t(\phi),Q_t(\phi))$, so
+$$L(\phi)=p(y_{1:n}\mid\phi)=\prod_{t=1}^{n}\mathcal{N}_q(y_t;f_t(\phi),Q_t(\phi)).$$
+Log-likelihood: $\ell(\phi)=-\tfrac{1}{2}\sum_t[\log\det Q_t(\phi)+e_t(\phi)^{\top}Q_t(\phi)^{-1}e_t(\phi)]+\text{const}$, where $e_t=y_t-f_t$. Compute $\widehat\phi=\arg\max_\phi\ell(\phi)$ by numerical optimisation (BFGS, Nelder-Mead). Each evaluation = one Kalman-filter pass; gradients via finite differences or analytic.
 
-\textbf{(b)} Run KF at $\widehat\phi$; one-step ahead
-$Y_t\mid y_{1:t-1}\sim\Nd_q(f_t(\widehat\phi),Q_t(\widehat\phi))$. \emph{Ignores parameter
-uncertainty}; intervals too narrow.
+\textbf{(b)} Plug-in approach. Run the Kalman filter at $\phi=\widehat\phi$, giving one-step-ahead
+$$Y_t\mid y_{1:t-1}\sim\mathcal{N}_q(f_t(\widehat\phi),Q_t(\widehat\phi)).$$
+\emph{Caveat:} this ignores parameter uncertainty in $\widehat\phi$, so credible/prediction intervals are systematically too narrow.
 
-\textbf{(c)} Bayesian: prior $\pi(\phi)$, posterior by MCMC (Gibbs / FFBS), predictive
-$p(y_t\mid y_{1:t-1})=\int p(y_t\mid y_{1:t-1},\phi)p(\phi\mid y_{1:t-1})d\phi$ ---
-mixture of Gaussians, properly inflated for parameter uncertainty.""",
+\textbf{(c)} \emph{Bayesian.} Prior $\pi(\phi)$ + likelihood $\Rightarrow$ posterior $p(\phi\mid y_{1:t-1})\propto L(\phi)\pi(\phi)$, sampled by MCMC (Gibbs / Metropolis-Hastings, or FFBS for conjugate components). Predictive:
+$$p(y_t\mid y_{1:t-1})=\int p(y_t\mid y_{1:t-1},\phi)\,p(\phi\mid y_{1:t-1})\,d\phi\approx\frac{1}{S}\sum_{s=1}^{S}\mathcal{N}_q(y_t;f_t(\phi^{(s)}),Q_t(\phi^{(s)})),$$
+a mixture of Gaussians (one per posterior draw $\phi^{(s)}$). This properly inflates intervals for parameter uncertainty.""",
     "is_exam": True,
     "topic_hint": "t12a",
     "images": []
@@ -1215,11 +1230,16 @@ past_exams_ts["exam_may_2023_q4"] = {
 
 ---
 
-**Solution.** \textbf{(a)} As Exam 5 Q3a.
+**Solution.** \textbf{(a)} \emph{Random walk plus noise} (a.k.a.\ local-level model):
+\begin{align*}
+Y_t &= \theta_t + v_t, \qquad v_t\overset{\text{iid}}{\sim}\mathcal{N}(0,V),\\
+\theta_t &= \theta_{t-1} + w_t, \qquad w_t\overset{\text{iid}}{\sim}\mathcal{N}(0,W),\\
+\theta_0 &\sim \mathcal{N}(m_0,C_0),
+\end{align*}
+with $\{v_t\}$, $\{w_t\}$, $\theta_0$ mutually independent.
 
-\textbf{(b)} $\theta_s=\theta_0+\sum_{u=1}^s w_u$ for $s<t$, so $(\theta_1,\dots,\theta_{t-1})$
-is a function of $(\theta_0,w_1,\dots,w_{t-1})$. By the mutual indep.\ assumption,
-$w_t\perp(\theta_0,w_1,\dots,w_{t-1})$, hence $w_t\perp(\theta_1,\dots,\theta_{t-1})$.""",
+\textbf{(b)} Unfold the state equation: $\theta_s=\theta_0+\sum_{u=1}^s w_u$ for all $s$. In particular, for $s<t$, $(\theta_1,\dots,\theta_{t-1})$ is a deterministic function of $(\theta_0,w_1,\dots,w_{t-1})$. By the mutual independence assumption in (a), $w_t$ is independent of $(\theta_0,w_1,\dots,w_{t-1})$. Independence is preserved under measurable functions of the conditioning variables, hence
+$$w_t\perp (\theta_1,\dots,\theta_{t-1}). \quad\Box$$""",
     "is_exam": True,
     "topic_hint": "t7a",
     "images": []
@@ -1258,13 +1278,19 @@ past_exams_ts["exam_may_2023_q6"] = {
 
 ---
 
-**Solution.** \textbf{(a)} As Exam 1 Q4a.
+**Solution.** \textbf{(a)} Multivariate DLM:
+$$Y_t=F_t\theta_t+v_t,\quad v_t\sim\mathcal{N}_q(0,V_t),$$
+$$\theta_t=G_t\theta_{t-1}+w_t,\quad w_t\sim\mathcal{N}_p(0,W_t),$$
+$\theta_0\sim\mathcal{N}_p(m_0,C_0)$, with $\{v_t\}$, $\{w_t\}$, $\theta_0$ mutually independent. Dimensions: $Y_t\in\mathbb{R}^q$, $\theta_t\in\mathbb{R}^p$, $F_t\in\mathbb{R}^{q\times p}$, $G_t\in\mathbb{R}^{p\times p}$.
 
-\textbf{(b) YES} in a DLM. By induction, $\theta_t\mid y_{1:t}$ is Gaussian (KF preserves
-Gaussianity); $(m_t,C_t)$ then fully characterise the distribution. Marginal CI for component $j$:
-$(m_t)_j\pm z_{1-\alpha/2}\sqrt{(C_t)_{jj}}$; joint ellipsoid via $C_t^{-1}$.
-\emph{Caveat.} Fails for non-Gaussian SSMs (need particle filter) and for plug-in at $\widehat\phi$
-(parameter uncertainty understated).""",
+\textbf{(b) YES} in a DLM. Argument: by induction, $\theta_t\mid y_{1:t}$ is Gaussian. Base case $\theta_0\sim\mathcal{N}(m_0,C_0)$ Gaussian. Inductive step: if $\theta_{t-1}\mid y_{1:t-1}$ is Gaussian, then both the predict step ($\theta_t\mid y_{1:t-1}$) and the update step ($\theta_t\mid y_{1:t}$, via conditioning a joint Gaussian on $Y_t$) preserve Gaussianity. Hence $\theta_t\mid y_{1:t}\sim\mathcal{N}(m_t,C_t)$, and the pair $(m_t,C_t)$ \emph{fully} characterises the distribution.
+
+Credible intervals follow directly:
+\begin{itemize}
+  \item \emph{Marginal} $(1-\alpha)$ CI for component $j$: $(m_t)_j\pm z_{1-\alpha/2}\sqrt{(C_t)_{jj}}$.
+  \item \emph{Joint} ellipsoid: $\{\theta:(\theta-m_t)^{\top}C_t^{-1}(\theta-m_t)\le \chi^2_{p,1-\alpha}\}$.
+\end{itemize}
+\emph{Caveats.} (i) Fails for non-Gaussian / non-linear SSMs — filtering distribution can be multimodal/skewed; mean+covariance insufficient (need particle filter or moment-matching). (ii) With plug-in $\widehat\phi$, parameter uncertainty is understated.""",
     "is_exam": True,
     "topic_hint": "t8a",
     "images": []
@@ -1842,23 +1868,34 @@ past_exams_ts["exam_may_2021_q5"] = {
 
 ---
 
-**Solution.** \textbf{(a)} Keydef \textbf{16a}.
+**Solution.** \textbf{(a) General DLM} (keydef \textbf{16a}):
+$\theta_t=G_t\theta_{t-1}+w_t$, $w_t\overset{\text{iid}}{\sim}\mathcal{N}_p(0,W_t)$;
+$Y_t=F_t\theta_t+v_t$, $v_t\overset{\text{iid}}{\sim}\mathcal{N}_m(0,V_t)$;
+$\theta_0\sim\mathcal{N}_p(m_0,C_0)$; $\{w_t\},\{v_t\},\theta_0$ mutually independent.
 
-\textbf{(b)} 3 steps. \emph{Step 1 (state prediction)}: $\theta_t\mid y_{1:t-1}\sim\Nd_p(a_t,R_t)$,
+\textbf{(b)} 3 steps. \emph{Step 1 (state prediction)}: $\theta_t\mid y_{1:t-1}\sim\mathcal{N}_p(a_t,R_t)$,
 $a_t=G_t m_{t-1}$, $R_t=G_t C_{t-1}G_t^{\top}+W_t$ (affine + Gaussian closure).
-\emph{Step 2 (obs prediction)}: $Y_t\mid y_{1:t-1}\sim\Nd_q(f_t,Q_t)$, $f_t=F_t a_t$,
+\emph{Step 2 (obs prediction)}: $Y_t\mid y_{1:t-1}\sim\mathcal{N}_m(f_t,Q_t)$, $f_t=F_t a_t$,
 $Q_t=F_t R_t F_t^{\top}+V_t$.
 \emph{Step 3 (filtering update)}: \textbf{Bayes' rule} on the conditionally Gaussian model
-gives $p(\theta_t\mid y_{1:t})\propto p(y_t\mid\theta_t)p(\theta_t\mid y_{1:t-1})$;
+gives $p(\theta_t\mid y_{1:t})\propto p(y_t\mid\theta_t)\,p(\theta_t\mid y_{1:t-1})$;
 Gaussian conditioning on the joint $(\theta_t,Y_t)\mid y_{1:t-1}$ yields
 $m_t=a_t+K_t(y_t-f_t)$, $C_t=R_t-K_t Q_t K_t^{\top}$, $K_t=R_t F_t^{\top} Q_t^{-1}$.
 
-\textbf{(c) Proof of Step 1.} $\theta_t=G_t\theta_{t-1}+w_t$ with $w_t\perp\sigma(\theta_{t-1},y_{1:t-1})$.
-Conditional moments:
-$\mathbb{E}[\theta_t\mid y_{1:t-1}]=G_t m_{t-1}=a_t$;
-$\operatorname{Var}(\theta_t\mid y_{1:t-1})=G_t C_{t-1}G_t^{\top}+W_t=R_t$ (independence kills cross terms).
-$(\theta_{t-1},w_t)\mid y_{1:t-1}$ jointly Gaussian $\Rightarrow$ linear combination
-$\theta_t\mid y_{1:t-1}\sim\Nd_p(a_t,R_t)$. \hfill$\Box$""",
+\textbf{(c) Proof of Step 1.} Inductive hypothesis: $\theta_{t-1}\mid y_{1:t-1}\sim\mathcal{N}_p(m_{t-1},C_{t-1})$.
+By the state equation, $\theta_t=G_t\theta_{t-1}+w_t$ with $w_t\sim\mathcal{N}_p(0,W_t)$ and
+$w_t\perp\sigma(\theta_{0:t-1},y_{1:t-1})$.
+
+\emph{Conditional mean:}
+$\mathbb{E}[\theta_t\mid y_{1:t-1}]=G_t\,\mathbb{E}[\theta_{t-1}\mid y_{1:t-1}]+\mathbb{E}[w_t\mid y_{1:t-1}]
+=G_t m_{t-1}+0=a_t$.
+
+\emph{Conditional variance} (independence kills cross terms):
+$\operatorname{Var}(\theta_t\mid y_{1:t-1})=G_t\operatorname{Var}(\theta_{t-1}\mid y_{1:t-1})G_t^{\top}+\operatorname{Var}(w_t\mid y_{1:t-1})
+=G_t C_{t-1}G_t^{\top}+W_t=R_t$.
+
+\emph{Gaussianity:} $(\theta_{t-1},w_t)\mid y_{1:t-1}$ is jointly Gaussian, and $\theta_t$ is an
+affine transformation of it $\Rightarrow$ $\theta_t\mid y_{1:t-1}\sim\mathcal{N}_p(a_t,R_t)$. \hfill$\Box$""",
     "is_exam": True,
     "topic_hint": "t8b",
     "images": []
