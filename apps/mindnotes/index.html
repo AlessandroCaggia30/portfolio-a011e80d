@@ -12047,7 +12047,10 @@ function openStatsSnippet(nodeId) {
     // Collapse %%RBLOCK%%…%%/RBLOCK%% markers (emitted by build_snippets.py
     // around fenced code) into a single unified R code/console block so the
     // R command and ## output lines render as one continuous box.
-    html = html.replace(/(?:<br>\s*)*%%RBLOCK%%(?:<br>\s*)*([\s\S]*?)(?:<br>\s*)*%%\s*\/?\s*RBLOCK%%(?:<br>\s*)*/g,
+    // IMPORTANT: closing marker MUST have the slash. The previous version made `/?`
+    // optional, which meant `%%RBLOCK%%` opening tag also matched the closing pattern,
+    // pairing open-1 with open-2 and wrapping the prose between two R blocks.
+    html = html.replace(/(?:<br>\s*)*%%RBLOCK%%(?:<br>\s*)*([\s\S]*?)(?:<br>\s*)*%%\s*\/\s*RBLOCK%%(?:<br>\s*)*/g,
         (m, inner) => '<div class="stats-r-block">' + inner + '</div>');
     // Mop-up: if any literal marker survived (mismatched/edge case),
     // strip it so the user NEVER sees raw %%RBLOCK%% text in the modal.
