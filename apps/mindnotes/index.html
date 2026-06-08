@@ -12121,6 +12121,70 @@ function openStatsSnippet(nodeId) {
 function closeStatsSnippet() {
     const modal = document.getElementById('statsSnippetModal');
     if (modal) modal.classList.add('hidden');
+    State._editingStatsNodeId = null;
+    const editor = document.getElementById('statsSnippetEditor');
+    const editActions = document.getElementById('statsSnippetEditActions');
+    const content = document.getElementById('statsSnippetContent');
+    const editBtn = document.getElementById('statsSnippetEditBtn');
+    if (editor) editor.style.display = 'none';
+    if (editActions) editActions.style.display = 'none';
+    if (content) content.style.display = '';
+    if (editBtn) editBtn.textContent = '✎ Edit';
+}
+
+// --- Inline editing of stats snippet content ---
+function toggleStatsSnippetEdit() {
+    const nodeId = State._currentStatsNodeId;
+    if (!nodeId) return;
+    const node = findStatsNode(nodeId);
+    if (!node) return;
+    const editor = document.getElementById('statsSnippetEditor');
+    const editActions = document.getElementById('statsSnippetEditActions');
+    const content = document.getElementById('statsSnippetContent');
+    const editBtn = document.getElementById('statsSnippetEditBtn');
+    if (editor.style.display === 'none' || editor.style.display === '') {
+        editor.value = node.content || '';
+        editor.style.display = 'block';
+        editActions.style.display = 'block';
+        content.style.display = 'none';
+        editBtn.textContent = '👁 Preview';
+        State._editingStatsNodeId = nodeId;
+    } else {
+        content.innerHTML = formatContent(editor.value || '');
+        renderMath(content);
+        editor.style.display = 'none';
+        editActions.style.display = 'none';
+        content.style.display = '';
+        editBtn.textContent = '✎ Edit';
+    }
+}
+async function saveStatsSnippetEdit() {
+    const nodeId = State._editingStatsNodeId;
+    if (!nodeId) return;
+    const node = findStatsNode(nodeId);
+    if (!node) return;
+    const editor = document.getElementById('statsSnippetEditor');
+    node.content = editor.value || '';
+    try { if (typeof _commitSave === 'function') await _commitSave(); } catch (e) { console.error(e); }
+    const content = document.getElementById('statsSnippetContent');
+    content.innerHTML = formatContent(node.content);
+    renderMath(content);
+    editor.style.display = 'none';
+    document.getElementById('statsSnippetEditActions').style.display = 'none';
+    content.style.display = '';
+    document.getElementById('statsSnippetEditBtn').textContent = '✎ Edit';
+    State._editingStatsNodeId = null;
+    if (typeof showToast === 'function') showToast('Saved');
+}
+function cancelStatsSnippetEdit() {
+    const editor = document.getElementById('statsSnippetEditor');
+    const editActions = document.getElementById('statsSnippetEditActions');
+    const content = document.getElementById('statsSnippetContent');
+    if (editor) editor.style.display = 'none';
+    if (editActions) editActions.style.display = 'none';
+    if (content) content.style.display = '';
+    document.getElementById('statsSnippetEditBtn').textContent = '✎ Edit';
+    State._editingStatsNodeId = null;
 }
 
 // Close the stats snippet modal on Escape
