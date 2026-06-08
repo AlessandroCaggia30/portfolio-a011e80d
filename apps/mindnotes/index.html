@@ -12182,6 +12182,162 @@ function findStatsNode(nodeId) {
     return null;
 }
 
+// =====================================================================
+//  Time-Series Exam Pattern Analysis dashboard.
+// =====================================================================
+function showExamPatternAnalysis() {
+    const container = document.getElementById('statsTableView');
+    if (!container) return;
+    const data = State.data || {};
+    const et = data.examTable;
+    if (!et) return;
+    const cols = et.columns || [];
+    const topics = et.topics || [];
+
+    // Build sittings list (cols 3..N are the exam sittings; col 1 = Theory, 2 = Master).
+    const sittings = cols.filter(c => c.col >= 3);
+    // Each sitting label like "Sep 2025" → derive year + month
+    function parseSitting(label) {
+        const m = /^(\w{3})\s+(\d{4})$/.exec(label);
+        if (!m) return { month: '?', year: 0 };
+        return { month: m[1], year: parseInt(m[2], 10) };
+    }
+    const sittingMeta = sittings.map(s => ({ col: s.col, label: s.label, ...parseSitting(s.label) }));
+
+    // Build per-(topic, sitting) count matrix from exam cells.
+    const matrix = {}; // topicName -> { col: count, total: count }
+    const totalsBySitting = {}; sittings.forEach(s => { totalsBySitting[s.col] = 0; });
+    const totalsByYear = {};
+    const totalsByMonth = {};
+    topics.forEach(topic => {
+        matrix[topic.name] = { total: 0 };
+        sittings.forEach(s => matrix[topic.name][s.col] = 0);
+        (topic.subtopics || []).forEach(sub => {
+            (sub.nodes || []).forEach(n => {
+                const col = n.column || 0;
+                if (col < 3) return; // skip Theory / Master cells
+                matrix[topic.name][col] = (matrix[topic.name][col] || 0) + 1;
+                matrix[topic.name].total++;
+                totalsBySitting[col] = (totalsBySitting[col] || 0) + 1;
+            });
+        });
+    });
+    sittingMeta.forEach(s => {
+        totalsByYear[s.year] = (totalsByYear[s.year] || 0) + (totalsBySitting[s.col] || 0);
+        totalsByMonth[s.month] = (totalsByMonth[s.month] || 0) + (totalsBySitting[s.col] || 0);
+    });
+
+    // Trend per topic: simple linear regression slope over (year, count_in_that_year)
+    const topicTrends = topics.map(topic => {
+        const yearCounts = {};
+        sittingMeta.forEach(s => {
+            yearCounts[s.year] = (yearCounts[s.year] || 0) + (matrix[topic.name][s.col] || 0);
+        });
+        const ys = Object.keys(yearCounts).map(y => parseInt(y, 10)).sort();
+        const xs = ys.map((y, i) => i);
+        const vals = ys.map(y => yearCounts[y]);
+        const n = xs.length;
+        if (n < 2) return { name: topic.name, slope: 0, total: matrix[topic.name].total };
+        const meanX = xs.reduce((a,b)=>a+b,0)/n;
+        const meanY = vals.reduce((a,b)=>a+b,0)/n;
+        let num=0, den=0;
+        for (let i=0; i<n; i++) { num += (xs[i]-meanX)*(vals[i]-meanY); den += (xs[i]-meanX)**2; }
+        const slope = den === 0 ? 0 : num/den;
+        return { name: topic.name, slope, total: matrix[topic.name].total };
+    });
+    topicTrends.sort((a,b) => b.total - a.total);
+
+    // Find max for heatmap colour scaling
+    let maxCount = 0;
+    topics.forEach(t => sittings.forEach(s => { if ((matrix[t.name][s.col]||0) > maxCount) maxCount = matrix[t.name][s.col]; }));
+    function cellBg(v) {
+        if (!v) return '#ffffff';
+        const intensity = Math.min(1, v/Math.max(1,maxCount));
+        const r = Math.round(255 - 100*intensity);
+        const g = Math.round(255 - 30*intensity);
+        const b = Math.round(255 - 180*intensity);
+        return `rgb(${r},${g},${b})`;
+    }
+
+    // -------------------- Render --------------------
+    let h = '<div class="exam-pattern-view">';
+    h += '<button class="ep-back" onclick="renderStatsTable()">← Back to Exam Table</button>';
+    h += '<h2>Exam Pattern Analysis — ' + escapeHtml(State.currentSubject.name) + '</h2>';
+
+    // Heatmap
+    h += '<h3>Topic × Sitting heatmap (number of questions)</h3>';
+    h += '<table class="ep-heatmap"><thead><tr><th class="ep-row-head">Topic</th>';
+    sittingMeta.forEach(s => { h += '<th>' + escapeHtml(s.label) + '</th>'; });
+    h += '<th>Total</th></tr></thead><tbody>';
+    topics.forEach(topic => {
+        h += '<tr><th class="ep-row-head">' + escapeHtml(topic.name) + '</th>';
+        sittingMeta.forEach(s => {
+            const v = matrix[topic.name][s.col] || 0;
+            h += '<td style="background:' + cellBg(v) + '">' + (v || '') + '</td>';
+        });
+        h += '<td style="background:#f0f1f5;font-weight:700">' + matrix[topic.name].total + '</td>';
+    });
+    h += '<tr><th class="ep-row-head">Sitting total</th>';
+    sittingMeta.forEach(s => {
+        h += '<td style="background:#1b3a64;color:white;font-weight:700">' + (totalsBySitting[s.col] || 0) + '</td>';
+    });
+    const grand = Object.values(totalsBySitting).reduce((a,b)=>a+b,0);
+    h += '<td style="background:#d4b800;color:#1b3a64;font-weight:800">' + grand + '</td></tr></tbody></table>';
+
+    // Summary cards
+    h += '<div class="ep-stat-grid">';
+
+    // Most-asked topics
+    h += '<div class="ep-card"><h4>🎯 Most-asked topics</h4><ol>';
+    topicTrends.slice(0, 7).forEach(t => {
+        h += '<li>' + escapeHtml(t.name) + ' <span class="ep-count">' + t.total + '</span></li>';
+    });
+    h += '</ol></div>';
+
+    // Rising / falling topics
+    const rising = [...topicTrends].sort((a,b)=>b.slope-a.slope).slice(0, 5).filter(t => t.slope > 0);
+    const falling = [...topicTrends].sort((a,b)=>a.slope-b.slope).slice(0, 5).filter(t => t.slope < 0);
+    h += '<div class="ep-card"><h4>📈 Rising topics (slope &gt; 0)</h4><ul>';
+    if (rising.length === 0) h += '<li class="ep-trend-flat">No clear rising trend.</li>';
+    rising.forEach(t => { h += '<li>' + escapeHtml(t.name) + ' <span class="ep-trend-up ep-count">+' + t.slope.toFixed(2) + '/yr</span></li>'; });
+    h += '</ul></div>';
+    h += '<div class="ep-card"><h4>📉 Falling topics (slope &lt; 0)</h4><ul>';
+    if (falling.length === 0) h += '<li class="ep-trend-flat">No clear falling trend.</li>';
+    falling.forEach(t => { h += '<li>' + escapeHtml(t.name) + ' <span class="ep-trend-down ep-count">' + t.slope.toFixed(2) + '/yr</span></li>'; });
+    h += '</ul></div>';
+
+    // Per-month patterns
+    h += '<div class="ep-card"><h4>📅 Questions per session month</h4><ul>';
+    ['May', 'Jun', 'Sep'].forEach(m => {
+        const c = totalsByMonth[m] || 0;
+        h += '<li>' + m + ' sessions <span class="ep-count">' + c + '</span></li>';
+    });
+    h += '</ul></div>';
+
+    // Per-year totals
+    h += '<div class="ep-card"><h4>📊 Questions per year</h4><ul>';
+    Object.keys(totalsByYear).sort().forEach(y => {
+        h += '<li>' + y + ' <span class="ep-count">' + totalsByYear[y] + '</span></li>';
+    });
+    h += '</ul></div>';
+
+    // Per-sitting topic dominance
+    h += '<div class="ep-card"><h4>🔍 Each sitting\'s favourite topic</h4><ul>';
+    sittingMeta.forEach(s => {
+        let bestTopic = '', bestCount = 0;
+        topics.forEach(topic => {
+            const v = matrix[topic.name][s.col] || 0;
+            if (v > bestCount) { bestCount = v; bestTopic = topic.name; }
+        });
+        h += '<li>' + escapeHtml(s.label) + ': <strong>' + escapeHtml(bestTopic || '—') + '</strong> '
+           + '<span class="ep-count">' + bestCount + '</span></li>';
+    });
+    h += '</ul></div>';
+
+    h += '</div></div>'; // end ep-stat-grid + exam-pattern-view
+    container.innerHTML = h;
+}
+
 // Simple setter for the per-card dot buttons on Master cards.
 async function setCardColor(nodeId, color) {
     const node = findStatsNode(nodeId);
