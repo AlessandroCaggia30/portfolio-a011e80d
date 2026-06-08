@@ -3030,6 +3030,41 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
     position: absolute; top: 4px; right: 6px;
     font-size: 11px; opacity: 0.6;
 }
+.stats-pattern-btn {
+    background: linear-gradient(135deg, #1b3a64 0%, #2a5891 100%);
+    color: white; border: none; border-radius: 7px;
+    padding: 8px 16px; font-size: 13px; font-weight: 600;
+    cursor: pointer; margin-left: 16px;
+    box-shadow: 0 2px 8px rgba(27,58,100,0.25);
+}
+.stats-pattern-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(27,58,100,0.4); }
+.exam-pattern-view { padding: 24px 32px; background: #f8f9fb; min-height: 100vh; }
+.exam-pattern-view .ep-back {
+    background: #1b3a64; color: white; border: none; border-radius: 7px;
+    padding: 8px 14px; cursor: pointer; font-weight: 600; font-size: 13px;
+    margin-bottom: 16px;
+}
+.exam-pattern-view h2 { color: #1b3a64; margin: 4px 0 24px 0; font-size: 22px; }
+.exam-pattern-view h3 {
+    color: #1b3a64; margin: 24px 0 10px 0; font-size: 16px;
+    border-bottom: 2px solid #d4b800; padding-bottom: 6px;
+}
+.ep-heatmap { border-collapse: collapse; width: 100%; font-size: 12px; background: white;
+              border: 1px solid #d4d6dc; border-radius: 8px; overflow: hidden; }
+.ep-heatmap th, .ep-heatmap td { border: 1px solid #e8e9ec; padding: 6px 8px; text-align: center; }
+.ep-heatmap th { background: #1b3a64; color: white; font-weight: 600; font-size: 11px;
+                 text-transform: uppercase; letter-spacing: 0.04em; }
+.ep-heatmap th.ep-row-head { background: #f0f1f5; color: #1b3a64; text-align: left;
+                              font-weight: 600; text-transform: none; letter-spacing: 0; padding: 8px 12px; }
+.ep-stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 16px 0; }
+.ep-card { background: white; border: 1px solid #d4d6dc; border-radius: 10px; padding: 16px;
+           box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.ep-card h4 { color: #1b3a64; margin: 0 0 10px 0; font-size: 14px; font-weight: 700; }
+.ep-card ol, .ep-card ul { margin: 0; padding-left: 22px; font-size: 13px; line-height: 1.7; }
+.ep-card .ep-count { float: right; color: #d4b800; font-weight: 700; }
+.ep-trend-up   { color: #0a7d3a; font-weight: 600; }
+.ep-trend-down { color: #b00;    font-weight: 600; }
+.ep-trend-flat { color: #888;    font-weight: 600; }
 .stats-card.card-color-red {
     background: #ffeaea !important; border-color: #b00 !important; color: #6a0000 !important;
 }
