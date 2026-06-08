@@ -12069,11 +12069,17 @@ function renderStatsTable() {
                 cellNodes.forEach(node => {
                     const isTheory = (node.id || '').startsWith('th_');
                     const isExam   = node.isExam === true;
+                    const isMaster = (node.id || '').startsWith('master_');
                     const imgFlag  = (Array.isArray(node.images) && node.images.length) ? ' 📊' : '';
                     let cls = 'stats-card';
                     if (isTheory) cls += ' stats-theory';
                     if (isExam)   cls += ' stats-exam';
-                    html += '<div class="' + cls + '"'
+                    if (node.cardColor === 'red')   cls += ' card-color-red';
+                    if (node.cardColor === 'green') cls += ' card-color-green';
+                    const ctxAttr = isMaster
+                        ? ` oncontextmenu="event.preventDefault(); event.stopPropagation(); showCardColorMenu(event, '${escapeHtml(node.id)}'); return false;"`
+                        : '';
+                    html += '<div class="' + cls + '"' + ctxAttr
                           + ' onclick="openStatsSnippet(\'' + escapeHtml(node.id) + '\')">'
                           + escapeHtml(node.title || node.id) + imgFlag
                           + '</div>';
