@@ -5456,6 +5456,11 @@ function processLatexCommands(text) {
         });
     // LaTeX escapes inside text: \_ → _, \& → &, \% → %, \# → #, \$ → $
     result = result.replace(/\\([_&%#\$])/g, '$1');
+    // \textbackslash{} → literal backslash, via sentinel so it survives the
+    // `\\ ` (backslash-space) interword-space handler later in this function.
+    // The sentinel is restored to "\\" at the very end of processLatexCommands.
+    // Done BEFORE \\textbf etc. so it doesn't confuse those regexes with stray braces.
+    result = result.replace(/\\textbackslash\s*(?:\{\s*\})?/g, '%%BSLASH%%');
 
     // Reusable pattern for balanced braces (up to 2 levels deep)
     const braceGroup = '(?:[^{}]|\\{(?:[^{}]|\\{[^{}]*\\})*\\})*';
