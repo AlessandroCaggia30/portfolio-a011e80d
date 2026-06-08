@@ -5435,6 +5435,10 @@ function processLatexCommands(text) {
         });
     // LaTeX escapes inside text: \_ → _, \& → &, \% → %, \# → #, \$ → $
     result = result.replace(/\\([_&%#\$])/g, '$1');
+    // \textbackslash{} → literal backslash; \textasciitilde{} → ~ ; \textasciicircum{} → ^
+    result = result.replace(/\\textbackslash\s*(\{\s*\})?/g, '\\');
+    result = result.replace(/\\textasciitilde\s*(\{\s*\})?/g, '~');
+    result = result.replace(/\\textasciicircum\s*(\{\s*\})?/g, '^');
 
     // Reusable pattern for balanced braces (up to 2 levels deep)
     const braceGroup = '(?:[^{}]|\\{(?:[^{}]|\\{[^{}]*\\})*\\})*';
