@@ -3300,8 +3300,29 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
          onclick="if(event.target===this) closeStatsSnippet()">
         <div class="stats-snippet-modal-inner">
             <button class="stats-snippet-modal-close" onclick="closeStatsSnippet()" title="Close (Esc)">×</button>
+            <button id="statsSnippetEditBtn" onclick="toggleStatsSnippetEdit()"
+                style="position:absolute;top:14px;right:60px;background:#1b3a64;color:white;border:none;
+                       border-radius:6px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;">
+                ✎ Edit
+            </button>
             <h2 id="statsSnippetTitle"></h2>
             <div id="statsSnippetContent" class="snippet-content"></div>
+            <textarea id="statsSnippetEditor"
+                style="display:none;width:100%;min-height:60vh;font-family:'JetBrains Mono',monospace;
+                       font-size:13px;padding:12px;border:2px solid #1b3a64;border-radius:8px;
+                       resize:vertical;line-height:1.5;"></textarea>
+            <div id="statsSnippetEditActions" style="display:none;margin-top:12px;">
+                <button onclick="saveStatsSnippetEdit()"
+                    style="background:#0a8845;color:white;border:none;border-radius:6px;
+                           padding:8px 20px;font-size:14px;font-weight:600;cursor:pointer;margin-right:8px;">
+                    💾 Save
+                </button>
+                <button onclick="cancelStatsSnippetEdit()"
+                    style="background:#888;color:white;border:none;border-radius:6px;
+                           padding:8px 20px;font-size:14px;cursor:pointer;">
+                    Cancel
+                </button>
+            </div>
         </div>
     </div>
 
