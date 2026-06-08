@@ -5587,6 +5587,16 @@ function formatContent(text) {
     // Normalize LaTeX delimiters (\[...\] → $$...$$, \(...\) → $...$)
     text = normalizeLatexDelimiters(String(text));
 
+    // Extract trusted HTML tags (<details>, <summary>, <span class="tag tag-*">)
+    // into placeholders BEFORE any other processing, so escapeHtml can't touch them.
+    const htmlBlocks = [];
+    text = text
+        .replace(/<details\b[^>]*>/g, (m) => { htmlBlocks.push(m); return `%%HTMTAG${htmlBlocks.length - 1}%%`; })
+        .replace(/<\/details>/g, () => { htmlBlocks.push('</details>'); return `%%HTMTAG${htmlBlocks.length - 1}%%`; })
+        .replace(/<summary\b[^>]*>/g, (m) => { htmlBlocks.push(m); return `%%HTMTAG${htmlBlocks.length - 1}%%`; })
+        .replace(/<\/summary>/g, () => { htmlBlocks.push('</summary>'); return `%%HTMTAG${htmlBlocks.length - 1}%%`; })
+        .replace(/<span class="(tag tag-(?:exam|2plus|4plus))">([\s\S]*?)<\/span>/g, (m) => { htmlBlocks.push(m); return `%%HTMTAG${htmlBlocks.length - 1}%%`; });
+
     const latexBlocks = [];
     let processed = text
         .replace(/\$\$([\s\S]*?)\$\$/g, (match) => {
@@ -5602,6 +5612,9 @@ function formatContent(text) {
     processed = processLatexCommands(processed);
 
     processed = escapeHtml(processed);
+
+    // Stash htmlBlocks for restoration just before latex restore
+    processed.__htmlBlocks = htmlBlocks;
 
     // Apply formatting
     processed = processed
