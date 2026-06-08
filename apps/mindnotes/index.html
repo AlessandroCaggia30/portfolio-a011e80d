@@ -4556,6 +4556,8 @@ async function loadData() {
                                 data.topics.push(seedTopic);
                             }
                         });
+                        // Also pick up examTable from seed (generated hyper-table).
+                        if (seedData.examTable) State.data.examTable = seedData.examTable;
                         State.data = data;
                     } else {
                         State.data = seedData;
