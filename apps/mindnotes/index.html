@@ -3159,6 +3159,25 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
 .stats-snippet-modal-inner details.master-subpart:has(.tag-exam)   { border-left-color: #8b0000; }
 .stats-snippet-modal-inner details.master-subpart:has(.tag-4plus)  { border-left-color: #ffb74d; }
 .stats-snippet-modal-inner details.master-subpart:has(.tag-2plus)  { border-left-color: #ffe082; }
+/* User-toggleable box backgrounds: white (default), red, green */
+.stats-snippet-modal-inner details.master-subpart.color-red {
+    background: #fff0f0; border-left-color: #b00 !important; padding-right: 12px;
+}
+.stats-snippet-modal-inner details.master-subpart.color-green {
+    background: #ecfdf3; border-left-color: #0a7d3a !important; padding-right: 12px;
+}
+/* Tiny color swatches injected into <summary> for quick toggling */
+.stats-snippet-modal-inner .box-color-swatches {
+    display: inline-flex; gap: 4px; margin-left: 10px; vertical-align: middle;
+}
+.stats-snippet-modal-inner .box-color-swatch {
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 1px solid #aaa; cursor: pointer; display: inline-block;
+}
+.stats-snippet-modal-inner .box-color-swatch.sw-white { background: #ffffff; }
+.stats-snippet-modal-inner .box-color-swatch.sw-red   { background: #ff6b6b; }
+.stats-snippet-modal-inner .box-color-swatch.sw-green { background: #4caf6e; }
+.stats-snippet-modal-inner .box-color-swatch:hover { border: 2px solid #1b3a64; }
 .stats-snippet-modal-inner details.master-subpart > summary {
     cursor: pointer;
     font-weight: 600;
