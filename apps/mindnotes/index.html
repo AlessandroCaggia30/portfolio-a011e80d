@@ -4605,6 +4605,42 @@ async function loadData() {
             data = null;
         }
 
+        // ---- Time-series migration: strip Canonical-framework / Comprehensive-question
+        // preambles from any cached master-snippet content. Done in-place; preserves
+        // user edits (only removes the well-known preamble block between MASTER
+        // header and the first <details>). Runs every load — cheap, idempotent.
+        if (data && State.currentSubject && State.currentSubject.id === 'time-series' && data.examTable && Array.isArray(data.examTable.topics)) {
+            let stripped = 0;
+            const stripPreamble = (content) => {
+                const m = content.match(/^(\\textbf\{\\textcolor\{red\}\{MASTER ---[^\n]+)/);
+                if (!m) return content;
+                const head = m[1];
+                const rest = content.slice(head.length);
+                const di = rest.indexOf('<details');
+                if (di < 0) return content;
+                const between = rest.slice(0, di).trim();
+                if (!between || between === '---') return content;
+                // Only strip if the preamble contains the well-known boilerplate phrases.
+                if (!/Canonical framework|Comprehensive question|The aim\.|The questions below|sub-parts asked|verbatim variation/i.test(between)) {
+                    return content;
+                }
+                return head + '\n\n---\n\n' + rest.slice(di);
+            };
+            for (const t of data.examTable.topics) {
+                for (const s of (t.subtopics || [])) {
+                    for (const n of (s.nodes || [])) {
+                        if (!n || !n.id || !n.id.startsWith('master_') || !n.content) continue;
+                        const before = n.content;
+                        const after = stripPreamble(before);
+                        if (after !== before) { n.content = after; stripped++; }
+                    }
+                }
+            }
+            if (stripped > 0) {
+                console.log('[migration] Stripped preambles from ' + stripped + ' master snippets.');
+            }
+        }
+
         // Check if seed file has been updated (version-based refresh)
         const seedVersion = State.currentSubject ? State.currentSubject.seedVersion : null;
         const storedSeedVersion = seedVersion ? localStorage.getItem(dataKey + '_seedVersion') : null;
