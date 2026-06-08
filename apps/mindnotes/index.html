@@ -3107,51 +3107,48 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
     margin: 20px 0;
 }
 
-/* R / inline code blocks — distinguished from prose */
+/* R / inline code blocks — light "IDE" theme, easy on the eyes */
 .stats-snippet-modal-inner code {
     font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, monospace;
-    background: #1a1f2e;
-    color: #e6e8f0;
-    padding: 2px 7px;
+    background: #f6f8fa;
+    color: #24292f;
+    padding: 2px 6px;
     border-radius: 4px;
     font-size: 12.5px;
     font-weight: 500;
-    border: 1px solid #2a3142;
+    border: 1px solid #e1e4e8;
 }
-/* R-output lines (start with ## inside code) get a softer gray */
+/* R-output lines (start with ##) — softer, italic-feeling muted gray */
 .stats-snippet-modal-inner code:has(> .r-output),
 .stats-snippet-modal-inner p > code[data-r-output="1"] {
-    background: #f2f3f7;
-    color: #4a4a5a;
-    border: 1px solid #d4d6dc;
+    background: #fafbfc;
+    color: #6a737d;
+    border: 1px solid #eaecef;
 }
-/* Multi-line R sequences: stack tightly with subtle code-block container */
 .stats-snippet-modal-inner p:has(> code:only-child) {
     margin: 4px 0;
 }
 .stats-snippet-modal-inner p > code:only-child {
     display: inline-block;
-    padding: 6px 12px;
-    border-radius: 6px;
+    padding: 5px 11px;
+    border-radius: 5px;
     width: auto;
     max-width: 100%;
     white-space: pre-wrap;
     word-break: break-all;
 }
-/* Unified R command/output block: <div class="stats-r-block"> wraps a
-   contiguous sequence of <code> lines emitted from one fenced block.
-   Inside it, each <code> renders as a flat console line — no pills,
-   no gaps, one continuous monospaced box. */
+/* Unified R command/output block — RStudio/VS-Code light theme */
 .stats-snippet-modal-inner .stats-r-block {
-    background: #1a1f2e;
-    border: 1px solid #2a3142;
+    background: #f6f8fa;
+    border: 1px solid #e1e4e8;
+    border-left: 3px solid #6e7681;     /* subtle accent rail like an editor gutter */
     border-radius: 6px;
-    padding: 10px 14px;
-    margin: 12px 0;
+    padding: 12px 16px;
+    margin: 14px 0;
     overflow-x: auto;
     font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, monospace;
     font-size: 12.5px;
-    line-height: 1.55;
+    line-height: 1.6;
 }
 .stats-snippet-modal-inner .stats-r-block br { display: none; }
 .stats-snippet-modal-inner .stats-r-block code {
@@ -3161,15 +3158,16 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
     border-radius: 0 !important;
     padding: 0 !important;
     margin: 0;
-    color: #e6e8f0 !important;
+    color: #24292f !important;          /* dark slate on light bg */
     font-size: inherit;
     font-weight: 500;
     white-space: pre-wrap;
     word-break: break-word;
 }
 .stats-snippet-modal-inner .stats-r-block code[data-r-output="1"] {
-    color: #8a8e9f !important;     /* dim gray for R output rows */
+    color: #6a737d !important;          /* dim gray for R output rows */
     font-weight: 400;
+    font-style: italic;
 }
 
 /* Tables inside modal */
