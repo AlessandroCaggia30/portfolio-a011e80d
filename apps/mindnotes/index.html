@@ -10706,10 +10706,15 @@ function showSyncResult(message, success) {
 
 // ==================== VIEWS.JS ====================
 function switchView(view) {
+    // Time-series subject repurposes the Quiz tab as the Exam Table view.
+    if (view === 'quiz' && State.currentSubject?.id === 'time-series') view = 'statsTable';
     State.currentView = view;
 
     document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-    $('tab' + view.charAt(0).toUpperCase() + view.slice(1)).classList.add('active');
+    // statsTable is reached via the Quiz tab for time-series → keep Quiz tab highlighted.
+    const tabKey = (view === 'statsTable') ? 'Quiz' : (view.charAt(0).toUpperCase() + view.slice(1));
+    const tabEl = $('tab' + tabKey);
+    if (tabEl) tabEl.classList.add('active');
 
     // Canvas visible only for notes view; snippets view takes the full main area
     $('canvasWrapper').style.display = (view === 'notes') ? 'flex' : 'none';
@@ -10717,6 +10722,17 @@ function switchView(view) {
     $('flashcardsView').classList.toggle('active', view === 'flashcards');
     $('quizView').classList.toggle('active', view === 'quiz');
     $('snippetsView').classList.toggle('active', view === 'snippets');
+
+    // Time-series hyper-table: toggle the same #statsTableView container.
+    const stv = document.getElementById('statsTableView');
+    if (stv) {
+        if (view === 'statsTable') {
+            stv.classList.remove('hidden');
+            renderStatsTable();
+        } else if (State.currentSubject?.id === 'time-series') {
+            stv.classList.add('hidden');
+        }
+    }
 
     $('topicsSection').style.display = (view === 'notes' || view === 'snippets') ? 'block' : 'none';
     document.querySelector('.add-btn').style.display = view === 'notes' ? 'block' : 'none';
