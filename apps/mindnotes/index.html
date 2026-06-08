@@ -4793,7 +4793,9 @@ function hasUnsavedChanges() {
     return _dataIsDirty;
 }
 
-async function _commitSave() {
+async function _commitSave(opts) {
+    opts = opts || {};
+    const skipPush = opts.skipPush === true;
     const dataKey = State.currentSubject ? State.currentSubject.dataKey : 'mindnotes2';
 
     // Never save if there are 0 nodes (prevents overwriting real data with empty data)
