@@ -12143,6 +12143,16 @@ function findStatsNode(nodeId) {
     return null;
 }
 
+// Simple setter for the per-card dot buttons on Master cards.
+async function setCardColor(nodeId, color) {
+    const node = findStatsNode(nodeId);
+    if (!node) return;
+    if (color === 'white') delete node.cardColor;
+    else node.cardColor = color;
+    try { if (typeof _commitSave === 'function') await _commitSave(); } catch (e) {}
+    renderStatsTable();
+}
+
 // Right-click menu on a Master card in the hyper-table → choose card colour.
 function showCardColorMenu(ev, nodeId) {
     const old = document.getElementById('cardColorMenu');
