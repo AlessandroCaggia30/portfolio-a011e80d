@@ -11946,8 +11946,16 @@ function renderStatsTable() {
     const container = document.getElementById('statsTableView');
     if (!container) return;
     const data = State.data || {};
-    const cols = (data.tableLayout && data.tableLayout.columns) || [];
-    const topics = data.topics || [];
+    // Prefer data.examTable when present (time-series uses this so the
+    // hyper-table never pollutes the canvas topics). Fall back to the
+    // top-level data.tableLayout / data.topics (Statistics layout).
+    const et = data.examTable;
+    const cols = et
+        ? (et.columns || [])
+        : ((data.tableLayout && data.tableLayout.columns) || []);
+    const topics = et
+        ? (et.topics || [])
+        : (data.topics || []);
 
     let html = '';
     html += '<div class="stats-table-header">';
