@@ -5435,9 +5435,11 @@ function processLatexCommands(text) {
         mathBlocks.push(m);
         return `%%LTXM${mathBlocks.length - 1}%%`;
     });
-    result = result.replace(/\$([^\$\n]+?)\$/g, (m) => {
-        mathBlocks.push(m);
-        return `%%LTXM${mathBlocks.length - 1}%%`;
+    // Same alphanum-boundary guard as in formatContent — keeps `DS$Children`
+    // style R references from being mistaken for math.
+    result = result.replace(/(^|[^A-Za-z0-9_])\$([^\$\n]+?)\$(?![A-Za-z0-9_])/g, (m, pre, body) => {
+        mathBlocks.push('$' + body + '$');
+        return `${pre}%%LTXM${mathBlocks.length - 1}%%`;
     });
 
     // Color commands → markers FIRST (before other commands to avoid nested brace issues)
