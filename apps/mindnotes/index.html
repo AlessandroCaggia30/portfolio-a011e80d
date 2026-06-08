@@ -7874,8 +7874,11 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
         let pre = text;
         pre = pre.replace(/\$\$([\s\S]*?)\$\$/g, m => { tmpMath.push(m); return `\x00M${tmpMath.length-1}\x00`; });
         pre = pre.replace(/\$([^\$\n]+?)\$/g, m => { tmpMath.push(m); return `\x00M${tmpMath.length-1}\x00`; });
-        pre = pre.replace(/\\textcolor\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}/g,
-            (m, color, content) => `%%TCLR:${color}%%${content}%%/TCLR%%`);
+        pre = pre.replace(/\\textcolor(?:\[([^\]]*)\])?\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}/g,
+            (m, model, color, content) => {
+                const css = (model && model.toUpperCase() === 'HTML') ? '#' + color : color;
+                return `%%TCLR:${css}%%${content}%%/TCLR%%`;
+            });
         pre = pre.replace(/\\colorbox\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}/g,
             (m, color, content) => `%%CBOX:${color}%%${content}%%/CBOX%%`);
         // Text formatting commands that may span across math blocks
