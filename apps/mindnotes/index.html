@@ -5401,10 +5401,19 @@ function processLatexCommands(text) {
     });
 
     // Color commands → markers FIRST (before other commands to avoid nested brace issues)
-    result = result.replace(/\\textcolor\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}/g,
-        (m, color, content) => `%%TCLR:${color}%%${content}%%/TCLR%%`);
-    result = result.replace(/\\colorbox\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}/g,
-        (m, color, content) => `%%CBOX:${color}%%${content}%%/CBOX%%`);
+    // Support optional [model] arg, e.g. \textcolor[HTML]{B8860B}{...} → CSS #B8860B.
+    result = result.replace(/\\textcolor(?:\[([^\]]*)\])?\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}/g,
+        (m, model, color, content) => {
+            const css = (model && model.toUpperCase() === 'HTML') ? '#' + color : color;
+            return `%%TCLR:${css}%%${content}%%/TCLR%%`;
+        });
+    result = result.replace(/\\colorbox(?:\[([^\]]*)\])?\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}/g,
+        (m, model, color, content) => {
+            const css = (model && model.toUpperCase() === 'HTML') ? '#' + color : color;
+            return `%%CBOX:${css}%%${content}%%/CBOX%%`;
+        });
+    // LaTeX escapes inside text: \_ → _, \& → &, \% → %, \# → #, \$ → $
+    result = result.replace(/\\([_&%#\$])/g, '$1');
 
     // Reusable pattern for balanced braces (up to 2 levels deep)
     const braceGroup = '(?:[^{}]|\\{(?:[^{}]|\\{[^{}]*\\})*\\})*';
