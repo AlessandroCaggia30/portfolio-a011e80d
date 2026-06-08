@@ -12141,6 +12141,55 @@ function openStatsSnippet(nodeId) {
 
     modal.classList.remove('hidden');
     renderMath(contentEl);
+    // Inject color swatches into each master-subpart summary for click-to-toggle.
+    injectBoxColorSwatches(contentEl, nodeId);
+}
+
+// Add small white/red/green swatches next to each <summary> inside .master-subpart.
+// Clicking a swatch toggles the color class on the parent <details> and persists.
+function injectBoxColorSwatches(container, nodeId) {
+    const subs = container.querySelectorAll('details.master-subpart');
+    subs.forEach((d, idx) => {
+        const sum = d.querySelector('summary');
+        if (!sum || sum.querySelector('.box-color-swatches')) return;
+        const sw = document.createElement('span');
+        sw.className = 'box-color-swatches';
+        sw.innerHTML = `<span class="box-color-swatch sw-white" data-c="white" title="White"></span>`
+            + `<span class="box-color-swatch sw-red" data-c="red" title="Red"></span>`
+            + `<span class="box-color-swatch sw-green" data-c="green" title="Green"></span>`;
+        sum.appendChild(sw);
+        sw.querySelectorAll('.box-color-swatch').forEach(s => {
+            s.addEventListener('click', async (e) => {
+                e.preventDefault(); e.stopPropagation();
+                const c = s.getAttribute('data-c');
+                d.classList.remove('color-red', 'color-green');
+                if (c === 'red') d.classList.add('color-red');
+                else if (c === 'green') d.classList.add('color-green');
+                await persistSubpartColor(nodeId, idx, c);
+            });
+        });
+    });
+}
+
+async function persistSubpartColor(nodeId, subIdx, color) {
+    const node = findStatsNode(nodeId);
+    if (!node) return;
+    let content = node.content || '';
+    // Match every <details class="master-subpart ..."> tag in order and rewrite the idx-th.
+    const re = /<details(\s+class="[^"]*master-subpart[^"]*")([^>]*)>/g;
+    let i = 0;
+    content = content.replace(re, (m, classAttr, rest) => {
+        const isTarget = (i === subIdx);
+        i++;
+        if (!isTarget) return m;
+        // Strip existing color-red / color-green from class string.
+        let cls = classAttr.replace(/\s*color-(red|green)/g, '');
+        if (color === 'red')   cls = cls.replace(/"\s*$/, ' color-red"');
+        else if (color === 'green') cls = cls.replace(/"\s*$/, ' color-green"');
+        return `<details${cls}${rest}>`;
+    });
+    node.content = content;
+    try { if (typeof _commitSave === 'function') await _commitSave(); } catch (e) { console.error(e); }
 }
 
 function closeStatsSnippet() {
