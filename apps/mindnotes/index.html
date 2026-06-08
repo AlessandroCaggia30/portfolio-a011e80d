@@ -12591,6 +12591,81 @@ function openStatsSnippet(nodeId) {
     renderMath(contentEl);
     // Inject color swatches into each master-subpart summary for click-to-toggle.
     injectBoxColorSwatches(contentEl, nodeId);
+    // Inject per-block Edit buttons inside each master-subpart summary.
+    injectMasterSubpartEditButtons(contentEl, nodeId);
+}
+
+// Per-block edit: each <details class="master-subpart"> gets its own ✎ button.
+function injectMasterSubpartEditButtons(container, nodeId) {
+    const subs = container.querySelectorAll('details.master-subpart');
+    subs.forEach((d, idx) => {
+        const sum = d.querySelector('summary');
+        if (!sum || sum.querySelector('.master-subpart-edit-btn')) return;
+        const btn = document.createElement('button');
+        btn.className = 'master-subpart-edit-btn';
+        btn.title = 'Edit this section';
+        btn.textContent = '✎ Edit';
+        btn.addEventListener('click', (e) => {
+            e.preventDefault(); e.stopPropagation();
+            openMasterSubpartEditor(nodeId, idx, d);
+        });
+        sum.appendChild(btn);
+    });
+}
+
+function _extractSubpartSource(content, idx) {
+    // Returns {start, end, source} for the idx-th <details class="master-subpart"...> block.
+    const re = /<details\s+class="master-subpart[^"]*"[^>]*>[\s\S]*?<\/details>/g;
+    let m, i = 0;
+    while ((m = re.exec(content)) !== null) {
+        if (i === idx) return { start: m.index, end: m.index + m[0].length, source: m[0] };
+        i++;
+    }
+    return null;
+}
+
+function openMasterSubpartEditor(nodeId, idx, detailsEl) {
+    const node = findStatsNode(nodeId);
+    if (!node) return;
+    const ext = _extractSubpartSource(node.content || '', idx);
+    if (!ext) { alert('Could not locate this section source.'); return; }
+    // Replace the rendered <details> with an editor UI.
+    const editorWrap = document.createElement('div');
+    editorWrap.className = 'master-subpart-editor-wrap';
+    editorWrap.dataset.subIdx = String(idx);
+    editorWrap.dataset.nodeId = nodeId;
+    editorWrap.innerHTML =
+        '<textarea class="master-subpart-editor"></textarea>'
+      + '<div class="master-subpart-edit-actions">'
+      + '<button class="save-btn">💾 Save</button>'
+      + '<button class="cancel-btn">Cancel</button>'
+      + '</div>';
+    const ta = editorWrap.querySelector('textarea');
+    ta.value = ext.source;
+    const original = detailsEl;
+    original.parentNode.replaceChild(editorWrap, original);
+    editorWrap._original = original;
+    editorWrap.querySelector('.cancel-btn').addEventListener('click', () => {
+        editorWrap.parentNode.replaceChild(original, editorWrap);
+    });
+    editorWrap.querySelector('.save-btn').addEventListener('click', async () => {
+        const newSrc = ta.value;
+        const node2 = findStatsNode(nodeId);
+        if (!node2) return;
+        const ext2 = _extractSubpartSource(node2.content || '', idx);
+        if (!ext2) { alert('Section disappeared; reload.'); return; }
+        node2.content = node2.content.slice(0, ext2.start) + newSrc + node2.content.slice(ext2.end);
+        node2.userEdited = true;
+        node2.userEditedAt = Date.now();
+        try { if (typeof _commitSave === 'function') await _commitSave(); } catch (e) { console.error(e); }
+        // Re-render the modal content to reflect the new edit
+        const contentEl = document.getElementById('statsSnippetContent');
+        contentEl.innerHTML = formatContent(node2.content);
+        renderMath(contentEl);
+        injectBoxColorSwatches(contentEl, nodeId);
+        injectMasterSubpartEditButtons(contentEl, nodeId);
+        if (typeof showToast === 'function') showToast('Saved');
+    });
 }
 
 // Add small white/red/green swatches next to each <summary> inside .master-subpart.
