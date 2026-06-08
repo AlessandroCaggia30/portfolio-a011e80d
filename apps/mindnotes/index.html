@@ -12647,6 +12647,9 @@ async function saveStatsSnippetEdit() {
     if (!node) return;
     const editor = document.getElementById('statsSnippetEditor');
     node.content = editor.value || '';
+    // Mark this node as user-edited so future seed merges don't overwrite it.
+    node.userEdited = true;
+    node.userEditedAt = Date.now();
     try { if (typeof _commitSave === 'function') await _commitSave(); } catch (e) { console.error(e); }
     const content = document.getElementById('statsSnippetContent');
     content.innerHTML = formatContent(node.content);
