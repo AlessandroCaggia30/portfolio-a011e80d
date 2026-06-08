@@ -2776,7 +2776,8 @@ The companion variables in the linked snippets are `History` with four ordered l
 
 ---
 
-**(a) When is a pie chart appropriate?**
+<details class="master-subpart" open>
+<summary><span class="tag tag-2plus">≥2 ex</span> (a) When is a pie chart appropriate?</summary>
 
 A pie chart visualises a **share-of-the-whole** decomposition of a single categorical variable. Three conditions must all hold:
 
@@ -2786,9 +2787,10 @@ A pie chart visualises a **share-of-the-whole** decomposition of a single catego
 
 `SmokingArea` satisfies all three: it is nominal, has $K=2$ exhaustive levels, and the two proportions sum to $1$.
 
----
+</details>
 
-**(b) When is the pie chart the wrong tool?**
+<details class="master-subpart">
+<summary>(b) When is the pie chart the wrong tool?</summary>
 
 * **Ordinal variables — order is lost.** For `History` (None < Low < Medium < High) the *order* of the categories is meaningful (it encodes increasing customer-history intensity), but a pie chart destroys it: the slices are placed around a circle, so "next to" no longer means "next on the scale". A reader cannot answer "is the distribution skewed towards High?" from a pie chart, but can read it instantly off a vertical bar plot with categories in their natural order. **Use a bar plot for ordinal data.**
 * **Many categories — slices unreadable.** With $K \ge 6$ slices of similar size, the human eye cannot rank angles reliably; sorted bars (Pareto chart) are uniformly better.
@@ -2796,9 +2798,10 @@ A pie chart visualises a **share-of-the-whole** decomposition of a single catego
 
 A useful contrast: `Sex` (F/M, nominal, $K=2$) — a pie chart is *technically appropriate* but conveys exactly the same information as the single number $\hat p_F$. With only two nominal categories, a one-line text statement ("F: 47%, M: 53%") is often clearer than any chart.
 
----
+</details>
 
-**(c) Building the pie chart — proportions and angles.**
+<details class="master-subpart" open>
+<summary><span class="tag tag-2plus">≥2 ex</span> (c) Building the pie chart — proportions and angles</summary>
 
 Step 1 — **relative frequencies.** Divide each absolute frequency by the sample size:
 $$\hat p_\text{Yes} \;=\; \frac{n_\text{Yes}}{n} \;=\; \frac{49}{100} \;=\; 0.49,\qquad \hat p_\text{No} \;=\; \frac{n_\text{No}}{n} \;=\; \frac{51}{100} \;=\; 0.51.$$
@@ -2834,9 +2837,10 @@ pie(tab, labels = paste0(names(tab), " (", pct, "%)"),
 
 ![Master illustration](statistics/images/master/master_g1a_pie_ai.png)
 
----
+</details>
 
-**(d) Reading a pie chart — rank by slice size.**
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (d) Reading a pie chart — rank by slice size</summary>
 
 The reader's task is to *rank* and *roughly quantify* the categories by **slice area** (equivalently, central angle). For `SmokingArea`:
 
@@ -2846,9 +2850,10 @@ The reader's task is to *rank* and *roughly quantify* the categories by **slice 
 
 A pie chart should **not** be used to read off precise numbers — that is the job of the underlying frequency table. It communicates the *qualitative shape* of the distribution: "balanced", "one dominant category", "long tail of small categories", etc.
 
----
+</details>
 
-**(e) Alternative: vertical bar plot.**
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (e) Alternative: vertical bar plot</summary>
 
 For the same data, a bar plot with category names on the $x$-axis and counts (or relative frequencies) on the $y$-axis encodes information in **bar height** — a length, which the human visual system reads more accurately than angles or areas (Cleveland & McGill 1984). Concretely:
 
@@ -2867,6 +2872,8 @@ barplot(table(SmokingArea), ylab = "Frequency",
 History <- factor(History, levels = c("None","Low","Medium","High"))
 barplot(table(History))                             # do NOT use pie() here
 ```
+
+</details>
 
 ---
 
@@ -2903,7 +2910,8 @@ The last class is **four times wider** than the others — this is what makes th
 
 ---
 
-### Part (a) — When is a histogram appropriate?
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> (a) When is a histogram appropriate?</summary>
 
 A histogram is the right tool when the variable is **continuous numerical** (or at least *quantitative* with many distinct values, like a discretised count with a wide range). The horizontal axis carries a **metric meaning** — distances between values matter — so we draw *bars touching each other* over real intervals.
 
@@ -2918,9 +2926,10 @@ is.numeric(sales)                              # TRUE -> histogram OK
 hist(sales, breaks = c(0,10,20,30,40,80))      # base R, see Parts (c)-(f)
 ```
 
----
+</details>
 
-### Part (b) — Equal vs unequal classes.
+<details class="master-subpart">
+<summary><span class="tag tag-4plus">≥4 ex</span> (b) Equal vs unequal classes.</summary>
 
 Two competing goals shape the binning:
 
@@ -2931,9 +2940,10 @@ Two competing goals shape the binning:
 
 Here, classes $[0,10),\dots,[30,40)$ have width 10, but $[40,80)$ has width 40 — the analyst pooled the sparse tail into one wide class. **This forces us to plot density, not frequency** (Part c).
 
----
+</details>
 
-### Part (c) — Frequency vs density: heights with equal vs unequal widths.
+<details class="master-subpart">
+<summary><span class="tag tag-4plus">≥4 ex</span> (c) Frequency vs density: heights with equal vs unequal widths.</summary>
 
 For a histogram, the *visual quantity* the eye reads is **area**, not height. We want
 $$\text{area of bar } i \;=\; \text{proportion of observations in class } i \;=\; \frac{f_i}{n}.$$
@@ -3691,7 +3701,8 @@ Companion variables in the linked snippets are the **ordinal** `History` (None <
 
 ---
 
-**(a) When is a bar plot appropriate?**
+<details class="master-subpart" open>
+<summary>(a) When is a bar plot appropriate?</summary>
 
 A bar plot is the default graphical summary for a **categorical** variable — both *nominal* (`District`, `Sex`, `Brand`) and *ordinal* (`History`, Likert 1–5). It encodes the frequency (or relative frequency) of each category as the **length of a rectangle**, separated by **gaps** because the $x$-axis is a set of labels — not a metric scale.
 
@@ -3703,9 +3714,12 @@ Three conditions for appropriateness:
 
 `District` satisfies all three with $K=3$ nominal levels and $n=100$ exhaustively assigned.
 
+</details>
+
 ---
 
-**(b) Axis ordering: nominal vs ordinal.**
+<details class="master-subpart">
+<summary>(b) Axis ordering: nominal vs ordinal.</summary>
 
 The rule is structural — it depends on the **measurement scale**, not on cosmetic preference:
 
@@ -3714,9 +3728,12 @@ The rule is structural — it depends on the **measurement scale**, not on cosme
 
 For `District`, all three valid orderings (alphabetical, Pareto, original) tell the same story: **the three districts are essentially balanced** (35 / 33 / 32, a $3\%$ spread). Lodi is the modal district by a hair.
 
+</details>
+
 ---
 
-**(c) Building the bar plot — frequency vs relative frequency.**
+<details class="master-subpart">
+<summary>(c) Building the bar plot — frequency vs relative frequency.</summary>
 
 Step 1 — **decide the $y$-axis scale.** For a single sample the choice is *cosmetic*:
 
@@ -3761,9 +3778,12 @@ barplot(table(History))                       # natural order preserved
 
 ![Master illustration](statistics/images/master/master_g1b_bar_ai.png)
 
+</details>
+
 ---
 
-**(d) Horizontal vs vertical bars.**
+<details class="master-subpart">
+<summary>(d) Horizontal vs vertical bars.</summary>
 
 Two display orientations exist; the choice is driven by **label length** and **number of categories**:
 
@@ -3777,17 +3797,23 @@ For our three districts ("Lodi", "Milano", "Pavia") either works; the vertical d
 barplot(table(District), horiz = TRUE, xlab = "Frequency")
 ```
 
+</details>
+
 ---
 
-**(e) The zero-axis caveat.**
+<details class="master-subpart">
+<summary>(e) The zero-axis caveat.</summary>
 
 A bar's **length** encodes the count — so the **$y$-axis must start at zero**, otherwise the visual ratio between bars is no longer proportional to the ratio of frequencies. Example: with bars 35, 33, 32, an axis cut at 30 would render visible bar lengths 5, 3, 2 — making Lodi look **2.5×** taller than Pavia (true ratio: $35/32 \approx 1.09$). This is the textbook *truncated-axis* deception; bar plots and (especially) histograms must always include zero on the value axis.
 
 Line plots and scatter plots are different — they encode value by **position**, not length, so truncating the axis is acceptable when the data live far from zero.
 
+</details>
+
 ---
 
-**(f) Reading the picture.**
+<details class="master-subpart">
+<summary>(f) Reading the picture.</summary>
 
 For `District`:
 
@@ -3801,6 +3827,8 @@ A bar plot does **not** carry any cumulative or share-of-whole semantics by itse
 # CONTRAST: continuous Sales -> use hist(), not barplot()
 hist(pizzerie$Sales, freq = FALSE)            # bars touch; metric x-axis
 ```
+
+</details>
 
 ---
 
@@ -3834,7 +3862,8 @@ Companion variables in the linked snippets are the *continuous* `Sales` (k€, r
 
 ---
 
-**(a) When is a spike plot appropriate?**
+<details class="master-subpart" open>
+<summary><span class="tag tag-4plus">≥4 ex</span> (a) When is a spike plot appropriate?</summary>
 
 A spike plot (also called a *needle plot* or *line plot* in some textbooks) is the right tool for a **discrete numerical** variable — i.e. a quantitative variable whose support is a *countable* set of values, typically integers (counts: `Children`, `Goals`, `# defects`; or coarsely quantised measurements with few distinct values).
 
@@ -3846,9 +3875,12 @@ Three structural conditions:
 
 `Children` satisfies all three: support $\{0,\dots,5\}$, six distinct integers, $n=100$.
 
+</details>
+
 ---
 
-**(b) Construction — spikes at integers.**
+<details class="master-subpart">
+<summary><span class="tag tag-4plus">≥4 ex</span> (b) Construction — spikes at integers.</summary>
 
 The spike plot has the form
 $$\{(x, f_x) : x \in \{0,1,2,3,4,5\}\},$$
@@ -3885,17 +3917,23 @@ plot(prop.table(table(Children)), type = "h",
 
 ![Master illustration](statistics/images/master/master_g1d_spike_ai.png)
 
+</details>
+
 ---
 
-**(c) Visible gaps and the "no fractional children" property.**
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (c) Visible gaps and the "no fractional children" property.</summary>
 
 The horizontal **gaps** between spikes are *informative* — they represent the fact that the variable cannot take values like $x=2.5$. This is the structural difference from a histogram: a histogram of integer counts would draw width-1 bars **touching** each other, falsely suggesting a continuum where none exists.
 
 The same logic explains why we cannot use a *bar plot* either: a bar plot's $x$-axis has **no metric**, so the visual distance between bars is arbitrary; a spike plot's $x$-axis is the **integer number line**, with distance $|x-y|$ meaningful.
 
+</details>
+
 ---
 
-**(d) Spike plot vs histogram — why the histogram misleads for discrete data.**
+<details class="master-subpart">
+<summary>(d) Spike plot vs histogram — why the histogram misleads for discrete data.</summary>
 
 Suppose, instead of spikes, we drew a histogram with class breaks $[-0.5, 0.5), [0.5, 1.5), \dots, [4.5, 5.5)$ — width-1 bars containing one integer each. Three problems arise:
 
@@ -3925,9 +3963,12 @@ hist(pizzerie$Sales, freq = FALSE)                 # bars touch; metric x-axis
 barplot(table(District))                           # x-axis is labels, not metric
 ```
 
+</details>
+
 ---
 
-**(e) Reading the picture — mode, skew, mean.**
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (e) Reading the picture — mode, skew, mean.</summary>
 
 Quantitative summaries that are *consistent* with the spike plot for `Children`:
 
@@ -3946,9 +3987,12 @@ x[which(cumsum(fx) >= 50)[1]]                      # 1    (median)
 x[which.max(fx)]                                   # 2    (mode)
 ```
 
+</details>
+
 ---
 
-**(f) Gaps in the support — when an observed value is *missing*.**
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (f) Gaps in the support — when an observed value is *missing*.</summary>
 
 A subtlety arises when the support is **not** a contiguous integer range. In **Ex 1.4a1** the variable `Quantity_New` takes values $\{1,2,3,4,6\}$ — the value $5$ is **never observed** in the sample ($n=24\,240$). A correct spike plot must leave a **visible blank** at $x=5$:
 
@@ -3964,6 +4008,8 @@ points(x, fx, pch = 16)
 Why a **bar plot is wrong here.** A bar plot's $x$-axis is a *label* axis, so placing the labels `"1" "2" "3" "4" "6"` next to one another would draw five bars side by side and **close the visual gap between 4 and 6**, falsely suggesting a smooth transition. Only the spike plot, with its **metric** $x$-axis, honestly displays the missing $x=5$.
 
 This is the canonical exam pitfall: *whenever the discrete support has gaps (unobserved integers inside the range), only a spike plot represents the data without distortion.*
+
+</details>
 
 ---
 
@@ -4132,7 +4178,8 @@ Comparing **counts** of ViolentCrimes across states is misleading — California
 
 ---
 
-### (a) Constructing `Rate.Violent` per 100\,000 inhabitants
+<details class="master-subpart" open>
+<summary>(a) Constructing `Rate.Violent` per 100\,000 inhabitants</summary>
 
 The conventional public-health / criminology rate is
 $$\boxed{\;\text{Rate.Violent}_i\;=\;\frac{\text{ViolentCrimes}_i}{\text{Population}_i}\times 100\,000\;}\qquad\text{[violent crimes per 100k people per year]}.$$
@@ -4303,7 +4350,8 @@ This master organises the rule around the four scales used throughout Ex 1 / Ex 
 
 ---
 
-### (a) Decision table --- which measure applies to which scale?
+<details class="master-subpart" open>
+<summary><span class="tag tag-4plus">≥4 ex</span> (a) Decision table --- which measure applies to which scale?</summary>
 
 | Scale | Example variable | Operations allowed | **Mode** | **Median** | **Mean** |
 |---|---|---|:---:|:---:|:---:|
@@ -4316,9 +4364,12 @@ This master organises the rule around the four scales used throughout Ex 1 / Ex 
 
 A "yes" in the table only means *the measure is well-defined*; whether it is the **best** summary is a separate question (taken up in master **g4b** for skewed numerical data).
 
+</details>
+
 ---
 
-### (b) Nominal --- only the **mode** is meaningful
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (b) Nominal --- only the **mode** is meaningful</summary>
 
 Take `District` with the $n=20$ observed values
 
@@ -4343,9 +4394,12 @@ names(which.max(table(District)))              # "A"   <- mode
 # median(District);  mean(District)            # would ERROR -- as it should
 ```
 
+</details>
+
 ---
 
-### (c) Ordinal --- **mode + median**, NOT the mean
+<details class="master-subpart">
+<summary>(c) Ordinal --- **mode + median**, NOT the mean</summary>
 
 Take `History` with the four ordered levels $\text{None} < \text{Low} < \text{Medium} < \text{High}$ and the $n=11$ observed sequence (already sorted on the underlying order)
 
@@ -4372,9 +4426,12 @@ median(History)                                # Medium      <- ordinal median i
 
 This is the situation of **Ex 1, Q1.2b** (`Age_recode` --- ordinal, mode + median = `Middle`); the contrast case for a *continuous* modal-class reading is discussed in **Q1.5e** (`Time`).
 
+</details>
+
 ---
 
-### (d) Discrete numerical --- **all three** are meaningful
+<details class="master-subpart">
+<summary>(d) Discrete numerical --- **all three** are meaningful</summary>
 
 Take `Children` (number of children per household) with the $n=15$ observed values
 
@@ -4398,9 +4455,12 @@ mean(Children)                                # 1.4
 
 This is the situation of **Ex 1, Q1.4a3** (`Quantity_New` --- discrete count of products jointly purchased, mode = 3, median = 2, mean $\approx 2.44$).
 
+</details>
+
 ---
 
-### (e) Continuous numerical --- **all three**, with the mode read off a histogram
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (e) Continuous numerical --- **all three**, with the mode read off a histogram</summary>
 
 Take `Sales` (monthly turnover, in kEUR) with the $n=10$ observations
 
@@ -4426,6 +4486,8 @@ h$mids[which.max(h$counts)]                   # 22.5  <- modal-class midpoint
 ```
 
 This is the situation of **Ex 1, Q1.5e** (`Time` --- modal class by *density*, $[10,20)$ wins over the larger-count $[60,90)$) and **Ex 2, Q2.2b** (modal class identification for grouped hours of device access, $[25,30)$).
+
+</details>
 
 ---
 
@@ -4874,7 +4936,8 @@ We use two running examples from the course datasets:
 
 ---
 
-### (a) The common idea: $F(x) = \sum_{x_i \le x} \hat p_i$
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> (a) The common idea: $F(x) = \sum_{x_i \le x} \hat p_i$</summary>
 
 In **both** cases the cumulative function is the *running sum* of the relative frequencies:
 $$F(x) \;=\; \mathbb{P}(X \le x) \;\approx\; \frac{1}{n}\sum_{i=1}^{n} \mathbf{1}\{X_i \le x\}.$$
@@ -4882,10 +4945,13 @@ It is **monotone non-decreasing**, starts at $0$ (left of the support) and ends 
 
 * For **discrete** data: between two consecutive observed integers there is, by assumption, *no probability mass at all*. So $F$ stays flat until the next jump $\Rightarrow$ **step function**.
 * For **continuous (grouped)** data: probability mass is *spread* across the class width. The simplest assumption is **uniform-within-class** $\Rightarrow$ $F$ grows *linearly* across each class $\Rightarrow$ **piecewise-linear ogive**.
+</details>
+
 
 ---
 
-### (b) Discrete case — ECDF (right-continuous step)
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (b) Discrete case — ECDF (right-continuous step)</summary>
 
 For `Children` define
 $$F(x) \;=\; \frac{1}{n}\sum_{i=1}^{n}\mathbf{1}\{X_i \le x\}, \qquad x \in \mathbb{R}.$$
@@ -4916,10 +4982,13 @@ abline(h = 0.5, lty = 2)                   # median guide line -> hits at x = 1
 quantile(DS$Children, 0.5, type = 1)       # 1  (discrete quantile)
 distr.plot.x(Children, plot.type = "cumulative", data = DS)   # course-package equiv.
 ```
+</details>
+
 
 ---
 
-### (c) Continuous (grouped) case — ogive (linear interpolation within class)
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (c) Continuous (grouped) case — ogive (linear interpolation within class)</summary>
 
 For "Nr contracts" we **do not** know individual values; we know only the class counts. Under the **uniform-on-interval** assumption, mass is spread uniformly across each class width, so $F$ grows *linearly* from the cumulative proportion at the lower endpoint $a_i$ to the cumulative proportion at the upper endpoint $b_i$.
 
@@ -4962,10 +5031,13 @@ approx(cumprop, endpoints, xout = 0.90)$y  # 90   (P90) -- matches Ex 2.4c
 ```
 
 ![Master illustration](statistics/images/master/master_g1e_cum_ai.png)
+</details>
+
 
 ---
 
-### (d) Median read-off at $F=0.5$ — the unified recipe
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (d) Median read-off at $F=0.5$ — the unified recipe</summary>
 
 | Variable type | What you draw | How you read the median |
 |---|---|---|
@@ -4973,10 +5045,13 @@ approx(cumprop, endpoints, xout = 0.90)$y  # 90   (P90) -- matches Ex 2.4c
 | Continuous (ogive) | Piecewise-linear curve through $(b_i, F(b_i))$ | **Linear interpolation** within the class where the curve crosses $0.5$ |
 
 The *visual* recipe is identical: trace the horizontal line $y=0.5$ until it hits the curve, drop a vertical line to the $x$-axis, read off the value. The *arithmetic* differs only in what "the curve" is — a step or a slanted line.
+</details>
+
 
 ---
 
-### (e) Ogive vs ECDF — when each is appropriate
+<details class="master-subpart">
+<summary>(e) Ogive vs ECDF — when each is appropriate</summary>
 
 | Feature | ECDF (discrete) | Ogive (continuous, grouped) |
 |---|---|---|
@@ -4995,6 +5070,8 @@ distr.plot.x(Time, plot.type = "cumulative", data = mydata)
 ```
 
 ---
+
+</details>
 
 **Master take-aways.**
 
@@ -5026,7 +5103,8 @@ Because the **raw data vector** `customer_habits$Sex` is available (not only the
 
 ---
 
-### (a) Exact proportion from a raw vector: `mean(condition)`
+<details class="master-subpart" open>
+<summary><span class="tag tag-4plus">≥4 ex</span> (a) Exact proportion from a raw vector: `mean(condition)`</summary>
 
 The fundamental identity is
 $$\hat p \;=\; \frac{\#\{i : \text{condition is true}\}}{n} \;=\; \frac{1}{n}\sum_{i=1}^{n}\mathbf{1}\{\text{condition}(X_i)\}.$$
@@ -5046,9 +5124,10 @@ mean(customer_habits$Sex == "F")        # 0.4369586  -> p_hat_F = 0.4370
 mean(customer_habits$Sex == "M")        # 0.5630414  -> p_hat_M = 0.5630
 ```
 
----
+</details>
 
-### (b) From a logical vector: `sum()` vs `mean()` vs `length()`
+<details class="master-subpart">
+<summary><span class="tag tag-4plus">≥4 ex</span> (b) From a logical vector: `sum()` vs `mean()` vs `length()`</summary>
 
 Let `cond <- customer_habits$Sex == "F"`. Then:
 
@@ -5084,9 +5163,10 @@ which counts rows satisfying *both* conditions and divides by $n$. No further fo
 
 ![Master illustration](statistics/images/master/master_g2a_exact_ai.png)
 
----
+</details>
 
-### (c) Exact (raw data) vs approximate (grouped data) --- when each applies
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (c) Exact (raw data) vs approximate (grouped data) --- when each applies</summary>
 
 This is the **central methodological point** for the entire G2 family of subtopics:
 
@@ -5124,9 +5204,10 @@ phat + c(-1, 1) * qnorm(0.975) * se                            # 95% Wald CI
 prop.test(sum(customer_habits$Sex == "F"), n)                  # CI + test, one line
 ```
 
----
+</details>
 
-### (d) Worked numbers for `Sex` in `customer_habits`
+<details class="master-subpart">
+<summary>(d) Worked numbers for `Sex` in `customer_habits`</summary>
 
 | Question | Logical expression | Numerator | Denominator | Exact $\hat p$ |
 |---|---|---:|---:|---:|
@@ -5137,6 +5218,8 @@ prop.test(sum(customer_habits$Sex == "F"), n)                  # CI + test, one 
 | % difference vs balance | $\hat p_F - 0.5$ | --- | --- | $-0.063$ (i.e. $6.3$ pp below parity) |
 
 The sample is **slightly male-skewed** --- a $56.3\%$ vs $43.7\%$ split --- but well within the range usually treated as "approximately balanced" for downstream analyses.
+
+</details>
 
 ---
 
