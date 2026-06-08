@@ -12086,13 +12086,16 @@ function renderStatsTable() {
                     if (isExam)   cls += ' stats-exam';
                     if (node.cardColor === 'red')   cls += ' card-color-red';
                     if (node.cardColor === 'green') cls += ' card-color-green';
-                    const ctxAttr = isMaster
-                        ? ` ondblclick="event.preventDefault(); event.stopPropagation(); showCardColorMenu(event, '${escapeHtml(node.id)}'); return false;"`
-                          + ` oncontextmenu="event.preventDefault(); event.stopPropagation(); showCardColorMenu(event, '${escapeHtml(node.id)}'); return false;"`
+                    const dotsHtml = isMaster
+                        ? '<span class="card-color-dots">'
+                          + '<span class="card-color-dot dot-red"   onclick="event.stopPropagation(); setCardColor(\'' + escapeHtml(node.id) + '\', \'red\');" title="Mark red"></span>'
+                          + '<span class="card-color-dot dot-green" onclick="event.stopPropagation(); setCardColor(\'' + escapeHtml(node.id) + '\', \'green\');" title="Mark green"></span>'
+                          + '<span class="card-color-dot dot-white" onclick="event.stopPropagation(); setCardColor(\'' + escapeHtml(node.id) + '\', \'white\');" title="Clear"></span>'
+                          + '</span>'
                         : '';
-                    html += '<div class="' + cls + '"' + ctxAttr
+                    html += '<div class="' + cls + '"'
                           + ' onclick="openStatsSnippet(\'' + escapeHtml(node.id) + '\')">'
-                          + escapeHtml(node.title || node.id) + imgFlag
+                          + dotsHtml + escapeHtml(node.title || node.id) + imgFlag
                           + '</div>';
                 });
                 html += '</td>';
