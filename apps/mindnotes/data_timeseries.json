@@ -2391,7 +2391,8 @@
                   "height": 360,
                   "color": "lightblue",
                   "column": 2,
-                  "isMaster": true
+                  "isMaster": true,
+                  "cardColor": "green"
                 },
                 {
                   "id": "exam_sep_2025_q1",
@@ -2485,7 +2486,8 @@
                   "height": 360,
                   "color": "lightblue",
                   "column": 2,
-                  "isMaster": true
+                  "isMaster": true,
+                  "cardColor": "green"
                 },
                 {
                   "id": "exam_sep_2025_q2",
@@ -2569,7 +2571,8 @@
                   "height": 360,
                   "color": "lightblue",
                   "column": 2,
-                  "isMaster": true
+                  "isMaster": true,
+                  "cardColor": "green"
                 },
                 {
                   "id": "exam_may_2025_q1",
