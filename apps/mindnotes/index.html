@@ -5597,6 +5597,15 @@ function formatContent(text) {
         .replace(/<\/summary>/g, () => { htmlBlocks.push('</summary>'); return `%%HTMTAG${htmlBlocks.length - 1}%%`; })
         .replace(/<span class="(tag tag-(?:exam|2plus|4plus))">([\s\S]*?)<\/span>/g, (m) => { htmlBlocks.push(m); return `%%HTMTAG${htmlBlocks.length - 1}%%`; });
 
+    // Extract inline backtick code into placeholders BEFORE math extraction.
+    // Otherwise `mean(customer_habits$Sex == "F")` has its $ characters eaten
+    // by the $...$ inline-math regex, corrupting downstream rendering.
+    const codeBlocks = [];
+    text = text.replace(/`([^`\n]+?)`/g, (m, inner) => {
+        codeBlocks.push(inner);
+        return `%%CODE${codeBlocks.length - 1}%%`;
+    });
+
     const latexBlocks = [];
     let processed = text
         .replace(/\$\$([\s\S]*?)\$\$/g, (match) => {
@@ -5639,14 +5648,14 @@ function formatContent(text) {
     processed = restoreColorMarkers(processed);
     processed = restoreFormattingMarkers(processed);
 
-    // Restore trusted HTML tag placeholders (set up at the very top of formatContent)
-    htmlBlocks.forEach((block, i) => {
-        processed = processed.replace(`%%HTMTAG${i}%%`, () => block);
+    // Restore trusted HTML tag placeholders (set up at the very top of formatContent).
+    // Use global regex so duplicates are all replaced and ordering is robust.
+    processed = processed.replace(/%%HTMTAG(\d+)%%/g, (m, i) => htmlBlocks[+i] ?? m);
+    processed = processed.replace(/%%CODE(\d+)%%/g, (m, i) => {
+        const inner = codeBlocks[+i];
+        return inner === undefined ? m : '<code>' + escapeHtml(inner) + '</code>';
     });
-
-    latexBlocks.forEach((block, i) => {
-        processed = processed.replace(`%%LATEX${i}%%`, () => block);
-    });
+    processed = processed.replace(/%%LATEX(\d+)%%/g, (m, i) => latexBlocks[+i] ?? m);
     return processed;
 }
 
