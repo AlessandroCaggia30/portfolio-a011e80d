@@ -12079,6 +12079,7 @@ function findStatsNode(nodeId) {
 function openStatsSnippet(nodeId) {
     const node = findStatsNode(nodeId);
     if (!node) return;
+    State._currentStatsNodeId = nodeId;
     const modal = document.getElementById('statsSnippetModal');
     const titleEl = document.getElementById('statsSnippetTitle');
     const contentEl = document.getElementById('statsSnippetContent');
