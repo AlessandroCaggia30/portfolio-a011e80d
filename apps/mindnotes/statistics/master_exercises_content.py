@@ -230,7 +230,7 @@ master_exercises["g14a_one_sample"] = {
     "title": "Master — One-sample tests (mean & proportion): NewHired + DS",
     "content": r"""**Master exercise — One-sample tests for a mean ($\sigma$ unknown) and a proportion.**
 
-Consolidates the unique sub-tasks asked in **Ex 7.1a** (mean, $H_1:\mu<45$, NewHired), **Ex 7.1c** (proportion, $H_1:p>0.10$, NewHired) and **Ex 7.8a** (mean, $H_1:\mu<1.5$, large $n$ on DS$Children — p-value definition + CI cross-check). Unified workflow: assumptions $\to$ hypotheses $\to$ statistic $\to$ rejection region $\to$ p-value $\to$ decision.
+Consolidates the unique sub-tasks asked in **Ex 7.1a** (mean, $H_1:\mu<45$, NewHired), **Ex 7.1c** (proportion, $H_1:p>0.10$, NewHired) and **Ex 7.8a** (mean, $H_1:\mu<1.5$, large $n$ on `DS$Children` — p-value definition + CI cross-check). Unified workflow: assumptions $\to$ hypotheses $\to$ statistic $\to$ rejection region $\to$ p-value $\to$ decision.
 
 ---
 
