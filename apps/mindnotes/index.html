@@ -9621,26 +9621,68 @@ function _ghUpdateStatusUI() {
 }
 
 function openGhSyncModal() {
+    // Always rehydrate from localStorage in case another tab updated the token,
+    // or the in-memory variable was somehow cleared without persisting.
+    const stored = localStorage.getItem('mindnotes_ghToken') || '';
+    if (stored && stored !== _ghToken) _ghToken = stored;
     const tokenInput = document.getElementById('ghToken');
-    if (tokenInput) tokenInput.value = _ghToken ? '••••••••••••' + _ghToken.slice(-4) : '';
+    // Leave the input EMPTY on open — pre-filling a masked value caused two bugs:
+    //   (1) browser password managers / autofill stripped it back to blank
+    //       (intermittent), making the user think the token had been forgotten;
+    //   (2) if the user pasted without clearing the mask first, the saved value
+    //       got corrupted with • characters.
+    // Instead, render the masked-saved hint as a separate read-only label.
+    if (tokenInput) tokenInput.value = '';
+    const hint = document.getElementById('ghTokenSavedHint');
+    if (hint) {
+        if (_ghToken) {
+            hint.innerHTML = 'Currently saved: <code style="background:var(--bg3);padding:2px 6px;border-radius:4px;">••••••••••••' + _ghToken.slice(-4) + '</code> — leave field empty to keep it, or paste a new one to replace.';
+        } else {
+            hint.innerHTML = 'Stored only in this browser\'s localStorage. Needs <code>Contents: Read &amp; write</code> on <code>portfolio-a011e80d</code>. <a href="https://github.com/settings/tokens?type=beta" target="_blank" style="color:var(--accent);">Create one →</a>';
+        }
+    }
     _ghUpdateStatusUI();
     document.getElementById('ghSyncModal').classList.add('visible');
 }
 
 function closeGhSyncModal() {
+    // Clear the input on close so a saved token doesn't linger in DOM where
+    // a screenshot / accidental paste could leak or corrupt it.
+    const tokenInput = document.getElementById('ghToken');
+    if (tokenInput) tokenInput.value = '';
     document.getElementById('ghSyncModal').classList.remove('visible');
 }
 
 function saveGhToken() {
     const input = document.getElementById('ghToken');
     const v = (input.value || '').trim();
-    if (!v || v.startsWith('••••')) {
-        showToast('Enter a valid token');
+    // Empty input → user wants to keep current token (no-op).
+    if (!v) {
+        if (_ghToken) {
+            showToast('Token unchanged');
+            closeGhSyncModal();
+            return;
+        }
+        showToast('Enter a token first');
         return;
+    }
+    // Reject anything containing the mask bullet — that's leftover UI, not a real token.
+    if (v.indexOf('•') !== -1) {
+        showToast('Clear the field first, then paste your token');
+        return;
+    }
+    // GitHub PATs are either fine-grained (github_pat_...) or classic (ghp_...).
+    // Reject obvious garbage early — paste-with-leftover-mask, accidental keystrokes, etc.
+    if (!/^(github_pat_|ghp_|gho_|ghu_|ghs_|ghr_)/.test(v)) {
+        if (!confirm('That does not look like a GitHub token (no github_pat_ / ghp_ prefix). Save anyway?')) return;
     }
     _ghToken = v;
     localStorage.setItem('mindnotes_ghToken', v);
-    input.value = '••••••••••••' + v.slice(-4);
+    input.value = '';
+    const hint = document.getElementById('ghTokenSavedHint');
+    if (hint) {
+        hint.innerHTML = 'Currently saved: <code style="background:var(--bg3);padding:2px 6px;border-radius:4px;">••••••••••••' + v.slice(-4) + '</code> — leave field empty to keep it, or paste a new one to replace.';
+    }
     showToast('Token saved');
     _ghUpdateStatusUI();
     startGhAutoSync();
