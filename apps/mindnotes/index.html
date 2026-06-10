@@ -5854,6 +5854,12 @@ function formatContent(text) {
     // Restore trusted HTML tag placeholders (set up at the very top of formatContent).
     // Use global regex so duplicates are all replaced and ordering is robust.
     processed = processed.replace(/%%HTMTAG(\d+)%%/g, (m, i) => htmlBlocks[+i] ?? m);
+    // Drop redundant <br>s adjacent to <details>/<summary> boundaries to avoid
+    // a giant blank space between the summary chip and the first paragraph.
+    processed = processed.replace(/<\/summary>(\s*<br>\s*)+/g, '</summary>');
+    processed = processed.replace(/(<br>\s*)+<\/details>/g, '</details>');
+    processed = processed.replace(/<details(\s[^>]*)?>(\s*<br>\s*)+/g, '<details$1>');
+    processed = processed.replace(/(<br>\s*)+<summary/g, '<summary');
     processed = processed.replace(/%%CODE(\d+)%%/g, (m, i) => {
         const inner = codeBlocks[+i];
         return inner === undefined ? m : '<code>' + escapeHtml(inner) + '</code>';
