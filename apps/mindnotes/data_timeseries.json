@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-10T14:20:28.487Z",
+  "exportedAt": "2026-06-10T14:22:01.085Z",
   "data": {
     "topics": [
       {
@@ -3201,7 +3201,8 @@
                   "column": 2,
                   "isMaster": true,
                   "userEdited": true,
-                  "userEditedAt": 1781101011555
+                  "userEditedAt": 1781101320450,
+                  "cardColor": "purple"
                 },
                 {
                   "id": "exam_may_2025_q3",
