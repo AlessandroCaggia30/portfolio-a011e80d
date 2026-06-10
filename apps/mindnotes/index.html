@@ -3999,8 +3999,11 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
                 </p>
                 <div class="form-group">
                     <label>GitHub Personal Access Token</label>
-                    <input type="password" id="ghToken" placeholder="github_pat_..." autocomplete="off">
-                    <p style="color:var(--text2); margin-top:6px; font-size:11px;">
+                    <!-- type="text" + name=off to keep browser password managers
+                         out of this field. Type=password caused autofill plugins
+                         to silently clear the saved token on modal open. -->
+                    <input type="text" id="ghToken" placeholder="github_pat_..." autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" name="mn_gh_pat_no_autofill" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" style="font-family: var(--font-mono, monospace); -webkit-text-security: disc;">
+                    <p id="ghTokenSavedHint" style="color:var(--text2); margin-top:6px; font-size:11px;">
                         Stored only in this browser's localStorage. Needs <code>Contents: Read &amp; write</code> on <code>portfolio-a011e80d</code>.
                         <a href="https://github.com/settings/tokens?type=beta" target="_blank" style="color:var(--accent);">Create one →</a>
                     </p>
