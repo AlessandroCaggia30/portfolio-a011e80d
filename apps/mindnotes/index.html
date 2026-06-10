@@ -10012,8 +10012,27 @@ function stopGhAutoSync() {
 // On tab refocus run a sha peek immediately so a VS Code edit made while
 // the tab was in the background appears the moment the user returns.
 document.addEventListener('visibilitychange', () => {
+    // Defensive: rehydrate the in-memory token from localStorage in case it
+    // got cleared by a script error / extension / older code path. This makes
+    // "the website lost my token" impossible as long as localStorage still has it.
+    if (document.visibilityState === 'visible') {
+        const stored = localStorage.getItem('mindnotes_ghToken') || '';
+        if (stored && stored !== _ghToken) {
+            _ghToken = stored;
+            updateGhStatusDot();
+        }
+    }
     if (document.visibilityState === 'visible' && _ghToken && _ghAutoSync && _ghCurrentPath()) {
         ghPollOnce();
+    }
+});
+
+// Cross-tab sync: if another tab saves / clears the token, mirror the change here.
+window.addEventListener('storage', (e) => {
+    if (e.key === 'mindnotes_ghToken') {
+        _ghToken = e.newValue || '';
+        updateGhStatusDot();
+        if (_ghToken && _ghAutoSync) startGhAutoSync(); else stopGhAutoSync();
     }
 });
 
