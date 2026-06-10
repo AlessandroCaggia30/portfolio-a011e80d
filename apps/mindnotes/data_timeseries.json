@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-10T16:27:28.820Z",
+  "exportedAt": "2026-06-10T16:30:22.910Z",
   "data": {
     "topics": [
       {
@@ -1054,7 +1054,7 @@
                 "flashcard": false,
                 "images": [],
                 "links": [],
-                "x": 1349.948039395928,
+                "x": 1419.948039395928,
                 "y": 755.5506713891073,
                 "width": 600,
                 "height": 320,
@@ -4223,8 +4223,7 @@
                   "height": 360,
                   "color": "lightblue",
                   "column": 2,
-                  "isMaster": true,
-                  "cardColor": "green"
+                  "isMaster": true
                 },
                 {
                   "id": "exam_sep_2025_q7",
