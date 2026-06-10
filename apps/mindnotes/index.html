@@ -5598,6 +5598,10 @@ function processLatexCommands(text) {
         });
     // LaTeX escapes inside text: \_ → _, \& → &, \% → %, \# → #, \$ → $
     result = result.replace(/\\([_&%#\$])/g, '$1');
+    // LaTeX quote literals: ``foo'' → "foo". Done BEFORE markdown processing so
+    // the leading backticks don't get interpreted as inline-code delimiters
+    // (which would wrap subsequent content in <code> and KaTeX would skip it).
+    result = result.replace(/``/g, '\u201C').replace(/''/g, '\u201D');
     // \textbackslash{} → literal backslash, via sentinel so it survives the
     // `\\ ` (backslash-space) interword-space handler later in this function.
     // The sentinel is restored to "\\" at the very end of processLatexCommands.
