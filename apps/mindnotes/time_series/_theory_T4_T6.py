@@ -3,7 +3,6 @@ Theory column entries for sub-topics in topics T4, T5, T6.
 """
 theory_content_ts = {}
 
-
 # =============================================================================
 # t4a — Panel transition-count likelihood & MLE
 # =============================================================================
@@ -105,23 +104,6 @@ Then $\widehat p_{11}=60/150=0.40$, $\widehat p_{12}=50/150\approx 0.333$, $\wid
 
 \textbf{9. R — pool counts then row-normalise.}
 
-```R
-K <- 3
-N <- matrix(0, K, K)
-for (k in 1:n) {
-  for (t in 2:(T+1)) {
-    i <- Y[k, t-1]; j <- Y[k, t]
-    N[i, j] <- N[i, j] + 1
-  }
-}
-Phat <- N / rowSums(N)               # row-by-row MLE
-Phat                                  # estimated transition matrix
-rowSums(Phat)                         # should be (1, 1, 1)
-
-## Anderson--Goodman SE for each entry:
-se <- sqrt(Phat * (1 - Phat) / rowSums(N))
-```
-
 \textbf{10. Edge cases worth flagging.}
 
 \begin{itemize}
@@ -137,7 +119,6 @@ se <- sqrt(Phat * (1 - Phat) / rowSums(N))
 \end{itemize}
 """,
 }
-
 
 # =============================================================================
 # t4b — Wald CI for p_ij + forecasting future percentages
@@ -165,7 +146,7 @@ Each cell-marginal $n_{ij}\mid n_{i,+}\sim\mathrm{Binomial}(n_{i,+},p_{ij})$ —
 \boxed{\;\sqrt{n_{i,+}}\bigl(\widehat p_{ij}-p_{ij}\bigr)\xrightarrow{\,d\,}\mathcal{N}\bigl(0,\,p_{ij}(1-p_{ij})\bigr).\;}
 \]
 
-\textbf{Step 3 — Slutsky / plug-in for the SE.} The variance $p_{ij}(1-p_{ij})$ is unknown; replace by $\widehat p_{ij}(1-\widehat p_{ij})$. By consistency of $\widehat p_{ij}$ and Slutsky's theorem, the limiting distribution is preserved with the plug-in variance. (\emph{This is exactly the ``property of the MLE'' the exam asks you to cite: consistency + asymptotic normality.})
+\textbf{Step 3 — Slutsky / plug-in for the SE.} The variance $p_{ij}(1-p_{ij})$ is unknown; replace by $\widehat p_{ij}(1-\widehat p_{ij})$. By consistency of $\widehat p_{ij}$ and Slutsky's theorem, the limiting distribution is preserved with the plug-in variance. (\emph{This is exactly the "property of the MLE" the exam asks you to cite: consistency + asymptotic normality.})
 
 \textbf{3. Wald $(1-\alpha)$ confidence interval.}
 
@@ -178,7 +159,7 @@ Solving the asymptotic pivot $|\widehat p_{ij}-p_{ij}|/\mathrm{SE}\le z_{\alpha/
 \emph{Caveats (good to mention).}
 \begin{itemize}
 \item Valid as $n_{i,+}\to\infty$. Small-sample replacements: Wilson, Clopper--Pearson.
-\item ``Marginal'' CI for one entry $p_{ij}$; for joint inference on a whole row, use the full multinomial covariance $\operatorname{Cov}(\widehat p_{ij},\widehat p_{ij'})=-p_{ij}p_{ij'}/n_{i,+}$ and a $\chi^2$-based confidence ellipsoid.
+\item "Marginal" CI for one entry $p_{ij}$; for joint inference on a whole row, use the full multinomial covariance $\operatorname{Cov}(\widehat p_{ij},\widehat p_{ij'})=-p_{ij}p_{ij'}/n_{i,+}$ and a $\chi^2$-based confidence ellipsoid.
 \end{itemize}
 
 \textbf{4. Worked example A (Jun 2025 Q2, $\widehat p_{1,1}$).}
@@ -199,7 +180,7 @@ Counts: $n_{3,+}=170$, $n_{3,1}=30$. $\widehat p_{3,1}=30/170\approx 0.176$. $95
 
 \textbf{5. Forecasting future percentages — plug-in pipeline.}
 
-\emph{Setting (Jun 2025 Q2e).} Panel of $n$ individuals observed up to month $t=T$. We want to forecast the proportion at $t=T+1$ that will be in state $j_0$ (e.g.\ ``YES vote''). Let $q=\mathbb{P}\bigl(\bar Y_{T+1}>c\bigr)$ for some threshold $c$.
+\emph{Setting (Jun 2025 Q2e).} Panel of $n$ individuals observed up to month $t=T$. We want to forecast the proportion at $t=T+1$ that will be in state $j_0$ (e.g.\ "YES vote"). Let $q=\mathbb{P}\bigl(\bar Y_{T+1}>c\bigr)$ for some threshold $c$.
 
 \textbf{Step 1 — predicted marginal probability for one individual at $T+1$.}
 
@@ -227,33 +208,13 @@ With $n=1000$ and $c=0.50$: $\mathrm{SE}=\sqrt{0.35\cdot 0.65/1000}\approx 0.015
 
 \emph{Honest caveat.} The plug-in $\widehat q$ ignores the uncertainty in $(\widehat p_{ij},\widehat\pi^{(5)})$. A delta-method or bootstrap CI is more accurate; for the exam, the plug-in point estimate is what's asked.
 
-\textbf{6. ``Is this probability known or estimated?'' (May 2022 Q5a style).}
+\textbf{6. "Is this probability known or estimated?" (May 2022 Q5a style).}
 
 Path probabilities like $\mathbb{P}(Y_1=3,Y_2=3,Y_3=3,Y_4=1\mid Y_0=1)=p_{1,3}\,p_{3,3}^2\,p_{3,1}$ have a \emph{known} algebraic expression (Markov factorisation), but their \emph{numerical value} depends on the unknown $p_{ij}$ — so they must be \emph{estimated} by plug-in $\widehat p_{1,3}\widehat p_{3,3}^2\widehat p_{3,1}$.
 
 \textbf{7. R — full pipeline (CI + percentage forecast).}
 
-```R
-N <- matrix(c(70, 30, 50,
-              75,120, 55,
-              30, 34, 36), nrow = 3, byrow = TRUE)
-rowtot <- rowSums(N)
-Phat   <- N / rowtot                                # transition MLE
-
-## Marginal Wald CI for one entry, e.g. (1,1) at 90%:
-i <- 1; j <- 1; z <- 1.65
-se_ij <- sqrt(Phat[i,j] * (1 - Phat[i,j]) / rowtot[i])
-Phat[i,j] + c(-1, 1) * z * se_ij                    # [0.400, 0.534]
-
-## Forecast P(majority YES in July):
-pi5    <- rowtot / sum(rowtot)                      # June empirical state
-p_yes  <- sum(pi5 * Phat[, 1])                      # 0.35
-n_pan  <- 1000
-se_bar <- sqrt(p_yes * (1 - p_yes) / n_pan)
-q_hat  <- 1 - pnorm((0.5 - p_yes) / se_bar)         # ~ 0
-```
-
-\textbf{8. Why ``properties of the MLE'' matter (May 2022 Q5 last sub-question).}
+\textbf{8. Why "properties of the MLE" matter (May 2022 Q5 last sub-question).}
 
 Two MLE properties are explicitly invoked in the Wald CI:
 \begin{itemize}
@@ -268,7 +229,6 @@ Two MLE properties are explicitly invoked in the Wald CI:
 \end{itemize}
 """,
 }
-
 
 # =============================================================================
 # t5a — HMM definition, parameters & forward-algorithm likelihood
@@ -401,27 +361,10 @@ Then $\alpha_2(1)=(0.738\cdot 0.8+0)\,\phi_\mathrm{N}(-3;0,.25)\approx 0\;$; $\a
 
 \textbf{9. R — fit \& evaluate.}
 
-```R
-library(HMM)
-hmm <- initHMM(States = 1:k, Symbols = 1:M,
-               startProbs = pi0, transProbs = P0, emissionProbs = E0)
-fit <- baumWelch(hmm, observation = y)$hmm        # Baum--Welch MLE
-
-## Forward log-probabilities, then the likelihood:
-fwd <- forward(fit, y)                            # rows: states; cols: time
-logL <- log(sum(exp(fwd[, length(y)])))
-
-## Gaussian / Poisson HMMs: use depmixS4 instead
-library(depmixS4)
-mod  <- depmix(y ~ 1, nstates = 3, family = gaussian())
-fitG <- fit(mod)                                  # EM
-logLik(fitG)
-```
-
 \textbf{10. Common confusions / gotchas.}
 
 \begin{itemize}
-\item ``HMM'' is just an SSM with a discrete state space; the same conditional independence structure as any SSM applies.
+\item "HMM" is just an SSM with a discrete state space; the same conditional independence structure as any SSM applies.
 \item Without identifiability constraints, MLE is only unique up to permutation of states (re-labelling).
 \item EM finds a \emph{local} max — random restarts are standard practice.
 \item The forward algorithm computes $\mathbb{P}(y_{1:T})$ exactly under the assumed model; it does \emph{not} provide point estimates of the state path — that's decoding (see t5b).
@@ -437,7 +380,6 @@ logLik(fitG)
 """,
 }
 
-
 # =============================================================================
 # t5b — Decoding (Viterbi / forward–backward) + path-probability
 # =============================================================================
@@ -445,7 +387,7 @@ theory_content_ts["t5b"] = {
     "title": "Theory — Decoding (Viterbi / forward-backward) + path-probability",
     "content": r"""\textbf{\textcolor{red}{THEORY --- Decoding (Viterbi / forward-backward) + path-probability [Topic: T5 — Hidden Markov Models (HMM) — model, likelihood, decoding]}}
 
-\textbf{1. ``Decoding'' — the three problems of HMMs.}
+\textbf{1. "Decoding" — the three problems of HMMs.}
 
 For an HMM $\bigl((Y_t,S_t)\bigr)_{t=1}^T$ with parameters $\phi=(\pi,\mathbf P,\mathbf E)$, three quantitative tasks are routinely solved (Rabiner's trinity):
 \begin{itemize}
@@ -527,7 +469,7 @@ The forward--backward algorithm also yields the pair posteriors $\xi_t(i,j)=\mat
 \begin{itemize}
 \item For very informative observations (well-separated emission distributions), the posterior on paths concentrates on a single path and Viterbi $\approx$ local-MAP.
 \item When emissions overlap, local decoding may prefer one state at $t$ and a \emph{different} state at $t+1$ that have low joint posterior because $p_{ij}\approx 0$. Viterbi avoids this by enforcing path-consistency.
-\item Use Viterbi when interpreting the \emph{whole regime sequence} matters (e.g.\ bull/bear regimes in finance, sleep-stage segmentation). Use local for per-time \emph{smoothed marginal} interpretation (e.g.\ ``probability of regime $i$ at time $t$'').
+\item Use Viterbi when interpreting the \emph{whole regime sequence} matters (e.g.\ bull/bear regimes in finance, sleep-stage segmentation). Use local for per-time \emph{smoothed marginal} interpretation (e.g.\ "probability of regime $i$ at time $t$").
 \end{itemize}
 
 \textbf{6. Micro-example (Viterbi by hand, $k=2$, $T=3$).}
@@ -549,31 +491,7 @@ $\delta_3(2)\approx\max(0.084\cdot 0.3,0.027\cdot 0.6)\cdot 0.2=0.0252\cdot 0.2=
 
 \textbf{7. R — both decoders.}
 
-```R
-library(HMM)
-hmm <- initHMM(States = 1:k, Symbols = 1:M,
-               startProbs = pi0, transProbs = P0, emissionProbs = E0)
-
-## Global decoding (Viterbi):
-s_hat_global <- viterbi(hmm, y)
-
-## Local decoding via forward--backward:
-fwd <- forward(hmm, y); bwd <- backward(hmm, y)
-gamma <- exp(fwd + bwd)
-gamma <- sweep(gamma, 2, colSums(gamma), '/')      # normalise each column
-s_hat_local  <- apply(gamma, 2, which.max)
-
-## Pair posteriors (E-step quantity for Baum--Welch):
-## xi_t(i,j) propto alpha_t(i)*P[i,j]*f(y_{t+1}|j)*beta_{t+1}(j)
-
-## Gaussian / Poisson HMMs:
-library(depmixS4)
-mod  <- depmix(y ~ 1, nstates = 3, family = gaussian())
-fitG <- fit(mod)
-s_hat_global <- posterior(fitG)$state             # uses Viterbi internally
-```
-
-\textbf{8. Special case: Markov chain (no hidden layer) — ``decoding'' is trivial.}
+\textbf{8. Special case: Markov chain (no hidden layer) — "decoding" is trivial.}
 
 If we model the observed series directly as a Markov chain (no latent layer), the path is the data — no decoding needed, and the joint probability of any path under given $\mathbf P$ is the product $\prod p_{y_{t-1},y_t}$. This is the setting of Jun 2024 Q4(a) before the HMM extension in (b). The HMM machinery (Viterbi, forward--backward) only becomes relevant once a hidden $S_t$ is introduced.
 
@@ -591,7 +509,6 @@ If we model the observed series directly as a Markov chain (no latent layer), th
 \end{itemize}
 """,
 }
-
 
 # =============================================================================
 # t6a — SSM / DLM general definition (univariate & multivariate)
@@ -735,36 +652,13 @@ Putting off-diagonal entries in $W$ (e.g.\ $W_{12}=\rho\sigma_{w_1}\sigma_{w_2}$
 
 \textbf{9. R — code-up of the general DLM \& predict step.}
 
-```R
-library(dlm)
-
-## Build a generic DLM (FF, GG, V, W, m0, C0) — local level here:
-mod <- dlm(FF = matrix(1, 1, 1),
-           GG = matrix(1, 1, 1),
-           V  = matrix(V_scalar, 1, 1),
-           W  = matrix(W_scalar, 1, 1),
-           m0 = m0_scalar,
-           C0 = matrix(C0_scalar, 1, 1))
-
-## Local linear trend (p=2, q=1) — DLMwR's dlmModPoly(2):
-mod2 <- dlmModPoly(order = 2, dV = V_scalar,
-                   dW = c(W11_scalar, W22_scalar))
-
-## Kalman filter (gives m_t, C_t, a_t, R_t, f_t, Q_t for all t):
-kf <- dlmFilter(y, mod2)
-a_t <- kf$a[t, ]                                # state-predict mean
-R_t <- with(kf, U.R[[t]] %*% diag(D.R[t, ]^2) %*% t(U.R[[t]]))
-f_t <- kf$f[t]                                  # obs.-predict mean
-Q_t <- mod2$FF %*% R_t %*% t(mod2$FF) + mod2$V  # obs.-predict variance
-```
-
 \textbf{10. Common mistakes / what graders look for.}
 
 \begin{itemize}
 \item Don't forget the \emph{initial state distribution} $\theta_0\sim\mathcal{N}_p(m_0,C_0)$ — it's an ingredient of the DLM, not optional.
 \item State \emph{independence} of $\{w_t\},\{v_t\},\theta_0$ explicitly; without this the moment derivations of $a_t,R_t,f_t,Q_t$ collapse.
-\item Distinguish ``predictive of the state'' $\theta_t\mid y_{1:t-1}\sim\mathcal{N}_p(a_t,R_t)$ from ``predictive of the observation'' $Y_t\mid y_{1:t-1}\sim\mathcal{N}_q(f_t,Q_t)$ — these are two separate but linked formulas.
-\item For multivariate observations, $F_t$ is $q\times p$ (not square); $V_t$ is $q\times q$. ``DLMs only handle univariate series'' is \emph{wrong} (Jun 2024 Q6a) — they handle any finite $q$.
+\item Distinguish "predictive of the state" $\theta_t\mid y_{1:t-1}\sim\mathcal{N}_p(a_t,R_t)$ from "predictive of the observation" $Y_t\mid y_{1:t-1}\sim\mathcal{N}_q(f_t,Q_t)$ — these are two separate but linked formulas.
+\item For multivariate observations, $F_t$ is $q\times p$ (not square); $V_t$ is $q\times q$. "DLMs only handle univariate series" is \emph{wrong} (Jun 2024 Q6a) — they handle any finite $q$.
 \end{itemize}
 
 \textbf{Exam pointers.}
@@ -774,7 +668,6 @@ Q_t <- mod2$FF %*% R_t %*% t(mod2$FF) + mod2$V  # obs.-predict variance
 \end{itemize}
 """,
 }
-
 
 # =============================================================================
 # t6b — SSM flexibility — non-stationarity & SV models (is it a DLM?)
@@ -814,9 +707,9 @@ Neither (i) nor (ii) involves stationarity. The recursive update of $(m_t,C_t,a_
 
 \emph{Multivariate restatement (Sep 2025 Q3).} For an $m$-dim.\ time series $Y_t$ of stock prices: stock prices are typically non-stationary (I$(1)$ random walk). Yes, you can still use an SSM — the canonical model is $\theta_t=\theta_{t-1}+w_t$, $Y_t=\theta_t+v_t$ (local level / RW + noise per asset, possibly with cross-asset correlations in $W$).
 
-\textbf{3. ``YES, because... / NO, because... / YES but only if...'' — answer template.}
+\textbf{3. "YES, because... / NO, because... / YES but only if..." — answer template.}
 
-For ``can I use an SSM on a non-stationary series?'':
+For "can I use an SSM on a non-stationary series?":
 
 \textbf{YES, because} SSMs do not require stationarity of $(Y_t)$ or $(\theta_t)$. The KF/RTS derivations rest on Markovianity + conditional Gaussianity, not on stationarity. Canonical non-stationary SSMs include local level (I$(1)$), local linear trend ($I(2)$-style), and structural DLMs with seasonal latent components. (\emph{This is the Sep 2025 Q3 answer.})
 
@@ -885,7 +778,7 @@ Q5: Independence of $\{w_t\},\{v_t\},\theta_0$? — Required for KF derivations.
 
 If Q1--Q5 all YES with linear-Gaussian forms $\Rightarrow$ DLM, Kalman filter applies exactly.
 
-\textbf{9. Other ``is it a DLM?'' edge cases (cross-reference).}
+\textbf{9. Other "is it a DLM?" edge cases (cross-reference).}
 
 \begin{itemize}
 \item \emph{AR(2) in companion form (Jun 2024 Q2).} $Y_t=\alpha_1 Y_{t-1}+\alpha_2 Y_{t-2}+\varepsilon_t$. Naively writing $F_t=(Y_{t-1},Y_{t-2})$ violates conditional independence ($F_t$ depends on past observations). Correct DLM (DLMwR \S 3.2.5): $\theta_t=(Y_t,Y_{t-1})'$, $G=\binom{\alpha_1\;\alpha_2}{1\;0}$, $F=(1,0)$, $V=0$, $W=\binom{\sigma^2\;0}{0\;0}$. — IS a DLM in the right parameterisation.
@@ -895,32 +788,17 @@ If Q1--Q5 all YES with linear-Gaussian forms $\Rightarrow$ DLM, Kalman filter ap
 
 \textbf{10. R — fitting SV and comparing to a DLM trend model.}
 
-```R
-## SV model (NOT a DLM): use the stochvol package
-library(stochvol)
-draws <- svsample(y, draws = 10000, burnin = 1000,
-                  priormu = c(0, 100), priorphi = c(20, 1.5),
-                  priorsigma = 0.1)
-summary(draws)
-plot(draws)                                       # posterior of (alpha_1, alpha_2, sigma^2)
-
-## RW + noise on log-prices (IS a DLM) — local level for non-stationary data:
-library(dlm)
-mod_ll <- dlmModPoly(order = 1, dV = sigma_v^2, dW = sigma_w^2)
-fit_ll <- dlmFilter(log_price, mod_ll)            # KF runs fine on I(1) data
-```
-
 \textbf{11. Exam-ready one-liners.}
 
 \begin{itemize}
-\item ``\emph{Can I use an SSM for a non-stationary series?}'' $\Rightarrow$ \textbf{YES, because} SSMs do not require stationarity --- KF/RTS only need Markov + cond.\ Gaussian; non-stationary latents (RW, integrated, structural) are the canonical examples.
-\item ``\emph{Is the SV model an SSM?}'' $\Rightarrow$ \textbf{YES}: $(\theta_t)$ is a Gaussian AR(1) Markov chain; $Y_t\mid\theta_t\sim\mathcal{N}(0,e^{\theta_t})$ depends only on $\theta_t$.
-\item ``\emph{Is the SV model a DLM?}'' $\Rightarrow$ \textbf{NO}: the obs.\ equation $Y_t=e^{\theta_t/2}v_t$ is non-linear in $\theta_t$ (variance depends on state); KF doesn't apply directly. Linearise via $\log Y_t^2=\theta_t+\log v_t^2$ with non-Gaussian noise, then approximate by a Gaussian mixture (KSC) or use a particle filter.
+\item "\emph{Can I use an SSM for a non-stationary series?}" $\Rightarrow$ \textbf{YES, because} SSMs do not require stationarity --- KF/RTS only need Markov + cond.\ Gaussian; non-stationary latents (RW, integrated, structural) are the canonical examples.
+\item "\emph{Is the SV model an SSM?}" $\Rightarrow$ \textbf{YES}: $(\theta_t)$ is a Gaussian AR(1) Markov chain; $Y_t\mid\theta_t\sim\mathcal{N}(0,e^{\theta_t})$ depends only on $\theta_t$.
+\item "\emph{Is the SV model a DLM?}" $\Rightarrow$ \textbf{NO}: the obs.\ equation $Y_t=e^{\theta_t/2}v_t$ is non-linear in $\theta_t$ (variance depends on state); KF doesn't apply directly. Linearise via $\log Y_t^2=\theta_t+\log v_t^2$ with non-Gaussian noise, then approximate by a Gaussian mixture (KSC) or use a particle filter.
 \end{itemize}
 
 \textbf{Exam pointers.}
 \begin{itemize}
-\item[$\triangleright$] Used in \texttt{exam\_sep\_2025\_q3}: ``$m$-dim.\ non-stationary $(Y_t)$ — can you use an SSM?'' Answer \textbf{YES, because} SSMs do not require stationarity of $(Y_t)$ or $(\theta_t)$ — latent state can be RW / integrated / regime-switching; observations inherit it. KF derived from Markov + cond.\ Gaussian. Canonical $I(1)$ DLM: $\theta_t=\theta_{t-1}+w_t,Y_t=\theta_t+v_t$.
+\item[$\triangleright$] Used in \texttt{exam\_sep\_2025\_q3}: "$m$-dim.\ non-stationary $(Y_t)$ — can you use an SSM?" Answer \textbf{YES, because} SSMs do not require stationarity of $(Y_t)$ or $(\theta_t)$ — latent state can be RW / integrated / regime-switching; observations inherit it. KF derived from Markov + cond.\ Gaussian. Canonical $I(1)$ DLM: $\theta_t=\theta_{t-1}+w_t,Y_t=\theta_t+v_t$.
 \item[$\triangleright$] Used in \texttt{exam\_may\_2022\_q4}: SV model $Y_t=e^{\theta_t/2}v_t$, $\theta_t=\alpha_1+\alpha_2\theta_{t-1}+w_t$ — (a) IS an SSM (Markov $(\theta_t)$, $Y_t\mid\theta_t\sim\mathcal{N}(0,e^{\theta_t})$ depends only on $\theta_t$); (b) NOT a DLM (multiplicative $e^{\theta_t/2}$, variance depends on state). Standard linearisation $\log Y_t^2=\theta_t+\log v_t^2$ with $\log\chi^2_1$ noise; approximate by Gaussian mixture (KSC) for MCMC.
 \end{itemize}
 """,

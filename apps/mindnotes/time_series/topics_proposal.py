@@ -121,7 +121,6 @@ TOPICS = [
     ]},
 ]
 
-
 # ---------------------------------------------------------------------------
 # Backing canvas theory nodes (sanity check, all present in data_timeseries.json
 # under data.topics[0].subtopics[0].nodes[]):
@@ -157,7 +156,6 @@ TOPICS = [
 #          "Bayesian point estimation: loss functions and the posterior mean"
 #
 # No gaps: every topic backed by >=1 existing theory node.
-
 
 # ---------------------------------------------------------------------------
 # Self-check helpers (run as `python topics_proposal.py`)

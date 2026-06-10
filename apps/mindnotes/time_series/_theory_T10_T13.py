@@ -3,7 +3,6 @@ Theory column entries for sub-topics in topics T10, T11, T12, T13.
 """
 theory_content_ts = {}
 
-
 # =============================================================================
 # t10a — Predictive distribution N(f_t, Q_t) — derivation
 # =============================================================================
@@ -85,21 +84,6 @@ The two components of $Y_t$ are predicted equal in mean (because $F$ is constant
 
 \textbf{9. R --- one-step-ahead predictive via \texttt{dlm}.}
 
-```R
-library(dlm)
-# Random walk plus noise (local level)
-mod <- dlmModPoly(order = 1, dV = 1.0, dW = 0.5, m0 = 0, C0 = 1e7)
-y   <- as.numeric(Nile)
-kf  <- dlmFilter(y, mod)
-# Filtered means/variances of theta_t
-m_t <- dropFirst(kf$m)
-C_t <- sapply(dropFirst(kf$U.C), function(u) u^2) * dropFirst(kf$D.C)^2
-# One-step-ahead predictive of Y_{t+1} given y_{1:t}
-f_next <- tail(kf$f, 1)            ## f_t = F * a_t
-Q_next <- tail(kf$U.R, 1)[[1]]^2 * tail(kf$D.R, 1)^2 + 1.0  ## R_t + V
-c(f_next, sqrt(Q_next))            ## point forecast and SE
-```
-
 \textbf{10. Pitfalls.}
 
 \begin{itemize}
@@ -114,7 +98,6 @@ c(f_next, sqrt(Q_next))            ## point forecast and SE
 \end{itemize}
 """,
 }
-
 
 # =============================================================================
 # t10b — Forecast function, k-step intervals, SES & loss functions
@@ -220,25 +203,7 @@ RW+noise with $V=1$, $W=0.5$, and after filtering $m_t=10$, $C_t=0.8$. Then
 
 \textbf{10. R --- $k$-step forecasts and intervals.}
 
-```R
-library(dlm)
-y   <- as.numeric(Nile)
-mod <- dlmModPoly(order = 1, dV = 15100, dW = 1469)
-kf  <- dlmFilter(y, mod)
-fc  <- dlmForecast(kf, nAhead = 10)        ## k-step predictive
-mu  <- as.numeric(fc$f)                    ## point forecasts f_t(k)
-Qk  <- as.numeric(fc$Q)                    ## predictive variances Q_t(k)
-lo  <- mu - 1.96 * sqrt(Qk)
-hi  <- mu + 1.96 * sqrt(Qk)
-cbind(k = 1:10, mu, sd = sqrt(Qk), lo, hi)
-```
-
 For SES specifically (no DLM wrapper):
-```R
-ses <- HoltWinters(y, beta = FALSE, gamma = FALSE)   ## SES
-predict(ses, n.ahead = 5, prediction.interval = TRUE, level = 0.95)
-## prediction.interval=TRUE uses the underlying state-space DLM, not SES alone
-```
 
 \textbf{11. Pitfalls.}
 
@@ -257,7 +222,6 @@ predict(ses, n.ahead = 5, prediction.interval = TRUE, level = 0.95)
 \end{itemize}
 """,
 }
-
 
 # =============================================================================
 # t11a — Innovations: zero-mean, orthogonality, standardisation
@@ -355,24 +319,6 @@ $V=1$, $W=0.5$, $m_0=0$, $C_0=10$. After 1 step: $f_1=m_0=0$, $Q_1=C_0+W+V=11.5$
 
 \textbf{10. R --- diagnostic suite.}
 
-```R
-library(dlm)
-y   <- as.numeric(Nile)
-mod <- dlmModPoly(order = 1, dV = 15100, dW = 1469)
-kf  <- dlmFilter(y, mod)
-
-# Raw and standardised innovations
-e_t       <- residuals(kf, type = "raw",        sd = FALSE)   ## y_t - f_t
-e_t_std   <- residuals(kf, type = "standardized", sd = FALSE) ## (y_t - f_t)/sqrt(Q_t)
-mean(e_t_std);  var(e_t_std)             ## should be ~0 and ~1
-
-# Diagnostics
-qqnorm(e_t_std); qqline(e_t_std)         ## normality
-acf(e_t_std)                             ## should be inside CI bands
-Box.test(e_t_std, lag = 10, type = "Ljung-Box")
-acf(e_t_std^2)                           ## check for residual heteroscedasticity
-```
-
 \textbf{Exam pointers.}
 \begin{itemize}
 \item[$\triangleright$] \texttt{exam\_jun\_2025\_q5}: prove $\mathbb{E}[e_t]=0$. Use tower property: $\mathbb{E}[e_t]=\mathbb{E}[Y_t-\mathbb{E}[Y_t\mid\mathcal F_{t-1}]]=\mathbb{E}[Y_t]-\mathbb{E}[Y_t]=0$. Mention that this is the foundation of the prediction-error likelihood.
@@ -381,7 +327,6 @@ acf(e_t_std^2)                           ## check for residual heteroscedasticit
 \end{itemize}
 """,
 }
-
 
 # =============================================================================
 # t12a — Likelihood of phi via prediction-error decomposition (MLE)
@@ -480,38 +425,6 @@ $\ell(V,W)=-\tfrac12\bigl[\log Q_1+y_1^2/Q_1+\log Q_2+(y_2-m_1)^2/Q_2\bigr]+$ co
 
 \textbf{10. R --- MLE via \texttt{dlmMLE}.}
 
-```R
-library(dlm)
-y <- as.numeric(Nile)
-
-# Build the DLM as a function of phi = (log V, log W)
-build <- function(phi) {
-  dlmModPoly(order = 1, dV = exp(phi[1]), dW = exp(phi[2]),
-             m0 = 0, C0 = 1e7)
-}
-
-# MLE by numerical optimisation (BFGS); each evaluation = one KF pass
-fit <- dlmMLE(y, parm = c(log(100), log(10)), build = build,
-              hessian = TRUE)
-fit$convergence            ## 0 = converged
-phi_hat <- fit$par
-V_hat   <- exp(phi_hat[1]) ## observation variance
-W_hat   <- exp(phi_hat[2]) ## state variance
-c(V_hat, W_hat)
-
-# Asymptotic SEs from observed information
-Sigma_phi <- solve(fit$hessian)
-sqrt(diag(Sigma_phi))      ## SEs on the log scale
-
-# Plug-in predictive at phi_hat
-mod_hat <- build(phi_hat)
-kf_hat  <- dlmFilter(y, mod_hat)
-fc      <- dlmForecast(kf_hat, nAhead = 5)
-data.frame(f = as.numeric(fc$f),
-           lo95 = as.numeric(fc$f) - 1.96 * sqrt(as.numeric(fc$Q)),
-           hi95 = as.numeric(fc$f) + 1.96 * sqrt(as.numeric(fc$Q)))
-```
-
 \textbf{11. Pitfalls.}
 
 \begin{itemize}
@@ -528,7 +441,6 @@ data.frame(f = as.numeric(fc$f),
 \end{itemize}
 """,
 }
-
 
 # =============================================================================
 # t13a — Conjugate Normal-Normal posterior (static theta / Case A)
@@ -622,33 +534,6 @@ The variance has two pieces: posterior uncertainty about $\theta$ ($C_n$) plus m
 
 \textbf{9. R --- exact conjugate update and simulation check.}
 
-```R
-# Inputs
-sigma2 <- 1            ## V (known)
-m0     <- 0;  C0 <- Inf   ## flat prior
-n      <- 20
-ybar   <- 4
-
-# Closed-form posterior
-Cn <- 1 / (1/C0 + n/sigma2)            ## 0.05
-mn <- Cn * (m0/C0 + n*ybar/sigma2)     ## 4
-c(mn = mn, Cn = Cn, SD = sqrt(Cn))
-
-# 95% credible interval
-mn + c(-1, 1) * qnorm(0.975) * sqrt(Cn)  ## (3.56, 4.44)
-
-# Simulation check: posterior samples
-set.seed(1)
-ys     <- rnorm(n, mean = 4, sd = sqrt(sigma2))   ## fake data
-ybar_s <- mean(ys)
-Cn_s   <- 1 / (0 + n/sigma2)
-mn_s   <- Cn_s * (n*ybar_s/sigma2)
-post   <- rnorm(20000, mn_s, sqrt(Cn_s))
-hist(post, prob = TRUE, breaks = 60,
-     main = "Posterior of theta | y_{1:n}")
-curve(dnorm(x, mn_s, sqrt(Cn_s)), add = TRUE, lwd = 2)
-```
-
 For unknown $V$, use the Normal--Inverse-Gamma conjugate pair (DLMwR \S 5.2) — out of scope here.
 
 \textbf{10. Why "Bayesian" matters --- contrast with MLE.}
@@ -662,7 +547,6 @@ The MLE of $\theta$ is $\widehat\theta=\bar y_n$, with sampling distribution $\w
 \end{itemize}
 """,
 }
-
 
 # =============================================================================
 # t13b — Bayesian predictive distribution integrating out phi (+ MCMC)
@@ -781,44 +665,6 @@ The sampler chain $(\Phi^{(s)})$ \textbf{is} a Markov chain. Its construction (G
 \end{enumerate}
 
 \textbf{11. R --- Bayesian DLM via Gibbs + FFBS.}
-
-```R
-library(dlm)
-y <- as.numeric(Nile)
-
-# Model builder parameterised by (V, W)
-build <- function(parm) {
-  dlmModPoly(order = 1, dV = exp(parm[1]), dW = exp(parm[2]),
-             m0 = 0, C0 = 1e7)
-}
-
-# Gibbs sampler with conjugate Inverse-Gamma priors on V, W
-# (DLMwR provides dlmGibbsDIG specifically for the discount/IG case)
-set.seed(1)
-gibbs <- dlmGibbsDIG(y, mod = build(c(0, 0)),
-                     a.y = 1, b.y = 1000,    ## IG prior on V
-                     a.theta = 1, b.theta = 1000,
-                     n.sample = 2000, thin = 1)
-burn <- 500
-V_samps <- gibbs$dV[-(1:burn)]
-W_samps <- gibbs$dW[-(1:burn)]
-
-# One-step-ahead Bayesian predictive samples
-n  <- length(y)
-ys <- numeric(length(V_samps))
-for (s in seq_along(V_samps)) {
-  mod_s <- dlmModPoly(order = 1, dV = V_samps[s], dW = W_samps[s],
-                      m0 = 0, C0 = 1e7)
-  kf_s  <- dlmFilter(y, mod_s)
-  fc_s  <- dlmForecast(kf_s, nAhead = 1, sampleNew = 1)
-  ys[s] <- as.numeric(fc_s$newObs[[1]])
-}
-# Predictive summaries (honest UQ)
-mean(ys); sd(ys)
-quantile(ys, c(0.025, 0.5, 0.975))   ## 95% predictive interval
-hist(ys, prob = TRUE, breaks = 60,
-     main = "Bayesian predictive p(y_{n+1} | y_{1:n})")
-```
 
 \textbf{12. Plug-in vs.\ Bayesian intervals --- empirical.}
 

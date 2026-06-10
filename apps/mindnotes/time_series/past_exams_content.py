@@ -116,9 +116,8 @@ $$
 Linear combination of independent Gaussians is Gaussian.
 
 \emph{R sketch (one-step predictive for a fitted DLM):}
-`library(dlm); mod <- dlmModPoly(2); kf <- dlmFilter(y, mod)`
-`a_t <- kf$a[t,]; R_t <- with(kf, U.R[[t]] %*% diag(D.R[t,]^2) %*% t(U.R[[t]]))`
-`f_t <- kf$f[t]; Q_t <- mod$FF %*% R_t %*% t(mod$FF) + mod$V`""",
+
+""",
     "is_exam": True,
     "topic_hint": "t6a",
     "images": []
@@ -147,7 +146,7 @@ G=\begin{pmatrix}1&1\\0&1\end{pmatrix},\;W=\begin{pmatrix}\sigma_{w_1}^2&0\\0&\s
 \theta_0=\begin{pmatrix}\mu_0\\\beta_0\end{pmatrix}\sim\mathcal{N}_2(m_0,C_0).\;}
 $$
 
-\emph{R:} `mod <- dlmModPoly(order = 2, dV = sigma^2, dW = c(sw1^2, sw2^2))` — `dlmModPoly(2)` is exactly the local linear trend DLM.""",
+\emph{R:}  —  is exactly the local linear trend DLM.""",
     "is_exam": True,
     "topic_hint": "t7b",
     "images": []
@@ -156,7 +155,7 @@ $$
 past_exams_ts["exam_sep_2025_q6"] = {
     "title": 'Sep 2025 — Q6',
     "content": r"""<span class="exam-question-text">In a study, the level of air pollution in location $i$ is measured over time as
-$1=$\textbf{``low''}, $2=$\textbf{``moderate''}, $3=$\textbf{``high''}, starting from a known
+$1=$\textbf{"low"}, $2=$\textbf{"moderate"}, $3=$\textbf{"high"}, starting from a known
 $y_{i0}$ at time $t=0$. A simple model for the resulting time series $(Y_{i,t})_{t\ge 0}$
 assumes that it is a homogeneous Markov chain. Now suppose that you have data in $n$ locations,
 $i=1,\dots,n$, for $t=0,1,\dots,100$, and for simplicity, you model the time series
@@ -183,10 +182,8 @@ $$
 $$
 
 \emph{R (pool transition counts across $n$ locations, then row-normalise):}
-`N <- matrix(0, 3, 3); for(i in 1:n) for(t in 2:101) N[Y[i,t-1], Y[i,t]] <- N[Y[i,t-1], Y[i,t]] + 1`
-`Phat <- N / rowSums(N)`
-`se  <- sqrt(Phat*(1-Phat) / rowSums(N))`
-`ci_lo <- Phat - 1.96*se; ci_hi <- Phat + 1.96*se`""",
+
+""",
     "is_exam": True,
     "topic_hint": "t4a",
     "images": []
@@ -218,7 +215,7 @@ with $(f_t,Q_t)$ from the Kalman filter at $\phi$. Equivalently
 $\ell(\phi)=-\tfrac12\sum_t[\,q\log(2\pi)+\log|Q_t|+e_t^{\top} Q_t^{-1}e_t\,]$, where $e_t=y_t-f_t$.
 $\widehat\phi$ numerically (BFGS / EM).
 
-\emph{R:} `fit <- dlmMLE(y, parm = c(0,0), build = function(p) dlmModPoly(2, dV=exp(p[1]), dW=c(0, exp(p[2]))))`
+\emph{R:} 
 
 \textbf{(b) Definitions.}
 \emph{Filtering:} $\pi(\theta_t\mid y_{1:t})$ --- state given data \emph{up to now}.
@@ -276,10 +273,6 @@ $$
 
 \emph{Numerics ($\sigma^2=1$, $n=20$, $\bar y_n=4$, flat prior $C_0\to\infty$):} $1/C_n=0+20/1=20$, so $C_n=1/20=0.05$; $m_n=C_n\cdot n\bar y_n/\sigma^2=0.05\cdot 80=4$. Hence $\theta\mid y_{1:20}\sim\mathcal{N}(4,0.05)$; 95\% CI $4\pm 1.96\sqrt{0.05}\approx[3.56,4.44]$.
 
-\emph{R:}
-`n <- 20; ybar <- 4; sigma2 <- 1; C0 <- Inf; m0 <- 0`
-`Cn <- 1/(1/C0 + n/sigma2)            ## 0.05`
-`mn <- Cn*(m0/C0 + n*ybar/sigma2)     ## 4`
 `mn + c(-1,1)*qnorm(0.975)*sqrt(Cn)   ## 95% CI`""",
     "is_exam": True,
     "topic_hint": "t13a",
@@ -314,8 +307,8 @@ past_exams_ts["exam_jun_2025_q2"] = {
     "title": 'Jun 2025 — Q2',
     "content": r"""<span class="exam-question-text">Before an election, a study monitors a panel of $n=1000$ individuals, with monthly interviews
 from January ($t=0$) to June ($t=5$), where each individual is asked whether she/he is going
-to vote ($1=$\textbf{``YES''}), not going ($2=$\textbf{``NO''}), or is still uncertain
-($3=$\textbf{``Uncertain''}).
+to vote ($1=$\textbf{"YES"}), not going ($2=$\textbf{"NO"}), or is still uncertain
+($3=$\textbf{"Uncertain"}).
 The observed transition counts are reported in the following table
 $$
 \begin{array}{c|ccc|c}
@@ -370,13 +363,8 @@ $\bar Y_{\text{July}}\approx\mathcal{N}(0.35,\,0.35\cdot 0.65/n)$, hence $\mathr
 Step 3: $\widehat q=\mathbb{P}(\bar Y_{\text{July}}>0.5)=1-\Phi\bigl((0.5-0.35)/0.0151\bigr)=1-\Phi(9.93)\approx 0$.
 
 \emph{R:}
-`N <- matrix(c(70,30,50, 75,120,55, 30,34,36), 3, 3, byrow=TRUE)`
-`Phat <- N / rowSums(N); pi5 <- rowSums(N) / sum(N)`
-`p_yes <- sum(pi5 * Phat[,1])           ## 0.35`
-`se <- sqrt(p_yes*(1-p_yes)/1000)`
-`q_hat <- 1 - pnorm((0.5 - p_yes)/se)   ## ~ 0`
-`ci_lo <- Phat[1,1] - 1.65*sqrt(Phat[1,1]*(1-Phat[1,1])/rowSums(N)[1])`
-`ci_hi <- Phat[1,1] + 1.65*sqrt(Phat[1,1]*(1-Phat[1,1])/rowSums(N)[1])`""",
+
+""",
     "is_exam": True,
     "topic_hint": "t4b",
     "images": []
@@ -419,7 +407,7 @@ m_t=a_t+K_t(y_t-f_t),\;C_t=R_t-K_tQ_tK_t^{\top},\;K_t=R_tF^{\top} Q_t^{-1}.\;}
 $$
 $K_t$ is the \emph{Kalman gain}; $y_t-f_t$ is the \emph{innovation}.
 
-\emph{R:} `kf <- dlmFilter(y, mod); m_t <- kf$m[t+1,]; C_t <- dlmSvd2var(kf$U.C[[t+1]], kf$D.C[t+1,])`""",
+\emph{R:} """,
     "is_exam": True,
     "topic_hint": "t8b",
     "images": []
@@ -460,7 +448,7 @@ $$
 (3) \emph{Cross terms in $G$:} $G=\bigl(\begin{smallmatrix}1&\delta\\0&1\end{smallmatrix}\bigr)$
 or full $G$ (states evolve as a VAR(1)) --- past innovations in one asset spill over into the level of the other.
 
-\emph{R (option 1, correlated state noise):} `mod <- dlm(FF=diag(2), GG=diag(2), V=diag(c(sv1^2,sv2^2)), W=matrix(c(sw1^2, rho*sw1*sw2, rho*sw1*sw2, sw2^2),2,2), m0=c(0,0), C0=diag(2)*1e7)`""",
+\emph{R (option 1, correlated state noise):} """,
     "is_exam": True,
     "topic_hint": "t7d",
     "images": []
@@ -485,7 +473,7 @@ Equivalently, in one step, $\mathbb{E}[e_t\mid\mathcal F_{t-1}]=\mathbb{E}[Y_t\m
 
 \emph{Why this matters.} Zero-mean forecast errors are the foundation of likelihood-based DLM estimation (prediction-error decomposition): each $e_t\sim\mathcal{N}(0,Q_t)$ independently, so $\ell(\phi)=-\tfrac12\sum_t[\log|Q_t|+e_t^{\top}Q_t^{-1}e_t]+\text{const}$.
 
-\emph{R diagnostic check:} `kf <- dlmFilter(y, mod); e <- residuals(kf, sd=FALSE); mean(e)  ## should be ~ 0`""",
+\emph{R diagnostic check:} """,
     "is_exam": True,
     "topic_hint": "t11a",
     "images": []
@@ -517,8 +505,8 @@ $$p(y_{t+1}\mid y_{1:t})\approx\frac{1}{S}\sum_{s=1}^S\mathcal{N}\bigl(y_{t+1};f
 \emph{Honest uncertainty:} the Bayesian predictive is \emph{wider} than the plug-in $\mathcal{N}(f_{t+1}(\widehat\phi),Q_{t+1}(\widehat\phi))$ which ignores parameter uncertainty.
 
 \emph{R (rough sketch):}
-`samples <- dlmGibbsDIG(y, mod=buildFun, n.sample=2000)`
-`pred <- sapply(samples$dV, function(v){ mod_s <- buildFun(c(log(v))); kf <- dlmFilter(y, mod_s); rnorm(1, kf$f[length(y)+1], sqrt(kf$Q[length(y)+1])) })`""",
+
+""",
     "is_exam": True,
     "topic_hint": "t13b",
     "images": []
@@ -540,7 +528,7 @@ past_exams_ts["exam_may_2025_q1"] = {
 $$\hat\gamma(h)=\frac{1}{T}\sum_{t=1}^{T-|h|}(Y_t-\bar Y)(Y_{t+|h|}-\bar Y)$$
 \emph{pools} across $t$ to estimate one function of the lag. This is meaningful only if the true ACVF depends solely on the lag — i.e.\ under (weak) stationarity. Plus ergodicity is needed for consistency (the time-average $T^{-1}\sum_t\to\mathbb{E}$). Without these, $\hat\gamma(h)$ has no clean interpretation as an estimate of "the" autocovariance.
 
-\emph{R:} `acf_est <- acf(y, lag.max=40, plot=TRUE, type="covariance")  ## sample ACVF`""",
+\emph{R:} """,
     "is_exam": True,
     "topic_hint": "t2b",
     "images": []
@@ -565,9 +553,8 @@ This is the canonical \emph{random walk} construction (Example 1).
 \emph{Side remark.} The chain is \emph{not stationary}: $\mathbb{E}[Z_i]=1-2p$ and $\operatorname{Var}(Z_i)=4p(1-p)$, so $\mathbb{E}[Y_t]=(1-2p)t$ and $\operatorname{Var}(Y_t)=4p(1-p)\,t$ both grow with $t$ (unless $p=1/2$ for the mean; the variance grows regardless).
 
 \emph{R simulation:}
-`p <- 0.4; T <- 1000`
-`Z <- sample(c(-1,1), T, replace=TRUE, prob=c(p, 1-p))`
-`Y <- cumsum(Z); var(Y[1:500])/250  ## should ~ 4*p*(1-p) = 0.96`""",
+
+""",
     "is_exam": True,
     "topic_hint": "t3a",
     "images": []
@@ -608,8 +595,8 @@ $$
 $$
 computed in $O(k^2 t)$ instead of $O(k^t)$. MLE by EM / Baum--Welch (E-step uses forward-backward; M-step has closed-form updates for $\pi,\mathbf P,\mathbf E$).
 
-\emph{R:} `library(HMM); hmm <- initHMM(States=1:k, Symbols=1:M); fit <- baumWelch(hmm, observation=y)$hmm`
-`logL <- forward(fit, y); sum(exp(logL[,length(y)]))  ## likelihood`""",
+\emph{R:} 
+""",
     "is_exam": True,
     "topic_hint": "t5a",
     "images": []
@@ -657,9 +644,8 @@ $$Y_t^{(h)}=F_t^{(h)}\theta_t^{(h)}+v_t^{(h)},\qquad \theta_t^{(h)}=\theta_{t-1}
 tied via a \emph{shared population mean} on the initial states $\theta_0^{(h)}\sim\mathcal{N}_2(\mu,T)$, hyperprior $\mu\sim\mathcal{N}_2(0,\Sigma_0)$. Inference shrinks each hospital's $\theta_0^{(h)}$ (and hence its path) toward the shared $\mu$; degree of shrinkage learned from data. Variants: shared $W$, shared error variance, or shared dynamics with hospital-specific intercept.
 
 \emph{R sketch (single-hospital fit):}
-`build <- function(p) dlmModReg(X=xt, addInt=TRUE, dV=exp(p[1]), dW=exp(p[2:3]))`
-`fit <- dlmMLE(y, parm=c(0,0,0), build=build)`
-`smo <- dlmSmooth(y, build(fit$par)); s_t <- smo$s   ## (alpha_t, beta_t) smoothed`""",
+
+""",
     "is_exam": True,
     "topic_hint": "t7c",
     "images": []
@@ -701,8 +687,7 @@ $$C^*=\tfrac12\bigl(-W+\sqrt{W^2+4VW}\bigr)>0.$$
 Intuition: fresh state noise $W$ is injected every step, so even after infinite data the current state $\theta_t$ has irreducible uncertainty inherited from the most recent innovation $w_t$. (If $W=0$ the state is static and $C_t=VC_0/(V+tC_0)\to 0$ at rate $1/t$.)
 
 \emph{R (iterate the Riccati recursion to the limit):}
-`V <- 1; W <- 0.5; C <- 1`
-`for (t in 1:200) C <- V*(C+W)/(C+W+V)`
+
 `C   ## ~ 0.5*(-W + sqrt(W^2+4*V*W))`""",
     "is_exam": True,
     "topic_hint": "t8b",
@@ -733,7 +718,7 @@ For each fixed $\phi$, the inner factor $p(\theta_t\mid y_{1:t},\phi)=\mathcal{N
 - Approximated by MCMC: draw $\phi^{(s)}\sim p(\phi\mid y_{1:t})$ ($s=1,\dots,S$), run the KF at each draw to get $(m_t^{(s)},C_t^{(s)})$, then mix.
 - Intervals are \emph{wider} than the plug-in $\mathcal{N}_p(m_t(\widehat\phi),C_t(\widehat\phi))$, which ignores parameter uncertainty (honest uncertainty quantification).
 
-\emph{R:} `gibbs <- dlmGibbsDIG(y, mod=buildFun, n.sample=2000); theta_t <- gibbs$theta[t,,]  ## posterior samples`""",
+\emph{R:} """,
     "is_exam": True,
     "topic_hint": "t13b",
     "images": []
@@ -759,7 +744,7 @@ Equivalently, mean is constant and the autocovariance depends on the lag only.
 (ii) \emph{Causal AR(1).} $Y_t=\phi Y_{t-1}+\varepsilon_t$, $\varepsilon_t\overset{\text{iid}}{\sim}\mathcal{N}(0,\sigma^2)$, with $|\phi|<1$ and started in the stationary distribution (i.e.\ $Y_0\sim\mathcal{N}(0,\sigma^2/(1-\phi^2))$). \emph{Why stationary:} by causal MA expansion $Y_t=\sum_{j\ge 0}\phi^j\varepsilon_{t-j}$ (geometric series converges since $|\phi|<1$), so $\mathbb{E}[Y_t]=0$ and $\gamma(h)=\sigma^2\phi^{|h|}/(1-\phi^2)$ — both $t$-free.
 
 \emph{R simulation:}
-`y <- arima.sim(model=list(ar=0.7), n=500, sd=1)`
+
 `acf(y, lag.max=20)   ## sample ACF should match phi^h / (1-phi^2)`""",
     "is_exam": True,
     "topic_hint": "t2a",
@@ -838,16 +823,6 @@ $$\Prob(Y_n=j\mid Y_0=i)\to\pi_j\quad\text{for every }i,j.$$
 Solving $\pi P=\pi$, $\pi_1+\pi_2+\pi_3=1$: linear system
 $\pi_1=.6\pi_1+.1\pi_2+.3\pi_3$, $\pi_2=.6\pi_2+.1\pi_3$, $\pi_3=.4\pi_1+.3\pi_2+.6\pi_3$. From the second: $.4\pi_2=.1\pi_3\Rightarrow\pi_3=4\pi_2$. Substituting and normalising gives $\pi\approx(0.394,\,0.121,\,0.485)$.
 
-```r
-P <- matrix(c(.6,0,.4, .1,.6,.3, .3,.1,.6), nrow=3, byrow=TRUE)
-# Stationary distribution: left eigenvector of eigenvalue 1
-ev <- eigen(t(P))
-pi <- Re(ev$vectors[,1]) ; pi <- pi/sum(pi)
-pi  # ~ 0.394 0.121 0.485
-# Check P^n convergence
-library(expm) ; P %^% 50
-```
-
 \textbf{(c) YES.} $\Prob(Y_n=j)=\sum_i\nu_i\Prob(Y_n=j\mid Y_0=i)\to\sum_i\nu_i\pi_j=\pi_j$ regardless of the
 initial law $\nu$ (finite weighted sum of converging sequences).""",
     "is_exam": True,
@@ -858,7 +833,7 @@ initial law $\nu$ (finite weighted sum of converging sequences).""",
 past_exams_ts["exam_jun_2024_q4"] = {
     "title": 'Jun 2024 — Q4',
     "content": r"""<span class="exam-question-text">In a study, a start-up is monitored \emph{quarterly} from the first quarter of 2021 to the
-first quarter of 2024, and its status is coded as $1=$``healthy'', $2=$``critical'', $3=$``failing''.
+first quarter of 2024, and its status is coded as $1=$"healthy", $2=$"critical", $3=$"failing".
 Let $Y_t$ be the status of the start-up at time $t$.
 **(a)** For simplicity, let us model the time series $(Y_t)_{t\ge 0}$ as a homogeneous Markov
         chain. Set the first quarter of 2021 as $t=0$, and fix $Y_0=1$. The observed data are
@@ -987,7 +962,7 @@ past_exams_ts["exam_may_2024_q2"] = {
     "title": 'May 2024 — Q2',
     "content": r"""<span class="exam-question-text">In a social survey, interviews have been conducted monthly, from January ($t=0$) to June
 ($t=5$) on a panel of $n=100$ individuals. Each individual is asked to express his/her
-opinion on a certain social initiative ($1=$``in favour''; $2=$``negative''; $3=$``uncertain'').
+opinion on a certain social initiative ($1=$"in favour"; $2=$"negative"; $3=$"uncertain").
 The observed transition counts are reported in the following table.
 $$
 \begin{array}{c|ccc|c}
@@ -1029,15 +1004,7 @@ Asymptotic distribution: $\sqrt{n_{3,+}}(\widehat p_{31}-p_{31})\xrightarrow{d}\
 90\% Wald CI uses $z_{0.95}=1.65$:
 $$0.30\pm 1.65\cdot 0.0458 = 0.30\pm 0.0756,\qquad\boxed{[0.224,\,0.376]}.$$
 
-```r
-n31 <- 30 ; n3p <- 100 ; p_hat <- n31/n3p
-se <- sqrt(p_hat*(1-p_hat)/n3p)
-z <- qnorm(0.95)  # 1.6449
-ci <- p_hat + c(-1,1)*z*se
-round(c(p_hat=p_hat, se=se, lo=ci[1], hi=ci[2]), 3)
-## p_hat    se    lo    hi
-## 0.300 0.046 0.225 0.375
-```""",
+""",
     "is_exam": True,
     "topic_hint": "t4a",
     "images": []
@@ -1165,8 +1132,8 @@ a mixture of Gaussians (one per posterior draw $\phi^{(s)}$). This properly infl
 
 past_exams_ts["exam_may_2023_q1"] = {
     "title": 'May 2023 — Q1',
-    "content": r"""<span class="exam-question-text">What is a time series? An answer could be: ``A time series is a sequence of observations taken
-over time.'' Are you happy with this definition?
+    "content": r"""<span class="exam-question-text">What is a time series? An answer could be: "A time series is a sequence of observations taken
+over time." Are you happy with this definition?
 \begin{itemize}[leftmargin=1.6em]
   \item[A.] \textbf{Yes}, because:
   \item[B.] \textbf{No}, because:
@@ -1176,7 +1143,7 @@ over time.'' Are you happy with this definition?
 ---
 
 **Solution.** \textbf{NO} (incomplete). A time series is the \emph{realization} of a stochastic process
-$(Y_t)_{t\in T}$ (keydef \textbf{1}--\textbf{2}). The bare ``sequence of observations'' misses
+$(Y_t)_{t\in T}$ (keydef \textbf{1}--\textbf{2}). The bare "sequence of observations" misses
 the probabilistic model that gives meaning to mean, variance, ACVF, stationarity, inference.""",
     "is_exam": True,
     "topic_hint": "t1a",
@@ -1200,7 +1167,7 @@ so $\Prob(Y_2=2\mid Y_0=1)=(\mathbf P^2)_{12}=1/3$.""",
 
 past_exams_ts["exam_may_2023_q3"] = {
     "title": 'May 2023 — Q3',
-    "content": r"""<span class="exam-question-text">In finance, returns often show ``volatility clusters''. Thus, an interesting model for returns
+    "content": r"""<span class="exam-question-text">In finance, returns often show "volatility clusters". Thus, an interesting model for returns
 is a Hidden Markov Model (HMM) with $k$ latent states and a Gaussian emission distribution
 $\mathcal{N}(0,\sigma^2)$, where $\sigma^2$ is state-dependent.
 **(a)** Write formally the expression of such a model, assuming $k=3$ and that the latent
@@ -1557,16 +1524,10 @@ ergodic (Theorem 2.1); $\Prob(Y_n=j\mid Y_0=1)\to\pi_j$ \emph{independently of t
 state} $i=1$, where $\pi$ is the unique stationary distribution solving $\pi=\pi\mathbf P$,
 $\sum_j\pi_j=1$.
 
-\emph{Note: $\mathbf P$ uses rows $i$ = ``from'' and columns $j$ = ``to'', so each row sums to 1
+\emph{Note: $\mathbf P$ uses rows $i$ = "from" and columns $j$ = "to", so each row sums to 1
 (check: $.6+0+.4=1$, $.1+.6+.3=1$, $.3+.1+.6=1$).}
 
 \emph{Compute $\pi$ in R} (left eigenvector with eigenvalue 1):
-
-`P <- matrix(c(.6,0,.4, .1,.6,.3, .3,.1,.6), nrow=3, byrow=TRUE)`
-
-`ev <- eigen(t(P)); v <- Re(ev$vectors[, which.min(abs(ev$values-1))])`
-
-`pi <- v / sum(v); round(pi, 3)`
 
 `## [1] 0.394 0.121 0.485`
 
@@ -1612,8 +1573,8 @@ MCMC.""",
 past_exams_ts["exam_may_2022_q5"] = {
     "title": 'May 2022 — Q5',
     "content": r"""<span class="exam-question-text">In view of administrative elections in XXX, a study monitors a panel of $n=100$ individuals;
-each individual is periodically asked to express his/her vote intention ($1=$``candidate A'';
-$2=$``candidate B''; $3=$``undecided''). The interviews are taken monthly, from January
+each individual is periodically asked to express his/her vote intention ($1=$"candidate A";
+$2=$"candidate B"; $3=$"undecided"). The interviews are taken monthly, from January
 ($t=0$) to May ($t=4$), before the elections in June. The observed transition counts are
 $$
 \begin{array}{c|ccc|c}
@@ -1661,12 +1622,6 @@ so $\widehat{\mathrm{SE}}=\sqrt{\widehat p_{3,1}(1-\widehat p_{3,1})/n_{3\cdot}}
 $+$ Slutsky justifies plug-in). The 95\% CI is
 $\widehat p_{3,1}\pm z_{0.975}\,\widehat{\mathrm{SE}}$ with $z_{0.975}=1.96$:
 
-`p_hat <- 30/170`
-
-`se <- sqrt(p_hat*(1-p_hat)/170)`
-
-`ci <- p_hat + c(-1, 1) * 1.96 * se; round(c(p_hat, se, ci), 4)`
-
 `## [1] 0.1765 0.0292 0.1192 0.2337`
 
 So $\widehat p_{3,1}\approx 0.176$, $\widehat{\mathrm{SE}}\approx 0.029$, and
@@ -1680,7 +1635,7 @@ asymptotically valid by Slutsky; (ii) asymptotic normality of the MLE (Anderson-
 
 past_exams_ts["exam_may_2022_q6"] = {
     "title": 'May 2022 — Q6',
-    "content": r"""<span class="exam-question-text">In finance, returns are often seen to show ``volatility clusters''.
+    "content": r"""<span class="exam-question-text">In finance, returns are often seen to show "volatility clusters".
 
 An interesting model for returns is therefore a Hidden Markov Model (HMM) with $k$ latent
 states and a Gaussian emission distribution $\mathcal{N}(0,\sigma^2)$ where $\sigma^2$ is state dependent.

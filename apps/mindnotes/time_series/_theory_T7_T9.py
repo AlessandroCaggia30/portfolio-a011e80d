@@ -3,7 +3,6 @@ Theory column entries for sub-topics in topics T7, T8, T9.
 """
 theory_content_ts = {}
 
-
 # =============================================================================
 # t7a — Random-walk + noise model — definition & independence proofs
 # =============================================================================
@@ -94,23 +93,6 @@ Take $V=1$, $W=0.5$, $m_0=0$, $C_0=10$. Then $\operatorname{Var}(\theta_t)=10+0.
 
 \textbf{9. R --- simulate and inspect.}
 
-```R
-set.seed(1)
-T  <- 200; V <- 1; W <- 0.5; m0 <- 0; C0 <- 10
-theta0 <- rnorm(1, m0, sqrt(C0))
-w  <- rnorm(T, 0, sqrt(W));  v <- rnorm(T, 0, sqrt(V))
-theta <- theta0 + cumsum(w)
-y     <- theta + v
-plot.ts(y, ylab="y_t", main="Random walk + noise (local level)")
-lines(theta, col="red", lwd=2)   # latent level
-legend("topleft", c("Y_t (obs)","theta_t (state)"), col=c("black","red"), lty=1)
-
-# Build the same model with the dlm package
-library(dlm)
-mod <- dlmModPoly(order = 1, dV = V, dW = W, m0 = m0, C0 = C0)
-mod$FF; mod$GG; mod$V; mod$W   # F=1, G=1, V=1, W=0.5
-```
-
 \textbf{10. Exam pointers.}
 \begin{itemize}
 \item[$\triangleright$] \texttt{exam\_may\_2024\_q3}: (a) write the missing parts of the RW+noise model (state equation, distributions of $v_t,w_t,\theta_0$, mutual independence). (b) Prove $v_t\perp(\theta_1,\dots,\theta_t)$: by mutual indep., $v_t\perp(\theta_0,w_{1:t})$; $(\theta_1,\dots,\theta_t)$ is a function of $(\theta_0,w_{1:t})$, so independence is preserved.
@@ -118,7 +100,6 @@ mod$FF; mod$GG; mod$V; mod$W   # F=1, G=1, V=1, W=0.5
 \end{itemize}
 """,
 }
-
 
 # =============================================================================
 # t7b — Local linear trend / structural BSM (trend + seasonality)
@@ -163,7 +144,7 @@ V=\sigma^2,\qquad
 W=\begin{pmatrix}\sigma_{w_1}^2 & 0\\ 0 & \sigma_{w_2}^2\end{pmatrix},\qquad
 \theta_0=\begin{pmatrix}\mu_0\\\beta_0\end{pmatrix}\sim\mathcal{N}_2(m_0,C_0).\;}
 
-\emph{Verification.} The first row of $G\theta_{t-1}=(\mu_{t-1}+\beta_{t-1},\,\beta_{t-1})'$ is the level recursion; the second row is the slope recursion. The observation $Y_t=F\theta_t+\varepsilon_t=(1,0)\theta_t+\varepsilon_t=\mu_t+\varepsilon_t$ matches the data equation. \emph{R:} `dlmModPoly(order = 2, dV = sigma^2, dW = c(sw1^2, sw2^2))`.
+\emph{Verification.} The first row of $G\theta_{t-1}=(\mu_{t-1}+\beta_{t-1},\,\beta_{t-1})'$ is the level recursion; the second row is the slope recursion. The observation $Y_t=F\theta_t+\varepsilon_t=(1,0)\theta_t+\varepsilon_t=\mu_t+\varepsilon_t$ matches the data equation. \emph{R:} .
 
 \textbf{4. Seasonal component --- two equivalent parameterisations.}
 
@@ -189,7 +170,7 @@ G=\mathrm{diag}\bigl(G^{\mathrm{trend}},\,G^{\mathrm{seas}}\bigr),\quad
 W=\mathrm{diag}\bigl(W^{\mathrm{trend}},\,W^{\mathrm{seas}}\bigr),\quad
 F=(F^{\mathrm{trend}},F^{\mathrm{seas}})=(1,0,1,0,\dots,0).
 \]
-\emph{R:} `mod <- dlmModPoly(2, dV=sigma^2, dW=c(sw1^2,sw2^2)) + dlmModSeas(frequency=12, dW=c(sw3^2, rep(0,10)))`.
+\emph{R:} .
 
 \textbf{6. Why structural DLMs work on non-stationary data.}
 
@@ -203,44 +184,17 @@ The state $\theta_t$ \emph{is} the non-stationary component (random-walk level, 
 
 \textbf{8. R --- full BSM for CO$_2$.}
 
-```R
-library(dlm)
-data(co2)        # monthly CO2, Mauna Loa
-y <- co2
-
-build <- function(p) {
-  dlmModPoly(2, dV=exp(p[1]), dW=c(exp(p[2]), exp(p[3]))) +
-  dlmModSeas(frequency=12, dW=c(exp(p[4]), rep(0,10)))
-}
-fit <- dlmMLE(y, parm=rep(-2,4), build=build)
-mod <- build(fit$par)
-sm  <- dlmSmooth(y, mod)
-
-# Component decomposition
-mu_smooth   <- sm$s[, 1]    # smoothed level mu_t
-beta_smooth <- sm$s[, 2]    # smoothed slope beta_t
-gam_smooth  <- sm$s[, 3]    # smoothed seasonal gamma_t
-
-plot.ts(cbind(y, mu_smooth, gam_smooth),
-        main="BSM decomposition: level + seasonal")
-
-# k-step forecast
-fc <- dlmForecast(dlmFilter(y, mod), nAhead=24)
-fc$f                          # point forecasts (line + season pattern)
-```
-
 \textbf{9. Bottom line.}
 
 \boxed{\;\text{Structural DLM = LLT trend + stochastic seasonal + noise.}\;}\quad Handles trend \emph{and} seasonality without differencing; latent state is the non-stationary component; KF/smoother provide filtering, smoothing, and forecasting in one pass.
 
 \textbf{10. Exam pointers.}
 \begin{itemize}
-\item[$\triangleright$] \texttt{exam\_sep\_2025\_q5}: write the given LLT model as a DLM. Take $\theta_t=(\mu_t,\beta_t)'$; $F=(1,0)$, $G=\bigl(\begin{smallmatrix}1&1\\0&1\end{smallmatrix}\bigr)$, $V=\sigma^2$, $W=\mathrm{diag}(\sigma_{w_1}^2,\sigma_{w_2}^2)$. \emph{R:} `dlmModPoly(order=2, dV=sigma^2, dW=c(sw1^2,sw2^2))`.
+\item[$\triangleright$] \texttt{exam\_sep\_2025\_q5}: write the given LLT model as a DLM. Take $\theta_t=(\mu_t,\beta_t)'$; $F=(1,0)$, $G=\bigl(\begin{smallmatrix}1&1\\0&1\end{smallmatrix}\bigr)$, $V=\sigma^2$, $W=\mathrm{diag}(\sigma_{w_1}^2,\sigma_{w_2}^2)$. \emph{R:} .
 \item[$\triangleright$] \texttt{exam\_may\_2021\_q3}: CO$_2$ series with trend + seasonality. "Can we model with a DLM without differencing/de-seasoning?" \emph{YES}: use a \emph{structural / BSM} DLM, $Y_t=\mu_t+\gamma_t+v_t$ with LLT for $\mu_t$ and a seasonal recursion $\gamma_t=-\sum_{j=1}^{s-1}\gamma_{t-j}+w_{3,t}$ ($s=12$); the latent state carries the non-stationarity; diffuse prior on initial state; KF runs as usual.
 \end{itemize}
 """,
 }
-
 
 # =============================================================================
 # t7c — Time-varying-coefficient regression DLM
@@ -325,34 +279,6 @@ Simulate $x_t$ linearly increasing, $\alpha_t=2+0.001t^2$, $\beta_t=0.3+0.4\sin(
 
 \textbf{9. R --- TVC regression DLM.}
 
-```R
-library(dlm)
-set.seed(1); T <- 200
-x  <- seq(0, 10, length=T)
-al <- 2 + 0.001*(1:T)^2
-be <- 0.3 + 0.4*sin(2*pi*(1:T)/100)
-y  <- al + be*x + rnorm(T, 0, 0.3)
-
-# Build the TVC regression DLM with intercept
-build <- function(p) {
-  dlmModReg(X = x, addInt = TRUE,
-            dV = exp(p[1]),
-            dW = c(exp(p[2]), exp(p[3])))
-}
-fit <- dlmMLE(y, parm = c(0, -3, -3), build = build)
-mod <- build(fit$par)
-smo <- dlmSmooth(y, mod)
-alpha_hat <- smo$s[-1, 1]   # smoothed intercept
-beta_hat  <- smo$s[-1, 2]   # smoothed slope
-
-par(mfrow=c(2,1))
-plot.ts(cbind(al, alpha_hat), main="alpha_t (true vs smoothed)")
-plot.ts(cbind(be, beta_hat ), main="beta_t  (true vs smoothed)")
-
-# Static OLS comparison
-coef(lm(y ~ x))             # constant — ignores drift
-```
-
 \textbf{10. Bottom line.}
 
 \boxed{\;Y_t=F_t\theta_t+v_t,\ \theta_t=\theta_{t-1}+w_t,\ F_t=(1,x_t'),\ G=I.\;}\quad Latent state \emph{is} the drifting coefficient vector. $W$ controls adaptation speed; KF gives filtering, smoother gives retrospective inference; hierarchical extension shares strength across groups.
@@ -364,7 +290,6 @@ coef(lm(y ~ x))             # constant — ignores drift
 \end{itemize}
 """,
 }
-
 
 # =============================================================================
 # t7d — Multivariate DLM & dependence between latent series
@@ -452,32 +377,6 @@ The general multivariate KF (predict / observation predict / update) handles all
 
 \textbf{8. R --- multivariate RW+noise with correlated state noise.}
 
-```R
-library(dlm)
-m <- 2
-sv <- c(0.05, 0.05)
-sw <- c(0.10, 0.10); rho <- 0.7
-
-V <- diag(sv^2)
-W <- matrix(c(sw[1]^2,          rho*sw[1]*sw[2],
-              rho*sw[1]*sw[2],  sw[2]^2),
-            2, 2)
-
-mod <- dlm(FF = diag(2), GG = diag(2),
-           V  = V,        W  = W,
-           m0 = c(0, 0),  C0 = diag(2) * 1e7)
-mod$FF; mod$GG; mod$V; mod$W
-
-# Simulate 500 time points
-set.seed(1); T <- 500
-sim <- dlmForecast(mod, nAhead = T, sampleNew = 1)
-Y   <- sim$newObs[[1]]; head(Y)
-
-# Fit a (mis-specified) diagonal-W model vs the correct one and compare loglik
-kf_full <- dlmFilter(Y, mod)
-loglik_full <- sum(dnorm(Y[,1], kf_full$f[,1], sqrt(sapply(kf_full$U.Y, function(u) u[1,1])), log = TRUE)) # rough sketch
-```
-
 \textbf{9. Bottom line.}
 
 \boxed{\;\text{General DLM: }Y_t=F_t\theta_t+v_t,\ \theta_t=G_t\theta_{t-1}+w_t,\;v_t\sim\mathcal{N}_m(0,V_t),\;w_t\sim\mathcal{N}_p(0,W_t).\;}
@@ -490,7 +389,6 @@ Dependence between latent series is introduced via (1) non-diagonal $W$ (contemp
 \end{itemize}
 """,
 }
-
 
 # =============================================================================
 # t7e — AR(p) as DLM (companion form)
@@ -563,35 +461,6 @@ AR$(2)$ with $\alpha_1=1.2,\alpha_2=-0.35,\sigma=1$ (causal, roots outside unit 
 
 \textbf{7. R --- AR(2) as DLM.}
 
-```R
-library(dlm)
-alpha <- c(1.2, -0.35); sigma2 <- 1
-
-# Direct simulation as AR(2)
-y_ar <- arima.sim(model = list(ar = alpha), n = 500, sd = sqrt(sigma2))
-
-# Companion-form DLM (manual)
-G <- rbind(alpha, c(1, 0))
-F_ <- c(1, 0)
-V  <- 0
-W  <- diag(c(sigma2, 0))
-mod <- dlm(FF = F_, GG = G, V = V, W = W,
-           m0 = c(0, 0), C0 = diag(2) * 1e7)
-
-# Equivalent built-in
-mod_eq <- dlmModARMA(ar = alpha, sigma2 = sigma2)
-
-# Filter on the simulated series
-kf <- dlmFilter(y_ar, mod)
-plot.ts(cbind(y_ar, kf$f), col = c("black","red"),
-        main="AR(2) data with KF 1-step forecasts")
-
-# Forecast 10 steps ahead
-fc <- dlmForecast(kf, nAhead = 10)
-fc$f      # forecast means
-fc$Q      # forecast variances
-```
-
 \textbf{8. Bottom line.}
 
 \boxed{\;\text{AR}(p)\text{ is a DLM with state }\theta_t=(Y_t,\dots,Y_{t-p+1})',\;G=\text{companion},\;F=(1,0,\dots,0),\;V=0,\;W=\sigma^2 e_1 e_1'.\;}
@@ -604,7 +473,6 @@ The wrong construction puts past observations into $F_t$ and freezes the "state"
 \end{itemize}
 """,
 }
-
 
 # =============================================================================
 # t8a — Filtering distribution: definition, not just a point estimate
@@ -693,24 +561,6 @@ So $\theta_1\mid y_1=2\sim\mathcal{N}(1.33,0.67)$. A 95\% CI is $1.33\pm 1.96\sq
 
 \textbf{8. R --- inspect the full filtering distribution.}
 
-```R
-library(dlm)
-mod <- dlmModPoly(order = 1, dV = 1, dW = 1, m0 = 0, C0 = 1)
-y   <- c(2, 1.5, 1.8, 0.7, 1.2)
-kf  <- dlmFilter(y, mod)
-m   <- kf$m[-1]                            # filtering means m_t
-C   <- sapply(dlmSvd2var(kf$U.C, kf$D.C), as.numeric)[-1]  # filtering variances C_t
-
-# Filtering distribution at each t:
-data.frame(t = 1:length(y), m_t = m, C_t = C,
-           lo95 = m - 1.96*sqrt(C),
-           hi95 = m + 1.96*sqrt(C))
-
-# Plot filtering mean +/- 1.96 SD bands
-plot.ts(y, ylab="y_t")
-lines(m, col="red"); lines(m - 1.96*sqrt(C), col="red", lty=2); lines(m + 1.96*sqrt(C), col="red", lty=2)
-```
-
 \textbf{9. Bottom line --- correct verdict for the typical exam prompt.}
 
 \boxed{\;\text{Filtering = computing }\pi(\theta_t\mid y_{1:t})\text{ (a \emph{distribution}), not just }\mathbb{E}(\theta_t\mid y_{1:t}).\;}
@@ -725,7 +575,6 @@ In a \emph{DLM} (linear, Gaussian), the filtering distribution is Gaussian and i
 \end{itemize}
 """,
 }
-
 
 # =============================================================================
 # t8b — KF predict + update derivation (with Bayes step)
@@ -838,31 +687,6 @@ $V=W=1$, $m_0=0$, $C_0=1$, $y_1=2$. Step 1: $a_1=0$, $R_1=2$. Step 2: $f_1=0$, $
 
 \textbf{8. R --- KF on RW+noise.}
 
-```R
-library(dlm)
-V <- 1; W <- 1
-mod <- dlmModPoly(order = 1, dV = V, dW = W, m0 = 0, C0 = 1)
-
-# One-step update by hand
-m_prev <- 0; C_prev <- 1; y_t <- 2
-a <- m_prev;           R <- C_prev + W
-f <- a;                Q <- R + V
-K <- R / Q;            m <- a + K * (y_t - f);   C <- (1 - K) * R
-c(a = a, R = R, f = f, Q = Q, K = K, m = m, C = C)
-# a=0  R=2  f=0  Q=3  K=0.667  m=1.333  C=0.667
-
-# Full KF on a sequence (matches the by-hand result at t=1)
-y  <- c(2, 1.5, 1.8, 0.7, 1.2)
-kf <- dlmFilter(y, mod)
-kf$m              # filtering means m_0,...,m_T
-sapply(dlmSvd2var(kf$U.C, kf$D.C), as.numeric)  # filtering variances
-
-# Iterate to the steady state
-C <- 1
-for (t in 1:200) C <- V*(C + W)/(C + W + V)
-C   # ~ 0.5*(-W + sqrt(W^2 + 4*V*W)) for V=W=1 -> ~0.618
-```
-
 \textbf{9. Bottom line.}
 
 \boxed{\;\text{KF = Predict state }(a_t,R_t)\,\to\,\text{Predict obs }(f_t,Q_t)\,\to\,\text{Bayes update }(m_t,C_t)\text{ via Gaussian conditioning on }Y_t=y_t.\;}
@@ -877,7 +701,6 @@ Bayes' rule is used in the update step; conjugacy of Gaussian-Gaussian gives a c
 \end{itemize}
 """,
 }
-
 
 # =============================================================================
 # t9a — Filtering vs smoothing — definitions & DAG-based proofs
@@ -1008,35 +831,6 @@ each factor Gaussian. Sampling proceeds backward: draw $\theta_T\sim\mathcal{N}(
 For univariate RW+noise with $V=W=1$, $m_0=0$, $C_0=1$ and observations $y_{1:5}=(2,1.5,1.8,0.7,1.2)$: run KF forward, store $(m_t,C_t)$; then RTS backward gives smoothed $(s_t,S_t)$. Sanity check: $S_t\le C_t$ for $t<T$, with equality at $t=T$ (no future data beyond $T$). Smoothed path $s_{0:5}$ is smoother and tighter than filtered $m_{0:5}$.
 
 \textbf{11. R --- KF + RTS smoother.}
-
-```R
-library(dlm)
-V <- 1; W <- 1
-mod <- dlmModPoly(order = 1, dV = V, dW = W, m0 = 0, C0 = 1)
-y   <- c(2, 1.5, 1.8, 0.7, 1.2)
-
-# Forward filter
-kf <- dlmFilter(y, mod)
-m  <- kf$m;              C  <- sapply(dlmSvd2var(kf$U.C, kf$D.C), as.numeric)
-
-# Backward smoother (RTS)
-sm <- dlmSmooth(kf)
-s  <- sm$s;              S  <- sapply(dlmSvd2var(sm$U.S, sm$D.S), as.numeric)
-
-# Compare filtered vs smoothed means and variances
-cbind(t = 0:length(y), m = m, s = s, C = C, S = S)
-# S_t <= C_t for t < T; equality at t = T (smoothing buys no info beyond T)
-
-# Joint smoothing sample (FFBS)
-library(dlm)
-sample_path <- dlmBSample(kf)   # one draw from p(theta_{0:T} | y_{1:T})
-
-# Diagnostic plot
-plot.ts(y, ylab="y_t")
-lines(m[-1], col="red")          # filtered mean
-lines(s[-1], col="blue")          # smoothed mean
-legend("topright", c("filtered m_t","smoothed s_t"), col=c("red","blue"), lty=1)
-```
 
 \textbf{12. Bottom line.}
 

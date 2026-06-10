@@ -3,7 +3,6 @@ Theory column entries for sub-topics in topics T1, T2, T3.
 """
 theory_content_ts = {}
 
-
 # =============================================================================
 # t1a — What is a stochastic process / time series
 # =============================================================================
@@ -77,14 +76,6 @@ $\mu(t)=\mathbb{E}[Y_t]$ — mean function; $\gamma(s,t)=\operatorname{Cov}(Y_s,
 
 \textbf{9. R — viewing a single realisation.}
 
-```R
-data(ldeaths)           # UK monthly lung deaths, T=72
-y <- as.numeric(ldeaths)
-plot.ts(ldeaths, ylab="UK monthly lung deaths",
-        main="One observed path of the stochastic process Y_t")
-length(y); head(y); tail(y)
-```
-
 The plot displays \emph{one} sample path; the unobserved (counterfactual) alternative paths are part of the same process and constitute the conceptual population we infer over.
 
 \textbf{Exam pointers.}
@@ -94,7 +85,6 @@ The plot displays \emph{one} sample path; the unobserved (counterfactual) altern
 \end{itemize}
 """,
 }
-
 
 # =============================================================================
 # t2a — Weak stationarity — definition & examples
@@ -173,18 +163,6 @@ ARMA$(p,q)$ has \emph{constant} coefficients $(\phi_1,\dots,\phi_p,\theta_1,\dot
 
 \textbf{6. R — checking weak stationarity numerically.}
 
-```R
-set.seed(1)
-y <- arima.sim(model = list(ar = 0.7), n = 1000, sd = 1)
-mean(y); var(y)               # roughly constant
-acf(y, lag.max = 20)          # decays geometrically: gamma(h) propto 0.7^h
-# Stationary AR(1): theoretical gamma(h) = sigma^2 * phi^|h| / (1 - phi^2)
-
-# Non-stationary RW
-rw <- cumsum(rnorm(1000))
-acf(rw, lag.max = 20)         # decays linearly, not geometrically — diagnostic of non-stationarity
-```
-
 \textbf{7. Practical signs of non-stationarity (for the descriptive answer).}
 
 \begin{itemize}
@@ -201,7 +179,6 @@ acf(rw, lag.max = 20)         # decays linearly, not geometrically — diagnosti
 \end{itemize}
 """,
 }
-
 
 # =============================================================================
 # t2b — ACVF / correlogram — when defined?
@@ -264,18 +241,6 @@ For a causal AR(1) $Y_t=\phi Y_{t-1}+\varepsilon_t$ with $|\phi|=0.7$, $\sigma^2
 
 \textbf{7. R — computing and plotting the correlogram.}
 
-```R
-set.seed(1)
-y_stn <- arima.sim(model = list(ar = 0.7), n = 500, sd = 1)
-acf(y_stn, lag.max = 30, type = "covariance")        # sample ACVF gamma_hat(h)
-acf(y_stn, lag.max = 30)                              # sample ACF rho_hat(h), with +/- 1.96/sqrt(T) bands
-# Compare with theoretical ACF
-h <- 0:30; lines(h, 0.7^h, col = "red", lwd = 2)
-
-y_rw <- cumsum(rnorm(500))                            # NON-stationary; correlogram is misleading
-acf(y_rw, lag.max = 30)                                # decays slowly / linearly — diagnostic of unit root
-```
-
 \textbf{8. Summary — answers to the two recurring exam questions.}
 
 \emph{(a) "The ACVF can be defined only if the series is stationary." Correct?}\quad
@@ -292,7 +257,6 @@ acf(y_rw, lag.max = 30)                                # decays slowly / linearl
 \end{itemize}
 """,
 }
-
 
 # =============================================================================
 # t2c — Sample-mean estimator under stationarity + ergodicity
@@ -383,24 +347,6 @@ Without stationarity, the target itself is unclear ($\mu(t)$ depends on $t$); wi
 
 \textbf{9. R — sample mean + HAC standard error.}
 
-```R
-set.seed(1)
-y <- arima.sim(model = list(ar = 0.7), n = 500, sd = 1)
-mean(y)                                # point estimate of mu
-
-# Naive iid SE (WRONG for autocorrelated data)
-sd(y) / sqrt(length(y))                # ~ 0.063
-
-# HAC (Newey-West) SE — correct for stationary autocorrelated data
-library(sandwich)
-fit <- lm(y ~ 1)
-sqrt(NeweyWest(fit, lag = 10))         # ~ 0.149, matches sigma_LR/sqrt(n)
-
-# 95% CI:
-mn <- mean(y); se <- sqrt(NeweyWest(fit, lag = 10))
-mn + c(-1, 1) * 1.96 * se
-```
-
 \textbf{Exam pointers.}
 \begin{itemize}
 \item[$\triangleright$] Used in \texttt{exam\_may\_2024\_q1}: "Estimate the mean function non-parametrically." Answer: under stationarity $\mu(t)\equiv\mu$, use $\widehat\mu_T=\bar Y_T$; unbiased; consistent under stationarity + ergodicity; SE based on long-run variance (HAC).
@@ -408,7 +354,6 @@ mn + c(-1, 1) * 1.96 * se
 \end{itemize}
 """,
 }
-
 
 # =============================================================================
 # t3a — Markov property, DAG & conditional independence
@@ -498,23 +443,6 @@ A clean sufficient condition for the Markov property: if $Y_t=g(Y_{t-1},Z_t)$ fo
 
 \textbf{9. R — simulate and empirically check the Markov property.}
 
-```R
-set.seed(1); p <- 0.4; T <- 1000
-Z <- sample(c(-1, 1), T, replace = TRUE, prob = c(p, 1 - p))
-Y <- cumsum(Z)
-plot.ts(Y)
-
-# Empirical Markov check: P(Y_t | Y_{t-1}) doesn't change with t-2 history
-# (here trivially true by construction).
-
-# Categorical Markov chain transition counts (k = 3 states)
-k <- 3
-Y_cat <- sample(1:k, T, replace = TRUE)             # iid sequence — manifestly Markov
-N <- table(factor(Y_cat[-T], 1:k), factor(Y_cat[-1], 1:k))   # transition counts
-Phat <- N / rowSums(N)                              # row-normalised transition matrix
-Phat
-```
-
 \textbf{10. Bottom line.}
 
 \boxed{\;\text{MC: }\mathbb{P}(Y_t\mid Y_{0:t-1})=\mathbb{P}(Y_t\mid Y_{t-1}).\;\text{ Equivalently }Y_t\perp Y_{0:t-2}\mid Y_{t-1}.\;}
@@ -529,7 +457,6 @@ The DAG is the chain $Y_0\to Y_1\to\cdots$; the Markov property follows from $d$
 \end{itemize}
 """,
 }
-
 
 # =============================================================================
 # t3b — Transition-matrix arithmetic & ergodic convergence (Thm 2.1)
@@ -636,31 +563,6 @@ The system $\pi\mathbf P=\pi$ + $\sum\pi_j=1$ is $K$ linear equations in $K$ unk
 \end{itemize}
 
 \textbf{11. R — compute powers and stationary distribution.}
-
-```R
-P <- matrix(c(.6, 0, .4,
-              .1, .6, .3,
-              .3, .1, .6), nrow = 3, byrow = TRUE)
-
-# n-step probabilities by direct matrix power
-library(expm)
-P %^% 2           # row i = P(Y_2 = . | Y_0 = i)
-(P %^% 2)[1, 2]   # P(Y_2 = 2 | Y_0 = 1)
-
-# Stationary distribution via left eigenvector
-eig <- eigen(t(P))
-pi  <- Re(eig$vectors[, which.min(abs(eig$values - 1))])
-pi  <- pi / sum(pi)
-pi                                       # ~ (0.394, 0.121, 0.485)
-
-# Numerical check of convergence (Thm 2.1)
-P_n <- diag(3); for (k in 1:50) P_n <- P_n %*% P
-round(P_n, 4)                            # each row ~ pi
-
-# Uniform-row chain: P^n = P for all n>=1
-P_unif <- matrix(1/3, 3, 3)
-(P_unif %^% 5) - P_unif                  # zero matrix
-```
 
 \textbf{12. Closed-form joint probabilities — wrap-up.}
 

@@ -41,7 +41,7 @@ def _md_cell_to_latex(s):
     return s
 
 
-_FENCE_RE = re.compile(r"```[a-zA-Z_]*\n(.*?)\n```", re.DOTALL)
+_FENCE_RE = re.compile(r""`[a-zA-Z_]*\n(.*?)\n"`", re.DOTALL)
 def _fence_replacer(match):
     body = match.group(1).rstrip("\n")
     out_lines = []
@@ -446,7 +446,7 @@ for stm in SUBTOPICS:
         parts = []
         for n in theory_nodes:
             chunk_title = n.get("title", "(untitled)")
-            chunk = f"**{chunk_title}**\n\n{n.get('content','').strip()}".strip()
+            chunk = f"**{chunk_title}**\n\n{n.get('content',").strip()}".strip()
             parts.append(chunk)
             for lk in n.get("links", []) or []:
                 t = lk.get("target") if isinstance(lk, dict) else None
