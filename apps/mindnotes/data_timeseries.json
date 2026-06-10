@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-10T14:34:26.120Z",
+  "exportedAt": "2026-06-10T14:42:20.052Z",
   "data": {
     "topics": [
       {
@@ -3400,7 +3400,9 @@
                   "height": 360,
                   "color": "lightblue",
                   "column": 2,
-                  "isMaster": true
+                  "isMaster": true,
+                  "userEdited": true,
+                  "userEditedAt": 1781102539429
                 },
                 {
                   "id": "exam_sep_2025_q4",
