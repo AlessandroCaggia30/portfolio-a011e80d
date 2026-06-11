@@ -12001,6 +12001,12 @@ function startFlashcards(mode = 'optimal') {
         return;
     }
 
+    // Apply user-chosen order: shuffle wipes the sorted order; ordered keeps it.
+    if (_fcOrderMode === 'shuffle') {
+        shuffleFlashcards(cards);
+        console.log('Shuffled', cards.length, 'cards');
+    }
+
     // Initialize session
     State.flashcardSession = {
         active: true,
