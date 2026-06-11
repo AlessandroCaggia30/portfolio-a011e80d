@@ -7912,6 +7912,7 @@ function openNodeEditor(node) {
     $('flashcardCheck').checked = node.flashcard || false;
     const _foInputEdit = $('flashcardOrderInput');
     if (_foInputEdit) _foInputEdit.value = (node.flashcardOrder === null || node.flashcardOrder === undefined) ? '' : String(node.flashcardOrder);
+    _paintFcPill('flashcardOrderInputPill', 'flashcardOrderInput');
 
     renderImageThumbs();
     updatePreview();
