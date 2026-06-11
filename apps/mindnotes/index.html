@@ -3601,6 +3601,18 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
                         </div>
                     </div>
 
+                    <!-- Order vs Shuffle -->
+                    <div class="fc-order-toggle" style="display:flex;justify-content:center;gap:14px;margin:16px 0 8px;font-size:13px;color:var(--text2);">
+                        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+                            <input type="radio" name="fcOrderMode" value="ordered" id="fcOrderRadio" checked onchange="setFlashcardOrderMode('ordered')">
+                            <span title="Sort by manual # field, then by numeric title prefix (0.a, 0.b, 1, 2, …)">📋 Ordered</span>
+                        </label>
+                        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+                            <input type="radio" name="fcOrderMode" value="shuffle" id="fcShuffleRadio" onchange="setFlashcardOrderMode('shuffle')">
+                            <span title="Random shuffle every session">🔀 Shuffle</span>
+                        </label>
+                    </div>
+
                     <div class="fc-mode-buttons">
                         <button class="fc-mode-btn" onclick="startFlashcards('optimal')" id="startFcBtn" disabled>
                             <span class="mode-icon">🎯</span>
