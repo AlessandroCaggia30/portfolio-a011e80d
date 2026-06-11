@@ -11122,7 +11122,7 @@ function switchView(view) {
     $('topicsSection').style.display = (view === 'notes' || view === 'snippets') ? 'block' : 'none';
     document.querySelector('.add-btn').style.display = view === 'notes' ? 'block' : 'none';
 
-    if (view === 'flashcards') updateFlashcardStats();
+    if (view === 'flashcards') { updateFlashcardStats(); _applyFcOrderModeUI(); }
     if (view === 'quiz') updateQuizView();
     if (view === 'snippets') {
         // Auto-collapse sidebar
