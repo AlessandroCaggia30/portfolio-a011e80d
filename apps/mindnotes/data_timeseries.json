@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-11T21:41:08.807Z",
+  "exportedAt": "2026-06-11T21:47:31.629Z",
   "data": {
     "topics": [
       {
@@ -137,10 +137,6 @@
                 "links": [
                   {
                     "target": "1778699075521",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "1779626317266",
                     "type": "forward"
                   }
                 ],
@@ -951,18 +947,6 @@
                 }
               },
               {
-                "id": "1779626317266",
-                "title": "Bernoulli vs categorical",
-                "content": "\n- Experiment, run 1 time, yes no: bernoulli -> run 10 times: binomial  --> CLT -> univariate gaussian (yes,no)\n- Experiment, run 1 time, many possible outcomes k: categorical (ni1, ni2..niM) -> run 10 times (10 individuals): multinomial ---> multivariate gaussian (k outcomes, you see a gaussian k dimensional cloud). Please notice that multinomial is just repeated categorical (which generalises Bernoulli from $k = 2$ to general $k$)!\n",
-                "flashcard": false,
-                "images": [],
-                "links": [],
-                "x": 4320.466344574536,
-                "y": 1777.9770225974844,
-                "width": 212.35971910088173,
-                "height": 140.05967779218787
-              },
-              {
                 "id": "1778690202929",
                 "title": "Time series as stochastic processes",
                 "content": "\n\\begin{keydef}\n\\fcnum{1} \\textbf{A time series} is a stochastic process $(Y_t)_{t \\in T}$ with $Y_t \\in \\mathcal{Y}$. The data $(y_1, \\dots, y_t)$ are the initial trait (i.e.\\ a \\emph{finite realization}) of the stochastic process. \n\\end{keydef} \n\n\n\\begin{keydef}\n\\fcnum{2} \\textbf{A stochastic process} $(Y_t)_{t \\in T}$ is a sequence of random vectors (a multidimensional random variable) indexed by $t \\in T$. \n\\end{keydef} \n\nNote:\n- This is not a single random variable, nor a single random vector. It is a \\emph{sequence} of random variables / vectors! E.g.\\ the sequence of outcomes of a repeated game.  \n\n\n\n\n\n",
@@ -1016,8 +1000,8 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 3864.086304814416,
-                "y": 4177.924554916016,
+                "x": 3852.52000613153,
+                "y": 3949.168869854494,
                 "width": 460,
                 "height": 220,
                 "color": null,
@@ -2266,6 +2250,21 @@
         "x": 4389.5746583923365,
         "y": 3312.4960509571556,
         "deletedAt": 1781189541803,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "1779626317266",
+        "title": "Bernoulli vs categorical",
+        "content": "\n- Experiment, run 1 time, yes no: bernoulli -> run 10 times: binomial  --> CLT -> univariate gaussian (yes,no)\n- Experiment, run 1 time, many possible outcomes k: categorical (ni1, ni2..niM) -> run 10 times (10 individuals): multinomial ---> multivariate gaussian (k outcomes, you see a gaussian k dimensional cloud). Please notice that multinomial is just repeated categorical (which generalises Bernoulli from $k = 2$ to general $k$)!\n",
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "x": 4320.466344574536,
+        "y": 1777.9770225974844,
+        "width": 212.35971910088173,
+        "height": 140.05967779218787,
+        "deletedAt": 1781214449518,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
