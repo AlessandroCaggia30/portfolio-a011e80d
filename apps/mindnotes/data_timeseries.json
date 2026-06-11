@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-11T07:10:51.354Z",
+  "exportedAt": "2026-06-11T07:10:57.910Z",
   "data": {
     "topics": [
       {
@@ -1050,7 +1050,7 @@
               {
                 "id": "ts_1780923227130",
                 "title": "Autocovariance function and correlogram",
-                "content": "\\textbf{\\textcolor{red}{Autocovariance function and correlogram}}\n\n\\textbf{Autocovariance function.} The autocovariance between two observations is\n\\[ \\gamma(t,s) \\;=\\; \\operatorname{Cov}(Y_t, Y_s). \\]\nThis quantity can be computed for any stochastic process as long as the covariance exists.\n\nHowever, for a \\emph{stationary} process, the covariance depends only on the lag $h = s - t$:\n\\[ \\gamma(h) \\;=\\; \\operatorname{Cov}(Y_t, Y_{t+h}). \\]\nThis is the usual \"autocovariance function\" that we use in time series courses.\n\n\\textbf{Autocorrelation function (ACF)}\nFor a stationary process you can then define:  \\[  \\rho(h) = \\gamma(h)/\\gamma(0)$ with $\\rho(0)=1$, $|\\rho(h)|\\le 1 \\]\n\n\n\\textbf{Correlogram.} This is just the ACF esimated on the sample!  \n\\[ \\hat\\rho(h) \\;=\\; \\frac{\\hat\\gamma(h)}{\\hat\\gamma(0)}. \\]\nThe correlogram plots $\\hat\\rho(h)$ against the lag $h$, usually with $95\\%$ confidence bands $\\pm 1.96/\\sqrt{T}$ around 0 (under the null of white noise). It is a meaningful estimator only under weak stationarity + ergodicity.\n",
+                "content": "\\textbf{\\textcolor{red}{Autocovariance function and correlogram}}\n\n\\textbf{7.b.} \n\\textbf{Autocovariance function.} The autocovariance between two observations is\n\\[ \\gamma(t,s) \\;=\\; \\operatorname{Cov}(Y_t, Y_s). \\]\nThis quantity can be computed for any stochastic process as long as the covariance exists.\n\nHowever, for a \\emph{stationary} process, the covariance depends only on the lag $h = s - t$:\n\\[ \\gamma(h) \\;=\\; \\operatorname{Cov}(Y_t, Y_{t+h}). \\]\nThis is the usual \"autocovariance function\" that we use in time series courses.\n\n\\textbf{Autocorrelation function (ACF)}\nFor a stationary process you can then define:  \\[  \\rho(h) = \\gamma(h)/\\gamma(0)$ with $\\rho(0)=1$, $|\\rho(h)|\\le 1 \\]\n\n\n\\textbf{Correlogram.} This is just the ACF esimated on the sample!  \n\\[ \\hat\\rho(h) \\;=\\; \\frac{\\hat\\gamma(h)}{\\hat\\gamma(0)}. \\]\nThe correlogram plots $\\hat\\rho(h)$ against the lag $h$, usually with $95\\%$ confidence bands $\\pm 1.96/\\sqrt{T}$ around 0 (under the null of white noise). It is a meaningful estimator only under weak stationarity + ergodicity.\n",
                 "flashcard": false,
                 "images": [],
                 "links": [
