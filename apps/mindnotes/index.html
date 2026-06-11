@@ -7151,7 +7151,7 @@ async function saveNode() {
             y = 5000 + (rect.height / 2 - State.pan.y) / State.zoom + (Math.random() - 0.5) * 100;
         }
 
-        State.currentSubtopic.nodes.push({
+        const _newNode = {
             id: generateId(),
             title,
             content,
@@ -7161,7 +7161,9 @@ async function saveNode() {
             links: [],
             x,
             y
-        });
+        };
+        if (flashcardOrder !== null && !Number.isNaN(flashcardOrder)) _newNode.flashcardOrder = flashcardOrder;
+        State.currentSubtopic.nodes.push(_newNode);
 
         State.pendingNodePosition = null;
     }
