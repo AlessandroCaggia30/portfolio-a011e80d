@@ -7117,6 +7117,8 @@ async function saveNode() {
     const title = $('nodeTitle').value.trim();
     const content = $('nodeContent').value;
     const flashcard = $('flashcardCheck').checked;
+    const _foRaw = ($('flashcardOrderInput')?.value || '').trim();
+    const flashcardOrder = _foRaw === '' ? null : Number(_foRaw);
 
     if (!title) {
         alert('Enter a title');
