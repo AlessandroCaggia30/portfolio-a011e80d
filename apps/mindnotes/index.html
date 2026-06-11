@@ -1323,6 +1323,27 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
     border-radius: 4px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
+
+/* Tiny number badge inside a keydef. Renders \fcnum{0.b} as a small chip. */
+.fc-snippet-num {
+    display: inline-block;
+    background: linear-gradient(180deg, #f0b400 0%, #d99500 100%);
+    color: #2a1a00;
+    padding: 1px 7px;
+    margin-right: 8px;
+    border-radius: 999px;
+    font-size: 0.78em;
+    font-weight: 800;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    box-shadow: 0 1px 2px rgba(160, 100, 0, 0.25), inset 0 1px 0 rgba(255,255,255,0.35);
+    vertical-align: 0.08em;
+}
+.key-def-box .fc-snippet-num {
+    background: linear-gradient(180deg, #2a1a00 0%, #4a3000 100%);
+    color: #ffd76a;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,210,120,0.18);
+}
 /* Inside a card preview, also render the box (otherwise the line-clamp hides it) */
 .node-preview .key-def-box {
     padding: 8px 10px;
