@@ -7134,6 +7134,8 @@ async function saveNode() {
         State.editingNode.title = title;
         State.editingNode.content = content;
         State.editingNode.flashcard = flashcard;
+        if (flashcardOrder === null || Number.isNaN(flashcardOrder)) delete State.editingNode.flashcardOrder;
+        else State.editingNode.flashcardOrder = flashcardOrder;
         State.editingNode.images = State.tempImages;
         if (State.tempImageWidths && State.tempImageWidths.length) {
             State.editingNode.imageWidths = [...State.tempImageWidths];
