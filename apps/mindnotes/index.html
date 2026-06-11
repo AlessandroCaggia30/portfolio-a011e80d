@@ -11855,8 +11855,19 @@ function getAllFlashcards(data) {
         });
     });
 
-    // Sort by numeric prefix in title (e.g. "1.1.2 Definition" → [1,1,2])
+    // Two-key sort: (1) explicit node.flashcardOrder field, lower first, blanks last;
+    //               (2) numeric prefix parsed from the title (e.g. "1.1.2 Definition" → [1,1,2]
+    //                   or "0.b Decomposition" → [0, 0.5b…] via parseSnippetNumber).
     allCards.sort((a, b) => {
+        const oa = (a.node.flashcardOrder ?? null);
+        const ob = (b.node.flashcardOrder ?? null);
+        if (oa !== null && ob !== null) {
+            if (oa !== ob) return oa - ob;
+        } else if (oa !== null) {
+            return -1; // explicit numbers come before auto
+        } else if (ob !== null) {
+            return 1;
+        }
         const numsA = parseSnippetNumber(a.node.title);
         const numsB = parseSnippetNumber(b.node.title);
         for (let i = 0; i < Math.max(numsA.length, numsB.length); i++) {
@@ -11867,16 +11878,66 @@ function getAllFlashcards(data) {
         return 0;
     });
 
-    console.log('getAllFlashcards: found', allCards.length, 'cards, sorted by snippet number');
+    console.log('getAllFlashcards: found', allCards.length, 'cards, sorted by flashcardOrder + snippet number');
     return allCards;
 }
 
-// Extract numeric prefix like "1.1.2" from a title → [1, 1, 2]
+// Extract numeric prefix like "1.1.2", "0.b", "1.a" from a title → [1,1,2] / [0, 1.5] / [1, 0.5]
+// Letter suffix .a/.b/.c maps to .0.5/.1.5/.2.5 so 0.a < 0.b < 1.
 function parseSnippetNumber(title) {
     if (!title) return [Infinity];
-    const match = title.match(/^(\d+(?:\.\d+)*)/);
-    if (!match) return [Infinity]; // no number → sort to end
-    return match[1].split('.').map(Number);
+    const m = title.match(/^(\d+(?:\.[a-zA-Z0-9]+)*)/);
+    if (!m) return [Infinity];
+    return m[1].split('.').map(tok => {
+        if (/^\d+$/.test(tok)) return Number(tok);
+        const lower = tok.toLowerCase();
+        if (/^[a-z]+$/.test(lower)) {
+            // a=0.5, b=1.5, c=2.5, ... (works for first 26 letter-suffixes)
+            return (lower.charCodeAt(0) - 97) + 0.5;
+        }
+        return Number(tok) || 0;
+    });
+}
+
+// Fisher-Yates shuffle (in place, returns the same array).
+function shuffleFlashcards(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+// Extract \begin{keydef}…\end{keydef} body as the flashcard answer.
+// Falls back to null if no keydef block is present, so the caller can decide
+// whether to use the full content or skip the card. Returns the FIRST keydef
+// block found; multi-keydef snippets concatenate them separated by a divider.
+function extractKeydef(content) {
+    if (!content) return null;
+    const re = /\\begin\{keydef\}\s*([\s\S]*?)\s*\\end\{keydef\}/g;
+    const blocks = [];
+    let m;
+    while ((m = re.exec(content)) !== null) {
+        const body = (m[1] || '').trim();
+        if (body) blocks.push(body);
+    }
+    if (!blocks.length) return null;
+    return blocks.join('\n\n\\textbf{---}\n\n');
+}
+
+// User-chosen review order. Persisted to localStorage so the choice survives reload.
+let _fcOrderMode = localStorage.getItem('mindnotes_fcOrderMode') || 'ordered';
+function setFlashcardOrderMode(mode) {
+    _fcOrderMode = (mode === 'shuffle') ? 'shuffle' : 'ordered';
+    localStorage.setItem('mindnotes_fcOrderMode', _fcOrderMode);
+}
+function _applyFcOrderModeUI() {
+    const orderedRadio = document.getElementById('fcOrderRadio');
+    const shuffleRadio = document.getElementById('fcShuffleRadio');
+    if (orderedRadio && shuffleRadio) {
+        orderedRadio.checked = _fcOrderMode === 'ordered';
+        shuffleRadio.checked = _fcOrderMode === 'shuffle';
+    }
 }
 
 // Topological sort: nodes that are prerequisites (linked TO) come first
