@@ -7938,6 +7938,7 @@ function openDetail(node) {
     $('detailFlashcard').checked = node.flashcard || false;
     const _detailFo = $('detailFlashcardOrder');
     if (_detailFo) _detailFo.value = (node.flashcardOrder === null || node.flashcardOrder === undefined) ? '' : String(node.flashcardOrder);
+    _paintFcPill('detailFlashcardOrderPill', 'detailFlashcardOrder');
 
     // Update flashcard badge visibility
     $('flashcardBadge').style.display = node.flashcard ? 'inline-block' : 'none';
