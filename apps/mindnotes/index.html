@@ -7155,6 +7155,7 @@ function openNodeModal() {
     $('nodeContent').value = '';
     $('flashcardCheck').checked = false;
     const _foInputNew = $('flashcardOrderInput'); if (_foInputNew) _foInputNew.value = '';
+    _paintFcPill('flashcardOrderInputPill', 'flashcardOrderInput');
     $('imageThumbs').innerHTML = '';
     $('previewBox').innerHTML = '';
     $('charCount').textContent = '0';
