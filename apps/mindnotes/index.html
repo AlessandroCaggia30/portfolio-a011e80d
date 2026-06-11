@@ -8034,6 +8034,16 @@ function updateFlashcardOrderDetail() {
         State.selectedNode.flashcardOrder = n;
     }
     saveData();
+    _paintFcPill('detailFlashcardOrderPill', 'detailFlashcardOrder');
+}
+
+// Toggle the orange-vs-gray pill style based on whether a rank is set.
+function _paintFcPill(pillId, inputId) {
+    const pill = document.getElementById(pillId);
+    const input = document.getElementById(inputId);
+    if (!pill || !input) return;
+    const hasValue = (input.value || '').trim() !== '';
+    pill.classList.toggle('is-empty', !hasValue);
 }
 
 function parseAndRenderBlocks(content) {
