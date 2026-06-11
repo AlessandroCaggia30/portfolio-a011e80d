@@ -5552,6 +5552,7 @@ function restoreFormattingMarkers(text) {
     text = text.replace(/%%HFILL%%/g, '<span class="latex-hfill"></span>');
     text = text.replace(/%%KEYDEF%%/g, '<div class="key-def-box">');
     text = text.replace(/%%\/KEYDEF%%/g, '</div>');
+    text = text.replace(/%%FCNUM%%([\s\S]*?)%%\/FCNUM%%/g, (m, n) => `<span class="fc-snippet-num">${n}</span>`);
     return text;
 }
 
