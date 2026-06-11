@@ -7091,6 +7091,7 @@ function openNodeModal() {
     $('nodeTitle').placeholder = 'New Note';
     $('nodeContent').value = '';
     $('flashcardCheck').checked = false;
+    const _foInputNew = $('flashcardOrderInput'); if (_foInputNew) _foInputNew.value = '';
     $('imageThumbs').innerHTML = '';
     $('previewBox').innerHTML = '';
     $('charCount').textContent = '0';
