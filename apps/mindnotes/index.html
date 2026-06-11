@@ -1394,6 +1394,69 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
     cursor: pointer;
 }
 
+/* Tiny pill for the flashcard order number.
+   Looks like a small orange chip with the rank inside — like an Anki deck counter. */
+.fc-order-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    padding: 0;
+    background: linear-gradient(180deg, #ffb944 0%, #ee9500 100%);
+    color: #2a1a00;
+    border-radius: 999px;
+    box-shadow: 0 1px 2px rgba(160, 100, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+.fc-order-pill:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(160, 100, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+.fc-order-pill .fc-order-hash {
+    padding: 4px 0 4px 9px;
+    color: #5a3a00;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    opacity: 0.7;
+}
+.fc-order-pill input.fc-order-input {
+    width: 38px;
+    padding: 4px 8px 4px 4px;
+    margin: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: center;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+.fc-order-pill input.fc-order-input::-webkit-outer-spin-button,
+.fc-order-pill input.fc-order-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.fc-order-pill input.fc-order-input::placeholder {
+    color: rgba(90, 58, 0, 0.45);
+    font-weight: 600;
+    font-style: italic;
+}
+/* When empty (no rank set) → muted gray pill so it does not shout. */
+.fc-order-pill.is-empty {
+    background: linear-gradient(180deg, var(--bg3) 0%, var(--bg) 100%);
+    color: var(--text2);
+    box-shadow: inset 0 0 0 1px var(--border);
+}
+.fc-order-pill.is-empty .fc-order-hash { color: var(--text2); opacity: 0.6; }
+.fc-order-pill.is-empty input.fc-order-input::placeholder { color: var(--text2); opacity: 0.55; }
+
 .detail-fsrs-stats {
     display: none !important;
 }
