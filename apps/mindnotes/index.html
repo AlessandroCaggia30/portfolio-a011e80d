@@ -7873,6 +7873,8 @@ function openDetail(node) {
     $('detailTitle').value = node.title;
     $('detailTitleDisplay').textContent = node.title || 'Untitled';
     $('detailFlashcard').checked = node.flashcard || false;
+    const _detailFo = $('detailFlashcardOrder');
+    if (_detailFo) _detailFo.value = (node.flashcardOrder === null || node.flashcardOrder === undefined) ? '' : String(node.flashcardOrder);
 
     // Update flashcard badge visibility
     $('flashcardBadge').style.display = node.flashcard ? 'inline-block' : 'none';
