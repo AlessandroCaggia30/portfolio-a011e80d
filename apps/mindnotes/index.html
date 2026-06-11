@@ -8245,6 +8245,8 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
             });
         pre = pre.replace(/\\colorbox\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}/g,
             (m, color, content) => `%%CBOX:${color}%%${content}%%/CBOX%%`);
+        // Tiny numbered badge — must run BEFORE \textbf because \fcnum content is a literal label.
+        pre = pre.replace(/\\fcnum\{([^}]*)\}/g, (m, c) => `%%FCNUM%%${c}%%/FCNUM%%`);
         // Text formatting commands that may span across math blocks
         pre = pre.replace(/\\textbf\{((?:[^{}]|\{[^{}]*\})*)\}/g, (m, c) => `%%B%%${c}%%/B%%`);
         pre = pre.replace(/\\textit\{((?:[^{}]|\{[^{}]*\})*)\}/g, (m, c) => `%%I%%${c}%%/I%%`);
