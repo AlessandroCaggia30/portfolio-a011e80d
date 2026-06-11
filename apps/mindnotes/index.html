@@ -12054,13 +12054,19 @@ function showCurrentFlashcard() {
     // Front: Show title as prompt, with hint to recall content
     $('fcCardContent').innerHTML = '<p style="color:var(--text2);font-style:italic;">Try to recall what you know about this topic...</p>';
 
-    // Back: Show full content as answer
+    // Back: Show ONLY the \begin{keydef}…\end{keydef} block as the answer.
+    // If the snippet has no keydef block, fall back to the full content (legacy behavior),
+    // but flag it visibly so the user can come back and mark the key def.
+    const keydef = extractKeydef(content);
+    const answerSource = keydef !== null ? keydef : content;
     let formattedContent;
     if (format === 'obsidian') {
-        formattedContent = formatForObsidian(content);
+        formattedContent = formatForObsidian(answerSource);
     } else {
-        // formatContent already escapes HTML internally — don't double-escape
-        formattedContent = formatContent(content);
+        formattedContent = formatContent(answerSource);
+    }
+    if (keydef === null) {
+        formattedContent = '<div style="background:#fff3cd;border-left:4px solid #f0b400;padding:8px 12px;margin:0 0 12px;font-size:12px;color:#5a4400;border-radius:4px;">⚠️ No <code>\\begin{keydef}…\\end{keydef}</code> block — showing full content as fallback.</div>' + formattedContent;
     }
     $('fcCardAnswer').innerHTML = formattedContent;
 
