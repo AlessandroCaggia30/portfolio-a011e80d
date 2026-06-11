@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-11T14:51:48.969Z",
+  "exportedAt": "2026-06-11T14:52:24.022Z",
   "data": {
     "topics": [
       {
@@ -575,10 +575,6 @@
                 "images": [],
                 "links": [
                   {
-                    "target": "1779028125885",
-                    "type": "both"
-                  },
-                  {
                     "target": "1779445055863",
                     "type": "forward"
                   }
@@ -706,16 +702,6 @@
                   "lastReview": null,
                   "dueDate": "2026-05-17T13:38:46.018Z"
                 }
-              },
-              {
-                "id": "1779028125885",
-                "title": "Probability vs Likelihood",
-                "content": "\n\\textbf{\\textcolor{red}{Probability vs likelihood --- one formula, two readings.}}\n\nA = parameter\nB= data \n\n\\begin{keydef}\nThe expression $P(B \\mid A)$ is \\emph{literally} the same number whether you call it a probability or a likelihood. There is no different formula and no proportionality involved:\n\\[ L(A; B) \\;=\\; P(B \\mid A). \\]\nThe only thing that changes is what you keep fixed and what you treat as the argument:\n\n$\\bullet$ \\emph{Probability reading.} $A$ is fixed, $B$ varies. Evaluating $P(B \\mid A)$ tells you how likely each potential outcome $B$ is, under the assumed hypothesis $A$. Used for \\emph{forward prediction}.\n\n$\\bullet$ \\emph{Likelihood reading.} $B$ is fixed at the data we actually observed, $A$ varies. Now $P(B \\mid A)$ is read as a function of $A$ --- it scores how well each candidate hypothesis explains the observed $B$. This is the reading in the Bayes context. \n\ndepends on what data you observe and what is unknowns! (or you have both)\n\\end{keydef}\n",
-                "flashcard": false,
-                "images": [],
-                "links": [],
-                "x": 4389.5746583923365,
-                "y": 3312.4960509571556
               },
               {
                 "id": "1779041693560",
@@ -2267,6 +2253,19 @@
           "lastReview": null
         },
         "deletedAt": 1781109027146,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "1779028125885",
+        "title": "Probability vs Likelihood",
+        "content": "\n\\textbf{\\textcolor{red}{Probability vs likelihood --- one formula, two readings.}}\n\nA = parameter\nB= data \n\n\\begin{keydef}\nThe expression $P(B \\mid A)$ is \\emph{literally} the same number whether you call it a probability or a likelihood. There is no different formula and no proportionality involved:\n\\[ L(A; B) \\;=\\; P(B \\mid A). \\]\nThe only thing that changes is what you keep fixed and what you treat as the argument:\n\n$\\bullet$ \\emph{Probability reading.} $A$ is fixed, $B$ varies. Evaluating $P(B \\mid A)$ tells you how likely each potential outcome $B$ is, under the assumed hypothesis $A$. Used for \\emph{forward prediction}.\n\n$\\bullet$ \\emph{Likelihood reading.} $B$ is fixed at the data we actually observed, $A$ varies. Now $P(B \\mid A)$ is read as a function of $A$ --- it scores how well each candidate hypothesis explains the observed $B$. This is the reading in the Bayes context. \n\ndepends on what data you observe and what is unknowns! (or you have both)\n\\end{keydef}\n",
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "x": 4389.5746583923365,
+        "y": 3312.4960509571556,
+        "deletedAt": 1781189541803,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
