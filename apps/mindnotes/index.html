@@ -5784,6 +5784,10 @@ function processLatexCommands(text) {
     result = result.replace(/\\paragraph\*?\{([^}]*)\}/g, '\n**$1** ');
     result = result.replace(/\\subparagraph\*?\{([^}]*)\}/g, '\n**$1** ');
 
+    // Tiny numbered badge for keydef topic markers (e.g. \fcnum{0.b}, \fcnum{7.a}).
+    // Must run BEFORE \textbf because \fcnum content is a literal label.
+    result = result.replace(/\\fcnum\{([^}]*)\}/g, '%%FCNUM%%$1%%/FCNUM%%');
+
     // Text formatting → markers
     result = result.replace(/\\textbf\{([^}]*)\}/g, '%%B%%$1%%/B%%');
     result = result.replace(/\\textit\{([^}]*)\}/g, '%%I%%$1%%/I%%');
