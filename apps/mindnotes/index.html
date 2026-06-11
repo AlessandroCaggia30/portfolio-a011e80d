@@ -7960,6 +7960,19 @@ function toggleFlashcardDetail() {
     updateFlashcardStats();
 }
 
+function updateFlashcardOrderDetail() {
+    if (!State.selectedNode) return;
+    const raw = ($('detailFlashcardOrder')?.value || '').trim();
+    if (raw === '') {
+        delete State.selectedNode.flashcardOrder;
+    } else {
+        const n = Number(raw);
+        if (Number.isNaN(n)) return;
+        State.selectedNode.flashcardOrder = n;
+    }
+    saveData();
+}
+
 function parseAndRenderBlocks(content) {
     if (!content || !content.trim()) {
         State.contentBlocks = [''];
