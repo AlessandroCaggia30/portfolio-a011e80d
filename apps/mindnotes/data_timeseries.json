@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-12T10:30:06.490Z",
+  "exportedAt": "2026-06-12T10:30:13.972Z",
   "data": {
     "topics": [
       {
@@ -2380,7 +2380,7 @@
                 {
                   "id": "master_t1a",
                   "title": "Master — Stochastic process / time series",
-                  "content": "\\textbf{\\textcolor{red}{MASTER --- Stochastic process / time series}}\n\n---\n\n<details class=\"master-subpart\" open>\n<summary><span class=\"tag tag-2plus\">≥2 ex</span> (1.a)What is a stochastic process?</em>  [Sep 2025 Q1a]</summary>\nsee JSON\n</details>\n\n<details class=\"master-subpart\" open>\n<summary><span class=\"tag tag-2plus\">≥2 ex</span> (1.b)Define a time series as a stochastic process. An answer could be \"a tie series is a sequence of observations taken over time\", what do you think?</em>  [Sep 2025 Q1b]</summary>\n\nsee JSON\n</details>\n\n<details class=\"master-subpart\" open>\n<summary><span class=\"tag tag-2plus\">≥2 ex</span> (1.c)What is a time series? An answer could be: \"A time series is a sequence of observations taken over time.\" Are you happy with this definition?</em>  [May 2023 Q1]</summary>\n\n\\textbf{Answer: NO} --- the proposed definition is incomplete.\n\nA time series is the \\textbf{realization} of a stochastic process $(Y_t)_{t\\in T}$, not merely a sequence of numbers.\n\n\\emph{What the naive definition misses:}\n\n- No \\textbf{probability model}. Without a joint distribution there is no notion of mean, variance, autocovariance, or stationarity.\n- No basis for \\textbf{inference}. Confidence intervals, hypothesis tests, and forecasts all require the random-variable view.\n- No distinction between \\textbf{the process} (the random object $(Y_t)_{t\\in T}$) and \\textbf{the path} (the observed sequence $(y_1,\\dots,y_T)$).\n\n\\emph{Correct version (one-liner):} a time series is the observed realisation of a stochastic process $(Y_t)_{t\\in T}$ indexed by time, equipped with the joint distribution that lets us reason about uncertainty.\n\n</details>\n\n\\textbf{Linked exams:} \\texttt{exam_sep_2025_q1}, \\texttt{exam_may_2023_q1}.",
+                  "content": "\\textbf{\\textcolor{red}{MASTER --- Stochastic process / time series}}\n\n---\n\n<details class=\"master-subpart\" open>\n<summary><span class=\"tag tag-2plus\">≥2 ex</span> (1.a)What is a stochastic process?</em>  [Sep 2025 Q1a]</summary>\nsee JSON\n</details>\n\n<details class=\"master-subpart\" open>\n<summary><span class=\"tag tag-2plus\">≥2 ex</span> (1.b)Define a time series as a stochastic process. An answer could be \"a tie series is a sequence of observations taken over time\", what do you think?</em>  [Sep 2025 Q1b]</summary>\n\nsee JSON\n</details>\n\n\n\n\\textbf{Linked exams:} \\texttt{exam_sep_2025_q1}, \\texttt{exam_may_2023_q1}.",
                   "flashcard": false,
                   "images": [],
                   "links": [
@@ -2395,7 +2395,7 @@
                   "isMaster": true,
                   "cardColor": "green",
                   "userEdited": true,
-                  "userEditedAt": 1781260205879
+                  "userEditedAt": 1781260213362
                 },
                 {
                   "id": "exam_sep_2025_q1",
