@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exam Simulator — Time Series Analysis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+:root {
+    --bg: #f7f5ef;
+    --paper: #ffffff;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --accent: #2a4d8f;
+    --accent-soft: #e8eef9;
+    --gold: #c89212;
+    --gold-soft: #fff7d6;
+    --green: #2d7a4d;
+    --red: #b03a3a;
+    --border: #e5e1d6;
+    --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 18px rgba(0,0,0,0.06);
+    --shadow-lg: 0 4px 12px rgba(0,0,0,0.05), 0 12px 40px rgba(0,0,0,0.08);
+    --radius: 12px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+.top-bar {
+    background: var(--paper);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(8px);
+    background: rgba(255,255,255,0.92);
+}
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+}
+.brand .badge {
+    background: var(--accent);
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+.back-link {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: background 0.15s;
+}
+.back-link:hover { background: var(--bg); color: var(--ink); }
+
+.container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+}
+.hero h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+}
+.hero p.lead {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 36px;
+}
+
+/* === Setup screen === */
+.setup-card {
+    background: var(--paper);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 36px;
+    margin-bottom: 24px;
+}
+.setup-section { margin-bottom: 28px; }
+.setup-section:last-child { margin-bottom: 0; }
+.setup-section h3 {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 12px;
+}
+.chip-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 999px;
+    background: var(--paper);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    transition: all 0.15s;
+    user-select: none;
+}
+.chip:hover { border-color: var(--accent); }
+.chip input { display: none; }
+.chip.selected {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 600;
+}
+.chip .count {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 500;
+}
+.chip.selected .count { color: var(--accent); opacity: 0.7; }
+
+.count-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.count-input {
+    width: 80px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    text-align: center;
+    background: var(--paper);
+}
+.count-input:focus { outline: none; border-color: var(--accent); }
+
+.availability {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 16px;
+    padding: 10px 14px;
+    background: var(--bg);
+    border-radius: 8px;
+    border-left: 3px solid var(--accent);
+}
+
+.start-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: background 0.15s, transform 0.05s;
+    font-family: inherit;
+}
+.start-btn:hover { background: #1f3d75; }
+.start-btn:active { transform: translateY(1px); }
+.start-btn:disabled { background: var(--muted); cursor: not-allowed; }
+
+/* === Question screen === */
+.session-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding: 16px 24px;
+    background: var(--paper);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+.pills { display: flex; gap: 8px; align-items: center; }
+.pill {
+    padding: 5px 12px;
+    background: var(--bg);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    text-transform: uppercase;
+}
+.pill.progress { background: var(--accent); color: #fff; }
+.pill.diff-easy { background: #e3f2e8; color: var(--green); }
+.pill.diff-medium { background: var(--gold-soft); color: var(--gold); }
+.pill.diff-hard { background: #fbe4e4; color: var(--red); }
+.end-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 7px 14px;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+}
+.end-btn:hover { color: var(--red); border-color: var(--red); }
+
+.question-paper {
+    background: var(--paper);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.question-body {
+    padding: 40px 48px;
+    font-size: 16px;
+    line-height: 1.75;
+}
+.question-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.question-label::before, .question-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+.question-label::before { max-width: 30px; }
+
+.reveal-btn {
+    display: block;
+    margin: 16px auto;
+    padding: 12px 28px;
+    background: var(--gold);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-family: inherit;
+}
+.reveal-btn:hover { background: #a87c0e; }
+
+.solution-paper {
+    background: var(--gold-soft);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 20px;
+    animation: slideDown 0.3s ease;
+}
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.solution-body {
+    padding: 32px 48px;
+    font-size: 15px;
+    line-height: 1.75;
+    color: #4a3500;
+}
+.solution-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.solution-label::before, .solution-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(200, 146, 18, 0.3);
+}
+.solution-label::before { max-width: 30px; }
+
+.nav-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+.nav-btn {
+    flex: 1;
+    padding: 14px;
+    background: var(--paper);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--ink);
+    font-family: inherit;
+}
+.nav-btn:hover { background: var(--bg); border-color: var(--accent); }
+.nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.nav-btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.nav-btn.primary:hover { background: #1f3d75; }
+
+/* === Done screen === */
+.done-paper {
+    background: var(--paper);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 60px 48px;
+    text-align: center;
+}
+.done-paper .emoji { font-size: 64px; margin-bottom: 20px; }
+.done-paper h2 { font-size: 28px; margin-bottom: 8px; }
+.done-paper p { color: var(--muted); margin-bottom: 32px; }
+.done-stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin: 32px 0;
+}
+.done-stat {
+    padding: 16px 24px;
+    background: var(--bg);
+    border-radius: 10px;
+    min-width: 100px;
+}
+.done-stat .n { font-size: 28px; font-weight: 700; color: var(--accent); }
+.done-stat .lbl { font-size: 11px; text-transform: uppercase; color: var(--muted); letter-spacing: 0.1em; }
+.done-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* Math styling */
+.katex { font-size: 1.05em; }
+.katex-display { margin: 1em 0; }
+
+/* Mobile */
+@media (max-width: 640px) {
+    .container { padding: 24px 16px 60px; }
+    .hero h1 { font-size: 24px; }
+    .setup-card { padding: 24px; }
+    .question-body, .solution-body { padding: 28px 24px; }
+    .session-header { padding: 12px 16px; flex-wrap: wrap; gap: 8px; }
+}
+
+#loading {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--muted);
+    font-size: 14px;
+}
+#errorBox {
+    background: #fbe4e4;
+    color: var(--red);
+    padding: 16px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="brand">
+        <span>🎯</span>
+        <span>Exam Simulator</span>
+        <span class="badge">Time Series</span>
+    </div>
+    <a href="index.html" class="back-link">← Back to MindNotes</a>
+</div>
+
+<div class="container">
+    <div id="loading">Loading question bank…</div>
+
+    <div id="errorBox" style="display:none;"></div>
+
+    <div id="setupView" style="display:none;">
+        <div class="hero">
+            <h1>Build your simulation</h1>
+            <p class="lead">Choose topics and difficulty. Each question is at past-exam level with a full worked solution.</p>
+        </div>
+
+        <div class="setup-card">
+            <div class="setup-section">
+                <h3>Topics</h3>
+                <div class="chip-group" id="topicsRow"></div>
+            </div>
+
+            <div class="setup-section">
+                <h3>Difficulty</h3>
+                <div class="chip-group" id="diffRow">
+                    <label class="chip selected"><input type="checkbox" data-diff="easy" checked> easy</label>
+                    <label class="chip selected"><input type="checkbox" data-diff="medium" checked> medium</label>
+                    <label class="chip selected"><input type="checkbox" data-diff="hard" checked> hard</label>
+                </div>
+            </div>
+
+            <div class="setup-section">
+                <h3>How many questions?</h3>
+                <div class="count-row">
+                    <input type="number" class="count-input" id="countInput" min="1" max="50" value="5">
+                    <span style="color:var(--muted); font-size:13px;">questions per session</span>
+                </div>
+            </div>
+
+            <div class="availability" id="availability">—</div>
+
+            <button class="start-btn" id="startBtn" onclick="startSession()">▶ Start simulation</button>
+        </div>
+    </div>
+
+    <div id="sessionView" style="display:none;">
+        <div class="session-header">
+            <div class="pills">
+                <span class="pill progress" id="progressPill">1 / 5</span>
+                <span class="pill" id="diffPill">—</span>
+                <span class="pill" id="topicPill">—</span>
+            </div>
+            <button class="end-btn" onclick="endSession()">End session</button>
+        </div>
+
+        <div class="question-paper">
+            <div class="question-body">
+                <div class="question-label">Question</div>
+                <div id="prompt"></div>
+            </div>
+        </div>
+
+        <button class="reveal-btn" id="revealBtn" onclick="revealSolution()">👁  Reveal solution</button>
+
+        <div class="solution-paper" id="solutionPaper" style="display:none;">
+            <div class="solution-body">
+                <div class="solution-label">Solution</div>
+                <div id="solution"></div>
+            </div>
+        </div>
+
+        <div class="nav-row" id="navRow" style="display:none;">
+            <button class="nav-btn" id="prevBtn" onclick="prevQ()">⬅ Previous</button>
+            <button class="nav-btn primary" id="nextBtn" onclick="nextQ()">Next ➡</button>
+        </div>
+    </div>
+
+    <div id="doneView" style="display:none;">
+        <div class="done-paper">
+            <div class="emoji">🎉</div>
+            <h2>Session complete</h2>
+            <p>Great work. Here's how it went.</p>
+            <div class="done-stats">
+                <div class="done-stat">
+                    <div class="n" id="doneCount">0</div>
+                    <div class="lbl">Questions</div>
+                </div>
+                <div class="done-stat">
+                    <div class="n" id="doneRevealed">0</div>
+                    <div class="lbl">Revealed</div>
+                </div>
+            </div>
+            <div class="done-actions">
+                <button class="nav-btn primary" onclick="newSession()">↻ New session</button>
+                <button class="nav-btn" onclick="location.href='index.html'">← Back to notes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const TOPIC_NAMES = {
+    'T1': 'T1 — Foundations', 'T2': 'T2 — Stationarity & ACVF',
+    'T3': 'T3 — Markov theory', 'T4': 'T4 — Markov MLE & CI',
+    'T5': 'T5 — HMM', 'T6': 'T6 — SSM / DLM',
+    'T7': 'T7 — DLM building blocks', 'T8': 'T8 — Kalman filter',
+    'T9': 'T9 — Smoothing', 'T10': 'T10 — Prediction & forecast',
+    'T11': 'T11 — Innovations', 'T12': 'T12 — MLE in DLM',
+    'T13': 'T13 — Bayesian & MCMC'
+};
+
+let BANK = [];
+let state = { selected: [], idx: 0, revealedSet: new Set() };
+
+// ---------- LaTeX-ish pre-processor ----------
+// The bank stores LaTeX-flavoured snippets. Render text + math via KaTeX auto-render.
+// Convert \[ ... \] and \( ... \) into $$ ... $$ / $ ... $ so KaTeX picks them up.
+function preprocessLatex(s) {
+    if (!s) return '';
+    return s
+        .replace(/\\textbf\{([^}]*)\}/g, '<strong>$1</strong>')
+        .replace(/\\emph\{([^}]*)\}/g, '<em>$1</em>')
+        .replace(/\\textit\{([^}]*)\}/g, '<em>$1</em>')
+        .replace(/\\texttt\{([^}]*)\}/g, '<code>$1</code>');
+}
+
+function renderMathIn(el) {
+    if (window.renderMathInElement) {
+        renderMathInElement(el, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '\\[', right: '\\]', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false}
+            ],
+            throwOnError: false
+        });
+    }
+}
+
+// ---------- Load bank ----------
+async function loadBank() {
+    try {
+        const resp = await fetch('data_timeseries.json?t=' + Date.now(), { cache: 'no-store' });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        const j = await resp.json();
+        const data = j.data || j;
+        if (!data.examSim || !Array.isArray(data.examSim.questions) || !data.examSim.questions.length) {
+            throw new Error('Question bank is empty');
+        }
+        BANK = data.examSim.questions;
+        buildSetup();
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('setupView').style.display = '';
+    } catch (e) {
+        document.getElementById('loading').style.display = 'none';
+        const err = document.getElementById('errorBox');
+        err.textContent = 'Failed to load question bank: ' + e.message;
+        err.style.display = '';
+    }
+}
+
+function buildSetup() {
+    const topicCounts = {};
+    BANK.forEach(q => { topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1; });
+    const row = document.getElementById('topicsRow');
+    row.innerHTML = '';
+    Object.keys(topicCounts).sort().forEach(tid => {
+        const lbl = document.createElement('label');
+        lbl.className = 'chip selected';
+        lbl.innerHTML = `<input type="checkbox" data-topic="${tid}" checked> ${TOPIC_NAMES[tid] || tid} <span class="count">${topicCounts[tid]}</span>`;
+        row.appendChild(lbl);
+    });
+    document.querySelectorAll('.chip input').forEach(cb => {
+        cb.addEventListener('change', () => {
+            cb.closest('.chip').classList.toggle('selected', cb.checked);
+            updateAvailability();
+        });
+    });
+    document.getElementById('countInput').addEventListener('input', updateAvailability);
+    updateAvailability();
+}
+
+function getFilters() {
+    const topics = [...document.querySelectorAll('input[data-topic]:checked')].map(x => x.dataset.topic);
+    const diffs = [...document.querySelectorAll('input[data-diff]:checked')].map(x => x.dataset.diff);
+    return { topics, diffs };
+}
+
+function poolFor(f) {
+    return BANK.filter(q => f.topics.includes(q.topic) && f.diffs.includes(q.difficulty));
+}
+
+function updateAvailability() {
+    const f = getFilters();
+    const pool = poolFor(f);
+    const av = document.getElementById('availability');
+    if (!pool.length) {
+        av.textContent = '⚠ No questions match — adjust filters.';
+        av.style.borderLeftColor = 'var(--red)';
+    } else {
+        av.textContent = `${pool.length} question${pool.length === 1 ? '' : 's'} match. Pick how many to draw.`;
+        av.style.borderLeftColor = 'var(--accent)';
+    }
+    const ci = document.getElementById('countInput');
+    if (+ci.value > pool.length && pool.length) ci.value = pool.length;
+    document.getElementById('startBtn').disabled = !pool.length;
+}
+
+function shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+function startSession() {
+    const f = getFilters();
+    const pool = poolFor(f);
+    const n = Math.min(+document.getElementById('countInput').value || 5, pool.length);
+    state = { selected: shuffle([...pool]).slice(0, n), idx: 0, revealedSet: new Set() };
+    document.getElementById('setupView').style.display = 'none';
+    document.getElementById('doneView').style.display = 'none';
+    document.getElementById('sessionView').style.display = '';
+    renderCurrent();
+}
+
+function renderCurrent() {
+    const q = state.selected[state.idx]; if (!q) return;
+    document.getElementById('progressPill').textContent = `${state.idx + 1} / ${state.selected.length}`;
+    const dp = document.getElementById('diffPill');
+    dp.textContent = q.difficulty;
+    dp.className = 'pill diff-' + q.difficulty;
+    document.getElementById('topicPill').textContent = q.topic + (q.subtopic ? '.' + q.subtopic.replace(/^t\d+/, '') : '');
+
+    const promptEl = document.getElementById('prompt');
+    promptEl.innerHTML = preprocessLatex(q.prompt || '');
+    renderMathIn(promptEl);
+
+    document.getElementById('solutionPaper').style.display = 'none';
+    document.getElementById('solution').innerHTML = '';
+    document.getElementById('revealBtn').style.display = '';
+    document.getElementById('navRow').style.display = 'none';
+    document.getElementById('prevBtn').disabled = state.idx === 0;
+    document.getElementById('nextBtn').textContent = (state.idx + 1 >= state.selected.length) ? 'Finish ✓' : 'Next ➡';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function revealSolution() {
+    const q = state.selected[state.idx];
+    state.revealedSet.add(state.idx);
+    const sol = document.getElementById('solution');
+    sol.innerHTML = preprocessLatex(q.solution || '');
+    renderMathIn(sol);
+    document.getElementById('solutionPaper').style.display = '';
+    document.getElementById('revealBtn').style.display = 'none';
+    document.getElementById('navRow').style.display = 'flex';
+}
+
+function nextQ() {
+    if (state.idx + 1 >= state.selected.length) {
+        document.getElementById('sessionView').style.display = 'none';
+        document.getElementById('doneCount').textContent = state.selected.length;
+        document.getElementById('doneRevealed').textContent = state.revealedSet.size;
+        document.getElementById('doneView').style.display = '';
+        return;
+    }
+    state.idx++;
+    renderCurrent();
+}
+
+function prevQ() {
+    if (state.idx === 0) return;
+    state.idx--;
+    renderCurrent();
+}
+
+function endSession() {
+    document.getElementById('sessionView').style.display = 'none';
+    document.getElementById('setupView').style.display = '';
+}
+
+function newSession() {
+    document.getElementById('doneView').style.display = 'none';
+    document.getElementById('setupView').style.display = '';
+}
+
+loadBank();
+</script>
+</body>
+</html>
