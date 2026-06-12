@@ -8966,11 +8966,11 @@ function renderSidebar() {
     const container = $('topicsSection');
     container.innerHTML = '';
 
-    // Show the Exam Sim button only when the current subject has a question bank.
-    const esimBtn = document.getElementById('examSimBtn');
-    if (esimBtn) {
+    // Show the Exam Sim tab only when the current subject has a question bank.
+    const esimTab = document.getElementById('tabExamSim');
+    if (esimTab) {
         const hasBank = State.data && State.data.examSim && Array.isArray(State.data.examSim.questions) && State.data.examSim.questions.length;
-        esimBtn.style.display = hasBank ? '' : 'none';
+        esimTab.style.display = hasBank ? '' : 'none';
     }
 
     State.data.topics.forEach((topic, topicIndex) => {
