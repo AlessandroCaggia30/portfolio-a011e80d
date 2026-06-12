@@ -8966,14 +8966,17 @@ function renderSidebar() {
     const container = $('topicsSection');
     container.innerHTML = '';
 
-    // Show the Exam Sim tab only when the current subject has a question bank.
-    // If the bank is missing from in-memory data but the subject has a seed file,
-    // fetch the seed once and graft examSim in so the tab appears without a Sync pull.
+    // Exam Sim tab is strictly Time-Series-specific. Hard-gate on subject id so it
+    // can never appear under Statistics / Adv Math / Adv Micro / Adv Macro, even if
+    // an examSim block somehow gets added to those subjects' JSON.
     const esimTab = document.getElementById('tabExamSim');
     if (esimTab) {
-        const hasBank = State.data && State.data.examSim && Array.isArray(State.data.examSim.questions) && State.data.examSim.questions.length;
+        const isTimeSeries = State.currentSubject && State.currentSubject.id === 'time-series';
+        const hasBank = isTimeSeries && State.data && State.data.examSim && Array.isArray(State.data.examSim.questions) && State.data.examSim.questions.length;
         esimTab.style.display = hasBank ? '' : 'none';
-        if (!hasBank && State.currentSubject && State.currentSubject.seedFile && !State._esimSeedTried) {
+        // Self-heal: if the bank is missing from in-memory data, fetch the seed once
+        // and graft examSim in so the tab appears without requiring a Sync pull.
+        if (isTimeSeries && !hasBank && State.currentSubject.seedFile && !State._esimSeedTried) {
             State._esimSeedTried = true;
             fetch(State.currentSubject.seedFile + '?t=' + Date.now())
                 .then(r => r.ok ? r.json() : null)
