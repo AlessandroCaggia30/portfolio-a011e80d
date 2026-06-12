@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-12T10:01:29.687Z",
+  "exportedAt": "2026-06-12T10:02:29.408Z",
   "data": {
     "topics": [
       {
@@ -921,7 +921,7 @@
               {
                 "id": "ts17786690819133410",
                 "title": "Stationarity does not imply strict stat.",
-                "content": "\\begin{keydef}\nException: for a Gaussian process the law is fully pinned down by the first two moments, so under Gaussianity weakly stationary $\\Rightarrow$ strictly stationary.\n\\end{keydef}\n",
+                "content": "\nException: for a Gaussian process the law is fully pinned down by the first two moments, so under Gaussianity weakly stationary $\\Rightarrow$ strictly stationary.\n\n",
                 "flashcard": false,
                 "images": [],
                 "links": [
