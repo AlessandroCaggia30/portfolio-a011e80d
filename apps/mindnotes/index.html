@@ -10689,6 +10689,117 @@ function updateTrashCount() {
     if (el) el.textContent = count;
 }
 
+// ==================== EXAM SIMULATOR ====================
+const EXAM_SIM_TOPIC_NAMES = {
+    'T1': 'T1 — Stochastic processes foundations', 'T2': 'T2 — Stationarity & ACVF',
+    'T3': 'T3 — Markov chains (theory)', 'T4': 'T4 — Markov MLE & CI',
+    'T5': 'T5 — HMM', 'T6': 'T6 — State-space & DLM definition',
+    'T7': 'T7 — DLM building blocks', 'T8': 'T8 — Kalman filter',
+    'T9': 'T9 — Smoothing', 'T10': 'T10 — One-step prediction & forecast',
+    'T11': 'T11 — Innovations & model checking', 'T12': 'T12 — MLE in DLM',
+    'T13': 'T13 — Bayesian & MCMC'
+};
+let _examSimState = { bank: [], selected: [], idx: 0, done: false };
+
+function _examSimGetBank() {
+    return (State.data && State.data.examSim && Array.isArray(State.data.examSim.questions))
+        ? State.data.examSim.questions : [];
+}
+
+function openExamSimModal() {
+    const bank = _examSimGetBank();
+    if (!bank.length) { showToast('No exam-sim questions in this subject'); return; }
+    const topicCounts = {};
+    bank.forEach(q => { topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1; });
+    const container = document.getElementById('examSimTopics');
+    container.innerHTML = '';
+    Object.keys(topicCounts).sort().forEach(tid => {
+        const label = document.createElement('label');
+        label.style.cssText = 'display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer;background:var(--bg);padding:4px 8px;border-radius:6px;border:1px solid var(--border);';
+        label.innerHTML = `<input type="checkbox" class="esim-topic" value="${tid}" checked> ${EXAM_SIM_TOPIC_NAMES[tid] || tid} <span style="color:var(--text2);font-size:10px;">(${topicCounts[tid]})</span>`;
+        container.appendChild(label);
+    });
+    _examSimUpdateAvailability();
+    document.querySelectorAll('.esim-topic, .esim-diff').forEach(el => el.onchange = _examSimUpdateAvailability);
+    document.getElementById('examSimSetup').style.display = '';
+    document.getElementById('examSimRunning').style.display = 'none';
+    document.getElementById('examSimDone').style.display = 'none';
+    document.getElementById('examSimModal').classList.add('visible');
+}
+function closeExamSimModal() { document.getElementById('examSimModal').classList.remove('visible'); }
+
+function _examSimUpdateAvailability() {
+    const bank = _examSimGetBank();
+    const topics = [...document.querySelectorAll('.esim-topic:checked')].map(x => x.value);
+    const diffs = [...document.querySelectorAll('.esim-diff:checked')].map(x => x.value);
+    const pool = bank.filter(q => topics.includes(q.topic) && diffs.includes(q.difficulty));
+    const el = document.getElementById('examSimAvailability');
+    if (el) el.textContent = `${pool.length} question${pool.length === 1 ? '' : 's'} match current filters.`;
+    const ci = document.getElementById('examSimCount');
+    if (ci && +ci.value > pool.length) ci.value = Math.max(1, pool.length);
+}
+
+function examSimStart() {
+    const bank = _examSimGetBank();
+    const topics = [...document.querySelectorAll('.esim-topic:checked')].map(x => x.value);
+    const diffs = [...document.querySelectorAll('.esim-diff:checked')].map(x => x.value);
+    const pool = bank.filter(q => topics.includes(q.topic) && diffs.includes(q.difficulty));
+    if (!pool.length) { showToast('No questions match those filters'); return; }
+    const n = Math.min(+document.getElementById('examSimCount').value || 5, pool.length);
+    const shuffled = [...pool];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    _examSimState = { bank, selected: shuffled.slice(0, n), idx: 0, done: false };
+    document.getElementById('examSimSetup').style.display = 'none';
+    document.getElementById('examSimDone').style.display = 'none';
+    document.getElementById('examSimRunning').style.display = '';
+    _examSimRenderCurrent();
+}
+
+function _examSimRenderCurrent() {
+    const s = _examSimState; const q = s.selected[s.idx]; if (!q) return;
+    document.getElementById('examSimProgress').textContent = `${s.idx + 1} / ${s.selected.length}`;
+    document.getElementById('examSimDiffPill').textContent = q.difficulty;
+    document.getElementById('examSimTopicPill').textContent = q.topic + (q.subtopic ? '.' + q.subtopic.replace(/^t\d+/, '') : '');
+    const prompt = document.getElementById('examSimPrompt');
+    prompt.innerHTML = formatContent(q.prompt || ''); renderMath(prompt);
+    document.getElementById('examSimSolution').style.display = 'none';
+    document.getElementById('examSimSolution').innerHTML = '';
+    document.getElementById('examSimRevealBtn').style.display = '';
+    const nav = document.getElementById('examSimNavBtns'); nav.style.display = 'none'; nav.style.gap = '8px';
+}
+
+function examSimReveal() {
+    const q = _examSimState.selected[_examSimState.idx];
+    const sol = document.getElementById('examSimSolution');
+    sol.innerHTML = '<div style="font-weight:600;margin-bottom:6px;color:#5a3a00;">Solution</div>' + formatContent(q.solution || '');
+    renderMath(sol); sol.style.display = '';
+    document.getElementById('examSimRevealBtn').style.display = 'none';
+    const nav = document.getElementById('examSimNavBtns'); nav.style.display = 'flex';
+}
+
+function examSimNext() {
+    const s = _examSimState;
+    if (s.idx + 1 >= s.selected.length) {
+        document.getElementById('examSimRunning').style.display = 'none';
+        document.getElementById('examSimDone').style.display = '';
+        document.getElementById('examSimDoneCount').textContent = s.selected.length;
+        s.done = true; return;
+    }
+    s.idx++; _examSimRenderCurrent();
+}
+function examSimPrev() { if (_examSimState.idx === 0) return; _examSimState.idx--; _examSimRenderCurrent(); }
+function examSimEnd() {
+    document.getElementById('examSimRunning').style.display = 'none';
+    document.getElementById('examSimSetup').style.display = '';
+}
+function examSimRestart() {
+    document.getElementById('examSimDone').style.display = 'none';
+    document.getElementById('examSimSetup').style.display = '';
+}
+
 function openTrashModal() {
     renderTrashList();
     $('trashModal').classList.add('visible');
