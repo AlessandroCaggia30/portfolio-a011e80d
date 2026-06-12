@@ -4144,6 +4144,70 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
         </div>
     </div>
 
+    <!-- Exam Simulator Modal -->
+    <div class="modal-overlay" id="examSimModal">
+        <div class="modal" style="max-width:780px; max-height:90vh; display:flex; flex-direction:column;">
+            <div class="modal-header">
+                <h2>🎯 AI Exam Simulator</h2>
+                <button class="modal-close" onclick="closeExamSimModal()">&times;</button>
+            </div>
+            <div class="modal-body" style="overflow-y:auto;">
+                <!-- Setup screen -->
+                <div id="examSimSetup">
+                    <p style="color:var(--text2); font-size:13px; margin-bottom:12px;">
+                        Pick topics + difficulty, then start. Questions are drawn at past-exam level with full solutions.
+                    </p>
+                    <div style="margin-bottom:14px;">
+                        <label style="font-size:12px; color:var(--text2); font-weight:600;">Topics</label>
+                        <div id="examSimTopics" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:6px;"></div>
+                    </div>
+                    <div style="margin-bottom:14px;">
+                        <label style="font-size:12px; color:var(--text2); font-weight:600;">Difficulty</label>
+                        <div style="display:flex; gap:8px; margin-top:6px;">
+                            <label style="display:flex; align-items:center; gap:4px; font-size:12px; cursor:pointer;"><input type="checkbox" class="esim-diff" value="easy" checked> easy</label>
+                            <label style="display:flex; align-items:center; gap:4px; font-size:12px; cursor:pointer;"><input type="checkbox" class="esim-diff" value="medium" checked> medium</label>
+                            <label style="display:flex; align-items:center; gap:4px; font-size:12px; cursor:pointer;"><input type="checkbox" class="esim-diff" value="hard" checked> hard</label>
+                        </div>
+                    </div>
+                    <div style="margin-bottom:14px;">
+                        <label style="font-size:12px; color:var(--text2); font-weight:600;"># Questions</label>
+                        <input type="number" id="examSimCount" min="1" max="50" value="5" style="width:60px; margin-left:8px; padding:4px 8px; background:var(--bg); border:1px solid var(--border); border-radius:4px; color:var(--fg); font-size:12px;">
+                    </div>
+                    <div id="examSimAvailability" style="font-size:11px; color:var(--text2); margin-bottom:10px;"></div>
+                    <button class="btn btn-primary" onclick="examSimStart()" style="width:100%;">▶ Start simulation</button>
+                </div>
+
+                <!-- Question screen -->
+                <div id="examSimRunning" style="display:none;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <div style="display:flex; gap:6px;">
+                            <span id="examSimProgress" style="background:var(--bg3); padding:3px 10px; border-radius:999px; font-size:11px;">1 / N</span>
+                            <span id="examSimDiffPill" style="background:var(--bg3); padding:3px 10px; border-radius:999px; font-size:11px;">—</span>
+                            <span id="examSimTopicPill" style="background:var(--bg3); padding:3px 10px; border-radius:999px; font-size:11px;">—</span>
+                        </div>
+                        <button class="btn btn-ghost" onclick="examSimEnd()" style="font-size:11px; padding:4px 10px;">End</button>
+                    </div>
+                    <div id="examSimPrompt" style="background:var(--bg); padding:14px 16px; border-radius:8px; border-left:4px solid var(--accent); margin-bottom:12px; line-height:1.55;"></div>
+                    <button class="btn btn-primary" id="examSimRevealBtn" onclick="examSimReveal()" style="width:100%; margin-bottom:10px;">👁 Reveal solution</button>
+                    <div id="examSimSolution" style="display:none; background:#fff8d6; color:#2a1a00; padding:14px 16px; border-radius:8px; border-left:4px solid #f0b400; margin-bottom:12px; line-height:1.55;"></div>
+                    <div id="examSimNavBtns" style="display:none; gap:8px;">
+                        <button class="btn btn-ghost" onclick="examSimPrev()" style="flex:1;">⬅ Prev</button>
+                        <button class="btn btn-primary" onclick="examSimNext()" style="flex:1;">Next ➡</button>
+                    </div>
+                </div>
+
+                <!-- Done screen -->
+                <div id="examSimDone" style="display:none; text-align:center; padding:30px 10px;">
+                    <div style="font-size:48px; margin-bottom:10px;">🎉</div>
+                    <h3 style="margin:0 0 6px;">Session complete</h3>
+                    <p style="color:var(--text2); font-size:13px; margin:0 0 18px;">You answered <span id="examSimDoneCount">0</span> questions.</p>
+                    <button class="btn btn-primary" onclick="examSimRestart()" style="margin-right:6px;">↻ New session</button>
+                    <button class="btn btn-ghost" onclick="closeExamSimModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Trash Modal -->
     <div class="modal-overlay" id="trashModal">
         <div class="modal" style="max-width:550px; max-height:80vh; display:flex; flex-direction:column;">
