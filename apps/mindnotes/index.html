@@ -4114,6 +4114,13 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
                         <a href="https://github.com/settings/tokens?type=beta" target="_blank" style="color:var(--accent);">Create one →</a>
                     </p>
                 </div>
+                <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
+                    <a href="https://github.com/settings/personal-access-tokens" target="_blank" style="flex:1; min-width:180px; text-align:center; padding:8px 10px; background:var(--bg); border:1px solid var(--border); border-radius:6px; color:var(--accent); font-size:12px; text-decoration:none;" title="Open your fine-grained tokens list; click the existing one, then Regenerate">🔁 Regenerate existing token</a>
+                    <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" style="flex:1; min-width:180px; text-align:center; padding:8px 10px; background:var(--bg); border:1px solid var(--border); border-radius:6px; color:var(--accent); font-size:12px; text-decoration:none;" title="Create a brand-new fine-grained token (only if regenerate is not an option)">＋ Create new token</a>
+                </div>
+                <p style="color:var(--text2); margin:6px 0 0; font-size:10px; line-height:1.5;">
+                    Permissions when (re)generating: <code>Contents</code> = <strong>Read &amp; write</strong>, repository = <code>portfolio-a011e80d</code> only. Other scopes can stay default/none.
+                </p>
                 <div style="display:flex; gap:10px; margin-top:15px;">
                     <button class="btn btn-primary" onclick="saveGhToken()" style="flex:1;">Save Token</button>
                     <button class="btn btn-ghost" onclick="clearGhToken()" style="flex:1;">Forget Token</button>
