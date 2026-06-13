@@ -974,6 +974,10 @@
                   {
                     "target": "ts1778695220085",
                     "type": "forward"
+                  },
+                  {
+                    "target": "ts1781346257973",
+                    "type": "forward"
                   }
                 ],
                 "x": 3652.5671893337544,
@@ -1044,6 +1048,18 @@
                   "state": "new",
                   "lastReview": null
                 }
+              },
+              {
+                "id": "ts1781346257973",
+                "title": "Example 0: White Noise",
+                "content": "\\textbf{\\textcolor{red}{EXAMPLE 0 --- White noise (the simplest building block).}}\n\n\\begin{keydef}\n\\fcnum{Ex0} \\textbf{Steps} - Define the process as i.i.d.\\ Gaussian shocks (Gaussian white noise; for strict WN, replace $\\mathcal{N}$ with any common distribution):\n\\[ Y_t \\;\\underbrace{\\sim}_{iid}\\; \\mathcal{N}(0, \\sigma^2), \\qquad t = 1, 2, \\dots \\]\n\\emph{No temporal dependence at all --- knowing $Y_{t-1}$ tells you nothing about $Y_t$. This is the trivial benchmark every other model is compared against.}\n\n\\[ E[Y_t] \\;=\\; 0 \\qquad \\forall\\, t. \\]\n\n\\[ \\mathrm{Var}(Y_t) \\;=\\; \\sigma^2 \\qquad \\forall\\, t. \\]\n\\emph{Variance is constant in $t$ --- nothing grows, nothing decays.}\n\n\\emph{Autocovariance.} By independence, $\\mathrm{Cov}(Y_t, Y_s) = 0$ whenever $t \\neq s$:\n\\[ \\gamma(h) \\;:=\\; \\mathrm{Cov}(Y_t, Y_{t+h}) \\;=\\; \\begin{cases} \\sigma^2 & h = 0, \\\\ 0 & h \\neq 0. \\end{cases} \\]\nDepends only on the lag $h$ (and only the zero lag is non-zero). \\quad $\\checkmark$\n\n\\emph{Autocorrelation.} $\\rho(0) = 1$, $\\rho(h) = 0$ for $h \\neq 0$. \\emph{The correlogram is a single spike at lag 0.}\n\n\\textbf{Stationarity verdict.} Constant mean $+$ constant variance $+$ autocovariance depending only on lag $\\Rightarrow$ \\textbf{weakly stationary} (and \\emph{strictly} stationary too, by the iid assumption). \\quad $\\checkmark\\checkmark$\n\n\\textbf{Why this matters.} White noise is the \\emph{atom} every other time-series model is built from:\n- \\emph{Random walk} (Ex.\\ 1): $Y_t = Y_{t-1} + Z_t$ with $Z_t$ white noise $\\Rightarrow$ cumulative sum of white noise.\n- \\emph{AR(1)} (Ex.\\ 3): $Y_t = \\varphi Y_{t-1} + \\varepsilon_t$ with $\\varepsilon_t$ white noise $\\Rightarrow$ exponentially weighted infinite sum.\n- \\emph{MA, ARMA, ARIMA, state-space models}: all driven by white-noise innovations.\n\nAfter fitting any model you check that the \\emph{residuals} look like white noise --- if they do, you've extracted all the structure; if they don't, you've left signal on the table.\n\\end{keydef}",
+                "x": 4858.0,
+                "y": 730.0,
+                "flashcard": true,
+                "links": [],
+                "images": [],
+                "imageWidths": [],
+                "userEdited": true
               }
             ]
           }
