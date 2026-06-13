@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-13T13:07:50.247Z",
+  "exportedAt": "2026-06-13T13:08:00.416Z",
   "data": {
     "topics": [
       {
@@ -3045,7 +3045,7 @@
                 {
                   "id": "master_t4a",
                   "title": "Master — Panel transition-count likelihood & MLE",
-                  "content": "\\textbf{\\textcolor{red}{MASTER --- Panel transition-count likelihood & MLE}}\n\n---\n\n<details class=\"master-subpart\" open>\n<summary><span class=\"tag tag-2plus\">≥2 ex</span> (7.a)Write the expression of the likelihood of the $[p_{i,j}]_{i,j=1,2,3}$</em>  [May 2024 Q2a, Sep 2025 Q6]</summary>\n\nsee JSON \n</details>\n\n\n\n<details class=\"master-subpart\" open>\n<summary><span class=\"tag tag-2plus\">≥2 ex</span> (7.c)What is the estimated probability that an individual who is uncertain in May will become in favor in June? Provide the MLE, together with the asymptotic confidence interval of level 90\\%.</em>  [May 2024 Q2c, Sep 2025 Q6]</summary>\n\n\\textbf{Identify the transition.} \"Uncertain ($3$) in May $\\to$ in favour ($1$) in June\" is the entry $p_{3,1}$.\n\n\\textbf{Point estimate} (using the May 2024 panel, row $i=3$: $n_{3,1}=30$, $n_{3,+}=100$):\n\\[ \\widehat p_{3,1}=\\frac{n_{3,1}}{n_{3,+}}=\\frac{30}{100}=\\mathbf{0.30}. \\]\n\n\\textbf{Asymptotic CI} (Anderson--Goodman). Conditional on the visit count $n_{3,+}$,\n\\[ (n_{3,1},n_{3,2},n_{3,3})\\mid n_{3,+}\\sim\\mathrm{Multinom}(n_{3,+};\\,p_{3,:}), \\]\nand a multinomial-CLT applied to the proportion $\\widehat p_{3,1}=n_{3,1}/n_{3,+}$ gives\n\\[ \\sqrt{n_{3,+}}\\bigl(\\widehat p_{3,1}-p_{3,1}\\bigr)\\xrightarrow{d}\\mathcal{N}\\bigl(0,\\;p_{3,1}(1-p_{3,1})\\bigr). \\]\nPlug-in standard error (justified by consistency + Slutsky):\n\\[ \\widehat{\\mathrm{SE}}=\\sqrt{\\widehat p_{3,1}(1-\\widehat p_{3,1})/n_{3,+}}=\\sqrt{0.3\\cdot 0.7/100}\\approx 0.0458. \\]\n\\textbf{90\\% Wald CI} uses $z_{0.95}=1.65$:\n\\[ 0.30\\pm 1.65\\cdot 0.0458=0.30\\pm 0.0756\\;\\Rightarrow\\;\\boxed{[0.224,\\,0.376]}. \\]\n\n\\emph{General template.} For any cell $(i,j)$ with $n_{i,+}>0$,\n\\[ \\widehat p_{ij}\\pm z_{1-\\alpha/2}\\sqrt{\\widehat p_{ij}(1-\\widehat p_{ij})/n_{i,+}}. \\]\n\n\\emph{R:}\n\n</details>\n\n\\textbf{Linked exams:} \\texttt{exam_sep_2025_q6}, \\texttt{exam_may_2024_q2}.",
+                  "content": "\\textbf{\\textcolor{red}{MASTER --- Panel transition-count likelihood & MLE}}\n\n---\n\n<details class=\"master-subpart\" open>\n<summary><span class=\"tag tag-2plus\">≥2 ex</span> (7.a)Write the expression of the likelihood of the $[p_{i,j}]_{i,j=1,2,3}$ and find the MLE </em>  [May 2024 Q2a, Sep 2025 Q6]</summary>\n\nsee JSON \n</details>\n\n\n\n<details class=\"master-subpart\" open>\n<summary><span class=\"tag tag-2plus\">≥2 ex</span> (7.c)What is the estimated probability that an individual who is uncertain in May will become in favor in June? Provide the MLE, together with the asymptotic confidence interval of level 90\\%.</em>  [May 2024 Q2c, Sep 2025 Q6]</summary>\n\n\\textbf{Identify the transition.} \"Uncertain ($3$) in May $\\to$ in favour ($1$) in June\" is the entry $p_{3,1}$.\n\n\\textbf{Point estimate} (using the May 2024 panel, row $i=3$: $n_{3,1}=30$, $n_{3,+}=100$):\n\\[ \\widehat p_{3,1}=\\frac{n_{3,1}}{n_{3,+}}=\\frac{30}{100}=\\mathbf{0.30}. \\]\n\n\\textbf{Asymptotic CI} (Anderson--Goodman). Conditional on the visit count $n_{3,+}$,\n\\[ (n_{3,1},n_{3,2},n_{3,3})\\mid n_{3,+}\\sim\\mathrm{Multinom}(n_{3,+};\\,p_{3,:}), \\]\nand a multinomial-CLT applied to the proportion $\\widehat p_{3,1}=n_{3,1}/n_{3,+}$ gives\n\\[ \\sqrt{n_{3,+}}\\bigl(\\widehat p_{3,1}-p_{3,1}\\bigr)\\xrightarrow{d}\\mathcal{N}\\bigl(0,\\;p_{3,1}(1-p_{3,1})\\bigr). \\]\nPlug-in standard error (justified by consistency + Slutsky):\n\\[ \\widehat{\\mathrm{SE}}=\\sqrt{\\widehat p_{3,1}(1-\\widehat p_{3,1})/n_{3,+}}=\\sqrt{0.3\\cdot 0.7/100}\\approx 0.0458. \\]\n\\textbf{90\\% Wald CI} uses $z_{0.95}=1.65$:\n\\[ 0.30\\pm 1.65\\cdot 0.0458=0.30\\pm 0.0756\\;\\Rightarrow\\;\\boxed{[0.224,\\,0.376]}. \\]\n\n\\emph{General template.} For any cell $(i,j)$ with $n_{i,+}>0$,\n\\[ \\widehat p_{ij}\\pm z_{1-\\alpha/2}\\sqrt{\\widehat p_{ij}(1-\\widehat p_{ij})/n_{i,+}}. \\]\n\n\\emph{R:}\n\n</details>\n\n\\textbf{Linked exams:} \\texttt{exam_sep_2025_q6}, \\texttt{exam_may_2024_q2}.",
                   "flashcard": false,
                   "images": [],
                   "links": [
@@ -3060,7 +3060,7 @@
                   "isMaster": true,
                   "cardColor": "purple",
                   "userEdited": true,
-                  "userEditedAt": 1781356069638
+                  "userEditedAt": 1781356079805
                 },
                 {
                   "id": "exam_sep_2025_q6",
