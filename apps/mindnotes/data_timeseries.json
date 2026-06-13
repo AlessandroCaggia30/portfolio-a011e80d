@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-13T13:55:21.636Z",
+  "exportedAt": "2026-06-13T14:00:53.486Z",
   "data": {
     "topics": [
       {
@@ -4103,7 +4103,6 @@
                   "color": "lightblue",
                   "column": 2,
                   "isMaster": true,
-                  "cardColor": "green",
                   "userEdited": true,
                   "userEditedAt": 1781358921026
                 },
