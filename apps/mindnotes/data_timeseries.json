@@ -833,6 +833,10 @@
                   {
                     "target": "1778783599128",
                     "type": "forward"
+                  },
+                  {
+                    "target": "ts1781390575822",
+                    "type": "forward"
                   }
                 ],
                 "x": 5381.298333947101,
@@ -1044,6 +1048,18 @@
                   "lastReview": null,
                   "dueDate": "2026-06-13T10:24:23.097Z"
                 }
+              },
+              {
+                "id": "ts1781390575822",
+                "title": "DLM likelihood --- prediction-error decomposition",
+                "content": "\\textbf{\\textcolor{red}{DLM LIKELIHOOD --- PREDICTION-ERROR DECOMPOSITION (DLMwR \\S 4.1, eq.\\ 4.1, p.\\ 144).}}\n\n\\begin{keydef}\n\\fcnum{14} \\textbf{Goal.} Given a DLM with unknown parameters $\\phi$ (entries of $G_t, F_t, V_t, W_t, m_0, C_0$ that depend on $\\phi$), write $L(\\phi\\mid y_{1:T})$ in a form you can actually compute.\n\n\\textbf{Setup.} DLM at parameter $\\phi$:\n\\[ \\theta_0\\sim\\mathcal{N}_p(m_0(\\phi), C_0(\\phi)),\\qquad \\theta_t = G_t(\\phi)\\theta_{t-1} + w_t,\\;\\;w_t\\sim\\mathcal{N}_p(0, W_t(\\phi)),\\qquad Y_t = F_t(\\phi)\\theta_t + v_t,\\;\\;v_t\\sim\\mathcal{N}_q(0, V_t(\\phi)). \\]\n\n\\textbf{Step 1 --- Chain rule on the observation sequence.} The joint density of $y_{1:T}$ factorises:\n\\[ L(\\phi\\mid y_{1:T}) \\;=\\; p(y_{1:T}\\mid\\phi) \\;\\underbrace{=}_{\\text{chain rule}}\\; \\prod_{t=1}^{T} p(y_t\\mid y_{1:t-1},\\phi). \\]\n\\emph{Why this is the right move.} The latent path $\\theta_{0:T}$ has been integrated out implicitly --- we never write it. Each factor is a marginal predictive for $Y_t$ given the past observations.\n\n\\textbf{Step 2 --- Each factor is the Kalman one-step forecast.} Run the Kalman filter at parameter $\\phi$. The one-step predictive is delivered in closed form by Prop.\\ 2.2 (ii):\n\\[ \\boxed{\\;Y_t\\mid y_{1:t-1},\\phi \\;\\sim\\; \\mathcal{N}_q\\!\\bigl(f_t(\\phi),\\,Q_t(\\phi)\\bigr),\\quad f_t = F_t a_t,\\;\\;Q_t = F_t R_t F_t^\\top + V_t. \\;} \\]\nHere $(a_t, R_t)$ come from the predict step at $\\phi$.\n\n\\textbf{Step 3 --- Plug in to get the likelihood.}\n\\[ \\boxed{\\;L(\\phi\\mid y_{1:T}) \\;=\\; \\prod_{t=1}^{T}\\mathcal{N}_q\\!\\bigl(y_t;\\,f_t(\\phi),\\,Q_t(\\phi)\\bigr). \\;} \\]\n\\emph{This is the prediction-error decomposition.} Each evaluation of $L$ at a candidate $\\phi$ costs one forward Kalman pass.\n\n\\textbf{Step 4 --- Log-likelihood (the form you maximise).} Take logs:\n\\[ \\boxed{\\;\\ell(\\phi) \\;=\\; -\\tfrac{1}{2}\\sum_{t=1}^{T}\\Bigl[q\\log(2\\pi) + \\log|Q_t(\\phi)| + e_t(\\phi)^\\top Q_t(\\phi)^{-1} e_t(\\phi)\\Bigr], \\;} \\]\nwith \\emph{innovations} $e_t = y_t - f_t$. The MLE is $\\widehat\\phi = \\arg\\max_\\phi \\ell(\\phi)$ (numerical optimisation; no closed form in general).\n\n\\textbf{Why we did NOT use the HMM-style sum.} An HMM has discrete states $S_t\\in\\{1,\\dots,K\\}$ and the marginalisation $\\sum_{s_{0:T}}$ has finitely many terms. A DLM has continuous states $\\theta_t\\in\\mathbb{R}^p$, so the marginalisation is a $(T+1)p$-dim Gaussian integral. The Kalman filter \\emph{does that integral exactly} step by step --- the prediction-error decomposition is the closed-form output. Same chain-rule structure; the Kalman filter replaces the explicit sum.\n\n\\textbf{Reading the log-likelihood.}\n\\begin{itemize}\n\\item $\\log|Q_t(\\phi)|$: penalises configurations where the forecast variance blows up.\n\\item $e_t^\\top Q_t^{-1} e_t$: penalises poor forecasts (large standardised residuals).\n\\item Together: $\\widehat\\phi$ balances \"small residuals\" against \"honest uncertainty\" --- max-likelihood as it should be.\n\\end{itemize}\n\\end{keydef}\n\n\\textbf{Exam pointers.} Used in \\emph{Sep 2025 Q7a, Jun 2024 Q7, May 2024 Q7}: every time the exam asks \"write the likelihood of $\\phi$ for a DLM\", the model answer is the boxed prediction-error decomposition above plus the $\\ell(\\phi)$ log form. Cite \\emph{DLMwR \\S 4.1, eq.\\ 4.1, p.\\ 144}.",
+                "x": 4681.298333947101,
+                "y": 3076.1951237916146,
+                "flashcard": true,
+                "links": [],
+                "images": [],
+                "imageWidths": [],
+                "userEdited": true
               }
             ]
           }
