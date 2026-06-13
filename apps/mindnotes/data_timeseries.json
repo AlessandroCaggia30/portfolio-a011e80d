@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-13T14:12:27.014Z",
+  "exportedAt": "2026-06-13T14:12:46.176Z",
   "data": {
     "topics": [
       {
@@ -4319,7 +4319,7 @@
                 {
                   "id": "master_t10a",
                   "title": "Master — Predictive distribution N(f_t,Q_t) — derivation",
-                  "content": "\\textbf{\\textcolor{red}{MASTER --- Predictive distribution $\\mathcal{N}(f_t,Q_t)$ — derivation}}\n\n---\n\n\n\n<details class=\"master-subpart\" open>\n<summary><span class=\"tag tag-2plus\">1 ex</span> (21.b)Now consider a DLM with state process $(\\theta_t)_{t\\ge 0}$. Given data $y_{1:t-1}$, we know that $\\theta_t\\mid y_{1:t-1}\\sim\\mathcal{N}(a_t,R_t)$; explain how one obtains the one-step-ahead predictive distribution of $y_t$ given $y_{1:t-1}$.</em>  [Jun 2024 Q6b]</summary>\n\n\\textbf{Goal.} Obtain $p(y_t\\mid y_{1:t-1})$ from the state predictive $\\theta_t\\mid y_{1:t-1}\\sim\\mathcal{N}_p(a_t,R_t)$ and the observation equation $Y_t=F_t\\theta_t+v_t$.\n\n\\textbf{Step 1: identify the ingredients.}\n\n- $\\theta_t\\mid y_{1:t-1}\\sim\\mathcal{N}_p(a_t,R_t)$ (given).\n- $v_t\\sim\\mathcal{N}_q(0,V_t)$, independent of $\\theta_t$ and of $y_{1:t-1}$ (DLM assumption).\n- Observation equation: $Y_t=F_t\\theta_t+v_t$ --- \\emph{affine} in $\\theta_t$.\n\n\\textbf{Step 2: Gaussianity by affine + Gaussian closure.}\n\n$Y_t\\mid y_{1:t-1}$ is a linear combination of two independent Gaussians ($\\theta_t\\mid y_{1:t-1}$ and $v_t$), hence Gaussian.\n\n\\textbf{Step 3: compute mean.}\n\\begin{align*}\nf_t &= \\mathbb{E}[Y_t\\mid y_{1:t-1}]\\\\\n&= F_t\\,\\mathbb{E}[\\theta_t\\mid y_{1:t-1}]+\\mathbb{E}[v_t\\mid y_{1:t-1}]\\\\\n&= F_t a_t+0=F_t a_t,\n\\end{align*}\nusing independence of $v_t$ and $y_{1:t-1}$ ($\\mathbb{E}[v_t\\mid y_{1:t-1}]=\\mathbb{E}[v_t]=0$).\n\n\\textbf{Step 4: compute variance.}\n\\begin{align*}\nQ_t &= \\operatorname{Var}(Y_t\\mid y_{1:t-1})\\\\\n&= \\operatorname{Var}(F_t\\theta_t+v_t\\mid y_{1:t-1})\\\\\n&= F_t\\operatorname{Var}(\\theta_t\\mid y_{1:t-1})F_t^{\\top}+\\operatorname{Var}(v_t\\mid y_{1:t-1})+\\underbrace{2F_t\\operatorname{Cov}(\\theta_t,v_t\\mid y_{1:t-1})}_{=0}\\\\\n&= F_t R_t F_t^{\\top}+V_t,\n\\end{align*}\nthe cross term vanishing by independence of $v_t$ and $\\theta_t$.\n\n\\textbf{Step 5: assemble.}\n\\[ \\boxed{\\;Y_t\\mid y_{1:t-1}\\sim\\mathcal{N}_q(f_t,Q_t),\\quad f_t=F_t a_t,\\quad Q_t=F_t R_t F_t^{\\top}+V_t.\\;} \\]\n\n\\textbf{Reading the result.}\n\n- $f_t$ = optimal point forecast under quadratic loss (Bayes estimator = conditional mean of a symmetric distribution = also conditional median).\n- $Q_t$ = forecast variance, decomposed into:\n  - $F_t R_t F_t^{\\top}$ = \\emph{state uncertainty} propagated through the observation matrix;\n  - $V_t$ = \\emph{irreducible observation noise}.\n- $(1-\\alpha)$ predictive credible interval (scalar case): $f_t\\pm z_{1-\\alpha/2}\\sqrt{Q_t}$.\n\n\\textbf{Use cases.}\n\n- \\emph{Forecasting:} report $f_t$ with interval $f_t\\pm z_{1-\\alpha/2}\\sqrt{Q_t}$.\n- \\emph{Likelihood (prediction-error decomposition):} $L(\\phi)=\\prod_t\\mathcal{N}_q(y_t;f_t,Q_t)$ --- used for MLE of unknown DLM parameters.\n- \\emph{Model checking:} standardised innovations $\\tilde e_t=Q_t^{-1/2}(y_t-f_t)$ should be i.i.d.\\ $\\mathcal{N}(0,I_q)$ under correct specification (QQ-plot, Ljung--Box test).\n\n</details>\n\n\\textbf{Linked exams:} \\texttt{exam_jun_2024_q6}.",
+                  "content": "\\textbf{\\textcolor{red}{MASTER --- Predictive distribution $\\mathcal{N}(f_t,Q_t)$ — derivation}}\n\n---\n\n\n\n<details class=\"master-subpart\" open>\n<summary><span class=\"tag tag-2plus\">1 ex</span> (21.b)Now consider a DLM with state process $(\\theta_t)_{t\\ge 0}$. Given data $y_{1:t-1}$, we know that $\\theta_t\\mid y_{1:t-1}\\sim\\mathcal{N}(a_t,R_t)$; explain how one obtains the one-step-ahead predictive distribution of $y_t$ given $y_{1:t-1}$.</em>  [Jun 2024 Q6b]</summary>\nSee JSON \n</details>\n\n\\textbf{Linked exams:} \\texttt{exam_jun_2024_q6}.",
                   "flashcard": false,
                   "images": [],
                   "links": [
@@ -4333,7 +4333,7 @@
                   "column": 2,
                   "isMaster": true,
                   "userEdited": true,
-                  "userEditedAt": 1781359946401
+                  "userEditedAt": 1781359965567
                 },
                 {
                   "id": "exam_jun_2024_q6",
