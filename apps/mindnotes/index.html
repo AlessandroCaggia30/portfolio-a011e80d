@@ -13073,10 +13073,11 @@ async function persistSubpartColor(nodeId, subIdx, color) {
         const isTarget = (i === subIdx);
         i++;
         if (!isTarget) return m;
-        // Strip existing color-red / color-green from class string.
-        let cls = classAttr.replace(/\s*color-(red|green)/g, '');
+        // Strip existing color-red / color-green / color-purple from class string.
+        let cls = classAttr.replace(/\s*color-(red|green|purple)/g, '');
         if (color === 'red')   cls = cls.replace(/"\s*$/, ' color-red"');
         else if (color === 'green') cls = cls.replace(/"\s*$/, ' color-green"');
+        else if (color === 'purple') cls = cls.replace(/"\s*$/, ' color-purple"');
         return `<details${cls}${rest}>`;
     });
     node.content = content;
