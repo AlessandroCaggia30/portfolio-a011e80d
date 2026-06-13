@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-13T19:45:42.747Z",
+  "exportedAt": "2026-06-13T19:46:12.102Z",
   "data": {
     "topics": [
       {
@@ -995,30 +995,6 @@
                   "state": "learning",
                   "lastReview": "2026-05-22T17:12:56.053Z",
                   "dueDate": "2026-05-23T17:12:56.053Z"
-                }
-              },
-              {
-                "id": "1779812428872",
-                "title": "Estimation of unknown parameters --- DLM (prediction-error decomposition)",
-                "content": "\\textbf{\\textcolor{red}{WRITING THE LIKELIHOOD OF A DLM WITH UNKNOWN $\\phi$ --- prediction-error decomposition.}}\n\n\\begin{keydef}\n\\emph{Mirror of the HMM \"Estimation\" snippet, but for continuous-state linear Gaussian DLMs. The exam asks you to \\textbf{write} the likelihood --- not to maximise it. Maximisation is a one-liner footnote at the end.}\n\n\\textbf{Setup.} DLM with unknown parameter vector $\\phi$ (e.g.\\ $\\sigma_w^2, \\sigma_v^2$, $G, F, W, V$ as functions of $\\phi$). Observe $y_{1:T}$. We want $L(\\phi) = p(y_{1:T} \\mid \\phi)$ in a tractable closed form.\n\\end{keydef}\n\n\\textbf{\\textcolor{red}{1. Chain rule (pure probability identity, no model assumption).}}\n\\[ p(y_{1:T} \\mid \\phi) \\;\\underbrace{=}_{\\text{chain rule in time}}\\; \\prod_{t=1}^{T} p(y_t \\mid y_{1:t-1}, \\phi). \\]\n\\emph{Each factor is the one-step-ahead predictive density} of $Y_t$ given the past observations and parameters.\n\n\\textbf{\\textcolor{red}{2. Each factor is Gaussian (delivered by the Kalman filter at $\\phi$).}}\n\\[ p(y_t \\mid y_{1:t-1}, \\phi) \\;=\\; \\mathcal{N}_q\\bigl(y_t;\\; f_t(\\phi),\\; Q_t(\\phi)\\bigr), \\]\nwhere (from the KF at $\\phi$):\n\\[ a_t = G_t\\, m_{t-1}, \\quad R_t = G_t\\, C_{t-1}\\, G_t^\\top + W_t, \\qquad f_t = F_t\\, a_t, \\quad Q_t = F_t\\, R_t\\, F_t^\\top + V_t. \\]\n\\emph{Why Gaussian:} $Y_t = F_t\\, \\theta_t + v_t$ is a linear combination of $\\theta_t \\mid y_{1:t-1} \\sim \\mathcal{N}(a_t, R_t)$ and independent $v_t \\sim \\mathcal{N}(0, V_t)$ --- linear combos of (independent) Gaussians are Gaussian.\n\n\\textbf{\\textcolor{red}{3. Combine: the likelihood (prediction-error decomposition).}}\n\\[ \\boxed{\\; L(\\phi \\mid y_{1:T}) \\;=\\; \\prod_{t=1}^{T} \\mathcal{N}_q\\bigl(y_t;\\; f_t(\\phi),\\; Q_t(\\phi)\\bigr). \\;} \\]\n\\emph{(Petris \"Dynamic Linear Models with R\", \\S 4.1, eq.\\ 4.1, p.\\ 144.)}\n\n\\textbf{\\textcolor{red}{4. Log-likelihood (just take logs of the Gaussian densities).}} Each factor:\n\\[ \\log \\mathcal{N}_q(y_t; f_t, Q_t) \\;=\\; -\\tfrac{q}{2}\\log(2\\pi) \\;-\\; \\tfrac{1}{2}\\log|Q_t| \\;-\\; \\tfrac{1}{2}(y_t - f_t)^\\top Q_t^{-1}(y_t - f_t). \\]\nDefine the innovation $e_t = y_t - f_t(\\phi)$ and sum over $t$:\n\\[ \\boxed{\\; -2\\log L(\\phi) \\;=\\; \\sum_{t=1}^{T}\\Bigl[\\,q\\log(2\\pi) \\;+\\; \\log|Q_t(\\phi)| \\;+\\; e_t^\\top\\, Q_t(\\phi)^{-1}\\, e_t\\,\\Bigr]. \\;} \\]\n\\emph{This is the likelihood the exam wants you to write.} \n\n\\emph{MLE footnote.} If the exam additionally asks for $\\hat\\phi$: minimise the above (drop $q\\log(2\\pi)$ constant) numerically (BFGS / Nelder-Mead; R: \\texttt{dlmMLE}). \\emph{This is not the main object of the question --- the likelihood IS.}\n\n\n\\textbf{\\textcolor{red}{Side-by-side: HMM vs DLM likelihood.}}\n\n\\begin{tabular}{p{4cm}|p{6cm}|p{6cm}}\n\\textbf{Step} & \\textbf{HMM (discrete latent $S_{0:T}$)} & \\textbf{DLM (continuous latent $\\theta_{0:T}$)} \\\\\n\\hline\n\\emph{Marginalise latents} & \\textbf{Sum} over $K^{T+1}$ paths & \\textbf{Integral} (intractable as a multivariate Gaussian integral over $\\theta_{0:T}$) \\\\\n\\hline\n\\emph{Trick to make tractable} & \\textbf{Forward algorithm}: $\\alpha_t(j) = b_{j, y_t} \\sum_i \\alpha_{t-1}(i)\\, p_{i,j}$ & \\textbf{Chain rule + Kalman filter}: each $p(y_t \\mid y_{1:t-1}, \\phi)$ is a closed-form Gaussian (KF marginalises $\\theta_t$ at each step for free) \\\\\n\\hline\n\\emph{Likelihood (final form)} & $L(\\phi) = \\sum_{s_{0:T}} \\pi_{s_0} \\prod_t p_{s_{t-1}, s_t}\\, b_{s_t, y_t}$ \\;($= \\sum_j \\alpha_T(j)$) & $L(\\phi) = \\prod_t \\mathcal{N}_q(y_t; f_t(\\phi), Q_t(\\phi))$ \\\\\n\\end{tabular}\n\n\\emph{Same logical skeleton}: factor the joint, exploit the model's CI / Markov structure. HMM uses sums (forward algorithm); DLM uses chain rule + Kalman filter (Gaussian closed form).",
-                "flashcard": true,
-                "images": [],
-                "links": [],
-                "x": 3852.52000613153,
-                "y": 3949.168869854494,
-                "width": 460,
-                "height": 220,
-                "color": null,
-                "fsrs": {
-                  "stability": 1,
-                  "difficulty": 5,
-                  "elapsedDays": 0,
-                  "scheduledDays": 0,
-                  "reps": 0,
-                  "lapses": 0,
-                  "state": "new",
-                  "lastReview": null,
-                  "dueDate": "2026-05-26T16:20:40.367Z"
                 }
               },
               {
@@ -2292,6 +2268,33 @@
         "width": 212.35971910088173,
         "height": 140.05967779218787,
         "deletedAt": 1781214449518,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "1779812428872",
+        "title": "Estimation of unknown parameters --- DLM (prediction-error decomposition)",
+        "content": "\\textbf{\\textcolor{red}{WRITING THE LIKELIHOOD OF A DLM WITH UNKNOWN $\\phi$ --- prediction-error decomposition.}}\n\n\\begin{keydef}\n\\emph{Mirror of the HMM \"Estimation\" snippet, but for continuous-state linear Gaussian DLMs. The exam asks you to \\textbf{write} the likelihood --- not to maximise it. Maximisation is a one-liner footnote at the end.}\n\n\\textbf{Setup.} DLM with unknown parameter vector $\\phi$ (e.g.\\ $\\sigma_w^2, \\sigma_v^2$, $G, F, W, V$ as functions of $\\phi$). Observe $y_{1:T}$. We want $L(\\phi) = p(y_{1:T} \\mid \\phi)$ in a tractable closed form.\n\\end{keydef}\n\n\\textbf{\\textcolor{red}{1. Chain rule (pure probability identity, no model assumption).}}\n\\[ p(y_{1:T} \\mid \\phi) \\;\\underbrace{=}_{\\text{chain rule in time}}\\; \\prod_{t=1}^{T} p(y_t \\mid y_{1:t-1}, \\phi). \\]\n\\emph{Each factor is the one-step-ahead predictive density} of $Y_t$ given the past observations and parameters.\n\n\\textbf{\\textcolor{red}{2. Each factor is Gaussian (delivered by the Kalman filter at $\\phi$).}}\n\\[ p(y_t \\mid y_{1:t-1}, \\phi) \\;=\\; \\mathcal{N}_q\\bigl(y_t;\\; f_t(\\phi),\\; Q_t(\\phi)\\bigr), \\]\nwhere (from the KF at $\\phi$):\n\\[ a_t = G_t\\, m_{t-1}, \\quad R_t = G_t\\, C_{t-1}\\, G_t^\\top + W_t, \\qquad f_t = F_t\\, a_t, \\quad Q_t = F_t\\, R_t\\, F_t^\\top + V_t. \\]\n\\emph{Why Gaussian:} $Y_t = F_t\\, \\theta_t + v_t$ is a linear combination of $\\theta_t \\mid y_{1:t-1} \\sim \\mathcal{N}(a_t, R_t)$ and independent $v_t \\sim \\mathcal{N}(0, V_t)$ --- linear combos of (independent) Gaussians are Gaussian.\n\n\\textbf{\\textcolor{red}{3. Combine: the likelihood (prediction-error decomposition).}}\n\\[ \\boxed{\\; L(\\phi \\mid y_{1:T}) \\;=\\; \\prod_{t=1}^{T} \\mathcal{N}_q\\bigl(y_t;\\; f_t(\\phi),\\; Q_t(\\phi)\\bigr). \\;} \\]\n\\emph{(Petris \"Dynamic Linear Models with R\", \\S 4.1, eq.\\ 4.1, p.\\ 144.)}\n\n\\textbf{\\textcolor{red}{4. Log-likelihood (just take logs of the Gaussian densities).}} Each factor:\n\\[ \\log \\mathcal{N}_q(y_t; f_t, Q_t) \\;=\\; -\\tfrac{q}{2}\\log(2\\pi) \\;-\\; \\tfrac{1}{2}\\log|Q_t| \\;-\\; \\tfrac{1}{2}(y_t - f_t)^\\top Q_t^{-1}(y_t - f_t). \\]\nDefine the innovation $e_t = y_t - f_t(\\phi)$ and sum over $t$:\n\\[ \\boxed{\\; -2\\log L(\\phi) \\;=\\; \\sum_{t=1}^{T}\\Bigl[\\,q\\log(2\\pi) \\;+\\; \\log|Q_t(\\phi)| \\;+\\; e_t^\\top\\, Q_t(\\phi)^{-1}\\, e_t\\,\\Bigr]. \\;} \\]\n\\emph{This is the likelihood the exam wants you to write.} \n\n\\emph{MLE footnote.} If the exam additionally asks for $\\hat\\phi$: minimise the above (drop $q\\log(2\\pi)$ constant) numerically (BFGS / Nelder-Mead; R: \\texttt{dlmMLE}). \\emph{This is not the main object of the question --- the likelihood IS.}\n\n\n\\textbf{\\textcolor{red}{Side-by-side: HMM vs DLM likelihood.}}\n\n\\begin{tabular}{p{4cm}|p{6cm}|p{6cm}}\n\\textbf{Step} & \\textbf{HMM (discrete latent $S_{0:T}$)} & \\textbf{DLM (continuous latent $\\theta_{0:T}$)} \\\\\n\\hline\n\\emph{Marginalise latents} & \\textbf{Sum} over $K^{T+1}$ paths & \\textbf{Integral} (intractable as a multivariate Gaussian integral over $\\theta_{0:T}$) \\\\\n\\hline\n\\emph{Trick to make tractable} & \\textbf{Forward algorithm}: $\\alpha_t(j) = b_{j, y_t} \\sum_i \\alpha_{t-1}(i)\\, p_{i,j}$ & \\textbf{Chain rule + Kalman filter}: each $p(y_t \\mid y_{1:t-1}, \\phi)$ is a closed-form Gaussian (KF marginalises $\\theta_t$ at each step for free) \\\\\n\\hline\n\\emph{Likelihood (final form)} & $L(\\phi) = \\sum_{s_{0:T}} \\pi_{s_0} \\prod_t p_{s_{t-1}, s_t}\\, b_{s_t, y_t}$ \\;($= \\sum_j \\alpha_T(j)$) & $L(\\phi) = \\prod_t \\mathcal{N}_q(y_t; f_t(\\phi), Q_t(\\phi))$ \\\\\n\\end{tabular}\n\n\\emph{Same logical skeleton}: factor the joint, exploit the model's CI / Markov structure. HMM uses sums (forward algorithm); DLM uses chain rule + Kalman filter (Gaussian closed form).",
+        "flashcard": true,
+        "images": [],
+        "links": [],
+        "x": 3852.52000613153,
+        "y": 3949.168869854494,
+        "width": 460,
+        "height": 220,
+        "color": null,
+        "fsrs": {
+          "stability": 1,
+          "difficulty": 5,
+          "elapsedDays": 0,
+          "scheduledDays": 0,
+          "reps": 0,
+          "lapses": 0,
+          "state": "new",
+          "lastReview": null,
+          "dueDate": "2026-05-26T16:20:40.367Z"
+        },
+        "deletedAt": 1781379969925,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
