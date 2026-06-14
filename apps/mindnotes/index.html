@@ -1995,12 +1995,14 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
 .fc-card-content {
     color: var(--text);
     line-height: 1.6;
+    text-align: left;
 }
 
 .fc-card-back {
     border-top: 1px dashed var(--border);
     padding-top: 20px;
     margin-top: 20px;
+    text-align: left;
 }
 
 .fc-card-answer {
@@ -2009,6 +2011,20 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
     max-height: 60vh;
     overflow-y: auto;
     font-size: 15px;
+    text-align: left;
+}
+
+/* Snippet body inside flashcard should render exactly like the canvas/modal:
+   left-aligned text, KaTeX display equations stay centered (default). */
+.fc-card-answer p,
+.fc-card-answer div:not(.katex-display),
+.fc-card-answer li,
+.fc-card-answer table,
+.fc-card-content p,
+.fc-card-content div:not(.katex-display),
+.fc-card-content li,
+.fc-card-content table {
+    text-align: left;
 }
 
 .fc-card-info {
