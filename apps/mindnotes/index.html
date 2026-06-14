@@ -4450,7 +4450,7 @@ const FSRS = {
         data.topics.forEach(topic => {
             topic.subtopics.forEach(sub => {
                 sub.nodes.forEach(node => {
-                    if (node.flashcard) {
+                    if (isFlashcardNode(node)) {
                         this.initCard(node);
                         if (this.isDue(node)) {
                             dueCards.push({
