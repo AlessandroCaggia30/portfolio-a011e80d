@@ -11980,7 +11980,7 @@ function getAllFlashcards(data) {
         topic.subtopics.forEach(sub => {
             // Within each subtopic, topological sort by links:
             // nodes that are linked FROM others are prerequisites → show first
-            const flashcardNodes = sub.nodes.filter(n => n.flashcard);
+            const flashcardNodes = sub.nodes.filter(n => isFlashcardNode(n));
             const sorted = topologicalSortNodes(flashcardNodes);
 
             sorted.forEach(node => {
