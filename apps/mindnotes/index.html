@@ -12049,6 +12049,30 @@ function shuffleFlashcards(arr) {
     return arr;
 }
 
+// True if the content has at least one \begin{keydef}…\end{keydef} block whose
+// body contains a \fcnum{...} marker. Such snippets are auto-promoted to
+// flashcards regardless of the node.flashcard boolean.
+function hasNumberedKeydef(content) {
+    if (!content) return false;
+    const re = /\\begin\{keydef\}\s*([\s\S]*?)\s*\\end\{keydef\}/g;
+    let m;
+    while ((m = re.exec(content)) !== null) {
+        if (/\\fcnum\{[^}]*\}/.test(m[1] || '')) return true;
+    }
+    return false;
+}
+
+// Single source of truth for "is this node a flashcard?":
+//   (a) the user explicitly toggled node.flashcard = true, OR
+//   (b) the content contains a numbered keydef block (\fcnum inside keydef).
+// Only read-side checks (filters, badges, icons) should use this helper —
+// write paths (editor checkbox, markdown export) must keep using node.flashcard
+// directly so the user's explicit choice is preserved on disk.
+function isFlashcardNode(node) {
+    if (!node) return false;
+    return !!node.flashcard || hasNumberedKeydef(node.content || '');
+}
+
 // Extract \begin{keydef}…\end{keydef} body as the flashcard answer.
 // Falls back to null if no keydef block is present, so the caller can decide
 // whether to use the full content or skip the card. Returns the FIRST keydef
