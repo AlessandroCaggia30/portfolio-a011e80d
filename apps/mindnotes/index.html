@@ -13450,6 +13450,9 @@ function initKeyboardEvents() {
                 showFlashcardAnswer();
                 return;
             }
+            // Arrow keys browse without committing a rating — works in both states.
+            if (e.key === 'ArrowRight') { e.preventDefault(); skipFlashcard(); return; }
+            if (e.key === 'ArrowLeft')  { e.preventDefault(); prevFlashcard(); return; }
             if (State.flashcardSession.showAnswer) {
                 if (e.key === '1') { e.preventDefault(); rateFlashcard(1); return; }
                 if (e.key === '2') { e.preventDefault(); rateFlashcard(2); return; }
