@@ -195,44 +195,43 @@ not a point estimate. The conditional mean $\mathbb{E}[\theta_t\mid y_{1:t}]$ is
 <details class="master-subpart" open>
 <summary><span class="tag tag-2plus">≥3 ex</span> (Q3) <em>Derive the Kalman filter recursion: given $\theta_{t-1}\mid y_{1:t-1}\sim\mathcal{N}(m_{t-1},C_{t-1})$, obtain $\theta_t\mid y_{1:t}\sim\mathcal{N}(m_t,C_t)$. State clearly where Bayes' rule enters.</em>  [Jun 2025 Q3c; May 2025 Q5b; May 2021 Q5b]</summary>
 
-\textbf{Three steps.} Inductive hypothesis: $\theta_{t-1}\mid y_{1:t-1}\sim\mathcal{N}_p(m_{t-1},C_{t-1})$.
+\textbf{Book route} (DLMwR Prop.\ 2.2, p.\ 53). Joint Gaussianity of $(\theta_0,\dots,\theta_t,Y_1,\dots,Y_t)$ from the DLM specification (2.4) implies every subvector and every conditional law is Gaussian (Appendix A). It then suffices to compute their means and variances. Inductive hypothesis: $\theta_{t-1}\mid y_{1:t-1}\sim\mathcal{N}_p(m_{t-1},C_{t-1})$.
 
-\textbf{Step 1 --- Predict the state} (affine + Gaussian closure on state equation).
+\textbf{Step 1 --- Predict the state (Prop.\ 2.2 (i)) via tower property and law of total variance.}
 
-State equation: $\theta_t=G_t\theta_{t-1}+w_t$ with $w_t\sim\mathcal{N}_p(0,W_t)$ independent of $\theta_{t-1}$ and of $y_{1:t-1}$.
+State equation: $\theta_t=G_t\theta_{t-1}+w_t$ with $w_t\sim\mathcal{N}_p(0,W_t)$ independent of $(\theta_{t-1}, y_{1:t-1})$.
 
-\emph{Mean:} $\mathbb{E}[\theta_t\mid y_{1:t-1}]=G_t\mathbb{E}[\theta_{t-1}\mid y_{1:t-1}]+\mathbb{E}[w_t\mid y_{1:t-1}]=G_t m_{t-1}+0\equiv a_t$.
+\emph{Mean by tower property:}
+\[ a_t \;=\; \mathbb{E}[\theta_t\mid y_{1:t-1}] \;=\; \mathbb{E}\bigl[\mathbb{E}(\theta_t\mid \theta_{t-1}, y_{1:t-1})\mid y_{1:t-1}\bigr] \;=\; \mathbb{E}[G_t\theta_{t-1}\mid y_{1:t-1}] \;=\; G_t m_{t-1}. \]
 
-\emph{Variance:} $\operatorname{Var}(\theta_t\mid y_{1:t-1})=G_t\operatorname{Var}(\theta_{t-1}\mid y_{1:t-1})G_t^{\top}+\operatorname{Var}(w_t\mid y_{1:t-1})=G_t C_{t-1}G_t^{\top}+W_t\equiv R_t$ (cross term vanishes by independence).
+\emph{Variance by law of total variance:}
+\[ R_t \;=\; \mathbb{E}\bigl[\operatorname{Var}(\theta_t\mid \theta_{t-1}, y_{1:t-1})\mid y_{1:t-1}\bigr] + \operatorname{Var}\bigl[\mathbb{E}(\theta_t\mid \theta_{t-1}, y_{1:t-1})\mid y_{1:t-1}\bigr] \;=\; W_t + G_t C_{t-1} G_t^{\top}. \]
+\[ \boxed{\;\theta_t\mid y_{1:t-1}\sim\mathcal{N}_p(a_t,R_t),\quad a_t=G_t m_{t-1},\;R_t=G_t C_{t-1} G_t^{\top}+W_t.\;} \]
 
-\emph{Gaussianity:} $\theta_t$ is an affine combination of two independent Gaussians, so
-\[ \boxed{\;\theta_t\mid y_{1:t-1}\sim\mathcal{N}_p(a_t,R_t),\quad a_t=G_t m_{t-1},\;R_t=G_t C_{t-1}G_t^{\top}+W_t.\;} \]
+\textbf{Step 2 --- Predict the observation (Prop.\ 2.2 (ii)) via tower property and law of total variance.}
 
-\textbf{Step 2 --- Predict the observation} (affine + Gaussian closure on obs equation).
+Observation equation: $Y_t=F_t\theta_t+v_t$ with $v_t\sim\mathcal{N}_q(0,V_t)$ independent of $(\theta_t, y_{1:t-1})$.
 
-Observation equation: $Y_t=F_t\theta_t+v_t$ with $v_t\sim\mathcal{N}_q(0,V_t)$ independent of $\theta_t$ and of $y_{1:t-1}$.
+\emph{Mean by tower property:}
+\[ f_t \;=\; \mathbb{E}[Y_t\mid y_{1:t-1}] \;=\; \mathbb{E}\bigl[\mathbb{E}(Y_t\mid \theta_t, y_{1:t-1})\mid y_{1:t-1}\bigr] \;=\; \mathbb{E}[F_t\theta_t\mid y_{1:t-1}] \;=\; F_t a_t. \]
 
-\emph{Joint Gaussianity of $(\theta_t,Y_t)\mid y_{1:t-1}$:}
-\[ \begin{pmatrix}\theta_t\\Y_t\end{pmatrix}\Big|\,y_{1:t-1}\sim\mathcal{N}_{p+q}\!\left(\begin{pmatrix}a_t\\f_t\end{pmatrix},\;\begin{pmatrix}R_t & R_t F_t^{\top}\\F_t R_t & Q_t\end{pmatrix}\right), \]
-with
-\[ f_t=F_t a_t,\qquad Q_t=F_t R_t F_t^{\top}+V_t,\qquad \operatorname{Cov}(\theta_t,Y_t\mid y_{1:t-1})=R_t F_t^{\top}. \]
-Marginal: $Y_t\mid y_{1:t-1}\sim\mathcal{N}_q(f_t,Q_t)$.
+\emph{Variance by law of total variance:}
+\[ Q_t \;=\; \mathbb{E}\bigl[\operatorname{Var}(Y_t\mid \theta_t, y_{1:t-1})\mid y_{1:t-1}\bigr] + \operatorname{Var}\bigl[\mathbb{E}(Y_t\mid \theta_t, y_{1:t-1})\mid y_{1:t-1}\bigr] \;=\; V_t + F_t R_t F_t^{\top}. \]
+\[ \boxed{\;Y_t\mid y_{1:t-1}\sim\mathcal{N}_q(f_t,Q_t),\quad f_t=F_t a_t,\;Q_t=F_t R_t F_t^{\top}+V_t.\;} \]
 
-\textbf{Step 3 --- Update via Bayes' rule} (\emph{this is where the new data $y_t$ enters}).
+\textbf{Step 3 --- Update via Bayes' rule (Prop.\ 2.2 (iii)).} \emph{This is where the new data $y_t$ enters.}
 
 \emph{Bayes' rule:}
-\[ p(\theta_t\mid y_{1:t})=p(\theta_t\mid y_{1:t-1},y_t)\propto p(y_t\mid\theta_t,y_{1:t-1})\,p(\theta_t\mid y_{1:t-1})=p(y_t\mid\theta_t)\,p(\theta_t\mid y_{1:t-1}), \]
-using the conditional-independence assumption $Y_t\perp Y_{1:t-1}\mid\theta_t$.
-
-\emph{Gaussian $\times$ Gaussian = Gaussian.} Equivalently, condition the joint Gaussian from Step 2 on $Y_t=y_t$ using the standard formula for Normal conditioning $(X_1\mid X_2=x_2)\sim\mathcal{N}(\mu_1+\Sigma_{12}\Sigma_{22}^{-1}(x_2-\mu_2),\Sigma_{11}-\Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21})$. With $X_1=\theta_t$, $X_2=Y_t$:
-\[ \boxed{\;\theta_t\mid y_{1:t}\sim\mathcal{N}_p(m_t,C_t),\quad m_t=a_t+K_t(y_t-f_t),\;C_t=R_t-K_t Q_t K_t^{\top},\;K_t=R_t F_t^{\top}Q_t^{-1}.\;} \]
+\[ \pi(\theta_t\mid y_{1:t}) \;\propto\; \pi(y_t\mid \theta_t)\,\pi(\theta_t\mid y_{1:t-1}), \]
+using the conditional-independence assumption $Y_t\perp Y_{1:t-1}\mid\theta_t$ to drop the past from the likelihood. The book reduces this Gaussian-likelihood-times-Gaussian-prior conjugacy problem to the \emph{Bayesian linear regression} setup of \S 1.5 (regression of $Y_t = F_t\theta_t + v_t$ with conjugate prior $\theta_t\sim\mathcal{N}(a_t,R_t)$). From the closed-form results of \S 1.5 (eqs.\ 1.9--1.10),
+\[ \boxed{\;\theta_t\mid y_{1:t}\sim\mathcal{N}_p(m_t,C_t),\quad m_t=a_t+R_t F_t^{\top} Q_t^{-1}(y_t-f_t),\;\;C_t=R_t-R_t F_t^{\top} Q_t^{-1} F_t R_t.\;} \]
 
 \textbf{Reading the update.}
 
-- $K_t=R_t F_t^{\top}Q_t^{-1}$ = \textbf{Kalman gain}: regression coefficient of $\theta_t$ on $Y_t$ conditional on $y_{1:t-1}$.
-- $y_t-f_t$ = \textbf{innovation}: surprise carried by the new observation.
-- $m_t=a_t+K_t(y_t-f_t)$: prior mean corrected by gain $\times$ innovation.
-- $C_t=R_t-K_t Q_t K_t^{\top}\preceq R_t$: observing $y_t$ \emph{reduces} posterior variance (information never hurts).
+- $K_t=R_t F_t^{\top}Q_t^{-1}$ = \textbf{Kalman gain}: regression coefficient of $\theta_t$ on $Y_t$ given $y_{1:t-1}$.
+- $e_t=y_t-f_t$ = \textbf{innovation}: surprise carried by the new observation.
+- $m_t=a_t+K_t e_t$: prior mean corrected by gain $\times$ innovation.
+- $C_t = R_t - K_t F_t R_t \preceq R_t$: observing $y_t$ reduces posterior variance.
 
 \textbf{Scalar local-level specialization (May 2025 Q5).} With $F=G=1$, $V_t=V$, $W_t=W$:
 \[ a_t=m_{t-1},\;R_t=C_{t-1}+W,\;f_t=a_t,\;Q_t=R_t+V,\;K_t=\frac{R_t}{Q_t}\in(0,1), \]
@@ -270,24 +269,36 @@ using $\mathbb{E}[w_t\mid y_{1:t-1}]=\mathbb{E}[w_t]=0$ by independence of $w_t$
 <details class="master-subpart" open>
 <summary><span class="tag tag-2plus">1 ex</span> (Q5) <em>Does the variance $C_t$ converge to zero as $t\to\infty$?</em>  [May 2025 Q5c]</summary>
 
-\textbf{Answer: NO (provided $W>0$).}
+\textbf{Answer: NO} (provided $W>0$). \emph{Book route} (DLMwR \S 2.11, "Filter stability").
 
-\textbf{Setup.} In the scalar local-level DLM,
-\[ C_t=\frac{V(C_{t-1}+W)}{C_{t-1}+W+V}\equiv\Phi(C_{t-1}). \]
-This is a Riccati-type recursion. $\Phi$ is increasing on $[0,\infty)$ with $\Phi(0)=VW/(W+V)>0$ and $\Phi(\infty)=V$; it is a contraction in a neighbourhood of its fixed point.
+\textbf{General DLM --- matrix Riccati equation.} For a generic DLM the one-step-ahead state variance satisfies
+\[ R_t \;=\; G\,R_{t-1}\,G^{\top} - A_{t-1}\,F\,R_{t-1}\,G^{\top} + W \quad\text{(DLMwR eq.\ 2.17, matrix Riccati equation),} \]
+where $A_t=R_t F^{\top}(V+F R_t F^{\top})^{-1}$ is the Kalman gain. Any steady state $R$ solves the \emph{algebraic Riccati equation}
+\[ R \;=\; G\,R\,G^{\top} - G\,R\,F^{\top}\bigl[V+F R F^{\top}\bigr]^{-1} F\,R\,G^{\top} + W \quad\text{(DLMwR eq.\ 2.18).} \]
 
-\textbf{Fixed point.} At equilibrium $C^*=\Phi(C^*)$:
-\[ C^*(C^*+W+V)=V(C^*+W)\;\Longrightarrow\; C^{*2}+WC^*-VW=0\;\Longrightarrow\; C^*=\tfrac12\Big(-W+\sqrt{W^2+4VW}\Big)>0. \]
+\textbf{Convergence theorem (book).} If the DLM is
 
+- \textbf{observable}: the observability matrix $\mathcal{O}=[F^{\top},(FG)^{\top},(FG^2)^{\top},\dots]^{\top}$ has full rank $p$, and
+- \textbf{controllable}: the controllability matrix $\mathcal{C}$ built from $W^{1/2}, G W^{1/2}, G^2 W^{1/2},\dots$ has full rank $p$,
+
+then for \emph{any} initial $(m_0,C_0)$ the sequence $R_t$ converges to the unique positive-definite solution $R>0$ of eq.\ 2.18, and all eigenvalues of $G-AF$ lie inside the unit disk (asymptotic stability of the Kalman filter). The proof is delegated to \emph{Anderson and Moore (1979), Optimal Filtering}, Ch.\ 4--5.
+
+\textbf{Scalar local-level case ($F=G=1$, $W>0$, $V$).}
+
+- $\mathcal{O}=(F)=1$ has rank $1$ $\Rightarrow$ \emph{observable}.
+- $\mathcal{C}=(\sqrt{W})$ has rank $1$ since $W>0$ $\Rightarrow$ \emph{controllable}.
+
+Hence the book's convergence theorem applies. The algebraic Riccati equation $R=R-\tfrac{R^2}{R+V}+W$ simplifies (using $C^*=R^*-W$ for the analytic variance) to
+\[ C^{*2}+W C^*-V W=0 \;\Longrightarrow\; C^*=\tfrac12\bigl(-W+\sqrt{W^2+4VW}\bigr)>0. \]
 So $C_t\to C^*>0$, \emph{not} to zero.
 
-\textbf{Intuition.} Fresh state noise $w_t\sim\mathcal{N}(0,W)$ is injected \emph{every} step. Even after infinite past data, the current state $\theta_t=\theta_{t-1}+w_t$ has irreducible uncertainty from the most recent innovation $w_t$. The filter cannot reduce $C_t$ below the noise it inherits.
+\textbf{Intuition.} Fresh state noise $w_t\sim\mathcal{N}(0,W)$ is injected at \emph{every} step (this is exactly what controllability $W>0$ encodes: the state is "excited" so the filter can never lock in). The current state $\theta_t=\theta_{t-1}+w_t$ has irreducible uncertainty from the most recent innovation, which the filter cannot remove. The asymptotic $C^*>0$ is the steady-state Kalman precision.
 
-\textbf{Degenerate case $W=0$.} Then $\theta_t=\theta_{t-1}=\theta_0$ is static; the recursion becomes
+\textbf{Degenerate case $W=0$.} Controllability fails ($\mathcal{C}=(0)$ has rank $0<1$), so the book's theorem does \emph{not} apply. Indeed $\theta_t=\theta_0$ is static and the recursion becomes
 \[ C_t=\frac{V C_{t-1}}{C_{t-1}+V}=\frac{V C_0}{V+t C_0}\sim\frac{V}{t}\to 0, \]
-at rate $1/t$ --- the standard "sample mean shrinks variance" result.
+at rate $1/t$ --- the standard "sample mean shrinks variance" result. Loss of controllability is precisely \emph{why} convergence drops from geometric to $1/t$ in the degenerate case.
 
-\textbf{Take-away.} The asymptotic variance $C^*$ is the \emph{steady-state} filter precision and a key quantity for designing alarm levels, control limits, and exploration policies in adaptive filtering.
+\textbf{Take-away.} $C_t\not\to 0$ in general; the limit $C^*$ is a steady-state floor whose existence is guaranteed by observability + controllability (Anderson--Moore 1979), and whose value solves the algebraic Riccati equation.
 
 \emph{R (iterate the Riccati recursion to the limit):}
 

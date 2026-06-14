@@ -37,7 +37,7 @@ TOPICS = [
         {"sid": "t3a", "name": "Markov property, DAG & conditional independence",
          "questions": ["exam_jun_2025_q1", "exam_may_2025_q2", "exam_may_2021_q1"]},
         {"sid": "t3b", "name": "Transition-matrix arithmetic & ergodic convergence (Thm 2.1)",
-         "questions": ["exam_jun_2024_q3", "exam_may_2023_q2", "exam_may_2022_q3", "exam_jun_2022_q5"]},
+         "questions": ["exam_jun_2024_q3", "exam_may_2023_q2", "exam_may_2022_q3", "exam_jun_2022_q5", "exam_may_2021_q7"]},
     ]},
 
     # ----------------------------------------------------------------- T4

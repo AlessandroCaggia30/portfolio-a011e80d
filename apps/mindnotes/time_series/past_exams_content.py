@@ -682,9 +682,13 @@ $$Y_t\mid y_{1:t-1}\sim\mathcal{N}(f_t,Q_t),\quad f_t=a_t,\;Q_t=R_t+V.$$
 \emph{Step 4 — update via Gaussian conditioning} on $Y_t=y_t$:
 $$\boxed{\;m_t=a_t+K_t(y_t-f_t),\qquad C_t=(1-K_t)R_t=\frac{V\,R_t}{Q_t}=\frac{V(C_{t-1}+W)}{C_{t-1}+W+V}.\;}$$
 
-\textbf{(c) NO} (unless $W=0$). The recursion $C_t=V(C_{t-1}+W)/(C_{t-1}+W+V)$ converges to the unique positive fixed point of $C^*=V(C^*+W)/(C^*+W+V)$. Rearranging gives $C^{*2}+WC^*-VW=0$, so
+\textbf{(c) NO} (provided $W>0$). \emph{Book's framing (DLMwR \S 2.11, "Filter stability").} The recursion $R_t = G R_{t-1} G' - A_{t-1} F R_{t-1} G' + W$ (eq.\ 2.17) is the matrix \emph{Riccati equation}; its steady state, the \emph{algebraic Riccati equation} (eq.\ 2.18), is
+$$R = G R G' - G R F'\bigl[V+F R F'\bigr]^{-1}F R G' + W.$$
+The book states: if the DLM is \textbf{observable} (the obs.\ matrix $\mathcal O$ built from $F, FG, FG^2,\dots$ has full rank $p$) and \textbf{controllable} (the controllability matrix $\mathcal C$ has full rank $p$), then for any initial $(m_0,C_0)$, $R_t\to R>0$, and all eigenvalues of $G-AF$ lie inside the unit disk (asymptotic stability of the KF). The proof itself is delegated to \emph{Anderson and Moore (1979)}.
+
+For the scalar local-level case here ($F=G=1$, $W>0$, $V$): $\mathcal O=(F)=1$ has rank $1$, so the DLM is observable; $\mathcal C$ has rank $1$ since $W>0$, so it is controllable. Hence convergence is invoked, and the algebraic Riccati equation specialises to $C^{*2}+WC^*-VW=0$, giving
 $$C^*=\tfrac12\bigl(-W+\sqrt{W^2+4VW}\bigr)>0.$$
-Intuition: fresh state noise $W$ is injected every step, so even after infinite data the current state $\theta_t$ has irreducible uncertainty inherited from the most recent innovation $w_t$. (If $W=0$ the state is static and $C_t=VC_0/(V+tC_0)\to 0$ at rate $1/t$.)
+Intuition: fresh state noise $W$ injected every step prevents the filter from driving $C_t$ to zero --- there is an irreducible information floor $C^*>0$. (If $W=0$: controllability fails $\Rightarrow$ no positive steady state; $C_t=VC_0/(V+tC_0)\to 0$ at rate $1/t$.)
 
 \emph{R (iterate the Riccati recursion to the limit):}
 
@@ -1878,5 +1882,53 @@ $\tilde e_t=Q_t^{-1/2}e_t$ are i.i.d.\ $\mathcal{N}(0,1)$ under correct specific
 model checking (QQ plot, Ljung--Box).""",
     "is_exam": True,
     "topic_hint": "t11a",
+    "images": []
+}
+
+past_exams_ts["exam_may_2021_q7"] = {
+    "title": 'May 2021 — Q7',
+    "content": r"""<span class="exam-question-text">Let $(Y_t)_{t\ge 0}$ be a Markov chain on a finite state-space $\mathcal{Y}$. Discuss the
+limit behaviour of the $n$-step transition probabilities
+$$
+\mathbb{P}(Y_n=i\mid Y_0=j),\qquad i,j\in\mathcal{Y},
+$$
+as $n\to\infty$. What can you say about the limit behaviour of the marginal distribution of
+$Y_n$?</span>
+
+---
+
+**Solution.** \emph{Setting.} $(Y_t)$ is a homogeneous Markov chain on a finite state-space
+$\mathcal{Y}=\{1,\dots,K\}$ with transition matrix $\mathbf{P}=[p_{ij}]$. The $n$-step
+transition probabilities are the entries of $\mathbf{P}^n$:
+$\mathbb{P}(Y_n=i\mid Y_0=j)=(\mathbf{P}^n)_{j,i}$.
+
+\textbf{Ergodic convergence theorem (Theorem 2.1).} If $\mathbf{P}$ is
+\emph{irreducible} (every state reachable from every other in finitely many steps) and
+\emph{aperiodic} (the gcd of return times for any state is $1$), then there exists a unique
+\emph{stationary distribution} $\boldsymbol\pi=(\pi_1,\dots,\pi_K)$ satisfying $\boldsymbol\pi\mathbf{P}=\boldsymbol\pi$
+and $\sum_i\pi_i=1$, and
+$$
+\boxed{\;\lim_{n\to\infty}\mathbb{P}(Y_n=i\mid Y_0=j)=\pi_i\quad\text{for every }j\in\mathcal{Y}.\;}
+$$
+\emph{Key consequence:} the limit does not depend on the initial state $j$ --- the chain
+"forgets" where it started.
+
+\textbf{Marginal of $Y_n$.} Let $\boldsymbol\nu_n$ denote the marginal distribution of $Y_n$
+(row vector). Then $\boldsymbol\nu_n=\boldsymbol\nu_0\mathbf{P}^n$, and by the theorem
+$\boldsymbol\nu_n\to\boldsymbol\pi$ as $n\to\infty$, regardless of $\boldsymbol\nu_0$:
+$$
+\boxed{\;\lim_{n\to\infty}\mathbb{P}(Y_n=i)=\pi_i\quad\text{for every }i\in\mathcal{Y}.\;}
+$$
+The chain converges to its (unique) stationary distribution.
+
+\emph{If $\mathbf{P}$ is reducible or periodic.} Without irreducibility, multiple stationary
+distributions can exist and the limit depends on the starting state. Without aperiodicity,
+$\mathbf{P}^n$ cycles and the limit may not exist (though Cesàro averages do).
+
+\emph{Reading.} Irreducibility ensures uniqueness of $\boldsymbol\pi$; aperiodicity ensures
+convergence (not just Cesàro convergence). Together they are the standard sufficient
+conditions for the ergodic limit.""",
+    "is_exam": True,
+    "topic_hint": "t3b",
     "images": []
 }
