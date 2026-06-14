@@ -12056,6 +12056,48 @@ function parseSnippetNumber(title) {
     });
 }
 
+// Parse one \fcnum token like "19d", "0.b", "1", "19.f" into a comparable array.
+// Handles both dotted ("0.b", "19.f") and concatenated ("19d", "19f") letter suffixes,
+// plus pure-numeric ("1", "19", "20"). Letters use the same a=0.5, b=1.5… encoding as
+// parseSnippetNumber so 0.b < 1, 19a < 19b < 19d < 19e < 19f < 20.
+function _tokenizeFcNum(tok) {
+    if (tok == null) return [Infinity];
+    const s = String(tok).trim();
+    if (!s) return [Infinity];
+    // Split on dots first; for each segment, peel an optional trailing letter run.
+    const out = [];
+    for (const seg of s.split('.')) {
+        const m = seg.match(/^(\d*)([a-zA-Z]*)$/);
+        if (!m) { out.push(Number(seg) || 0); continue; }
+        if (m[1]) out.push(Number(m[1]));
+        if (m[2]) {
+            const lower = m[2].toLowerCase();
+            out.push((lower.charCodeAt(0) - 97) + 0.5);
+        }
+    }
+    return out.length ? out : [Infinity];
+}
+
+// Extract the FIRST \fcnum{...} value from a node's content as a sort key.
+// Returns null when the node has no \fcnum marker — caller then falls back to title.
+function extractFcNumSortKey(content) {
+    if (!content) return null;
+    const m = content.match(/\\fcnum\{([^}]*)\}/);
+    if (!m) return null;
+    return _tokenizeFcNum(m[1]);
+}
+
+// Lexicographic compare for two number arrays (e.g. from parseSnippetNumber / extractFcNumSortKey).
+function _cmpNumArrays(a, b) {
+    const len = Math.max(a.length, b.length);
+    for (let i = 0; i < len; i++) {
+        const na = a[i] ?? -1;
+        const nb = b[i] ?? -1;
+        if (na !== nb) return na - nb;
+    }
+    return 0;
+}
+
 // Fisher-Yates shuffle (in place, returns the same array).
 function shuffleFlashcards(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
