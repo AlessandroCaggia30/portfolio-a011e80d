@@ -11829,7 +11829,7 @@ function updateFlashcardStats() {
     State.data.topics.forEach(topic => {
         topic.subtopics.forEach(sub => {
             sub.nodes.forEach(node => {
-                if (node.flashcard) {
+                if (isFlashcardNode(node)) {
                     FSRS.initCard(node);
                     totalCards++;
 
