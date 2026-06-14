@@ -8028,7 +8028,7 @@ function openDetail(node) {
 function updateFsrsStatsDisplay(node) {
     const statsDiv = $('detailFsrsStats');
 
-    if (!node.flashcard) {
+    if (!isFlashcardNode(node)) {
         statsDiv.style.display = 'none';
         return;
     }
