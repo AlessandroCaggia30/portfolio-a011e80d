@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-14T16:33:39.498Z",
+  "exportedAt": "2026-06-14T16:33:48.299Z",
   "data": {
     "topics": [
       {
@@ -448,8 +448,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 5909.446495577042,
-                "y": 3191.418199747646,
+                "x": 5916.978734322248,
+                "y": 3157.1046676861515,
                 "width": 420.06713911263796,
                 "height": 211.47040457904075,
                 "fsrs": {
@@ -1051,14 +1051,9 @@
                 "content": "\\textbf{\\textcolor{red}{WRITING THE LIKELIHOOD OF A DLM WITH UNKNOWN $\\phi$ --- prediction-error decomposition.}}\n\n\\begin{keydef}\n\\fcnum{18c} \n\\textbf{\\textcolor{red}{1. Chain rule (pure probability identity, no model assumption).}}\n\\[ L(\\phi \\mid y_{1:T}) = p(y_{1:T} \\mid \\phi) \\;\\underbrace{=}_{\\text{chain rule in time}}\\; \\prod_{t=1}^{T} \\underbrace{p(y_t \\mid y_{1:t-1}, \\phi)}_{\\mathcal{N}_q\\bigl(y_t;\\; f_t(\\phi),\\; Q_t(\\phi)\\bigr)^{*1}} \\]\n\n*\\emph{Why Gaussian:} $Y_t = F_t\\, \\theta_t + v_t$ is a linear combination of $\\theta_t \\mid y_{1:t-1} \\sim \\mathcal{N}(a_t, R_t)$ and independent $v_t \\sim \\mathcal{N}(0, V_t)$\n\n\\textbf{\\textcolor{red}{4. Log-likelihood (just take logs of the Gaussian densities).}}\nDefine the innovation $e_t = y_t - f_t(\\phi)$ and sum over $t$:\n\\[ \\boxed{\\; -2\\log L(\\phi) \\;=\\; \\sum_{t=1}^{T}\\Bigl[\\,q\\log(2\\pi) \\;+\\; \\log|Q_t(\\phi)| \\;+\\; e_t^\\top\\, Q_t(\\phi)^{-1}\\, e_t\\,\\Bigr]. \\;} \\]\n\\emph{This is the likelihood the exam wants you to write.} \n\n\\emph{MLE footnote.} MLE needs numericql maximization: BFGS / Nelder-Mead}\n\\end{keydef}",
                 "flashcard": true,
                 "images": [],
-                "links": [
-                  {
-                    "target": "1779445055863",
-                    "type": "forward"
-                  }
-                ],
-                "x": 5921.323919188237,
-                "y": 2969.4204623899977,
+                "links": [],
+                "x": 5928.856157933443,
+                "y": 2945.149915322111,
                 "width": 380.51824504471244,
                 "height": 144.81455612337663,
                 "color": null,
