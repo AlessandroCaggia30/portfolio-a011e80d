@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-14T18:07:16.035Z",
+  "exportedAt": "2026-06-14T21:19:05.856Z",
   "data": {
     "topics": [
       {
@@ -1068,17 +1068,6 @@
                   "lastReview": "2026-06-14T16:16:23.387Z",
                   "dueDate": "2026-06-15T16:16:23.387Z"
                 }
-              },
-              {
-                "id": "1781455610511",
-                "title": "Missing",
-                "content": "Missing the covariance of the AR 1 process derivation. ",
-                "flashcard": false,
-                "images": [],
-                "imageWidths": [],
-                "links": [],
-                "x": 2678.493181219668,
-                "y": 803.4880051831587
               }
             ]
           }
@@ -2326,6 +2315,20 @@
         "x": 5326.204345435416,
         "y": 3871.045868350374,
         "deletedAt": 1781434458781,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "1781455610511",
+        "title": "Missing",
+        "content": "Missing the covariance of the AR 1 process derivation. ",
+        "flashcard": false,
+        "images": [],
+        "imageWidths": [],
+        "links": [],
+        "x": 2678.493181219668,
+        "y": 803.4880051831587,
+        "deletedAt": 1781471943648,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
