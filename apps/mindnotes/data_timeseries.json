@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-14T11:33:36.619Z",
+  "exportedAt": "2026-06-14T11:33:41.003Z",
   "data": {
     "topics": [
       {
@@ -57,15 +57,15 @@
                 "height": 156.92859666002454,
                 "color": "coral",
                 "fsrs": {
-                  "stability": 15.4722,
-                  "difficulty": 6.6786,
+                  "stability": 30.9444,
+                  "difficulty": 5.650862780000001,
                   "elapsedDays": 0,
                   "scheduledDays": 1,
-                  "reps": 1,
+                  "reps": 2,
                   "lapses": 0,
                   "state": "review",
-                  "lastReview": "2026-06-14T10:59:16.720Z",
-                  "dueDate": "2026-06-15T10:59:16.720Z"
+                  "lastReview": "2026-06-14T11:33:38.713Z",
+                  "dueDate": "2026-06-15T11:33:38.713Z"
                 }
               },
               {
@@ -904,11 +904,11 @@
                   "difficulty": 8.2734,
                   "elapsedDays": 0,
                   "scheduledDays": 1,
-                  "reps": 1,
+                  "reps": 2,
                   "lapses": 0,
-                  "state": "learning",
-                  "lastReview": "2026-05-22T17:12:29.555Z",
-                  "dueDate": "2026-05-23T17:12:29.555Z"
+                  "state": "review",
+                  "lastReview": "2026-06-14T11:33:40.379Z",
+                  "dueDate": "2026-06-15T11:33:40.379Z"
                 },
                 "color": "coral"
               },
@@ -1031,15 +1031,15 @@
                 "imageWidths": [],
                 "userEdited": true,
                 "fsrs": {
-                  "stability": 1,
-                  "difficulty": 5,
+                  "stability": 15.4722,
+                  "difficulty": 6.6786,
                   "elapsedDays": 0,
-                  "scheduledDays": 0,
-                  "reps": 0,
+                  "scheduledDays": 1,
+                  "reps": 1,
                   "lapses": 0,
-                  "state": "new",
-                  "lastReview": null,
-                  "dueDate": "2026-06-13T10:24:23.097Z"
+                  "state": "review",
+                  "lastReview": "2026-06-14T11:33:37.313Z",
+                  "dueDate": "2026-06-15T11:33:37.313Z"
                 },
                 "width": 367.437137695293,
                 "height": 150.74445736429067
