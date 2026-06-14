@@ -7983,8 +7983,8 @@ function openDetail(node) {
     if (_detailFo) _detailFo.value = (node.flashcardOrder === null || node.flashcardOrder === undefined) ? '' : String(node.flashcardOrder);
     _paintFcPill('detailFlashcardOrderPill', 'detailFlashcardOrder');
 
-    // Update flashcard badge visibility
-    $('flashcardBadge').style.display = node.flashcard ? 'inline-block' : 'none';
+    // Update flashcard badge visibility (also true when content has a numbered keydef)
+    $('flashcardBadge').style.display = isFlashcardNode(node) ? 'inline-block' : 'none';
 
     // Update FSRS stats display
     updateFsrsStatsDisplay(node);
