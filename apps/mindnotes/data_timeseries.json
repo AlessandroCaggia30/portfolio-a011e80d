@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-14T16:41:43.092Z",
+  "exportedAt": "2026-06-14T16:46:52.668Z",
   "data": {
     "topics": [
       {
@@ -1068,6 +1068,17 @@
                   "lastReview": "2026-06-14T16:16:23.387Z",
                   "dueDate": "2026-06-15T16:16:23.387Z"
                 }
+              },
+              {
+                "id": "1781455610511",
+                "title": "Missing",
+                "content": "Missing the covariance of the AR 1 process derivation. ",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": 2678.493181219668,
+                "y": 803.4880051831587
               }
             ]
           }
