@@ -12372,6 +12372,30 @@ function rateFlashcard(rating) {
     showCurrentFlashcard();
 }
 
+// Move to the next card without recording a review / updating FSRS.
+// Useful when the user wants to browse without committing to a rating.
+function skipFlashcard() {
+    const session = State.flashcardSession;
+    if (!session.active) return;
+    session.currentIndex++;
+    if (session.currentIndex >= session.cards.length) {
+        // Wrap to start so the user can keep browsing
+        session.currentIndex = 0;
+    }
+    showCurrentFlashcard();
+}
+
+// Step back one card. Wraps to the end if already at the first card.
+function prevFlashcard() {
+    const session = State.flashcardSession;
+    if (!session.active) return;
+    session.currentIndex--;
+    if (session.currentIndex < 0) {
+        session.currentIndex = session.cards.length - 1;
+    }
+    showCurrentFlashcard();
+}
+
 function endFlashcardSession() {
     if (State.flashcardSession.cardsReviewed > 0) {
         showSessionComplete();
