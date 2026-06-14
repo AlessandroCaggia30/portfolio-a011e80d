@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-14T10:59:50.406Z",
+  "exportedAt": "2026-06-14T11:00:02.919Z",
   "data": {
     "topics": [
       {
@@ -281,11 +281,11 @@
                   "difficulty": 8.2734,
                   "elapsedDays": 0,
                   "scheduledDays": 1,
-                  "reps": 1,
+                  "reps": 2,
                   "lapses": 0,
-                  "state": "learning",
-                  "lastReview": "2026-05-22T17:12:06.171Z",
-                  "dueDate": "2026-05-23T17:12:06.171Z"
+                  "state": "review",
+                  "lastReview": "2026-06-14T11:00:02.288Z",
+                  "dueDate": "2026-06-15T11:00:02.288Z"
                 },
                 "color": "red"
               },
