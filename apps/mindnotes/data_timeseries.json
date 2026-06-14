@@ -1068,6 +1068,25 @@
                   "lastReview": "2026-06-14T21:24:49.358Z",
                   "dueDate": "2026-06-15T21:24:49.358Z"
                 }
+              },
+              {
+                "id": "kf_intro_1781473527",
+                "title": "What is the Kalman filter?",
+                "content": "\\textbf{\\textcolor{red}{WHAT IS THE KALMAN FILTER?}}\n\n\\begin{keydef}\n\\textbf{One-line answer.} The Kalman filter is the \\emph{algorithm} that, in a linear-Gaussian DLM, recursively computes the filtering distribution $p(\\theta_n\\mid y_{1:n})$ --- that is, the full posterior over the hidden state at time $n$, given all observations up to time $n$ --- by maintaining a running pair $(m_n,C_n)$ (posterior mean and variance) as each new observation arrives.\n\n\\textbf{Why \"filter\".} It \\emph{filters} the noisy data stream: every $y_n$ is contaminated by observation noise $v_n$ and the underlying state $\\theta_n$ is hidden. The KF separates \"signal\" ($\\theta_n$) from \"noise\" ($v_n$) optimally, conditional on the linear-Gaussian model.\n\\end{keydef}\n\n\\textbf{\\textcolor{red}{The recursion at one step (high-level).}}\n\nAt each new time $n$, the filter does two things:\n\n$\\bullet$ \\emph{Predict} (uses no new data, just the model): take the previous filter $\\theta_{n-1}\\mid y_{1:n-1}\\sim\\mathcal{N}(m_{n-1},C_{n-1})$ and push it through the state equation $\\theta_n=G_n\\theta_{n-1}+w_n$. Result: $\\theta_n\\mid y_{1:n-1}\\sim\\mathcal{N}(a_n,R_n)$, the \"best guess about $\\theta_n$ before seeing $y_n$\".\n\n$\\bullet$ \\emph{Update} (Bayes' rule with the new $y_n$): combine the predicted prior with the emission likelihood $Y_n\\mid\\theta_n\\sim\\mathcal{N}(F_n\\theta_n,V_n)$. Bayes returns $\\theta_n\\mid y_{1:n}\\sim\\mathcal{N}(m_n,C_n)$ --- the corrected posterior incorporating the new observation. The strength of the correction is the \\textbf{Kalman gain} $K_n=R_n F_n^{\\top}Q_n^{-1}$.\n\nThe whole filter is just \\emph{this two-step cycle iterated} as $n=1,2,\\dots,T$.\n\n\\textbf{\\textcolor{red}{Why it's \"optimal\".}}\n\n\\begin{keydef}\nUnder the linear-Gaussian assumption, the KF returns the \\emph{exact} posterior, not an approximation. It is \\emph{the} Bayes-optimal filter: its mean $m_n$ is the minimum-mean-squared-error estimator of $\\theta_n$, and $C_n$ is exactly the posterior variance. No other estimator achieves lower MSE.\n\\end{keydef}\n\nIf the model is nonlinear or non-Gaussian, the KF is no longer exact and you'd use the \\emph{extended} KF (linearise) or a \\emph{particle filter} (sample).\n\n\\textbf{\\textcolor{red}{What you \"have\" after running the KF.}}\n\nAfter processing $y_{1:T}$:\n\n$\\bullet$ A full sequence of filter pairs $(m_1,C_1),(m_2,C_2),\\dots,(m_T,C_T)$ --- best estimate of the state at each time, with uncertainty.\n\n$\\bullet$ A free-by-product sequence of \\emph{innovations} $e_n=y_n-f_n$ with $f_n=F_n a_n$ --- residuals you can use for model checking (under correct model, $\\tilde e_n=e_n/\\sqrt{Q_n}$ are iid $\\mathcal{N}(0,1)$).\n\n$\\bullet$ A way to compute the marginal likelihood $p(y_{1:T}\\mid\\phi)$ via the \\emph{prediction-error decomposition} --- the basis for MLE of unknown model parameters.\n\n\\textbf{\\textcolor{red}{Mental model.}}\n\nThe KF is a \\emph{Bayesian belief-tracker} for a hidden continuous state in a linear-Gaussian world. It is to DLMs what the \\emph{forward algorithm} is to HMMs: same shape (predict $+$ update), same goal (filtering distribution), just continuous $\\theta$ vs.\\ discrete $S$.\n\n\\emph{Two-step rhythm:} \\;\\textbf{predict $\\to$ observe $\\to$ update $\\to$ repeat.}\n\n\\emph{See \"SSM filtering and prediction\" (\\texttt{cheatsheet\\_ssm\\_001}) for the full derivation of each step.}",
+                "flashcard": true,
+                "flashcardOrder": null,
+                "images": [],
+                "links": [
+                  {
+                    "target": "cheatsheet_ssm_001",
+                    "type": "forward"
+                  }
+                ],
+                "x": 4664.0,
+                "y": 4040.0,
+                "width": 600,
+                "height": 360,
+                "color": "lavender"
               }
             ]
           }
