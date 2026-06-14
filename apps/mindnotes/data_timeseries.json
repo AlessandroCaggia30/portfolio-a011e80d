@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-14T10:10:34.216Z",
+  "exportedAt": "2026-06-14T10:10:53.851Z",
   "data": {
     "topics": [
       {
@@ -1022,8 +1022,8 @@
                 "id": "ts1781346257973",
                 "title": "Example 0: White Noise",
                 "content": "\\textbf{\\textcolor{red}{EXAMPLE 0 --- White noise (the simplest building block).}}\n\n\\begin{keydef}\n\\fcnum{6a} A sequece of independent identiclal distirbuted zero mean normal random variables.\n\\[ Y_t \\;\\underbrace{\\sim}_{iid}\\; \\mathcal{N}(0, \\sigma^2), \\qquad t = 1, 2, \\dots \\]\n\\emph{No temporal dependence at all --- knowing $Y_{t-1}$ tells you nothing about $Y_t$.}\n\\[ E[Y_t] \\;=\\; 0 \\qquad \\forall\\, t. \\]\n\\[ \\mathrm{Var}(Y_t) \\;=\\; \\sigma^2 \\qquad \\forall\\, t. \\]\n\\emph{Variance is constant in $t$ --- nothing grows, nothing decays.}\n\\emph{Autocovariance.} By independence, $\\mathrm{Cov}(Y_t, Y_s) = 0$ whenever $t \\neq s$:\n\\[ \\gamma(h) \\;:=\\; \\mathrm{Cov}(Y_t, Y_{t+h}) \\;=\\; \\begin{cases} \\sigma^2 & h = 0, \\\\ 0 & h \\neq 0. \\end{cases} \\]\nDepends only on the lag $h$ (and only the zero lag is non-zero). \\quad $\\checkmark$\n\n\\emph{Autocorrelation.} $\\rho(0) = 1$, $\\rho(h) = 0$ for $h \\neq 0$. \\emph{The correlogram is a single spike at lag 0.}\n\n\\textbf{Stationarity verdict.} Constant mean $+$ constant variance $+$ autocovariance depending only on lag $\\Rightarrow$ \\textbf{weakly stationary} (and \\emph{strictly} stationary too, by the iid assumption). \\quad $\\checkmark\\checkmark$\n\n\\end{keydef}",
-                "x": 4846.72072894565,
-                "y": 981.9037202138043,
+                "x": 4826.336732755939,
+                "y": 968.7140756204622,
                 "flashcard": true,
                 "links": [],
                 "images": [],
@@ -1039,7 +1039,9 @@
                   "state": "new",
                   "lastReview": null,
                   "dueDate": "2026-06-13T10:24:23.097Z"
-                }
+                },
+                "width": 367.437137695293,
+                "height": 150.74445736429067
               }
             ]
           }
