@@ -3768,6 +3768,12 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
                             <span class="fc-info-item" id="fcCardReps">0 reps</span>
                             <span class="fc-info-item" id="fcCardStability">Stability: 1.0</span>
                         </div>
+
+                        <!-- Navigation (browse without rating). Always visible during a session. -->
+                        <div class="fc-nav-row" id="fcNavRow" style="display:flex;gap:10px;justify-content:center;margin-top:16px;">
+                            <button class="fc-nav-btn" onclick="prevFlashcard()" title="Previous card (←)">← Prev</button>
+                            <button class="fc-nav-btn" onclick="skipFlashcard()" title="Skip to next card without rating (→)">Skip →</button>
+                        </div>
                     </div>
 
                     <!-- Show Answer Button -->
