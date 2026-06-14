@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-14T11:04:57.392Z",
+  "exportedAt": "2026-06-14T11:10:46.653Z",
   "data": {
     "topics": [
       {
@@ -323,7 +323,18 @@
                 "y": 2825.1247078932233,
                 "height": 78.33900440960552,
                 "width": 347.8216687898122,
-                "color": "coral"
+                "color": "coral",
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-06-14T11:07:57.864Z"
+                }
               },
               {
                 "id": "1778699075521",
