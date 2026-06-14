@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-06-14T13:00:16.164Z",
+  "exportedAt": "2026-06-14T13:00:20.196Z",
   "data": {
     "topics": [
       {
@@ -226,14 +226,14 @@
                 "color": "coral",
                 "fsrs": {
                   "stability": 9.4632,
-                  "difficulty": 4.657268979748283,
+                  "difficulty": 4.717007565622174,
                   "elapsedDays": 0,
                   "scheduledDays": 1,
-                  "reps": 4,
+                  "reps": 5,
                   "lapses": 0,
                   "state": "review",
-                  "lastReview": "2026-06-14T11:25:23.843Z",
-                  "dueDate": "2026-06-15T11:25:23.843Z"
+                  "lastReview": "2026-06-14T13:00:18.248Z",
+                  "dueDate": "2026-06-15T13:00:18.248Z"
                 }
               },
               {
@@ -253,15 +253,15 @@
                 "width": 511.5365915622529,
                 "height": 188.34006665223083,
                 "fsrs": {
-                  "stability": 9.4632,
-                  "difficulty": 4.657268979748283,
+                  "stability": 18.9264,
+                  "difficulty": 3.6768309056221726,
                   "elapsedDays": 0,
                   "scheduledDays": 1,
-                  "reps": 4,
+                  "reps": 5,
                   "lapses": 0,
                   "state": "review",
-                  "lastReview": "2026-06-14T11:25:25.310Z",
-                  "dueDate": "2026-06-15T11:25:25.310Z"
+                  "lastReview": "2026-06-14T13:00:19.582Z",
+                  "dueDate": "2026-06-15T13:00:19.582Z"
                 },
                 "color": "coral"
               },
