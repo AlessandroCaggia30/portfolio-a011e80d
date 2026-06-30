@@ -6,11 +6,22 @@ The is_exam flag tells the builder to mark the card yellow.
 """
 
 # Helper to build snippet content
-def _q(q, a, r=""):
-    """Build content: blue Q + black A + R commands."""
+def _q(q, a, r="", w=""):
+    """Build content: blue Q + (optional Walkthrough) + Answer + R commands.
+
+    If a walkthrough ``w`` is supplied, the structure becomes
+    blue Q --- Walkthrough --- Answer + R commands, which satisfies
+    the completeness rubric (two dividers, both Walkthrough and Answer).
+    For backward compatibility, ``w`` defaults to empty and the older
+    one-divider layout is emitted.
+    """
+    walkthrough_block = (
+        '**Walkthrough.** ' + w.strip() + '\n\n---\n\n'
+    ) if w.strip() else ''
     return (
         '<span class="exam-question-text">' + q.strip() + '</span>\n\n'
         '---\n\n'
+        + walkthrough_block +
         '**Answer.** ' + a.strip() + '\n\n'
         + (('**R commands:**\n\n`' + '`\n\n`'.join(r.strip().split('\n')) + '`\n') if r.strip() else '')
     )
@@ -103,7 +114,7 @@ past_exams["exam_p1_2024_2a"] = {
     '<span class="exam-question-text">Consider the `Campaign` dataframe. Refer to the boxplot representing the distribution of the variable `Revenues` (standard profitability of the stores). Indicate what the extremes of the box and the end points of the whiskers of the boxplot represent, and report their numerical values, clarifying what are the quantities underlying your answer.</span>\n\n'
     '![Ex 2a question — Revenues boxplot](statistics/images/past_exams/questions/exam_p1_2024_2a_question.png)\n\n'
     '---\n\n'
-    '**AI walkthrough.**\n\n'
+    '**Walkthrough.**\n\n'
     'The boxplot is built entirely from the **five-number summary**:\n\n'
     '`distr.summary.x(Revenues, stats=\'fivenumber\', data=Campaign)`\n\n'
     '`## n.n.a   min     q1 median      q3    max`\n\n'
@@ -319,7 +330,7 @@ past_exams["exam_p1_2025_2a"] = {
     '<span class="exam-question-text">For `Shares=high` ($\\hat p = 0.32$, $n = 550$) and `Shares=low` ($\\hat p = 0.173$, $n = 550$), compute the **standard errors** of the two sample proportions.</span>\n\n'
     '![Ex 2a question — SE of sample proportion (Shares high vs low)](statistics/images/past_exams/questions/exam_p1_2025_2a_question.png)\n\n'
     '---\n\n'
-    '**AI walkthrough.**\n\n'
+    '**Walkthrough.**\n\n'
     'The standard error of a sample proportion under simple random sampling is\n\n'
     '$$SE(\\hat p) \\;=\\; \\sqrt{\\dfrac{\\hat p(1-\\hat p)}{n}}.$$\n\n'
     'It measures the *typical sampling variability* of $\\hat p$ around the unknown true proportion $p$ — i.e. how much $\\hat p$ would jiggle from sample to sample of size $n$.\n\n'
@@ -501,7 +512,7 @@ past_exams["exam_g1_2024_2a"] = {
     '<span class="exam-question-text">Refer to the scatterplot of `PrimaryRead2` (reading score) vs `PrimaryMath2` (math score) in the `Primary` dataframe. The sample correlation is $r = 0.77$. Comment on the **direction, form and strength** of the relationship between the two variables, and report the share of variance explained by a simple linear model.</span>\n\n'
     '![Ex 2a question — Read2 vs Math2 scatter](statistics/images/past_exams/questions/exam_g1_2024_2a_question.png)\n\n'
     '---\n\n'
-    '**AI walkthrough.**\n\n'
+    '**Walkthrough.**\n\n'
     'Three things to check for any scatter: **direction, form, strength**.\n\n'
     '**Direction.** The cloud rises from lower-left to upper-right → **positive** association: pupils with higher reading scores tend to have higher math scores too.\n\n'
     '**Form.** Points fan around a single straight line — no clear curvature → **linear** form is appropriate. (The scatter does widen slightly at higher Read2 — that is the *heteroscedasticity* point picked up in 2b — but it does not change the linear *shape* of the trend.)\n\n'
@@ -528,7 +539,7 @@ past_exams["exam_g1_2024_2b"] = {
     '<span class="exam-question-text">Refer again to the scatter of `PrimaryRead2` vs `PrimaryMath2` in the `Primary` dataframe (see Ex 2a). **Identify any violations of regression assumptions** that are visible from the scatterplot, name the violation, explain why it matters for inference, and indicate how you would fix it.</span>\n\n'
     '![Ex 2b question — diagnose the scatter](statistics/images/past_exams/questions/exam_g1_2024_2b_question.png)\n\n'
     '---\n\n'
-    '**AI walkthrough.**\n\n'
+    '**Walkthrough.**\n\n'
     'The simple linear regression $y_i = \\beta_0 + \\beta_1 x_i + \\varepsilon_i$ rests on four assumptions on $\\varepsilon_i$ (LINE): **L**inearity of the mean, **I**ndependence, **N**ormality, and **E**qual variance (a.k.a. homoscedasticity, $\\mathrm{Var}(\\varepsilon_i\\mid x_i)=\\sigma^2$ for all $i$).\n\n'
     'Reading the scatter (and confirming with a residuals-vs-fitted plot): the **mean** trend is well captured by a single straight rising line — linearity looks fine. What is *not* fine is the spread: the cloud of points sits in a **narrow band at low Read2 and a wide band at high Read2** — the residual dispersion grows with the predictor. That is the textbook picture of **heteroscedasticity** (a "fanning" or "megaphone" pattern).\n\n'
     'Why it matters: under heteroscedasticity, OLS coefficient estimates remain unbiased and consistent, *but* the usual formula $\\widehat{\\mathrm{Var}}(\\hat\\beta)=\\hat\\sigma^2 (X^\\top X)^{-1}$ is wrong, so **standard errors, $t$-statistics, $p$-values and CIs become unreliable**. Confidence statements (e.g. "Read2 has a significant effect on Math2") are no longer trustworthy at their nominal level.\n\n'
@@ -938,7 +949,7 @@ past_exams["exam_g1_2025_1b"] = {
     '<span class="exam-question-text">Which plot would you use to assess the **tails** of `SleepQuality` accurately? Justify your choice and report the R command(s) that produce it.</span>\n\n'
     '![Ex 1b question — plot for SleepQuality tails](statistics/images/past_exams/questions/exam_g1_2025_1b_question.png)\n\n'
     '---\n\n'
-    '**AI walkthrough.**\n\n'
+    '**Walkthrough.**\n\n'
     'The question is about **tails**, not about centre or spread. So pick the plot that preserves resolution far from the median.\n\n'
     '**Why the boxplot alone is weak here.** A boxplot collapses each tail into a single whisker reaching at most $Q_3+1.5\\,\\mathrm{IQR}$ (or $Q_1-1.5\\,\\mathrm{IQR}$) plus a handful of outlier dots. For a **light-tailed** variable like `SleepQuality` (concentrated around the central values) the whiskers sit near the data min/max and there are **few or no outliers**, so the picture says almost nothing about *how* the mass thins out.\n\n'
     '**Why a histogram with ~20 bins wins.** Many narrow bins expose the actual decay shape: every bump and each near-empty bin in the tails becomes visible. ~20 bins is the standard rule-of-thumb compromise — enough resolution to see the tails without making the histogram noisy.\n\n'
@@ -962,7 +973,8 @@ past_exams["exam_g1_2025_2a"] = {
 "content": _q(
     "<span class=\"exam-question-text\">Test whether sleep duration (in minutes) increased after the diet. Paired sample, $n = 161$, $\\bar x_{\\text{before}} = 402.89$, $s_{\\text{before}} = 45.61$, $\\bar x_{\\text{after}} = 414$, $s_{\\text{after}} = 48$, correlation $r = 0.71$. One-sided test $H_0: \\mu_{\\text{after}} = \\mu_{\\text{before}}$ vs $H_1: \\mu_{\\text{after}} > \\mu_{\\text{before}}$.</span>",
     "Paired t-test using $\\hat\\sigma_D = \\sqrt{s_{\\text{before}}^2 + s_{\\text{after}}^2 - 2r\\cdot s_{\\text{before}}\\cdot s_{\\text{after}}} = \\sqrt{45.61^2 + 48^2 - 2(0.71)(45.61)(48)} \\approx 35.71$. Then $t_{\\text{obs}} = (414 - 402.89)/(35.71/\\sqrt{161}) \\approx 3.95$ on $df = 160$. p-value $= P(T_{160} \\ge 3.95) \\approx 5.85 \\times 10^{-5}$. **Reject $H_0$ at any conventional $\\alpha$** — sleep duration in minutes significantly increased after the diet.",
-    "t.test(after, before, paired=TRUE, alternative='greater')\nsd_D <- sqrt(45.61^2 + 48^2 - 2*0.71*45.61*48)\nt_stat <- (414 - 402.89)/(sd_D/sqrt(161))\n1 - pt(t_stat, df=160)"
+    "t.test(after, before, paired=TRUE, alternative='greater')\nsd_D <- sqrt(45.61^2 + 48^2 - 2*0.71*45.61*48)\nt_stat <- (414 - 402.89)/(sd_D/sqrt(161))\n1 - pt(t_stat, df=160)",
+    w="Apply a **one-sided paired t-test** for the mean of the differences $D_i = X_{\\text{after},i} - X_{\\text{before},i}$. Hypotheses $H_0:\\mu_D = 0$ vs $H_1:\\mu_D > 0$. With only marginal summaries, recover $\\hat\\sigma_D$ from $s_D^2 = s_{\\text{before}}^2 + s_{\\text{after}}^2 - 2 r\\, s_{\\text{before}} s_{\\text{after}}$ (variance of a paired difference with sample correlation $r$). The test statistic is $t_{\\text{obs}} = \\bar D / (\\hat\\sigma_D/\\sqrt{n})$ compared to $T_{n-1}$ and p-value $= P(T_{n-1} \\ge t_{\\text{obs}})$."
 ), "images": [
     "statistics/images/past_exams/questions/exam_g1_2025_2a_question.png",
     "statistics/images/past_exams/answers/exam_g1_2025_2a_answer.png",
@@ -976,7 +988,7 @@ past_exams["exam_g1_2025_3a"] = {
     '<span class="exam-question-text">Estimate `SleepQuality ~ Stress + Age + BMI + Physical` on `SleepData`. Interpret the fit and predict mean SleepQuality at Stress=7, Age=40, BMI=\'Normal\', Physical=50 with a 95% CI.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g1_2025_3a_question.png)\n\n'
     '---\n\n'
-    '**AI walkthrough.**\n\n'
+    '**Walkthrough.**\n\n'
     'A multiple-regression read-out has three layers — *each predictor*, *the model overall*, and *predictions with uncertainty* — and you must comment on all three.\n\n'
     '**1) Per-predictor significance.** From `summary(mod)` every t-test on a coefficient returns `Pr(>|t|) < 0.001` (`***`): **Stress**, **Age**, **BMI** and **Physical** are each individually significant given the others. Stress, Age, and BMI=Over reduce SleepQuality; Physical (activity) raises it — directions match common sense.\n\n'
     '**2) Joint fit.** *Adjusted* $R^2 = 0.5468$: roughly **55% of the variance** in SleepQuality is explained by the four predictors (adjusted penalises adding regressors, so it is the right metric for comparison). The omnibus **$F(4, 290) = 79.39$, p $< 2.2 \\times 10^{-16}$** rejects the hypothesis "all slopes = 0" overwhelmingly → the model is **jointly highly significant**.\n\n'
@@ -1004,7 +1016,7 @@ past_exams["exam_g1_2025_3b"] = {
     '<span class="exam-question-text">Why does PhysicalActivity stop being significant when Steps is added to the regression model for SleepQuality?</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g1_2025_3b_question.png)\n\n'
     '---\n\n'
-    '**AI walkthrough.**\n\n'
+    '**Walkthrough.**\n\n'
     'The puzzle is *not* that PhysicalActivity stopped *mattering* — it is that the **t-test on its coefficient** no longer rejects $H_0: \\beta_{PA} = 0$. Three steps explain why.\n\n'
     '**1) Diagnose correlation.** Steps and PhysicalActivity measure essentially the same underlying construct: someone who walks 12,000 steps a day is mechanically more active. A scatterplot shows a tight positive cloud, with $r(\\text{Steps},\\text{PA}) \\approx 0.93$. The two regressors carry almost the same information.\n\n'
     '**2) Variance inflation.** The OLS standard error of any coefficient is\n\n'
@@ -1033,7 +1045,7 @@ past_exams["exam_g1_2025_3c"] = {
     '<span class="exam-question-text">State the homoscedasticity assumption.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g1_2025_3c_question.png)\n\n'
     '---\n\n'
-    '**AI walkthrough.**\n\n'
+    '**Walkthrough.**\n\n'
     'Homoscedasticity is one of the **Gauss–Markov** conditions; it is what makes OLS the **best linear unbiased estimator** and what keeps the textbook standard errors valid.\n\n'
     '**1) Formal statement.** Conditional on the predictors, every error term shares the **same** variance:\n\n'
     '$$\\mathrm{Var}(\\varepsilon_i \\mid x_i) \\;=\\; \\sigma^2 \\qquad \\text{for every } i = 1, \\dots, n.$$\n\n'
@@ -1216,7 +1228,8 @@ past_exams["exam_g1_2026_1b"] = {
 "content": _q(
     "<span class=\"exam-question-text\">Using the CI from 1a (0.15, 0.24), test $H_0: p = 0.3$ vs $H_1: p \\ne 0.3$ at any level $\\alpha$.</span>",
     "Since $0.3 \\notin [0.15, 0.24]$, the 99% CI **rejects** $H_0$ at level $\\alpha = 0.01$. Equivalently, any test at $\\alpha \\ge 0.01$ rejects. At $\\alpha < 0.01$ (e.g. 0.005), the conclusion would require a wider CI to verify.",
-    "# CI-test duality: 0.3 outside the 99% CI => reject H0 at alpha = 0.01\nTEST.prop(PurposeLoan, success='Business', p0=0.3, alternative='two.sided', data=Loans)\n# manual: 1-sample prop test\nprop.test(x=sum(Loans$PurposeLoan=='Business'), n=nrow(Loans),\n          p=0.3, alternative='two.sided', conf.level=0.99)"
+    "# CI-test duality: 0.3 outside the 99% CI => reject H0 at alpha = 0.01\nTEST.prop(PurposeLoan, success='Business', p0=0.3, alternative='two.sided', data=Loans)\n# manual: 1-sample prop test\nprop.test(x=sum(Loans$PurposeLoan=='Business'), n=nrow(Loans),\n          p=0.3, alternative='two.sided', conf.level=0.99)",
+    w="Use the **CI–test duality**: a two-sided test of $H_0:p = p_0$ at level $\\alpha$ rejects iff $p_0$ falls **outside** the $(1-\\alpha)$ CI for $p$. With the $99\\%$ CI $[0.15,\\,0.24]$ from 1a and $p_0 = 0.3$, just check whether $p_0$ lies inside the interval to conclude."
 ), "images": [
     "statistics/images/past_exams/questions/exam_g1_2026_1b_question.png",
     "statistics/images/past_exams/answers/exam_g1_2026_1b_answer.png",
@@ -2708,8 +2721,7 @@ past_exams["exam_sep_2024_2a"] = {
     '---\n\n'
     '**Walkthrough.** The four `Score` classes have **unequal widths** (200, 100, 300, 400). When widths differ, plotting raw relative frequency on the y-axis is **misleading**: a fat 30%-class would look as tall as a slim 30%-class even though the data are spread very differently. The correct y-axis is the **density**\n\n'
     '$$f_j \\;=\\; \\frac{\\text{rel. freq.}_j}{\\text{width}_j},\\qquad \\text{so that area} = f_j\\cdot w_j = \\text{rel. freq.}_j.$$\n\n'
-    'With this rescaling the **bar areas equal the proportions** and the **modal class** is the one with the largest *density* (not the largest frequency). The picture below shows the four density bars (highest = mode) and contrasts the specific branch with the typical shape of the main branches.\n\n'
-    '![AI walkthrough — density histogram of Score with modal class [200,300) highlighted, plus shift-of-mode comparison vs main branches](statistics/images/past_exams/exam_sep_2024_2a_ai.png)\n\n'
+    'With this rescaling the **bar areas equal the proportions** and the **modal class** is the one with the largest *density* (not the largest frequency).\n\n'
     '---\n\n'
     '**Answer.** Compute density = (rel. freq.) / (class width):\n\n'
     '| Class | % freq | Width | Density |\n'
@@ -2728,7 +2740,6 @@ past_exams["exam_sep_2024_2a"] = {
     '![Answer](statistics/images/past_exams/answers/exam_sep_2024_2a_answer.png)\n'
 ), "images": [
     "statistics/images/past_exams/questions/exam_sep_2024_2a_question.png",
-    "statistics/images/past_exams/exam_sep_2024_2a_ai.png",
     "statistics/images/past_exams/answers/exam_sep_2024_2a_answer.png",
 ]}
 
@@ -2818,6 +2829,8 @@ past_exams["exam_sep_2025_2a"] = {
     '$$z = \\frac{0.510}{0.221} \\approx 2.308.$$\n\n'
     '**P-value (one-sided).** $p = 1 - \\Phi(2.308) \\approx 0.0105$.\n\n'
     '**Conclusion.** $p \\approx 0.0105 < 0.05$ (and $< 0.025$), so we **reject $H_0$** at the 5% (and even 2.5%) level: there is significant evidence that the new algorithm has *higher* mean performance than the old one. At the conservative 1% level the test would not reject.\n\n'
+    '---\n\n'
+    '**Answer.** $z_{\\text{obs}} = 0.510/0.221 \\approx 2.308$, one-sided $p \\approx 0.0105$. **Reject $H_0$** at the $5\\%$ level (and $2.5\\%$): the new algorithm has a significantly higher mean performance than the old one ($\\bar D = 0.510$, $SE = 0.221$); at $1\\%$ the test does not reject.\n\n'
     '**R commands:**\n\n'
     "`D  <- 0.510                 # sample mean difference`\n\n"
     "`SE <- 0.221                 # estimated SE of D-bar`\n\n"
@@ -3088,7 +3101,7 @@ past_exams["exam_g1_2025_6"] = {
     '<span class="exam-question-text">Estimate the larger model `lm(SleepQuality ~ Stress + Age + BMI + Physical + Steps)` and explain why the Adjusted $R^2$ is preferable to $R^2$ for comparing models with different numbers of regressors.</span>\n\n'
     '![Ex 6 question — larger regression with Steps](statistics/images/past_exams/questions/exam_g1_2025_6_question.png)\n\n'
     '---\n\n'
-    '**AI walkthrough.**\n\n'
+    '**Walkthrough.**\n\n'
     'Two read-outs matter when you swap models with a different number of regressors: (i) the **goodness-of-fit metric used for the comparison** and (ii) the **per-coefficient story** to make sure the new regressor is doing real work.\n\n'
     '**1) Why Adjusted $R^2$ (not $R^2$)?** Plain $R^2 = 1 - SSR/TSS$ is monotone in $k$: adding *any* regressor — even pure noise — can only weakly raise it. It therefore cannot fairly compare a 4-predictor model with a 5-predictor model. The Adjusted $R^2$ penalises the regressor count:\n\n$$R^2_{\\text{adj}} = 1 - (1 - R^2)\\,\\dfrac{n-1}{n-k-1},$$\n\nso it increases **only** when the new regressor explains more variance than the one extra degree of freedom "costs". It is the right metric to compare nested/non-nested models of different sizes.\n\n'
     '**2) Per-predictor fit (larger model).** From `summary(mod)`: Intercept $\\approx -3.6847$; **Stress** $-0.014$, **Age** $+0.0011$, **BMI Normal** $+0.066$, **BMI Underweight** $+0.241$, **Physical** $+0.0049$, **Steps** $\\approx 1.529\\times 10^{-4}$. Omnibus $F \\approx 84.4$ → jointly highly significant.\n\n'
@@ -3170,7 +3183,7 @@ past_exams["exam_g1_2026_3a"] = {
     '<span class="exam-question-text">We are interested in whether the reason for requesting a loan (`PurposeLoan`) and the employment status (`EmplStatus`) are associated using an appropriate test. Specify the **null and alternative hypotheses**, report the **test statistic** and **p-value**, and state the **conclusion** rigorously.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g1_2026_3a_question.png)\n\n'
     '---\n\n'
-    '**Walkthrough — Hypotheses** (Pearson $\\chi^2$ test of independence on the $r\\times c$ contingency table):\n\n'
+    '**Walkthrough.** **Hypotheses** (Pearson $\\chi^2$ test of independence on the $r\\times c$ contingency table):\n\n'
     '$$H_0:\\; \\text{PurposeLoan} \\perp \\text{EmplStatus} \\quad\\text{vs}\\quad H_1:\\; \\text{the two variables are associated.}$$\n\n'
     'Under $H_0$ the expected cell counts are $E_{ij}=n_{i\\cdot}\\,n_{\\cdot j}/n$ and the test statistic\n\n'
     '$$X^2 \\;=\\; \\sum_{i,j}\\dfrac{(O_{ij}-E_{ij})^2}{E_{ij}} \\;\\overset{H_0}{\\sim}\\; \\chi^2_{(r-1)(c-1)}.$$\n\n'
@@ -3181,7 +3194,7 @@ past_exams["exam_g1_2026_3a"] = {
     '![AI walkthrough — chi² density tail and CDF view](statistics/images/past_exams/exam_g1_2026_3a_ai.png)\n\n'
     '---\n\n'
     '**Interpretation.** The p-value is the probability of observing a statistic at least as extreme as $11.107$ *under $H_0$* (independence).\n\n'
-    '**Conclusion.** Since p-value $\\approx 0.196 > 0.10 > 0.05 > 0.01$, we **do not reject $H_0$** at any common level. The data are consistent with `PurposeLoan` and `EmplStatus` being **independent**.\n\n'
+    '**Answer.** $X^2_{\\text{obs}} = 11.107$ on $df = 8$, $p$-value $= P(\\chi^2_8 > 11.107) \\approx 0.196$. Since $p > 0.10 > 0.05 > 0.01$, we **do not reject $H_0$** at any common level: data are consistent with `PurposeLoan` and `EmplStatus` being **independent**.\n\n'
     '**R commands:**\n\n'
     '`tab <- table(Credit$PurposeLoan, Credit$EmplStatus)`\n\n'
     '`chisq.test(tab)`\n\n'
@@ -3214,6 +3227,8 @@ past_exams["exam_g1_2026_3b"] = {
     'where $s_1^2, s_2^2$ are the sample variances and $n_1, n_2$ the group sizes for the two `EmplStatus` categories.\n\n'
     '**Estimate**: plugging the sample values for `RiskIndex` split by `EmplStatus` gives\n\n'
     '$$\\widehat{SE} \\;=\\; 2.218.$$\n\n'
+    '---\n\n'
+    '**Answer.** Welch (unequal-variance) standard error of $\\bar X_{\\text{Empl}} - \\bar X_{\\text{Unemp}}$: $\\widehat{SE}(\\bar X_1 - \\bar X_2) = \\sqrt{s_1^2/n_1 + s_2^2/n_2} \\;=\\; \\mathbf{2.218}$ (`RiskIndex` units). This is the estimated standard deviation of the difference-of-means estimator used to build the corresponding two-sample $t$ CI or test.\n\n'
     '**R commands:**\n\n'
     "`x1 <- Credit$RiskIndex[Credit$EmplStatus == 'Empl']`\n\n"
     "`x2 <- Credit$RiskIndex[Credit$EmplStatus == 'Unemp']`\n\n"
@@ -3294,8 +3309,9 @@ past_exams["exam_g2_2024_5b"] = {
 "subtopic_hint": "g13b",
 "content": _q(
     "<span class=\"exam-question-text\">Build the 99% CI for the proportion of U.S. cities with CrimePeople > 250. $\\hat p = 0.21$, $n = 485$.</span>\n\n![Original question](statistics/images/past_exams/questions/exam_g2_2024_5b_question.png)",
-    "Normal-approximation CI: $\\hat p \\pm z_{0.995}\\cdot \\sqrt{\\hat p(1-\\hat p)/n} = 0.21 \\pm 2.576\\cdot \\sqrt{0.21\\cdot 0.79/485} = 0.21 \\pm 2.576\\cdot 0.0185 = 0.21 \\pm 0.0477 \\approx [0.16, 0.26]$, exactly matching the R output.\n\n![AI illustration](statistics/images/past_exams/exam_g2_2024_5b_ai.png)\n\n![Original answer](statistics/images/past_exams/answers/exam_g2_2024_5b_answer.png)",
-    "vec.binA <- CrimeUS$CrimePeople > 250\nCI.prop(vec.binA, conf.level=0.99)\n# manual:\np_hat <- 0.21; n <- 485\np_hat + c(-1,1)*qnorm(0.995)*sqrt(p_hat*(1-p_hat)/n)\n## [1] 0.1623 0.2577"
+    "Normal-approximation CI: $\\hat p \\pm z_{0.995}\\cdot \\sqrt{\\hat p(1-\\hat p)/n} = 0.21 \\pm 2.576\\cdot \\sqrt{0.21\\cdot 0.79/485} = 0.21 \\pm 2.576\\cdot 0.0185 = 0.21 \\pm 0.0477 \\approx [0.16, 0.26]$, exactly matching the R output. **Conclusion:** with $99\\%$ confidence, the proportion of U.S. cities with `CrimePeople > 250` lies in $[0.16,\\,0.26]$.\n\n![AI illustration](statistics/images/past_exams/exam_g2_2024_5b_ai.png)\n\n![Original answer](statistics/images/past_exams/answers/exam_g2_2024_5b_answer.png)",
+    "vec.binA <- CrimeUS$CrimePeople > 250\nCI.prop(vec.binA, conf.level=0.99)\n# manual:\np_hat <- 0.21; n <- 485\np_hat + c(-1,1)*qnorm(0.995)*sqrt(p_hat*(1-p_hat)/n)\n## [1] 0.1623 0.2577",
+    w="One-sample **Normal-approximation CI for a proportion**: $\\hat p \\pm z_{1-\\alpha/2}\\sqrt{\\hat p(1-\\hat p)/n}$ with $\\alpha = 0.01$, so $z_{0.995} = 2.576$. Valid under the usual large-sample condition ($n\\hat p \\ge 5$ and $n(1-\\hat p) \\ge 5$): here $n\\hat p \\approx 102$ and $n(1-\\hat p) \\approx 383$, both well above the threshold."
 ), "images": [
     "statistics/images/past_exams/questions/exam_g2_2024_5b_question.png",
     "statistics/images/past_exams/exam_g2_2024_5b_ai.png",
@@ -3318,6 +3334,8 @@ past_exams["exam_g2_2026_1b"] = {
     '![AI walkthrough — analytic SE decomposition for difference of two proportions](statistics/images/past_exams/exam_g2_2026_1b_ai.png)\n\n'
     '---\n\n'
     '**Note.** Use the *unpooled* SE (with $\\hat p_1,\\hat p_2$ separately) for the **CI**. The *pooled* SE shown below is used **only** for the two-sample test $H_0:p_1=p_2$ (G14), since under $H_0$ both populations share a common $p$ that is best estimated by pooling. Do not mix the two formulas.\n\n'
+    '---\n\n'
+    '**Answer.** $\\widehat{SE}(\\hat p_1 - \\hat p_2) = \\sqrt{\\dfrac{\\hat p_1(1-\\hat p_1)}{n_1} + \\dfrac{\\hat p_2(1-\\hat p_2)}{n_2}} = \\sqrt{\\dfrac{0.64\\cdot 0.36}{278} + \\dfrac{0.418\\cdot 0.582}{189}} = \\sqrt{0.000829 + 0.001287} = \\sqrt{0.002116} \\;\\approx\\; \\mathbf{0.0460}$. This is the SE feeding the 90% CI of 1a (half-width $1.645\\cdot 0.0460 \\approx 0.0757$, point estimate $\\hat p_1 - \\hat p_2 = 0.222$, CI $[0.147,\\,0.298]$).\n\n'
     '**R commands:**\n\n'
     '`n1 <- 278; p1 <- 0.64`\n\n'
     '`n2 <- 189; p2 <- 0.418`\n\n'
@@ -3441,7 +3459,8 @@ past_exams["exam_g2_2026_4_4"] = {
 "content": _q(
     "<span class=\"exam-question-text\">Formally state the homoscedasticity assumption underlying the linear regression model and discuss whether there is empirical evidence of its violation for the considered model `mod1`, clearly specifying the diagnostic tool(s) you use.</span>\n\n![Question](statistics/images/past_exams/questions/exam_g2_2026_4_4_question.png)",
     "**Assumption**: the error variance is **constant** (no heteroscedasticity), i.e. $\\mathrm{Var}(\\varepsilon_i\\mid\\mathbf{x}_i) = \\sigma^2$ for every $i = 1,\\ldots,n$ — it does **not** depend on the values of the explanatory variables in the model.\n\n**Evidence of violation — diagnostic tools**: (1) **residuals vs fitted values** plot — `plot(mod1, which=1)`; flag funnel/cone shapes. (2) **Scale-location** plot of $\\sqrt{|\\text{standardized residuals}|}$ against fitted values — `plot(mod1, which=3)`; flag an upward/downward trend in the post-smoothing red line. If both plots show no clear pattern (flat scatter, flat red line) → the homoscedasticity assumption appears satisfied for `mod1`; otherwise it is violated.\n\n![Answer](statistics/images/past_exams/answers/exam_g2_2026_4_4_answer.png)\n\n![AI walkthrough](statistics/images/past_exams/exam_g2_2026_4_4_ai.png)",
-    "plot(mod1, which=1)\nplot(mod1, which=3)\nlibrary(lmtest); bptest(mod1)"
+    "plot(mod1, which=1)\nplot(mod1, which=3)\nlibrary(lmtest); bptest(mod1)",
+    w="**Homoscedasticity** is one of the four Gauss–Markov assumptions for OLS in the linear model $Y_i = \\mathbf{x}_i^\\top \\boldsymbol\\beta + \\varepsilon_i$: it requires that the conditional variance of the error term is the **same constant $\\sigma^2$** for every observation. To diagnose whether this holds for a fitted model `mod1`, inspect the **residuals vs fitted** scatter (look for a funnel/megaphone) and the **scale–location** plot (look for a slope in the smoothing line of $\\sqrt{|r_i^{\\text{std}}|}$ vs $\\hat y_i$); formally confirm with a Breusch–Pagan test (`bptest`)."
 ), "images": [
     "statistics/images/past_exams/questions/exam_g2_2026_4_4_question.png",
     "statistics/images/past_exams/answers/exam_g2_2026_4_4_answer.png",
@@ -3454,7 +3473,8 @@ past_exams["exam_g2_2026_4_5"] = {
 "content": _q(
     "<span class=\"exam-question-text\">Obtain a point prediction and a 95% prediction interval for the post-promotional expenditure of a southern customer (`region = South`) with `age = 50`, `paid_amount = 1200` and `exp_pre = 250`.</span>\n\n![Question](statistics/images/past_exams/questions/exam_g2_2026_4_5_question.png)",
     "Use `predict()` on `mod1` with the new observation and `interval='prediction', level=0.95`.\n\n**Point prediction**: $\\hat y = 6523.5731$.\n\n**95% Prediction interval**: $[6387.6292,\\ 6659.5209]$.\n\nThe prediction interval is **wider** than the confidence interval for the mean response because it accounts for **both** the uncertainty in the estimated mean and the irreducible error variance $\\hat\\sigma^2$: $SE(\\hat y_{\\text{new}})^2 = SE(\\hat y_{\\text{mean}})^2 + \\hat\\sigma^2$ — *this is exactly the **\"+1\"** inside the PI sqrt from row 7 of the universal regression table at the top of master entry `g15a`* (and the structural CI-vs-PI comparison in `g15b`).\n\n![Answer](statistics/images/past_exams/answers/exam_g2_2026_4_5_answer.png)\n\n![AI walkthrough](statistics/images/past_exams/exam_g2_2026_4_5_ai.png)",
-    "predict(mod1, newdata=data.frame(exp_pre=250, amount=1200), interval='prediction', level=0.95)\n##        fit      lwr      upr\n## 1 6523.5731 6387.6292 6659.5209"
+    "predict(mod1, newdata=data.frame(exp_pre=250, amount=1200), interval='prediction', level=0.95)\n##        fit      lwr      upr\n## 1 6523.5731 6387.6292 6659.5209",
+    w="Use the **prediction interval for a single new observation** from a fitted OLS model: evaluate the regression equation $\\hat y_0 = \\mathbf{x}_0^\\top\\hat{\\boldsymbol\\beta}$ at the new covariate profile $\\mathbf{x}_0$, then build $\\hat y_0 \\pm t_{n-p-1,\\,1-\\alpha/2}\\,\\hat\\sigma\\sqrt{1 + \\mathbf{x}_0^\\top(\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{x}_0}$. The extra **+1** under the square root (vs the CI for the mean) accounts for the irreducible error variance, making the PI strictly wider than the CI. In R use `predict(mod1, newdata=..., interval='prediction', level=0.95)`."
 ), "images": ["statistics/images/past_exams/questions/exam_g2_2026_4_5_question.png", "statistics/images/past_exams/answers/exam_g2_2026_4_5_answer.png", "statistics/images/past_exams/exam_g2_2026_4_5_ai.png"]}
 
 past_exams["exam_g2_2026_4_6"] = {
@@ -3496,7 +3516,8 @@ past_exams["exam_sep_2024_1b"] = {
     "**Point estimate**: $\\hat p = \\#\\{\\text{Eligible}='Y'\\}/n \\approx 0.67$ with $n = 8000$. **Normal-approx validity check**: $n\\hat p(1-\\hat p) = 8000\\cdot 0.67\\cdot 0.33 \\approx 1768 \\gg 5$, so the Wald/normal approximation is valid. **90% CI**: $\\hat p \\pm z_{0.95}\\cdot\\sqrt{\\hat p(1-\\hat p)/n} = 0.67 \\pm 1.645\\cdot\\sqrt{0.67\\cdot 0.33/8000} \\approx [0.6613,\\,0.6787]$. **Interpretation**: with 90% confidence the population proportion of eligible customers lies in $[0.66, 0.68]$.\n\n"
     "![AI walkthrough](statistics/images/past_exams/exam_sep_2024_1b_ai.png)\n\n"
     "![Answer](statistics/images/past_exams/answers/exam_sep_2024_1b_answer.png)",
-    "CI.prop(Eligible=='Y', conf.level=0.90, data=Credit)\n## Confidence interval for the proportion of cases were Eligible == 'Y'\n## Confidence level: 0.9\n##  n   phat  lower  upper\n## 8000 0.67  0.6613 0.6787"
+    "CI.prop(Eligible=='Y', conf.level=0.90, data=Credit)\n## Confidence interval for the proportion of cases were Eligible == 'Y'\n## Confidence level: 0.9\n##  n   phat  lower  upper\n## 8000 0.67  0.6613 0.6787",
+    w="One-sample **Wald/Normal CI for a population proportion** $p = P(\\text{Eligible}='Y')$: $\\hat p \\pm z_{1-\\alpha/2}\\sqrt{\\hat p(1-\\hat p)/n}$ with $\\alpha = 0.10$ and $z_{0.95} = 1.645$. The large-sample condition $n\\hat p(1-\\hat p) \\gg 5$ guarantees the Normal approximation to the sampling distribution of $\\hat p$ via the CLT."
 ), "images": [
     "statistics/images/past_exams/questions/exam_sep_2024_1b_question.png",
     "statistics/images/past_exams/exam_sep_2024_1b_ai.png",
@@ -3516,7 +3537,11 @@ past_exams["exam_sep_2024_2b"] = {
     '![AI walkthrough — boxplots with p20 overlaid + bootstrap SE bars showing wider sampling spread for the small-n specific branch](statistics/images/past_exams/exam_sep_2024_2b_ai.png)\n\n'
     '---\n\n'
     '**Answer.** Read $\\hat p_{20}$ from `distr.summary.x(...)` for each level of `Branch`. The maximum score of the lowest-scoring 20% in the **specific** branch is its $\\hat p_{20}$; compare it with the $\\hat p_{20}$ of each main branch. **Reliability:** comparisons **between main branches** are more reliable because their sample sizes are large; the **specific-vs-main** comparison is only an **approximation** since the specific branch has a much smaller sub-sample, so its $\\hat p_{20}$ has larger sampling variability.\n\n'
+    '**R commands:**\n\n'
     '`distr.summary.x(Score, by=Branch, stats="p20", data=Credit)`\n\n'
+    '`## returns p20 for each level of Branch`\n\n'
+    '`# equivalent base-R:`\n\n'
+    '`tapply(Credit$Score, Credit$Branch, quantile, probs = 0.20, na.rm = TRUE)`\n\n'
     '![Answer](statistics/images/past_exams/answers/exam_sep_2024_2b_answer.png)\n'
 ), "images": [
     "statistics/images/past_exams/questions/exam_sep_2024_2b_question.png",
@@ -3590,7 +3615,7 @@ past_exams["exam_sep_2025_1b"] = {
     '<span class="exam-question-text">Estimate a multiple linear regression model (**mod1**) relating Performance to Weight, Ascent, HR.avg and Day.time (3 decimals). Report estimated coefficients.</span>\n\n'
     '![Ex 1b question — fit mod1 and report coefficients](statistics/images/past_exams/questions/exam_sep_2025_1b_question.png)\n\n'
     '---\n\n'
-    '**AI walkthrough.**\n\n'
+    '**Walkthrough.**\n\n'
     'Fit OLS with one quantitative response and 3 numeric predictors + 1 categorical (Day.time, 3 levels → 2 dummies, Afternoon = baseline). $\\widehat{\\beta}$ minimizes $\\sum(y_i - x_i^\\top\\beta)^2$.\n\n'
     '**Estimated equation:**\n\n'
     '$$\\widehat{\\text{Performance}} = 151.921 - 2.029\\cdot\\text{Weight} - 11.022\\cdot\\text{Ascent} + 0.593\\cdot\\text{HR.avg} - 0.366\\cdot\\mathbb{1}(\\text{Evening}) - 0.366\\cdot\\mathbb{1}(\\text{Morning}).$$\n\n'

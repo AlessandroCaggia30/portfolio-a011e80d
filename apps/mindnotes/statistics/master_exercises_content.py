@@ -53,7 +53,7 @@ c(xbar - ME, xbar + ME)                              # [22379, 25515]
 </details>
 
 <details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> (b) <strong>Case 2</strong> — One mean with $\sigma$ <em>unknown</em> (t-interval) — the realistic case</summary>
+<summary>(b) <strong>Case 2</strong> — One mean with $\sigma$ <em>unknown</em> (t-interval) — the realistic case</summary>
 
 **Setting.** Same i.i.d. assumption, but $\sigma^2$ is **unknown** and must be estimated from the data via the sample variance $s^2 = \tfrac{1}{n-1}\sum_i(x_i-\bar x)^2$. We want a CI for $\mu$.
 
@@ -226,7 +226,7 @@ TEST.mean(Weeks, mu0 = 45, sigma = 17.0, alternative = "less", data = NewHired)
 </details>
 
 <details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> (b) <strong>Case 2</strong> — One-mean test with $\sigma$ <em>unknown</em> ($t$-test) — the realistic case (Ex 7.1a, Ex 7.8a)</summary>
+<summary>(b) <strong>Case 2</strong> — One-mean test with $\sigma$ <em>unknown</em> ($t$-test) — the realistic case (Ex 7.1a, Ex 7.8a)</summary>
 
 **Setting.** Same i.i.d. assumption, but $\sigma^2$ is **unknown** and must be estimated by $s^2 = \tfrac{1}{n-1}\sum_i (x_i-\bar x)^2$.
 
@@ -478,7 +478,7 @@ b0 <- ybar - b1*xbar;     b0                # -19.5262
 ---
 
 <details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> (b) <strong>Residual variance $\hat\sigma^2$</strong> — variance decomposition and the "Residual standard error" line of `summary(mod)` (row 2 of master table; Ex 8.1b, 8.3a, 8.5a, 8.8a)</summary>
+<summary>(b) <strong>Residual variance $\hat\sigma^2$</strong> — variance decomposition and the "Residual standard error" line of `summary(mod)` (row 2 of master table; Ex 8.1b, 8.3a, 8.5a, 8.8a)</summary>
 
 **Variance decomposition.** Under OLS the total variability of $y$ splits orthogonally into an *explained* part (movement along the fitted line) and a *residual* part (vertical distance from the line):
 
@@ -510,7 +510,7 @@ s2_e <- SSE/(n-2);  s_e <- sqrt(s2_e)       # 388.15 ; 19.70
 ---
 
 <details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span><span class="tag tag-4plus">≥4 ex</span> (c) <strong>$R^2$ and the correlation link</strong> — proportion of variance explained (row 3 of master table; Ex 8.1b, 8.3a, 8.5a, 8.8a)</summary>
+<summary><span class="tag tag-4plus">≥4 ex</span> (c) <strong>$R^2$ and the correlation link</strong> — proportion of variance explained (row 3 of master table; Ex 8.1b, 8.3a, 8.5a, 8.8a)</summary>
 
 **Definition.** The **coefficient of determination** is the explained share:
 
@@ -1806,7 +1806,7 @@ $$\bar d \;=\; 10.1, \qquad s_d \;=\; 4.2, \qquad n \;=\; 23.$$
 We reuse this **one dataset** throughout the entry.
 
 <details class="master-subpart" open>
-<summary><span class="tag tag-exam">EXAM</span> (a) <strong>Case 8</strong> — Paired CI as one-mean CI on the differences</summary>
+<summary>(a) <strong>Case 8</strong> — Paired CI as one-mean CI on the differences</summary>
 
 **Setting.** Pairs $(X_i, Y_i)$ for $i = 1,\ldots,n$ are i.i.d. across $i$ (random sample of units), with *no* independence assumption *within* a pair. Define $D_i = Y_i - X_i$. Then $D_1,\ldots,D_n$ are i.i.d. with $\mathbb E[D_i] = \mu_Y - \mu_X =: \mu_d$ and
 $$\Var(D_i) \;=\; \Var(Y_i) + \Var(X_i) - 2\,\Cov(X_i, Y_i) \;=\; \sigma_Y^2 + \sigma_X^2 - 2\,\rho\,\sigma_X\sigma_Y.$$
@@ -2589,7 +2589,7 @@ pt(t, df = n-1)                             # 0.9731   one-sided p (H1: mu_d < 0
 </details>
 
 <details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> (b) Paired test from raw $(x_i, y_i)$ vs from summary $(\bar d, s_d, n)$ — and the doubling-$n$ scaling (Ex 7.6b)</summary>
+<summary>(b) Paired test from raw $(x_i, y_i)$ vs from summary $(\bar d, s_d, n)$ — and the doubling-$n$ scaling (Ex 7.6b)</summary>
 
 Data arrive in **two formats**. The reduction $d_i = x_i - y_i$ and the formula $T = \bar d / (s_d/\sqrt n)$ are identical — only the input differs.
 
@@ -3814,7 +3814,7 @@ summary(fit1c)$fstatistic                                   # same global F as f
 ---
 
 <details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> (d) Row 9 — Interactions (slope-by-group)</summary>
+<summary>(d) Row 9 — Interactions (slope-by-group)</summary>
 
 So far $\mathcal M_1$ assumes the marginal effect of `grade` on `Salary` is the **same** for women and men: $\partial \mathbb E[\text{Salary}]/\partial grade = \beta_g$ regardless of `sex`. To let the slope **differ by sex** we add the **interaction column** $D^{sex}_M\cdot grade$ to $X$:
 
@@ -3921,7 +3921,7 @@ The OLS estimator, $\widehat{SE}$ formula, $t$-test, $F$-test and CIs/PIs *do no
 ---
 
 <details class="master-subpart" open>
-<summary><span class="tag tag-exam">EXAM</span> (a) <strong>L --- Linearity:</strong> Residuals-vs-Fitted plot (<code>plot(mod, which = 1)</code>)</summary>
+<summary>(a) <strong>L --- Linearity:</strong> Residuals-vs-Fitted plot (<code>plot(mod, which = 1)</code>)</summary>
 
 **What it shows.** On the horizontal axis: the fitted values $\hat y_i$. On the vertical axis: the raw residuals $e_i = y_i - \hat y_i$. A red LOWESS smoother is overlaid. Under correct linear specification, $e_i$ should look like noise around 0 with **no trend in the mean** --- the LOWESS line should hug the zero line.
 
@@ -4075,7 +4075,7 @@ bptest(modL)                                    # p > 0.05 now
 ---
 
 <details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> (e) <strong>Influence --- leverage, studentised residuals, Cook's distance</strong> (<code>plot(mod, which = 5)</code>)</summary>
+<summary>(e) <strong>Influence --- leverage, studentised residuals, Cook's distance</strong> (<code>plot(mod, which = 5)</code>)</summary>
 
 A point can be "unusual" in **three logically distinct** ways:
 
@@ -5053,7 +5053,7 @@ mean(xo);   median(xo)                        # 42.22   23   <- median unmoved
 ---
 
 <details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> (c) Robustness --- the **breakdown point**</summary>
+<summary>(c) Robustness --- the **breakdown point**</summary>
 
 The *breakdown point* of an estimator is the smallest fraction of observations that one must corrupt (replace by $\pm\infty$) to send the estimator to $\pm\infty$.
 
