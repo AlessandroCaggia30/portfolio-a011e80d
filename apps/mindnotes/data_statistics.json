@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": 1782840202507,
+  "exportedAt": "2026-06-30T17:51:16.911Z",
   "data": {
     "topics": [
       {
@@ -7291,7 +7291,8 @@
                 "width": 600,
                 "height": 540,
                 "color": "crimson",
-                "column": 100
+                "column": 100,
+                "cardColor": "purple"
               }
             ]
           },
