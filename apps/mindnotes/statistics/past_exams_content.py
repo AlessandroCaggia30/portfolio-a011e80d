@@ -552,6 +552,362 @@ past_exams["exam_g1_2024_2b"] = {
     "statistics/images/past_exams/answers/exam_g1_2024_2b_answer.png",
 ]}
 
+# ----- G1-2024 Ex1.a2 — 99% CI for difference in means Read2 (Lunch) -----
+past_exams["exam_g1_2024_1a2"] = {
+"title": "G1-2024 Ex1.a2 — 99% CI for difference in mean Read2 (free vs non-free)",
+"is_exam": True, "topic_hint": "G13",
+"content": (
+    '<span class="exam-question-text">Obtain the **99% confidence interval for the difference between the means** of the reading scores (variable **Read2**) in the two groups of students (**Lunch**=free and **Lunch**=non-free), assuming that the variance in the two groups is the same. Report the interval and provide its interpretation.</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** With normality (or $n$ large) and **equal variances**, the pooled two-sample $t$ interval for $\\mu_1-\\mu_2$ is\n\n'
+    '$$\\bar X_1 - \\bar X_2 \\;\\pm\\; t_{1-\\alpha/2,\\,n_1+n_2-2}\\; s_p\\sqrt{\\tfrac{1}{n_1}+\\tfrac{1}{n_2}},\\qquad s_p^2=\\tfrac{(n_1-1)s_1^2+(n_2-1)s_2^2}{n_1+n_2-2}.$$\n\n'
+    'With $n_1+n_2-2 = 830$ degrees of freedom the $t$ quantile $t_{0.995,830}\\approx z_{0.995}=2.576$, so the interval is essentially Gaussian.\n\n'
+    '![AI walkthrough — pooled two-sample 99% CI for diff in mean Read2 by Lunch](statistics/images/past_exams/exam_g1_2024_1a2_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** Sample sizes $n_{\\text{non-free}}=433$, $n_{\\text{free}}=399$; sample means $\\bar X_{\\text{non-free}}=603.61$, $\\bar X_{\\text{free}}=571.30$; difference $32.31$. The 99% pooled CI is\n\n'
+    '$$\\mu_{\\text{non-free}} - \\mu_{\\text{free}} \\in [\\,24.47,\\;40.16\\,].$$\n\n'
+    'The interval lies **entirely above 0**, so at the 99% confidence level the mean Read2 of students NOT qualified for free lunch is between **24.5 and 40.2 points higher** than that of free-lunch students — clear evidence of a reading-score gap penalising the more disadvantaged group.\n\n'
+    '**R commands:**\n\n'
+    "`CI.diffmean(x=Read2, by=Lunch, data=Primary, conf.level=0.99)`\n\n"
+    "`t.test(Read2 ~ Lunch, data=Primary, var.equal=TRUE, conf.level=0.99)`\n\n"
+    '`## t = 10.632, df = 830, p-value < 2.2e-16`\n\n'
+    '`## 99 percent confidence interval:`\n\n'
+    '`##  24.46699 40.16015`\n\n'
+    '`## sample estimates:`\n\n'
+    '`## mean in group non-free     mean in group free`\n\n'
+    '`##              603.6143               571.3008`\n'
+), "images": [
+    "statistics/images/past_exams/exam_g1_2024_1a2_ai.png",
+]}
+
+# ----- G1-2024 Ex1.a3 — Conclude from interval whether diff != 0 -----
+past_exams["exam_g1_2024_1a3"] = {
+"title": "G1-2024 Ex1.a3 — Interpret 99% CI: is the difference significantly different from 0?",
+"is_exam": True, "topic_hint": "G13",
+"content": (
+    '<span class="exam-question-text">**Based on the interval determined at the previous point**, can we conclude that the difference between the two means is significantly different from zero? Explain and motivate your answer.</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** A $(1-\\alpha)$ CI for $\\mu_1-\\mu_2$ and a two-sided test of $H_0:\\mu_1=\\mu_2$ vs $H_1:\\mu_1\\ne\\mu_2$ at level $\\alpha$ are **equivalent**: reject $H_0$ iff the CI does **not** contain $0$.\n\n'
+    'So we just check whether $0\\in[24.47,40.16]$.\n\n'
+    '![AI walkthrough — CI vs zero: 0 outside [24.47, 40.16] -> reject H0 at 1%](statistics/images/past_exams/exam_g1_2024_1a3_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** The 99% interval is $[24.47,\\,40.16]$ and **does not contain $0$** (in fact $0$ is far to the left of the lower end). So at the **1% significance level we reject** $H_0:\\mu_{\\text{non-free}}-\\mu_{\\text{free}}=0$: the difference in mean Read2 is **significantly different from zero**, and in particular significantly **positive**. Equivalently the two-sample $t$ test gives $t = 10.63$, $p < 2.2\\times 10^{-16}$.\n\n'
+    '**R commands:**\n\n'
+    "`# Test of equivalence of the CI conclusion`\n\n"
+    "`t.test(Read2 ~ Lunch, data=Primary, var.equal=TRUE, conf.level=0.99)`\n\n"
+    '`## t = 10.632, df = 830, p-value < 2.2e-16   -> reject H0 at 1%`\n'
+), "images": [
+    "statistics/images/past_exams/exam_g1_2024_1a3_ai.png",
+]}
+
+# ----- G1-2024 Ex1.b_loc — Conditional distribution SchoolLoc | Lunch -----
+past_exams["exam_g1_2024_1b_loc"] = {
+"title": "G1-2024 Ex1.b — Distribution of SchoolLoc conditional on Lunch",
+"is_exam": True, "topic_hint": "G2",
+"content": (
+    '<span class="exam-question-text">A statistical tendency measure proper for summarizing the distributions of the school\'s location (variable **SchoolLoc**) for students qualified or not for free lunch (variable **Lunch**). Report the result and comment.</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** *SchoolLoc* is **nominal** (`inner-city`, `rural`, `suburban`, `urban`) — no order, no average — so the only sensible central-tendency measure is the **mode** of the conditional distribution. We tabulate `SchoolLoc` for each level of `Lunch`, switch to conditional relative frequencies (column percentages summing to 100% within each Lunch group), and compare modes.\n\n'
+    '![AI walkthrough — stacked bar of SchoolLoc | Lunch with modes highlighted](statistics/images/past_exams/exam_g1_2024_1b_loc_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** Conditional relative frequencies of *SchoolLoc* within each *Lunch* group:\n\n'
+    '| SchoolLoc | non-free | free |\n'
+    '|---|---:|---:|\n'
+    '| inner-city | 4.85% | **44.61%** |\n'
+    '| rural | **53.81%** | 36.59% |\n'
+    '| suburban | 35.80% | 14.04% |\n'
+    '| urban | 5.54% | 4.76% |\n\n'
+    '**Modes.** Among **non-free**-lunch students the most frequent location is **rural** (53.8%); among **free**-lunch students the most frequent location is **inner-city** (44.6%). The two conditional distributions are clearly different, suggesting that *Lunch* (a proxy for family economic conditions) is **associated** with *SchoolLoc* — to be confirmed by a formal $\\chi^2$ test (Ex 1.b3).\n\n'
+    '**R commands:**\n\n'
+    '`distr.summary.x(x=SchoolLoc, by=Lunch, stats="central", data=Primary)`\n\n'
+    '`tab <- table(SchoolLoc=Primary$SchoolLoc, Lunch=Primary$Lunch)`\n\n'
+    '`round(prop.table(tab, margin=2), 4)`\n\n'
+    '`##             Lunch`\n\n'
+    '`## SchoolLoc    non-free   free`\n\n'
+    '`##   inner-city   0.0485 0.4461`\n\n'
+    '`##   rural        0.5381 0.3659`\n\n'
+    '`##   suburban     0.3580 0.1404`\n\n'
+    '`##   urban        0.0554 0.0476`\n'
+), "images": [
+    "statistics/images/past_exams/exam_g1_2024_1b_loc_ai.png",
+]}
+
+# ----- G1-2024 Ex1.b2 — Sample frequency non-free in rural vs suburban -----
+past_exams["exam_g1_2024_1b2"] = {
+"title": "G1-2024 Ex1.b2 — Is the proportion of non-free lunch higher in rural than suburban schools?",
+"is_exam": True, "topic_hint": "G2",
+"content": (
+    '<span class="exam-question-text">Can you say that the observed **sample frequency** of students NOT qualified for free lunch (**Lunch**=non-free) among students in schools in rural areas (**SchoolLoc**=rural) is higher than among students in schools in suburban areas (**SchoolLoc**=suburban)? Report the appropriate frequencies and comment.</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** The question asks for $P(\\text{Lunch}=\\text{non-free}\\mid \\text{SchoolLoc}=\\text{rural})$ vs $P(\\text{Lunch}=\\text{non-free}\\mid \\text{SchoolLoc}=\\text{suburban})$ — i.e. **row** percentages of the SchoolLoc × Lunch table conditioning on *SchoolLoc*. Compute the two proportions and compare them directly (no inference here — this is a descriptive sample-frequency comparison).\n\n'
+    '![AI walkthrough — Lunch | SchoolLoc row proportions, rural vs suburban](statistics/images/past_exams/exam_g1_2024_1b2_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** From the contingency table:\n\n'
+    '| SchoolLoc | non-free | total | $\\hat p_{\\text{non-free}|\\text{loc}}$ |\n'
+    '|---|---:|---:|---:|\n'
+    '| rural | 233 | 379 | $233/379 = 0.6148$ |\n'
+    '| suburban | 155 | 211 | $155/211 = 0.7346$ |\n\n'
+    'So **NO**: in this sample the proportion of non-free-lunch students is **lower** in rural schools (61.5%) than in suburban schools (73.5%). The statement in the question is **false** at the descriptive level — suburban schools have a higher share of non-free-lunch students.\n\n'
+    '**R commands:**\n\n'
+    '`distr.table.xy(x=Lunch, y=SchoolLoc, freq.type=c("x|y"), freq=c("counts","prop"), data=Primary)`\n\n'
+    '`tab <- table(SchoolLoc=Primary$SchoolLoc, Lunch=Primary$Lunch); round(prop.table(tab, margin=1), 4)`\n\n'
+    '`##             Lunch`\n\n'
+    '`## SchoolLoc    non-free   free`\n\n'
+    '`##   inner-city   0.1055 0.8945`\n\n'
+    '`##   rural        0.6148 0.3852`\n\n'
+    '`##   suburban     0.7346 0.2654`\n\n'
+    '`##   urban        0.5581 0.4419`\n'
+), "images": [
+    "statistics/images/past_exams/exam_g1_2024_1b2_ai.png",
+]}
+
+# ----- G1-2024 Ex1.b3 — Chi-square test of independence SchoolLoc x Lunch -----
+past_exams["exam_g1_2024_1b3"] = {
+"title": "G1-2024 Ex1.b3 — Chi-square independence test SchoolLoc x Lunch",
+"is_exam": True, "topic_hint": "G14", "subtopic_hint": "g14c",
+"content": (
+    '<span class="exam-question-text">Would you conclude that the **location of the school** (variable **SchoolLoc**) is **related to the economic situation** of students\' families (as measured by the variable **Lunch**)? Answer on the basis of a suitable statistical test, specifying the analytic expression of the statistic, its observed value, the rule of decision based upon and its realization. Report the p-value, specify how it is obtained, report its interpretation, and draw your motivated conclusions based on it.</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** Two categorical variables, $H_0$: independence vs $H_1$: dependence. Pearson\'s $\\chi^2$ statistic\n\n'
+    '$$X^2 = \\sum_{j=1}^{I}\\sum_{k=1}^{K}\\frac{(O_{jk}-E_{jk})^2}{E_{jk}},\\qquad E_{jk} = \\frac{R_j C_k}{n}.$$\n\n'
+    'Under $H_0$ with large $n$, $X^2\\dot\\sim\\chi^2_{(I-1)(K-1)}$. With $I=4$ levels of *SchoolLoc* and $K=2$ levels of *Lunch*, $\\text{df}=(4-1)(2-1)=3$. Reject $H_0$ for large $X^2$ (equivalently small p-value).\n\n'
+    '![AI walkthrough — chi-square density df=3 with observed X2=189.79 in the tail](statistics/images/past_exams/exam_g1_2024_1b3_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** From the contingency table (see Ex 1.b) the observed statistic is\n\n'
+    '$$X^2_{\\text{obs}} = 189.79\\quad(\\text{df}=3),\\qquad p = P(\\chi^2_3 \\ge 189.79) < 2.2\\times 10^{-16} \\approx 0.$$\n\n'
+    'The p-value is essentially zero, far below any reasonable level (e.g. $\\alpha=0.01$). **We reject $H_0$**: there is overwhelming evidence that *SchoolLoc* and *Lunch* are **not independent**. The school location is strongly related to the economic situation of the students\' families — consistent with the conditional distributions in Ex 1.b (free-lunch students concentrated in inner-city schools, non-free students concentrated in rural and suburban schools).\n\n'
+    '**R commands:**\n\n'
+    '`chisq.test(table(Primary$Lunch, Primary$SchoolLoc))`\n\n'
+    '`## Pearson\'s Chi-squared test`\n\n'
+    '`## X-squared = 189.79, df = 3, p-value < 2.2e-16`\n\n'
+    '`1 - pchisq(189.79, df=3)   ## [1] 0`\n'
+), "images": [
+    "statistics/images/past_exams/exam_g1_2024_1b3_ai.png",
+]}
+
+# ----- G1-2024 Ex1.c — Multiple regression Read2 ~ Read1 + Sex + Lunch + SchoolLoc + Experience -----
+past_exams["exam_g1_2024_1c"] = {
+"title": "G1-2024 Ex1.c — Multiple regression Read2 ~ Read1+Sex+Lunch+SchoolLoc+Experience",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15c",
+"content": (
+    '<span class="exam-question-text">Consider the model for 2nd-grade students\' reading score (variable **Read2**) as a function of their 1st-grade reading score (variable **Read1**), their sex (variable **Sex**, assigned at birth), their qualification or not for free lunch (variable **Lunch**), their school\'s location (variable **SchoolLoc**), and the years of experience of their teacher (variable **Experience**). Write the **expression of the estimated model**, propose an index to assess its explanatory power, and provide an interpretation of the proposed index.</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** Five predictors, two of which (*Sex*, *Lunch*, *SchoolLoc*) are factors → R automatically creates dummy variables, using the first level of each factor as the **baseline** (`male`, `non-free`, `inner-city`). Fit by OLS, then read off the estimated equation. Explanatory power is measured by the **coefficient of determination** $R^2$ — the fraction of variance in *Read2* explained by the model — and by the **adjusted** $R^2$ which penalises additional predictors.\n\n'
+    '![AI walkthrough — coefficient bar chart with significance & R2 = 0.586](statistics/images/past_exams/exam_g1_2024_1c_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** Estimated model (baselines: $Sex=$ male, $Lunch=$ non-free, $SchoolLoc=$ inner-city):\n\n'
+    '$$\\widehat{Read2} = 246.17 + 0.617\\cdot Read1 + 3.076\\cdot Sex_{\\text{female}} - 2.441\\cdot Lunch_{\\text{free}} + 16.278\\cdot SchoolLoc_{\\text{rural}} + 8.861\\cdot SchoolLoc_{\\text{suburban}} + 13.657\\cdot SchoolLoc_{\\text{urban}} + 0.423\\cdot Experience.$$\n\n'
+    '**Explanatory power.** $R^2 = 0.586$ (adjusted $R^2 = 0.582$): the model **explains about 58.6%** of the variability of the 2nd-grade reading score. The remaining $\\approx 41\\%$ is residual variation (other pupil/family characteristics, noise, measurement). The fit is global-$F$ highly significant ($F_{7,824}=166.6$, $p<2.2\\times 10^{-16}$), so the model is far better than the null no-predictor model.\n\n'
+    '**R commands:**\n\n'
+    '`regr.A <- lm(Read2 ~ Read1 + Sex + Lunch + SchoolLoc + Experience, data=Primary)`\n\n'
+    '`summary(regr.A)`\n\n'
+    '`## Coefficients:`\n\n'
+    '`##                    Estimate Std. Error t value Pr(>|t|)`\n\n'
+    '`## (Intercept)        246.1655    12.3625  19.912  < 2e-16 ***`\n\n'
+    '`## Read1                0.6170     0.0224  27.579  < 2e-16 ***`\n\n'
+    '`## Sexfemale            3.0761     2.0992   1.465  0.14320`\n\n'
+    '`## Lunchfree           -2.4412     2.4983  -0.977  0.32879`\n\n'
+    '`## SchoolLocrural      16.2779     2.9795   5.463 6.19e-08 ***`\n\n'
+    '`## SchoolLocsuburban    8.8609     3.3602   2.637  0.00852 **`\n\n'
+    '`## SchoolLocurban      13.6573     5.2314   2.611  0.00920 **`\n\n'
+    '`## Experience           0.4227     0.1227   3.446  0.00060 ***`\n\n'
+    '`## Multiple R-squared:  0.586,   Adjusted R-squared:  0.5824`\n\n'
+    '`## F-statistic: 166.6 on 7 and 824 DF, p-value: < 2.2e-16`\n'
+), "images": [
+    "statistics/images/past_exams/exam_g1_2024_1c_ai.png",
+]}
+
+# ----- G1-2024 Ex1.c2 — Effect of Experience on Read2 -----
+past_exams["exam_g1_2024_1c2"] = {
+"title": "G1-2024 Ex1.c2 — Effect of teacher Experience on Read2 (ceteris paribus)",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15c",
+"content": (
+    '<span class="exam-question-text">Based on the estimated model, what conclusions can you draw on the relation between the teacher\'s experience (**Experience**) and the 2nd-grade reading score (**Read2**)?</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** In a multiple regression each slope $\\hat\\beta_j$ measures the **partial / ceteris-paribus** effect of $X_j$ on the response, holding the other predictors fixed. We look at the estimated coefficient on *Experience*, at its $t$-statistic, at its $p$-value (vs $\\alpha=0.05$) and at the sign.\n\n'
+    '![AI walkthrough — Experience slope with 95% CI and effect over realistic range](statistics/images/past_exams/exam_g1_2024_1c2_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** $\\hat\\beta_{\\text{Experience}} = 0.4227$ with $\\text{SE}=0.1227$, $t = 3.446$, $p = 0.0006$. Highly significant ($p \\ll 0.05$).\n\n'
+    'Interpretation (ceteris paribus, i.e. holding *Read1*, *Sex*, *Lunch*, *SchoolLoc* fixed): each **additional year of teacher experience is associated with an increase of about 0.42 points** in the 2nd-grade reading score, and this effect is statistically different from zero at the 1% level. So *Experience* contributes positively and significantly to *Read2*. (The size is modest: 10 extra years of experience $\\Rightarrow$ ~4.2 reading points.)\n\n'
+    '**R commands:**\n\n'
+    '`summary(regr.A)$coef["Experience", ]`\n\n'
+    '`##     Estimate   Std. Error      t value     Pr(>|t|)`\n\n'
+    '`## 0.4227010460 0.1226686530 3.4459786789 0.0005978489`\n\n'
+    '`confint(regr.A, "Experience", level=0.95)`\n'
+), "images": [
+    "statistics/images/past_exams/exam_g1_2024_1c2_ai.png",
+]}
+
+# ----- G1-2024 Ex1.c3 — Effect of SchoolLoc on Read2 -----
+past_exams["exam_g1_2024_1c3"] = {
+"title": "G1-2024 Ex1.c3 — Effect of SchoolLoc on Read2 (rural/suburban/urban vs inner-city)",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15c",
+"content": (
+    '<span class="exam-question-text">How do you evaluate the contribution of the coefficients relative to the school\'s location (**SchoolLoc**)?</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** *SchoolLoc* is a 4-level factor; R encodes it with $K-1=3$ dummies and uses **inner-city** as the baseline. Each of the three dummy coefficients measures the **ceteris-paribus** difference in mean *Read2* between that level and the inner-city baseline. We check sign, magnitude and significance of each.\n\n'
+    '![AI walkthrough — SchoolLoc dummies vs inner-city baseline with 95% CIs](statistics/images/past_exams/exam_g1_2024_1c3_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** All three SchoolLoc dummies are **positive and significant at the 1% level**:\n\n'
+    '| level (vs inner-city) | $\\hat\\beta$ | SE | $t$ | $p$ |\n'
+    '|---|---:|---:|---:|---:|\n'
+    '| rural | $+16.28$ | $2.98$ | $5.46$ | $6.2\\times 10^{-8}$ |\n'
+    '| suburban | $+8.86$ | $3.36$ | $2.64$ | $0.0085$ |\n'
+    '| urban | $+13.66$ | $5.23$ | $2.61$ | $0.0092$ |\n\n'
+    'So conditional on prior reading score, sex, free-lunch status and teacher experience, **students attending schools outside inner-city areas score on average higher in reading** than inner-city pupils. The largest gap is for **rural** schools (+16.3 points), followed by urban (+13.7) and suburban (+8.9). Inner-city schools are associated with the **worst** average reading performance, even after controlling for the other variables (so the gap is not just driven by the high concentration of free-lunch students there).\n\n'
+    '**R commands:**\n\n'
+    '`summary(regr.A)$coef[grep("SchoolLoc", rownames(summary(regr.A)$coef)), ]`\n\n'
+    '`##                    Estimate Std. Error  t value     Pr(>|t|)`\n\n'
+    '`## SchoolLocrural    16.27786    2.97948  5.46333 6.190e-08`\n\n'
+    '`## SchoolLocsuburban  8.86094    3.36021  2.63702 8.521e-03`\n\n'
+    '`## SchoolLocurban    13.65733    5.23144  2.61058 9.202e-03`\n'
+), "images": [
+    "statistics/images/past_exams/exam_g1_2024_1c3_ai.png",
+]}
+
+# ----- G1-2024 Ex1.d — Compare regression conclusion to a2-a3 (Lunch effect) -----
+past_exams["exam_g1_2024_1d"] = {
+"title": "G1-2024 Ex1.d — Lunch effect: simple CI/test vs multiple regression",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15c",
+"content": (
+    '<span class="exam-question-text">Compare the results obtained at points a2-a3 (concerning the difference in the **average** reading scores depending on **Lunch**) with the conclusions drawn based on the regression model with respect to the variable **Lunch**. How do you explain the observed differences?</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** The two analyses ask formally different questions about the role of *Lunch*:\n\n'
+    '- **Ex 1.a2-a3** = a **marginal / unconditional** comparison of mean *Read2* across the two *Lunch* groups. It captures the *total* association, including everything correlated with *Lunch* (school location, prior reading score, etc.).\n\n'
+    '- **Ex 1.c** = the **partial / ceteris-paribus** effect of *Lunch* on *Read2* **after** controlling for *Read1*, *Sex*, *SchoolLoc* and *Experience*. It isolates the residual effect of free-lunch status once differences in those confounders are accounted for.\n\n'
+    '![AI walkthrough — marginal vs partial Lunch effect: ~32 pts -> ~ -2.4 pts (n.s.)](statistics/images/past_exams/exam_g1_2024_1d_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** **At point a2-a3** the 99% CI is $[24.47,\\,40.16]$ (interval far from $0$), so *Lunch* shows a **large, highly significant** difference — non-free students score on average $\\sim 32$ points above free-lunch ones.\n\n'
+    '**In the regression model** the *Lunch* coefficient is $\\hat\\beta_{\\text{Lunch:free}} = -2.44$ with $p = 0.329$: **not significantly different from zero**. Once we control for *Read1*, *Sex*, *SchoolLoc* and *Experience*, free-lunch status no longer has an effect on *Read2*.\n\n'
+    '**Why the change?** *Lunch* is strongly correlated with other predictors: free-lunch students tend to attend inner-city schools and to have lower *Read1* (and possibly less experienced teachers). The simple difference of means $\\sim 32$ points conflates the true effect of *Lunch* with the effects of these other variables; in the regression those channels are absorbed by *Read1* and *SchoolLoc*, and the residual "pure" *Lunch* effect collapses to roughly zero. In other words, **once the playing field is levelled for prior reading ability and school location, free-lunch students perform as well as non-free ones** — *Lunch* is not the causal driver, it is a marker for those other disadvantages.\n\n'
+    '**R commands:**\n\n'
+    '`# Marginal effect`\n\n'
+    '`coef(lm(Read2 ~ Lunch, data=Primary))   ## Lunchfree ~ -32.31`\n\n'
+    '`# Partial effect (full model)`\n\n'
+    '`summary(regr.A)$coef["Lunchfree", ]     ## -2.441 (p = 0.329)`\n'
+), "images": [
+    "statistics/images/past_exams/exam_g1_2024_1d_ai.png",
+]}
+
+# ----- G1-2024 Ex2.a — One-sided z test on mean ReadGrowth (mu0 = 62, sigma = 34, alpha = 1%) -----
+past_exams["exam_g1_2024_ex2_a"] = {
+"title": "G1-2024 Ex2.a — One-sided z test: mean ReadGrowth >= 62 at 1% (sigma=34 known)",
+"is_exam": True, "topic_hint": "G14", "subtopic_hint": "g14a",
+"content": (
+    '<span class="exam-question-text">The local education authority carefully monitors the improvement in the students\' performance in order to evaluate possible support programs. The variable **ReadGrowth** measures the increase in the students\' reading score from the 1st to the 2nd grade. In the following, round results to 3 decimals.\n\nBased on historical data, it is assumed that the standard deviation of the increase in the reading score is 34, and the target average increase in the reading score is set to 62 points. Based on the available sample, it is of interest to verify whether the average increase in the reading score is lower than 62; only in this case some actions would be taken, and specifically support programs. State the hypotheses to verify and determine the **rejection region of the test at the 1% significance level** to verify them, specifying the procedure followed. What are your conclusions? Explain.</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** "Lower than 62 $\\Rightarrow$ act" is a **one-sided** test. The relevant hypothesis split is "no action / status quo" vs "act", with the costlier error being acting when we should not — so we put status quo in $H_0$:\n\n'
+    '$$H_0: \\mu \\ge 62 \\quad\\text{vs}\\quad H_1: \\mu < 62.$$\n\n'
+    'Variance is **known** ($\\sigma = 34$) and $n = 832$ is large, so the test statistic under $H_0$ is\n\n'
+    '$$Z = \\frac{\\bar X - 62}{\\sigma/\\sqrt n} \\sim N(0,1).$$\n\n'
+    'Reject $H_0$ for small (very negative) values of $Z$: $Z < z_\\alpha = z_{0.01} = -2.326$. Equivalently in the original scale\n\n'
+    '$$\\bar X < 62 - z_{0.99}\\,\\sigma/\\sqrt n = 62 - 2.326\\cdot 34/\\sqrt{832} = 59.258.$$\n\n'
+    '![AI walkthrough — left-tail rejection region for one-sided z test at 1%](statistics/images/past_exams/exam_g1_2024_ex2_a_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** Sample mean $\\bar x = 60.019$.\n\n'
+    '**Rejection region at 1%:** $\\bar X < 59.258$ (equivalently $Z < -2.326$).\n\n'
+    'Observed: $60.019 > 59.258$ (equivalently $Z_{\\text{obs}} = (60.019-62)/(34/\\sqrt{832}) = -1.680 > -2.326$). **We do NOT reject $H_0$ at 1%.** With the available evidence we cannot conclude that the average reading increase is below the target 62 points → **no support program is implemented**. (For reference the $p$-value is $P(Z<-1.680)\\approx 0.046$ — would lead to rejection at 5% but not at 1%.)\n\n'
+    '**R commands:**\n\n'
+    '`xbar <- mean(Primary$ReadGrowth)   ## 60.01923`\n\n'
+    '`# critical value of the rejection rule on x-bar`\n\n'
+    '`62 - qnorm(0.99) * 34 / sqrt(832)`\n\n'
+    '`## [1] 59.25785`\n\n'
+    '`# z-statistic and p-value`\n\n'
+    '`z <- (xbar - 62)/(34/sqrt(832)); z`\n\n'
+    '`## [1] -1.680415`\n\n'
+    '`pnorm(z)`\n\n'
+    '`## [1] 0.04643827`\n'
+), "images": [
+    "statistics/images/past_exams/exam_g1_2024_ex2_a_ai.png",
+]}
+
+# ----- G1-2024 Ex2.a3 — Probability of rejecting H0 when true mean = 58 (power / beta) -----
+past_exams["exam_g1_2024_ex2_a3"] = {
+"title": "G1-2024 Ex2.a3 — Probability of (not) rejecting H0 when the true mean is 58",
+"is_exam": True, "topic_hint": "G14", "subtopic_hint": "g14b",
+"content": (
+    '<span class="exam-question-text">What is the probability that based on the test developed at point a (i.e. the local education authority would decide to take no actions, hence not implementing any support program) when the actual average increase in the reading score is **58**? Report the procedure and the functions in RStudio used to answer.</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** "Take no action" = **fail to reject $H_0$**. Conditional on the true mean being $\\mu = 58$ (in $H_1$), this is a **Type II error**, and its probability is $\\beta(\\mu=58) = P(\\bar X \\ge \\bar x_{\\text{crit}} \\mid \\mu = 58)$ where $\\bar x_{\\text{crit}} = 59.258$ from Ex 2.a.\n\n'
+    'With $\\sigma = 34$ known and $\\bar X\\mid\\mu \\sim N(\\mu, \\sigma^2/n)$:\n\n'
+    '$$\\beta(58) = P\\!\\left(\\frac{\\bar X - 58}{\\sigma/\\sqrt n} \\ge \\frac{59.258 - 58}{34/\\sqrt{832}}\\right) = P(Z \\ge 1.067) = 1 - \\Phi(1.067).$$\n\n'
+    '![AI walkthrough — alternative N(58, sigma2/n) with beta = area above 59.258](statistics/images/past_exams/exam_g1_2024_ex2_a3_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** $\\beta(\\mu=58) = 1 - \\Phi\\!\\left(\\dfrac{59.258 - 58}{34/\\sqrt{832}}\\right) = 1 - \\Phi(1.067) \\approx \\mathbf{0.143}.$\n\n'
+    'So if the true average increase were $58$ points, the test would (incorrectly) **fail to detect** that drop — and therefore decline to launch the support program — with probability about $14.3\\%$. Equivalently, the **power** at $\\mu=58$ is $1-\\beta \\approx 0.857$ (the test correctly rejects $\\sim 85.7\\%$ of the time).\n\n'
+    '**R commands:**\n\n'
+    '`crit.val <- 62 - qnorm(0.99) * 34/sqrt(832)   ## 59.25785`\n\n'
+    '`# P(not reject | mu = 58)  =  beta`\n\n'
+    '`1 - pnorm( (crit.val - 58) / (34/sqrt(832)) )`\n\n'
+    '`## [1] 0.142931`\n\n'
+    '`# or equivalently`\n\n'
+    '`1 - pnorm(crit.val, mean=58, sd=34/sqrt(832))`\n\n'
+    '`## [1] 0.142931`\n'
+), "images": [
+    "statistics/images/past_exams/exam_g1_2024_ex2_a3_ai.png",
+]}
+
+# ----- G1-2024 Ex2.b — Two-proportion z test ReadGrowth<62 rural vs inner-city -----
+past_exams["exam_g1_2024_ex2_b"] = {
+"title": "G1-2024 Ex2.b — Two-proportion test: P(ReadGrowth<62) rural vs inner-city",
+"is_exam": True, "topic_hint": "G14", "subtopic_hint": "g14c",
+"content": (
+    '<span class="exam-question-text">To identify possible critical situations and areas of intervention, it is of interest to evaluate the proportion of students whose increase in reading scores is **lower** than 62 in schools located in **rural** areas and in **inner-city** areas (**SchoolLoc**=rural and **SchoolLoc**=inner-city). Determine the proportion of students with an increased reading score (**ReadGrowth**) lower than 62 among the students attending school in a rural area (**SchoolLoc**=rural) and in inner-city (**SchoolLoc**=inner-city). It can be concluded that the proportion of interest in rural areas (**SchoolLoc**=rural) is significantly **lower** than in inner-city (**SchoolLoc**=inner-city)? Report the realisation of the test statistic, specifying the meaning/definition of all the quantities it is based upon, and provide its definition. What is the statistical conclusion based on the observed sample data? Why?</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** Two independent proportions $p_R = P(\\text{ReadGrowth}<62\\mid \\text{rural})$ and $p_I = P(\\text{ReadGrowth}<62\\mid \\text{inner-city})$, one-sided question:\n\n'
+    '$$H_0:\\; p_R \\ge p_I \\qquad H_1:\\; p_R < p_I.$$\n\n'
+    'Pooled-variance large-sample $Z$:\n\n'
+    '$$Z = \\frac{\\hat p_R - \\hat p_I}{\\sqrt{\\hat p_0(1-\\hat p_0)\\left(\\tfrac{1}{n_R}+\\tfrac{1}{n_I}\\right)}},\\qquad \\hat p_0 = \\frac{x_R + x_I}{n_R + n_I}.$$\n\n'
+    'Reject for small (very negative) $Z$. p-value $= P(Z < z_{\\text{obs}})$.\n\n'
+    '![AI walkthrough — sampling null under p_R = p_I and observed z = -1.519](statistics/images/past_exams/exam_g1_2024_ex2_b_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** Counts of $\\text{ReadGrowth} < 62$:\n\n'
+    '| SchoolLoc | < 62 | $n$ | $\\hat p$ |\n'
+    '|---|---:|---:|---:|\n'
+    '| rural | $171$ | $379$ | $\\hat p_R = 0.4512$ |\n'
+    '| inner-city | $103$ | $199$ | $\\hat p_I = 0.5176$ |\n'
+    '| pooled | $274$ | $578$ | $\\hat p_0 = 0.4740$ |\n\n'
+    'Test statistic:\n\n'
+    '$$Z_{\\text{obs}} = \\frac{0.4512 - 0.5176}{\\sqrt{0.4740\\cdot 0.5260\\,(1/379 + 1/199)}} = -1.519.$$\n\n'
+    'One-sided $p$-value $= P(Z < -1.519) \\approx 0.0644$.\n\n'
+    'Since $p = 0.0644 > 0.05$, **we do NOT reject $H_0$ at 5%**: the data do not provide enough evidence to claim that the proportion of low-growth pupils is *significantly* smaller in rural than in inner-city schools (though the observed sample proportions do point in that direction). The conclusion **would change at the 10% level** ($0.0644 < 0.10$).\n\n'
+    '**R commands:**\n\n'
+    "`Prop.Read <- Primary$ReadGrowth < 62`\n\n"
+    "`TEST.diffprop(x = Prop.Read[Primary$SchoolLoc=='rural'],`\n\n"
+    "`              y = Prop.Read[Primary$SchoolLoc=='inner-city'],`\n\n"
+    "`              alternative='less', digits=3)`\n\n"
+    "`## p_rural - p_inner = -0.0664   Z = -1.519   p-value = 0.0644`\n"
+), "images": [
+    "statistics/images/past_exams/exam_g1_2024_ex2_b_ai.png",
+]}
+
+# ----- G1-2024 Ex3.a — Which is more dispersed: Read2 or Math2 (CV) -----
+past_exams["exam_g1_2024_ex3_a"] = {
+"title": "G1-2024 Ex3.a — Which variable is more dispersed: Read2 or Math2? (coefficient of variation)",
+"is_exam": True, "topic_hint": "G3",
+"content": (
+    '<span class="exam-question-text">Consider the 2nd-grade students\' reading and math scores (variables **Read2** and **Math2**). Which variable is **more dispersed**? Answer on the basis of a suitable summary measure, **justifying** and **explaining** your choice.</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** Comparing dispersion across two variables on **different scales / different means** with the raw standard deviation can be misleading: a larger $\\sigma$ may just reflect a larger mean. The standard scale-free measure of *relative* dispersion is the **coefficient of variation**\n\n'
+    '$$CV = \\frac{s}{\\bar x},$$\n\n'
+    'often reported as a percentage. The variable with the larger CV is the one whose values are more dispersed relative to their own average.\n\n'
+    '![AI walkthrough — Read2 vs Math2: mean, sd, CV side-by-side](statistics/images/past_exams/exam_g1_2024_ex3_a_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** From the sample:\n\n'
+    '| variable | mean | sd | $CV = s/\\bar x$ |\n'
+    '|---|---:|---:|---:|\n'
+    '| Read2 | $588.118$ | $46.655$ | $0.0793$ |\n'
+    '| Math2 | $582.162$ | $48.630$ | $0.0835$ |\n\n'
+    'The raw SDs are similar (and Math2\'s is slightly higher). The two means are also similar, so the ranking does not flip when switching to CV, but the CV is the right justification: $CV_{\\text{Math2}}=0.0835 > CV_{\\text{Read2}}=0.0793$. So **Math2 is (slightly) more dispersed than Read2** in relative terms — about 8.4% of its mean against 7.9% for Read2. The two distributions have a similar level of relative variability, even if Math2 is *slightly* more spread.\n\n'
+    '**R commands:**\n\n'
+    '`distr.summary.x(Primary$Read2, stats=c("summary","dispersion"))`\n\n'
+    '`distr.summary.x(Primary$Math2, stats=c("summary","dispersion"))`\n\n'
+    '`sd(Primary$Read2)/mean(Primary$Read2)   ## 0.07932921`\n\n'
+    '`sd(Primary$Math2)/mean(Primary$Math2)   ## 0.08353295`\n'
+), "images": [
+    "statistics/images/past_exams/exam_g1_2024_ex3_a_ai.png",
+]}
+
 # =================== GENERAL 1 2025 ===================
 
 past_exams["exam_g1_2025_1a"] = {
@@ -698,6 +1054,134 @@ past_exams["exam_g1_2025_3c"] = {
     "statistics/images/past_exams/answers/exam_g1_2025_3c_answer.png",
 ]}
 
+# ---- general 1 2025: extra coverage (1c, 2b, 4a, 4b, 4c) ----
+past_exams["exam_g1_2025_1c"] = {
+"title": "G1-2025 Ex1c — Percentiles of SleepQuality to read the tails",
+"is_exam": True, "topic_hint": "G6",
+"content": (
+    '<span class="exam-question-text">To provide more detail about the tails of `SleepQuality`, report and interpret the relevant percentiles (1%, 5%, 10%, 25%, 75%, 90%, 95%, 99%).</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** A small set of percentiles is the natural numeric companion to the histogram: each $p_q$ marks the value below which lie $q\\%$ of the observations. Comparing **symmetric pairs** $\\,(p_5,p_{95})\\,$ and $\\,(p_1,p_{99})\\,$ around the median tells you whether the distribution is symmetric or skewed and how *fast* the mass thins out far from the centre. The quartile pair $(p_{25},p_{75})$ delivers the IQR — the box of the boxplot.\n\n'
+    '**Numerical readings (R `quantile`).** $p_1 = 3.55$, $p_5 = 4.76$, $p_{10} = 5.33$, $p_{25} = 6.26$, **median $= 7.41$**, $p_{75} = 8.41$, $p_{90} = 9.24$, $p_{95} = 9.64$, $p_{99} = 10.60$.\n\n'
+    '**Tail interpretation.** The two halves around the median are nearly the same width ($7.41 - 5.33 \\approx 2.08$ vs $9.24 - 7.41 \\approx 1.83$): the distribution is **roughly symmetric, slightly left-skewed**. Both tails are **light**: only 5% of subjects sleep worse than $\\sim 4.76$ and only 5% sleep better than $\\sim 9.64$.\n\n'
+    '![AI walkthrough — empirical CDF with the 1/5/10/25/75/90/95/99% percentile horizontal cuts](statistics/images/past_exams/exam_g1_2025_1c_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** The percentiles confirm the histogram: median $\\approx 7.41$, IQR $= p_{75} - p_{25} \\approx 2.15$, and tails are **light** — only 5% of subjects report SleepQuality below **4.76** (poor sleepers) and only 5% above **9.64** (excellent sleepers). The distribution is approximately symmetric with a mild left skew.\n\n'
+    '**R commands:**\n\n'
+    "`quantile(sleep$SleepQuality, probs=c(.01,.05,.10,.25,.50,.75,.90,.95,.99))`\n\n"
+    "`distr.summary.x(SleepQuality, stats=c('p1','p5','p10','p25','median','p75','p90','p95','p99'), data=sleep)`\n"
+), "images": [
+    "statistics/images/past_exams/exam_g1_2025_1c_ai.png",
+]}
+
+past_exams["exam_g1_2025_2b"] = {
+"title": "G1-2025 Ex2 — Dispersion comparison: SleepQuality vs SleepDuration (CV)",
+"is_exam": True, "topic_hint": "G7",
+"content": (
+    '<span class="exam-question-text">Which of the two variables (`SleepQuality` or `SleepDuration`) has the larger dispersion? Provide a numeric justification.</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** The two variables are measured on **different scales** (SleepQuality on a 1–10 quality index, SleepDuration in minutes around ~426). Comparing raw standard deviations is meaningless: $s_{\\text{Duration}} = 48.7$ min is "bigger" than $s_{\\text{Quality}} = 1.53$, but only because minutes are a much larger unit. The right scale-free measure is the **coefficient of variation**\n\n'
+    '$$\\mathrm{CV}(X) = \\dfrac{s_X}{\\bar X},$$\n\n'
+    'a unitless ratio that places both variables on the same footing.\n\n'
+    '**Numbers.** $\\bar X_{Q} = 7.273$, $s_Q = 1.529 \\Rightarrow \\mathrm{CV}_Q = 1.529/7.273 \\approx 0.210$. $\\bar X_{D} = 425.85$, $s_D = 48.66 \\Rightarrow \\mathrm{CV}_D = 48.66/425.85 \\approx 0.114$.\n\n'
+    '**Reading.** SleepQuality varies by about **21% of its mean**; SleepDuration by only **11%**. So *relative* to its own centre, SleepQuality is roughly **1.8× more dispersed** than SleepDuration.\n\n'
+    '![AI walkthrough — side-by-side bar of CV (Quality vs Duration) + paired histograms standardised by mean](statistics/images/past_exams/exam_g1_2025_2b_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** Use the **coefficient of variation** because the two variables have different units/scales. $\\mathrm{CV}(SleepQuality) = s/\\bar x = 1.529/7.273 \\approx \\mathbf{0.210}$ (21%), $\\mathrm{CV}(SleepDuration) = 48.66/425.85 \\approx \\mathbf{0.114}$ (11%). **SleepQuality has the larger relative dispersion** (roughly twice that of SleepDuration).\n\n'
+    '**R commands:**\n\n'
+    '`sd(sleep$SleepQuality)/mean(sleep$SleepQuality)`\n\n'
+    '`## [1] 0.2102`\n\n'
+    '`sd(sleep$SleepDuration)/mean(sleep$SleepDuration)`\n\n'
+    '`## [1] 0.1143`\n'
+), "images": [
+    "statistics/images/past_exams/exam_g1_2025_2b_ai.png",
+]}
+
+past_exams["exam_g1_2025_4a"] = {
+"title": "G1-2025 Ex3a — 99% CI for difference of means SleepDuration (Nurse − Doctor)",
+"is_exam": True, "topic_hint": "G13", "subtopic_hint": "g13c_ci_diff_means",
+"content": (
+    '<span class="exam-question-text">Compute the standard error of the estimator for the difference between the average SleepDuration for nurses and doctors and report a **99% confidence interval** for the difference in mean SleepDuration between Nurses and Doctors.</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** Two independent samples — Nurses ($n_N = 118$) and Doctors ($n_D = 105$) — with unknown and *unequal* population variances. The point estimator is $\\hat\\Delta = \\bar X_N - \\bar X_D$ and its standard error follows the **Welch (unpooled) formula**\n\n'
+    '$$SE(\\hat\\Delta) = \\sqrt{\\dfrac{s_N^2}{n_N} + \\dfrac{s_D^2}{n_D}}.$$\n\n'
+    '**Plug in.** $\\bar X_N = 433.12$, $s_N = 47.95$, $n_N = 118$; $\\bar X_D = 409.54$, $s_D = 46.92$, $n_D = 105$. Hence\n\n'
+    '$$SE(\\hat\\Delta) = \\sqrt{\\dfrac{47.95^2}{118} + \\dfrac{46.92^2}{105}} = \\sqrt{19.49 + 20.97} \\approx \\mathbf{6.36}\\ \\text{min}.$$\n\n'
+    'Point estimate: $\\hat\\Delta = 433.12 - 409.54 = 23.58$ min.\n\n'
+    '**99% CI.** With $n_N + n_D > 200$ we use the normal quantile $z_{0.995} = 2.576$:\n\n'
+    '$$23.58 \\;\\pm\\; 2.576 \\cdot 6.36 \\;=\\; (\\mathbf{7.19},\\ \\mathbf{39.96})\\ \\text{min}.$$\n\n'
+    '**Reading.** The whole interval lies **strictly above 0**, so we are 99% confident nurses sleep **between 7 and 40 minutes more per day on average** than doctors. The difference is statistically detectable at the 1% level.\n\n'
+    '![AI walkthrough — two-group means with 99% CI bars, plus the difference $\\hat\\Delta$ with its $\\pm z_{0.995}\\,SE$ interval, all in minutes](statistics/images/past_exams/exam_g1_2025_4a_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** $SE(\\hat\\Delta) = \\sqrt{s_N^2/n_N + s_D^2/n_D} = \\sqrt{47.95^2/118 + 46.92^2/105} \\approx \\mathbf{6.36}$ minutes. With $\\hat\\Delta = 23.58$ min, the **99% CI for $\\mu_N - \\mu_D$** is $\\mathbf{(7.19,\\ 39.96)}$ minutes. Since 0 lies *outside* the interval, nurses sleep significantly more than doctors on average (between roughly 7 and 40 minutes per day, at the 1% level).\n\n'
+    '**R commands:**\n\n'
+    "`sub <- subset(Sleep, Occupation %in% c('Nurse','Doctor'))`\n\n"
+    '`t.test(SleepDuration ~ Occupation, data=sub, conf.level=0.99)`\n\n'
+    "`## Welch Two Sample t-test`\n\n"
+    "`## t = -3.71, df = 219, p-value = 0.000266`\n\n"
+    "`## 99 percent confidence interval: -40.10 -7.05`\n\n"
+    "`## means: Doctor 409.54, Nurse 433.12`\n"
+), "images": [
+    "statistics/images/past_exams/exam_g1_2025_4a_ai.png",
+]}
+
+past_exams["exam_g1_2025_4b"] = {
+"title": "G1-2025 Ex3b — One-sided proportion test: Doctors with any disorder > 35%",
+"is_exam": True, "topic_hint": "G14", "subtopic_hint": "g14a",
+"content": (
+    '<span class="exam-question-text">Test, at the 1% significance level, whether the population proportion of doctors suffering from any sleep disorder (`SleepDisorder = Insomnia` or `Other`) is **higher than 0.35**. State the hypotheses, compute the test statistic and the p-value, and draw a conclusion.</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** One-sided one-sample proportion test:\n\n'
+    '$$H_0:\\ p \\le 0.35 \\qquad\\text{vs}\\qquad H_1:\\ p > 0.35,\\quad \\alpha = 0.01.$$\n\n'
+    '**Sample.** Doctors: $n = 105$. Doctors with any disorder ($\\ne$ "None"): $x = 38$. Sample proportion $\\hat p = 38/105 \\approx \\mathbf{0.362}$.\n\n'
+    '**Statistic (under $H_0$, $p_0 = 0.35$).** Use the *null* SE\n\n'
+    '$$SE_0 = \\sqrt{\\dfrac{p_0(1 - p_0)}{n}} = \\sqrt{\\dfrac{0.35 \\cdot 0.65}{105}} \\approx 0.0466,$$\n\n'
+    '$$z_{obs} = \\dfrac{\\hat p - p_0}{SE_0} = \\dfrac{0.362 - 0.35}{0.0466} \\approx \\mathbf{0.26}.$$\n\n'
+    '**p-value.** $P(Z \\ge 0.26) = 1 - \\Phi(0.26) \\approx \\mathbf{0.399}$.\n\n'
+    '**Decision.** $0.399 \\gg \\alpha = 0.01$ → **do not reject $H_0$**. The data do not provide evidence that the disorder rate among doctors exceeds 35%.\n\n'
+    '![AI walkthrough — $\\hat p$ vs $p_0 = 0.35$ bar + N(0,1) null density with upper-tail rejection region and $z_{obs}$ marker](statistics/images/past_exams/exam_g1_2025_4b_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** $\\hat p = 38/105 = 0.362$. Test statistic $z_{obs} = (0.362 - 0.35)/\\sqrt{0.35 \\cdot 0.65 / 105} \\approx \\mathbf{0.26}$, one-sided p-value $\\approx \\mathbf{0.399}$. **Do not reject $H_0$** at $\\alpha = 0.01$: the disorder rate among doctors is **not** significantly higher than 35%.\n\n'
+    '**R commands:**\n\n'
+    "`doc <- subset(Sleep, Occupation=='Doctor')`\n\n"
+    "`x <- sum(doc$SleepDisorder != 'None'); n <- nrow(doc)`\n\n"
+    "`prop.test(x, n, p=0.35, alternative='greater', correct=FALSE)`\n\n"
+    "`## X-squared = 0.0654, df = 1, p-value = 0.399`\n\n"
+    "`## sample estimate: p = 0.3619`\n"
+), "images": [
+    "statistics/images/past_exams/exam_g1_2025_4b_ai.png",
+]}
+
+past_exams["exam_g1_2025_4c"] = {
+"title": "G1-2025 Ex3c — Chi-square independence: SleepDisorder × BloodPressure",
+"is_exam": True, "topic_hint": "G14", "subtopic_hint": "g14d_chi_squared",
+"content": (
+    '<span class="exam-question-text">Test whether there is an association between `SleepDisorder` and `BloodPressure` at the 1% significance level. State the hypotheses, compute the test statistic and its p-value, and conclude.</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** Two categorical variables, independence test via Pearson chi-square on the $3 \\times 3$ contingency table.\n\n'
+    '$$H_0:\\ \\text{SleepDisorder} \\perp \\text{BloodPressure}\\quad\\text{vs}\\quad H_1:\\ \\text{not independent},\\quad \\alpha = 0.01.$$\n\n'
+    '**Observed counts** $O_{ij}$:\n\n'
+    '|              | Normal | High | VeryHigh |\n'
+    '|--------------|-------:|-----:|---------:|\n'
+    '| None         |     82 |  130 |       28 |\n'
+    '| Insomnia     |      1 |   45 |       61 |\n'
+    '| Other        |      7 |   13 |       32 |\n\n'
+    'Under $H_0$ the expected counts factor as $E_{ij} = R_i C_j / n$, and the statistic is\n\n'
+    '$$\\chi^2 = \\sum_{i,j}\\dfrac{(O_{ij} - E_{ij})^2}{E_{ij}} \\;\\sim\\; \\chi^2_{(r-1)(c-1)} = \\chi^2_4.$$\n\n'
+    '**R output.** $\\chi^2_{obs} = \\mathbf{116.32}$, $df = 4$, p-value $< 2.2 \\times 10^{-16}$.\n\n'
+    '**Decision.** p-value $\\ll \\alpha = 0.01$ → **reject $H_0$**. The two variables are **strongly associated**: insomniacs concentrate in the High / VeryHigh BP categories, while subjects without disorder are far more common in Normal BP.\n\n'
+    '![AI walkthrough — observed-vs-expected mosaic with cells coloured by signed Pearson residual, plus $\\chi^2$ null density with rejection cut $\\chi^2_{0.99,4}$ and the observed $\\chi^2 = 116.32$ spike](statistics/images/past_exams/exam_g1_2025_4c_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** $\\chi^2_{obs} = \\mathbf{116.32}$ on $df = 4$, p-value $< 2.2 \\times 10^{-16}$. **Reject $H_0$** at $\\alpha = 0.01$ (and at any reasonable level): there is overwhelming evidence that **SleepDisorder and BloodPressure are NOT independent** — insomnia/other disorders cluster in High/VeryHigh BP.\n\n'
+    '**R commands:**\n\n'
+    '`ct <- table(Sleep$SleepDisorder, Sleep$BloodPressure)`\n\n'
+    '`chisq.test(ct)`\n\n'
+    '`## Pearson\'s Chi-squared test`\n\n'
+    '`## X-squared = 116.32, df = 4, p-value < 2.2e-16`\n'
+), "images": [
+    "statistics/images/past_exams/exam_g1_2025_4c_ai.png",
+]}
+
 # =================== GENERAL 1 2026 ===================
 
 past_exams["exam_g1_2026_1a"] = {
@@ -821,6 +1305,184 @@ past_exams["exam_g2_2024_5c"] = {
     "statistics/images/past_exams/answers/exam_g2_2024_5c_answer.png",
 ]}
 
+past_exams["exam_g2_2024_1a"] = {
+"title": "G2-2024 Ex1 — Boxplots of CrimeProperty by Region",
+"is_exam": True, "topic_hint": "G6", "subtopic_hint": "g6b_box",
+"content": (
+    '<span class="exam-question-text">Draw side-by-side **boxplots of `CrimeProperty` by `Region`** (NorthEast / NorthCentre / West / South) and compare the four conditional distributions: location, IQR (spread), shape and outliers.</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** A side-by-side boxplot turns the *conditional* distribution `CrimeProperty | Region` into four visual five-number summaries on the same scale. For each box we read:\n\n'
+    '- **Location** $\\to$ median line inside the box;\n'
+    '- **Spread** $\\to$ box height $=$ **IQR** $= Q_3 - Q_1$ (middle 50%);\n'
+    '- **Shape** $\\to$ symmetry of the box around the median, whisker lengths/outliers (skewness, tails).\n\n'
+    'Differences across the four boxes are evidence of **association** between `CrimeProperty` and `Region`.\n\n'
+    '![AI walkthrough — boxplots of CrimeProperty by Region](statistics/images/past_exams/exam_g2_2024_1a_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** Reading the four boxes (n = 485 cities; group sizes NE = 134, NC = 86, W = 102, S = 163):\n\n'
+    '- **Medians** clearly increase moving south/west: NorthEast $\\approx 209$, NorthCentre $\\approx 253$, West $\\approx 267$, South $\\approx 295$.\n'
+    '- **Spread** (SD) is smallest in NorthEast ($s \\approx 73$) and largest in South ($s \\approx 110$); NorthCentre ($\\approx 69$) and West ($\\approx 77$) sit in between.\n'
+    '- **Shape**: NorthEast and NorthCentre are roughly symmetric; West is slightly right-skewed; **South is the most dispersed**, right-skewed and shows the largest upper-tail outliers (max $\\approx 604$).\n\n'
+    '**Conclusion.** `CrimeProperty` is **strongly associated** with `Region` — both centre and variability differ across the four U.S. regions, with the South being the worst on both counts.\n\n'
+    '**R commands:**\n\n'
+    '`boxplot(CrimeProperty ~ Region, data=CrimeUS, col="navy", horizontal=TRUE)`\n\n'
+    '`tapply(CrimeUS$CrimeProperty, CrimeUS$Region, summary)`\n\n'
+    '`tapply(CrimeUS$CrimeProperty, CrimeUS$Region, function(x) c(mean=mean(x), sd=sd(x), n=length(x)))`\n'
+), "images": [
+    "statistics/images/past_exams/exam_g2_2024_1a_ai.png",
+]}
+
+past_exams["exam_g2_2024_2a"] = {
+"title": "G2-2024 Ex2a — Analytical CI for difference of two means (Welch)",
+"is_exam": True, "topic_hint": "G13", "subtopic_hint": "g13c_ci_diff_means",
+"content": (
+    '<span class="exam-question-text">Write the **analytical formula** for the **confidence interval on the difference between the means** of `CrimeProperty` in two independent regions when the **population variances are unknown and possibly unequal** (Welch t-CI). State the assumptions and identify the quantile.</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** Let $X_1,\\dots,X_{n_1}$ be the `CrimeProperty` observations in Region 1 and $Y_1,\\dots,Y_{n_2}$ those in Region 2, two independent samples with unknown means $\\mu_1,\\mu_2$ and unknown variances $\\sigma_1^2,\\sigma_2^2$. The natural estimator of $\\mu_1-\\mu_2$ is $\\bar X - \\bar Y$, with **standard error**\n\n'
+    '$$SE(\\bar X - \\bar Y) \\;=\\; \\sqrt{\\dfrac{s_1^2}{n_1} + \\dfrac{s_2^2}{n_2}}.$$\n\n'
+    'Under approximate normality (or CLT-justified), the Studentized pivot follows a Student-$t$ with the **Welch–Satterthwaite degrees of freedom**\n\n'
+    '$$\\nu \\;=\\; \\dfrac{\\left(s_1^2/n_1 + s_2^2/n_2\\right)^2}{\\dfrac{(s_1^2/n_1)^2}{n_1-1} + \\dfrac{(s_2^2/n_2)^2}{n_2-1}}.$$\n\n'
+    'The two-sided $(1-\\alpha)$ CI is therefore\n\n'
+    '$$\\boxed{\\;(\\bar X - \\bar Y) \\;\\pm\\; t_{\\alpha/2,\\,\\nu}\\cdot\\sqrt{\\dfrac{s_1^2}{n_1} + \\dfrac{s_2^2}{n_2}}.\\;}$$\n\n'
+    'Assumptions: (i) two **independent** samples, (ii) approximate normality of each population *or* large $n_1,n_2$ (CLT), (iii) variances unknown (no pooling needed because they may differ). If $\\sigma_1=\\sigma_2$ were known/assumed, $\\nu$ would simplify to $n_1+n_2-2$ and a pooled $s_p$ would replace the two $s_j$.\n\n'
+    '![AI walkthrough — Welch SE, t-quantile, and resulting CI for difference of means](statistics/images/past_exams/exam_g2_2024_2a_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** The 99% CI for $\\mu_S - \\mu_{NE}$ ($S$ = South, $NE$ = NorthEast) is\n\n'
+    '$$(\\bar x_S - \\bar x_{NE}) \\;\\pm\\; t_{0.005,\\,\\nu}\\,\\sqrt{\\dfrac{s_S^2}{n_S} + \\dfrac{s_{NE}^2}{n_{NE}}}.$$\n\n'
+    'Quantile: $t_{0.005,\\nu}$ from the Welch–Satterthwaite df (numerical value in 2b).\n\n'
+    '**R commands:**\n\n'
+    '`# Welch two-sample CI on mu1 - mu2 (unknown, unequal variances)`\n\n'
+    '`t.test(CrimeProperty ~ Region, data=subset(CrimeUS, Region %in% c("South","NorthEast")), conf.level=0.99)`\n'
+), "images": [
+    "statistics/images/past_exams/exam_g2_2024_2a_ai.png",
+]}
+
+past_exams["exam_g2_2024_2b"] = {
+"title": "G2-2024 Ex2b — 99% Welch CI for South - NorthEast mean CrimeProperty",
+"is_exam": True, "topic_hint": "G13", "subtopic_hint": "g13c_ci_diff_means",
+"content": (
+    '<span class="exam-question-text">Compute the **99% confidence interval** for the difference in mean `CrimeProperty` between **South** and **NorthEast** U.S. cities. Use `CI.diffmean` / `t.test` with unknown unequal variances. Interpret.</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** Apply the Welch t-CI from 2a to the two regional sub-samples of `CrimeProperty`:\n\n'
+    '- South: $n_S = 163$, $\\bar x_S = 312.77$, $s_S = 110.13$;\n'
+    '- NorthEast: $n_{NE} = 134$, $\\bar x_{NE} = 226.26$, $s_{NE} = 72.94$.\n\n'
+    'Point estimate $\\bar x_S - \\bar x_{NE} = 86.51$. Standard error\n\n'
+    '$$SE \\;=\\; \\sqrt{\\dfrac{110.13^2}{163} + \\dfrac{72.94^2}{134}} \\;\\approx\\; 10.68.$$\n\n'
+    'Welch–Satterthwaite df $\\nu \\approx 282.9$, hence $t_{0.005,\\,\\nu} \\approx 2.594$. Margin of error $= 2.594\\cdot 10.68 \\approx 27.70$.\n\n'
+    '![AI walkthrough — 99% Welch CI for South - NorthEast mean CrimeProperty](statistics/images/past_exams/exam_g2_2024_2b_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.**\n\n'
+    '$$\\mu_S - \\mu_{NE} \\;\\in\\; 86.51 \\pm 27.70 \\;\\approx\\; [\\,58.80,\\ 114.21\\,]\\quad (\\text{99\\% CI}).$$\n\n'
+    '**Interpretation.** The interval is entirely **positive** $\\Rightarrow$ with 99% confidence the **mean property-crime rate in the South exceeds that in the NorthEast by between 58.8 and 114.2 crimes** (per the units of `CrimeProperty`). Equivalently, the two regional means are significantly different at $\\alpha = 0.01$.\n\n'
+    '**R commands:**\n\n'
+    '`t.test(CrimeProperty ~ Region, data=subset(CrimeUS, Region %in% c("South","NorthEast")), conf.level=0.99)`\n\n'
+    '`## Welch Two Sample t-test`\n\n'
+    '`## t = -8.098, df = 282.9, p-value = 1.7e-14`\n\n'
+    '`## 99 percent confidence interval:`\n\n'
+    '`##  -114.21  -58.80`\n\n'
+    '`## mean in group NorthEast: 226.26   mean in group South: 312.77`\n'
+), "images": [
+    "statistics/images/past_exams/exam_g2_2024_2b_ai.png",
+]}
+
+past_exams["exam_g2_2024_3a"] = {
+"title": "G2-2024 Ex3a — Multiple regression on CrimeProperty: coefficients and 5% significance",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15c_multi_reg",
+"content": (
+    '<span class="exam-question-text">Consider the linear model\n\n'
+    '`modA <- lm(CrimeProperty ~ PctYoung + PctTertiary + PctDivorce + IncomeWhite + IncomeBlack + Size, data=CrimeUS)`.\n\n'
+    'Read the `summary(modA)` table: report the estimated coefficients, comment on their signs, identify which regressors are **significant at the 5% level**, and discuss the overall fit ($R^2$, global F-test).</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** `summary(modA)` reports, for each regressor $X_j$, the OLS estimate $\\widehat\\beta_j$ (partial effect on $E[\\text{CrimeProperty}]$ holding the others fixed), its SE, the $t$-statistic $t_j = \\widehat\\beta_j/SE$ and the two-sided p-value $p_j = 2\\,\\Pr(T_{n-k-1} > |t_j|)$. With `Size` a 3-level factor (`Large` is the reference), R prints two dummy rows `SizeMedium` and `SizeSmall`. A regressor is **significant at 5%** iff $p_j < 0.05$. The bottom line of `summary()` gives the **global F-test** of $H_0:\\beta_1=\\dots=\\beta_k=0$.\n\n'
+    '![AI walkthrough — modA coefficient bar chart with 5% significance flags](statistics/images/past_exams/exam_g2_2024_3a_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** Fitted model ($n = 485$, residual df $= 477$, residual SE $= 68.66$):\n\n'
+    '$$\\widehat{\\text{CrimeProperty}} = 8.35 + 2.671\\,\\text{PctYoung} - 1.044\\,\\text{PctTertiary} + 18.523\\,\\text{PctDivorce} + 0.305\\,\\text{IncomeWhite} - 0.149\\,\\text{IncomeBlack} - 4.40\\,\\text{SizeMedium} - 44.75\\,\\text{SizeSmall}.$$\n\n'
+    'Coefficients, signs and 5% significance:\n\n'
+    '- `PctYoung` $+2.671$, p $= 4.2\\times 10^{-5}$ — **significant**; higher share of young population → more property crime.\n'
+    '- `PctTertiary` $-1.044$, p $= 0.030$ — **significant**; more tertiary education → less property crime.\n'
+    '- `PctDivorce` $+18.523$, p $< 2\\times 10^{-16}$ — **strongly significant**; the dominant driver.\n'
+    '- `IncomeWhite` $+0.305$, p $= 4.5\\times 10^{-6}$ — **significant** and positive (richer-White cities have more property crime, ceteris paribus).\n'
+    '- `IncomeBlack` $-0.149$, p $= 3.1\\times 10^{-4}$ — **significant** and negative.\n'
+    '- `SizeSmall` $-44.75$, p $= 0.015$ — **significant**; small cities have lower property-crime than Large (reference).\n'
+    '- `SizeMedium` $-4.40$, p $= 0.845$ — **not significant**.\n\n'
+    '**Overall fit.** $R^2 = 0.4707$, adj $R^2 = 0.4629$ → the 6 regressors jointly explain about **47%** of the variation in `CrimeProperty`. Global F-test $F_{7,477} = 60.6$, p-value $< 2.2\\times 10^{-16}$ → **reject** the null that all slopes are 0; the model is **globally significant**.\n\n'
+    '**R commands:**\n\n'
+    '`modA <- lm(CrimeProperty ~ PctYoung+PctTertiary+PctDivorce+IncomeWhite+IncomeBlack+Size, data=CrimeUS)`\n\n'
+    '`summary(modA)`\n\n'
+    '`## (Intercept)    8.354    38.785   0.215  0.82955`\n\n'
+    '`## PctYoung       2.671     0.646   4.133  4.22e-05 ***`\n\n'
+    '`## PctTertiary   -1.044     0.479  -2.180  0.02977 *`\n\n'
+    '`## PctDivorce    18.523     1.325  13.975  < 2e-16 ***`\n\n'
+    '`## IncomeWhite    0.305     0.066   4.640  4.51e-06 ***`\n\n'
+    '`## IncomeBlack   -0.149     0.041  -3.633  0.00031 ***`\n\n'
+    '`## SizeMedium    -4.397    22.457  -0.196  0.84484`\n\n'
+    '`## SizeSmall    -44.752    18.242  -2.453  0.01451 *`\n\n'
+    '`## Multiple R-squared: 0.4707, Adjusted R-squared: 0.4629`\n\n'
+    '`## F-statistic: 60.6 on 7 and 477 DF, p-value: < 2.2e-16`\n'
+), "images": [
+    "statistics/images/past_exams/exam_g2_2024_3a_ai.png",
+]}
+
+past_exams["exam_g2_2024_3b"] = {
+"title": "G2-2024 Ex3b — Effect of Size on CrimeProperty: Small vs Large and Small vs Medium",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15d",
+"content": (
+    '<span class="exam-question-text">Based on `modA`, estimate the **average difference in `CrimeProperty`** between **Small** and **Large** cities (all else fixed). Then estimate **Small vs Medium**. Are these differences significant at $\\alpha = 0.05$?</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** With `Size` modelled as a factor, R takes the **alphabetically first** level (`Large`) as the **reference** and adds dummy contrasts `SizeMedium` and `SizeSmall`. The two corresponding rows of `summary(modA)` are therefore the contrasts vs `Large`:\n\n'
+    '$$b_{\\text{Med}} = \\widehat\\mu_{\\text{Med}} - \\widehat\\mu_{\\text{Large}}, \\qquad b_{\\text{Sm}} = \\widehat\\mu_{\\text{Sm}} - \\widehat\\mu_{\\text{Large}}.$$\n\n'
+    'A direct contrast we may want is\n\n'
+    '$$\\widehat\\mu_{\\text{Sm}} - \\widehat\\mu_{\\text{Med}} = b_{\\text{Sm}} - b_{\\text{Med}},$$\n\n'
+    'whose $t$-test **is not** a row of `summary()`. To test it, **re-level** so Medium is the reference (then read the new `SizeSmall` row), or use `multcomp::glht` for a linear contrast.\n\n'
+    '![AI walkthrough — Size effect (dummy coefficients vs Large baseline)](statistics/images/past_exams/exam_g2_2024_3b_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** From `summary(modA)`: $b_{\\text{Med}} = -4.397$ (p $= 0.845$, **n.s.**), $b_{\\text{Sm}} = -44.752$ (p $= 0.0145$, **significant**).\n\n'
+    '- **Small vs Large:** Small cities have on average **44.75 fewer** units of `CrimeProperty` than Large cities, all else fixed. p-value $0.0145 < 0.05$ $\\Rightarrow$ **significant** at the 5% level.\n'
+    '- **Small vs Medium:** $b_{\\text{Sm}} - b_{\\text{Med}} = -44.752 - (-4.397) = -40.355$, so Small cities are about **40.4 units lower** than Medium ones. Significance of this *specific contrast* **cannot be read** directly from `summary()`; re-levelling with `Medium` as reference gives a t-stat $\\approx -1.95$ on the new `SizeSmall` row, p $\\approx 0.052$ → **borderline, not significant** at 5%.\n\n'
+    '**R commands:**\n\n'
+    '`b <- coef(modA)`\n\n'
+    '`b["SizeSmall"] - b["SizeMedium"]   # -40.355`\n\n'
+    '`CrimeUS$Size <- relevel(factor(CrimeUS$Size), ref="Medium")`\n\n'
+    '`modA2 <- lm(CrimeProperty ~ PctYoung+PctTertiary+PctDivorce+IncomeWhite+IncomeBlack+Size, data=CrimeUS)`\n\n'
+    '`summary(modA2)   # row "SizeSmall" now tests Small - Medium = 0`\n\n'
+    '`library(multcomp); summary(glht(modA, linfct=c("SizeSmall - SizeMedium = 0")))`\n'
+), "images": [
+    "statistics/images/past_exams/exam_g2_2024_3b_ai.png",
+]}
+
+past_exams["exam_g2_2024_4a"] = {
+"title": "G2-2024 Ex4 — Chi-square test of independence (Region x ClassPBlack)",
+"is_exam": True, "topic_hint": "G14", "subtopic_hint": "g14d_chi_squared",
+"content": (
+    '<span class="exam-question-text">Test at $\\alpha = 0.05$ whether the variables `Region` and `ClassPBlack` are **independent** in the population of U.S. cities. State $H_0$, $H_1$, the test statistic with its sampling distribution under $H_0$, the observed value, the p-value and the decision.</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** Two **categorical** variables (`Region`: 4 levels; `ClassPBlack`: 6 levels) — independence is tested with **Pearson\'s chi-square test of independence** on the $4\\times 6$ contingency table.\n\n'
+    '**Hypotheses:**\n\n'
+    '$$H_0:\\ \\Pr(\\text{Region}=i,\\,\\text{ClassPBlack}=j) = \\Pr(\\text{Region}=i)\\,\\Pr(\\text{ClassPBlack}=j) \\quad \\forall (i,j) \\quad \\text{vs.}\\quad H_1:\\ \\text{not } H_0.$$\n\n'
+    '**Statistic.** With observed counts $O_{ij}$ and expected counts under independence $E_{ij} = (n_{i\\cdot}\\,n_{\\cdot j})/n$,\n\n'
+    '$$X^2 \\;=\\; \\sum_{i=1}^{4}\\sum_{j=1}^{6}\\dfrac{(O_{ij}-E_{ij})^2}{E_{ij}} \\;\\stackrel{H_0}{\\sim}\\; \\chi^2_{(4-1)(6-1)} = \\chi^2_{15}.$$\n\n'
+    '**Decision rule.** Reject $H_0$ if $X^2_{\\text{obs}} > \\chi^2_{0.95,\\,15} = 24.996$ (equivalently if p-value $< 0.05$).\n\n'
+    '![AI walkthrough — Region x ClassPBlack independence chi-square](statistics/images/past_exams/exam_g2_2024_4a_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** On the `CrimeUS` data (`chisq.test(table(Region, ClassPBlack))`):\n\n'
+    '$$X^2_{\\text{obs}} \\approx 125.94,\\ \\text{df} = 15,\\ \\text{p-value} < 2.2\\times 10^{-16}.$$\n\n'
+    'Since $125.94 \\gg 24.996$ (equivalently p-value $\\ll 0.05$) we **strongly reject** $H_0$: `Region` and `ClassPBlack` are **NOT independent** — the share of Black population class is systematically different across the four U.S. regions (in particular the South concentrates the high-`ClassPBlack` cities while the West has essentially none in the $(20,80]$ classes).\n\n'
+    '> **Note.** The expected slide reports $X^2_{\\text{obs}} \\approx 129.18$; the exact value computed on `CrimeUS` (485 rows) is $125.94$. The decision is identical (massive rejection); flagged for review in case the original slide tested a slightly different pair (e.g. `Region` × `ClassPHisp` gives $X^2 = 211.30$, also df $= 15$).\n\n'
+    '**R commands:**\n\n'
+    '`tab <- table(CrimeUS$Region, CrimeUS$ClassPBlack)`\n\n'
+    '`tab`\n\n'
+    '`##              (0,2] (2,5] (5,10] (10,20] (20,40] (40,80]`\n\n'
+    '`## NorthEast       69    24     17      11       9       4`\n\n'
+    '`## NorthCentre     41    10     18      10       4       3`\n\n'
+    '`## West            54    28     14       6       0       0`\n\n'
+    '`## South           21    27     24      34      36      21`\n\n'
+    '`chisq.test(tab)`\n\n'
+    '`## Pearson\'s Chi-squared test`\n\n'
+    '`## X-squared = 125.94, df = 15, p-value < 2.2e-16`\n'
+), "images": [
+    "statistics/images/past_exams/exam_g2_2024_4a_ai.png",
+]}
+
 # =================== GENERAL 2 2025 ===================
 
 past_exams["exam_g2_2025_1a"] = {
@@ -935,6 +1597,148 @@ past_exams["exam_g2_2025_5a"] = {
     "statistics/images/past_exams/questions/exam_g2_2025_5a_question.png",
     "statistics/images/past_exams/exam_g2_2025_5a_ai.png",
     "statistics/images/past_exams/answers/exam_g2_2025_5a_answer.png",
+]}
+
+past_exams["exam_g2_2025_1b3"] = {
+"title": "G2-2025 Ex1.b3 — Estimator of the proportion of Senior employees",
+"is_exam": True, "topic_hint": "G13", "subtopic_hint": "g13a",
+"content": (
+    '<span class="exam-question-text">Define the **estimator** of the **proportion of Senior employees** in the `Employee` data and compute its **estimate** on the sample ($n=500$).</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** Let $Y_i = \\mathbb{1}\\{\\text{Role}_i = \\text{"Senior"}\\}$, $i=1,\\dots,n$, be iid Bernoulli$(p)$ with $p = \\Pr(\\text{Senior})$. The **method-of-moments / MLE** estimator of $p$ is the sample proportion\n\n'
+    '$$\\widehat p \\;=\\; \\bar Y \\;=\\; \\frac{1}{n}\\sum_{i=1}^{n} Y_i \\;=\\; \\frac{X}{n},\\qquad X = \\#\\{\\text{Senior}\\}.$$\n\n'
+    'It is **unbiased** ($\\mathbb{E}[\\widehat p] = p$) with $\\operatorname{Var}(\\widehat p) = p(1-p)/n$; by the CLT, $\\widehat p \\stackrel{a}{\\sim} N\\!\\left(p,\\,\\tfrac{p(1-p)}{n}\\right)$. The standard error plugged-in is $\\widehat{\\mathrm{SE}}(\\widehat p) = \\sqrt{\\widehat p(1-\\widehat p)/n}$.\n\n'
+    '![AI walkthrough — Bernoulli plug-in estimator with Wald SE band](statistics/images/past_exams/exam_g2_2025_1b3_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** On the sample we count $X = 168$ Senior employees out of $n = 500$, so\n\n'
+    '$$\\widehat p \\;=\\; \\frac{168}{500} \\;=\\; 0.336,\\qquad \\widehat{\\mathrm{SE}}(\\widehat p) \\;=\\; \\sqrt{\\tfrac{0.336\\cdot 0.664}{500}} \\;\\approx\\; 0.0211.$$\n\n'
+    'About **33.6%** of employees are Senior; the Wald 95% CI is roughly $0.336 \\pm 1.96\\cdot 0.0211 = [0.295,\\,0.377]$.\n\n'
+    '**R commands:**\n\n'
+    "`x <- sum(Employee$Role == 'Senior'); n <- nrow(Employee); phat <- x/n`\n\n"
+    '`c(x=x, n=n, phat=phat, se=sqrt(phat*(1-phat)/n))`\n\n'
+    '`## x=168  n=500  phat=0.336  se=0.02112`\n\n'
+    "`prop.test(x, n, correct=FALSE)$conf.int   ## ~ [0.2952, 0.3786]`\n\n"
+), "images": [
+    "statistics/images/past_exams/exam_g2_2025_1b3_ai.png",
+]}
+
+past_exams["exam_g2_2025_3a"] = {
+"title": "G2-2025 Ex3 — One-sample z-test on Remote_Work share (H0: p = 0.30)",
+"is_exam": True, "topic_hint": "G14", "subtopic_hint": "g14a",
+"content": (
+    '<span class="exam-question-text">The company believes that the share of employees that work remotely (`Remote_Work == 1`) is $p_0 = 0.30$. With $n = 500$ employees, test\n\n'
+    '$$H_0:\\ p = 0.30 \\quad \\text{vs} \\quad H_1:\\ p \\ne 0.30$$\n\n'
+    'at significance level $\\alpha = 0.05$. State the test statistic, its observed value, the p-value and the decision.</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** A two-sided **one-sample test on a Bernoulli proportion**. Under $H_0$ the standardised statistic\n\n'
+    '$$Z \\;=\\; \\frac{\\widehat p - p_0}{\\sqrt{p_0(1-p_0)/n}} \\;\\stackrel{H_0}{\\sim}\\; N(0,1)$$\n\n'
+    'has known null variance (uses $p_0$, **not** $\\widehat p$). The p-value is $2\\,\\Phi(-|z_{\\text{obs}}|)$. Reject $H_0$ if p-value $< \\alpha$.\n\n'
+    '![AI walkthrough — Two-sided one-proportion z-test on Remote_Work](statistics/images/past_exams/exam_g2_2025_3a_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** Counts: $X = 206$ remote employees out of $n=500$, so $\\widehat p = 206/500 = 0.412$.\n\n'
+    'Using the **null-variance** SE (correct textbook form):\n\n'
+    '$$z_{\\text{obs}} \\;=\\; \\frac{0.412 - 0.30}{\\sqrt{0.30\\cdot 0.70/500}} \\;=\\; \\frac{0.112}{0.02049} \\;\\approx\\; +5.47,\\qquad \\text{p-value} \\;\\approx\\; 4.6\\times 10^{-8}.$$\n\n'
+    'Decision: $p\\text{-value} \\ll 0.05$ → **strongly reject $H_0$**. The remote-work share is **significantly different from 30%** (in fact much higher: $\\widehat p = 41.2\\%$).\n\n'
+    '> **Note.** The official exam solution plugs the *sample* SD into the denominator (a Wald-style SE) and reports $z_{\\text{obs}} \\approx -1.624$, $p \\approx 0.0526$ → do not reject at 5%. That value uses a non-standard SE; the textbook null-variance z-test (and `prop.test`) both yield the much larger $|z|\\approx 5.47$ shown above. We flag this discrepancy.\n\n'
+    '**R commands:**\n\n'
+    "`x <- sum(Employee$Remote_Work == 1); n <- nrow(Employee); p0 <- 0.30`\n\n"
+    '`phat <- x/n; z <- (phat - p0)/sqrt(p0*(1-p0)/n); pval <- 2*pnorm(-abs(z))`\n\n'
+    '`c(x=x, n=n, phat=phat, z=z, pval=pval)`\n\n'
+    '`## x=206  n=500  phat=0.412  z=5.465  pval=4.63e-08`\n\n'
+    '`prop.test(x, n, p=p0, correct=FALSE)`\n\n'
+    '`## X-squared = 29.867, df = 1, p-value = 4.628e-08`\n\n'
+), "images": [
+    "statistics/images/past_exams/exam_g2_2025_3a_ai.png",
+]}
+
+past_exams["exam_g2_2025_4a1"] = {
+"title": "G2-2025 Ex4.a — modA: coefficients, signs and 5% significance",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15a",
+"content": (
+    '<span class="exam-question-text">Consider the linear model\n\n'
+    '`modA <- lm(Productivity ~ Training_Attended + Satisfaction + Hours_Worked + Tenure + Remote_Work + Salary, data=Employee)`.\n\n'
+    'Read the coefficient table: report the estimated coefficients, comment on their signs and identify which regressors are **significant at the 5% level**.</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** `summary(modA)` reports, for each regressor $X_j$, the OLS estimate $\\widehat\\beta_j$ (partial effect of $X_j$ on $E[\\text{Productivity}]$ holding the other regressors fixed), its standard error, the $t$-statistic $t_j = \\widehat\\beta_j / \\widehat{\\mathrm{SE}}(\\widehat\\beta_j)$ and the two-sided p-value\n\n'
+    '$$p_j \\;=\\; 2\\,\\Pr\\bigl(T_{n-k-1} > |t_j|\\bigr).$$\n\n'
+    'A regressor is **significant at 5%** iff $p_j < 0.05$ (equivalently $|t_j| > t_{0.975,\\,n-k-1} \\approx 1.965$ here with $n-k-1 = 493$ df).\n\n'
+    '![AI walkthrough — modA coefficient bar chart with 5% significance flags](statistics/images/past_exams/exam_g2_2025_4a1_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** The fitted model (n=500, df = 493) is\n\n'
+    '$$\\widehat{\\text{Productivity}} = 7.767 + 0.273\\,\\text{Train} + 0.495\\,\\text{Sat} - 0.108\\,\\text{Hours} - 0.123\\,\\text{Tenure} - 0.119\\,\\text{Remote} + 0.00150\\,\\text{Salary}.$$\n\n'
+    'Signs & 5% significance (read from p-values):\n\n'
+    '- `Satisfaction` $+0.495$, p $= 0.028$ — **significant**, higher satisfaction → higher productivity.\n'
+    '- `Hours_Worked` $-0.108$, p $= 9.4\\times 10^{-6}$ — **significant**, more hours → *lower* productivity (fatigue).\n'
+    '- `Tenure` $-0.123$, p $= 6.0\\times 10^{-7}$ — **significant**, longer tenure → lower productivity.\n'
+    '- `Salary` $+0.00150$, p $= 6.1\\times 10^{-9}$ — **significant**, higher salary → higher productivity.\n'
+    '- `Training_Attended` $+0.273$, p $= 0.356$ — **not significant**.\n'
+    '- `Remote_Work` $-0.119$, p $= 0.694$ — **not significant**.\n\n'
+    '$R^2 = 0.0795$ (adj $R^2 = 0.068$): the six regressors jointly explain about **8%** of productivity variation.\n\n'
+    '**R commands:**\n\n'
+    '`modA <- lm(Productivity ~ Training_Attended+Satisfaction+Hours_Worked+Tenure+Remote_Work+Salary, data=Employee)`\n\n'
+    '`summary(modA)`\n\n'
+    '`## (Intercept)        7.767     1.800   4.314  1.94e-05 ***`\n\n'
+    '`## Training_Attended  0.273     0.295   0.924  0.3557`\n\n'
+    '`## Satisfaction       0.495     0.224   2.211  0.0275  *`\n\n'
+    '`## Hours_Worked      -0.108     0.024  -4.477  9.39e-06 ***`\n\n'
+    '`## Tenure            -0.123     0.024  -5.057  6.03e-07 ***`\n\n'
+    '`## Remote_Work       -0.119     0.304  -0.393  0.6944`\n\n'
+    '`## Salary             0.00150   0.00025  5.919 6.07e-09 ***`\n\n'
+), "images": [
+    "statistics/images/past_exams/exam_g2_2025_4a1_ai.png",
+]}
+
+past_exams["exam_g2_2025_4a2"] = {
+"title": "G2-2025 Ex4.a — Overall (global) F-test of modA",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15c",
+"content": (
+    '<span class="exam-question-text">State and run the **overall significance test** of `modA` (i.e. the global F-test). What does the test say at $\\alpha = 0.05$?</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** The **global F-test** of a linear model compares the fitted model against the *intercept-only* (null) model:\n\n'
+    '$$H_0:\\ \\beta_1 = \\beta_2 = \\dots = \\beta_k = 0 \\quad \\text{vs} \\quad H_1:\\ \\text{at least one } \\beta_j \\ne 0.$$\n\n'
+    'The test statistic is\n\n'
+    '$$F \\;=\\; \\frac{R^2 / k}{(1-R^2)/(n-k-1)} \\;\\stackrel{H_0}{\\sim}\\; F_{k,\\,n-k-1}.$$\n\n'
+    'Here $k = 6$ regressors, $n-k-1 = 493$ df. Reject $H_0$ when $F > F_{0.95,\\,k,\\,n-k-1}$ (equivalently p-value $< \\alpha$). It is the *bottom line* of `summary(modA)`.\n\n'
+    '![AI walkthrough — Global F-test of modA: F density with observed value](statistics/images/past_exams/exam_g2_2025_4a2_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** From `summary(modA)`:\n\n'
+    '$$F_{\\text{obs}} \\;=\\; 7.097 \\quad \\text{on}\\ (6,\\,493)\\ \\text{df},\\qquad \\text{p-value} \\;=\\; 2.88\\times 10^{-7}.$$\n\n'
+    'With p-value $\\ll 0.05$ we **strongly reject** $H_0$: **modA is overall significant** — at least one of the six regressors carries explanatory power for `Productivity`. (Despite the modest $R^2 = 0.0795$: with $n=500$ even small effects become detectable.)\n\n'
+    '**R commands:**\n\n'
+    '`summary(modA)$fstatistic`\n\n'
+    '`## value   numdf   dendf`\n\n'
+    '`## 7.097   6       493`\n\n'
+    '`pf(7.097, 6, 493, lower.tail=FALSE)   ## 2.883e-07`\n\n'
+), "images": [
+    "statistics/images/past_exams/exam_g2_2025_4a2_ai.png",
+]}
+
+past_exams["exam_g2_2025_4b1"] = {
+"title": "G2-2025 Ex4.b1 — modB: Satisfaction coefficient and 99% CI",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15b",
+"content": (
+    '<span class="exam-question-text">Now consider `modB`, obtained by adding the qualitative regressors `Department` and `Role` to `modA`:\n\n'
+    '`modB <- lm(Productivity ~ Training_Attended + Satisfaction + Hours_Worked + Tenure + Remote_Work + Salary + Department + Role, data=Employee)`.\n\n'
+    'Read the **coefficient of `Satisfaction`** and build the corresponding **99% confidence interval**. Interpret.</span>\n\n'
+    '---\n\n'
+    '**Walkthrough.** In `modB`, after partialling out `Department` and `Role`, the slope $\\widehat\\beta_{\\text{Sat}}$ measures the average change in `Productivity` per one-unit increase in `Satisfaction` *holding fixed all other regressors, including department and role*. A $(1-\\alpha)$-CI is\n\n'
+    '$$\\widehat\\beta_{\\text{Sat}} \\;\\pm\\; t_{1-\\alpha/2,\\,n-k-1}\\;\\widehat{\\mathrm{SE}}(\\widehat\\beta_{\\text{Sat}}),$$\n\n'
+    'with $n-k-1 = 500 - 11 - 1 = 488$ df and $\\alpha = 0.01$, so the critical value is $t_{0.995,\\,488} \\approx 2.586$.\n\n'
+    '![AI walkthrough — modB Satisfaction coefficient with 99% CI](statistics/images/past_exams/exam_g2_2025_4b1_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** From `summary(modB)`: $\\widehat\\beta_{\\text{Sat}} = 0.4406$, $\\widehat{\\mathrm{SE}} = 0.2184$, $t = 2.017$, p-value $= 0.0442$. The 99% CI is\n\n'
+    '$$0.4406 \\;\\pm\\; 2.586 \\cdot 0.2184 \\;=\\; [\\,-0.1242,\\ +1.0054\\,].$$\n\n'
+    'Interpretation: with all other regressors (including `Department` and `Role`) held fixed, a one-point rise in `Satisfaction` is associated with a `Productivity` change estimated at $+0.44$, but the **99% CI contains 0** — at the 1% level we **cannot reject** $H_0: \\beta_{\\text{Sat}} = 0$ (consistent with $p=0.044 > 0.01$). So Satisfaction is significant at 5% but **not at 1%**.\n\n'
+    '**R commands:**\n\n'
+    '`modB <- lm(Productivity ~ Training_Attended+Satisfaction+Hours_Worked+Tenure+Remote_Work+Salary+Department+Role, data=Employee)`\n\n'
+    "`summary(modB)$coefficients['Satisfaction',]`\n\n"
+    '`## Estimate  Std.Error  t value  Pr(>|t|)`\n\n'
+    '`## 0.44059   0.21843    2.0172   0.04423`\n\n'
+    "`confint(modB, 'Satisfaction', level=0.99)`\n\n"
+    '`##              0.5 %    99.5 %`\n\n'
+    '`## Satisfaction -0.1242  1.0054`\n\n'
+), "images": [
+    "statistics/images/past_exams/exam_g2_2025_4b1_ai.png",
 ]}
 
 # =================== GENERAL 2 2026 ===================
@@ -1117,6 +1921,303 @@ past_exams["exam_july_2024_3a"] = {
     "statistics/images/past_exams/answers/exam_july_2024_3a_answer.png",
 ]}
 
+past_exams["exam_july_2024_1b"] = {
+"title": "Jul-2024 Ex1.b — Conditional boxplot of Enrol by Region",
+"is_exam": True, "topic_hint": "G6", "subtopic_hint": "g6b_box",
+"content": (
+    '<span class="exam-question-text">Comment on the distribution of the variable `Enrol` (enrolment, percentage of accepted applicants who actually enrol) **conditional on `Region`** (Northeast, Midwest, South, West). Choose an appropriate graphical representation and interpret it.</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** `Enrol` is quantitative, `Region` is qualitative with 4 levels — the natural display is a **side-by-side boxplot** (`distr.plot.xy(Enrol ~ Region, ...)`) which lines up the five-number summary (min, $Q_1$, median, $Q_3$, max) of each region and exposes shifts in **location**, **spread** and **outliers** in one glance. Read it as: (i) compare the *medians* (centre), (ii) compare the *boxes* ($IQR$ = spread), (iii) check whiskers / outlier dots (tails).\n\n"
+    '![AI walkthrough — conditional boxplot Enrol by Region](statistics/images/past_exams/exam_july_2024_1b_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.** Group medians and IQRs from `tapply(Colleges$Enrol, Colleges$Region, summary)`:\n\n"
+    "| Region | $n$ | Median | $Q_1$ | $Q_3$ | $IQR$ | Mean |\n"
+    "|---|---|---|---|---|---|---|\n"
+    "| Northeast | 113 | 36.7 | 30.5 | 42.9 | 12.4 | 37.1 |\n"
+    "| Midwest | 123 | 48.1 | 41.2 | 55.1 | 13.9 | 48.6 |\n"
+    "| South | 130 | 48.3 | 41.0 | 56.3 | 15.3 | 47.4 |\n"
+    "| West | 42 | 44.9 | 33.3 | 53.2 | 19.9 | 43.3 |\n\n"
+    "**Reading.**\n\n"
+    "- **Location.** Median enrolment is clearly *lower* in the **Northeast** ($\\sim 37\\%$) than in the other three regions ($\\sim 45$–$48\\%$). Midwest and South have nearly identical medians ($\\approx 48\\%$); West sits slightly below ($\\approx 45\\%$).\n\n"
+    "- **Spread.** All boxes have comparable $IQR$ ($\\approx 12$–$20$). The **West** has the widest box and longest whiskers (sample size only $n = 42$, hence higher variability).\n\n"
+    "- **Tails / outliers.** A few low-enrolment colleges appear as outliers in Northeast and South.\n\n"
+    "**Conclusion.** Enrolment rate depends on region: **Northeastern colleges enrol a smaller fraction of accepted students** than colleges in the Midwest, South or West. This motivates including `Region` as a predictor in any model of `Enrol`.\n\n"
+    '**R commands:**\n\n'
+    "`tapply(Colleges$Enrol, Colleges$Region, summary)`\n\n"
+    "`## Northeast  Median 36.70  Mean 37.06`\n\n"
+    "`## Midwest    Median 48.10  Mean 48.60`\n\n"
+    "`## South      Median 48.30  Mean 47.41`\n\n"
+    "`## West       Median 44.85  Mean 43.25`\n\n"
+    "`distr.plot.xy(Enrol ~ Region, plot.type='boxplot', data=Colleges)`\n\n"
+    "`boxplot(Enrol ~ Region, data=Colleges, col='lightblue')`\n\n"
+    "`tapply(Colleges$Enrol, Colleges$Region, IQR)`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2024_1b_ai.png",
+]}
+
+past_exams["exam_july_2024_1c"] = {
+"title": "Jul-2024 Ex1.c — Distribution of Outstate: quartiles, mean, dispersion",
+"is_exam": True, "topic_hint": "G6", "subtopic_hint": "g6b_box",
+"content": (
+    '<span class="exam-question-text">Describe the distribution of the variable `Outstate` (out-of-state tuition, in 100 USD) — report centre, dispersion and quartiles, and discuss symmetry/skewness.</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** For a continuous variable the standard one-variable description is the **5-number summary + mean + SD**. The position of the **median** relative to the **mean** flags asymmetry: mean $\\approx$ median $\\Rightarrow$ roughly symmetric; mean $>$ median $\\Rightarrow$ right-skewed (long right tail); mean $<$ median $\\Rightarrow$ left-skewed. Pair this with a **boxplot** (or histogram) to visualise the shape.\n\n"
+    '![AI walkthrough — Outstate boxplot + histogram with quartiles and mean marked](statistics/images/past_exams/exam_july_2024_1c_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.** From `summary(Colleges$Outstate)` ($n = 408$ colleges, units: 100 USD):\n\n"
+    "| stat | value |\n"
+    "|---|---|\n"
+    "| Min. | 27.0 |\n"
+    "| $Q_1$ | 79.3 |\n"
+    "| Median | 110.8 |\n"
+    "| Mean | 112.2 |\n"
+    "| $Q_3$ | 142.1 |\n"
+    "| Max. | 199.6 |\n"
+    "| $SD$ | 41.6 |\n"
+    "| $IQR = Q_3 - Q_1$ | 62.8 |\n\n"
+    "**Centre.** Median $\\approx 110.8$ (in 100 USD) and mean $\\approx 112.2$ — very close, so the distribution is **approximately symmetric** around $\\sim 11{,}000$ USD/year out-of-state tuition.\n\n"
+    "**Dispersion.** $SD \\approx 41.6$ (≈4{,}160 USD), $IQR \\approx 62.8$ (≈6{,}280 USD). The coefficient of variation $CV = SD/\\bar x \\approx 0.37$ — a moderate spread relative to the mean.\n\n"
+    "**Shape.** Boxplot shows the median roughly in the middle of the box, both whiskers of similar length, and **no extreme outliers** (max $\\approx 200$ is within $Q_3 + 1.5\\cdot IQR \\approx 236$). So `Outstate` is **unimodal, roughly symmetric, with no heavy tails**.\n\n"
+    '**R commands:**\n\n'
+    "`summary(Colleges$Outstate)`\n\n"
+    "`## Min. 1st Qu. Median  Mean 3rd Qu.  Max.`\n\n"
+    "`## 27.0  79.3   110.8  112.2  142.1  199.6`\n\n"
+    "`sd(Colleges$Outstate)`\n\n"
+    "`## [1] 41.617`\n\n"
+    "`IQR(Colleges$Outstate)`\n\n"
+    "`## [1] 62.825`\n\n"
+    "`distr.plot(Outstate, plot.type='boxplot', data=Colleges)`\n\n"
+    "`distr.plot(Outstate, plot.type='histogram', data=Colleges)`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2024_1c_ai.png",
+]}
+
+past_exams["exam_july_2024_2b"] = {
+"title": "Jul-2024 Ex2.b — Adequacy of Pearson r: scatterplot and linearity check",
+"is_exam": True, "topic_hint": "G9", "subtopic_hint": "g9_corr",
+"content": (
+    '<span class="exam-question-text">Is Pearson\'s linear correlation coefficient an **adequate** measure of association between `Top10` and `Phd`? Support your answer with the scatterplot and discuss whether the assumptions for $r$ are met.</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** Pearson's $r$ is adequate only when the relationship is **roughly linear** and there are **no extreme outliers / leverage points**. Check by plotting the scatter and overlaying a smoother (LOWESS) and the OLS fit: if the smoother tracks the OLS line, linearity holds. Curvature, fan-shaped scatter (heteroscedasticity) or extreme points all undermine $r$.\n\n"
+    '![AI walkthrough — scatter Top10 vs Phd with OLS line and LOWESS smoother](statistics/images/past_exams/exam_july_2024_2b_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.** The scatterplot of `Phd` vs `Top10` ($n = 408$) shows:\n\n"
+    "- a **monotone, roughly linear cloud** drifting from low-`Phd`/low-`Top10` to high-`Phd`/high-`Top10`;\n\n"
+    "- **no strong curvature** — the LOWESS smoother is approximately straight and very close to the OLS regression line;\n\n"
+    "- **dispersion roughly homogeneous** across the range of `Top10` (no fan shape);\n\n"
+    "- a handful of mild outliers but no extreme high-leverage points.\n\n"
+    "All four assumptions for Pearson are reasonably satisfied $\\Rightarrow$ **$r = 0.566$ is an adequate, faithful summary of the (moderate, positive) linear association**.\n\n"
+    "If we still wanted a check robust to non-linearity / outliers, **Spearman's rank correlation** gives $r_S = 0.576$ — essentially the same as Pearson, confirming the relationship is well-described by a monotone (here approximately linear) pattern.\n\n"
+    '**R commands:**\n\n'
+    "`distr.plot.xy(Top10, Phd, plot.type='scatter', fitline=TRUE, data=Colleges)`\n\n"
+    "`plot(Colleges$Top10, Colleges$Phd); abline(lm(Phd ~ Top10, data=Colleges))`\n\n"
+    "`lines(lowess(Colleges$Top10, Colleges$Phd), col='red', lwd=2)`\n\n"
+    "`cor(Colleges$Top10, Colleges$Phd, method='pearson')`\n\n"
+    "`## [1] 0.5657305`\n\n"
+    "`cor(Colleges$Top10, Colleges$Phd, method='spearman')`\n\n"
+    "`## [1] 0.5760672`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2024_2b_ai.png",
+]}
+
+past_exams["exam_july_2024_2c"] = {
+"title": "Jul-2024 Ex2.c — Spearman rank correlation as a robustness check",
+"is_exam": True, "topic_hint": "G9", "subtopic_hint": "g9_corr",
+"content": (
+    '<span class="exam-question-text">Compute the **Spearman rank correlation** between `Top10` and `Phd` and compare it with Pearson\'s $r$. Comment on what this tells you about the nature of the association.</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** Spearman's $\\rho_S$ is Pearson's correlation **on the ranks** of the two variables. It measures **monotone** association (not necessarily linear) and is **robust** to outliers and to monotone transformations. If $\\rho_S \\approx r$, the relationship is well-approximated by a *linear* pattern; if $|\\rho_S| \\gg |r|$, the link is monotone but non-linear (Pearson under-detects it); if $|\\rho_S| \\ll |r|$, a few influential points are inflating Pearson.\n\n"
+    '![AI walkthrough — Pearson vs Spearman side-by-side](statistics/images/past_exams/exam_july_2024_2c_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.** With $n = 408$ complete pairs:\n\n"
+    "$$r_{\\text{Pearson}} = 0.5657, \\qquad \\rho_S = 0.5761.$$\n\n"
+    "The two coefficients are **virtually identical** ($\\Delta = 0.010$). Interpretation:\n\n"
+    "- the association is **monotone increasing** (both positive);\n\n"
+    "- it is **essentially linear**: Pearson does not under-estimate strength → no hidden curvature;\n\n"
+    "- it is **not driven by outliers**: Spearman, which would shrink them to ranks, gives the same answer.\n\n"
+    "Both diagnostics confirm a **moderate, positive, linear** association between `Top10` and `Phd`, so the Pearson summary $r \\approx 0.57$ from part (a) is reliable.\n\n"
+    '**R commands:**\n\n'
+    "`cor(Colleges$Top10, Colleges$Phd, method='spearman', use='complete')`\n\n"
+    "`## [1] 0.5760672`\n\n"
+    "`cor(Colleges$Top10, Colleges$Phd, method='pearson',  use='complete')`\n\n"
+    "`## [1] 0.5657305`\n\n"
+    "`cor.test(Colleges$Top10, Colleges$Phd, method='spearman')`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2024_2c_ai.png",
+]}
+
+past_exams["exam_july_2024_3b"] = {
+"title": "Jul-2024 Ex3.b — Multiple regression Outstate ~ Top10 + Region + Private + Room.Board: dummy interpretation + 99% CI",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15d_categorical",
+"content": (
+    '<span class="exam-question-text">Fit the multiple regression `lm(Outstate ~ Top10 + Region + Private + Room.Board, data=Colleges)`. **Interpret the coefficient on the `RegionSouth` dummy** and build a **99% confidence interval** for the slope on `Top10`.</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** With `Region` factor (baseline = `Northeast`) R creates three dummies `RegionMidwest`, `RegionSouth`, `RegionWest`. Each dummy slope measures the **ceteris-paribus** mean difference in `Outstate` between that region and the **Northeast** baseline. The 99% CI for any slope is $\\hat\\beta \\pm t_{0.005, n-p-1}\\cdot SE(\\hat\\beta)$ with $t_{0.005, 401} \\approx 2.588$.\n\n"
+    '![AI walkthrough — coefficient bars with 99% CIs (Top10 highlighted)](statistics/images/past_exams/exam_july_2024_3b_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.** Fitted coefficients (`summary(m2)`, $n=408$, $p+1=7$):\n\n"
+    "| term | $\\hat\\beta$ | SE | $t$ | $p$ |\n"
+    "|---|---|---|---|---|\n"
+    "| (Intercept) | 14.953 | 6.786 | 2.20 | 0.028 |\n"
+    "| `Top10` | **1.0679** | 0.0774 | 13.80 | < 2e-16 |\n"
+    "| `RegionMidwest` | -6.050 | 3.462 | -1.75 | 0.081 |\n"
+    "| `RegionSouth` | **-22.790** | 3.359 | -6.79 | 4.2e-11 |\n"
+    "| `RegionWest` | 0.020 | 4.189 | 0.005 | 0.996 |\n"
+    "| `PrivateYes` | 29.804 | 3.182 | 9.37 | < 2e-16 |\n"
+    "| `Room.Board` | 1.160 | 0.138 | 8.38 | 9.1e-16 |\n\n"
+    "**(i) Interpretation of `RegionSouth`.** With Northeast as baseline,\n\n"
+    "$$\\hat\\beta_{\\text{RegionSouth}} = -22.79\\text{ (in 100 USD).}$$\n\n"
+    "Holding `Top10`, `Private` and `Room.Board` fixed, **Southern colleges charge on average $\\approx 2{,}279$ USD less out-of-state tuition than Northeastern ones**. The effect is highly significant ($p \\approx 4 \\times 10^{-11}$).\n\n"
+    "**(ii) 99% CI for `Top10`.** With $t_{0.005,\\,401} \\approx 2.588$:\n\n"
+    "$$1.0679 \\pm 2.588 \\cdot 0.0774 \\;=\\; [\\,0.868,\\; 1.268\\,]\\text{ (in 100 USD per percentage point of Top10).}$$\n\n"
+    "`confint(m2, 'Top10', level=0.99)` returns **[0.8677, 1.2682]**. Since the entire interval is **positive and does not contain 0**, the partial effect of `Top10` is significantly different from 0 at $\\alpha = 1\\%$: each extra percentage point of top-10% HS students is associated with **between 87 and 127 USD higher tuition**, controlling for region, private/public status and room & board.\n\n"
+    '**R commands:**\n\n'
+    "`m2 <- lm(Outstate ~ Top10 + Region + Private + Room.Board, data=Colleges)`\n\n"
+    "`summary(m2)`\n\n"
+    "`## RegionSouth  -22.790    3.359  -6.785  4.19e-11 ***`\n\n"
+    "`## Top10          1.068    0.077  13.803  < 2e-16 ***`\n\n"
+    "`confint(m2, 'Top10', level=0.99)`\n\n"
+    "`##         0.5 %    99.5 %`\n\n"
+    "`## Top10  0.8677    1.2682`\n\n"
+    "`confint(m2, 'RegionSouth', level=0.99)`\n\n"
+    "`## RegionSouth  -31.484  -14.097`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2024_3b_ai.png",
+]}
+
+past_exams["exam_july_2024_3c"] = {
+"title": "Jul-2024 Ex3.c — Global F-test, R^2 and adjusted R^2",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15c_multi_reg",
+"content": (
+    '<span class="exam-question-text">For the multiple regression `lm(Outstate ~ Top10 + Region + Private + Room.Board, data=Colleges)`, report **$R^2$**, **adjusted $R^2$** and the **global $F$-test**. Decide whether the model is globally significant at $\\alpha = 1\\%$.</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** Three complementary summaries of overall fit:\n\n"
+    "- $R^2 = 1 - SSE/SST$ — share of $Y$-variance explained;\n"
+    "- adjusted $R^2 = 1 - (1-R^2)\\dfrac{n-1}{n-p-1}$ — penalises model complexity, fair comparison across nested models;\n"
+    "- the **global $F$-test** $H_0: \\beta_1 = \\dots = \\beta_p = 0$ vs $H_1$: at least one nonzero, with\n\n"
+    "$$F = \\dfrac{R^2/p}{(1-R^2)/(n-p-1)} \\sim F_{p,\\,n-p-1} \\text{ under } H_0.$$\n\n"
+    '![AI walkthrough — variance decomposition donut and F vs critical value](statistics/images/past_exams/exam_july_2024_3c_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.** From `summary(m2)` with $n = 408$, $p = 6$ regressors, $n-p-1 = 401$:\n\n"
+    "| statistic | value |\n"
+    "|---|---|\n"
+    "| Multiple $R^2$ | **0.7117** |\n"
+    "| Adjusted $R^2$ | **0.7074** |\n"
+    "| $F$-statistic | **165.0** on (6, 401) df |\n"
+    "| $p$-value | $< 2.2 \\times 10^{-16}$ |\n"
+    "| Residual SE | 22.51 (in 100 USD) |\n\n"
+    "**Reading.**\n\n"
+    "- The six predictors **jointly explain about 71% of the variance** of `Outstate` ($R^2 = 0.712$); the adjusted $R^2$ is essentially equal (0.707) — the regressors are 'paying their rent', no inflation by useless predictors.\n\n"
+    "- The global $F = 165.0 \\gg F_{0.99,\\,6,\\,401} \\approx 2.85$, $p < 2.2\\times 10^{-16}$. **Reject $H_0$**: at least one slope is nonzero — **the model is highly significant overall** at any conventional $\\alpha$ (including 1%).\n\n"
+    "Residual SE $\\approx 22.5$ (100 USD) $\\approx 2{,}250$ USD: a typical fitted college lies within $\\sim 2{,}250$ USD of the regression surface — much smaller than the unconditional SD of `Outstate` ($\\approx 41.6$ in 100 USD), consistent with the high $R^2$.\n\n"
+    '**R commands:**\n\n'
+    "`m2 <- lm(Outstate ~ Top10 + Region + Private + Room.Board, data=Colleges)`\n\n"
+    "`summary(m2)$r.squared`\n\n"
+    "`## [1] 0.7117397`\n\n"
+    "`summary(m2)$adj.r.squared`\n\n"
+    "`## [1] 0.7074266`\n\n"
+    "`summary(m2)$fstatistic`\n\n"
+    "`##    value    numdf    dendf`\n\n"
+    "`##  165.017   6.000  401.000`\n\n"
+    "`qf(0.99, 6, 401)   # critical value`\n\n"
+    "`## [1] 2.852`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2024_3c_ai.png",
+]}
+
+past_exams["exam_july_2024_4a"] = {
+"title": "Jul-2024 Ex4.a — Normal-tail probability: P(Top10 > 50) using Z standardisation",
+"is_exam": True, "topic_hint": "G11", "subtopic_hint": "g11_clt",
+"content": (
+    '<span class="exam-question-text">Assume `Top10` is approximately normally distributed with mean $\\mu = 28.8$ and standard deviation $\\sigma = 16.3$ (from the sample). Compute the probability that a randomly chosen college has more than **50%** of its enrolled students from the top 10% of HS classes, i.e. $P(\\text{Top10} > 50)$.</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** Standardise: $Z = (X - \\mu)/\\sigma \\sim \\mathcal N(0,1)$, then\n\n"
+    "$$P(X > 50) \\;=\\; P\\!\\left(Z > \\dfrac{50 - 28.8}{16.3}\\right) \\;=\\; 1 - \\Phi(z_0).$$\n\n"
+    '![AI walkthrough — N(0,1) density with right-tail shaded](statistics/images/past_exams/exam_july_2024_4a_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.** Plug in $\\mu = 28.8$, $\\sigma = 16.3$, $x = 50$:\n\n"
+    "$$z_0 = \\dfrac{50 - 28.8}{16.3} = \\dfrac{21.2}{16.3} \\approx 1.301.$$\n\n"
+    "Hence\n\n"
+    "$$P(\\text{Top10} > 50) \\approx 1 - \\Phi(1.301) \\approx 1 - 0.9034 \\approx \\mathbf{0.0966},$$\n\n"
+    "about **9.7%** of colleges. Roughly 1 college out of 10 has more than half of its incoming class taken from the top decile of US high schools.\n\n"
+    "**Sanity check.** Empirically in the sample: `mean(Colleges$Top10 > 50) =` $\\approx 0.107$ ($\\approx 11\\%$) — close to the normal-approximation value, confirming the model is reasonable.\n\n"
+    '**R commands:**\n\n'
+    "`mu <- mean(Colleges$Top10); sd. <- sd(Colleges$Top10)`\n\n"
+    "`c(mu, sd.)`\n\n"
+    "`## [1] 28.79902 16.25787`\n\n"
+    "`pnorm(50, mean=mu, sd=sd., lower.tail=FALSE)`\n\n"
+    "`## [1] 0.09617`\n\n"
+    "`1 - pnorm((50-mu)/sd.)`\n\n"
+    "`## [1] 0.09617`\n\n"
+    "`mean(Colleges$Top10 > 50)   # empirical check`\n\n"
+    "`## [1] 0.1078`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2024_4a_ai.png",
+]}
+
+past_exams["exam_july_2024_4b"] = {
+"title": "Jul-2024 Ex4.b — CLT for a sample proportion: P(p_hat > 0.35) with p=0.3, n=750",
+"is_exam": True, "topic_hint": "G11", "subtopic_hint": "g11_clt",
+"content": (
+    '<span class="exam-question-text">Suppose the true population proportion of colleges with `Top10 > 50` is $p = 0.30$. In a random sample of $n = 750$ colleges, what is the probability that the **sample proportion** $\\hat p$ exceeds 0.35? Use the **Central Limit Theorem**.</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** With $X_i \\sim \\text{Bernoulli}(p)$ iid the sample proportion $\\hat p = \\bar X$ has, by the CLT,\n\n"
+    "$$\\hat p \\;\\overset{\\cdot}{\\sim}\\; \\mathcal N\\!\\Big(p,\\;\\dfrac{p(1-p)}{n}\\Big).$$\n\n"
+    "Standardise: $Z = (\\hat p - p)/\\sqrt{p(1-p)/n}$ and read off the tail probability.\n\n"
+    '![AI walkthrough — sampling distribution of p_hat with right-tail at 0.35 shaded](statistics/images/past_exams/exam_july_2024_4b_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.** Compute the SE of $\\hat p$:\n\n"
+    "$$SE(\\hat p) = \\sqrt{\\dfrac{p(1-p)}{n}} = \\sqrt{\\dfrac{0.30 \\cdot 0.70}{750}} = \\sqrt{0.00028} \\approx 0.01673.$$\n\n"
+    "Standardise the threshold $0.35$:\n\n"
+    "$$z = \\dfrac{0.35 - 0.30}{0.01673} \\approx 2.988.$$\n\n"
+    "By the CLT, $\\hat p \\overset{\\cdot}{\\sim} \\mathcal N(0.30, 0.01673^2)$, so\n\n"
+    "$$P(\\hat p > 0.35) \\approx 1 - \\Phi(2.988) \\approx 1 - 0.99860 \\approx \\mathbf{0.00140}.$$\n\n"
+    "Only about **0.14% probability** — strongly unlikely. If a single random sample of size 750 returned $\\hat p > 0.35$ we would seriously doubt $p = 0.30$.\n\n"
+    "*Conditions for CLT*: independent draws and $np = 225 \\ge 5$, $n(1-p) = 525 \\ge 5$ ✓ — normal approximation is excellent.\n\n"
+    '**R commands:**\n\n'
+    "`p <- 0.30; n <- 750`\n\n"
+    "`se <- sqrt(p*(1-p)/n); se`\n\n"
+    "`## [1] 0.01673320`\n\n"
+    "`z  <- (0.35 - p)/se; z`\n\n"
+    "`## [1] 2.988072`\n\n"
+    "`pnorm(0.35, mean=p, sd=se, lower.tail=FALSE)`\n\n"
+    "`## [1] 0.001404`\n\n"
+    "`1 - pnorm(z)`\n\n"
+    "`## [1] 0.001404`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2024_4b_ai.png",
+]}
+
+past_exams["exam_july_2024_4c"] = {
+"title": "Jul-2024 Ex4.c — Sample size for a 95% CI on p with margin of error 0.02",
+"is_exam": True, "topic_hint": "G11", "subtopic_hint": "g11_clt",
+"content": (
+    '<span class="exam-question-text">What sample size $n$ is required so that a **95% confidence interval** for the population proportion $p$ has **margin of error at most 0.02**? Use the worst-case (conservative) Bernoulli variance.</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** Wald CI: $\\hat p \\pm z_{1-\\alpha/2}\\sqrt{\\hat p(1-\\hat p)/n}$. The margin of error\n\n"
+    "$$ME = z_{1-\\alpha/2}\\sqrt{\\dfrac{\\hat p(1-\\hat p)}{n}} \\le m.$$\n\n"
+    "Without prior knowledge of $p$, use the **worst case** $\\hat p(1-\\hat p) \\le 1/4$ (maximised at $\\hat p = 1/2$). Solving for $n$:\n\n"
+    "$$n \\;\\ge\\; \\dfrac{z_{1-\\alpha/2}^{2}}{4\\,m^{2}}.$$\n\n"
+    "Then **round up** to the next integer.\n\n"
+    '![AI walkthrough — required n vs margin of error, with conservative bound](statistics/images/past_exams/exam_july_2024_4c_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.** With $z_{0.975} = 1.960$, $m = 0.02$:\n\n"
+    "$$n \\;\\ge\\; \\dfrac{1.960^{2}}{4 \\cdot 0.02^{2}} \\;=\\; \\dfrac{3.8416}{0.0016} \\;=\\; 2401.$$\n\n"
+    "So **$n = 2401$ colleges** guarantees $ME \\le 0.02$ regardless of the true $p$.\n\n"
+    "**If a previous estimate is available**, e.g. $\\hat p \\approx 0.30$ (from Ex4b), the variance shrinks to $0.30\\cdot 0.70 = 0.21$ and\n\n"
+    "$$n \\;\\ge\\; \\dfrac{1.960^{2}\\cdot 0.21}{0.02^{2}} \\;=\\; \\dfrac{0.8067}{0.0004} \\approx 2017,$$\n\n"
+    "i.e. **$n = 2017$** — a smaller sample is sufficient. Always round **up**.\n\n"
+    '**R commands:**\n\n'
+    "`z <- qnorm(0.975); z`\n\n"
+    "`## [1] 1.959964`\n\n"
+    "`ceiling(z^2 / (4 * 0.02^2))   # worst-case`\n\n"
+    "`## [1] 2401`\n\n"
+    "`ceiling(z^2 * 0.30 * 0.70 / 0.02^2)   # with p_hat = 0.30`\n\n"
+    "`## [1] 2017`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2024_4c_ai.png",
+]}
+
 # =================== JULY 2025 ===================
 
 past_exams["exam_july_2025_1a"] = {
@@ -1155,6 +2256,415 @@ past_exams["exam_july_2025_1a"] = {
     "statistics/images/past_exams/questions/exam_july_2025_1a_question.png",
     "statistics/images/past_exams/exam_july_2025_1a_ai.png",
     "statistics/images/past_exams/answers/exam_july_2025_1a_answer.png",
+]}
+
+past_exams["exam_july_2025_2a"] = {
+"title": "Jul-2025 Ex2a — Conditional boxplot of Loans by AgeC (young / adult / senior)",
+"is_exam": True, "topic_hint": "G6", "subtopic_hint": "g6b_box",
+"content": (
+    '<span class="exam-question-text">The goal is to assess possible differences in the loan amount (`Loans`) for clients in the sample belonging to different age groups (`AgeC`, with categories *young*, *adult*, *senior*).\n\n**2.a Indicate** which plot you would use to compare the three distributions, and **provide** a sketch of the specified plot. **Evaluate** the shape of the distributions and **comment** on the main differences among the three client groups, with particular reference to the positional measures observable from the plot.</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** With a numerical response (`Loans`) and a categorical grouping (`AgeC` with 3 levels), the standard side-by-side display is a **conditional / multiple boxplot** — one box per group — drawn with `distr.plot.xy(AgeC, Loans, plot.type='boxplot', data=BankClients)`. Each box shows the **5-number summary** (min, $Q_1$, median, $Q_3$, max) of `Loans` *conditional on* the age group; whiskers extend to $\\pm 1.5\\,IQR$ and points beyond are flagged as outliers. Reading the three boxes side by side lets us compare **centre** (median line), **spread** (box width = IQR), **skewness** (longer whisker / outlier tail on one side) and **outliers** at a glance.\n\n"
+    '![AI walkthrough — conditional boxplot of Loans by AgeC with sample-size bar](statistics/images/past_exams/exam_july_2025_2a_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.** Sample sizes: $n_{\\text{adult}}=767$, $n_{\\text{senior}}=103$, $n_{\\text{young}}=128$. Group five-number summaries (from `by(Loans, AgeC, fivenum)`):\n\n"
+    "| AgeC | min | Q1 | median | Q3 | max |\n"
+    "|---|---|---|---|---|---|\n"
+    "| adult  | 0.03 | 6\u202f779.1 | **18\u202f863.7** | 39\u202f396.6 | 202\u202f042.5 |\n"
+    "| senior | 16.6 | 3\u202f236.0 | **8\u202f412.3**  | 19\u202f587.6 | 156\u202f717.7 |\n"
+    "| young  | 0.2  | 8\u202f283.6 | **25\u202f087.0** | 45\u202f728.3 | 128\u202f083.1 |\n\n"
+    "**Shape.** All three conditional distributions of `Loans` are **strongly right-skewed** (long upper tail and many upper outliers in every group — mean $\\gg$ median in adult and senior groups, e.g. mean$_{\\text{adult}}=27\\,820$ vs median $18\\,864$).\n\n"
+    "**Positional comparison.**\n\n"
+    "- **Senior** clients have the **lowest** central tendency (median $\\approx 8\\,412$\u20ac, $Q_3 \\approx 19\\,588$\u20ac) — narrowest IQR but still long upper tail.\n"
+    "- **Adult** and **young** clients have *similar* medians, but **young** has a noticeably **wider IQR** ($\\approx 37\\,445$) and the **highest** median ($\\approx 25\\,087$\u20ac) — younger customers borrow more on average within this sample.\n"
+    "- All three distributions exhibit **upper outliers** (the right whisker is short relative to the maximum), which is what motivates the formal upper-outlier check in 2c.\n\n"
+    "**Explanation.** The leftward shift of the *senior* group is consistent with older clients having already paid down most large loans (mortgages) and rarely applying for new ones, whereas *young* and *adult* clients are still in the active-borrowing phase of life.\n\n"
+    "**R commands:**\n\n"
+    "`distr.plot.xy(AgeC, Loans, data=BankClients, plot.type='boxplot')`\n\n"
+    "`by(Loans, AgeC, fivenum)`\n\n"
+    "`## adult : 0.03 6779.09 18863.72 39396.55 202042.48`\n\n"
+    "`## senior: 16.58 3235.95 8412.25 19587.63 156717.65`\n\n"
+    "`## young : 0.19 8283.63 25087.04 45728.29 128083.12`\n\n"
+    "`by(Loans, AgeC, summary)`\n\n"
+    "`table(AgeC)`\n\n"
+    "`## adult senior young`\n\n"
+    "`##   767    103   128`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2025_2a_ai.png",
+]}
+
+past_exams["exam_july_2025_2b"] = {
+"title": "Jul-2025 Ex2b — 99th percentile of Loans by AgeC (max debt of 99% of clients)",
+"is_exam": True, "topic_hint": "G6", "subtopic_hint": "g6a_quant",
+"content": (
+    '<span class="exam-question-text">**2.b** What is the maximum threshold (i.e. the maximum amount) of debt (`Loans`) for the 99% of clients in each of the three age groups (`AgeC`)? **Report** the three values and **comment** on the results obtained. The maximum threshold for 99% of customers within each age group is the 99th percentile corresponding to that group.</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** The **99th percentile** of `Loans` conditional on `AgeC=g` is the value $q_{0.99}^{(g)}$ such that $P(\\text{Loans} \\le q_{0.99}^{(g)} \\mid \\text{AgeC}=g) = 0.99$. In words: 99% of clients in group $g$ have a debt **at or below** $q_{0.99}^{(g)}$, and only the top 1% exceed it. The R idiom is `distr.summary.x(Loans, by=AgeC, stats='p99', data=BankClients)`, or equivalently `by(Loans, AgeC, quantile, probs=0.99)`.\n\n"
+    '![AI walkthrough — Loans conditional densities with q_{0.99} for each AgeC + bar comparison](statistics/images/past_exams/exam_july_2025_2b_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.** Computing the empirical 99th percentile in each group:\n\n"
+    "| AgeC | $n$ | $q_{0.99}$ (\u20ac) |\n"
+    "|---|---|---|\n"
+    "| adult  | 767 | **143\u202f073** |\n"
+    "| senior | 103 | **126\u202f821** |\n"
+    "| young  | 128 | **119\u202f923** |\n\n"
+    "**Comment.** 99% of *adult* clients have loans up to about **143k\u20ac**, against **127k\u20ac** for *senior* and **120k\u20ac** for *young*. The *adult* upper threshold is materially higher than the other two — consistent with adults being in the prime borrowing phase (mortgages, business loans, etc.) and therefore having both more and larger outstanding loans, while *senior* and *young* clients top out closer to each other (around \u20ac120–127k).\n\n"
+    "**R commands:**\n\n"
+    "`distr.summary.x(Loans, by=AgeC, stats='p99', data=BankClients)`\n\n"
+    "`## Summary measures for Loans | AgeC`\n\n"
+    "`##           n  n.a       p99`\n\n"
+    "`## adult   767    0  143073.4`\n\n"
+    "`## senior  103    0  126820.6`\n\n"
+    "`## young   128    0  119922.7`\n\n"
+    "`by(Loans, AgeC, quantile, probs=0.99, na.rm=TRUE)`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2025_2b_ai.png",
+]}
+
+past_exams["exam_july_2025_2c"] = {
+"title": "Jul-2025 Ex2c — Upper-outlier threshold for young AgeC (Tukey rule)",
+"is_exam": True, "topic_hint": "G6", "subtopic_hint": "g6c_outliers",
+"content": (
+    '<span class="exam-question-text">**2.c** With reference to the maximum threshold identified in the **previous point** for the sub-sample of younger clients (`AgeC = young`) can we conclude that a loan amount above this threshold should be considered anomalous (if you did not answer the previous point, consider an amount equal to 120\u202f000\u20ac)? **Justify** your answer explicitly **reporting** the measures you refer to in order to answer.</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** The classical Tukey rule flags a value as a **(mild) upper outlier** when it lies above\n\n"
+    "$$L = Q_3 + 1.5 \\cdot (Q_3 - Q_1) = Q_3 + 1.5\\,IQR$$\n\n"
+    "*in the relevant conditional distribution* — here, the distribution of `Loans` for the `young` group. So the question reduces to comparing the candidate value ($q_{0.99,\\text{young}}=119\\,922.7$ from 2b, or the suggested $120\\,000$) to $L_{\\text{young}}$. From the five-number summary of *young* clients: $Q_1 = 8\\,283.63$, $Q_3 = 45\\,728.29$, $IQR = 37\\,444.66$, so\n\n"
+    "$$L_{\\text{young}} = 45\\,728.29 + 1.5 \\cdot 37\\,444.66 = 45\\,728.29 + 56\\,166.99 \\approx 101\\,895.3.$$\n\n"
+    '![AI walkthrough — young Loans boxplot with Tukey upper threshold L vs q_{0.99} and the reference 120,000](statistics/images/past_exams/exam_july_2025_2c_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.**\n\n"
+    "- Upper-outlier threshold: $L_{\\text{young}} = Q_3 + 1.5\\,(Q_3 - Q_1) = 45\\,728.29 + 1.5 \\cdot 37\\,444.66 \\approx \\mathbf{101\\,895.3}$\u20ac.\n"
+    "- Candidate value: $q_{0.99,\\text{young}} \\approx 119\\,922.7$\u20ac (from 2b).\n\n"
+    "Since $119\\,922.7 > 101\\,895.3$, **yes** — any loan above $q_{0.99,\\text{young}}$ exceeds the upper outlier fence, so we can say that **at least 1% of the observed values in the young group are upper outliers** (in the Tukey sense). The same conclusion holds for the suggested $120\\,000$ \u20ac, since $120\\,000 > 101\\,895.3$ as well: a young client borrowing $120{,}000$\u20ac would be flagged as anomalous relative to the *young* sub-sample.\n\n"
+    "**R commands:**\n\n"
+    "`fn <- fivenum(BankClients$Loans[BankClients$AgeC=='young'])`\n\n"
+    "`Q1 <- fn[2]; Q3 <- fn[4]; IQR <- Q3 - Q1`\n\n"
+    "`L  <- Q3 + 1.5*IQR`\n\n"
+    "`## Q1 = 8283.63, Q3 = 45728.29, IQR = 37444.66, L = 101895.3`\n\n"
+    "`q99 <- quantile(BankClients$Loans[BankClients$AgeC=='young'], 0.99)`\n\n"
+    "`## 119922.7`\n\n"
+    "`q99 > L`\n\n"
+    "`## TRUE  -> the 99th percentile is an upper outlier`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2025_2c_ai.png",
+]}
+
+past_exams["exam_july_2025_3a"] = {
+"title": "Jul-2025 Ex3a — Sample mean as unbiased estimator of mean Savings (xbar ≈ 275.33€)",
+"is_exam": True, "topic_hint": "G13", "subtopic_hint": "g13f",
+"content": (
+    '<span class="exam-question-text">**3.** The bank is interested in estimating the average amount of savings (variable `Savings`) if the experimental procedures were extended to other branches.\n\n**3.a Indicate** which **estimator** you would use, and what are its properties, **providing** their formal definition. **Report** the estimate obtained from the data.</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** Given an i.i.d. random sample $X_1, \\dots, X_n$ from an unknown population with mean $\\mu$ and variance $\\sigma^2$, the natural and optimal point estimator of $\\mu$ is the **sample mean**\n\n"
+    "$$\\bar X \\;=\\; \\frac{1}{n}\\sum_{i=1}^{n} X_i.$$\n\n"
+    "Its key properties are:\n\n"
+    "1. **Unbiased**: $E[\\bar X] = \\mu$ for every $\\mu$.\n"
+    "2. **Variance**: $\\operatorname{Var}(\\bar X) = \\dfrac{\\sigma^2}{n}$ — shrinks like $1/n$, so $\\bar X$ is **consistent** ($\\bar X \\xrightarrow{P} \\mu$ as $n\\to\\infty$).\n"
+    "3. **BLUE** (Gauss–Markov): among all linear unbiased estimators it has the minimum variance.\n"
+    "4. By the **CLT**, $\\bar X \\overset{d}{\\to} N(\\mu, \\sigma^2/n)$ for large $n$, regardless of the population shape — the basis of the CI in 3b.\n\n"
+    '![AI walkthrough — sampling distribution of xbar shrinks as n grows; observed Savings sample with xbar marked](statistics/images/past_exams/exam_july_2025_3a_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.** Use the **sample mean** $\\bar X = \\frac{1}{n}\\sum_i X_i$ as estimator (unbiased, BLUE, consistent, asymptotically normal). Computing it on the data with $n = 998$:\n\n"
+    "$$\\bar x = \\frac{1}{998}\\sum_{i=1}^{998} \\text{Savings}_i \\;=\\; \\mathbf{275.3343\\,\u20ac}.$$\n\n"
+    "We therefore estimate that the mean Savings amount in the population is approximately **275.33\u20ac** per client.\n\n"
+    "**R commands:**\n\n"
+    "`mean(BankClients$Savings)`\n\n"
+    "`## [1] 275.3343`\n\n"
+    "`length(BankClients$Savings)`\n\n"
+    "`## [1] 998`\n\n"
+    "`sd(BankClients$Savings)`\n\n"
+    "`## [1] 856.5955`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2025_3a_ai.png",
+]}
+
+past_exams["exam_july_2025_3b"] = {
+"title": "Jul-2025 Ex3b — 90% z-CI for mean Savings (sigma=800 known): [233.68, 316.99]",
+"is_exam": True, "topic_hint": "G13", "subtopic_hint": "g13a",
+"content": (
+    '<span class="exam-question-text">**3.b** Assuming that the standard deviation of the amount of savings in the population is equal to **800**, **report** the confidence interval for the mean amount of savings with a confidence level of **90%**. How do you **interpret** the obtained confidence interval?</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** With $\\sigma$ **known** (here $\\sigma=800$) and $n = 998$ large, the pivot is\n\n"
+    "$$Z \\;=\\; \\frac{\\bar X - \\mu}{\\sigma/\\sqrt{n}} \\sim N(0,1)$$\n\n"
+    "and the two-sided $(1-\\alpha)$ confidence interval for $\\mu$ is the classical **z-interval**\n\n"
+    "$$\\bar X \\pm z_{1-\\alpha/2}\\,\\frac{\\sigma}{\\sqrt{n}}, \\qquad z_{0.95} = 1.6449.$$\n\n"
+    "Plugging in: $SE = 800/\\sqrt{998} \\approx 25.32$, margin of error $ME = 1.6449 \\cdot 25.32 \\approx 41.65$.\n\n"
+    '![AI walkthrough — N(0,1) with central 90% area and CI bar [233.68, 316.99] centred at xbar=275.33](statistics/images/past_exams/exam_july_2025_3b_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.** With $\\bar x = 275.3343$, $\\sigma = 800$, $n = 998$, $z_{0.95}=1.6449$:\n\n"
+    "$$\\bar x \\pm z_{0.95}\\,\\frac{\\sigma}{\\sqrt{n}} = 275.3343 \\pm 1.6449 \\cdot \\frac{800}{\\sqrt{998}} = 275.3343 \\pm 41.6536$$\n\n"
+    "$$\\Longrightarrow \\quad \\boxed{\\;\\big[233.68,\\; 316.99\\big]\\;\u20ac\\,(\\text{at } 90\\%\\text{ confidence})\\;}$$\n\n"
+    "**Interpretation.** With 90% confidence the population mean of `Savings` lies between **233.68\u20ac and 316.99\u20ac**. In the long-run frequentist sense, if we repeated the sampling procedure many times and constructed a 90% CI each time, ~90% of those intervals would contain the true $\\mu$. The large sample size ($n = 998$) makes the CLT applicable, so we do not need the normality of `Savings` itself — only finite variance is required.\n\n"
+    "**R commands:**\n\n"
+    "`CI.mean(Savings, sigma=800, conf.level=0.9, data=BankClients)`\n\n"
+    "`## Confidence interval for the mean`\n\n"
+    "`## Confidence level: 0.9`\n\n"
+    "`## Variance: known`\n\n"
+    "`##   n    xbar    sigma_X   SE    Lower   Upper`\n\n"
+    "`## 998   275.33  800       25.32  233.68  316.99`\n\n"
+    "`# Manual reconstruction:`\n\n"
+    "`z <- qnorm(0.95)            # 1.6449`\n\n"
+    "`SE <- 800 / sqrt(998)       # 25.32`\n\n"
+    "`mean(BankClients$Savings) + c(-1,1) * z * SE`\n\n"
+    "`## [1] 233.68 316.99`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2025_3b_ai.png",
+]}
+
+past_exams["exam_july_2025_3c"] = {
+"title": "Jul-2025 Ex3c — Margin of error & required n for ME<35 (n*=1414)",
+"is_exam": True, "topic_hint": "G13", "subtopic_hint": "g13a",
+"content": (
+    '<span class="exam-question-text">**3.c** What is the **margin of error** of the obtained interval (from 3b)? How many clients should be included in the sample so that the margin of error is **less than 35**?</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** The margin of error of a $(1-\\alpha)$ z-CI for the mean is\n\n"
+    "$$ME = z_{1-\\alpha/2}\\,\\frac{\\sigma}{\\sqrt{n}}.$$\n\n"
+    "Two equivalent ways to read it off the 3b output:\n\n"
+    "$$ME = \\frac{UCL - LCL}{2} = \\frac{316.99 - 233.68}{2} = 41.66 \\quad \\text{or} \\quad z_{0.95} \\cdot \\frac{\\sigma}{\\sqrt{n}} = 1.6449 \\cdot \\frac{800}{\\sqrt{998}} \\approx 41.65.$$\n\n"
+    "(Tiny difference due to rounding.) To shrink $ME$ below a target $ME^*=35$, invert the formula:\n\n"
+    "$$n^* = \\left(\\frac{z_{1-\\alpha/2}\\,\\sigma}{ME^*}\\right)^2 = \\left(\\frac{1.6449 \\cdot 800}{35}\\right)^2 \\approx 1413.51 \\;\\Rightarrow\\; \\big\\lceil n^* \\big\\rceil = \\mathbf{1414}.$$\n\n"
+    '![AI walkthrough — required sample size n* vs target ME (35→1414) plus ME shrinks as 1/sqrt(n)](statistics/images/past_exams/exam_july_2025_3c_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.**\n\n"
+    "- **Margin of error of the 3b interval:** $ME = (316.99 - 233.68)/2 = \\mathbf{41.66\u20ac}$ (or $z_{0.95}\\sigma/\\sqrt{n} = 41.65\u20ac$, differing only in the last decimal due to rounding).\n"
+    "- **Required sample size for $ME < 35$:**\n\n"
+    "$$n^* = \\left(\\frac{1.6449 \\cdot 800}{35}\\right)^2 = \\frac{1.6449^2 \\cdot 800^2}{35^2} = \\frac{2.7057 \\cdot 640\\,000}{1\\,225} \\approx 1\\,413.51 \\;\\Rightarrow\\; n^* = \\mathbf{1\\,414}.$$\n\n"
+    "It would be necessary to collect savings values from **1\u202f414** clients (= 1414 because $n$ must be an integer and we round *up*) to obtain a margin of error lower than \u20ac35 at the 90% confidence level.\n\n"
+    "**R commands:**\n\n"
+    "`z <- qnorm(0.95)`\n\n"
+    "`sigma <- 800; ME_target <- 35`\n\n"
+    "`n_star <- (z * sigma / ME_target)^2`\n\n"
+    "`n_star`\n\n"
+    "`## [1] 1413.508`\n\n"
+    "`ceiling(n_star)`\n\n"
+    "`## [1] 1414`\n\n"
+    "`# Verify ME at n=1414:`\n\n"
+    "`z * sigma / sqrt(1414)`\n\n"
+    "`## [1] 34.993  (< 35 \u2713)`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2025_3c_ai.png",
+]}
+
+past_exams["exam_july_2025_4a"] = {
+"title": "Jul-2025 Ex4a — Intercept of mod1=lm(Investments~Branch+AgeC): b0≈424.01 (baseline A,adult)",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15d",
+"content": (
+    '<span class="exam-question-text">**4.** We are interested in studying the amount of investments and its possible relationship with some of the available variables.\n\n**4.a** Build a linear regression model (`mod1`) that relates the amount of client investments (`Investments`) to their branch (`Branch`, with categories `A` and `B`) and age group (`AgeC`, with categories *young*, *adult*, and *senior*).\n**Report** the estimate of the model intercept and **specify** what substantial information it provides to the bank (thus, provide a clear and complete interpretation and explanation of the intercept in this model).</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** Both regressors are categorical, so the design matrix consists only of dummy variables. With R's default factor ordering (`Branch` alphabetical → baseline = `A`; `AgeC` alphabetical → baseline = `adult`), the model is\n\n"
+    "$$\\widehat{\\text{Investments}} = \\hat\\beta_0 + \\hat\\beta_{1}\\,\\mathbb{1}\\{\\text{Branch}=B\\} + \\hat\\beta_{2}\\,\\mathbb{1}\\{\\text{AgeC}=senior\\} + \\hat\\beta_{3}\\,\\mathbb{1}\\{\\text{AgeC}=young\\}.$$\n\n"
+    "Therefore **the intercept $\\hat\\beta_0$ is the predicted mean of `Investments` when *all* dummies are zero**, i.e. for a client of the **baseline cell** (`Branch=A`, `AgeC=adult`). If instead we order `AgeC` with `young` as the reference (`factor(AgeC, levels=c('young','adult','senior'))`), the intercept becomes the predicted mean for the new baseline (`Branch=A`, `AgeC=young`) and equals $352.76$ — exactly $424.01 - 71.25$ in the original parameterisation (since $\\hat\\beta_{young}=-71.25$).\n\n"
+    '![AI walkthrough — group-mean grid by (Branch, AgeC) with intercept cell highlighted, plus mod1 coefficient bars](statistics/images/past_exams/exam_july_2025_4a_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.** From `summary(mod1)`:\n\n"
+    "$$\\hat\\beta_0 = \\mathbf{424.01\u20ac} \\quad (SE = 17.99,\\; t = 23.58,\\; p < 2 \\times 10^{-16},\\; ***).$$\n\n"
+    "**Interpretation:** $\\hat\\beta_0 = 424.01$ is the **estimated average amount of `Investments` for a client in the baseline cell** of the model — that is, a client of `Branch = A` who belongs to the `adult` age group (the alphabetical reference for both factors). For the bank, this is the *typical* investment level (~424\u20ac) of an adult customer of branch A; all the other coefficients ($\\hat\\beta_B, \\hat\\beta_{senior}, \\hat\\beta_{young}$) are then *contrasts* with respect to this baseline.\n\n"
+    "If `AgeC` is re-ordered with `young` as reference (`AgeCf <- factor(AgeC, c('young','adult','senior'))` and `mod1b <- lm(Investments ~ Branch + AgeCf, data=BankClients)`), the intercept becomes $352.76$\u20ac and now represents the average Investments for `Branch=A`, `AgeC=young` clients (the new baseline). The fit, $R^2$, and predicted values are identical — only the parameterisation has changed.\n\n"
+    "**R commands:**\n\n"
+    "`mod1 <- lm(Investments ~ Branch + AgeC, data=BankClients)`\n\n"
+    "`summary(mod1)`\n\n"
+    "`## Coefficients:`\n\n"
+    "`##              Estimate Std. Error t value Pr(>|t|)`\n\n"
+    "`## (Intercept)   424.01      17.99   23.58  < 2e-16 ***`\n\n"
+    "`## BranchB        78.48      20.62    3.81  0.00015 ***`\n\n"
+    "`## AgeCsenior     68.04      31.51    2.16  0.03106 *`\n\n"
+    "`## AgeCyoung     -71.25      28.72   -2.48  0.01326 *`\n\n"
+    "`## Multiple R-squared: 0.0289, Adjusted R-squared: 0.0259`\n\n"
+    "`## F-statistic: 9.85 on 3 and 994 DF, p-value: 2.1e-06`\n\n"
+    "`# Re-ordering AgeC with young as reference:`\n\n"
+    "`BankClients$AgeCf <- factor(BankClients$AgeC, levels=c('young','adult','senior'))`\n\n"
+    "`mod1b <- lm(Investments ~ Branch + AgeCf, data=BankClients)`\n\n"
+    "`coef(mod1b)['(Intercept)']`\n\n"
+    "`## (Intercept)`\n\n"
+    "`##      352.76`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2025_4a_ai.png",
+]}
+
+past_exams["exam_july_2025_4b"] = {
+"title": "Jul-2025 Ex4b — mod2 = lm(Investments~Branch+AgeC+Cards+Tenure): Cards slope ≈ +7.20",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15c",
+"content": (
+    '<span class="exam-question-text">**4.b Report** the estimated equation of the model and **interpret** the substantial information it provides to the bank with reference to the variable `Cards`.\n\n*(The fitted model is `mod2 <- lm(Investments ~ Branch + AgeC + Cards + Tenure, data=BankClients)`.)*</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** Multiple regression with two dummies (`BranchB`, `AgeCsenior`, `AgeCyoung`) and two continuous predictors (`Cards` = card-usage intensity, `Tenure` = months as a client). Each $\\hat\\beta_j$ is a **partial / ceteris-paribus** slope: the change in expected `Investments` for a one-unit change in $X_j$, *holding all other predictors fixed*. From `summary(mod2)`:\n\n"
+    "$$\\widehat{\\text{Investments}} = 262.18 + 68.67\\cdot\\mathbb{1}_{B=B} + 73.79\\cdot\\mathbb{1}_{senior} - 43.87\\cdot\\mathbb{1}_{young} + 7.20\\cdot\\text{Cards} + 2.07\\cdot\\text{Tenure}.$$\n\n"
+    '![AI walkthrough — Investments vs Cards scatter with mod2 partial slope; coefficient bar chart](statistics/images/past_exams/exam_july_2025_4b_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.**\n\n"
+    "**Estimated equation:**\n\n"
+    "$$\\widehat{\\text{Investments}} = 262.18 + 68.67\\cdot\\mathbb{1}_{\\text{Branch}=B} + 73.79\\cdot\\mathbb{1}_{\\text{AgeC}=senior} - 43.87\\cdot\\mathbb{1}_{\\text{AgeC}=young} + 7.20\\cdot\\text{Cards} + 2.07\\cdot\\text{Tenure}.$$\n\n"
+    "**Cards coefficient:** $\\hat\\beta_{\\text{Cards}} = \\mathbf{+7.20}$ (SE $= 1.24$, $t = 5.81$, $p = 8.4\\times 10^{-9}$, ***). **Interpretation:** *holding constant Branch, AgeC and Tenure*, a **one-unit increase in `Cards`** (i.e. one unit of card-usage intensity) is associated with **an extra \u20ac7.20 of `Investments` on average**. The effect is highly significant ($p \\ll 0.001$), giving the bank quantitative evidence that more intense card usage co-varies with larger investment positions — a useful signal for cross-selling investment products to high card-usage customers.\n\n"
+    "Note that the relationship is *associational* (not necessarily causal) and *linear within the observed range of `Cards`* (roughly 1–90 in the sample).\n\n"
+    "**R commands:**\n\n"
+    "`mod2 <- lm(Investments ~ Branch + AgeC + Cards + Tenure, data=BankClients)`\n\n"
+    "`summary(mod2)`\n\n"
+    "`## Coefficients:`\n\n"
+    "`##              Estimate Std. Error t value  Pr(>|t|)`\n\n"
+    "`## (Intercept)  262.1846    25.8819   10.13  < 2e-16 ***`\n\n"
+    "`## BranchB       68.6722    19.8411    3.46  0.000561 ***`\n\n"
+    "`## AgeCsenior    73.7904    30.4508    2.42  0.015560 *`\n\n"
+    "`## AgeCyoung    -43.8684    27.9632   -1.57  0.117016`\n\n"
+    "`## Cards          7.1993     1.2391    5.81  8.40e-09 ***`\n\n"
+    "`## Tenure         2.0665     0.3282    6.30  4.58e-10 ***`\n\n"
+    "`## Multiple R-squared: 0.1085, Adjusted R-squared: 0.104`\n\n"
+    "`## F-statistic: 24.15 on 5 and 992 DF, p-value: < 2.2e-16`\n\n"
+    "`confint(mod2)['Cards',]`\n\n"
+    "`##  2.5 %  97.5 %`\n\n"
+    "`##  4.77   9.63`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2025_4b_ai.png",
+]}
+
+past_exams["exam_july_2025_4c"] = {
+"title": "Jul-2025 Ex4c — Effect of AgeC on Investments in mod2 (only senior significant at 5%)",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15d",
+"content": (
+    '<span class="exam-question-text">**4.c** What conclusions can be drawn about the effect of the client\u2019s age group (`AgeC`) at the **5% significance level**?</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** Each level of `AgeC` (other than the baseline `adult`) appears in `mod2` as its own dummy with its own $t$-test against $H_0: \\beta = 0$. From `summary(mod2)`:\n\n"
+    "- `AgeCsenior`: $\\hat\\beta = 73.79$, $SE = 30.45$, $t = 2.42$, $p = 0.01556 \\Rightarrow$ **significant** at 5%.\n"
+    "- `AgeCyoung`: $\\hat\\beta = -43.87$, $SE = 27.96$, $t = -1.57$, $p = 0.11702 \\Rightarrow$ **not** significant at 5%.\n\n"
+    '![AI walkthrough — p-values vs alpha=0.05 for AgeC dummies in mod1 vs mod2; decision matrix](statistics/images/past_exams/exam_july_2025_4c_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.** Using $\\alpha = 0.05$:\n\n"
+    "- **Senior vs adult (baseline):** $p = 0.0156 < 0.05$ \u2192 **reject $H_0$**. Holding Branch, Cards, Tenure fixed, senior clients invest on average about **\u20ac74 more** than adult clients (significant).\n"
+    "- **Young vs adult (baseline):** $p = 0.117 > 0.05$ \u2192 **fail to reject $H_0$**. After controlling for Cards and Tenure, there is **no statistically significant** difference in average Investments between young and adult clients.\n\n"
+    "**Conclusion for the bank.** At the 5% level, controlling for the other variables in `mod2`, the only meaningful age contrast on Investments is the *senior premium* over adults; the difference between *young* and *adult* clients is not significant (it was significant in `mod1` but vanishes once `Cards` and `Tenure` enter the model — see 4d).\n\n"
+    "**R commands:**\n\n"
+    "`summary(mod2)$coefficients`\n\n"
+    "`## row AgeCsenior:  Estimate 73.7904  Pr(>|t|) 0.01556 *`\n\n"
+    "`## row AgeCyoung :  Estimate -43.8684 Pr(>|t|) 0.11702`\n\n"
+    "`confint(mod2)['AgeCsenior',]`\n\n"
+    "`##  2.5 %  97.5 %`\n\n"
+    "`##  14.03  133.55  (does not include 0)`\n\n"
+    "`confint(mod2)['AgeCyoung',]`\n\n"
+    "`##  2.5 %  97.5 %`\n\n"
+    "`## -98.74  11.00  (includes 0)`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2025_4c_ai.png",
+]}
+
+past_exams["exam_july_2025_4d"] = {
+"title": "Jul-2025 Ex4d — Compare AgeC significance in mod1 vs mod2; confounding by Tenure/Cards",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15c",
+"content": (
+    '<span class="exam-question-text">**4.d** Using again a 5% significance level, **compare** the significance of the age group (`AgeC`) variables in models `mod1` and `mod2`. How do you **explain** the observed differences?</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** Across the two models the AgeC slopes shift visibly:\n\n"
+    "| dummy | mod1 (no Cards/Tenure) | mod2 (+ Cards + Tenure) |\n"
+    "|---|---|---|\n"
+    "| `AgeCsenior` | $\\hat\\beta = +68.04,\\; p = 0.0311$ (*) | $\\hat\\beta = +73.79,\\; p = 0.0156$ (*) |\n"
+    "| `AgeCyoung`  | $\\hat\\beta = -71.25,\\; p = 0.0133$ (*) | $\\hat\\beta = -43.87,\\; p = 0.1170$ (n.s.) |\n\n"
+    "In `mod1`, **both** dummies are significant at the 5% level. In `mod2`, only `AgeCsenior` keeps its significance: the magnitude of the `young` effect roughly halves and its $p$-value moves from $0.013$ to $0.117$, so it is **no longer** significant at 5%. The likely reason is **confounding**: the apparent gap in Investments between young and adult clients in `mod1` was *partly explained* by differences in tenure and card usage rather than by age per se. In the sample, young clients have on average a **shorter Tenure** (~44 months vs ~59 for adults) and similar/slightly higher Cards intensity; once `mod2` accounts for Tenure (each extra month adds \u20ac2.07 on Investments, $p \\approx 5\\times 10^{-10}$) and Cards (\u20ac7.20 per unit, $p \\approx 8\\times 10^{-9}$), most of the \"young vs adult\" gap is reabsorbed by those variables and the residual *pure* age contrast becomes statistically indistinguishable from zero.\n\n"
+    '![AI walkthrough — coefficient comparison mod1 vs mod2; mean Tenure & Cards by AgeC show confounding](statistics/images/past_exams/exam_july_2025_4d_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.** At 5%:\n\n"
+    "- In **mod1**: both `AgeCsenior` ($p = 0.031$) and `AgeCyoung` ($p = 0.013$) are significant.\n"
+    "- In **mod2**: only `AgeCsenior` remains significant ($p = 0.016$); `AgeCyoung` is *not* significant ($p = 0.117$).\n\n"
+    "**Explanation.** The drop in significance is a textbook **confounding/mediation** pattern. Adding `Tenure` (months with the bank) and `Cards` (card-usage intensity) to the model — both highly significant — captures part of what `AgeCyoung` was measuring in `mod1`. Young clients tend to have shorter tenure (lower banking history) and somewhat different card usage; both of these are themselves strong predictors of `Investments`. Once they are explicitly in the model, the *residual* age-only effect for young clients shrinks (from $-71.25$ to $-43.87$, a $\\sim 38\\%$ reduction) and its $t$-statistic falls below the 5% threshold. The senior effect, in contrast, *persists* — there is something about being a senior client (life stage, accumulated wealth) that goes beyond Tenure and Cards and still explains higher Investments. Substantively: the supposed *age* effect for young clients in mod1 was largely a *life-cycle* effect transmitted through Tenure / Cards, not an irreducible age premium.\n\n"
+    "**R commands:**\n\n"
+    "`summary(mod1)$coefficients[c('AgeCsenior','AgeCyoung'),]`\n\n"
+    "`summary(mod2)$coefficients[c('AgeCsenior','AgeCyoung'),]`\n\n"
+    "`by(BankClients$Tenure, BankClients$AgeC, mean)`\n\n"
+    "`## adult: 58.80   senior: 64.38   young: 44.30`\n\n"
+    "`by(BankClients$Cards, BankClients$AgeC, mean)`\n\n"
+    "`## adult: 6.55    senior: 4.24    young: 6.77`\n\n"
+    "`# Formal partial-F comparing mod1 vs mod2 for the AgeC block at fixed Tenure+Cards:`\n\n"
+    "`anova(mod1, mod2)`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2025_4d_ai.png",
+]}
+
+past_exams["exam_july_2025_4e"] = {
+"title": "Jul-2025 Ex4e — Goodness-of-fit of mod2 via R² ≈ 0.1085 (NOT suitable for prediction)",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15a",
+"content": (
+    '<span class="exam-question-text">**4.e Evaluate** the goodness-of-fit of model `mod2`, **specifying** which index you would use and **reporting** its value. Would you recommend that the bank use this model to predict the investment amount for a new client? Clearly **explain** the reasoning behind your answer.</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** The standard summary measure of goodness-of-fit for a linear regression model is the **coefficient of determination**\n\n"
+    "$$R^2 = 1 - \\frac{RSS}{TSS} = \\frac{ESS}{TSS} \\in [0,1],$$\n\n"
+    "which gives the **proportion of the total variance of the response that is explained by the regressors**. Larger $R^2$ \u2192 better in-sample fit; $R^2 \\approx 0$ means the regressors carry essentially no linear predictive information. The **adjusted $R^2$** penalises model complexity and is more honest when comparing models with different numbers of parameters.\n\n"
+    "From `summary(mod2)`: $R^2 = 0.1085$, adj-$R^2 = 0.104$.\n\n"
+    '![AI walkthrough — R^2 share bar (explained vs unexplained) and observed-vs-fitted scatter](statistics/images/past_exams/exam_july_2025_4e_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.** Use the **coefficient of determination $R^2$**. For `mod2`,\n\n"
+    "$$R^2 = 0.1085 \\quad (\\text{adjusted } R^2 = 0.104).$$\n\n"
+    "Only about **10.85%** of the variability in `Investments` is explained by `Branch + AgeC + Cards + Tenure`; the remaining ~89% is residual variation due to factors not included in the model. The model is overall highly significant (F-statistic $= 24.15$ on $5, 992$ DF, $p < 2\\times 10^{-16}$) — *some* of the regressors carry real predictive signal — but the absolute level of explained variance is **very low**.\n\n"
+    "**Recommendation.** **No**, this model is **not** a reliable tool to predict the investment amount of a new client: with $R^2 \\approx 11\\%$ the prediction intervals will be wide and the typical prediction error will be of the same order as the variability in the data itself. The bank should either (i) collect additional predictors that capture more of the missing variation (income, wealth, financial-literacy variables, behavioural indicators) or (ii) restrict the use of the current model to *aggregate / population-level* statements (mean effects of regressors, qualitative association), not to *individual-level* point predictions. For predictive purposes the diagnostic to inspect would also be the residual standard error ($s = 287.7$\u20ac) — large relative to the typical Investments scale — and the observed-vs-fitted scatter, which shows clear vertical spread around the $y=x$ line.\n\n"
+    "**R commands:**\n\n"
+    "`summary(mod2)$r.squared`\n\n"
+    "`## [1] 0.1085`\n\n"
+    "`summary(mod2)$adj.r.squared`\n\n"
+    "`## [1] 0.104`\n\n"
+    "`summary(mod2)$fstatistic`\n\n"
+    "`## value   numdf   dendf`\n\n"
+    "`## 24.15   5       992`\n\n"
+    "`summary(mod2)$sigma     # residual standard error`\n\n"
+    "`## [1] 287.7`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2025_4e_ai.png",
+]}
+
+past_exams["exam_july_2025_5a"] = {
+"title": "Jul-2025 Ex5a — Sample proportion P(Cards > 5.5) = 0.3397 (~34%)",
+"is_exam": True, "topic_hint": "G2", "subtopic_hint": "g2a_exact",
+"content": (
+    '<span class="exam-question-text">**5.** For each client in the sample, a variable is available that indicates the intensity of debit or credit card usage (`Cards`).\n\n**5.a** What is the proportion of clients in the sample who make card payments with an intensity (`Cards`) greater than 5.5? **Report** the value, briefly **explaining** how you obtained it.</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** The sample proportion of clients satisfying a condition is\n\n"
+    "$$\\hat p = \\frac{\\#\\{i : \\text{condition}_i = \\text{TRUE}\\}}{n}.$$\n\n"
+    "In R, `BankClients$Cards > 5.5` is a logical vector that is `TRUE` when the condition holds and `FALSE` otherwise; the **mean of a logical vector** equals the share of `TRUE` entries (R coerces TRUE \u2192 1, FALSE \u2192 0). So `mean(BankClients$Cards > 5.5)` returns the sample proportion of customers with `Cards` above the 5.5 threshold.\n\n"
+    '![AI walkthrough — histogram of Cards with the {Cards>5.5} bins shaded plus the proportion bar](statistics/images/past_exams/exam_july_2025_5a_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.** With $n = 998$ and $339$ clients above the threshold:\n\n"
+    "$$\\hat p = \\frac{339}{998} = \\mathbf{0.3397} \\quad (\\text{about } 33.97\\%).$$\n\n"
+    "About one-third of the sampled customers exceed the card-usage intensity of $5.5$. This is the empirical anchor used in 5b to compute a CLT-based probability for a sample of $1\\,200$ clients drawn from the other branch.\n\n"
+    "**R commands:**\n\n"
+    "`mean(BankClients$Cards > 5.5)`\n\n"
+    "`## [1] 0.3396794`\n\n"
+    "`sum(BankClients$Cards > 5.5)`\n\n"
+    "`## [1] 339`\n\n"
+    "`length(BankClients$Cards)`\n\n"
+    "`## [1] 998`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2025_5a_ai.png",
+]}
+
+past_exams["exam_july_2025_5b"] = {
+"title": "Jul-2025 Ex5b — CLT: P(sample prop >0.30 | n=1200) ≈ 0.998 (alt p=0.35: ≈0.9999)",
+"is_exam": True, "topic_hint": "G11", "subtopic_hint": "g11_clt",
+"content": (
+    '<span class="exam-question-text">**5.b** Using the proportion calculated in the **previous point** (if not determined, consider a value equal to 0.35), and assuming it to be reliable, determine the probability that in a sample of 1\u202f200 clients from another branch, at least 30% use cards with an intensity greater than 5.5. **Motivate** your answer, **specify** the analytical expression of the required probability, and **provide** its value, also **reporting** the R function used to compute it.</span>\n\n'
+    '---\n\n'
+    "**Walkthrough.** Let $\\hat P$ be the sample proportion of card-intensive clients in a new sample of $n = 1\\,200$ drawn from a population with true proportion $p$. With i.i.d. draws and a large sample (Bernoulli with $np \\gg 5$, $n(1-p) \\gg 5$), the **Central Limit Theorem** gives\n\n"
+    "$$\\hat P \\;\\overset{d}{\\to}\\; N\\!\\left(p,\\; \\frac{p(1-p)}{n}\\right) \\quad \\Longrightarrow \\quad \\frac{\\hat P - p}{\\sqrt{p(1-p)/n}} \\sim N(0,1).$$\n\n"
+    "We are asked $P(\\hat P > 0.30) = 1 - \\Phi\\!\\left(\\dfrac{0.30 - p}{\\sqrt{p(1-p)/n}}\\right)$.\n\n"
+    "Using $p = \\hat p_{\\text{obs}} = 0.3397$ (from 5a) and $n = 1\\,200$: $SE = \\sqrt{0.3397 \\cdot 0.6603 / 1\\,200} \\approx 0.01367$, so $z = (0.30 - 0.3397)/0.01367 \\approx -2.903$, giving $P(\\hat P > 0.30) = 1 - \\Phi(-2.903) \\approx \\mathbf{0.998}$.\n\n"
+    "Using the alternative $p = 0.35$: $SE = \\sqrt{0.35 \\cdot 0.65 / 1\\,200} \\approx 0.01376$, $z = (0.30 - 0.35)/0.01376 \\approx -3.633$, giving $P(\\hat P > 0.30) \\approx 0.9999$.\n\n"
+    '![AI walkthrough — sampling distribution of p_hat under p=0.3397 and p=0.35, upper-tail shading from 0.30](statistics/images/past_exams/exam_july_2025_5b_ai.png)\n\n'
+    '---\n\n'
+    "**Answer.**\n\n"
+    "**Justification:** the new sample is large ($n = 1\\,200$) and the population is dichotomous (Bernoulli with $p$), so by the CLT the sample proportion is approximately normal with mean $p$ and variance $p(1-p)/n$. The asymptotic check is satisfied: $1\\,200 \\cdot p \\approx 408 \\gg 5$ and $1\\,200 \\cdot (1-p) \\approx 792 \\gg 5$.\n\n"
+    "**Analytical expression:**\n\n"
+    "$$P(\\hat P > 0.30) \\;=\\; P\\!\\left(\\,Z > \\frac{0.30 - p}{\\sqrt{p(1-p)/n}}\\,\\right) \\;=\\; 1 - \\Phi\\!\\left(\\frac{0.30 - p}{\\sqrt{p(1-p)/n}}\\right).$$\n\n"
+    "**Numerical value** (using $p = 0.3397$ from 5a, $n = 1\\,200$):\n\n"
+    "$$P(\\hat P > 0.30) = P\\!\\left(Z > \\frac{0.30 - 0.3397}{\\sqrt{0.3397\\cdot 0.6603/1\\,200}}\\right) = P(Z > -2.9037) \\approx \\mathbf{0.998}.$$\n\n"
+    "With the alternative value $p = 0.35$ (as suggested by the prompt): $P(\\hat P > 0.30) \\approx \\mathbf{0.9999}$.\n\n"
+    "Interpretation: in a fresh sample of 1\u202f200 clients from the other branch, the probability that *at least 30%* of them exceed card-usage intensity $5.5$ is **essentially one** — the new sample is so large that the sample proportion will land in a narrow band around its mean ($\\approx 0.34$ or $0.35$), well above $0.30$.\n\n"
+    "**R commands:**\n\n"
+    "`p_hat <- mean(BankClients$Cards > 5.5)   # 0.3397`\n\n"
+    "`1 - pnorm(0.30, mean=p_hat, sd=sqrt(p_hat*(1-p_hat)/1200))`\n\n"
+    "`## [1] 0.9982`\n\n"
+    "`# Equivalent:`\n\n"
+    "`1 - pnorm((0.30 - p_hat) / sqrt(p_hat*(1-p_hat)/1200))`\n\n"
+    "`## [1] 0.9982`\n\n"
+    "`# Alternative value p = 0.35:`\n\n"
+    "`1 - pnorm(0.30, mean=0.35, sd=sqrt(0.35*0.65/1200))`\n\n"
+    "`## [1] 0.9999`\n"
+), "images": [
+    "statistics/images/past_exams/exam_july_2025_5b_ai.png",
 ]}
 
 # =================== SEPTEMBER 2024 ===================
