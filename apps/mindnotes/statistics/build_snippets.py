@@ -2789,6 +2789,25 @@ TOPIC_HINT_MAP = {
     "G10": "g10_normal","G11": "g11_clt",     "G12": "g12_lincomb",
     "G13": "g13a_ci_one_mean", "G14": "g14a_one_sample", "G15": "g15a_simple_reg",
 }
+# Short subtopic-hint aliases used in past_exams_content.py → full sid in SUBTOPICS.
+SHORT_SUBTOPIC_MAP = {
+    "g13a": "g13a_ci_one_mean",
+    "g13b": "g13b_ci_one_prop",
+    "g13c": "g13c_ci_diff_means",
+    "g13d": "g13d_ci_diff_prop",
+    "g13e": "g13e_ci_paired",
+    "g13f": "g13f_estimation",
+    "g14a": "g14a_one_sample",
+    "g14b": "g14b_two_sample",
+    "g14c": "g14c_paired",
+    "g14d": "g14d_chi_squared",
+    "g14e": "g14e_power",
+    "g15a": "g15a_simple_reg",
+    "g15b": "g15b_prediction",
+    "g15c": "g15c_multi_reg",
+    "g15d": "g15d_categorical",
+    "g15e": "g15e_diagnostics",
+}
 def _col_for_exam_id(eid):
     for prefix, col in PAST_EXAM_COL.items():
         if eid.startswith(prefix):
@@ -2797,8 +2816,12 @@ def _col_for_exam_id(eid):
 for eid, d in past_exams.items():
     col = _col_for_exam_id(eid)
     if col is None: continue
-    hint = d.get("topic_hint", "G1")
-    sub_target = TOPIC_HINT_MAP.get(hint, "g1c_hist")
+    sub_hint = d.get("subtopic_hint")
+    if sub_hint:
+        sub_target = SHORT_SUBTOPIC_MAP.get(sub_hint, sub_hint)
+    else:
+        hint = d.get("topic_hint", "G1")
+        sub_target = TOPIC_HINT_MAP.get(hint, "g1c_hist")
     for stm in SUBTOPICS:
         if stm["sid"] == sub_target:
             stm["columns"].setdefault(col, []).append(eid)

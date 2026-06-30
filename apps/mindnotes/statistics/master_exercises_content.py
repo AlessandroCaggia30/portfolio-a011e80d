@@ -924,8 +924,322 @@ t_obs  <- b1/se_b1;              t_obs         # 12.57
 # 9_12, 9_13.
 # ---------------------------------------------------------------------
 master_exercises["g15c_multi_reg"] = {
-    "title": "Master Ex — Multiple regression (superstore: MntMeat ~ IncomeK + Age + KidsAtHome, n=2200)",
-    "content": r"""> **This entry walks rows 1–5 of the universal regression table** (see top of `g15a`) with $p\ge 2$. Each step is *the same* as in `g15a` — only the design matrix grows and df becomes $n-p-1$ instead of $n-2$.
+    "title": "Master Exam — Multiple regression: matrix-form OLS, per-coefficient inference, global $F$, $R^2$ vs adj $R^2$ on superstore (MntMeat ~ IncomeK + Age + KidsAtHome, n=2200)",
+    "content": r"""## Setup — running dataset for every numeric example below
+
+A food retailer's `superstore` dataframe ($n = 2200$ customers) is the **single dataset** used throughout this entry — no new sample is introduced in any subpart. The response is `MntMeatProducts` (€ spent on meat in the last two years); the regressors are `IncomeK` (annual household income in k€), `Age` (years), `KidsAtHome` $\in\{0,1,2\}$ (number of children at home, treated as numeric — categorical version is owned by `g15d`). We fit by OLS the multiple linear model
+
+$$\boxed{\;\;\text{MntMeat}_i \;=\; \beta_0 + \beta_1\,\text{IncomeK}_i + \beta_2\,\text{Age}_i + \beta_3\,\text{KidsAtHome}_i + \varepsilon_i,\qquad \varepsilon_i\overset{\rm iid}{\sim}\mathcal N(0,\sigma^2),\quad i = 1,\dots,n=2200.\;\;}$$
+
+In matrix form: $y = X\boldsymbol\beta + \boldsymbol\varepsilon$ with $X$ the $n\times (p+1) = 2200\times 4$ design matrix (column of 1's + the three regressor columns), $p = 3$, df $= n-p-1 = 2196$. The **`summary(mod)` table** (rounded) reads:
+
+\begin{tabular}{p{8cm}|p{6cm}|p{6cm}|p{5cm}|p{6cm}}
+\textbf{Coefficient} & \textbf{Estimate $\hat\beta_j$} & \textbf{$\widehat{SE}(\hat\beta_j)$} & \textbf{$t_j$} & \textbf{$p$-value} \\
+(Intercept) & $-74.10$ & $13.05$ & $-5.68$ & $\approx 0$ \\
+IncomeK & $+6.142$ & $0.168$ & $36.56$ & $\approx 0$ \\
+Age & $-2.805$ & $0.286$ & $-9.81$ & $\approx 0$ \\
+KidsAtHome & $-78.40$ & $7.62$ & $-10.29$ & $\approx 0$ \\
+\end{tabular}
+
+Residual SE $s_\varepsilon = 134.50$ on df $= 2196$; multiple $R^2 = 0.6361$; adjusted $R^2 = 0.6356$; global $F(3,\,2196) = 1279.7$ ($p\approx 0$). Reference quantiles used below: $t_{2196,\,0.975}\approx 1.961$, $t_{2196,\,0.995}\approx 2.578$, $F_{3,2196,\,0.95}\approx 2.61$.
+
+```r
+mod <- lm(MntMeatProducts ~ IncomeK + Age + KidsAtHome, data = superstore)
+summary(mod)                  # coefficient table, R^2, adj R^2, global F
+confint(mod, level = 0.95)    # per-coefficient 95% CIs
+```
+
+Round to 4 decimals throughout.
+
+---
+
+## This is the multi-predictor specialisation of g15a's master regression table (rows 1–5 with $p\ge 2$)
+
+> **The universal 7-step regression recipe and the full 9-row master case table live at the top of `g15a`** — *do not re-derive them here*. The simple-regression entry (`g15a`) owned rows 1–3 with $p=1$ (closed-form scalar OLS, $\hat\sigma^2$, $R^2 = r_{xy}^2$). This entry **`g15c`** walks the same rows 1–5 with $p\ge 2$: matrix-form OLS, df $= n-p-1$, **adjusted** $R^2$ (genuinely different from $R^2$ once $p\ge 2$), and the **global $F$-test** that becomes a genuine joint test (in `g15a` it collapsed to $F = t^2$).
+
+| Master-table row | Object | What changes from `g15a` ($p=1$) to here ($p\ge 2$) | Owned by |
+|---|---|---|---|
+| **1** | $\hat\beta_j$, $\widehat{SE}(\hat\beta_j)$ | Closed-form *matrix* OLS: $\hat{\boldsymbol\beta} = (X^\top X)^{-1}X^\top y$; SE comes from the $j$-th diagonal of $\hat\sigma^2(X^\top X)^{-1}$ | this entry — subpart (a)–(b) |
+| **2** | $\hat\sigma^2 = SSE/(n-p-1)$ | df burnt by $p+1$ coefficients instead of 2 | this entry — Setup |
+| **3** | $R^2 = 1 - SSE/SST$ | Same formula, but **non-decreasing in $p$** ⇒ cannot fairly compare models of different $p$ | this entry — subpart (e) |
+| **4** | Adj $R^2 = 1 - (1-R^2)\dfrac{n-1}{n-p-1}$ | The penalised metric needed precisely because of row 3 | this entry — subpart (e) |
+| **5** | Global $F = \dfrac{R^2/p}{(1-R^2)/(n-p-1)}\sim F_{p,n-p-1}$ | Genuine joint test of $\beta_1=\cdots=\beta_p=0$; in `g15a` collapsed to $t^2$ | this entry — subpart (d) |
+
+### 3-step procedure for every multi-regression exam question
+
+1. **Write the model** $Y = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p + \varepsilon$ with $\varepsilon\sim\mathcal N(0,\sigma^2)$; assemble $X$ as the $n\times (p+1)$ design matrix and identify $n,\,p,\,\text{df}=n-p-1$.
+2. **Fit by OLS** — run `mod <- lm(y ~ x1 + x2 + ... + xp, data=df); summary(mod)`. Read **all five outputs at once**: the coefficient table ($\hat\beta_j$, $\widehat{SE}(\hat\beta_j)$, $t_j$, $p$-value); the *Residual standard error* line ($s_\varepsilon$ and df); *Multiple R-squared* and *Adjusted R-squared*; and the *F-statistic* line ($F_\text{obs}$, df, $p$).
+3. **Report** the quantity the question asks for from the master case table — $\hat\beta_j$ with its ceteris-paribus interpretation (subpart c), per-coefficient $t$-test / CI (b), global $F$ verdict (d), adj $R^2$ for model comparison (e), or a prediction at $x_0$ (f).
+
+### Pointer block — *do NOT re-derive these here*
+
+> $\bullet$ Each **per-coefficient $t$-test** $H_0:\beta_j = 0$ vs $H_1:\beta_j\ne 0$ is **row 2 of the universal hypothesis-test table at the top of `g14a`** with $\theta_0 = 0$, $\bar X \to \hat\beta_j$, $s/\sqrt n \to \widehat{SE}(\hat\beta_j)$, df $= n-p-1$. The decision rule and the $p$-value formulas are *identical* to g14a.
+>
+> $\bullet$ Each **per-coefficient CI** $\hat\beta_j \pm t_{1-\alpha/2,\,n-p-1}\,\widehat{SE}(\hat\beta_j)$ is **row 2 of the universal CI table at the top of `g13a`** with $\bar X \to \hat\beta_j$, $\widehat{SE} \to \widehat{SE}(\hat\beta_j)$. The **CI ⇄ test duality** of g13a/g14a applies *exactly*: $0$ inside the $(1-\alpha)$ CI ⇔ retain $H_0:\beta_j=0$ at level $\alpha$.
+>
+> $\bullet$ **Predictions at $x_0$** (CI for $E[Y\mid x_0]$, PI for an individual $Y_0$) are **rows 6–7 of the master table** and are *owned by* **`g15b`**. The formulas reuse the same template with the **matrix leverage** $h_{00} = x_0^\top(X^\top X)^{-1}x_0$ replacing the simple-regression $1/n + (x_0-\bar x)^2/((n-1)s_x^2)$ — subpart (f) below shows one numeric instance, no re-derivation.
+>
+> $\bullet$ Unbiasedness of $\hat\beta_j$ and $\hat\sigma^2$ as linear-in-$y$ statistics is derived once in `g13f`.
+
+---
+
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span> (a) <strong>Matrix-form OLS and the design matrix $X$</strong> — $\hat{\boldsymbol\beta} = (X^\top X)^{-1}X^\top y$ (row 1 of master table)</summary>
+
+**The OLS criterion** (same as `g15a` (a), with $\boldsymbol\beta$ now a $(p+1)$-vector):
+
+$$\hat{\boldsymbol\beta} \;=\; \arg\min_{\boldsymbol\beta\in\mathbb R^{p+1}}\;\bigl\lVert\, y - X\boldsymbol\beta\,\bigr\rVert^2 \;=\; \arg\min_{\boldsymbol\beta}\;\sum_{i=1}^{n}\bigl(y_i - \beta_0 - \beta_1 x_{1,i} - \dots - \beta_p x_{p,i}\bigr)^2.$$
+
+The normal equations $X^\top X\,\hat{\boldsymbol\beta} = X^\top y$ deliver the **closed-form matrix OLS estimator**:
+
+$$\boxed{\;\;\hat{\boldsymbol\beta} \;=\; (X^\top X)^{-1}\,X^\top y, \qquad \hat y \;=\; X\hat{\boldsymbol\beta} \;=\; \underbrace{X(X^\top X)^{-1}X^\top}_{H\ =\ \text{hat / projection matrix}}\,y.\;\;}$$
+
+**Geometric reading.** The hat matrix $H = X(X^\top X)^{-1}X^\top$ is the orthogonal **projection onto the column space of $X$**: $\hat y$ is the projection of $y$ onto $\mathrm{span}(X)$, and the residual vector $\hat\varepsilon = y - \hat y = (I - H)y$ is orthogonal to *every* column of $X$. The simple-regression centroid identity "the line passes through $(\bar x,\bar y)$" of `g15a` is the $p=1$ instance: the *first* normal equation (from the intercept column $\mathbf 1$) says $\sum_i\hat\varepsilon_i = 0$.
+
+**Variance of $\hat{\boldsymbol\beta}$** (the source of every SE in the coefficient table):
+
+$$\Var(\hat{\boldsymbol\beta}) \;=\; \sigma^2\,(X^\top X)^{-1},\qquad \widehat{\Var}(\hat{\boldsymbol\beta}) \;=\; \hat\sigma^2\,(X^\top X)^{-1},\qquad \widehat{SE}(\hat\beta_j) \;=\; \hat\sigma\,\sqrt{\bigl[(X^\top X)^{-1}\bigr]_{jj}}.$$
+
+For the **superstore** fit, R's `vcov(mod)` produces the $4\times 4$ matrix $\hat\sigma^2(X^\top X)^{-1}$; its diagonal gives $\widehat{SE}^2$ for each coefficient — e.g. $\widehat{SE}(\hat\beta_1) = 0.168$ for `IncomeK`. The fitted hyperplane is
+
+$$\boxed{\;\;\widehat{\text{MntMeat}} \;=\; -74.10 \;+\; 6.142\,\text{IncomeK} \;-\; 2.805\,\text{Age} \;-\; 78.40\,\text{KidsAtHome}.\;\;}$$
+
+```r
+# Matrix-form OLS by hand (sanity check that R's lm() is exactly the projection above)
+X      <- model.matrix(mod)                  # 2200 x 4 design matrix
+y      <- superstore$MntMeatProducts
+beta_h <- solve(t(X) %*% X) %*% t(X) %*% y   # hand-computed (X'X)^{-1} X' y
+cbind(beta_h, coef(mod))                     # identical to lm() coefficients
+# Variance-covariance and per-coefficient SE
+vcov(mod)                                    # 4x4 matrix = sigma^2 * (X'X)^{-1}
+sqrt(diag(vcov(mod)))                        # SEs: 13.05, 0.168, 0.286, 7.62
+# Projection check: residuals orthogonal to every column of X
+all.equal(as.numeric(t(X) %*% residuals(mod)), rep(0, 4))   # TRUE
+```
+
+> **Why this matters for every later subpart.** Every SE in the coefficient table, every CI, every $t$-test and the prediction-leverage term $h_{00}$ (in subpart (f) and in `g15b`) all read off the *same* matrix $\hat\sigma^2(X^\top X)^{-1}$ computed once here.
+
+</details>
+
+---
+
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (b) <strong>Per-coefficient inference: $\widehat{SE}(\hat\beta_j)$, $t_j$, 95% CI</strong> — *row 2 of g14a / row 2 of g13a with $\theta_0 = 0$*</summary>
+
+> **Cross-reference (do not re-derive).** Each row of `summary(mod)`'s coefficient table is **two universal templates in one**: column "$t$ value" + "$p$-value" = **row 2 of g14a** with $\theta_0 = 0$; output of `confint(mod)` = **row 2 of g13a**. The decision rule, the two-sided $p$-value formula, the CI ⇄ test duality are *identical*. df $= n - p - 1 = 2196$ throughout.
+
+**Per-coefficient $t$-statistic and 95% CI** (specialisations of g14a row 2 and g13a row 2):
+
+$$\boxed{\;\;T_j \;=\; \frac{\hat\beta_j - 0}{\widehat{SE}(\hat\beta_j)} \;\overset{H_0}{\sim}\; t_{n-p-1}, \qquad CI_{1-\alpha}(\beta_j) \;=\; \hat\beta_j \;\pm\; t_{1-\alpha/2,\,n-p-1}\,\widehat{SE}(\hat\beta_j).\;\;}$$
+
+**Worked numbers on `superstore`** (df $= 2196$, $\alpha = 0.05$, $t_{0.975,\,2196}\approx 1.961$). Each row $\hat\beta_j \pm 1.961\cdot\widehat{SE}(\hat\beta_j)$:
+
+\begin{tabular}{p{8cm}|p{6cm}|p{6cm}|p{5cm}|p{12cm}|p{4cm}}
+\textbf{Coefficient} & \textbf{$\hat\beta_j$} & \textbf{$\widehat{SE}$} & \textbf{$t_j$} & \textbf{95\% CI} & \textbf{Verdict} \\
+IncomeK & $+6.142$ & $0.168$ & $+36.56$ & $(5.813,\;6.471)$ & reject $H_0$ \\
+Age & $-2.805$ & $0.286$ & $-9.81$ & $(-3.366,\;-2.244)$ & reject $H_0$ \\
+KidsAtHome & $-78.40$ & $7.62$ & $-10.29$ & $(-93.34,\;-63.46)$ & reject $H_0$ \\
+\end{tabular}
+
+All three two-sided $p$-values are $\approx 0$. **Duality cross-check** (g13a ⇄ g14a): every 95% CI excludes 0 ⇔ every two-sided $t$-test rejects at $\alpha = 0.05$ — *algebraically forced* by the duality.
+
+**Rescaling the CI to a non-unit change** (`exam_july_2024_3a`-style sub-question: "extra MntMeat for a +10 k€ pay rise"): multiply both the point estimate and the CI endpoints by $\Delta x = 10$. Point estimate $10\hat\beta_1 = 61.42$ €; 95% CI $10\cdot(5.813,\,6.471) = (58.13,\,64.71)$ €. The CI rescaling is *exact* because $\hat\beta_1$ is the only random object on the left-hand side.
+
+```r
+summary(mod)                       # t-values and p-values
+confint(mod, level = 0.95)         # per-coefficient 95% CIs
+qt(0.975, df = 2196)               # 1.961
+# Rescale CI to a +10 k€ income change
+10 * coef(mod)["IncomeK"]                   # 61.42
+10 * confint(mod, "IncomeK", level = 0.95)  # (58.13 ; 64.71)
+```
+
+</details>
+
+---
+
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (c) <strong>Ceteris-paribus interpretation</strong> + omitted-variable bias (the partial-effect mental model)</summary>
+
+The single line that defines multi-regression — **and that every exam asks you to write next to a $\hat\beta_j$**:
+
+$$\boxed{\;\;\hat\beta_j \;\text{ = expected change in } Y \text{ for a 1-unit increase in } X_j, \;\textbf{holding all other regressors fixed.}\;\;}$$
+
+This is the **partial-effect** reading. It is fundamentally different from the slope $\tilde\beta_j$ of the *simple* regression of $Y$ on $X_j$ alone, which absorbs the indirect channels through which $X_j$ correlates with the other regressors. Applied to the running fit:
+
+- $\hat\beta_1 = +6.142$ €/k€ — keeping `Age` and `KidsAtHome` fixed, **+1 k€ of household income raises expected meat spend by $\approx 6.14$ €**.
+- $\hat\beta_2 = -2.805$ €/yr — at fixed income and number of kids, **+1 year of age lowers expected meat spend by $\approx 2.81$ €** (older customers buy less meat *once income is controlled for*).
+- $\hat\beta_3 = -78.40$ €/kid — at fixed income and age, **+1 child at home is associated with $-78.4$ € of expected meat spend**.
+- $\hat\beta_0 = -74.10$ has no useful interpretation (a 0-k€-income, 0-year-old, 0-kid customer is outside the data).
+
+**Why this differs from a simple regression of $Y$ on $X_j$ alone — omitted-variable bias (OVB).** Run instead `MntMeat ~ IncomeK` alone:
+
+$$\widehat{\text{MntMeat}}_{\text{simple}} \;=\; -101.5 \;+\; 5.380\,\text{IncomeK}\qquad (R^2_{\text{simple}} = 0.521).$$
+
+The simple slope is $+5.380$, **smaller** than the partial slope $+6.142$. For a two-regressor block (`IncomeK`, `KidsAtHome` after partialling out `Age`), the bias formula is
+
+$$\boxed{\;\;E\bigl[\tilde\beta_1^{\text{simple}}\bigr] \;=\; \beta_1 \;+\; \beta_3\,\frac{\mathrm{Cov}(\text{IncomeK},\text{KidsAtHome})}{\mathrm{Var}(\text{IncomeK})}\;\;\;(\text{OVB formula}).\;\;}$$
+
+Empirically $\mathrm{cor}(\text{IncomeK},\text{KidsAtHome}) \approx -0.34$ (richer customers tend to have fewer kids) and $\hat\beta_3 < 0$ — so the product $\hat\beta_3\cdot(\mathrm{Cov}/\mathrm{Var})$ is *positive*, shrinking the simple slope **downward** toward $5.38$. Once `KidsAtHome` is controlled for, the true partial income effect $+6.14$ re-emerges. The simple model **mis-attributes** part of the income effect to the kids channel — a textbook OVB pattern (and the exact mechanism of Ex 9.3's `Performance ~ Competition` sign-flip after `Quality` is added; and of Ex 9.8's shrinkage of `Age` / `Children` once `Income` enters).
+
+**Take-away for exam writing.** Whenever you interpret a $\hat\beta_j$ from a multi-regression always (i) say "holding all other regressors fixed", (ii) flag the OVB risk if a *correlated* relevant predictor was omitted, (iii) be ready to compare to the simple-regression slope if asked.
+
+```r
+# Compare simple vs partial slope -- the OVB diagnosis in one screen
+mod.simple <- lm(MntMeatProducts ~ IncomeK, data = superstore)
+coef(mod.simple)["IncomeK"]                # 5.380 (simple)
+coef(mod)["IncomeK"]                        # 6.142 (partial -- controlled for Age, KidsAtHome)
+cor(superstore$IncomeK, superstore$KidsAtHome)   # ~ -0.34 (lurking link)
+```
+
+</details>
+
+---
+
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (d) <strong>Global $F$-test for joint significance</strong> (row 5 of master table)</summary>
+
+The global $F$-test answers a *joint* question that the per-coefficient $t$-tests cannot: "**is the model worth anything at all** vs the intercept-only model $Y = \beta_0 + \varepsilon$?". The null fixes *every* slope to zero simultaneously:
+
+$$H_0\!:\;\beta_1 = \beta_2 = \dots = \beta_p = 0 \qquad\text{vs}\qquad H_1\!:\;\text{at least one }\beta_j \ne 0.$$
+
+**Test statistic** (right-tail only — variance ratios are non-negative, large values contradict $H_0$):
+
+$$\boxed{\;\;F \;=\; \frac{SSR/p}{SSE/(n-p-1)} \;=\; \frac{R^2/p}{(1-R^2)/(n-p-1)} \;\overset{H_0}{\sim}\; F_{p,\,n-p-1}.\;\;}$$
+
+**Decision rule.** Reject $H_0$ at level $\alpha$ ⇔ $F_\text{obs} > F_{1-\alpha,\,p,\,n-p-1}$ (equivalently $p\text{-value} = 1 - F_{p,\,n-p-1}(F_\text{obs}) < \alpha$). Rejection means *at least one* $\beta_j$ is non-zero — it does **not** identify *which* one (the per-coefficient $t$-tests in (b) do that).
+
+**Worked numbers on `superstore`** ($p=3$, $n-p-1 = 2196$, $R^2 = 0.6361$):
+
+$$F_\text{obs} \;=\; \frac{0.6361/3}{0.3639/2196} \;=\; \frac{0.2120}{0.000166} \;=\; 1279.7,\qquad F_{3,\,2196,\,0.95} \approx 2.61.$$
+
+Since $1279.7 \gg 2.61$ ($p$-value $\approx 0$), **reject $H_0$**: the model is **globally highly significant** — at least one of `IncomeK`, `Age`, `KidsAtHome` has a non-zero population slope.
+
+**Why $F \ne t^2$ once $p\ge 2$.** In `g15a` (simple regression, $p=1$) the identity $F = t^2$ collapsed rows 4 and 5 of the master table into a single test. With $p\ge 2$ the global $F$ tests *all* slopes jointly and cannot be reduced to any single per-coefficient $t$. The classic pathological case (cf. `exam_g1_2025_3b`): under **multicollinearity** the per-coefficient $t$'s can *all* fail to reject (huge SEs from variance inflation) while the global $F$ still rejects strongly — the regressors are jointly informative but individually indistinguishable. Diagnostics for that (VIF) are owned by `g15e`.
+
+```r
+summary(mod)                                  # F-statistic line at the bottom of the summary
+qf(0.95, df1 = 3, df2 = 2196)                 # 2.61
+1 - pf(1279.7, df1 = 3, df2 = 2196)           # ~ 0 (p-value)
+# Equivalent F computed from R^2:
+(0.6361/3) / (0.3639/2196)                    # 1279.7  -- matches the summary line
+```
+
+</details>
+
+---
+
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (e) <strong>$R^2$ vs adjusted $R^2$</strong> — the right metric for comparing models with different $p$ (rows 3–4 of master table)</summary>
+
+**Plain $R^2$** is the share of $\Var(y)$ explained by the regression:
+
+$$R^2 \;=\; 1 - \frac{SSE}{SST} \;=\; \frac{SSR}{SST} \;\in\; [0,1].$$
+
+**Structural property — $R^2$ is monotone non-decreasing in $p$.** Adding *any* regressor (even pure noise) cannot increase $SSE$ at the OLS optimum, so $R^2$ can only weakly rise. Consequence: **plain $R^2$ cannot fairly compare two models with a different number of predictors** — a noise regressor will always look like an "improvement" on $R^2$ alone.
+
+**Adjusted $R^2$ — the penalised metric**:
+
+$$\boxed{\;\;R^2_\text{adj} \;=\; 1 - (1 - R^2)\,\frac{n-1}{n-p-1} \;=\; 1 - \frac{SSE/(n-p-1)}{SST/(n-1)} \;=\; 1 - \frac{\hat\sigma^2_\varepsilon}{s_y^2}.\;\;}$$
+
+The penalty factor $(n-1)/(n-p-1)$ grows with $p$: $R^2_\text{adj}$ rises only when the new regressor explains *more* variance than the one extra degree of freedom costs (i.e. $\hat\sigma^2_\varepsilon$ goes down enough). Adding a useless regressor *lowers* $R^2_\text{adj}$ — which is exactly the property `exam_g1_2025_6` and `exam_g2_2026_4_6` exploit when they ask "would you keep the extra predictor?".
+
+**Worked numbers on `superstore`** ($n = 2200$, $p = 3$, $R^2 = 0.6361$):
+
+$$R^2_\text{adj} \;=\; 1 - (1 - 0.6361)\cdot\frac{2199}{2196} \;=\; 1 - 0.3639\cdot 1.001366 \;=\; 0.6356.$$
+
+The penalty is tiny here because $n$ is huge relative to $p$ — the two metrics agree to three decimals. **The exam-relevant comparison** is across nested model sizes: a typical past-exam pattern (`exam_g1_2025_6`: Adj $R^2$ jumps from $0.5468$ on the 4-regressor model to $0.6592$ when `Steps` is added) is a clear **keep-the-extra-predictor** verdict; `exam_g2_2026_4_6`'s tiny jump $0.4132 \to 0.4151$ on adding `loyalty` is **marginal** (matches the borderline $t$-test on $\hat\beta_\text{loyalty}$). On `superstore`, dropping any of the 3 regressors would *lower* Adj $R^2$ — none is redundant.
+
+**Take-aways.** (i) Plain $R^2$ is for "how much variance the *current* model captures"; (ii) Adj $R^2$ is for "*which* of two candidate models, of different sizes, should I prefer"; (iii) for nested models, the formal joint test is the *partial-F* (handled briefly under model comparison; owned by `g15c` extensions / `g15e`).
+
+```r
+summary(mod)$r.squared                        # 0.6361
+summary(mod)$adj.r.squared                    # 0.6356
+# Adj R^2 by hand (matches summary line):
+1 - (1 - 0.6361) * (2200 - 1) / (2200 - 3 - 1)   # 0.6356
+# Drop-test: removing KidsAtHome lowers Adj R^2 (and rejects via t/partial-F)
+summary(lm(MntMeatProducts ~ IncomeK + Age, data = superstore))$adj.r.squared   # < 0.6356
+```
+
+</details>
+
+---
+
+<details class="master-subpart">
+<summary>(f) <strong>Prediction with multiple predictors</strong> — one numeric instance, formulas owned by `g15b` (rows 6–7)</summary>
+
+> **Cross-reference (do not re-derive).** **Rows 6 (CI for mean response) and 7 (PI for individual)** of the master case table are owned by `g15b`. The formulas are *identical* to the simple-regression case there — only the simple-regression leverage $\ell(x_0) = 1/n + (x_0-\bar x)^2/((n-1)s_x^2)$ is replaced by the **matrix leverage** $h_{00} = x_0^\top(X^\top X)^{-1} x_0$, and df $= n-p-1$ instead of $n-2$. The "$+1$" inside the sqrt (= the residual variance of a single new $\varepsilon_0$) is the only structural difference between CI (row 6) and PI (row 7). R's `predict(mod, newdata, interval=...)` handles both cases identically.
+
+$$\boxed{\;\;\hat y_0 \;\pm\; t_{1-\alpha/2,\,n-p-1}\,s_\varepsilon\cdot\begin{cases}\sqrt{x_0^\top(X^\top X)^{-1}x_0} & \text{(CI, row 6)}\\ \sqrt{1 + x_0^\top(X^\top X)^{-1}x_0} & \text{(PI, row 7)}\end{cases}\;\;}$$
+
+**Numeric prediction on `superstore`** at the target profile $x_0 = (1,\,\text{IncomeK}=70,\,\text{Age}=45,\,\text{KidsAtHome}=1)^\top$.
+
+Point prediction: $\hat y_0 \;=\; -74.10 + 6.142\cdot 70 - 2.805\cdot 45 - 78.40\cdot 1 \;=\; \mathbf{151.21}$ €.
+
+R returns (from `predict(mod, newdata, interval=...)`) approximately:
+
+\begin{tabular}{p{10cm}|p{8cm}|p{8cm}|p{8cm}}
+\textbf{Interval} & \textbf{Half-width} & \textbf{95\% interval} & \textbf{Width} \\
+CI for $E[\text{MntMeat}\mid x_0]$ (row 6) & $\approx 7$ € & $(144.3,\;158.1)$ € & $\approx 14$ € \\
+PI for one customer at $x_0$ (row 7) & $\approx 264$ € & $(-112.6,\;414.9)$ € & $\approx 528$ € \\
+\end{tabular}
+
+The PI is $\approx 38\times$ wider — the irreducible noise $s_\varepsilon = 134.50$ dominates, *not* the sampling uncertainty of $\hat{\boldsymbol\beta}$ (i.e. $\sqrt{h_{00}}$ is small at this central $x_0$). Same structural pattern as in `g15b` (NewHired) and as in Ex 9.4, 9.9, 9.10, 9.11. **The "+1" inside the sqrt is doing all the work** — see `g15b` subpart (c) for the formal $\widehat{SE}_{\text{PI}}^2 - \widehat{SE}_{\text{CI}}^2 = s_\varepsilon^2$ identity at every $x_0$.
+
+```r
+newdata <- data.frame(IncomeK = 70, Age = 45, KidsAtHome = 1)
+predict(mod, newdata, interval = "confidence", level = 0.95)
+##      fit      lwr      upr
+##  151.21    144.3    158.1
+predict(mod, newdata, interval = "prediction", level = 0.95)
+##      fit      lwr      upr
+##  151.21   -112.6    414.9
+# Matrix leverage by hand (the only "new" piece vs simple regression):
+x0  <- c(1, 70, 45, 1)
+h00 <- as.numeric(t(x0) %*% solve(t(model.matrix(mod)) %*% model.matrix(mod)) %*% x0)
+# CI half-width = qt(0.975, 2196) * s_e * sqrt(h00)
+# PI half-width = qt(0.975, 2196) * s_e * sqrt(1 + h00)
+```
+
+</details>
+
+---
+
+<details class="master-subpart">
+<summary>(g) <strong>Cross-references</strong> — where each part of this entry connects back to</summary>
+
+| Need | Go to | Why |
+|---|---|---|
+| **Universal regression recipe + 9-row master case table** (the structural anchor) | **`g15a`** | The 7-step workflow and the master table that this entry specialises to $p\ge 2$ |
+| **Prediction at $x_0$**: CI for $E[Y\mid x_0]$ (row 6) and PI for $Y_0$ (row 7) | **`g15b`** | Identical formulas — replace simple-regression $\ell(x_0)$ with the matrix leverage $x_0^\top(X^\top X)^{-1}x_0$; subpart (f) above shows one numeric instance |
+| **Categorical predictors / dummies / interactions** (rows 8–9 of master table) | **`g15d`** | Dummy coding turns a $k$-level factor into $k-1$ regressors slotting into the *same* matrix-form OLS of subpart (a); slope-by-group via interaction terms $X_j\cdot D_k$ |
+| **Residual diagnostics (LINE) + VIF for multicollinearity** | **`g15e`** | The assumptions that *license* every CI, $t$-test and $F$-test of this entry; VIF $= 1/(1-R_j^2)$ explains the "all $t$'s insignificant but $F$ rejects" pathology of `exam_g1_2025_3b` |
+| **Reusable $t$-test template** (row 2 of g14a with $\theta_0 = 0$) | **`g14a`** row 2 | Each $t_j$ in `summary(mod)` is this row with $\bar X \to \hat\beta_j$, $s/\sqrt n \to \widehat{SE}(\hat\beta_j)$, df $= n-p-1$ |
+| **Reusable CI template** (row 2 of g13a) | **`g13a`** row 2 | Each line of `confint(mod)` is this row; the CI ⇄ test duality is the algebraic reason the two columns of (b) agree |
+| **Unbiasedness of $\hat\beta_j$, $\hat\sigma^2$ as linear-in-$y$ statistics** | **`g13f`** | The mean / variance / unbiasedness foundations that justify the SE formulas of subpart (a) |
+
+**Concept-by-subpart map.**
+
+| Concept | Subpart | Master-table row | Universal template |
+|---|---|---|---|
+| Matrix-form OLS $\hat{\boldsymbol\beta} = (X^\top X)^{-1}X^\top y$; hat matrix; $\Var(\hat{\boldsymbol\beta}) = \sigma^2(X^\top X)^{-1}$ | (a) | 1 | — |
+| Per-coefficient $\widehat{SE}$, $t_j$, 95% CI; CI ⇄ test duality | (b) | 1 | g14a row 2 + g13a row 2 with $\theta_0 = 0$ |
+| Ceteris-paribus interpretation; OVB | (c) | 1 | — |
+| Global $F$-test of $H_0:\beta_1=\dots=\beta_p=0$ | (d) | 5 | — |
+| Plain $R^2$ vs adjusted $R^2$; model comparison | (e) | 3–4 | — |
+| Prediction at $x_0$: CI vs PI | (f) | 6–7 | g15b (formulas) |
+
+**Verdict on the running `superstore` fit.** The 3-regressor model is **globally highly significant** ($F(3,2196) = 1279.7$), **all three slopes are individually significant** at any usual $\alpha$ (each $|t_j| \ge 9.8$), and the regressors **jointly explain $\approx 63.6\%$** of the variance of `MntMeatProducts`. Income raises meat spend ($+6.14$ €/k€ ceteris paribus); age and the presence of kids lower it. The model is suitable for predicting *average* meat spend at a given customer profile (narrow CI) but, like every regression with $R^2$ comfortably below $1$, gives wide PIs for any *individual* customer — the structural CI/PI gap of `g15b` carries over verbatim.
+
+</details>
+
+![Master G15c — coefficient t-stats, added-variable plot, R² vs adj-R², CI vs PI](statistics/images/master/master_g15c_ai.png)
+""",
+    "images": ["statistics/images/master/master_g15c_ai.png"],
+}
+
+# (Old g15c trailing block removed — content fully rewritten above)
+_OLD_G15C_TRAILER = r"""
 
 | Subpart | Master-table row | Use |
 |---|---|---|
@@ -1165,9 +1479,7 @@ Residual diagnostics (assumption check) & part (i) \\
 \end{tabular}
 
 ![Master G15c — coefficient t-stats, added-variable plot, R² vs adj-R², CI vs PI](statistics/images/master/master_g15c_ai.png)
-""",
-    "images": ["statistics/images/master/master_g15c_ai.png"],
-}
+"""
 
 master_exercises["g13b_ci_one_prop"] = {
     "title": "Master Exam — CI for one proportion (Wald + sample-size + Clopper–Pearson)",
@@ -2912,259 +3224,224 @@ The full paired-CI machinery — derivation, ME table at 90/95/99%, reading $\ba
 }
 
 master_exercises["g15b_prediction"] = {
-    "title": "Master Exam — Prediction intervals & CI for the mean response (consolidated)",
-    "content": r"""> **This entry is rows 6–7 of the universal regression table** (see top of `g15a`). Both intervals re-use the *same* $\hat y_0 = \hat\beta_0 + \hat\beta_1 x_0$; the **only** structural difference is the **"$+1$"** inside the prediction-interval square-root, which adds the irreducible residual variance $\hat\sigma^2$ to the line-position variance.
+    "title": "Master Exam — Prediction at $x_0$: CI for the mean response vs PI for an individual (rows 6–7 of the G15 master regression table)",
+    "content": r"""## Setup — same running dataset as `g15a` (NewHired: Weeks ~ Age, $n=47$)
 
-| Subpart | Master-table row | Use |
-|---|---|---|
-| (i) CI for **mean response** at $x_0$ | row 6 | uncertainty about the *line*  |
-| (ii) PI for **individual response** at $x_0$ | row 7 | uncertainty about *one new draw* |
+This entry is the natural continuation of `g15a`: the job-agency dataset, the fitted line, and the residual standard error are *all reused* from there. A reminder of the numbers (derived once in `g15a`, parts (a)–(b)):
 
-> The 7-step recipe (model → OLS → fit-quality → coefficient inference → global $F$ → **prediction** → diagnostics) lives at the top of `g15a`; this entry zooms in on step **6**. We borrow the simple-regression fit from `g15a` as scaffolding so the structural CI-vs-PI comparison comes out cleanly; multiple-regression generalises by replacing $1/n + (x_0-\bar x)^2/((n-1)s_x^2)$ with the leverage $x_0^\top(X^\top X)^{-1}x_0$.
+- $n = 47$, df $= n-2 = 45$,
+- $\bar x = 38.617$, $s^2_x = 88.246 \Rightarrow s_x = 9.394$,
+- $\hat\beta_0 = -19.5262$, $\hat\beta_1 = 1.6898 \Rightarrow \widehat{\text{Weeks}} = -19.5262 + 1.6898\cdot\text{Age}$,
+- $\hat\sigma^2_\varepsilon = 388.15 \Rightarrow s_\varepsilon = 19.70$ weeks,
+- $t_{0.975,\,45} = 2.014$ (we will use $\alpha = 0.05$ throughout).
+
+```r
+n     <- 47;     xbar <- 38.617;   s2_x  <- 88.246;   s_x  <- sqrt(s2_x)   # 9.394
+b0    <- -19.5262;  b1 <- 1.6898;  s_e   <- 19.70                          # from g15a
+tcrit <- qt(0.975, df = n-2)                                               # 2.014
+```
+
+The questions answered below:
+
+> At a new value $x_0$ of Age, what is our best **point prediction** $\hat y_0$ of `Weeks`? What is the $95\%$ **CI for the mean** Weeks across **all** workers of that age? What is the $95\%$ **PI for one specific** new worker of that age? How do the two intervals compare as $x_0$ moves away from $\bar x$?
+
+The three values of $x_0$ used in the worked examples below come from the past-exam horizontal cells (`exam_g1_2026_5a/5b`, `exam_g2_2026_4_5`) and from the side-by-side comparison built around $\bar x$, $\bar x + s_x$, $\bar x + 3 s_x$ in subpart (c).
 
 ---
 
-**Setup.** A sociologist suspects that families exposed to many TV commercials end up spending more — and therefore borrowing more. A random sample of $n=430$ households is drawn from the `TeleDebt` dataframe; for each household two variables are recorded:
+## This is **rows 6 and 7** of the g15a master regression table
 
-- $X = $ `Television` = hours per week the TV is turned on,
-- $Y = $ `Debt` = total outstanding family debt in dollars.
+> | # | Object | Estimator / Formula | df | Use |
+> |---|---|---|---|---|
+> | **6** | CI for **mean response** at $x_0$ | $\hat y_0 \;\pm\; t_{1-\alpha/2,\,n-p-1}\sqrt{\hat\sigma^2\,x_0^\top(X^\top X)^{-1}x_0}$ | $n-p-1$ | *average* $Y$ at $x_0$ |
+> | **7** | PI for **individual** at $x_0$ | $\hat y_0 \;\pm\; t_{1-\alpha/2,\,n-p-1}\sqrt{\hat\sigma^2\bigl(1 + x_0^\top(X^\top X)^{-1}x_0\bigr)}$ | $n-p-1$ | *individual* $Y$ at $x_0$ — note the **"$+1$"** inside the sqrt |
 
-After fitting `lm(Debt ~ Television, data=TeleDebt)` the regression summary delivers
-$$\hat\beta_0 \;=\; 1479.262, \qquad \hat\beta_1 \;=\; 99.7471, \qquad s_\epsilon \;\approx\; 670, \qquad R^2 \;=\; 0.7784, \qquad n \;=\; 430.$$
-The `Television` column ranges over roughly $[5,\,40]$ hours/week with $\bar x \approx 32$; this is the *modelled support* — anything outside it is extrapolation.
+The universal 7-step regression recipe and the full 9-row master table live at the top of **`g15a`**; this entry zooms in on step **6**. Multiple regression (`g15c`) reuses *exactly* these formulas — only the leverage term $x_0^\top(X^\top X)^{-1}x_0$ is computed from the design matrix instead of the simple-regression specialisation $1/n + (x_0-\bar x)^2/((n-1)s_x^2)$.
 
-The questions in this master:
+> **Boxed structural insight — the "$+1$" inside the sqrt is the ONLY difference between row 6 and row 7.** It adds the irreducible noise variance $\hat\sigma^2$ of a single new draw $\varepsilon_0$ — variance that the CI does **not** carry because the CI targets the population parameter $E[Y\mid x_0]$, which is non-random. Algebraically: $\widehat{SE}_{\text{PI}}^2 = \widehat{SE}_{\text{CI}}^2 + \hat\sigma^2$.
 
-> For a household that watches TV $x_0$ hours/week, what is our best **point prediction** of its debt? With what **margin**? And how does the answer change if we want the **average** debt of *all* such families instead of the debt of *one* particular family?
+> **Boxed visual intuition.** Drawn on the $(x, y)$ plane, the **CI band** is *hourglass-shaped*: it is **narrowest at $x_0 = \bar x$** (the line pivots around $(\bar x, \bar y)$, which is pinned down most tightly) and fans out symmetrically toward the extremes. The **PI band parallels the CI band** but lies **strictly outside** it everywhere — separated by a vertical distance $\approx t\,\hat\sigma$ that **never vanishes**, because no amount of data can reduce the noise of *one* future $\varepsilon_0$. CI shrinks to 0 width as $n\to\infty$; PI shrinks only to $\pm t\,\hat\sigma$.
+
+---
+
+## 3-step procedure (apply to every G15 prediction question)
+
+1. **Decide** which interval the question wants — CI for the mean response (row 6) or PI for an individual (row 7).
+2. **Compute the leverage term** at $x_0$:
+$$\ell(x_0) \;=\; \frac{1}{n} \;+\; \frac{(x_0 - \bar x)^2}{(n-1)\,s_x^2}.$$
+3. **Plug into the half-width formula:**
+$$\text{ME}_{\text{CI}} \;=\; t_{1-\alpha/2,\,n-2}\cdot s_\varepsilon\cdot\sqrt{\ell(x_0)}, \qquad \text{ME}_{\text{PI}} \;=\; t_{1-\alpha/2,\,n-2}\cdot s_\varepsilon\cdot\sqrt{1 + \ell(x_0)}.$$
+The interval is $\hat y_0 \pm \text{ME}$ with $\hat y_0 = \hat\beta_0 + \hat\beta_1 x_0$.
+
+The point estimate $\hat y_0$ is **the same** for both intervals — only the half-width changes.
 
 ---
 
 <details class="master-subpart" open>
-<summary><span class="tag tag-2plus">≥2 ex</span> (a) Point prediction $\hat y_0 = \hat\beta_0 + \hat\beta_1 x_0$ (single number, two interpretations)</summary>
+<summary><span class="tag tag-exam">EXAM</span><span class="tag tag-2plus">≥2 ex</span> (a) <strong>Row 6 — CI for the mean response</strong> at $x_0$ (Ex 8.10a part e, `exam_g1_2026_5a`)</summary>
 
-Once the line is fitted, both the *best guess* for one new family and the *best guess* for the population mean at $X=x_0$ collapse to the **same number** — plug $x_0$ into the equation:
-$$\hat y_0 \;=\; \hat\beta_0 + \hat\beta_1 x_0.$$
+**Quantity targeted.** $E[Y\mid X=x_0] \;=\; \beta_0 + \beta_1 x_0$ — the *population mean* of Weeks across all workers whose Age equals $x_0$. This is a fixed (non-random) parameter; the *only* source of uncertainty is sampling noise in $(\hat\beta_0,\hat\beta_1)$, i.e. *how well we have pinned down the line position at $x_0$*.
 
-For TeleDebt at $x_0 = 33$:
-$$\hat y_0 \;=\; 1479.262 + 99.7471 \cdot 33 \;=\; 1479.262 + 3291.654 \;=\; \boxed{4770.92 \;\text{\$}}.$$
+**Derivation.** Write $\hat Y_0 = \hat\beta_0 + \hat\beta_1 x_0$. Under the LINE assumptions ($\varepsilon_i \overset{\text{iid}}{\sim} \mathcal N(0,\sigma^2)$),
+$$\Var(\hat Y_0) \;=\; \sigma^2\left[\frac{1}{n} + \frac{(x_0-\bar x)^2}{(n-1)s_x^2}\right] \;\equiv\; \sigma^2\,\ell(x_0),\qquad \hat Y_0 \sim \mathcal N\!\bigl(\beta_0+\beta_1 x_0,\ \sigma^2\ell(x_0)\bigr).$$
+Replacing $\sigma$ by $s_\varepsilon$ and pivoting:
+$$\frac{\hat Y_0 - (\beta_0+\beta_1 x_0)}{s_\varepsilon\sqrt{\ell(x_0)}} \;\sim\; t_{n-2}.$$
+Inverting yields the boxed CI formula.
 
-That single number is simultaneously the
-- **estimator** of $E[Y\mid X=33]$ (the *mean* debt across all families with $\text{TV}=33$), and
-- **forecast** of $Y_0$ for *one specific* new family with $\text{TV}=33$.
+$$\boxed{\;\;CI_{1-\alpha}\bigl(E[Y\mid x_0]\bigr) \;=\; \hat y_0 \;\pm\; t_{1-\alpha/2,\,n-2}\;s_\varepsilon\;\sqrt{\frac{1}{n} + \frac{(x_0-\bar x)^2}{(n-1)s_x^2}}.\;\;}$$
 
-What distinguishes the two questions is **how uncertain the answer is** — that is, the **standard error**, not the point estimate.
+**Worked example on NewHired at $x_0 = 50$ years.**
 
-```r
-b0 <- 1479.262;  b1 <- 99.7471
-x0 <- 33
-yhat <- b0 + b1*x0;   yhat        # 4770.92
-```
-</details>
+- Point prediction: $\hat y_0 = -19.5262 + 1.6898\cdot 50 = 64.964$ weeks.
+- Leverage term: $\ell(50) = 1/47 + (50-38.617)^2/(46\cdot 88.246) = 0.02128 + 129.572/4059.32 = 0.02128 + 0.03192 = 0.05320$.
+- ME: $2.014 \cdot 19.70 \cdot \sqrt{0.05320} = 39.676 \cdot 0.2307 = 9.152$.
+- **95% CI for mean Weeks at Age $=50$:** $64.964 \pm 9.152 = \boxed{[55.81,\,74.12]}$ weeks.
 
----
+*Interpretation.* With 95% confidence, the **average** time-to-job for the population of workers aged 50 lies between $\approx 55.8$ and $\approx 74.1$ weeks. The interval does **not** describe any single worker — it describes the *mean* outcome across all 50-year-olds.
 
-<details class="master-subpart">
-<summary><span class="tag tag-2plus">≥2 ex</span> (b) Two error sources: line uncertainty vs irreducible noise</summary>
-
-The data-generating model is $Y_i = \beta_0 + \beta_1 X_i + \varepsilon_i$ with $\varepsilon_i \sim \mathcal{N}(0, \sigma_\epsilon^2)$ i.i.d. and independent of $X$. Now compare the **two questions** about a target value $x_0$:
-
-| Quantity | Target | Sources of uncertainty |
-|---|---|---|
-| **CI for the mean** $E[Y\mid X=x_0]$ | a *population parameter* | only **estimation noise** in $(\hat\beta_0, \hat\beta_1)$ — i.e. *line position* at $x_0$ |
-| **PI for an individual** $Y_0$ | a *future random outcome* | line-position noise **plus** the irreducible scatter $\varepsilon_0$ of a brand-new draw |
-
-Algebraically, write $\hat Y_0 = \hat\beta_0 + \hat\beta_1 x_0$ and $Y_0 = \beta_0 + \beta_1 x_0 + \varepsilon_0$:
-
-$$\underbrace{\Var(\hat Y_0)}_{\text{line uncertainty at }x_0} \;=\; \sigma_\epsilon^2 \left[\frac{1}{n} + \frac{(x_0 - \bar x)^2}{(n-1)s_x^2}\right] \;\equiv\; \sigma_\epsilon^2 \cdot h(x_0),$$
-
-$$\underbrace{\Var(Y_0 - \hat Y_0)}_{\text{forecast error}} \;=\; \underbrace{\sigma_\epsilon^2}_{\varepsilon_0} \;+\; \underbrace{\sigma_\epsilon^2\, h(x_0)}_{\text{line noise}} \;=\; \sigma_\epsilon^2\,[\,1 + h(x_0)\,].$$
-
-The "$1+$" inside the bracket is **the** difference between a PI and a CI — it adds the variance of the *single* future $\varepsilon_0$ that the CI does not need to forecast (the CI targets a non-random parameter).
-</details>
-
----
-
-<details class="master-subpart">
-<summary><span class="tag tag-2plus">≥2 ex</span> (c) The two standard errors</summary>
-
-Plugging in the residual-standard-error estimate $s_\epsilon$:
-$$\text{SE}_{\text{mean}}(x_0) \;=\; s_\epsilon\,\sqrt{\frac{1}{n} + \frac{(x_0-\bar x)^2}{(n-1)s_x^2}}, \qquad \text{SE}_{\text{pred}}(x_0) \;=\; s_\epsilon\,\sqrt{1 + \frac{1}{n} + \frac{(x_0-\bar x)^2}{(n-1)s_x^2}}.$$
-
-Equivalently $\text{SE}_{\text{pred}}^2 = \text{SE}_{\text{mean}}^2 + s_\epsilon^2$ — the **residual variance adds** to the line-position variance. Two extremes make this crystal clear:
-
-- **Sample-mean tower.** At $x_0 = \bar x$ the leverage $(x_0-\bar x)^2$ term vanishes, so $\text{SE}_{\text{mean}} = s_\epsilon/\sqrt n$ (familiar one-sample SE on $\bar Y$). $\text{SE}_{\text{pred}}$ still carries $s_\epsilon\sqrt{1+1/n} \to s_\epsilon$ — it never shrinks to zero, no matter how large $n$ is.
-- **Limit $n \to \infty$.** $\text{SE}_{\text{mean}} \to 0$ (we eventually pin the line *exactly*), but $\text{SE}_{\text{pred}} \to s_\epsilon$ — there is **always** the noise of the next draw, even when $\beta_0, \beta_1$ are known. **No amount of data can shrink a PI below $\sim s_\epsilon$.**
-</details>
-
----
-
-<details class="master-subpart">
-<summary>(d) 99% PI at $x_0 = 33$ on TeleDebt: the wide interval</summary>
-
-For TeleDebt, $x_0=33$ is essentially at the centre of the sample (close to $\bar x$), so the leverage term is negligible and
-$$\text{SE}_{\text{pred}}(33) \;\approx\; s_\epsilon\sqrt{1 + 1/n} \;\approx\; 670\sqrt{1 + 1/430} \;\approx\; 670.78.$$
-With $\alpha=0.01$ and df $=n-2=428$, $t_{0.995,\,428}\approx 2.587$. The half-width is
-$$\text{ME}_{\text{PI}} \;=\; 2.587 \cdot 670.78 \;\approx\; 1733.78,$$
-and the 99% PI is
-$$4770.92 \;\pm\; 1733.78 \;=\; \boxed{[\,3037.14,\; 6504.69\,]\;\text{\$}.}$$
+**R one-liner.**
 
 ```r
-n     <- 430;  s_e   <- 670
-x0    <- 33;   xbar  <- 32                     # x0 near sample mean
-lev   <- 1/n + (x0 - xbar)^2 / ((n-1)*var.x)   # tiny here
-se_pred <- s_e * sqrt(1 + lev);   se_pred       # ~ 670.78
-tcrit   <- qt(0.995, df = n-2);   tcrit         # ~ 2.587
-ME_pi   <- tcrit * se_pred;       ME_pi         # ~ 1733.78
-yhat    <- 4770.92
-c(yhat - ME_pi, yhat + ME_pi)                    # [3037.14, 6504.69]
-
-# One-shot equivalent via predict():
-mod <- lm(Debt ~ Television, data = TeleDebt)
-predict(mod, newdata = data.frame(Television = 33),
-        interval = "prediction", level = 0.99)
+mod <- lm(Weeks ~ Age, data = NewHired)
+predict(mod, newdata = data.frame(Age = 50),
+        interval = "confidence", level = 0.95)
 ##        fit       lwr       upr
-## 1   4770.92   3037.14   6504.69
+## 1   64.96     55.81     74.12
 ```
 
-**Interpretation.** With 99% confidence, a *single* family that watches $33$ hours of TV per week has debt between **\$3 037 and \$6 505**. The interval reflects (i) line-position noise (tiny at the centre) and (ii) the irreducible scatter $\varepsilon_0$ around the line (dominant).
+**Comment.** As $n\to\infty$ with $x_0$ fixed, $\ell(x_0)\to 0$ and the CI width $\to 0$ — we eventually pin the line *exactly* at $x_0$.
+
 </details>
 
 ---
 
 <details class="master-subpart">
-<summary>(e) 99% CI for the mean response at $x_0 = 33$: the narrow interval</summary>
+<summary><span class="tag tag-exam">EXAM</span><span class="tag tag-2plus">≥2 ex</span> (b) <strong>Row 7 — PI for an individual new observation</strong> at $x_0$ (Ex 8.1c, Ex 8.10a part d, `exam_g1_2026_5b`, `exam_g2_2026_4_5`)</summary>
 
-Drop the "$1+$" inside the radical:
-$$\text{SE}_{\text{mean}}(33) \;\approx\; s_\epsilon\sqrt{\,1/n + (x_0-\bar x)^2/((n-1)s_x^2)\,} \;\approx\; 670\sqrt{1/430 + \text{small}} \;\approx\; 32.32 \;\;(\text{leverage at }x_0\approx\bar x\text{ is dominated by the }1/n\text{ term}),$$
-$$\text{ME}_{\text{CI}} \;=\; 2.587 \cdot 32.32 \;\approx\; 83.61, \qquad \text{CI}_{99\%} \;=\; 4770.92 \pm 83.61 \;=\; \boxed{[\,4687.31,\;4854.53\,]\;\text{\$}.}$$
+**Quantity targeted.** $Y_0 = \beta_0 + \beta_1 x_0 + \varepsilon_0$ — a *future random outcome* for one specific new worker of age $x_0$. Two sources of uncertainty: (i) we don't know $(\beta_0,\beta_1)$ exactly, so the line position at $x_0$ is noisy; (ii) even if we knew the line, the new worker carries its own residual $\varepsilon_0\sim\mathcal N(0,\sigma^2)$.
+
+**Derivation.** Write the forecast error $Y_0 - \hat Y_0 = \varepsilon_0 + \bigl[(\beta_0+\beta_1 x_0) - \hat Y_0\bigr]$. The two pieces are independent (the new $\varepsilon_0$ is independent of the training sample), so the variances **add**:
+$$\Var(Y_0 - \hat Y_0) \;=\; \underbrace{\sigma^2}_{\varepsilon_0\text{ noise}} \;+\; \underbrace{\sigma^2\,\ell(x_0)}_{\text{line uncertainty}} \;=\; \sigma^2\bigl[\,1 + \ell(x_0)\,\bigr].$$
+The "$1+$" inside the bracket is the entire structural difference between row 6 and row 7 — the variance of a single noise draw is added to the line-position variance. Pivoting gives the boxed PI formula.
+
+$$\boxed{\;\;PI_{1-\alpha}(Y_0) \;=\; \hat y_0 \;\pm\; t_{1-\alpha/2,\,n-2}\;s_\varepsilon\;\sqrt{1 + \frac{1}{n} + \frac{(x_0-\bar x)^2}{(n-1)s_x^2}}.\;\;}$$
+
+**Worked example on NewHired at the SAME $x_0 = 50$.**
+
+- Point prediction: $\hat y_0 = 64.964$ weeks (unchanged).
+- $\sqrt{1+\ell(50)} = \sqrt{1.05320} = 1.02625$.
+- ME: $2.014 \cdot 19.70 \cdot 1.02625 = 39.676 \cdot 1.02625 = 40.717$.
+- **95% PI for one new worker at Age $=50$:** $64.964 \pm 40.717 = \boxed{[24.25,\,105.68]}$ weeks.
+
+*Interpretation.* With 95% confidence, a *single* worker aged 50 will find a new job within $\approx 24$ to $\approx 106$ weeks. The width is dominated by the residual noise $s_\varepsilon = 19.70$ weeks — even an infinite sample cannot shrink the PI half-width below $\approx t \cdot s_\varepsilon = 2.014\cdot 19.70 = 39.68$ weeks.
+
+**R one-liner.**
 
 ```r
-se_mean <- s_e * sqrt(lev);       se_mean        # ~ 32.32
-ME_ci   <- tcrit * se_mean;       ME_ci          # ~ 83.61
-c(yhat - ME_ci, yhat + ME_ci)                    # [4687.31, 4854.53]
-
-# One-shot equivalent via predict():
-predict(mod, newdata = data.frame(Television = 33),
-        interval = "confidence", level = 0.99)
+predict(mod, newdata = data.frame(Age = 50),
+        interval = "prediction", level = 0.95)
 ##        fit       lwr       upr
-## 1   4770.92   4687.31   4854.53
+## 1   64.96     24.25    105.68
 ```
 
-**Interpretation.** With 99% confidence, the **average** debt across **all** families with $\text{TV}=33$ hours/week lies in $[\$4687,\,\$4855]$ — a much narrower window because we no longer have to absorb the noise of one specific household.
+**Comment.** As $n\to\infty$ with $x_0$ fixed, $\ell(x_0)\to 0$ but the PI half-width $\to t\cdot s_\varepsilon \approx 2\sigma$ — the **irreducible-noise floor**. PI is *always* wider than CI for the same $x_0$.
+
 </details>
 
 ---
 
 <details class="master-subpart">
-<summary><span class="tag tag-2plus">≥2 ex</span> (f) Side-by-side PI vs CI: PI is **always** wider</summary>
+<summary><span class="tag tag-2plus">≥2 ex</span> (c) <strong>Side-by-side comparison</strong> — leverage curve + the "$+1$" effect at three $x_0$ values</summary>
 
-| Quantity | $\sqrt{\cdot}$ factor | SE at $x_0=33$ | ME (99%) | Interval |
-|---|---|---|---|---|
-| CI for mean $E[Y\mid X=33]$ | $\sqrt{1/n + (x_0-\bar x)^2/((n-1)s_x^2)}$ | $\approx 32.32$ | $83.61$ | $[4687,\,4855]$ |
-| **PI** for a single $Y_0(33)$ | $\sqrt{1 + 1/n + (x_0-\bar x)^2/((n-1)s_x^2)}$ | $\approx 670.78$ | $1733.78$ | $[3037,\,6505]$ |
+To **see** both the leverage shape (intervals widen as $x_0$ moves away from $\bar x$) **and** the "$+1$" effect (PI is uniformly wider than CI), we tabulate three target values:
 
-Ratio of half-widths: $1733.78 / 83.61 \approx 20.7$ — the PI is roughly **21× wider** than the CI on this dataset. The exact algebraic identity is
-$$\text{SE}_{\text{pred}}^2 - \text{SE}_{\text{mean}}^2 \;=\; s_\epsilon^2 \;\;\Rightarrow\;\; \frac{\text{SE}_{\text{pred}}}{\text{SE}_{\text{mean}}} \;=\; \sqrt{1 + \frac{1}{h(x_0)}}.$$
-With large $n$ and $x_0$ near $\bar x$, $h(x_0) \approx 1/n$ is tiny, so the ratio explodes — exactly what we see. **The PI is the conservative tool when "one specific future observation" is what we care about.**
-</details>
+- $x_0 = \bar x = 38.617$ (centre — leverage minimal),
+- $x_0 = \bar x + s_x = 48.011$ (one SD above the mean — moderate leverage),
+- $x_0 = \bar x + 3 s_x = 66.800$ (three SDs above — large leverage, near the extreme of the modelled range).
 
----
+All numbers use $s_\varepsilon = 19.70$, $t_{0.975,\,45} = 2.014$, so $t\cdot s_\varepsilon = 39.676$:
 
-<details class="master-subpart">
-<summary><span class="tag tag-2plus">≥2 ex</span> (g) Why both intervals widen as $x_0$ moves away from $\bar x$ (leverage curve)</summary>
+| $x_0$ | $\hat y_0 = -19.5262 + 1.6898 x_0$ | $\ell(x_0) = 1/n + (x_0-\bar x)^2/((n-1)s_x^2)$ | CI half-width $= t s_\varepsilon\sqrt{\ell}$ | PI half-width $= t s_\varepsilon\sqrt{1+\ell}$ | Ratio PI/CI |
+|---|---|---|---|---|---|
+| $\bar x = 38.617$ | $45.745$ | $0.02128$ | $\;\;5.789$ | $40.096$ | $\mathbf{6.93}$ |
+| $\bar x + s_x = 48.011$ | $61.600$ | $0.04302$ | $\;\;8.229$ | $40.520$ | $\mathbf{4.92}$ |
+| $\bar x + 3 s_x = 66.800$ | $93.343$ | $0.21693$ | $18.481$ | $43.769$ | $\mathbf{2.37}$ |
 
-Inside both square roots sits the **leverage term**
-$$\frac{(x_0 - \bar x)^2}{(n-1) s_x^2}.$$
-This is *quadratic* in the distance $|x_0 - \bar x|$, so:
+**Two patterns to internalise.**
 
-1. **At the centre $x_0 = \bar x$** the leverage is zero — both intervals are at their **narrowest**.
-2. **Move out** in either direction and the leverage grows; both SEs grow, both intervals fan out — the so-called *prediction-band hourglass*.
-3. The fan is *symmetric in $x_0$* around $\bar x$ (it depends only on $(x_0-\bar x)^2$).
-
-Geometric reason: the fitted line is anchored at $(\bar x, \bar y)$ and *pivots* around that point under sampling noise of $\hat\beta_1$. The further out you go, the more a small wobble in slope translates into a vertical wobble of $\hat y_0$. **The PI inherits this fan and adds a constant $s_\epsilon$ "floor" on top.**
+1. **Leverage shape (CI column).** CI half-width climbs from $5.79$ at the centre to $18.48$ at $\bar x + 3 s_x$ — a $\approx 3.2\times$ inflation purely from the $(x_0-\bar x)^2$ leverage term. **Both** intervals widen as $x_0$ moves away from $\bar x$ (hourglass shape).
+2. **The "$+1$" effect (Ratio column).** Where the line is most tightly pinned ($x_0 = \bar x$), CI is tiny but PI is large — the **ratio is largest at the centre** ($6.93\times$). At the extreme $x_0 = \bar x + 3 s_x$ the CI has grown so much it absorbs most of the PI width, so the ratio shrinks to $2.37\times$. **PI half-width is roughly constant ($\approx 40$–$44$ weeks)** because the "$1$" inside the sqrt dominates the leverage term for moderate $\ell$ — the PI is essentially the *noise floor* $\pm t s_\varepsilon$ regardless of $x_0$.
 
 ```r
-# Numerical check: leverage at a near-centre point and at a far one
-lev_at  <- function(x0, xbar, n, var.x) 1/n + (x0 - xbar)^2 / ((n-1)*var.x)
-xbar    <- 32;  n <- 430;  var.x <- 50          # toy var.x for illustration
-lev_at(33, xbar, n, var.x)                      # ~ 0.00237  (near-centre)
-lev_at(45, xbar, n, var.x)                      # ~ 0.00929  (far)  -> wider PI
-
-# Visual check: leverage curve fans out as x0 leaves xbar
-newdf <- data.frame(Television = seq(5, 40, length = 100))
-pi    <- predict(mod, newdata = newdf, interval = "prediction", level = 0.99)
-ci    <- predict(mod, newdata = newdf, interval = "confidence", level = 0.99)
-matplot(newdf$Television, cbind(pi, ci[,2:3]), type="l",
-        lty = c(1,2,2,3,3), col = c("black","red","red","blue","blue"))
+# Three-row tabulation
+x0s   <- c(xbar, xbar + s_x, xbar + 3*s_x)
+yhat  <- b0 + b1*x0s
+lev   <- 1/n + (x0s - xbar)^2 / ((n-1)*s2_x)
+me_ci <- tcrit * s_e * sqrt(lev)
+me_pi <- tcrit * s_e * sqrt(1 + lev)
+data.frame(x0=x0s, yhat=yhat, lev=lev,
+           ME_CI=me_ci, ME_PI=me_pi, ratio = me_pi/me_ci)
+##         x0    yhat       lev    ME_CI    ME_PI    ratio
+## 1   38.617  45.745   0.02128    5.789   40.096    6.927
+## 2   48.011  61.600   0.04302    8.229   40.520    4.924
+## 3   66.800  93.343   0.21693   18.481   43.769    2.369
 ```
+
+**Algebraic identity to remember.** $\widehat{SE}_{\text{PI}}^2 - \widehat{SE}_{\text{CI}}^2 = s_\varepsilon^2$ at every $x_0$ — the *gap squared* between PI and CI half-widths (per $t$-unit) is always exactly the residual variance.
+
 </details>
 
 ---
 
 <details class="master-subpart">
-<summary>(h) Sales-on-discount cross-check (Ex 8.10): PI vs CI at $x_0 = 12$</summary>
+<summary>(d) <strong>Extrapolation warning</strong> — both CI and PI are valid only inside the observed support of $X$</summary>
 
-Different dataset, same machinery. With $n=50$, $\bar x = 10$, $\sum(x_i-\bar x)^2 = 25\,000$, $s_\epsilon^2 = 83.33$, $\hat\beta_0=48$, $\hat\beta_1=1.2$:
-$$\hat y(12) \;=\; 48 + 1.2 \cdot 12 \;=\; 62.4.$$
+Look at the table in (c): at $x_0 = \bar x + 3 s_x = 66.8$ years, the leverage formula already inflates the CI to $\pm 18.5$ weeks. So *isn't the formula's automatic inflation honest enough* if we keep extrapolating?
 
-Leverage at $x_0=12$:
-$$h(12) \;=\; \tfrac{1}{50} + \tfrac{(12-10)^2}{25\,000} \;=\; 0.02 + 0.00016 \;=\; 0.02016.$$
+**No.** The leverage formula inflates the CI/PI *assuming* the linear-mean model $E[Y\mid X] = \beta_0 + \beta_1 X$ **still holds** at $x_0$ — i.e. the LINE assumptions (**L**inearity, **I**ndependence, **N**ormality of residuals, **E**qual variance) still apply. Outside the observed range $[\min(x_i),\,\max(x_i)]$, the **assumption itself** may break:
 
-With $t_{0.975,\,48}\approx 2.011$ and $s_\epsilon=\sqrt{83.33}=9.129$:
-$$\text{ME}_{\text{PI}} \;=\; 2.011 \cdot 9.129 \cdot \sqrt{1 + 0.02016} \;\approx\; 18.54 \;\Rightarrow\; \text{PI}_{95\%} \;=\; (43.86,\,80.94),$$
-$$\text{ME}_{\text{CI}} \;=\; 2.011 \cdot 9.129 \cdot \sqrt{\;\;\;\;\;\,0.02016} \;\approx\; \;\,2.61 \;\Rightarrow\; \text{CI}_{95\%} \;=\; (59.79,\,65.01).$$
+1. **Linearity might bend.** The true relation could plateau (e.g. an age-vs-job-search curve might saturate beyond age 65) or even invert. The leverage formula has *no way* to detect this — it keeps drawing a straight line.
+2. **Equal-variance might bend.** Heteroscedasticity (the **E** in LINE) often grows at the extremes; a single $s_\varepsilon$ becomes a bad summary of true scatter.
+3. **Normality of residuals** may degrade as well, breaking the $t$-distribution pivot.
 
-Ratio $18.54/2.61 \approx 7.1$ — the PI is again much wider. (The ratio is smaller than on TeleDebt because $n$ is smaller, so the line-position SE is not negligible relative to $s_\epsilon$.)
+**Rule of thumb.** Flag any prediction with $x_0$ outside $[\min(x_i),\,\max(x_i)]$ as **extrapolation** and refuse to publish a single number without strong domain-knowledge justification. The leverage term inflates the bands, but the LINE assumptions are what *license* both bands in the first place — see **`g15e`** for the residual-vs-fitted, Q-Q, and Cook's-distance checks that verify them.
+
+Concrete past-exam echoes:
+
+- **Ex 8.10a part f** ($x_0 = 30\%$ discount on a sample with $\bar x = 10\%$, $s_x = 22.6$): the formula still spits out PI $\approx (65.3,\,102.7)$, but the model has no empirical support at a 30% discount — *refuse* the prediction.
+- **Ex 8.2b part b4** (`Salary = 0` on a sample with `Salary` $\in [10{,}000,\,170{,}000]$): the PI is even *centred on a negative point prediction*, since $\hat y_0(0) < 0$. The formula's leverage inflation is **not a safety net** against extrapolation.
+
 </details>
 
 ---
 
 <details class="master-subpart">
-<summary><span class="tag tag-2plus">≥2 ex</span> (i) Extrapolation at $x_0 = 30$: **risky** even with the leverage term</summary>
+<summary>(e) <strong>Cross-references</strong> — where each part of this entry connects back to</summary>
 
-The leverage factor in the PI/CI formula already inflates the half-width as $x_0$ leaves $\bar x$ — so isn't that "honest enough"? **No.** The formula's inflation is *inside the linear-mean model*: it tells you how uncertain $\hat y_0$ is **assuming** $E[Y\mid X]=\beta_0+\beta_1 X$ still holds at $x_0$. Outside the modelled range, *the assumption itself* may break.
+- **`g15a`** — universal regression recipe + master 9-row case table; this entry **owns rows 6 and 7** of that table. The NewHired running dataset and the fitted $(\hat\beta_0,\hat\beta_1,s_\varepsilon)$ are all derived in `g15a` parts (a)–(b); do not re-derive them.
+- **`g15c`** — multiple regression. The CI/PI formulas **generalise verbatim**: just replace the simple-regression leverage $\ell(x_0) = 1/n + (x_0-\bar x)^2/((n-1)s_x^2)$ with the matrix leverage $h_{00} = x_0^\top(X^\top X)^{-1} x_0$, and use df $= n - p - 1$. R's `predict(mod, newdata, interval=...)` handles both cases identically.
+- **`g15e`** — diagnostics. The LINE assumptions are what *license* both intervals; extrapolation breaks them silently. The residuals-vs-fitted, Q-Q, and Cook's-distance plots verify them on the training data, but cannot rescue an extrapolation.
+- **`g13a`** — universal CI recipe. **Row 6 is a CI in disguise**: target = $E[Y\mid x_0]$, estimator = $\hat y_0$, SE = $s_\varepsilon\sqrt{\ell(x_0)}$, pivot = $t_{n-2}$ — *exactly* the g13a template.
+- **`g14a`** — universal hypothesis-test recipe. A $t$-test of $H_0: E[Y\mid x_0] = \theta_0$ at a hypothesised mean response $\theta_0$ is *row 2 of g14a* with $\bar X \to \hat y_0$ and SE $\to s_\varepsilon\sqrt{\ell(x_0)}$. **Rare in practice** — usually we want the CI; if a question asks whether a benchmark $\theta_0$ is plausible, the CI-test duality of g13a/g14a gives the answer for free.
 
-For Ex 8.10 the discount data runs $X \in [\,\bar x - 2 s_x,\,\bar x + 2 s_x\,] \approx [5,\,25]$ but the question asks for $x_0 = 30$ — **outside** the support. Two things go wrong:
-
-1. **Mean function might bend.** Beyond observed data the relationship could plateau (saturation: $30\%$ discount may not stimulate more purchases) or even reverse (signal that the product is defective). The leverage formula has **no way** to detect this; it just keeps drawing a straight line.
-2. **Variance might also bend.** Heteroscedasticity often grows at the extremes — a single $s_\epsilon$ becomes a bad summary of true scatter.
-
-Numerically, the formula still produces an interval:
-$$h(30) = \tfrac{1}{50} + \tfrac{(30-10)^2}{25\,000} = 0.02 + 0.016 = 0.036, \quad \text{ME}_{\text{PI}} = 2.011\cdot 9.129\cdot\sqrt{1.036} \;\approx\; 18.69,$$
-$$\hat y(30) = 48 + 1.2\cdot 30 = 84 \;\Rightarrow\; \text{PI}_{95\%} \approx (65.32,\,102.68).$$
-The interval is **wider** ($\pm 18.69$ vs $\pm 18.54$ at $x_0=12$) — but the **honest** uncertainty is much larger because the model itself may not apply. **Rule of thumb:** flag any prediction with $x_0$ outside $[\,\min(x_i),\,\max(x_i)\,]$ as *extrapolation* and refuse to publish a single number without strong domain-knowledge justification.
-
-```r
-# At an extrapolation point, the formula still gives a number — DO NOT trust it
-x0   <- 30
-yhat <- 48 + 1.2*x0                                   # 84
-lev  <- 1/50 + (x0 - 10)^2 / 25000                    # 0.036
-ME   <- qt(0.975, df=48) * sqrt(83.33) * sqrt(1+lev)  # ~ 18.69
-c(yhat - ME, yhat + ME)                                # (65.32, 102.68) -- extrapolation!
-
-# Compare with the AmountSpent-on-Salary case (Ex 8.2b):
-# At Salary=0, observed Salary ranges [10000, 170000] -> 0 is FAR outside support.
-# Naive PI even ends up centred on a negative point prediction yhat(0) = -15.7$.
-```
 </details>
 
 ---
 
-### Summary table (TeleDebt; $\hat\beta_0=1479.262$, $\hat\beta_1=99.7471$, $s_\epsilon\approx 670$, $n=430$)
+### Summary table (NewHired; $\hat\beta_0=-19.5262$, $\hat\beta_1=1.6898$, $s_\varepsilon = 19.70$, $n=47$, df $=45$, $t_{0.975,\,45}=2.014$)
 
 | Quantity | Value | Where |
 |---|---|---|
-| Point prediction $\hat y_0$ at $x_0=33$ | $4770.92$ \$ | Part (a) |
-| $\text{SE}_{\text{mean}}(33)$ | $\approx 32.32$ \$ | Part (e) |
-| $\text{SE}_{\text{pred}}(33)$ | $\approx 670.78$ \$ | Part (d) |
-| Identity $\text{SE}_{\text{pred}}^2 - \text{SE}_{\text{mean}}^2 = s_\epsilon^2$ | $670.78^2 - 32.32^2 \approx 670^2$ | Part (c) |
-| $t_{0.995,\,428}$ | $\approx 2.587$ | Part (d) |
-| 99% CI for $E[Y\mid X=33]$ | $[4687.31,\,4854.53]$ \$ | Part (e) |
-| 99% PI for $Y_0$ at $X=33$ | $[3037.14,\,6504.69]$ \$ | Part (d) |
-| PI / CI half-width ratio | $\approx 20.7\times$ | Part (f) |
-| 95% PI at $x_0=12$ (Ex 8.10) | $(43.86,\,80.94)$ | Part (h) |
-| 95% CI at $x_0=12$ (Ex 8.10) | $(59.79,\,65.01)$ | Part (h) |
-| 95% PI at $x_0=30$ (extrapolation, Ex 8.10) | $(65.32,\,102.68)$ — **risky** | Part (i) |
+| Universal regression recipe + 9-row master table | — | `g15a` |
+| Row 6 — CI for mean response at $x_0$ | $\hat y_0 \pm t\,s_\varepsilon\sqrt{\ell(x_0)}$ | Part (a) |
+| Row 7 — PI for individual at $x_0$ | $\hat y_0 \pm t\,s_\varepsilon\sqrt{1+\ell(x_0)}$ | Part (b) |
+| Structural difference (the "+1") | $\widehat{SE}_{\text{PI}}^2 - \widehat{SE}_{\text{CI}}^2 = s_\varepsilon^2$ | top callout + Part (c) |
+| Leverage shape (hourglass) | $\ell(x_0)$ minimal at $\bar x$, quadratic in $(x_0-\bar x)$ | Part (c) |
+| Asymptotics ($n\to\infty$, $x_0$ fixed) | CI width $\to 0$; PI width $\to 2 t\,\sigma$ | Parts (a), (b) |
+| 95% CI for $E[Y\mid \text{Age}=50]$ | $[55.81,\,74.12]$ weeks | Part (a) |
+| 95% PI for $Y_0$ at Age $=50$ | $[24.25,\,105.68]$ weeks | Part (b) |
+| Extrapolation outside $[\min x_i,\,\max x_i]$ | leverage inflation is **not** a safety net | Part (d) |
+| Multi-regression generalisation: $\ell(x_0) \to x_0^\top(X^\top X)^{-1}x_0$, df $\to n-p-1$ | — | Part (e), `g15c` |
 """,
     "images": ["statistics/images/master/master_g15b_ai.png"],
 }
@@ -3926,102 +4203,95 @@ Key gotcha (subpart e): $S^2$ unbiased for $\sigma^2$ does **not** imply $S$ unb
 }
 
 master_exercises["g15d_categorical"] = {
-    "title": "Master Exam — Categorical predictors, dummies & interactions (consolidated)",
-    "content": r"""> **This entry is rows 8–9 of the universal regression table** (see top of `g15a`). All inference is *the same* as for a continuous slope — the only twist is *what each coefficient means*:
+    "title": "Master Exam — Categorical predictors, dummies & interactions (rows 8–9 of the universal regression table)",
+    "content": r"""## Setup — running dataset for every numeric example below
 
-| Subpart | Master-table row | Mental model |
-|---|---|---|
-| (a) $K$ levels → $K-1$ dummies (no trap) | row 8 | one column dropped to keep $X^\top X$ invertible |
-| (b)–(c) read $\hat\beta_k$ as **mean shift of level $k$ vs reference** | row 8 + g14a row 2 | per-dummy $t$-test is the universal $t$ on $\hat\beta_k$ with $\theta_0=0$ |
-| (d) joint significance of the whole factor | row 5 (group $F$) | drop the $K-1$ dummies as a *block* — partial / incremental $F$ test |
-| (e)–(f) interaction $X_j\cdot X_k$ → slope-by-group | row 9 | $\hat\gamma=0\iff$ parallel-lines model; $\hat\gamma\neq 0\iff$ slope changes across levels |
+A consultancy collected the dataframe **GS** ($n = 100$ junior employees) with
 
-> The 7-step recipe lives at the top of `g15a`; this entry adds the **coding layer** in front of step 2 (build dummies before applying OLS) and the **joint partial-$F$** layer after step 4 (test the whole factor, not just individual dummies).
+- $Y = \text{Salary}$ (net monthly salary, €),
+- $X = \text{grade}$ (annual performance score, $0$–$100$, continuous),
+- $Z_1 = \text{sex}$ (binary factor, levels $\{F,M\}$, $F$ = reference),
+- $Z_2 = \text{course}$ ($K=3$-level factor, training track $\{a,b,c\}$, $a$ = reference).
 
----
+This *one* dataset will carry **every** subpart below — first as a "$K$-level factor turned into $K-1$ dummies" example (course, with $K=3$), then as a "continuous $\times$ dummy interaction" example (sex $\times$ grade).
 
-**Setup.** A consultancy collected `Salary` (€/month, net), `grade` (annual performance score, $0$–$100$), `sex` ($F$/$M$) and `course` (training track attended, three levels $a$, $b$, $c$) for a random sample of $n=100$ junior employees (the **GS** dataset). The OLS fit of
+The OLS fit of the **full additive model**
 
-$$\text{Salary}_i \;=\; \beta_0 \;+\; \beta_g\,\text{grade}_i \;+\; \beta_M\,D^{sex}_{M,i} \;+\; \beta_b\,D^{course}_{b,i} \;+\; \beta_c\,D^{course}_{c,i} \;+\; \varepsilon_i$$
+$$\boxed{\;\;\mathcal M_1:\quad\text{Salary}_i \;=\; \beta_0 \;+\; \beta_g\,\text{grade}_i \;+\; \beta_M\,D^{sex}_{M,i} \;+\; \beta_b\,D^{course}_{b,i} \;+\; \beta_c\,D^{course}_{c,i} \;+\; \varepsilon_i\;\;}$$
 
-returns the point estimates
+returns
 
 $$\hat\beta_0 = 1\,400,\quad \hat\beta_g = 35,\quad \hat\beta_M = 2\,000,\quad \hat\beta_b = 450,\quad \hat\beta_c = -150,$$
 
-with $R^2 = 0.612$, residual SD $\hat\sigma = 620$, and residual df $n-p-1 = 100-4-1 = 95$. Reference categories are $sex=F$ and $course=a$. The "full" model above (call it $\mathcal M_1$) is compared in part **(d)** with the reduced model $\mathcal M_0$ that drops both course dummies, and in parts **(e)**–**(f)** with an extended model $\mathcal M_2$ that adds a $sex\times grade$ interaction.
+with residual SE $\hat\sigma = 620$, $R^2 = 0.612$, df $= n - p - 1 = 100 - 4 - 1 = 95$. Subpart **(b)** compares $\mathcal M_1$ to the **reduced** $\mathcal M_0$ that drops both course dummies; subpart **(d)** compares it to the **extended** $\mathcal M_2$ with a $sex\times grade$ interaction.
+
+```r
+GS$sex    <- factor(GS$sex,    levels = c("F","M"))      # F = baseline
+GS$course <- factor(GS$course, levels = c("a","b","c"))  # a = baseline
+fit1 <- lm(Salary ~ grade + sex + course, data = GS); summary(fit1)
+```
+
+Round to 4 decimals throughout.
+
+---
+
+## This is rows 8 and 9 of g15a's master regression table
+
+> **The universal 7-step regression recipe and the 9-row master case table live at the top of `g15a`** — do *not* re-derive them here. This entry walks only the two rows below, which are the **categorical specialisation** of OLS: nothing about the formula $\hat{\boldsymbol\beta} = (X^\top X)^{-1}X^\top y$ or the per-coefficient $t$-test changes — *only what each $\hat\beta$ means* and *what columns sit in $X$*.
+
+| Row | Object | Estimator | Interpretation | Test |
+|---|---|---|---|---|
+| **8** | Categorical level $k$ of a $K$-level factor | $\hat\beta_k$ on dummy $D_k$ vs the reference level | **mean shift** in $Y$ between level $k$ and the reference, all continuous predictors fixed | per-dummy $t$ (row 2 of g14a, $\theta_0=0$); **joint partial $F$** on the $K-1$ dummies as a block (row 5 of master table) |
+| **9** | Interaction $\beta_{jk}$ | $\hat\beta_{jk}$ on the column $X_j\cdot X_k$ | **slope-of-$X_j$ changes by level of $X_k$** (or, for two continuous: slope changes linearly with $X_k$) | $t$ on $\hat\beta_{jk}$ (row 2 of g14a, $\theta_0=0$); equivalently `anova(no_interaction, with_interaction)` |
+
+### 3-step procedure for every G15d question
+
+1. **Count levels.** For each categorical predictor with $K$ levels, encode as $K-1$ dummies vs a chosen reference level. The intercept absorbs the reference. With one continuous + one $K$-level factor, $X$ has $1 + 1 + (K-1) = K+1$ columns and df $= n-K-1$.
+2. **Read each $\hat\beta_k$ as a mean shift.** $\hat\beta_k$ = expected change in $Y$ when moving from the reference level to level $k$, **holding all continuous predictors and other dummies fixed**. The per-dummy $t$-test is row 2 of g14a with $\theta_0=0$. For "does the *whole* factor matter?" use the joint **partial $F$** comparing the model with vs without the $K-1$ dummies.
+3. **If you suspect the slope of a continuous predictor differs across levels,** add an interaction $X\cdot D$ and test it with a $t$ on $\hat\beta_{jk}$. Geometrically: without interaction the group-specific lines are *parallel*; with interaction they have *different slopes*.
+
+> **Dummy-coding intuition (memorise once).** A $K$-level factor's $K-1$ dummies + an intercept span exactly the $K$-dimensional "one-mean-per-group" subspace. No information is lost — only the **labelling** of coefficients changes when you switch reference level. Putting all $K$ dummies AND an intercept makes $X^\top X$ singular (dummy-variable trap).
+
+> **Parallel-vs-non-parallel lines mental picture.** Plot $Y$ vs continuous $X$ separately for each level of $D$. **Without** an interaction term, the OLS fit gives **parallel lines** — same slope $\hat\beta_X$ for every group, different intercepts shifted by $\hat\beta_D$. **With** an interaction $X\cdot D$, the lines have **different slopes** — they may cross. Testing $H_0:\beta_{X\cdot D}=0$ is testing "are the lines parallel?".
+
+---
 
 ---
 
 <details class="master-subpart" open>
-<summary><span class="tag tag-exam">EXAM</span> (a) Why $k$ categories become $k-1$ dummies — the dummy-variable trap</summary>
+<summary><span class="tag tag-exam">EXAM</span> (a) Row 8 — Dummy coding for a $K$-level factor (`course`, $K=3$)</summary>
 
-For a nominal variable with $k$ levels $\{L_1,\dots,L_k\}$ we **cannot** put $k$ indicator columns into a regression that also has an intercept: the $k$ dummies sum to the all-ones vector, which is the intercept column, so the design matrix $\mathbf X$ has rank $\le p$ and $(\mathbf X^\top\mathbf X)^{-1}$ does not exist. The standard fix — **treatment / reference coding** — drops one level (the **baseline**) and keeps $k-1$ dummies:
+A nominal predictor with $K$ levels enters $X$ as $K-1$ binary indicators (treatment / reference coding — R's default). If we put all $K$ dummies AND an intercept the columns sum to the all-ones vector $\mathbf 1$, $X^\top X$ is singular and OLS does not exist — the **dummy-variable trap**. For `course` ($K=3$, reference $a$):
 
-$$D^{course}_{b,i} \;=\; \begin{cases}1 & course_i = b\\ 0 & \text{otherwise}\end{cases},\qquad D^{course}_{c,i} \;=\; \begin{cases}1 & course_i = c\\ 0 & \text{otherwise}\end{cases}.$$
+$$D^{course}_{b,i} \;=\; \mathbb 1\{course_i = b\},\qquad D^{course}_{c,i} \;=\; \mathbb 1\{course_i = c\},$$
 
-Course $a$ is identified by $D^{course}_b = D^{course}_c = 0$. Same logic for `sex`: with $k=2$ levels we add **one** dummy $D^{sex}_M = \mathbb 1\{sex=M\}$ and absorb $sex=F$ into the intercept. With `grade` (continuous) no dummy is needed.
+so $course=a$ is identified by $D_b = D_c = 0$. Same for `sex` ($K=2$): one dummy $D^{sex}_M = \mathbb 1\{sex=M\}$. The design matrix $X$ of $\mathcal M_1$ has columns $[\mathbf 1,\;\text{grade},\;D^{sex}_M,\;D^{course}_b,\;D^{course}_c]$ — exactly $1+1+(K_{sex}-1)+(K_{course}-1)=5$ columns. Everything else (OLS formula $\hat{\boldsymbol\beta} = (X^\top X)^{-1}X^\top y$, the $\widehat{SE}$ from $\hat\sigma^2(X^\top X)^{-1}$, the projection $\hat y = X\hat{\boldsymbol\beta}$) is *exactly* g15c with this enlarged $X$ — **do not re-derive**, see g15c subpart (a).
+
+**Reading each $\hat\beta_k$ — mean shift vs the reference, ceteris paribus.**
+
+- $\hat\beta_M = +2\,000$ € : at the same `grade` and `course`, **men** earn on average $+2\,000$ €/month vs **women**.
+- $\hat\beta_b = +450$ € : at the same `grade` and `sex`, attending **course $b$** is worth $+450$ €/month vs **course $a$**.
+- $\hat\beta_c = -150$ € : at the same `grade` and `sex`, attending **course $c$** is worth $-150$ €/month vs **course $a$**.
+- The **intercept** $\hat\beta_0 = 1\,400$ € is the expected `Salary` at the reference cell with **continuous predictors set to 0**: $\mathbb E[\text{Salary}\mid grade=0,\,sex=F,\,course=a] = 1\,400$. (Often not economically meaningful — see the centring tip in (d).)
+
+A non-dummy contrast like "**course $b$ vs course $c$**, $sex$ and $grade$ fixed" is **not** a row of `summary(fit1)`; it is the linear combination $\hat\beta_b - \hat\beta_c = 450 - (-150) = +600$ €/month, with SE $\sqrt{L^\top\,\widehat{\Var}(\hat{\boldsymbol\beta})\,L}$ for $L = (0,0,0,1,-1)$ — this is precisely the move asked by `exam_g2_2025_4a` (IT vs Operations contrast, where the reference is HR).
 
 ```r
-# Treatment coding is R's default for factors
-GS$sex    <- factor(GS$sex,    levels = c("F","M"))     # F = baseline
-GS$course <- factor(GS$course, levels = c("a","b","c")) # a = baseline
-contrasts(GS$course)                                     # 2 columns: courseb, coursec
+contrasts(GS$course)                                        # 2 dummy columns: courseb, coursec
 fit1 <- lm(Salary ~ grade + sex + course, data = GS)
-summary(fit1)                                            # -> beta0=1400, beta_g=35, beta_M=2000, ...
-```
+summary(fit1)                                               # b0=1400, bg=35, bM=2000, bb=450, bc=-150
 
-*Three coding alternatives* (same fit, different parametrisation): **treatment** (baseline absorbed; coefficients = level vs baseline — the default and what we use), **sum-to-zero** (deviations from the grand mean, `contr.sum`), **no-intercept + all $k$ dummies** (cell means, `lm(y ~ 0 + course)`). All produce identical fitted values; they differ only in *what each coefficient means*.
+# Three ceteris-paribus predictions
+b0 <- 1400; bg <- 35; bM <- 2000; bb <- 450; bc <- -150
+b0 + bg*70                                                  # Woman, grade 70, course a -> 3850
+b0 + bg*70 + bM                                             # Man,   grade 70, course a -> 5850
+b0 + bg*70 + bM + bb                                        # Man,   grade 70, course b -> 6300
 
-</details>
-
----
-
-<details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> (b) Reference-category interpretation</summary>
-
-With $sex=F$ and $course=a$ as the reference levels, the intercept gives the expected `Salary` for a *reference* employee with all dummies zero **and** all continuous predictors zero:
-
-$$\mathbb E[\text{Salary}\mid grade=0,\; sex=F,\; course=a] \;=\; \hat\beta_0 \;=\; 1\,400 \text{ €}.$$
-
-The reference is **arbitrary** — any level can play that role and the choice does not change the *fit* (predictions, residuals, $R^2$, $F$-statistics), only the *coefficient labels*. Re-levelling to $course=c$ baseline simply relabels: the new intercept becomes $\hat\beta_0 + \hat\beta_c = 1\,400 + (-150) = 1\,250$, the new `coursea` coefficient becomes $-\hat\beta_c = +150$, the new `courseb` coefficient becomes $\hat\beta_b - \hat\beta_c = 450-(-150) = 600$.
-
-```r
-GS$course <- relevel(GS$course, ref = "c")               # change baseline
-fit1c <- lm(Salary ~ grade + sex + course, data = GS)
-# Same R^2, same fitted values; only the dummies' interpretation changes:
-all.equal(fitted(fit1), fitted(fit1c))                   # TRUE
-```
-
-**Practical rule.** Choose the baseline that makes the *comparisons of interest* read off most naturally — e.g. control vs treatment, or the largest/most-stable cell.
-
-</details>
-
----
-
-<details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> (c) Reading a dummy coefficient (level vs baseline, ceteris paribus)</summary>
-
-Each dummy coefficient is the **mean shift** in $y$ between that level and the baseline, **holding all other regressors fixed**:
-
-- $\hat\beta_M = +2\,000$: at the same `grade` and the same `course`, **men** earn on average **2 000 € more per month** than **women**. *That is the conditional gender gap implied by this model.* It is **not** a causal effect — it could reflect any omitted variable correlated with `sex` and `Salary` (seniority, hours, role). Significance: $t = \hat\beta_M / \widehat{SE}(\hat\beta_M)$; with $\widehat{SE}\approx 130$ this is $t\approx 15.4$ on $95$ df, $p<10^{-26}$ — clearly significant.
-- $\hat\beta_b = +450$: at the same `grade` and same `sex`, attending **course $b$** is associated with **+450 €/month** vs the baseline **course $a$**.
-- $\hat\beta_c = -150$: at the same `grade` and same `sex`, **course $c$** is associated with **−150 €/month** vs **course $a$**.
-- The **course $b$ vs course $c$ difference** is *not* a coefficient — it is the **linear combination** $\hat\beta_b - \hat\beta_c = 450-(-150) = 600$ €/month, with SE obtained from the covariance matrix or by re-levelling and re-fitting.
-
-```r
-# Three concrete predictions (ceteris paribus comparisons)
-beta0  <- 1400; bg <- 35; bM <- 2000; bb <- 450; bc <- -150
-# Woman, grade 70, course a:
-beta0 + bg*70                                            # 3850
-# Man,   grade 70, course a:
-beta0 + bg*70 + bM                                       # 5850   (gap = 2000)
-# Man,   grade 70, course b:
-beta0 + bg*70 + bM + bb                                  # 6300
-# Course b vs c, holding grade & sex fixed:
-bb - bc                                                  # 600
-# SE of (bb - bc) from the covariance matrix:
-V <- vcov(fit1);  L <- c(0,0,0,1,-1)
-sqrt(t(L) %*% V %*% L)                                   # e.g. ~ 165 -> t ~ 3.6
+# Contrast course b vs c (not a row of summary): point estimate + SE
+L  <- c(0, 0, 0, 1, -1)
+est_bc <- sum(L * coef(fit1));                est_bc        # 600
+SE_bc  <- sqrt(t(L) %*% vcov(fit1) %*% L);    SE_bc         # ~ 165
+est_bc / SE_bc                                              # t ~ 3.6  (df = 95)
 ```
 
 </details>
@@ -4029,120 +4299,136 @@ sqrt(t(L) %*% V %*% L)                                   # e.g. ~ 165 -> t ~ 3.6
 ---
 
 <details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> (d) Joint significance of `course` — partial $F$ test</summary>
+<summary><span class="tag tag-exam">EXAM</span> (b) Per-dummy $t$-test AND the joint partial $F$ for the whole factor</summary>
 
-Whether *the categorical variable as a whole* matters is **not** answered by looking at the two individual dummies separately (one can be non-significant while the variable jointly is) — we need a joint test of
+**Per-dummy $t$-test** $H_0:\beta_k = 0$ vs $H_1:\beta_k\ne 0$ is **row 2 of g14a's universal test table** with $\theta_0 = 0$, $\bar X \to \hat\beta_k$, $s/\sqrt n \to \widehat{SE}(\hat\beta_k)$, df $= n-p-1 = 95$ — there is **nothing new** beyond `g15c` (b). Example: with $\hat\beta_M = 2\,000$ and $\widehat{SE} \approx 130$, $t_M = 2\,000/130 \approx 15.4$ on 95 df, $p < 10^{-26}$: the male-vs-female gap is overwhelmingly significant.
 
-$$H_0:\; \beta_b = \beta_c = 0 \qquad\text{vs.}\qquad H_1:\; \beta_b \neq 0 \text{ or } \beta_c \neq 0.$$
+But "**does the whole factor `course` matter?**" is *not* answered by looking at the two course-dummy $t$-stats one by one — each is **marginal** given the other dummy, and one dummy can be non-significant while the variable jointly is. The right test is the **joint partial (incremental) $F$**, comparing $\mathcal M_1$ (full, $p_1 = 4$ regressors) to the reduced $\mathcal M_0$ that drops both course dummies ($p_0 = 2$):
 
-The **partial (incremental) $F$** compares the **full** model $\mathcal M_1$ (with the two course dummies, $p_1=4$ regressors) to the **reduced** model $\mathcal M_0$ (without them, $p_0=2$):
+$$H_0:\; \beta_b = \beta_c = 0 \quad\text{vs.}\quad H_1:\; \beta_b \neq 0\;\text{or}\;\beta_c\neq 0,$$
 
-$$F \;=\; \frac{(RSS_0 - RSS_1)/(p_1-p_0)}{RSS_1/(n - p_1 - 1)} \;\sim\; F_{p_1-p_0,\; n-p_1-1}\quad\text{under }H_0.$$
+$$\boxed{\;\;F \;=\; \frac{(RSS_0 - RSS_1)/(p_1 - p_0)}{RSS_1/(n - p_1 - 1)} \;\sim\; F_{\,p_1-p_0,\; n-p_1-1}\quad\text{under }H_0.\;\;}$$
 
-Plugging in $RSS_1 = 36.5\times 10^6$, $RSS_0 = 41.8\times 10^6$, $p_1-p_0 = 2$, $n-p_1-1=95$:
+The numerator df is $K-1 = 2$ (the number of dummies dropped); the denominator df $= n - p_1 - 1 = 95$. With $RSS_1 = 36.5\times 10^6$ and $RSS_0 = 41.8\times 10^6$,
 
-$$F \;=\; \frac{(41.8-36.5)\times 10^6/2}{36.5\times 10^6/95} \;=\; \frac{2.65\times 10^6}{384\,210} \;\approx\; 6.90.$$
+$$F_\text{obs} \;=\; \frac{(41.8 - 36.5)\times 10^6 / 2}{36.5\times 10^6 / 95} \;=\; \frac{2.65\times 10^6}{384\,210} \;\approx\; 6.90.$$
 
-Critical value $F_{2,95;\,0.95} \approx 3.09$ ($p\approx 0.0016$) — **reject** $H_0$: `course` is jointly significant at $\alpha=0.05$, even though one of its two dummies ($\hat\beta_c=-150$) would, in isolation, look insignificant.
+Critical value $F_{2,\,95;\,0.95} \approx 3.094$, $p$-value $\approx 0.0016$ — **reject** $H_0$ at $\alpha=0.05$: `course` is **jointly significant**, even though $\hat\beta_c = -150$ alone would look unremarkable. *This is the categorical specialisation of row 5 of g15a's master table* — same $F$ statistic, applied to a *block* of regressors instead of the whole model.
 
 ```r
-fit1 <- lm(Salary ~ grade + sex + course, data = GS)     # full   M1
-fit0 <- lm(Salary ~ grade + sex,          data = GS)     # reduced M0
-anova(fit0, fit1)                                        # partial F, df1=2, df2=95
-# Manually:
+fit1 <- lm(Salary ~ grade + sex + course, data = GS)        # full   M1, p1 = 4
+fit0 <- lm(Salary ~ grade + sex,          data = GS)        # reduced M0, p0 = 2
+anova(fit0, fit1)                                           # partial F: df1 = 2, df2 = 95, F = 6.90
+
+# Manual cross-check
 n  <- 100;  p1 <- 4;  p0 <- 2
 RSS1 <- 36.5e6;  RSS0 <- 41.8e6
-F_stat <- ((RSS0 - RSS1)/(p1 - p0)) / (RSS1/(n - p1 - 1));  F_stat   # ~ 6.90
-qf(0.95, df1 = p1 - p0, df2 = n - p1 - 1)                            # 3.094
-1 - pf(F_stat, df1 = p1 - p0, df2 = n - p1 - 1)                      # ~ 0.0016
+F_stat <- ((RSS0 - RSS1)/(p1 - p0)) / (RSS1/(n - p1 - 1));  F_stat   # 6.90
+1 - pf(F_stat, df1 = p1 - p0, df2 = n - p1 - 1)                       # ~ 0.0016
 ```
 
-**Why not just look at the two $t$-stats?** Because the $t$ tests are **marginal** (each given the *other* predictors including the other course dummy). The joint $F$ is the right global test — it is what a "drop the variable?" decision should rest on, and it generalises immediately to any group of regressors (interactions, polynomials, splines).
+> **Rule of thumb.** Use the per-dummy $t$ to test **one specific level vs the reference**; use the joint partial $F$ to test **"the whole factor matters"** (i.e. drop the variable as a block). Cross-reference: g14a row 2 for the $t$, g15c subpart (d) for the global $F$ — the partial $F$ here is the same statistic, applied to a sub-block instead of all regressors.
 
 </details>
 
 ---
 
 <details class="master-subpart">
-<summary>(e) Interaction $sex\times grade$ — letting the slope differ by group</summary>
+<summary>(c) Reference-level choice does not affect predictions or the global $F$</summary>
 
-The model so far assumes the marginal effect of `grade` on `Salary` is the **same** for women and men: $\partial \mathbb E[Salary]/\partial grade = \beta_g$ regardless of $sex$. To let the slope **differ by sex**, add the interaction:
+The reference level is **arbitrary**: re-coding is a pure re-parameterisation. Fitted values $\hat y_i$, residuals, $R^2$, residual SE $\hat\sigma$, and the global $F$ statistic are **invariant**; only the *labels* and *meanings* of individual $\hat\beta_k$ change. Re-levelling `course` to baseline $c$ gives
 
-$$\mathcal M_2:\; \text{Salary} \;=\; \beta_0 + \beta_g\,grade + \beta_M\,D^{sex}_M + \beta_b\,D^{course}_b + \beta_c\,D^{course}_c + \gamma\,(D^{sex}_M\cdot grade) + \varepsilon.$$
+$$\hat\beta_0^{\text{new}} \;=\; \hat\beta_0 + \hat\beta_c \;=\; 1\,400 - 150 \;=\; 1\,250,\qquad \hat\beta_a^{\text{new}} \;=\; -\hat\beta_c \;=\; +150,\qquad \hat\beta_b^{\text{new}} \;=\; \hat\beta_b - \hat\beta_c \;=\; +600.$$
 
-Suppose the fit gives $\hat\beta_g = 30$ and $\hat\gamma = 12$ (so $\hat\beta_M$ also shifts to e.g. $1\,150$). Now the per-point return to `grade`, holding `course` fixed, is
-
-$$\text{women:}\quad \frac{\partial\,\widehat{Salary}}{\partial grade} = \hat\beta_g = 30,\qquad \text{men:}\quad \frac{\partial\,\widehat{Salary}}{\partial grade} = \hat\beta_g + \hat\gamma = 42.$$
-
-So $\hat\gamma=12$ means **each extra grade point is worth 12 € more for men than for women** — the gender gap is no longer a constant 2 000 €, it **widens with grade**. The interaction coefficient is tested by its own $t$ (or, equivalently for one regressor, by `anova(fit1, fit2)`). If $\hat\gamma$ is not significant we go back to $\mathcal M_1$.
+Same fit, different storytelling. *Practical rule.* Pick the baseline that makes the contrasts of interest read directly off `summary()` — usually the **control / largest / most stable** group.
 
 ```r
-fit2 <- lm(Salary ~ grade + sex + course + sex:grade, data = GS)  # M2
-# (Shortcut: Salary ~ (grade + sex)^2 + course expands to grade + sex + grade:sex + course)
-summary(fit2)                                                      # t-test on gamma
-anova(fit1, fit2)                                                  # equivalent partial F (df1 = 1)
-
-# Per-sex slopes, holding course fixed:
-b_g  <- coef(fit2)["grade"];          b_g                          # 30  -> women
-gam  <- coef(fit2)["grade:sexM"];     b_g + gam                    # 42  -> men
+GS$course <- relevel(GS$course, ref = "c")                  # change baseline to c
+fit1c     <- lm(Salary ~ grade + sex + course, data = GS)
+all.equal(fitted(fit1), fitted(fit1c))                      # TRUE -- predictions unchanged
+summary(fit1c)$fstatistic                                   # same global F as fit1
 ```
-
-*Centering tip.* If $\hat\beta_M$ is hard to interpret because $grade=0$ is far outside the data, **centre** `grade` (subtract its mean): the main effect of `sex` then reads off as the gender gap at the **average grade**, not at $grade=0$.
 
 </details>
 
 ---
 
 <details class="master-subpart">
-<summary>(f) Parallel-lines vs separate-lines models — geometry & test</summary>
+<summary><span class="tag tag-exam">EXAM</span> (d) Row 9 — Interactions (slope-by-group)</summary>
 
-Holding `course` at the baseline $a$ for clarity, $\mathcal M_1$ and $\mathcal M_2$ trace, in the $(grade, Salary)$ plane, two **lines** — one for women, one for men:
+So far $\mathcal M_1$ assumes the marginal effect of `grade` on `Salary` is the **same** for women and men: $\partial \mathbb E[\text{Salary}]/\partial grade = \beta_g$ regardless of `sex`. To let the slope **differ by sex** we add the **interaction column** $D^{sex}_M\cdot grade$ to $X$:
+
+$$\mathcal M_2:\;\; \text{Salary} \;=\; \beta_0 \;+\; \beta_g\,grade \;+\; \beta_M\,D^{sex}_M \;+\; \beta_b\,D^{course}_b \;+\; \beta_c\,D^{course}_c \;+\; \gamma\,(D^{sex}_M\cdot grade) \;+\; \varepsilon.$$
+
+**Derivation — slope by group (continuous $\times$ dummy).** Fix `course` (so $D_b, D_c$ are constants). For a **woman** ($D^{sex}_M = 0$):
+
+$$\widehat{\text{Salary}}_F \;=\; \hat\beta_0 + \hat\beta_g\,grade + \hat\beta_b\,D_b + \hat\beta_c\,D_c\quad\Rightarrow\quad \frac{\partial\,\widehat{\text{Salary}}_F}{\partial grade} \;=\; \hat\beta_g.$$
+
+For a **man** ($D^{sex}_M = 1$):
+
+$$\widehat{\text{Salary}}_M \;=\; (\hat\beta_0 + \hat\beta_M) + (\hat\beta_g + \hat\gamma)\,grade + \hat\beta_b\,D_b + \hat\beta_c\,D_c\quad\Rightarrow\quad \frac{\partial\,\widehat{\text{Salary}}_M}{\partial grade} \;=\; \hat\beta_g + \hat\gamma.$$
+
+So the women's slope is $\hat\beta_g$, the men's slope is $\hat\beta_g + \hat\gamma$, and $\hat\gamma$ is the **slope shift** when moving from the reference group to level $M$. Suppose $\hat\beta_g = 30$ and $\hat\gamma = 12$ on the GS fit (so $\hat\beta_M$ also re-adjusts to e.g. $1\,150$): women earn $+30$ € per extra grade point, men earn $+42$ € per extra grade point — **the gender gap is no longer a constant $\beta_M$, it widens with grade**.
+
+**Two-continuous interaction** (no dummy involved) follows the same derivation with $X_j\cdot X_k$ replacing $X_j\cdot D$: the slope of $X_j$ becomes $\hat\beta_j + \hat\beta_{jk}\cdot X_k$ — a **linear function of $X_k$**. Same row of the master table, same $t$-test.
+
+**Testing the interaction.** $H_0:\gamma = 0$ vs $H_1:\gamma\ne 0$ is **row 2 of g14a** with $\theta_0 = 0$: read off the $t$-stat and $p$-value for the `grade:sexM` row of `summary(fit2)`. With a single interaction column the partial $F$ in `anova(fit1, fit2)` (df $= 1, n-p-1$) gives an *identical* verdict ($F = t^2$). If not rejected, *drop* the interaction — back to $\mathcal M_1$.
+
+```r
+fit2 <- lm(Salary ~ grade + sex + course + sex:grade, data = GS)
+# Shortcut: Salary ~ (grade + sex)^2 + course  expands to the same model
+summary(fit2)                                                # t on grade:sexM tests H0: gamma = 0
+anova(fit1, fit2)                                            # equivalent partial F, df1 = 1
+
+# Per-sex slopes, course fixed
+b_g  <- coef(fit2)["grade"];          b_g                    # 30 -> women's slope
+gam  <- coef(fit2)["grade:sexM"];     b_g + gam              # 42 -> men's slope
+```
+
+> **Centring tip.** If $\hat\beta_M$ is hard to read because $grade = 0$ is far outside the data, **centre** `grade` (subtract its mean) before fitting: the main effect of `sex` then reads off as the gender gap *at the average grade*, not at $grade = 0$ — much more interpretable.
+
+</details>
+
+---
+
+<details class="master-subpart">
+<summary>(e) Parallel-vs-non-parallel lines — the mental picture</summary>
+
+In the $(grade,\,\widehat{\text{Salary}})$ plane (fixing `course` at the baseline $a$ for clarity), $\mathcal M_1$ and $\mathcal M_2$ trace one **line per sex**:
 
 | Model | Women: intercept | Women: slope | Men: intercept | Men: slope | Geometry |
 |---|---|---|---|---|---|
-| **$\mathcal M_1$** (no interaction) | $\beta_0 = 1\,400$ | $\beta_g = 35$ | $\beta_0+\beta_M = 3\,400$ | $\beta_g = 35$ | **parallel lines** — same slope, vertical shift $\beta_M$ |
-| **$\mathcal M_2$** (with interaction) | $\beta_0 = 1\,400$ | $\beta_g = 30$ | $\beta_0+\beta_M = 2\,550$ | $\beta_g+\gamma = 42$ | **non-parallel lines** — both intercept and slope shift; lines may cross |
+| **$\mathcal M_1$** (no interaction) | $\beta_0 = 1\,400$ | $\beta_g = 35$ | $\beta_0 + \beta_M = 3\,400$ | $\beta_g = 35$ | **parallel** — same slope, constant vertical gap $\beta_M$ |
+| **$\mathcal M_2$** (with interaction) | $\beta_0 = 1\,400$ | $\beta_g = 30$ | $\beta_0 + \beta_M = 2\,550$ | $\beta_g + \gamma = 42$ | **non-parallel** — slopes differ, lines may cross |
 
-So **the interaction is exactly the *lack of parallelism*** between the two lines (or, in general, between the $k$ lines indexed by a categorical variable). Testing $H_0:\gamma = 0$ is testing *"are the two lines parallel?"*. Geometrically:
-
-- $\beta_M$ alone $=$ **shift** of one line above the other (constant gap at every `grade`).
-- $\gamma$ alone (with $\beta_M = 0$) $=$ **rotation** of one line relative to the other through the origin.
-- $\beta_M$ **and** $\gamma$ together $=$ a fully separate line per group — equivalent to fitting `lm(Salary ~ grade, data = subset(sex=='F'))` and `lm(Salary ~ grade, data = subset(sex=='M'))` separately (when *no other regressors* are shared); with shared regressors (here, `course`) the joint fit is **more efficient** because it pools the residual variance.
-
-```r
-# Visualise parallel vs non-parallel
-g_grid <- 0:100
-# M1 -- parallel lines (course = a)
-yF1 <- 1400 + 35*g_grid;          yM1 <- (1400 + 2000) + 35*g_grid
-# M2 -- non-parallel (course = a, beta_M shifted to 1150, gamma = 12)
-yF2 <- 1400 + 30*g_grid;          yM2 <- (1400 + 1150) + (30 + 12)*g_grid
-
-plot (g_grid, yM1, type="l", lwd=2, col="navy", ylim=c(0, 8000),
-      xlab="grade", ylab="Salary", main="Parallel (M1) vs separate (M2) lines")
-lines(g_grid, yF1, lwd=2, lty=2, col="navy")
-lines(g_grid, yM2, lwd=2, col="darkorange")
-lines(g_grid, yF2, lwd=2, lty=2, col="darkorange")
-legend("topleft", lty=c(1,2,1,2), col=c("navy","navy","darkorange","darkorange"),
-       legend=c("M1 men","M1 women","M2 men","M2 women"), bty="n")
-```
-
-**Decision rule.** Test $H_0:\gamma=0$ (interaction zero) via the $t$ on $\hat\gamma$ or `anova(fit1, fit2)`. If **not** rejected, prefer $\mathcal M_1$ (parallel lines — simpler, more df for the residual, identical slope for all groups). If **rejected**, keep $\mathcal M_2$ (separate slopes — the effect of the continuous predictor genuinely differs across groups).
+So **the interaction $\gamma$ *is* the lack of parallelism** between the two lines (or, in general, between the $K$ lines indexed by a $K$-level factor). The $t$-test on $\hat\gamma$ is literally *"are the two lines parallel?"*. The same picture generalises: in `g15e`'s residuals-vs-fitted diagnostic, a *fan* across groups is the visual signature of an unmodelled interaction.
 
 </details>
 
 ---
 
-**Summary table — the GS model family.**
+<details class="master-subpart">
+<summary>(f) Cross-references</summary>
 
-| Quantity | $\mathcal M_0$ (no course) | $\mathcal M_1$ (full, no interaction) | $\mathcal M_2$ (with $sex\times grade$) |
+- **`g15a`** — universal 7-step recipe and the 9-row master case table; this entry walks **rows 8 and 9**.
+- **`g15c`** — matrix-form OLS. Dummies and interactions *slot directly into $X$* as ordinary columns; no formula in g15c changes, only the column structure of $X$.
+- **`g15b`** — prediction CI/PI at $x_0$ with a categorical predictor. The "$x_0$" vector now includes the dummy values for the level you condition on; the leverage $h_{00} = x_0^\top(X^\top X)^{-1}x_0$ uses the same enlarged $X$. The PI is still wider than the CI by the same "$+1$" inside the sqrt.
+- **`g15e`** — diagnostics. Adding an interaction does **not** change the L/I/N/E checks themselves; but a missing interaction can show up in `residuals vs fitted` as a **fan across groups** — a signal that the parallel-lines assumption is wrong.
+- **`g14a`** — row 2 (one-sample $t$): the per-dummy and per-interaction $t$-tests are *exactly* this row with $\theta_0 = 0$, $\bar X \to \hat\beta_k$, $s/\sqrt n \to \widehat{SE}(\hat\beta_k)$. The joint partial $F$ in (b) is row 5 of g15a's master table applied to a *block* of regressors.
+
+**Summary — the GS model family.**
+
+| Quantity | $\mathcal M_0$ (no course) | $\mathcal M_1$ (full additive) | $\mathcal M_2$ (with $sex\times grade$) |
 |---|---|---|---|
 | Regressors (excl. intercept) | 2 | 4 | 5 |
 | Residual df | $97$ | $95$ | $94$ |
-| Course dummies | — | 2 ($b$, $c$) — joint $F_{2,95}=6.90$, $p\approx 0.0016$ | 2 ($b$, $c$) |
-| Sex effect | constant shift $\beta_M$ | constant shift $\beta_M=2\,000$ | shift $\beta_M$ **+** slope shift $\gamma$ |
-| Lines in $(grade,Salary)$ by sex (at $course=a$) | one line per sex, **parallel** | one line per sex, **parallel** | one line per sex, **non-parallel** |
+| Course block | — | 2 dummies — joint $F_{2,95} = 6.90$, $p \approx 0.0016$ | 2 dummies |
+| Sex effect | constant shift $\beta_M$ | constant shift $\beta_M = 2\,000$ | shift $\beta_M$ **+** slope shift $\gamma$ |
+| Lines in $(grade, \text{Salary})$ by sex (at $course=a$) | one per sex, **parallel** | one per sex, **parallel** | one per sex, **non-parallel** |
 | Test for "course matters" | n/a | partial $F_{2,95}$ on dropping $\{b,c\}$ | partial $F_{2,94}$ on dropping $\{b,c\}$ |
 | Test for "slope differs by sex" | n/a | n/a | $t$ on $\hat\gamma$ $\equiv$ partial $F_{1,94}$ |
+
+</details>
 """,
     "images": ["statistics/images/master/master_g15d_ai.png"],
 }
@@ -4153,133 +4439,91 @@ legend("topleft", lty=c(1,2,1,2), col=c("navy","navy","darkorange","darkorange")
 # Dataset: Restaurants (revenues ~ surface), n = 50
 # =====================================================================
 master_exercises["g15e_diagnostics"] = {
-    "title": "Master Exam --- Residual diagnostics & multicollinearity on Restaurants ($n=50$)",
-    "content": r"""> **This entry is the diagnostic checklist that licenses rows 4–7 of the universal regression table** (see top of `g15a`). OLS *coefficients* $\hat{\boldsymbol\beta}$ are unbiased and consistent for the conditional mean under **L** alone (linearity); the **I N E** layer is what makes $t$-tests, CIs and prediction intervals trustworthy.
+    "title": "Master Exam --- Residual diagnostics & multicollinearity (LINE + influence + VIF) on Restaurants ($n=50$) and the GS dataset",
+    "content": r"""## Setup --- the diagnostic mindset
+
+Every inference produced in `g15a`–`g15d` --- the per-coefficient CI $\hat\beta_j \pm t\cdot\widehat{SE}$, the slope $t$-test, the global $F$-test, the CI for the mean response and the PI for an individual at $x_0$, the dummy-shift tests of `g15d` --- **depends on a short list of model assumptions**. The OLS *point* estimator $\hat{\boldsymbol\beta} = (X^\top X)^{-1}X^\top y$ is unbiased and consistent under **linearity** alone, but the *machinery of inference* (every SE, every CI, every $p$-value above) needs **all four LINE assumptions**, plus reasonable **influence** (no single observation drives the fit) and, in multi-regression, **low multicollinearity**. This entry tells you (i) **how to check** each assumption, (ii) **what breaks** when each is violated, and (iii) **what to do about it**. The two running models are the simple regression from `g15a` (Restaurants: $\text{revenues}\sim\text{surface}$, $n=50$) and the multi-regression extension from `g15d` (GS: $\text{Salary}\sim\text{grade}+\text{sex}+\text{course}$, $n=100$, used in part (f) where multicollinearity becomes possible).
+
+> **This is step 7 of g15a's universal regression recipe** --- "diagnostics (LINE)". The recipe and the 9-row master case table live at the top of `g15a`; this entry walks step 7 in detail. Every plot/test below tells you which row of `g15a`'s master case table is still trustworthy and which one to discount or fix.
 
 ### The LINE checklist (this entry's spine)
 
-| Letter | Assumption | How to check | Failure $\Rightarrow$ | Remedy |
-|---|---|---|---|---|
-| **L** | **L**inearity: $E[Y\mid X]$ is linear in $X$ | $e$ vs $\hat y$ (curvature); $e$ vs each $x_j$ (quadratic shape) | wrong functional form — biased $\hat\beta$ | add $X^2$ / polynomial / spline; transform $X$ |
-| **I** | **I**ndependence of $\varepsilon_i$ | study design; for time/panel data: residual ACF, Durbin–Watson | wrong df, anti-conservative SE | cluster / HAC SE; mixed model |
-| **N** | **N**ormality of residuals | histogram + Q-Q of $r_i^{\text{std}}$; Shapiro–Wilk | small-sample $t$/F/PI invalid (CLT covers large $n$) | $\log Y$ or Box–Cox; report robust SE |
-| **E** | **E**qual variance (homoscedasticity) | $e$ vs $\hat y$ (funnel); scale-location plot; Breusch–Pagan | OLS no longer minimum-variance; SE wrong | $\log Y$ / WLS / HC sandwich SE |
-| **+** | Influence: outlier × leverage | $|r_i^{\text{std}}|$, $h_{ii}$, Cook's $D_i$ | a few points dominate $\hat{\boldsymbol\beta}$ | refit without and report sensitivity |
-| **+** | Multicollinearity (multi-regressor only) | VIF$_j = 1/(1-R_j^2)$ | $\widehat{SE}(\hat\beta_j)$ inflated; $t$ shrinks | drop / combine / ridge |
+| Letter | Assumption | Why it matters (which row of g15a it licenses) | Diagnostic plot / test | What "good" looks like | Common failure | Remedy |
+|---|---|---|---|---|---|---|
+| **L** | **L**inearity: $E[Y\mid X] = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p$ | $\hat{\boldsymbol\beta}$ unbiased for the conditional mean (rows 1–9 all) | Residuals-vs-Fitted ($e_i$ vs $\hat y_i$); $e_i$ vs each $x_j$ | random cloud around 0, LOWESS flat | U/curve in LOWESS, systematic trend | add $X^2$ / polynomial / interaction; transform $X$ |
+| **I** | **I**ndependence of $\varepsilon_i$ | $\widehat{\Var}(\hat{\boldsymbol\beta}) = \hat\sigma^2(X^\top X)^{-1}$ correct (every SE, df) | study design; for time/panel data: residual ACF, Durbin–Watson | no autocorrelation, DW $\approx 2$ | DW $\ll 2$ or $\gg 2$; serial pattern in $e_t$ vs $t$ | HAC / cluster-robust SE; time-series or mixed model |
+| **N** | **N**ormality of residuals: $\varepsilon_i\sim\mathcal N(0,\sigma^2)$ | small-sample exactness of $t$, $F$, CI, PI (rows 4–7) --- CLT rescues large $n$ for tests/CI but **not for PI** | histogram + Q-Q of $r_i^{\text{std}}$; Shapiro--Wilk | bell shape; Q-Q on the 45° line; $p>\alpha$ | S-shape / skew / heavy tails | $\log Y$ or Box--Cox; rely on $n$ large; report robust SE |
+| **E** | **E**qual variance (homoscedasticity): $\Var(\varepsilon_i)=\sigma^2$ | $\widehat{SE}$ correct; OLS = BLUE (Gauss--Markov) | $e$ vs $\hat y$ (funnel?); Scale--Location $\sqrt{|r^{\text{std}}|}$ vs $\hat y$; Breusch--Pagan | constant vertical spread; flat smoother | funnel / cone widening with $\hat y$ | $\log Y$ / WLS / HC sandwich SE (`vcovHC`) |
 
-> The 7-step recipe lives at the top of `g15a`; this entry is **step 7** in detail — every plot below tells you which row of the master table is still trustworthy and which one to discount or fix.
+> **Influence (a separate dimension --- not LINE).** Even when LINE all hold, a few points with extreme $x$ *and* extreme residual can drive $\hat{\boldsymbol\beta}$. Diagnostics: leverage $h_{ii}$, studentised residual $r_i^{\text{stud}}$, Cook's $D_i$. Owned by subpart (e) below.
+
+> **Multicollinearity (multi-regression only --- not LINE).** When predictors are nearly linearly dependent, the OLS *estimator* exists but $\widehat{SE}(\hat\beta_j)$ inflates, $t$-statistics shrink and individual significance disappears even when the joint $F$ is highly significant. Diagnostic: $\mathrm{VIF}_j = 1/(1-R_j^2)$. Owned by subpart (f) below.
+
+### Boxed "if it's bad, what breaks?" map
+
+$$\boxed{\begin{array}{l}
+\textbf{L violated} \Rightarrow \text{coefficients } \hat{\boldsymbol\beta} \textbf{ biased} \text{ for the true conditional mean} \\\\
+\textbf{I violated} \Rightarrow \widehat{SE}(\hat\beta_j) \textbf{ wrong} \Rightarrow t\text{-tests, CIs, } F\text{-tests, PIs all wrong} \\\\
+\textbf{N violated (small } n) \Rightarrow t,\,F,\,\text{PI exactness lost} \text{ (CLT rescues tests/CIs for large } n; \text{ PI stays sensitive)} \\\\
+\textbf{E violated} \Rightarrow \widehat{SE}(\hat\beta_j) \textbf{ wrong} \Rightarrow t,\,F,\,\text{CI invalid; point predictions still OK} \\\\
+\textbf{Influence point} \Rightarrow \hat{\boldsymbol\beta} \text{ dominated by a few obs} \Rightarrow \text{report fit with and without} \\\\
+\textbf{Multicollinearity} \Rightarrow \widehat{SE}(\hat\beta_j) \textbf{ inflated} \Rightarrow \text{individual } t \text{ insignificant, joint } F \text{ still big}
+\end{array}}$$
 
 ---
 
-**Master exercise --- Residual diagnostics & multicollinearity (consolidated).**
+### Running datasets (re-used from g15a and g15d --- not re-derived here)
 
-A single dataset, seven sub-points covering every unique diagnostic concept asked across **Ex 8.4a** (Restaurants: revenues ~ surface): raw and standardised residuals, residuals-vs-fitted heteroscedasticity check, residuals-vs-predictor structure check, Normality of residuals (histogram + Q-Q), Cook's distance / leverage / influence, VIF for multicollinearity, and remedies (log / Box-Cox / drop predictor / ridge).
+**Simple regression (Restaurants, from Ex 8.4a).** $n=50$ restaurants with $X=\text{surface}$ ($m^2$ of dining area) and $Y=\text{revenues}$ (weekly revenues, kEUR). The OLS fit (`g15a` recipe) gives
+$$\widehat{\text{revenues}} \;=\; 246.812 \;+\; 0.4049\,\text{surface},\qquad \widehat\sigma_\varepsilon \approx 41.7,\qquad R^2\approx 0.12,\qquad p\,(\text{slope}) \approx 0.$$
+This is the model whose residual cone, $\log Y$ remedy and `evening_only`-split residual boxplot are explored in `Ex 8.4a`.
 
----
-
-### Dataset (single, shared by all parts)
-
-The `restaurants` dataset records $n=50$ restaurants with
-
-- $X = \text{surface}$ (square metres of dining area)
-- $Y = \text{revenues}$ (weekly revenues, thousands of EUR)
-
-We fit the simple OLS model
-$$Y_i \;=\; \beta_0 \;+\; \beta_1 X_i \;+\; \epsilon_i,\qquad \epsilon_i \stackrel{iid}{\sim}\mathcal N(0,\sigma^2_\epsilon),\qquad i=1,\dots,50.$$
-
-OLS gives $\hat\beta_0 = 246.812$, $\hat\beta_1 = 0.4049$ (kEUR per $m^2$), $\widehat\sigma_\epsilon \approx 41.7$, $R^2 \approx 0.61$. For parts (f)--(g) we also entertain the *multiple* regression $Y \sim \text{surface} + \text{seats} + \text{evening\_only}$, with `seats` strongly correlated with `surface` ($r \approx 0.93$).
+**Multi-regression (GS, from `g15d`).** $n=100$ junior employees, $\mathcal M_1:\;\text{Salary}\sim\text{grade}+\text{sex}+\text{course}$. We will use it in part (f) to compute VIFs, after the optional addition of a near-collinear regressor `experience` whose construction is given there.
 
 ```r
+# Restaurants --- simple regression
 mod  <- lm(revenues ~ surface, data = restaurants)
-summary(mod)                                     # coefs, R^2, sigma_hat
-e    <- residuals(mod)                           # raw residuals e_i
-yhat <- fitted(mod)                              # fitted values
-n    <- nobs(mod);  p <- length(coef(mod))       # 50 obs, 2 parameters
+e    <- residuals(mod);   yhat <- fitted(mod)
+r_std  <- rstandard(mod); r_stud <- rstudent(mod)
+n    <- nobs(mod);  p <- length(coef(mod)) - 1     # p = 1 predictor, df = n - p - 1 = 48
 ```
+
+> The OLS estimator, $\widehat{SE}$ formula, $t$-test, $F$-test and CIs/PIs *do not* change between this entry and `g15a`/`g15b`/`g15c`/`g15d`. **What this entry adds is the certificate of validity for those formulas.**
 
 ---
 
 <details class="master-subpart" open>
-<summary><span class="tag tag-exam">EXAM</span> (a) Raw residuals $e_i$ and standardised residuals $r_i^{\text{std}}$</summary>
+<summary><span class="tag tag-exam">EXAM</span> (a) <strong>L --- Linearity:</strong> Residuals-vs-Fitted plot (<code>plot(mod, which = 1)</code>)</summary>
 
-The **raw residual** is the empirical counterpart of the unobservable error $\epsilon_i$:
-$$e_i \;=\; y_i \;-\; \hat y_i \;=\; y_i \;-\; (\hat\beta_0 + \hat\beta_1 x_i).$$
+**What it shows.** On the horizontal axis: the fitted values $\hat y_i$. On the vertical axis: the raw residuals $e_i = y_i - \hat y_i$. A red LOWESS smoother is overlaid. Under correct linear specification, $e_i$ should look like noise around 0 with **no trend in the mean** --- the LOWESS line should hug the zero line.
 
-By construction OLS forces $\sum_i e_i = 0$ and $\sum_i x_i e_i = 0$, so the residual *vector* lives in an $(n-p)$-dimensional subspace --- this is why we divide SSE by $n-p$ when estimating $\sigma_\epsilon^2$:
-$$\widehat\sigma_\epsilon^2 \;=\; \frac{1}{n-p}\sum_{i=1}^{n}e_i^2.$$
+**What "good" looks like.** A formless cloud of points, evenly scattered above and below 0, LOWESS flat at $e=0$. No curvature, no fan, no clusters.
 
-Raw residuals are **not** identically distributed: $\mathrm{Var}(e_i) = \sigma_\epsilon^2(1-h_{ii})$ where $h_{ii}$ is the *leverage* (the $i$-th diagonal of the hat matrix $H=X(X^\top X)^{-1}X^\top$). High-leverage points have *smaller* raw-residual variance --- they pull the line toward themselves and so produce mechanically tiny $e_i$. To make residuals comparable across observations we rescale:
+**What "bad" looks like and what it diagnoses.**
 
-$$\boxed{\;r_i^{\text{std}} \;=\; \frac{e_i}{\widehat\sigma_\epsilon\sqrt{1-h_{ii}}}\;\approx\;\mathcal N(0,1)\text{ under model assumptions.}\;}$$
-
-A *Studentised* (a.k.a. externally Studentised) residual replaces $\widehat\sigma_\epsilon$ by $\widehat\sigma_{\epsilon,(i)}$ --- the SD estimated *without* observation $i$ --- and is exactly $t_{n-p-1}$ under Normality.
-
-Rule of thumb: $|r_i^{\text{std}}|>2$ is *worth inspecting*; $|r_i^{\text{std}}|>3$ is a *likely outlier*.
-
-```r
-e        <- residuals(mod)
-r_std    <- rstandard(mod)                       # internally Studentised
-r_stud   <- rstudent(mod)                        # externally Studentised (t_{n-p-1})
-sigma_hat <- summary(mod)$sigma                  # sqrt( SSE / (n-p) )
-sum(e)                                           # ~ 0  (OLS normal eq.)
-sum(restaurants$surface * e)                     # ~ 0
-mean(abs(r_std) > 2)                             # share of "worth-inspecting" points
-```
-
-</details>
-
----
-
-<details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> (b) Plot $e$ vs $\hat y$ --- funnel $\Rightarrow$ heteroscedasticity</summary>
-
-The **residuals-vs-fitted** plot is the single most informative diagnostic. Under the Gauss--Markov assumptions, $e_i$ should look like noise around zero with **constant vertical spread** for every value of $\hat y$. Failure patterns:
-
-| Pattern in $e$ vs $\hat y$ | Diagnosis | Remedy (sketch) |
+| Pattern in $e$ vs $\hat y$ | Diagnosis | Standard remedy |
 |---|---|---|
-| Random cloud, constant spread | OK --- homoscedastic, well-specified | none |
-| **Funnel** (spread $\uparrow$ as $\hat y\uparrow$) | **Heteroscedasticity** --- $\mathrm{Var}(\epsilon_i)\propto \mu_i^\alpha$ | log/Box--Cox $Y$; WLS; HC robust SE |
-| Curvature (U or inverted-U) | Wrong functional form --- missing $X^2$ or interaction | add polynomial term; transform $X$ |
-| Trend in mean (line not at 0) | Should not happen for OLS with intercept | check code; refit |
+| Random cloud, constant spread | OK | none |
+| **Curvature** (U / inverted-U / S in the LOWESS) | **L violated** --- missing nonlinear term | add $X^2$, polynomial, spline, or interaction; transform $X$ |
+| Spread $\uparrow$ with $\hat y$ (cone, funnel) | E violated --- *heteroscedasticity* | see part (d) |
+| Trend in mean (LOWESS line away from 0) | shouldn't happen for OLS with intercept | check code |
 
-For Restaurants, plotting `e` vs `yhat` shows a clear **funnel opening to the right**: small restaurants ($\hat y \approx 280$) have residuals tightly clustered within $\pm 30$, while large restaurants ($\hat y \approx 540$) have residuals scattered across $\pm 100$. This is **textbook multiplicative heteroscedasticity**: bigger restaurants have proportionally bigger *absolute* shocks, consistent with revenues being a *count-like* quantity whose variance grows with its mean.
+**Why it licenses every $\hat\beta$.** If the LOWESS bends, the true conditional mean is not linear in the current $X$, the OLS line is missing a feature, and $\hat{\boldsymbol\beta}$ no longer estimates the *true* slope of the conditional mean --- it estimates a *best linear approximation* that may carry a non-trivial bias. All subsequent inference in `g15a`–`g15d` (slope $t$-tests, CIs, predictions) is then targeted at the wrong quantity.
 
-Formal tests confirm visual reading: Breusch--Pagan and White:
-$$H_0:\;\mathrm{Var}(\epsilon_i)=\sigma^2_\epsilon \quad\text{vs}\quad H_1:\;\mathrm{Var}(\epsilon_i)=h(\mathbf z_i^\top \boldsymbol\gamma).$$
+**Worked reading on Restaurants.** Running `plot(mod, which = 1)`:
 
-```r
-plot(yhat, e, pch = 19, col = "steelblue",
-     xlab = "Fitted values", ylab = "Residuals e_i",
-     main = "Residuals vs Fitted --- funnel = heteroscedasticity")
-abline(h = 0, lty = 2)
-lines(lowess(yhat, e), col = "firebrick", lwd = 2)
+- The LOWESS dips slightly above zero in the middle of the $\hat y$ range and bends down at the right end --- mild evidence of **missing curvature** in `surface` (revenues likely saturate at very large dining rooms).
+- *Plus* the dispersion of $e_i$ visibly **widens** going right: at $\hat y \approx 280$ residuals are $\pm 30$, at $\hat y \approx 540$ they span $\pm 100$ --- this is the **cone** that part (d) will diagnose as heteroscedasticity.
 
-library(lmtest)
-bptest(mod)                                     # Breusch-Pagan; p < 0.05 -> reject homoscedasticity
-bptest(mod, ~ surface + I(surface^2))           # White-style (squares included)
-```
-
-</details>
-
----
-
-<details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> (c) Plot $e$ vs each $x$ --- functional-form check</summary>
-
-Whereas $e$ vs $\hat y$ pools information across *all* predictors, plotting **residuals against each predictor separately** isolates which variable is misspecified. Expected pattern under correct specification: a **flat horizontal band**, with the LOWESS smoother hugging zero. Telltale failures:
-
-- **Quadratic shape** in $e$ vs $x_j$: model is missing $x_j^2$ --- add it.
-- **Monotone trend**: model is missing $x_j$ entirely (only an issue if $x_j$ was omitted).
-- **Funnel widening with $x_j$**: heteroscedasticity is driven by $x_j$ --- use $\log Y$ or WLS with weights $1/x_j^2$.
-
-For Restaurants the $e$-vs-`surface` plot also shows a funnel (because `surface` is monotone in $\hat y$), confirming that `surface` is the *driver* of the heteroscedasticity, not a hidden third variable.
+Conclusion for L: **mild violation**; consider adding $\text{surface}^2$ (or $\log$-transform of $Y$, which jointly fixes E as well).
 
 ```r
+plot(mod, which = 1)                            # Residuals vs Fitted (with LOWESS)
+# Optional manual version with each predictor:
 plot(restaurants$surface, e, pch = 19, col = "steelblue",
-     xlab = "surface (m^2)", ylab = "Residuals e_i",
-     main = "Residuals vs surface")
-abline(h = 0, lty = 2)
-lines(lowess(restaurants$surface, e), col = "firebrick", lwd = 2)
+     xlab = "surface (m^2)", ylab = "Residuals e_i")
+abline(h = 0, lty = 2); lines(lowess(restaurants$surface, e),
+                              col = "firebrick", lwd = 2)
 ```
 
 </details>
@@ -4287,32 +4531,30 @@ lines(lowess(restaurants$surface, e), col = "firebrick", lwd = 2)
 ---
 
 <details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> (d) Histogram + Q-Q of residuals --- Normality</summary>
+<summary>(b) <strong>I --- Independence:</strong> when to worry, how to check</summary>
 
-Normality of $\epsilon$ is **not** needed for OLS unbiasedness or consistency --- it is needed for **exact** small-sample $t$- and $F$-inference and for prediction *intervals*. Two visual tools:
+**Assumption.** $\varepsilon_1, \varepsilon_2, \dots, \varepsilon_n$ are mutually independent. The course's default cross-sectional setting (50 different restaurants, 100 different employees) usually satisfies this *by sampling design* --- the worry is real only when there is a natural ordering or grouping in the data.
 
-1. **Histogram** of $r_i^{\text{std}}$ --- should be roughly bell-shaped, centred at 0, with $\sim 95\%$ within $[-2,2]$.
-2. **Normal Q-Q plot** --- sorted $r_i^{\text{std}}$ against $\Phi^{-1}((i-0.5)/n)$. Points should lie on the 45-degree line. Deviations diagnose:
+**When to worry.**
 
-| Q-Q pattern | Diagnosis |
-|---|---|
-| Straight line | Normal --- OK |
-| **S-shape** (heavy tails) | Leptokurtic --- outliers; consider robust regression |
-| **Inverted-S** | Light tails --- usually benign |
-| **Concave up** (curves up at both ends) | Right-skewed residuals --- try $\log Y$ |
-| Right tail bends above line | Right-skew, again pointing to $\log Y$ |
+- **Time series**: $\varepsilon_t$ for the *same* unit observed across $t=1,\dots,T$ tends to be serially correlated.
+- **Spatial / clustered** data: schools within districts, customers within stores, employees within firms.
+- **Repeated measures**: several observations per unit.
 
-Formal supplement: **Shapiro--Wilk** ($H_0$: Normal). For Restaurants the Q-Q plot bends concavely upward at the right (a handful of large positive residuals from big restaurants on busy nights) --- a *second* signal pointing to the $\log Y$ remedy.
+**How to check.** For time series, plot $e_t$ vs $t$ (look for runs of same-sign residuals) and compute the **Durbin–Watson** statistic
+$$\mathrm{DW} \;=\; \frac{\sum_{t=2}^{n}(e_t-e_{t-1})^2}{\sum_{t=1}^{n}e_t^2}\;\in\;[0,4],\qquad \mathrm{DW}\approx 2 \;\Leftrightarrow\; \text{no first-order autocorrelation}.$$
+$\mathrm{DW} \ll 2$ flags positive autocorrelation; $\mathrm{DW} \gg 2$ negative. For clustered designs, plot residuals split by cluster (sign of within-cluster correlation).
+
+**What breaks if violated.** $\widehat{\Var}(\hat{\boldsymbol\beta}) = \hat\sigma^2(X^\top X)^{-1}$ assumes diagonal $\Var(\boldsymbol\varepsilon) = \sigma^2 I$. If errors are correlated, the true variance has off-diagonal terms, $\widehat{SE}$'s are **wrong** (usually too small), and $t$-statistics inflate spuriously --- you reject too often.
+
+**Remedies.** HAC ("Newey–West") robust SEs for time series; cluster-robust SEs for clustered data; mixed-effects / GLS models when correlation structure is rich.
+
+For Restaurants (a cross-section of 50 distinct restaurants) and GS (a cross-section of 100 distinct employees), independence is *plausible by design* and no DW test is needed.
 
 ```r
-par(mfrow = c(1, 2))
-hist(r_std, breaks = 15, col = "steelblue", border = "white",
-     main = "Histogram of standardised residuals", xlab = "r_std")
-qqnorm(r_std, pch = 19, col = "steelblue", main = "Normal Q-Q")
-qqline(r_std, col = "firebrick", lwd = 2)
-par(mfrow = c(1, 1))
-
-shapiro.test(r_std)                              # H0: Normal; reject if p < 0.05
+library(lmtest)
+dwtest(mod)                                     # H0: no autocorrelation (DW ~ 2)
+acf(residuals(mod), main = "Residual ACF")       # for time-ordered data
 ```
 
 </details>
@@ -4320,37 +4562,130 @@ shapiro.test(r_std)                              # H0: Normal; reject if p < 0.0
 ---
 
 <details class="master-subpart">
-<summary>(e) Cook's distance, leverage, influence</summary>
+<summary><span class="tag tag-exam">EXAM</span> (c) <strong>N --- Normality of residuals:</strong> histogram + Q-Q plot (<code>plot(mod, which = 2)</code>)</summary>
 
-A point can be unusual in three distinct ways --- and we need three distinct diagnostics:
+**Assumption.** $\varepsilon_i \overset{\rm iid}{\sim} \mathcal N(0,\sigma^2)$. This is needed for the *exact* small-sample distribution of every inferential procedure: $t_{n-p-1}$ for the slope $t$-test (`g15a`, `g15c`), $F_{p,n-p-1}$ for the global $F$-test (`g15c`), the CI for the mean response and the PI for an individual at $x_0$ (`g15b`).
 
-| Concept | Measures | Statistic | Flag threshold |
+**What "good" looks like.**
+
+1. **Histogram** of $r_i^{\text{std}}$: roughly bell-shaped, symmetric, centred at 0, with about $95\%$ of values within $[-2,2]$.
+2. **Normal Q-Q plot**: the sorted $r_i^{\text{std}}$ against $\Phi^{-1}((i-0.5)/n)$ lie on the 45° reference line.
+
+**What "bad" looks like.**
+
+| Q-Q pattern | Diagnosis | What it suggests |
+|---|---|---|
+| Straight diagonal | $\mathcal N$ --- OK | --- |
+| **S-shape** (both tails bend away from the line) | **Heavy tails** | outliers; consider robust regression |
+| **Inverted S** | Light tails | usually benign |
+| **Concave up** (right tail above line) | **Right-skewed residuals** | $\log Y$ or $\sqrt Y$ |
+| **Concave down** (left tail below line) | Left-skewed residuals | reflect / transform |
+
+**Formal supplement.** The **Shapiro–Wilk** test, $H_0:\;\varepsilon\sim\mathcal N$, $H_1:\;$ not Normal. Reject $H_0$ if $p<\alpha$. (Watch out: for large $n$ the test rejects on trivial deviations.)
+
+**When CLT rescues you (and when it doesn't).** For large $n$, the sampling distribution of $\hat\beta_j$ is approximately Normal *regardless* of $\varepsilon_i$'s distribution, by the CLT applied to the linear estimator $\hat\beta_j = \sum_i w_i Y_i$. So $t$-tests and CIs on $\hat\beta_j$ are *asymptotically* valid even without N. **But prediction intervals for an individual $Y_0$** carry the residual term $\varepsilon_0$ itself --- *no* averaging --- and remain sensitive to Normality at *any* sample size. If N fails and you need a PI, transform $Y$.
+
+**Worked reading on Restaurants.** Running `plot(mod, which = 2)` and `hist(rstandard(mod))`:
+
+- Histogram is mostly bell-shaped but with a heavier *right* tail (a handful of large positive residuals from big restaurants on very busy weeks).
+- Q-Q plot is straight in the middle, with the upper few points lifting **above** the 45° line --- **concave-up** pattern, i.e. **right skew**.
+- `shapiro.test(rstandard(mod))` returns $p\approx 0.02 < 0.05$ → reject $H_0$ at $\alpha=5\%$.
+
+Conclusion for N: **mild right skew**. $\log Y$ would symmetrise the residuals (and simultaneously remove the cone of part (d)). With $n=50$ the CLT broadly rescues the slope $t$-test and its CI, *but* PIs for revenues at a specific surface would mis-cover and should be reported only after $\log$-transform.
+
+```r
+plot(mod, which = 2)                            # Q-Q plot with reference line
+hist(rstandard(mod), breaks = 12, col = "steelblue", border = "white",
+     main = "Standardised residuals", xlab = "r_std")
+shapiro.test(residuals(mod))                     # H0: Normal; reject if p < alpha
+```
+
+</details>
+
+---
+
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (d) <strong>E --- Equal variance (homoscedasticity):</strong> Scale–Location plot (<code>plot(mod, which = 3)</code>)</summary>
+
+**Assumption.** $\Var(\varepsilon_i\mid X_i) = \sigma^2$ for every $i$. The error variance is a **single constant** --- it does not depend on the predictors, on $\hat y_i$, on the index $i$, on time, or on any subgroup. This is *the* assumption that makes the OLS standard-error formula $\widehat{\Var}(\hat{\boldsymbol\beta}) = \hat\sigma^2(X^\top X)^{-1}$ correct and OLS the best linear unbiased estimator (Gauss–Markov).
+
+**Two visual checks.**
+
+1. **Residuals-vs-Fitted plot** ($e$ vs $\hat y$ from part (a)): under homoscedasticity the *vertical spread* of points is constant across the horizontal range. A widening (or narrowing) cone signals heteroscedasticity.
+2. **Scale–Location plot** $\sqrt{\lvert r^{\text{std}}_i\rvert}$ vs $\hat y_i$ (`plot(mod, which = 3)`): designed to make heteroscedasticity stand out as a slope in the LOWESS. Under homoscedasticity the red smoother is **flat**; if it rises (or falls) with $\hat y$, the spread depends on the level → reject E.
+
+**Formal test --- Breusch–Pagan.** Regress $e_i^2$ on the predictors (or on $\hat y_i$) and apply an $LM$-test:
+$$H_0:\;\Var(\varepsilon_i)=\sigma^2 \quad\text{vs}\quad H_1:\;\Var(\varepsilon_i) = h(\mathbf z_i^\top\boldsymbol\gamma).$$
+`lmtest::bptest(mod)` returns a $p$-value; reject homoscedasticity if $p<\alpha$.
+
+**What breaks if violated.** $\widehat{SE}(\hat\beta_j)$ is **wrong** (typically too small where variance is large). $t$-tests over-reject, CIs are too narrow, $F$-tests mis-size, PI widths are wrong (too narrow on the high-variance side, too wide on the low-variance side). **Point predictions $\hat y_0 = x_0^\top\hat{\boldsymbol\beta}$ remain OK** --- only the *uncertainty* statements break.
+
+**Remedies.** $\log Y$ (or $\sqrt Y$) if $Y>0$ and variance grows multiplicatively with the mean; **WLS** with weights $1/\widehat{\Var}(\varepsilon_i)$; or keep OLS and replace SEs with **HC ("sandwich") robust SEs** (`sandwich::vcovHC`, `coeftest`).
+
+**Worked reading on Restaurants.** The Restaurants $e$-vs-$\hat y$ shows a clear **funnel opening to the right**: residual spread at $\hat y\approx 280$ is $\pm 30$, at $\hat y\approx 540$ is $\pm 100$. The Scale–Location plot's red smoother rises steeply with $\hat y$: $\sqrt{\lvert r^{\text{std}}\rvert}$ at $\hat y=280$ is $\sim 0.5$, at $\hat y=540$ is $\sim 1.5$. `bptest(mod)` returns $p \approx 0.005 < 0.05$ → **reject homoscedasticity**.
+
+Conclusion for E: **clear violation**. The OLS slope $\hat\beta_1=0.4049$ is still unbiased, but its textbook SE is wrong. Two fixes:
+
+- **Variance-stabilising transform**: refit on $\log(\text{revenues})$ --- the funnel disappears and the slope acquires a clean semi-elasticity interpretation.
+- **HC robust SE**: `coeftest(mod, vcov = vcovHC(mod, type = "HC3"))` --- coefficients unchanged, SEs corrected.
+
+```r
+plot(mod, which = 3)                            # Scale-Location (sqrt|r_std| vs y_hat)
+
+library(lmtest); library(sandwich)
+bptest(mod)                                     # Breusch-Pagan; H0: homoscedasticity
+coeftest(mod, vcov = vcovHC(mod, type = "HC3")) # HC3 robust SE replacement
+
+# Variance-stabilising transform
+modL <- lm(log(revenues) ~ surface, data = restaurants)
+plot(modL, which = 1); plot(modL, which = 3)    # funnel should be gone
+bptest(modL)                                    # p > 0.05 now
+```
+
+</details>
+
+---
+
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (e) <strong>Influence --- leverage, studentised residuals, Cook's distance</strong> (<code>plot(mod, which = 5)</code>)</summary>
+
+A point can be "unusual" in **three logically distinct** ways:
+
+| Concept | Measures | Statistic | Flag |
 |---|---|---|---|
-| **Outlier** | Large *vertical* residual ($y_i$ far from $\hat y_i$) | $\lvert r_i^{\text{std}}\rvert$ | $>2$ inspect, $>3$ outlier |
-| **Leverage** | Far in *predictor* space ($x_i$ far from $\bar x$) | $h_{ii}=[H]_{ii}$, $\sum h_{ii}=p$ | $h_{ii}>2p/n$ (here $2\cdot 2/50=0.08$) |
-| **Influence** | Removing it *changes* the fit | Cook's $D_i$ | $D_i>4/n$ (here $0.08$); $D_i>1$ severe |
+| **Outlier** | Large *vertical* residual ($y_i$ far from the fitted line) | $\lvert r_i^{\text{std}}\rvert$ or $\lvert r_i^{\text{stud}}\rvert$ | $>2$ inspect, $>3$ outlier |
+| **Leverage** | Far in *predictor* space ($x_i$ far from $\bar x$) | $h_{ii} = [H]_{ii}$, $\sum_i h_{ii} = p+1$ | $h_{ii} > 2(p+1)/n$ |
+| **Influence** | Removing it *changes* the fit | Cook's $D_i$ | $D_i > 4/n$; $D_i > 1$ severe |
 
-**Cook's distance** combines both ingredients into a single scalar --- it asks: *"how much does $\hat{\boldsymbol\beta}$ move if we delete observation $i$?"*
-$$\boxed{\;D_i \;=\; \frac{(r_i^{\text{std}})^2}{p}\cdot\frac{h_{ii}}{1-h_{ii}}.\;}$$
+**Hat-matrix derivation of leverage.** The fitted vector is $\hat y = X(X^\top X)^{-1}X^\top y = Hy$, so $\hat y_i = \sum_j h_{ij} y_j$ with $h_{ij} = [H]_{ij}$. The diagonal $h_{ii}$ measures how much observation $i$ "pulls" its own fit: $\partial\hat y_i / \partial y_i = h_{ii}$. The trace identity $\sum_i h_{ii} = \mathrm{tr}(H) = p+1$ gives the rule of thumb: a typical $h_{ii} \approx (p+1)/n$; flag $h_{ii} > 2(p+1)/n$.
 
-The decomposition is the key insight: $D_i$ is *large* only when **both** factors are big --- a point must be **both** an outlier **and** high-leverage to actually move the fit. A high-leverage point with a tiny residual sits on the regression line and contributes nothing to $D_i$; a big residual at average $x$ has $h_{ii}\approx 1/n$ and again gives small $D_i$.
+**Studentised residual.** Raw residuals do *not* share a common variance: $\Var(e_i) = \sigma^2(1-h_{ii})$, so high-leverage points have mechanically *smaller* residual spread. To compare across $i$ we rescale:
+$$r_i^{\text{std}} \;=\; \frac{e_i}{\widehat\sigma_\varepsilon\sqrt{1-h_{ii}}}\;\approx\;\mathcal N(0,1),\qquad r_i^{\text{stud}} \;=\; \frac{e_i}{\widehat\sigma_{\varepsilon,(i)}\sqrt{1-h_{ii}}}\;\sim\; t_{n-p-2}.$$
+(The "studentised" or "externally studentised" version replaces $\widehat\sigma_\varepsilon$ by the SD estimate from the fit *without* observation $i$.)
 
-For Restaurants, the two biggest establishments (`surface` $\approx 280$ $m^2$) sit at $h_{ii}\approx 0.15$ --- above the $0.08$ leverage threshold --- but their residuals are moderate, so $D_i \approx 0.06 < 0.08$: they are **leverage points but not influential**. No deletion needed; OLS coefficients are stable.
+**Cook's distance** combines the two ingredients into a single scalar --- "how far does $\hat{\boldsymbol\beta}$ move if I delete observation $i$":
+$$\boxed{\;\;D_i \;=\; \frac{(r_i^{\text{std}})^2}{p+1}\cdot\frac{h_{ii}}{1-h_{ii}}.\;\;}$$
+$D_i$ is large *only* when **both** factors are big --- a high-leverage point with a tiny residual sits on the regression line and is not influential; a big residual at average $x$ has $h_{ii} \approx 1/n$ and is again not influential.
+
+**Worked reading on Restaurants.** $n=50$, $p=1$ → leverage flag $h_{ii} > 2\cdot 2/50 = 0.08$; Cook flag $D_i > 4/50 = 0.08$. The two biggest restaurants (`surface` $\approx 280\,m^2$) sit at $h_{ii}\approx 0.15$ (above the leverage flag) but their residuals are moderate, so
+$$D_i \;\approx\; \frac{(0.7)^2}{2}\cdot\frac{0.15}{0.85}\;\approx\; 0.04 \;<\; 0.08,$$
+i.e. **leverage points but not influential**. No deletion needed; the OLS slope is stable. If, hypothetically, one of those points also had $r^{\text{std}}\approx 3$, then $D_i\approx 0.8$ → clearly influential, and we would refit without it and report both fits.
 
 ```r
-h    <- hatvalues(mod)
-D    <- cooks.distance(mod)
-flag <- data.frame(
-  i = 1:n, surface = restaurants$surface, e = e, r_std = r_std,
-  h = h, D = D,
-  lev_flag = h > 2 * p / n,
-  inf_flag = D > 4 / n
-)
+# Numeric flags
+h        <- hatvalues(mod)
+D        <- cooks.distance(mod)
+flag     <- data.frame(i = seq_len(n),
+                       r_std = r_std, h = h, D = D,
+                       lev_flag = h > 2 * (p + 1) / n,
+                       inf_flag = D > 4 / n)
 flag[flag$lev_flag | flag$inf_flag | abs(flag$r_std) > 2, ]
 
-par(mfrow = c(2, 2))
-plot(mod)                                        # 4 canonical diagnostic plots
-par(mfrow = c(1, 1))
+# Canonical visual: Residuals vs Leverage with Cook's contours
+plot(mod, which = 5)                            # |r_std| vs h_ii, Cook contours
+
+# 4-panel diagnostic page
+par(mfrow = c(2, 2)); plot(mod); par(mfrow = c(1, 1))
 ```
 
 </details>
@@ -4358,31 +4693,45 @@ par(mfrow = c(1, 1))
 ---
 
 <details class="master-subpart">
-<summary>(f) VIF for multicollinearity (multiple regression)</summary>
+<summary><span class="tag tag-exam">EXAM</span> (f) <strong>Multicollinearity --- VIF</strong> (multi-regression only; <code>library(car); vif(mod)</code>)</summary>
 
-In a *multiple* regression $Y \sim X_1+\dots+X_k$, the variance of $\hat\beta_j$ inflates whenever $X_j$ can be linearly predicted from the *other* regressors:
+**The problem.** In a multi-regression $Y \sim X_1 + \dots + X_p$, the SE of $\hat\beta_j$ is
+$$\boxed{\;\;\widehat{\Var}(\hat\beta_j) \;=\; \frac{\hat\sigma^2}{(n-1)\,s^2_{X_j}}\cdot\underbrace{\frac{1}{1-R_j^2}}_{\mathrm{VIF}_j},\qquad R_j^2 \;=\; R^2 \text{ of } X_j \sim X_{-j}.\;\;}$$
+The **variance-inflation factor**
+$$\mathrm{VIF}_j \;=\; \frac{1}{1-R_j^2}$$
+measures by what factor $\Var(\hat\beta_j)$ has been blown up by collinearity with the other predictors, relative to the idealised orthogonal case ($R_j^2=0$ → VIF $=1$). $R_j^2$ comes from regressing $X_j$ on **all other predictors**.
 
-$$\boxed{\;\mathrm{Var}(\hat\beta_j) \;=\; \frac{\sigma^2_\epsilon}{(n-1)\,s^2_{X_j}}\cdot\underbrace{\frac{1}{1-R_j^2}}_{\text{VIF}_j},\quad R_j^2 = R^2 \text{ of } X_j \sim X_{-j}.\;}$$
+**Rules of thumb.**
 
-The **variance-inflation factor** $\mathrm{VIF}_j = 1/(1-R_j^2)$ tells us by what factor multicollinearity has inflated $\mathrm{Var}(\hat\beta_j)$ compared with the idealised orthogonal case $R_j^2=0$. Standard rules of thumb:
-
-| VIF | Diagnosis | Action |
+| VIF | Reading | Action |
 |---|---|---|
-| $\le 1$ | No collinearity | none |
-| $1$--$5$ | Mild --- usually harmless | none |
-| $> 5$ | **Concerning** | inspect correlation matrix |
-| $> 10$ | **Severe multicollinearity** | act: drop / combine / ridge |
+| $\le 1$ | no collinearity | none |
+| $1$–$5$ | mild | none (some sources flag $>5$ as concerning) |
+| $> 10$ | **severe multicollinearity** | drop / combine / ridge |
 
-For the Restaurants *multiple* model $Y \sim \text{surface}+\text{seats}+\text{evening\_only}$, `seats` and `surface` are nearly collinear ($r=0.93$), so
-$$R_{\text{surface}}^2 \approx R_{\text{seats}}^2 \approx 0.87,\qquad \mathrm{VIF}\approx \frac{1}{1-0.87}\approx 7.7,$$
-flagged as concerning. Symptoms in the regression output: huge SEs for $\hat\beta_{\text{surface}}$ and $\hat\beta_{\text{seats}}$, individual $t$-tests insignificant, yet the overall $F$-test highly significant and $R^2$ large --- the *classic* multicollinearity signature.
+**Consequence on inference.** When $\mathrm{VIF}_j$ is large, $\widehat{SE}(\hat\beta_j)$ inflates → the $t$-statistic $\hat\beta_j/\widehat{SE}(\hat\beta_j)$ shrinks → individual $p$-value rises → **a predictor that genuinely matters can appear insignificant** purely because its information is shared with another regressor. Classical signature: huge SEs, individual $t$-tests insignificant, *but* the joint $F$-test highly significant and $R^2$ large. Predictions $\hat y_0$ stay *fine* (the joint span of $X$ is unchanged) --- only the *individual* coefficient inference suffers.
+
+**Remedies.** (i) Drop the redundant regressor whose substantive priority is lowest; (ii) combine them into a single index (PCA, sum, average); (iii) keep both and use **ridge regression** $\hat{\boldsymbol\beta}_\text{ridge} = (X^\top X + \lambda I)^{-1}X^\top y$ (beyond this course).
+
+**Worked example on GS (extension of `g15d`).** Suppose to the model $\mathcal M_1:\;\text{Salary}\sim\text{grade}+\text{sex}+\text{course}$ we add `experience` (years on the labour market), strongly correlated with `grade` ($r\approx 0.92$ — older employees both have more experience and higher performance scores in this firm). Then
+$$R_{\text{grade}}^2 \;\approx\; R_{\text{experience}}^2 \;\approx\; 0.85,\qquad \mathrm{VIF} \;\approx\; \frac{1}{1-0.85} \;\approx\; 6.7,$$
+flagged as concerning. `summary()` shows $\widehat{SE}(\hat\beta_{\text{grade}})$ doubled vs $\mathcal M_1$, the individual $t$-test on `grade` drops to $p\approx 0.10$, *but* the joint $F$ on the pair `(grade, experience)` is still strongly significant. Remedy: drop one of the two, or fit ridge.
+
+**Worked example on Restaurants (extension).** The `restaurants` data also carries `seats`, with $r(\text{surface}, \text{seats}) \approx 0.93$. In the model $\text{revenues}\sim\text{surface}+\text{seats}+\text{evening\_only}$:
+$$\mathrm{VIF}_{\text{surface}}, \mathrm{VIF}_{\text{seats}} \;\approx\; 7.7,\qquad \mathrm{VIF}_{\text{evening\_only}} \;\approx\; 1.1.$$
+Drop `seats` (highly redundant with `surface`) and all VIFs return to $\approx 1$.
 
 ```r
 modM <- lm(revenues ~ surface + seats + evening_only, data = restaurants)
 library(car)
-vif(modM)                                        # one number per regressor
-1 / (1 - summary(lm(surface ~ seats + evening_only, restaurants))$r.squared)
+vif(modM)                                       # one number per regressor
+1 / (1 - summary(lm(surface ~ seats + evening_only,
+                    data = restaurants))$r.squared)  # manual VIF check
 cor(restaurants[, c("surface", "seats", "evening_only")])
+
+# Remedy: drop the redundant regressor
+modM2 <- lm(revenues ~ surface + evening_only, data = restaurants)
+vif(modM2)                                       # all ~ 1 now
 ```
 
 </details>
@@ -4390,73 +4739,47 @@ cor(restaurants[, c("surface", "seats", "evening_only")])
 ---
 
 <details class="master-subpart">
-<summary>(g) Remedies</summary>
+<summary>(g) <strong>Cross-references</strong> --- where each piece is consumed across G15</summary>
 
-Pair each diagnostic failure with its standard fix:
+This entry is **horizontal infrastructure**: every other G15 entry relies on the certificates of validity produced here. The pointer block:
 
-| Symptom (which part flagged it) | Fix | When to prefer |
+| Diagnostic | Licenses which G15 row / formula | Where the formula lives |
 |---|---|---|
-| Heteroscedasticity, funnel in (b)/(c); right-skew in (d) | **$\log Y$** (or $\sqrt Y$) | $Y>0$, multiplicative noise, want easy interpretation ($\hat\beta$ as % change) |
-| Heteroscedasticity but $Y$ has zeros or negatives | **Box--Cox** $Y^{(\lambda)} = (Y^\lambda-1)/\lambda$; pick $\hat\lambda$ by ML | Need a data-driven transformation; `MASS::boxcox` |
-| Heteroscedasticity, transformation undesirable | **WLS** with weights $1/\hat\sigma_i^2$, or **HC robust SE** (`sandwich::vcovHC`) | Coefficients unchanged, only SEs corrected |
-| Multicollinearity (VIF $> 10$) in (f) | **Drop** the most redundant regressor (the one with lowest substantive priority) | Simple, transparent; coefficient interpretation stays clean |
-| Multicollinearity, all regressors substantively required | **Ridge** ($\hat{\boldsymbol\beta}_\text{ridge}=(X^\top X+\lambda I)^{-1}X^\top y$) | Trades a small bias for big SE reduction; pick $\lambda$ by CV |
-| Multicollinearity, want sparsity | **Lasso** ($\ell_1$ penalty) | Some coefficients shrink exactly to 0 --- automatic variable selection |
-| Influential outlier in (e) | Refit *without* it; report both; or use **robust regression** (`MASS::rlm`) | Do not delete data silently --- always report sensitivity |
-| Non-linearity (curvature in (c)) | Add **polynomial / spline** terms in $X$ | Preserves interpretation if curvature is mild |
+| **L (linearity)** | $\hat{\boldsymbol\beta} = (X^\top X)^{-1}X^\top y$ targeting the true conditional mean (rows 1–9 of master case table) | `g15a` for $p=1$; `g15c` for $p\ge 2$ |
+| **I (independence)** | $\widehat{\Var}(\hat{\boldsymbol\beta}) = \hat\sigma^2(X^\top X)^{-1}$ → every $\widehat{SE}(\hat\beta_j)$, every CI, every $t$- / $F$-test | `g15a` (slope SE), `g15c` (matrix SE), `g14a` (universal test table) |
+| **N (normality)** | Exact $t_{n-p-1}$ for slope tests, $F_{p,n-p-1}$ for global $F$, exact CI for mean response and PI for individual at $x_0$ | `g15a` (slope $t$), `g15c` (global $F$), `g15b` (PI / CI at $x_0$) |
+| **E (homoscedasticity)** | Gauss–Markov optimality + correct $\widehat{SE}$ → all CI/test rows above | `g15a` (slope SE), `g15c` (matrix SE) |
+| **Influence (leverage, Cook's $D$)** | Sensitivity of $\hat{\boldsymbol\beta}$ to single observations; sensitivity of predictions at high-leverage $x_0$ | `g15b` (PI width $\propto \sqrt{1 + h_{00}}$) |
+| **Multicollinearity (VIF)** | Inflation of $\widehat{SE}(\hat\beta_j)$ → individual $t$-test loses power even when joint $F$ is significant | `g15c` (multi-regression), `g15d` (dummies + interactions) |
 
-For Restaurants, the recommended workflow is:
-1. **Refit on $\log(\text{revenues})$** --- funnel disappears, right-tail Q-Q deviation shrinks, slope becomes a semi-elasticity (each extra $m^2$ raises revenues by $\hat\beta_1\times 100\%$).
-2. In the multiple model, **either drop `seats`** (highly redundant with `surface`) **or** fit **ridge regression** if both are wanted for substantive interpretation.
+**Other cross-references.**
 
-```r
-# Remedy 1: log-transform Y -> attacks heteroscedasticity + Normality together
-modL <- lm(log(revenues) ~ surface, data = restaurants)
-plot(fitted(modL), residuals(modL))              # funnel should be gone
-bptest(modL)                                     # p should rise above 0.05
-
-# Remedy 2: Box-Cox to pick lambda automatically
-library(MASS)
-bc <- boxcox(mod, plotit = FALSE)
-lam <- bc$x[which.max(bc$y)];  lam               # ~ 0 -> confirms log
-
-# Remedy 3: HC robust SE (keeps OLS coefs, fixes inference)
-library(sandwich); library(lmtest)
-coeftest(mod, vcov = vcovHC(mod, type = "HC3"))
-
-# Remedy 4: Drop redundant regressor
-modM2 <- lm(revenues ~ surface + evening_only, data = restaurants)
-vif(modM2)                                       # all VIFs ~ 1 now
-
-# Remedy 5: Ridge regression with CV-tuned lambda
-library(glmnet)
-X <- model.matrix(revenues ~ surface + seats + evening_only, restaurants)[, -1]
-y <- restaurants$revenues
-cv <- cv.glmnet(X, y, alpha = 0)                 # alpha=0 -> ridge
-coef(cv, s = "lambda.min")
-```
+- **`g15b` (prediction at $x_0$).** PI for an individual at $x_0$ requires N (the $\varepsilon_0$ term itself is Normal) **at any sample size** --- the CLT does *not* rescue it. PI width is also inflated by $h_{00}$, i.e. the leverage of $x_0$ in the original design --- "**extrapolation = high $h_{00}$**" is the same diagnostic family as part (e).
+- **`g15a` (universal recipe).** This entry is exactly **step 7** of the 7-step recipe at the top of `g15a`; the diagnostic checklist above is the operational version of step 7.
+- **`g15c` (multi-regression).** VIF (part (f)) is the *only* diagnostic that has no analogue in simple regression --- it applies as soon as $p\ge 2$.
+- **`g15d` (categorical predictors / interactions).** Dummy regressors do not change LINE: residuals-vs-fitted, Q-Q and Cook's $D$ are read identically. VIF on dummies of the same factor is naturally elevated (mutual exclusion) --- this is a *structural* not pathological VIF; use the `car::vif(mod, type = "predictor")` aggregated version, or just look at GVIFs.
+- **`g14a` / `g13a` (inferential procedures).** Every $t$-test and CI in those entries inherits its validity from N + I + E here; without those, the rejection regions and the coverage probabilities are *not* what they claim to be.
 
 </details>
 
 ---
 
-### Summary diagnostic checklist
+### Summary diagnostic checklist (memorise once, run on every fitted model)
 
-| Step | Plot / Statistic | What you are looking for | Failure $\Rightarrow$ |
+| Step | Plot / Statistic | What "good" looks like | If bad → |
 |---|---|---|---|
-| 1 | $e$ vs $\hat y$ | Random cloud, constant spread | Funnel $\Rightarrow$ heteroscedasticity ; curvature $\Rightarrow$ misspecification |
-| 2 | $e$ vs each $x_j$ | Flat band around 0 | Curvature $\Rightarrow$ add $x_j^2$ ; funnel $\Rightarrow$ $x_j$-driven heterosc. |
-| 3 | Hist + Q-Q of $r^{\text{std}}$ | Bell shape, 45 deg line | Heavy tails $\Rightarrow$ outliers ; skew $\Rightarrow$ transform $Y$ |
-| 4 | $\lvert r_i^{\text{std}}\rvert$ | All $<2$ ideally | $>3$ $\Rightarrow$ outlier ; investigate |
-| 5 | $h_{ii}$ | All $< 2p/n$ | High leverage $\Rightarrow$ inspect (not necessarily delete) |
-| 6 | Cook's $D_i$ | $<4/n$ | Large $D_i$ $\Rightarrow$ influential ; refit without and report |
-| 7 | VIF$_j$ | $<5$ | $>10$ $\Rightarrow$ drop, combine, or ridge |
+| 1 | $e$ vs $\hat y$ (`which = 1`) | random cloud, LOWESS flat | L: add poly / interaction; E: see step 4 |
+| 2 | Q-Q of $r^{\text{std}}$ (`which = 2`) | 45° line | N: $\log Y$ / Box–Cox; rely on CLT for tests/CI if $n$ large; *never* for PI |
+| 3 | DW or $e_t$ vs $t$ | DW $\approx 2$, no runs | I: HAC / cluster-robust SE |
+| 4 | Scale–Location (`which = 3`); BP test | flat smoother; $p>\alpha$ | E: $\log Y$ / WLS / HC robust SE |
+| 5 | Residuals vs Leverage (`which = 5`); $h_{ii}$, $D_i$ | $h_{ii} < 2(p+1)/n$, $D_i < 4/n$ | Influence: refit without and report sensitivity |
+| 6 | `vif(mod)` (multi only) | $<5$ | VIF: drop / combine / ridge |
 
 ---
 
-**Linked snippet:** Ex 8.4a (Restaurants: revenues ~ surface, $n=50$, $\hat\beta_0=246.81$, $\hat\beta_1=0.4049$ kEUR/$m^2$, $R^2\approx 0.61$ --- the dataset whose residual plot exhibits the funnel that motivates this entire master).
+**Linked snippet:** Ex 8.4a (Restaurants: revenues ~ surface, $n=50$, $\hat\beta_0=246.81$, $\hat\beta_1=0.4049$ kEUR/$m^2$, $R^2\approx 0.12$ --- the dataset whose residual plot exhibits the funnel that motivates this entire master).
 
-![Master G15e — residuals vs fitted (cone), Q-Q, Cook's distance, VIF](statistics/images/master/master_g15e_ai.png)
+![Master G15e --- residuals vs fitted (cone), Q-Q, Cook's distance, VIF](statistics/images/master/master_g15e_ai.png)
 """,
     "images": ["statistics/images/master/master_g15e_ai.png"],
 }

@@ -523,7 +523,7 @@ past_exams["exam_g1_2024_2a"] = {
 
 past_exams["exam_g1_2024_2b"] = {
 "title": "G1-2024 Ex3b — Heteroscedasticity in the Read2/Math2 scatter",
-"is_exam": True, "topic_hint": "G15",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15e",
 "content": (
     '<span class="exam-question-text">Refer again to the scatter of `PrimaryRead2` vs `PrimaryMath2` in the `Primary` dataframe (see Ex 2a). **Identify any violations of regression assumptions** that are visible from the scatterplot, name the violation, explain why it matters for inference, and indicate how you would fix it.</span>\n\n'
     '![Ex 2b question — diagnose the scatter](statistics/images/past_exams/questions/exam_g1_2024_2b_question.png)\n\n'
@@ -615,7 +615,7 @@ past_exams["exam_g1_2025_2a"] = {
 
 past_exams["exam_g1_2025_3a"] = {
 "title": "G1-2025 Ex4 — Multiple regression SleepQuality ~ Stress+Age+BMI+Physical",
-"is_exam": True, "topic_hint": "G15",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15c",
 "content": (
     '<span class="exam-question-text">Estimate `SleepQuality ~ Stress + Age + BMI + Physical` on `SleepData`. Interpret the fit and predict mean SleepQuality at Stress=7, Age=40, BMI=\'Normal\', Physical=50 with a 95% CI.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g1_2025_3a_question.png)\n\n'
@@ -643,7 +643,7 @@ past_exams["exam_g1_2025_3a"] = {
 
 past_exams["exam_g1_2025_3b"] = {
 "title": "G1-2025 Ex3b — PhysicalActivity loses significance with Steps added",
-"is_exam": True, "topic_hint": "G15",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15e",
 "content": (
     '<span class="exam-question-text">Why does PhysicalActivity stop being significant when Steps is added to the regression model for SleepQuality?</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g1_2025_3b_question.png)\n\n'
@@ -672,7 +672,7 @@ past_exams["exam_g1_2025_3b"] = {
 
 past_exams["exam_g1_2025_3c"] = {
 "title": "G1-2025 Ex3c — Homoscedasticity assumption",
-"is_exam": True, "topic_hint": "G15",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15e",
 "content": (
     '<span class="exam-question-text">State the homoscedasticity assumption.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g1_2025_3c_question.png)\n\n'
@@ -883,7 +883,7 @@ past_exams["exam_g2_2025_2a"] = {
 
 past_exams["exam_g2_2025_4a"] = {
 "title": "G2-2025 Ex4 — Regression Department effect (IT vs Operations)",
-"is_exam": True, "topic_hint": "G15",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15d",
 "content": (
     '<span class="exam-question-text">Considering `modB` (`Productivity ~ Training_Attended + Satisfaction + Hours_Worked + Tenure + Remote_Work + Salary + Department`), estimate the average difference in productivity between employees working in **IT** and employees working in **Operations**, all other characteristics fixed. Is this difference significant?</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g2_2025_4a_question.png)\n\n'
@@ -913,7 +913,7 @@ past_exams["exam_g2_2025_4a"] = {
 
 past_exams["exam_g2_2025_5a"] = {
 "title": "G2-2025 Ex4-b3 — Normality of modB residuals",
-"is_exam": True, "topic_hint": "G15",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15e",
 "content": (
     '<span class="exam-question-text">Define the linear model assumption of **normality**. State whether such assumption is respected in `modB` and specify which tool you use to provide your answer.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g2_2025_5a_question.png)\n\n'
@@ -1077,7 +1077,7 @@ past_exams["exam_july_2024_2a"] = {
 
 past_exams["exam_july_2024_3a"] = {
 "title": "Jul-2024 Ex3 - Multiple regression of Enrol on College predictors",
-"is_exam": True, "topic_hint": "G15",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15c",
 "content": (
     '<span class="exam-question-text">From the fitted model `m <- lm(Enrol ~ Private + Apps + Outstate + Region + Room.Board, data=College)`, (a) interpret the slope on `Apps`, (b) assess whether `Outstate` is statistically significant, and (c) predict `Enrol` for a private college in the North-East with `Apps=2000`, `Outstate=10000`, `Room.Board=4500`.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_july_2024_3a_question.png)\n\n'
@@ -1244,7 +1244,7 @@ past_exams["exam_sep_2024_3a"] = {
 
 past_exams["exam_sep_2024_3d"] = {
 "title": "Sep-2024 Ex3d — Homoscedasticity check from residuals",
-"is_exam": True, "topic_hint": "G15",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15e",
 "content": (
     '<span class="exam-question-text">Explain what the assumption of homoscedasticity for a linear regression model consists of. Assess whether this assumption is reasonably respected for the estimated model `m`, justifying your answer.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_sep_2024_3d_question.png)\n\n'
@@ -1573,7 +1573,7 @@ past_exams["exam_p1_2026_6b"] = {
 # ---- general 1 2025: Q6 (larger regression with Steps) ----
 past_exams["exam_g1_2025_6"] = {
 "title": "G1-2025 Ex6 — Larger regression SleepQuality ~ Stress+Age+BMI+Physical+Steps",
-"is_exam": True, "topic_hint": "G15",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15c",
 "content": (
     '<span class="exam-question-text">Estimate the larger model `lm(SleepQuality ~ Stress + Age + BMI + Physical + Steps)` and explain why the Adjusted $R^2$ is preferable to $R^2$ for comparing models with different numbers of regressors.</span>\n\n'
     '![Ex 6 question — larger regression with Steps](statistics/images/past_exams/questions/exam_g1_2025_6_question.png)\n\n'
@@ -1720,7 +1720,7 @@ past_exams["exam_g1_2026_3b"] = {
 
 past_exams["exam_g1_2026_5a"] = {
 "title": "G1-2026 Ex4.f (i) — Point estimate + 95% CI for risk index (mod2, EmplStatus=Empl, Age=40, Income=30, DebtIndex=0.3)",
-"is_exam": True, "topic_hint": "G15",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15b",
 "content": (
     '<span class="exam-question-text">Using `mod2`, obtain and report a **point estimate** and a **95% confidence interval** for the average risk index of employed clients with `EmplStatus = Empl`, `Age = 40`, `Income = 30`, `DebtIndex = 0.3`.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g1_2026_5a_question.png)\n\n'
@@ -1749,7 +1749,7 @@ past_exams["exam_g1_2026_5a"] = {
 
 past_exams["exam_g1_2026_5b"] = {
 "title": "G1-2026 Ex4.f (ii) — Is a risk index of 70 unexpected/anomalous? (CI vs PI)",
-"is_exam": True, "topic_hint": "G15",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15b",
 "content": (
     '<span class="exam-question-text">Explain, motivating your answer, whether — based on the estimated `mod2` — a **risk index of 70** for a client with `EmplStatus = Empl`, `Age = 40`, `Income = 30`, `DebtIndex = 0.3` should be considered **unexpected or anomalous**.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g1_2026_5b_question.png)\n\n'
@@ -1927,7 +1927,7 @@ past_exams["exam_g2_2026_2c"] = {
 
 past_exams["exam_g2_2026_4_4"] = {
 "title": "G2-2026 Ex4.4 — Formal homoscedasticity assumption + diagnostic plots for mod1",
-"is_exam": True, "topic_hint": "G15",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15e",
 "content": _q(
     "<span class=\"exam-question-text\">Formally state the homoscedasticity assumption underlying the linear regression model and discuss whether there is empirical evidence of its violation for the considered model `mod1`, clearly specifying the diagnostic tool(s) you use.</span>\n\n![Question](statistics/images/past_exams/questions/exam_g2_2026_4_4_question.png)",
     "**Assumption**: the error variance is **constant** (no heteroscedasticity), i.e. $\\mathrm{Var}(\\varepsilon_i\\mid\\mathbf{x}_i) = \\sigma^2$ for every $i = 1,\\ldots,n$ — it does **not** depend on the values of the explanatory variables in the model.\n\n**Evidence of violation — diagnostic tools**: (1) **residuals vs fitted values** plot — `plot(mod1, which=1)`; flag funnel/cone shapes. (2) **Scale-location** plot of $\\sqrt{|\\text{standardized residuals}|}$ against fitted values — `plot(mod1, which=3)`; flag an upward/downward trend in the post-smoothing red line. If both plots show no clear pattern (flat scatter, flat red line) → the homoscedasticity assumption appears satisfied for `mod1`; otherwise it is violated.\n\n![Answer](statistics/images/past_exams/answers/exam_g2_2026_4_4_answer.png)\n\n![AI walkthrough](statistics/images/past_exams/exam_g2_2026_4_4_ai.png)",
@@ -1940,7 +1940,7 @@ past_exams["exam_g2_2026_4_4"] = {
 
 past_exams["exam_g2_2026_4_5"] = {
 "title": "G2-2026 Ex4.5 — Point prediction + 95% PI for Amount at exp_pre=250",
-"is_exam": True, "topic_hint": "G15",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15b",
 "content": _q(
     "<span class=\"exam-question-text\">Obtain a point prediction and a 95% prediction interval for the post-promotional expenditure of a southern customer (`region = South`) with `age = 50`, `paid_amount = 1200` and `exp_pre = 250`.</span>\n\n![Question](statistics/images/past_exams/questions/exam_g2_2026_4_5_question.png)",
     "Use `predict()` on `mod1` with the new observation and `interval='prediction', level=0.95`.\n\n**Point prediction**: $\\hat y = 6523.5731$.\n\n**95% Prediction interval**: $[6387.6292,\\ 6659.5209]$.\n\nThe prediction interval is **wider** than the confidence interval for the mean response because it accounts for **both** the uncertainty in the estimated mean and the irreducible error variance $\\hat\\sigma^2$: $SE(\\hat y_{\\text{new}})^2 = SE(\\hat y_{\\text{mean}})^2 + \\hat\\sigma^2$ — *this is exactly the **\"+1\"** inside the PI sqrt from row 7 of the universal regression table at the top of master entry `g15a`* (and the structural CI-vs-PI comparison in `g15b`).\n\n![Answer](statistics/images/past_exams/answers/exam_g2_2026_4_5_answer.png)\n\n![AI walkthrough](statistics/images/past_exams/exam_g2_2026_4_5_ai.png)",
@@ -1949,7 +1949,7 @@ past_exams["exam_g2_2026_4_5"] = {
 
 past_exams["exam_g2_2026_4_6"] = {
 "title": "G2-2026 Ex4.6 — Is loyalty a significant predictor? (Adj R² + p-value)",
-"is_exam": True, "topic_hint": "G15",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15c",
 "content": (
     '<span class="exam-question-text">Would you suggest to include in the model also the client\'s `loyalty` (score ranging between 0 and 100)? Motivate rigorously your answer.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g2_2026_4_6_question.png)\n\n'
@@ -2161,7 +2161,8 @@ past_exams["exam_sep_2025_2c"] = {
 
 past_exams["exam_sep_2025_3a"] = {
 "title": "Sep-2025 Ex3a — Conditional frequency Fr(Effort | Rain=Yes)",
-"is_exam": True, "topic_hint": "G15",
+"is_exam": True, "topic_hint": "G7",
+"subtopic_hint": "g7_twoway",
 "content": (
     '<span class="exam-question-text">From the stacked-bar plot of `Effort` (Low / Medium-Low / Medium-High / High) by `Rain` (Yes / No), read off the conditional frequency that `Effort` is at least `Medium-High` given `Rain = Yes`.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_sep_2025_3a_question.png)\n\n'
