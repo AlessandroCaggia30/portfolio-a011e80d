@@ -8,388 +8,508 @@
 master_exercises = {}
 
 master_exercises["g13a_ci_one_mean"] = {
-    "title": "Master Exam — CI for one mean (consolidated)",
-    "content": r"""**Setup.** A market-research firm collected the monthly turnover `Sales` (in €) for a random sample of $n=100$ pizzerias in Milan. The sample summaries are
+    "title": "Master Exam — CI for one mean (σ known z and σ unknown t)",
+    "content": r"""## Setup — running dataset for every numeric example below
+
+A market-research firm collects the monthly turnover `Sales` (in €) for a random sample of $n=100$ pizzerias in Milan. The summary statistics are
+
 $$\bar x \;=\; 23\,947, \qquad s \;=\; 8\,200, \qquad n \;=\; 100.$$
-For most of this exercise the population variance $\sigma^2$ is **unknown** and is estimated from the data; in part **(c)** we contrast this with the textbook case in which $\sigma = 8\,000$ is assumed **known**. Let $\mu$ denote the population mean monthly turnover.
+
+Let $\mu$ denote the unknown population mean monthly turnover. We will treat this *same* sample throughout the entry — first under "$\sigma$ **known**" (using a textbook value $\sigma = 8\,000$ €), then under the realistic "$\sigma$ **unknown**, plug in $s$" regime, then for sample-size planning, then for recovering $s$ from raw sums. No new dataset is introduced anywhere below.
 
 ---
 
+## Universal CI recipe (this is the topic anchor for *every* G13 entry)
+
+**Every** confidence interval in G13 is built from the same three-slot template:
+
+$$\boxed{\;\;\widehat\theta \;\pm\; c_{1-\alpha/2}\;\cdot\;\widehat{SE}(\widehat\theta)\;\;}$$
+
+You change only **three** things between problems: the **point estimate** $\widehat\theta$, the formula for the **standard error** $\widehat{SE}(\widehat\theta)$, and which **critical-value family** ($z$ vs. $t$, and the right degrees of freedom). The $\pm$, the $\alpha/2$ split, the long-run-coverage interpretation are *identical* across all rows of the table below.
+
+### Master case table (memorise once, reuse across g13a–g13e and g14a–g14c)
+
+| # | Parameter | Setting | Estimate $\widehat\theta$ | $\widehat{SE}(\widehat\theta)$ | Critical value | df | Covered in |
+|---|---|---|---|---|---|---|---|
+| 1 | $\mu$ | $\sigma$ **known** | $\bar x$ | $\sigma/\sqrt n$ | $z_{1-\alpha/2}$ | — | **g13a** (below) |
+| 2 | $\mu$ | $\sigma$ **unknown** | $\bar x$ | $s/\sqrt n$ | $t_{1-\alpha/2,\,n-1}$ | $n-1$ | **g13a** (below) |
+| 3 | $p$ | large $n$ ($n\hat p,\,n(1-\hat p)\ge 5$) | $\hat p$ | $\sqrt{\hat p(1-\hat p)/n}$ | $z_{1-\alpha/2}$ | — | **g13b** |
+| 4 | $\mu_A-\mu_B$ | $\sigma_A,\sigma_B$ **known**, indep. | $\bar x_A-\bar x_B$ | $\sqrt{\sigma_A^2/n_A+\sigma_B^2/n_B}$ | $z_{1-\alpha/2}$ | — | **g13c** |
+| 5 | $\mu_A-\mu_B$ | unknown $\sigma_A^2=\sigma_B^2$ (**pooled** after Levene) | $\bar x_A-\bar x_B$ | $\sqrt{s_p^2\!\left(\tfrac{1}{n_A}+\tfrac{1}{n_B}\right)}$, &nbsp; $s_p^2=\tfrac{(n_A-1)s_A^2+(n_B-1)s_B^2}{n_A+n_B-2}$ | $t_{1-\alpha/2,\,n_A+n_B-2}$ | $n_A+n_B-2$ | **g13c** |
+| 6 | $\mu_A-\mu_B$ | unknown $\sigma_A^2\ne\sigma_B^2$ (**Welch**) | $\bar x_A-\bar x_B$ | $\sqrt{s_A^2/n_A+s_B^2/n_B}$ | $t_{1-\alpha/2,\,\nu^W}$ | Satterthwaite $\nu^W$ | **g13c** |
+| 7 | $p_A-p_B$ | independent, large $n$ (**CI: unpooled**) | $\hat p_A-\hat p_B$ | $\sqrt{\hat p_A(1-\hat p_A)/n_A+\hat p_B(1-\hat p_B)/n_B}$ | $z_{1-\alpha/2}$ | — | **g13d** |
+| 8 | $\mu_d$ (**paired**) | reduce to row 2 on $d_i=x_i-y_i$ | $\bar d$ | $s_d/\sqrt n$ | $t_{1-\alpha/2,\,n-1}$ | $n-1$ | **g13e** |
+
+> **Cross-references.** This table is referenced verbatim by every other G13 entry.
+> - Row 3 → see **`g13b`** (one proportion + sample-size planning for $p$).
+> - Rows 4, 5, 6 → see **`g13c`** (difference of two means in the three variance regimes; Levene's test decides between pooled and Welch).
+> - Row 7 → see **`g13d`** (difference of two proportions; **CI uses the unpooled SE** above — the **pooled** SE is *only* for the test $H_0: p_A=p_B$ in `g14b`).
+> - Row 8 → see **`g13e`** (paired = row 2 applied to the within-subject differences $d_i$).
+> - The estimators sitting under rows 1–3 and the sample variance $S^2$ are discussed in **`g13f`** (unbiasedness, sampling SEs).
+
+### 3-step procedure for every CI exam question
+
+1. **Identify the parameter.** One mean? Proportion? Difference of means / proportions? Paired?
+2. **Pick the row** of the table. Read off $\widehat\theta$, $\widehat{SE}$, the critical-value family and df.
+3. **Plug & compute.** $\widehat\theta \pm c\cdot\widehat{SE}$. Done.
+
+> **What "95%" means (stated once — assumed for every subpart below).** "$1-\alpha$" is a property of the **procedure**, not of any specific realised interval: across hypothetical resamples, $(1-\alpha)\cdot 100\%$ of intervals built this way would contain $\theta$. Once the data are in, the realised interval either covers the fixed unknown $\theta$ or it does not. The CLT (for $n\gtrsim 30$) or population normality (for small $n$) is what makes the recipe valid; **no procedure can fix a biased sampling design** — it can only correct for sampling noise under valid random sampling.
+
+---
+
+## Cases 1 & 2 of the master table — the **one-mean** CI
+
+g13a is responsible for the first two rows of the table. Subparts (a)–(b) walk those rows; subparts (c)–(d) handle the two recurring auxiliary questions that show up across the horizontal cells of this row (`5_1a`, `5_1b`, `5_2a`, `5_2b`, `5_3a`, `5_3b`, `5_8a`, `5_8b`, `5_10b`, `6_1a`, `6_1b`, `6_1d`, `6_3a`, `6_8a1`, `6_13d`): sample-size planning, and recovering $s$ from raw sums when only $\sum x_i$ and $\sum x_i^2$ are given.
+
 <details class="master-subpart" open>
-<summary><span class="tag tag-4plus">≥4 ex</span> (a) Point estimate of $\mu$ and unbiasedness</summary>
+<summary>(a) <strong>Case 1</strong> — One mean with $\sigma$ <em>known</em> (z-interval)</summary>
 
-Propose an unbiased estimator of $\mu$, justify why it is unbiased, and compute the point estimate from the sample.
+**Setting.** $X_1,\ldots,X_n$ i.i.d. from a distribution with mean $\mu$ and **known** variance $\sigma^2$. We want a CI for $\mu$.
 
-The sample mean
-$$\bar X \;=\; \frac{1}{n}\sum_{i=1}^{n} X_i$$
-is unbiased for $\mu$ because, by linearity of expectation, $\mathbb E[\bar X] = \tfrac{1}{n}\sum_i \mathbb E[X_i] = \mu$. This requires only i.i.d. sampling — **no distributional assumption** on $X$ is needed for unbiasedness. The point estimate is $\hat\mu = \bar x = 23\,947$ €.
+**Pivot.** Because $\sigma$ is *known*, the standardised sample mean has an exact reference distribution:
+- If $X\sim N(\mu,\sigma^2)$: $\displaystyle Z = \frac{\bar X - \mu}{\sigma/\sqrt n} \sim N(0,1)$ **exactly**, any $n$.
+- For non-normal $X$: $Z$ is **approximately** $N(0,1)$ by the CLT for $n\gtrsim 30$.
+
+**Deriving the CI.** From $\Pr\bigl(-z_{1-\alpha/2}\le Z \le z_{1-\alpha/2}\bigr)=1-\alpha$, invert for $\mu$:
+
+$$\Pr\!\left(\bar X - z_{1-\alpha/2}\,\tfrac{\sigma}{\sqrt n} \;\le\; \mu \;\le\; \bar X + z_{1-\alpha/2}\,\tfrac{\sigma}{\sqrt n}\right) = 1-\alpha.$$
+
+$$\boxed{\;\;CI_{1-\alpha}(\mu) \;=\; \bar x \;\pm\; z_{1-\alpha/2}\,\frac{\sigma}{\sqrt n}\;\;}\qquad (\sigma \text{ known})$$
+
+**Worked numbers on the pizzeria sample** with the textbook value $\sigma = 8\,000$, $n=100$, $\bar x = 23\,947$, $\alpha = 0.05$:
+- Exact SE: $\sigma/\sqrt n = 8\,000/\sqrt{100} = 800$.
+- Critical value: $z_{0.975} = 1.960$.
+- $ME_{95} = 1.960 \cdot 800 = 1\,568$.
+- $CI_{95} = 23\,947 \pm 1\,568 = [22\,379,\; 25\,515]$.
 
 ```r
-n    <- 100
-xbar <- 23947
-s    <- 8200
-xbar                                # 23947  -> point estimate of mu
+n     <- 100;   xbar <- 23947;   sigma <- 8000;   alpha <- 0.05
+SE    <- sigma / sqrt(n);                 SE         # 800  (exact, no plug-in)
+zcrit <- qnorm(1 - alpha/2);              zcrit      # 1.960
+ME    <- zcrit * SE;                      ME         # 1568
+c(xbar - ME, xbar + ME)                              # [22379, 25515]
+# Helper used in the course (BAS package):
+# CI.mean(Sales, sigma = 8000, conf.level = 0.95, data = pizzerie)
 ```
 
-*Interpretation.* $\bar x = 23\,947$ is a single realised draw from the sampling distribution of $\bar X$, which is *centred* on the unknown $\mu$. Unbiasedness says nothing about how close *this* particular $\bar x$ is to $\mu$ — that needs an SE and a CI (parts (b)–(d)).
+**Why "$\sigma$ known" is the simplest row.** No degrees of freedom, no $t$ inflation, no plug-in noise — $z$-quantiles are *the* reference distribution. The same operation extends to a difference of means with known $\sigma$'s (row 4) — see `g13c`.
 
 </details>
 
 <details class="master-subpart">
-<summary><span class="tag tag-4plus">≥4 ex</span> (b) Estimated standard error with unknown $\sigma$</summary>
+<summary><span class="tag tag-exam">EXAM</span> (b) <strong>Case 2</strong> — One mean with $\sigma$ <em>unknown</em> (t-interval) — the realistic case</summary>
 
-Since $\sigma$ is unknown we cannot use $SE(\bar X) = \sigma/\sqrt n$ exactly; we plug in the sample SD:
-$$\widehat{SE}(\bar X) \;=\; \frac{s}{\sqrt n} \;=\; \frac{8\,200}{\sqrt{100}} \;=\; 820.$$
+**Setting.** Same i.i.d. assumption, but $\sigma^2$ is **unknown** and must be estimated from the data via the sample variance $s^2 = \tfrac{1}{n-1}\sum_i(x_i-\bar x)^2$. We want a CI for $\mu$.
 
-```r
-se_hat <- s / sqrt(n);  se_hat        # 820
-```
+**Pivot.** Replacing $\sigma$ by $s$ in the standardised mean produces a *t*-distributed pivot:
+- If $X\sim N(\mu,\sigma^2)$: $\displaystyle T = \frac{\bar X - \mu}{S/\sqrt n} \sim t_{n-1}$ **exactly**.
+- For non-normal $X$ and $n\gtrsim 30$: $T$ is approximately $N(0,1)$ by Slutsky's theorem ($S\xrightarrow{P}\sigma$ and CLT for $\bar X$). The $t_{n-1}$ and $N(0,1)$ percentiles become numerically indistinguishable once $n$ is in the hundreds (at $n=100$: $t_{0.975,\,99}\approx 1.984$ vs $z_{0.975}=1.960$ — agree to two decimals).
 
-*Recovering $s$ from raw sums.* When the dataset is summarised by $\sum x_i$ and $\sum x_i^2$ only (no $s$ printed), use the computational form
-$$s^2 \;=\; \frac{1}{n-1}\!\left(\sum_{i=1}^n x_i^2 \;-\; n\,\bar x^{\,2}\right),$$
-then $\widehat{SE} = s/\sqrt n$.
+**Deriving the CI.** Identical inversion as before:
 
-```r
-# If only raw sums are given (illustrative numbers, n=15):
-# sum_x <- 2755; sum_x2 <- 585203
-# xbar  <- sum_x/15;  s2 <- (sum_x2 - 15*xbar^2)/14
-```
+$$\boxed{\;\;CI_{1-\alpha}(\mu) \;=\; \bar x \;\pm\; t_{1-\alpha/2,\,n-1}\,\frac{s}{\sqrt n}\;\;}\qquad (\sigma \text{ unknown})$$
 
-*What the SE does and does not tell us.* $\widehat{SE}$ measures the **typical** sampling variability of $\bar X$ across hypothetical resamples of size $n=100$ — a property of the *estimator*. It does **not** tell us how far the realised $\bar x = 23\,947$ is from $\mu$ for *this* sample; that distance $|\bar x - \mu|$ depends on the unknown $\mu$. To bound it probabilistically we need a CI.
+The estimated standard error $\widehat{SE}(\bar X) = s/\sqrt n$ is itself random (it has its own sampling variability); the **$t_{n-1}$ critical value is wider than the $z$** by exactly the right amount to compensate, restoring nominal coverage. At large $n$ the inflation is negligible; at small $n$ (e.g. $n=15$) it is $\approx 9\%$ purely from the reliability factor, *on top* of the larger $s/\sqrt n$ from the small sample.
 
-</details>
+**Worked numbers on the pizzeria sample** with $\bar x = 23\,947$, $s = 8\,200$, $n = 100$, $\alpha = 0.05$:
+- Estimated SE: $\widehat{SE} = s/\sqrt n = 8\,200/\sqrt{100} = 820$.
+- Critical value: $t_{0.975,\,99} \approx 1.984$.
+- $ME_{95} = 1.984 \cdot 820 \approx 1\,627$.
+- $CI_{95} = 23\,947 \pm 1\,627 = [22\,320,\;25\,574]$.
 
-<details class="master-subpart">
-<summary><span class="tag tag-2plus">≥2 ex</span> (c) Exact SE with known $\sigma$</summary>
-
-If instead the population SD were *known*, $\sigma = 8\,000$, then
-$$SE(\bar X) \;=\; \frac{\sigma}{\sqrt n} \;=\; \frac{8\,000}{\sqrt{100}} \;=\; 800$$
-— **exact**, no plug-in needed; inference uses $z$-quantiles. With $\sigma$ unknown (the realistic case) we use $t_{n-1}$-quantiles to compensate for the extra noise in $s^2$.
+The interval is slightly wider than in part (a) because the $t$-critical value is larger than $z$, *and* the plug-in $s = 8\,200$ is larger than the textbook $\sigma = 8\,000$ used in (a).
 
 ```r
-sigma <- 8000
-SE_exact <- sigma / sqrt(n);  SE_exact   # 800  (only if sigma is KNOWN)
+n     <- 100;   xbar <- 23947;   s <- 8200;   alpha <- 0.05
+se_hat <- s / sqrt(n);                    se_hat     # 820  (estimated, plug-in)
+tcrit  <- qt(1 - alpha/2, df = n-1);      tcrit      # 1.984
+ME     <- tcrit * se_hat;                 ME         # 1627
+c(xbar - ME, xbar + ME)                              # [22320, 25574]
+# Course helper (BAS package) — sigma argument omitted -> t-interval used:
+# CI.mean(Sales, conf.level = 0.95, data = pizzerie)
+# Base R equivalent on raw data:
+# t.test(pizzerie$Sales)$conf.int
 ```
 
-</details>
-
-<details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> (d) 95% confidence interval for $\mu$</summary>
-
-Because $n=100$ is large, the CLT gives $\bar X \overset{a}{\sim} \mathcal N(\mu,\sigma^2/n)$ regardless of the shape of $X$; with $\sigma$ unknown, $(\bar X - \mu)/(s/\sqrt n) \sim t_{n-1}$. The two-sided CI is
-$$\bar x \;\pm\; t_{1-\alpha/2,\,n-1}\,\frac{s}{\sqrt n}.$$
-With $\alpha=0.05$ and $n-1=99$, $t_{0.975,\,99} \approx 1.984$ (and $z_{0.975} = 1.960$ — essentially the same at this $n$). Then
-$$ME_{95} \;=\; 1.984 \cdot 820 \;\approx\; 1\,627, \qquad CI_{95} \;=\; 23\,947 \pm 1\,627 \;=\; [22\,320,\;25\,574].$$
-
-```r
-alpha <- 0.05
-tcrit <- qt(1 - alpha/2, df = n-1);  tcrit          # 1.984
-ME_95 <- tcrit * se_hat;             ME_95          # 1627
-c(xbar - ME_95, xbar + ME_95)                        # [22320, 25574]
-```
-
-*Interpretation of the 95%.* The 95% is a property of the **procedure**, not of this particular interval: if we drew many independent samples and built a CI each time, about 95% of those intervals would cover $\mu$. For our one realised interval we cannot say "there is a 95% probability that $\mu$ lies inside" — $\mu$ is fixed; either the interval covers it or it does not.
-
-![Master illustration](statistics/images/master/master_g13a_ai.png)
-
-</details>
-
-<details class="master-subpart">
-<summary><span class="tag tag-2plus">≥2 ex</span> (e) Effect of a higher confidence level (99% CI)</summary>
-
-The SE depends only on the sample, *not* on the confidence level. Raising the level inflates only the reliability factor: with $n-1=99$, $t_{0.995,\,99} \approx 2.626$ (and $z_{0.995}=2.576$ — again essentially equal). Then
-$$ME_{99} \;=\; 2.626 \cdot 820 \;\approx\; 2\,153, \qquad CI_{99} \;\approx\; [21\,794,\;26\,100],$$
-about **32% wider** than the 95% interval (ratio $t_{0.995,\,99}/t_{0.975,\,99} \approx 2.626/1.984 \approx 1.32$). *Rule:* higher confidence ⇒ wider interval.
-
-```r
-ME_99 <- qt(0.995, df = n-1) * se_hat;  ME_99      # ~2153
-c(xbar - ME_99, xbar + ME_99)                       # ~[21794, 26100]
-qt(0.995, df=n-1) / qt(0.975, df=n-1)               # ~1.323 inflation
-```
-
-</details>
-
-<details class="master-subpart">
-<summary>(f) Margin-of-error decomposition</summary>
-
-The ME factors cleanly into
-$$ME \;=\; \underbrace{c}_{\text{reliability}} \;\cdot\; \underbrace{s/\sqrt n}_{\text{SE}}.$$
-From a printed CI one can always read off
+**Reading the margin of error backwards.** Because the CI is symmetric around $\bar x$,
 $$\bar x \;=\; \tfrac{L+U}{2}, \qquad ME \;=\; \tfrac{U-L}{2}.$$
-For our 95% CI $[22\,320,\,25\,574]$: midpoint $=23\,947$ ✓, half-width $=1\,627$ ✓ — no raw data needed.
+From a printed CI we can always recover the point estimate and the half-width without raw data — useful in exam questions that give *only* the interval (e.g. ex `6_1b`: from the German developers' CI $[16.91,\,18.29]$, $\bar x_{GER} = 17.60$ and $ME = 0.69$ pop out immediately).
+
+**Effect of changing the confidence level.** $SE$ does not depend on $\alpha$; only the reliability factor does. Going from 95% to 99% at $n=100$: $t_{0.995,\,99}/t_{0.975,\,99} \approx 2.626/1.984 \approx 1.32$ — the CI grows by $\approx 32\%$. Higher confidence ⇒ wider interval, *always*.
+
+**Effect of changing the sample size.** $\widehat{SE} \propto 1/\sqrt n$. Quadruple $n$ ⇒ halve the SE ⇒ halve the CI width. Halve the desired width ⇒ quadruple $n$ — see subpart (c) for the formal sample-size formula.
+
+![Master illustration — one-mean CI with σ known (z) vs σ unknown (t)](statistics/images/master/master_g13a_ai.png)
+
+</details>
+
+<details class="master-subpart">
+<summary>(c) Sample-size planning for a target margin of error on $\mu$</summary>
+
+A CI is useful only if it is short enough to discriminate values of $\mu$ that matter. Pre-data, fix a target margin of error $ME^\star$ at confidence $1-\alpha$ and solve
+
+$$ME \;=\; z_{1-\alpha/2}\,\frac{\sigma}{\sqrt n} \;\le\; ME^\star \quad\Longleftrightarrow\quad \boxed{\;\;n \;\ge\; \left(\frac{z_{1-\alpha/2}\,\sigma}{ME^\star}\right)^{2}\;\;}$$
+
+then round **up** to the next integer. Two practical notes:
+
+- $\sigma$ is unknown at the design stage; use a **pilot estimate** $\sigma\approx s$ from a prior sample (the pizzeria sample gives $s = 8\,200$), or a literature value. The plug-in is what makes the formula a *planning approximation* rather than an exact guarantee.
+- Using $z$ instead of $t_{n-1}$ is conservative and standard — the $t$ inflation requires knowing $n$, the very thing we are solving for; the difference vanishes once $n\gtrsim 60$.
+
+**Worked numbers on the pizzeria sample.** Suppose we want a 95% CI with half-width $ME^\star = 500$ €, using $\sigma\approx s = 8\,200$:
+
+$$n \;\ge\; \left(\frac{1.96 \cdot 8\,200}{500}\right)^{2} \;=\; (32.14)^{2} \;\approx\; 1\,033.2 \quad\Longrightarrow\quad n = 1\,034.$$
 
 ```r
-L <- 22320; U <- 25574
-(L + U)/2                       # 23947 = xbar
-(U - L)/2                       # 1627  = ME_95
-```
-
-</details>
-
-<details class="master-subpart">
-<summary><span class="tag tag-2plus">≥2 ex</span> (g) Effect of the sample size on the SE</summary>
-
-$SE \propto 1/\sqrt n$. Compare two sample sizes with the same $s$:
-$$SE(n=15) \;=\; \frac{8\,200}{\sqrt{15}} \;\approx\; 2\,117, \qquad SE(n=50) \;=\; \frac{8\,200}{\sqrt{50}} \;\approx\; 1\,160.$$
-Going from $n=15$ to $n=50$ shrinks the SE by $\sqrt{15/50} \approx 0.548$ — almost in half. With $n=100$ the SE drops to $820$, sharper still.
-
-```r
-8200/sqrt(15)                    # 2117  -- SE at n=15
-8200/sqrt(50)                    # 1160  -- SE at n=50
-sqrt(15/50)                      # 0.548 -- shrinkage factor 15 -> 50
-```
-
-</details>
-
-<details class="master-subpart">
-<summary>(h) "Closeness" claim — true or false?</summary>
-
-*Claim:* "The estimate $\bar x_{100} = 23\,947$ from $n=100$ is closer to $\mu$ than the estimate $\bar x_{15}$ would be."
-
-**FALSE.** A larger $n$ gives a smaller $SE(\bar X) = \sigma/\sqrt n$, so the *sampling distribution* of $\bar X$ is more **concentrated** around $\mu$. But a *specific realisation* from that tighter distribution is **not guaranteed** to land closer to $\mu$ than a realisation from the smaller-$n$ distribution — you can always be unlucky. The correct rephrasing is probabilistic: for any fixed $c>0$,
-$$\Pr(|\bar X_{100} - \mu| \le c) \;\ge\; \Pr(|\bar X_{15} - \mu| \le c),$$
-so on average across hypothetical resamples, the large-$n$ estimator is more concentrated.
-
-</details>
-
-<details class="master-subpart">
-<summary>(i) Validity of the CI — selection bias, sample size, discrete data</summary>
-
-Two conditions must hold for the CI to deliver its nominal 95% coverage:
-1. **Random sample** from the target population (no selection bias). If, e.g., the firm only surveyed pizzerias that *replied to a voluntary online questionnaire*, respondents would self-select — $\bar x$ would be biased ($\mathbb E[\bar X] \ne \mu$) and the CI formula would still produce an interval, but its 95% guarantee **would not hold**.
-2. **Normality or large-$n$ CLT.** With $n=100$ the CLT applies to $\bar X$ regardless of the shape of `Sales` — **right-skewed, heavy-tailed, even discrete count data are all fine**, because the variable being inferred is the *mean* $\mu$ (real-valued); the CLT smooths the sampling distribution of $\bar X$. For small $n$ ($n\le 30$), `Sales` should be approximately normal for the $t_{n-1}$ CI to be exact; otherwise coverage degrades.
-
-*Small-$n$ price tag.* The reliability factor inflates for small $n$: $t_{0.975,\,15} \approx 2.131$ vs $t_{0.975,\,99} \approx 1.984$ — an extra $\approx 7\%$ width purely from the fatter $t$ tails, **on top of** the $1/\sqrt n$ SE inflation. A CI from $n=16$ is therefore wider on *two* counts (larger $c$ **and** larger $s/\sqrt n$).
-
-The CI procedure cannot fix a biased sampling design — it can only correct for sampling noise under valid random sampling.
-
-</details>
-
-<details class="master-subpart">
-<summary>(j) Closeness probability $\Pr(|\bar X - \mu| \le \varepsilon)$</summary>
-
-Under the CLT, $\bar X \approx \mathcal N(\mu,\,(s/\sqrt n)^2)$, so
-$$\Pr(|\bar X - \mu| \le \varepsilon) \;\approx\; 2\Phi\!\left(\frac{\varepsilon}{s/\sqrt n}\right) - 1.$$
-For $\varepsilon = 1\,000$ €:
-$$\Pr(|\bar X - \mu| \le 1000) \;\approx\; 2\Phi(1000/820) - 1 \;=\; 2\Phi(1.220) - 1 \;\approx\; 2(0.8888) - 1 \;=\; 0.7776.$$
-
-```r
-eps <- 1000
-2*pnorm(eps / se_hat) - 1            # ~0.778
-```
-
-So roughly 78% of resamples produce a $\bar X$ within 1 000 € of $\mu$.
-
-</details>
-
-<details class="master-subpart">
-<summary>(k) One-sided 95% CI (lower bound only)</summary>
-
-When only an *upper* bound on the risk of "too low a mean" matters (e.g., a lender wants to be 95% confident that average turnover is at least some level), use a one-sided CI:
-$$\bar x \;-\; t_{1-\alpha,\,n-1}\,\tfrac{s}{\sqrt n} \;\le\; \mu.$$
-With $\alpha=0.05$, $t_{0.95,\,99} \approx 1.660$, so
-$$\mu \;\ge\; 23\,947 - 1.660 \cdot 820 \;\approx\; 22\,586.$$
-
-```r
-tcrit_one <- qt(0.95, df = n-1);  tcrit_one        # 1.660
-xbar - tcrit_one * se_hat                            # ~22586
-```
-
-With 95% confidence the average monthly turnover is at least 22 586 €. (One-sided CIs at level $1-\alpha$ use $z_{1-\alpha}$, **not** $z_{1-\alpha/2}$.)
-
-</details>
-
-<details class="master-subpart">
-<summary>(l) Required sample size for a target margin of error</summary>
-
-From $ME = z_{1-\alpha/2}\,\sigma/\sqrt n$, solve for $n$:
-$$n \;=\; \left(\frac{z_{1-\alpha/2}\,\sigma}{ME}\right)^{2}.$$
-Suppose we want a 95% CI of half-width $ME = 500$ €, using the plug-in $\sigma \approx s = 8\,200$:
-$$n \;\ge\; \left(\frac{1.96 \cdot 8\,200}{500}\right)^{2} \;\approx\; (32.14)^{2} \;\approx\; 1\,034.$$
-Round **up** to $n = 1\,034$.
-
-```r
-ME_target <- 500
+ME_target   <- 500
 sigma_pilot <- 8200
-n_req <- ceiling((qnorm(0.975) * sigma_pilot / ME_target)^2)
+n_req <- ceiling( (qnorm(0.975) * sigma_pilot / ME_target)^2 )
 n_req                                # 1034
 ```
 
-*Take-away.* Halving the ME quadruples the required $n$ — the $\sqrt n$ rate is the binding cost of precision.
+**Take-away.** Halving the ME quadruples the required $n$ — the $\sqrt n$ rate is the binding cost of precision. Doubling the confidence multiplier ($z_{0.975}=1.96\to z_{0.995}=2.576$) roughly **triples** $n$ (a factor of $(2.576/1.96)^2 \approx 1.73$).
+
+> The proportion-side analogue (worst-case $p(1-p)=0.25$) lives in **`g13b`** — same recipe, different SE.
+
+</details>
+
+<details class="master-subpart">
+<summary>(d) Recovering $s$ from raw sums $\sum x_i$ and $\sum x_i^2$</summary>
+
+Several horizontal cells (`5_2a`, `5_2b`, `5_3a`, `5_3b`, `6_13d`) feed the data only as $n$, $\sum x_i$, $\sum x_i^2$ (or as a frequency table). In that case use the **computational formula**
+
+$$\bar x \;=\; \frac{1}{n}\sum_{i=1}^n x_i, \qquad s^2 \;=\; \frac{1}{n-1}\!\left(\sum_{i=1}^n x_i^2 \;-\; n\,\bar x^{\,2}\right), \qquad \widehat{SE}(\bar X)\;=\;\frac{s}{\sqrt n}.$$
+
+For a **frequency table** ($x$-values $x_k$ with frequencies $f_k$, $\sum_k f_k = n$):
+
+$$\bar x \;=\; \frac{1}{n}\sum_k x_k f_k, \qquad \overline{x^2} \;=\; \frac{1}{n}\sum_k x_k^{\,2} f_k, \qquad s^2 \;=\; \frac{n}{n-1}\bigl(\overline{x^2} - \bar x^{\,2}\bigr).$$
+
+The Bessel factor $n/(n-1)$ is the unbiased correction; at $n=100$ it is $1.0101$ — negligible numerically, but conceptually essential.
+
+**Worked example (matches `5_2a`/`5_3a`).** $n=15$, $\sum x_i = 2\,755$, $\sum x_i^2 = 585\,203$:
+- $\bar x = 2755/15 = 183.667$.
+- $s^2 = \tfrac{1}{14}(585\,203 - 15\cdot 183.667^2) \approx 5\,657.24$, so $s \approx 75.21$.
+- $\widehat{SE} = 75.21/\sqrt{15} \approx 19.42$.
+- 95% $t$-CI: $183.667 \pm t_{0.975,\,14}\cdot 19.42 = 183.667 \pm 2.145\cdot 19.42 \approx [142.0,\;225.3]$.
+
+```r
+n      <- 15
+sum_x  <- 2755
+sum_x2 <- 585203
+xbar   <- sum_x / n;                            xbar      # 183.667
+s2     <- (sum_x2 - n*xbar^2) / (n - 1);        s2        # 5657.24
+s_hat  <- sqrt(s2);                             s_hat     # 75.21
+se_hat <- s_hat / sqrt(n);                      se_hat    # 19.42
+tcrit  <- qt(0.975, df = n - 1);                tcrit     # 2.145
+xbar + c(-1, 1) * tcrit * se_hat                          # [141.99, 225.34]
+```
+
+If instead the problem states $\sigma^2$ as **known** (as in `5_2a`/`5_3a` part (a) with $\sigma^2 = 6\,500$), do **not** compute $s^2$ — use $\sigma/\sqrt n$ directly and the $z$-CI of subpart (a).
 
 </details>
 
 ---
 
-**Summary.** Across the 12 subparts we have built — from one sample $(\bar x = 23\,947,\,s = 8\,200,\,n = 100)$ — the full toolkit for inference on a single population mean: point estimate, SE (known vs unknown $\sigma$), two-sided CIs at 95% and 99%, ME decomposition, sample-size effects, closeness probabilities, one-sided bound, and the required-$n$ formula. The recurring lesson: the CI's coverage guarantee rests on **random sampling** and on a valid Normal approximation (CLT for $n\gtrsim 30$, or normality of $X$ for small $n$); plugging numbers into the formula without checking these assumptions yields an interval, not a 95% interval.
+**Summary.** g13a covers the **two one-mean rows** of the master case table: $\sigma$ known ⇒ exact $z$-CI with $\sigma/\sqrt n$; $\sigma$ unknown ⇒ $t_{n-1}$-CI with the plug-in $s/\sqrt n$. The two formulas differ only in the SE (exact vs plug-in) and in the critical-value family ($z$ vs $t_{n-1}$), and converge at large $n$. The two auxiliary tools the row's horizontal cells repeatedly demand are **sample-size planning** ($n\ge (z\sigma/ME^\star)^2$) and **recovery of $s$ from raw sums**. Every other G13 row reuses the *same* three-slot template $\widehat\theta \pm c\cdot\widehat{SE}$ — only $(\widehat\theta,\widehat{SE},c,df)$ change. Continue to **`g13b`** for the one-proportion row, **`g13c`** for two-means, **`g13d`** for two-proportions, **`g13e`** for paired data, **`g13f`** for the underlying unbiased estimators.
 """,
     "images": ["statistics/images/master/master_g13a_ai.png"]
 }
 
 master_exercises["g14a_one_sample"] = {
-    "title": "Master — One-sample tests (mean & proportion): NewHired + DS",
-    "content": r"""**Master exercise — One-sample tests for a mean ($\sigma$ unknown) and a proportion.**
+    "title": "Master Exam — One-sample tests (mean σ-known z, mean σ-unknown t, one-proportion z)",
+    "content": r"""## Setup — running dataset for every numeric example below
 
-Consolidates the unique sub-tasks asked in **Ex 7.1a** (mean, $H_1:\mu<45$, NewHired), **Ex 7.1c** (proportion, $H_1:p>0.10$, NewHired) and **Ex 7.8a** (mean, $H_1:\mu<1.5$, large $n$ on `DS$Children` — p-value definition + CI cross-check). Unified workflow: assumptions $\to$ hypotheses $\to$ statistic $\to$ rejection region $\to$ p-value $\to$ decision.
+A job agency tracks $n=47$ workers (`NewHired`) and records `Weeks` = time (in weeks) to find a new job. The sample summary is
+
+$$\bar x \;=\; 40.1915, \qquad s \;=\; 17.2206, \qquad \widehat{\rm SE}(\bar X) \;=\; s/\sqrt{47} \;=\; 2.5119, \qquad n \;=\; 47.$$
+
+A side count from the *same* sample: **7 of 47** workers took **more than 52 weeks** to find a job, so the binary indicator $Y_i = \mathbb{1}\{\text{Weeks}_i > 52\}$ has
+
+$$\hat p \;=\; X/n \;=\; 7/47 \;\approx\; 0.1489, \qquad n=47.$$
+
+We will treat this *same* sample throughout the entry — first as a one-mean problem with $\sigma$ pretended **known** at the pilot value $\sigma = 17.0$ (Case 1, $z$-test), then realistically as $\sigma$ **unknown** plug in $s$ (Case 2, $t$-test), then for the *proportion* thread on the same workers (Case 3, $z$-test under $H_0$). Targets to test: $\mu_0 = 45$ weeks (mean) and $p_0 = 0.10$ (proportion). No new dataset is introduced anywhere below.
+
+---
+
+## Universal hypothesis-test recipe (this is the topic anchor for *every* G14 entry)
+
+**Every** test in G14 is built from the **same three-slot template**:
+
+$$\boxed{\;\;T \;=\; \frac{\widehat\theta \;-\; \theta_0}{\widehat{\rm SE}_{H_0}(\widehat\theta)}, \qquad \text{reject } H_0 \iff |T|>c \;\;(\text{or one-sided: } T>c \text{ / } T<-c), \;\iff\; p\text{-value} < \alpha.\;\;}$$
+
+You change only **three** things between problems: the **point estimate** $\widehat\theta$, the **null value** $\theta_0$ that the question puts on the boundary of $H_0$, and the formula for the **standard error evaluated under $H_0$**. The null distribution of $T$ is then $\mathcal N(0,1)$ or a $t$ with the right df (a $\chi^2$ for categorical-counts tests). The $\pm$, the $\alpha/2$ split, the p-value interpretation are *identical* across all rows of the table below.
+
+### Master case table (memorise once, reuse across g14a–g14e)
+
+| # | Parameter | $H_0$ | Test statistic | Null distribution | Reject $H_0$ (two-sided $\alpha$) | Owned by |
+|---|---|---|---|---|---|---|
+| **1** | $\mu$, $\sigma$ **known** | $\mu = \mu_0$ | $Z = \dfrac{\bar X-\mu_0}{\sigma/\sqrt n}$ | $\mathcal N(0,1)$ | $|Z|>z_{1-\alpha/2}$ | **g14a** (below) |
+| **2** | $\mu$, $\sigma$ **unknown** | $\mu = \mu_0$ | $T = \dfrac{\bar X-\mu_0}{s/\sqrt n}$ | $t_{n-1}$ | $|T|>t_{1-\alpha/2,\,n-1}$ | **g14a** (below) |
+| **3** | $p$, large $n$ | $p = p_0$ | $Z = \dfrac{\hat p-p_0}{\sqrt{p_0(1-p_0)/n}}$ | $\mathcal N(0,1)$ | $|Z|>z_{1-\alpha/2}$ | **g14a** (below) |
+| 4 | $\mu_A-\mu_B$, $\sigma$'s **known** | $\mu_A=\mu_B$ | $Z = \dfrac{\bar X_A-\bar X_B}{\sqrt{\sigma_A^2/n_A+\sigma_B^2/n_B}}$ | $\mathcal N(0,1)$ | $|Z|>z_{1-\alpha/2}$ | **g14b** |
+| 5 | $\mu_A-\mu_B$, $\sigma_A^2=\sigma_B^2$ unknown (**pooled**) | $\mu_A=\mu_B$ | $T = \dfrac{\bar X_A-\bar X_B}{\sqrt{s_p^2(1/n_A+1/n_B)}}$, &nbsp; $s_p^2=\tfrac{(n_A-1)s_A^2+(n_B-1)s_B^2}{n_A+n_B-2}$ | $t_{n_A+n_B-2}$ | $|T|>t_{1-\alpha/2,\,n_A+n_B-2}$ | **g14b** |
+| 6 | $\mu_A-\mu_B$, $\sigma_A^2\ne\sigma_B^2$ (**Welch**) | $\mu_A=\mu_B$ | $T = \dfrac{\bar X_A-\bar X_B}{\sqrt{s_A^2/n_A+s_B^2/n_B}}$ | $t_{\nu^{W}}$ (Satterthwaite) | $|T|>t_{1-\alpha/2,\,\nu^W}$ | **g14b** |
+| 7 | $p_A-p_B$ (**test only**) | $p_A=p_B$ | $Z = \dfrac{\hat p_A-\hat p_B}{\sqrt{\hat p_{\rm pool}(1-\hat p_{\rm pool})(1/n_A+1/n_B)}}$, &nbsp; $\hat p_{\rm pool}=\tfrac{x_A+x_B}{n_A+n_B}$ | $\mathcal N(0,1)$ | $|Z|>z_{1-\alpha/2}$ | **g14b** |
+| 8 | Paired mean ($D=X-Y$) | $\mu_d=0$ | reduce to row 2 on $d_i=x_i-y_i$ | $t_{n-1}$ | $|T|>t_{1-\alpha/2,\,n-1}$ | **g14c** |
+| 9 | $\chi^2$ goodness-of-fit / independence | (varies) | $X^2=\sum\dfrac{(O-E)^2}{E}$, &nbsp; $E_k=np_k^{(0)}$ or $E_{ij}=n_{i\cdot}n_{\cdot j}/n$ | $\chi^2_{\rm df}$ | $X^2>\chi^2_{1-\alpha,\,\rm df}$ **(right tail only)** | **g14d** |
+| 10 | Power / Type-II | (varies) | parameter sweep at fixed $\alpha,n$, true $\theta$ | — | — | **g14e** |
+
+> **Sub-master cross-references.** This table is referenced verbatim by every other G14 entry. **g14a** walks rows **1–3** (one mean / one proportion) below. **g14b** walks rows **4–7** (two means in three variance regimes + two proportions). **g14c** is row **8** (paired = one-sample $t$ on differences $d_i$). **g14d** is row **9** ($\chi^2$ GoF and independence — both right-tail only). **g14e** keeps the framework constant and studies how $\alpha,\beta,$ $n$ and effect size interact (row 10).
+
+### Two equivalent decision rules (they *always* agree)
+
+Once $t_{\rm obs}$ (or $z_{\rm obs}$, $X^2_{\rm obs}$) is computed, the verdict can be reached two ways:
+
+| Rule | Two-sided $H_1:\theta\ne\theta_0$ | One-sided $H_1:\theta>\theta_0$ | One-sided $H_1:\theta<\theta_0$ |
+|---|---|---|---|
+| **Critical-value** | reject iff $|t_{\rm obs}|>c_{1-\alpha/2}$ | reject iff $t_{\rm obs}>c_{1-\alpha}$ | reject iff $t_{\rm obs}<-c_{1-\alpha}$ |
+| **$p$-value** | $p=2\Pr(T\ge|t_{\rm obs}|)$; reject iff $p<\alpha$ | $p=\Pr(T\ge t_{\rm obs})$; reject iff $p<\alpha$ | $p=\Pr(T\le t_{\rm obs})$; reject iff $p<\alpha$ |
+
+For the **right-tail-only** $\chi^2$ tests (row 9): always $p = \Pr(\chi^2_{\rm df}\ge X^2_{\rm obs})$ and reject iff $X^2_{\rm obs} > \chi^2_{1-\alpha,\,\rm df}$ (see `g14d`).
+
+$$\boxed{\;\text{Reject } H_0 \iff t_{\rm obs}\in R_\alpha \iff p\text{-value} < \alpha.\;}$$
+
+### CI ⇄ test duality
+
+For the two-sided case the test and the $(1-\alpha)$ confidence interval (G13) are **two views of the same operation**:
+
+$$\boxed{\;\text{Reject } H_0:\theta=\theta_0 \text{ at level } \alpha \;\iff\; (1-\alpha)\text{ CI for }\theta \text{ does NOT contain } \theta_0.\;}$$
+
+Use whichever lens the question asks for; numerically the two routes give identical decisions whenever the same SE formula is used in both — true for rows 1, 2, 4, 5, 6, 8. The **one** exception lives in row 3 (one-proportion test, this entry) and row 7 (two-proportion test, `g14b`): the CI uses the *unpooled* / plug-in-$\hat p$ SE, but the test uses an SE built **from the null value** $p_0$ (or $\hat p_{\rm pool}$). The boxed warning in subpart (c) below makes this concrete.
+
+### 3-step procedure for every G14 exam question
+
+1. **State $H_0$ vs $H_1$.** Put the research claim in $H_1$ (rejecting $H_0$ requires evidence). One-sided if the question is directional, two-sided otherwise. The boundary value $\theta_0$ sits in $H_0$.
+2. **Compute the test statistic.** Read off the right row of the master case table: $\widehat\theta$, $\theta_0$, $\widehat{\rm SE}_{H_0}$, null distribution. Plug numbers in.
+3. **Decide.** Compare $t_{\rm obs}$ to the critical value, or compare $p$-value to $\alpha$. Same verdict either way.
+
+### Pointer block — where to find the auxiliary decisions
+
+- **Pooled vs Welch (rows 5 vs 6).** Decided by **Levene's test** $H_0:\sigma_A^2=\sigma_B^2$. The full Levene decision matrix is in `g13c` Part 9; `g14b` re-uses it without re-derivation.
+- **CI vs test SE for two proportions (row 7).** CI uses **unpooled** SE (separate $\hat p_A,\hat p_B$); test of $H_0:p_A=p_B$ uses **pooled** SE with $\hat p_{\rm pool}=(x_A+x_B)/(n_A+n_B)$. See `g13d` (CI side) and `g14b` (test side). The *one-proportion* analogue (CI uses $\hat p$, test uses $p_0$) is the boxed warning in `g13b` (d) — mirrored in subpart (c) below.
+- **Unbiased estimators sitting under every test statistic.** $\bar X$, $\hat p$, $S^2$, $\bar D$ are derived once and for all in `g13f`. Every $\widehat\theta - \theta_0$ in the rows above is an unbiased estimator minus its null value.
+- **Variance-scaling, $n$ ⇄ SE laws.** Identical to G13 — quadrupling $n$ halves $\widehat{\rm SE}$, doubles $|T|$, collapses the $p$-value. See `g13a` for the width table.
 
 ---
 
-### Datasets (two scenarios, one workflow)
+## Cases 1, 2, 3 of the master table — the **one-sample** tests
 
-**Scenario A — `NewHired`** ($n=47$). Variable `Weeks` = time (weeks) to find a new job.
-- Summary: $\bar x = 40.1915$, $s = 17.2206$, $\widehat{\text{SE}} = s/\sqrt n = 2.5119$.
-- Count: **7 of 47** workers took **more than 52 weeks** $\Rightarrow$ $\hat p = 7/47 = 0.1489$.
-- Targets: $\mu_0 = 45$ weeks; $p_0 = 0.10$.
-
-**Scenario B — `DS$Children`** ($n=750$). Variable `Children` = number of children per customer.
-- Summary: $\bar x = 0.9213$, $s = 1.0640$, $\widehat{\text{SE}} = s/\sqrt n = 0.03885$.
-- Target: $\mu_0 = 1.5$ (cutoff under which the manager drops baby products).
-
----
+g14a is responsible for the first three rows. Subparts (a)–(c) walk those rows, each on the running NewHired sample. Subparts (d) and (e) handle the two recurring auxiliary questions that show up across the horizontal cells of this row (`7_1a`, `7_1c`, `7_8a`): the **one-sided vs two-sided** dichotomy and the **Type-I / Type-II / power** vocabulary that frames every G14 problem. Subpart (f) is the cross-reference block.
 
 <details class="master-subpart" open>
-<summary><span class="tag tag-exam">EXAM</span> (a) One-sample $t$-test for the mean — small $n$, $H_1:\mu<45$ (Ex 7.1a)</summary>
+<summary><span class="tag tag-exam">EXAM</span> (a) <strong>Case 1</strong> — One-mean test with $\sigma$ <em>known</em> ($z$-test)</summary>
 
-**Assumptions.** Representative sample; $n=47$ is large enough for the **CLT** $\Rightarrow$ $\bar X$ approximately normal without a normality assumption on `Weeks`. $\sigma^2$ unknown $\Rightarrow$ Student-$t$.
+**Setting.** $X_1,\ldots,X_n$ i.i.d. with mean $\mu$ and **known** variance $\sigma^2$. We test $H_0:\mu=\mu_0$.
 
-**Hypotheses.** Most serious error = declaring the average $<45$ when it is not. Put the directional claim in $H_1$:
-$$H_0:\mu \geq 45 \quad \text{vs} \quad H_1:\mu < 45.$$
+**Why this row matters at the exam.** Showed up in `exam_g2_2026_2a` (campaign price, $\sigma=300$ known, $H_1:\mu>850$) and `exam_sep_2025_2b`/`2c` (Wald $z$ on a coefficient with a directly-given SE). Whenever the problem statement *literally* hands you $\sigma$ (or the SE), this is the row to pick — no df, no $t$-inflation.
 
-**Statistic & realisation.**
-$$T = \frac{\bar X - \mu_0}{S/\sqrt n} \;\overset{H_0}{\sim}\; t_{46}, \qquad t_\text{obs} = \frac{40.1915 - 45}{2.5119} = -1.9143.$$
+**Pivot.** Because $\sigma$ is *known*, the standardised mean has an exact reference distribution under $H_0$:
+- If $X\sim N(\mu,\sigma^2)$: $\displaystyle Z = \frac{\bar X - \mu_0}{\sigma/\sqrt n} \overset{H_0}{\sim} \mathcal N(0,1)$ **exactly**, any $n$.
+- For non-normal $X$: $Z$ is **approximately** $\mathcal N(0,1)$ by the CLT for $n\gtrsim 30$.
 
-**Rejection regions (lower tail).**
-- $\alpha = 0.05$: $R = \{t < -t_{0.95,\,46}\} = \{t < -1.679\}$. Since $-1.9143 < -1.679$ $\Rightarrow$ **reject $H_0$**.
-- $\alpha = 0.01$: $R = \{t < -t_{0.99,\,46}\} = \{t < -2.410\}$. Since $-1.9143 > -2.410$ $\Rightarrow$ **do not reject $H_0$**.
+**Test statistic and decision (row 1).**
 
-**One-sided p-value.** $p = P(t_{46} \leq -1.9143) \approx 0.0309$ (normal approx.: $\Phi(-1.9143)\approx 0.0278$, since df $=46$ is large). Since $0.01 < p < 0.05$: reject at 5%, retain at 1%.
+$$\boxed{\;\;Z \;=\; \frac{\bar X - \mu_0}{\sigma/\sqrt n}, \qquad \text{reject } H_0:\mu=\mu_0 \iff |Z|>z_{1-\alpha/2}\;\;(\text{two-sided}).\;\;}$$
 
-**Type I error.** $\alpha$ caps the probability of rejecting a true $H_0$; on $H_0:\mu\geq 45$ this max is attained at the boundary $\mu = 45$.
+**Worked numbers on the NewHired running sample** with the pilot textbook value $\sigma = 17.0$ (used here to illustrate the $\sigma$-known mechanics; the realistic $\sigma$-unknown variant is in (b)). Take the directional research claim $H_1:\mu<45$ (mirrors `7_1a`):
+
+- Exact SE: $\sigma/\sqrt n = 17.0/\sqrt{47} \approx 2.4795$.
+- Realisation: $z_{\rm obs} = (40.1915 - 45)/2.4795 \approx -1.9393$.
+- Lower-tail critical values: $-z_{0.95}=-1.6449$ (5%), $-z_{0.99}=-2.3263$ (1%).
+- One-sided $p$-value: $p = \Phi(-1.9393) \approx 0.0262$.
+
+**Decision.** $z_{\rm obs} = -1.939 < -1.6449$ ⇒ **reject** $H_0$ at $\alpha = 0.05$; but $-1.939 > -2.3263$ ⇒ **retain** at $\alpha = 0.01$. Same verdict from the $p$-value: $0.01 < 0.0262 < 0.05$.
 
 ```r
-# (a) NewHired: lower-tail t-test, mu0 = 45
+# (a) Case 1 — z-test, sigma known
+xbar <- 40.1915; sigma <- 17.0; n <- 47; mu0 <- 45
+SE   <- sigma/sqrt(n);          SE             # 2.4795 (exact, no plug-in)
+z    <- (xbar - mu0)/SE;        z              # -1.9393
+qnorm(0.05); qnorm(0.01)                       # -1.6449, -2.3263 (lower-tail crits)
+pnorm(z)                                       # 0.0262 (one-sided p-value)
+# Course helper (BAS package): sigma argument given -> z-test used
+TEST.mean(Weeks, mu0 = 45, sigma = 17.0, alternative = "less", data = NewHired)
+```
+
+**Why Case 1 is the simplest row.** No degrees of freedom, no $t$-inflation, no plug-in noise — $z$-quantiles are *the* reference distribution. The same operation extends to a difference of means with known $\sigma$'s (row 4) — see `g14b` (a1).
+
+![Master illustration — one-sample tests: z (σ known), t (σ unknown), one-proportion](statistics/images/master/master_g14a_ai.png)
+
+</details>
+
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (b) <strong>Case 2</strong> — One-mean test with $\sigma$ <em>unknown</em> ($t$-test) — the realistic case (Ex 7.1a, Ex 7.8a)</summary>
+
+**Setting.** Same i.i.d. assumption, but $\sigma^2$ is **unknown** and must be estimated by $s^2 = \tfrac{1}{n-1}\sum_i (x_i-\bar x)^2$.
+
+**Pivot.** Replacing $\sigma$ by $s$ in the standardised mean produces a $t$-distributed pivot under $H_0$:
+- If $X\sim N(\mu,\sigma^2)$: $\displaystyle T = \frac{\bar X - \mu_0}{S/\sqrt n} \overset{H_0}{\sim} t_{n-1}$ **exactly**.
+- For non-normal $X$ and $n\gtrsim 30$: $T$ is approximately $\mathcal N(0,1)$ by Slutsky's theorem ($S\xrightarrow{P}\sigma$ and CLT for $\bar X$). The $t_{n-1}$ and $\mathcal N(0,1)$ percentiles become numerically indistinguishable once $n$ is in the hundreds (at $n=47$: $-t_{0.95,46}=-1.679$ vs $-z_{0.95}=-1.6449$ — agree to two decimals).
+
+**Test statistic and decision (row 2).**
+
+$$\boxed{\;\;T \;=\; \frac{\bar X - \mu_0}{s/\sqrt n}, \qquad \text{reject } H_0:\mu=\mu_0 \iff |T|>t_{1-\alpha/2,\,n-1}\;\;(\text{two-sided}).\;\;}$$
+
+The estimated standard error $\widehat{\rm SE}(\bar X) = s/\sqrt n$ is itself random (it has its own sampling variability); the **$t_{n-1}$ critical value is wider than $z$** by exactly the right amount to compensate, restoring nominal Type-I rate. At large $n$ the inflation is negligible; at small $n$ (e.g. $n=15$) it is $\approx 9\%$ from the reliability factor alone.
+
+**Worked numbers on the NewHired sample, $H_1:\mu<45$ (Ex 7.1a).** $\bar x = 40.1915$, $s = 17.2206$, $n=47$, $\widehat{\rm SE} = 2.5119$:
+
+- Realisation: $t_{\rm obs} = (40.1915 - 45)/2.5119 \approx -1.9143$ on $t_{46}$.
+- Lower-tail critical values: $-t_{0.95,46} = -1.679$ (5%), $-t_{0.99,46} = -2.410$ (1%).
+- One-sided $p$-value: $p = P(t_{46}\le -1.9143) \approx 0.0309$.
+
+**Decision.** $t_{\rm obs} = -1.914 < -1.679$ ⇒ **reject** $H_0$ at $\alpha = 0.05$; $-1.914 > -2.410$ ⇒ **retain** at $\alpha = 0.01$. The $p$-value $0.0309$ sits between the two levels.
+
+**Reading the verdict from a CI (duality cross-check).** A two-sided 95% $t$-CI for $\mu$ is $\bar x \pm t_{0.975,46}\cdot s/\sqrt n = 40.19\pm 2.013\cdot 2.5119 = [35.13,\;45.25]$. Since $\mu_0 = 45$ sits **inside** the 95% CI, the *two-sided* test at $\alpha = 0.05$ does **not** reject — but the *one-sided* lower-tail test does (the one-sided rejection region is asymmetric, all mass on the left). Direction of $H_1$ matters.
+
+```r
+# (b) Case 2 — t-test, sigma unknown (Ex 7.1a)
 xbar <- 40.1915; s <- 17.2206; n <- 47; mu0 <- 45
-tstat <- (xbar - mu0)/(s/sqrt(n)); tstat               # -1.9143
-qt(0.05, df = n-1); qt(0.01, df = n-1)                 # -1.679, -2.410
-pt(tstat, df = n-1)                                    # 0.0309
+SE   <- s/sqrt(n);                SE          # 2.5119 (plug-in)
+t    <- (xbar - mu0)/SE;          t           # -1.9143
+qt(0.05, df = n-1); qt(0.01, df = n-1)        # -1.679, -2.410
+pt(t, df = n-1)                                # 0.0309 (one-sided p-value)
+# Course helper: sigma argument omitted -> t-test used
 TEST.mean(Weeks, mu0 = 45, alternative = "less", data = NewHired)
+# Base R on raw data:
+# t.test(NewHired$Weeks, mu = 45, alternative = "less")
 ```
 
-![Master illustration](statistics/images/master/master_g14a_ai.png)
+**Second worked example — large $n$ (Ex 7.8a, `DS$Children`).** The sales manager will **drop baby products** if the mean number of children per customer does not exceed 1.5. Same template, but $n=750$ ⇒ CLT applies trivially and $t_{749}$ is indistinguishable from $\mathcal N(0,1)$:
 
-</details>
-
-<details class="master-subpart">
-<summary>(b) Two-sided variant for context ($H_1:\mu \neq 45$)</summary>
-
-Same $t_\text{obs} = -1.9143$; the rejection region splits in two tails:
-- $\alpha=0.05$: $R = \{|t| > t_{0.975,\,46}\} = \{|t| > 2.013\}$. Since $1.9143 < 2.013$ $\Rightarrow$ **do not reject**.
-- Two-sided p-value: $p_{2} = 2\cdot 0.0309 = 0.0618 > 0.05$.
-
-Doubling the p-value flips the 5%-level decision — the same data are **not** significant two-sided. The direction of $H_1$ must be pre-specified from subject-matter knowledge, never picked after seeing the data.
+- $\bar x = 0.9213$, $s = 1.0640$, $\widehat{\rm SE} = 0.03885$, $\mu_0 = 1.5$.
+- $H_0:\mu\ge 1.5$ vs $H_1:\mu<1.5$ (the "stop selling" claim is in $H_1$).
+- $t_{\rm obs} = (0.9213 - 1.5)/0.03885 \approx -14.91$ on $t_{749}$, $p < 10^{-4}$.
+- CI cross-check: 95% $t$-CI for $\mu$ is $[0.845,\,0.997]$, which **does not contain** $1.5$ ⇒ reject the two-sided $H_0$, *a fortiori* the one-sided $H_0:\mu\ge 1.5$ — drop the baby-products line.
 
 ```r
-qt(0.975, df = n-1)                                    # 2.013
-2 * pt(-abs(tstat), df = n-1)                          # 0.0618
-```
-
-</details>
-
-<details class="master-subpart">
-<summary>(c) One-proportion $z$-test, $H_1:p>0.10$ (Ex 7.1c)</summary>
-
-**Setting.** A worker claims that the proportion of agency-relying workers who **struggle more than one year** ($>52$ weeks) exceeds 10%.
-
-**Hypotheses.** Most serious error = declaring $p>0.10$ when it is not. Put the claim in $H_1$:
-$$H_0:p \leq 0.10 \quad \text{vs} \quad H_1:p > 0.10.$$
-
-**Statistic.** Under $H_0$ the SE is built with $p_0$ (textbook one-prop convention):
-$$Z = \frac{\hat p - p_0}{\sqrt{p_0(1-p_0)/n}} \;\dot\sim\; N(0,1).$$
-
-**Realisation.** With $\hat p = 7/47 = 0.1489$, $p_0 = 0.10$, $n = 47$:
-$$\widehat{\text{SE}}_0 = \sqrt{\frac{0.10\cdot 0.90}{47}} = 0.04376, \qquad z_\text{obs} = \frac{0.1489 - 0.10}{0.04376} \approx 1.12.$$
-
-**Rejection region (upper tail).**
-- $\alpha=0.05$: $R = \{z > z_{0.95}\} = \{z > 1.6449\}$. $1.12 < 1.6449$ $\Rightarrow$ **do not reject**.
-- $\alpha=0.01$: $R = \{z > z_{0.99}\} = \{z > 2.326\}$ — also not rejected.
-
-**One-sided p-value.** $p = 1 - \Phi(1.12) \approx 0.13 > 0.05$ — confirms the RR decision.
-
-**Conclusion.** Insufficient evidence that more than 10% of agency-relying workers struggle over a year. The worker's claim is not statistically supported.
-
-```r
-# (c) NewHired: one-proportion z-test, upper tail, p0 = 0.10
-phat <- 7/47; p0 <- 0.10; n <- 47
-se0   <- sqrt(p0*(1-p0)/n);              se0           # 0.04376
-zstat <- (phat - p0)/se0;                zstat          # 1.12
-1 - pnorm(zstat)                                        # 0.13
-qnorm(0.95); qnorm(0.99)                                # 1.6449, 2.326
-TEST.prop(Weeks > 52, p0 = 0.10, alternative = "greater", data = NewHired)
-```
-
-</details>
-
-<details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> (d) One-sample $t$-test, large $n$, $H_1:\mu<1.5$ (Ex 7.8a — `DS$Children`)</summary>
-
-**Setting.** The sales manager will **drop baby products** if the average number of children per customer does not exceed 1.5. Same template as (a), but $n = 750$: CLT applies trivially and $t_{749}$ is indistinguishable from $N(0,1)$.
-
-**Hypotheses.** Most serious error = dropping a still-profitable product line. Put the "stop selling" claim in $H_1$:
-$$H_0:\mu \geq 1.5 \quad \text{vs} \quad H_1:\mu < 1.5.$$
-
-**Statistic & realisation.**
-$$t_\text{obs} = \frac{0.9213 - 1.5}{0.03885} \approx -14.91 \;\overset{H_0}{\sim}\; t_{749}.$$
-
-**p-value.** $p = P(t_{749} \leq -14.91) < 10^{-4}$ — numerically zero. Reject $H_0$ at **any** conventional $\alpha$.
-
-**p-value definition.** Probability, **under $H_0$**, of a statistic at least as extreme (in the direction of $H_1$) as the realised one. Here it is the area to the left of $-14.91$ under $t_{749}$.
-
-**Cross-checks** (all equivalent forms of the same decision):
-- RR on $\bar X$ at $\alpha=0.05$: $\bar x < 1.5 + (-1.6473)\cdot 0.03885 \approx 1.436$. Observed $0.9213 \ll 1.436$ $\Rightarrow$ reject.
-- 95% two-sided CI for $\mu$: $0.9213 \pm 1.96\cdot 0.03885 = [0.845,\;0.997]$. **Does not contain** $1.5$ $\Rightarrow$ two-sided null rejected at 5%; a fortiori the one-sided $H_0:\mu\geq 1.5$ is rejected.
-
-**Conclusion.** Overwhelming evidence that the average number of children is below 1.5 — drop the baby-products line.
-
-```r
-# (d) DS: large-n lower-tail t-test, mu0 = 1.5
+# (b-bis) Case 2 on DS$Children — Ex 7.8a, large n
 xbar <- 0.9213; s <- 1.0640; n <- 750; mu0 <- 1.5
-tstat <- (xbar - mu0)/(s/sqrt(n)); tstat              # -14.91
-pt(tstat, df = n-1)                                   # < 1e-4
-qt(0.05, df = n-1)                                    # -1.6473
-mu0 + qt(0.05, df = n-1)*(s/sqrt(n))                  # 1.436 (RR upper edge on xbar)
-CI.mean(Children, conf.level = 0.95, data = DS)       # [0.845, 0.997]
+t    <- (xbar - mu0)/(s/sqrt(n));  t           # -14.91
+pt(t, df = n-1)                                # < 1e-4
+CI.mean(Children, conf.level = 0.95, data = DS)  # [0.845, 0.997] -> misses 1.5
 TEST.mean(Children, mu0 = 1.5, alternative = "less", data = DS)
 ```
 
+**p-value definition.** $p$ = probability, **under $H_0$**, of a test statistic at least as extreme (in the direction of $H_1$) as the realised one. Here for `7_8a` it is the area to the left of $-14.91$ under $t_{749}$. A small $p$ means the observed value is surprising under $H_0$; a *large* $p$ never means "$H_0$ is true", only that the data lack strength to reject at the chosen $\alpha$.
+
 </details>
 
 <details class="master-subpart">
-<summary>(e) Unified decision rule (mean & proportion, any tail)</summary>
+<summary><span class="tag tag-exam">EXAM</span> (c) <strong>Case 3</strong> — One-proportion test ($z$-test with SE under $H_0$) (Ex 7.1c)</summary>
 
-Let $T$ be the test statistic ($t_{n-1}$ for the mean with $\sigma$ unknown; $Z\sim N(0,1)$ for the proportion), $\nu$ the appropriate df, $\theta\in\{\mu,p\}$:
+**Setting.** $Y_1,\ldots,Y_n$ i.i.d. Bernoulli$(p)$, $X = \sum_i Y_i \sim \mathrm{Bin}(n,p)$, $\hat p = X/n$. Test $H_0:p=p_0$.
 
-| $H_1$ | Rejection region (level $\alpha$) | p-value |
+**Validity.** Large-$n$ CLT: requires $np_0\ge 5$ and $n(1-p_0)\ge 5$ — note: under $H_0$ the check uses $p_0$, not $\hat p$. If it fails, use the exact binomial $p$-value via `binom.test` instead (the small-$n$ analogue of Clopper–Pearson on the CI side; see `g13b` (c)).
+
+**Pivot.** Under $H_0:p=p_0$, the variance of $\hat p$ is **exactly known** — namely $p_0(1-p_0)/n$ — because conditioning on $H_0$ pins it down. The standardised pivot is
+
+$$Z \;=\; \frac{\hat p - p_0}{\sqrt{p_0(1-p_0)/n}} \;\overset{H_0}{\dot\sim}\; \mathcal N(0,1).$$
+
+**Test statistic and decision (row 3).**
+
+$$\boxed{\;\;Z \;=\; \frac{\hat p - p_0}{\sqrt{p_0(1-p_0)/n}}, \qquad \text{reject } H_0:p=p_0 \iff |Z|>z_{1-\alpha/2}\;\;(\text{two-sided}).\;\;}$$
+
+> **Critical SE distinction — boxed because it is the #1 G13↔G14 trap.**
+> $$\boxed{\;\;\widehat{\rm SE}_{\rm TEST} \;=\; \sqrt{\tfrac{p_0(1-p_0)}{n}} \quad\ne\quad \widehat{\rm SE}_{\rm CI} \;=\; \sqrt{\tfrac{\hat p(1-\hat p)}{n}}\;\;}$$
+> The **test** plugs in $p_0$ in the SE (sharpens the null distribution — variance is known under $H_0$); the **Wald CI** plugs in $\hat p$ (the only feasible choice when the truth is unknown). The two SEs coincide *only* when $\hat p = p_0$; otherwise the CI ⇄ test duality is **not** an exact identity for proportions (it *is* for means with known $\sigma$). Cross-reference: `g13b` (d) — same warning from the CI side. For the two-proportion analogue (CI unpooled vs test pooled), see `g13d` and `g14b` row 7.
+
+**Worked numbers on the NewHired sample, $H_1:p>0.10$ (Ex 7.1c).** A worker claims that the proportion of agency-relying workers who **struggle more than one year** ($>52$ weeks) exceeds 10%.
+
+- $\hat p = 7/47 \approx 0.1489$, $p_0 = 0.10$, $n = 47$.
+- CLT validity (under $H_0$): $np_0 = 4.7$ and $n(1-p_0) = 42.3$ — the first is just under 5, borderline; the standard course convention is still to apply the $z$-test (the textbook reports it without comment, see Ex 7.1c).
+- $\widehat{\rm SE}_0 = \sqrt{0.10\cdot 0.90/47} \approx 0.04376$.
+- $z_{\rm obs} = (0.1489 - 0.10)/0.04376 \approx 1.12$.
+- Upper-tail critical values: $z_{0.95} = 1.6449$ (5%), $z_{0.99} = 2.326$ (1%).
+- One-sided $p$-value: $p = 1-\Phi(1.12) \approx 0.13$.
+
+**Decision.** $z_{\rm obs} = 1.12 < 1.6449$ ⇒ **do not reject** at $\alpha = 0.05$ (a fortiori at 1%). $p = 0.13 > 0.05$ — same verdict. **Conclusion.** Insufficient evidence that more than 10% of agency-relying workers struggle over a year; the worker's claim is not statistically supported.
+
+```r
+# (c) Case 3 — one-proportion z-test, upper tail, p0 = 0.10 (Ex 7.1c)
+phat <- 7/47; p0 <- 0.10; n <- 47
+SE0  <- sqrt(p0*(1-p0)/n);        SE0           # 0.04376  (NOTE: uses p0, not phat!)
+z    <- (phat - p0)/SE0;          z              # 1.12
+qnorm(0.95); qnorm(0.99)                         # 1.6449, 2.326
+1 - pnorm(z)                                     # 0.13 (one-sided p-value)
+# Course helper:
+TEST.prop(Weeks > 52, p0 = 0.10, alternative = "greater", data = NewHired)
+# Base R: large-sample two-sided test without continuity correction
+prop.test(x = 7, n = 47, p = 0.10, alternative = "greater", correct = FALSE)
+# Small-n / boundary fallback (exact binomial):
+# binom.test(x = 7, n = 47, p = 0.10, alternative = "greater")
+```
+
+**Why the CI built from $\hat p$ may give a *different* numerical verdict than the test.** The 95% Wald CI for $p$ from the same data is $\hat p \pm z_{0.975}\sqrt{\hat p(1-\hat p)/n} = 0.1489 \pm 1.96\sqrt{0.1267/47} = 0.1489\pm 0.1017 = [0.047,\,0.251]$ — contains $p_0 = 0.10$, so the two-sided CI does *not* reject at 5%. The one-sided test's verdict (also non-reject) agrees here, but in problems where $\hat p$ is far from $p_0$ the two SE formulas can drift apart enough to disagree on the borderline (see `exam_g1_2026_1b` — uses the CI ⇄ test duality at 99% for $H_0:p=0.3$).
+
+</details>
+
+<details class="master-subpart">
+<summary>(d) One-sided vs two-sided — rejection regions and p-value formulas</summary>
+
+The direction of $H_1$ must be pre-specified from subject-matter knowledge, never picked after seeing the data. The mini-table below maps every $H_1$ shape to its rejection region and $p$-value formula on the *same* observed statistic $t_{\rm obs}$:
+
+| $H_1$ | Rejection region | $p$-value | Mass in $\alpha$ |
+|---|---|---|---|
+| $\theta \ne \theta_0$ (two-sided) | $\{|T|>c_{1-\alpha/2}\}$ | $p = 2\,\Pr(T\ge|t_{\rm obs}|)$ | split $\alpha/2$ each tail |
+| $\theta > \theta_0$ (one-sided upper) | $\{T>c_{1-\alpha}\}$ | $p = \Pr(T\ge t_{\rm obs})$ | all $\alpha$ in right tail |
+| $\theta < \theta_0$ (one-sided lower) | $\{T<-c_{1-\alpha}\}$ | $p = \Pr(T\le t_{\rm obs})$ | all $\alpha$ in left tail |
+
+**Example on the NewHired $t$-test of (b).** Same $t_{\rm obs} = -1.9143$, but switch $H_1$ to two-sided ($H_1:\mu\ne 45$):
+- $\alpha = 0.05$ two-sided RR: $\{|T| > t_{0.975,46}\} = \{|T| > 2.013\}$. $|{-1.9143}| = 1.91 < 2.013$ ⇒ **do not reject**.
+- Two-sided $p$-value: $p_2 = 2\cdot 0.0309 = 0.0618 > 0.05$. Same retain verdict.
+
+Doubling the $p$-value flips the 5%-level decision. **The same data are significant one-sided but not two-sided.** This is exactly why the direction of $H_1$ must be fixed *before* the data are seen — picking the one-sided direction after observing $\bar x < \mu_0$ is "p-hacking" and inflates the true Type-I rate from the nominal 5% to 10%.
+
+```r
+qt(0.975, df = 46)                              # 2.013 (two-sided crit)
+2 * pt(-abs(-1.9143), df = 46)                  # 0.0618 (two-sided p)
+```
+
+</details>
+
+<details class="master-subpart">
+<summary>(e) Type-I, Type-II, and the size–power trade-off (vocabulary, full treatment in g14e)</summary>
+
+Every test makes one of two correct decisions and one of two errors:
+
+| Truth ↓ \\ Decision → | Retain $H_0$ | Reject $H_0$ |
 |---|---|---|
-| $\theta < \theta_0$ | $T < -t_{1-\alpha,\,\nu}$ (or $Z<-z_{1-\alpha}$) | $P(T \leq t_\text{obs})$ |
-| $\theta > \theta_0$ | $T > t_{1-\alpha,\,\nu}$ (or $Z>z_{1-\alpha}$) | $P(T \geq t_\text{obs})$ |
-| $\theta \neq \theta_0$ | $|T| > t_{1-\alpha/2,\,\nu}$ (or $|Z|>z_{1-\alpha/2}$) | $2\,P(T \geq |t_\text{obs}|)$ |
+| $H_0$ true | correct (prob $1-\alpha$) | **Type I error** (prob $\alpha$ at the boundary) |
+| $H_0$ false (true $\theta=\theta_\star$) | **Type II error** (prob $\beta(\theta_\star)$) | correct (prob $1-\beta(\theta_\star)$ = **power**) |
 
-$$\boxed{\;\text{Reject } H_0 \iff t_\text{obs}\in R_\alpha \iff p \leq \alpha.\;}$$
+- **$\alpha$** (significance level, size, Type-I rate) = max probability of rejecting $H_0$ when it is true. On a composite $H_0:\mu\ge\mu_0$ the max is attained at the boundary $\mu=\mu_0$.
+- **$\beta(\theta_\star)$** (Type-II rate at the true value $\theta_\star\in H_1$) = probability of retaining $H_0$ when $\theta=\theta_\star$. Depends on $\theta_\star$, $\alpha$, $n$, $\sigma$.
+- **Power** $= 1-\beta(\theta_\star)$ = probability of correctly rejecting $H_0$ when $\theta=\theta_\star$.
 
-The two formulations always agree. A large p-value $\neq$ "$H_0$ true"; it only means the data lack the strength to reject at the chosen level.
+**Trade-off.** At fixed $n$ and $\sigma$, shrinking $\alpha$ (smaller false-positive rate) *automatically* raises $\beta$ (more false-negatives) ⇒ shrinks power. The only way to raise power *without* inflating $\alpha$ is to raise $n$ (or shrink $\sigma$, or pick a more extreme $\theta_\star$). Full numeric treatment + power-curve plots live in **`g14e`** (which is the proper home for `7_1b`); here we only define the vocabulary used by every other G14 entry.
 
 </details>
 
 <details class="master-subpart">
-<summary>(f) Side-by-side summary of the three applications</summary>
+<summary>(f) Cross-references — where each one-sample test reappears downstream</summary>
 
-| Application | $H_1$ | Statistic | $t_\text{obs}/z_\text{obs}$ | p-value | @ 5% | @ 1% |
-|---|---|---|---|---|---|---|
-| (a) `Weeks` mean, $\mu_0=45$ | $\mu<45$ | $t_{46}$ | $-1.9143$ | $0.0309$ | reject | retain |
-| (c) `Weeks>52` proportion, $p_0=0.10$ | $p>0.10$ | $Z$ | $1.12$ | $0.13$ | retain | retain |
-| (d) `Children` mean, $\mu_0=1.5$ | $\mu<1.5$ | $t_{749}$ | $-14.91$ | $<10^{-4}$ | reject | reject |
+- **Two-mean tests (rows 4–6)** — `g14b` (a1)/(a2)/(a3): same template, $\widehat\theta = \bar X_A - \bar X_B$ and three SE choices (known $\sigma$'s, pooled $s_p$, Welch). Pooled vs Welch picked by Levene (`g13c` Part 9, re-used by `g14b`).
+- **Two-proportion test (row 7)** — `g14b` (b): same row-3 template, but with the **pooled** SE $\sqrt{\hat p_{\rm pool}(1-\hat p_{\rm pool})(1/n_A+1/n_B)}$. Mirror the boxed SE warning of (c).
+- **Paired test (row 8)** — `g14c`: row-2 template applied to differences $d_i = x_i - y_i$. Reduces the paired problem to the one-sample $t$ of (b).
+- **$\chi^2$ tests (row 9)** — `g14d`: GoF and independence, right-tail only, on the $\chi^2_{\rm df}$ reference.
+- **Power & sample-size (row 10)** — `g14e`: keeps the framework constant and answers "what is the chance of detecting a true effect $\theta_\star$ at $\alpha = 0.05$ with this $n$?". Owns `7_1b`.
+- **CI counterparts (G13 mirror).** Case 1 ⇄ `g13a` (a) — one-mean CI, $\sigma$ known, $z$-interval. Case 2 ⇄ `g13a` (b) — one-mean CI, $\sigma$ unknown, $t$-interval. Case 3 ⇄ `g13b` (a) — one-proportion Wald CI. The CI ⇄ test duality is exact for cases 1 and 2; the SE distinction in (c) makes it only approximate for case 3.
+- **Underlying unbiased estimators.** $\bar X$, $\hat p$, $S^2$ are derived once in `g13f`. Every $\widehat\theta - \theta_0$ in the rows above is an unbiased estimator minus its null value.
 
 </details>
+
+---
+
+### Side-by-side summary of the three cases on the NewHired sample
+
+| Case | Row | $H_1$ | Stat formula | $z_{\rm obs}/t_{\rm obs}$ | $p$-value (one-sided) | @ 5% | @ 1% |
+|---|---|---|---|---|---|---|---|
+| (a) | 1 ($\mu$, $\sigma$ known) | $\mu<45$ | $(\bar x-45)/(\sigma/\sqrt n)$ | $-1.939$ | $0.0262$ | reject | retain |
+| (b) | 2 ($\mu$, $\sigma$ unknown) | $\mu<45$ | $(\bar x-45)/(s/\sqrt n)$ | $-1.914$ | $0.0309$ | reject | retain |
+| (c) | 3 ($p$, $H_0:p=p_0$) | $p>0.10$ | $(\hat p - p_0)/\sqrt{p_0(1-p_0)/n}$ | $1.12$ | $0.13$ | retain | retain |
+| (b-bis) | 2 — Ex 7.8a | $\mu<1.5$ | $(\bar x-1.5)/(s/\sqrt n)$ | $-14.91$ | $<10^{-4}$ | reject | reject |
+
+**Summary.** g14a covers the **three one-sample rows** of the universal test table. Case 1 (σ known) ⇒ exact $z$-test with $\sigma/\sqrt n$; Case 2 (σ unknown) ⇒ $t_{n-1}$-test with the plug-in $s/\sqrt n$; Case 3 (one proportion) ⇒ $z$-test with the SE evaluated **under $H_0$** as $\sqrt{p_0(1-p_0)/n}$ — *not* the CI plug-in $\sqrt{\hat p(1-\hat p)/n}$. Every other G14 row reuses the *same* three-slot template $T = (\widehat\theta - \theta_0)/\widehat{\rm SE}_{H_0}$ — only $(\widehat\theta, \theta_0, \widehat{\rm SE}_{H_0}, \text{null distribution})$ change. Continue to **`g14b`** for two-sample tests, **`g14c`** for paired, **`g14d`** for $\chi^2$, **`g14e`** for power & sample-size.
 """,
     "images": ["statistics/images/master/master_g14a_ai.png"],
 }
@@ -400,24 +520,23 @@ The two formulations always agree. A large p-value $\neq$ "$H_0$ true"; it only 
 # Dataset: NewHired (Weeks ~ Age), n = 47
 # =====================================================================
 master_exercises["g15a_simple_reg"] = {
-    "title": "Master Exam — Simple regression on NewHired (Weeks ~ Age): OLS, $R^2$, SE, t-test, CI, F-test",
-    "content": r"""**Master exercise — Simple linear regression (consolidated).**
+    "title": "Master Exam — Simple regression (topic anchor for G15): OLS, $R^2$, slope test/CI on NewHired (Weeks ~ Age)",
+    "content": r"""## Setup — running dataset for every numeric example below
 
-A single dataset, eight sub-points covering every unique concept asked across the linked snippets **Ex 8.1a**, **Ex 8.1b**, **Ex 8.2a**, **Ex 8.3a**, **Ex 8.5a** and **Ex 8.8a**: OLS criterion, point estimates, slope interpretation, $R^2$ decomposition, standard errors of $\hat\beta_0$ and $\hat\beta_1$, $t$-test for slope significance, confidence interval for $\beta_1$, $F$-test for overall significance and the $F=t^2$ identity for simple regression.
+A job agency tracks $n=47$ workers who managed to find a new job. For each worker we record two variables:
 
----
+- $X = \text{Age}$ (years),
+- $Y = \text{Weeks}$ (weeks needed to find a new job).
 
-### Dataset (single, shared by all parts)
+Sample summary statistics (used throughout *every* subpart below — no new dataset is introduced anywhere in this entry, and the *same* numbers will be referenced by `g15b` (prediction at $x_0$) and re-used as the simple-regression benchmark by `g15c`):
 
-A job agency tracks $n=47$ workers who managed to find a new job. For each worker the agency records two variables:
+$$\bar x \;=\; 38.617, \quad \bar y \;=\; 45.745, \quad s^2_x \;=\; 88.246, \quad s^2_y \;=\; 631.589, \quad s_{xy} \;=\; 149.110, \quad r_{xy} \;=\; 0.6315.$$
 
-- $X = \text{Age}$ (years)
-- $Y = \text{Weeks}$ (weeks needed to find a new job)
+(Consistency check: $r_{xy} = s_{xy}/\sqrt{s^2_x s^2_y} = 149.110/\sqrt{88.246\cdot 631.589} = 0.6315$ ✓.)
 
-Sample summary statistics:
-$$\bar x = 38.617,\qquad \bar y = 45.745,\qquad s^2_x = 88.246,\qquad s^2_y = 631.589,\qquad s_{xy} = 149.110,\qquad r_{xy} = 0.6315.$$
+Postulated model (will be reused verbatim by `g15b`, then generalised to $p\ge 2$ by `g15c`):
 
-(Consistency check: $r_{xy}=s_{xy}/\sqrt{s^2_x\,s^2_y}=149.110/\sqrt{88.246\cdot 631.589}=149.110/236.16=0.6315$ ✓.)
+$$\boxed{\;\;Y_i \;=\; \beta_0 \;+\; \beta_1 X_i \;+\; \varepsilon_i,\qquad \varepsilon_i \overset{\rm iid}{\sim} \mathcal N(0,\sigma^2_\varepsilon),\qquad i = 1,\dots,n=47.\;\;}$$
 
 ```r
 n      <- 47
@@ -426,213 +545,372 @@ s2_x   <- 88.246;  s2_y  <- 631.589
 s_xy   <- 149.110; r_xy  <- 0.6315
 ```
 
-Postulated model:
-$$Y_i \;=\; \beta_0 \;+\; \beta_1 X_i \;+\; \epsilon_i,\qquad \epsilon_i \stackrel{iid}{\sim} N(0,\sigma^2_\epsilon),\qquad i=1,\dots,n=47.$$
-
 Round to 4 decimals throughout.
 
 ---
 
-<details class="master-subpart" open>
-<summary><span class="tag tag-4plus">≥4 ex</span> (a) OLS criterion</summary>
+## Universal regression recipe (this is the topic anchor for *every* G15 entry)
 
-The OLS estimators are defined as the minimisers of the residual sum of squares:
-$$(\hat\beta_0,\hat\beta_1) \;=\; \arg\min_{\beta_0,\beta_1}\sum_{i=1}^{n}\bigl(y_i-\beta_0-\beta_1 x_i\bigr)^2.$$
+**Every** linear regression problem in G15 — simple or multiple, continuous or categorical predictors — is solved by the **same 7-step workflow**. Only the design matrix $X$ and the degrees of freedom change between rows.
 
-The first-order conditions (the *normal equations*) yield the closed-form solutions
-$$\boxed{\;\hat\beta_1 \;=\; \frac{s_{xy}}{s^2_x},\qquad \hat\beta_0 \;=\; \bar y - \hat\beta_1\bar x.\;}$$
+$$\boxed{\;\;\text{(1) write model} \;\to\; \text{(2) OLS} \;\to\; \text{(3) fit quality} \;\to\; \text{(4) per-coef inference} \;\to\; \text{(5) global } F \;\to\; \text{(6) prediction at } x_0 \;\to\; \text{(7) diagnostics (LINE)}.\;\;}$$
 
-The intercept formula encodes the fact that the OLS line **always passes through the centre of mass** $(\bar x,\bar y)$. No distributional assumption on $\epsilon$ is needed for these estimators to be defined or unbiased — Gauss–Markov requires only zero-mean, homoscedastic, uncorrelated errors.
-</details>
+1. **Model.** $Y_i = \beta_0 + \beta_1 X_{1,i} + \dots + \beta_p X_{p,i} + \varepsilon_i$, with $\varepsilon_i \overset{\rm iid}{\sim}\mathcal N(0,\sigma^2)$.
+2. **OLS estimator.** Closed form $\hat{\boldsymbol\beta} = (X^\top X)^{-1}X^\top y$. **Simple case ($p=1$):** $\hat\beta_1 = S_{xy}/S_{xx} = r\cdot s_y/s_x$, $\hat\beta_0 = \bar y - \hat\beta_1\bar x$.
+3. **Goodness of fit.** $R^2 = 1 - SSE/SST = SSR/SST$. **Adjusted** $R^2 = 1 - (1-R^2)(n-1)/(n-p-1)$ for model comparison across different $p$ (handled in `g15c`).
+4. **Inference per coefficient.** $T_j = \hat\beta_j/\widehat{SE}(\hat\beta_j) \sim t_{n-p-1}$. CI: $\hat\beta_j \pm t_{1-\alpha/2,\,n-p-1}\,\widehat{SE}(\hat\beta_j)$.
+5. **Global significance.** $F = \dfrac{R^2/p}{(1-R^2)/(n-p-1)} \sim F_{p,\,n-p-1}$ tests $H_0:\beta_1=\dots=\beta_p=0$.
+6. **Prediction at new $x_0$.** **CI for the mean** $E[Y\mid x_0]$ vs **PI for an individual** $Y_0$ — PI is always wider because it **adds the residual variance** $\hat\sigma^2$ (the "**+1**" inside the sqrt). Handled in `g15b`.
+7. **Diagnostics (LINE).** **L**inearity, **I**ndependence, **N**ormality of residuals, **E**qual variance. Plus leverage / Cook's distance for influence and VIF for multicollinearity. Handled in `g15e`.
+
+### Master case table (memorise once, reuse across g15a–g15e)
+
+| # | Object | Estimator / Formula | $\widehat{SE}$ / df | Use it for | Owned by |
+|---|---|---|---|---|---|
+| 1 | $\hat\beta_j$ | OLS: $\hat{\boldsymbol\beta} = (X^\top X)^{-1}X^\top y$ | $\widehat{SE}(\hat\beta_j) = \sqrt{[(X^\top X)^{-1}]_{jj}\,\hat\sigma^2}$; df $=n-p-1$ | point estimate + CI/test on $\beta_j$ | **g15a** (simple) / **g15c** (multi) |
+| 2 | $\hat\sigma^2$ | $SSE/(n-p-1)$ | — | residual variance estimate; plugged into every SE above | **g15a** |
+| 3 | $R^2$ | $1-SSE/SST$ | — | proportion of variance explained | **g15a** |
+| 4 | Adj. $R^2$ | $1 - (1-R^2)\dfrac{n-1}{n-p-1}$ | — | model comparison across different $p$ (penalised fit) | **g15c** |
+| 5 | Global $F$ | $\dfrac{R^2/p}{(1-R^2)/(n-p-1)}$ | $F_{p,\,n-p-1}$, right-tail | $H_0:\beta_1=\dots=\beta_p=0$ (overall significance) | **g15c** (in simple reg, $F = t^2$ — handled in (h) below) |
+| 6 | CI for mean response at $x_0$ | $\hat y_0 \;\pm\; t_{1-\alpha/2,\,n-p-1}\sqrt{\hat\sigma^2\,x_0^\top(X^\top X)^{-1}x_0}$ | df $=n-p-1$ | *average* $Y$ at $x_0$ | **g15b** |
+| 7 | PI for new observation at $x_0$ | $\hat y_0 \;\pm\; t_{1-\alpha/2,\,n-p-1}\sqrt{\hat\sigma^2\bigl(1 + x_0^\top(X^\top X)^{-1}x_0\bigr)}$ | df $=n-p-1$ | *individual* $Y$ at $x_0$ — note the **"+1"** inside the sqrt | **g15b** |
+| 8 | Categorical level $k$ | $\hat\beta_k$ on dummy $D_k$ vs reference | as $\hat\beta_j$ above | mean shift of level $k$ vs baseline | **g15d** |
+| 9 | Interaction $\beta_{jk}$ | OLS on the column $X_j\cdot X_k$ | as $\hat\beta_j$ above | slope-of-$X_j$-changes-by-level-of-$X_k$ | **g15d** |
+
+### Cross-references — do NOT re-derive these elsewhere
+
+> $\bullet$ Every **$t$-test** $H_0:\beta_j = 0$ is **row 2** of the universal test table at the top of `g14a`, with $\theta_0 = 0$ and the regression SE $\widehat{SE}(\hat\beta_j)$ replacing the one-mean $s/\sqrt n$. The decision rule, the $p$-value formulas, the one-sided / two-sided distinction are *identical* to g14a.
+>
+> $\bullet$ Every **CI** $\hat\beta_j \pm t\cdot\widehat{SE}$ is **row 2** of the universal CI table at the top of `g13a`, with $\bar X \to \hat\beta_j$ and SE $\to \widehat{SE}(\hat\beta_j)$. The CI ⇄ test duality of g13a/g14a applies *exactly*: zero inside the $(1-\alpha)$ CI ⇔ retain $H_0$ at level $\alpha$.
+>
+> $\bullet$ The **global $F$-test** is the multi-coefficient joint analogue; in simple regression with $p=1$ it collapses to the $t$-test via the identity $F = t^2$ (see (h) below). Joint $F$ is owned by `g15c`.
+>
+> $\bullet$ The **unbiased estimators** that sit under $\hat\beta_j$ and $\hat\sigma^2$ (slope-as-weighted-sum, residual-MS unbiasedness) are derived once in `g13f`.
+
+### 3-step procedure for every G15 simple-regression question
+
+1. **Write the model** $Y = \beta_0 + \beta_1 X + \varepsilon$ with $\varepsilon\sim\mathcal N(0,\sigma^2)$; identify $n$.
+2. **Fit by OLS** — either run `lm(y ~ x, data=df); summary(mod)` and read the coefficient table, or (when only summary stats are given) compute closed-form $\hat\beta_1 = s_{xy}/s^2_x$, $\hat\beta_0 = \bar y - \hat\beta_1\bar x$, $\hat\sigma^2 = SSE/(n-2)$, $R^2 = r_{xy}^2$.
+3. **Report** the quantity the question asks for from the master case table above — coefficient point estimate, slope $t$-test or CI (row 1 / g14a row 2 / g13a row 2), $R^2$, residual SE. For prediction at $x_0$ jump to `g15b`; for multi-regression to `g15c`; for categorical predictors to `g15d`; for diagnostics to `g15e`.
+
+### Pointer block — where each G15 subtopic lives
+
+| Sub-master | Predictors | Adds to the spine | Rows of the master case table |
+|---|---|---|---|
+| `g15a` *(this entry)* | one continuous $X$ | full simple-regression cycle: OLS, $\hat\sigma^2$, $R^2$, slope $t$-test / CI, $F = t^2$ | rows 1, 2, 3 + simple-case specialisation of row 5 |
+| `g15b` | one continuous $X$ | CI for mean response vs PI for individual at $x_0$ | rows 6–7 (the "$+1$" inside the sqrt) |
+| `g15c` | $p \ge 2$ continuous | partial slopes, adj $R^2$, global $F$, OVB | rows 1–5 with $p \ge 2$ |
+| `g15d` | continuous + factor + interaction | dummy-variable coding, partial $F$ on a group, slope-by-group | rows 8–9 |
+| `g15e` | any | residuals-vs-fitted, Q-Q, leverage, Cook, VIF | the LINE diagnostics that **license** rows 4–7 |
+
+### Why this works — *the same regression in disguise*
+
+The simple-regression cycle below is *identical in structure* to the multi-regression cycle of `g15c` — only the dimension of $X$ changes from $n\times 2$ (intercept + $X_1$) to $n\times (p+1)$, and df from $n-2$ to $n-p-1$. So every subpart below is a *named template* you reuse later: subpart (a)–(b) (OLS) becomes "run `lm()` and read estimates", (d) ($R^2$) becomes "read `multiple R-squared`", (e) (SE) becomes "read `Std. Error`", (f) (slope $t$) becomes "read `Pr(>|t|)`", (g) (CI) becomes "`confint(mod)`".
 
 ---
 
-<details class="master-subpart">
-<summary><span class="tag tag-4plus">≥4 ex</span> (b) Point estimates of $\beta_0$ and $\beta_1$</summary>
+## g15a OWNS rows 1, 2, 3 (and the simple-case specialisation of 5) — full walk-through on NewHired
 
-Plug the sample moments into the formulas:
-$$\hat\beta_1 \;=\; \frac{149.110}{88.246} \;=\; 1.6898,$$
-$$\hat\beta_0 \;=\; 45.745 \;-\; 1.6898\cdot 38.617 \;=\; -19.5262.$$
+With $p=1$ the master table specialises to:
+
+- $\hat\beta_1 = S_{xy}/S_{xx} = r\,s_y/s_x$ (closed form),
+- $R^2 = r_{xy}^2$,
+- df $=n-2$,
+- $F = t^2$ for the slope test.
+
+We will *use* these identities below without re-deriving them — they are the row-1, row-3 and row-5 entries of the master table specialised to $p=1$.
+
+---
+
+<details class="master-subpart" open>
+<summary><span class="tag tag-exam">EXAM</span><span class="tag tag-4plus">≥4 ex</span> (a) <strong>Model + OLS estimator</strong> — closed-form derivation (rows 1, 2 of master table; Ex 8.1a, 8.2a, 8.3a, 8.5a, 8.8a, `exam_sep_2024_3a`)</summary>
+
+**OLS criterion.** The OLS estimators are defined as the minimisers of the residual sum of squares (RSS):
+
+$$(\hat\beta_0,\hat\beta_1) \;=\; \arg\min_{\beta_0,\beta_1}\sum_{i=1}^{n}\bigl(y_i-\beta_0-\beta_1 x_i\bigr)^2.$$
+
+**First-order conditions (normal equations)** ⇒ closed-form solution:
+
+$$\boxed{\;\;\hat\beta_1 \;=\; \frac{s_{xy}}{s^2_x} \;=\; r_{xy}\cdot\frac{s_y}{s_x}, \qquad \hat\beta_0 \;=\; \bar y - \hat\beta_1\bar x.\;\;}$$
+
+The intercept formula encodes that the OLS line **always passes through the centre of mass** $(\bar x,\bar y)$. No distributional assumption on $\varepsilon$ is needed for these estimators to be defined or unbiased — Gauss–Markov requires only zero-mean, homoscedastic, uncorrelated errors. (Normality of $\varepsilon$ is needed *only* for the **distribution** of $\hat\beta_j$, hence for the $t$-test in (f) and the CIs in (g).)
+
+**Worked numbers on NewHired.** Plug the sample moments into the formulas:
+
+$$\hat\beta_1 \;=\; \frac{149.110}{88.246} \;=\; 1.6898,\qquad \hat\beta_0 \;=\; 45.745 \;-\; 1.6898\cdot 38.617 \;=\; -19.5262.$$
 
 **Estimated regression line:**
-$$\boxed{\;\widehat{\text{Weeks}} \;=\; -19.5262 \;+\; 1.6898\cdot\text{Age}.\;}$$
+
+$$\boxed{\;\;\widehat{\text{Weeks}} \;=\; -19.5262 \;+\; 1.6898\cdot\text{Age}.\;\;}$$
+
+**Slope interpretation (the *ceteris-paribus* reading of $\hat\beta_1$).** $\hat\beta_1 = 1.6898$ means a $+1$-year increase in `Age` is associated, **on average**, with $\approx 1.69$ *additional* weeks needed to find a new job. Sign positive ⇒ older agency-relying workers tend to need *longer* job searches. This *is* the answer pattern for `exam_sep_2024_3a` (interpret $\hat\beta_2 = 7.84$ for `Account_length`) — only the dataset, the predictor name, and the numeric value of $\hat\beta_j$ change.
+
+**Intercept caveat.** $\hat\beta_0 = -19.53$ is **not** economically meaningful on its own: it corresponds to $\text{Age}=0$, which is far outside the observed range; mathematically it is allowed to be negative even though Weeks $\ge 0$ in reality.
+
+**R one-liner.**
 
 ```r
+mod <- lm(Weeks ~ Age, data=NewHired)
+summary(mod)        # b0, b1, t-stats, R^2, F-stat -- read everything off here
+# Closed-form check from summary stats (no raw data):
 b1 <- s_xy/s2_x;          b1                # 1.6898
 b0 <- ybar - b1*xbar;     b0                # -19.5262
 ```
+
+![Master illustration — OLS line on NewHired with slope/intercept boxed](statistics/images/master/master_g15a_ai.png)
+
 </details>
 
 ---
 
 <details class="master-subpart">
-<summary><span class="tag tag-4plus">≥4 ex</span> (c) Interpretation of the slope</summary>
+<summary><span class="tag tag-exam">EXAM</span> (b) <strong>Residual variance $\hat\sigma^2$</strong> — variance decomposition and the "Residual standard error" line of `summary(mod)` (row 2 of master table; Ex 8.1b, 8.3a, 8.5a, 8.8a)</summary>
 
-$\hat\beta_1 = 1.6898$ means that a $+1$-year increase in Age is associated, **on average**, with $\approx 1.69$ *additional* weeks needed to find a new job. The sign is **positive**, so older agency-relying workers tend to need *longer* job searches — consistent with labour-market intuition (skill obsolescence, age-based hiring frictions, narrower set of suitable openings).
+**Variance decomposition.** Under OLS the total variability of $y$ splits orthogonally into an *explained* part (movement along the fitted line) and a *residual* part (vertical distance from the line):
 
-The intercept $\hat\beta_0 = -19.53$ is **not** economically meaningful on its own: it corresponds to $\text{Age}=0$, which is far outside the observed range, and is mathematically allowed to be negative even though Weeks must be $\geq 0$ in reality.
+$$\underbrace{\sum_i (y_i-\bar y)^2}_{SST}\;=\;\underbrace{\sum_i(\hat y_i-\bar y)^2}_{SSR\,(\text{explained})}\;+\;\underbrace{\sum_i(y_i-\hat y_i)^2}_{SSE\,(\text{residual})}.$$
+
+**Residual variance.** $\hat\sigma^2_\varepsilon$ is the *unbiased* estimator of the error variance $\sigma^2_\varepsilon$ (Gauss–Markov: divide by $n-p-1 = n-2$ in simple regression to absorb the 2 df burned by estimating $\beta_0$ and $\beta_1$):
+
+$$\boxed{\;\;\hat\sigma^2_\varepsilon \;=\; \frac{SSE}{n-p-1} \;=\; \frac{SSE}{n-2} \;\;\text{(simple)},\qquad s_\varepsilon \;=\; \sqrt{\hat\sigma^2_\varepsilon}.\;\;}$$
+
+$s_\varepsilon$ is what `summary(mod)` prints as *"Residual standard error"* — the typical vertical distance between an observed $y_i$ and the fitted line. It is the **irreducible noise scale** that feeds into every SE downstream (row 1) and into the prediction interval (row 7).
+
+**Worked numbers on NewHired.**
+
+$$SST \;=\; (n-1)\,s^2_y \;=\; 46\cdot 631.589 \;=\; 29{,}053.1,$$
+$$SSE \;=\; (1-R^2)\,SST \;=\; 0.6012\cdot 29{,}053.1 \;=\; 17{,}466.7,\qquad SSR \;=\; R^2\cdot SST \;=\; 11{,}586.4.$$
+$$\hat\sigma^2_\varepsilon \;=\; \frac{17{,}466.7}{45} \;=\; 388.15,\qquad s_\varepsilon \;=\; \sqrt{388.15} \;=\; 19.70 \text{ weeks}.$$
+
+So the typical vertical distance between an observed `Weeks` and the OLS line is $\approx 19.7$ weeks — quite large relative to $\bar y = 45.7$, reflecting the moderate fit ($R^2 \approx 0.40$).
+
+```r
+SST  <- (n-1)*s2_y;        SST              # 29053.1
+R2   <- r_xy^2
+SSR  <- R2*SST;  SSE <- SST - SSR           # 11586.4 ; 17466.7
+s2_e <- SSE/(n-2);  s_e <- sqrt(s2_e)       # 388.15 ; 19.70
+```
+
 </details>
 
 ---
 
 <details class="master-subpart">
-<summary><span class="tag tag-4plus">≥4 ex</span> (d) Goodness of fit — $R^2$ via the variance decomposition</summary>
+<summary><span class="tag tag-exam">EXAM</span><span class="tag tag-4plus">≥4 ex</span> (c) <strong>$R^2$ and the correlation link</strong> — proportion of variance explained (row 3 of master table; Ex 8.1b, 8.3a, 8.5a, 8.8a)</summary>
 
-For every observation,
-$$y_i - \bar y \;=\; \underbrace{(\hat y_i - \bar y)}_{\text{explained}} \;+\; \underbrace{(y_i - \hat y_i)}_{\text{residual}}.$$
-Squaring and summing over $i$, the OLS cross-product $\sum_i(\hat y_i-\bar y)(y_i-\hat y_i)$ vanishes by the orthogonality of residuals to the fitted values, leaving
-$$\underbrace{\sum_i(y_i-\bar y)^2}_{SST} \;=\; \underbrace{\sum_i(\hat y_i-\bar y)^2}_{SSR} \;+\; \underbrace{\sum_i(y_i-\hat y_i)^2}_{SSE}.$$
+**Definition.** The **coefficient of determination** is the explained share:
 
-The **coefficient of determination** is the explained share:
-$$R^2 \;=\; \frac{SSR}{SST} \;=\; 1 \;-\; \frac{SSE}{SST} \;\in\; [0,1].$$
+$$\boxed{\;\;R^2 \;=\; \frac{SSR}{SST} \;=\; 1 - \frac{SSE}{SST} \;\in\; [0,1].\;\;}$$
 
-In simple linear regression $R^2 = r_{xy}^2$ (squared sample correlation):
+**Properties.** $R^2 = 0$ when the fitted line is flat ($\hat\beta_1 = 0$, model explains nothing beyond $\bar y$); $R^2 = 1$ when residuals vanish (perfect fit). In **simple regression** the squared sample correlation collapses everything to:
+
+$$R^2 \;=\; r_{xy}^2 \;\;(\text{simple regression only}).$$
+
+**Worked numbers on NewHired.**
+
 $$R^2 \;=\; 0.6315^2 \;=\; 0.3988.$$
 
-**Interpretation.** Age alone explains $\approx \mathbf{40\%}$ of the variability of Weeks; the remaining $\approx 60\%$ is residual noise coming from omitted drivers (qualification, sector, regional labour market, network, $\ldots$). Moderate fit.
+**Interpretation.** Age alone explains $\approx \mathbf{40\%}$ of the variability of `Weeks`; the remaining $\approx 60\%$ is residual noise from omitted drivers (qualification, sector, regional labour market, network, …). **Moderate fit** — typical pattern for a single-predictor model on a labour-market outcome.
+
+**Cross-references.**
+
+- For comparing models of different size, use **adjusted $R^2 = 1 - (1-R^2)(n-1)/(n-p-1)$** — see `g15c` (penalised fit; plain $R^2$ is monotone in $p$ and cannot fairly compare models of different size).
+- Beware of $R^2$ alone as a fit-quality verdict: a model can have a low $R^2$ but a highly significant slope (see Ex 8.4a: surface ⇒ revenues has $R^2 = 0.12$ but $p\approx 0$).
 
 ```r
 R2  <- r_xy^2;            R2                # 0.3988
-SST <- (n-1)*s2_y;        SST               # 29053.1
-SSR <- R2*SST;            SSE <- SST - SSR  # 11586.4 ; 17466.7
+# Or via SS decomposition:
+R2_check <- 1 - SSE/SST                     # 0.3988
+# Or read directly from R:
+summary(mod)$r.squared
 ```
+
 </details>
 
 ---
 
 <details class="master-subpart">
-<summary><span class="tag tag-2plus">≥2 ex</span> (e) Standard errors of $\hat\beta_1$ and $\hat\beta_0$</summary>
+<summary>(d) Standard errors of $\hat\beta_1$ and $\hat\beta_0$ (specialisation of row 1; Ex 8.5a, 8.8a)</summary>
 
-**Step 1 — total and residual SS.**
-$$SST \;=\; (n-1)\,s^2_y \;=\; 46\cdot 631.589 \;=\; 29{,}053.1,$$
-$$SSE \;=\; (1-R^2)\,SST \;=\; 0.6012\cdot 29{,}053.1 \;=\; 17{,}466.7,$$
-$$SSR \;=\; R^2\cdot SST \;=\; 0.3988\cdot 29{,}053.1 \;=\; 11{,}586.4.$$
+In the simple case the SE formulas of row 1 collapse to compact closed forms:
 
-**Step 2 — residual variance.**
-$$s^2_\epsilon \;=\; \frac{SSE}{n-2} \;=\; \frac{17{,}466.7}{45} \;=\; 388.15,\qquad s_\epsilon \;=\; 19.70.$$
+$$\boxed{\;\;\widehat{SE}(\hat\beta_1) \;=\; \frac{s_\varepsilon}{\sqrt{(n-1)\,s^2_x}}, \qquad \widehat{SE}(\hat\beta_0) \;=\; s_\varepsilon\sqrt{\frac{1}{n} + \frac{\bar x^2}{(n-1)\,s^2_x}}.\;\;}$$
 
-**Step 3 — slope SE.**
-$$\widehat{\text{se}}(\hat\beta_1) \;=\; \frac{s_\epsilon}{\sqrt{(n-1)\,s^2_x}} \;=\; \frac{19.70}{\sqrt{46\cdot 88.246}} \;=\; \frac{19.70}{63.7245} \;=\; 0.3092.$$
+**Intuition — three drivers of $\widehat{SE}(\hat\beta_1)$** (same drivers that show up in every regression SE):
 
-**Step 4 — intercept SE.**
-$$\widehat{\text{se}}(\hat\beta_0) \;=\; s_\epsilon\sqrt{\frac{1}{n} + \frac{\bar x^2}{(n-1)\,s^2_x}} \;=\; 19.70\sqrt{0.02128 + 0.36728} \;=\; 19.70\cdot 0.6234 \;=\; 12.281.$$
+- $\sqrt n$ in the denominator ⇒ quadruple $n$ ⇒ halve the SE.
+- $\sqrt{s^2_x}$ in the denominator ⇒ wider spread of $X$ ⇒ tighter SE (more leverage to pin down the slope).
+- $s_\varepsilon$ in the numerator ⇒ less noise ⇒ tighter SE.
 
-Intuition: $\widehat{\text{se}}(\hat\beta_1)$ shrinks with sample size $n$, with the spread of $X$ ($s^2_x$), and with low noise $s_\epsilon$ — same three drivers that show up in every regression SE.
+**Worked numbers on NewHired.**
+
+$$\widehat{SE}(\hat\beta_1) \;=\; \frac{19.70}{\sqrt{46\cdot 88.246}} \;=\; \frac{19.70}{63.7245} \;=\; 0.3092,$$
+$$\widehat{SE}(\hat\beta_0) \;=\; 19.70\sqrt{0.02128 + 0.36728} \;=\; 19.70\cdot 0.6234 \;=\; 12.281.$$
 
 ```r
-s2_eps <- SSE/(n-2);      s_eps <- sqrt(s2_eps)            # 21.94 ; 4.6843
-se_b1  <- s_eps/sqrt((n-1)*s2_x);          se_b1
-se_b0  <- s_eps*sqrt(1/n + xbar^2/((n-1)*s2_x));  se_b0
+se_b1 <- s_e/sqrt((n-1)*s2_x);                          se_b1   # 0.3092
+se_b0 <- s_e*sqrt(1/n + xbar^2/((n-1)*s2_x));           se_b0   # 12.28
 ```
+
 </details>
 
 ---
 
 <details class="master-subpart">
-<summary><span class="tag tag-4plus">≥4 ex</span> (f) Slope significance — two-sided $t$-test</summary>
+<summary><span class="tag tag-exam">EXAM</span><span class="tag tag-4plus">≥4 ex</span> (e) <strong>Slope $t$-test and 95% CI for $\beta_1$</strong> — *row 2 of g14a / row 2 of g13a with $\theta_0=0$* (Ex 8.1a, 8.3a, 8.5a, 8.8a, `exam_sep_2024_3b`)</summary>
 
-**Hypotheses.** $H_0:\beta_1 = 0$ (no linear relation between Age and Weeks) vs $H_1:\beta_1\neq 0$.
+> **Cross-reference (do not re-derive).** The slope $t$-test is **row 2 of the universal test table at the top of `g14a`** with $\theta_0 = 0$ and the regression SE $\widehat{SE}(\hat\beta_1)$ replacing the one-mean $s/\sqrt n$. The slope CI is **row 2 of the universal CI table at the top of `g13a`** with $\bar X \to \hat\beta_1$ and SE $\to \widehat{SE}(\hat\beta_1)$. The CI ⇄ test duality of g13a / g14a applies *exactly*: reject $H_0:\beta_1 = \beta_1^{(0)}$ at level $\alpha$ ⇔ $(1-\alpha)$ CI does **not** contain $\beta_1^{(0)}$.
 
-**Test statistic** (under $H_0$, with $\sigma^2_\epsilon$ unknown):
-$$T \;=\; \frac{\hat\beta_1 - 0}{\widehat{\text{se}}(\hat\beta_1)} \;\overset{H_0}{\sim}\; t_{n-2} \;=\; t_{45}.$$
+**Hypotheses.** $H_0:\beta_1 = 0$ (no linear relation between Age and Weeks) vs $H_1:\beta_1\neq 0$ (two-sided).
 
-**Realisation.** Using the SE from (e):
-$$t_\text{obs} \;=\; \frac{1.6898}{0.3092} \;\approx\; 5.464.$$
+**Test statistic** (specialisation of g14a row 2 with $\theta_0=0$):
 
-(Cross-check via the algebraic identity $t^2 = (n-2)\,R^2/(1-R^2) = 45\cdot 0.3988/0.6012 = 29.85 \Rightarrow |t| = 5.464$ ✓ — the two routes agree exactly because $t^2 = F = \text{SSR}/\text{MSE}$ holds in any simple OLS regression.)
+$$\boxed{\;\;T \;=\; \frac{\hat\beta_1 - 0}{\widehat{SE}(\hat\beta_1)} \;\overset{H_0}{\sim}\; t_{n-2}.\;\;}$$
 
-**Rejection region** at $\alpha=0.05$ (two-sided): $R = \{|t| > t_{0.975,\,45}\} = \{|t| > 2.014\}$.
+**CI for $\beta_1$** (specialisation of g13a row 2):
 
-Since $|t_\text{obs}|$ vastly exceeds 2.014, **reject $H_0$**. The two-sided $p$-value is
-$$p \;=\; 2\cdot P(T_{45} > |t_\text{obs}|) \;\approx\; 0 \quad(<10^{-5}).$$
+$$\boxed{\;\;CI_{1-\alpha}(\beta_1) \;=\; \hat\beta_1 \;\pm\; t_{1-\alpha/2,\,n-2}\cdot\widehat{SE}(\hat\beta_1).\;\;}$$
 
-**Conclusion.** Age is a **strongly significant** predictor of Weeks at every conventional level ($\alpha = 1\%, 5\%, 10\%$). On the basis of the estimated model, a one-year increase in age corresponds, on average, to a $\approx 1.69$-week increase in job-search duration.
+**Worked numbers on NewHired** ($n-2 = 45$ df, $\alpha=0.05$).
+
+- $t_\text{obs} = 1.6898/0.3092 \approx 5.464$ on $t_{45}$.
+- Critical value: $t_{0.975,\,45} = 2.014$.
+- Two-sided $p$-value: $p = 2\cdot P(T_{45} > 5.464) \approx 1.8\times 10^{-6}$.
+
+(Cross-check via the algebraic identity $t^2 = (n-2)R^2/(1-R^2) = 45\cdot 0.3988/0.6012 = 29.85 \Rightarrow |t| = 5.464$ ✓ — these two routes agree exactly because $t^2 = F = \text{SSR}/\text{MSE}$ holds in any simple OLS regression; see (f).)
+
+**Decision.** $|t_\text{obs}| = 5.464 \gg 2.014$ ⇒ **reject $H_0$** at $\alpha=0.05$ (and at 1%, 10% too). Age is a **strongly significant** predictor of Weeks.
+
+**95% CI for $\beta_1$.**
+
+$$CI_{0.95}(\beta_1) \;=\; 1.6898 \;\pm\; 2.014\cdot 0.3092 \;=\; 1.6898 \;\pm\; 0.6227 \;=\; [1.0671,\;2.3125].$$
+
+**Duality cross-check.** Zero is *far* outside $[1.067,\,2.313]$ ⇒ same verdict as the $t$-test: reject $H_0$ at 5%. The CI procedure and the two-sided $t$-test are equivalent: $\beta_1^{(0)} \in CI_{1-\alpha} \iff$ retain $H_0:\beta_1 = \beta_1^{(0)}$ at level $\alpha$ — this is *exactly* the CI ⇄ test duality boxed in `g13a` and `g14a`.
+
+**Interpretation of the CI** (the answer pattern for `exam_sep_2024_3b` — 95% CI for `Account_length` slope, multi-reg version of the same row): with 95% confidence, the population slope lies between $\approx 1.07$ and $\approx 2.31$ extra weeks per additional year of age, holding nothing else (this is a simple regression).
 
 ```r
-t_obs <- sqrt((n-2)*R2/(1-R2));            t_obs           # 5.464
-2*(1 - pt(abs(t_obs), df=n-2))                              # p ~ 1.8e-6
-qt(0.975, df=n-2)                                           # 2.014
+t_obs <- b1/se_b1;                                    t_obs   # 5.464
+2*(1 - pt(abs(t_obs), df=n-2))                                # p ~ 1.8e-6
+qt(0.975, df=n-2)                                             # 2.014
+b1 + c(-1,1) * qt(0.975, df=n-2) * se_b1                      # [1.067, 2.313]
+# Or in one shot from R:
+summary(mod)         # t value, Pr(>|t|) on the Age row
+confint(mod, level=0.95)
 ```
+
 </details>
 
 ---
 
 <details class="master-subpart">
-<summary>(g) 95% confidence interval for $\beta_1$</summary>
+<summary>(f) $F$-test for overall model significance and the $F = t^2$ identity (row 5 specialised to $p=1$)</summary>
 
-$$\hat\beta_1 \;\pm\; t_{0.975,\,n-2}\,\widehat{\text{se}}(\hat\beta_1) \;=\; 1.6898 \;\pm\; 2.014\cdot 0.3092.$$
-
-Numerically:
-$$CI_{95}(\beta_1) \;=\; 1.6898 \;\pm\; 0.6227 \;=\; [1.0671,\;2.3125].$$
-
-**Interpretation.** With 95% confidence, the population slope lies between $\approx 1.07$ and $\approx 2.31$ extra weeks per additional year of age. **Zero is far outside the interval**, which is consistent — by duality — with rejecting $H_0:\beta_1=0$ at the 5% level in part (f). The CI procedure and the two-sided $t$-test are equivalent: $0 \in CI_{1-\alpha} \iff$ retain $H_0$ at level $\alpha$.
-
-```r
-se_b1 <- 0.3092
-ME    <- qt(0.975, df=n-2) * se_b1
-c(b1 - ME, b1 + ME)                                         # [1.067, 2.313]
-```
-</details>
-
----
-
-<details class="master-subpart">
-<summary>(h) $F$-test (overall model significance) and the $F = t^2$ identity</summary>
-
-For simple regression with $k=1$ predictor, the **ANOVA $F$-test** of $H_0:\beta_1=0$ vs $H_1:\beta_1\neq 0$ uses:
+For simple regression with $p=1$ the ANOVA $F$-test of $H_0:\beta_1=0$ vs $H_1:\beta_1\neq 0$ uses:
 
 | Source | SS | df | MS |
 |---|---|---|---|
 | Regression | $SSR = 11{,}586.4$ | $1$ | $MSR = 11{,}586.4$ |
-| Residual   | $SSE = 17{,}466.7$ | $n-2 = 45$ | $MSE = s^2_\epsilon = 388.15$ |
+| Residual   | $SSE = 17{,}466.7$ | $n-2 = 45$ | $MSE = \hat\sigma^2_\varepsilon = 388.15$ |
 | Total      | $SST = 29{,}053.1$ | $n-1 = 46$ | — |
 
 $$F_\text{obs} \;=\; \frac{MSR}{MSE} \;=\; \frac{11{,}586.4}{388.15} \;=\; 29.85 \;\overset{H_0}{\sim}\; F_{1,\,45}.$$
 
-Critical value at $\alpha=0.05$: $F_{0.95;\,1,\,45} \approx 4.06$. Since $29.85 \gg 4.06$, **reject $H_0:\beta_1 = 0$**. The $p$-value is $1 - P(F_{1,45} \leq 29.85) \approx 1.8\times 10^{-6}$.
+Critical value at $\alpha=0.05$: $F_{0.95;\,1,\,45} \approx 4.06$. $29.85 \gg 4.06$ ⇒ **reject $H_0$**, $p \approx 1.8\times 10^{-6}$.
 
-**The $F = t^2$ identity.** In simple regression with one predictor,
-$$F \;=\; t^2 \quad\text{exactly.}$$
-Indeed, $t^2 = (n-2)\,R^2/(1-R^2) = 45\cdot 0.3988/0.6012 = 29.85 = F$ (up to rounding). This is **not a coincidence**: the $F$-statistic on $(1,n-2)$ degrees of freedom is the *square* of the two-sided $t$-statistic on $n-2$ df, because the rejection regions coincide:
-$$|T_{n-2}| > t_{1-\alpha/2,\,n-2} \;\iff\; T_{n-2}^2 > F_{1-\alpha;\,1,\,n-2}.$$
-Same null, same alternative, same rejection set $\Rightarrow$ algebraically the same test.
-
-**When does $F$ become genuinely different?** Only in *multiple* regression ($k \geq 2$). There the $F$-test checks the **joint** significance of all slopes simultaneously ($H_0:\beta_1=\cdots=\beta_k=0$), while individual $t$-tests check them one at a time. The two can disagree (e.g. $F$ significant but no single $t$ significant in the presence of multicollinearity).
+**The $F = t^2$ identity.** In simple regression with one predictor, $F = t^2$ *exactly* — same null, same alternative, same rejection set on the squared-$t$ scale. Numerically $t^2 = 5.464^2 = 29.85 = F$ ✓. The identity collapses rows 4 (per-coefficient $t$) and 5 (global $F$) of the master table into a single test when $p=1$ — **they diverge as soon as $p\ge 2$** (see `g15c` for the joint $F$ that genuinely differs from the individual $t$'s, in particular when multicollinearity is present — see `exam_g1_2025_3b`).
 
 ```r
 MSR   <- SSR/1;  MSE <- SSE/(n-2)
-F_obs <- MSR/MSE;          F_obs                            # 29.86
-F_obs - t_obs^2                                             # ~ 0
+F_obs <- MSR/MSE;          F_obs                            # 29.85
+F_obs - t_obs^2                                             # ~ 0  (F = t^2)
 1 - pf(F_obs, df1=1, df2=n-2)                               # p ~ 1.8e-6
 qf(0.95, df1=1, df2=n-2)                                    # 4.06
-
-# Cross-check on the raw data
-mod <- lm(Weeks ~ Age, data=NewHired)
-summary(mod)        # b0, b1, t-stats, R^2, F
-confint(mod, level=0.95)
-anova(mod)          # ANOVA decomposition
+anova(mod)
 ```
+
 </details>
 
 ---
 
 <details class="master-subpart">
-<summary>(i) Summary box</summary>
+<summary>(g) Manual regression from raw sums $\sum x_i, \sum y_i, \sum x_i^2, \sum y_i^2, \sum x_i y_i$ (Ex 8.5a, 8.10a — recipe for exam tasks that withhold the raw data)</summary>
 
-| Quantity | Value | Source |
+Several horizontal cells (Ex 8.5a, 8.10a) feed only the raw sums, not the individual data points. In that case use the **computational shortcuts**:
+
+$$\bar x = \frac{1}{n}\sum_i x_i,\qquad \bar y = \frac{1}{n}\sum_i y_i,$$
+$$s^2_x = \frac{1}{n-1}\!\left(\sum_i x_i^2 - n\bar x^2\right),\qquad s^2_y = \frac{1}{n-1}\!\left(\sum_i y_i^2 - n\bar y^2\right),$$
+$$s_{xy} = \frac{1}{n-1}\!\left(\sum_i x_i y_i - n\bar x\bar y\right).$$
+
+Then drop these into the closed-form OLS recipe from (a)–(e):
+
+$$\hat\beta_1 = \frac{s_{xy}}{s^2_x},\quad \hat\beta_0 = \bar y - \hat\beta_1\bar x,\quad R^2 = \frac{s_{xy}^2}{s^2_x\,s^2_y} = r_{xy}^2,\quad SSE = (1-R^2)(n-1)s^2_y,\quad \hat\sigma^2 = \frac{SSE}{n-2}.$$
+
+The slope SE follows from (d): $\widehat{SE}(\hat\beta_1) = s_\varepsilon/\sqrt{(n-1)s^2_x}$.
+
+**Worked example — Ex 8.5a (Salary on experience).** $n=47$, $\sum y_i = 99{,}150$, $\sum x_i = 297$, $s^2_y = 345{,}722$, $s^2_x = 27.048$, $s_{xy} = 2697.96$.
+
+$$\bar x = 297/47 = 6.3191,\quad \bar y = 99{,}150/47 = 2109.574.$$
+$$\hat\beta_1 = 2697.96/27.048 = 99.7471,\quad \hat\beta_0 = 2109.574 - 99.7471\cdot 6.3191 = 1479.262.$$
+$$R^2 = 2697.96^2/(27.048\cdot 345{,}722) = 0.7784\;\;(\text{i.e. } r_{xy} = 0.8823).$$
+$$SSE = 0.2216\cdot 46\cdot 345{,}722 \approx 3{,}524{,}152,\quad \hat\sigma^2 = SSE/45 \approx 78{,}314.5,\quad s_\varepsilon \approx 279.8.$$
+$$\widehat{SE}(\hat\beta_1) = 279.8/\sqrt{46\cdot 27.048} = 7.93,\quad t_\text{obs} = 99.7471/7.93 = 12.57\;\;(p\approx 0).$$
+
+```r
+# Ex 8.5a from sums alone -- no raw data needed
+n      <- 47
+sum.x  <- 297;       sum.y  <- 99150
+s2_x   <- 27.048;    s2_y   <- 345722
+s_xy   <- 2697.96
+xbar   <- sum.x/n;   ybar   <- sum.y/n
+b1     <- s_xy/s2_x;             b1            # 99.7471
+b0     <- ybar - b1*xbar;        b0            # 1479.262
+R2     <- s_xy^2/(s2_x*s2_y);    R2            # 0.7784
+SSE    <- (1-R2)*(n-1)*s2_y;     SSE           # 3,524,152
+s2_e   <- SSE/(n-2)
+se_b1  <- sqrt(s2_e/((n-1)*s2_x));  se_b1      # 7.93
+t_obs  <- b1/se_b1;              t_obs         # 12.57
+```
+
+**Take-away.** "Closed-form" is **not** a shortcut — it is just the *normal-equation* OLS solution expressed in sample moments. Whenever the question gives summary stats only, this recipe is the entire toolkit.
+
+</details>
+
+---
+
+<details class="master-subpart">
+<summary>(h) Summary box (NewHired) and cross-references to g15b–g15e + g13a/g14a/g13f/g9</summary>
+
+**Numerical summary on the running NewHired sample.**
+
+| Quantity | Value | Source / formula |
 |---|---|---|
 | $\hat\beta_0$ | $-19.5262$ | $\bar y - \hat\beta_1\bar x$ |
 | $\hat\beta_1$ | $1.6898$ | $s_{xy}/s^2_x$ |
 | $R^2$ | $0.3988$ | $r_{xy}^2 = SSR/SST$ |
-| $SST,\,SSR,\,SSE$ | $29053.1,\,11586.4,\,17466.7$ | variance decomposition |
-| $s_\epsilon$ | $19.70$ | $\sqrt{SSE/(n-2)}$ |
-| $\widehat{\text{se}}(\hat\beta_1)$ | $0.3092$ | $s_\epsilon/\sqrt{(n-1)s^2_x}$ |
-| $\widehat{\text{se}}(\hat\beta_0)$ | $12.28$ | $s_\epsilon\sqrt{1/n+\bar x^2/((n-1)s^2_x)}$ |
-| $t_\text{obs}$ ($H_0:\beta_1=0$) | $5.464$, $p\approx 1.8\times 10^{-6}$ | $\hat\beta_1/\widehat{\text{se}}(\hat\beta_1)$ |
-| 95% CI for $\beta_1$ | $[1.067,\,2.313]$ | $\hat\beta_1 \pm t_{0.975,45}\widehat{\text{se}}$ |
-| $F_\text{obs}$ | $29.85 = t_\text{obs}^2$, $p\approx 1.8\times 10^{-6}$ | $MSR/MSE$ |
+| $SST,\,SSR,\,SSE$ | $29{,}053.1,\,11{,}586.4,\,17{,}466.7$ | variance decomposition |
+| $\hat\sigma^2_\varepsilon,\,s_\varepsilon$ | $388.15,\,19.70$ | $SSE/(n-2)$ |
+| $\widehat{SE}(\hat\beta_1)$ | $0.3092$ | $s_\varepsilon/\sqrt{(n-1)s^2_x}$ |
+| $\widehat{SE}(\hat\beta_0)$ | $12.28$ | $s_\varepsilon\sqrt{1/n + \bar x^2/((n-1)s^2_x)}$ |
+| $t_\text{obs}\;(H_0:\beta_1=0)$ | $5.464$, $p\approx 1.8\times 10^{-6}$ | $\hat\beta_1/\widehat{SE}(\hat\beta_1)$ — row 2 of g14a with $\theta_0=0$ |
+| 95% CI for $\beta_1$ | $[1.067,\,2.313]$ | $\hat\beta_1 \pm t_{0.975,45}\widehat{SE}(\hat\beta_1)$ — row 2 of g13a |
+| $F_\text{obs}$ | $29.85 = t_\text{obs}^2$, $p\approx 1.8\times 10^{-6}$ | $MSR/MSE$ — collapses to $t^2$ for $p=1$ |
 
-**Conclusion across (a)–(h).** Age is a **strongly significant** linear predictor of the number of Weeks needed to find a new job. The slope is positive ($+1.69$ weeks per extra year of age), the relation explains about 40% of the variability of Weeks, and the $t$-test on $\beta_1$, the 95% CI for $\beta_1$ and the $F$-test on the full model all reach the *same* conclusion — algebraically inevitable in simple regression because $F = t^2$.
+**Verdict.** Age is a **strongly significant** linear predictor of `Weeks`. The slope is positive ($+1.69$ weeks per extra year of age), the relation explains $\approx 40\%$ of the variability of `Weeks`, and the $t$-test on $\beta_1$, the 95% CI for $\beta_1$ and the $F$-test on the full model all reach the *same* conclusion — algebraically inevitable in simple regression because $F = t^2$.
+
+**Cross-reference hub for the rest of G15 (and the prerequisite topics).**
+
+| Need | Go to | Why |
+|---|---|---|
+| **CI for mean response $E[Y\mid x_0]$ or PI for new $Y_0$** at a given $x_0$ | **`g15b`** | Rows 6–7 of master table — adds the "+1" inside the sqrt for the PI |
+| **Multiple regression** ($p\ge 2$ continuous predictors), adj $R^2$, joint $F$, OVB | **`g15c`** | Rows 1–5 with $p\ge 2$; introduces "ceteris paribus" reading and the genuine $F \ne t^2$ |
+| **Categorical predictors / dummies / interactions** | **`g15d`** | Rows 8–9 — dummy coding, contrasts, factor-level shifts |
+| **Residual diagnostics (LINE), leverage, Cook's D, VIF for multicollinearity** | **`g15e`** | The assumptions that *license* rows 4–7 of the master table |
+| **Reusable $t$-test template** (any $H_0:\theta=\theta_0$, including $H_0:\beta_j = 0$) | **`g14a`** row 2 | The slope $t$-test is this row with $\theta_0=0$, $\widehat{SE} \to \widehat{SE}(\hat\beta_j)$, df $= n-p-1$ |
+| **Reusable CI template** | **`g13a`** row 2 | The slope CI is this row with $\bar X \to \hat\beta_j$, SE $\to \widehat{SE}(\hat\beta_j)$ |
+| **Unbiased estimators** $\hat\beta_j$, $\hat\sigma^2$ as linear-in-$y$ statistics | **`g13f`** | Mean / variance / unbiasedness — the foundational properties |
+| **Correlation $r_{xy}$, scatterplot, sign / strength of association** | **`g9`** | $R^2 = r_{xy}^2$ in simple regression — the bivariate-summary side of the same story |
+
 </details>
 """,
     "images": ["statistics/images/master/master_g15a_ai.png"],
@@ -647,7 +925,19 @@ anova(mod)          # ANOVA decomposition
 # ---------------------------------------------------------------------
 master_exercises["g15c_multi_reg"] = {
     "title": "Master Ex — Multiple regression (superstore: MntMeat ~ IncomeK + Age + KidsAtHome, n=2200)",
-    "content": r"""**One consolidated exam-style exercise on multiple regression.** Distilled from Ex 9.1, 9.2, 9.3, 9.4, 9.8, 9.10, 9.11, 9.12, 9.13: a single dataset, all unique subparts asked at the exam.
+    "content": r"""> **This entry walks rows 1–5 of the universal regression table** (see top of `g15a`) with $p\ge 2$. Each step is *the same* as in `g15a` — only the design matrix grows and df becomes $n-p-1$ instead of $n-2$.
+
+| Subpart | Master-table row | Use |
+|---|---|---|
+| (a) $p$ predictors → $p+1$ coefficients, df $=n-p-1$ | row 1 | per-coefficient point estimate (partial / ceteris-paribus slope) |
+| (b)–(c) multiple $R^2$ + **adjusted $R^2$** | rows 3–4 | model comparison across different $p$ |
+| (d) individual $t$-test per coefficient | row 1 + g14a row 2 | $H_0:\beta_j=0$ — *exactly* the universal one-sample $t$ on $\hat\beta_j$ with $\theta_0=0$ |
+| (e)–(f) CIs and marginal-effect rescaling | row 1 | $\hat\beta_j \pm t_{1-\alpha/2,\,n-p-1}\,\widehat{SE}$ — equivalent to g13a row 2 |
+| (c)/(global $F$) | row 5 | $H_0:\beta_1=\dots=\beta_p = 0$ — joint significance |
+
+> The 7-step recipe (model → OLS → fit-quality → coefficient inference → global $F$ → prediction → diagnostics) is at the top of `g15a`; we are walking steps **1–5** with $p=3$. Confounding / OVB ($\hat\beta_1^{\text{simple}}$ vs $\hat\beta_1^{\text{multiple}}$, part (g)) is the substantive reason the multi-regressor model is *not* a stack of separate simple regressions.
+
+**One consolidated exam-style exercise on multiple regression.** Distilled from Ex 9.1, 9.2, 9.3, 9.4, 9.8, 9.10, 9.11, 9.12, 9.13: a single dataset, all unique subparts asked at the exam.
 
 **Setting.** Dataframe `superstore` ($n = 2200$ retail customers). Response: `MntMeatProducts` = € spent on meat products in the last 2 years. Regressors: `IncomeK` = annual household income in k€, `Age` = age in years, `KidsAtHome` $\in\{0,1,2\}$ = number of children at home (treated as numeric).
 
@@ -880,981 +1170,1023 @@ Residual diagnostics (assumption check) & part (i) \\
 }
 
 master_exercises["g13b_ci_one_prop"] = {
-    "title": "Master Exam — CI for one proportion (consolidated)",
-    "content": r"""**Master dataset.** A retailer interviews $n = 500$ random customers about whether they returned to the store within the last month. The result is $X = 200$ returning customers, i.e. a sample proportion $\hat p = X/n = 200/500 = 0.40$. We reuse this single dataset across every part below — only $n$, the confidence level $1-\alpha$, or the target margin of error change.
+    "title": "Master Exam — CI for one proportion (Wald + sample-size + Clopper–Pearson)",
+    "content": r"""## Setup — running dataset for every numeric example below
 
-This master exercise consolidates the unique sub-questions of the 13 linked snippets into **eight building blocks** of `g13b_ci_one_prop` (CI for one proportion + sample-size planning):
-1. Sample proportion + plug-in standard error (incl. **how to *build* the Bernoulli indicator**: direct $\{0,1\}$ coding, paired-data sign reduction, count-data recoding).
-2. Two-sided 95% Wald CI.
-3. Effect of $n$ on precision (compare $n=100$ vs $n=1000$, same $\hat p$).
-4. Effect of confidence level (90% vs 95% vs 99%, same $n=500$).
-5. Sample-size planning: worst-case ($p=0.5$) vs pilot ($\hat p$).
-6. Margin-of-error decomposition $ME = z\cdot SE$.
-7. One-sided / lower-bound version of the CI + largest level keeping $L > p_0$.
-8. Validity check (CLT condition $n\hat p \ge 5$ AND $n(1-\hat p) \ge 5$).
+A bookstore renovated its layout and is monitoring how many customers visited the new in-store cafeteria at least once in the last month. A random sample of $n = 140$ customers is interviewed; $X = 108$ of them report at least one visit, so the sample proportion of *cafeteria-users* is
+
+$$\hat p \;=\; \frac{X}{n} \;=\; \frac{108}{140} \;\approx\; 0.7714.$$
+
+Let $p$ denote the unknown population proportion of cafeteria-users. We will treat this *same* sample throughout the entry — first for the **large-sample Wald CI** (Case 3a), then for **sample-size planning** (Case 3b), then for the **exact Clopper–Pearson CI** (Case 3c) on a tiny-$n$ variant of the same problem. No new dataset is introduced anywhere below.
+
+---
+
+## This is **row 3** of the universal CI master table (see `g13a`)
+
+g13a established the universal three-slot template $\widehat\theta \pm c_{1-\alpha/2}\cdot\widehat{SE}(\widehat\theta)$ shared by every G13 entry. The one-proportion row reads:
+
+| # | Parameter | Setting | Estimate $\widehat\theta$ | $\widehat{SE}(\widehat\theta)$ | Critical value | df |
+|---|---|---|---|---|---|---|
+| **3** | $p$ | large $n$ ($n\hat p,\,n(1-\hat p)\ge 5$) | $\hat p = X/n$ | $\sqrt{\hat p(1-\hat p)/n}$ | $z_{1-\alpha/2}$ | — |
+
+> **What "$1-\alpha$" means, the CLT, and the $z$-vs-$t$ distinction** are all stated *once and for all* in `g13a` and **not re-derived here**. g13b focuses on the three operational cases that the horizontal cells of this row demand: large-sample **Wald** (3a), **sample-size planning** (3b), and the **exact Clopper–Pearson** fallback (3c) when 3a's validity check fails.
+
+### 3-step procedure for every one-proportion CI exam question
+
+1. **Identify $\hat p$ and $n$.** Reduce the data to a Bernoulli indicator $Y_i\in\{0,1\}$ (success = the event of interest), then $\hat p = \bar Y = X/n$.
+2. **Check the CLT condition.** Compute $n\hat p$ and $n(1-\hat p)$. If **both** $\ge 5$ → use Wald (Case 3a). Otherwise → use Clopper–Pearson (Case 3c).
+3. **Plug & compute.** $\hat p \pm z_{1-\alpha/2}\,\sqrt{\hat p(1-\hat p)/n}$ (or invoke `CI.prop` / `binom.test`).
+
+### Reducing the data to a Bernoulli indicator $Y_i$ (recurring across the row)
+
+Exams disguise the same one-proportion problem by giving the data in different formats. In every case, *first* reduce to $\{0,1\}$, *then* apply $\hat p = \bar Y$. The horizontal cells of this row use all four formats below:
+
+| Data format | Construction of $Y_i$ | Row example |
+|---|---|---|
+| **Direct categorical** ("Yes"/"No", "Female"/"Male", "Hybrid"/other) | $Y_i = \mathbb 1\{\text{cat}_i = \text{success}\}$ | `6_1c` Hybrid; `6_3b1` Female; `5_13a3` SmokingArea = No |
+| **Paired data** (Pre/Post): "fraction who *improved*" → sign of the within-unit difference, magnitude discarded | $Y_i = \mathbb 1\{\text{Post}_i - \text{Pre}_i > 0\}$ | `5_6b` improvers |
+| **Threshold on a numeric variable**: "share of titles selling $> 1$ M" | $Y_i = \mathbb 1\{X_i > c\}$ | `6_7a` DS platform; `6_12a` Global_Sales $>1$ |
+| **Count / frequency table**: "share of customers visiting $\ge k$ times" | $Y_i = \mathbb 1\{N_i \ge k\}$; from the table, $X = n - \sum_{j<k} f_j$ | `6_13a` (master dataset above): $X = 140-32 = 108$ |
+
+The reduction is mechanical and **requires no extra assumption** beyond i.i.d. sampling — Bernoulli is fully specified by $p$ once each $Y_i\in\{0,1\}$.
 
 ---
 
 <details class="master-subpart" open>
-<summary><span class="tag tag-exam">EXAM</span> Part (1) — Point estimate and standard error</summary>
+<summary><span class="tag tag-exam">EXAM</span> (a) <strong>Case 3a</strong> — Large-sample Wald CI for $p$ (the default)</summary>
 
-Model each customer as $Y_i = \mathbb{1}\{\text{returns}\} \sim \text{Bernoulli}(p)$ i.i.d. The natural unbiased estimator of $p$ is the sample proportion
-$$\hat p \;=\; \frac{1}{n}\sum_{i=1}^{n} Y_i \;=\; \frac{X}{n} \;=\; \frac{200}{500} \;=\; 0.40.$$
-Unbiasedness: $\mathbb{E}[\hat p] = p$ by linearity of expectation. Since $\Var(Y_i) = p(1-p)$ and the draws are i.i.d.,
-$$\Var(\hat p) \;=\; \frac{p(1-p)}{n}, \qquad SE(\hat p) \;=\; \sqrt{\frac{p(1-p)}{n}}.$$
-Plug $\hat p$ in for the unknown $p$:
-$$\widehat{SE}(\hat p) \;=\; \sqrt{\frac{\hat p(1-\hat p)}{n}} \;=\; \sqrt{\frac{0.40 \cdot 0.60}{500}} \;=\; \sqrt{4.8\times 10^{-4}} \;\approx\; 0.02191.$$
+**Setting.** $Y_1,\ldots,Y_n$ i.i.d. Bernoulli$(p)$, $X = \sum_i Y_i \sim \mathrm{Bin}(n,p)$, $\hat p = X/n$. We want a CI for $p$ and the CLT validity check $n\hat p, n(1-\hat p)\ge 5$ holds.
+
+**Pivot.** With $\Var(\hat p) = p(1-p)/n$, the CLT delivers the asymptotic pivot
+$$Z \;=\; \frac{\hat p - p}{\sqrt{p(1-p)/n}} \;\overset{d}{\to}\; \mathcal N(0,1).$$
+Replacing the unknown $p$ in the SE by $\hat p$ (plug-in, valid by Slutsky) gives the **Wald** CI:
+
+$$\boxed{\;\;CI_{1-\alpha}(p) \;=\; \hat p \;\pm\; z_{1-\alpha/2}\,\sqrt{\frac{\hat p(1-\hat p)}{n}}\;\;}$$
+
+The critical-value family is $z$ (not $t$) — there is no separate variance parameter $\sigma^2$ to estimate; $\hat p$ alone pins down both the mean *and* the variance of the Bernoulli, so no df-correction inflation is needed. Contrast this with row 2 of the universal table (one mean, $\sigma$ unknown) which **does** pay a $t_{n-1}$ inflation precisely because $s$ is a separate estimate.
+
+**Worked numbers on the bookstore sample** with $n = 140$, $\hat p = 108/140 = 0.7714$, $\alpha = 0.05$:
+- CLT check: $n\hat p = 108\ge 5$ and $n(1-\hat p) = 32\ge 5$ — both met (well clear of the boundary).
+- Estimated SE: $\widehat{SE}(\hat p) = \sqrt{0.7714\cdot 0.2286/140} = \sqrt{0.001260} \approx 0.03549$.
+- Critical value: $z_{0.975} = 1.96$.
+- $ME_{95} = 1.96\cdot 0.03549 \approx 0.0696$.
+- $CI_{95} = 0.7714 \pm 0.0696 = [0.7019,\;0.8410]$.
 
 ```r
-n     <- 500
-x     <- 200
-phat  <- x/n                          # 0.40
-se    <- sqrt(phat*(1-phat)/n)        # ~ 0.02191
-phat; se
+# Bookstore cafeteria-visits frequency table
+visits <- rep(0:8, c(32,43,14,10,18,13,5,0,5))    # 140 observations
+Y      <- (visits >= 1)                           # Bernoulli indicator
+n      <- length(Y);                       n      # 140
+phat   <- mean(Y);                         phat   # 0.7714
+# CLT validity check (rule of 5)
+n*phat;  n*(1-phat)                                # 108 ; 32 -- both >> 5
+se     <- sqrt(phat*(1-phat)/n);           se     # 0.03549
+zcrit  <- qnorm(0.975);                    zcrit  # 1.96
+ME     <- zcrit * se;                      ME     # 0.0696
+c(phat - ME, phat + ME)                            # [0.7019, 0.8410]
+# Course helper (BAS package):
+CI.prop(visits >= 1, success = TRUE, conf.level = 0.95)
+# Base R equivalent (Wilson, slightly different formula):
+# prop.test(x = 108, n = 140, correct = FALSE)$conf.int
 ```
 
-**Building the Bernoulli indicator $Y_i$ — three common patterns.** Exams disguise the same one-proportion problem by giving the data in different formats. In every case, *first* reduce to a $\{0,1\}$ vector, *then* apply $\hat p = \bar Y$.
+**Reading the margin of error backwards.** Just as for the one-mean CI of `g13a`, the Wald CI is symmetric around $\hat p$, so
+$$\hat p \;=\; \tfrac{L+U}{2}, \qquad ME \;=\; \tfrac{U-L}{2}, \qquad \widehat{SE} \;=\; ME/z.$$
+From any printed CI we recover $\hat p$, $ME$ and $\widehat{SE}$ without raw data.
 
-| Data format | Construction of $Y_i$ | Example |
-|---|---|---|
-| **Direct categorical** ("Yes"/"No", "Female"/"Male", "Hybrid"/other) | $Y_i = \mathbb 1\{\text{cat}_i = \text{success}\}$ | `Y <- (Gender == "Female")` |
-| **Paired data** (Pre/Post, NA/EU, before/after): "fraction who *improved*" | Take the **sign** of the within-unit difference: $Y_i = \mathbb 1\{D_i > 0\}$ with $D_i = \text{Post}_i - \text{Pre}_i$. Magnitude is discarded. | `Y <- (Post - Pre > 0)` |
-| **Threshold on a numeric variable**: "share of titles selling $> 1$ M" | $Y_i = \mathbb 1\{X_i > c\}$ for the threshold $c$ | `Y <- (Global_Sales > 1)` |
-| **Count / frequency table**: "share of customers visiting $\ge k$ times" | $Y_i = \mathbb 1\{N_i \ge k\}$; from a frequency table, $X = n - \sum_{j < k} f_j$ | `x <- n - 32; phat <- x/n` |
+**Effect of $n$ and of the confidence level.** Both are governed by the same identity $ME = z\cdot\widehat{SE}$ with $\widehat{SE}\propto 1/\sqrt n$:
+- Quadrupling $n$ halves $\widehat{SE}$ and so halves $ME$ (the $\sqrt n$ rate is the binding cost of precision — same as for the mean in `g13a`).
+- Going from 95% to 99% inflates $ME$ by the factor $z_{0.995}/z_{0.975} = 2.576/1.96 \approx 1.31$ ($+31\%$ wider, same multiplier as for the mean).
 
-The reduction is mechanical and **does not require any extra assumption** beyond i.i.d. sampling — the Bernoulli model is fully specified by $p$ once each $Y_i \in \{0,1\}$. Once $\hat p$ and $n$ are in hand, the same Wald machinery of Parts (2)–(8) applies *verbatim*.
+![Master illustration — Wald 95% CI for one proportion + CLT validity](statistics/images/master/master_g13b_ai.png)
 
 </details>
 
 <details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> Part (2) — 95% Wald confidence interval</summary>
+<summary><span class="tag tag-exam">EXAM</span> (b) <strong>Case 3b</strong> — Sample-size planning for $p$ (target margin of error $\le m$)</summary>
 
-By the CLT, when $n$ is large enough that $n\hat p \ge 5$ and $n(1-\hat p) \ge 5$,
-$$\hat p \;\overset{a}{\sim}\; \mathcal{N}\!\left(p,\; \tfrac{p(1-p)}{n}\right) \quad\Longrightarrow\quad \hat p \;\pm\; z_{1-\alpha/2}\,\widehat{SE}(\hat p).$$
-With $\alpha = 0.05$ and $z_{0.975} = 1.96$:
-- $ME_{95\%} = 1.96 \cdot 0.02191 \approx 0.04294$.
-- $\text{CI}_{95\%} = 0.40 \pm 0.04294 = [0.357,\, 0.443]$ (width $\approx 0.086$).
+A CI is useful only if it is short enough to discriminate values of $p$ that matter (e.g. ruling out 50/50). Pre-data, fix a target margin of error $m$ at confidence $1-\alpha$ and invert the ME formula:
 
-**Interpretation.** With 95% confidence the true proportion $p$ of returning customers lies in $[0.357,\,0.443]$. The 95% refers to the *procedure*: 95% of intervals built this way cover the unknown $p$ in repeated sampling — we cannot say whether *this* specific interval does.
+$$ME \;=\; z_{1-\alpha/2}\,\sqrt{\frac{p(1-p)}{n}} \;\le\; m \quad\Longleftrightarrow\quad \boxed{\;\;n \;\ge\; \left(\frac{z_{1-\alpha/2}}{m}\right)^{\!2}\,p(1-p)\;\;}$$
+
+then round **up** to the next integer. The catch is that $p$ is unknown at the design stage. Two regimes:
+
+**Regime A — worst case (no prior info).** Maximise $g(p) = p(1-p)$ on $[0,1]$: $g'(p) = 1 - 2p = 0 \Rightarrow p^{\star} = 0.5$, giving $\max g = 0.25$. Plug $p(1-p) = 0.25$ to obtain the **conservative** sample size — guaranteed to meet the ME target whatever the true $p$ turns out to be. This collapses the formula to
+
+$$\boxed{\;\;n \;\ge\; \left(\frac{z_{1-\alpha/2}}{2m}\right)^{\!2}\;\;}\qquad (\text{worst case }p=0.5)$$
+
+**Regime B — pilot info ($\hat p$ available).** Plug in $\hat p(1-\hat p)$ instead of $0.25$. Saving is largest when $\hat p$ is far from $0.5$ (e.g. $\hat p = 0.1$ gives $0.09/0.25 = 36\%$ of the worst-case $n$); near $\hat p = 0.5$ the saving is minimal.
+
+**Worked numbers on the bookstore sample.** Target a 95% CI with half-width $m = 0.03$ on the cafeteria-usage proportion:
+
+- **Worst case** ($p=0.5$): $n \ge (1.96/0.03)^2 \cdot 0.25 = 65.33^2 \cdot 0.25 \approx 1067.1 \Rightarrow n = 1068$.
+- **Pilot $\hat p = 0.7714$** ($\hat p(1-\hat p) = 0.1764$): $n \ge (1.96/0.03)^2 \cdot 0.1764 \approx 753.2 \Rightarrow n = 754$.
+
+A pilot value far from $0.5$ (here $0.77$) **saves about 30%** of the worst-case sample.
 
 ```r
-ME95 <- qnorm(0.975) * se             # ~ 0.04294
-c(phat - ME95, phat + ME95)           # [0.357, 0.443]
-CI.prop(returns, success = "yes", conf.level = 0.95, data = customers)
+m       <- 0.03
+z       <- qnorm(0.975)
+# Worst-case (no prior info)
+n_wc    <- (z/m)^2 * 0.25;        ceiling(n_wc)     # 1068
+# Pilot using the bookstore phat
+phat    <- 108/140
+n_pilot <- (z/m)^2 * phat*(1-phat); ceiling(n_pilot)  # 754
+# Sanity: ME at n=1068, p=0.5
+qnorm(0.975) * sqrt(0.25/1068)                       # ~ 0.02998 < 0.03 OK
 ```
 
-![Master illustration](statistics/images/master/master_g13b_ai.png)
+**Cross-references — past exams that ask this exact question.** `exam_g1_2024_1b` (worst case, $m=0.04$, 95% → $n=601$), `exam_g1_2026_1c` (worst case, width $\le 0.09$, 99% → $n=820$), `exam_g2_2024_5c` (worst case, width $\le 0.05$, 99% → $n=2655$), and the row's `6_6d` and `6_3b2` cells.
+
+**Take-away.** Halving $m$ **quadruples** $n$ (the $1/\sqrt n$ rate again). Doubling the confidence multiplier ($1.96\to 2.576$) roughly **triples** $n$ (factor $\approx 1.73$). The mean-side analogue lives in `g13a` (subpart c) — identical recipe, $\sigma$ replaces the binomial variance.
 
 </details>
 
 <details class="master-subpart">
-<summary><span class="tag tag-2plus">≥2 ex</span> Part (3) — Effect of sample size: $n=100$ vs $n=1000$ (same $\hat p$)</summary>
+<summary>(c) <strong>Case 3c</strong> — Exact Clopper–Pearson CI when the CLT condition fails</summary>
 
-Holding $\hat p$ and confidence level fixed, only the SE changes. Because $SE \propto 1/\sqrt n$, multiplying $n$ by 10 divides the half-width by $\sqrt{10}\approx 3.16$ — **diminishing returns**.
+If $n\hat p < 5$ or $n(1-\hat p) < 5$ (small $n$, or $\hat p$ near 0 or 1), the Wald approximation breaks down — its endpoints can even fall **outside $[0,1]$**, which is meaningless for a probability. The **Clopper–Pearson** CI inverts the **exact** binomial tails instead of the CLT normal one. The $(1-\alpha)$ CI is $[\underline p,\,\overline p]$ where
 
-| Case | $n$ | $SE = \sqrt{\hat p(1-\hat p)/n}$ | $ME_{95\%} = 1.96\cdot SE$ | 95% CI |
-|---|---|---|---|---|
-| Small | $100$ | $\sqrt{0.24/100} \approx 0.04899$ | $\approx 0.0960$ | $[0.304,\, 0.496]$ (w. $\approx 0.192$) |
-| Master | $500$ | $\approx 0.02191$ | $\approx 0.0429$ | $[0.357,\, 0.443]$ (w. $\approx 0.086$) |
-| Large | $1000$ | $\sqrt{0.24/1000} \approx 0.01549$ | $\approx 0.0304$ | $[0.370,\, 0.430]$ (w. $\approx 0.061$) |
+$$\underline p \;=\; B^{-1}\!\big(\alpha/2;\,X,\,n-X+1\big), \qquad \overline p \;=\; B^{-1}\!\big(1-\alpha/2;\,X+1,\,n-X\big),$$
 
-**Take-away.** Going $n: 100 \to 1000$ shrinks the width by exactly $\sqrt{10}\approx 3.16\times$, not $10\times$. **Quadrupling** $n$ halves $ME$.
+with $B^{-1}$ the Beta-quantile (equivalently $\sum_{k\ge X}\binom{n}{k}\underline p^k(1-\underline p)^{n-k} = \alpha/2$, symmetric for $\overline p$). The interval is **asymmetric** in general and **always lies in $[0,1]$** — by construction it cannot produce negative or super-unit endpoints.
+
+**Counter-example on a tiny-$n$ variant of the master setting.** Imagine only the first $n=30$ cafeteria interviews are available and only $X=1$ customer reports a visit ($\hat p = 1/30 \approx 0.033$, so $n\hat p = 1 < 5$, Wald fails):
+
+- **Wald (invalid here):** $0.033 \pm 1.96\sqrt{0.033\cdot 0.967/30} = 0.033 \pm 0.064 = [-0.031,\,0.097]$ — *negative lower endpoint*, nonsense.
+- **Clopper–Pearson (correct):** $[0.00084,\,0.1722]$ — strictly inside $[0,1]$, asymmetric (longer on the upper side, as is natural for $\hat p$ near zero).
+
+**Sanity check on the actual master dataset ($n=140$, $X=108$, rule of 5 holds).** Wald gives $[0.7019,\,0.8410]$ (subpart a); Clopper–Pearson gives $\approx[0.6932,\,0.8400]$ — essentially the same (off by $<0.01$ at each endpoint), confirming that when 3a is valid, switching to 3c brings no benefit, only a slightly wider conservative interval.
 
 ```r
-for (n_i in c(100, 500, 1000)) {
-  se_i <- sqrt(0.4*0.6/n_i)
-  ME_i <- qnorm(0.975) * se_i
-  cat("n =", n_i, " SE =", round(se_i,5), " ME =", round(ME_i,4),
-      " CI = [", round(0.4-ME_i,3), ",", round(0.4+ME_i,3), "]\n")
-}
+# Tiny-n variant: Wald fails, CP works
+x  <- 1;  n  <- 30
+phat <- x/n
+phat + c(-1,1)*qnorm(0.975)*sqrt(phat*(1-phat)/n)   # Wald: [-0.031, 0.097]  -- negative!
+binom.test(x, n)$conf.int                            # CP: 0.00084 0.1722
+# Master dataset (rule of 5 holds): CP and Wald are nearly identical
+binom.test(108, 140)$conf.int                        # ~ [0.6932, 0.8400]
 ```
+
+**Trade-off.** Clopper–Pearson is **conservative** — its coverage is *at least* $1-\alpha$, often strictly more — so it is slightly wider than Wald when both are applicable. Wilson's score CI (`prop.test(x, n, correct = FALSE)`) is the middle ground (close-to-nominal coverage, almost as easy as Wald). For exam purposes:
+
+> **Default to Wald when the rule of 5 holds; switch to Clopper–Pearson (`binom.test`) when it does not.**
 
 </details>
 
 <details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> Part (4) — Effect of confidence level: 90% vs 95% vs 99% (same $n=500$, same $\hat p$)</summary>
+<summary>(d) Warnings &amp; cross-references — the CI/test SE distinction for proportions</summary>
 
-Only the multiplier $z_{1-\alpha/2}$ changes; SE is fixed at $0.02191$.
+> **Critical: the CI SE and the test SE for proportions are different formulas.** They look nearly identical and *both* live in the universal templates — but they plug in different probabilities.
+>
+> **CI for $p$** (this row, 3a): $\widehat{SE}_{CI}(\hat p) = \sqrt{\hat p(1-\hat p)/n}$ — plug in the **sample** $\hat p$.
+>
+> **Test of $H_0: p = p_0$** (row 3 of g14's master table, see `g14a` (c)): $\widehat{SE}_{H_0}(\hat p) = \sqrt{p_0(1-p_0)/n}$ — plug in the **null** $p_0$.
+>
+> The two SEs only coincide when $\hat p = p_0$; otherwise they differ slightly and the CI-test duality is *not* an exact identity for proportions (it *is* for means with known $\sigma$). The standard convention in this course is: **use $p_0$ in the SE of the one-sample $z$-test**, not $\hat p$.
 
-| Level $1-\alpha$ | $z_{1-\alpha/2}$ | $ME = z\cdot SE$ | CI | Width |
-|---|---|---|---|---|
-| 90% | $z_{0.95} = 1.6449$ | $\approx 0.03604$ | $[0.364,\, 0.436]$ | $0.072$ |
-| 95% | $z_{0.975} = 1.9600$ | $\approx 0.04294$ | $[0.357,\, 0.443]$ | $0.086$ |
-| 99% | $z_{0.995} = 2.5758$ | $\approx 0.05643$ | $[0.344,\, 0.456]$ | $0.113$ |
+**Why two SEs?** Both are "correct" choices of where to evaluate the Bernoulli variance $p(1-p)$:
+- For a CI we want a SE that does not depend on the unknown $p$, so the natural and only choice is the **plug-in** $\hat p$ (Slutsky justifies it asymptotically).
+- For a test we are **conditioning on $H_0$ being true**, so the variance is *known* under $H_0$ — namely $p_0(1-p_0)/n$ — and using it sharpens the null distribution and is the textbook prescription.
 
-**Take-aways.** Pushing $90\% \to 95\%$ widens the interval by $1.96/1.6449 \approx 1.19$ ($+19\%$). Pushing $95\% \to 99\%$ widens by $2.5758/1.96 \approx 1.31$ ($+31\%$). Higher confidence = wider interval at fixed $n$ — there is no free precision.
-
-```r
-for (lvl in c(0.90, 0.95, 0.99)) {
-  z   <- qnorm(1 - (1-lvl)/2)
-  ME  <- z * se
-  cat("level =", lvl, " z =", round(z,4), " ME =", round(ME,5),
-      " CI = [", round(phat-ME,3), ",", round(phat+ME,3), "]\n")
-}
-```
-
-</details>
-
-<details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> Part (5) — Sample-size planning: $ME \le m$ at confidence $1-\alpha$</summary>
-
-Invert the margin-of-error formula:
-$$ME \;=\; z_{1-\alpha/2}\,\sqrt{\tfrac{p(1-p)}{n}} \;\le\; m \quad\Longleftrightarrow\quad n \;\ge\; \left(\tfrac{z_{1-\alpha/2}}{m}\right)^{\!2}\, p(1-p).$$
-
-**Two regimes for $p(1-p)$.**
-
-**Regime A — worst case (no prior info).** Maximise $g(p)=p(1-p)$ on $[0,1]$: $g'(p) = 1 - 2p = 0 \Rightarrow p^{\star} = 0.5$, giving $\max g = 0.25$. Plugging $p(1-p) = 0.25$ yields the *conservative* $n$ — guaranteed to meet the ME target whatever the true $p$.
-
-**Regime B — pilot info ($\hat p = 0.40$).** Use $\hat p(1-\hat p) = 0.40\cdot 0.60 = 0.24$.
-
-**Target: $m = 0.04$ at 95% ($z_{0.975}=1.96$).**
-
-- Worst case: $n \ge (1.96/0.04)^{2} \cdot 0.25 = 49^{2} \cdot 0.25 = 600.25 \Rightarrow n = 601$.
-- Pilot $\hat p=0.4$: $n \ge (1.96/0.04)^{2} \cdot 0.24 = 2401 \cdot 0.24 = 576.24 \Rightarrow n = 577$.
-
-**Always round up** ($\lceil \cdot \rceil$) — a fractional unit does not meet the bound. Saving from prior info: $\sim 4\%$ when $\hat p$ is close to $0.5$, but can be huge for skewed $\hat p$ (e.g. $\hat p = 0.1$: $0.09/0.25 = 36\%$ of the worst-case sample).
-
-```r
-m  <- 0.04
-z  <- qnorm(0.975)
-n_wc    <- (z/m)^2 * 0.25
-ceiling(n_wc)                      # 601
-n_pilot <- (z/m)^2 * phat*(1-phat) # 0.24
-ceiling(n_pilot)                   # 577
-# Sanity at n=601, p=0.5:
-qnorm(0.975) * sqrt(0.25/601)      # ~ 0.03997 < 0.04 OK
-```
-
-</details>
-
-<details class="master-subpart">
-<summary>Part (6) — Margin-of-error decomposition</summary>
-
-The Wald CI can be written compactly as
-$$\hat p \;\pm\; \underbrace{z_{1-\alpha/2}}_{\text{reliability factor}}\;\underbrace{\sqrt{\tfrac{\hat p(1-\hat p)}{n}}}_{SE(\hat p)} \;=\; \hat p \pm ME.$$
-
-So the interval depends on **exactly three quantities**: point estimate $\hat p$, sample size $n$, confidence level $1-\alpha$ (which fixes $z$).
-
-| Quantity | Symbol | Value (master, 95%) | R command |
-|---|---|---|---|
-| Sample size | $n$ | $500$ | `length(y)` |
-| Point estimate | $\hat p$ | $0.40$ | `mean(y)` |
-| Standard error | $SE = \sqrt{\hat p(1-\hat p)/n}$ | $0.02191$ | `sqrt(phat*(1-phat)/n)` |
-| Reliability factor | $z_{0.975}$ | $1.96$ | `qnorm(0.975)` |
-| Margin of error | $ME = z \cdot SE$ | $0.04294$ | half-width of CI |
-| 95% CI | $\hat p \pm ME$ | $[0.357,\,0.443]$ | `CI.prop(..., conf.level=0.95)` |
-
-**Quick recovery trick.** Read the CI off the RStudio output and **halve the width** to recover $ME$ without recomputing $SE$: $(0.443 - 0.357)/2 = 0.043$. Then $SE = ME/z$.
-
-</details>
-
-<details class="master-subpart">
-<summary>Part (7) — One-sided lower confidence bound</summary>
-
-For decisions of the form *"is $p$ at least $p_0$?"* a **one-sided** CI is more efficient than a two-sided one. The $(1-\alpha)$ lower confidence bound uses $z_{1-\alpha}$ (one-tail) instead of $z_{1-\alpha/2}$ (two-tail):
-$$\big[\,\hat p - z_{1-\alpha}\,SE(\hat p),\;+\infty\big).$$
-
-At 95% one-sided: $z_{0.95} = 1.6449$, so
-$$L_{95\%}^{\text{one-sided}} \;=\; 0.40 - 1.6449 \cdot 0.02191 \;\approx\; 0.40 - 0.03604 \;=\; 0.364.$$
-**Equivalence.** This $L$ is *exactly* the lower endpoint of the **two-sided 90% CI** of Part (4): the 90% two-sided level splits its $10\%$ miss-mass into $5\%$ per tail, and a one-sided 95% lower bound puts all $5\%$ in the upper tail — the lower endpoint is identical.
-
-**Largest confidence at which $L > p_0$?** Suppose the retailer wants the lower bound above $p_0 = 0.36$. Solve $\hat p - z^{\star}\,SE = p_0$:
-$$z^{\star} \;=\; \tfrac{\hat p - p_0}{SE} \;=\; \tfrac{0.40 - 0.36}{0.02191} \;\approx\; 1.826,$$
-so $c^{\star} = 2\Phi(z^{\star}) - 1 \approx 2\cdot 0.9661 - 1 \approx 0.932$. The retailer can claim "$p > 0.36$" with two-sided confidence up to $\sim 93.2\%$; beyond that the interval widens past $0.36$.
-
-```r
-# One-sided 95% lower bound
-L_one <- phat - qnorm(0.95) * se          # ~ 0.364
-# Largest two-sided level with lower bound > 0.36
-z_star <- (phat - 0.36)/se                 # ~ 1.826
-c_star <- 2*pnorm(z_star) - 1              # ~ 0.932
-```
-
-</details>
-
-<details class="master-subpart">
-<summary><span class="tag tag-2plus">≥2 ex</span> Part (8) — Validity check (CLT condition)</summary>
-
-The Wald CI relies on the CLT approximation $\hat p \overset{a}{\sim} \mathcal{N}(p, p(1-p)/n)$. Rule of thumb:
-$$n\hat p \;\ge\; 5 \quad\text{AND}\quad n(1-\hat p) \;\ge\; 5.$$
-
-Master dataset: $n\hat p = 500\cdot 0.40 = 200 \ge 5$ and $n(1-\hat p) = 500\cdot 0.60 = 300 \ge 5$ — both **massively** satisfied, the CLT approximation is excellent.
-
-**When does it fail?** Small $n$ combined with an extreme $\hat p$. Example: $n=30$ with $\hat p = 0.05$ gives $n\hat p = 1.5 < 5$ — Wald becomes unreliable (it can even produce endpoints outside $[0,1]$). In that case use **exact binomial** (`binom.test`) or the **Wilson** CI (`prop.test`), both of which work without the large-$n$ approximation.
-
-```r
-# Master check
-n*phat;  n*(1-phat)                # 200 ; 300 -- both >> 5
-
-# Counterexample (small n, extreme phat)
-n_s <- 30; phat_s <- 0.05
-n_s*phat_s;  n_s*(1-phat_s)        # 1.5 ; 28.5 -- FAILS the 5/5 rule
-# Use exact instead:
-binom.test(x = 1, n = 30)$conf.int
-```
+**Two more cross-references the row's horizontal cells repeatedly touch.**
+- **Two-proportion CI vs two-proportion test (`g13d` vs `g14b`).** Same dichotomy on steroids: the CI for $p_A - p_B$ uses the **unpooled** SE $\sqrt{\hat p_A(1-\hat p_A)/n_A + \hat p_B(1-\hat p_B)/n_B}$; the test of $H_0:p_A=p_B$ uses the **pooled** SE built from $\hat p_{\rm pool} = (X_A+X_B)/(n_A+n_B)$. CI and test will *not* coincide numerically (they do for any other case). See `g13d` (CI side) and `g14b` (test side) for the full discussion.
+- **Bias from sampling design is not a CI problem to fix.** No SE formula can repair a non-representative sample. Ex `6_1d` (self-selected social-channel survey) shows how a "$95\%$" CI built on a biased sample undercovers severely (~$42\%$ instead of $95\%$). The CLT and the rule of 5 cure *sampling-noise* uncertainty only — never *selection* bias.
 
 </details>
 
 ---
 
-### Summary table (master dataset $n=500$, $\hat p = 0.40$)
-
-| Quantity | Value | Where |
-|---|---|---|
-| $\hat p$ | $0.40$ | Part 1 |
-| $\widehat{SE}$ | $0.02191$ | Part 1 |
-| $ME_{95\%}$ | $0.04294$ | Part 2 |
-| 95% CI | $[0.357,\,0.443]$ | Part 2 |
-| 90% CI | $[0.364,\,0.436]$ | Part 4 |
-| 99% CI | $[0.344,\,0.456]$ | Part 4 |
-| $n$ for $ME \le 0.04$, worst case | $601$ | Part 5 |
-| $n$ for $ME \le 0.04$, pilot $\hat p=0.4$ | $577$ | Part 5 |
-| One-sided 95% lower bound | $0.364$ | Part 7 |
-| CLT check $(n\hat p,\,n(1-\hat p))$ | $(200,\,300)$ — OK | Part 8 |
+**Summary.** g13b is **row 3** of the universal CI table. The default operational rule is the **Wald CI** $\hat p \pm z_{1-\alpha/2}\sqrt{\hat p(1-\hat p)/n}$ (Case 3a), valid whenever both $n\hat p\ge 5$ and $n(1-\hat p)\ge 5$. The two auxiliary tools the row repeatedly demands are **sample-size planning** $n \ge (z_{1-\alpha/2}/(2m))^2$ at worst case $p=0.5$ (Case 3b) and the **exact Clopper–Pearson** fallback `binom.test(x, n)` when the rule of 5 fails (Case 3c). The lone subtlety to remember: **the CI uses $\hat p$ in the SE, the test uses $p_0$** — they are *not* exact duals for proportions (see `g14a` for the test side, `g13d`/`g14b` for the two-proportion analogue). Continue to **`g13c`** for two-means, **`g13d`** for two-proportions, **`g13e`** for paired data, **`g13f`** for the underlying unbiased estimators.
 """,
     "images": ["statistics/images/master/master_g13b_ai.png"],
 }
 
 master_exercises["g13c_ci_diff_means"] = {
-    "title": "Master Exam — CI for the difference of two independent means (consolidated)",
-    "content": r"""**Setup.** A market-research firm collected `AmountSpent` (€/year) for a random sample of customers in dataset `DS`, split by marital status. The summary statistics are
+    "title": "Master Exam — CI for the difference of two independent means (rows 4–6 of the universal table)",
+    "content": r"""## Setup — running dataset for every numeric example below
 
-| Group | $n$ | $\bar x$ (€) | $s$ (€) |
+A workforce-development study compares two training programs **A** and **B** on the response `Performance` (a 0–100 score). Two **independent** random samples of participants are drawn:
+
+| Group | $n$ | $\bar x$ | $s$ |
 |---|---:|---:|---:|
-| Married ($M$) | 205 | 1\,300 | 900 |
-| Single ($S$)  | 295 | 1\,100 | 800 |
+| Activity.type **A** | $n_A = 58$  | $\bar x_A = 78.17$ | $s_A = 6.66$ |
+| Activity.type **B** | $n_B = 380$ | $\bar x_B = 82.74$ | $s_B = 6.53$ |
 
-The two samples are **independent** (different customers). Let $\mu_M,\mu_S$ be the population mean spends and $\sigma_M^2,\sigma_S^2$ their variances. The parameter of interest is the **difference** $\delta := \mu_M - \mu_S$.
+Let $\mu_A,\mu_B$ denote the population means and $\sigma_A^2,\sigma_B^2$ their variances. The parameter of interest is the **difference** $\delta := \mu_A - \mu_B$. Throughout the entry we reuse *one* dataset across all three variance regimes, so the only moving pieces are the **SE** and the **critical-value family**. The horizontal cells of this row also test variations of the same recipe on other datasets (`AmountSpent` by `Married` in DS, `NrSkills` by country in `Developers_ITA`, `JP_Sales` by genre in `vgsales`, the pizzeria `Price` LE4-vs-GT4 split, etc.) — every one of them is a plug-in of the *same* three formulas below.
+
+---
+
+## This is **rows 4–6** of the universal CI master table (see **`g13a`**)
+
+The whole row family lives inside the universal three-slot template $\widehat\theta \pm c_{1-\alpha/2}\,\widehat{SE}(\widehat\theta)$. The estimator $\widehat\theta = \bar X_A - \bar X_B$ and the parameter $\delta=\mu_A-\mu_B$ are **identical across all three rows** — what changes is the SE formula and the critical-value family:
+
+| # | Setting | $\widehat{SE}(\bar X_A - \bar X_B)$ | Critical value | df |
+|---|---|---|---|---|
+| **4** | $\sigma_A,\sigma_B$ **known** (textbook) | $\sqrt{\sigma_A^2/n_A + \sigma_B^2/n_B}$ | $z_{1-\alpha/2}$ | — |
+| **5** | $\sigma_A,\sigma_B$ **unknown, ASSUMED EQUAL** (pooled) | $\sqrt{s_p^2\!\left(\tfrac{1}{n_A}+\tfrac{1}{n_B}\right)}$, &nbsp; $s_p^2 = \tfrac{(n_A-1)s_A^2+(n_B-1)s_B^2}{n_A+n_B-2}$ | $t_{1-\alpha/2,\,n_A+n_B-2}$ | $n_A+n_B-2$ |
+| **6** | $\sigma_A,\sigma_B$ **unknown, DIFFERENT** (Welch) | $\sqrt{s_A^2/n_A + s_B^2/n_B}$ | $t_{1-\alpha/2,\,\nu^W}$ | $\nu^W = \dfrac{(s_A^2/n_A + s_B^2/n_B)^2}{\dfrac{(s_A^2/n_A)^2}{n_A-1} + \dfrac{(s_B^2/n_B)^2}{n_B-1}}$ |
+
+Read these three rows together: **same point estimate, three different (SE, df) pairs**. Row 4 is the rare textbook case (σ's literally given); rows 5–6 are the realistic ones, with Levene deciding between them.
+
+### 3-step procedure for every two-means CI
+
+1. **Identify** the parameter ($\delta = \mu_A - \mu_B$), the estimator ($\hat\delta = \bar X_A - \bar X_B$), and the per-group summary statistics $n_A,n_B,\bar x_A,\bar x_B$, plus either $\sigma_A,\sigma_B$ (Case 4) or $s_A,s_B$ (Cases 5–6).
+2. **Pick the row**:
+   - If the problem **states** $\sigma_A,\sigma_B$ as known ⇒ **Case 4** ($z$).
+   - Else **run Levene's test** $H_0:\sigma_A^2=\sigma_B^2$ vs $H_1:\sigma_A^2\ne\sigma_B^2$ (machinery in **`g14d`**, embedded in `CI.diffmean(..., var.test=TRUE)`):
+     - $p_{\text{Levene}} > \alpha$ ⇒ **fail to reject** equality ⇒ **Case 5** (pooled, df $= n_A+n_B-2$).
+     - $p_{\text{Levene}} \le \alpha$ ⇒ **reject** equality ⇒ **Case 6** (Welch, df $= \nu^W$).
+3. **Plug & compute**: $\hat\delta \pm c \cdot \widehat{SE}$. Done.
+
+> **Levene decision rule (numeric reading on our dataset).** `CI.diffmean(..., var.test=TRUE, conf.level=0.90)` reports Levene's $F = 0.41$ on $(1,\,436)$ df with $p_{\text{Levene}} = 0.524 > 0.10$ ⇒ **fail to reject** equality ⇒ **Case 5 (pooled)** is appropriate for the running dataset. (Cross-check: variance ratio $s_A^2/s_B^2 = 44.36/42.64 \approx 1.040$, deep inside $[\tfrac12, 2]$.) The full chi-squared / $F$-test machinery for Levene — the null distribution, the $F$-table, when to reject — is treated in **`g14d`**, and the corresponding *test* (not CI) for two means using the same Levene branch lives in **`g14b`**. From here on we only **read** Levene's $p$-value and pick the row.
+
+> **Independence vs paired.** Cases 4–6 assume the two samples are drawn from **disjoint groups** (no shared individuals), so $\operatorname{Cov}(\bar X_A,\bar X_B)=0$. Inside-pair designs (same subject measured twice — Pre/Post, Before/After, left/right) violate this and require the **paired** SE in **`g13e`** which uses $s_d^2 = s_A^2 + s_B^2 - 2\,s_{AB}$; treating paired data as independent inflates the SE by ignoring the $-2\,s_{AB}$ shrinkage. The "is it paired?" check is the *very first* question before opening this entry.
 
 ---
 
 <details class="master-subpart" open>
-<summary><span class="tag tag-exam">EXAM</span> Part (1) — Point estimate and interpretation</summary>
+<summary>(a) <strong>Case 4</strong> — $\sigma_A, \sigma_B$ <em>known</em> (z-interval)</summary>
 
-The natural unbiased estimator of $\delta = \mu_M - \mu_S$ is the **difference of sample means**
-$$\hat\delta \;=\; \bar X_M - \bar X_S, \qquad \mathbb E[\hat\delta] \;=\; \mu_M - \mu_S \;=\; \delta$$
-by linearity of expectation — no distributional assumption needed beyond i.i.d. sampling within each group. From the data,
-$$\hat\delta \;=\; \bar x_M - \bar x_S \;=\; 1300 - 1100 \;=\; \mathbf{200\ \text{€}}.$$
+**Setting.** $X_{A,i}\overset{\text{iid}}{\sim}(\mu_A,\sigma_A^2)$ for $i=1,\ldots,n_A$ and $X_{B,j}\overset{\text{iid}}{\sim}(\mu_B,\sigma_B^2)$ for $j=1,\ldots,n_B$, the two samples **independent**, both $\sigma_A,\sigma_B$ **known** (problem statement or textbook value).
 
-*Interpretation.* On average, married customers in the sample spend **200 € more per year** than single ones. Whether this point estimate reflects a real population difference, or just sampling noise, is exactly what the CI will tell us.
+**Pivot.** Because independence makes variances add and the $\sigma$'s are known,
+$$\operatorname{Var}(\bar X_A - \bar X_B) \;=\; \operatorname{Var}(\bar X_A) + \operatorname{Var}(\bar X_B) \;=\; \frac{\sigma_A^2}{n_A} + \frac{\sigma_B^2}{n_B}.$$
+If the $X_{A,i},X_{B,j}$ are normal, $Z = \dfrac{(\bar X_A - \bar X_B) - (\mu_A-\mu_B)}{\sqrt{\sigma_A^2/n_A + \sigma_B^2/n_B}} \sim \mathcal N(0,1)$ **exactly**; for non-normal data the CLT delivers the same standard-normal limit for $n_A,n_B \gtrsim 30$.
+
+**Deriving the CI.** Inverting $\Pr(-z_{1-\alpha/2} \le Z \le z_{1-\alpha/2}) = 1-\alpha$ for $\mu_A-\mu_B$ gives
+
+$$\boxed{\;\;CI_{1-\alpha}(\mu_A-\mu_B) \;=\; (\bar x_A - \bar x_B) \;\pm\; z_{1-\alpha/2}\,\sqrt{\frac{\sigma_A^2}{n_A} + \frac{\sigma_B^2}{n_B}}\;\;}\qquad (\sigma_A,\sigma_B\ \text{known})$$
+
+**Worked numbers on the running dataset** with the textbook value $\sigma_A = \sigma_B = 6.6$, $n_A=58,n_B=380$, $\bar x_A-\bar x_B = -4.57$, $\alpha = 0.10$:
+- Exact SE: $\sqrt{6.6^2/58 + 6.6^2/380} = 6.6\sqrt{1/58 + 1/380} = 6.6\sqrt{0.01987} \approx 0.9303$.
+- Critical value: $z_{0.95} = 1.645$.
+- $ME_{90} = 1.645 \cdot 0.9303 \approx 1.530$.
+- $CI_{90} = -4.57 \pm 1.530 = [-6.10,\;-3.04]$.
 
 ```r
-xbar_M <- 1300;  xbar_S <- 1100
-n_M    <- 205;   n_S    <- 295
-s_M    <- 900;   s_S    <- 800
-delta_hat <- xbar_M - xbar_S;  delta_hat        # 200
+nA <- 58;   nB <- 380
+xbarA <- 78.17;  xbarB <- 82.74
+delta_hat <- xbarA - xbarB                                # -4.57
+sigmaA <- 6.6;  sigmaB <- 6.6                             # textbook "known"
+alpha <- 0.10
+SE_known <- sqrt(sigmaA^2/nA + sigmaB^2/nB);  SE_known    # ~ 0.9303
+zcrit    <- qnorm(1 - alpha/2);                zcrit      # 1.645
+ME       <- zcrit * SE_known;                  ME         # ~ 1.530
+c(delta_hat - ME, delta_hat + ME)                         # [-6.10, -3.04]
 ```
 
+**Why Case 4 is the simplest.** No degrees of freedom, no $t$ inflation, no plug-in noise — $z$-quantiles are *the* reference distribution. In real exam practice this row appears only when the problem statement *literally* gives you $\sigma_A,\sigma_B$ (`5_1f` part f3, `5_7a`, `5_7b` part (i), `6_4a` part (b)); otherwise you must estimate the variances and use Case 5 or 6.
+
 </details>
 
 <details class="master-subpart">
-<summary><span class="tag tag-2plus">≥2 ex</span> Part (2) — SE under **known** variances $\sigma_M,\sigma_S$</summary>
+<summary><span class="tag tag-exam">EXAM</span> (b) <strong>Case 5</strong> — $\sigma_A,\sigma_B$ <em>unknown but ASSUMED EQUAL</em> (pooled t)</summary>
 
-Because the samples are independent, variance **adds**:
-$$\Var(\bar X_M - \bar X_S) \;=\; \Var(\bar X_M) + \Var(\bar X_S) \;=\; \frac{\sigma_M^2}{n_M} + \frac{\sigma_S^2}{n_S}.$$
-If $\sigma_M = 900$ and $\sigma_S = 800$ were **known** (textbook case), the *exact* SE is
-$$SE_{\text{known}} \;=\; \sqrt{\frac{900^2}{205} + \frac{800^2}{295}} \;=\; \sqrt{3951.22 + 2169.49} \;=\; \sqrt{6120.71} \;\approx\; \mathbf{78.235\ \text{€}}.$$
-With known variances, inference uses **$z$-quantiles** (no $t$-table, no degrees of freedom).
+**Setting.** Same i.i.d. independent samples, $\sigma_A^2,\sigma_B^2$ **unknown** but **Levene fails to reject** $H_0:\sigma_A^2=\sigma_B^2$ (or the problem instructs us to assume equality). Estimate the common variance $\sigma^2$ by pooling the two sample variances by their degrees of freedom.
+
+**Pivot.** Under $\sigma_A^2=\sigma_B^2=\sigma^2$ and i.i.d. normal samples,
+$$T \;=\; \frac{(\bar X_A - \bar X_B) - (\mu_A-\mu_B)}{\sqrt{s_p^2\bigl(\tfrac{1}{n_A}+\tfrac{1}{n_B}\bigr)}} \;\sim\; t_{n_A+n_B-2}\;\text{ exactly},\qquad s_p^2 \;=\; \frac{(n_A-1)s_A^2 + (n_B-1)s_B^2}{n_A+n_B-2}.$$
+The pooled variance is the **best (lowest-variance) unbiased estimator** of the common $\sigma^2$ — it spends *all* $n_A+n_B-2$ degrees of freedom on a single estimate, more than either $s_A^2$ or $s_B^2$ alone.
+
+**Deriving the CI.** Identical inversion to Case 4 with $T$ in place of $Z$:
+
+$$\boxed{\;\;CI_{1-\alpha}(\mu_A-\mu_B) \;=\; (\bar x_A - \bar x_B) \;\pm\; t_{1-\alpha/2,\,n_A+n_B-2}\,\sqrt{s_p^2\!\left(\frac{1}{n_A} + \frac{1}{n_B}\right)}\;\;}$$
+
+**Worked numbers on the running dataset.** $s_A^2 = 6.66^2 = 44.36$, $s_B^2 = 6.53^2 = 42.64$, $\alpha = 0.10$:
+- Pooled variance: $s_p^2 = \dfrac{57\cdot 44.36 + 379\cdot 42.64}{436} = \dfrac{2528.5 + 16160.6}{436} \approx 42.86$, so $s_p \approx 6.547$.
+- Pooled SE: $\widehat{SE}_{\text{pool}} = \sqrt{42.86\cdot(1/58 + 1/380)} = \sqrt{42.86\cdot 0.01987} \approx 0.923$.
+- df: $n_A+n_B-2 = 436$. Critical value $t_{0.95,\,436} \approx 1.648$ (essentially $z_{0.95}=1.645$ at this df).
+- $ME_{90}^{\text{pool}} = 1.648\cdot 0.923 \approx 1.521$.
+- $CI_{90}^{\text{pool}} = -4.57 \pm 1.521 = [-6.09,\;-3.05]$.
+
+Both endpoints lie **strictly below 0**, so the 90% CI rejects $H_0:\mu_A=\mu_B$ in favour of $\mu_A < \mu_B$: program A is associated with lower mean Performance than program B by between roughly $3$ and $6$ points.
 
 ```r
-SE_known <- sqrt(900^2/n_M + 800^2/n_S);  SE_known    # 78.235
-```
-
-*Why no covariance term?* The two samples are **independent**, so $\Cov(\bar X_M,\bar X_S) = 0$. Pairing (Sec. g13d) is the case when this fails — then SE involves the variance of paired differences, not the sum.
-
-</details>
-
-<details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> Part (3) — SE under **unknown** but **assumed equal** variances (pooled)</summary>
-
-If the variances are unknown but we are willing to assume $\sigma_M^2 = \sigma_S^2 = \sigma^2$, we **pool** the two sample variances by their degrees of freedom:
-$$s_p^2 \;=\; \frac{(n_M-1)\,s_M^2 + (n_S-1)\,s_S^2}{n_M + n_S - 2} \;=\; \frac{204\cdot 810000 + 294\cdot 640000}{498} \;=\; \frac{353\,400\,000}{498} \;\approx\; \mathbf{709\,638.55}.$$
-Then
-$$\widehat{SE}_{\text{pool}} \;=\; \sqrt{s_p^2 \left(\frac{1}{n_M} + \frac{1}{n_S}\right)} \;=\; \sqrt{709638.55 \cdot (0.00488 + 0.00339)} \;=\; \sqrt{5867.3} \;\approx\; \mathbf{76.598\ \text{€}}.$$
-Inference uses $t$ with **$df_{\text{pool}} = n_M + n_S - 2 = 498$**.
-
-```r
-s2_pool <- ((n_M-1)*s_M^2 + (n_S-1)*s_S^2) / (n_M + n_S - 2);  s2_pool   # 709638.55
-SE_pool <- sqrt(s2_pool * (1/n_M + 1/n_S));                    SE_pool   # 76.598
-df_pool <- n_M + n_S - 2;                                       df_pool  # 498
-```
-
-The pooled **variance** $s_p^2$ is a weighted average of the two within-group sample variances (weights $= n_i - 1$); the pooled SE is then $\sqrt{s_p^2(1/n_M+1/n_S)}$. Pooled is **more efficient** than Welch *when* the equal-variance assumption is correct (smaller SE, narrower CI), at the cost of being **biased** if the assumption fails.
-
-</details>
-
-<details class="master-subpart">
-<summary><span class="tag tag-2plus">≥2 ex</span> Part (4) — SE under **unknown unequal** variances (Welch)</summary>
-
-If we are *not* willing to assume equal variances, plug in each sample variance separately:
-$$\widehat{SE}_{W} \;=\; \sqrt{\frac{s_M^2}{n_M} + \frac{s_S^2}{n_S}} \;=\; \sqrt{\frac{810000}{205} + \frac{640000}{295}} \;=\; \sqrt{6120.71} \;\approx\; \mathbf{78.235\ \text{€}}.$$
-
-This is **numerically identical** to the known-$\sigma$ SE of Part (2), because the *formula* is the same — only the interpretation differs (plug-in vs exact). The price for not assuming equality is paid in the **degrees of freedom** via the **Satterthwaite** approximation:
-$$df_W \;=\; \frac{\left(\dfrac{s_M^2}{n_M} + \dfrac{s_S^2}{n_S}\right)^{2}}{\dfrac{(s_M^2/n_M)^2}{n_M-1} + \dfrac{(s_S^2/n_S)^2}{n_S-1}} \;=\; \frac{6120.71^2}{\dfrac{3951.22^2}{204} + \dfrac{2169.49^2}{294}} \;\approx\; \frac{37\,463\,103}{92\,539} \;\approx\; \mathbf{404.8}.$$
-
-Welch's $df$ is **fractional** and always satisfies $\min(n_M-1,n_S-1) \le df_W \le n_M+n_S-2$. Here $df_W \approx 405 < df_{\text{pool}} = 498$: Welch "spends" some degrees of freedom for the right to drop the equal-variance assumption. With $df_W \approx 405$, the $t$-quantile is essentially the $z$-quantile (the cost is invisible at large $n$).
-
-```r
-SE_W <- sqrt(s_M^2/n_M + s_S^2/n_S);  SE_W                                # 78.235
-num   <- (s_M^2/n_M + s_S^2/n_S)^2
-den   <- (s_M^2/n_M)^2/(n_M-1) + (s_S^2/n_S)^2/(n_S-1)
-df_W  <- num / den;                    df_W                               # 404.8
-```
-
-</details>
-
-<details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> Part (5) — Pooled df vs Welch df at a glance</summary>
-
-| Quantity | Pooled (equal var.) | Welch (unequal var.) |
-|---|---:|---:|
-| $\widehat{SE}$ | $\sqrt{s_p^2(1/n_M+1/n_S)}$ = **76.598** | $\sqrt{s_M^2/n_M + s_S^2/n_S}$ = **78.235** |
-| $df$ | $n_M + n_S - 2 = $ **498** (integer) | Satterthwaite $\approx$ **404.8** (fractional) |
-| $t$-quantile (95%) | $t_{0.975,498} \approx 1.965$ | $t_{0.975,405} \approx 1.966$ |
-| Required assumption | $\sigma_M^2 = \sigma_S^2$ | none on variance ratio |
-| If equality holds | more efficient (narrower CI) | slightly conservative |
-| If equality fails | biased SE, wrong coverage | unaffected |
-
-Difference here: pooled SE is **2% smaller** than Welch's. With nearly balanced sample sizes the two are very close; the gap widens when both $n$'s and variances are unbalanced.
-
-</details>
-
-<details class="master-subpart">
-<summary><span class="tag tag-4plus">≥4 ex</span> Part (6) — 95% confidence interval for $\delta$</summary>
-
-The two-sided CI for $\delta$ at level $1-\alpha$ is
-$$(\bar x_M - \bar x_S) \;\pm\; t_{1-\alpha/2,\,df}\;\widehat{SE}.$$
-
-**Welch (default).** $t_{0.975,\,405} \approx 1.966$:
-$$ME_{95}^{W} \;=\; 1.966 \cdot 78.235 \;\approx\; 153.81, \qquad CI_{95}^{W} \;=\; 200 \pm 153.81 \;=\; \mathbf{[46.19,\; 353.81]}.$$
-
-**Pooled.** $t_{0.975,\,498} \approx 1.965$:
-$$ME_{95}^{\text{pool}} \;=\; 1.965 \cdot 76.598 \;\approx\; 150.51, \qquad CI_{95}^{\text{pool}} \;=\; 200 \pm 150.51 \;=\; \mathbf{[49.49,\; 350.51]}.$$
-
-```r
-alpha <- 0.05
-# Welch
-tW   <- qt(1 - alpha/2, df = df_W);   tW                  # 1.966
-MEW  <- tW * SE_W;                    MEW                 # 153.81
-c(delta_hat - MEW, delta_hat + MEW)                       # [46.19, 353.81]
-
-# Pooled
-tP   <- qt(1 - alpha/2, df = df_pool); tP                 # 1.965
-MEP  <- tP * SE_pool;                  MEP                # 150.51
-c(delta_hat - MEP, delta_hat + MEP)                       # [49.49, 350.51]
+sA <- 6.66;  sB <- 6.53
+s2p     <- ((nA-1)*sA^2 + (nB-1)*sB^2) / (nA+nB-2);  s2p     # ~ 42.86
+SE_pool <- sqrt(s2p * (1/nA + 1/nB));                SE_pool # ~ 0.923
+df_pool <- nA + nB - 2;                              df_pool # 436
+tc_pool <- qt(1 - alpha/2, df = df_pool);            tc_pool # 1.648
+ME_pool <- tc_pool * SE_pool;                        ME_pool # ~ 1.521
+c(delta_hat - ME_pool, delta_hat + ME_pool)                  # [-6.09, -3.05]
 
 # Same numbers from raw data:
-t.test(AmountSpent ~ MaritalStatus, data = DS, var.equal = FALSE)$conf.int  # Welch
-t.test(AmountSpent ~ MaritalStatus, data = DS, var.equal = TRUE )$conf.int  # Pooled
+# t.test(Performance ~ Activity.type, data = Performance, var.equal = TRUE)$conf.int
+# CI.diffmean(...A..., ...B..., type='independent',
+#             var.test=TRUE, conf.level=0.90)   # prints pooled AND Welch AND Levene
 ```
 
-*Interpretation of the 95%.* Under repeated sampling, about 95% of intervals built this way would contain the true mean difference $\mu_M - \mu_S$. For *this* one realised interval we cannot speak of probability — $\delta$ is fixed, either inside or outside.
+**Bias warning.** If equality of variances *fails*, $s_p^2$ is biased for either group variance: it over-states $\min(\sigma_A^2,\sigma_B^2)$ and under-states $\max(\sigma_A^2,\sigma_B^2)$. The bias propagates into the SE, and the resulting CI loses its nominal coverage — under-coverage if the larger variance sits in the *smaller* sample, over-coverage in the opposite case. This is why we check Levene **first** rather than assuming pooling is safe.
+
+</details>
+
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (c) <strong>Case 6</strong> — $\sigma_A,\sigma_B$ <em>unknown and DIFFERENT</em> (Welch t)</summary>
+
+**Setting.** Same i.i.d. independent samples, $\sigma_A^2,\sigma_B^2$ **unknown** and Levene **rejects** equality (or we adopt Welch as the safe default — see the decision matrix at the end of (d)). We refuse to pool; each sample variance estimates its *own* population variance.
+
+**Pivot.** The "natural" SE plugs in $s_A^2,s_B^2$ separately. The resulting standardised statistic does **not** follow a Student-$t$ exactly — Welch and Satterthwaite showed it is approximately $t_{\nu^W}$ where the effective df is the moment-matching solution
+$$\boxed{\;\;\nu^W \;=\; \frac{\left(\dfrac{s_A^2}{n_A} + \dfrac{s_B^2}{n_B}\right)^{2}}{\dfrac{(s_A^2/n_A)^{2}}{n_A-1} + \dfrac{(s_B^2/n_B)^{2}}{n_B-1}}\;\;}$$
+fractional and bounded by $\min(n_A-1, n_B-1) \le \nu^W \le n_A+n_B-2$.
+
+**Deriving the CI.**
+
+$$\boxed{\;\;CI_{1-\alpha}(\mu_A-\mu_B) \;=\; (\bar x_A - \bar x_B) \;\pm\; t_{1-\alpha/2,\,\nu^W}\,\sqrt{\frac{s_A^2}{n_A} + \frac{s_B^2}{n_B}}\;\;}$$
+
+**Worked numbers on the running dataset** with $\alpha = 0.10$:
+- Per-group variance contributions: $s_A^2/n_A = 44.36/58 \approx 0.7648$; $s_B^2/n_B = 42.64/380 \approx 0.1122$.
+- Welch SE: $\widehat{SE}_W = \sqrt{0.7648 + 0.1122} = \sqrt{0.8770} \approx 0.9365$.
+- Satterthwaite df: $\nu^W = \dfrac{0.8770^{2}}{0.7648^{2}/57 + 0.1122^{2}/379} = \dfrac{0.7692}{0.01026 + 0.0000332} \approx 74.7$.
+- Critical value: $t_{0.95,\,74.7} \approx 1.666$.
+- $ME_{90}^{W} = 1.666 \cdot 0.9365 \approx 1.560$.
+- $CI_{90}^{W} = -4.57 \pm 1.560 = [-6.13,\;-3.01]$.
+
+**Comparison with Case 5.** Same point estimate, same sign of the conclusion (program A's mean Performance is below B's at 90%), almost the same numbers — Welch is **0.04 pp** wider on the half-width and 0.04 units broader on each endpoint. Welch "spent" $436 - 74.7 \approx 361$ df for the privilege of dropping the equal-variance assumption (visible only at very small $n$; at our $n$ the cost is negligible).
+
+```r
+SE_W <- sqrt(sA^2/nA + sB^2/nB);   SE_W                       # ~ 0.9365
+num  <- (sA^2/nA + sB^2/nB)^2
+den  <- (sA^2/nA)^2/(nA-1) + (sB^2/nB)^2/(nB-1)
+nu_W <- num / den;                  nu_W                      # ~ 74.7
+tc_W <- qt(1 - alpha/2, df = nu_W); tc_W                      # ~ 1.666
+ME_W <- tc_W * SE_W;                ME_W                      # ~ 1.560
+c(delta_hat - ME_W, delta_hat + ME_W)                         # [-6.13, -3.01]
+
+# Same from raw data (Welch is the default in R):
+# t.test(Performance ~ Activity.type, data = Performance,
+#        var.equal = FALSE, conf.level = 0.90)$conf.int
+```
+
+**Why Welch is the universal safe default.** When the **larger** variance sits in the **larger** sample, pooling **over-states** the SE (intervals are *too wide*, coverage above nominal). When the larger variance sits in the **smaller** sample, pooling **under-states** the SE (intervals *too narrow*, coverage *below* nominal — actively dangerous). Welch is robust to both regimes; the only cost is a possibly smaller df, which is invisible once $n_A,n_B$ are large.
+
+</details>
+
+<details class="master-subpart">
+<summary>(d) Side-by-side comparison: Case 4 vs Case 5 vs Case 6</summary>
+
+All three cases on the **same running dataset** ($\bar x_A - \bar x_B = -4.57$, $n_A=58$, $n_B=380$, 90% CI):
+
+| Quantity | **Case 4** ($\sigma$ known) | **Case 5** (pooled $t$) | **Case 6** (Welch $t$) |
+|---|---:|---:|---:|
+| Estimator $\widehat\theta$ | $\bar x_A - \bar x_B = -4.57$ | $\bar x_A - \bar x_B = -4.57$ | $\bar x_A - \bar x_B = -4.57$ |
+| $\widehat{SE}$ formula | $\sqrt{\sigma_A^2/n_A + \sigma_B^2/n_B}$ | $\sqrt{s_p^2(1/n_A+1/n_B)}$ | $\sqrt{s_A^2/n_A + s_B^2/n_B}$ |
+| $\widehat{SE}$ value | $0.930$ | $0.923$ | $0.937$ |
+| Critical-value family | $z_{1-\alpha/2}$ | $t_{1-\alpha/2,\,n_A+n_B-2}$ | $t_{1-\alpha/2,\,\nu^W}$ |
+| df | — | $436$ (integer) | $\approx 74.7$ (fractional) |
+| Critical value (90%) | $z_{0.95} = 1.645$ | $t_{0.95,\,436} \approx 1.648$ | $t_{0.95,\,74.7} \approx 1.666$ |
+| $ME_{90}$ | $1.530$ | $1.521$ | $1.560$ |
+| **90% CI** | $[-6.10,\;-3.04]$ | $[-6.09,\;-3.05]$ | $[-6.13,\;-3.01]$ |
+| Required assumption | $\sigma_A,\sigma_B$ given | $\sigma_A^2 = \sigma_B^2$ | none on variance ratio |
+| **When to use** | textbook / problem states $\sigma$'s | Levene $p > \alpha$ | Levene $p \le \alpha$, or safe default |
+
+Three rows that look almost identical here because (i) the per-group variance estimates are very close ($s_A^2/s_B^2 \approx 1.04$, deep in the safe band), (ii) the samples are both large, and (iii) the textbook $\sigma$ used in Case 4 was set close to the sample SDs. **When variances are very unequal and/or sample sizes very unbalanced, the three rows diverge dramatically** — that is the operational reason to know which one you are applying.
+
+**Decision matrix when no Levene output is given.**
+
+| Situation | Use |
+|---|---|
+| Problem *literally* states $\sigma_A,\sigma_B$ as known | **Case 4** ($z$) |
+| Variances unknown, Levene $p > \alpha$ | **Case 5** (pooled) |
+| Variances unknown, Levene $p \le \alpha$ | **Case 6** (Welch) |
+| Variances unknown, no Levene available, ratio $s_A^2/s_B^2 \in [\tfrac12, 2]$, balanced $n$ | Either — virtually identical |
+| Variances unknown, ratio $> 3$ or $n$'s very unbalanced | **Case 6** (Welch, mandatory) |
+| R default (`t.test`) | **Case 6** (Welch, `var.equal = FALSE`) |
 
 ![Master illustration](statistics/images/master/master_g13c_ai.png)
 
 </details>
 
 <details class="master-subpart">
-<summary>Part (7) — 99% confidence interval for $\delta$</summary>
+<summary>(e) Cross-references and pitfalls</summary>
 
-Only the reliability factor changes; SE is identical.
+- **Universal CI recipe and the master case table** — see **`g13a`** (rows 1–8 of the table; this entry owns rows 4, 5, 6).
+- **One-mean CI** ($\mu$, single group, σ known/unknown — rows 1–2 of the table) — see **`g13a`**.
+- **One-proportion CI** (row 3) — see **`g13b`**.
+- **Difference of two proportions CI** (row 7) — see **`g13d`**. *Pitfall:* the proportion-difference CI uses the **unpooled** SE; the pooled SE is *only* for the two-sample proportion **test** in `g14b`.
+- **Paired-sample CI** (row 8 — "this is NOT independent") — see **`g13e`**. *Pitfall:* if the two columns come from the *same* subject (Pre/Post, Before/After), the independence assumption of rows 4–6 fails — the SE must include the within-pair covariance term $-2\,s_{AB}$, which **shrinks** the SE when $\rho > 0$ (typical) and inflates it when $\rho < 0$. Treating paired data as independent over-states the SE by a factor of roughly $1/\sqrt{1-\rho}$.
+- **Two-sample hypothesis tests for $\mu_A$ vs $\mu_B$** (analogue of rows 4–6 for testing rather than estimating) — see **`g14b`**. The Case 4/5/6 split, the Levene branch, and the SE formulas carry over **verbatim**; only the pivot is recentred on the null value $\delta_0$ and the decision rule is "reject if $|T| > c_{1-\alpha/2}$" instead of "build $\hat\delta \pm c\,\widehat{SE}$".
+- **Levene's test machinery** (null distribution, $F$-table, when to reject) — see **`g14d`**. From here we only **read** Levene's $p$ and pick the row.
+- **Underlying unbiased estimators** ($\bar X, S^2, S_p^2$ and their sampling SEs) — see **`g13f`**.
 
-**Welch.** $t_{0.995,\,405} \approx 2.587$:
-$$ME_{99}^{W} \;=\; 2.587 \cdot 78.235 \;\approx\; 202.40, \qquad CI_{99}^{W} \;\approx\; 200 \pm 202.40 \;=\; \mathbf{[-2.40,\; 402.40]}.$$
-
-**Pooled.** $t_{0.995,\,498} \approx 2.586$:
-$$ME_{99}^{\text{pool}} \;=\; 2.586 \cdot 76.598 \;\approx\; 198.08, \qquad CI_{99}^{\text{pool}} \;\approx\; 200 \pm 198.08 \;=\; \mathbf{[1.92,\; 398.08]}.$$
-
-The 99% Welch interval is **about 32% wider** than the 95% one ($2.587/1.966 \approx 1.316$) — pure consequence of the higher confidence demand, not of the data.
-
-```r
-qt(0.995, df = df_W)   * SE_W       # 202.40   -> Welch ME at 99%
-qt(0.995, df = df_pool)* SE_pool    # 198.08   -> Pooled ME at 99%
-```
-
-</details>
-
-<details class="master-subpart">
-<summary><span class="tag tag-2plus">≥2 ex</span> Part (8) — Does the CI contain $0$?</summary>
-
-The CI is the set of values of $\delta = \mu_M - \mu_S$ that are *compatible* with the data at the stated confidence. Checking whether **$0 \in CI$** is the CI's most-used decision tool:
-
-| CI | Bounds | Contains $0$? | Conclusion at level $\alpha$ |
-|---|---|:---:|---|
-| 95% Welch | $[46.19,\,353.81]$ | **No** | reject $H_0: \mu_M = \mu_S$ at 5% — evidence of a difference |
-| 95% Pooled | $[49.49,\,350.51]$ | **No** | same conclusion, slightly stronger |
-| 99% Welch | $[-2.40,\,402.40]$ | **Yes** (barely) | cannot reject at 1% — evidence not strong enough |
-| 99% Pooled | $[1.92,\,398.08]$ | **No** (just) | reject at 1%, by a hair |
-
-This is the **CI–test duality**: $0 \notin CI_{1-\alpha}$ ⇔ $H_0: \delta = 0$ rejected at level $\alpha$. The borderline behaviour at 99% (Welch contains 0, pooled does not) is a small reminder that pooled and Welch can give different qualitative answers when the test is close to the threshold — another reason Welch is the safer default.
-
-</details>
-
-<details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> Part (9) — Pooled vs Welch: choosing in practice</summary>
-
-| Situation | Use |
-|---|---|
-| Variances assumed/known equal, balanced samples | Pooled (slight efficiency gain) |
-| Variances unknown, $\max(s_1^2,s_2^2)/\min(s_1^2,s_2^2) \le 2$, balanced $n$ | Either — virtually identical |
-| Variances clearly different ratio $> 3$ | **Welch** (mandatory) |
-| Sample sizes very unbalanced ($n_1 \gg n_2$) | **Welch** — pooled is dangerously biased |
-| Default in R (`t.test`) | **Welch** (`var.equal=FALSE`) |
-
-**Rule of thumb (Casella–Berger).** When the **larger** variance is in the **larger** sample, pooled **over-states** the true SE (conservative — intervals too wide, but coverage $\ge$ nominal). When the larger variance is in the **smaller** sample, pooled **under-states** the SE (anti-conservative — intervals too narrow, coverage $<$ nominal). Since you usually do not know which regime you are in, *use Welch unless you have a strong reason*. Here $s_M^2/s_S^2 = 810000/640000 = 1.266 < 2$ — within the safe band, both procedures agree.
-
-```r
-ratio <- max(s_M^2, s_S^2) / min(s_M^2, s_S^2);  ratio    # 1.266 -- safe
-# Formal test (Levene/F) only if needed:
-var.test(AmountSpent ~ MaritalStatus, data = DS)$p.value
-```
+> **Bookmark.** The Case 4–6 split + Levene branch reappears identically in every two-mean problem (CI or test) you will see this semester. Master the table here once.
 
 </details>
 
 ---
 
-### Summary table (master dataset, $\hat\delta = 200$ €)
+### Summary table (running dataset, $\hat\delta = -4.57$, 90% CI)
 
-| Quantity | Pooled (eq. var.) | Welch (uneq. var.) | Known $\sigma$ ($z$) |
+| Quantity | Case 4 (known $\sigma$, $z$) | Case 5 (pooled $t$) | Case 6 (Welch $t$) |
 |---|---:|---:|---:|
-| $\widehat{SE}$ | $76.598$ | $78.235$ | $78.235$ |
-| $df$ | $498$ | $\approx 404.8$ | — ($z$) |
-| $t_{0.975}$ or $z_{0.975}$ | $1.965$ | $1.966$ | $1.960$ |
-| $ME_{95}$ | $150.51$ | $153.81$ | $153.34$ |
-| **95% CI** | $[49.49,\,350.51]$ | $[46.19,\,353.81]$ | $[46.66,\,353.34]$ |
-| $t_{0.995}$ or $z_{0.995}$ | $2.586$ | $2.587$ | $2.576$ |
-| $ME_{99}$ | $198.08$ | $202.40$ | $201.54$ |
-| **99% CI** | $[1.92,\,398.08]$ | $[-2.40,\,402.40]$ | $[-1.54,\,401.54]$ |
+| $\widehat{SE}$ | $0.930$ | $0.923$ | $0.937$ |
+| df | — | $436$ | $\approx 74.7$ |
+| Critical value | $z_{0.95} = 1.645$ | $t_{0.95,\,436} \approx 1.648$ | $t_{0.95,\,74.7} \approx 1.666$ |
+| $ME_{90}$ | $1.530$ | $1.521$ | $1.560$ |
+| **90% CI** | $[-6.10,\;-3.04]$ | $[-6.09,\;-3.05]$ | $[-6.13,\;-3.01]$ |
+
+**One-line take-away.** Three rows of the universal CI table, one estimator ($\bar X_A - \bar X_B$), one decision rule (Levene): the only moving parts are the **SE** and the **df / critical-value family**. Memorise the table, run Levene, pick the row, plug.
 """,
     "images": ["statistics/images/master/master_g13c_ai.png"],
 }
 
 master_exercises["g13d_ci_diff_prop"] = {
-    "title": "Master Exam — CI for difference of two proportions (consolidated)",
-    "content": r"""**Master dataset.** A bookstore chain interviews two **independent** random samples of customers and asks whether each one bought $\ge 2$ books in the last year ("heavy reader"). The samples are stratified by sex:
+    "title": "Master Exam — CI for difference of two proportions (row 7 of the universal table)",
+    "content": r"""## Setup — running dataset for every numeric example below
 
-| Group | Sample size | Heavy readers | Sample proportion |
-|---|---|---|---|
-| Male ($M$) | $n_M = 850$ | $x_M = 650$ | $\hat p_M = 650/850 \approx 0.7647$ |
-| Female ($F$) | $n_F = 650$ | $x_F = 391$ | $\hat p_F = 391/650 \approx 0.6015$ |
+A retailer compares two regions on the share of customers who buy the **more expensive** product in the cleaning category (`category == "cleaning"`, "first product" = the premium one). Two **independent** random samples of customers are pulled:
 
-The two samples are drawn **independently** (different individuals), so $\operatorname{Cov}(\hat p_M,\hat p_F)=0$. Let $p_M, p_F$ denote the population proportions of heavy readers among male / female customers respectively. We will build CIs for the difference $\delta \equiv p_M - p_F$, then interpret what the interval tells us about whether the two proportions can plausibly be equal.
+| Region | Sample size | Sample proportion choosing the expensive product |
+|---|---:|---:|
+| NorthWest (group 1) | $n_1 = 278$ | $\hat p_1 = 0.640$ |
+| NorthEast (group 2) | $n_2 = 189$ | $\hat p_2 = 0.418$ |
 
-This master exercise consolidates the seven sub-topics of `g13d_ci_diff_prop` (CI for difference of two proportions):
-1. Sample proportions and point estimate of the difference.
-2. Standard error of $\hat p_M - \hat p_F$ (variances add under independence).
-3. Two-sided 95% Wald CI for $p_M - p_F$.
-4. Two-sided 99% CI and comparison with part (3).
-5. Does the CI contain $0$? Interpretation in terms of a plausible-null gap.
-6. One-sided lower confidence bound for $p_M - p_F$.
-7. Validity check (CLT condition $n_i\hat p_i \ge 5$ AND $n_i(1-\hat p_i) \ge 5$).
+Let $p_1, p_2$ denote the corresponding population proportions and $\delta := p_1 - p_2$. The samples are drawn from disjoint customer pools so $\operatorname{Cov}(\hat p_1, \hat p_2) = 0$ — variances *add*, no covariance term. We will reuse this **one dataset** throughout the entry; the horizontal cells of this row apply the same recipe to other 2-by-2 splits (Male/Female `5_5a`, 2015/2022 `5_5b`, GER/ITA `6_3c`, two anonymous publishers `6_6e`, two markets `6_9a`, EA/Activision `6_14a`, Milano/Pavia `5_13b`), and the past exams `exam_g2_2026_1a/b/c` and `exam_sep_2024_3c` are direct re-runs of the recipe below.
+
+---
+
+## This is **row 7** of the universal CI master table (see **`g13a`**)
+
+| # | Parameter | Setting | Estimate $\widehat\theta$ | $\widehat{SE}(\widehat\theta)$ | Critical value | df |
+|---|---|---|---|---|---|---|
+| **7** | $p_A - p_B$ | independent samples, large $n$ ($n_i\hat p_i,\,n_i(1-\hat p_i)\ge 5$) | $\hat p_A - \hat p_B$ | $\sqrt{\dfrac{\hat p_A(1-\hat p_A)}{n_A} + \dfrac{\hat p_B(1-\hat p_B)}{n_B}}$ | $z_{1-\alpha/2}$ | — |
+
+The CI is the universal three-slot template $\widehat\theta \pm c_{1-\alpha/2}\,\widehat{SE}(\widehat\theta)$ with **(estimate, SE, critical-value) = (** $\hat p_A - \hat p_B$, **unpooled** plug-in SE, $z_{1-\alpha/2}$ **)**. Two structural features of the row:
+
+- **No $t$-inflation.** Bernoulli has *no separate* scale parameter $\sigma$ to estimate — $\hat p$ pins down both the mean and the variance — so there is no df-cost from plugging in $\hat p$ and the critical-value family is $z$ (exact at the CLT limit), not $t$. Contrast row 2 (one mean, $\sigma$ unknown) which **does** pay a $t_{n-1}$ inflation because $s$ is a separate estimate.
+- **Variances add.** Independence of the two samples gives $\operatorname{Var}(\hat p_A - \hat p_B) = \operatorname{Var}(\hat p_A) + \operatorname{Var}(\hat p_B)$ with **no covariance term**. This is the structural simplification the paired case (`g13e`) does not enjoy — there the SE must include the within-pair covariance.
+
+### 3-step procedure for every diff-prop CI
+
+1. **Extract** $\hat p_A, \hat p_B, n_A, n_B$ from the data (counts $X_A,X_B$ over sample sizes $n_A,n_B$). Form $\hat\delta = \hat p_A - \hat p_B$.
+2. **Verify the four CLT conditions:** $n_A\hat p_A,\; n_A(1-\hat p_A),\; n_B\hat p_B,\; n_B(1-\hat p_B)$ **all $\ge 5$**. If any fails, fall back to `prop.test` (Wilson) or stratified exact methods.
+3. **Plug into the unpooled formula:** $\hat\delta \pm z_{1-\alpha/2}\sqrt{\hat p_A(1-\hat p_A)/n_A + \hat p_B(1-\hat p_B)/n_B}$. Done.
+
+> ### **WARNING — CI for $p_A-p_B$ uses UNPOOLED SE.**
+> The **pooled** SE $\sqrt{\hat p_{\text{pool}}(1-\hat p_{\text{pool}})(1/n_A + 1/n_B)}$ with $\hat p_{\text{pool}} = (X_A + X_B)/(n_A + n_B)$ is the SE used **only** for the *hypothesis test* of $H_0: p_A = p_B$ — see **`g14b`**. Using pooled SE in a CI produces the **wrong width** whenever $p_A \ne p_B$ (which is precisely the case the CI is asked about). This is the **single most common G13↔G14 mistake** in the course. See subpart (c) below for the side-by-side comparison and the exact place each formula is used.
 
 ---
 
 <details class="master-subpart" open>
-<summary><span class="tag tag-exam">EXAM</span> Part (1) — Sample proportions and point estimate of the gap</summary>
+<summary><span class="tag tag-exam">EXAM</span> (a) <strong>Case 7</strong> — Large-sample Wald CI (unpooled SE)</summary>
 
-Each sample is a sequence of i.i.d. Bernoulli draws. The unbiased estimator of $p_i$ is the sample proportion $\hat p_i = X_i/n_i$, and the natural unbiased estimator of $\delta = p_M - p_F$ is the **difference of sample proportions**
-$$\hat\delta \;=\; \hat p_M - \hat p_F, \qquad \mathbb E[\hat\delta] = p_M - p_F = \delta.$$
-Plug in the counts:
-$$\hat p_M = \tfrac{650}{850} \approx 0.7647, \qquad \hat p_F = \tfrac{391}{650} \approx 0.6015, \qquad \hat\delta \approx 0.7647 - 0.6015 = 0.1632.$$
+**Setting.** Two **independent** Bernoulli samples: $Y_i^{(A)} \overset{\text{iid}}{\sim} \text{Bernoulli}(p_A)$ for $i=1,\ldots,n_A$, and analogously $Y_j^{(B)}$ for the second group. The two sums $X_A = \sum_i Y_i^{(A)} \sim \text{Bin}(n_A, p_A)$ and $X_B \sim \text{Bin}(n_B, p_B)$ are independent, and so are $\hat p_A = X_A/n_A$ and $\hat p_B = X_B/n_B$.
 
-So in the sample, the male heavy-reader rate exceeds the female rate by about **16.3 percentage points**. Whether this gap reflects a real population difference (rather than sampling noise) is exactly what the CI in parts (3)–(5) decides.
+**Pivot.** Independence makes variances add, so
+$$\operatorname{Var}(\hat p_A - \hat p_B) \;=\; \frac{p_A(1-p_A)}{n_A} + \frac{p_B(1-p_B)}{n_B}.$$
+By the CLT applied to each $\hat p_i$ and the independence of the two samples,
+$$\frac{(\hat p_A - \hat p_B) - (p_A - p_B)}{\sqrt{p_A(1-p_A)/n_A + p_B(1-p_B)/n_B}} \;\overset{d}{\to}\; \mathcal N(0,1).$$
+Replacing the unknown $p_i$ in the SE by $\hat p_i$ (plug-in, valid by Slutsky) gives the **unpooled estimated SE**
+$$\widehat{SE}(\hat\delta) \;=\; \sqrt{\dfrac{\hat p_A(1-\hat p_A)}{n_A} + \dfrac{\hat p_B(1-\hat p_B)}{n_B}}.$$
+
+**Deriving the CI.** Inverting $\Pr\bigl(-z_{1-\alpha/2}\le Z \le z_{1-\alpha/2}\bigr) = 1-\alpha$ for $\delta = p_A - p_B$:
+
+$$\boxed{\;\;CI_{1-\alpha}(p_A - p_B) \;=\; (\hat p_A - \hat p_B) \;\pm\; z_{1-\alpha/2}\,\sqrt{\dfrac{\hat p_A(1-\hat p_A)}{n_A} + \dfrac{\hat p_B(1-\hat p_B)}{n_B}}\;\;}$$
+
+**Worked numbers on the running dataset** with $\hat p_1 = 0.640$, $n_1 = 278$, $\hat p_2 = 0.418$, $n_2 = 189$, $\alpha = 0.10$:
+
+- **Point estimate:** $\hat\delta = 0.640 - 0.418 = 0.222$.
+- **CLT check:** $n_1\hat p_1 = 178$, $n_1(1-\hat p_1) = 100$, $n_2\hat p_2 \approx 79$, $n_2(1-\hat p_2) \approx 110$ — all $\gg 5$.
+- **Variance contributions:** $\hat p_1(1-\hat p_1)/n_1 = 0.640\cdot 0.360/278 \approx 0.000829$; $\hat p_2(1-\hat p_2)/n_2 = 0.418\cdot 0.582/189 \approx 0.001287$.
+- **Unpooled SE:** $\widehat{SE}(\hat\delta) = \sqrt{0.000829 + 0.001287} = \sqrt{0.002116} \approx 0.0460$.
+- **Critical value:** $z_{0.95} = 1.6449$.
+- **$ME_{90} = 1.6449 \cdot 0.0460 \approx 0.0757$.**
+- **$CI_{90}(\delta) = 0.222 \pm 0.0757 = [0.147,\,0.298]$.**
+
+**Interpretation.** With 90% confidence the true gap $p_1 - p_2$ lies between $14.7$ and $29.8$ percentage points in favour of the NorthWest region. The interval is **strictly positive** ($0 \notin [0.147, 0.298]$) ⇒ at the 10% level the two regional proportions are **not** plausibly equal, and the NorthWest share is the larger of the two.
 
 ```r
-# Sample sizes and success counts
-n_M <- 850;  x_M <- 650
-n_F <- 650;  x_F <- 391
+n1 <- 278;  p1 <- 0.640
+n2 <- 189;  p2 <- 0.418
+# CLT validity check (rule of 5)
+n1*p1;  n1*(1-p1);  n2*p2;  n2*(1-p2)      # 178 ; 100 ; ~79 ; ~110  -- all >> 5
+dhat    <- p1 - p2;                  dhat    # 0.222
+SE_diff <- sqrt( p1*(1-p1)/n1 + p2*(1-p2)/n2 )
+SE_diff                                       # ~ 0.0460
+z90     <- qnorm(0.95);              z90      # 1.6449
+ME90    <- z90 * SE_diff;            ME90     # ~ 0.0757
+c(dhat - ME90, dhat + ME90)                   # [0.147, 0.298]
 
-phat_M <- x_M / n_M;  phat_M       # 0.7647
-phat_F <- x_F / n_F;  phat_F       # 0.6015
-dhat   <- phat_M - phat_F;  dhat   # 0.1632
+# Course helper (BAS package):
+# CI.diffprop(x, y, success = "expensive", conf.level = 0.90)
+# Base R equivalent (Wilson, slightly different formula):
+# prop.test(c(round(p1*n1), round(p2*n2)), c(n1, n2),
+#           conf.level = 0.90, correct = FALSE)$conf.int
 ```
 
-</details>
+**Reading the margin of error backwards.** Just as for one-mean and one-proportion CIs, the Wald CI is symmetric around $\hat\delta$, so $\hat\delta = (L+U)/2$, $ME = (U-L)/2$, and $\widehat{SE} = ME/z$. From any printed CI we recover the point estimate, the half-width and the SE without raw data.
 
----
+**Effect of changing the confidence level.** $\widehat{SE}$ does not depend on $\alpha$; only the reliability factor does. At $1-\alpha = 99\%$, $z_{0.995}/z_{0.95} = 2.576/1.645 \approx 1.57$ ⇒ the CI grows by about $57\%$ in width. On our dataset: $CI_{99} = 0.222 \pm 2.576\cdot 0.0460 = 0.222 \pm 0.1185 = [0.103,\,0.340]$ — still excludes 0, so the regional gap survives a stricter confidence level.
+
+**Effect of changing the sample sizes.** $\widehat{SE} \propto \sqrt{1/n_A + 1/n_B}$ at fixed $\hat p$'s — quadrupling **both** sample sizes halves the SE and halves the CI width; halving the desired width quadruples both required sample sizes (see subpart (b) for the explicit planning formula). Imbalanced $n$'s waste precision: if one sample is small, $\widehat{SE}$ is dominated by its $\hat p_i(1-\hat p_i)/n_i$ term regardless of how large the other sample is.
+
+![Master illustration — 90% Wald CI for the difference of two proportions](statistics/images/master/master_g13d_ai.png)
+
+</details>
 
 <details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> Part (2) — Standard error of $\hat p_M - \hat p_F$</summary>
+<summary>(b) Sample-size planning for a diff-prop CI (worst-case formula)</summary>
 
-Under independence, the variance of a difference equals the sum of the variances:
-$$\operatorname{Var}(\hat p_M - \hat p_F) \;=\; \operatorname{Var}(\hat p_M) + \operatorname{Var}(\hat p_F) \;=\; \frac{p_M(1-p_M)}{n_M} + \frac{p_F(1-p_F)}{n_F}.$$
-There is **no covariance term** because the two samples are drawn from disjoint groups — this is the structural simplification that the paired case (g13e) does not enjoy. Since the population $p_i$ are unknown, plug in the sample proportions to get the *estimated* SE:
-$$\widehat{SE}(\hat\delta) \;=\; \sqrt{\frac{\hat p_M(1-\hat p_M)}{n_M} + \frac{\hat p_F(1-\hat p_F)}{n_F}}.$$
+Pre-data, fix a target half-width $m$ at confidence $1-\alpha$ and **balanced** sample sizes $n_A = n_B = n$. Inverting the ME formula gives
+$$ME \;=\; z_{1-\alpha/2}\,\sqrt{\frac{p_A(1-p_A) + p_B(1-p_B)}{n}} \;\le\; m \;\Longleftrightarrow\; n \;\ge\; \left(\frac{z_{1-\alpha/2}}{m}\right)^{\!2}\,[p_A(1-p_A) + p_B(1-p_B)].$$
 
-Numerically:
-$$\frac{0.7647\cdot 0.2353}{850} \approx 2.117\cdot 10^{-4}, \qquad \frac{0.6015\cdot 0.3985}{650} \approx 3.688\cdot 10^{-4},$$
-$$\widehat{SE}(\hat\delta) \;=\; \sqrt{2.117\cdot 10^{-4} + 3.688\cdot 10^{-4}} \;=\; \sqrt{5.805\cdot 10^{-4}} \;\approx\; 0.02409.$$
+Since $p_A, p_B$ are unknown at the design stage, take the **worst case** $p_A = p_B = 0.5$ which maximises $p(1-p)$ at $0.25$, so the bracket is $\le 0.5$:
 
-**Why the female group contributes a larger variance term.** $\hat p_F \approx 0.60$ is closer to $0.5$ than $\hat p_M \approx 0.76$, so $\hat p_F(1-\hat p_F) \approx 0.240$ versus $\hat p_M(1-\hat p_M) \approx 0.180$ — and at the same time $n_F = 650 < n_M = 850$. Both effects push the female contribution up.
+$$\boxed{\;\;n \;\ge\; \dfrac{1}{2}\left(\dfrac{z_{1-\alpha/2}}{m}\right)^{\!2}\;\;}\qquad (\text{per group, worst case}\ p_A=p_B=0.5)$$
+
+Round **up** to the next integer. This is *twice* the one-proportion worst-case formula $n \ge (z/(2m))^2$ of `g13b` — diff-prop spends $n$ on each of two samples to estimate one extra quantity.
+
+**Worked numbers** for a 90% CI of half-width $m = 0.03$ on the running dataset's parameter:
+$$n \;\ge\; \tfrac{1}{2}(1.6449/0.03)^2 \;=\; \tfrac{1}{2}\cdot 3006.5 \;\approx\; 1503.2 \;\Longrightarrow\; n = 1504 \text{ per group}.$$
+
+With **pilot info** $\hat p_1 \approx 0.640,\,\hat p_2\approx 0.418$ (and assuming the pilot proportions are good design-stage proxies) the bracket is $0.640\cdot 0.360 + 0.418\cdot 0.582 \approx 0.4737$ instead of $0.5$ — saving roughly $5\%$ of the worst-case $n$. The saving is largest when both pilot $\hat p_i$ are far from $0.5$ (e.g. each near $0.1$ saves $\approx 28\%$).
 
 ```r
-SE_diff <- sqrt( phat_M*(1-phat_M)/n_M + phat_F*(1-phat_F)/n_F )
-SE_diff                            # ~ 0.02409
+m <- 0.03;  z <- qnorm(0.95)
+# Worst case (no prior info)
+n_wc <- 0.5 * (z/m)^2;  ceiling(n_wc)        # 1504 per group
+# Pilot
+p1 <- 0.640;  p2 <- 0.418
+bracket <- p1*(1-p1) + p2*(1-p2)
+n_pilot <- (z/m)^2 * bracket;  ceiling(n_pilot)   # ~ 1424
 ```
 
-</details>
+The mean-side analogue (worst case for one-mean planning) lives in **`g13a` (c)**, the one-proportion analogue in **`g13b` (b)**.
 
----
+</details>
 
 <details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> Part (3) — Two-sided 95% Wald CI for $p_M - p_F$</summary>
+<summary>(c) Side-by-side: CI SE (unpooled) vs Test SE (pooled) — the G13 ↔ G14 split</summary>
 
-By the CLT, for large $n_M, n_F$,
-$$\frac{\hat\delta - \delta}{\widehat{SE}(\hat\delta)} \;\overset{a}{\sim}\; \mathcal{N}(0,1) \quad\Longrightarrow\quad \delta \in \hat\delta \pm z_{1-\alpha/2}\,\widehat{SE}(\hat\delta) \text{ with probability } 1-\alpha.$$
-At 95% confidence, $z_{0.975} \approx 1.96$, so
-$$ME_{95\%} \;=\; 1.96\cdot 0.02409 \;\approx\; 0.04722,$$
-$$CI_{95\%}(\delta) \;=\; 0.1632 \pm 0.04722 \;=\; [0.1159,\,0.2104].$$
+The two formulas look almost identical and **both** live in the universal templates of `g13a` and `g14a` — but they plug in different probabilities. Memorise this table once:
 
-**Interpretation.** With 95% confidence, the true gap $p_M - p_F$ lies between **11.6 and 21.0 percentage points** in favour of males. The interval sits **entirely above 0** — equality of the two population proportions is rejected at the 5% level.
+| Quantity | **CI for $p_A - p_B$** (here, g13d) | **Test of $H_0: p_A = p_B$** (g14b) |
+|---|---|---|
+| Estimator | $\hat p_A - \hat p_B$ | $\hat p_A - \hat p_B$ |
+| SE formula | $\widehat{SE}_{\text{CI}} = \sqrt{\dfrac{\hat p_A(1-\hat p_A)}{n_A} + \dfrac{\hat p_B(1-\hat p_B)}{n_B}}$ &nbsp; (**unpooled**, separate $\hat p_i$) | $\widehat{SE}_{H_0} = \sqrt{\hat p_{\text{pool}}(1-\hat p_{\text{pool}})\!\left(\dfrac{1}{n_A} + \dfrac{1}{n_B}\right)}$ &nbsp; (**pooled**, common $\hat p$) |
+| Pooled proportion | — | $\hat p_{\text{pool}} = \dfrac{X_A + X_B}{n_A + n_B}$ |
+| Critical-value family | $z_{1-\alpha/2}$ | $z_{1-\alpha/2}$ |
+| When to use | Estimating *how big* the gap is | Testing whether the gap is *zero* |
 
-```r
-z95 <- qnorm(0.975);  z95          # 1.95996
-ME95 <- z95 * SE_diff;  ME95       # ~ 0.04722
-CI95 <- c(dhat - ME95, dhat + ME95)
-CI95                               # ~ [0.1159, 0.2104]
+**Why two SEs?** Both are correct choices of where to evaluate the Bernoulli variances $p_i(1-p_i)$:
+- For a **CI**, we want a SE that does not assume any particular value of $\delta$ — the natural and only choice is the **plug-in** $\hat p_i$ for each group separately (Slutsky justifies it asymptotically).
+- For a **test** of $H_0: p_A = p_B$, we are *conditioning on $H_0$ being true*, so under $H_0$ both populations share a single common $p$ that is best estimated by **pooling** all $n_A + n_B$ observations: $\hat p_{\text{pool}} = (X_A+X_B)/(n_A+n_B)$. This sharpens the null distribution and is the textbook prescription.
 
-# Same via course helper if available
-# CI.diffprop(x = sample_M, y = sample_F, success = "heavy",
-#             conf.level = 0.95)
-```
+**Numerical illustration on the running dataset.** Successes are $X_1 = 178$ (rounding $278\cdot 0.640$) and $X_2 \approx 79$ ($189\cdot 0.418$), so $\hat p_{\text{pool}} = (178+79)/(278+189) = 257/467 \approx 0.5503$ and
+$$\widehat{SE}_{H_0} \;=\; \sqrt{0.5503\cdot 0.4497\cdot (1/278 + 1/189)} \;=\; \sqrt{0.2475\cdot 0.008891} \;\approx\; 0.0469.$$
+Compare with $\widehat{SE}_{\text{CI}} \approx 0.0460$ from subpart (a) — they differ by about $2\%$ here (small because $\hat p_1$ and $\hat p_2$ straddle $0.5$ and the data are not far from a common $p$). For a CI we *must* use $0.0460$; for a $z$-test of $H_0: p_1 = p_2$ we *must* use $0.0469$. The discrepancy is small in this dataset but it grows when $\hat p_A$ and $\hat p_B$ are very different.
 
-![Master illustration](statistics/images/master/master_g13d_ai.png)
+> **Consequence for the CI ⇄ test duality.** For every *other* row of the universal table, the CI and the two-sided test give exactly identical decisions ($\theta_0 \in CI \iff$ fail to reject). For two proportions this duality is **broken numerically**: the CI uses $\widehat{SE}_{\text{CI}}$ and the test uses $\widehat{SE}_{H_0}$, so the two procedures can in principle disagree on borderline cases. They usually agree to two decimals; when they do not, *follow the rule of each procedure* (CI with unpooled, test with pooled) — do not "fix" the discrepancy by mixing formulas.
+
+The one-proportion analogue of this CI/test SE split (Wald SE $\hat p(1-\hat p)/n$ vs null SE $p_0(1-p_0)/n$) is treated in **`g13b` (d)**.
 
 </details>
-
----
 
 <details class="master-subpart">
-<summary><span class="tag tag-2plus">≥2 ex</span> Part (4) — Two-sided 99% CI and comparison with 95%</summary>
+<summary>(d) Cross-references and where each piece is reused</summary>
 
-Raising the confidence level only changes the reliability factor $z_{1-\alpha/2}$ (point estimate and SE are unchanged):
-$$z_{0.995} \approx 2.5758, \qquad ME_{99\%} \;=\; 2.5758\cdot 0.02409 \;\approx\; 0.06205,$$
-$$CI_{99\%}(\delta) \;=\; 0.1632 \pm 0.06205 \;=\; [0.1011,\,0.2252].$$
+- **Universal CI recipe and the master case table** — see **`g13a`** (rows 1–8 of the table; this entry owns row 7).
+- **One-mean CI** (rows 1–2, $\sigma$ known / unknown) — see **`g13a`**.
+- **One-proportion CI** (row 3) — see **`g13b`**. *Bridge:* in the diff-prop CI the SE is built from **two** one-proportion variance terms $\hat p_i(1-\hat p_i)/n_i$ summed under independence — read `g13b` for the per-group anatomy and for the rule-of-5 / Clopper–Pearson fallback when $n_i\hat p_i$ or $n_i(1-\hat p_i) < 5$.
+- **Difference of two means CI** (rows 4–6) — see **`g13c`**. Same "$\hat\delta \pm c\,\widehat{SE}$" template, three SEs instead of one (known $\sigma$ / pooled / Welch) and a $t$-critical value (with Levene deciding the SE row).
+- **Paired CI** (row 8) — see **`g13e`**. *Pitfall:* paired data require the within-pair SE $s_d/\sqrt n$; treating paired data as two independent samples and applying the unpooled SE of this entry over-states the SE whenever $\rho > 0$ — see `g13e` for the inflation factor and the reduction rule $d_i = x_i - y_i$.
+- **Two-sample hypothesis test for $p_A = p_B$** (the test counterpart of this CI) — see **`g14b`**. Same estimator $\hat p_A - \hat p_B$, **pooled** SE under $H_0$. The full warning about *not* mixing pooled and unpooled SEs lives in subpart (c) above.
 
-Width comparison:
-
-| Level | $z$ | ME | CI | Width |
-|---|---|---|---|---|
-| 95% | $1.960$ | $0.0472$ | $[0.1159,\,0.2104]$ | $0.0944$ |
-| 99% | $2.576$ | $0.0621$ | $[0.1011,\,0.2252]$ | $0.1241$ |
-
-The 99% CI is wider by a factor $2.576/1.960 \approx 1.314$ — **higher confidence costs precision linearly in $z$**. Both intervals still exclude 0, so the conclusion of part (3) is robust to a stricter confidence level: even at 99%, the gap cannot plausibly be 0 or favour females.
-
-```r
-z99  <- qnorm(0.995);  z99         # 2.5758
-ME99 <- z99 * SE_diff
-CI99 <- c(dhat - ME99, dhat + ME99)
-CI99                               # ~ [0.1011, 0.2252]
-```
+> **Bookmark.** Row 7 has only one CI formula (unpooled Wald). The single thing you must remember is **"CI = unpooled, test = pooled"** — and the four-counts CLT validity check. Everything else is the universal template of `g13a`.
 
 </details>
 
 ---
 
-<details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> Part (5) — Does the CI contain 0? Plausible-null interpretation</summary>
-
-The reasoning is the duality between CIs and two-sided tests of $H_0: \delta = 0$:
-$$0 \in CI_{1-\alpha}(\delta) \;\iff\; H_0\!: p_M = p_F \text{ is NOT rejected at level } \alpha.$$
-
-In our master dataset $0 \notin [0.1159, 0.2104]$, so the hypothesis "males and females buy heavy at the same rate" is **rejected at the 5% level**, and (since $0 \notin [0.1011, 0.2252]$) also **at the 1% level**. The data give strong evidence of a structural difference in reading behaviour by sex.
-
-**A counter-example.** If the female-sample success count had instead been $x_F = 480$ out of $n_F = 650$, we would get $\hat p_F \approx 0.7385$, $\hat\delta \approx 0.7647 - 0.7385 = 0.0262$, $\hat p_F(1-\hat p_F)/n_F \approx 0.7385\cdot 0.2615/650 \approx 2.972\cdot 10^{-4}$, hence $\widehat{SE} = \sqrt{2.117\cdot 10^{-4} + 2.972\cdot 10^{-4}} \approx 0.02256$, and the 95% CI $0.0262\pm 1.96\cdot 0.02256 = 0.0262 \pm 0.0442 = [-0.018,\,0.070]$ — now **containing 0**. The same procedure would conclude: "the data are compatible with $p_M = p_F$ at 5%". Whether 0 is inside the CI is the single most-cited summary of a two-sample proportion comparison.
-
-```r
-# Plausible-null check (master dataset)
-0 >= CI95[1] & 0 <= CI95[2]          # FALSE -> reject H0 at 5%
-0 >= CI99[1] & 0 <= CI99[2]          # FALSE -> reject H0 at 1%
-```
-
-</details>
-
----
-
-<details class="master-subpart">
-<summary>Part (6) — One-sided lower confidence bound</summary>
-
-If the bookstore only cares whether **male** heavy-reader share exceeds the female one (decisions like "should we tilt marketing budget toward male customers?"), a **one-sided** lower bound is more informative than a two-sided CI: it puts the entire miss-mass $\alpha$ into the upper tail of $\hat\delta$, so the lower endpoint is **higher** than the two-sided one at the same nominal level.
-
-At 95% one-sided confidence, $z_{0.95} = 1.6449$, so
-$$L_{95\%}^{\text{one-sided}} \;=\; \hat\delta - z_{0.95}\,\widehat{SE}(\hat\delta) \;=\; 0.1632 - 1.6449\cdot 0.02409 \;\approx\; 0.1632 - 0.03963 \;=\; 0.1236.$$
-**Statement.** "With 95% confidence, $p_M - p_F \ge 0.124$" — i.e., we are at least 95% confident the male share exceeds the female share by **at least 12.4 percentage points**.
-
-**Equivalence with the two-sided 90% CI.** The two-sided 90% CI puts $5\%$ in each tail, so its lower endpoint is identical to the one-sided 95% lower bound:
-$$L_{90\%}^{\text{two-sided}} \;=\; \hat\delta - z_{0.95}\,\widehat{SE}(\hat\delta) \;=\; 0.1236 \quad\checkmark$$
-This identity is a useful sanity check on R output: read the lower endpoint off a 90% two-sided CI to recover the 95% one-sided lower bound for free.
-
-```r
-L_one <- dhat - qnorm(0.95) * SE_diff;  L_one      # ~ 0.1236
-# Cross-check via 90% two-sided
-ME90 <- qnorm(0.95) * SE_diff
-c(dhat - ME90, dhat + ME90)                        # lower endpoint matches L_one
-```
-
-</details>
-
----
-
-<details class="master-subpart">
-<summary><span class="tag tag-2plus">≥2 ex</span> Part (7) — Validity check (CLT condition)</summary>
-
-The Wald CI relies on the joint normal approximation of $(\hat p_M, \hat p_F)$. Rule of thumb: for **each** sample,
-$$n_i \hat p_i \ge 5 \quad\text{AND}\quad n_i (1-\hat p_i) \ge 5.$$
-
-Master dataset:
-
-| Group | $n_i$ | $\hat p_i$ | $n_i\hat p_i$ | $n_i(1-\hat p_i)$ | OK? |
-|---|---|---|---|---|---|
-| Male | $850$ | $0.7647$ | $650$ | $200$ | yes (both $\gg 5$) |
-| Female | $650$ | $0.6015$ | $391$ | $259$ | yes (both $\gg 5$) |
-
-All four counts are in the hundreds — the normal approximation is **excellent**, and the Wald CI is fully trustworthy here.
-
-**When does it fail?** Very small $n_i$ combined with an extreme $\hat p_i$ (close to 0 or 1). In that regime, use exact methods such as the Wilson or Agresti–Coull CI for each proportion, or `prop.test` for the difference, both of which behave better in the tails. In our master dataset there is no need.
-
-```r
-# Master check (all four >= 5 ?)
-n_M * phat_M;  n_M * (1 - phat_M)      # 650 ; 200
-n_F * phat_F;  n_F * (1 - phat_F)      # 391 ; 259  -- all >> 5
-```
-
-</details>
-
----
-
-### Summary table (master dataset)
+### Summary table (running dataset, $\hat\delta = 0.222$, 90% CI)
 
 | Quantity | Value | Where |
-|---|---|---|
-| $\hat p_M$ | $0.7647$ | Part 1 |
-| $\hat p_F$ | $0.6015$ | Part 1 |
-| $\hat\delta = \hat p_M - \hat p_F$ | $0.1632$ | Part 1 |
-| $\widehat{SE}(\hat\delta)$ | $0.02409$ | Part 2 |
-| 95% CI for $\delta$ | $[0.1159,\,0.2104]$ | Part 3 |
-| 99% CI for $\delta$ | $[0.1011,\,0.2252]$ | Part 4 |
-| Is $0 \in$ CI? | No (at 95% or 99%) | Part 5 |
-| One-sided 95% lower bound | $0.1236$ | Part 6 |
-| CLT counts $(n_M\hat p_M,n_M(1{-}\hat p_M),n_F\hat p_F,n_F(1{-}\hat p_F))$ | $(650,\,200,\,391,\,259)$ — OK | Part 7 |
+|---|---:|---|
+| $\hat p_1$ (NorthWest), $n_1$ | $0.640$, $278$ | Setup |
+| $\hat p_2$ (NorthEast), $n_2$ | $0.418$, $189$ | Setup |
+| $\hat\delta = \hat p_1 - \hat p_2$ | $0.222$ | (a) |
+| Variance contributions $\hat p_i(1-\hat p_i)/n_i$ | $0.000829,\;0.001287$ | (a) |
+| Unpooled $\widehat{SE}_{\text{CI}}(\hat\delta)$ | $0.0460$ | (a) |
+| Critical value $z_{0.95}$ | $1.6449$ | (a) |
+| $ME_{90}$ | $0.0757$ | (a) |
+| **90% CI for $\delta$** | $[0.147,\;0.298]$ | (a) |
+| Is $0 \in$ CI? | **No** — reject $p_1=p_2$ at 10% | (a) |
+| 99% CI (same SE, $z_{0.995}=2.576$) | $[0.103,\;0.340]$ | (a) |
+| CLT counts $(n_i\hat p_i, n_i(1-\hat p_i))$ | $(178,100,79,110)$ — all $\ge 5$ | (a) |
+| Pooled SE (test only, $\hat p_{\text{pool}}\approx 0.550$) | $0.0469$ | (c) |
+| Sample-size planning ($m=0.03$, worst case) | $n \ge 1504$ per group | (b) |
+
+**One-line take-away.** Row 7 of the universal CI table: **unpooled** Wald CI $(\hat p_A - \hat p_B) \pm z_{1-\alpha/2}\sqrt{\hat p_A(1-\hat p_A)/n_A + \hat p_B(1-\hat p_B)/n_B}$, validity gated by all four counts $n_i\hat p_i, n_i(1-\hat p_i) \ge 5$. The pooled SE belongs to the **test** (`g14b`), *never* to the CI. Continue to **`g13e`** for paired data (row 8) and **`g14b`** for the hypothesis test on the same parameter.
 """,
     "images": ["statistics/images/master/master_g13d_ai.png"],
 }
 
 master_exercises["g13e_ci_paired"] = {
-    "title": "Master Exam — CI for paired mean (consolidated)",
-    "content": r"""**Setup.** A retail chain runs a targeted **TV-and-online advertising campaign** and wants to quantify its effect on store-level sales. A random sample of $n=23$ stores is selected; for each store the manager records the **weekly sales** (in €1000s) over two periods of equal length:
+    "title": "Master Exam — CI for paired mean (row 8: reduces to one-mean CI on differences)",
+    "content": r"""## Setup — running dataset for every numeric example below
+
+A retail chain runs a targeted **TV-and-online advertising campaign** and wants to quantify its effect on store-level sales. A random sample of $n=23$ stores is drawn; for each store the manager records the **weekly sales** (in €1000s) over two equal-length periods:
 
 - $X_i$ = sales in the week **before** the campaign,
 - $Y_i$ = sales in the week **after** the campaign.
 
-Because each store contributes *both* a "before" and an "after" value, the two columns are **matched by store** — i.e. they are *paired*, not independent. Define the within-store difference
+The two columns are **matched by store** — each store contributes *both* values — so the design is **paired**, not independent. Define the within-store difference
 $$D_i \;=\; Y_i - X_i \;=\; \text{Sales}_{\text{after},i} - \text{Sales}_{\text{before},i}.$$
-
-The chain's data analyst summarises the $n=23$ differences as
+The chain's analyst summarises the $n=23$ differences as
 $$\bar d \;=\; 10.1, \qquad s_d \;=\; 4.2, \qquad n \;=\; 23.$$
-*(Individual standard deviations $s_X, s_Y$ around 8.0 with strong within-store correlation $\rho \approx 0.86$ — see Part (e).)*
+*(Individual store-level SDs are $s_X \approx s_Y \approx 8.0$ with strong within-store correlation $\hat\rho \approx 0.86$ — see subpart (b).)*
 
-For most of this exercise the population variances are **unknown** and estimated from $s_d$. The goal is to estimate the population mean change $\mu_D = \mu_Y - \mu_X$ and decide whether the campaign **moved the needle**.
+We reuse this **one dataset** throughout the entry. The horizontal cells of this row run the same recipe on other matched-pair designs: pre/post survey of online spending (`5_4`, $n=315$, $\hat\rho=0.65$), Pre/Post productivity (`5_6d`, equal variances + $\hat\rho=0.58$), NA vs EU sales of the same Action game (`6_2a`, `6_2b`, `6_18b`, with $\hat\rho \approx 0.8$), FinSkills vs Skills on the same developer (`6_8c1`, $n=820$), before/after blood indicator on the same patient (`6_11a`, $n=25$, $r=0.6$), and dwell-time across two weeks in the same store (`6_17a`, $n=23$ with $s_{XY}=34.6$).
+
+---
+
+## This is **row 8** of the universal CI master table (see **`g13a`**)
+
+| # | Parameter | Setting | Estimate $\widehat\theta$ | $\widehat{SE}(\widehat\theta)$ | Critical value | df |
+|---|---|---|---|---|---|---|
+| **8** | $\mu_d = \mathbb E[D]$ (**paired**) | reduce to row 2 on $d_i = x_i - y_i$ | $\bar d = \frac{1}{n}\sum_i d_i$ | $s_d/\sqrt n$ | $t_{1-\alpha/2,\,n-1}$ | $n-1$ |
+
+There is **no separate paired-CI formula to memorise** — only the **reduction step** ($d_i = x_i - y_i$, compute $\bar d, s_d$ on the differences) and the **identification step** (recognising that the design is paired, not independent). After the reduction the problem is *literally* the one-mean $t$-CI of row 2.
+
+### 3-step procedure for every paired CI exam question
+
+1. **Form the within-pair differences** $d_i = x_i - y_i$ (sign convention: pick one direction and stick to it — usually "Post − Pre" so positive means an increase).
+2. **Compute $\bar d, s_d, n$** on the differences. If only $\bar x, \bar y, s_X, s_Y, \hat\rho$ are given, recover $s_d^2 = s_X^2 + s_Y^2 - 2\hat\rho\, s_X s_Y$ (see subpart (c)).
+3. **Plug into row 2 of the universal table** ($t_{n-1}$): $\bar d \pm t_{1-\alpha/2,\,n-1}\,(s_d/\sqrt n)$. Done.
+
+> ### **WARNING — NEVER use the independent-samples diff-means CI (g13c) on paired data.**
+> The independent SE $\sqrt{s_X^2/n + s_Y^2/n}$ **ignores the within-pair covariance** $\mathrm{Cov}(X_i, Y_i)$. For paired designs with positive correlation $\rho > 0$ (the typical matched case), the correct paired variance $\sigma_X^2 + \sigma_Y^2 - 2\rho\sigma_X\sigma_Y$ is **strictly smaller** than the independent baseline $\sigma_X^2 + \sigma_Y^2$, so treating paired data as independent **inflates** the SE and widens the CI — a real loss of power. On the running dataset the inflation factor is $\times 2.69$ (see subpart (b)); on `6_2a`/`6_2b` it is $\approx \times 3.6$; on `6_8c1` it is $\approx \times 1.5$. The mistake is *procedural*, not numerical, and is the single most common G13c ↔ G13e error in the course.
 
 ---
 
 <details class="master-subpart" open>
-<summary><span class="tag tag-exam">EXAM</span> Part (a) — Why paired? Same unit, twice.</summary>
+<summary><span class="tag tag-exam">EXAM</span> (a) <strong>Case 8</strong> — Paired CI as one-mean CI on the differences</summary>
 
-Each store has its own intrinsic level (location, footfall, mix of products), and **that** store-level heterogeneity is the dominant source of variation in raw weekly sales. If we treated the 23 "before" values and the 23 "after" values as two **independent** samples we would inherit *all* of that between-store noise in both $\bar X$ and $\bar Y$, and the SE of $\bar Y - \bar X$ would balloon.
+**Setting.** Pairs $(X_i, Y_i)$ for $i = 1,\ldots,n$ are i.i.d. across $i$ (random sample of units), with *no* independence assumption *within* a pair. Define $D_i = Y_i - X_i$. Then $D_1,\ldots,D_n$ are i.i.d. with $\mathbb E[D_i] = \mu_Y - \mu_X =: \mu_d$ and
+$$\Var(D_i) \;=\; \Var(Y_i) + \Var(X_i) - 2\,\Cov(X_i, Y_i) \;=\; \sigma_Y^2 + \sigma_X^2 - 2\,\rho\,\sigma_X\sigma_Y.$$
+The within-pair covariance $\rho\sigma_X\sigma_Y$ does **not vanish** because $X_i, Y_i$ are measured on the *same* unit (same store, same developer, same patient, same game). The mean of the differences has variance
+$$\Var(\bar D) \;=\; \frac{\Var(D_i)}{n} \;=\; \frac{\sigma_X^2 + \sigma_Y^2 - 2\rho\sigma_X\sigma_Y}{n}.$$
 
-The paired design avoids it. By **subtracting within store**, $D_i = Y_i - X_i$, the store-specific level cancels and only the *within-store change* survives. Formally, if we model $X_i = \mu_X + u_i + \varepsilon_i^X$ and $Y_i = \mu_Y + u_i + \varepsilon_i^Y$ with $u_i$ the store effect, then
-$$D_i \;=\; (\mu_Y - \mu_X) + (\varepsilon_i^Y - \varepsilon_i^X),$$
-and the noisy $u_i$ has been **subtracted out**. The estimator
-$$\bar D \;=\; \frac{1}{n}\sum_{i=1}^n D_i \;=\; \bar Y - \bar X$$
-is unbiased for $\mu_D = \mu_Y - \mu_X$ and inherits only the residual within-store variance.
+**Pivot.** Replacing $\Var(D_i)$ by its sample analogue $s_d^2 = \tfrac{1}{n-1}\sum_i (d_i - \bar d)^2$, exactly the one-mean argument of row 2 applies:
+$$T \;=\; \frac{\bar D - \mu_d}{s_d/\sqrt n} \;\sim\; t_{n-1} \qquad (\text{exact under }D_i \sim \mathcal N,\ \text{approx by CLT for }n \gtrsim 30).$$
 
-**Assumptions for inference.** The pairs $(X_i, Y_i)$ are i.i.d. across stores (random sample). For small $n=23$ we additionally need $D_i$ approximately **normal** so that $\bar D$ has a $t_{n-1}$ pivot; with larger $n$ the CLT would cover this automatically.
+**Deriving the CI.** Inverting $\Pr(-t_{1-\alpha/2,n-1} \le T \le t_{1-\alpha/2,n-1}) = 1-\alpha$ for $\mu_d$:
 
-</details>
+$$\boxed{\;\;CI_{1-\alpha}(\mu_d) \;=\; \bar d \;\pm\; t_{1-\alpha/2,\,n-1}\,\frac{s_d}{\sqrt n}\;\;}$$
 
----
+This is row 2 of the universal table, applied verbatim to the new variable $D$. The $z$-vs-$t$ rationale, the meaning of "$1-\alpha$", the symmetry around $\bar d$ ($\hat\theta = (L+U)/2$, $ME = (U-L)/2$) and the $\sqrt n$ collapse of the width are all stated *once and for all* in **`g13a`** — not re-derived here.
 
-<details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> Part (b) — Compute $\bar d$ and $s_d$ from the differences.</summary>
+**Worked numbers on the running dataset** with $\bar d = 10.1$, $s_d = 4.2$, $n = 23$, $\alpha = 0.05$:
 
-Given the summary statistics:
-$$\bar d \;=\; \bar y - \bar x \;=\; 10.1 \quad (\text{€1000s per week}), \qquad s_d \;=\; 4.2.$$
+- Paired SE: $\widehat{SE}(\bar D) = s_d/\sqrt n = 4.2/\sqrt{23} \approx 0.876$.
+- Critical value: $t_{0.975,\,22} \approx 2.0739$.
+- $ME_{95} = 2.0739 \cdot 0.876 \approx 1.816$.
+- $CI_{95}(\mu_d) = 10.1 \pm 1.816 = [8.28,\;11.92]$ (in €1000s/week).
 
-A few sanity remarks:
-1. **Sign.** $\bar d > 0$ means post-campaign weekly sales are on average **higher** than pre-campaign — the direction matches the chain's hope.
-2. **$s_d$ is the spread of the *within-store* differences**, *not* of raw sales. A store with weekly sales fluctuating by $\pm 8$ around its mean can still have a very *stable* week-to-week change of, say, $+10 \pm 4$. That's exactly what pairing exploits.
-3. **No covariance term in $s_d$ once differences are formed.** If instead we had $s_X$ and $s_Y$ separately, we'd recover $s_d^2$ via $s_d^2 = s_X^2 + s_Y^2 - 2\,s_{XY}$ (see Part (e)).
+Three levels side-by-side:
+
+| Level | $t_{1-\alpha/2,\,22}$ | $ME = t\cdot SE$ | CI for $\mu_d$ |
+|---|---:|---:|---|
+| 90% | $1.7171$ | $1.504$ | $[\,8.60,\;11.60\,]$ |
+| 95% | $2.0739$ | $1.816$ | $[\,8.28,\;11.92\,]$ |
+| 99% | $2.8188$ | $2.469$ | $[\,7.63,\;12.57\,]$ |
+
+All three intervals lie strictly **above $0$** — $\mu_d = 0$ is incompatible with the data at every conventional level. Conclusion: *with 99% confidence, the campaign raised weekly store sales by between €7.6k and €12.6k per store.*
 
 ```r
 n     <- 23
-dbar  <- 10.1          # mean of the within-store differences
-sd_d  <- 4.2           # sample SD of the differences
-```
+dbar  <- 10.1                                # mean of the within-store differences
+sd_d  <- 4.2                                 # sample SD of the differences
+se    <- sd_d / sqrt(n);             se      # ~ 0.876
+tcrit <- qt(0.975, df = n-1);        tcrit   # 2.0739
+ME    <- tcrit * se;                 ME      # 1.816
+c(dbar - ME, dbar + ME)                      # 95% CI -> [8.28, 11.92]
 
-</details>
+# 90% and 99% in one shot
+for (cl in c(0.90, 0.95, 0.99)) {
+  tc <- qt((1+cl)/2, df = n-1)
+  print(c(level = cl, lo = dbar - tc*se, hi = dbar + tc*se))
+}
 
----
-
-<details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> Part (c) — Standard error of the paired mean.</summary>
-
-Treat $\bar D$ as a one-sample mean on the *differences*. The estimated standard error is
-$$\widehat{SE}_{\text{paired}}(\bar D) \;=\; \frac{s_d}{\sqrt n} \;=\; \frac{4.2}{\sqrt{23}} \;=\; \frac{4.2}{4.7958} \;\approx\; \boxed{0.876}.$$
-
-That's the **only** SE we need: once $D_i$ is formed, the problem is *literally* a one-sample CI for $\mu_D$.
-
-```r
-se_paired <- sd_d / sqrt(n);   se_paired         # ~ 0.876
-```
-
-</details>
-
----
-
-<details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> Part (d) — Why the paired SE is so small: $\Var(X-Y) = \Var(X)+\Var(Y) - 2\Cov(X,Y)$.</summary>
-
-To see the *mechanism* of the SE shrinkage, expand the variance of the difference of two random variables:
-$$\Var(X - Y) \;=\; \Var(X) + \Var(Y) - 2\,\Cov(X, Y) \;=\; \sigma_X^2 + \sigma_Y^2 - 2\rho\,\sigma_X\sigma_Y.$$
-
-Three regimes for the same $\sigma_X, \sigma_Y$:
-
-| $\rho$ | Variance of $X-Y$ | Comment |
-|---|---|---|
-| $\;\;\rho = 0$ (independent) | $\sigma_X^2 + \sigma_Y^2$ | textbook independent-samples baseline |
-| $\;\;\rho > 0$ (paired, positive) | $\sigma_X^2 + \sigma_Y^2 - 2\rho\sigma_X\sigma_Y$ | **shrinks** the variance |
-| $\;\;\rho = 1$ (perfectly aligned) | $(\sigma_X - \sigma_Y)^2$ | shrinks to (almost) zero |
-
-In our data, $\rho \approx 0.86$ between pre- and post-campaign weekly sales: high-traffic stores stay high-traffic, low-traffic stays low — so most of $\sigma_X^2$ is **cancelled** by $2\rho\sigma_X\sigma_Y$ in the variance of the difference. That cancellation **is** the paired advantage.
-
-Equivalently, on the *mean* of differences,
-$$\Var(\bar D) \;=\; \frac{\sigma_X^2 + \sigma_Y^2 - 2\rho\sigma_X\sigma_Y}{n}.$$
-
-</details>
-
----
-
-<details class="master-subpart">
-<summary><span class="tag tag-2plus">≥2 ex</span> Part (e) — Paired vs wrong-independent SE on this dataset.</summary>
-
-Suppose (for the comparison) $s_X \approx s_Y \approx 8.0$ (typical store-level week-to-week SD) with sample covariance $s_{XY}$ implied by $s_d^2 = s_X^2 + s_Y^2 - 2 s_{XY}$:
-$$s_d^2 = 4.2^2 = 17.64, \qquad s_X^2 + s_Y^2 = 64 + 64 = 128 \;\;\Rightarrow\;\; s_{XY} = \tfrac{128 - 17.64}{2} \approx 55.18,$$
-giving sample correlation $\hat\rho = s_{XY}/(s_X s_Y) = 55.18/64 \approx 0.862$. Now compare:
-
-| SE flavour | Formula | Value | Penalty |
-|---|---|---|---|
-| **Paired** (correct) | $s_d/\sqrt n = 4.2/\sqrt{23}$ | $0.876$ | $\times 1$ baseline |
-| **Independent** (wrong) | $\sqrt{(s_X^2+s_Y^2)/n} = \sqrt{128/23}$ | $2.359$ | $\times 2.69$ |
-
-The wrong analysis would have inflated the SE by **a factor of 2.7** — and the CIs by the same factor (next part). That's the cost of forgetting the design.
-
-```r
-sx <- 8.0;  sy <- 8.0
-# Recover the implied covariance and correlation
-sxy <- ( (sx^2 + sy^2) - sd_d^2 ) / 2;   sxy        # ~ 55.18
-rho <- sxy / (sx * sy);                  rho        # ~ 0.862
-# Wrong independent SE for the same data
-se_indep <- sqrt( (sx^2 + sy^2) / n );   se_indep   # ~ 2.359
-se_indep / se_paired                                 # ~ 2.69
-```
-
-</details>
-
----
-
-<details class="master-subpart">
-<summary><span class="tag tag-4plus">≥4 ex</span> Part (f) — $t$-CI: 90%, 95%, 99%.</summary>
-
-For small $n=23$ and unknown variance, the pivot is
-$$T \;=\; \frac{\bar D - \mu_D}{s_d/\sqrt n} \;\sim\; t_{n-1} \;=\; t_{22}.$$
-The two-sided $(1-\alpha)$ CI is
-$$\bar d \;\pm\; t_{1-\alpha/2,\,22}\,\frac{s_d}{\sqrt n}, \qquad SE_{\text{paired}} = 0.876.$$
-
-| Level | $\alpha/2$ | $t_{1-\alpha/2,\,22}$ | $ME = t\cdot SE$ | CI for $\mu_D$ |
-|---|---|---|---|---|
-| 90% | 0.05  | 1.7171 | $1.7171\cdot 0.876 \approx 1.504$ | $[\,8.596,\;11.604\,]$ |
-| 95% | 0.025 | 2.0739 | $2.0739\cdot 0.876 \approx 1.816$ | $[\,8.284,\;11.916\,]$ |
-| 99% | 0.005 | 2.8188 | $2.8188\cdot 0.876 \approx 2.469$ | $[\,7.631,\;12.569\,]$ |
-
-Higher confidence ⇒ larger $t$ ⇒ wider CI, but **all three intervals lie entirely above zero** (a clean rejection of "no effect" at all three levels).
-
-```r
-dbar    <- 10.1;   sd_d <- 4.2;   n <- 23
-se      <- sd_d / sqrt(n);   se                     # ~ 0.876
-t90 <- qt(0.95, df = n-1);   t90                    # 1.7171
-t95 <- qt(0.975, df = n-1);  t95                    # 2.0739
-t99 <- qt(0.995, df = n-1);  t99                    # 2.8188
-
-c(dbar - t90*se, dbar + t90*se)                     # 90% CI
-c(dbar - t95*se, dbar + t95*se)                     # 95% CI
-c(dbar - t99*se, dbar + t99*se)                     # 99% CI
-
-# One-shot equivalent (if raw paired data are available):
+# One-shot equivalent on raw paired data (after, before):
 # CI.diffmean(x = after, y = before, type = "paired", conf.level = 0.95)
-# t.test(after, before, paired = TRUE, conf.level = 0.95)
+# t.test(after, before, paired = TRUE, conf.level = 0.95)$conf.int
 ```
 
-![Master illustration](statistics/images/master/master_g13e_ai.png)
+**Assumptions.** (i) The pairs are i.i.d. across units — design-level requirement, not testable from one sample. (ii) For small $n$ (here $n=23$), $D_i$ approximately **normal** — *not* $X_i$ or $Y_i$ separately, only the differences. For larger $n$ (e.g. `5_4` with $n=315$, `6_8c1` with $n=820$, `6_2b`/`6_18b` with the full Action subset) the CLT makes (ii) automatic and $t_{n-1} \approx z$.
+
+![Master illustration — paired CI is one-mean CI on the differences](statistics/images/master/master_g13e_ai.png)
 
 </details>
 
----
-
 <details class="master-subpart">
-<summary><span class="tag tag-2plus">≥2 ex</span> Part (g) — Side-by-side: paired (correct) vs independent (wrong) CIs.</summary>
+<summary><span class="tag tag-2plus">≥2 ex</span> (b) Paired vs independent — SE ratio and what $\rho$ buys you</summary>
 
-Using the same point estimate $\bar d = 10.1$ but the **wrong** SE $= 2.359$:
+The whole point of pairing is the $-2\rho\sigma_X\sigma_Y$ term in $\Var(D_i)$. Compare the two SE flavours at fixed $\sigma_X = \sigma_Y = \sigma$:
 
-| Level | $t_{1-\alpha/2,\,22}$ | Paired ME / CI | Wrong-indep ME / CI |
+| SE flavour | Variance of $\bar D$ | SE of $\bar D$ | Inflation vs paired |
 |---|---|---|---|
-| 90% | 1.7171 | $1.50$ / $[8.60,\,11.60]$ | $4.05$ / $[6.05,\,14.15]$ |
-| 95% | 2.0739 | $1.82$ / $[8.28,\,11.92]$ | $4.89$ / $[5.21,\,14.99]$ |
-| 99% | 2.8188 | $2.47$ / $[7.63,\,12.57]$ | $6.65$ / $[3.45,\,16.75]$ |
+| **Paired** (correct) | $\dfrac{2\sigma^2(1-\rho)}{n}$ | $\sigma\sqrt{2(1-\rho)/n}$ | $\times 1$ baseline |
+| **Independent** (wrong here) | $\dfrac{2\sigma^2}{n}$ | $\sigma\sqrt{2/n}$ | $\times \dfrac{1}{\sqrt{1-\rho}}$ |
 
-The wrong intervals are about $2.7\times$ wider. **Crucially**, even the wrong 99% CI still excludes $0$ here because the effect is large — but in a marginal case the wrong analysis can flip the conclusion from "significant" to "inconclusive". The lesson is procedural, not numerical: *paired design $\Rightarrow$ paired SE*.
+The ratio $\widehat{SE}_{\text{indep}}/\widehat{SE}_{\text{paired}} = 1/\sqrt{1-\rho}$ blows up as $\rho \uparrow 1$:
+
+| $\rho$ | $1-\rho$ | Inflation $= 1/\sqrt{1-\rho}$ | Effective $n$ lost |
+|---:|---:|---:|---|
+| $0.0$ | $1.00$ | $\times 1.00$ | none (paired = indep) |
+| $0.5$ | $0.50$ | $\times 1.41$ | half of $n$ |
+| $0.7$ | $0.30$ | $\times 1.83$ | $70\%$ of $n$ |
+| $0.86$ | $0.14$ | $\times 2.69$ | $86\%$ of $n$ |
+| $0.9$ | $0.10$ | $\times 3.16$ | $90\%$ of $n$ |
+| $0.99$ | $0.01$ | $\times 10.0$ | $99\%$ of $n$ |
+
+**On the running dataset** ($\hat\rho \approx 0.86$): the wrong independent SE is $\sqrt{(s_X^2 + s_Y^2)/n} = \sqrt{128/23} \approx 2.359$ vs the correct paired SE $\approx 0.876$, a $\times 2.69$ inflation — and the CIs would inflate by the same factor (e.g. the wrong 95% CI would be $10.1 \pm 4.89 = [5.21,\,14.99]$ instead of $[8.28,\,11.92]$). Even here the wrong CI still excludes $0$ because the effect is large, but in marginal cases the wrong analysis flips "significant" $\to$ "inconclusive". The lesson is procedural: **paired design $\Rightarrow$ paired SE.**
+
+**Derivation of $s_d^2$ from $s_X, s_Y, \hat\rho$ (when raw differences not given).** From $\Var(X-Y) = \Var(X) + \Var(Y) - 2\Cov(X,Y)$, the sample analogue is
+$$s_d^2 \;=\; s_X^2 + s_Y^2 - 2\,\hat\rho\,s_X s_Y \;=\; s_X^2 + s_Y^2 - 2\,s_{XY},$$
+exactly the formula used in `5_4`, `5_6d`, `6_11a`, and `6_17a`. The covariance term is the **only** difference from the independent-samples formula.
+
+```r
+sx <- 8.0;  sy <- 8.0;  n <- 23
+# Recover implied sample covariance and correlation from sd_d
+sxy <- ((sx^2 + sy^2) - 4.2^2) / 2;   sxy        # ~ 55.18
+rho <- sxy / (sx * sy);               rho        # ~ 0.862
+# Paired vs wrong-independent SE
+se_paired <- sqrt(4.2^2 / n);         se_paired  # 0.876
+se_indep  <- sqrt((sx^2 + sy^2) / n); se_indep   # 2.359
+se_indep / se_paired                              # 2.69
+# General inflation factor 1/sqrt(1 - rho)
+1 / sqrt(1 - rho)                                 # 2.69 (matches)
+```
+
+The independent-samples CI for the difference of means (Welch / pooled, both $t$-based) lives in **`g13c`**. The hypothesis-test counterpart of *this* entry — testing $H_0:\mu_d = 0$ on the paired differences — is **`g14c`**.
 
 </details>
-
----
 
 <details class="master-subpart">
-<summary><span class="tag tag-4plus">≥4 ex</span> Part (h) — Decision: does the campaign work?</summary>
+<summary>(c) Paired CI from raw data vs from summary $(\bar d, s_d, n)$</summary>
 
-All three CIs lie strictly **above $0$**:
-$$[8.60,\,11.60]_{90\%} \;\subset\; [8.28,\,11.92]_{95\%} \;\subset\; [7.63,\,12.57]_{99\%}.$$
-So $\mu_D = 0$ is **incompatible** with the data at every conventional level. We conclude:
+The data arrive in two formats. The reduction $d_i = x_i - y_i$ and the formula $\bar d \pm t_{1-\alpha/2,n-1}\,s_d/\sqrt n$ are identical — only the input differs.
 
-> *With 99% confidence, the targeted advertising campaign raised weekly store sales by between **€7.6k and €12.6k per store**.*
+**(c1) Raw paired columns** (as in `6_2a`, `6_2b`, `6_8c1`, `6_18b`).
+```r
+# Generic template: x = post, y = pre (or x = NA_Sales, y = EU_Sales, etc.)
+d     <- x - y
+n     <- length(d)
+dbar  <- mean(d)
+sd_d  <- sd(d)
+se    <- sd_d / sqrt(n)
+tcrit <- qt((1 + 0.95)/2, df = n-1)
+c(dbar - tcrit*se, dbar + tcrit*se)
 
-If, hypothetically, the 95% CI had been $[-1.2,\,3.0]$ — i.e. **containing $0$** — the conclusion would have been the opposite: the data would be consistent with no change, and the campaign's effect could not be distinguished from sampling noise (at the 5% level).
+# Course one-liner (BAS package):
+CI.diffmean(x = x, y = y, type = "paired", conf.level = 0.95)
+# Base R one-liner:
+t.test(x, y, paired = TRUE, conf.level = 0.95)$conf.int
+```
 
-**Operational meaning.** Multiply $\bar d$ by the number of stores and the duration of effect to get an aggregate revenue gain; compare with the campaign cost to assess ROI. The CI quantifies the precision of the per-store estimate, not the cost-benefit.
+**(c2) Summary statistics $(\bar x, \bar y, s_X, s_Y, \hat\rho, n)$** (as in `5_4`, `5_6d`, `6_11a`, `6_17a`). Reconstruct $\bar d$ and $s_d$ first, then proceed identically.
+```r
+# Generic template with summary inputs (matches Ex 6.11a numbers: blood indicator, n=25)
+xbar <- 85.0;  ybar <- 81.4
+sx   <- 4.8;   sy   <- 5.9;   rho <- 0.6;   n <- 25
+dbar <- xbar - ybar                                  # 3.6
+sd_d <- sqrt(sx^2 + sy^2 - 2*rho*sx*sy)              # ~ 4.885
+se   <- sd_d / sqrt(n)                               # ~ 0.977
+tcrit <- qt(0.95, df = n-1)                          # ~ 1.711  (90% CI)
+c(dbar - tcrit*se, dbar + tcrit*se)                  # [1.93, 5.27]
+```
+
+**Verify equivalence.** On raw data, `sd(d)` and the summary reconstruction $\sqrt{s_X^2 + s_Y^2 - 2\,\mathrm{cov}(x,y)}$ agree exactly because the sample variance is linear in the within-pair operations:
+```r
+all.equal(var(d), var(x) + var(y) - 2*cov(x, y))     # TRUE
+```
+
+**Reading the margin of error backwards** (also for the row's exam-style entries). Like every other CI in G13, the paired Wald-style interval is symmetric around $\bar d$, so $\bar d = (L+U)/2$, $ME = (U-L)/2$, $\widehat{SE} = ME/t_{1-\alpha/2,n-1}$. From any printed paired CI we can recover $\bar d$, $ME$ and $\widehat{SE}$ without the raw data — useful when an exam states only the interval.
+
+</details>
+
+<details class="master-subpart">
+<summary>(d) Cross-references and the "is there a paired CI for two proportions?" question</summary>
+
+- **Universal CI recipe and the master case table** — see **`g13a`** (rows 1–8 of the table; this entry owns row 8). g13e contributes *nothing new* to the template — it is the row-2 $t$-CI applied to a derived variable $D$.
+- **One-mean CI rows 1–2 (the row we reduce to)** — see **`g13a`**. The whole machinery of $t_{n-1}$ critical values, the $z$-vs-$t$ rationale, the $\sqrt n$ rate, sample-size planning, and reading $\bar x$ from a printed CI is there and is **not** re-derived here.
+- **Difference of two means CI rows 4–6 (independent samples)** — see **`g13c`**. *Pitfall:* `g13c` is the correct destination when units are *not* matched (two disjoint groups, e.g. `6_8d` Full-time vs Freelance, `6_10a` Strategy vs Role-Playing). Using `g13c` on paired data **inflates the SE by $1/\sqrt{1-\rho}$** (subpart (b)).
+- **One-proportion CI row 3 and diff-prop CI row 7** — see **`g13b`** and **`g13d`** respectively. *Out-of-scope note.* There is **no standard "paired CI for two proportions"** in this course. If the same units produce two binary outcomes (e.g. did each customer buy product A? did each buy product B?), the matched-pairs object of interest is typically a **McNemar-style** $2\times 2$ table on $(A_i, B_i)$ — handled, when it appears at all, by the McNemar test in `g14d`, not by a g13-style Wald CI. None of the horizontal cells in this row (`5_4`, `5_6d`, `6_2a`, `6_2b`, `6_8c1`, `6_11a`, `6_17a`, `6_18b`) require a paired-proportion CI — all are paired-mean CIs.
+- **Paired hypothesis test on the same parameter** ($H_0: \mu_d = 0$) — see **`g14c`**. Same reduction $d_i = x_i - y_i$, then row 2 of the test table; the CI ⇄ test duality holds exactly (CI excludes 0 ⇔ two-sided test rejects).
+- **Estimation foundation** (unbiasedness of $\bar D$, sampling SE) — see **`g13f`**.
+
+> **Bookmark.** Row 8 is row 2 *in disguise*. The only two things to remember are **(i) reduce $\to d_i$ and use $t_{n-1}$** and **(ii) never use the independent CI on paired data** — the within-pair covariance is exactly what pairing was designed to exploit.
 
 </details>
 
 ---
 
-### Summary table (master dataset $n=23$, $\bar d = 10.1$, $s_d = 4.2$)
+### Summary table (running dataset, $n = 23$, $\bar d = 10.1$, $s_d = 4.2$, $\hat\rho \approx 0.86$)
 
 | Quantity | Value | Where |
-|---|---|---|
-| Point estimate $\bar d$ | $10.1$ | Part (b) |
-| Paired SE $= s_d/\sqrt n$ | $0.876$ | Part (c) |
-| Wrong independent SE | $2.359$ | Part (e) |
-| Penalty ratio | $\times 2.69$ | Part (e) |
-| $t_{0.95,22}$ / $t_{0.975,22}$ / $t_{0.995,22}$ | $1.717\,/\,2.074\,/\,2.819$ | Part (f) |
-| 90% CI | $[8.60,\,11.60]$ | Part (f) |
-| 95% CI | $[8.28,\,11.92]$ | Part (f) |
-| 99% CI | $[7.63,\,12.57]$ | Part (f) |
-| Contains $0$? | **No** (all 3 levels) | Part (h) |
+|---|---:|---|
+| Point estimate $\bar d$ | $10.1$ | Setup / (a) |
+| Paired $\widehat{SE}(\bar D) = s_d/\sqrt n$ | $0.876$ | (a) |
+| $t_{0.95,22}$ / $t_{0.975,22}$ / $t_{0.995,22}$ | $1.7171\,/\,2.0739\,/\,2.8188$ | (a) |
+| **90% CI for $\mu_d$** | $[8.60,\;11.60]$ | (a) |
+| **95% CI for $\mu_d$** | $[8.28,\;11.92]$ | (a) |
+| **99% CI for $\mu_d$** | $[7.63,\;12.57]$ | (a) |
+| Contains $0$? | **No** (all 3 levels) | (a) |
+| Wrong independent SE $\sqrt{(s_X^2 + s_Y^2)/n}$ | $2.359$ | (b) |
+| SE inflation factor $1/\sqrt{1-\hat\rho}$ | $\times 2.69$ | (b) |
+| $s_d$ from summaries: $\sqrt{s_X^2 + s_Y^2 - 2\hat\rho s_X s_Y}$ | $4.2$ ($\checkmark$) | (b) / (c) |
+
+**One-line take-away.** Row 8 of the universal CI table = row 2 applied to $d_i = x_i - y_i$: $\bar d \pm t_{1-\alpha/2,\,n-1}\,(s_d/\sqrt n)$, validity gated by i.i.d. pairs and (small-$n$) normality of $D$. **Never use the independent diff-means CI of `g13c` on paired data** — the within-pair covariance is exactly what pairing was built to exploit. Continue to **`g14c`** for the paired hypothesis test and to **`g13f`** for the underlying estimation theory.
 """,
     "images": ["statistics/images/master/master_g13e_ai.png"],
 }
 
 master_exercises["g14e_power"] = {
-    "title": "Master Exam — Power, Type II error, and sample-size effects (consolidated)",
-    "content": r"""**Setup.** Consider the `NewHired` dataset, where `Weeks` measures how long each newly hired worker took to find a job. We assume the population SD is **known**, $\sigma = 4$ weeks (variance $\sigma^2 = 16$), and the sample size is $n = 47$. A career-service manager tests the lower-tailed claim that the average search time is **below 45 weeks**:
+    "title": "Master Exam — Power, Type II error & sample-size effects (row 10 of the universal test table)",
+    "content": r"""## Setup — running scenario for every numeric example below
 
-$$H_0:\ \mu \;\ge\; \mu_0 = 45 \qquad \text{vs}\qquad H_1:\ \mu \;<\; 45.$$
-Throughout the master, the **alternative truth** considered is $\mu = \mu_1 = 43$ weeks (i.e. the population mean is actually $2$ weeks below the null boundary). All tests use the $z$-statistic
-$$Z \;=\; \frac{\bar X - \mu_0}{\sigma/\sqrt n} \;\sim\; \mathcal N(0,1)\ \text{under}\ H_0.$$
-The standard error is $SE = \sigma/\sqrt n = 4/\sqrt{47} \approx 0.5835$ weeks.
+The `NewHired` dataset records `Weeks` = time to find a new job for $n=47$ workers. For this entry we adopt the **σ-known** sub-row of the master table (row 1, $z$-test): the population SD is fixed at $\sigma = 4$ weeks (variance $\sigma^2 = 16$). The career-service manager runs the *one-sided lower* test of `7_1b`:
+
+$$H_0:\ \mu \;\ge\; \mu_0 = 45 \qquad \text{vs}\qquad H_1:\ \mu \;<\; 45,\qquad \alpha = 0.10,\qquad SE \;=\; \sigma/\sqrt n \;=\; 4/\sqrt{47}\;\approx\;0.5835.$$
+
+The **alternative truth** used to compute power is $\mu_1 = 43$ weeks (i.e. the true mean is $2$ weeks below the null boundary). Two `Weeks`-true values from `7_1b` recur below: $\mu = 50$ (well inside $H_0$ — used to read off the *Type-I face* of the same critical region) and $\mu_1 = 43$ (inside $H_1$ — used to read off the *Type-II face* and the *power*). The same one-sided $z$-statistic
+$$Z \;=\; \frac{\bar X - \mu_0}{\sigma/\sqrt n} \;\overset{H_0}{\sim}\; \mathcal N(0,1)$$
+is fixed throughout — only the true $\mu$, $n$, and $\alpha$ are varied to expose the four levers of power.
+
+---
+
+## This is row 10 of the universal hypothesis-test master table (see `g14a`)
+
+g14e does *not* introduce a new test statistic. It keeps **row 1** of the master case table (one-mean, $\sigma$ known, $Z$) fixed and asks the *complementary* question that every G14 row admits:
+
+| # | Parameter | $H_0$ | Test statistic | Null distribution | Reject $H_0$ | Owned by |
+|---|---|---|---|---|---|---|
+| **10** | Power / Type-II for any of rows 1–9 | (varies) | parameter sweep at fixed $\alpha,n$, true $\theta$ | — | — | **g14e** (here) |
+
+The universal recipe ($T = (\widehat\theta - \theta_0)/\widehat{\rm SE}_{H_0}$, reject iff $|T|>c$ or $p<\alpha$) is *not* re-derived here — it lives in `g14a`. Row 10 instead studies how the **conditional rejection probability** $\Pr(\text{reject }H_0\mid \theta)$ moves as $\theta$ varies over both $H_0$ (giving the Type-I face) and $H_1$ (giving the power face). The same machinery covers every other row: power for a $t$-test on a mean (row 2), a two-proportion test (row 7), a paired $t$ (row 8), or a $\chi^2$ GoF (row 9) — see subpart (e).
+
+---
+
+## Vocabulary
+
+| Symbol | Name | Definition |
+|---|---|---|
+| $\alpha$ | **Significance level** (size, Type-I rate) | $\Pr(\text{reject }H_0 \mid H_0)$, evaluated at the *boundary* of $H_0$. **Chosen** by the analyst. |
+| $\beta(\theta_1)$ | **Type-II rate** | $\Pr(\text{fail to reject }H_0 \mid \theta = \theta_1)$ for some specific $\theta_1\in H_1$. **Induced** by $\alpha,n,\sigma,\theta_1$. |
+| $1-\beta(\theta_1)$ | **Power** | $\Pr(\text{reject }H_0 \mid \theta = \theta_1)$ — the probability of detecting a real effect of size $\theta_1$. |
+| $\delta = \theta_1 - \theta_0$ | **Effect size** (absolute) | The signed gap between the alternative truth and the null value. Standardised: $\delta/(\sigma/\sqrt n)$. |
+| $\Pr(\text{reject}\mid\theta)$ as a fn of $\theta$ | **Power function / OC curve** | One scalar function summarising *both* faces: equals $\alpha$ at $\theta=\theta_0$, $\to 1$ as $|\theta-\theta_0|\to\infty$ (consistency). |
+| (Biomed framing) **Sensitivity** | True-positive rate = power | When $H_0$ = "no disease" and $H_1$ = "disease", power is the chance of *detecting* the disease. |
+| (Biomed framing) **Specificity** | True-negative rate = $1-\alpha$ | The chance of *correctly* clearing a healthy patient. |
+
+> **Mnemonic.** Sensitivity ↔ power ↔ $1-\beta$ (catching the real effect). Specificity ↔ $1-\alpha$ (not crying wolf). The classical 2×2 below is the same picture cardiologists draw.
+
+---
+
+## The 2×2 truth/decision matrix
+
+|  | $H_0$ true ($\theta=\theta_0$, boundary) | $H_0$ false ($\theta = \theta_1\in H_1$) |
+|---|---|---|
+| **Reject $H_0$**       | **Type-I error** — prob. $\alpha$               | Correct decision — prob. $1-\beta(\theta_1)$ = **power** |
+| **Don't reject $H_0$** | Correct decision — prob. $1-\alpha$             | **Type-II error** — prob. $\beta(\theta_1)$ |
+
+Row sums equal 1 *inside each column* — once you fix the truth, the test makes one of two decisions and exactly one of them is correct. Crucially, $\alpha$ and $\beta$ are **conditional** probabilities pointing in opposite directions: $\alpha$ conditions on $H_0$, $\beta$ conditions on a specific $\theta_1\in H_1$. There is **no** $\alpha+\beta=1$ constraint — both can be made small simultaneously, but only by raising $n$ (or shrinking $\sigma$).
+
+---
+
+## 3-step procedure for computing power (one-sided $z$, $\sigma$ known)
+
+For the lower-tail test $H_1:\mu<\mu_0$ (the `7_1b` setup; flip signs for the upper-tail variant):
+
+1. **Find the rejection cutoff under $H_0$.** Solve $Z = (\bar X - \mu_0)/(\sigma/\sqrt n) < -z_{1-\alpha}$ for $\bar X$:
+$$\boxed{\;\;\bar X^* \;=\; \mu_0 \;-\; z_{1-\alpha}\,\frac{\sigma}{\sqrt n}\;\;}$$
+2. **Compute the probability the cutoff is reached under the true alternative.** Under $H_1$, $\bar X\sim\mathcal N(\mu_1,\sigma^2/n)$:
+$$\text{Power} \;=\; \Pr(\bar X < \bar X^* \mid \mu = \mu_1).$$
+3. **Standardise.** Subtract $\mu_1$ and divide by $\sigma/\sqrt n$ on both sides:
+$$\boxed{\;\;\text{Power} \;=\; \Phi\!\left(\frac{\bar X^* - \mu_1}{\sigma/\sqrt n}\right) \;=\; \Phi\!\left(-z_{1-\alpha} + \frac{\mu_0 - \mu_1}{\sigma/\sqrt n}\right).\;\;}$$
+(Equivalently, for the upper-tail test $H_1:\mu>\mu_0$: $\text{Power} = 1 - \Phi\!\bigl(z_{1-\alpha} - (\mu_1-\mu_0)/(\sigma/\sqrt n)\bigr)$.)
+
+The recipe is exactly the same for any row of the master table — replace $(\widehat\theta,\,\theta_0,\,\widehat{\rm SE}_{H_0},\,\text{null distribution})$ by the right row, then redo steps 1–3.
 
 ---
 
 <details class="master-subpart" open>
-<summary>(a) Two error types — definitions and decision matrix</summary>
+<summary>(a) Type-I, Type-II, power — definitions and the 2×2 table</summary>
 
-A hypothesis test takes a yes/no decision on $H_0$ from random data, so two distinct mistakes are possible:
+A hypothesis test takes a yes/no decision on $H_0$ from random data, so two distinct mistakes are possible. The 2×2 above is the universal classifier-confusion picture in statistical language:
 
-| | $H_0$ true | $H_0$ false |
+|  | $H_0$ true | $H_0$ false ($\theta=\theta_1$) |
 |---|---|---|
-| **Reject $H_0$** | **Type I error** (prob. $\alpha$) | Correct (prob. $1-\beta$ = **power**) |
-| **Fail to reject $H_0$** | Correct (prob. $1-\alpha$) | **Type II error** (prob. $\beta$) |
+| **Reject $H_0$**       | **Type-I error** — prob. $\alpha$ | Correct — prob. $1-\beta(\theta_1)$ = **power** |
+| **Don't reject $H_0$** | Correct — prob. $1-\alpha$        | **Type-II error** — prob. $\beta(\theta_1)$ |
 
-* **Type I** = rejecting a *true* null (false alarm). Its probability is *chosen* by the analyst via $\alpha$ (e.g. 5%, 10%).
-* **Type II** = failing to reject a *false* null (missed detection). Its probability $\beta$ is *induced* by $\alpha$, $n$, $\sigma$ and the true alternative $\mu_1$.
-* **Power** $= 1 - \beta = P(\text{reject } H_0 \mid \mu = \mu_1)$ is the test's ability to *detect* the specified alternative.
+* **Type-I rate** $\alpha$ is *chosen* by the analyst (the significance level, e.g. 5% or 10%). It is the *maximum* conditional probability of rejecting $H_0$ when $H_0$ holds, attained at the boundary $\theta=\theta_0$ for a composite $H_0$ (e.g. $\mu\ge\mu_0$). Deeper inside $H_0$ the rejection probability drops toward $0$.
+* **Type-II rate** $\beta(\theta_1)$ is *induced* — once you fix $(\alpha,n,\sigma,\theta_1)$, the test mechanically determines $\beta$. It depends on **which** $\theta_1\in H_1$ you condition on: there is no single $\beta$, only a *function* of $\theta_1$.
+* **Power** $1-\beta(\theta_1)$ flips $\beta$ around: probability of correctly detecting a true effect of size $\theta_1$. Plotting power as a function of $\theta_1$ traces the **power curve**.
 
-The two errors are in tension: shrinking $\alpha$ shifts the critical value *toward* the null, which inflates $\beta$. The only way to reduce both simultaneously is to add information — i.e. increase $n$.
+**Worked illustration on `7_1b`.** With $\mu_0=45$, $\sigma=4$, $n=47$, $\alpha=0.10$, the cutoff is $\bar X^* = 45 - 1.2816\cdot(4/\sqrt{47}) \approx 44.252$ (derived in (b)). Ex 7.1b then asks two questions with the **same** critical region but **different** true values:
 
-</details>
-
----
-
-<details class="master-subpart">
-<summary>(b) Critical value on the $\bar X$ scale</summary>
-
-For a lower-tailed test at level $\alpha$, $H_0$ is rejected when $Z < -z_{1-\alpha} = -z_\alpha^{(\text{tail})}$ — equivalently when $\bar X$ falls below
-$$\boxed{\;c \;=\; \mu_0 \;-\; z_{1-\alpha}\,\frac{\sigma}{\sqrt n}\;}$$
-With $\alpha = 0.10$, $z_{0.90} = 1.2816$:
-$$c \;=\; 45 \;-\; 1.2816 \cdot \frac{4}{\sqrt{47}} \;=\; 45 - 0.748 \;\approx\; 44.252\ \text{weeks}.$$
-**Decision rule.** Reject $H_0$ iff $\bar x < 44.252$.
+* **(b1 of 7.1b) True $\mu = 50$ (inside $H_0$, since $50\ge 45$).** Concluding "$\bar X < 45$" — i.e. **rejecting** $H_0$ — would be a **Type-I** mistake because $\mu=50$ belongs to $H_0$. Its probability is $\Pr(\bar X < 44.252\mid \mu=50) = \Phi\bigl((44.252-50)/0.5835\bigr) = \Phi(-9.85) \approx 0$. At $\mu=50$ the rejection probability collapses to **essentially zero** — far below the nominal $\alpha=0.10$, because $\mu=50$ sits 5 weeks above the boundary. This is the *flip side* of $\sup_{\mu\ge\mu_0}\Pr(\text{reject}) = \alpha$: equality is attained *only* at $\mu=\mu_0=45$.
+* **(b2 of 7.1b) True $\mu_1 = 43$ (inside $H_1$).** Failing to reject — i.e. $\bar X\ge 44.252$ — would be a **Type-II** mistake. Its probability is $\beta = \Pr(\bar X\ge 44.252\mid\mu=43) = 1-\Phi\bigl((44.252-43)/0.5835\bigr) = 1-\Phi(2.146) \approx 0.0159$. So power $= 1-\beta \approx 0.9841$: the test detects this $2$-week effect about $98\%$ of the time.
 
 ```r
 mu0 <- 45;  sigma <- 4;  n <- 47;  alpha <- 0.10
-se   <- sigma/sqrt(n);                   se        # ~ 0.5835
-zalp <- qnorm(1 - alpha);                zalp      # 1.2816
-c    <- mu0 - zalp*se;                   c         # ~ 44.252
+se   <- sigma/sqrt(n);                   se          # 0.5835
+xstar <- mu0 - qnorm(1-alpha)*se;        xstar       # 44.252
+pnorm(xstar, mean = 50, sd = se)                     # ~ 0     (Type I face at mu=50)
+1 - pnorm(xstar, mean = 43, sd = se)                 # 0.0159  (beta at mu1=43)
+pnorm(xstar, mean = 43, sd = se)                     # 0.9841  (power at mu1=43)
 ```
 
 </details>
 
----
-
 <details class="master-subpart">
-<summary>(c) Two complementary truths — $\mu \in H_0$ (Type I face) vs $\mu \in H_1$ (Type II face)</summary>
+<summary>(b) Power computation for one-sided $z$ ($\sigma$ known) — formula + worked numeric example</summary>
 
-The same critical value $c=44.252$ has *two* error roles depending on where the *true* $\mu$ lives — and Ex 7.1b asks us to compute both faces explicitly.
+For the lower-tail test ($H_1:\mu<\mu_0$):
 
-*(c1) True $\mu = 50$ (well inside $H_0$, since $50\ge 45$).* Concluding "$\bar X < 45$" — i.e. **rejecting** $H_0$ — would be a **Type I error** because $\mu=50$ belongs to $H_0$. Its probability is
-$$P(\bar X < c \mid \mu = 50) \;=\; P\!\left(Z < \frac{44.252 - 50}{0.5835}\right) \;=\; P(Z < -9.85) \;\approx\; 0.$$
-At $\mu=50$ the rejection probability collapses to **essentially zero** — far below the nominal $\alpha=0.10$, because $\mu=50$ sits $5$ weeks **above** the boundary of $H_0$ and the test virtually never reaches the lower critical region. This is the *flip side* of the formal guarantee $\sup_{\mu\in H_0} P(\text{reject})=\alpha$: at the *boundary* $\mu=\mu_0=45$ the rejection rate is exactly $\alpha=0.10$; **deeper inside $H_0$** it drops toward zero. Plotting this rejection probability as a function of $\mu$ traces the **power curve** — flat-low across $H_0$ (Type I face) and ramping up across $H_1$ (power face).
+$$\boxed{\;\;\text{Power}(\mu_1) \;=\; \Phi\!\left(\frac{\bar X^* - \mu_1}{\sigma/\sqrt n}\right) \;=\; \Phi\!\left(-z_{1-\alpha} \;+\; \frac{\mu_0 - \mu_1}{\sigma/\sqrt n}\right),\qquad \bar X^* \;=\; \mu_0 - z_{1-\alpha}\,\frac{\sigma}{\sqrt n}.\;\;}$$
 
-*(c2) True $\mu_1 = 43$ (inside $H_1$, since $43 < 45$).* Under $H_1$, $\bar X \sim \mathcal N(\mu_1,\,\sigma^2/n)$. A **Type II error** happens whenever the data *fails* to reject, i.e. $\bar X \ge c$:
-$$\beta \;=\; P(\bar X \ge c \mid \mu = \mu_1)
-\;=\; P\!\left(Z \ge \frac{c - \mu_1}{\sigma/\sqrt n}\right)
-\;=\; P\!\left(Z \ge \frac{44.252 - 43}{0.5835}\right)
-\;=\; P(Z \ge 2.146)$$
-$$\beta \;\approx\; 1 - \Phi(2.146) \;\approx\; 0.0159 \quad(\text{about }1.6\%).$$
-Geometrically, $\beta$ is the area under the $H_1$ density $\mathcal N(43,\,SE^2)$ that lies **above** the cutoff $c = 44.252$.
+(For upper-tail: replace by $\text{Power}(\mu_1) = 1-\Phi\!\bigl(z_{1-\alpha} - (\mu_1-\mu_0)/(\sigma/\sqrt n)\bigr)$. For two-sided: sum the two tail contributions; the contribution from the wrong-side tail is usually negligible.)
+
+**Worked numbers on `7_1b` (NewHired, $\sigma=4$, $n=47$, $\mu_0=45$, $\alpha=0.10$, $\mu_1=43$).**
+
+* Step 1 — cutoff on the $\bar X$ scale: $\bar X^* = 45 - 1.2816\cdot(4/\sqrt{47}) = 45 - 0.748 \approx 44.252$.
+* Step 2 — standardise the cutoff under $H_1$: $z^* = (44.252 - 43)/0.5835 = 2.146$.
+* Step 3 — read off the power: $\text{Power} = \Phi(2.146) \approx 0.9841$ ⇒ $\beta\approx 0.0159$.
+
+Geometrically, power is the area under the $H_1$ density $\mathcal N(43,\,SE^2)$ that lies **below** the cutoff $\bar X^* = 44.252$; $\beta$ is the complementary area above.
 
 ```r
-mu1   <- 43
-# (c1) Type I face at mu = 50 (deep inside H0)
-pnorm(c, mean = 50, sd = se)                  # ~ 0   (P(reject | mu=50))
-# (c2) Type II face at mu1 = 43 (inside H1)
-beta  <- 1 - pnorm(c, mean = mu1, sd = se);   beta   # ~ 0.0159
-power <- 1 - beta;                            power  # ~ 0.9841
+mu0 <- 45;  sigma <- 4;  n <- 47;  alpha <- 0.10;  mu1 <- 43
+se   <- sigma/sqrt(n);                                       # 0.5835
+xstar <- mu0 - qnorm(1-alpha)*se;                            # 44.252
+pnorm(xstar, mean = mu1, sd = se)                            # power = 0.9841
+# Equivalent formulation via the boxed closed form:
+pnorm(-qnorm(1-alpha) + (mu0 - mu1)/se)                      # 0.9841
+```
+
+![Master illustration — power and the two faces of the cutoff](statistics/images/master/master_g14e_ai.png)
+
+</details>
+
+<details class="master-subpart">
+<summary>(c) Sample-size for a target power — formula + worked example targeting power 0.80</summary>
+
+Invert the boxed formula of (b) to solve for $n$ at a target power $1-\beta$. Set $\Phi^{-1}(1-\beta) = z_{1-\beta}$ and rearrange:
+
+$$z_{1-\beta} \;=\; -z_{1-\alpha} + \frac{\mu_0 - \mu_1}{\sigma/\sqrt n} \quad\Longrightarrow\quad \sqrt n \;=\; \frac{(z_{1-\alpha} + z_{1-\beta})\,\sigma}{|\mu_0 - \mu_1|}.$$
+
+$$\boxed{\;\;n \;=\; \left(\frac{(z_{1-\alpha} + z_{1-\beta})\,\sigma}{|\mu_1 - \mu_0|}\right)^2 \quad\text{(one-sided $z$, $\sigma$ known)}\;\;}$$
+
+For the *two-sided* analogue, replace $z_{1-\alpha}$ by $z_{1-\alpha/2}$; for a $t$-test (σ unknown) iterate the formula because the df depends on $n$ — `power.t.test` does this for you in R.
+
+**Worked example on `7_1b`'s setup, targeting power $0.80$ at $\mu_1=43$.** With $\sigma=4$, $|\mu_1-\mu_0|=2$, $\alpha=0.10$ (so $z_{0.90}=1.2816$) and target power $0.80$ (so $z_{0.80}=0.8416$):
+
+$$n \;=\; \left(\frac{(1.2816+0.8416)\cdot 4}{2}\right)^2 \;=\; (2.1232\cdot 2)^2 \;=\; 4.2464^2 \;\approx\; 18.03 \;\Rightarrow\; n \;=\; 19.$$
+
+Always **round up** — $n=18$ gives power just under 80%, $n=19$ gives just over. Cross-check: the table in (d) shows $n=20$ already buys power $\approx 0.83$, consistent with the calculation.
+
+```r
+mu0 <- 45;  mu1 <- 43;  sigma <- 4;  alpha <- 0.10;  power_target <- 0.80
+zalp  <- qnorm(1-alpha);          zalp     # 1.2816
+zbeta <- qnorm(power_target);     zbeta    # 0.8416 = z_{1-beta}
+n_req <- ((zalp + zbeta)*sigma/abs(mu1 - mu0))^2;  ceiling(n_req)   # 19
+# Built-in (one-sample, sigma known via the same z-formula):
+power.t.test(delta = mu1 - mu0, sd = sigma, sig.level = alpha,
+             power = power_target, type = "one.sample", alternative = "one.sided")
+# n ~ 19.5 (t adds a tiny inflation vs the z formula above)
 ```
 
 </details>
 
----
-
 <details class="master-subpart">
-<summary>(d) Power $= 1 - \beta$</summary>
+<summary>(d) The four levers of power — $\alpha\uparrow, n\uparrow, |\mu_1-\mu_0|\uparrow, \sigma\downarrow$</summary>
 
-Power is the area under the $H_1$ density *below* the cutoff $c$:
-$$\text{Power} \;=\; 1 - \beta \;=\; P(\bar X < c \mid \mu = \mu_1) \;\approx\; 0.9841.$$
-With $n = 47$, $\sigma = 4$, $\alpha = 0.10$, and a true mean $2$ weeks below the null boundary, the test rejects roughly **98.4%** of the time — a very powerful design.
+Holding the other three constants fixed, each lever moves power monotonically:
 
-![Master illustration](statistics/images/master/master_g14e_ai.png)
+| Lever | Mechanism (what moves on the $\bar X$ axis) | Power | Cost |
+|---|---|---|---|
+| **$\alpha\uparrow$** | $\bar X^* = \mu_0 - z_{1-\alpha}\sigma/\sqrt n$ moves *further* from $\mu_0$ into the alternative side ⇒ rejection region enlarges | $\uparrow$ | More Type-I errors |
+| **$n\uparrow$** | $SE = \sigma/\sqrt n$ shrinks ⇒ both densities narrow; the $H_1$ density centred at $\mu_1$ concentrates *below* $\bar X^*$ | $\uparrow$ | Data-collection cost |
+| **$|\mu_1-\mu_0|\uparrow$** | The $H_1$ density (centred at $\mu_1$) sits further from $\bar X^*$ ⇒ less mass on the wrong side of the cutoff | $\uparrow$ | Not a design choice — set by reality |
+| **$\sigma\downarrow$** | $SE$ shrinks ⇒ same mechanism as $n\uparrow$ (densities narrow) | $\uparrow$ | Usually requires a better measurement instrument |
 
-</details>
+**Numeric demonstration on the `7_1b` setup** (vary one lever, hold the other three at $\sigma=4$, $n=47$, $\alpha=0.10$, $\mu_1=43$):
 
----
+**Lever 1 — vary $\alpha$:**
 
-<details class="master-subpart">
-<summary>(e) Effect of sample size $n$ — sketch + table</summary>
+| $\alpha$ | $z_{1-\alpha}$ | $\bar X^*$ | $\beta$ at $\mu_1=43$ | Power |
+|---|---|---|---|---|
+| 0.01 | 2.3263 | 43.643 | 0.1361 | 0.8639 |
+| 0.05 | 1.6449 | 44.040 | 0.0418 | 0.9582 |
+| 0.10 | 1.2816 | 44.252 | 0.0159 | 0.9841 |
+| 0.20 | 0.8416 | 44.509 | 0.0040 | 0.9960 |
 
-The SE shrinks as $\sigma/\sqrt n$, so both densities (under $H_0$ and $H_1$) get **narrower** as $n$ grows. The critical value
-$$c(n) \;=\; \mu_0 - z_{1-\alpha}\,\sigma/\sqrt n$$
-moves **closer** to $\mu_0 = 45$. Since $\mu_1 = 43$ is fixed and below $c$, the $H_1$-tail above $c$ shrinks, so $\beta \downarrow$ and power $\uparrow$.
+**Lever 2 — vary $n$:**
 
-| $n$ | $SE = 4/\sqrt n$ | $c = 45 - 1.2816\,SE$ | $z^* = (c - 43)/SE$ | $\beta = P(Z \ge z^*)$ | Power $= 1-\beta$ |
+| $n$ | $SE = 4/\sqrt n$ | $\bar X^* = 45 - 1.2816\,SE$ | $z^* = (\bar X^* - 43)/SE$ | $\beta$ | Power |
 |---|---|---|---|---|---|
 | 10  | 1.2649 | 43.379 | 0.300 | 0.3821 | 0.6179 |
 | 20  | 0.8944 | 43.854 | 0.955 | 0.1697 | 0.8303 |
@@ -1862,26 +2194,9 @@ moves **closer** to $\mu_0 = 45$. Since $\mu_1 = 43$ is fixed and below $c$, the
 | 100 | 0.4000 | 44.487 | 3.717 | 0.0001 | 0.9999 |
 | 200 | 0.2828 | 44.638 | 5.794 | $\approx 0$ | $\approx 1$ |
 
-The growth of power is **monotonic** in $n$ — and quite steep because the effect size in SE units, $(\mu_0 - \mu_1)/SE = 2/SE$, grows like $\sqrt n$.
+**Lever 3 — vary the effect size $|\mu_1-\mu_0|$** (fix $n=47$, $\alpha=0.10$, $\bar X^*=44.252$):
 
-```r
-ns   <- c(10, 20, 47, 100, 200)
-sapply(ns, function(n){
-  se <- sigma/sqrt(n);  c <- mu0 - qnorm(1-alpha)*se
-  1 - pnorm(c, mu1, se)                       # beta
-})
-```
-
-</details>
-
----
-
-<details class="master-subpart">
-<summary>(f) Effect of the effect size $|\mu_1 - \mu_0|$</summary>
-
-Fix $n = 47$, $\alpha = 0.10$. The further $\mu_1$ is *into* the alternative region, the smaller the $H_1$-tail above $c = 44.252$:
-
-| $\mu_1$ | $z^* = (c - \mu_1)/SE$ | $\beta$ | Power |
+| $\mu_1$ | $z^* = (\bar X^* - \mu_1)/SE$ | $\beta$ | Power |
 |---|---|---|---|
 | 44.5 | $-0.425$ | 0.6645 | 0.3355 |
 | 44.0 | $0.432$  | 0.3328 | 0.6672 |
@@ -1889,260 +2204,402 @@ Fix $n = 47$, $\alpha = 0.10$. The further $\mu_1$ is *into* the alternative reg
 | 43.0 | $2.146$  | 0.0159 | 0.9841 |
 | 42.0 | $3.860$  | $\approx 6\times 10^{-5}$ | $\approx 1$ |
 
-**Edge case.** As $\mu_1 \uparrow \mu_0 = 45$, $\beta \to 1 - \alpha$ and power $\to \alpha$ — i.e. when there is *no* real effect, the test rejects only at its nominal Type I rate.
+**Lever 4 — vary $\sigma$** (fix $n=47$, $\alpha=0.10$, $\mu_1=43$):
 
-</details>
+| $\sigma$ | $SE = \sigma/\sqrt{47}$ | $\bar X^*$ | Power |
+|---|---|---|---|
+| 2 | 0.292 | 44.626 | $\approx 1$  |
+| 4 | 0.584 | 44.252 | 0.9841 |
+| 8 | 1.167 | 43.504 | 0.6722 |
+| 16 | 2.334 | 42.008 | 0.3346 |
 
----
+**Edge cases** to memorise.
 
-<details class="master-subpart">
-<summary>(g) Effect of $\alpha$</summary>
-
-Increasing $\alpha$ moves $c$ *further from* $\mu_0$ (toward the alternative region), enlarging the rejection set and therefore boosting power — at the cost of more false alarms.
-
-| $\alpha$ | $z_{1-\alpha}$ | $c$ | $\beta$ at $\mu_1 = 43$ | Power |
-|---|---|---|---|---|
-| 0.01 | 2.3263 | 43.643 | 0.1361 | 0.8639 |
-| 0.05 | 1.6449 | 44.040 | 0.0418 | 0.9582 |
-| 0.10 | 1.2816 | 44.252 | 0.0159 | 0.9841 |
-| 0.20 | 0.8416 | 44.509 | 0.0040 | 0.9960 |
-
-The trade-off is mechanical: $\alpha + \beta$ is **not** constrained to 1, but every move that lowers one tends to raise the other — only changes to $n$ (or $\sigma$) can shrink both at once.
+* As $\mu_1 \uparrow \mu_0$ (no real effect): power $\to \alpha$ — the test rejects only at its nominal Type-I rate.
+* As $n\to\infty$ (or $\sigma\to 0$): power $\to 1$ for any fixed $\mu_1\ne\mu_0$ — *every* sensible test is **consistent**.
+* $\alpha + \beta \ne 1$ in general — both can be made small by raising $n$; both can be made large by shrinking $n$ AND tightening $\alpha$.
 
 ```r
+# Lever 1 — alpha sweep
 alphas <- c(0.01, 0.05, 0.10, 0.20)
 sapply(alphas, function(a){
-  c <- mu0 - qnorm(1-a)*se;  1 - pnorm(c, mu1, se)
-})                                              # beta column
+  xstar <- mu0 - qnorm(1-a)*se;  pnorm(xstar, mean = mu1, sd = se)
+})                                                # power column
+# Lever 2 — n sweep
+ns <- c(10, 20, 47, 100, 200)
+sapply(ns, function(nn){
+  se_n <- sigma/sqrt(nn);  xstar <- mu0 - qnorm(1-alpha)*se_n
+  pnorm(xstar, mean = mu1, sd = se_n)
+})
+# Lever 3 — effect-size sweep
+mus <- c(44.5, 44, 43.5, 43, 42)
+sapply(mus, function(m){ pnorm(xstar, mean = m, sd = se) })
+# Lever 4 — sigma sweep
+sigmas <- c(2, 4, 8, 16)
+sapply(sigmas, function(sg){
+  se_s <- sg/sqrt(n);  xstar <- mu0 - qnorm(1-alpha)*se_s
+  pnorm(xstar, mean = mu1, sd = se_s)
+})
 ```
 
 </details>
 
+<details class="master-subpart">
+<summary>(e) Power for the other rows of the master table (short)</summary>
+
+The 3-step procedure of the header generalises **verbatim** — only the null distribution and the $\widehat{\rm SE}$ change.
+
+* **Row 2 — one-mean $t$-test ($\sigma$ unknown).** The pivot under $H_1$ is *non-central $t$*: $T \mid \mu=\mu_1 \sim t_{n-1}(\lambda)$ with non-centrality $\lambda = (\mu_1-\mu_0)/(\sigma/\sqrt n)$. Closed-form power requires `pt(..., ncp = lambda)`; the small-$n$ correction is sizeable (e.g. $n=20$ loses a few percent of power vs the $z$ approximation). R: `power.t.test(n = 47, delta = mu1-mu0, sd = sigma, sig.level = alpha, type = "one.sample", alternative = "one.sided")`.
+
+* **Rows 4–6 — two-sample mean tests.** Same template with $\widehat\theta = \bar X_A - \bar X_B$ and $\widehat{\rm SE}$ from g14b. The sample-size formula becomes $n_A = n_B = \bigl((z_{1-\alpha} + z_{1-\beta})\sigma_{\rm pool}/|\mu_A-\mu_B|\bigr)^2$ (equal $n$). R: `power.t.test(..., type = "two.sample")`.
+
+* **Row 7 — two-proportion $z$.** Power uses the $H_1$ SE $\sqrt{p_A(1-p_A)/n_A + p_B(1-p_B)/n_B}$ (with the *true* $p_A,p_B$, not the pooled $\hat p$). R: `power.prop.test`.
+
+* **Row 8 — paired $t$.** Reduces to row 2 on differences $d_i$ with $\sigma_d$. Same formula.
+
+* **Row 9 — $\chi^2$ goodness-of-fit / independence.** Under $H_1$, $X^2 \sim \chi^2_{\rm df}(\lambda)$ (**non-central $\chi^2$**) with non-centrality
+$$\lambda \;=\; n \sum_{k=1}^{K} \frac{(p_k - p_k^{(0)})^2}{p_k^{(0)}} \;=\; n\cdot w^2,$$
+where **Cohen's $w$** = $\sqrt{\sum_k (p_k - p_k^{(0)})^2/p_k^{(0)}}$ is the standard effect-size measure. Then $\text{Power} = \Pr\bigl(\chi^2_{\rm df}(\lambda) > \chi^2_{1-\alpha,\,\rm df}\bigr)$. R: `pchisq(qchisq(1-alpha, df), df, ncp = n*w^2, lower.tail = FALSE)`. Cross-reference `g14d` for the test itself.
+
+The qualitative picture (more $n$ ⇒ more power; bigger effect ⇒ more power; bigger $\alpha$ ⇒ more power) carries over unchanged for every row.
+
+</details>
+
+<details class="master-subpart">
+<summary>(f) Cross-references</summary>
+
+* **Universal test recipe** lives in **`g14a`** (rows 1–3); not re-derived here. **`g14b`** covers two-sample (rows 4–7), **`g14c`** paired (row 8), **`g14d`** $\chi^2$ (row 9). Every one of those rows has a power function obtained by the same 3-step recipe of the header — see (e) for the SE substitutions.
+* **Size-power trade-off mirrors the CI confidence-precision trade-off.** In G13, the **confidence level** $1-\alpha$ and the **width** $w = 2\cdot z_{1-\alpha/2}\,\sigma/\sqrt n$ trade off at fixed $n$: higher confidence ⇒ wider CI. In G14, $\alpha$ and **power** trade off at fixed $n,\sigma,\mu_1$: smaller $\alpha$ ⇒ lower power. The CI/test duality (`g14a` (b)) extends to a *power/precision* duality — both are governed by the same SE = $\sigma/\sqrt n$, and both improve only when $n$ rises (or $\sigma$ falls). See `g13a` (width table) and `g13b` (proportion CI).
+* **Underlying estimators.** $\bar X$ (mean) and $\hat p$ (proportion) — derived once in **`g13f`** — are the $\widehat\theta$ that feeds every $Z = (\widehat\theta-\theta_0)/\widehat{\rm SE}_{H_0}$ in the master table. The non-centrality $\lambda$ of the power computation is precisely the *bias* of $\widehat\theta - \theta_0$ when the truth is $\theta_1\ne\theta_0$.
+* **`7_1b` (the unique horizontal cell of this row)** computes both faces of the cutoff $\bar X^* = 44.252$: the *Type-I face* at $\mu=50$ (≈ 0, far inside $H_0$) and the *Type-II face* at $\mu_1=43$ (≈ 0.016 ⇒ power ≈ 0.984). Subparts (a)–(d) above reproduce that calculation, then sweep the four levers $\alpha,n,|\mu_1-\mu_0|,\sigma$ around it.
+
+</details>
+
 ---
 
-**Summary — three levers acting on $\beta$ / power**
+### Summary
 
-| Lever | Mechanism | Effect on power | Cost |
-|---|---|---|---|
-| $n \uparrow$           | $SE \downarrow$, $c$ closer to $\mu_0$, $H_1$-tail shrinks | $\uparrow$ | data collection |
-| $|\mu_1 - \mu_0| \uparrow$ | $H_1$ density centred further from $c$            | $\uparrow$ | not a design choice — set by reality |
-| $\alpha \uparrow$       | $c$ moves further from $\mu_0$ into the alternative side | $\uparrow$ | more Type I errors |
+g14e fills **row 10** of the universal hypothesis-test master table — the *complementary* row that asks how the verdict probability changes as $(\alpha,n,|\mu_1-\mu_0|,\sigma)$ are varied around any fixed row of the test recipe. With the `7_1b` setup ($\mu_0=45,\sigma=4,n=47,\alpha=0.10$), the cutoff is $\bar X^* = 44.252$; at $\mu_1=43$ this gives $\beta \approx 0.016$ and power $\approx 0.984$. The closed-form is $\text{Power} = \Phi\bigl(-z_{1-\alpha} + (\mu_0-\mu_1)/(\sigma/\sqrt n)\bigr)$, with sample-size inverse $n = ((z_{1-\alpha}+z_{1-\beta})\sigma/|\mu_1-\mu_0|)^2$. The four levers all raise power monotonically: $\alpha\uparrow, n\uparrow, |\mu_1-\mu_0|\uparrow, \sigma\downarrow$. The same recipe generalises to every other row of the master table — $t$-test power uses non-central $t_{n-1}(\lambda)$; $\chi^2$ power uses non-central $\chi^2_{\rm df}(\lambda)$ with $\lambda = n\cdot w^2$ for Cohen's $w$.
 """,
     "images": ["statistics/images/master/master_g14e_ai.png"],
 }
 
 master_exercises["g14b_two_sample"] = {
     "title": "Master Exam — Two-sample independent tests (means & proportions)",
-    "content": r"""**Master exercise — Independent two-sample tests for means and proportions.**
+    "content": r"""## Setup — running datasets for every numeric example below
 
-Consolidates the unique sub-tasks asked in **Ex 7.3a** (two-prop $z$, cafeteria pre/post visit), **Ex 7.3b** (two-prop $z$, heavy-user cutoff $>4$), **Ex 7.5a** (pooled two-sample $t$ vs $\mu_0=10$, fish-diet cholesterol), **Ex 7.7a** (two-prop $z$, AI-tool use Younger vs Senior), **Ex 7.10a** (pooled two-sample $t$ on summary stats, competing-company comparison at $\alpha=0.10$).
+g14b walks **rows 4–7** of the universal hypothesis-test master table (see **`g14a`** — *do not re-derive* the recipe). We reuse a **single numeric thread** across cases 4/5/6 so the student sees that only the **SE** and the **df / critical-value family** change between rows. A second dataset is used for case 7 (two proportions).
 
-Unified workflow (independent samples): assumptions $\to$ hypotheses $\to$ pick SE (Welch / pooled $t$ / pooled-$\hat p$ for proportions) $\to$ statistic $\to$ rejection region $\to$ p-value $\to$ decision.
+**Running dataset A — Standard vs Seafood cholesterol** (from Ex 7.5a, reused for cases 4/5/6):
+
+| Diet | $n$ | $\bar x$ | $s^2$ |
+|---|---:|---:|---:|
+| Standard (A) | $n_A=100$ | $\bar x_A = 210.1$ | $s_A^2 = 37.4$ |
+| Seafood (B)  | $n_B=100$ | $\bar x_B = 196.8$ | $s_B^2 = 33.5$ |
+
+Difference of sample means $\bar x_A - \bar x_B = 13.3$ throughout; only $\widehat{\rm SE}$ and df change between cases (a)–(c).
+
+**Running dataset B — Cafeteria visit, pre vs post promotion** (from Ex 7.3a, used for case 7):
+
+| Window | $n$ | visitors ($\geq 1$ stop) | $\hat p$ |
+|---|---:|---:|---:|
+| PRE  | $n_\text{PRE}=140$  | $108$ | $0.7714$ |
+| POST | $n_\text{POST}=159$ | $127$ | $0.7987$ |
+
+Both datasets stay fixed within their respective cases — no new sample is introduced.
+
+This entry consolidates the unique sub-tasks asked in **Ex 7.3a/7.3b** (two-prop $z$, cafeteria pre/post visit, heavy users), **Ex 7.5a** (pooled two-sample $t$ vs $\Delta_0=10$, fish-diet cholesterol), **Ex 7.7a** (two-prop $z$, AI-tool use Younger vs Senior), **Ex 7.10a** (pooled two-sample $t$ on summary stats), and **`exam_july_2025_1a`** (pooled $t$ on Savings, Branch A vs Branch B). The variance-equality decision rule that picks between case 5 (pooled $t$) and case 6 (Welch $t$) — **Levene's test** — sits canonically in `g13c` Part 9 and is referenced here without re-derivation; the past exam `exam_sep_2025_5b` is the textbook Levene-only sub-question.
 
 ---
 
-### Master template — three independent-samples building blocks
+## This is **rows 4–7** of the universal hypothesis-test master table (see top of **`g14a`**)
 
-| Setting | Statistic | SE under $H_0$ | Reference distr. |
-|---|---|---|---|
-| **(M)** Mean comparison, $\sigma$'s unknown, equal-var assumption | $T = \dfrac{\bar x_1-\bar x_2-\Delta_0}{\widehat{\text{SE}}}$ | $s_p\sqrt{\tfrac{1}{n_1}+\tfrac{1}{n_2}}$, $s_p^2 = \tfrac{(n_1-1)s_1^2+(n_2-1)s_2^2}{n_1+n_2-2}$ | $t_{n_1+n_2-2}$ |
-| **(W)** Welch variant, unequal variances | same $T$ | $\sqrt{s_1^2/n_1 + s_2^2/n_2}$ | $t$ on Welch–Satterthwaite df |
-| **(P)** Proportion comparison | $Z = \dfrac{\hat p_1-\hat p_2}{\widehat{\text{SE}}_0}$ | $\sqrt{\hat p(1-\hat p)(\tfrac{1}{n_1}+\tfrac{1}{n_2})}$ with $\hat p = \tfrac{x_1+x_2}{n_1+n_2}$ | $N(0,1)$ |
+The unified 3-step recipe $T = (\widehat\theta - \theta_0)/\widehat{\rm SE}_{H_0}(\widehat\theta)$, "reject if $|T|>c$ ⇔ $p<\alpha$", is at the top of **`g14a`** — do not re-derive it here. The four rows owned by **g14b** (extracted verbatim from the g14a master case table):
 
-Decision rule (any tail): $\text{Reject } H_0 \iff t_\text{obs}\in R_\alpha \iff p\leq\alpha$.
+| # | Setting | $\widehat\theta$ | $\widehat{\rm SE}_{H_0}(\widehat\theta)$ | Null dist | Reject (two-sided $\alpha$) | Subpart |
+|---|---|---|---|---|---|---|
+| **4** | $\mu_A-\mu_B$, $\sigma_A,\sigma_B$ **known** | $\bar X_A - \bar X_B$ | $\sqrt{\sigma_A^2/n_A+\sigma_B^2/n_B}$ | $\mathcal N(0,1)$ | $|Z|>z_{1-\alpha/2}$ | **(a)** |
+| **5** | $\mu_A-\mu_B$, $\sigma_A^2 = \sigma_B^2$ unknown — **pooled $t$** | $\bar X_A - \bar X_B$ | $\sqrt{s_p^2(1/n_A+1/n_B)}$, &nbsp; $s_p^2 = \dfrac{(n_A-1)s_A^2 + (n_B-1)s_B^2}{n_A+n_B-2}$ | $t_{n_A+n_B-2}$ | $|T|>t_{1-\alpha/2,\,n_A+n_B-2}$ | **(b)** |
+| **6** | $\mu_A-\mu_B$, $\sigma_A^2 \ne \sigma_B^2$ — **Welch $t$** | $\bar X_A - \bar X_B$ | $\sqrt{s_A^2/n_A+s_B^2/n_B}$ | $t_{\nu^W}$ (Satterthwaite) | $|T|>t_{1-\alpha/2,\,\nu^W}$ | **(c)** |
+| **7** | $p_A-p_B$, $H_0: p_A=p_B$ — **pooled-$\hat p$ $z$** | $\hat p_A - \hat p_B$ | $\sqrt{\hat p_{\rm pool}(1-\hat p_{\rm pool})(1/n_A+1/n_B)}$, &nbsp; $\hat p_{\rm pool} = \dfrac{x_A+x_B}{n_A+n_B}$ | $\mathcal N(0,1)$ | $|Z|>z_{1-\alpha/2}$ | **(d)** |
+
+Read these four rows together: **same template** ($\widehat\theta - \theta_0$ over an SE) — what changes between rows is only the **SE formula** and the **null distribution / df**.
+
+### 3-step procedure for every two-sample independent test
+
+1. **Identify** the parameter ($\delta = \mu_A - \mu_B$ or $\delta = p_A - p_B$), the estimator ($\hat\delta = \bar X_A - \bar X_B$ or $\hat p_A - \hat p_B$), the null value ($\delta_0$, usually $0$ but sometimes a non-zero gap, e.g. $\Delta_0 = 10$ in Ex 7.5a), and the per-group summary statistics $n_A, n_B, \bar x_A, \bar x_B$ (and $\sigma$'s, $s$'s, or counts $x_A, x_B$).
+2. **Pick the variance regime** (means only — proportions go straight to row 7):
+   - Problem states $\sigma_A, \sigma_B$ as **known** ⇒ **case 4** ($z$-test).
+   - Else run **Levene's test** $H_0: \sigma_A^2 = \sigma_B^2$ (machinery in `g13c` Part 9):
+     - $p_{\rm Levene} > \alpha$ ⇒ fail to reject equality ⇒ **case 5 (pooled $t$)**.
+     - $p_{\rm Levene} \le \alpha$ ⇒ reject equality ⇒ **case 6 (Welch $t$)**.
+3. **Plug & compute.** $t_{\rm obs} = (\hat\delta - \delta_0)/\widehat{\rm SE}_{H_0}$; compare to $c_{1-\alpha/2}$ (two-sided) or to the one-sided critical value, or compare $p$-value to $\alpha$. Same verdict either way.
+
+> **Levene decision rule — cross-reference, do NOT re-derive.** The full Levene matrix (null distribution, $F$-table, the decision table for what to do when no Levene output is available, the safe-default Welch fallback) lives in **`g13c` Part 9** — the present entry only *reads* Levene's $p$-value and picks between rows 5 and 6. On unequal sample sizes / variance ratios outside $[\tfrac12, 2]$, default to **Welch (case 6)**. The past exam `exam_sep_2025_5b` is a pure Levene-only question feeding the CI of `exam_sep_2025_5a`/`5c`; the variance-equality machinery is consequently tagged to `g13c` rather than to g14b.
+
+> ### **WARNING — Pooled vs unpooled SE for two proportions (THE #1 G13↔G14 trap).**
+> $$\boxed{\;\; \widehat{\rm SE}_{\rm TEST} \;=\; \sqrt{\hat p_{\rm pool}(1-\hat p_{\rm pool})\!\left(\tfrac{1}{n_A}+\tfrac{1}{n_B}\right)} \;\;\ne\;\; \widehat{\rm SE}_{\rm CI} \;=\; \sqrt{\dfrac{\hat p_A(1-\hat p_A)}{n_A} + \dfrac{\hat p_B(1-\hat p_B)}{n_B}} \;\;}$$
+> The **test** of $H_0: p_A = p_B$ uses the **pooled** SE because *under $H_0$* both samples share a common $p$, optimally estimated by $\hat p_{\rm pool} = (x_A + x_B)/(n_A + n_B)$ — this row 7 (subpart (d) below). The **CI** for $p_A - p_B$ uses the **unpooled** plug-in SE because outside $H_0$ the two $p$'s are different and there is no common value to estimate — see **`g13d`**. Mixing them up gives the wrong numeric answer. The one-proportion analogue (CI uses $\hat p$, test uses $p_0$) is the boxed warning in `g14a` (c).
 
 ---
 
 <details class="master-subpart" open>
-<summary>(a) Two-proportion $z$-test, cafeteria visit pre/post (Ex 7.3a)</summary>
+<summary>(a) <strong>Case 4</strong> — Two-sample $z$-test on means, $\sigma_A, \sigma_B$ <em>known</em></summary>
 
-**Data.** Pre-promotion sample $n_\text{PRE}=140$ (108 visitors $\Rightarrow$ $\hat p_\text{PRE} = 108/140 = 0.7714$); post-promotion $n_\text{POST}=159$ (127 visitors $\Rightarrow$ $\hat p_\text{POST} = 127/159 = 0.7987$). A "visitor" is a customer with $\geq 1$ stop in the month.
+**Setting.** Two **independent** i.i.d. samples $X_{A,i}\sim(\mu_A, \sigma_A^2)$ and $X_{B,j}\sim(\mu_B, \sigma_B^2)$ with $\sigma_A, \sigma_B$ **known** (problem statement or textbook calibration). Test $H_0: \mu_A = \mu_B$ (equivalently $\delta = \mu_A - \mu_B = 0$).
 
-**Hypotheses (one-sided upper).** Most serious error = rolling out an ineffective promotion to other branches:
-$$H_0:\,p_\text{POST}=p_\text{PRE} \quad\text{vs}\quad H_1:\,p_\text{POST}>p_\text{PRE}.$$
+**Pivot.** Independence makes variances add, so $\operatorname{Var}(\bar X_A - \bar X_B) = \sigma_A^2/n_A + \sigma_B^2/n_B$ exactly. With known $\sigma$'s, the standardised difference is exactly $\mathcal N(0,1)$ under $H_0$ for normal data (approximately so by the CLT once $n_A, n_B \gtrsim 30$).
 
-**Assumptions.** Two independent samples; both $n\hat p$, $n(1-\hat p) \gg 5$ $\Rightarrow$ CLT holds; under $H_0$ the two proportions share a common $p$.
+**Test statistic and decision (row 4).**
 
-**Pooled-$\hat p$ SE (template P).**
-$$\hat p = \frac{108+127}{140+159} = \frac{235}{299} = 0.7860, \qquad \widehat{\text{SE}}_0 = \sqrt{0.7860\cdot 0.2140\cdot\bigl(\tfrac{1}{140}+\tfrac{1}{159}\bigr)} \approx 0.0475.$$
+$$\boxed{\;\;Z \;=\; \frac{(\bar X_A - \bar X_B) - \delta_0}{\sqrt{\sigma_A^2/n_A + \sigma_B^2/n_B}}, \qquad \text{reject } H_0 \iff |Z| > z_{1-\alpha/2} \;\;(\text{two-sided}).\;\;}$$
 
-**Statistic & p-value.**
-$$z_\text{obs} = \frac{0.7987 - 0.7714}{0.0475} = \frac{0.0273}{0.0475} \approx 0.575, \qquad p = 1 - \Phi(0.575) \approx 0.2827.$$
+**Worked numbers on the cholesterol dataset.** Suppose lab calibration delivers the known SDs $\sigma_A = 6.0$ (Standard) and $\sigma_B = 5.8$ (Seafood). Test two-sided $H_1: \mu_A \ne \mu_B$ at $\alpha = 0.05$:
 
-**Decision.** RR$_{0.05} = \{z > 1.6449\}$. $0.575 < 1.6449$ (equivalently $0.28 \gg 0.05$) $\Rightarrow$ **do not reject $H_0$**. No evidence the promotion increases the visit rate — **do not extend** it.
+- Exact SE: $\sqrt{6.0^2/100 + 5.8^2/100} = \sqrt{0.36 + 0.3364} = \sqrt{0.6964} \approx 0.8345$.
+- Realisation: $z_{\rm obs} = (210.1 - 196.8)/0.8345 = 13.3/0.8345 \approx 15.94$.
+- Two-sided critical value: $z_{0.975} = 1.96$.
+- Two-sided $p$-value: $p = 2(1-\Phi(15.94)) \approx 0$.
+
+**Decision.** $|z_{\rm obs}| = 15.94 \gg 1.96$ ⇒ **reject** $H_0$ at any conventional $\alpha$ — overwhelming evidence the two diet means differ.
 
 ```r
-# (a) Ex 7.3a: cafeteria visit pre/post, two-prop z, upper tail
-n1 <- 140; x1 <- 108                       # PRE
-n2 <- 159; x2 <- 127                       # POST
-ph1 <- x1/n1; ph2 <- x2/n2; c(ph1, ph2)    # 0.7714, 0.7987
-phat <- (x1+x2)/(n1+n2);  phat             # 0.7860 pooled
-se0  <- sqrt(phat*(1-phat)*(1/n1 + 1/n2)); se0   # 0.0475
-z    <- (ph2 - ph1)/se0;  z                # 0.575
-1 - pnorm(z)                               # 0.2827
-qnorm(0.95)                                # 1.6449
-TEST.diffprop(x = Stops_POST >= 1, y = Stops_PRE >= 1, pdiff = 0, alternative = "greater")
+# (a) Case 4 — two-sample z-test, sigma's known
+xA <- 210.1; sigA <- 6.0; nA <- 100
+xB <- 196.8; sigB <- 5.8; nB <- 100
+SE0 <- sqrt(sigA^2/nA + sigB^2/nB);  SE0          # 0.8345 (exact)
+z   <- (xA - xB) / SE0;              z             # 15.94
+qnorm(0.975)                                       # 1.96
+2*(1 - pnorm(abs(z)))                              # ~ 0
 ```
+
+**Why case 4 is the simplest row.** No degrees of freedom, no $t$-inflation, no plug-in noise — $z$-quantiles are *the* reference distribution. The one-sample analogue is **`g14a` (a)** (case 1); in exam practice this row appears only when $\sigma_A, \sigma_B$ are literally stated, which is rare for two-sample problems.
+
+</details>
+
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (b) <strong>Case 5</strong> — Pooled two-sample $t$-test, $\sigma_A^2 = \sigma_B^2$ unknown (Ex 7.5a, Ex 7.10a, exam_july_2025_1a)</summary>
+
+**Setting.** Same i.i.d. independent samples, but $\sigma_A^2, \sigma_B^2$ are **unknown** and **Levene's test fails to reject** $H_0: \sigma_A^2 = \sigma_B^2$ (or the problem instructs us to assume equality, as Ex 7.5a does explicitly: "*assuming the variance of cholesterol is the same regardless of diet*"). Estimate the common $\sigma^2$ by pooling both sample variances by their degrees of freedom.
+
+**Pivot.** Under $\sigma_A^2 = \sigma_B^2 = \sigma^2$ and normal samples,
+$$T \;=\; \frac{(\bar X_A - \bar X_B) - \delta_0}{\sqrt{s_p^2(1/n_A + 1/n_B)}} \;\overset{H_0}{\sim}\; t_{n_A + n_B - 2} \;\text{ exactly}, \qquad s_p^2 \;=\; \frac{(n_A-1)s_A^2 + (n_B-1)s_B^2}{n_A + n_B - 2}.$$
+The pooled $s_p^2$ is the **best (lowest-variance) unbiased estimator** of the common $\sigma^2$ — it spends *all* $n_A + n_B - 2$ df on a single estimate, more than either $s_A^2$ or $s_B^2$ alone.
+
+**Test statistic and decision (row 5).**
+
+$$\boxed{\;\;T \;=\; \frac{(\bar X_A - \bar X_B) - \delta_0}{\sqrt{s_p^2\!\left(\tfrac{1}{n_A}+\tfrac{1}{n_B}\right)}}, \qquad \text{reject } H_0 \iff |T| > t_{1-\alpha/2,\,n_A+n_B-2}\;\;(\text{two-sided}).\;\;}$$
+
+**Worked numbers on the cholesterol dataset, $\Delta_0 = 10$ (Ex 7.5a).** The claim under test: the mean drop $\mu_A - \mu_B$ exceeds 10 units. One-sided upper:
+$$H_0: \mu_A - \mu_B \le 10 \quad\text{vs}\quad H_1: \mu_A - \mu_B > 10.$$
+
+- Pooled variance: $s_p^2 = (99\cdot 37.4 + 99\cdot 33.5)/198 = (3702.6 + 3316.5)/198 = 35.45$.
+- Pooled SE: $\widehat{\rm SE} = \sqrt{35.45\cdot(1/100 + 1/100)} = \sqrt{0.7090} \approx 0.8420$.
+- df: $n_A + n_B - 2 = 198$.
+- Realisation: $t_{\rm obs} = (13.3 - 10)/0.8420 \approx 3.92$ on $t_{198}$.
+- One-sided critical value: $t_{0.95, 198} \approx 1.6526$ (essentially $z_{0.95} = 1.6449$ at this df).
+- One-sided $p$-value: $p = \Pr(t_{198} > 3.92) \approx 6.1\times 10^{-5}$.
+
+**Decision.** $t_{\rm obs} = 3.92 \gg 1.6526$ ⇒ **reject** $H_0$ at $\alpha = 0.05$; the data strongly support that Seafood lowers mean cholesterol by **more than 10** units.
+
+```r
+# (b) Case 5 — pooled t-test, Delta_0 = 10 (Ex 7.5a)
+xA <- 210.1; vA <- 37.4; nA <- 100
+xB <- 196.8; vB <- 33.5; nB <- 100
+sp2 <- ((nA-1)*vA + (nB-1)*vB)/(nA + nB - 2);  sp2   # 35.45
+SE  <- sqrt(sp2*(1/nA + 1/nB));                SE    # 0.8420
+t   <- (xA - xB - 10)/SE;                      t     # 3.92
+1 - pt(t, df = nA+nB-2)                              # 6.1e-5
+qt(0.95, df = nA+nB-2)                               # 1.6526
+# Course helper (BAS package) — var.test=TRUE prints Levene + pooled + Welch
+TEST.diffmean(Cholesterol, by = Diet, type = "independent",
+              alternative = "greater", mu0 = 10, var.test = TRUE, data = Diet_study)
+```
+
+**Second worked thread — exam_july_2025_1a (Branch A vs Branch B Savings).** $H_0: \mu_A = \mu_B$ vs $H_1: \mu_A < \mu_B$ (one-sided lower); from the `TEST.diffmean(..., var.test=TRUE)` output: $\bar y_A - \bar y_B \approx -162.835$, $\widehat{\rm SE} \approx 58.45$, $t \approx -2.786$ on $t_{n_A + n_B - 2}$, one-sided $p \approx 0.0027$. Decision: $0.0027 < 0.01 < 0.05$ ⇒ **reject at both 5% and 1%**. The companion Levene test fails to reject $\sigma_A^2 = \sigma_B^2$, validating the pooled $t$ (and not Welch). Same row, different data.
+
+**Third worked thread — Ex 7.10a (Considered vs Competitor, summary stats, $\alpha = 0.10$).** $H_0: \mu_x = \mu_y$ vs $H_1: \mu_x > \mu_y$; from the summaries $n_x = 750, \bar x = 1228.44, s_x^2 = 940{,}900.9$; $n_y = 800, \bar y = 1300, s_y = 960$:
+- $s_p^2 = (749\cdot 940{,}900.9 + 799\cdot 921{,}600)/1548 \approx 930{,}938.7$.
+- $\widehat{\rm SE} = \sqrt{930{,}938.7\cdot(1/750 + 1/800)} = \sqrt{2402.92} \approx 49.02$.
+- $t_{\rm obs} = (1228.44 - 1300)/49.02 = -71.56/49.02 \approx -1.459$ on $t_{1548}$ (≈ $\mathcal N(0,1)$).
+- One-sided upper $p = 1 - \Phi(-1.459) \approx 0.9277 \gg 0.10$.
+
+**Decision.** $t_{\rm obs} < z_{0.90} = 1.2816$ ⇒ **do not reject**. Observed difference is in the *wrong* direction (considered company spends *less*), so naturally no evidence for "considered > competitor".
+
+```r
+# (b-bis) Ex 7.10a: pooled t on summary stats, alpha = 0.10
+xbar <- 1228.44; s2x <- 940900.9; nx <- 750
+ybar <- 1300;    s2y <- 960^2;    ny <- 800           # 921600
+
+sp2 <- ((nx-1)*s2x + (ny-1)*s2y)/(nx + ny - 2); sp2   # 930938.7
+SE  <- sqrt(sp2*(1/nx + 1/ny));                 SE    # 49.02
+t   <- (xbar - ybar)/SE;                        t     # -1.459
+1 - pt(t, df = nx + ny - 2)                           # 0.9277
+qnorm(0.90)                                           # 1.2816
+```
+
+**Bias warning.** If equality of variances *fails*, $s_p^2$ is biased for either group variance — it over-states $\min(\sigma_A^2, \sigma_B^2)$ and under-states $\max(\sigma_A^2, \sigma_B^2)$. The bias propagates into the SE, and the test loses its nominal $\alpha$ — *under*-coverage of the null (inflated Type-I rate) when the larger variance sits in the *smaller* sample, *over*-coverage in the opposite case. This is why we check Levene **first** rather than assuming pooling is safe. The CI counterpart of this row is **`g13c` (b)** — identical SE formula, identical df, just with $\hat\delta \pm c \cdot \widehat{\rm SE}$ in place of $T = (\hat\delta - \delta_0)/\widehat{\rm SE}$.
 
 ![Master illustration](statistics/images/master/master_g14b_ai.png)
 
 </details>
 
 <details class="master-subpart">
-<summary>(b) Two-proportion $z$-test, heavy users (Ex 7.3b)</summary>
+<summary>(c) <strong>Case 6</strong> — Welch two-sample $t$-test, $\sigma_A^2 \ne \sigma_B^2$ unknown</summary>
 
-**Cutoff change.** Now a customer is a **heavy user** if they visited **more than 4 times** per month. Counts: pre 23/140, post 37/159.
-$$\hat p_\text{PRE} = 23/140 = 0.1643, \qquad \hat p_\text{POST} = 37/159 = 0.2327.$$
+**Setting.** Same i.i.d. independent samples, $\sigma_A^2, \sigma_B^2$ **unknown** and Levene's test **rejects** equality (or we adopt Welch as the safe default — see `g13c` (d) for the no-Levene decision matrix). Each sample variance estimates its *own* population variance; no pooling.
 
-**Hypotheses.** Same one-sided framing as (a): $H_0:p_\text{POST}=p_\text{PRE}$ vs $H_1:p_\text{POST}>p_\text{PRE}$.
+**Pivot.** Plug $s_A^2, s_B^2$ separately into the SE. The standardised statistic does **not** follow a Student-$t$ exactly — Welch & Satterthwaite showed it is approximately $t_{\nu^W}$ with the moment-matched fractional df
+$$\boxed{\;\;\nu^W \;=\; \dfrac{\bigl(s_A^2/n_A + s_B^2/n_B\bigr)^2}{\dfrac{(s_A^2/n_A)^2}{n_A-1} + \dfrac{(s_B^2/n_B)^2}{n_B-1}}\;\;}$$
+fractional and bounded by $\min(n_A - 1, n_B - 1) \le \nu^W \le n_A + n_B - 2$.
 
-**Pooled-$\hat p$ SE.**
-$$\hat p = \frac{23+37}{140+159} = \frac{60}{299} = 0.2007, \qquad \widehat{\text{SE}}_0 = \sqrt{0.2007\cdot 0.7993\cdot\bigl(\tfrac{1}{140}+\tfrac{1}{159}\bigr)} \approx 0.0464.$$
+**Test statistic and decision (row 6).**
 
-**Statistic & p-value.**
-$$z_\text{obs} = \frac{0.0684}{0.0464} \approx 1.474, \qquad p = 1 - \Phi(1.474) \approx 0.0703.$$
+$$\boxed{\;\;T \;=\; \frac{(\bar X_A - \bar X_B) - \delta_0}{\sqrt{s_A^2/n_A + s_B^2/n_B}}, \qquad \text{reject } H_0 \iff |T| > t_{1-\alpha/2,\,\nu^W}.\;\;}$$
 
-**Decision.** RR$_{0.05} = \{z > 1.6449\}$. $1.474 < 1.6449$ $\Rightarrow$ **do not reject** at 5%. But **at $\alpha=0.10$**, $1.474 < z_{0.90}=1.2816$ is FALSE — $1.474 > 1.2816$ $\Rightarrow$ **reject** at 10%. Borderline; growth from 16.4% to 23.3% in heavy-user share is suggestive but not conclusive at conventional 5%.
+**Worked numbers on the cholesterol dataset (counter-factual: suppose Levene *had* rejected).** Same $\Delta_0 = 10$, same one-sided upper $H_1: \mu_A - \mu_B > 10$:
+
+- Welch SE: $\widehat{\rm SE}_W = \sqrt{37.4/100 + 33.5/100} = \sqrt{0.7090} \approx 0.8420$.
+- Welch df: $\nu^W = (0.7090)^2 / \bigl[(0.374)^2/99 + (0.335)^2/99\bigr] \approx 0.5027/0.002546 \approx 197.4$.
+- Realisation: $t_{\rm obs} = (13.3 - 10)/0.8420 \approx 3.92$ on $t_{197.4}$.
+- One-sided $p$-value: $\approx 6 \times 10^{-5}$.
+
+**Why the cholesterol numbers look identical to (b).** With $n_A = n_B$ and similar variances ($s_A^2/s_B^2 = 37.4/33.5 \approx 1.12$, well inside $[\tfrac12, 2]$), the Welch SE *equals* the pooled SE to 4 decimals and the Welch df ($\approx 197$) is nearly the pooled df ($198$). The two rows diverge meaningfully **only when sample sizes and variances are unbalanced** (large $n$ on the *small*-variance side, small $n$ on the *large*-variance side, or both). See `g13c` (c) for the unbalanced regime.
 
 ```r
-# (b) Ex 7.3b: heavy users (>4 stops), two-prop z, upper tail
-n1 <- 140; x1 <- 23                        # PRE heavy
-n2 <- 159; x2 <- 37                        # POST heavy
-phat <- (x1+x2)/(n1+n2);  phat             # 0.2007
-se0  <- sqrt(phat*(1-phat)*(1/n1 + 1/n2)); se0   # 0.0464
-z    <- (x2/n2 - x1/n1)/se0;  z            # 1.474
-1 - pnorm(z)                               # 0.0703
-qnorm(0.95); qnorm(0.90)                   # 1.6449, 1.2816
+# (c) Case 6 — Welch t-test (default of t.test)
+vA <- 37.4; vB <- 33.5
+SE_W <- sqrt(vA/nA + vB/nB);   SE_W                       # 0.8420
+nu_W <- (vA/nA + vB/nB)^2 /
+        ((vA/nA)^2/(nA-1) + (vB/nB)^2/(nB-1));   nu_W     # ~ 197.4
+t_W  <- (xA - xB - 10)/SE_W;   t_W                        # 3.92
+1 - pt(t_W, df = nu_W)                                    # ~ 6e-5
+qt(0.95, df = nu_W)                                       # ~ 1.653
+# Raw data: t.test(... , var.equal = FALSE)   is the R default
 ```
+
+**Why Welch is the universal safe default.** When the **larger** variance sits in the **larger** sample, pooling **over-states** the SE (test conservatively *under*-rejects, Type-I below nominal). When the larger variance sits in the **smaller** sample, pooling **under-states** the SE (test *over*-rejects, true Type-I above nominal — actively dangerous). Welch is robust to both regimes; the only cost is a smaller df, invisible once $n_A, n_B$ are both large. The CI counterpart of this row is **`g13c` (c)**.
 
 </details>
 
 <details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> (c) Pooled two-sample $t$ with $\Delta_0 \neq 0$ — fish-diet cholesterol (Ex 7.5a)</summary>
+<summary><span class="tag tag-exam">EXAM</span> (d) <strong>Case 7</strong> — Two-proportion $z$-test, pooled-$\hat p$ SE under $H_0$ (Ex 7.3a, Ex 7.3b, Ex 7.7a)</summary>
 
-**Data.** Two independent groups of $n_1 = n_2 = 100$ males, assigned for 6 months to **Standard** vs **Seafood** diet:
+**Setting.** Two **independent** Bernoulli samples: $X_A \sim \mathrm{Bin}(n_A, p_A)$, $X_B \sim \mathrm{Bin}(n_B, p_B)$, with sample proportions $\hat p_A = X_A/n_A$ and $\hat p_B = X_B/n_B$. Test $H_0: p_A = p_B$ (null *gap* $\delta_0 = 0$).
 
-| Diet | $\bar x$ | $s^2$ |
-|---|---|---|
-| Standard | $210.1$ | $37.4$ |
-| Seafood | $196.8$ | $33.5$ |
+**Validity.** Large-sample CLT: $n_A \hat p_A,\; n_A(1-\hat p_A),\; n_B \hat p_B,\; n_B(1-\hat p_B)$ **all $\ge 5$**. If any fails, fall back to `prop.test` (Wilson) or exact methods.
 
-Researchers claim the mean difference $\mu_\text{Std} - \mu_\text{Sea}$ is **strictly greater than 10**.
+**Pivot.** Under $H_0: p_A = p_B = p$ both samples share a common $p$, optimally estimated by the **pooled** sample proportion
+$$\hat p_{\rm pool} \;=\; \frac{X_A + X_B}{n_A + n_B}.$$
+This is *the* feature that distinguishes row 7 (test) from the CI in `g13d` (which uses separate $\hat p_A, \hat p_B$ — there is no common $p$ to estimate outside $H_0$). Under $H_0$, $\operatorname{Var}_{H_0}(\hat p_A - \hat p_B) = p(1-p)(1/n_A + 1/n_B)$, plug-in estimated by
+$$\widehat{\rm SE}_{H_0} \;=\; \sqrt{\hat p_{\rm pool}(1 - \hat p_{\rm pool})\!\left(\frac{1}{n_A} + \frac{1}{n_B}\right)}.$$
 
-**Hypotheses (one-sided upper, $\Delta_0 = 10$).**
-$$H_0:\,\mu_\text{Std} - \mu_\text{Sea} \leq 10 \quad\text{vs}\quad H_1:\,\mu_\text{Std} - \mu_\text{Sea} > 10.$$
+**Test statistic and decision (row 7).**
 
-**Assumptions.** Independence; equal variances assumed $\Rightarrow$ pooled-variance template (M). $n=100$ each $\Rightarrow$ CLT, so normal & $t_{198}$ critical values match to four decimals.
+$$\boxed{\;\;Z \;=\; \frac{\hat p_A - \hat p_B}{\sqrt{\hat p_{\rm pool}(1-\hat p_{\rm pool})\!\left(\tfrac{1}{n_A}+\tfrac{1}{n_B}\right)}}, \qquad \text{reject } H_0:p_A=p_B \iff |Z| > z_{1-\alpha/2}\;\;(\text{two-sided}).\;\;}$$
 
-**Pooled variance & SE.**
-$$s_p^2 = \frac{99\cdot 37.4 + 99\cdot 33.5}{198} = 35.45, \qquad \widehat{\text{SE}} = \sqrt{2 s_p^2/n} = \sqrt{0.7090} = 0.8420.$$
+> ### **WARNING — pooled-vs-unpooled SE (mirrored from the box above).**
+> $$\widehat{\rm SE}_{\rm TEST} = \sqrt{\hat p_{\rm pool}(1-\hat p_{\rm pool})(1/n_A+1/n_B)} \quad\ne\quad \widehat{\rm SE}_{\rm CI} = \sqrt{\dfrac{\hat p_A(1-\hat p_A)}{n_A} + \dfrac{\hat p_B(1-\hat p_B)}{n_B}}.$$
+> *Test* uses the pooled SE (this row); *CI for $p_A - p_B$* uses the unpooled SE (`g13d`). Two different formulas, two different numeric answers. The two SEs agree only when $\hat p_A = \hat p_B$; otherwise the CI ⇄ test duality is **not** an exact identity for proportions.
 
-**Statistic & RR.** Observed $\bar x_\text{Std}-\bar x_\text{Sea} = 13.3$.
-$$t_\text{obs} = \frac{13.3 - 10}{0.8420} = 3.92, \qquad R_{0.05} = \{T > t_{0.95,\,198}\} \approx \{T > 1.6526\}.$$
+**Worked numbers on the cafeteria pre/post dataset (Ex 7.3a).** A "visitor" = customer with $\geq 1$ stop in the month. Pre-promotion $n_\text{PRE} = 140, X_\text{PRE} = 108 \Rightarrow \hat p_\text{PRE} = 0.7714$; post-promotion $n_\text{POST} = 159, X_\text{POST} = 127 \Rightarrow \hat p_\text{POST} = 0.7987$. Most-serious-error reasoning (don't roll out an ineffective promotion) gives one-sided upper:
+$$H_0: p_\text{POST} = p_\text{PRE} \quad\text{vs}\quad H_1: p_\text{POST} > p_\text{PRE}.$$
 
-Equivalently, the RR on $\bar x_\text{Std}-\bar x_\text{Sea}$ is $> 10 + 1.6526\cdot 0.8420 = 11.39$. Since $13.3 > 11.39$ $\Rightarrow$ **reject $H_0$**.
+- CLT check: $n\hat p, n(1-\hat p) \in \{108, 32, 127, 32\}$ — all $\ge 5$.
+- Pooled proportion: $\hat p_{\rm pool} = (108 + 127)/(140 + 159) = 235/299 \approx 0.7860$.
+- Pooled SE: $\widehat{\rm SE}_0 = \sqrt{0.7860\cdot 0.2140\cdot(1/140 + 1/159)} \approx 0.0475$.
+- Realisation: $z_{\rm obs} = (0.7987 - 0.7714)/0.0475 = 0.0273/0.0475 \approx 0.575$.
+- One-sided critical value: $z_{0.95} = 1.6449$.
+- One-sided $p$-value: $p = 1 - \Phi(0.575) \approx 0.2827$.
 
-**p-value.** $p = 1 - F_{t_{198}}(3.92) \approx 6.1\cdot 10^{-5}$ (normal approx.: $4.4\cdot 10^{-5}$).
-
-**Conclusion.** Overwhelming evidence the Seafood diet lowers mean cholesterol by **more than 10** units.
+**Decision.** $z_{\rm obs} = 0.575 < 1.6449$ (equivalently $p = 0.28 \gg 0.05$) ⇒ **do not reject** $H_0$. No evidence the promotion raised the visit rate — **do not extend** it.
 
 ```r
-# (c) Ex 7.5a: pooled two-sample t with Delta0 = 10, one-sided upper
-xs <- 210.1; vs <- 37.4; ns <- 100         # Standard diet
-xf <- 196.8; vf <- 33.5; nf <- 100         # Seafood diet
-sp2 <- ((ns-1)*vs + (nf-1)*vf)/(ns+nf-2);  sp2     # 35.45
-se  <- sqrt(2*sp2/ns);                     se      # 0.8420
-t   <- (xs - xf - 10)/se;                  t       # 3.92
-qt(0.95, df = ns+nf-2);  qnorm(0.95)               # 1.6526, 1.6449
-10 + qt(0.95, df = 198)*se                          # 11.39 (RR on diff)
-1 - pt(t, df = ns+nf-2)                             # 6.1e-5
-1 - pnorm(t)                                         # 4.4e-5
-TEST.diffmean(..., alternative = "greater", mu0 = 10, var.test = TRUE)
+# (d) Case 7 — two-prop z-test, pooled SE, one-sided upper (Ex 7.3a)
+n1 <- 140; x1 <- 108                       # PRE
+n2 <- 159; x2 <- 127                       # POST
+ph1 <- x1/n1; ph2 <- x2/n2;  c(ph1, ph2)   # 0.7714, 0.7987
+phat <- (x1 + x2)/(n1 + n2); phat          # 0.7860 pooled
+SE0  <- sqrt(phat*(1-phat)*(1/n1 + 1/n2)); SE0   # 0.0475
+z    <- (ph2 - ph1)/SE0;     z             # 0.575
+1 - pnorm(z)                               # 0.2827 (one-sided p)
+qnorm(0.95)                                # 1.6449
+# Course helper:
+TEST.diffprop(x = Stops_POST >= 1, y = Stops_PRE >= 1,
+              pdiff = 0, alternative = "greater")
+# Base R (no continuity correction):
+prop.test(c(127, 108), c(159, 140), alternative = "greater", correct = FALSE)
 ```
 
-</details>
+**Second thread — Ex 7.3b (heavy users, cutoff > 4).** Same one-sided framing; $\hat p_\text{PRE} = 23/140 = 0.1643, \hat p_\text{POST} = 37/159 = 0.2327, \hat p_{\rm pool} = 60/299 = 0.2007$, $\widehat{\rm SE}_0 \approx 0.0464$, $z_{\rm obs} \approx 1.474$, $p \approx 0.0703$. **Borderline:** retain at 5% ($1.474 < 1.6449$), reject at 10% ($1.474 > z_{0.90} = 1.2816$). Same row, same formulas — only the binary indicator changes.
 
-<details class="master-subpart">
-<summary>(d) Two-proportion $z$-test, AI-tool use Younger vs Senior (Ex 7.7a)</summary>
-
-**Data (`Developers_ITA`).** Sample proportions of developers using AI tools (e.g. ChatGPT) at work: $\hat p_\text{Young} \approx 0.57$, $\hat p_\text{Senior} \approx 0.40$ (sub-samples large; the textbook reports $z_\text{obs} \approx 4.77$ from the raw data).
-
-**Hypotheses (one-sided upper).** The "younger use them more" claim is the research hypothesis:
-$$H_0:\,p_\text{Young} = p_\text{Senior} \quad\text{vs}\quad H_1:\,p_\text{Young} > p_\text{Senior}.$$
-
-**Assumptions.** Independent sub-samples (Younger=TRUE vs FALSE are disjoint); each sub-sample large enough for CLT; under $H_0$ a common $p$, estimated by the pooled $\hat p$.
-
-**Statistic.** With template (P) (pooled $\hat p$, pooled SE) the realised $z \approx 4.77$, giving $p = 1 - \Phi(4.77) < 10^{-4}$.
-
-**Decision.** $4.77 \gg z_{0.95}=1.6449$ at any conventional $\alpha$ (5%, 1%, 0.1%, …) $\Rightarrow$ **reject $H_0$**. Overwhelming evidence that younger developers adopt AI tools more.
+**Third thread — Ex 7.7a (AI tools Younger vs Senior, `Developers_ITA`).** $\hat p_\text{Young} \approx 0.57, \hat p_\text{Senior} \approx 0.40$; $H_0: p_\text{Young} = p_\text{Senior}$ vs $H_1: p_\text{Young} > p_\text{Senior}$; the textbook reports $z_{\rm obs} \approx 4.77 \Rightarrow p < 10^{-4}$ ⇒ **reject at any conventional $\alpha$**. Same row, same formulas, very large effect.
 
 ```r
-# (d) Ex 7.7a: AI-tool use Younger vs Senior, two-prop z (built-in)
+# Quick wrapper, also for Ex 7.7a:
 TEST.diffprop(x = Developers_ITA$ChatGPT[Developers_ITA$Younger == TRUE],
               y = Developers_ITA$ChatGPT[Developers_ITA$Younger == FALSE],
               success.x = "Yes", pdiff = 0, alternative = "greater", digits = 4)
-
-# Manual cross-check:
-phY <- mean(Developers_ITA$ChatGPT[Developers_ITA$Younger == TRUE]  == "Yes")  # ~0.57
-phS <- mean(Developers_ITA$ChatGPT[Developers_ITA$Younger == FALSE] == "Yes")  # ~0.40
-nY  <- sum(Developers_ITA$Younger == TRUE)
-nS  <- sum(Developers_ITA$Younger == FALSE)
-phat <- (nY*phY + nS*phS)/(nY + nS)
-se0  <- sqrt(phat*(1-phat)*(1/nY + 1/nS))
-z    <- (phY - phS)/se0;  z                # ~4.77
-1 - pnorm(z)                                # < 1e-4
 ```
+
+**CI ⇄ test mismatch on the same data.** The 95% Wald **CI** for $p_\text{POST} - p_\text{PRE}$ in the cafeteria example uses the **unpooled** SE $\sqrt{0.7987\cdot 0.2013/159 + 0.7714\cdot 0.2286/140} \approx 0.0476$ (almost identical to the pooled $0.0475$ here because $\hat p_\text{POST} \approx \hat p_\text{PRE}$). When $\hat p_A$ and $\hat p_B$ are far apart, the two SEs drift apart and the CI ⇄ test duality is only approximate. Bookmark **`g13d`** for the CI side.
+
+![Master illustration](statistics/images/master/master_g14b_ai.png)
 
 </details>
 
 <details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> (e) Pooled two-sample $t$ from summary stats, $\alpha=0.10$ (Ex 7.10a)</summary>
+<summary>(e) Side-by-side comparison of cases 4 / 5 / 6 / 7</summary>
 
-**Data.** Competing company: $n_y=800$, $\bar y = 1300$, $s_y = 960$. Considered company (the $n_x=750$ women in `DS`): $\bar x = 1228.44$, $s_x^2 = 940{,}900.9$.
+All four cases on the **shared cholesterol dataset** ($\bar x_A - \bar x_B = 13.3$, $n_A = n_B = 100$, $\Delta_0 = 10$ for cases 5/6; $\delta_0 = 0$ everywhere else), plus the cafeteria example for case 7. **Same template $T = (\widehat\theta - \delta_0)/\widehat{\rm SE}_{H_0}$ throughout — only the SE and df change.**
 
-**Hypotheses (one-sided upper).** Claim: considered-company mean expenditure is higher than competitor's:
-$$H_0:\,\mu_x = \mu_y \quad\text{vs}\quad H_1:\,\mu_x > \mu_y.$$
+| Quantity | **Case 4** ($\sigma$'s known, $z$) | **Case 5** (pooled $t$) | **Case 6** (Welch $t$) | **Case 7** (pooled-$\hat p$ $z$) |
+|---|---|---|---|---|
+| Estimator $\widehat\theta$ | $\bar X_A - \bar X_B$ | $\bar X_A - \bar X_B$ | $\bar X_A - \bar X_B$ | $\hat p_A - \hat p_B$ |
+| $\widehat{\rm SE}_{H_0}$ formula | $\sqrt{\sigma_A^2/n_A + \sigma_B^2/n_B}$ | $\sqrt{s_p^2(1/n_A + 1/n_B)}$ | $\sqrt{s_A^2/n_A + s_B^2/n_B}$ | $\sqrt{\hat p_{\rm pool}(1-\hat p_{\rm pool})(1/n_A + 1/n_B)}$ |
+| Null distribution | $\mathcal N(0,1)$ | $t_{n_A + n_B - 2}$ | $t_{\nu^W}$ (Satterthwaite) | $\mathcal N(0,1)$ |
+| df | — | integer $n_A + n_B - 2$ | fractional $\nu^W$ | — |
+| Numeric SE (cholesterol) | $0.8345$ | $0.8420$ | $0.8420$ | — |
+| Numeric $t_{\rm obs}$ (cholesterol) | $15.94$ (vs $\Delta_0 = 0$) | $3.92$ (vs $\Delta_0 = 10$) | $3.92$ (vs $\Delta_0 = 10$) | — |
+| Required assumption | $\sigma_A, \sigma_B$ given | $\sigma_A^2 = \sigma_B^2$ (Levene fail-to-reject) | none on variance ratio | CLT: $n\hat p, n(1-\hat p) \ge 5$ |
+| **When to use** | textbook / problem states $\sigma$'s | Levene $p > \alpha$ | Levene $p \le \alpha$, or safe default | two proportions, $H_0: p_A = p_B$ |
+| CI counterpart | `g13c` (a) | `g13c` (b) | `g13c` (c) | `g13d` (a) — **uses unpooled SE** |
 
-**Assumptions.** Independent samples; large $n$'s $\Rightarrow$ CLT (no normality of expenditure needed); pooled-variance template (M) with $s_y^2 = 960^2 = 921{,}600$.
-
-**Pooled variance & SE.**
-$$s_p^2 = \frac{749\cdot 940{,}900.9 + 799\cdot 921{,}600}{1548} \approx 930{,}938.7, \qquad \widehat{\text{SE}} = \sqrt{s_p^2(\tfrac{1}{750}+\tfrac{1}{800})} = \sqrt{2402.92} \approx 49.02.$$
-
-**Statistic.**
-$$t_\text{obs} = \frac{1228.44 - 1300}{49.02} = \frac{-71.56}{49.02} \approx -1.459.$$
-
-**Decision at $\alpha=0.10$.** RR $= \{T > z_{0.90}\} = \{T > 1.2816\}$ (with df $=1548$, $t$ matches $z$). $-1.459 < 1.2816$ $\Rightarrow$ **do not reject**. Equivalently $p = 1 - \Phi(-1.459) \approx 0.9277 \gg 0.10$.
-
-**Interpretation.** Observed difference is in the **wrong direction** ($\bar x < \bar y$): not only is there no evidence for "considered $>$ competitor", the data point mildly the opposite way. (The two-sided p-value would be $\approx 0.145$, still not significant at 10%.)
-
-```r
-# (e) Ex 7.10a: pooled two-sample t from summary stats, one-sided upper, alpha = 0.10
-xbar <- 1228.44; s2x <- 940900.9; nx <- 750
-ybar <- 1300;    s2y <- 960^2;    ny <- 800           # 921600
-
-sp2 <- ((nx-1)*s2x + (ny-1)*s2y)/(nx+ny-2); sp2       # 930938.7
-se  <- sqrt(sp2*(1/nx + 1/ny));             se        # 49.02
-t   <- (xbar - ybar)/se;                    t         # -1.459
-1 - pnorm(t)                                          # 0.9277  (one-sided upper)
-1 - pt(t, df = nx+ny-2)                                # 0.9277
-qnorm(0.90)                                           # 1.2816 (one-sided crit at 10%)
-```
-
-</details>
-
-<details class="master-subpart">
-<summary>(f) Side-by-side summary</summary>
-
-| # | Application | Template | $H_1$ | Diff. | SE | Stat | p-value | @ chosen $\alpha$ |
+| sub-part | App / Exercise | Row | $H_1$ | Diff. | SE | Stat | $p$-value | @ chosen $\alpha$ |
 |---|---|---|---|---|---|---|---|---|
-| (a) | Visit $\geq 1$ pre/post (Ex 7.3a) | P (pooled $\hat p$) | $p_\text{POST}>p_\text{PRE}$ | $0.0273$ | $0.0475$ | $z = 0.575$ | $0.2827$ | retain @ 0.05 |
-| (b) | Heavy users $>4$ pre/post (Ex 7.3b) | P | $p_\text{POST}>p_\text{PRE}$ | $0.0684$ | $0.0464$ | $z = 1.474$ | $0.0703$ | retain @ 0.05; reject @ 0.10 |
-| (c) | Cholesterol Std vs Sea, $\Delta_0=10$ (Ex 7.5a) | M (pooled $t$) | $\mu_\text{Std}-\mu_\text{Sea}>10$ | $13.3$ | $0.8420$ | $t_{198} = 3.92$ | $6\cdot 10^{-5}$ | reject @ 0.05 |
-| (d) | AI tools Younger vs Senior (Ex 7.7a) | P | $p_\text{Young}>p_\text{Senior}$ | $0.17$ | (built-in) | $z \approx 4.77$ | $<10^{-4}$ | reject @ 0.05 |
-| (e) | Considered vs competitor mean (Ex 7.10a) | M | $\mu_x>\mu_y$ | $-71.56$ | $49.02$ | $t \approx -1.459$ | $0.9277$ | retain @ 0.10 |
+| (a) | Cholesterol, $\sigma$'s known | 4 | $\mu_A \ne \mu_B$ | $13.3$ | $0.8345$ | $z = 15.94$ | $\approx 0$ | reject |
+| (b) | Cholesterol pooled $t$ — Ex 7.5a | 5 | $\mu_A - \mu_B > 10$ | $13.3$ | $0.8420$ | $t_{198} = 3.92$ | $6\!\cdot\!10^{-5}$ | reject @ 0.05 |
+| (b-bis) | Branch A vs B Savings — exam_july_2025_1a | 5 | $\mu_A < \mu_B$ | $-162.84$ | $58.45$ | $t = -2.786$ | $0.0027$ | reject @ 0.05 & 0.01 |
+| (b-bis2) | Considered vs Competitor — Ex 7.10a | 5 | $\mu_x > \mu_y$ | $-71.56$ | $49.02$ | $t = -1.459$ | $0.9277$ | retain @ 0.10 |
+| (c) | Cholesterol Welch $t$ (counter-factual) | 6 | $\mu_A - \mu_B > 10$ | $13.3$ | $0.8420$ | $t_{\approx 197} = 3.92$ | $\approx 6\!\cdot\!10^{-5}$ | reject @ 0.05 |
+| (d) | Visit $\ge 1$ pre/post — Ex 7.3a | 7 | $p_\text{POST} > p_\text{PRE}$ | $0.0273$ | $0.0475$ | $z = 0.575$ | $0.2827$ | retain @ 0.05 |
+| (d-bis) | Heavy users $> 4$ — Ex 7.3b | 7 | $p_\text{POST} > p_\text{PRE}$ | $0.0684$ | $0.0464$ | $z = 1.474$ | $0.0703$ | retain @ 0.05; reject @ 0.10 |
+| (d-bis2) | AI tools Younger vs Senior — Ex 7.7a | 7 | $p_\text{Young} > p_\text{Senior}$ | $\approx 0.17$ | (built-in) | $z \approx 4.77$ | $< 10^{-4}$ | reject @ any $\alpha$ |
+
+Within cases (a)/(b)/(c) the **numerator** $\bar x_A - \bar x_B = 13.3$ is identical on the cholesterol thread — only the **SE** ($0.8345$ vs $0.8420$ vs $0.8420$) and the **critical-value family** ($z$ vs $t_{198}$ vs $t_{197.4}$) change. Between (a*)–(c*) (means) and (d*) (proportions) the *structure* is the same; what changes is just which row of the universal table the question lives in.
 
 </details>
 
+<details class="master-subpart">
+<summary>(f) Cross-references — where each two-sample case reappears</summary>
+
+- **Topic anchor (universal recipe + 10-row master table)** — **`g14a`**. The universal 3-slot template $T = (\widehat\theta - \theta_0)/\widehat{\rm SE}_{H_0}$, the two equivalent decision rules (critical-value vs $p$-value), the one-sided/two-sided rejection regions and the Type-I/Type-II/power vocabulary all live there; **g14b** only **applies** rows 4–7.
+- **One-sample analogues (rows 1–3)** — **`g14a`** (a)/(b)/(c). Case 4 ⇄ row 1 (just two $z$ pivots stacked by independence); case 5 ⇄ row 2 ($t$ pivot with a pooled-variance plug-in); case 6 ⇄ row 2 with separate variances; case 7 ⇄ row 3 (proportion $z$ with the SE pinned by the null).
+- **Paired tests (row 8)** — **`g14c`**. When the two samples are matched (same subject Pre/Post, twins, before/after), the independence assumption of rows 4–6 fails — the SE must include the within-pair covariance term and the problem reduces to a *one-sample* $t$-test of (g14a row 2) on the differences $d_i = x_i - y_i$. Always answer *"is the data paired?"* before opening this entry.
+- **Chi-squared tests (row 9)** — **`g14d`**. A genuinely different testing apparatus: right-tail-only on $\chi^2_{\rm df}$, statistic is $X^2 = \sum (O - E)^2/E$, no SE in the universal template sense. Use for goodness-of-fit and independence in a contingency table; the two-proportion $z$-test of case 7 is a special case of a $2\times 2$ independence test ($Z^2 = X^2$ on 1 df under $H_0$).
+- **Power / sample-size (row 10)** — **`g14e`**.
+- **CI counterparts (G13 mirror).** Case 4 ⇄ **`g13c`** (a); case 5 ⇄ **`g13c`** (b); case 6 ⇄ **`g13c`** (c); case 7 ⇄ **`g13d`** (a) — **with the unpooled SE** (see the boxed warning in (d)). The CI ⇄ test duality is exact for cases 4/5/6 (same SE on both sides); only approximate for case 7 because the SE formulas differ.
+- **Levene's test** (variance-equality check, drives the case-5-vs-case-6 choice) — **`g13c` Part 9**. The exam sub-question `exam_sep_2025_5b` is a pure Levene-only problem feeding the CI of `exam_sep_2025_5a`/`5c`, so it is tagged to `g13c` rather than g14b.
+- **Underlying unbiased estimators** ($\bar X, \hat p, S^2, S_p^2$ and their sampling SEs) — **`g13f`**. Every $\widehat\theta - \delta_0$ in rows 4–7 is an unbiased estimator minus the null value.
+- **Variance-scaling, $n$ ⇄ SE laws.** Identical to G13 — quadrupling $n$ halves $\widehat{\rm SE}$, doubles $|T|$, collapses the $p$-value. See `g13a` for the width table.
+
+</details>
+
+---
+
+### Summary
+
+g14b covers the **four two-sample independent rows** of the universal hypothesis-test table. Case 4 (means, $\sigma$'s known) ⇒ exact $z$-test with $\sqrt{\sigma_A^2/n_A + \sigma_B^2/n_B}$; case 5 (means, equal-var pooled $t$) ⇒ $t_{n_A + n_B - 2}$ with $s_p^2$; case 6 (means, Welch $t$) ⇒ $t_{\nu^W}$ with separate $s_A^2/n_A + s_B^2/n_B$; case 7 (proportions) ⇒ $z$-test with the **pooled** SE evaluated under $H_0: p_A = p_B$ — **not** the unpooled CI plug-in (see `g13d`). The Levene branch (decides 5 vs 6) is cross-referenced to `g13c` Part 9, not re-derived. Continue to **`g14c`** for paired tests, **`g14d`** for $\chi^2$, **`g14e`** for power & sample-size.
 """,
     "images": ["statistics/images/master/master_g14b_ai.png"],
 }
@@ -2153,188 +2610,321 @@ qnorm(0.90)                                           # 1.2816 (one-sided crit a
 # Dataset: Arcade revenue, n=7 stores, d_bar = 120 EUR, s_d = 110 EUR
 # =====================================================================
 master_exercises["g14c_paired"] = {
-    "title": "Master Exam — Paired hypothesis test (Arcade wi-fi, before vs after)",
-    "content": r"""**Master exercise — Paired hypothesis test for a mean difference (one-sided).**
+    "title": "Master Exam — Paired hypothesis test (row 8: reduces to one-mean $t$ on differences)",
+    "content": r"""## Setup — running dataset for every numeric example below
 
-This single exercise consolidates the unique sub-tasks asked across **Ex 7.6a** (paired $t$-test with $n=7$) and **Ex 7.6b** (effect of doubling the sample to $n=14$): why pairing is the right design, construction of the differences $D_i$, the test statistic $T = \bar D/(s_d/\sqrt n)\sim t_{n-1}$, rejection regions at $\alpha=0.05$ and $\alpha=0.01$, the one-sided $p$-value, and the *scaling laws* that explain how SE, $t_\text{obs}$ and the $p$-value move when $n$ doubles.
+An arcade chain installed **free wi-fi** in one of its stores and now wants to decide whether the service should be rolled out chain-wide. For each of $n = 7$ stores the manager recorded the **weekly daily revenue** (in €100s) in a typical week **before** the installation ($X^\text{B}_i$) and again in a typical week **three months after** ($X^\text{A}_i$). Sample summaries:
+
+| | Mean | Variance |
+|---|---|---|
+| PRE  | $\bar X_\text{B} = 13$ | $s_\text{B}^2 = 12$ |
+| POST | $\bar X_\text{A} = 16$ | $s_\text{A}^2 = 21$ |
+
+with cross-**covariance** $s_\text{B,A} = 11$. Because each store contributes *both* values the design is **paired**, not independent. The within-store difference
+
+$$D_i \;=\; X^\text{A}_i \;-\; X^\text{B}_i, \qquad i = 1, \ldots, 7$$
+
+has sample mean and SD (derived in subpart (b) below)
+
+$$\bar d \;=\; \bar X_\text{A} - \bar X_\text{B} \;=\; 16 - 13 \;=\; 3, \qquad s_d^2 \;=\; s_\text{A}^2 + s_\text{B}^2 - 2\,s_\text{B,A} \;=\; 21 + 12 - 22 \;=\; 11, \qquad s_d \;\approx\; 3.317.$$
+
+We reuse this **one dataset** throughout. The horizontal cells of this row are `7_6a` (the paired $t$ at $n=7$) and `7_6b` (effect of $n \to 14$). The same recipe runs on every other matched-pair test in the course: sleep duration before/after diet (`exam_g1_2025_2a`, $n=161$, $r=0.71$), or new-vs-old algorithm performance from summaries $(\bar D, SE(\bar D))$ (`exam_sep_2025_2a`).
 
 ---
 
-### Dataset (single, shared by all parts)
+## This is **row 8** of the universal hypothesis-test master table (see **`g14a`**)
 
-An arcade chain installed **free wi-fi** in its stores. For each of $n=7$ stores the manager recorded the **weekly revenue** before installation ($X^\text{B}_i$, €) and again three months **after** ($X^\text{A}_i$, €). Because the same store is measured twice, the natural unit of analysis is the **within-store difference**
-$$D_i \;=\; X^\text{A}_i \;-\; X^\text{B}_i,\qquad i=1,\dots,7.$$
+| # | Parameter | $H_0$ | Test statistic | Null distribution | Reject $H_0$ (two-sided $\alpha$) |
+|---|---|---|---|---|---|
+| **8** | Paired mean $\mu_d = \mathbb E[D]$ ($D = X - Y$) | $\mu_d = 0$ | reduce to row 2 on $d_i = x_i - y_i$: $\;T = \dfrac{\bar D - 0}{s_d/\sqrt n}$ | $t_{n-1}$ | $|T| > t_{1-\alpha/2,\,n-1}$ |
 
-Sample summaries of the differences:
-$$n = 7,\qquad \bar d \;=\; 120\;\text{€},\qquad s_d \;=\; 110\;\text{€}.$$
+There is **no separate paired-test formula to memorise** — only the **reduction step** ($d_i = x_i - y_i$, compute $\bar d, s_d$) and the **identification step** (recognising paired vs independent). After the reduction the problem is *literally* the one-mean $t$-test of row 2.
 
-(The before/after means and the cross-covariance have already been folded into $s_d$; with only the differences in hand the problem becomes a one-sample $t$-problem on $D$.)
+### 3-step procedure for every paired test exam question
+
+1. **Form the within-pair differences** $d_i = x_i - y_i$ (sign convention: pick one direction up front — usually "After − Before" so positive means an increase — and stick to it through $H_1$).
+2. **Compute $\bar d, s_d, n$** on the differences. If only $\bar x, \bar y, s_X, s_Y, \hat\rho$ (or $s_{X,Y}$) are given, recover $s_d^2 = s_X^2 + s_Y^2 - 2\,\hat\rho\,s_X s_Y = s_X^2 + s_Y^2 - 2\,s_{X,Y}$ (subpart (b)).
+3. **Apply row 2 of the universal test table** ($t_{n-1}$) with $\mu_0 = 0$: $T = \bar d / (s_d/\sqrt n)$, compare with $t_{1-\alpha/2,\,n-1}$ (or $t_{1-\alpha,\,n-1}$ for a one-sided $H_1$), report the $p$-value, decide. Done.
+
+> ### **WARNING — NEVER use the independent-samples test (g14b cases 5/6) on paired data.**
+> The independent SE $\sqrt{s_X^2/n + s_Y^2/n}$ **ignores the within-pair covariance** $\mathrm{Cov}(X_i, Y_i)$. For paired designs with positive correlation $\rho > 0$ (the typical matched case), the correct paired variance $\sigma_X^2 + \sigma_Y^2 - 2\rho\sigma_X\sigma_Y$ is **strictly smaller** than the independent baseline $\sigma_X^2 + \sigma_Y^2$, so treating paired data as independent **inflates** the SE, shrinks $|T|$, enlarges the $p$-value — a real, mechanical loss of power. On the running arcade dataset the inflation factor is $\times \sqrt{33/11} = \times 1.73$ (subpart (c)); on the sleep-diet exam ($r = 0.71$) it is $\times 1/\sqrt{1-0.71} \approx \times 1.86$. The mistake is *procedural*, not numerical, and is the single most common g14b ↔ g14c error in the course.
+
+### Paired-vs-independent power note
+
+The whole point of pairing is the $-2\rho\sigma_X\sigma_Y$ term in $\mathrm{Var}(D_i) = \sigma_X^2 + \sigma_Y^2 - 2\rho\sigma_X\sigma_Y$. With positive within-pair correlation the paired variance is **smaller** than the independent baseline, so the paired test has **higher power** at fixed $n, \alpha$ — same data, smaller SE, larger $|T|$, smaller $p$. Full SE-ratio table in subpart (c).
 
 ---
 
 <details class="master-subpart" open>
-<summary><span class="tag tag-exam">EXAM</span> (a) Why **paired** design? — removing between-store variability</summary>
+<summary><span class="tag tag-exam">EXAM</span> (a) <strong>Case 8</strong> — Paired $t$-test as one-mean $t$ on the differences (Ex 7.6a, exam_g1_2025_2a, exam_sep_2025_2a)</summary>
 
-The two columns $X^\text{B}$ and $X^\text{A}$ are **not** two independent samples: they share the same set of stores. A small arcade in a sleepy suburb has *both* a low $X^\text{B}$ and a low $X^\text{A}$; a busy city-centre arcade has both high values. The store-level shock is **common to the two measurements**, so taking the difference $D_i$ literally **subtracts it out**:
-$$\Var(D) \;=\; \Var(X^\text{A}) + \Var(X^\text{B}) \;-\; 2\,\Cov(X^\text{A},X^\text{B}).$$
-With a positive within-store correlation ($\rho>0$) — which is exactly what we expect across two snapshots of the same store — $\Var(D)$ is **smaller** than the independent-samples variance $\Var(X^\text{A}) + \Var(X^\text{B})$. Pairing therefore **increases statistical power** at fixed $n$: same data, smaller SE, larger $|t|$, smaller $p$.
+**Setting.** Pairs $(X_i, Y_i)$ for $i = 1, \ldots, n$ are i.i.d. across $i$ (random sample of units), with *no* independence assumption *within* a pair. Define $D_i = X_i - Y_i$. Then $D_1, \ldots, D_n$ are i.i.d. with $\mathbb E[D_i] = \mu_X - \mu_Y =: \mu_d$ and
 
-> *Intuition.* Comparing "store $i$ to itself, three months later" is much sharper than comparing "the average of 7 stores to the average of 7 other stores". Pairing exploits the design to **cancel** the between-unit variance.
+$$\Var(D_i) \;=\; \Var(X_i) + \Var(Y_i) - 2\,\Cov(X_i, Y_i) \;=\; \sigma_X^2 + \sigma_Y^2 - 2\,\rho\,\sigma_X\sigma_Y.$$
 
-**From per-group summaries to $s_d$ via the covariance.** If — as in Ex 7.6a's original wording — the data come as separate PRE/POST means and *variances* plus the cross-**covariance** $s_{\text{PRE,POST}}$, you reconstruct $s_d$ without raw data:
-$$s_d^2 \;=\; s_\text{POST}^2 + s_\text{PRE}^2 \;-\; 2\,s_\text{PRE,POST}.$$
-For instance, with $s_\text{POST}^2=21,\,s_\text{PRE}^2=12,\,s_\text{PRE,POST}=11$ one gets $s_d^2 = 21+12-22 = 11$ — the variance is dramatically smaller than the independent-samples sum $21+12=33$ precisely *because* of the positive covariance. The master proceeds with the seed values $\bar d=120,\,s_d=110$; the covariance route is the bridge from textbook input data to the differences' SD.
+The within-pair covariance $\rho\sigma_X\sigma_Y$ does **not vanish** because $X_i, Y_i$ are measured on the *same* unit (same store, same patient, same developer). The sample mean has variance
 
-Because $n=7$ is small the CLT does not apply; we assume the **differences are normal**, $D_i \stackrel{iid}{\sim} N(\mu_D,\sigma_D^2)$ with $\sigma_D^2$ unknown.
+$$\Var(\bar D) \;=\; \frac{\Var(D_i)}{n} \;=\; \frac{\sigma_X^2 + \sigma_Y^2 - 2\rho\sigma_X\sigma_Y}{n}.$$
 
-</details>
+**Pivot.** Replacing $\Var(D_i)$ by its sample analogue $s_d^2 = \tfrac{1}{n-1}\sum_i (d_i - \bar d)^2$, exactly the one-mean argument of row 2 applies:
 
-<details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> (b) Hypotheses and test statistic</summary>
+$$T \;=\; \frac{\bar D - \mu_d}{s_d/\sqrt n} \;\sim\; t_{n-1} \qquad (\text{exact under }D_i \sim \mathcal N,\ \text{approx by CLT for }n \gtrsim 30).$$
 
-Wi-fi extension is justified **only** if revenues **increase**. The most serious error is to roll out wi-fi chain-wide when there is no real gain, so the directional claim sits in $H_1$:
-$$H_0:\mu_D \;\leq\; 0 \quad\text{vs}\quad H_1:\mu_D \;>\; 0.$$
+**Test statistic and decision (row 8 = row 2 on $D$).** Under $H_0: \mu_d = 0$,
 
-With $\sigma_D$ unknown and $D$ assumed normal, the standardised pivot is Student's $t$:
-$$T \;=\; \frac{\bar D - 0}{s_d/\sqrt n} \;\overset{H_0}{\sim}\; t_{n-1} \;=\; t_{6}.$$
+$$\boxed{\;\;T \;=\; \frac{\bar D - 0}{s_d/\sqrt n} \;\overset{H_0}{\sim}\; t_{n-1}, \qquad \text{reject } H_0 \iff |T| > t_{1-\alpha/2,\,n-1}\;\;(\text{two-sided}).\;\;}$$
 
-The standard error and the observed statistic are
-$$\widehat{\text{SE}}(\bar D) \;=\; \frac{s_d}{\sqrt n} \;=\; \frac{110}{\sqrt 7} \;=\; 41.576\;\text{€},$$
-$$t_\text{obs} \;=\; \frac{120}{41.576} \;=\; 2.8863.$$
+The $p$-value follows the universal mini-table at the top of **`g14a`**: $p = 2\Pr(t_{n-1} \ge |t_{\rm obs}|)$ (two-sided), or $\Pr(t_{n-1} \ge t_{\rm obs})$ / $\Pr(t_{n-1} \le t_{\rm obs})$ for the one-sided variants.
 
-```r
-# --- (b) Test statistic at n = 7 -----------------------------------------
-dbar <- 120; sd_d <- 110; n7 <- 7
-se7   <- sd_d / sqrt(n7);     se7              # 41.576
-tobs7 <- dbar / se7;          tobs7            # 2.8863
-```
+**Worked numbers on the running dataset** with $\bar d = 3$, $s_d^2 = 11$, $n = 7$. Wi-fi extension is justified **only** if revenues *increase*, so the directional claim sits in $H_1$ (one-sided upper):
 
-</details>
+$$H_0:\mu_d \;\le\; 0 \qquad\text{vs}\qquad H_1:\mu_d \;>\; 0.$$
 
-<details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> (c) Rejection regions at $\alpha=0.05$ and $\alpha=0.01$ (one-sided upper)</summary>
+- Paired SE: $\widehat{\rm SE}(\bar D) = s_d/\sqrt n = \sqrt{11/7} \approx 1.2536$ (in €100s).
+- Realisation: $t_{\rm obs} = 3 / 1.2536 \approx 2.3931$ on $t_6$.
+- One-sided upper critical values: $t_{0.95,\,6} = 1.9432$ (5%), $t_{0.99,\,6} = 3.1427$ (1%).
+- One-sided $p$-value: $p = \Pr(t_6 > 2.3931) \approx 0.0269$.
 
-Reject $H_0$ when $T$ is **too large**. Critical values from $t_6$:
-$$t_{0.95,\,6} \;=\; 1.9432, \qquad t_{0.99,\,6} \;=\; 3.1427.$$
+**Decision.** $t_{\rm obs} = 2.39 > 1.943 \Rightarrow$ **reject** $H_0$ at $\alpha = 0.05$; $2.39 < 3.143 \Rightarrow$ **retain** at $\alpha = 0.01$. Same verdict from the $p$-value: $0.01 < 0.027 < 0.05$. **Conclusion.** At the 5% level the data support rolling out free wi-fi chain-wide; at the more conservative 1% level the evidence is *not quite* enough.
 
-| Level $\alpha$ | RR on $T$ | RR on $\bar D$ (multiply by SE $=41.576$) | Decision |
+**One-sided lower / two-sided variants on the same statistic.** Same $t_{\rm obs} = 2.3931$, but switch $H_1$:
+
+| $H_1$ | Rejection region | $p$-value | Decision at 5% |
 |---|---|---|---|
-| $0.05$ | $T > 1.9432$ | $\bar D > 80.79$ € | $\bar d = 120 > 80.79$ $\Rightarrow$ **reject $H_0$** |
-| $0.01$ | $T > 3.1427$ | $\bar D > 130.66$ € | $\bar d = 120 < 130.66$ $\Rightarrow$ **do not reject $H_0$** |
+| $\mu_d > 0$ (one-sided upper — original) | $T > 1.9432$ | $\Pr(t_6 > 2.3931) \approx 0.0269$ | **reject** |
+| $\mu_d < 0$ (one-sided lower) | $T < -1.9432$ | $\Pr(t_6 < 2.3931) \approx 0.9731$ | retain (data go the wrong way) |
+| $\mu_d \ne 0$ (two-sided) | $|T| > t_{0.975,\,6} = 2.447$ | $2\Pr(t_6 \ge 2.3931) \approx 0.0538$ | **retain** (just above 0.05) |
 
-So at the 5% level the data support extending the wi-fi service; at the more conservative 1% level the evidence is *not quite* enough.
-
-```r
-# --- (c) Critical values and RRs on Dbar at n = 7 ------------------------
-qt(0.95, df = n7 - 1)                          # 1.9432  (5%, upper)
-qt(0.99, df = n7 - 1)                          # 3.1427  (1%, upper)
-qt(0.95, df = n7 - 1) * se7                    # 80.79   (RR on Dbar, 5%)
-qt(0.99, df = n7 - 1) * se7                    # 130.66  (RR on Dbar, 1%)
-```
-
-</details>
-
-<details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> (d) One-sided $p$-value</summary>
-
-$$p \;=\; P\!\left(t_6 > t_\text{obs}\right) \;=\; P(t_6 > 2.8863) \;\approx\; 0.0139.$$
+The two-sided test fails at 5% even though the upper one-sided test rejects — doubling the $p$-value flips the decision. **The direction of $H_1$ must be pre-specified** from subject-matter knowledge (the chain wants to know if revenues *increased*, not just whether they *changed*); picking it after seeing $\bar d > 0$ would be p-hacking. Same warning as `g14a` (d).
 
 ```r
-1 - pt(tobs7, df = n7 - 1)                     # 0.01391 -> reject at 5%, retain at 1%
-```
-
-Sanity check vs the RR table: $\alpha = 0.05$: $p \approx 0.014 < 0.05 \Rightarrow$ reject; $\alpha = 0.01$: $p \approx 0.014 > 0.01 \Rightarrow$ retain. Both formulations agree, as they must.
-
-**Interpretation.** Under $H_0$ (no average revenue change), observing a sample mean increase of 120 € (or more) across 7 stores has probability $\approx 1.4\%$ — small enough to reject at 5%, but not at 1%.
-
-![Master illustration](statistics/images/master/master_g14c_ai.png)
-
-</details>
-
-<details class="master-subpart">
-<summary>(e) Worked numerical summary ($n=7$)</summary>
-
-| Quantity | Formula | Value |
-|---|---|---|
-| Point estimate $\bar d$ | given | $120$ € |
-| Sample SD $s_d$ | given | $110$ € |
-| Standard error $\widehat{\text{SE}}$ | $s_d/\sqrt n$ | $41.576$ € |
-| Observed $t_\text{obs}$ | $\bar d/\widehat{\text{SE}}$ | $2.8863$ |
-| Critical $t_{0.95,\,6}$ | quantile | $1.9432$ |
-| Critical $t_{0.99,\,6}$ | quantile | $3.1427$ |
-| One-sided $p$-value | $P(t_6 > t_\text{obs})$ | $0.0139$ |
-| Decision at $5\%$ | $p < 0.05$ | **reject $H_0$** |
-| Decision at $1\%$ | $p > 0.01$ | retain $H_0$ |
-
-</details>
-
-<details class="master-subpart">
-<summary>(f) Effect of doubling the sample to $n=14$ (Ex 7.6b)</summary>
-
-Suppose the same per-store summaries $\bar d = 120$, $s_d = 110$ are obtained from a sample of **$n=14$** stores (or, equivalently, two weeks of paired observations on the same 7 stores producing the same $\bar d$ and $s_d$). Three things change *systematically*, **without** recomputing from raw data — the scaling laws are exact.
-
-**1. SE shrinks by $\sqrt 2$.**
-$$\widehat{\text{SE}}_{14} \;=\; \frac{s_d}{\sqrt{14}} \;=\; \frac{110}{3.7417} \;=\; 29.399 \;=\; \frac{\widehat{\text{SE}}_7}{\sqrt 2}.$$
-
-**2. $t_\text{obs}$ grows by $\sqrt 2$** (same numerator, smaller denominator):
-$$t_\text{obs}^{(14)} \;=\; \frac{120}{29.399} \;=\; 4.0818 \;=\; t_\text{obs}^{(7)}\cdot \sqrt 2.$$
-
-**3. df grows from 6 to 13 $\Rightarrow$ critical values shrink.**
-$$t_{0.95,\,13} \;=\; 1.7709 \;<\; 1.9432 \;=\; t_{0.95,\,6}, \qquad t_{0.99,\,13} \;=\; 2.6503 \;<\; 3.1427 \;=\; t_{0.99,\,6}.$$
-
-**4. $p$-value collapses.** Both effects push the tail probability down — larger statistic *and* lighter tail on more df:
-$$p_{14} \;=\; P(t_{13} > 4.0818) \;\approx\; 0.000648,$$
-i.e. **roughly 20$\times$ smaller** than $p_7 \approx 0.0139$.
-
-| Quantity | $n=7$ | $n=14$ | Multiplier |
-|---|---|---|---|
-| $\widehat{\text{SE}} = s_d/\sqrt n$ | $41.576$ | $29.399$ | $1/\sqrt 2$ |
-| $t_\text{obs} = \bar d/\widehat{\text{SE}}$ | $2.8863$ | $4.0818$ | $\sqrt 2$ |
-| df $=n-1$ | $6$ | $13$ | — |
-| $t_{0.95,\,\text{df}}$ | $1.9432$ | $1.7709$ | $\downarrow$ |
-| RR threshold on $\bar D$ at $5\%$ | $80.79$ | $52.06$ | $\downarrow$ |
-| $t_{0.99,\,\text{df}}$ | $3.1427$ | $2.6503$ | $\downarrow$ |
-| RR threshold on $\bar D$ at $1\%$ | $130.66$ | $77.92$ | $\downarrow$ |
-| One-sided $p$-value | $0.0139$ | $0.000648$ | $\div\;21$ |
-| Decision at $5\%$ | reject | reject | **reinforced** |
-| Decision at $1\%$ | retain | **reject** | **flips to reject** |
-
-> *Take-away.* Doubling $n$ keeps the point estimate fixed but **(i)** shrinks the SE by $\sqrt 2$, **(ii)** scales $t_\text{obs}$ by $\sqrt 2$, **(iii)** moves the critical value *down* (heavier-to-lighter $t$-tail as df grows), and **(iv)** collapses the $p$-value by an order of magnitude. The 1%-level decision **flips** from retain to reject — the very conclusion of Ex 7.6b.
-
-```r
-# --- (f) Effect of doubling to n = 14 -------------------------------------
-n14    <- 14
-se14   <- sd_d / sqrt(n14);   se14             # 29.399  = se7 / sqrt(2)
-tobs14 <- dbar / se14;        tobs14           # 4.0818  = tobs7 * sqrt(2)
-qt(0.95, df = n14 - 1)                         # 1.7709  (5%, df=13)
-qt(0.99, df = n14 - 1)                         # 2.6503  (1%, df=13)
-qt(0.95, df = n14 - 1) * se14                  # 52.06   (RR on Dbar, 5%)
-qt(0.99, df = n14 - 1) * se14                  # 77.92   (RR on Dbar, 1%)
-1 - pt(tobs14, df = n14 - 1)                   # 0.000648 -> reject at both 5% AND 1%
-
-# --- One-shot built-in wrapper, if raw paired data are available ----------
+# --- (a) Case 8 — paired t-test on the differences (Ex 7.6a, running data)
+dbar <- 3;  sd_d <- sqrt(11);  n <- 7      # mu_post - mu_pre, n = 7 stores
+SE   <- sd_d / sqrt(n);          SE        # 1.2536
+t    <- (dbar - 0)/SE;           t         # 2.3931
+qt(0.95, df = n-1)                          # 1.9432   one-sided 5% crit
+qt(0.99, df = n-1)                          # 3.1427   one-sided 1% crit
+1 - pt(t, df = n-1)                         # 0.0269   one-sided p (H1: mu_d > 0)
+pt(t, df = n-1)                             # 0.9731   one-sided p (H1: mu_d < 0)
+2 * (1 - pt(abs(t), df = n-1))              # 0.0538   two-sided p
+# Course helper (BAS): paired version of TEST.mean
 # TEST.mean(After - Before, mu0 = 0, alternative = "greater")
+# Base R on raw paired columns:
 # t.test(After, Before, paired = TRUE, alternative = "greater")
 ```
 
+**Assumptions.** (i) The pairs are i.i.d. across units — design-level requirement, not testable from one sample. (ii) For small $n$ (here $n=7$) the **differences $D_i$ are approximately normal** — *not* $X_i$ or $Y_i$ separately, only the differences. For larger $n$ (e.g. `exam_g1_2025_2a` with $n=161$, or `exam_sep_2025_2a` with $n$ large) the CLT makes (ii) automatic and $t_{n-1} \approx z$ — see the algorithm-performance exam for the summary-statistic form on a $z$ reference.
+
+![Master illustration — paired test is one-mean t on the differences](statistics/images/master/master_g14c_ai.png)
+
 </details>
 
 <details class="master-subpart">
-<summary>(g) Final decision</summary>
+<summary><span class="tag tag-exam">EXAM</span> (b) Paired test from raw $(x_i, y_i)$ vs from summary $(\bar d, s_d, n)$ — and the doubling-$n$ scaling (Ex 7.6b)</summary>
 
-- **At $n=7$:** $p \approx 0.014$ — reject $H_0$ at $5\%$, retain at $1\%$. Wi-fi extension is *moderately* supported.
-- **At $n=14$:** $p \approx 0.00065$ — reject $H_0$ at *both* $5\%$ and $1\%$. Strong evidence of a revenue increase.
+Data arrive in **two formats**. The reduction $d_i = x_i - y_i$ and the formula $T = \bar d / (s_d/\sqrt n)$ are identical — only the input differs.
 
-In both cases the **direction** is the same (revenues went up by 120 € on average per store-week). What changes with $n$ is the **strength of evidence** that this is more than sampling noise.
+**(b1) Raw paired columns.** Compute the per-pair differences first, then call any one-sample $t$ machinery on them.
+
+```r
+# Generic template: x = After, y = Before  (or x = NA_Sales, y = EU_Sales, etc.)
+d     <- x - y
+n     <- length(d)
+dbar  <- mean(d)
+sd_d  <- sd(d)
+SE    <- sd_d / sqrt(n)
+t     <- dbar / SE
+1 - pt(t, df = n-1)                              # one-sided upper p
+2 * (1 - pt(abs(t), df = n-1))                   # two-sided p
+
+# One-shot equivalents:
+t.test(x, y, paired = TRUE, alternative = "two.sided")   # two-sided
+t.test(x, y, paired = TRUE, alternative = "greater")     # H1: mu_x > mu_y
+t.test(x, y, paired = TRUE, alternative = "less")        # H1: mu_x < mu_y
+# Course helper (BAS):
+# TEST.mean(x - y, mu0 = 0, alternative = "greater")
+```
+
+**(b2) Summary statistics $(\bar x_\text{X}, \bar x_\text{Y}, s_X, s_Y, \hat\rho \text{ or } s_{X,Y}, n)$ — Ex 7.6a as given.** Reconstruct $\bar d$ and $s_d$ first; then proceed identically. From $\Var(X-Y) = \Var(X) + \Var(Y) - 2\Cov(X,Y)$ the sample analogue is
+
+$$\boxed{\;\;s_d^2 \;=\; s_X^2 + s_Y^2 - 2\,\hat\rho\,s_X s_Y \;=\; s_X^2 + s_Y^2 - 2\,s_{X,Y}\;\;}$$
+
+```r
+# (b2) Summary route — running arcade dataset (Ex 7.6a)
+n     <- 7
+xbarA <- 16;   xbarB <- 13                       # POST, PRE means
+s2A   <- 21;   s2B   <- 12;   s_BA  <- 11        # POST, PRE variances + covariance
+dbar  <- xbarA - xbarB                            # 3
+sd2_d <- s2A + s2B - 2*s_BA;     sd2_d           # 11   (NOT 33!)
+sd_d  <- sqrt(sd2_d)                              # 3.317
+SE    <- sd_d / sqrt(n);         SE              # 1.2536
+t     <- dbar / SE;              t                # 2.3931
+1 - pt(t, df = n-1)                               # 0.0269 one-sided p
+# Sleep-diet exam (exam_g1_2025_2a, n=161, r=0.71):
+sd_D  <- sqrt(45.61^2 + 48^2 - 2*0.71*45.61*48)  # ~ 35.71
+t     <- (414 - 402.89)/(sd_D/sqrt(161));   t    # ~ 3.95
+1 - pt(t, df = 160)                               # ~ 5.85e-5
+```
+
+**Verify equivalence.** On raw data, `sd(d)` and the summary reconstruction $\sqrt{s_X^2 + s_Y^2 - 2\,\mathrm{cov}(x,y)}$ agree exactly:
+
+```r
+all.equal(var(d), var(x) + var(y) - 2*cov(x, y))     # TRUE
+```
+
+**Doubling-$n$ scaling (Ex 7.6b).** Suppose the same $\bar d = 3, s_d^2 = 11$ are obtained from a sample of $n = 14$ stores (two weeks of paired observations on the same 7 stores). Three things change *systematically*, **without** recomputing from raw data — the scaling laws are exact (and identical to `g13a` for CIs):
+
+| Quantity | $n = 7$ | $n = 14$ | Multiplier |
+|---|---|---|---|
+| $\widehat{\rm SE} = s_d/\sqrt n$ | $1.2536$ | $0.8864$ | $1/\sqrt 2$ |
+| $t_{\rm obs} = \bar d/\widehat{\rm SE}$ | $2.3931$ | $3.3844$ | $\sqrt 2$ |
+| df $= n - 1$ | $6$ | $13$ | — |
+| $t_{0.95,\,\text{df}}$ | $1.9432$ | $1.7709$ | $\downarrow$ |
+| $t_{0.99,\,\text{df}}$ | $3.1427$ | $2.6503$ | $\downarrow$ |
+| One-sided $p$-value | $0.0269$ | $\approx 0.0024$ | $\div\;11$ |
+| Decision at $5\%$ | reject | reject | **reinforced** |
+| Decision at $1\%$ | retain | **reject** | **flips to reject** |
+
+Two effects push the tail probability down — **larger statistic** *and* **lighter tail** on more df. The 1%-level decision flips from retain to reject. The same scaling is what `g14e` formalises as "power $\uparrow$ as $n \uparrow$".
+
+```r
+# Doubling n on the same per-store summaries
+n14   <- 14
+SE14  <- sqrt(11/n14);            SE14            # 0.8864 = SE7 / sqrt(2)
+t14   <- 3 / SE14;                t14             # 3.3844 = t7  * sqrt(2)
+qt(0.95, df = n14-1)                              # 1.7709
+qt(0.99, df = n14-1)                              # 2.6503
+1 - pt(t14, df = n14-1)                           # ~ 0.0024 (reject at 1% AND 5%)
+```
 
 </details>
+
+<details class="master-subpart">
+<summary><span class="tag tag-2plus">≥2 ex</span> (c) Paired vs independent — power gain (the SE-ratio table)</summary>
+
+The whole point of pairing is the $-2\rho\sigma_X\sigma_Y$ term in $\Var(D_i)$. Compare the two SE flavours at fixed $\sigma_X = \sigma_Y = \sigma$:
+
+| SE flavour | Variance of $\bar D$ | SE of $\bar D$ | Inflation vs paired |
+|---|---|---|---|
+| **Paired** (correct) | $\dfrac{2\sigma^2(1-\rho)}{n}$ | $\sigma\sqrt{2(1-\rho)/n}$ | $\times 1$ baseline |
+| **Independent** (wrong here) | $\dfrac{2\sigma^2}{n}$ | $\sigma\sqrt{2/n}$ | $\times \dfrac{1}{\sqrt{1-\rho}}$ |
+
+The ratio $\widehat{\rm SE}_{\rm indep} / \widehat{\rm SE}_{\rm paired} = 1/\sqrt{1-\rho}$ blows up as $\rho \uparrow 1$:
+
+| $\rho$ | $1 - \rho$ | Inflation $= 1/\sqrt{1-\rho}$ | Effective $n$ lost |
+|---:|---:|---:|---|
+| $0.0$ | $1.00$ | $\times 1.00$ | none (paired = indep) |
+| $0.5$ | $0.50$ | $\times 1.41$ | half of $n$ |
+| $0.7$ | $0.30$ | $\times 1.83$ | $70\%$ of $n$ |
+| $0.9$ | $0.10$ | $\times 3.16$ | $90\%$ of $n$ |
+
+**On the running arcade dataset** ($s_X^2 = 12, s_Y^2 = 21, s_{X,Y} = 11$, implied $\hat\rho = 11/\sqrt{12\cdot 21} \approx 0.693$): the wrong independent variance for the difference is $s_X^2 + s_Y^2 = 33$ versus the correct paired variance $s_d^2 = 11$ — a $\sqrt{33/11} = \sqrt 3 \approx 1.73\times$ SE inflation. The wrong $t$-statistic would be $t_{\rm indep} = 3/\sqrt{33/7} \approx 1.382$ on $t_{12}$ (pooled two-sample df with $n_A = n_B = 7$), giving $p \approx 0.10$ — **fails to reject at 5%, opposite verdict from the correct paired test** ($p \approx 0.027$). The mistake is *procedural*, not numerical, and is the single most common g14b ↔ g14c error in the course.
+
+```r
+# Wrong-independent vs correct-paired analysis on the running dataset
+# Correct (paired): t = 2.3931 on df = 6, p ~ 0.027 -> reject at 5%
+# Wrong (independent, pooled): ignores Cov(X,Y) = 11
+SE_indep <- sqrt(12/7 + 21/7);           SE_indep   # 2.171
+t_indep  <- 3 / SE_indep;                 t_indep    # 1.382  (vs 2.393 paired)
+2 * (1 - pt(abs(t_indep), df = 7+7-2))               # ~ 0.19 (two-sided)
+1 - pt(t_indep, df = 7+7-2)                          # ~ 0.10  one-sided -> RETAIN at 5%
+# Inflation factor on the SE
+SE_indep / sqrt(11/7)                                 # ~ 1.73 = sqrt(3)
+1 / sqrt(1 - 11/sqrt(12*21))                          # same number via 1/sqrt(1-rho)
+```
+
+The independent-samples *test* counterpart lives in **`g14b`** (cases 5 pooled / 6 Welch). The independent-samples *CI* counterpart is **`g13c`**. Both are the **wrong tool** when units are matched — see the boxed warning at the top of this entry.
+
+</details>
+
+<details class="master-subpart">
+<summary>(d) CI ⇄ test duality on paired data (cross-reference to `g13e`)</summary>
+
+For the two-sided case the paired test of (a) and the **paired CI** of `g13e` are *two views of the same operation*:
+
+$$\boxed{\;\;\text{Reject } H_0: \mu_d = 0 \text{ at level } \alpha \iff (1-\alpha) \text{ paired CI for } \mu_d \text{ does NOT contain } 0.\;\;}$$
+
+The two SE formulas are *identical* — both are $s_d/\sqrt n$, both use the $t_{n-1}$ critical — so the duality is **exact** here (no analogue of the one-proportion CI/test SE drift of `g14a` (c)). Whichever lens the question asks for, the numerical verdict is the same.
+
+**On the running arcade dataset** (two-sided variant, for the duality check):
+
+- Two-sided $p$-value at $t_{\rm obs} = 2.3931$: $p_2 \approx 0.0538$ ⇒ **retain $H_0$** at $\alpha = 0.05$.
+- 95% paired CI for $\mu_d$: $\bar d \pm t_{0.975,\,6} \cdot s_d/\sqrt n = 3 \pm 2.447 \cdot 1.2536 = [-0.067,\,6.067]$ — **contains $0$** ⇒ same retain verdict.
+
+Switch to $\alpha = 0.10$ (so $t_{0.95,\,6} = 1.9432$): the 90% CI is $3 \pm 1.9432 \cdot 1.2536 = [0.564, 5.436]$ — **excludes $0$** ⇒ the two-sided test rejects at 10%, matching $p_2 = 0.0538 < 0.10$. Both routes always agree.
+
+For a one-sided test the duality compares to a **one-sided CI**: the upper one-sided 95% CI is $(-\infty, \bar d + t_{0.95,\,6}\cdot s_d/\sqrt n] = (-\infty, 5.436]$ — not the question one typically reads off the printed two-sided CI; for one-sided tests stick with the $p$-value comparison.
+
+```r
+# CI <-> test duality on the running dataset (two-sided)
+dbar  <- 3; sd_d <- sqrt(11); n <- 7
+SE    <- sd_d / sqrt(n)
+# 95% two-sided paired CI
+tc95  <- qt(0.975, df = n-1);   tc95              # 2.447
+c(dbar - tc95*SE, dbar + tc95*SE)                 # [-0.067, 6.067]  contains 0 -> retain
+# 90% two-sided paired CI
+tc90  <- qt(0.95,  df = n-1);   tc90              # 1.9432
+c(dbar - tc90*SE, dbar + tc90*SE)                 # [ 0.564, 5.436]  excludes 0 -> reject @ 10%
+# Same via t.test on raw paired columns:
+# t.test(After, Before, paired = TRUE, conf.level = 0.95)$conf.int
+```
+
+The full paired-CI machinery — derivation, ME table at 90/95/99%, reading $\bar d$ backwards from a printed CI — lives in **`g13e`** and is **not** re-derived here.
+
+</details>
+
+<details class="master-subpart">
+<summary>(e) Cross-references — where each piece of the paired story lives</summary>
+
+- **Universal hypothesis-test recipe and master case table** — see **`g14a`** (rows 1–10; this entry owns row 8). g14c contributes *nothing new* to the template — it is the row-2 $t$-test applied to the derived variable $D$.
+- **One-mean test row 2 (the row we reduce to)** — see **`g14a`** (b). The whole machinery of $t_{n-1}$ critical values, the $z$-vs-$t$ rationale, the one-sided/two-sided $p$-value table, the Type-I/II vocabulary is there and is **not** re-derived here.
+- **Independent two-sample tests rows 4–7 — `g14b` (DO NOT USE on paired data).** Pooled $t$ (row 5), Welch $t$ (row 6), two-proportion $z$ (row 7). Using `g14b` on paired data **inflates the SE by $1/\sqrt{1-\rho}$** (subpart (c)) — the very phenomenon pairing was designed to eliminate.
+- **Paired CI counterpart on the same parameter** ($\mu_d$) — see **`g13e`**. Same reduction $d_i = x_i - y_i$, then row 2 of the CI table; the CI ⇄ test duality holds *exactly* (subpart (d)).
+- **One-mean CI rows 1–2 (the row $\mu_d$-CI reduces to)** — see **`g13a`**.
+- **Estimation foundation** (unbiasedness of $\bar D$ and $S_d^2$, sampling SE) — see **`g13f`**.
+- **Power / sample-size analysis** — see **`g14e`** for how $\beta$, power and $n$ trade off; the doubling-$n$ scaling in subpart (b) is a one-step preview of that machinery applied to a paired design.
+
+> **Bookmark.** Row 8 is row 2 *in disguise*. The only two things to remember are **(i) reduce $\to d_i$ and use $t_{n-1}$** and **(ii) never use the independent test (g14b cases 5/6) on paired data** — the within-pair covariance is exactly what pairing was designed to exploit.
+
+</details>
+
+---
+
+### Side-by-side summary (running arcade dataset, $\bar d = 3$, $s_d^2 = 11$)
+
+| Quantity | $n = 7$ | $n = 14$ | Where |
+|---|---:|---:|---|
+| Paired SE $= s_d/\sqrt n$ | $1.2536$ | $0.8864$ | (a), (b) |
+| $t_{\rm obs} = \bar d/\widehat{\rm SE}$ | $2.3931$ | $3.3844$ | (a), (b) |
+| df $= n - 1$ | $6$ | $13$ | (a) |
+| $t_{0.95,\,\text{df}}$ / $t_{0.99,\,\text{df}}$ | $1.9432$ / $3.1427$ | $1.7709$ / $2.6503$ | (a), (b) |
+| One-sided $p$-value ($H_1:\mu_d > 0$) | $0.0269$ | $\approx 0.0024$ | (a), (b) |
+| Two-sided $p$-value | $0.0538$ | $\approx 0.0048$ | (a), (d) |
+| Decision @ 5% (one-sided) | **reject** | **reject** | (a), (b) |
+| Decision @ 1% (one-sided) | retain | **reject** | (b) |
+| 95% paired CI for $\mu_d$ | $[-0.067,\,6.067]$ (contains 0) | $[1.085,\,4.915]$ (excludes 0) | (d), `g13e` |
+| Wrong-independent SE | $2.171$ | $1.535$ | (c) |
+| SE inflation $\sqrt{(s_X^2+s_Y^2)/s_d^2}$ | $\times 1.73$ | $\times 1.73$ | (c) |
+
+**One-line take-away.** Row 8 of the universal test table = row 2 applied to $d_i = x_i - y_i$: $T = \bar d / (s_d/\sqrt n) \sim t_{n-1}$ under $H_0:\mu_d = 0$, validity gated by i.i.d. pairs and (small-$n$) normality of $D$. **Never use the independent test (g14b cases 5/6) on paired data** — the within-pair covariance is exactly what pairing was built to exploit. Continue to **`g13e`** for the matching paired CI, **`g14b`** for the independent-samples counterpart (when units are NOT matched), **`g14e`** for the power / sample-size analysis.
 """,
     "images": ["statistics/images/master/master_g14c_ai.png"],
 }
 
 master_exercises["g15b_prediction"] = {
     "title": "Master Exam — Prediction intervals & CI for the mean response (consolidated)",
-    "content": r"""**Setup.** A sociologist suspects that families exposed to many TV commercials end up spending more — and therefore borrowing more. A random sample of $n=430$ households is drawn from the `TeleDebt` dataframe; for each household two variables are recorded:
+    "content": r"""> **This entry is rows 6–7 of the universal regression table** (see top of `g15a`). Both intervals re-use the *same* $\hat y_0 = \hat\beta_0 + \hat\beta_1 x_0$; the **only** structural difference is the **"$+1$"** inside the prediction-interval square-root, which adds the irreducible residual variance $\hat\sigma^2$ to the line-position variance.
+
+| Subpart | Master-table row | Use |
+|---|---|---|
+| (i) CI for **mean response** at $x_0$ | row 6 | uncertainty about the *line*  |
+| (ii) PI for **individual response** at $x_0$ | row 7 | uncertainty about *one new draw* |
+
+> The 7-step recipe (model → OLS → fit-quality → coefficient inference → global $F$ → **prediction** → diagnostics) lives at the top of `g15a`; this entry zooms in on step **6**. We borrow the simple-regression fit from `g15a` as scaffolding so the structural CI-vs-PI comparison comes out cleanly; multiple-regression generalises by replacing $1/n + (x_0-\bar x)^2/((n-1)s_x^2)$ with the leverage $x_0^\top(X^\top X)^{-1}x_0$.
+
+---
+
+**Setup.** A sociologist suspects that families exposed to many TV commercials end up spending more — and therefore borrowing more. A random sample of $n=430$ households is drawn from the `TeleDebt` dataframe; for each household two variables are recorded:
 
 - $X = $ `Television` = hours per week the TV is turned on,
 - $Y = $ `Debt` = total outstanding family debt in dollars.
@@ -2580,242 +3170,227 @@ c(yhat - ME, yhat + ME)                                # (65.32, 102.68) -- extr
 }
 
 master_exercises["g14d_chi_squared"] = {
-    "title": "Master Exam — Chi-squared (GoF + independence) (consolidated)",
-    "content": r"""**Setup.** A retail chain monitors customer behaviour via the categorical variable `History`, a four-level summary of past purchase activity with levels **None**, **Low**, **Medium**, **High**. The data analyst also records each customer's `Location` (proximity to a competing physical store: **Close** vs **Far**). A random sample of $n=750$ customers gives the following two views of the same data:
+    "title": "Master Exam — Chi-squared tests (row 9: goodness-of-fit + independence, both right-tail only)",
+    "content": r"""## Setup — two running datasets (one per sub-case)
 
-**View 1 — marginal counts of `History`** (for the goodness-of-fit test):
+This master entry walks **row 9** of the universal hypothesis-test table — the $\chi^2$ tests. Two sub-cases share the **same Pearson statistic** $X^2 = \sum (O-E)^2/E$ but differ in how $E$ is built and how df is counted, so we anchor each to one running dataset that re-appears in the horizontal cells and the past exams.
 
-| History | None | Low | Medium | High | total |
+**Dataset A — for Goodness-of-Fit (Ex 7.9a, `DS$Children`).** A retailer's customer dataset `DS` records the number of children per household, summarised in $K=4$ ordered categories. On $n=750$ customers:
+
+| Children $k$ | 0 | 1 | 2 | 3+ | total |
 |---|---|---|---|---|---|
-| Observed $O_k$ | 181 | 150 | 205 | 214 | $n=750$ |
+| Observed $O_k$ | 360 | 184 | 111 | 95 | $n=750$ |
 
-**View 2 — `History` $\times$ `Location` contingency table** (for the independence test):
+The hypothesised reference is the **Italian population** distribution $p^0 = (0.76,\, 0.13,\, 0.09,\, 0.02)$ — fully specified, no parameters estimated from `DS`.
 
-| | Close | Far | row total |
-|---|---|---|---|
-| **None**   | 100 | 81  | 181 |
-| **Low**    |  60 | 90  | 150 |
-| **Medium** | 110 | 95  | 205 |
-| **High**   |  90 | 124 | 214 |
-| **col total** | **360** | **390** | **750** |
+**Dataset B — for Independence (`exam_g1_2026_2a / 2b / 3a`, Credit data).** A bank records the loan purpose `PurposeLoan` ($r=5$ levels) and the employment status `EmplStatus` ($c=3$ levels) of each applicant, summarised in an $r\times c$ contingency table. After cross-tabulation, the Pearson statistic on the observed cells is
 
-Both views are useful, but they answer **different** questions:
+$$X^2_\text{obs} \;=\; 11.107, \qquad \text{df} \;=\; (r-1)(c-1) \;=\; 4 \times 2 \;=\; 8.$$
 
-- *GoF:* does **one** categorical variable follow a **fully specified** distribution? (Here: is `History` **uniform** across the four levels?)
-- *Independence:* are **two** categorical variables (`History` and `Location`) **statistically independent**?
+We reuse these **two** datasets throughout. The horizontal cells of this row are `7_4a` (uniform GoF on `History`), `7_4b` (GoF within Location strata), `7_7b` ($5\times 5$ independence on `Age_Class × LearnTool`), `7_9a` (Dataset A above), and `7_9b` (uniform GoF on 4 supermarket entrances). The four past exams `exam_g2_2025_2a, exam_g1_2026_2a, 2b, 3a` are all this row.
 
-The two tests share the same machinery — a Pearson statistic $X^2 = \sum (O-E)^2/E$ that under $H_0$ is approximately $\chi^2$ — but **differ in (i) how $E$ is built and (ii) the degrees of freedom**.
+---
+
+## This is **row 9** of the universal hypothesis-test master table (see **`g14a`**)
+
+> | # | Parameter | $H_0$ | Test statistic | Null distribution | Reject $H_0$ (right tail only!) |
+> |---|---|---|---|---|---|
+> | **9a — GoF** | one categorical, $K$ levels | $p = p^{(0)}$ (fully or partially specified) | $X^2 = \sum_{k=1}^K \dfrac{(O_k-E_k)^2}{E_k}$, &nbsp; $E_k = n p_k^{(0)}$ | $\chi^2_{K-1-q}$ &nbsp;($q$ = # parameters estimated from the data; $q=0$ when $H_0$ fully specifies $p^{(0)}$) | $X^2 > \chi^2_{1-\alpha,\,K-1-q}$ |
+> | **9b — Indep.** | two categorical, $r\times c$ table | $X \perp\!\!\!\perp Y$, i.e. $p_{ij} = p_{i\cdot}\,p_{\cdot j}$ | $X^2 = \sum_{i,j} \dfrac{(O_{ij}-\widehat E_{ij})^2}{\widehat E_{ij}}$, &nbsp; $\widehat E_{ij} = \dfrac{n_{i\cdot}\,n_{\cdot j}}{n}$ | $\chi^2_{(r-1)(c-1)}$ | $X^2 > \chi^2_{1-\alpha,\,(r-1)(c-1)}$ |
+>
+> **Pearson statistic (both sub-cases):** $X^2 = \sum (O-E)^2/E$, asymptotically $\chi^2_{\rm df}$ under $H_0$.
+>
+> **Validity (Cochran).** All $E_k$ (or $\widehat E_{ij}$) $\ge 5$; if a few cells fail, merge sparse categories or switch to `fisher.test` (2×2) — see (c).
+>
+> **Pearson statistic (both rows):** $X^2 = \sum (O-E)^2/E$, asymptotically $\chi^2_{\rm df}$ under $H_0$.
+>
+> ### **Right-tail only — boxed reminder.**
+> Unlike the $z$/$t$ tests of rows 1–8, the $\chi^2$ tests are **strictly right-tailed** — there is no two-sided or lower-tail version. **Geometric reason:** $X^2 = \sum (O-E)^2/E$ is a sum of **squared** standardised deviations between observed and expected counts. It is non-negative, takes value $0$ when $O = E$ exactly (perfect agreement with $H_0$), and grows the further $O$ drifts from $E$ in *any* direction. **Large** $X^2$ means "poor fit" / "association" → evidence against $H_0$; **small** $X^2$ means "$O \approx E$" → consistent with $H_0$ (never *evidence for* $H_0$). The $p$-value is *always* $\Pr(\chi^2_{\rm df} \ge X^2_{\rm obs})$ — see (d) for the full geometric argument.
+
+### 3-step procedure for every $\chi^2$ exam question
+
+1. **Decide GoF (9a) vs Independence (9b).** *One* categorical variable being compared to a hypothesised distribution → GoF. *Two* categorical variables in a contingency table, testing whether they vary jointly → Independence. If you have a $2 \times 2$ table the independence test is *equivalent* to the two-proportion $z$-test of `g14b` row 7 (see (e)).
+2. **Compute expected counts $E$.** GoF: $E_k = n\, p_k^{(0)}$ (no estimation, $E$ comes purely from $H_0$). Independence: $\widehat E_{ij} = n_{i\cdot}\,n_{\cdot j}/n$ (marginals estimated from the table). **Verify all $E \ge 5$** (Cochran) — see (c).
+3. **Compute $X^2 = \sum (O-E)^2/E$, compare to $\chi^2_{1-\alpha,\,\rm df}$.** Reject iff $X^2_{\rm obs} > \chi^2_{1-\alpha,\,\rm df}$, equivalently iff $p\text{-value} = \Pr(\chi^2_{\rm df} \ge X^2_{\rm obs}) < \alpha$. **Always right tail.**
 
 ---
 
 <details class="master-subpart" open>
-<summary><span class="tag tag-exam">EXAM</span> Part (a) — Goodness-of-fit: is `History` uniform?</summary>
+<summary><span class="tag tag-exam">EXAM</span> (a) <strong>Case 9a</strong> — Chi-squared Goodness-of-Fit on Dataset A (Ex 7.4a, Ex 7.9a/b, exam_g2_2025_2a)</summary>
 
-Take a single categorical variable with $K$ levels and **hypothesised** probabilities $(p_1^0,\dots,p_K^0)$ summing to 1. Here the manager wants to test whether the four `History` levels are equally likely, i.e. $p_k^0 = 0.25$ for every $k$.
+**Setting.** One categorical variable $X$ takes $K$ levels with population probabilities $p = (p_1,\ldots,p_K)$, $\sum_k p_k = 1$. The reference distribution $p^{(0)} = (p_1^{(0)},\ldots,p_K^{(0)})$ is **hypothesised** by the researcher — either fully specified (no parameters estimated, $q=0$) or specified up to $q$ parameters of a parametric family (e.g. Poisson, Normal — see (a3) below).
 
 **Hypotheses.**
-$$H_0:\; p_{\text{None}} = p_{\text{Low}} = p_{\text{Medium}} = p_{\text{High}} = 0.25
-\quad \text{vs} \quad H_1:\; \text{at least one } p_k \ne 0.25.$$
+$$H_0:\; p \;=\; p^{(0)} \qquad \text{vs} \qquad H_1:\; p \;\ne\; p^{(0)} \;\;\text{(at least one $k$ with $p_k \ne p_k^{(0)}$).}$$
 
-**Expected counts under $H_0$.** With a fully specified null and total sample size $n$,
-$$E_k \;=\; n\,p_k^0 \;=\; 750 \times 0.25 \;=\; 187.5 \quad \text{for every } k.$$
-The expected counts do **not** depend on the data — they are dictated entirely by $H_0$.
+On Dataset A (`DS$Children`) the hypothesis is "the `DS` customer base distributes children as the Italian population does":
+$$H_0:\; p \;=\; (0.76,\,0.13,\,0.09,\,0.02) \qquad \text{vs} \qquad H_1:\; p \;\ne\; p^{(0)}.$$
 
-**Pearson statistic & null distribution.**
-$$X^2 \;=\; \sum_{k=1}^{K} \frac{(O_k - E_k)^2}{E_k} \;\overset{H_0}{\dot\sim}\; \chi^2_{K-1-p},$$
-where $K$ is the number of levels and $p$ is the **number of parameters estimated from the data** to build $E_k$. Here $H_0$ is **fully specified** (we plug in $p_k^0=0.25$ — nothing is estimated), so $p=0$ and
-$$\text{df} \;=\; K - 1 - p \;=\; 4 - 1 - 0 \;=\; 3.$$
-If we had instead tested a *parametric family* (e.g. "Poisson with some rate" estimating $\hat\lambda$ from the data, or "Normal with $\hat\mu,\hat\sigma$"), we would subtract one df per estimated parameter — see Part (e).
+**Expected counts.** With a fully specified $p^{(0)}$, no parameter is estimated from the data:
+$$\boxed{\;\; E_k \;=\; n\,p_k^{(0)}, \qquad k=1,\ldots,K. \;\;}$$
+The $E_k$ depend **only** on the null, never on the observed $O_k$. On Dataset A with $n=750$:
 
-**Per-cell contributions and the realised statistic.**
-
-| level | $O_k$ | $E_k$ | $O_k-E_k$ | $(O_k-E_k)^2/E_k$ |
+| $k$ | $p_k^{(0)}$ | $E_k = 750\,p_k^{(0)}$ | $O_k$ | $(O_k - E_k)^2/E_k$ |
 |---|---|---|---|---|
-| None   | 181 | 187.5 |  $-6.5$  | $0.2253$ |
-| Low    | 150 | 187.5 | $-37.5$  | $7.5000$ |
-| Medium | 205 | 187.5 | $+17.5$  | $1.6333$ |
-| High   | 214 | 187.5 | $+26.5$  | $3.7453$ |
-| **sum** | $n=750$ | $n=750$ | $0$ | $X^2_\text{obs} = \mathbf{13.104}$ |
+| 0   | 0.76 | $570.0$ | 360 | $(360-570)^2/570 = 77.37$ |
+| 1   | 0.13 | $97.5$  | 184 | $(184-97.5)^2/97.5 = 76.74$ |
+| 2   | 0.09 | $67.5$  | 111 | $(111-67.5)^2/67.5 = 28.03$ |
+| 3+  | 0.02 | $15.0$  |  95 | $(95-15)^2/15 = 426.67$ |
+| **sum** | $1.00$ | $\mathbf{n=750}$ | $\mathbf{n=750}$ | $\mathbf{X^2_\text{obs} = 608.81}$ |
 
-The **Low** cell dominates the statistic: its deficit of 37.5 customers vs the uniform expectation contributes 7.5 — more than half of $X^2_\text{obs}$.
+All $E_k \ge 15 > 5$ → Cochran's rule holds (see (c)), the $\chi^2$ approximation is valid.
 
-**Critical value & p-value.** At $\alpha=0.05$ on $\chi^2_3$,
-$$\chi^2_{3,\,0.95} \;=\; \texttt{qchisq(0.95, df=3)} \;=\; 7.815,
-\qquad p\text{-value} \;=\; \Pr(\chi^2_3 \geq 13.104) \;=\; 0.00442.$$
+**Test statistic, null distribution & df.**
+$$\boxed{\;\; X^2 \;=\; \sum_{k=1}^{K} \frac{(O_k - E_k)^2}{E_k} \;\overset{H_0}{\dot\sim}\; \chi^2_{K-1-q}, \qquad \text{reject } H_0 \iff X^2 > \chi^2_{1-\alpha,\,K-1-q} \;\;(\text{right tail only}). \;\;}$$
 
-**Decision.** $X^2_\text{obs}=13.104 > 7.815$ (equivalently $p=0.0044<0.05$) → **reject $H_0$**: the four `History` levels are **not** equally probable. Note the rejection holds even at $\alpha=0.01$ (since $13.104 > \chi^2_{3,\,0.99}=11.345$), so the imbalance is *not* a borderline call.
+The df rule $\text{df} = K - 1 - q$ unpacks as:
+- The $-1$ comes from the constraint $\sum_k p_k = 1$ — one of the $K$ probabilities is determined by the others.
+- The $-q$ subtracts **one df per parameter estimated from the data** to compute $E_k$. With a fully specified $p^{(0)}$, $q=0$ and $\text{df} = K-1$. With a Poisson($\lambda$) null where $\hat\lambda$ is plugged in, $q=1$ and $\text{df} = K-2$; with Normal($\mu,\sigma^2$) and both estimated, $q=2$ and $\text{df} = K-3$. See (a3).
+
+For Dataset A: $K=4$ cells, $q=0$ (Italian population is fully specified), so $\text{df} = 4 - 1 - 0 = 3$.
+
+**Critical value & p-value at $\alpha = 0.05$.**
+$$\chi^2_{3,\,0.95} \;=\; \texttt{qchisq(0.95, df=3)} \;=\; 7.815, \qquad p\text{-value} \;=\; \Pr(\chi^2_3 \ge 608.81) \;\approx\; 0.$$
+
+**Decision.** $X^2_\text{obs} = 608.81 \;\gg\; 7.815$ (equivalently $p \approx 0 < 0.05$) → **reject $H_0$** at *any* conventional level: the `DS` customer base does **not** mirror the Italian distribution. The "3+ children" cell alone contributes $426.67$ of the $608.81$ — the retailer's sample massively over-represents large families relative to the population.
 
 ```r
-# Goodness-of-fit: uniform null over the 4 levels of History
-O   <- c(None=181, Low=150, Medium=205, High=214)
-p0  <- rep(0.25, 4)
-E   <- sum(O) * p0;   E                              # 187.5 each
-X2  <- sum((O - E)^2 / E);  X2                       # 13.104
+# (a) Case 9a — chi-squared GoF, DS$Children vs Italian distribution (Ex 7.9a)
+O  <- c(360, 184, 111, 95);  p0 <- c(0.76, 0.13, 0.09, 0.02);  n <- sum(O)   # 750
+E  <- n * p0;          E                            # 570.0  97.5  67.5  15.0
+X2 <- sum((O - E)^2 / E);  X2                       # 608.81
+qchisq(0.95, df = length(O) - 1)                    # 7.815   (critical)
+1 - pchisq(X2,   df = length(O) - 1)                # ~ 0     (p-value, right tail)
 
-qchisq(0.95, df = 3)                                  # 7.815
-1 - pchisq(X2,  df = 3)                               # 0.00442  (p-value)
-
-# Built-in equivalent:
-chisq.test(x = O, p = p0)                             # X-sq=13.104, df=3, p=0.0044
+# Built-in equivalent — note the `p =` argument carries the fully specified p0:
+chisq.test(x = O, p = p0)
+## X-squared = 608.81, df = 3, p-value < 2.2e-16
 ```
+
+**Side cases on the same row — uniform null, both verdicts.**
+
+| Source | $H_0$ | $n$ | $K$ | $X^2_\text{obs}$ | df | $p$-value | Decision @ 5% |
+|---|---|---|---|---|---|---|---|
+| Ex 7.4a (`DS$History`) | uniform $(0.25)^4$ | 750 | 4 | 13.104 | 3 | 0.0044 | **reject** |
+| Ex 7.9a (Dataset A) | $(0.76,0.13,0.09,0.02)$ | 750 | 4 | 608.81 | 3 | $\approx 0$ | **reject** |
+| Ex 7.9b (4 entrances) | uniform $(0.25)^4$ | 130 | 4 | 4.523 | 3 | 0.2104 | retain |
+| `exam_g2_2025_2a` (Department) | uniform $(1/3)^3$ | — | 3 | 13.696 | 2 | 0.00106 | **reject** |
+
+The machinery is **the same recipe** in all four — only $p^{(0)}$, $n$, $K$ change.
 
 ![Master illustration](statistics/images/master/master_g14d_ai.png)
 
+**(a3) Composite GoF — when df shrinks by $q$.** If the null is a *parametric family* (e.g. "Children is Poisson($\lambda$) for some $\lambda > 0$"), $\lambda$ is not given — you must estimate $\hat\lambda$ from the data first (e.g. MLE $\hat\lambda = \bar X$), then plug $\hat\lambda$ into $p_k^{(0)} = \Pr_{\hat\lambda}(X = k)$ to get $E_k = n\,p_k^{(0)}(\hat\lambda)$. The $\chi^2$ approximation then has df $= K - 1 - q$ with $q$ = #(parameters estimated). Examples on $K=4$ cells:
+
+| Null family | Parameters estimated $q$ | df |
+|---|---|---|
+| Fully specified $p^{(0)}$ (uniform, Italian, etc.) | $0$ | $K - 1 = 3$ |
+| Poisson$(\hat\lambda)$ | $1$ | $K - 2 = 2$ |
+| Normal$(\hat\mu, \hat\sigma^2)$ binned into $K$ classes | $2$ | $K - 3 = 1$ |
+| Binomial$(m, \hat p)$ with $m$ known | $1$ | $K - 2 = 2$ |
+
+Same observed $X^2_\text{obs}$ but smaller df → smaller critical value → **easier to reject**: at $K = 4$, $\chi^2_{3,0.95} = 7.815$, $\chi^2_{2,0.95} = 5.991$, $\chi^2_{1,0.95} = 3.841$. The penalty for letting the data choose the null parameters is *paid in df*, not in the form of the statistic.
+
 </details>
 
 ---
 
 <details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> Part (b) — Independence: is `History` related to `Location`?</summary>
+<summary><span class="tag tag-exam">EXAM</span> (b) <strong>Case 9b</strong> — Chi-squared Independence on Dataset B (Ex 7.7b, exam_g1_2026_2a / 2b / 3a)</summary>
 
-Now we have a $4\times 2$ contingency table $O_{ij}$ and want to test whether `History` (row variable, $r=4$ levels) and `Location` (column variable, $c=2$ levels) are statistically **independent**.
+**Setting.** Two categorical variables observed jointly on $n$ units: $X$ with $r$ levels (rows) and $Y$ with $c$ levels (columns). Cross-tabulating gives an **$r \times c$ contingency table** of observed cell counts $O_{ij}$ with row totals $n_{i\cdot} = \sum_j O_{ij}$, column totals $n_{\cdot j} = \sum_i O_{ij}$, and grand total $n = \sum_{i,j} O_{ij}$.
 
-**Hypotheses.**
-$$H_0:\; \text{History} \perp\!\!\!\perp \text{Location}
-\quad \text{vs} \quad H_1:\; \text{they are associated.}$$
+**Hypotheses.** Independence states that the joint distribution factorises into the product of the marginals: $p_{ij} = p_{i\cdot}\,p_{\cdot j}$ for every cell.
 
-**Expected counts under $H_0$.** Independence means $P(\text{row}=i,\,\text{col}=j) = p_{i\cdot}\,p_{\cdot j}$. The marginal probabilities are *unknown*, so we estimate them from the row/column totals: $\hat p_{i\cdot} = n_{i\cdot}/n$ and $\hat p_{\cdot j} = n_{\cdot j}/n$. Then
-$$\widehat E_{ij} \;=\; n\,\hat p_{i\cdot}\,\hat p_{\cdot j} \;=\; \frac{n_{i\cdot}\,n_{\cdot j}}{n}.$$
-Unlike the GoF case, the expected counts here are **estimated from the data** — specifically from the row and column marginals.
+$$H_0:\; X \;\perp\!\!\!\perp\; Y \;\;(\text{i.e. } p_{ij} = p_{i\cdot}\,p_{\cdot j}\;\forall i,j) \qquad \text{vs} \qquad H_1:\; X,Y \text{ are associated.}$$
 
-Computing $\widehat E_{ij} = (\text{row}_i \cdot \text{col}_j)/750$ for every cell:
+On Dataset B (Credit data, `exam_g1_2026_2a / 2b / 3a`) with $r=5$ purpose levels and $c=3$ employment levels:
+$$H_0:\; \text{PurposeLoan} \;\perp\!\!\!\perp\; \text{EmplStatus} \qquad \text{vs} \qquad H_1:\; \text{associated.}$$
 
-| | Close | Far |
-|---|---|---|
-| **None**   | $181\cdot 360/750 = 86.88$  | $181\cdot 390/750 = 94.12$  |
-| **Low**    | $150\cdot 360/750 = 72.00$  | $150\cdot 390/750 = 78.00$  |
-| **Medium** | $205\cdot 360/750 = 98.40$  | $205\cdot 390/750 = 106.60$ |
-| **High**   | $214\cdot 360/750 = 102.72$ | $214\cdot 390/750 = 111.28$ |
+**Expected counts under $H_0$.** Under independence and replacing the unknown marginal probabilities by their sample estimates $\hat p_{i\cdot} = n_{i\cdot}/n$ and $\hat p_{\cdot j} = n_{\cdot j}/n$,
+$$\boxed{\;\; \widehat E_{ij} \;=\; n\,\hat p_{i\cdot}\,\hat p_{\cdot j} \;=\; \frac{n_{i\cdot}\,n_{\cdot j}}{n}. \;\;}$$
 
-**Validity check (Cochran's rule):** all $\widehat E_{ij} \ge 5$ — in fact $\widehat E_{ij} \ge 72$ everywhere — so the $\chi^2$ approximation is valid (see Part (d)).
+*Derivation.* Under $H_0$, $P(X=i, Y=j) = P(X=i)\,P(Y=j) = p_{i\cdot}\,p_{\cdot j}$. Plug in the marginal MLEs $\hat p_{i\cdot}, \hat p_{\cdot j}$ and multiply by $n$ to convert probability to expected count. Unlike the GoF case, $\widehat E_{ij}$ is **estimated** from the row/column marginals — that estimation is what costs df.
 
-**Pearson statistic & null distribution.**
-$$X^2 \;=\; \sum_{i=1}^{r}\sum_{j=1}^{c} \frac{(O_{ij}-\widehat E_{ij})^2}{\widehat E_{ij}}
-\;\overset{H_0}{\dot\sim}\; \chi^2_{(r-1)(c-1)}.$$
-The df arise from a parameter count: the $r\times c$ table has $rc-1$ free probabilities under $H_1$; under independence we only need $(r-1)+(c-1)$ marginal probabilities, so $\text{df}=(rc-1)-[(r-1)+(c-1)] = (r-1)(c-1)$. Here:
-$$\text{df} \;=\; (4-1)(2-1) \;=\; 3.$$
+**Test statistic, null distribution & df.**
+$$\boxed{\;\; X^2 \;=\; \sum_{i=1}^{r} \sum_{j=1}^{c} \frac{(O_{ij} - \widehat E_{ij})^2}{\widehat E_{ij}} \;\overset{H_0}{\dot\sim}\; \chi^2_{(r-1)(c-1)}, \qquad \text{reject } H_0 \iff X^2 > \chi^2_{1-\alpha,\,(r-1)(c-1)} \;\;(\text{right tail only}). \;\;}$$
 
-**Per-cell contributions and the realised statistic.**
+The df $(r-1)(c-1)$ falls out of a parameter count: the $r \times c$ table has $rc - 1$ free joint probabilities (one is determined by the constraint $\sum_{i,j} p_{ij} = 1$); under independence the model is determined by $(r-1) + (c-1)$ marginal probabilities (one is determined per side); subtracting,
+$$\text{df} \;=\; (rc - 1) \;-\; \big[(r-1) + (c-1)\big] \;=\; (r-1)(c-1).$$
+On Dataset B: $\text{df} = (5-1)(3-1) = 4 \times 2 = 8$.
 
-| cell | $O_{ij}$ | $\widehat E_{ij}$ | $(O-\widehat E)^2/\widehat E$ |
-|---|---|---|---|
-| None, Close   | 100 | 86.88  | $1.981$ |
-| None, Far     |  81 | 94.12  | $1.828$ |
-| Low, Close    |  60 | 72.00  | $2.000$ |
-| Low, Far      |  90 | 78.00  | $1.846$ |
-| Medium, Close | 110 | 98.40  | $1.368$ |
-| Medium, Far   |  95 | 106.60 | $1.262$ |
-| High, Close   |  90 | 102.72 | $1.575$ |
-| High, Far     | 124 | 111.28 | $1.455$ |
-| **sum** | $750$ | $750$ | $X^2_\text{obs} = \mathbf{13.315}$ |
+**Realised statistic, critical value, p-value.** From the past-exam computation,
+$$X^2_\text{obs} \;=\; 11.107, \qquad \chi^2_{8,\,0.95} \;=\; \texttt{qchisq(0.95, df=8)} \;=\; 15.51, \qquad p\text{-value} \;=\; \Pr(\chi^2_8 \ge 11.107) \;\approx\; 0.196.$$
 
-**Critical value & p-value.** Same df=3 as in part (a), so the threshold is the same:
-$$\chi^2_{3,\,0.95} \;=\; 7.815, \qquad p\text{-value} \;=\; \Pr(\chi^2_3 \geq 13.315) \;=\; 0.00400.$$
-
-**Decision.** $X^2_\text{obs}=13.315 > 7.815$ (equivalently $p=0.004<0.05$) → **reject $H_0$**: `History` and `Location` are **associated**. Inspecting the residuals, **Low** is over-represented Far and under-represented Close, while **None** shows the reverse — proximity to a competitor changes the customer mix.
+**Decision at $\alpha = 0.05$.** $X^2_\text{obs} = 11.107 < 15.51$, equivalently $p \approx 0.196 \gg 0.05$ → **do not reject $H_0$**. The data are compatible with `PurposeLoan` and `EmplStatus` being independent: knowing a borrower's employment status does **not** measurably change the distribution of loan purposes (and vice versa). The verdict holds at $\alpha = 0.10$ too ($\chi^2_{8,\,0.90} = 13.36 > 11.107$).
 
 ```r
-# Independence: 4x2 contingency table  History x Location
-O <- matrix(c(100, 81,
-               60, 90,
-              110, 95,
-               90, 124),
-            nrow = 4, byrow = TRUE,
-            dimnames = list(History  = c("None","Low","Medium","High"),
-                            Location = c("Close","Far")))
+# (b) Case 9b — chi-squared independence on a contingency table (exam_g1_2026_2a/2b/3a)
+tab <- table(Credit$PurposeLoan, Credit$EmplStatus)   # 5 x 3 observed counts
+chisq.test(tab)                                       # the canonical one-liner
+## X-squared = 11.107, df = 8, p-value = 0.1958
 
-rsum <- rowSums(O);   csum <- colSums(O);   n <- sum(O)
-E    <- outer(rsum, csum) / n;   E                   # all >= 72  -> OK
-X2   <- sum((O - E)^2 / E);      X2                  # 13.315
+# Manual unpack of what chisq.test does:
+E  <- outer(rowSums(tab), colSums(tab)) / sum(tab)    # expected = row*col / n
+X2 <- sum((tab - E)^2 / E);  X2                       # 11.107
+df <- (nrow(tab) - 1) * (ncol(tab) - 1);  df          # 8
+qchisq(0.95, df = df)                                 # 15.51   (right-tail critical)
+1 - pchisq(X2, df = df)                               # 0.1958  (right-tail p-value)
 
-df   <- (nrow(O) - 1) * (ncol(O) - 1);  df           # 3
-qchisq(0.95, df = df)                                # 7.815
-1 - pchisq(X2,  df = df)                             # 0.00400  (p-value)
-
-# Built-in equivalent (Pearson, no continuity correction)
-chisq.test(O, correct = FALSE)                       # X-sq=13.315, df=3, p=0.004
-# Inspect *where* the dependence lives:
-chisq.test(O, correct = FALSE)$stdres                # |z| > ~2 == driver cell
+# Diagnostics: where would the association live, if any?
+chisq.test(tab)$expected                              # all >= 5 here -> Cochran OK
+chisq.test(tab)$stdres                                # standardized Pearson residuals
 ```
 
-</details>
+**Side case on the same row — Ex 7.7b ($5 \times 5$, association dominant).** `Age_Class × LearnTool` on the Developers_ITA dataset gives $X^2_\text{obs} = 115.69$ on $\text{df} = (5-1)(5-1) = 16$, with $\chi^2_{16,\,0.9} = 23.54$ and $p \approx 0$ — **reject $H_0$** at any level: developers' upskilling tool depends strongly on age group. The same $\chi^2$ recipe; only the table and the df change.
 
----
-
-<details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> Part (c) — Side-by-side: GoF vs Independence</summary>
-
-The two tests share a common skeleton but differ in what is "known" vs "estimated":
-
-| Aspect | Goodness of fit (Part a) | Independence (Part b) |
-|---|---|---|
-| Variables | one categorical, $K$ levels | two categorical, $r\times c$ levels |
-| Null specification | fully specified $p_k^0$ | unspecified — built from marginals |
-| Expected count $E$ | $n\,p_k^0$ (no estimation) | $n_{i\cdot}\,n_{\cdot j}/n$ (marginals estimated) |
-| Parameters estimated, $p$ | 0 (or $\ge 1$ if family is parametric — see Part e) | $(r-1)+(c-1)$ marginal probs |
-| Degrees of freedom | $K - 1 - p$ | $(r-1)(c-1)$ |
-| df **here** | $4-1-0=3$ | $(4-1)(2-1)=3$ |
-| $X^2_\text{obs}$ | $13.104$ | $13.315$ |
-| Critical $\chi^2_{3,\,0.95}$ | $7.815$ | $7.815$ |
-| p-value | $0.0044$ | $0.0040$ |
-| Decision at $\alpha=0.05$ | reject $H_0$ — non-uniform | reject $H_0$ — associated |
-
-Both tests reject at $\alpha=0.05$ — but they reject *different* nulls. The GoF result alone could have come from a perfectly *independent* but *non-uniform* `History`; the independence result alone could have come from a *uniform* `History` with a stratum effect. The two are **complementary**, not redundant.
-
-</details>
-
----
-
-<details class="master-subpart">
-<summary>Part (d) — Validity: why all $\widehat E_{ij} \geq 5$ matters</summary>
-
-The $\chi^2$ approximation rests on a **normal approximation** to each cell count: $(O_{ij}-E_{ij})/\sqrt{E_{ij}} \approx \mathcal{N}(0,1)$ under $H_0$. This breaks down when $E_{ij}$ is small because (i) the count is approximately Poisson with a fat right tail and (ii) the squared ratio $(O-E)^2/E$ is dominated by tiny denominators, producing spuriously large $X^2$. The standard **Cochran rule** (and the warning R prints) is
-
-> **All $\widehat E_{ij} \ge 5$** (or, more leniently, *at most* 20% of cells with $\widehat E_{ij} < 5$ and **no** cell with $\widehat E_{ij}<1$).
-
-Here the **smallest** $\widehat E_{ij}$ is $72.00$, so we are nowhere near the boundary — the $\chi^2_3$ approximation is reliable. **If** a cell had $\widehat E_{ij} < 5$ (a real risk in fine-grained 5×5 tables — exactly what happens in the linked Ex 7.7b's part (c), where `AISearch=Other` has $\widehat E \approx 2.77$), the remedies are: (i) **merge** sparse categories with a substantive neighbour; (ii) switch to **Fisher's exact test** (`fisher.test`); or (iii) **simulate** the p-value (`chisq.test(..., simulate.p.value=TRUE, B=1e4)`).
-
-```r
-# Diagnostic: report expected counts and Cochran's rule
-E <- chisq.test(O, correct=FALSE)$expected
-min(E);                                              # 72.00   -> safely >= 5
-mean(E < 5)                                          # 0       -> 0% of cells
-# If the rule failed, prefer:
-fisher.test(O)                                       # exact, no asymptotics
-chisq.test(O, correct=FALSE, simulate.p.value=TRUE, B=10000)
-```
-
-</details>
-
----
-
-<details class="master-subpart">
-<summary><span class="tag tag-2plus">≥2 ex</span> Part (d.5) — Two cross-check GoF cases: non-uniform null *rejected*, uniform null *retained*</summary>
-
-The master so far showcased a single GoF where uniform $H_0$ is **rejected**. Two linked snippets sharpen the lesson by varying both the null shape and the conclusion.
-
-**(i) Non-uniform fully-specified null — Ex 7.9a (`DS$Children` vs Italian distribution).** Here $H_0$ is *not* uniform: $p_0 = (0.76,\,0.13,\,0.09,\,0.02)$ for $K=4$ ordered categories $0,1,2,3+$ children. Observed $O=(360,184,111,95)$ on $n=750$ give expected $E = n\,p_0 = (570,\,97.5,\,67.5,\,15)$ — all $\ge 5$, valid. The Pearson statistic is
-$$X^2 = \tfrac{(360-570)^2}{570} + \tfrac{(184-97.5)^2}{97.5} + \tfrac{(111-67.5)^2}{67.5} + \tfrac{(95-15)^2}{15} = 77.37+76.74+28.03+426.67 \;=\; 608.81,$$
-with df $=K-1=3$ (fully specified $p_0$, no parameter estimation). Critical $\chi^2_{3,0.95}=7.815$, p-value $\approx 0$ — **reject decisively**. The "3+" cell alone contributes $426.67$ out of $608.81$: the `DS` customer base hugely **over-represents** large families relative to the national distribution. *Take-away:* the GoF machinery handles any fully-specified $p_0$, not just the uniform — only $E_k$ changes.
-
-**(ii) Uniform null *retained* — Ex 7.9b (4 supermarket entrances).** Same uniform null as Part (a) — $H_0: p_k=1/4$ — but on much smaller, more even data: $O=(24,30,36,40)$ on $n=130$, so $E_k = 32.5$ everywhere. The statistic is
-$$X^2 = \tfrac{(24-32.5)^2+(30-32.5)^2+(36-32.5)^2+(40-32.5)^2}{32.5} = \tfrac{72.25+6.25+12.25+56.25}{32.5} = \tfrac{147}{32.5} \;\approx\; 4.523,$$
-df $=3$, p-value $=\Pr(\chi^2_3>4.523)\approx 0.2104 > 0.05$ — **do not reject**. Entrance IV is mildly busier than the others, but the four counts are well within sampling noise around equal usage. *Take-away:* a non-significant GoF documents *compatibility* with the null (never "proof"), and the same template (df=$K-1$, upper-tail $\chi^2$) decides both cases.
-
-| Case | Null shape | $n$ | $X^2_\text{obs}$ | df | p-value | Decision @ $\alpha=0.05$ |
+| Source | Table size | $X^2_\text{obs}$ | df | $\chi^2_{1-\alpha,\,\rm df}$ | $p$-value | Decision |
 |---|---|---|---|---|---|---|
-| Master (a) — `History` uniform | $(0.25,0.25,0.25,0.25)$ | 750 | 13.104 | 3 | 0.0044 | **reject** |
-| Ex 7.9a — `Children` vs IT | $(0.76,0.13,0.09,0.02)$ | 750 | 608.81 | 3 | $\approx 0$ | **reject** |
-| Ex 7.9b — 4 entrances | $(0.25,0.25,0.25,0.25)$ | 130 | 4.523 | 3 | 0.2104 | retain |
+| Dataset B (`exam_g1_2026_2a/2b/3a`) | $5 \times 3$ | $11.107$ | $8$ | $15.51$ @ 5% | $0.196$ | retain |
+| Ex 7.7b (Developers_ITA) | $5 \times 5$ | $115.69$ | $16$ | $23.54$ @ 10% | $\approx 0$ | **reject** |
+
+</details>
+
+---
+
+<details class="master-subpart">
+<summary>(c) Validity rule (Cochran), low expected counts, Yates' continuity correction, Fisher's exact test</summary>
+
+The $\chi^2$ approximation rests on a normal approximation to each cell count: under $H_0$, $(O_{ij} - E_{ij})/\sqrt{E_{ij}} \approx \mathcal{N}(0,1)$. This breaks down when $E_{ij}$ is small — the discrete count is fat-tailed, and the squared ratio $(O - E)^2 / E$ is dominated by tiny denominators, inflating $X^2$ spuriously.
+
+**Cochran's rule.** The asymptotic $\chi^2$ approximation is reliable when
+$$\boxed{\;\;\widehat E_k \ge 5 \;\;\text{(GoF) or}\;\; \widehat E_{ij} \ge 5 \;\;\text{(Independence) in every cell.}\;\;}$$
+Lenient version: at most 20% of cells with $\widehat E < 5$ and **no** cell with $\widehat E < 1$.
+
+On the running datasets the rule is comfortably satisfied: Dataset A has $\min E_k = 15$, Dataset B has every $\widehat E_{ij}$ above 5 (visible from `chisq.test(tab)$expected`). On Ex 7.7b's part (c), pairing `Age_Class` with `AISearch` instead, the `AISearch = Other` column has $\widehat E \approx 2.77$ — the rule **fails**, R prints a warning, and the test cannot be reported as-is.
+
+**What to do when the rule fails.**
+
+| Situation | Remedy |
+|---|---|
+| One or two sparse columns, substantively mergeable | **Merge** the sparse level with a neighbour (e.g. "Other" $\cup$ "Rare") and re-run `chisq.test`. The new df adjusts automatically. |
+| $2 \times 2$ table with small expected counts | **Yates' continuity correction**: replace $(O-E)^2$ by $(|O-E| - 0.5)^2$ in every cell. R does this by default in `chisq.test()` on a $2 \times 2$ table — pass `correct = FALSE` to disable. |
+| $2 \times 2$ table, *very* small counts | **Fisher's exact test** (`fisher.test`): conditions on both marginals, computes the *exact* hypergeometric p-value — no asymptotic at all. Recommended whenever any $\widehat E_{ij} < 5$ in a $2 \times 2$. |
+| Large $r \times c$ with several sparse cells | **Monte-Carlo p-value**: `chisq.test(tab, simulate.p.value = TRUE, B = 10000)` — bypasses the asymptotic by simulating from the null. |
+
+**Yates' continuity correction (only for $2 \times 2$).** For a $2 \times 2$ table $\begin{pmatrix} a & b \\ c & d \end{pmatrix}$ with $n = a+b+c+d$, the Yates-corrected statistic is
+$$X^2_\text{Yates} \;=\; \frac{n\,\big(|ad - bc| - n/2\big)^2}{(a+b)(c+d)(a+c)(b+d)},$$
+shrinking $|O-E|$ by $\tfrac12$ in every cell to better approximate the discrete distribution by a continuous $\chi^2_1$. The correction is **conservative** — it shrinks $X^2$, enlarges the $p$-value, makes rejection harder. Use it only on $2 \times 2$ tables with moderate counts; for very small counts prefer `fisher.test`.
 
 ```r
-# (i) Non-uniform p0 — Ex 7.9a
-chisq.test(c(360,184,111,95), p = c(0.76, 0.13, 0.09, 0.02))
-# X-sq = 608.81, df = 3, p < 2.2e-16
+# Diagnostic: report expected counts and Cochran's rule on Dataset B
+res <- chisq.test(tab)
+res$expected                                          # full E matrix
+min(res$expected)                                     # smallest cell
+mean(res$expected < 5)                                # share below 5 (should be 0)
 
-# (ii) Uniform p0, small n — Ex 7.9b
-chisq.test(c(24, 30, 36, 40), p = rep(1/4, 4))
-# X-sq = 4.523, df = 3, p = 0.2104
+# Yates correction on 2x2 (default in chisq.test)
+chisq.test(matrix(c(a, b, c, d), 2, 2))               # WITH Yates correction
+chisq.test(matrix(c(a, b, c, d), 2, 2), correct=FALSE)# Pearson (no correction)
+
+# Fisher exact (2x2, any counts) and Monte-Carlo for r x c
+fisher.test(matrix(c(a, b, c, d), 2, 2))
+chisq.test(tab, simulate.p.value = TRUE, B = 10000)
 ```
 
 </details>
@@ -2823,46 +3398,62 @@ chisq.test(c(24, 30, 36, 40), p = rep(1/4, 4))
 ---
 
 <details class="master-subpart">
-<summary>Part (e) — Df when parameters are estimated (composite GoF nulls)</summary>
+<summary>(d) Why right-tail only — the geometric reason</summary>
 
-The general rule is
-$$\text{df}_\text{GoF} \;=\; K \;-\; 1 \;-\; p,$$
-where $p$ is the number of free parameters of the null **family** that are estimated from the data. Examples:
+Both row-9 statistics have the same shape:
+$$X^2 \;=\; \sum_{\text{cells}} \frac{(O - E)^2}{E} \;\ge\; 0,$$
+a **sum of squared, standardised cell deviations**. Three properties follow directly from the squaring:
 
-| Null model | Free parameters $p$ | df (with $K$ cells) |
-|---|---|---|
-| Uniform / fully specified $(p_1^0,\dots,p_K^0)$ | $0$ | $K-1$ |
-| Poisson$(\lambda)$ — $\hat\lambda$ from data | $1$ | $K-2$ |
-| Normal$(\mu,\sigma^2)$ — $\hat\mu,\hat\sigma$ from data | $2$ | $K-3$ |
-| Binomial$(m,p)$ with $m$ known, $\hat p$ from data | $1$ | $K-2$ |
+1. **Non-negativity.** $X^2 \ge 0$ for every possible sample, with $X^2 = 0$ iff $O = E$ in every cell — i.e. the data exactly match the null prediction. There is no value of $X^2$ that *contradicts* a small $X^2$.
+2. **Direction-blindness.** The squaring kills the sign of $O - E$. A cell with $O$ *above* $E$ contributes the same as a cell with $O$ *below* $E$ by the same amount. The statistic reports **magnitude of mismatch**, not direction.
+3. **Monotone evidence against $H_0$.** Larger $X^2$ = larger total mismatch = stronger evidence against $H_0$. Smaller $X^2$ = better fit / closer to independence = *consistent* with $H_0$ (never evidence *for* $H_0$ — the test is asymmetric in that sense).
 
-The "$-1$" reflects the constraint $\sum p_k = 1$ (one probability is determined by the others); the "$-p$" reflects each extra parameter you let the data choose. **Independence** is a special case: $p=(r-1)+(c-1)$ marginal probabilities, giving $(r-1)(c-1)$ df. Estimating parameters *can change the conclusion*: e.g. with $K=4$ and a Poisson null we would have df=2, $\chi^2_{2,\,0.95}=5.991<7.815$ — easier to reject for the same observed $X^2$.
+This is why both tests are **strictly right-tailed**:
+$$\boxed{\;\;\text{Reject } H_0 \iff X^2_\text{obs} \;>\; \chi^2_{1-\alpha,\,\rm df}, \qquad p\text{-value} \;=\; \Pr(\chi^2_{\rm df} \ge X^2_\text{obs}).\;\;}$$
+There is no "two-sided" $\chi^2$ test, no "$|X^2|$" notation, no $\alpha/2$ split. A small $X^2$ is not "evidence in the opposite direction" the way a small $|Z|$ on a $z$-test is — small $X^2$ is just **good fit**, the *retain* outcome.
 
-```r
-# How df shrinks as you estimate more parameters
-K <- 4
-qchisq(0.95, df = K - 1 - 0)        # 7.815   (uniform / fully specified)
-qchisq(0.95, df = K - 1 - 1)        # 5.991   (Poisson, 1 par estimated)
-qchisq(0.95, df = K - 1 - 2)        # 3.841   (Normal, 2 par estimated)
-```
+**Contrast with the $z$/$t$ tests of rows 1–8.** Those use $T = (\hat\theta - \theta_0)/\widehat{\rm SE}$, which is **signed** — its sign tells you whether $\hat\theta$ over- or under-shoots $\theta_0$. That direction is meaningful and is what makes "$H_1:\theta > \theta_0$" vs "$H_1:\theta < \theta_0$" vs "$H_1:\theta \ne \theta_0$" three genuinely different tests with three different rejection regions (see `g14a` decision-rules mini-table). For the $\chi^2$ tests of row 9 the squaring removes that asymmetry — every alternative collapses to "$O$ and $E$ disagree somewhere", which is always a right-tail event.
 
 </details>
 
 ---
 
-### Summary table (master dataset, $n=750$).
+<details class="master-subpart">
+<summary>(e) Cross-references — how row 9 connects to the rest of the course</summary>
 
-| Quantity | GoF (uniform `History`) | Independence (`History` $\times$ `Location`) |
+The $\chi^2$ tests sit in a dense web of connections with the other inferential sub-topics:
+
+- **`g14a` (one-sample tests, universal recipe).** Row 9 is one slot in the master case table that `g14a` introduces. The 3-step procedure (state $H_0/H_1$, build statistic, decide via critical value or $p$-value) carries over verbatim — only the statistic and the null distribution change.
+
+- **`g14b` (two-sample tests, row 7).** A **$2 \times 2$ independence test** is **mathematically equivalent** to a **two-proportion $z$-test** of $H_0: p_A = p_B$ (g14b row 7): the same data, the same null, and $X^2 = Z^2$ exactly. They give identical $p$-values. The $\chi^2_1$ generalisation handles two-sided alternatives only — for a *one-sided* difference of proportions you must use the $z$-test directly (`g14b`). Independence on an $r \times c$ table with $r > 2$ or $c > 2$ generalises this to "comparing the distribution of one categorical across $J$ groups", which has no two-sample $z$ analogue — the $\chi^2$ becomes the unique tool.
+
+- **`g13a` (CI for a single proportion), `g13b` (CI for one mean), `g13d` (CI for difference of proportions).** CIs and tests are complementary: a CI gives a *range* of plausible parameter values, a $\chi^2$ test gives a *yes/no* on a distributional hypothesis. For the $2 \times 2$ case the chi-squared independence test agrees with the two-sample test of $H_0: p_A = p_B$, which in turn is the CI-from-`g13d` reject-iff-CI-excludes-0 rule. No analogous CI exists for "two categoricals are independent" — the test is the natural lens.
+
+- **`g13f` (point estimators).** The marginal proportions $\hat p_{i\cdot}$, $\hat p_{\cdot j}$ that feed $\widehat E_{ij} = n\,\hat p_{i\cdot}\,\hat p_{\cdot j}$ are the MLEs of the marginals under $H_0$ — exactly the unbiased / consistent estimators derived once in `g13f`. The whole independence test is built on plug-in estimation of the null model.
+
+- **`g14c` (paired tests).** Conceptually related but mechanically distinct: paired tests live on row 8 (continuous within-pair difference reduced to a one-mean $t$), $\chi^2$ tests live on row 9 (categorical counts vs expected). The shared theme is *reducing a two-sample-looking design to a one-sample machinery*: pairs become $d_i = x_i - y_i$, contingency tables become a single $X^2$ statistic. No raw two-sample SE.
+
+- **`g14e` (power and type-II for $\chi^2$ — next row).** Power for $\chi^2$ tests uses the **non-central $\chi^2_\text{df}(\lambda)$** distribution with non-centrality $\lambda = n\,\sum_k (p_k^{\rm true} - p_k^{(0)})^2 / p_k^{(0)}$ (GoF) or the analogous Pearson "effect size" $w^2$ (Cohen) for independence. Same $\alpha,n$ logic as rows 1–8, only the reference distribution shifts off-centre. See **`g14e`** for the full sample-size-vs-power table on row 9.
+
+</details>
+
+---
+
+### Summary table (one-page recap of the two cases).
+
+| Quantity | GoF (Dataset A, `DS$Children` vs Italian) | Independence (Dataset B, `PurposeLoan` × `EmplStatus`) |
 |---|---|---|
-| Null | $p_k^0=0.25$ (fully specified) | rows $\perp$ cols (marginals estimated) |
-| $E$ formula | $E_k = n\,p_k^0 = 187.5$ | $\widehat E_{ij} = n_{i\cdot}n_{\cdot j}/n$ |
-| Cells | 4 | 8 |
-| Smallest $E$ | $187.5$ | $72.00$ |
-| df | $K-1-p = 3$ | $(r-1)(c-1) = 3$ |
-| $X^2_\text{obs}$ | $13.104$ | $13.315$ |
-| $\chi^2_{3,\,0.95}$ | $7.815$ | $7.815$ |
-| p-value | $0.00442$ | $0.00400$ |
-| Decision @ $\alpha=0.05$ | reject — non-uniform | reject — associated |
+| Variables | one categorical, $K = 4$ levels | two categorical, $r \times c = 5 \times 3$ table |
+| Null | $p = (0.76, 0.13, 0.09, 0.02)$ (fully specified) | rows $\perp\!\!\!\perp$ cols |
+| $E$ formula | $E_k = n\,p_k^{(0)}$ | $\widehat E_{ij} = n_{i\cdot}\,n_{\cdot j}/n$ |
+| Parameters estimated $q$ | $0$ | $(r-1)+(c-1) = 6$ |
+| df | $K - 1 - q = 3$ | $(r-1)(c-1) = 8$ |
+| Smallest $E$ | $15$ (Cochran OK) | $\ge 5$ (Cochran OK) |
+| $X^2_\text{obs}$ | $608.81$ | $11.107$ |
+| $\chi^2_{1-\alpha,\,\rm df}$ at $\alpha = 0.05$ | $7.815$ | $15.51$ |
+| $p$-value (right tail) | $\approx 0$ | $0.196$ |
+| Decision @ $\alpha = 0.05$ | **reject** — DS does not match Italy | **retain** — purpose $\perp\!\!\!\perp$ employment |
+| R one-liner | `chisq.test(O, p = p0)` | `chisq.test(table(X, Y))` |
 """,
     "images": ["statistics/images/master/master_g14d_ai.png"],
 }
@@ -3156,44 +3747,132 @@ The rule is simple and exam-friendly:
 
 master_exercises["g13f_estimation"] = {
     "title": "Master Exam — Unbiased estimators and sampling SE (consolidated)",
-    "content": r"""**Setup.** A market-research firm collected the monthly turnover `Sales` (in €) for a random sample of $n=100$ pizzerias in Milan. The sample summaries are
-$$\bar x \;=\; 24\,000, \qquad s \;=\; 8\,000, \qquad n \;=\; 100.$$
-Let $\mu$ and $\sigma^2$ denote the (unknown) population mean and variance of `Sales`. The focus of this master is the *estimator* layer that sits **underneath** confidence intervals and tests: what makes an estimator unbiased, what its standard error measures, and how the SE shrinks with $n$.
+    "content": r"""## Foundation row — sits **beneath every CI in `g13a`–`g13e`** (and every test in `g14a`–`g14c`)
+
+Every confidence interval in G13 has the same shape — the universal template lives at the top of `g13a`:
+
+$$\widehat\theta \;\pm\; c_{1-\alpha/2}\;\cdot\;\widehat{SE}(\widehat\theta).$$
+
+`g13a`–`g13e` walk row 1 through row 8 of that table; this entry (`g13f`) supplies the **two ingredients** every row depends on — the **point estimator $\widehat\theta$** and its **standard error $\widehat{SE}(\widehat\theta)$** — together with the property that makes them legitimate: **unbiasedness**, $\mathbb E[\widehat\theta]=\theta$.
+
+**Setup — running dataset (matches `5_13a1` / `5_13a2`).** Treat the Milan sub-sample of the `pizzerie` dataframe as $n=80$ i.i.d. draws of monthly turnover `Sales` from a population with mean $\mu$ and (per the question statement) **known** SD $\sigma = 11\,500$ €. To support the raw-sums computational form in subpart (d) we will use the summary
+$$n = 80, \qquad \sum_{i=1}^n x_i \;=\; 2\,560\,000, \qquad \sum_{i=1}^n x_i^{\,2} \;=\; 9.2368\times 10^{10},$$
+so that $\bar x = 32\,000$ € and the sample SD $s$ recovered from these sums is $\approx 11\,500$ € (the same number used as the "known $\sigma$" in `5_13a1`). For the proportion thread (subpart b, row 3) we additionally use the no-smoking indicator with $\hat p = 0.55$ on the same $n=80$ pizzerias (the illustrative numbers from `5_13a3`).
+
+### 3-step procedure for every exam question whose answer is an estimator + SE
+
+1. **Identify the target parameter** — one mean $\mu$, one proportion $p$, a variance $\sigma^2$, a paired difference $\mu_D$?
+2. **Look up the row of the four-estimator table** below — read off $\widehat\theta$, $\mathrm{Var}(\widehat\theta)$, $\widehat{SE}(\widehat\theta)$.
+3. **Check what the question is really asking** — a point estimate (just plug into $\widehat\theta$), a *justification* (cite $\mathbb E[\widehat\theta]=\theta$ and the one-line argument), or a measure of precision (report $\widehat{SE}$ and hand off to the appropriate `g13a`–`g13e` row for the CI).
+
+If the data come as **raw sums** $\sum x_i, \sum x_i^2$ (a recurring exam pattern: `5_2a`, `5_3a`, `5_13a1`, `6_13d`, ...), insert one more step — subpart (d).
 
 ---
 
 <details class="master-subpart" open>
-<summary>(a) Unbiased estimators: definition, and why $\bar X$ and $S^2$ qualify.</summary>
+<summary>(a) Estimator vs estimate; unbiasedness; why it is necessary but not sufficient (MSE).</summary>
 
-**Definition.** An estimator $T = T(X_1,\dots,X_n)$ of a parameter $\theta$ is **unbiased** if
-$$\mathbb E[T] \;=\; \theta \quad \text{for every value of } \theta.$$
-Equivalently, its **bias** $\operatorname{bias}(T) = \mathbb E[T] - \theta$ is identically zero. Geometrically: across the (hypothetical) population of all samples of size $n$, the sampling distribution of $T$ is *centred on the truth*. Unbiasedness says nothing about the *spread* of $T$ — that is the job of the SE (part b) — and is a **frequentist** property: it does not require any prior on $\theta$.
+**Estimator vs estimate.** An **estimator** is a *function* of the data, $T = T(X_1,\dots,X_n)$ — a random variable, evaluated before the data are observed. An **estimate** is the *realised numerical value* $T(x_1,\dots,x_n)$ obtained after observing the sample. The estimator $\bar X$ has a sampling distribution; the estimate $\bar x = 32\,000$ € is a single number on the page. Unbiasedness is a property of the *estimator* (a statement about its sampling distribution), never of a single estimate.
 
-**1. Sample mean is unbiased for $\mu$.** For i.i.d. $X_1,\dots,X_n$ with $\mathbb E[X_i]=\mu$, linearity of expectation gives
-$$\mathbb E[\bar X] \;=\; \mathbb E\!\Big[\tfrac{1}{n}\sum_{i=1}^n X_i\Big] \;=\; \tfrac{1}{n}\sum_{i=1}^n \mathbb E[X_i] \;=\; \tfrac{1}{n}\cdot n\mu \;=\; \mu.$$
-**No distributional assumption** on the $X_i$ is needed — Normality, skewness, heavy tails are all fine. Plugging in the data, the point estimate is $\hat\mu = \bar x = 24\,000$ €.
+**Unbiasedness.** $T$ is **unbiased** for $\theta$ iff
+$$\mathbb E[T] \;=\; \theta \qquad \text{for every admissible value of } \theta.$$
+Equivalently, the **bias** $\operatorname{bias}(T) = \mathbb E[T] - \theta$ is identically zero. Geometrically: across the (hypothetical) population of all samples of size $n$, the sampling distribution of $T$ is *centred on the truth*. The "for every $\theta$" matters — an estimator that happens to equal $\theta$ only at one specific value is not unbiased.
 
-**2. Why $S^2$ uses $n-1$ (the famous Bessel correction).** Consider the "naive" variance estimator $\tilde S^2 = \tfrac{1}{n}\sum_i (X_i - \bar X)^2$. Using the algebraic identity $\sum_i (X_i-\bar X)^2 = \sum_i (X_i-\mu)^2 - n(\bar X-\mu)^2$ and taking expectations,
-$$\mathbb E\!\Big[\sum_i (X_i-\bar X)^2\Big] \;=\; n\sigma^2 \;-\; n\cdot \tfrac{\sigma^2}{n} \;=\; (n-1)\sigma^2,$$
-so $\mathbb E[\tilde S^2] = \tfrac{n-1}{n}\sigma^2 < \sigma^2$ — **biased downward**. Dividing instead by $n-1$ exactly cancels the missing factor:
-$$S^2 \;=\; \frac{1}{n-1}\sum_{i=1}^n (X_i-\bar X)^2 \quad\Longrightarrow\quad \mathbb E[S^2] \;=\; \sigma^2.$$
-Intuition for the "$-1$": one degree of freedom has been spent estimating $\mu$ via $\bar X$, so only $n-1$ truly free squared deviations remain — averaging by $n-1$ restores unbiasedness. Note: $S$ itself is **not** unbiased for $\sigma$ (Jensen's inequality on the concave $\sqrt{\cdot}$), but the bias vanishes rapidly with $n$.
+**Unbiasedness is not enough on its own — spread matters too (MSE).** The **mean squared error** of $T$ decomposes as
+$$\boxed{\;\;\operatorname{MSE}(T) \;=\; \mathbb E[(T-\theta)^2] \;=\; \operatorname{Var}(T) \;+\; \operatorname{bias}(T)^2\;\;}$$
+so a *high-variance* unbiased estimator can be worse on average than a *slightly biased* low-variance one. The four estimators of subpart (b) are all unbiased **and** have variance shrinking like $1/n$ — the best of both worlds. This is why unbiasedness shows up in every CI: under unbiasedness, $\widehat{SE}(\widehat\theta)$ measures *the whole error* (no hidden offset), and the CI $\widehat\theta\pm c\,\widehat{SE}$ correctly covers $\theta$ at the nominal rate.
 
-Numerically: $s^2 = 8\,000^2 = 6.4\times 10^7$, $s=8\,000$ €.
+</details>
+
+---
+
+<details class="master-subpart">
+<summary><span class="tag tag-exam">EXAM</span> (b) The four core estimators and their SEs — the table every CI in G13 reads from.</summary>
+
+| # | Parameter | Unbiased estimator $\widehat\theta$ | $\mathrm{Var}(\widehat\theta)$ | $\widehat{SE}(\widehat\theta)$ (plug-in) | One-line proof of unbiasedness | Used in |
+|---|---|---|---|---|---|---|
+| 1 | $\mu$ | $\bar X = \tfrac{1}{n}\sum_i X_i$ | $\sigma^2/n$ | $\sigma/\sqrt n$ (known $\sigma$) or $s/\sqrt n$ (plug-in) | $\mathbb E[\bar X] = \tfrac{1}{n}\sum_i \mathbb E[X_i] = \mu$ | **`g13a`** rows 1–2; **`g14a`** |
+| 2 | $p$ (Bernoulli) | $\hat p = \tfrac{1}{n}\sum_i X_i = X/n$ with $X\sim\mathrm{Bin}(n,p)$ | $p(1-p)/n$ | $\sqrt{\hat p(1-\hat p)/n}$ | $\mathbb E[\hat p] = \mathbb E[X]/n = np/n = p$ | **`g13b`**; **`g14a`** row 3 |
+| 3 | $\sigma^2$ | $S^2 = \tfrac{1}{n-1}\sum_i (X_i-\bar X)^2$ | $\tfrac{2\sigma^4}{n-1}$ (Normal data) | — (rare in this course) | $\mathbb E[\sum(X_i-\bar X)^2] = (n-1)\sigma^2$, divide by $n-1$ | feeds $s/\sqrt n$ in row 1; subpart (c) |
+| 4 | $\mu_D$ (paired) | $\bar D = \tfrac{1}{n}\sum_i D_i$, $D_i = X_i - Y_i$ | $\sigma_D^2/n$ | $s_D/\sqrt n$ | Row 1 applied to the differences $D_i$ | **`g13e`**; **`g14c`** |
+
+**One-line derivations of the variances** (the SEs are square roots):
+
+- **Row 1.** Independence: $\mathrm{Var}(\bar X) = \tfrac{1}{n^2}\sum_i \mathrm{Var}(X_i) = \tfrac{1}{n^2}(n\sigma^2) = \sigma^2/n$.
+- **Row 2.** $X = \sum_i X_i$ is $\mathrm{Bin}(n,p)$ with variance $np(1-p)$, so $\mathrm{Var}(\hat p) = \mathrm{Var}(X)/n^2 = p(1-p)/n$. (Or apply row 1 to $X_i\in\{0,1\}$ with $\sigma^2 = p(1-p)$.)
+- **Row 3.** Under Normality, $(n-1)S^2/\sigma^2 \sim \chi^2_{n-1}$, so $\mathrm{Var}(S^2) = 2\sigma^4/(n-1)$. (Derived from $\mathrm{Var}(\chi^2_{n-1}) = 2(n-1)$.)
+- **Row 4.** Replace $X_i\rightsquigarrow D_i$ in row 1.
+
+**Why these four cover every CI in G13.** Rows 1 + 3 give the **one-mean CI** (`g13a`, rows 1–2 of its universal table). Row 2 gives the **one-proportion CI** (`g13b`, row 3). Rows 1 + 3 applied to two *independent* samples and then *differenced* give the **two-mean CI** (`g13c`, rows 4–6). Row 2 differenced gives the **two-proportion CI** (`g13d`, row 7). Row 4 is the **paired CI** (`g13e`, row 8). Hence the four-row table above *is* the estimator content of all of g13.
+
+**Plug-in on the running dataset.**
+$$\hat\mu = \bar x = 32\,000,\quad SE(\bar X)\big|_{\sigma\text{ known}} = \tfrac{11\,500}{\sqrt{80}} \approx 1\,285.7,\quad \hat p = 0.55,\quad \widehat{SE}(\hat p) = \sqrt{\tfrac{0.55\cdot 0.45}{80}} \approx 0.0556.$$
 
 ```r
-n    <- 100
-xbar <- 24000
-s    <- 8000
-s2   <- s^2;  s2                         # 6.4e7  -> point estimate of sigma^2
+n     <- 80
+xbar  <- 32000;   sigma <- 11500          # 'known' sigma  (5_13a1)
+SE_xbar_known <- sigma / sqrt(n);  SE_xbar_known     # ~1285.7  (exact, no plug-in)
 
-# Quick simulation: bias of S^2 (n-1) vs naive Stilde^2 (n)  under N(mu, sigma^2)
+phat  <- 0.55                              # SmokingArea = No (5_13a3 illustration)
+SE_phat <- sqrt(phat*(1-phat) / n);  SE_phat         # ~0.0556  (plug-in)
+```
+
+</details>
+
+---
+
+<details class="master-subpart">
+<summary>(c) Bessel correction — why $S^2$ divides by $n-1$, not by $n$.</summary>
+
+The "naive" variance estimator $\tilde S^2 = \tfrac{1}{n}\sum_i (X_i - \bar X)^2$ — the **MLE** of $\sigma^2$ under Normality — is **biased downward**. Using the algebraic identity $\sum_i (X_i-\bar X)^2 = \sum_i (X_i-\mu)^2 - n(\bar X-\mu)^2$ and taking expectations,
+$$\mathbb E\!\Big[\sum_{i=1}^n (X_i-\bar X)^2\Big] \;=\; n\sigma^2 \;-\; n\cdot \tfrac{\sigma^2}{n} \;=\; (n-1)\sigma^2,$$
+so $\mathbb E[\tilde S^2] = \tfrac{n-1}{n}\sigma^2 < \sigma^2$. Dividing by $n-1$ instead of by $n$ exactly cancels the missing factor:
+$$\boxed{\;\;S^2 \;=\; \frac{1}{n-1}\sum_{i=1}^n (X_i-\bar X)^2 \quad\Longrightarrow\quad \mathbb E[S^2] \;=\; \sigma^2\;\;}$$
+
+**Intuition.** One degree of freedom has been "spent" estimating $\mu$ via $\bar X$ — once $\bar X$ is known, only $n-1$ of the centred deviations $X_i-\bar X$ are free (they must sum to zero). Averaging by $n-1$ restores unbiasedness.
+
+**Numeric example.** Take $n=5$ Normal draws with $\sigma^2 = 1$. Across $B=20\,000$ replicates:
+
+```r
 set.seed(1)
-B <- 20000;  mu <- 0;  sig <- 1;  nn <- 5    # small n exaggerates the bias
+B <- 20000;  mu <- 0;  sig <- 1;  nn <- 5     # small n exaggerates the bias
 samp     <- matrix(rnorm(B*nn, mu, sig), nrow = B)
-S2_un    <- apply(samp, 1, var)              # divisor n-1   -> unbiased
-S2_naive <- rowMeans((samp - rowMeans(samp))^2)  # divisor n -> biased
-mean(S2_un);     mean(S2_naive)              # ~1.000   ~0.800  ((n-1)/n=0.8)
+S2_un    <- apply(samp, 1, var)               # divisor n-1 -> S^2 (unbiased)
+S2_mle   <- rowMeans((samp - rowMeans(samp))^2)  # divisor n -> tilde S^2 (biased)
+mean(S2_un);    mean(S2_mle)                  # ~1.000      ~0.800   ((n-1)/n=4/5=0.8)
+```
+
+The MLE systematically undershoots by the factor $(n-1)/n = 0.8$ at $n=5$. By $n=100$ the factor is $0.99$ — the bias is small but **never** zero for any finite $n$, which is why the textbook estimator always carries the Bessel correction.
+
+</details>
+
+---
+
+<details class="master-subpart">
+<summary>(d) Computational form — turning raw sums $\sum x_i$ and $\sum x_i^2$ into $\bar x$, $s^2$, $\widehat{SE}(\bar X)$.</summary>
+
+When the exam gives only $n$, $\sum x_i$ and $\sum x_i^2$ (a common pattern: see `5_2a`, `5_3a`, `5_13a1`, `6_13d`, ...), use the **computational form** derived from the identity $\sum_i (x_i-\bar x)^2 = \sum_i x_i^2 - n\bar x^{\,2}$:
+$$\boxed{\;\;\bar x \;=\; \frac{1}{n}\sum_{i=1}^n x_i, \qquad s^2 \;=\; \frac{1}{n-1}\!\left(\sum_{i=1}^n x_i^{\,2} \;-\; n\,\bar x^{\,2}\right), \qquad \widehat{SE}(\bar X) \;=\; \frac{s}{\sqrt n}.\;\;}$$
+
+The $n-1$ divisor is the Bessel correction from subpart (c). For a **frequency table** ($x_k$ with counts $f_k$, $\sum_k f_k = n$): same formulas with $\sum_i x_i \rightsquigarrow \sum_k x_k f_k$ and $\sum_i x_i^2 \rightsquigarrow \sum_k x_k^{\,2} f_k$.
+
+**Worked example on the running dataset** ($n=80$, $\sum x_i = 2\,560\,000$, $\sum x_i^2 = 9.2368\times 10^{10}$):
+1. $\bar x = 2\,560\,000 / 80 = 32\,000$ €.
+2. $n\bar x^{\,2} = 80\cdot 32\,000^2 = 80\cdot 1.024\times 10^9 = 8.192\times 10^{10}$.
+3. $\sum x_i^2 - n\bar x^{\,2} = 9.2368\times 10^{10} - 8.192\times 10^{10} = 1.0448\times 10^{10}$.
+4. $s^2 = 1.0448\times 10^{10}/79 \approx 1.3225\times 10^{8}$, so $s \approx 11\,500$ €.
+5. $\widehat{SE}(\bar X) = 11\,500/\sqrt{80} \approx 1\,285.7$ €.
+
+The recovered $s\approx 11\,500$ matches the "known $\sigma$" the question hands you — sanity check passes.
+
+```r
+n      <- 80
+sum_x  <- 2.56e6
+sum_x2 <- 9.2368e10
+xbar   <- sum_x / n;                              xbar       # 32000
+s2     <- (sum_x2 - n*xbar^2) / (n - 1);          s2         # ~1.3225e8
+s_hat  <- sqrt(s2);                               s_hat      # ~11500
+SE_hat <- s_hat / sqrt(n);                        SE_hat     # ~1285.7
 ```
 
 </details>
@@ -3201,95 +3880,67 @@ mean(S2_un);     mean(S2_naive)              # ~1.000   ~0.800  ((n-1)/n=0.8)
 ---
 
 <details class="master-subpart">
-<summary><span class="tag tag-exam">EXAM</span> (b) What does the SE measure? — $P(|\bar X-\mu|>SE)$ under Normality.</summary>
+<summary>(e) Pitfall — $S$ is <strong>not</strong> unbiased for $\sigma$.</summary>
 
-The **standard error** of $\bar X$ is the SD of its sampling distribution:
-$$SE(\bar X) \;=\; \sqrt{\operatorname{Var}(\bar X)} \;=\; \frac{\sigma}{\sqrt n}.$$
-For our pizzerias, **plugging in** $s$ for the unknown $\sigma$ gives the *estimated* SE
-$$\widehat{SE}(\bar X) \;=\; \frac{s}{\sqrt n} \;=\; \frac{8\,000}{\sqrt{100}} \;=\; 800 \text{ €}.$$
-The SE is **not** the distance between $\bar x$ and $\mu$ for *this* sample (we cannot know that — $\mu$ is unknown); it is the **typical** distance across hypothetical resamples of size $n=100$.
+> **Box.** $S^2$ is unbiased for $\sigma^2$, but $S = \sqrt{S^2}$ is **not** unbiased for $\sigma$:
+> $$\mathbb E[S] \;<\; \sigma \quad\text{(strict; equality only in the degenerate $\sigma=0$ case).}$$
 
-**Probability that the realised $\bar X$ falls farther than one SE from $\mu$ (Normal case).** If $X_i \sim \mathcal N(\mu,\sigma^2)$ then $\bar X \sim \mathcal N(\mu,\sigma^2/n)$ **exactly** (no CLT needed), so $Z = (\bar X - \mu)/(\sigma/\sqrt n) \sim \mathcal N(0,1)$. Therefore
-$$P\!\big(|\bar X - \mu| > SE\big) \;=\; P\!\left(\frac{|\bar X - \mu|}{\sigma/\sqrt n} > 1\right) \;=\; P(|Z|>1) \;=\; 2\,[1-\Phi(1)] \;\approx\; 2(1-0.8413) \;=\; 0.3173.$$
-**Roughly one sample in three** lands more than one SE from $\mu$ — the "1-SE band" is *not* a high-confidence band. Pushing to $\pm 2\,SE$ drops the miss-rate to $P(|Z|>2)\approx 4.6\%$, and $\pm 1.96\,SE$ hits the canonical 5%. This is exactly the calibration that fuels the 95% CI $\bar X \pm 1.96\,SE$ when $\sigma$ is known.
+**Why.** Jensen's inequality on the **concave** function $\sqrt{\cdot}$: for any non-degenerate positive random variable $Y$, $\mathbb E[\sqrt Y] < \sqrt{\mathbb E[Y]}$. Plug $Y = S^2$ and use $\mathbb E[S^2] = \sigma^2$:
+$$\mathbb E[S] \;=\; \mathbb E[\sqrt{S^2}] \;<\; \sqrt{\mathbb E[S^2]} \;=\; \sigma.$$
 
-```r
-SE_hat <- s / sqrt(n);  SE_hat            # 800   estimated SE
-2 * (1 - pnorm(1))                        # 0.3173    P(|Z|>1)
-2 * (1 - pnorm(2))                        # 0.04550   P(|Z|>2)
-2 * (1 - pnorm(1.96))                     # 0.05000   the 95% calibration
-
-# Visual check by simulation (Normal sampling distribution of Xbar)
-set.seed(2);  B <- 1e5;  mu <- 24000;  sig <- 8000
-xb <- rowMeans(matrix(rnorm(B*n, mu, sig), nrow = B))
-mean(abs(xb - mu) > sig/sqrt(n))          # ~0.317
-```
-
-*Caveat.* The 0.317 figure assumed (i) Normal data and (ii) **known** $\sigma$. Under unknown $\sigma$ the exact statement uses $T=(\bar X-\mu)/(S/\sqrt n)\sim t_{n-1}$ and gives $P(|T|>1)=2[1-F_{t_{n-1}}(1)]\approx 0.3197$ at $n=100$ — practically the same; the gap matters only for very small $n$.
+**How much downward bias?** Under Normality the exact bias correction is $\mathbb E[S] = c_4(n)\,\sigma$ with $c_4(n) = \sqrt{\tfrac{2}{n-1}}\cdot \tfrac{\Gamma(n/2)}{\Gamma((n-1)/2)}$. The factor $c_4(n)$ rises rapidly to $1$: $c_4(5)\approx 0.940$, $c_4(10)\approx 0.973$, $c_4(30)\approx 0.991$, $c_4(100)\approx 0.997$. So the bias is **tiny for $n\gtrsim 30$** and is *ignored* in the entire CI/test recipe — but it is a classic exam trick to ask "is $S$ unbiased for $\sigma$?" The answer is **no** even though $S^2$ is unbiased for $\sigma^2$.
 
 </details>
 
 ---
 
 <details class="master-subpart">
-<summary>(c) Effect of sample size on the SE — the $1/\sqrt n$ law.</summary>
+<summary>(f) Cross-references — where each estimator gets used downstream.</summary>
 
-Because $SE(\bar X) = \sigma/\sqrt n$, the SE **shrinks as the square root** of $n$, not linearly. Concretely, multiplying $n$ by $k$ divides the SE by $\sqrt k$:
+- Row 1 ($\bar X$, $s/\sqrt n$) → **`g13a`** rows 1–2: the one-mean CI in $\sigma$-known ($z$) and $\sigma$-unknown ($t$) regimes.
+- Row 2 ($\hat p$, $\sqrt{\hat p(1-\hat p)/n}$) → **`g13b`** row 3: the one-proportion CI (with the $n\hat p, n(1-\hat p)\ge 5$ CLT rule of thumb).
+- Rows 1 + 3 applied to two independent samples and then differenced → **`g13c`** rows 4–6: the two-mean CI in the three variance regimes (known $\sigma$'s, pooled $S_p$ after Levene, Welch).
+- Row 2 differenced (two independent proportions) → **`g13d`** row 7: the two-proportion CI uses the *unpooled* SE (the *pooled* SE belongs to the test in `g14b`).
+- Row 4 ($\bar D$, $s_D/\sqrt n$) → **`g13e`** row 8: the paired CI is row 1 applied to within-subject differences $D_i = X_i - Y_i$.
 
-| $n$ | $\widehat{SE} = s/\sqrt n$ (€) | factor vs $n=100$ |
-|---|---|---|
-| 25  | $1\,600$ | $2.00\times$ |
-| 100 | $800$    | $1.00\times$ (baseline) |
-| 400 | $400$    | $0.50\times$ |
-| 900 | $267$    | $0.33\times$ |
-| 10\,000 | $80$ | $0.10\times$ |
+Forward to G14: all the same estimators get reused, the only change is that the critical value $c_{1-\alpha/2}$ gets replaced by a tail-probability cutoff to control the type-I error.
 
-**Three consequences.**
-1. **Diminishing returns.** Halving the SE requires **quadrupling** $n$ (and the data-collection cost). Going from $n=100$ to $n=200$ shrinks the SE by only $\sqrt 2\approx 1.41\times$, i.e. about 29%.
-2. **CI half-width follows the same law.** With $\sigma$ known, $ME_{95}=1.96\cdot\sigma/\sqrt n$ inherits the $1/\sqrt n$ rate — so to halve a CI we again need $n\to 4n$. Confidence level $1-\alpha$ does **not** interact with $n$ in this rate; it only scales the leading constant ($z_{1-\alpha/2}$).
-3. **The "1-SE miss-rate" 0.317 does not depend on $n$.** The probability $P(|\bar X-\mu|>SE)$ is invariant under the standardisation $Z=(\bar X-\mu)/(\sigma/\sqrt n)$ — for every $n$, "more than one SE off" happens about a third of the time under Normality. What changes with $n$ is the *physical scale* of one SE (€800 at $n=100$, €80 at $n=10\,000$), not the probability mass beyond it.
+</details>
 
-```r
-# 1/sqrt(n) law: tabulate SE across sample sizes
-ns <- c(25, 100, 400, 900, 10000)
-data.frame(n = ns, SE = round(s / sqrt(ns), 1),
-           factor_vs_100 = round(sqrt(100/ns), 3))
-#       n     SE factor_vs_100
-# 1    25 1600.0         2.000
-# 2   100  800.0         1.000
-# 3   400  400.0         0.500
-# 4   900  266.7         0.333
-# 5 10000   80.0         0.100
+---
 
-# Sample size to achieve a target ME at 95% (sigma known)
-target_ME <- 200                            # want +/- 200 EUR
-ceiling( (qnorm(0.975) * s / target_ME)^2 ) # 6147 pizzerias needed
-```
+### Summary table (running dataset — Milan pizzeria sub-sample, $n=80$).
+
+| Parameter | Estimator $\widehat\theta$ | $\mathbb E[\widehat\theta]$ | $\mathrm{Var}(\widehat\theta)$ | $\widehat{SE}(\widehat\theta)$ | Plug-in value | Used in |
+|---|---|---|---|---|---|---|
+| $\mu$ | $\bar X$ | $\mu$ | $\sigma^2/n$ | $\sigma/\sqrt n$ or $s/\sqrt n$ | $\widehat{SE}\approx 1\,286$ | `g13a` rows 1–2; `g14a` |
+| $p$ | $\hat p$ | $p$ | $p(1-p)/n$ | $\sqrt{\hat p(1-\hat p)/n}$ | $\widehat{SE}\approx 0.0556$ | `g13b`; `g14a` row 3 |
+| $\sigma^2$ | $S^2 = \tfrac{1}{n-1}\sum(X_i-\bar X)^2$ | $\sigma^2$ | $\tfrac{2\sigma^4}{n-1}$ (Normal) | — | $s^2 \approx 1.32\times 10^8$ | feeds the SE of row 1 |
+| $\mu_D$ | $\bar D$ | $\mu_D$ | $\sigma_D^2/n$ | $s_D/\sqrt n$ | (paired study) | `g13e`; `g14c` |
+
+Key gotcha (subpart e): $S^2$ unbiased for $\sigma^2$ does **not** imply $S$ unbiased for $\sigma$ — Jensen's inequality on $\sqrt{\cdot}$ gives $\mathbb E[S] < \sigma$.
 
 ![Master illustration](statistics/images/master/master_g13f_ai.png)
-
-</details>
-
----
-
-### Summary table (master dataset, $n=100$, $\bar x=24\,000$, $s=8\,000$).
-
-| Quantity | Formula | Value | Why it matters |
-|---|---|---|---|
-| Point estimate of $\mu$ | $\bar x$ | $24\,000$ € | Unbiased ($\mathbb E[\bar X]=\mu$), no distributional assumption |
-| Point estimate of $\sigma^2$ | $s^2 = \tfrac{1}{n-1}\sum(x_i-\bar x)^2$ | $6.4\times 10^7$ €² | Bessel correction $\Rightarrow \mathbb E[S^2]=\sigma^2$ |
-| Estimated SE of $\bar X$ | $s/\sqrt n$ | $800$ € | Typical sampling spread of $\bar X$ |
-| $P(|\bar X-\mu|>SE)$ under Normality | $2[1-\Phi(1)]$ | $0.3173$ | A 1-SE band is **not** high-confidence |
-| $P(|\bar X-\mu|>2\,SE)$ | $2[1-\Phi(2)]$ | $0.0455$ | The "2-SE rule of thumb" $\approx 95\%$ |
-| $P(|\bar X-\mu|>1.96\,SE)$ | $2[1-\Phi(1.96)]$ | $0.0500$ | Exact 95% calibration |
-| SE at $n=400$ | $s/\sqrt{400}$ | $400$ € | Quadruple $n$ to halve the SE |
 """,
     "images": ["statistics/images/master/master_g13f_ai.png"],
 }
 
 master_exercises["g15d_categorical"] = {
     "title": "Master Exam — Categorical predictors, dummies & interactions (consolidated)",
-    "content": r"""**Setup.** A consultancy collected `Salary` (€/month, net), `grade` (annual performance score, $0$–$100$), `sex` ($F$/$M$) and `course` (training track attended, three levels $a$, $b$, $c$) for a random sample of $n=100$ junior employees (the **GS** dataset). The OLS fit of
+    "content": r"""> **This entry is rows 8–9 of the universal regression table** (see top of `g15a`). All inference is *the same* as for a continuous slope — the only twist is *what each coefficient means*:
+
+| Subpart | Master-table row | Mental model |
+|---|---|---|
+| (a) $K$ levels → $K-1$ dummies (no trap) | row 8 | one column dropped to keep $X^\top X$ invertible |
+| (b)–(c) read $\hat\beta_k$ as **mean shift of level $k$ vs reference** | row 8 + g14a row 2 | per-dummy $t$-test is the universal $t$ on $\hat\beta_k$ with $\theta_0=0$ |
+| (d) joint significance of the whole factor | row 5 (group $F$) | drop the $K-1$ dummies as a *block* — partial / incremental $F$ test |
+| (e)–(f) interaction $X_j\cdot X_k$ → slope-by-group | row 9 | $\hat\gamma=0\iff$ parallel-lines model; $\hat\gamma\neq 0\iff$ slope changes across levels |
+
+> The 7-step recipe lives at the top of `g15a`; this entry adds the **coding layer** in front of step 2 (build dummies before applying OLS) and the **joint partial-$F$** layer after step 4 (test the whole factor, not just individual dummies).
+
+---
+
+**Setup.** A consultancy collected `Salary` (€/month, net), `grade` (annual performance score, $0$–$100$), `sex` ($F$/$M$) and `course` (training track attended, three levels $a$, $b$, $c$) for a random sample of $n=100$ junior employees (the **GS** dataset). The OLS fit of
 
 $$\text{Salary}_i \;=\; \beta_0 \;+\; \beta_g\,\text{grade}_i \;+\; \beta_M\,D^{sex}_{M,i} \;+\; \beta_b\,D^{course}_{b,i} \;+\; \beta_c\,D^{course}_{c,i} \;+\; \varepsilon_i$$
 
@@ -3503,7 +4154,24 @@ legend("topleft", lty=c(1,2,1,2), col=c("navy","navy","darkorange","darkorange")
 # =====================================================================
 master_exercises["g15e_diagnostics"] = {
     "title": "Master Exam --- Residual diagnostics & multicollinearity on Restaurants ($n=50$)",
-    "content": r"""**Master exercise --- Residual diagnostics & multicollinearity (consolidated).**
+    "content": r"""> **This entry is the diagnostic checklist that licenses rows 4–7 of the universal regression table** (see top of `g15a`). OLS *coefficients* $\hat{\boldsymbol\beta}$ are unbiased and consistent for the conditional mean under **L** alone (linearity); the **I N E** layer is what makes $t$-tests, CIs and prediction intervals trustworthy.
+
+### The LINE checklist (this entry's spine)
+
+| Letter | Assumption | How to check | Failure $\Rightarrow$ | Remedy |
+|---|---|---|---|---|
+| **L** | **L**inearity: $E[Y\mid X]$ is linear in $X$ | $e$ vs $\hat y$ (curvature); $e$ vs each $x_j$ (quadratic shape) | wrong functional form — biased $\hat\beta$ | add $X^2$ / polynomial / spline; transform $X$ |
+| **I** | **I**ndependence of $\varepsilon_i$ | study design; for time/panel data: residual ACF, Durbin–Watson | wrong df, anti-conservative SE | cluster / HAC SE; mixed model |
+| **N** | **N**ormality of residuals | histogram + Q-Q of $r_i^{\text{std}}$; Shapiro–Wilk | small-sample $t$/F/PI invalid (CLT covers large $n$) | $\log Y$ or Box–Cox; report robust SE |
+| **E** | **E**qual variance (homoscedasticity) | $e$ vs $\hat y$ (funnel); scale-location plot; Breusch–Pagan | OLS no longer minimum-variance; SE wrong | $\log Y$ / WLS / HC sandwich SE |
+| **+** | Influence: outlier × leverage | $|r_i^{\text{std}}|$, $h_{ii}$, Cook's $D_i$ | a few points dominate $\hat{\boldsymbol\beta}$ | refit without and report sensitivity |
+| **+** | Multicollinearity (multi-regressor only) | VIF$_j = 1/(1-R_j^2)$ | $\widehat{SE}(\hat\beta_j)$ inflated; $t$ shrinks | drop / combine / ridge |
+
+> The 7-step recipe lives at the top of `g15a`; this entry is **step 7** in detail — every plot below tells you which row of the master table is still trustworthy and which one to discount or fix.
+
+---
+
+**Master exercise --- Residual diagnostics & multicollinearity (consolidated).**
 
 A single dataset, seven sub-points covering every unique diagnostic concept asked across **Ex 8.4a** (Restaurants: revenues ~ surface): raw and standardised residuals, residuals-vs-fitted heteroscedasticity check, residuals-vs-predictor structure check, Normality of residuals (histogram + Q-Q), Cook's distance / leverage / influence, VIF for multicollinearity, and remedies (log / Box-Cox / drop predictor / ridge).
 
@@ -6108,6 +6776,29 @@ master_exercises["g10_normal"] = {
 
 ---
 
+**Master recipe — one mental model for *every* normal question.** Every probability/quantile problem on $X\sim\mathcal{N}(\mu,\sigma^2)$ reduces to the same four-step routine. Internalise it once and stop re-deriving:
+
+$$\boxed{\;\;
+\begin{array}{rl}
+\textbf{1. Standardise:} & \; Z \;=\; \dfrac{X - \mu}{\sigma} \;\sim\; \mathcal{N}(0,1). \\[6pt]
+\textbf{2. CDF lookup:} & \; \mathbb{P}(X \le x) \;=\; \Phi\!\left(\dfrac{x-\mu}{\sigma}\right). \\[6pt]
+\textbf{3. Identities:} & \; \Phi(-z) = 1 - \Phi(z),\;\; \mathbb{P}(X>x) = 1-\Phi(z),\;\; \mathbb{P}(|X-\mu|>k\sigma)=2[1-\Phi(k)]. \\[6pt]
+\textbf{4. Inversion:} & \; x_q \;=\; \mu + z_q\,\sigma,\quad z_q = \Phi^{-1}(q).
+\end{array}\;\;}$$
+
+**Decision flow** — which step you start at depends on what the question hands you:
+
+| Given | Want | Path |
+|---|---|---|
+| value $x$ | $\mathbb{P}(X\le x)$, $\mathbb{P}(X>x)$ | 1 → 2 → 3 |
+| probability $q$ | quantile $x_q$ | 4 |
+| two values $a<b$ | $\mathbb{P}(a\le X\le b)$ | 1 → 2 (twice) → subtract |
+| half-width $k$ | $\mathbb{P}(|X-\mu|>k\sigma)$ | 3 (symmetric tail) |
+
+Everything below is just this recipe applied case by case. The subparts add the **density formula**, the **68–95–99.7 quick rule** (when you do not have a $\Phi$-table handy), and the **numbers** for the running example $\mathcal{N}(100,100)$.
+
+---
+
 <details class="master-subpart" open>
 <summary>(a) Density formula</summary>
 
@@ -6296,7 +6987,32 @@ master_exercises["g11_clt"] = {
     "title": "Master — Sampling distributions & the CLT",
     "content": r"""**Setup.** Let $X_1, X_2, \dots, X_n$ be an i.i.d. sample from a population with mean $\mu = E[X]$ and variance $\sigma^2 = \text{Var}(X) < \infty$. The **sample mean**
 $$\bar X \;=\; \frac{1}{n}\sum_{i=1}^n X_i$$
-is itself a random variable, with its own distribution called the **sampling distribution of $\bar X$**. The whole point of inferential statistics is to know how $\bar X$ behaves so we can use it to estimate the unknown $\mu$.
+is itself a random variable, with its own distribution called the **sampling distribution of $\bar X$**. The whole point of inferential statistics is to know how $\bar X$ behaves so we can use it to estimate the unknown $\mu$. The same machinery covers the **sample proportion** $\hat p = \tfrac{1}{n}\sum X_i$ for $X_i\sim\text{Bernoulli}(p)$: the recipe for $\hat p$ **is** the recipe for $\bar X$ specialised to Bernoulli$(p)$, with mean $p$ and variance $p(1-p)$. Anything you can do for a mean you can do for a proportion just by plugging $\mu\!\to\!p$, $\sigma^2\!\to\!p(1-p)$.
+
+---
+
+**Master recipe — every sampling-distribution question.** Every problem about $\bar X$ or $\hat p$ reduces to the same four-step routine. Internalise it once and stop reinventing case by case:
+
+$$\boxed{\;\;
+\begin{array}{rl}
+\textbf{1. Identify the statistic:} & \; \text{sample mean } \bar X \;\;\text{or}\;\; \text{sample proportion } \hat p. \\[6pt]
+\textbf{2. Mean \& SE:} & \; E[\bar X]=\mu,\;\; \text{SE}(\bar X)=\sigma/\sqrt{n}; \quad E[\hat p]=p,\;\; \text{SE}(\hat p)=\sqrt{p(1-p)/n}. \\[6pt]
+\textbf{3. Distribution:} & \; \text{exact } N \text{ (Normal parent)},\;\; \text{CLT-}N \text{ (any parent, } n\ge 30\text{)},\;\; \text{or CLT-}N \text{ for } \hat p \text{ if } np,\,n(1-p)\ge 5. \\[6pt]
+\textbf{4. Standardise:} & \; Z=\dfrac{\bar X-\mu}{\sigma/\sqrt n}\;\;\text{(or}\;\;\dfrac{\hat p-p}{\sqrt{p(1-p)/n}}\text{)},\;\;\text{then use } \Phi \text{ for tail/interval/quantile probabilities.}
+\end{array}\;\;}$$
+
+**Decision flow** — which step you start at depends on what the question hands you:
+
+| Given (parent shape, $n$, statistic) | Want | Path |
+|---|---|---|
+| Normal parent, any $n$, $\bar X$ | $P(\bar X\le c)$, $P(\bar X>c)$ | exact $\bar X\sim N(\mu,\sigma^2/n)$ → standardise → $\Phi$ |
+| Any parent with $n\ge 30$, $\bar X$ | $P(\bar X\le c)$ or interval | CLT: $\bar X\stackrel{\cdot}{\sim} N(\mu,\sigma^2/n)$ → standardise → $\Phi$ |
+| Bernoulli($p$) with $np,n(1-p)\ge 5$, $\hat p$ | $P(\hat p\le c)$ or interval | CLT: $\hat p\stackrel{\cdot}{\sim} N(p,p(1-p)/n)$ → standardise → $\Phi$ |
+| Any of above, given probability $q$ | quantile $c_q$ for $\bar X$ or $\hat p$ | $c_q=\mu+z_q\cdot\text{SE}$ (or $p+z_q\cdot\text{SE}$) |
+| Any of above, two values $a<b$ | $P(a\le\bar X\le b)$ | standardise twice → $\Phi(z_b)-\Phi(z_a)$ |
+| Sum $S=\sum X_i$ rather than mean | $P(S\le c)$ | $S\stackrel{\cdot}{\sim} N(n\mu,n\sigma^2)$ — just $n\times$ the mean's mean and $n\times$ the variance |
+
+Everything below is this recipe spelled out: subparts (a)–(d) build the **mean rule** with $\sqrt n$ scaling, exact-Normal and CLT cases; (e) is the **proportion specialisation**; (f) is a fully worked end-to-end example.
 
 ---
 
@@ -6448,9 +7164,35 @@ pnorm((53 - 50) / (12/sqrt(36)))           # 0.9331928 (standardised form)
 
 master_exercises["g12_lincomb"] = {
     "title": "Master — Linear combinations of Normal random variables",
-    "content": r"""**Setup.** Let $X \sim N(\mu_X, \sigma_X^2)$ and $Y \sim N(\mu_Y, \sigma_Y^2)$ with $(X, Y)$ **jointly (bivariate) Normal**, and let $\rho = \text{Corr}(X,Y)$ so that
-$$\text{Cov}(X,Y) \;=\; \rho \, \sigma_X \, \sigma_Y.$$
-For constants $a, b, c \in \mathbb{R}$, consider the linear combination $W = aX + bY + c$.
+    "content": r"""**Setup.** Let $X_1, \dots, X_k$ be Normal random variables with means $\mu_i$, variances $\sigma_i^2$, and (optionally) covariances $\sigma_{ij} = \text{Cov}(X_i, X_j)$. For constants $a_1, \dots, a_k, b \in \mathbb{R}$ form the **linear combination**
+$$Y \;=\; b + \sum_{i=1}^{k} a_i X_i.$$
+The headline fact: if the $X_i$ are **jointly Normal** (in particular, if they are independent Normals), then $Y$ is itself **exactly Normal** — no CLT approximation needed. Sum, difference, scaling, sample mean, two-asset portfolio, cost = price $\times$ quantity at fixed quantity — all are special cases of one formula.
+
+---
+
+**Master recipe — one mental model for *every* linear-combination question.** Every problem about $Y = b + \sum a_i X_i$ where the $X_i$ are jointly Normal reduces to the same four-step routine. Internalise it once and stop re-deriving case by case:
+
+$$\boxed{\;\;
+\begin{array}{rl}
+\textbf{1. Identify } a_i, b: & \; \text{rewrite the question as } Y = b + \sum_i a_i X_i. \\[6pt]
+\textbf{2. Mean (always linear):} & \; \mathbb E[Y] \;=\; b + \sum_i a_i\,\mu_i. \\[6pt]
+\textbf{3. Variance:} & \; \mathrm{Var}(Y) \;=\; \sum_i a_i^2\,\sigma_i^2 \;\underbrace{+\; 2\sum_{i<j} a_i a_j\,\sigma_{ij}}_{=\,0\;\text{if independent}}. \\[6pt]
+\textbf{4. Standardise (G10):} & \; Z \;=\; \dfrac{Y - \mathbb E[Y]}{\sqrt{\mathrm{Var}(Y)}}\;\sim\;\mathcal N(0,1) \;\Longrightarrow\; \text{apply the G10 recipe (}\Phi, \Phi^{-1}\text{).}
+\end{array}\;\;}$$
+
+**Decision flow** — pick the row that matches the operation in the question, then plug into the columns:
+
+| Operation | $a_i$ | $\mathbb E[Y]$ | $\mathrm{Var}(Y)$ (independent) | $\mathrm{Var}(Y)$ (correlated) |
+|---|---|---|---|---|
+| **Sum** $X_1+X_2$ | $a_1=a_2=1$ | $\mu_1+\mu_2$ | $\sigma_1^2+\sigma_2^2$ | $+\,2\sigma_{12}$ |
+| **Difference** $X_1-X_2$ | $a_1=1,\;a_2=-1$ | $\mu_1-\mu_2$ | $\sigma_1^2+\sigma_2^2$ | $-\,2\sigma_{12}$ |
+| **Scaling/affine** $b+cX$ | $a_1=c$ | $b+c\mu$ | $c^2\sigma^2$ | — |
+| **Mean of i.i.d.** $\bar X = \frac1n\sum X_i$ | $a_i=1/n$ | $\mu$ | $\sigma^2/n$ | — |
+| **General LC** $\sum a_iX_i$ | given $a_i$ | $\sum a_i\mu_i$ | $\sum a_i^2\sigma_i^2$ | $+\,2\sum_{i<j}a_ia_j\sigma_{ij}$ |
+
+**Two traps worth memorising.** (i) For $X-Y$ the variance is $\sigma_X^2+\sigma_Y^2-2\sigma_{XY}$ — **the marginal variances still add**, only the covariance term flips sign (variance can never be negative). (ii) Inside the jointly-Normal world only, $\sigma_{XY}=0 \Leftrightarrow X\perp\!\!\!\perp Y$ — so under independence the variance always reduces to $\sum a_i^2\sigma_i^2$.
+
+Everything below is this recipe spelled out: subparts (a)–(b) handle the **mean and variance rules** including the covariance correction; (c) states the **Normality preservation** theorem; (d) lists the most-used **special cases**; (e) the **independence simplification**; (f) a fully worked $P(X+Y>k)$ example tying steps 1–4 together.
 
 ---
 

@@ -335,9 +335,9 @@ past_exams["exam_p1_2025_2a"] = {
     '**Answer.** $SE(\\hat p_{\\text{high}}) = \\sqrt{0.32(1-0.32)/550} \\approx \\mathbf{0.020}$ and $SE(\\hat p_{\\text{low}}) = \\sqrt{0.173(1-0.173)/550} \\approx \\mathbf{0.016}$. The SE for **Shares=low is smaller** because $\\hat p = 0.173$ is further from 0.5, so $\\hat p(1-\\hat p)$ is smaller (with $n$ fixed at 550).\n\n'
     '**R commands:**\n\n'
     '`sqrt(0.32*(1-0.32)/550)`\n\n'
-    '`## [1] 0.01989...`\n\n'
+    '`## [1] 0.01989472`\n\n'
     '`sqrt(0.173*(1-0.173)/550)`\n\n'
-    '`## [1] 0.01613...`\n\n'
+    '`## [1] 0.01613283`\n\n'
     '---\n\n'
     '**Reference answer.**\n\n'
     '![Ex 2a answer](statistics/images/past_exams/answers/exam_p1_2025_2a_answer.png)\n'
@@ -361,7 +361,7 @@ past_exams["exam_p1_2025_2b"] = {
     '**R commands:**\n\n'
     '`set.seed(1); sims <- replicate(2000, mean(rnorm(50, mean=0, sd=1)))`\n\n'
     '`sd(sims)         # empirical SE of x-bar`\n\n'
-    '`## [1] 0.1387`\n\n'
+    '`## [1] 0.1391`\n\n'
     '`1/sqrt(50)       # theoretical SE`\n\n'
     '`## [1] 0.1414`\n\n'
     '![Answer](statistics/images/past_exams/answers/exam_p1_2025_2b_answer.png)\n'
@@ -474,6 +474,7 @@ past_exams["exam_g1_2024_1a"] = {
 past_exams["exam_g1_2024_1b"] = {
 "title": "G1-2024 Ex1b — Sample size for proportion ME ≤ 0.04 at 95%",
 "is_exam": True, "topic_hint": "G13",
+"subtopic_hint": "g13b",
 "content": (
     '<span class="exam-question-text">What sample size is needed so that the margin of error on a proportion is at most 0.04 at the 95% level?</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g1_2024_1b_question.png)\n\n'
@@ -601,7 +602,7 @@ past_exams["exam_g1_2025_1b"] = {
 
 past_exams["exam_g1_2025_2a"] = {
 "title": "G1-2025 Ex3 — Paired t-test sleep duration (minutes) pre vs post diet",
-"is_exam": True, "topic_hint": "G14",
+"is_exam": True, "topic_hint": "G14", "subtopic_hint": "g14c",
 "content": _q(
     "<span class=\"exam-question-text\">Test whether sleep duration (in minutes) increased after the diet. Paired sample, $n = 161$, $\\bar x_{\\text{before}} = 402.89$, $s_{\\text{before}} = 45.61$, $\\bar x_{\\text{after}} = 414$, $s_{\\text{after}} = 48$, correlation $r = 0.71$. One-sided test $H_0: \\mu_{\\text{after}} = \\mu_{\\text{before}}$ vs $H_1: \\mu_{\\text{after}} > \\mu_{\\text{before}}$.</span>",
     "Paired t-test using $\\hat\\sigma_D = \\sqrt{s_{\\text{before}}^2 + s_{\\text{after}}^2 - 2r\\cdot s_{\\text{before}}\\cdot s_{\\text{after}}} = \\sqrt{45.61^2 + 48^2 - 2(0.71)(45.61)(48)} \\approx 35.71$. Then $t_{\\text{obs}} = (414 - 402.89)/(35.71/\\sqrt{161}) \\approx 3.95$ on $df = 160$. p-value $= P(T_{160} \\ge 3.95) \\approx 5.85 \\times 10^{-5}$. **Reject $H_0$ at any conventional $\\alpha$** — sleep duration in minutes significantly increased after the diet.",
@@ -702,6 +703,7 @@ past_exams["exam_g1_2025_3c"] = {
 past_exams["exam_g1_2026_1a"] = {
 "title": "G1-2026 Ex1a — 99% CI for PurposeLoan=Business proportion",
 "is_exam": True, "topic_hint": "G13",
+"subtopic_hint": "g13b",
 "content": (
     '<span class="exam-question-text">We are interested in the proportion of customers who apply for a loan for reasons related to Business (variable `PurposeLoan = Business`). Report a **99% confidence interval** for such proportion and provide its interpretation.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g1_2026_1a_question.png)\n\n'
@@ -726,6 +728,7 @@ past_exams["exam_g1_2026_1a"] = {
 past_exams["exam_g1_2026_1b"] = {
 "title": "G1-2026 Ex1b — Hypothesis test using CI",
 "is_exam": True, "topic_hint": "G14",
+"subtopic_hint": "g14a",
 "content": _q(
     "<span class=\"exam-question-text\">Using the CI from 1a (0.15, 0.24), test $H_0: p = 0.3$ vs $H_1: p \\ne 0.3$ at any level $\\alpha$.</span>",
     "Since $0.3 \\notin [0.15, 0.24]$, the 99% CI **rejects** $H_0$ at level $\\alpha = 0.01$. Equivalently, any test at $\\alpha \\ge 0.01$ rejects. At $\\alpha < 0.01$ (e.g. 0.005), the conclusion would require a wider CI to verify.",
@@ -739,6 +742,7 @@ past_exams["exam_g1_2026_1b"] = {
 past_exams["exam_g1_2026_1c"] = {
 "title": "G1-2026 Ex1c — Sample size for CI width ≤ 0.09",
 "is_exam": True, "topic_hint": "G13",
+"subtopic_hint": "g13b",
 "content": (
     '<span class="exam-question-text">What sample size guarantees a 99% CI with width $\\le 0.09$?</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g1_2026_1c_question.png)\n\n'
@@ -764,6 +768,7 @@ past_exams["exam_g1_2026_1c"] = {
 past_exams["exam_g2_2024_5a"] = {
 "title": "G2-2024 Ex5 — Analytic CI for proportion (CrimePeople > 250)",
 "is_exam": True, "topic_hint": "G13",
+"subtopic_hint": "g13b",
 "content": (
     '<span class="exam-question-text">Build a **99% confidence interval** for the **proportion** of US cities with `CrimePeople` > 250 (`CrimeUS` dataset). Report the analytical form, plug in the sample values and interpret the resulting interval.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g2_2024_5a_question.png)\n\n'
@@ -793,6 +798,7 @@ past_exams["exam_g2_2024_5a"] = {
 past_exams["exam_g2_2024_5c"] = {
 "title": "G2-2024 Ex5c — Sample size for CI width ≤ 0.05",
 "is_exam": True, "topic_hint": "G13",
+"subtopic_hint": "g13b",
 "content": (
     '<span class="exam-question-text">What sample size guarantees a 99% CI with width $\\le 0.05$?</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g2_2024_5c_question.png)\n\n'
@@ -850,6 +856,7 @@ past_exams["exam_g2_2025_1a"] = {
 past_exams["exam_g2_2025_2a"] = {
 "title": "G2-2025 Ex2 — Chi-square GoF on Department + CI for Senior Salary",
 "is_exam": True, "topic_hint": "G14",
+"subtopic_hint": "g14d",
 "content": (
     '<span class="exam-question-text">(1) Test whether the `Department` distribution in `Employee` is uniform across the three departments (HR / IT / Operations) at $\\alpha = 0.05$. (2) Build a 90% CI for the mean `Salary` among employees with `Role == \'Senior\'`.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g2_2025_2a_question.png)\n\n'
@@ -934,25 +941,26 @@ past_exams["exam_g2_2025_5a"] = {
 
 past_exams["exam_g2_2026_1a"] = {
 "title": "G2-2026 Ex1a — 90% CI for difference in cleaning-category proportions",
-"is_exam": True, "topic_hint": "G13",
+"is_exam": True, "topic_hint": "G13", "subtopic_hint": "g13d",
 "content": (
     '<span class="exam-question-text">Compare the proportion of customers who chose the first (more expensive) product in the cleaning category (`category` == `cleaning`) between the **NorthWest** region ($n_1 = 278$, $\\hat p_1 = 0.64$) and the **NorthEast** region ($n_2 = 189$, $\\hat p_2 = 0.418$). Build a **90% confidence interval** for the difference $p_1 - p_2$ and interpret.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g2_2026_1a_question.png)\n\n'
     '---\n\n'
     '**Walkthrough.** Two independent proportions: under independence the variance of the difference adds,\n\n'
     '$$\\widehat{SE}(\\hat p_1 - \\hat p_2) = \\sqrt{\\tfrac{\\hat p_1(1-\\hat p_1)}{n_1} + \\tfrac{\\hat p_2(1-\\hat p_2)}{n_2}}.$$\n\n'
-    'The snippet uses the source\'s reported point estimate $\\hat p_1 - \\hat p_2 = 0.147$ and $SE = 0.121$. A two-sided 90% CI uses $z_{0.95} = 1.645$:\n\n'
-    '$$0.147 \\pm 1.645 \\cdot 0.121 \\;=\\; [-0.052,\\; 0.346].$$\n\n'
+    'Point estimate: $\\hat p_1 - \\hat p_2 = 0.64 - 0.418 = 0.222$. Plugging in $n_1=278,\\hat p_1=0.64$ and $n_2=189,\\hat p_2=0.418$ gives $\\widehat{SE} = \\sqrt{0.64\\cdot 0.36/278 + 0.418\\cdot 0.582/189} \\approx 0.0460$. A two-sided 90% CI uses $z_{0.95} = 1.645$:\n\n'
+    '$$0.222 \\pm 1.645 \\cdot 0.0460 \\;=\\; 0.222 \\pm 0.0757 \\;=\\; [0.147,\\; 0.298].$$\n\n'
     'The left panel below shows the two sample proportions with their error bars; the right panel draws the sampling distribution of $\\hat p_1 - \\hat p_2$ around its observed value, with the central 90% mass shaded and the value $0$ marked.\n\n'
     '![AI walkthrough — 90% CI for difference of two proportions](statistics/images/past_exams/exam_g2_2026_1a_ai.png)\n\n'
     '---\n\n'
-    '**Answer.** $90\\%$ CI for $p_1 - p_2$ is $[-0.052,\\; 0.346]$. Since the interval **contains 0**, we cannot conclude with 90% confidence that the proportions of customers choosing the more expensive cleaning product differ between the NorthWest and NorthEast regions.\n\n'
+    '**Answer.** $90\\%$ CI for $p_1 - p_2$ is $[0.147,\\; 0.298]$. Since the interval lies **entirely above 0**, with 90% confidence the proportion of NorthWest customers choosing the more expensive cleaning product is **higher** than in the NorthEast — by between 14.7 and 29.8 percentage points.\n\n'
     '**R commands:**\n\n'
     '`n1 <- 278;  p1 <- 0.64`\n\n'
     '`n2 <- 189;  p2 <- 0.418`\n\n'
-    '`SE <- 0.121         # given by the source`\n\n'
-    '`0.147 + c(-1,1) * 1.645 * SE`\n\n'
-    '`## [1] -0.052  0.346`\n\n'
+    '`SE <- sqrt(p1*(1-p1)/n1 + p2*(1-p2)/n2);  SE   # ~ 0.0460`\n\n'
+    '`diff <- p1 - p2;  diff                          # 0.222`\n\n'
+    '`diff + c(-1,1) * qnorm(0.95) * SE`\n\n'
+    '`## [1] 0.1463 0.2977`\n\n'
     '`CI.diffprop(x, y, conf.level=0.90)`\n\n'
     '![Answer](statistics/images/past_exams/answers/exam_g2_2026_1a_answer.png)\n'
 ), "images": [
@@ -964,6 +972,7 @@ past_exams["exam_g2_2026_1a"] = {
 past_exams["exam_g2_2026_2a"] = {
 "title": "G2-2026 Ex2a — Hypothesis system for campaign effectiveness ($\\mu = 850$)",
 "is_exam": True, "topic_hint": "G14",
+"subtopic_hint": "g14a",
 "content": (
     '<span class="exam-question-text">The marketing department wants to evaluate the effectiveness of the promotional campaign. Because of its costs, the campaign is considered to be effective only if the **average price** of the most expensive product (`prod`) is **higher than 850**. Assume the population standard deviation of the price is **300**. State the **hypothesis system** clearly explaining your reasoning.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g2_2026_2a_question.png)\n\n'
@@ -1112,7 +1121,7 @@ past_exams["exam_july_2024_3a"] = {
 
 past_exams["exam_july_2025_1a"] = {
 "title": "Jul-2025 Ex1 — Two-sample one-sided t-test on Savings: Branch A vs Branch B (equal variances)",
-"is_exam": True, "topic_hint": "G14",
+"is_exam": True, "topic_hint": "G14", "subtopic_hint": "g14b",
 "content": (
     '<span class="exam-question-text">Based on the available data, are we interested in verifying whether the **average amount of savings (`Savings`) in the population of clients of branch A is lower than that of the population of clients of branch B** (variable `Branch`, with categories `A` and `B`), assuming **equal variances** in the two subpopulations?\n\n**1.a State** the null and alternative hypotheses for the test.\n**1.b Report** the analytical expression of the standard error of the test statistic and its value in the sample, and **provide its interpretation**.\n**1.c Report** the expression and value of the test statistic, and **decide** at $\\alpha = 5\\%$ and $\\alpha = 1\\%$.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_july_2025_1a_question.png)\n\n'
@@ -1215,12 +1224,12 @@ past_exams["exam_sep_2024_2a"] = {
 
 past_exams["exam_sep_2024_3a"] = {
 "title": "Sep-2024 Ex3a — Interpret Account_length coefficient in regression",
-"is_exam": True, "topic_hint": "G15",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15a",
 "content": (
     '<span class="exam-question-text">Interpret $\\hat\\beta_2 = 7.84$ for `Account_length` (second slope in the multiple-regression output).</span>\n\n'
-    '![Question](statistics/images/past_exams/questions/exam_sep_2024_3a_question.png)\n\n'
+    '*(Source `summary(m)` printout shared with sub-parts 3b/3c/3d — see e.g. `exam_sep_2024_3b_question.png`.)*\n\n'
     '---\n\n'
-    '**Walkthrough.** In a multiple regression $\\widehat{\\mathrm{Score}} = \\hat\\beta_0 + \\hat\\beta_1 X_1 + \\hat\\beta_2\\,\\mathrm{Account\\_length} + \\hat\\beta_3 X_3 + \\dots$, the slope $\\hat\\beta_2$ is the **partial effect** of `Account_length` on `Score`: the expected change in $\\mathrm{Score}$ for a **one-unit increase** in `Account_length` **holding all other predictors fixed** (*ceteris paribus*). Here `Account_length` is measured in years, so a $+1$-year shift moves the conditional mean of `Score` up by exactly $\\hat\\beta_2 = 7.84$ units. Two cautions: (i) this is a *marginal* effect, not a causal claim — it only describes the linear association inside the fitted model; (ii) the value is an estimate, so a 95% CI from `confint(mod)` quantifies uncertainty around 7.84.\n\n'
+    '**Walkthrough.** *This is **row 1** of the universal regression case table at the top of master entry `g15a`*: $\\hat\\beta_j$ from OLS is the **partial / ceteris-paribus** mean shift in $Y$ per $+1$ unit of $X_j$ holding all the other regressors fixed. In a multiple regression $\\widehat{\\mathrm{Score}} = \\hat\\beta_0 + \\hat\\beta_1 X_1 + \\hat\\beta_2\\,\\mathrm{Account\\_length} + \\hat\\beta_3 X_3 + \\dots$, the slope $\\hat\\beta_2$ is the **partial effect** of `Account_length` on `Score`: the expected change in $\\mathrm{Score}$ for a **one-unit increase** in `Account_length` **holding all other predictors fixed** (*ceteris paribus*). Here `Account_length` is measured in years, so a $+1$-year shift moves the conditional mean of `Score` up by exactly $\\hat\\beta_2 = 7.84$ units. Two cautions: (i) this is a *marginal* effect, not a causal claim — it only describes the linear association inside the fitted model; (ii) the value is an estimate, so a 95% CI from `confint(mod)` quantifies uncertainty around 7.84.\n\n'
     '![AI walkthrough — partial slope of Score vs Account_length with a +1-year step highlighting the +7.84 Score increase](statistics/images/past_exams/exam_sep_2024_3a_ai.png)\n\n'
     '---\n\n'
     '**Answer.** Holding all other predictors constant, **a one-year increase in `Account_length` is associated with a $+7.84$-unit increase in the expected `Score`** on average. The coefficient is a *partial / ceteris-paribus* effect inside the multiple-regression model, not a causal effect; the `confint(mod)` row for `Account_length` gives the 95% CI around 7.84 and the `summary(mod)` table reports its standard error and p-value (significant if `Pr(>|t|) < 0.05`).\n\n'
@@ -1228,12 +1237,9 @@ past_exams["exam_sep_2024_3a"] = {
     '`summary(mod)`\n\n'
     "`confint(mod)['Account_length',]`\n\n"
     '`## 2.5 %    97.5 %`\n\n'
-    '`## (lower)  (upper)   # CI around 7.84`\n\n'
-    '![Answer](statistics/images/past_exams/answers/exam_sep_2024_3a_answer.png)\n'
+    '`## (lower)  (upper)   # CI around 7.84`\n'
 ), "images": [
-    "statistics/images/past_exams/questions/exam_sep_2024_3a_question.png",
     "statistics/images/past_exams/exam_sep_2024_3a_ai.png",
-    "statistics/images/past_exams/answers/exam_sep_2024_3a_answer.png",
 ]}
 
 past_exams["exam_sep_2024_3d"] = {
@@ -1285,7 +1291,7 @@ past_exams["exam_sep_2025_1a"] = {
 
 past_exams["exam_sep_2025_2a"] = {
 "title": "Sep-2025 Ex2a — One-sided test on mean difference D (new vs old algorithm)",
-"is_exam": True, "topic_hint": "G14",
+"is_exam": True, "topic_hint": "G14", "subtopic_hint": "g14c",
 "content": (
     '<span class="exam-question-text">Formulate $H_0$ and $H_1$ for the **mean difference in performance** $D = \\mu_{\\text{new}} - \\mu_{\\text{old}}$ between the new algorithm and the old one, give the test statistic and its estimated standard error, then evaluate the numerical value and conclude. Sample: $\\bar D = 0.510$, $SE(\\bar D) = 0.221$, $n$ large.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_sep_2025_2a_question.png)\n\n'
@@ -1324,7 +1330,7 @@ past_exams["exam_sep_2025_2a"] = {
 
 past_exams["exam_sep_2025_5a"] = {
 "title": "Sep-2025 Ex5a — Assumptions for the CI on $\\mu_A - \\mu_B$",
-"is_exam": True, "topic_hint": "G13",
+"is_exam": True, "topic_hint": "G13", "subtopic_hint": "g13c",
 "content": (
     '<span class="exam-question-text">Clarify whether specific assumptions are required to construct a confidence interval for the difference between the two means $\\mu_A - \\mu_B$ (Activity.type A vs B). Clearly motivate your answer.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_sep_2025_5a_question.png)\n\n'
@@ -1359,7 +1365,7 @@ past_exams["exam_sep_2025_5a"] = {
 
 past_exams["exam_sep_2025_5b"] = {
 "title": "Sep-2025 Ex5b — Levene\'s test: equal vs different variances",
-"is_exam": True, "topic_hint": "G14",
+"is_exam": True, "topic_hint": "G13", "subtopic_hint": "g13c",
 "content": (
     '<span class="exam-question-text">Should we assume the population variances of `Performance` in the two groups (A and B) are **equal** or **different**? Justify clearly your answer.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_sep_2025_5b_question.png)\n\n'
@@ -1392,7 +1398,7 @@ past_exams["exam_sep_2025_5b"] = {
 
 past_exams["exam_sep_2025_5c"] = {
 "title": "Sep-2025 Ex5c — Analytical 90% pooled-variance CI for $\\mu_A - \\mu_B$",
-"is_exam": True, "topic_hint": "G13",
+"is_exam": True, "topic_hint": "G13", "subtopic_hint": "g13c",
 "content": (
     '<span class="exam-question-text">Provide the **analytical expression** of the confidence interval under the proper assumption on the population variances (decided in 5.b), and report the **90% confidence interval** for the difference in the mean `Performance` between participants trained with programs A and B.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_sep_2025_5c_question.png)\n\n'
@@ -1528,9 +1534,9 @@ past_exams["exam_p1_2026_6a"] = {
     "`## Channel       n     mean      sd`\n\n"
     "`## Aggregator  142    56.22   12.13`\n\n"
     "`## Airline     224    53.50   22.06`\n\n"
-    "`12.13 / sqrt(142)`   # Aggregator SE\n\n"
+    "`12.13 / sqrt(142)    # Aggregator SE`\n\n"
     "`## [1] 1.0179`\n\n"
-    "`22.06 / sqrt(224)`   # Airline SE\n\n"
+    "`22.06 / sqrt(224)    # Airline SE`\n\n"
     "`## [1] 1.4739`\n\n"
     '![Answer](statistics/images/past_exams/answers/exam_p1_2026_6a_answer.png)\n'
 ), "images": [
@@ -1555,6 +1561,7 @@ past_exams["exam_p1_2026_6b"] = {
     "`SE_agg <- 12.13/sqrt(142)   # 1.018`\n\n"
     "`SE_air <- 22.06/sqrt(224)   # 1.474`\n\n"
     "`c(SE_agg, SE_air)`\n\n"
+    "`## [1] 1.0179 1.4739`\n\n"
     "`# A single Airline PaidFare x-bar could still land closer to mu than a single Aggregator one`\n\n"
     '![Answer](statistics/images/past_exams/answers/exam_p1_2026_6b_answer.png)\n'
 ), "images": [
@@ -1594,6 +1601,7 @@ past_exams["exam_g1_2025_6"] = {
 past_exams["exam_g1_2026_2a"] = {
 "title": "G1-2026 Ex2a — Test independence: PurposeLoan ⊥ EmplStatus (chi-squared)",
 "is_exam": True, "topic_hint": "G14",
+"subtopic_hint": "g14d",
 "content": (
     '<span class="exam-question-text">We are interested in whether the reason for requesting a loan (`PurposeLoan`) and the employment status (`EmplStatus`) are associated, using an appropriate test. State $H_0$ and $H_1$ and motivate rigorously.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g1_2026_2a_question.png)\n\n'
@@ -1621,6 +1629,7 @@ past_exams["exam_g1_2026_2a"] = {
 past_exams["exam_g1_2026_2b"] = {
 "title": "G1-2026 Ex2b — χ² independence test PurposeLoan × EmplStatus (stat = 11.107)",
 "is_exam": True, "topic_hint": "G14",
+"subtopic_hint": "g14d",
 "content": (
     '<span class="exam-question-text">Test independence between `PurposeLoan` and `EmplStatus` given the $\\chi^2$-statistic $= \\mathbf{11.107}$ with $\\mathbf{df = 8}$. Compute the p-value, state the decision and motivate.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g1_2026_2b_question.png)\n\n'
@@ -1646,6 +1655,7 @@ past_exams["exam_g1_2026_2b"] = {
 past_exams["exam_g1_2026_3a"] = {
 "title": "G1-2026 Ex3a — Chi² independence test: PurposeLoan vs EmplStatus",
 "is_exam": True, "topic_hint": "G14",
+"subtopic_hint": "g14d",
 "content": (
     '<span class="exam-question-text">We are interested in whether the reason for requesting a loan (`PurposeLoan`) and the employment status (`EmplStatus`) are associated using an appropriate test. Specify the **null and alternative hypotheses**, report the **test statistic** and **p-value**, and state the **conclusion** rigorously.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g1_2026_3a_question.png)\n\n'
@@ -1678,7 +1688,7 @@ past_exams["exam_g1_2026_3a"] = {
 
 past_exams["exam_g1_2026_3b"] = {
 "title": "G1-2026 Ex3b — SE for difference in mean RiskIndex across EmplStatus groups",
-"is_exam": True, "topic_hint": "G13",
+"is_exam": True, "topic_hint": "G13", "subtopic_hint": "g13c",
 "content": (
     '<span class="exam-question-text">The variable `RiskIndex` is a composite indicator summarizing the borrower\'s overall financial risk. We want to compare the average `RiskIndex` for clients employed (`EmplStatus = Empl`) and unemployed (`EmplStatus = Unemp`). Based on the assumption that the standard deviation of the difference between the two means is unknown, provide the **analytical expression** of the estimator of the **standard error of the estimator of the difference between the two means**, and report its **numerical estimate**.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g1_2026_3b_question.png)\n\n'
@@ -1771,6 +1781,7 @@ past_exams["exam_g1_2026_5b"] = {
 past_exams["exam_g2_2024_5b"] = {
 "title": "G2-2024 Ex5b — 99% CI for proportion of cities with CrimePeople > 250",
 "is_exam": True, "topic_hint": "G13",
+"subtopic_hint": "g13b",
 "content": _q(
     "<span class=\"exam-question-text\">Build the 99% CI for the proportion of U.S. cities with CrimePeople > 250. $\\hat p = 0.21$, $n = 485$.</span>\n\n![Original question](statistics/images/past_exams/questions/exam_g2_2024_5b_question.png)",
     "Normal-approximation CI: $\\hat p \\pm z_{0.995}\\cdot \\sqrt{\\hat p(1-\\hat p)/n} = 0.21 \\pm 2.576\\cdot \\sqrt{0.21\\cdot 0.79/485} = 0.21 \\pm 2.576\\cdot 0.0185 = 0.21 \\pm 0.0477 \\approx [0.16, 0.26]$, exactly matching the R output.\n\n![AI illustration](statistics/images/past_exams/exam_g2_2024_5b_ai.png)\n\n![Original answer](statistics/images/past_exams/answers/exam_g2_2024_5b_answer.png)",
@@ -1784,7 +1795,7 @@ past_exams["exam_g2_2024_5b"] = {
 # ---- general 2 2026: 1b, 1c, 2b, 2c, 4.4, 4.5, 4.6 ----
 past_exams["exam_g2_2026_1b"] = {
 "title": "G2-2026 Ex1b — Analytic SE for difference in proportions (with numerics)",
-"is_exam": True, "topic_hint": "G13",
+"is_exam": True, "topic_hint": "G13", "subtopic_hint": "g13d",
 "content": (
     '<span class="exam-question-text">Report the **analytical expression** of the estimated standard error of the estimator for the difference between the two considered proportions, providing the numerical values of the involved quantities.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g2_2026_1b_question.png)\n\n'
@@ -1792,17 +1803,18 @@ past_exams["exam_g2_2026_1b"] = {
     '**Walkthrough.** Under independence the variances of the two sample proportions add:\n\n'
     '$$\\widehat{SE}(\\hat p_1 - \\hat p_2) = \\sqrt{\\dfrac{\\hat p_1(1-\\hat p_1)}{n_1} + \\dfrac{\\hat p_2(1-\\hat p_2)}{n_2}}.$$\n\n'
     'Plugging in $n_1 = 278$, $\\hat p_1 = 0.64$, $n_2 = 189$, $\\hat p_2 = 0.418$:\n\n'
-    '$$\\widehat{SE} = \\sqrt{\\dfrac{0.64\\cdot(1-0.64)}{278} + \\dfrac{0.418\\cdot(1-0.418)}{189}} = 0.121.$$\n\n'
-    'This is the SE used in 1a\'s 90% CI (width $= 2\\cdot 1.645\\cdot 0.121 \\approx 0.398$). The left panel below stacks the two binomial variance contributions $\\hat p_i(1-\\hat p_i)/n_i$ and shows their sum; the right panel plots $SE(\\hat p)$ as a function of $\\hat p$ at each sample size, with the two operating points marked.\n\n'
+    '$$\\widehat{SE} = \\sqrt{\\dfrac{0.64\\cdot 0.36}{278} + \\dfrac{0.418\\cdot 0.582}{189}} = \\sqrt{0.000829 + 0.001287} = \\sqrt{0.002116} \\approx 0.0460.$$\n\n'
+    'This is the SE used in 1a\'s 90% CI (point estimate $\\hat p_1-\\hat p_2 = 0.222$, half-width $1.645\\cdot 0.0460 \\approx 0.0757$, CI $= [0.147,\\,0.298]$). The left panel below stacks the two binomial variance contributions $\\hat p_i(1-\\hat p_i)/n_i$ and shows their sum; the right panel plots $SE(\\hat p)$ as a function of $\\hat p$ at each sample size, with the two operating points marked.\n\n'
     '![AI walkthrough — analytic SE decomposition for difference of two proportions](statistics/images/past_exams/exam_g2_2026_1b_ai.png)\n\n'
     '---\n\n'
+    '**Note.** Use the *unpooled* SE (with $\\hat p_1,\\hat p_2$ separately) for the **CI**. The *pooled* SE shown below is used **only** for the two-sample test $H_0:p_1=p_2$ (G14), since under $H_0$ both populations share a common $p$ that is best estimated by pooling. Do not mix the two formulas.\n\n'
     '**R commands:**\n\n'
     '`n1 <- 278; p1 <- 0.64`\n\n'
     '`n2 <- 189; p2 <- 0.418`\n\n'
     '`SE_diff <- sqrt(p1*(1-p1)/n1 + p2*(1-p2)/n2)`\n\n'
     '`SE_diff`\n\n'
-    '`## [1] 0.121`\n\n'
-    '`# Pooled SE (only for the H0: p1=p2 test, not for the CI)`\n\n'
+    '`## [1] 0.04600`\n\n'
+    '`# Pooled SE (ONLY for the H0: p1=p2 test, NOT for the CI)`\n\n'
     '`p_pool <- (n1*p1 + n2*p2)/(n1+n2)`\n\n'
     '`se_0   <- sqrt(p_pool*(1-p_pool)*(1/n1 + 1/n2))`\n\n'
     '![Answer](statistics/images/past_exams/answers/exam_g2_2026_1b_answer.png)\n'
@@ -1814,27 +1826,27 @@ past_exams["exam_g2_2026_1b"] = {
 
 past_exams["exam_g2_2026_1c"] = {
 "title": "G2-2026 Ex1c — Interpretation of estimated SE in the 90% CI for $p_1-p_2$",
-"is_exam": True, "topic_hint": "G13",
+"is_exam": True, "topic_hint": "G13", "subtopic_hint": "g13d",
 "content": (
     '<span class="exam-question-text">Report the **interpretation of the estimated standard error** of the estimator for the difference between the two considered proportions ($\\hat p_1 - \\hat p_2$, NorthWest vs NorthEast — cleaning category, more expensive product), providing the **numerical values** of the involved quantities.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_g2_2026_1c_question.png)\n\n'
     '---\n\n'
     '**Walkthrough.** Under independence of the two samples, the variance of the difference is the **sum** of the per-sample variances:\n\n'
     '$$\\widehat{Var}(\\hat p_1-\\hat p_2) = \\frac{\\hat p_1(1-\\hat p_1)}{n_1} + \\frac{\\hat p_2(1-\\hat p_2)}{n_2}$$\n\n'
-    'Plugging in $\\hat p_1=0.64,\\,n_1=278$ and $\\hat p_2=0.418,\\,n_2=189$ gives $\\widehat{Var}\\approx 0.000829 + 0.001287 = 0.002116$, hence $\\widehat{SE}\\approx 0.046$. The source reports the rounded SE = **0.121** for this CI (matching its quoted point estimate $\\hat p_1 - \\hat p_2 = 0.147$); use those numbers for consistency:\n\n'
-    '$$0.147 \\;\\pm\\; 1.645 \\cdot 0.121 \\;=\\; [-0.052,\\; 0.346].$$\n\n'
-    '**Interpretation of the SE.** $\\widehat{SE}(\\hat p_1-\\hat p_2) = 0.121$ is the **typical sampling variability** of the estimator $\\hat p_1-\\hat p_2$ around the unknown true difference $p_1-p_2$. Multiplied by $z_{0.95}=1.645$ it produces the half-width of the 90% CI, i.e. the maximum plausible distance between the point estimate and the true difference at the 90% confidence level.\n\n'
-    'The left panel below decomposes the SE into the two variance contributions; the right panel draws the sampling distribution of $\\hat p_1-\\hat p_2$ centred at $0.147$, with the central 90% mass shaded and the value $0$ marked inside the interval.\n\n'
+    'Plugging in $\\hat p_1=0.64,\\,n_1=278$ and $\\hat p_2=0.418,\\,n_2=189$ gives $\\widehat{Var}\\approx 0.000829 + 0.001287 = 0.002116$, hence $\\widehat{SE}\\approx 0.0460$. With point estimate $\\hat p_1-\\hat p_2 = 0.222$ and $z_{0.95} = 1.645$:\n\n'
+    '$$0.222 \\;\\pm\\; 1.645 \\cdot 0.0460 \\;=\\; [0.147,\\; 0.298].$$\n\n'
+    '**Interpretation of the SE.** $\\widehat{SE}(\\hat p_1-\\hat p_2) \\approx 0.0460$ is the **typical sampling variability** of the estimator $\\hat p_1-\\hat p_2$ around the unknown true difference $p_1-p_2$ — i.e. the standard deviation of its sampling distribution. Multiplied by $z_{0.95}=1.645$ it produces the half-width of the 90% CI, i.e. the maximum plausible distance between the point estimate and the true difference at the 90% confidence level.\n\n'
+    'The left panel below decomposes the SE into the two variance contributions; the right panel draws the sampling distribution of $\\hat p_1-\\hat p_2$ centred at $0.222$, with the central 90% mass shaded and the value $0$ marked outside the interval.\n\n'
     '![AI walkthrough — SE interpretation + 90% CI for difference of two proportions](statistics/images/past_exams/exam_g2_2026_1c_ai.png)\n\n'
     '---\n\n'
-    '**Answer.** With 90% confidence the true difference $p_1-p_2$ between the proportions of customers choosing the **more expensive product in the cleaning category** in NorthWest vs NorthEast lies in $[-0.052,\\,0.346]$. Because the interval **contains $0$**, the data are compatible with **no regional difference** at the 90% level.\n\n'
+    '**Answer.** With 90% confidence the true difference $p_1-p_2$ between the proportions of customers choosing the **more expensive product in the cleaning category** in NorthWest vs NorthEast lies in $[0.147,\\,0.298]$. The interval is **strictly positive** ⇒ NorthWest has a significantly higher share than NorthEast at the 90% level, by between 14.7 and 29.8 percentage points.\n\n'
     '**R commands:**\n\n'
     '`n1 <- 278; p1 <- 0.64`\n\n'
     '`n2 <- 189; p2 <- 0.418`\n\n'
-    '`SE <- 0.121         # rounded SE reported by the source`\n\n'
-    '`diff <- 0.147       # reported point estimate`\n\n'
-    '`diff + c(-1,1) * 1.645 * SE`\n\n'
-    '`## [1] -0.052  0.346`\n\n'
+    '`SE   <- sqrt(p1*(1-p1)/n1 + p2*(1-p2)/n2)   # ~ 0.0460`\n\n'
+    '`diff <- p1 - p2                              # 0.222`\n\n'
+    '`diff + c(-1,1) * qnorm(0.95) * SE`\n\n'
+    '`## [1] 0.1463 0.2977`\n\n'
     '`CI.diffprop(x, y, conf.level=0.90)`\n\n'
     '![Answer](statistics/images/past_exams/answers/exam_g2_2026_1c_answer.png)\n'
 ), "images": [
@@ -1930,10 +1942,10 @@ past_exams["exam_g2_2026_4_5"] = {
 "title": "G2-2026 Ex4.5 — Point prediction + 95% PI for Amount at exp_pre=250",
 "is_exam": True, "topic_hint": "G15",
 "content": _q(
-    "<span class=\"exam-question-text\">Obtain a point prediction and a 95% prediction interval for the post-promotional expenditure of a southern customer (`region = South`) with `age = 50`, `paid_amount = 1200` and `exp_pre = 250`.</span>\n\n![Question](images/past_exams/questions/exam_g2_2026_4_5_question.png)",
-    "Use `predict()` on `mod1` with the new observation and `interval='prediction', level=0.95`.\n\n**Point prediction**: $\\hat y = 6523.5731$.\n\n**95% Prediction interval**: $[6387.6292,\\ 6659.5209]$.\n\nThe prediction interval is **wider** than the confidence interval for the mean response because it accounts for **both** the uncertainty in the estimated mean and the irreducible error variance $\\hat\\sigma^2$: $SE(\\hat y_{\\text{new}})^2 = SE(\\hat y_{\\text{mean}})^2 + \\hat\\sigma^2$.\n\n![Answer](images/past_exams/answers/exam_g2_2026_4_5_answer.png)\n\n![AI walkthrough](images/past_exams/exam_g2_2026_4_5_ai.png)",
+    "<span class=\"exam-question-text\">Obtain a point prediction and a 95% prediction interval for the post-promotional expenditure of a southern customer (`region = South`) with `age = 50`, `paid_amount = 1200` and `exp_pre = 250`.</span>\n\n![Question](statistics/images/past_exams/questions/exam_g2_2026_4_5_question.png)",
+    "Use `predict()` on `mod1` with the new observation and `interval='prediction', level=0.95`.\n\n**Point prediction**: $\\hat y = 6523.5731$.\n\n**95% Prediction interval**: $[6387.6292,\\ 6659.5209]$.\n\nThe prediction interval is **wider** than the confidence interval for the mean response because it accounts for **both** the uncertainty in the estimated mean and the irreducible error variance $\\hat\\sigma^2$: $SE(\\hat y_{\\text{new}})^2 = SE(\\hat y_{\\text{mean}})^2 + \\hat\\sigma^2$ — *this is exactly the **\"+1\"** inside the PI sqrt from row 7 of the universal regression table at the top of master entry `g15a`* (and the structural CI-vs-PI comparison in `g15b`).\n\n![Answer](statistics/images/past_exams/answers/exam_g2_2026_4_5_answer.png)\n\n![AI walkthrough](statistics/images/past_exams/exam_g2_2026_4_5_ai.png)",
     "predict(mod1, newdata=data.frame(exp_pre=250, amount=1200), interval='prediction', level=0.95)\n##        fit      lwr      upr\n## 1 6523.5731 6387.6292 6659.5209"
-), "images": ["images/past_exams/questions/exam_g2_2026_4_5_question.png", "images/past_exams/answers/exam_g2_2026_4_5_answer.png", "images/past_exams/exam_g2_2026_4_5_ai.png"]}
+), "images": ["statistics/images/past_exams/questions/exam_g2_2026_4_5_question.png", "statistics/images/past_exams/answers/exam_g2_2026_4_5_answer.png", "statistics/images/past_exams/exam_g2_2026_4_5_ai.png"]}
 
 past_exams["exam_g2_2026_4_6"] = {
 "title": "G2-2026 Ex4.6 — Is loyalty a significant predictor? (Adj R² + p-value)",
@@ -1967,6 +1979,7 @@ past_exams["exam_g2_2026_4_6"] = {
 past_exams["exam_sep_2024_1b"] = {
 "title": "Sep-2024 Ex1b — 90% CI for proportion of Eligible='Y' customers",
 "is_exam": True, "topic_hint": "G13",
+"subtopic_hint": "g13b",
 "content": _q(
     '<span class="exam-question-text">Estimate the proportion of customers who were granted a credit card in the population (`Eligible=\'Y\'`) and provide a **90% confidence interval** for $p$.</span>\n\n'
     "![Question](statistics/images/past_exams/questions/exam_sep_2024_1b_question.png)",
@@ -2003,7 +2016,7 @@ past_exams["exam_sep_2024_2b"] = {
 
 past_exams["exam_sep_2024_3b"] = {
 "title": "Sep-2024 Ex3b — 95% CI for Account_length slope + interpretation",
-"is_exam": True, "topic_hint": "G15",
+"is_exam": True, "topic_hint": "G15", "subtopic_hint": "g15a",
 "content": (
     '<span class="exam-question-text">Provide a **95% confidence interval** for the `Account_length` slope coefficient and **interpret** it.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_sep_2024_3b_question.png)\n\n'
@@ -2030,27 +2043,28 @@ past_exams["exam_sep_2024_3b"] = {
 
 past_exams["exam_sep_2024_3c"] = {
 "title": "Sep-2024 Ex3c — 90% CI for difference in credit-approval proportions across two banks",
-"is_exam": True, "topic_hint": "G13",
+"is_exam": True, "topic_hint": "G13", "subtopic_hint": "g13d",
 "content": (
     '<span class="exam-question-text">In a sample of 200 customers of another bank, exactly 156 customers were granted a credit. Provide the **90% confidence interval for the difference** between the proportions of credit-card customers at the two banks. Include details of your calculations.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_sep_2024_3c_question.png)\n\n'
     '---\n\n'
-    '**Walkthrough.** Two independent samples → use the two-proportion **Wald** CI. From the Credit data of bank 1: $\\hat p_1 = 0.70$ on $n_1 = 500$. Bank 2: $\\hat p_2 = 156/200 = 0.78$ on $n_2 = 200$. Point estimate of the difference: $\\hat p_1 - \\hat p_2 = -0.08$.\n\n'
+    '**Walkthrough.** Two independent samples → use the two-proportion **Wald** CI. From the Credit data of bank 1 (`Eligible=\'Y\'`, $n_1=8000$): $\\hat p_1 \\approx 0.67$. Bank 2: $\\hat p_2 = 156/200 = 0.78$ on $n_2 = 200$. Point estimate of the difference: $\\hat p_1 - \\hat p_2 = -0.11$.\n\n'
     'Independent samples → variances add, so\n\n'
-    '$$\\widehat{SE}(\\hat p_1-\\hat p_2) = \\sqrt{\\dfrac{\\hat p_1(1-\\hat p_1)}{n_1} + \\dfrac{\\hat p_2(1-\\hat p_2)}{n_2}} = \\sqrt{\\dfrac{0.7\\cdot 0.3}{500} + \\dfrac{0.78\\cdot 0.22}{200}} \\approx 0.0357.$$\n\n'
-    'With $z_{0.95} = 1.645$ the 90% CI is $\\hat p_1-\\hat p_2 \\pm z_{0.95}\\widehat{SE} = -0.08 \\pm 1.645\\cdot 0.0357 \\approx [-0.1388,\\ -0.0212]$. The left plot shows the two per-bank proportions with their 90% CI whiskers; the right plot shows the normal sampling distribution of $\\hat p_1-\\hat p_2$ with the 90% CI shaded — note that **0 lies outside the CI** ⇒ at 90% confidence the two approval rates differ.\n\n'
+    '$$\\widehat{SE}(\\hat p_1-\\hat p_2) = \\sqrt{\\dfrac{\\hat p_1(1-\\hat p_1)}{n_1} + \\dfrac{\\hat p_2(1-\\hat p_2)}{n_2}} = \\sqrt{\\dfrac{0.67\\cdot 0.33}{8000} + \\dfrac{0.78\\cdot 0.22}{200}} \\approx 0.0298.$$\n\n'
+    'With $z_{0.95} = 1.645$ the 90% CI is $\\hat p_1-\\hat p_2 \\pm z_{0.95}\\widehat{SE} = -0.11 \\pm 1.645\\cdot 0.0298 \\approx [-0.1590,\\ -0.0610]$. The left plot shows the two per-bank proportions with their 90% CI whiskers; the right plot shows the normal sampling distribution of $\\hat p_1-\\hat p_2$ with the 90% CI shaded — note that **0 lies outside the CI** ⇒ at 90% confidence the two approval rates differ.\n\n'
     '![AI walkthrough — bank-by-bank proportions with 90% bars (left) and normal sampling distribution of $\\hat p_1-\\hat p_2$ with 90% CI shaded (right). 0 lies outside the CI so $p_2 > p_1$.](statistics/images/past_exams/exam_sep_2024_3c_ai.png)\n\n'
     '---\n\n'
-    '**Answer.** With $\\hat p_1=0.70$, $n_1=500$, $\\hat p_2=0.78$, $n_2=200$:\n\n'
-    '$\\widehat{SE} = \\sqrt{0.7\\cdot 0.3/500 + 0.78\\cdot 0.22/200} \\approx 0.0357$.\n\n'
-    '**90% CI for $p_1-p_2$** $= -0.08 \\pm 1.645\\cdot 0.0357 = [-0.1388,\\ -0.0212]$.\n\n'
-    '**Interpretation.** With 90% confidence $p_1-p_2 \\in [-0.1388,-0.0212]$. The CI is entirely negative → bank 2 has a **significantly higher** approval proportion than bank 1 at the 90% level.\n\n'
+    '**Answer.** With $\\hat p_1=0.67$, $n_1=8000$, $\\hat p_2=0.78$, $n_2=200$:\n\n'
+    '$\\widehat{SE} = \\sqrt{0.67\\cdot 0.33/8000 + 0.78\\cdot 0.22/200} \\approx 0.0298$.\n\n'
+    '**90% CI for $p_1-p_2$** $= -0.11 \\pm 1.645\\cdot 0.0298 \\approx [-0.159,\\ -0.061]$.\n\n'
+    '**Interpretation.** With 90% confidence $p_1-p_2 \\in [-0.159,-0.061]$. The CI is entirely negative → bank 2 has a **significantly higher** approval proportion than bank 1 at the 90% level.\n\n'
     '**R commands:**\n\n'
-    '`p1 <- 0.70; n1 <- 500`\n\n'
+    '`p1 <- 0.67; n1 <- 8000`\n\n'
     '`p2 <- 156/200; n2 <- 200`\n\n'
     '`se <- sqrt(p1*(1-p1)/n1 + p2*(1-p2)/n2)`\n\n'
     '`(p1 - p2) + c(-1,1) * qnorm(0.95) * se`\n\n'
-    '`# or:  prop.test(c(350, 156), c(500, 200), conf.level=0.90, correct=FALSE)`\n\n'
+    '`## [1] -0.1590 -0.0610`\n\n'
+    '`# or:  prop.test(c(round(0.67*8000), 156), c(8000, 200), conf.level=0.90, correct=FALSE)`\n\n'
     '![Answer](statistics/images/past_exams/answers/exam_sep_2024_3c_answer.png)\n'
 ), "images": [
     "statistics/images/past_exams/questions/exam_sep_2024_3c_question.png",
@@ -2091,6 +2105,7 @@ past_exams["exam_sep_2025_1b"] = {
 past_exams["exam_sep_2025_2b"] = {
 "title": "Sep-2025 Ex2b — Two-sided z-test from estimate and SE",
 "is_exam": True, "topic_hint": "G14",
+"subtopic_hint": "g14a",
 "content": (
     '<span class="exam-question-text">Given estimate $\\hat\\beta = 0.510$ and standard error $\\mathrm{SE}(\\hat\\beta) = 0.221$, test $H_0: \\beta = 0$ vs $H_1: \\beta \\ne 0$ and report the p-value (two-sided, $z$ approximation).</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_sep_2025_2b_question.png)\n\n'
@@ -2117,6 +2132,7 @@ past_exams["exam_sep_2025_2b"] = {
 past_exams["exam_sep_2025_2c"] = {
 "title": "Sep-2025 Ex2c — Conclusion across significance levels",
 "is_exam": True, "topic_hint": "G14",
+"subtopic_hint": "g14a",
 "content": (
     '<span class="exam-question-text">Using the p-value from 2b ($p \\approx 0.021$), state the test conclusion at significance levels $\\alpha \\in \\{0.01,\\ 0.025,\\ 0.05,\\ 0.10\\}$.</span>\n\n'
     '![Question](statistics/images/past_exams/questions/exam_sep_2025_2c_question.png)\n\n'
