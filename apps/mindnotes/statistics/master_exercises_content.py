@@ -40,12 +40,12 @@ You change only **three** things between problems: the **point estimate** $\wide
 | 7 | $p_A-p_B$ | independent, large $n$ (**CI: unpooled**) | $\hat p_A-\hat p_B$ | $\sqrt{\hat p_A(1-\hat p_A)/n_A+\hat p_B(1-\hat p_B)/n_B}$ | $z_{1-\alpha/2}$ | — | **g13d** |
 | 8 | $\mu_d$ (**paired**) | reduce to row 2 on $d_i=x_i-y_i$ | $\bar d$ | $s_d/\sqrt n$ | $t_{1-\alpha/2,\,n-1}$ | $n-1$ | **g13e** |
 
-> **Cross-references.** This table is referenced verbatim by every other G13 entry.
-> - Row 3 → see **`g13b`** (one proportion + sample-size planning for $p$).
-> - Rows 4, 5, 6 → see **`g13c`** (difference of two means in the three variance regimes; Levene's test decides between pooled and Welch).
-> - Row 7 → see **`g13d`** (difference of two proportions; **CI uses the unpooled SE** above — the **pooled** SE is *only* for the test $H_0: p_A=p_B$ in `g14b`).
-> - Row 8 → see **`g13e`** (paired = row 2 applied to the within-subject differences $d_i$).
-> - The estimators sitting under rows 1–3 and the sample variance $S^2$ are discussed in **`g13f`** (unbiasedness, sampling SEs).
+**Cross-references.** This table is referenced verbatim by every other G13 entry.
+- Row 3 → see **`g13b`** (one proportion + sample-size planning for $p$).
+- Rows 4, 5, 6 → see **`g13c`** (difference of two means in the three variance regimes; Levene's test decides between pooled and Welch).
+- Row 7 → see **`g13d`** (difference of two proportions; **CI uses the unpooled SE** above — the **pooled** SE is *only* for the test $H_0: p_A=p_B$ in `g14b`).
+- Row 8 → see **`g13e`** (paired = row 2 applied to the within-subject differences $d_i$).
+- The estimators sitting under rows 1–3 and the sample variance $S^2$ are discussed in **`g13f`** (unbiasedness, sampling SEs).
 
 ### 3-step procedure for every CI exam question
 
@@ -53,7 +53,7 @@ You change only **three** things between problems: the **point estimate** $\wide
 2. **Pick the row** of the table. Read off $\widehat\theta$, $\widehat{SE}$, the critical-value family and df.
 3. **Plug & compute.** $\widehat\theta \pm c\cdot\widehat{SE}$. Done.
 
-> **What "95%" means (stated once — assumed for every subpart below).** "$1-\alpha$" is a property of the **procedure**, not of any specific realised interval: across hypothetical resamples, $(1-\alpha)\cdot 100\%$ of intervals built this way would contain $\theta$. Once the data are in, the realised interval either covers the fixed unknown $\theta$ or it does not. The CLT (for $n\gtrsim 30$) or population normality (for small $n$) is what makes the recipe valid; **no procedure can fix a biased sampling design** — it can only correct for sampling noise under valid random sampling.
+**What "95%" means (stated once — assumed for every subpart below).** "$1-\alpha$" is a property of the **procedure**, not of any specific realised interval: across hypothetical resamples, $(1-\alpha)\cdot 100\%$ of intervals built this way would contain $\theta$. Once the data are in, the realised interval either covers the fixed unknown $\theta$ or it does not. The CLT (for $n\gtrsim 30$) or population normality (for small $n$) is what makes the recipe valid; **no procedure can fix a biased sampling design** — it can only correct for sampling noise under valid random sampling.
 
 ---
 
@@ -168,7 +168,7 @@ n_req                                # 1034
 
 **Take-away.** Halving the ME quadruples the required $n$ — the $\sqrt n$ rate is the binding cost of precision. Doubling the confidence multiplier ($z_{0.975}=1.96\to z_{0.995}=2.576$) roughly **triples** $n$ (a factor of $(2.576/1.96)^2 \approx 1.73$).
 
-> The proportion-side analogue (worst-case $p(1-p)=0.25$) lives in **`g13b`** — same recipe, different SE.
+The proportion-side analogue (worst-case $p(1-p)=0.25$) lives in **`g13b`** — same recipe, different SE.
 
 </details>
 
@@ -253,7 +253,7 @@ You change only **three** things between problems: the **point estimate** $\wide
 | 9 | $\chi^2$ goodness-of-fit / independence | (varies) | $X^2=\sum\dfrac{(O-E)^2}{E}$, &nbsp; $E_k=np_k^{(0)}$ or $E_{ij}=n_{i\cdot}n_{\cdot j}/n$ | $\chi^2_{\rm df}$ | $X^2>\chi^2_{1-\alpha,\,\rm df}$ **(right tail only)** | **g14d** |
 | 10 | Power / Type-II | (varies) | parameter sweep at fixed $\alpha,n$, true $\theta$ | — | — | **g14e** |
 
-> **Sub-master cross-references.** This table is referenced verbatim by every other G14 entry. **g14a** walks rows **1–3** (one mean / one proportion) below. **g14b** walks rows **4–7** (two means in three variance regimes + two proportions). **g14c** is row **8** (paired = one-sample $t$ on differences $d_i$). **g14d** is row **9** ($\chi^2$ GoF and independence — both right-tail only). **g14e** keeps the framework constant and studies how $\alpha,\beta,$ $n$ and effect size interact (row 10).
+**Sub-master cross-references.** This table is referenced verbatim by every other G14 entry. **g14a** walks rows **1–3** (one mean / one proportion) below. **g14b** walks rows **4–7** (two means in three variance regimes + two proportions). **g14c** is row **8** (paired = one-sample $t$ on differences $d_i$). **g14d** is row **9** ($\chi^2$ GoF and independence — both right-tail only). **g14e** keeps the framework constant and studies how $\alpha,\beta,$ $n$ and effect size interact (row 10).
 
 ### Two equivalent decision rules (they *always* agree)
 
@@ -409,9 +409,9 @@ $$Z \;=\; \frac{\hat p - p_0}{\sqrt{p_0(1-p_0)/n}} \;\overset{H_0}{\dot\sim}\; \
 
 $$\boxed{\;\;Z \;=\; \frac{\hat p - p_0}{\sqrt{p_0(1-p_0)/n}}, \qquad \text{reject } H_0:p=p_0 \iff |Z|>z_{1-\alpha/2}\;\;(\text{two-sided}).\;\;}$$
 
-> **Critical SE distinction — boxed because it is the #1 G13↔G14 trap.**
-> $$\boxed{\;\;\widehat{\rm SE}_{\rm TEST} \;=\; \sqrt{\tfrac{p_0(1-p_0)}{n}} \quad\ne\quad \widehat{\rm SE}_{\rm CI} \;=\; \sqrt{\tfrac{\hat p(1-\hat p)}{n}}\;\;}$$
-> The **test** plugs in $p_0$ in the SE (sharpens the null distribution — variance is known under $H_0$); the **Wald CI** plugs in $\hat p$ (the only feasible choice when the truth is unknown). The two SEs coincide *only* when $\hat p = p_0$; otherwise the CI ⇄ test duality is **not** an exact identity for proportions (it *is* for means with known $\sigma$). Cross-reference: `g13b` (d) — same warning from the CI side. For the two-proportion analogue (CI unpooled vs test pooled), see `g13d` and `g14b` row 7.
+**Critical SE distinction — boxed because it is the #1 G13↔G14 trap.**
+$$\boxed{\;\;\widehat{\rm SE}_{\rm TEST} \;=\; \sqrt{\tfrac{p_0(1-p_0)}{n}} \quad\ne\quad \widehat{\rm SE}_{\rm CI} \;=\; \sqrt{\tfrac{\hat p(1-\hat p)}{n}}\;\;}$$
+The **test** plugs in $p_0$ in the SE (sharpens the null distribution — variance is known under $H_0$); the **Wald CI** plugs in $\hat p$ (the only feasible choice when the truth is unknown). The two SEs coincide *only* when $\hat p = p_0$; otherwise the CI ⇄ test duality is **not** an exact identity for proportions (it *is* for means with known $\sigma$). Cross-reference: `g13b` (d) — same warning from the CI side. For the two-proportion analogue (CI unpooled vs test pooled), see `g13d` and `g14b` row 7.
 
 **Worked numbers on the NewHired sample, $H_1:p>0.10$ (Ex 7.1c).** A worker claims that the proportion of agency-relying workers who **struggle more than one year** ($>52$ weeks) exceeds 10%.
 
@@ -579,13 +579,13 @@ $$\boxed{\;\;\text{(1) write model} \;\to\; \text{(2) OLS} \;\to\; \text{(3) fit
 
 ### Cross-references — do NOT re-derive these elsewhere
 
-> $\bullet$ Every **$t$-test** $H_0:\beta_j = 0$ is **row 2** of the universal test table at the top of `g14a`, with $\theta_0 = 0$ and the regression SE $\widehat{SE}(\hat\beta_j)$ replacing the one-mean $s/\sqrt n$. The decision rule, the $p$-value formulas, the one-sided / two-sided distinction are *identical* to g14a.
->
-> $\bullet$ Every **CI** $\hat\beta_j \pm t\cdot\widehat{SE}$ is **row 2** of the universal CI table at the top of `g13a`, with $\bar X \to \hat\beta_j$ and SE $\to \widehat{SE}(\hat\beta_j)$. The CI ⇄ test duality of g13a/g14a applies *exactly*: zero inside the $(1-\alpha)$ CI ⇔ retain $H_0$ at level $\alpha$.
->
-> $\bullet$ The **global $F$-test** is the multi-coefficient joint analogue; in simple regression with $p=1$ it collapses to the $t$-test via the identity $F = t^2$ (see (h) below). Joint $F$ is owned by `g15c`.
->
-> $\bullet$ The **unbiased estimators** that sit under $\hat\beta_j$ and $\hat\sigma^2$ (slope-as-weighted-sum, residual-MS unbiasedness) are derived once in `g13f`.
+$\bullet$ Every **$t$-test** $H_0:\beta_j = 0$ is **row 2** of the universal test table at the top of `g14a`, with $\theta_0 = 0$ and the regression SE $\widehat{SE}(\hat\beta_j)$ replacing the one-mean $s/\sqrt n$. The decision rule, the $p$-value formulas, the one-sided / two-sided distinction are *identical* to g14a.
+
+$\bullet$ Every **CI** $\hat\beta_j \pm t\cdot\widehat{SE}$ is **row 2** of the universal CI table at the top of `g13a`, with $\bar X \to \hat\beta_j$ and SE $\to \widehat{SE}(\hat\beta_j)$. The CI ⇄ test duality of g13a/g14a applies *exactly*: zero inside the $(1-\alpha)$ CI ⇔ retain $H_0$ at level $\alpha$.
+
+$\bullet$ The **global $F$-test** is the multi-coefficient joint analogue; in simple regression with $p=1$ it collapses to the $t$-test via the identity $F = t^2$ (see (h) below). Joint $F$ is owned by `g15c`.
+
+$\bullet$ The **unbiased estimators** that sit under $\hat\beta_j$ and $\hat\sigma^2$ (slope-as-weighted-sum, residual-MS unbiasedness) are derived once in `g13f`.
 
 ### 3-step procedure for every G15 simple-regression question
 
@@ -759,7 +759,7 @@ se_b0 <- s_e*sqrt(1/n + xbar^2/((n-1)*s2_x));           se_b0   # 12.28
 <details class="master-subpart">
 <summary><span class="tag tag-exam">EXAM</span><span class="tag tag-4plus">≥4 ex</span> (e) <strong>Slope $t$-test and 95% CI for $\beta_1$</strong> — *row 2 of g14a / row 2 of g13a with $\theta_0=0$* (Ex 8.1a, 8.3a, 8.5a, 8.8a, `exam_sep_2024_3b`)</summary>
 
-> **Cross-reference (do not re-derive).** The slope $t$-test is **row 2 of the universal test table at the top of `g14a`** with $\theta_0 = 0$ and the regression SE $\widehat{SE}(\hat\beta_1)$ replacing the one-mean $s/\sqrt n$. The slope CI is **row 2 of the universal CI table at the top of `g13a`** with $\bar X \to \hat\beta_1$ and SE $\to \widehat{SE}(\hat\beta_1)$. The CI ⇄ test duality of g13a / g14a applies *exactly*: reject $H_0:\beta_1 = \beta_1^{(0)}$ at level $\alpha$ ⇔ $(1-\alpha)$ CI does **not** contain $\beta_1^{(0)}$.
+**Cross-reference (do not re-derive).** The slope $t$-test is **row 2 of the universal test table at the top of `g14a`** with $\theta_0 = 0$ and the regression SE $\widehat{SE}(\hat\beta_1)$ replacing the one-mean $s/\sqrt n$. The slope CI is **row 2 of the universal CI table at the top of `g13a`** with $\bar X \to \hat\beta_1$ and SE $\to \widehat{SE}(\hat\beta_1)$. The CI ⇄ test duality of g13a / g14a applies *exactly*: reject $H_0:\beta_1 = \beta_1^{(0)}$ at level $\alpha$ ⇔ $(1-\alpha)$ CI does **not** contain $\beta_1^{(0)}$.
 
 **Hypotheses.** $H_0:\beta_1 = 0$ (no linear relation between Age and Weeks) vs $H_1:\beta_1\neq 0$ (two-sided).
 
@@ -955,7 +955,7 @@ Round to 4 decimals throughout.
 
 ## This is the multi-predictor specialisation of g15a's master regression table (rows 1–5 with $p\ge 2$)
 
-> **The universal 7-step regression recipe and the full 9-row master case table live at the top of `g15a`** — *do not re-derive them here*. The simple-regression entry (`g15a`) owned rows 1–3 with $p=1$ (closed-form scalar OLS, $\hat\sigma^2$, $R^2 = r_{xy}^2$). This entry **`g15c`** walks the same rows 1–5 with $p\ge 2$: matrix-form OLS, df $= n-p-1$, **adjusted** $R^2$ (genuinely different from $R^2$ once $p\ge 2$), and the **global $F$-test** that becomes a genuine joint test (in `g15a` it collapsed to $F = t^2$).
+**The universal 7-step regression recipe and the full 9-row master case table live at the top of `g15a`** — *do not re-derive them here*. The simple-regression entry (`g15a`) owned rows 1–3 with $p=1$ (closed-form scalar OLS, $\hat\sigma^2$, $R^2 = r_{xy}^2$). This entry **`g15c`** walks the same rows 1–5 with $p\ge 2$: matrix-form OLS, df $= n-p-1$, **adjusted** $R^2$ (genuinely different from $R^2$ once $p\ge 2$), and the **global $F$-test** that becomes a genuine joint test (in `g15a` it collapsed to $F = t^2$).
 
 | Master-table row | Object | What changes from `g15a` ($p=1$) to here ($p\ge 2$) | Owned by |
 |---|---|---|---|
@@ -973,13 +973,13 @@ Round to 4 decimals throughout.
 
 ### Pointer block — *do NOT re-derive these here*
 
-> $\bullet$ Each **per-coefficient $t$-test** $H_0:\beta_j = 0$ vs $H_1:\beta_j\ne 0$ is **row 2 of the universal hypothesis-test table at the top of `g14a`** with $\theta_0 = 0$, $\bar X \to \hat\beta_j$, $s/\sqrt n \to \widehat{SE}(\hat\beta_j)$, df $= n-p-1$. The decision rule and the $p$-value formulas are *identical* to g14a.
->
-> $\bullet$ Each **per-coefficient CI** $\hat\beta_j \pm t_{1-\alpha/2,\,n-p-1}\,\widehat{SE}(\hat\beta_j)$ is **row 2 of the universal CI table at the top of `g13a`** with $\bar X \to \hat\beta_j$, $\widehat{SE} \to \widehat{SE}(\hat\beta_j)$. The **CI ⇄ test duality** of g13a/g14a applies *exactly*: $0$ inside the $(1-\alpha)$ CI ⇔ retain $H_0:\beta_j=0$ at level $\alpha$.
->
-> $\bullet$ **Predictions at $x_0$** (CI for $E[Y\mid x_0]$, PI for an individual $Y_0$) are **rows 6–7 of the master table** and are *owned by* **`g15b`**. The formulas reuse the same template with the **matrix leverage** $h_{00} = x_0^\top(X^\top X)^{-1}x_0$ replacing the simple-regression $1/n + (x_0-\bar x)^2/((n-1)s_x^2)$ — subpart (f) below shows one numeric instance, no re-derivation.
->
-> $\bullet$ Unbiasedness of $\hat\beta_j$ and $\hat\sigma^2$ as linear-in-$y$ statistics is derived once in `g13f`.
+$\bullet$ Each **per-coefficient $t$-test** $H_0:\beta_j = 0$ vs $H_1:\beta_j\ne 0$ is **row 2 of the universal hypothesis-test table at the top of `g14a`** with $\theta_0 = 0$, $\bar X \to \hat\beta_j$, $s/\sqrt n \to \widehat{SE}(\hat\beta_j)$, df $= n-p-1$. The decision rule and the $p$-value formulas are *identical* to g14a.
+
+$\bullet$ Each **per-coefficient CI** $\hat\beta_j \pm t_{1-\alpha/2,\,n-p-1}\,\widehat{SE}(\hat\beta_j)$ is **row 2 of the universal CI table at the top of `g13a`** with $\bar X \to \hat\beta_j$, $\widehat{SE} \to \widehat{SE}(\hat\beta_j)$. The **CI ⇄ test duality** of g13a/g14a applies *exactly*: $0$ inside the $(1-\alpha)$ CI ⇔ retain $H_0:\beta_j=0$ at level $\alpha$.
+
+$\bullet$ **Predictions at $x_0$** (CI for $E[Y\mid x_0]$, PI for an individual $Y_0$) are **rows 6–7 of the master table** and are *owned by* **`g15b`**. The formulas reuse the same template with the **matrix leverage** $h_{00} = x_0^\top(X^\top X)^{-1}x_0$ replacing the simple-regression $1/n + (x_0-\bar x)^2/((n-1)s_x^2)$ — subpart (f) below shows one numeric instance, no re-derivation.
+
+$\bullet$ Unbiasedness of $\hat\beta_j$ and $\hat\sigma^2$ as linear-in-$y$ statistics is derived once in `g13f`.
 
 ---
 
@@ -1017,7 +1017,7 @@ sqrt(diag(vcov(mod)))                        # SEs: 13.05, 0.168, 0.286, 7.62
 all.equal(as.numeric(t(X) %*% residuals(mod)), rep(0, 4))   # TRUE
 ```
 
-> **Why this matters for every later subpart.** Every SE in the coefficient table, every CI, every $t$-test and the prediction-leverage term $h_{00}$ (in subpart (f) and in `g15b`) all read off the *same* matrix $\hat\sigma^2(X^\top X)^{-1}$ computed once here.
+**Why this matters for every later subpart.** Every SE in the coefficient table, every CI, every $t$-test and the prediction-leverage term $h_{00}$ (in subpart (f) and in `g15b`) all read off the *same* matrix $\hat\sigma^2(X^\top X)^{-1}$ computed once here.
 
 </details>
 
@@ -1026,7 +1026,7 @@ all.equal(as.numeric(t(X) %*% residuals(mod)), rep(0, 4))   # TRUE
 <details class="master-subpart">
 <summary><span class="tag tag-exam">EXAM</span> (b) <strong>Per-coefficient inference: $\widehat{SE}(\hat\beta_j)$, $t_j$, 95% CI</strong> — *row 2 of g14a / row 2 of g13a with $\theta_0 = 0$*</summary>
 
-> **Cross-reference (do not re-derive).** Each row of `summary(mod)`'s coefficient table is **two universal templates in one**: column "$t$ value" + "$p$-value" = **row 2 of g14a** with $\theta_0 = 0$; output of `confint(mod)` = **row 2 of g13a**. The decision rule, the two-sided $p$-value formula, the CI ⇄ test duality are *identical*. df $= n - p - 1 = 2196$ throughout.
+**Cross-reference (do not re-derive).** Each row of `summary(mod)`'s coefficient table is **two universal templates in one**: column "$t$ value" + "$p$-value" = **row 2 of g14a** with $\theta_0 = 0$; output of `confint(mod)` = **row 2 of g13a**. The decision rule, the two-sided $p$-value formula, the CI ⇄ test duality are *identical*. df $= n - p - 1 = 2196$ throughout.
 
 **Per-coefficient $t$-statistic and 95% CI** (specialisations of g14a row 2 and g13a row 2):
 
@@ -1168,7 +1168,7 @@ summary(lm(MntMeatProducts ~ IncomeK + Age, data = superstore))$adj.r.squared   
 <details class="master-subpart">
 <summary>(f) <strong>Prediction with multiple predictors</strong> — one numeric instance, formulas owned by `g15b` (rows 6–7)</summary>
 
-> **Cross-reference (do not re-derive).** **Rows 6 (CI for mean response) and 7 (PI for individual)** of the master case table are owned by `g15b`. The formulas are *identical* to the simple-regression case there — only the simple-regression leverage $\ell(x_0) = 1/n + (x_0-\bar x)^2/((n-1)s_x^2)$ is replaced by the **matrix leverage** $h_{00} = x_0^\top(X^\top X)^{-1} x_0$, and df $= n-p-1$ instead of $n-2$. The "$+1$" inside the sqrt (= the residual variance of a single new $\varepsilon_0$) is the only structural difference between CI (row 6) and PI (row 7). R's `predict(mod, newdata, interval=...)` handles both cases identically.
+**Cross-reference (do not re-derive).** **Rows 6 (CI for mean response) and 7 (PI for individual)** of the master case table are owned by `g15b`. The formulas are *identical* to the simple-regression case there — only the simple-regression leverage $\ell(x_0) = 1/n + (x_0-\bar x)^2/((n-1)s_x^2)$ is replaced by the **matrix leverage** $h_{00} = x_0^\top(X^\top X)^{-1} x_0$, and df $= n-p-1$ instead of $n-2$. The "$+1$" inside the sqrt (= the residual variance of a single new $\varepsilon_0$) is the only structural difference between CI (row 6) and PI (row 7). R's `predict(mod, newdata, interval=...)` handles both cases identically.
 
 $$\boxed{\;\;\hat y_0 \;\pm\; t_{1-\alpha/2,\,n-p-1}\,s_\varepsilon\cdot\begin{cases}\sqrt{x_0^\top(X^\top X)^{-1}x_0} & \text{(CI, row 6)}\\ \sqrt{1 + x_0^\top(X^\top X)^{-1}x_0} & \text{(PI, row 7)}\end{cases}\;\;}$$
 
@@ -1249,7 +1249,7 @@ _OLD_G15C_TRAILER = r"""
 | (e)–(f) CIs and marginal-effect rescaling | row 1 | $\hat\beta_j \pm t_{1-\alpha/2,\,n-p-1}\,\widehat{SE}$ — equivalent to g13a row 2 |
 | (c)/(global $F$) | row 5 | $H_0:\beta_1=\dots=\beta_p = 0$ — joint significance |
 
-> The 7-step recipe (model → OLS → fit-quality → coefficient inference → global $F$ → prediction → diagnostics) is at the top of `g15a`; we are walking steps **1–5** with $p=3$. Confounding / OVB ($\hat\beta_1^{\text{simple}}$ vs $\hat\beta_1^{\text{multiple}}$, part (g)) is the substantive reason the multi-regressor model is *not* a stack of separate simple regressions.
+The 7-step recipe (model → OLS → fit-quality → coefficient inference → global $F$ → prediction → diagnostics) is at the top of `g15a`; we are walking steps **1–5** with $p=3$. Confounding / OVB ($\hat\beta_1^{\text{simple}}$ vs $\hat\beta_1^{\text{multiple}}$, part (g)) is the substantive reason the multi-regressor model is *not* a stack of separate simple regressions.
 
 **One consolidated exam-style exercise on multiple regression.** Distilled from Ex 9.1, 9.2, 9.3, 9.4, 9.8, 9.10, 9.11, 9.12, 9.13: a single dataset, all unique subparts asked at the exam.
 
@@ -1501,7 +1501,7 @@ g13a established the universal three-slot template $\widehat\theta \pm c_{1-\alp
 |---|---|---|---|---|---|---|
 | **3** | $p$ | large $n$ ($n\hat p,\,n(1-\hat p)\ge 5$) | $\hat p = X/n$ | $\sqrt{\hat p(1-\hat p)/n}$ | $z_{1-\alpha/2}$ | — |
 
-> **What "$1-\alpha$" means, the CLT, and the $z$-vs-$t$ distinction** are all stated *once and for all* in `g13a` and **not re-derived here**. g13b focuses on the three operational cases that the horizontal cells of this row demand: large-sample **Wald** (3a), **sample-size planning** (3b), and the **exact Clopper–Pearson** fallback (3c) when 3a's validity check fails.
+**What "$1-\alpha$" means, the CLT, and the $z$-vs-$t$ distinction** are all stated *once and for all* in `g13a` and **not re-derived here**. g13b focuses on the three operational cases that the horizontal cells of this row demand: large-sample **Wald** (3a), **sample-size planning** (3b), and the **exact Clopper–Pearson** fallback (3c) when 3a's validity check fails.
 
 ### 3-step procedure for every one-proportion CI exam question
 
@@ -1642,20 +1642,20 @@ binom.test(108, 140)$conf.int                        # ~ [0.6932, 0.8400]
 
 **Trade-off.** Clopper–Pearson is **conservative** — its coverage is *at least* $1-\alpha$, often strictly more — so it is slightly wider than Wald when both are applicable. Wilson's score CI (`prop.test(x, n, correct = FALSE)`) is the middle ground (close-to-nominal coverage, almost as easy as Wald). For exam purposes:
 
-> **Default to Wald when the rule of 5 holds; switch to Clopper–Pearson (`binom.test`) when it does not.**
+**Default to Wald when the rule of 5 holds; switch to Clopper–Pearson (`binom.test`) when it does not.**
 
 </details>
 
 <details class="master-subpart">
 <summary>(d) Warnings &amp; cross-references — the CI/test SE distinction for proportions</summary>
 
-> **Critical: the CI SE and the test SE for proportions are different formulas.** They look nearly identical and *both* live in the universal templates — but they plug in different probabilities.
->
-> **CI for $p$** (this row, 3a): $\widehat{SE}_{CI}(\hat p) = \sqrt{\hat p(1-\hat p)/n}$ — plug in the **sample** $\hat p$.
->
-> **Test of $H_0: p = p_0$** (row 3 of g14's master table, see `g14a` (c)): $\widehat{SE}_{H_0}(\hat p) = \sqrt{p_0(1-p_0)/n}$ — plug in the **null** $p_0$.
->
-> The two SEs only coincide when $\hat p = p_0$; otherwise they differ slightly and the CI-test duality is *not* an exact identity for proportions (it *is* for means with known $\sigma$). The standard convention in this course is: **use $p_0$ in the SE of the one-sample $z$-test**, not $\hat p$.
+**Critical: the CI SE and the test SE for proportions are different formulas.** They look nearly identical and *both* live in the universal templates — but they plug in different probabilities.
+
+**CI for $p$** (this row, 3a): $\widehat{SE}_{CI}(\hat p) = \sqrt{\hat p(1-\hat p)/n}$ — plug in the **sample** $\hat p$.
+
+**Test of $H_0: p = p_0$** (row 3 of g14's master table, see `g14a` (c)): $\widehat{SE}_{H_0}(\hat p) = \sqrt{p_0(1-p_0)/n}$ — plug in the **null** $p_0$.
+
+The two SEs only coincide when $\hat p = p_0$; otherwise they differ slightly and the CI-test duality is *not* an exact identity for proportions (it *is* for means with known $\sigma$). The standard convention in this course is: **use $p_0$ in the SE of the one-sample $z$-test**, not $\hat p$.
 
 **Why two SEs?** Both are "correct" choices of where to evaluate the Bernoulli variance $p(1-p)$:
 - For a CI we want a SE that does not depend on the unknown $p$, so the natural and only choice is the **plug-in** $\hat p$ (Slutsky justifies it asymptotically).
@@ -1711,9 +1711,9 @@ Read these three rows together: **same point estimate, three different (SE, df) 
      - $p_{\text{Levene}} \le \alpha$ ⇒ **reject** equality ⇒ **Case 6** (Welch, df $= \nu^W$).
 3. **Plug & compute**: $\hat\delta \pm c \cdot \widehat{SE}$. Done.
 
-> **Levene decision rule (numeric reading on our dataset).** `CI.diffmean(..., var.test=TRUE, conf.level=0.90)` reports Levene's $F = 0.41$ on $(1,\,436)$ df with $p_{\text{Levene}} = 0.524 > 0.10$ ⇒ **fail to reject** equality ⇒ **Case 5 (pooled)** is appropriate for the running dataset. (Cross-check: variance ratio $s_A^2/s_B^2 = 44.36/42.64 \approx 1.040$, deep inside $[\tfrac12, 2]$.) The full chi-squared / $F$-test machinery for Levene — the null distribution, the $F$-table, when to reject — is treated in **`g14d`**, and the corresponding *test* (not CI) for two means using the same Levene branch lives in **`g14b`**. From here on we only **read** Levene's $p$-value and pick the row.
+**Levene decision rule (numeric reading on our dataset).** `CI.diffmean(..., var.test=TRUE, conf.level=0.90)` reports Levene's $F = 0.41$ on $(1,\,436)$ df with $p_{\text{Levene}} = 0.524 > 0.10$ ⇒ **fail to reject** equality ⇒ **Case 5 (pooled)** is appropriate for the running dataset. (Cross-check: variance ratio $s_A^2/s_B^2 = 44.36/42.64 \approx 1.040$, deep inside $[\tfrac12, 2]$.) The full chi-squared / $F$-test machinery for Levene — the null distribution, the $F$-table, when to reject — is treated in **`g14d`**, and the corresponding *test* (not CI) for two means using the same Levene branch lives in **`g14b`**. From here on we only **read** Levene's $p$-value and pick the row.
 
-> **Independence vs paired.** Cases 4–6 assume the two samples are drawn from **disjoint groups** (no shared individuals), so $\operatorname{Cov}(\bar X_A,\bar X_B)=0$. Inside-pair designs (same subject measured twice — Pre/Post, Before/After, left/right) violate this and require the **paired** SE in **`g13e`** which uses $s_d^2 = s_A^2 + s_B^2 - 2\,s_{AB}$; treating paired data as independent inflates the SE by ignoring the $-2\,s_{AB}$ shrinkage. The "is it paired?" check is the *very first* question before opening this entry.
+**Independence vs paired.** Cases 4–6 assume the two samples are drawn from **disjoint groups** (no shared individuals), so $\operatorname{Cov}(\bar X_A,\bar X_B)=0$. Inside-pair designs (same subject measured twice — Pre/Post, Before/After, left/right) violate this and require the **paired** SE in **`g13e`** which uses $s_d^2 = s_A^2 + s_B^2 - 2\,s_{AB}$; treating paired data as independent inflates the SE by ignoring the $-2\,s_{AB}$ shrinkage. The "is it paired?" check is the *very first* question before opening this entry.
 
 ---
 
@@ -1881,7 +1881,7 @@ Three rows that look almost identical here because (i) the per-group variance es
 - **Levene's test machinery** (null distribution, $F$-table, when to reject) — see **`g14d`**. From here we only **read** Levene's $p$ and pick the row.
 - **Underlying unbiased estimators** ($\bar X, S^2, S_p^2$ and their sampling SEs) — see **`g13f`**.
 
-> **Bookmark.** The Case 4–6 split + Levene branch reappears identically in every two-mean problem (CI or test) you will see this semester. Master the table here once.
+**Bookmark.** The Case 4–6 split + Levene branch reappears identically in every two-mean problem (CI or test) you will see this semester. Master the table here once.
 
 </details>
 
@@ -1934,8 +1934,8 @@ The CI is the universal three-slot template $\widehat\theta \pm c_{1-\alpha/2}\,
 2. **Verify the four CLT conditions:** $n_A\hat p_A,\; n_A(1-\hat p_A),\; n_B\hat p_B,\; n_B(1-\hat p_B)$ **all $\ge 5$**. If any fails, fall back to `prop.test` (Wilson) or stratified exact methods.
 3. **Plug into the unpooled formula:** $\hat\delta \pm z_{1-\alpha/2}\sqrt{\hat p_A(1-\hat p_A)/n_A + \hat p_B(1-\hat p_B)/n_B}$. Done.
 
-> ### **WARNING — CI for $p_A-p_B$ uses UNPOOLED SE.**
-> The **pooled** SE $\sqrt{\hat p_{\text{pool}}(1-\hat p_{\text{pool}})(1/n_A + 1/n_B)}$ with $\hat p_{\text{pool}} = (X_A + X_B)/(n_A + n_B)$ is the SE used **only** for the *hypothesis test* of $H_0: p_A = p_B$ — see **`g14b`**. Using pooled SE in a CI produces the **wrong width** whenever $p_A \ne p_B$ (which is precisely the case the CI is asked about). This is the **single most common G13↔G14 mistake** in the course. See subpart (c) below for the side-by-side comparison and the exact place each formula is used.
+### **WARNING — CI for $p_A-p_B$ uses UNPOOLED SE.**
+The **pooled** SE $\sqrt{\hat p_{\text{pool}}(1-\hat p_{\text{pool}})(1/n_A + 1/n_B)}$ with $\hat p_{\text{pool}} = (X_A + X_B)/(n_A + n_B)$ is the SE used **only** for the *hypothesis test* of $H_0: p_A = p_B$ — see **`g14b`**. Using pooled SE in a CI produces the **wrong width** whenever $p_A \ne p_B$ (which is precisely the case the CI is asked about). This is the **single most common G13↔G14 mistake** in the course. See subpart (c) below for the side-by-side comparison and the exact place each formula is used.
 
 ---
 
@@ -2048,7 +2048,7 @@ The two formulas look almost identical and **both** live in the universal templa
 $$\widehat{SE}_{H_0} \;=\; \sqrt{0.5503\cdot 0.4497\cdot (1/278 + 1/189)} \;=\; \sqrt{0.2475\cdot 0.008891} \;\approx\; 0.0469.$$
 Compare with $\widehat{SE}_{\text{CI}} \approx 0.0460$ from subpart (a) — they differ by about $2\%$ here (small because $\hat p_1$ and $\hat p_2$ straddle $0.5$ and the data are not far from a common $p$). For a CI we *must* use $0.0460$; for a $z$-test of $H_0: p_1 = p_2$ we *must* use $0.0469$. The discrepancy is small in this dataset but it grows when $\hat p_A$ and $\hat p_B$ are very different.
 
-> **Consequence for the CI ⇄ test duality.** For every *other* row of the universal table, the CI and the two-sided test give exactly identical decisions ($\theta_0 \in CI \iff$ fail to reject). For two proportions this duality is **broken numerically**: the CI uses $\widehat{SE}_{\text{CI}}$ and the test uses $\widehat{SE}_{H_0}$, so the two procedures can in principle disagree on borderline cases. They usually agree to two decimals; when they do not, *follow the rule of each procedure* (CI with unpooled, test with pooled) — do not "fix" the discrepancy by mixing formulas.
+**Consequence for the CI ⇄ test duality.** For every *other* row of the universal table, the CI and the two-sided test give exactly identical decisions ($\theta_0 \in CI \iff$ fail to reject). For two proportions this duality is **broken numerically**: the CI uses $\widehat{SE}_{\text{CI}}$ and the test uses $\widehat{SE}_{H_0}$, so the two procedures can in principle disagree on borderline cases. They usually agree to two decimals; when they do not, *follow the rule of each procedure* (CI with unpooled, test with pooled) — do not "fix" the discrepancy by mixing formulas.
 
 The one-proportion analogue of this CI/test SE split (Wald SE $\hat p(1-\hat p)/n$ vs null SE $p_0(1-p_0)/n$) is treated in **`g13b` (d)**.
 
@@ -2064,7 +2064,7 @@ The one-proportion analogue of this CI/test SE split (Wald SE $\hat p(1-\hat p)/
 - **Paired CI** (row 8) — see **`g13e`**. *Pitfall:* paired data require the within-pair SE $s_d/\sqrt n$; treating paired data as two independent samples and applying the unpooled SE of this entry over-states the SE whenever $\rho > 0$ — see `g13e` for the inflation factor and the reduction rule $d_i = x_i - y_i$.
 - **Two-sample hypothesis test for $p_A = p_B$** (the test counterpart of this CI) — see **`g14b`**. Same estimator $\hat p_A - \hat p_B$, **pooled** SE under $H_0$. The full warning about *not* mixing pooled and unpooled SEs lives in subpart (c) above.
 
-> **Bookmark.** Row 7 has only one CI formula (unpooled Wald). The single thing you must remember is **"CI = unpooled, test = pooled"** — and the four-counts CLT validity check. Everything else is the universal template of `g13a`.
+**Bookmark.** Row 7 has only one CI formula (unpooled Wald). The single thing you must remember is **"CI = unpooled, test = pooled"** — and the four-counts CLT validity check. Everything else is the universal template of `g13a`.
 
 </details>
 
@@ -2126,8 +2126,8 @@ There is **no separate paired-CI formula to memorise** — only the **reduction 
 2. **Compute $\bar d, s_d, n$** on the differences. If only $\bar x, \bar y, s_X, s_Y, \hat\rho$ are given, recover $s_d^2 = s_X^2 + s_Y^2 - 2\hat\rho\, s_X s_Y$ (see subpart (c)).
 3. **Plug into row 2 of the universal table** ($t_{n-1}$): $\bar d \pm t_{1-\alpha/2,\,n-1}\,(s_d/\sqrt n)$. Done.
 
-> ### **WARNING — NEVER use the independent-samples diff-means CI (g13c) on paired data.**
-> The independent SE $\sqrt{s_X^2/n + s_Y^2/n}$ **ignores the within-pair covariance** $\mathrm{Cov}(X_i, Y_i)$. For paired designs with positive correlation $\rho > 0$ (the typical matched case), the correct paired variance $\sigma_X^2 + \sigma_Y^2 - 2\rho\sigma_X\sigma_Y$ is **strictly smaller** than the independent baseline $\sigma_X^2 + \sigma_Y^2$, so treating paired data as independent **inflates** the SE and widens the CI — a real loss of power. On the running dataset the inflation factor is $\times 2.69$ (see subpart (b)); on `6_2a`/`6_2b` it is $\approx \times 3.6$; on `6_8c1` it is $\approx \times 1.5$. The mistake is *procedural*, not numerical, and is the single most common G13c ↔ G13e error in the course.
+### **WARNING — NEVER use the independent-samples diff-means CI (g13c) on paired data.**
+The independent SE $\sqrt{s_X^2/n + s_Y^2/n}$ **ignores the within-pair covariance** $\mathrm{Cov}(X_i, Y_i)$. For paired designs with positive correlation $\rho > 0$ (the typical matched case), the correct paired variance $\sigma_X^2 + \sigma_Y^2 - 2\rho\sigma_X\sigma_Y$ is **strictly smaller** than the independent baseline $\sigma_X^2 + \sigma_Y^2$, so treating paired data as independent **inflates** the SE and widens the CI — a real loss of power. On the running dataset the inflation factor is $\times 2.69$ (see subpart (b)); on `6_2a`/`6_2b` it is $\approx \times 3.6$; on `6_8c1` it is $\approx \times 1.5$. The mistake is *procedural*, not numerical, and is the single most common G13c ↔ G13e error in the course.
 
 ---
 
@@ -2288,7 +2288,7 @@ all.equal(var(d), var(x) + var(y) - 2*cov(x, y))     # TRUE
 - **Paired hypothesis test on the same parameter** ($H_0: \mu_d = 0$) — see **`g14c`**. Same reduction $d_i = x_i - y_i$, then row 2 of the test table; the CI ⇄ test duality holds exactly (CI excludes 0 ⇔ two-sided test rejects).
 - **Estimation foundation** (unbiasedness of $\bar D$, sampling SE) — see **`g13f`**.
 
-> **Bookmark.** Row 8 is row 2 *in disguise*. The only two things to remember are **(i) reduce $\to d_i$ and use $t_{n-1}$** and **(ii) never use the independent CI on paired data** — the within-pair covariance is exactly what pairing was designed to exploit.
+**Bookmark.** Row 8 is row 2 *in disguise*. The only two things to remember are **(i) reduce $\to d_i$ and use $t_{n-1}$** and **(ii) never use the independent CI on paired data** — the within-pair covariance is exactly what pairing was designed to exploit.
 
 </details>
 
@@ -2352,7 +2352,7 @@ The universal recipe ($T = (\widehat\theta - \theta_0)/\widehat{\rm SE}_{H_0}$, 
 | (Biomed framing) **Sensitivity** | True-positive rate = power | When $H_0$ = "no disease" and $H_1$ = "disease", power is the chance of *detecting* the disease. |
 | (Biomed framing) **Specificity** | True-negative rate = $1-\alpha$ | The chance of *correctly* clearing a healthy patient. |
 
-> **Mnemonic.** Sensitivity ↔ power ↔ $1-\beta$ (catching the real effect). Specificity ↔ $1-\alpha$ (not crying wolf). The classical 2×2 below is the same picture cardiologists draw.
+**Mnemonic.** Sensitivity ↔ power ↔ $1-\beta$ (catching the real effect). Specificity ↔ $1-\alpha$ (not crying wolf). The classical 2×2 below is the same picture cardiologists draw.
 
 ---
 
@@ -2647,11 +2647,11 @@ Read these four rows together: **same template** ($\widehat\theta - \theta_0$ ov
      - $p_{\rm Levene} \le \alpha$ ⇒ reject equality ⇒ **case 6 (Welch $t$)**.
 3. **Plug & compute.** $t_{\rm obs} = (\hat\delta - \delta_0)/\widehat{\rm SE}_{H_0}$; compare to $c_{1-\alpha/2}$ (two-sided) or to the one-sided critical value, or compare $p$-value to $\alpha$. Same verdict either way.
 
-> **Levene decision rule — cross-reference, do NOT re-derive.** The full Levene matrix (null distribution, $F$-table, the decision table for what to do when no Levene output is available, the safe-default Welch fallback) lives in **`g13c` Part 9** — the present entry only *reads* Levene's $p$-value and picks between rows 5 and 6. On unequal sample sizes / variance ratios outside $[\tfrac12, 2]$, default to **Welch (case 6)**. The past exam `exam_sep_2025_5b` is a pure Levene-only question feeding the CI of `exam_sep_2025_5a`/`5c`; the variance-equality machinery is consequently tagged to `g13c` rather than to g14b.
+**Levene decision rule — cross-reference, do NOT re-derive.** The full Levene matrix (null distribution, $F$-table, the decision table for what to do when no Levene output is available, the safe-default Welch fallback) lives in **`g13c` Part 9** — the present entry only *reads* Levene's $p$-value and picks between rows 5 and 6. On unequal sample sizes / variance ratios outside $[\tfrac12, 2]$, default to **Welch (case 6)**. The past exam `exam_sep_2025_5b` is a pure Levene-only question feeding the CI of `exam_sep_2025_5a`/`5c`; the variance-equality machinery is consequently tagged to `g13c` rather than to g14b.
 
-> ### **WARNING — Pooled vs unpooled SE for two proportions (THE #1 G13↔G14 trap).**
-> $$\boxed{\;\; \widehat{\rm SE}_{\rm TEST} \;=\; \sqrt{\hat p_{\rm pool}(1-\hat p_{\rm pool})\!\left(\tfrac{1}{n_A}+\tfrac{1}{n_B}\right)} \;\;\ne\;\; \widehat{\rm SE}_{\rm CI} \;=\; \sqrt{\dfrac{\hat p_A(1-\hat p_A)}{n_A} + \dfrac{\hat p_B(1-\hat p_B)}{n_B}} \;\;}$$
-> The **test** of $H_0: p_A = p_B$ uses the **pooled** SE because *under $H_0$* both samples share a common $p$, optimally estimated by $\hat p_{\rm pool} = (x_A + x_B)/(n_A + n_B)$ — this row 7 (subpart (d) below). The **CI** for $p_A - p_B$ uses the **unpooled** plug-in SE because outside $H_0$ the two $p$'s are different and there is no common value to estimate — see **`g13d`**. Mixing them up gives the wrong numeric answer. The one-proportion analogue (CI uses $\hat p$, test uses $p_0$) is the boxed warning in `g14a` (c).
+### **WARNING — Pooled vs unpooled SE for two proportions (THE #1 G13↔G14 trap).**
+$$\boxed{\;\; \widehat{\rm SE}_{\rm TEST} \;=\; \sqrt{\hat p_{\rm pool}(1-\hat p_{\rm pool})\!\left(\tfrac{1}{n_A}+\tfrac{1}{n_B}\right)} \;\;\ne\;\; \widehat{\rm SE}_{\rm CI} \;=\; \sqrt{\dfrac{\hat p_A(1-\hat p_A)}{n_A} + \dfrac{\hat p_B(1-\hat p_B)}{n_B}} \;\;}$$
+The **test** of $H_0: p_A = p_B$ uses the **pooled** SE because *under $H_0$* both samples share a common $p$, optimally estimated by $\hat p_{\rm pool} = (x_A + x_B)/(n_A + n_B)$ — this row 7 (subpart (d) below). The **CI** for $p_A - p_B$ uses the **unpooled** plug-in SE because outside $H_0$ the two $p$'s are different and there is no common value to estimate — see **`g13d`**. Mixing them up gives the wrong numeric answer. The one-proportion analogue (CI uses $\hat p$, test uses $p_0$) is the boxed warning in `g14a` (c).
 
 ---
 
@@ -2810,9 +2810,9 @@ $$\widehat{\rm SE}_{H_0} \;=\; \sqrt{\hat p_{\rm pool}(1 - \hat p_{\rm pool})\!\
 
 $$\boxed{\;\;Z \;=\; \frac{\hat p_A - \hat p_B}{\sqrt{\hat p_{\rm pool}(1-\hat p_{\rm pool})\!\left(\tfrac{1}{n_A}+\tfrac{1}{n_B}\right)}}, \qquad \text{reject } H_0:p_A=p_B \iff |Z| > z_{1-\alpha/2}\;\;(\text{two-sided}).\;\;}$$
 
-> ### **WARNING — pooled-vs-unpooled SE (mirrored from the box above).**
-> $$\widehat{\rm SE}_{\rm TEST} = \sqrt{\hat p_{\rm pool}(1-\hat p_{\rm pool})(1/n_A+1/n_B)} \quad\ne\quad \widehat{\rm SE}_{\rm CI} = \sqrt{\dfrac{\hat p_A(1-\hat p_A)}{n_A} + \dfrac{\hat p_B(1-\hat p_B)}{n_B}}.$$
-> *Test* uses the pooled SE (this row); *CI for $p_A - p_B$* uses the unpooled SE (`g13d`). Two different formulas, two different numeric answers. The two SEs agree only when $\hat p_A = \hat p_B$; otherwise the CI ⇄ test duality is **not** an exact identity for proportions.
+### **WARNING — pooled-vs-unpooled SE (mirrored from the box above).**
+$$\widehat{\rm SE}_{\rm TEST} = \sqrt{\hat p_{\rm pool}(1-\hat p_{\rm pool})(1/n_A+1/n_B)} \quad\ne\quad \widehat{\rm SE}_{\rm CI} = \sqrt{\dfrac{\hat p_A(1-\hat p_A)}{n_A} + \dfrac{\hat p_B(1-\hat p_B)}{n_B}}.$$
+*Test* uses the pooled SE (this row); *CI for $p_A - p_B$* uses the unpooled SE (`g13d`). Two different formulas, two different numeric answers. The two SEs agree only when $\hat p_A = \hat p_B$; otherwise the CI ⇄ test duality is **not** an exact identity for proportions.
 
 **Worked numbers on the cafeteria pre/post dataset (Ex 7.3a).** A "visitor" = customer with $\geq 1$ stop in the month. Pre-promotion $n_\text{PRE} = 140, X_\text{PRE} = 108 \Rightarrow \hat p_\text{PRE} = 0.7714$; post-promotion $n_\text{POST} = 159, X_\text{POST} = 127 \Rightarrow \hat p_\text{POST} = 0.7987$. Most-serious-error reasoning (don't roll out an ineffective promotion) gives one-sided upper:
 $$H_0: p_\text{POST} = p_\text{PRE} \quad\text{vs}\quad H_1: p_\text{POST} > p_\text{PRE}.$$
@@ -2958,8 +2958,8 @@ There is **no separate paired-test formula to memorise** — only the **reductio
 2. **Compute $\bar d, s_d, n$** on the differences. If only $\bar x, \bar y, s_X, s_Y, \hat\rho$ (or $s_{X,Y}$) are given, recover $s_d^2 = s_X^2 + s_Y^2 - 2\,\hat\rho\,s_X s_Y = s_X^2 + s_Y^2 - 2\,s_{X,Y}$ (subpart (b)).
 3. **Apply row 2 of the universal test table** ($t_{n-1}$) with $\mu_0 = 0$: $T = \bar d / (s_d/\sqrt n)$, compare with $t_{1-\alpha/2,\,n-1}$ (or $t_{1-\alpha,\,n-1}$ for a one-sided $H_1$), report the $p$-value, decide. Done.
 
-> ### **WARNING — NEVER use the independent-samples test (g14b cases 5/6) on paired data.**
-> The independent SE $\sqrt{s_X^2/n + s_Y^2/n}$ **ignores the within-pair covariance** $\mathrm{Cov}(X_i, Y_i)$. For paired designs with positive correlation $\rho > 0$ (the typical matched case), the correct paired variance $\sigma_X^2 + \sigma_Y^2 - 2\rho\sigma_X\sigma_Y$ is **strictly smaller** than the independent baseline $\sigma_X^2 + \sigma_Y^2$, so treating paired data as independent **inflates** the SE, shrinks $|T|$, enlarges the $p$-value — a real, mechanical loss of power. On the running arcade dataset the inflation factor is $\times \sqrt{33/11} = \times 1.73$ (subpart (c)); on the sleep-diet exam ($r = 0.71$) it is $\times 1/\sqrt{1-0.71} \approx \times 1.86$. The mistake is *procedural*, not numerical, and is the single most common g14b ↔ g14c error in the course.
+### **WARNING — NEVER use the independent-samples test (g14b cases 5/6) on paired data.**
+The independent SE $\sqrt{s_X^2/n + s_Y^2/n}$ **ignores the within-pair covariance** $\mathrm{Cov}(X_i, Y_i)$. For paired designs with positive correlation $\rho > 0$ (the typical matched case), the correct paired variance $\sigma_X^2 + \sigma_Y^2 - 2\rho\sigma_X\sigma_Y$ is **strictly smaller** than the independent baseline $\sigma_X^2 + \sigma_Y^2$, so treating paired data as independent **inflates** the SE, shrinks $|T|$, enlarges the $p$-value — a real, mechanical loss of power. On the running arcade dataset the inflation factor is $\times \sqrt{33/11} = \times 1.73$ (subpart (c)); on the sleep-diet exam ($r = 0.71$) it is $\times 1/\sqrt{1-0.71} \approx \times 1.86$. The mistake is *procedural*, not numerical, and is the single most common g14b ↔ g14c error in the course.
 
 ### Paired-vs-independent power note
 
@@ -3196,7 +3196,7 @@ The full paired-CI machinery — derivation, ME table at 90/95/99%, reading $\ba
 - **Estimation foundation** (unbiasedness of $\bar D$ and $S_d^2$, sampling SE) — see **`g13f`**.
 - **Power / sample-size analysis** — see **`g14e`** for how $\beta$, power and $n$ trade off; the doubling-$n$ scaling in subpart (b) is a one-step preview of that machinery applied to a paired design.
 
-> **Bookmark.** Row 8 is row 2 *in disguise*. The only two things to remember are **(i) reduce $\to d_i$ and use $t_{n-1}$** and **(ii) never use the independent test (g14b cases 5/6) on paired data** — the within-pair covariance is exactly what pairing was designed to exploit.
+**Bookmark.** Row 8 is row 2 *in disguise*. The only two things to remember are **(i) reduce $\to d_i$ and use $t_{n-1}$** and **(ii) never use the independent test (g14b cases 5/6) on paired data** — the within-pair covariance is exactly what pairing was designed to exploit.
 
 </details>
 
@@ -3243,7 +3243,7 @@ tcrit <- qt(0.975, df = n-2)                                               # 2.0
 
 The questions answered below:
 
-> At a new value $x_0$ of Age, what is our best **point prediction** $\hat y_0$ of `Weeks`? What is the $95\%$ **CI for the mean** Weeks across **all** workers of that age? What is the $95\%$ **PI for one specific** new worker of that age? How do the two intervals compare as $x_0$ moves away from $\bar x$?
+At a new value $x_0$ of Age, what is our best **point prediction** $\hat y_0$ of `Weeks`? What is the $95\%$ **CI for the mean** Weeks across **all** workers of that age? What is the $95\%$ **PI for one specific** new worker of that age? How do the two intervals compare as $x_0$ moves away from $\bar x$?
 
 The three values of $x_0$ used in the worked examples below come from the past-exam horizontal cells (`exam_g1_2026_5a/5b`, `exam_g2_2026_4_5`) and from the side-by-side comparison built around $\bar x$, $\bar x + s_x$, $\bar x + 3 s_x$ in subpart (c).
 
@@ -3251,16 +3251,16 @@ The three values of $x_0$ used in the worked examples below come from the past-e
 
 ## This is **rows 6 and 7** of the g15a master regression table
 
-> | # | Object | Estimator / Formula | df | Use |
-> |---|---|---|---|---|
-> | **6** | CI for **mean response** at $x_0$ | $\hat y_0 \;\pm\; t_{1-\alpha/2,\,n-p-1}\sqrt{\hat\sigma^2\,x_0^\top(X^\top X)^{-1}x_0}$ | $n-p-1$ | *average* $Y$ at $x_0$ |
-> | **7** | PI for **individual** at $x_0$ | $\hat y_0 \;\pm\; t_{1-\alpha/2,\,n-p-1}\sqrt{\hat\sigma^2\bigl(1 + x_0^\top(X^\top X)^{-1}x_0\bigr)}$ | $n-p-1$ | *individual* $Y$ at $x_0$ — note the **"$+1$"** inside the sqrt |
+| # | Object | Estimator / Formula | df | Use |
+|---|---|---|---|---|
+| **6** | CI for **mean response** at $x_0$ | $\hat y_0 \;\pm\; t_{1-\alpha/2,\,n-p-1}\sqrt{\hat\sigma^2\,x_0^\top(X^\top X)^{-1}x_0}$ | $n-p-1$ | *average* $Y$ at $x_0$ |
+| **7** | PI for **individual** at $x_0$ | $\hat y_0 \;\pm\; t_{1-\alpha/2,\,n-p-1}\sqrt{\hat\sigma^2\bigl(1 + x_0^\top(X^\top X)^{-1}x_0\bigr)}$ | $n-p-1$ | *individual* $Y$ at $x_0$ — note the **"$+1$"** inside the sqrt |
 
 The universal 7-step regression recipe and the full 9-row master table live at the top of **`g15a`**; this entry zooms in on step **6**. Multiple regression (`g15c`) reuses *exactly* these formulas — only the leverage term $x_0^\top(X^\top X)^{-1}x_0$ is computed from the design matrix instead of the simple-regression specialisation $1/n + (x_0-\bar x)^2/((n-1)s_x^2)$.
 
-> **Boxed structural insight — the "$+1$" inside the sqrt is the ONLY difference between row 6 and row 7.** It adds the irreducible noise variance $\hat\sigma^2$ of a single new draw $\varepsilon_0$ — variance that the CI does **not** carry because the CI targets the population parameter $E[Y\mid x_0]$, which is non-random. Algebraically: $\widehat{SE}_{\text{PI}}^2 = \widehat{SE}_{\text{CI}}^2 + \hat\sigma^2$.
+**Boxed structural insight — the "$+1$" inside the sqrt is the ONLY difference between row 6 and row 7.** It adds the irreducible noise variance $\hat\sigma^2$ of a single new draw $\varepsilon_0$ — variance that the CI does **not** carry because the CI targets the population parameter $E[Y\mid x_0]$, which is non-random. Algebraically: $\widehat{SE}_{\text{PI}}^2 = \widehat{SE}_{\text{CI}}^2 + \hat\sigma^2$.
 
-> **Boxed visual intuition.** Drawn on the $(x, y)$ plane, the **CI band** is *hourglass-shaped*: it is **narrowest at $x_0 = \bar x$** (the line pivots around $(\bar x, \bar y)$, which is pinned down most tightly) and fans out symmetrically toward the extremes. The **PI band parallels the CI band** but lies **strictly outside** it everywhere — separated by a vertical distance $\approx t\,\hat\sigma$ that **never vanishes**, because no amount of data can reduce the noise of *one* future $\varepsilon_0$. CI shrinks to 0 width as $n\to\infty$; PI shrinks only to $\pm t\,\hat\sigma$.
+**Boxed visual intuition.** Drawn on the $(x, y)$ plane, the **CI band** is *hourglass-shaped*: it is **narrowest at $x_0 = \bar x$** (the line pivots around $(\bar x, \bar y)$, which is pinned down most tightly) and fans out symmetrically toward the extremes. The **PI band parallels the CI band** but lies **strictly outside** it everywhere — separated by a vertical distance $\approx t\,\hat\sigma$ that **never vanishes**, because no amount of data can reduce the noise of *one* future $\varepsilon_0$. CI shrinks to 0 width as $n\to\infty$; PI shrinks only to $\pm t\,\hat\sigma$.
 
 ---
 
@@ -3470,19 +3470,19 @@ We reuse these **two** datasets throughout. The horizontal cells of this row are
 
 ## This is **row 9** of the universal hypothesis-test master table (see **`g14a`**)
 
-> | # | Parameter | $H_0$ | Test statistic | Null distribution | Reject $H_0$ (right tail only!) |
-> |---|---|---|---|---|---|
-> | **9a — GoF** | one categorical, $K$ levels | $p = p^{(0)}$ (fully or partially specified) | $X^2 = \sum_{k=1}^K \dfrac{(O_k-E_k)^2}{E_k}$, &nbsp; $E_k = n p_k^{(0)}$ | $\chi^2_{K-1-q}$ &nbsp;($q$ = # parameters estimated from the data; $q=0$ when $H_0$ fully specifies $p^{(0)}$) | $X^2 > \chi^2_{1-\alpha,\,K-1-q}$ |
-> | **9b — Indep.** | two categorical, $r\times c$ table | $X \perp\!\!\!\perp Y$, i.e. $p_{ij} = p_{i\cdot}\,p_{\cdot j}$ | $X^2 = \sum_{i,j} \dfrac{(O_{ij}-\widehat E_{ij})^2}{\widehat E_{ij}}$, &nbsp; $\widehat E_{ij} = \dfrac{n_{i\cdot}\,n_{\cdot j}}{n}$ | $\chi^2_{(r-1)(c-1)}$ | $X^2 > \chi^2_{1-\alpha,\,(r-1)(c-1)}$ |
->
-> **Pearson statistic (both sub-cases):** $X^2 = \sum (O-E)^2/E$, asymptotically $\chi^2_{\rm df}$ under $H_0$.
->
-> **Validity (Cochran).** All $E_k$ (or $\widehat E_{ij}$) $\ge 5$; if a few cells fail, merge sparse categories or switch to `fisher.test` (2×2) — see (c).
->
-> **Pearson statistic (both rows):** $X^2 = \sum (O-E)^2/E$, asymptotically $\chi^2_{\rm df}$ under $H_0$.
->
-> ### **Right-tail only — boxed reminder.**
-> Unlike the $z$/$t$ tests of rows 1–8, the $\chi^2$ tests are **strictly right-tailed** — there is no two-sided or lower-tail version. **Geometric reason:** $X^2 = \sum (O-E)^2/E$ is a sum of **squared** standardised deviations between observed and expected counts. It is non-negative, takes value $0$ when $O = E$ exactly (perfect agreement with $H_0$), and grows the further $O$ drifts from $E$ in *any* direction. **Large** $X^2$ means "poor fit" / "association" → evidence against $H_0$; **small** $X^2$ means "$O \approx E$" → consistent with $H_0$ (never *evidence for* $H_0$). The $p$-value is *always* $\Pr(\chi^2_{\rm df} \ge X^2_{\rm obs})$ — see (d) for the full geometric argument.
+| # | Parameter | $H_0$ | Test statistic | Null distribution | Reject $H_0$ (right tail only!) |
+|---|---|---|---|---|---|
+| **9a — GoF** | one categorical, $K$ levels | $p = p^{(0)}$ (fully or partially specified) | $X^2 = \sum_{k=1}^K \dfrac{(O_k-E_k)^2}{E_k}$, &nbsp; $E_k = n p_k^{(0)}$ | $\chi^2_{K-1-q}$ &nbsp;($q$ = # parameters estimated from the data; $q=0$ when $H_0$ fully specifies $p^{(0)}$) | $X^2 > \chi^2_{1-\alpha,\,K-1-q}$ |
+| **9b — Indep.** | two categorical, $r\times c$ table | $X \perp\!\!\!\perp Y$, i.e. $p_{ij} = p_{i\cdot}\,p_{\cdot j}$ | $X^2 = \sum_{i,j} \dfrac{(O_{ij}-\widehat E_{ij})^2}{\widehat E_{ij}}$, &nbsp; $\widehat E_{ij} = \dfrac{n_{i\cdot}\,n_{\cdot j}}{n}$ | $\chi^2_{(r-1)(c-1)}$ | $X^2 > \chi^2_{1-\alpha,\,(r-1)(c-1)}$ |
+
+**Pearson statistic (both sub-cases):** $X^2 = \sum (O-E)^2/E$, asymptotically $\chi^2_{\rm df}$ under $H_0$.
+
+**Validity (Cochran).** All $E_k$ (or $\widehat E_{ij}$) $\ge 5$; if a few cells fail, merge sparse categories or switch to `fisher.test` (2×2) — see (c).
+
+**Pearson statistic (both rows):** $X^2 = \sum (O-E)^2/E$, asymptotically $\chi^2_{\rm df}$ under $H_0$.
+
+### **Right-tail only — boxed reminder.**
+Unlike the $z$/$t$ tests of rows 1–8, the $\chi^2$ tests are **strictly right-tailed** — there is no two-sided or lower-tail version. **Geometric reason:** $X^2 = \sum (O-E)^2/E$ is a sum of **squared** standardised deviations between observed and expected counts. It is non-negative, takes value $0$ when $O = E$ exactly (perfect agreement with $H_0$), and grows the further $O$ drifts from $E$ in *any* direction. **Large** $X^2$ means "poor fit" / "association" → evidence against $H_0$; **small** $X^2$ means "$O \approx E$" → consistent with $H_0$ (never *evidence for* $H_0$). The $p$-value is *always* $\Pr(\chi^2_{\rm df} \ge X^2_{\rm obs})$ — see (d) for the full geometric argument.
 
 ### 3-step procedure for every $\chi^2$ exam question
 
@@ -4159,8 +4159,8 @@ SE_hat <- s_hat / sqrt(n);                        SE_hat     # ~1285.7
 <details class="master-subpart">
 <summary>(e) Pitfall — $S$ is <strong>not</strong> unbiased for $\sigma$.</summary>
 
-> **Box.** $S^2$ is unbiased for $\sigma^2$, but $S = \sqrt{S^2}$ is **not** unbiased for $\sigma$:
-> $$\mathbb E[S] \;<\; \sigma \quad\text{(strict; equality only in the degenerate $\sigma=0$ case).}$$
+**Box.** $S^2$ is unbiased for $\sigma^2$, but $S = \sqrt{S^2}$ is **not** unbiased for $\sigma$:
+$$\mathbb E[S] \;<\; \sigma \quad\text{(strict; equality only in the degenerate $\sigma=0$ case).}$$
 
 **Why.** Jensen's inequality on the **concave** function $\sqrt{\cdot}$: for any non-degenerate positive random variable $Y$, $\mathbb E[\sqrt Y] < \sqrt{\mathbb E[Y]}$. Plug $Y = S^2$ and use $\mathbb E[S^2] = \sigma^2$:
 $$\mathbb E[S] \;=\; \mathbb E[\sqrt{S^2}] \;<\; \sqrt{\mathbb E[S^2]} \;=\; \sigma.$$
@@ -4237,7 +4237,7 @@ Round to 4 decimals throughout.
 
 ## This is rows 8 and 9 of g15a's master regression table
 
-> **The universal 7-step regression recipe and the 9-row master case table live at the top of `g15a`** — do *not* re-derive them here. This entry walks only the two rows below, which are the **categorical specialisation** of OLS: nothing about the formula $\hat{\boldsymbol\beta} = (X^\top X)^{-1}X^\top y$ or the per-coefficient $t$-test changes — *only what each $\hat\beta$ means* and *what columns sit in $X$*.
+**The universal 7-step regression recipe and the 9-row master case table live at the top of `g15a`** — do *not* re-derive them here. This entry walks only the two rows below, which are the **categorical specialisation** of OLS: nothing about the formula $\hat{\boldsymbol\beta} = (X^\top X)^{-1}X^\top y$ or the per-coefficient $t$-test changes — *only what each $\hat\beta$ means* and *what columns sit in $X$*.
 
 | Row | Object | Estimator | Interpretation | Test |
 |---|---|---|---|---|
@@ -4250,9 +4250,9 @@ Round to 4 decimals throughout.
 2. **Read each $\hat\beta_k$ as a mean shift.** $\hat\beta_k$ = expected change in $Y$ when moving from the reference level to level $k$, **holding all continuous predictors and other dummies fixed**. The per-dummy $t$-test is row 2 of g14a with $\theta_0=0$. For "does the *whole* factor matter?" use the joint **partial $F$** comparing the model with vs without the $K-1$ dummies.
 3. **If you suspect the slope of a continuous predictor differs across levels,** add an interaction $X\cdot D$ and test it with a $t$ on $\hat\beta_{jk}$. Geometrically: without interaction the group-specific lines are *parallel*; with interaction they have *different slopes*.
 
-> **Dummy-coding intuition (memorise once).** A $K$-level factor's $K-1$ dummies + an intercept span exactly the $K$-dimensional "one-mean-per-group" subspace. No information is lost — only the **labelling** of coefficients changes when you switch reference level. Putting all $K$ dummies AND an intercept makes $X^\top X$ singular (dummy-variable trap).
+**Dummy-coding intuition (memorise once).** A $K$-level factor's $K-1$ dummies + an intercept span exactly the $K$-dimensional "one-mean-per-group" subspace. No information is lost — only the **labelling** of coefficients changes when you switch reference level. Putting all $K$ dummies AND an intercept makes $X^\top X$ singular (dummy-variable trap).
 
-> **Parallel-vs-non-parallel lines mental picture.** Plot $Y$ vs continuous $X$ separately for each level of $D$. **Without** an interaction term, the OLS fit gives **parallel lines** — same slope $\hat\beta_X$ for every group, different intercepts shifted by $\hat\beta_D$. **With** an interaction $X\cdot D$, the lines have **different slopes** — they may cross. Testing $H_0:\beta_{X\cdot D}=0$ is testing "are the lines parallel?".
+**Parallel-vs-non-parallel lines mental picture.** Plot $Y$ vs continuous $X$ separately for each level of $D$. **Without** an interaction term, the OLS fit gives **parallel lines** — same slope $\hat\beta_X$ for every group, different intercepts shifted by $\hat\beta_D$. **With** an interaction $X\cdot D$, the lines have **different slopes** — they may cross. Testing $H_0:\beta_{X\cdot D}=0$ is testing "are the lines parallel?".
 
 ---
 
@@ -4327,7 +4327,7 @@ F_stat <- ((RSS0 - RSS1)/(p1 - p0)) / (RSS1/(n - p1 - 1));  F_stat   # 6.90
 1 - pf(F_stat, df1 = p1 - p0, df2 = n - p1 - 1)                       # ~ 0.0016
 ```
 
-> **Rule of thumb.** Use the per-dummy $t$ to test **one specific level vs the reference**; use the joint partial $F$ to test **"the whole factor matters"** (i.e. drop the variable as a block). Cross-reference: g14a row 2 for the $t$, g15c subpart (d) for the global $F$ — the partial $F$ here is the same statistic, applied to a sub-block instead of all regressors.
+**Rule of thumb.** Use the per-dummy $t$ to test **one specific level vs the reference**; use the joint partial $F$ to test **"the whole factor matters"** (i.e. drop the variable as a block). Cross-reference: g14a row 2 for the $t$, g15c subpart (d) for the global $F$ — the partial $F$ here is the same statistic, applied to a sub-block instead of all regressors.
 
 </details>
 
@@ -4385,7 +4385,7 @@ b_g  <- coef(fit2)["grade"];          b_g                    # 30 -> women's slo
 gam  <- coef(fit2)["grade:sexM"];     b_g + gam              # 42 -> men's slope
 ```
 
-> **Centring tip.** If $\hat\beta_M$ is hard to read because $grade = 0$ is far outside the data, **centre** `grade` (subtract its mean) before fitting: the main effect of `sex` then reads off as the gender gap *at the average grade*, not at $grade = 0$ — much more interpretable.
+**Centring tip.** If $\hat\beta_M$ is hard to read because $grade = 0$ is far outside the data, **centre** `grade` (subtract its mean) before fitting: the main effect of `sex` then reads off as the gender gap *at the average grade*, not at $grade = 0$ — much more interpretable.
 
 </details>
 
@@ -4444,7 +4444,7 @@ master_exercises["g15e_diagnostics"] = {
 
 Every inference produced in `g15a`–`g15d` --- the per-coefficient CI $\hat\beta_j \pm t\cdot\widehat{SE}$, the slope $t$-test, the global $F$-test, the CI for the mean response and the PI for an individual at $x_0$, the dummy-shift tests of `g15d` --- **depends on a short list of model assumptions**. The OLS *point* estimator $\hat{\boldsymbol\beta} = (X^\top X)^{-1}X^\top y$ is unbiased and consistent under **linearity** alone, but the *machinery of inference* (every SE, every CI, every $p$-value above) needs **all four LINE assumptions**, plus reasonable **influence** (no single observation drives the fit) and, in multi-regression, **low multicollinearity**. This entry tells you (i) **how to check** each assumption, (ii) **what breaks** when each is violated, and (iii) **what to do about it**. The two running models are the simple regression from `g15a` (Restaurants: $\text{revenues}\sim\text{surface}$, $n=50$) and the multi-regression extension from `g15d` (GS: $\text{Salary}\sim\text{grade}+\text{sex}+\text{course}$, $n=100$, used in part (f) where multicollinearity becomes possible).
 
-> **This is step 7 of g15a's universal regression recipe** --- "diagnostics (LINE)". The recipe and the 9-row master case table live at the top of `g15a`; this entry walks step 7 in detail. Every plot/test below tells you which row of `g15a`'s master case table is still trustworthy and which one to discount or fix.
+**This is step 7 of g15a's universal regression recipe** --- "diagnostics (LINE)". The recipe and the 9-row master case table live at the top of `g15a`; this entry walks step 7 in detail. Every plot/test below tells you which row of `g15a`'s master case table is still trustworthy and which one to discount or fix.
 
 ### The LINE checklist (this entry's spine)
 
@@ -4455,9 +4455,9 @@ Every inference produced in `g15a`–`g15d` --- the per-coefficient CI $\hat\bet
 | **N** | **N**ormality of residuals: $\varepsilon_i\sim\mathcal N(0,\sigma^2)$ | small-sample exactness of $t$, $F$, CI, PI (rows 4–7) --- CLT rescues large $n$ for tests/CI but **not for PI** | histogram + Q-Q of $r_i^{\text{std}}$; Shapiro--Wilk | bell shape; Q-Q on the 45° line; $p>\alpha$ | S-shape / skew / heavy tails | $\log Y$ or Box--Cox; rely on $n$ large; report robust SE |
 | **E** | **E**qual variance (homoscedasticity): $\Var(\varepsilon_i)=\sigma^2$ | $\widehat{SE}$ correct; OLS = BLUE (Gauss--Markov) | $e$ vs $\hat y$ (funnel?); Scale--Location $\sqrt{|r^{\text{std}}|}$ vs $\hat y$; Breusch--Pagan | constant vertical spread; flat smoother | funnel / cone widening with $\hat y$ | $\log Y$ / WLS / HC sandwich SE (`vcovHC`) |
 
-> **Influence (a separate dimension --- not LINE).** Even when LINE all hold, a few points with extreme $x$ *and* extreme residual can drive $\hat{\boldsymbol\beta}$. Diagnostics: leverage $h_{ii}$, studentised residual $r_i^{\text{stud}}$, Cook's $D_i$. Owned by subpart (e) below.
+**Influence (a separate dimension --- not LINE).** Even when LINE all hold, a few points with extreme $x$ *and* extreme residual can drive $\hat{\boldsymbol\beta}$. Diagnostics: leverage $h_{ii}$, studentised residual $r_i^{\text{stud}}$, Cook's $D_i$. Owned by subpart (e) below.
 
-> **Multicollinearity (multi-regression only --- not LINE).** When predictors are nearly linearly dependent, the OLS *estimator* exists but $\widehat{SE}(\hat\beta_j)$ inflates, $t$-statistics shrink and individual significance disappears even when the joint $F$ is highly significant. Diagnostic: $\mathrm{VIF}_j = 1/(1-R_j^2)$. Owned by subpart (f) below.
+**Multicollinearity (multi-regression only --- not LINE).** When predictors are nearly linearly dependent, the OLS *estimator* exists but $\widehat{SE}(\hat\beta_j)$ inflates, $t$-statistics shrink and individual significance disappears even when the joint $F$ is highly significant. Diagnostic: $\mathrm{VIF}_j = 1/(1-R_j^2)$. Owned by subpart (f) below.
 
 ### Boxed "if it's bad, what breaks?" map
 
@@ -4488,7 +4488,7 @@ r_std  <- rstandard(mod); r_stud <- rstudent(mod)
 n    <- nobs(mod);  p <- length(coef(mod)) - 1     # p = 1 predictor, df = n - p - 1 = 48
 ```
 
-> The OLS estimator, $\widehat{SE}$ formula, $t$-test, $F$-test and CIs/PIs *do not* change between this entry and `g15a`/`g15b`/`g15c`/`g15d`. **What this entry adds is the certificate of validity for those formulas.**
+The OLS estimator, $\widehat{SE}$ formula, $t$-test, $F$-test and CIs/PIs *do not* change between this entry and `g15a`/`g15b`/`g15c`/`g15d`. **What this entry adds is the certificate of validity for those formulas.**
 
 ---
 
@@ -5742,7 +5742,7 @@ med_g                                     # ~ 21.905
 <summary><span class="tag tag-2plus">≥2 ex</span> (c) Why these are *approximations* — the uniform-on-interval assumption</summary>
 
 Both formulae above rely on the same hidden hypothesis:
-> **Within each class $[a_i,b_i)$, the original observations are uniformly distributed.**
+**Within each class $[a_i,b_i)$, the original observations are uniformly distributed.**
 
 Two immediate consequences of that hypothesis:
 
