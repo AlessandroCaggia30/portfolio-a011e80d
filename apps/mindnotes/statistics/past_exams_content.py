@@ -382,6 +382,194 @@ past_exams["exam_p1_2025_2b"] = {
     "statistics/images/past_exams/answers/exam_p1_2025_2b_answer.png",
 ]}
 
+past_exams["exam_p1_2025_1c"] = {
+"title": "P1-2025 Ex1b — Anomalously good Engagement threshold (Tukey vs 95th quantile)",
+"is_exam": True, "topic_hint": "G7",
+"content": (
+    '<span class="exam-question-text">On performing the analysis with respect to the users\' `Engagement`, the company is interested in identifying if a post has an anomalously good performance. Detect the threshold above which the number of followers (`Engagement`) can be considered an outlier.</span>\n\n'
+    '![Question](statistics/images/past_exams/questions/exam_p1_2025_1c_question.png)\n\n'
+    '---\n\n'
+    '**Walkthrough.** Two complementary thresholds mark "anomalously good":\n\n'
+    '- The **Tukey upper fence** $Q_3 + 1.5\\,IQR$ — anything above is an *outlier* on the boxplot.\n'
+    '- The **95th percentile** $q_{0.95}$ — the top 5% of posts (extreme upper quantile), a stronger, distribution-based criterion.\n\n'
+    'From `distr.summary.x(Engagement, stats=c("min","q1","median","mean","q3","p90","p95","p99"))` on `Metrics2`:\n\n'
+    '$$Q_1 = 2.735,\\quad Q_3 = 5.700,\\quad IQR = Q_3 - Q_1 = 2.965,\\quad q_{0.95} = 13.19.$$\n\n'
+    'So the two candidate thresholds are\n\n'
+    '$$\\text{Tukey fence} = Q_3 + 1.5\\,IQR = 5.70 + 1.5(2.965) \\approx \\mathbf{10.15},$$\n\n'
+    '$$q_{0.95} \\approx \\mathbf{13.19}.$$\n\n'
+    'Because `Engagement` is **strongly right-skewed with many upper outliers** on the boxplot, the Tukey fence flags a very large group (>5% of posts). The company asks for *anomalously good* performance — a rarer, more selective label — so the **95th-percentile threshold (~13.19)** is the more informative cutoff: only the top 5% of posts qualify.\n\n'
+    '![AI walkthrough — Engagement density with Tukey fence and 95th percentile](statistics/images/past_exams/exam_p1_2025_1c_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** The threshold that marks *anomalously good* Engagement is the **95th percentile ≈ 13.19** — posts above this value are in the top 5% and can reasonably be called anomalous. Using the Tukey rule instead, the outlier cutoff is $Q_3 + 1.5\\,IQR \\approx \\mathbf{10.15}$, which flags a somewhat larger set but is the criterion consistent with the boxplot.\n\n'
+    '**R commands:**\n\n'
+    '`distr.summary.x(Engagement, stats=c("min","q1","median","mean","q3","IQR","p90","p95","p99"), data=Metrics2)`\n\n'
+    '`## Q1 = 2.735   Q3 = 5.700   IQR = 2.965`\n\n'
+    '`## p90 = 8.768  p95 = 13.19  p99 = 20.43`\n\n'
+    '`## Tukey upper fence Q3 + 1.5*IQR = 10.15`\n\n'
+    '![Answer](statistics/images/past_exams/answers/exam_p1_2025_1c_answer.png)\n'
+), "images": [
+    "statistics/images/past_exams/questions/exam_p1_2025_1c_question.png",
+    "statistics/images/past_exams/exam_p1_2025_1c_ai.png",
+    "statistics/images/past_exams/answers/exam_p1_2025_1c_answer.png",
+]}
+
+past_exams["exam_p1_2025_1d"] = {
+"title": "P1-2025 Ex1c — Reach vs Engagement: scatter and Pearson correlation",
+"is_exam": True, "topic_hint": "G10",
+"content": (
+    '<span class="exam-question-text">The linear relation between the variables `Reach` (number of followers, in hundreds) and `Engagement` cannot be identified with a clear linear relationship by looking at the scatter plot; but we cannot conclude that they are not linearly related. From the scatterplot, we do identify a **positive linear** trend between `Reach` and `Engagement`. Interpret the correlation coefficient.</span>\n\n'
+    '![Question](statistics/images/past_exams/questions/exam_p1_2025_1d_question.png)\n\n'
+    '---\n\n'
+    '**Walkthrough.** With two quantitative variables (`Reach`, `Engagement`), assess **linearity** with a **scatter plot** and quantify strength/direction with **Pearson\'s correlation** $r$. From the scatter the cloud slopes upward — as `Reach` increases, `Engagement` tends to increase — but with a lot of vertical spread (many low-Reach posts still show high Engagement, and vice-versa). Compute\n\n'
+    '$$r \\;=\\; \\dfrac{\\operatorname{Cov}(\\text{Reach}, \\text{Engagement})}{s_{\\text{Reach}}\\,s_{\\text{Engagement}}} \\in [-1, 1].$$\n\n'
+    'For `Metrics2`, `cor(Reach, Engagement)` = **0.7324** — a **strong positive** linear association.\n\n'
+    '![AI walkthrough — Reach vs Engagement scatter with OLS fit](statistics/images/past_exams/exam_p1_2025_1d_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** The **Pearson correlation** between `Reach` and `Engagement` is $r \\approx \\mathbf{0.73}$, indicating a **strong positive linear relationship**: posts with a larger audience (`Reach`) tend to attract more followers (`Engagement`). The scatter is *not* a tight straight line — the cloud is wide, and any given `Reach` value corresponds to a range of `Engagement` values — but the overall linear trend is clear and its direction is positive. So while individual predictions are noisy, on average higher reach is associated with higher engagement.\n\n'
+    '**R commands:**\n\n'
+    "`distr.plot.xy(x=Reach, y=Engagement, plot.type='scatter', fitline=T, data=Metrics2)`\n\n"
+    '`cor(Metrics2$Engagement, Metrics2$Reach)`\n\n'
+    '`## [1] 0.7323963`\n\n'
+    '![Answer](statistics/images/past_exams/answers/exam_p1_2025_1d_answer.png)\n'
+), "images": [
+    "statistics/images/past_exams/questions/exam_p1_2025_1d_question.png",
+    "statistics/images/past_exams/exam_p1_2025_1d_ai.png",
+    "statistics/images/past_exams/answers/exam_p1_2025_1d_answer.png",
+]}
+
+past_exams["exam_p1_2025_1e"] = {
+"title": "P1-2025 Ex1d — Shares × Content two-way table (offers vs nobrand success)",
+"is_exam": True, "topic_hint": "G9",
+"content": (
+    '<span class="exam-question-text">The variable `Shares` (with levels `verylow`, `low`, `high`, `veryhigh`) measures the success (in relative terms) of posts based on the shares from users who do not follow the company\'s page. Consider the sentence *"Posts promoting special offers (Content=offers) are more successful than posts promoting products without mentioning the brand (Content=nobrand), since they are characterized by a higher proportion of the levels high or very high of the variable Shares"*. Explain if the sentence is true or false. Report your reasoning and the proportions supporting your answer.</span>\n\n'
+    '![Question](statistics/images/past_exams/questions/exam_p1_2025_1e_question.png)\n\n'
+    '---\n\n'
+    '**Walkthrough.** To compare the *success profile* between `Content=offers` and `Content=nobrand` we need the **conditional distribution of Shares given Content** — i.e. **row proportions** of the two-way table (each row sums to 1). We then read off the proportion of "successful" posts, defined here as $\\Pr(\\text{Shares} \\in \\{\\text{high, veryhigh}\\} \\mid \\text{Content})$.\n\n'
+    'From `Metrics2` the two-way table of *counts* (row = Content) is\n\n'
+    '| Content \\ Shares | high | low | veryhigh | verylow | TOTAL |\n'
+    '|---|---:|---:|---:|---:|---:|\n'
+    '| offers  | 29 | 80 | 99 | 55 | 263 |\n'
+    '| brand   | 61 |  5 | 15 | 37 | 118 |\n'
+    '| nobrand | 86 | 10 | 27 | 46 | 169 |\n\n'
+    'Row proportions:\n\n'
+    '| Content \\ Shares | high | low | veryhigh | verylow |\n'
+    '|---|---:|---:|---:|---:|\n'
+    '| offers  | 0.11 | 0.30 | 0.38 | 0.21 |\n'
+    '| brand   | 0.52 | 0.04 | 0.13 | 0.31 |\n'
+    '| nobrand | 0.51 | 0.06 | 0.16 | 0.27 |\n\n'
+    'So\n\n'
+    '$$\\Pr(\\text{high} \\cup \\text{veryhigh} \\mid \\text{Content}=\\text{offers}) = 0.11 + 0.38 = \\mathbf{0.49},$$\n\n'
+    '$$\\Pr(\\text{high} \\cup \\text{veryhigh} \\mid \\text{Content}=\\text{nobrand}) = 0.51 + 0.16 = \\mathbf{0.67}.$$\n\n'
+    '![AI walkthrough — row-proportion bar chart of Shares by Content](statistics/images/past_exams/exam_p1_2025_1e_ai.png)\n\n'
+    '---\n\n'
+    '**Answer. The sentence is FALSE.** Among posts *not* referring to the brand (`Content=nobrand`), **67%** are successful (`Shares` high or veryhigh), whereas among posts promoting special offers (`Content=offers`) only **49%** are — clearly *lower*, not higher. So the direction claimed in the sentence is reversed: `nobrand` posts have the higher proportion of high/veryhigh shares.\n\n'
+    '**R commands:**\n\n'
+    "`distr.table.xy(x=Content, y=Shares, freq=c('counts'), data=Metrics2)`\n\n"
+    "`distr.table.xy(x=Content, y=Shares, freq=c('prop'),   data=Metrics2)`\n\n"
+    '`## offers : high=0.11  veryhigh=0.38  -> high+veryhigh = 0.49`\n\n'
+    '`## nobrand: high=0.51  veryhigh=0.16  -> high+veryhigh = 0.67`\n\n'
+    '![Answer](statistics/images/past_exams/answers/exam_p1_2025_1e_answer.png)\n'
+), "images": [
+    "statistics/images/past_exams/questions/exam_p1_2025_1e_question.png",
+    "statistics/images/past_exams/exam_p1_2025_1e_ai.png",
+    "statistics/images/past_exams/answers/exam_p1_2025_1e_answer.png",
+]}
+
+past_exams["exam_p1_2025_1f"] = {
+"title": "P1-2025 Ex1e — Grouped mean & variance of Out.Engage (approximation via midpoints)",
+"is_exam": True, "topic_hint": "G6",
+"content": (
+    '<span class="exam-question-text">The index `Out.Engage` (in classes) measures the posts\' quality with reference to the engagement of users who are not followers of the company\'s page. It is possible to evaluate the **mean** and the **variance** of the index for the considered posts based on the available data? Explain whether it is possible or not and, if possible, provide the two summary measures clarifying the procedure.</span>\n\n'
+    '![Question](statistics/images/past_exams/questions/exam_p1_2025_1f_question.png)\n\n'
+    '---\n\n'
+    '**Walkthrough.** The raw variable is available only in **grouped form** (5 classes):\n\n'
+    '| Interval | $n_i$ | mid $m_i$ |\n'
+    '|---|---:|---:|\n'
+    '| $[0,1)$ | 110 | 0.5 |\n'
+    '| $[1,5)$ | 231 | 3 |\n'
+    '| $[5,10)$ | 88 | 7.5 |\n'
+    '| $[10,50)$ | 110 | 30 |\n'
+    '| $[50,200]$ | 11 | 125 |\n'
+    '| **TOTAL** | **550** | — |\n\n'
+    'The mean and variance can be **approximated** (not exactly computed) by assuming a **uniform distribution within each interval** and replacing every observation in class $i$ by its **midpoint** $m_i$. This is the standard grouped-data formula:\n\n'
+    '$$\\bar x \\;\\approx\\; \\dfrac{1}{N}\\sum_{i} n_i\\,m_i, \\qquad s^2 \\;\\approx\\; \\dfrac{1}{N}\\sum_{i} n_i\\,m_i^2 \\;-\\; \\bar x^{\\,2}.$$\n\n'
+    'Plugging in:\n\n'
+    '$$\\bar x \\;\\approx\\; \\dfrac{110\\cdot 0.5 + 231\\cdot 3 + 88\\cdot 7.5 + 110\\cdot 30 + 11\\cdot 125}{550} = \\dfrac{6083}{550} \\approx \\mathbf{11.06}.$$\n\n'
+    '$$\\dfrac{1}{N}\\sum n_i m_i^2 = \\dfrac{110(0.25)+231(9)+88(56.25)+110(900)+11(15625)}{550} \\approx 505.33,$$\n\n'
+    '$$s^2 \\;\\approx\\; 505.33 - (11.06)^2 \\approx \\mathbf{383.01}, \\quad s \\approx \\mathbf{19.57}.$$\n\n'
+    '![AI walkthrough — grouped-data midpoint approximation](statistics/images/past_exams/exam_p1_2025_1f_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** The exact mean and variance **cannot** be computed because the raw values of `Out.Engage` are lost — only the class counts are given. They can, however, be **approximated** under the assumption of *uniform distribution within each interval*, i.e. replacing each observation by its class midpoint. Using this approximation:\n\n'
+    '$$\\bar x \\;\\approx\\; \\mathbf{11.06}, \\qquad s^2 \\;\\approx\\; \\mathbf{383.01} \\;(s \\approx 19.57).$$\n\n'
+    '**R commands:**\n\n'
+    "`distr.table.x(Out.Engage, interval=T, freq=c('count','prop'), data=Metrics2)`\n\n"
+    "`## counts: [0,1)=110  [1,5)=231  [5,10)=88  [10,50)=110  [50,200]=11  (N=550)`\n\n"
+    '`mids <- c(0.5, 3, 7.5, 30, 125); n <- c(110,231,88,110,11)`\n\n'
+    '`m <- sum(n*mids)/sum(n); v <- sum(n*mids^2)/sum(n) - m^2; c(mean=m, var=v, sd=sqrt(v))`\n\n'
+    '`##  mean       var        sd`\n\n'
+    '`##  11.06000  383.00640  19.57055`\n\n'
+    '![Answer](statistics/images/past_exams/answers/exam_p1_2025_1f_answer.png)\n'
+), "images": [
+    "statistics/images/past_exams/questions/exam_p1_2025_1f_question.png",
+    "statistics/images/past_exams/exam_p1_2025_1f_ai.png",
+    "statistics/images/past_exams/answers/exam_p1_2025_1f_answer.png",
+]}
+
+past_exams["exam_p1_2025_1g"] = {
+"title": "P1-2025 Ex1f — CLT probability P(X̄ > 15) for next 80 posts",
+"is_exam": True, "topic_hint": "G13",
+"content": (
+    '<span class="exam-question-text">Based on past experience, the company evaluates that the quality index of posts has a **mean equal to 12** and a **variance equal to 380**. It is possible to calculate the probability that the average index of the next 80 posts will be higher than 15, i.e. $\\Pr(\\bar X > 15)$? Explain whether and why it is possible or not. If possible, provide the requested probability reporting the functions in RStudio used to obtain it.</span>\n\n'
+    '![Question](statistics/images/past_exams/questions/exam_p1_2025_1g_question.png)\n\n'
+    '---\n\n'
+    '**Walkthrough.** Population parameters $\\mu = 12$ and $\\sigma^2 = 380$ are known; we want $\\Pr(\\bar X_{80} > 15)$. Because the next $n=80$ posts can be treated as an i.i.d. random sample and $n$ is *large*, the **Central Limit Theorem (CLT)** applies:\n\n'
+    '$$\\bar X_n \\;\\dot\\sim\\; \\mathcal{N}\\!\\left(\\mu,\\; \\dfrac{\\sigma^2}{n}\\right) \\;=\\; \\mathcal{N}\\!\\left(12,\\; \\dfrac{380}{80}\\right) = \\mathcal{N}(12, 4.75).$$\n\n'
+    'The standard error of $\\bar X$ is $SE = \\sqrt{380/80} = \\sqrt{4.75} \\approx 2.179$. Standardise:\n\n'
+    '$$Z \\;=\\; \\dfrac{\\bar X - \\mu}{SE} \\;=\\; \\dfrac{15 - 12}{2.179} \\approx 1.376.$$\n\n'
+    'Then\n\n'
+    '$$\\Pr(\\bar X > 15) \\;=\\; \\Pr(Z > 1.376) \\;=\\; 1 - \\Phi(1.376) \\approx \\mathbf{0.0843}.$$\n\n'
+    '![AI walkthrough — sampling distribution of X-bar with tail P(Xbar>15)](statistics/images/past_exams/exam_p1_2025_1g_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** Yes — with $n = 80$ (large) and known $\\mu = 12$, $\\sigma^2 = 380$, the CLT gives $\\bar X \\;\\dot\\sim\\; \\mathcal{N}(12,\\; 380/80)$. Standardising, $z = (15-12)/\\sqrt{380/80} \\approx 1.376$, so\n\n'
+    '$$\\Pr(\\bar X > 15) \\;\\approx\\; 1 - \\Phi(1.376) \\;\\approx\\; \\mathbf{0.084}\\; (\\text{about } 8\\%).$$\n\n'
+    '**R commands:**\n\n'
+    '`1 - pnorm(15, mean=12, sd=sqrt(380/80))`\n\n'
+    '`## [1] 0.08433431`\n\n'
+    '![Answer](statistics/images/past_exams/answers/exam_p1_2025_1g_answer.png)\n'
+), "images": [
+    "statistics/images/past_exams/questions/exam_p1_2025_1g_question.png",
+    "statistics/images/past_exams/exam_p1_2025_1g_ai.png",
+    "statistics/images/past_exams/answers/exam_p1_2025_1g_answer.png",
+]}
+
+past_exams["exam_p1_2025_2c"] = {
+"title": "P1-2025 Ex2a — Estimator for a proportion p and unbiasedness",
+"is_exam": True, "topic_hint": "G11",
+"content": (
+    '<span class="exam-question-text">Indicate what estimator is used for the proportion of successes in a population. Provide the analytic expression of the estimator and explain briefly why it is unbiased or not.</span>\n\n'
+    '![Question](statistics/images/past_exams/questions/exam_p1_2025_2c_question.png)\n\n'
+    '---\n\n'
+    '**Walkthrough.** For a Bernoulli population with success probability $p$, draw an i.i.d. sample $X_1, \\dots, X_n$ with $X_i \\in \\{0,1\\}$ and $\\Pr(X_i=1) = p$. The estimator used for $p$ is the **sample proportion**, which is just the sample mean of the Bernoulli indicators:\n\n'
+    '$$\\hat p \\;=\\; \\bar X \\;=\\; \\dfrac{X_1 + X_2 + \\cdots + X_n}{n}.$$\n\n'
+    'Unbiasedness check: an estimator $\\hat\\theta$ is unbiased for $\\theta$ iff $\\mathbb{E}[\\hat\\theta] = \\theta$. Here, using $\\mathbb{E}[X_i] = p$ and linearity of expectation,\n\n'
+    '$$\\mathbb{E}[\\hat p] \\;=\\; \\mathbb{E}\\!\\left[\\dfrac{1}{n}\\sum_{i=1}^n X_i\\right] \\;=\\; \\dfrac{1}{n}\\sum_{i=1}^n \\mathbb{E}[X_i] \\;=\\; \\dfrac{1}{n}\\,(np) \\;=\\; p.$$\n\n'
+    'So $\\mathbb{E}[\\hat p] = p$ for every sample size $n \\ge 1$ — $\\hat p$ is **unbiased**.\n\n'
+    '![AI walkthrough — sampling distribution of p-hat is centred on p](statistics/images/past_exams/exam_p1_2025_2c_ai.png)\n\n'
+    '---\n\n'
+    '**Answer.** The estimator is the **sample proportion**\n\n'
+    '$$\\hat p \\;=\\; \\dfrac{X_1 + X_2 + \\cdots + X_n}{n} \\;=\\; \\bar X.$$\n\n'
+    'It is **unbiased**: $\\mathbb{E}[\\hat p] = \\tfrac{1}{n}\\sum \\mathbb{E}[X_i] = \\tfrac{1}{n}(np) = p$, i.e. on average across repeated samples $\\hat p$ equals the true population proportion $p$.\n\n'
+    '**R commands:**\n\n'
+    '`set.seed(1); sims <- replicate(5000, mean(rbinom(n=200, size=1, prob=0.3)))`\n\n'
+    '`mean(sims)   # empirical E[phat] -> ~0.30`\n\n'
+    '`## [1] 0.2999`\n\n'
+    '![Answer](statistics/images/past_exams/answers/exam_p1_2025_2c_answer.png)\n'
+), "images": [
+    "statistics/images/past_exams/questions/exam_p1_2025_2c_question.png",
+    "statistics/images/past_exams/exam_p1_2025_2c_ai.png",
+    "statistics/images/past_exams/answers/exam_p1_2025_2c_answer.png",
+]}
+
 # =================== 1st PARTIAL 2026 ===================
 
 past_exams["exam_p1_2026_1a"] = {
@@ -2722,6 +2910,7 @@ past_exams["exam_sep_2024_2a"] = {
     '**Walkthrough.** The four `Score` classes have **unequal widths** (200, 100, 300, 400). When widths differ, plotting raw relative frequency on the y-axis is **misleading**: a fat 30%-class would look as tall as a slim 30%-class even though the data are spread very differently. The correct y-axis is the **density**\n\n'
     '$$f_j \\;=\\; \\frac{\\text{rel. freq.}_j}{\\text{width}_j},\\qquad \\text{so that area} = f_j\\cdot w_j = \\text{rel. freq.}_j.$$\n\n'
     'With this rescaling the **bar areas equal the proportions** and the **modal class** is the one with the largest *density* (not the largest frequency).\n\n'
+    '![AI walkthrough — wrong (rel-freq) vs correct (density) histogram; specific vs main branches](statistics/images/past_exams/exam_sep_2024_2a_ai.png)\n\n'
     '---\n\n'
     '**Answer.** Compute density = (rel. freq.) / (class width):\n\n'
     '| Class | % freq | Width | Density |\n'
@@ -2740,6 +2929,7 @@ past_exams["exam_sep_2024_2a"] = {
     '![Answer](statistics/images/past_exams/answers/exam_sep_2024_2a_answer.png)\n'
 ), "images": [
     "statistics/images/past_exams/questions/exam_sep_2024_2a_question.png",
+    "statistics/images/past_exams/exam_sep_2024_2a_ai.png",
     "statistics/images/past_exams/answers/exam_sep_2024_2a_answer.png",
 ]}
 
@@ -3618,15 +3808,15 @@ past_exams["exam_sep_2025_1b"] = {
     '**Walkthrough.**\n\n'
     'Fit OLS with one quantitative response and 3 numeric predictors + 1 categorical (Day.time, 3 levels → 2 dummies, Afternoon = baseline). $\\widehat{\\beta}$ minimizes $\\sum(y_i - x_i^\\top\\beta)^2$.\n\n'
     '**Estimated equation:**\n\n'
-    '$$\\widehat{\\text{Performance}} = 151.921 - 2.029\\cdot\\text{Weight} - 11.022\\cdot\\text{Ascent} + 0.593\\cdot\\text{HR.avg} - 0.366\\cdot\\mathbb{1}(\\text{Evening}) - 0.366\\cdot\\mathbb{1}(\\text{Morning}).$$\n\n'
+    '$$\\widehat{\\text{Performance}} = 151.921 - 2.029\\cdot\\text{Weight} - 11.022\\cdot\\text{Ascent} + 0.593\\cdot\\text{HR.avg} - 0.366\\cdot\\mathbb{1}(\\text{Evening}) - 0.378\\cdot\\mathbb{1}(\\text{Morning}).$$\n\n'
     '**Interpretation (holding the others fixed):**\n\n'
     '- +1 kg Weight → Performance changes by **−2.029**.\n'
     '- +1 unit Ascent → Performance changes by **−11.022** (largest effect).\n'
     '- +1 bpm HR.avg → Performance changes by **+0.593**.\n'
-    '- Evening and Morning sessions score **0.366 below** the Afternoon baseline.\n\n'
+    '- Evening sessions score **0.366 below** and Morning sessions **0.378 below** the Afternoon baseline (both individually non-significant).\n\n'
     '![Ex 1b AI walkthrough — coefficient plot of mod1](statistics/images/past_exams/exam_sep_2025_1b_ai.png)\n\n'
     '---\n\n'
-    '**Answer.** $\\hat\\beta_0 = 151.921$; $\\hat\\beta_{\\text{Weight}} = -2.029$; $\\hat\\beta_{\\text{Ascent}} = -11.022$; $\\hat\\beta_{\\text{HR.avg}} = 0.593$; $\\hat\\beta_{\\text{Evening}} = -0.366$; $\\hat\\beta_{\\text{Morning}} = -0.366$.\n\n'
+    '**Answer.** $\\hat\\beta_0 = 151.921$; $\\hat\\beta_{\\text{Weight}} = -2.029$; $\\hat\\beta_{\\text{Ascent}} = -11.022$; $\\hat\\beta_{\\text{HR.avg}} = 0.593$; $\\hat\\beta_{\\text{Evening}} = -0.366$; $\\hat\\beta_{\\text{Morning}} = -0.378$.\n\n'
     '**R commands:**\n\n'
     '`mod1 <- lm(Performance ~ Weight + Ascent + HR.avg + Day.time, data=Performance)`\n\n'
     '`summary(mod1)`\n\n'
