@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-01T07:01:06.043Z",
+  "exportedAt": "2026-07-01T07:04:26.278Z",
   "data": {
     "topics": [
       {
@@ -10411,7 +10411,8 @@
                 "width": 600,
                 "height": 540,
                 "color": "crimson",
-                "column": 100
+                "column": 100,
+                "cardColor": "purple"
               }
             ]
           }
@@ -10971,7 +10972,8 @@
                 "width": 600,
                 "height": 540,
                 "color": "forest",
-                "column": 100
+                "column": 100,
+                "cardColor": "purple"
               }
             ]
           },
@@ -11896,7 +11898,8 @@
                 "width": 600,
                 "height": 540,
                 "color": "forest",
-                "column": 100
+                "column": 100,
+                "cardColor": "purple"
               }
             ]
           },
@@ -12137,7 +12140,8 @@
                 "width": 600,
                 "height": 540,
                 "color": "forest",
-                "column": 100
+                "column": 100,
+                "cardColor": "purple"
               }
             ]
           }
