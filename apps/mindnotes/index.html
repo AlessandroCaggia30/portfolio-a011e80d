@@ -13042,6 +13042,8 @@ async function backToSubjects() {
     State.selectedNode = null;
     State.currentSubject = null;
     State.popMode = false;
+    const badge = $('popModeBadge');
+    if (badge) badge.style.display = 'none';
     // Hide stats hyper-table view if it was active
     const stv = document.getElementById('statsTableView');
     if (stv) stv.classList.add('hidden');
