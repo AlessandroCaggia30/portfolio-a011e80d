@@ -673,46 +673,47 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 .app.pop-mode .snippets-tex-pane { display: none !important; }
 .app.pop-mode .snippets-view.has-tex .snippets-preview-pane { flex: 1 !important; border-right: none !important; }
 
-/* ── Pop node toolbar (shape + color picker) ── */
+/* ── Pop node toolbar — vertical strip glued to node's right edge ── */
 .pop-node-toolbar {
     position: fixed;
     display: none;
+    flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 3px;
     background: #ffffff;
     border: 1px solid rgba(0,0,0,0.11);
-    border-radius: 12px;
-    padding: 6px 8px;
-    box-shadow: 0 8px 28px rgba(0,0,0,0.14);
+    border-radius: 10px;
+    padding: 5px 5px;
+    box-shadow: 0 6px 22px rgba(0,0,0,0.13);
     z-index: 1200;
     font-family: 'Nunito', sans-serif;
     user-select: none;
+    width: 36px;
 }
 .pop-node-toolbar.visible { display: flex; }
-.ptb-sep { width: 1px; height: 22px; background: rgba(0,0,0,0.1); margin: 0 4px; }
+.ptb-sep { height: 1px; width: 20px; background: rgba(0,0,0,0.1); margin: 2px 0; }
 .ptb-shape {
-    width: 32px; height: 32px;
-    border: 1.5px solid rgba(0,0,0,0.14);
-    border-radius: 8px;
+    width: 26px; height: 26px;
+    border: 1.5px solid rgba(0,0,0,0.13);
+    border-radius: 7px;
     background: transparent;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 13px;
     display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s;
-    color: #444;
+    transition: all 0.13s;
+    color: #555;
 }
-.ptb-shape:hover { background: #f0effe; border-color: #a29bfe; }
+.ptb-shape:hover { background: #f0effe; border-color: #a29bfe; color: #6c5ce7; }
 .ptb-shape.active { background: #6c5ce7; border-color: #6c5ce7; color: #fff; }
 .ptb-color-wrap {
     position: relative;
-    width: 32px; height: 32px;
-    border-radius: 8px;
-    border: 1.5px solid rgba(0,0,0,0.14);
+    width: 26px; height: 26px;
+    border-radius: 7px;
+    border: 1.5px solid rgba(0,0,0,0.13);
     overflow: hidden;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    font-size: 10px; font-weight: 700; color: #666;
-    transition: border-color 0.15s;
+    transition: border-color 0.13s;
 }
 .ptb-color-wrap:hover { border-color: #6c5ce7; }
 .ptb-color-wrap input[type=color] {
@@ -720,8 +721,8 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
     opacity: 0; cursor: pointer;
 }
 .ptb-color-preview {
-    width: 20px; height: 20px; border-radius: 50%;
-    border: 1.5px solid rgba(0,0,0,0.15);
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 1.5px solid rgba(0,0,0,0.14);
     pointer-events: none;
 }
 
