@@ -14276,21 +14276,18 @@ function initKeyboardEvents() {
 document.addEventListener('DOMContentLoaded', initApp);
     </script>
 
-    <!-- Pop mode: node toolbar (shape + color) -->
+    <!-- Pop mode: vertical node toolbar (shape + color), glued to node right edge -->
     <div id="popNodeToolbar" class="pop-node-toolbar">
-        <!-- Shapes -->
-        <button class="ptb-shape active" data-shape="rect" title="Rectangle" onclick="setPopNodeShape('rect')">▭</button>
-        <button class="ptb-shape" data-shape="rounded" title="Pill" onclick="setPopNodeShape('rounded')">⬭</button>
-        <button class="ptb-shape" data-shape="ellipse" title="Ellipse" onclick="setPopNodeShape('ellipse')">○</button>
-        <button class="ptb-shape" data-shape="diamond" title="Diamond" onclick="setPopNodeShape('diamond')">◇</button>
-        <button class="ptb-shape" data-shape="parallelogram" title="Parallelogram" onclick="setPopNodeShape('parallelogram')">▱</button>
+        <button class="ptb-shape active" data-shape="rect"          title="Rectangle"     onclick="setPopNodeShape('rect')">▭</button>
+        <button class="ptb-shape"        data-shape="rounded"       title="Pill"          onclick="setPopNodeShape('rounded')">⬭</button>
+        <button class="ptb-shape"        data-shape="ellipse"       title="Ellipse"       onclick="setPopNodeShape('ellipse')">○</button>
+        <button class="ptb-shape"        data-shape="diamond"       title="Diamond"       onclick="setPopNodeShape('diamond')">◇</button>
+        <button class="ptb-shape"        data-shape="parallelogram" title="Parallelogram" onclick="setPopNodeShape('parallelogram')">▱</button>
         <div class="ptb-sep"></div>
-        <!-- Background color -->
         <div class="ptb-color-wrap" title="Fill color">
             <div class="ptb-color-preview" id="ptbBgPreview" style="background:#ffffff"></div>
             <input type="color" id="ptbBgColor" value="#ffffff" oninput="setPopNodeBg(this.value)">
         </div>
-        <!-- Border color -->
         <div class="ptb-color-wrap" title="Border color">
             <div class="ptb-color-preview" id="ptbBorderPreview" style="background:#d4d2e0"></div>
             <input type="color" id="ptbBorderColor" value="#d4d2e0" oninput="setPopNodeBorder(this.value)">
