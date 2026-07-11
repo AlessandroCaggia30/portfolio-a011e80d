@@ -3810,6 +3810,27 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
         </div>
     </div>
 
+    <!-- Subject mode-picker modal (Open vs Pop) -->
+    <div id="subjectPickerModal" class="subject-picker-modal hidden">
+        <div class="subject-picker-inner">
+            <div class="subject-picker-icon" id="spIcon"></div>
+            <div class="subject-picker-name" id="spName"></div>
+            <div class="subject-picker-btns">
+                <button class="subject-picker-btn open-btn" onclick="_spConfirm('open')">
+                    <span class="pb-icon">📝</span>
+                    <span class="pb-label">Open</span>
+                    <span class="pb-desc">Notes canvas with LaTeX editor</span>
+                </button>
+                <button class="subject-picker-btn pop-btn" onclick="_spConfirm('pop')">
+                    <span class="pb-icon">⊞</span>
+                    <span class="pb-label">Pop</span>
+                    <span class="pb-desc">Whiteboard view, no editor</span>
+                </button>
+            </div>
+            <button class="subject-picker-cancel" onclick="_spClose()">Cancel</button>
+        </div>
+    </div>
+
     <div class="app" style="display:none;">
         <!-- Sidebar Toggle (outside sidebar so it's always visible) -->
         <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">&#9664;</button>
