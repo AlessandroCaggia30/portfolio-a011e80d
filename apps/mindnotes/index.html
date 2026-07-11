@@ -3768,6 +3768,42 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
         </div>
     </div>
 
+    <!-- Add Subject Modal -->
+    <div id="addSubjectModal" class="add-subject-modal hidden">
+        <div class="add-subject-modal-inner">
+            <h2>New Subject</h2>
+            <div class="asmf">
+                <label>Subject Name</label>
+                <input type="text" id="newSubjectName" placeholder="e.g. Personnel Economics"
+                    onkeydown="if(event.key==='Enter')confirmAddSubject()">
+            </div>
+            <div class="asmf">
+                <label>Icon</label>
+                <div class="icon-picker" id="iconPicker"></div>
+            </div>
+            <div class="asm-actions">
+                <button class="btn-cancel" onclick="closeAddSubjectModal()">Cancel</button>
+                <button class="btn-save" onclick="confirmAddSubject()">Add Subject</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pop / Explore View -->
+    <div id="popView" class="pop-view hidden">
+        <div class="pop-header">
+            <button class="pop-back" onclick="closePopView()">← Back</button>
+            <span class="pop-header-title" id="popViewTitle"></span>
+            <div class="pop-zoom-controls">
+                <button class="pop-zoom-btn" onclick="popZoom(0.15)" title="Zoom in">+</button>
+                <button class="pop-zoom-btn" onclick="popZoom(-0.15)" title="Zoom out">−</button>
+                <button class="pop-zoom-btn" onclick="popResetView()" title="Reset view" style="font-size:12px;width:auto;padding:0 8px;">Reset</button>
+            </div>
+        </div>
+        <div class="pop-canvas" id="popCanvas">
+            <div class="pop-canvas-inner" id="popCanvasInner"></div>
+        </div>
+    </div>
+
     <div class="app" style="display:none;">
         <!-- Sidebar Toggle (outside sidebar so it's always visible) -->
         <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">&#9664;</button>
