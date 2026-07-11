@@ -7314,31 +7314,51 @@ function drawLink(from, to, linkType) {
 
     const markerSuffix = isSelected ? 'selected' : 'normal';
 
-    // Invisible wide line for easier clicking (hit area)
-    const hitArea = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    hitArea.setAttribute('x1', x1);
-    hitArea.setAttribute('y1', y1);
-    hitArea.setAttribute('x2', x2);
-    hitArea.setAttribute('y2', y2);
-    hitArea.setAttribute('stroke', 'transparent');
-    hitArea.setAttribute('stroke-width', '15');
-    group.appendChild(hitArea);
+    if (State.popMode) {
+        // ── Excalidraw-style: curved quadratic bezier with open arrowheads ──
+        const midX = (x1 + x2) / 2, midY = (y1 + y2) / 2;
+        const perpLen = dist * 0.15;
+        // Perpendicular offset to curve the line
+        const cpX = midX - uy * perpLen;
+        const cpY = midY + ux * perpLen;
+        const pathD = `M ${x1},${y1} Q ${cpX},${cpY} ${x2},${y2}`;
+        const popMarker = 'pop-arrow-' + markerSuffix;
 
-    // Visible line
-    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute('x1', x1);
-    line.setAttribute('y1', y1);
-    line.setAttribute('x2', x2);
-    line.setAttribute('y2', y2);
-    line.setAttribute('stroke', isSelected ? '#e74c3c' : '#6c5ce7');
-    line.setAttribute('stroke-width', isSelected ? '3' : '1.5');
-    line.setAttribute('stroke-opacity', isSelected ? '1' : '0.6');
+        const hitPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        hitPath.setAttribute('d', pathD);
+        hitPath.setAttribute('stroke', 'transparent');
+        hitPath.setAttribute('stroke-width', '16');
+        hitPath.setAttribute('fill', 'none');
+        group.appendChild(hitPath);
 
-    // Apply arrow markers based on link type
-    if (hasEndArrow) line.setAttribute('marker-end', `url(#arrow-${markerSuffix})`);
-    if (hasStartArrow) line.setAttribute('marker-start', `url(#arrow-${markerSuffix})`);
+        const visPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        visPath.setAttribute('d', pathD);
+        visPath.setAttribute('stroke', isSelected ? '#e74c3c' : 'rgba(30,28,50,0.68)');
+        visPath.setAttribute('stroke-width', isSelected ? '2.5' : '1.8');
+        visPath.setAttribute('fill', 'none');
+        visPath.setAttribute('stroke-linecap', 'round');
+        if (hasEndArrow) visPath.setAttribute('marker-end', `url(#${popMarker})`);
+        if (hasStartArrow) visPath.setAttribute('marker-start', `url(#${popMarker})`);
+        group.appendChild(visPath);
+    } else {
+        // ── Standard: straight line with filled triangle arrowheads ──
+        const hitArea = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        hitArea.setAttribute('x1', x1); hitArea.setAttribute('y1', y1);
+        hitArea.setAttribute('x2', x2); hitArea.setAttribute('y2', y2);
+        hitArea.setAttribute('stroke', 'transparent');
+        hitArea.setAttribute('stroke-width', '15');
+        group.appendChild(hitArea);
 
-    group.appendChild(line);
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', x1); line.setAttribute('y1', y1);
+        line.setAttribute('x2', x2); line.setAttribute('y2', y2);
+        line.setAttribute('stroke', isSelected ? '#e74c3c' : '#6c5ce7');
+        line.setAttribute('stroke-width', isSelected ? '3' : '1.5');
+        line.setAttribute('stroke-opacity', isSelected ? '1' : '0.6');
+        if (hasEndArrow) line.setAttribute('marker-end', `url(#arrow-${markerSuffix})`);
+        if (hasStartArrow) line.setAttribute('marker-start', `url(#arrow-${markerSuffix})`);
+        group.appendChild(line);
+    }
 
     // Click handler to select link
     group.addEventListener('click', (e) => {
