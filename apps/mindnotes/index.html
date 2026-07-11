@@ -8484,9 +8484,11 @@ function dropImageInBlock(e, blockIndex) {
 
 function selectNode(node) {
     State.selectedNode = node;
-    State.selectedLink = null;  // Clear link selection
+    State.selectedLink = null;
     renderCanvas();
-    openDetail(node);  // Open detail panel in view mode (not the modal)
+    openDetail(node);
+    if (State.popMode) showPopToolbar(node);
+    else hidePopToolbar();
 }
 
 function openNodeEditor(node) {
