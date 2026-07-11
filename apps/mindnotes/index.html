@@ -13048,6 +13048,11 @@ async function openPopView(subject) {
     document.querySelector('.app').classList.add('pop-mode');
     const badge = $('popModeBadge');
     if (badge) badge.style.display = 'inline';
+    // Force arrow defs to regenerate so pop markers are included
+    const existingDefs = svg && svg.querySelector('defs#arrowDefs');
+    if (existingDefs) existingDefs.remove();
+    ensureSvgArrowDefs();
+    renderLinks();
 }
 
 async function selectSubject(subject) {
