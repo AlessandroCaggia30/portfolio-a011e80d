@@ -12875,6 +12875,22 @@ function confirmAddSubject() {
 
 // ==================== SUBJECT SELECTION ====================
 
+let _spSubject = null;
+function _spOpen(subject) {
+    _spSubject = subject;
+    $('spIcon').textContent = subject.icon;
+    $('spName').textContent = subject.name;
+    $('subjectPickerModal').classList.remove('hidden');
+}
+function _spClose() { $('subjectPickerModal').classList.add('hidden'); _spSubject = null; }
+function _spConfirm(mode) {
+    const s = _spSubject;
+    _spClose();
+    if (!s) return;
+    if (mode === 'pop') openPopView(s);
+    else selectSubject(s);
+}
+
 function showSubjectScreen() {
     const grid = $('subjectGrid');
     grid.innerHTML = '';
@@ -12882,12 +12898,9 @@ function showSubjectScreen() {
         const card = document.createElement('div');
         card.className = 'subject-card';
         card.style.position = 'relative';
+        card.onclick = () => _spOpen(subject);
         card.innerHTML = '<span class="subject-icon">' + subject.icon + '</span>' +
-                         '<span class="subject-name">' + subject.name + '</span>' +
-                         '<div class="subject-card-actions">' +
-                           '<button class="subject-card-btn" onclick="event.stopPropagation();selectSubject(_subjectById(\'' + subject.id + '\'))">Open</button>' +
-                           '<button class="subject-card-btn pop-btn" onclick="event.stopPropagation();openPopView(_subjectById(\'' + subject.id + '\'))">⊞ Pop</button>' +
-                         '</div>';
+                         '<span class="subject-name">' + subject.name + '</span>';
         if (subject.custom) {
             const del = document.createElement('button');
             del.className = 'subject-card-delete';
