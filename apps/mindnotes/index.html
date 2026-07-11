@@ -13207,30 +13207,41 @@ function showPopToolbar(node) {
     const tb = $('popNodeToolbar');
     if (!tb) return;
 
-    // Position above node, clamped to viewport
-    const tbW = 280;
-    let left = rect.left + rect.width / 2 - tbW / 2;
-    let top  = rect.top - 52;
-    if (left < 8) left = 8;
-    if (left + tbW > window.innerWidth - 8) left = window.innerWidth - tbW - 8;
-    if (top < 8) top = rect.bottom + 8;
-
-    tb.style.left = left + 'px';
-    tb.style.top  = top  + 'px';
     tb.classList.add('visible');
 
-    // Sync color previews
-    const bg  = node.popBg     || '#ffffff';
-    const bdr = node.popBorder || '#d4d2e0';
-    $('ptbBgColor').value     = bg;
-    $('ptbBgPreview').style.background = bg;
-    $('ptbBorderColor').value = bdr;
-    $('ptbBorderPreview').style.background = bdr;
+    // Wait one frame so tb has real dimensions
+    requestAnimationFrame(() => {
+        const tbH = tb.offsetHeight || 200;
+        const tbW = tb.offsetWidth  || 36;
+        const GAP = 8;
 
-    // Highlight active shape button
-    const shape = node.popShape || 'rect';
-    tb.querySelectorAll('.ptb-shape').forEach(b =>
-        b.classList.toggle('active', b.dataset.shape === shape));
+        // Preferred: right edge of node
+        let left = rect.right + GAP;
+        let top  = rect.top + rect.height / 2 - tbH / 2;
+
+        // If off right side of screen, flip to left edge
+        if (left + tbW > window.innerWidth - 8) left = rect.left - tbW - GAP;
+
+        // Clamp vertically
+        if (top < 8) top = 8;
+        if (top + tbH > window.innerHeight - 8) top = window.innerHeight - tbH - 8;
+
+        tb.style.left = left + 'px';
+        tb.style.top  = top  + 'px';
+
+        // Sync color previews
+        const bg  = node.popBg     || '#ffffff';
+        const bdr = node.popBorder || '#d4d2e0';
+        $('ptbBgColor').value = bg;
+        $('ptbBgPreview').style.background = bg;
+        $('ptbBorderColor').value = bdr;
+        $('ptbBorderPreview').style.background = bdr;
+
+        // Highlight active shape
+        const shape = node.popShape || 'rect';
+        tb.querySelectorAll('.ptb-shape').forEach(b =>
+            b.classList.toggle('active', b.dataset.shape === shape));
+    });
 }
 
 function hidePopToolbar() {
