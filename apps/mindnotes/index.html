@@ -6747,13 +6747,17 @@ function createNodeElement(node) {
     if (node.width) el.style.width = node.width + 'px';
     if (node.height) el.style.height = node.height + 'px';
 
-    if (node.color && NODE_COLORS[node.color]) {
-        if (State.popMode) {
-            el.dataset.popColor = node.color;  // CSS handles tinted bg + border
-        } else {
-            el.style.borderLeftColor = NODE_COLORS[node.color];
-            el.style.borderLeftWidth = '4px';
+    if (State.popMode) {
+        // Custom pop shape
+        if (node.popShape && node.popShape !== 'rect') {
+            el.classList.add('pop-shape-' + node.popShape);
         }
+        // Custom pop colors (override CSS defaults)
+        if (node.popBg)     el.style.setProperty('background', node.popBg, 'important');
+        if (node.popBorder) el.style.setProperty('border-color', node.popBorder, 'important');
+    } else if (node.color && NODE_COLORS[node.color]) {
+        el.style.borderLeftColor = NODE_COLORS[node.color];
+        el.style.borderLeftWidth = '4px';
     }
 
     // Calculate dynamic title size based on node dimensions
