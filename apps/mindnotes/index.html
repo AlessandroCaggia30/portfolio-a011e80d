@@ -6659,8 +6659,12 @@ function createNodeElement(node) {
     if (node.height) el.style.height = node.height + 'px';
 
     if (node.color && NODE_COLORS[node.color]) {
-        el.style.borderLeftColor = NODE_COLORS[node.color];
-        el.style.borderLeftWidth = '4px';
+        if (State.popMode) {
+            el.dataset.popColor = node.color;  // CSS handles tinted bg + border
+        } else {
+            el.style.borderLeftColor = NODE_COLORS[node.color];
+            el.style.borderLeftWidth = '4px';
+        }
     }
 
     // Calculate dynamic title size based on node dimensions
