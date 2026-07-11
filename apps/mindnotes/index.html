@@ -8530,7 +8530,8 @@ State.contentBlocks = [];
 function openDetail(node) {
     const panel = $('detailPanel');
     panel.classList.add('open');
-    panel.classList.add('view-mode');  // Always open in view mode
+    panel.classList.add('view-mode');
+    if (State.popMode) _popDetailBackdrop(true);
     State.editingBlockIndex = -1;
     State.isEditingFullContent = false;
 
