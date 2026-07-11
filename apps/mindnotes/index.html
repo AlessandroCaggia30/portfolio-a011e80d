@@ -536,6 +536,48 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 
 .main { flex: 1; display: flex; position: relative; }
 
+/* ── Pop / Excalidraw-style mode overrides ── */
+.app.pop-mode {
+    --bg:  #f0efe9;
+    --bg2: #ffffff;
+    --bg3: #e8e7e1;
+    --border: rgba(0,0,0,0.12);
+    --text:  #1a1a2e;
+    --text2: #666677;
+    --accent: #6c5ce7;
+    --accent2: #a29bfe;
+}
+.app.pop-mode .canvas-wrapper { background: #f0efe9; }
+.app.pop-mode .canvas-bg {
+    background-image: radial-gradient(circle, rgba(0,0,0,0.18) 1.5px, transparent 1.5px) !important;
+    background-size: 24px 24px !important;
+    opacity: 1 !important;
+}
+.app.pop-mode .node {
+    background: #fff !important;
+    border: 1.5px solid rgba(0,0,0,0.13) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.09), 0 0 0 1px rgba(0,0,0,0.05) !important;
+    font-family: 'Segoe UI', -apple-system, sans-serif;
+}
+.app.pop-mode .node:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.13), 0 0 0 2px rgba(108,92,231,0.2) !important;
+}
+.app.pop-mode .node.selected {
+    border-color: #6c5ce7 !important;
+    box-shadow: 0 0 0 3px rgba(108,92,231,0.2), 0 4px 14px rgba(0,0,0,0.1) !important;
+}
+.app.pop-mode .node-title { color: #1a1a2e !important; font-weight: 700 !important; }
+.app.pop-mode .node-preview { color: #44445a !important; }
+.app.pop-mode .canvas svg line { stroke: rgba(0,0,0,0.22) !important; }
+.app.pop-mode .canvas svg polyline,
+.app.pop-mode .canvas svg polygon { stroke: rgba(0,0,0,0.22) !important; fill: rgba(0,0,0,0.22) !important; }
+/* Hide the LaTeX editor pane in pop mode — use only the preview/standard editor */
+.app.pop-mode .snippets-tex-pane { display: none !important; }
+.app.pop-mode .snippets-view.has-tex .snippets-preview-pane {
+    flex: 1 !important; border-right: none !important;
+}
+
 .canvas-wrapper {
     flex: 1;
     position: relative;
