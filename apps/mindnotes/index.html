@@ -13186,6 +13186,82 @@ async function openPopView(subject) {
     renderLinks();
 }
 
+// ── Pop node toolbar: shape & color ──────────────────
+
+function showPopToolbar(node) {
+    if (!node || !State.popMode) return;
+    const el = canvas && canvas.querySelector('[data-id="' + node.id + '"]');
+    if (!el) { hidePopToolbar(); return; }
+    const rect = el.getBoundingClientRect();
+    const tb = $('popNodeToolbar');
+    if (!tb) return;
+
+    // Position above node, clamped to viewport
+    const tbW = 280;
+    let left = rect.left + rect.width / 2 - tbW / 2;
+    let top  = rect.top - 52;
+    if (left < 8) left = 8;
+    if (left + tbW > window.innerWidth - 8) left = window.innerWidth - tbW - 8;
+    if (top < 8) top = rect.bottom + 8;
+
+    tb.style.left = left + 'px';
+    tb.style.top  = top  + 'px';
+    tb.classList.add('visible');
+
+    // Sync color previews
+    const bg  = node.popBg     || '#ffffff';
+    const bdr = node.popBorder || '#d4d2e0';
+    $('ptbBgColor').value     = bg;
+    $('ptbBgPreview').style.background = bg;
+    $('ptbBorderColor').value = bdr;
+    $('ptbBorderPreview').style.background = bdr;
+
+    // Highlight active shape button
+    const shape = node.popShape || 'rect';
+    tb.querySelectorAll('.ptb-shape').forEach(b =>
+        b.classList.toggle('active', b.dataset.shape === shape));
+}
+
+function hidePopToolbar() {
+    const tb = $('popNodeToolbar');
+    if (tb) tb.classList.remove('visible');
+}
+
+function setPopNodeShape(shape) {
+    const node = State.selectedNode;
+    if (!node) return;
+    node.popShape = shape;
+    renderCanvas();
+    showPopToolbar(node);
+    // persist
+    autoSaveContent && autoSaveContent();
+}
+
+function setPopNodeBg(color) {
+    const node = State.selectedNode;
+    if (!node) return;
+    node.popBg = color;
+    $('ptbBgPreview').style.background = color;
+    // Apply live
+    const el = canvas && canvas.querySelector('[data-id="' + node.id + '"]');
+    if (el) el.style.setProperty('background', color, 'important');
+}
+
+function setPopNodeBorder(color) {
+    const node = State.selectedNode;
+    if (!node) return;
+    node.popBorder = color;
+    $('ptbBorderPreview').style.background = color;
+    const el = canvas && canvas.querySelector('[data-id="' + node.id + '"]');
+    if (el) el.style.setProperty('border-color', color, 'important');
+}
+
+// Show/hide backdrop when detail panel opens/closes in pop mode
+function _popDetailBackdrop(show) {
+    const bd = $('popDetailBackdrop');
+    if (bd) bd.classList.toggle('visible', !!show);
+}
+
 async function selectSubject(subject) {
     State.currentSubject = subject;
     $('subjectScreen').classList.add('hidden');
