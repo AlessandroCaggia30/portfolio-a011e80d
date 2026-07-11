@@ -7215,6 +7215,8 @@ function ensureSvgArrowDefs() {
     if (svg.querySelector('defs#arrowDefs')) return;
     const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
     defs.id = 'arrowDefs';
+
+    // Standard filled triangle markers
     const colors = { normal: '#6c5ce7', selected: '#e74c3c' };
     Object.entries(colors).forEach(([key, color]) => {
         const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
@@ -7231,6 +7233,29 @@ function ensureSvgArrowDefs() {
         marker.appendChild(path);
         defs.appendChild(marker);
     });
+
+    // Pop mode: open V-shape arrowheads (Excalidraw style)
+    const popColors = { normal: 'rgba(30,28,50,0.75)', selected: '#e74c3c' };
+    Object.entries(popColors).forEach(([key, color]) => {
+        const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+        marker.setAttribute('id', 'pop-arrow-' + key);
+        marker.setAttribute('viewBox', '0 0 12 12');
+        marker.setAttribute('refX', '10');
+        marker.setAttribute('refY', '6');
+        marker.setAttribute('markerWidth', '10');
+        marker.setAttribute('markerHeight', '10');
+        marker.setAttribute('orient', 'auto-start-reverse');
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', 'M 1 1 L 10 6 L 1 11');
+        path.setAttribute('fill', 'none');
+        path.setAttribute('stroke', color);
+        path.setAttribute('stroke-width', '1.8');
+        path.setAttribute('stroke-linecap', 'round');
+        path.setAttribute('stroke-linejoin', 'round');
+        marker.appendChild(path);
+        defs.appendChild(marker);
+    });
+
     svg.insertBefore(defs, svg.firstChild);
 }
 
