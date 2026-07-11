@@ -12962,6 +12962,8 @@ async function openPopView(subject) {
     State.popMode = true;
     await selectSubject(subject);
     document.querySelector('.app').classList.add('pop-mode');
+    const badge = $('popModeBadge');
+    if (badge) badge.style.display = 'inline';
 }
 
 async function selectSubject(subject) {
