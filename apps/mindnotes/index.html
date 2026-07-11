@@ -13052,10 +13052,13 @@ async function backToSubjects() {
     State.currentSubtopic = null;
     State.selectedNode = null;
     State.currentSubject = null;
+    State.popMode = false;
     // Hide stats hyper-table view if it was active
     const stv = document.getElementById('statsTableView');
     if (stv) stv.classList.add('hidden');
-    document.querySelector('.app').style.display = '';
+    const appEl = document.querySelector('.app');
+    appEl.style.display = '';
+    appEl.classList.remove('pop-mode');
     closeStatsSnippet();
     showSubjectScreen();
 }
