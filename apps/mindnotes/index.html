@@ -641,6 +641,14 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 }
 /* Hide "Edit" button — always open in edit mode in pop */
 .app.pop-mode .edit-btn.view-mode-only { display: none !important; }
+/* Hide the format selector (LaTeX/Obsidian/ChatGPT) — irrelevant in pop */
+.app.pop-mode .detail-format-select { display: none !important; }
+/* Style the Done button for pop mode */
+.app.pop-mode .edit-btn.edit-mode-only {
+    font-family: 'Caveat', cursive !important;
+    font-size: 15px !important;
+    padding: 5px 16px !important;
+}
 
 /* ── Snippets tab: hide LaTeX pane ── */
 .app.pop-mode .snippets-tex-pane { display: none !important; }
