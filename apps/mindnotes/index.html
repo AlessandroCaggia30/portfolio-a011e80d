@@ -12797,22 +12797,273 @@ function loadTheme() {
     document.documentElement.setAttribute('data-theme', 'light');
 }
 
+// ==================== CUSTOM SUBJECTS ====================
+
+let _customSubjects = JSON.parse(localStorage.getItem('mindnotes_custom_subjects') || '[]');
+
+function _allSubjects() { return [...SUBJECTS, ..._customSubjects]; }
+
+function _saveCustomSubject(name, icon) {
+    const id = 'custom-' + Date.now();
+    const subj = { id, name, icon, dataKey: 'mindnotes_' + id, seedFile: null, custom: true };
+    _customSubjects.push(subj);
+    localStorage.setItem('mindnotes_custom_subjects', JSON.stringify(_customSubjects));
+    return subj;
+}
+
+function _deleteCustomSubject(id) {
+    _customSubjects = _customSubjects.filter(s => s.id !== id);
+    localStorage.setItem('mindnotes_custom_subjects', JSON.stringify(_customSubjects));
+}
+
+// ── Add Subject Modal ──
+const _ICONS = ['📚','📊','💡','🔬','🧮','📈','🌐','⚗️','🎯','💼','🏛️','🔭','🧠','📐','🌱','💻','⚖️','🎓','🔑','🧩','🏦','📉','🔖','🗂️','🧪'];
+let _pickedIcon = '📚';
+
+function openAddSubjectModal() {
+    _pickedIcon = '📚';
+    const picker = $('iconPicker');
+    picker.innerHTML = '';
+    _ICONS.forEach(ic => {
+        const b = document.createElement('button');
+        b.className = 'icon-opt' + (ic === _pickedIcon ? ' selected' : '');
+        b.textContent = ic;
+        b.onclick = () => { _pickedIcon = ic; picker.querySelectorAll('.icon-opt').forEach(x => x.classList.toggle('selected', x.textContent === ic)); };
+        picker.appendChild(b);
+    });
+    $('newSubjectName').value = '';
+    $('addSubjectModal').classList.remove('hidden');
+    setTimeout(() => $('newSubjectName').focus(), 50);
+}
+
+function closeAddSubjectModal() { $('addSubjectModal').classList.add('hidden'); }
+
+function confirmAddSubject() {
+    const name = $('newSubjectName').value.trim();
+    if (!name) { $('newSubjectName').focus(); return; }
+    _saveCustomSubject(name, _pickedIcon);
+    closeAddSubjectModal();
+    showSubjectScreen();
+}
+
 // ==================== SUBJECT SELECTION ====================
 
 function showSubjectScreen() {
     const grid = $('subjectGrid');
     grid.innerHTML = '';
-    SUBJECTS.forEach(subject => {
+    _allSubjects().forEach(subject => {
         const card = document.createElement('div');
         card.className = 'subject-card';
-        card.onclick = () => selectSubject(subject);
+        card.style.position = 'relative';
         card.innerHTML = '<span class="subject-icon">' + subject.icon + '</span>' +
-                         '<span class="subject-name">' + subject.name + '</span>';
+                         '<span class="subject-name">' + subject.name + '</span>' +
+                         '<div class="subject-card-actions">' +
+                           '<button class="subject-card-btn" onclick="event.stopPropagation();selectSubject(_subjectById(\'' + subject.id + '\'))">Open</button>' +
+                           '<button class="subject-card-btn pop-btn" onclick="event.stopPropagation();openPopView(_subjectById(\'' + subject.id + '\'))">⊞ Pop</button>' +
+                         '</div>';
+        if (subject.custom) {
+            const del = document.createElement('button');
+            del.className = 'subject-card-delete';
+            del.title = 'Delete subject';
+            del.textContent = '×';
+            del.onclick = (e) => { e.stopPropagation(); if(confirm('Delete "' + subject.name + '"?')) { _deleteCustomSubject(subject.id); showSubjectScreen(); } };
+            card.appendChild(del);
+        }
         grid.appendChild(card);
     });
+    // "+ Add Subject" card
+    const addCard = document.createElement('div');
+    addCard.className = 'subject-card add-new';
+    addCard.onclick = openAddSubjectModal;
+    addCard.innerHTML = '<span class="add-icon">＋</span><span class="subject-name">Add Subject</span>';
+    grid.appendChild(addCard);
+
     $('subjectScreen').classList.remove('hidden');
     document.querySelector('.app').style.display = 'none';
     updateGhStatusDot();
+}
+
+function _subjectById(id) { return _allSubjects().find(s => s.id === id) || null; }
+
+// ==================== POP / EXPLORE VIEW ====================
+
+const _pop = { subject: null, pan: { x: 80, y: 60 }, zoom: 1, panning: false, _px: 0, _py: 0 };
+
+async function openPopView(subject) {
+    if (!subject) return;
+    _pop.subject = subject;
+    State.currentSubject = subject;
+    await loadData();
+
+    $('popViewTitle').textContent = subject.icon + '  ' + subject.name;
+    $('popView').classList.remove('hidden');
+    $('subjectScreen').classList.add('hidden');
+
+    _pop.pan = { x: 80, y: 60 };
+    _pop.zoom = 1;
+    _renderPopCards();
+    _initPopPan();
+}
+
+function closePopView() {
+    $('popView').classList.add('hidden');
+    State.data = { topics: [], trash: [] };
+    State.currentSubject = null;
+    showSubjectScreen();
+}
+
+function popZoom(delta) {
+    _pop.zoom = Math.max(0.3, Math.min(2.5, _pop.zoom + delta));
+    _applyPopTransform();
+}
+
+function popResetView() {
+    _pop.pan = { x: 80, y: 60 }; _pop.zoom = 1; _applyPopTransform();
+}
+
+function _applyPopTransform() {
+    $('popCanvasInner').style.transform = 'translate(' + _pop.pan.x + 'px,' + _pop.pan.y + 'px) scale(' + _pop.zoom + ')';
+}
+
+function _renderPopCards() {
+    const inner = $('popCanvasInner');
+    inner.innerHTML = '';
+    const allTopics = (State.data && State.data.topics) || [];
+    let totalCards = 0;
+    allTopics.forEach(t => t.subtopics.forEach(s => { totalCards += s.nodes.length; }));
+
+    if (totalCards === 0) {
+        inner.innerHTML = '<div class="pop-empty"><div style="font-size:40px">📭</div><p>No notes yet in this subject.<br>Open it normally to start adding notes.</p></div>';
+        _applyPopTransform();
+        return;
+    }
+
+    const CARD_W = 286, CARD_H = 260, GAP_X = 32, GAP_Y = 40;
+    const COLS = 4;
+    let globalCol = 0, globalRow = 0;
+
+    allTopics.forEach((topic, ti) => {
+        const clusterX = (globalCol % COLS) * (CARD_W + GAP_X) + 100;
+        const clusterY = globalRow * (CARD_H + GAP_Y) + 80;
+
+        // Cluster label
+        const lbl = document.createElement('div');
+        lbl.className = 'pop-cluster-label';
+        lbl.textContent = topic.name;
+        lbl.style.left = clusterX + 'px';
+        lbl.style.top = (clusterY - 22) + 'px';
+        inner.appendChild(lbl);
+
+        topic.subtopics.forEach(sub => {
+            sub.nodes.forEach(node => {
+                const cx = (globalCol % COLS) * (CARD_W + GAP_X) + 100;
+                const cy = Math.floor(globalCol / COLS) * (CARD_H + GAP_Y) + 80;
+                const card = _makePopCard(node, topic.name, cx, cy);
+                inner.appendChild(card);
+                globalCol++;
+            });
+        });
+
+        // After a topic, start next cluster on a new row
+        if (globalCol % COLS !== 0) { globalCol = Math.ceil(globalCol / COLS) * COLS; }
+        globalRow = Math.floor(globalCol / COLS);
+    });
+
+    _applyPopTransform();
+
+    // Render math after DOM insertion
+    if (window.renderMathInElement) {
+        try {
+            renderMathInElement(inner, {
+                delimiters: [{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
+                throwOnError: false
+            });
+        } catch(e) {}
+    }
+}
+
+function _makePopCard(node, topicName, x, y) {
+    const card = document.createElement('div');
+    card.className = 'pop-card';
+    card.style.left = x + 'px';
+    card.style.top = y + 'px';
+    card.innerHTML =
+        '<div class="pop-card-head">' +
+            '<div class="pop-card-topic">' + escapeHtml(topicName) + '</div>' +
+            '<div class="pop-card-title">' + escapeHtml(node.title || 'Untitled') + '</div>' +
+        '</div>' +
+        '<div class="pop-card-body">' + (formatContent(node.content || '')) + '</div>';
+    _makePopCardDraggable(card);
+    return card;
+}
+
+function _makePopCardDraggable(card) {
+    let dragging = false, ox = 0, oy = 0, startX = 0, startY = 0;
+    card.addEventListener('mousedown', e => {
+        if (e.button !== 0) return;
+        e.stopPropagation();
+        dragging = true;
+        startX = e.clientX; startY = e.clientY;
+        const rect = card.getBoundingClientRect();
+        ox = (e.clientX - _pop.pan.x) / _pop.zoom - parseFloat(card.style.left);
+        oy = (e.clientY - _pop.pan.y) / _pop.zoom - parseFloat(card.style.top);
+        card.classList.add('dragging');
+        card.style.zIndex = 50;
+    });
+    window.addEventListener('mousemove', e => {
+        if (!dragging) return;
+        const nx = (e.clientX - _pop.pan.x) / _pop.zoom - ox;
+        const ny = (e.clientY - _pop.pan.y) / _pop.zoom - oy;
+        card.style.left = nx + 'px';
+        card.style.top = ny + 'px';
+    });
+    window.addEventListener('mouseup', () => {
+        if (!dragging) return;
+        dragging = false;
+        card.classList.remove('dragging');
+        card.style.zIndex = '';
+    });
+}
+
+function _initPopPan() {
+    const canvas = $('popCanvas');
+    // Remove old listeners by replacing node
+    const fresh = canvas.cloneNode(false);
+    fresh.appendChild($('popCanvasInner'));
+    canvas.parentNode.replaceChild(fresh, canvas);
+    // re-assign
+    const c = $('popCanvas');
+
+    c.addEventListener('mousedown', e => {
+        if (e.button !== 0) return;
+        _pop.panning = true;
+        _pop._px = e.clientX - _pop.pan.x;
+        _pop._py = e.clientY - _pop.pan.y;
+        c.classList.add('panning');
+    });
+    window.addEventListener('mousemove', e => {
+        if (!_pop.panning) return;
+        _pop.pan.x = e.clientX - _pop._px;
+        _pop.pan.y = e.clientY - _pop._py;
+        _applyPopTransform();
+    });
+    window.addEventListener('mouseup', () => {
+        if (!_pop.panning) return;
+        _pop.panning = false;
+        c.classList.remove('panning');
+    });
+    c.addEventListener('wheel', e => {
+        e.preventDefault();
+        const delta = e.deltaY > 0 ? -0.08 : 0.08;
+        const rect = c.getBoundingClientRect();
+        const mx = e.clientX - rect.left;
+        const my = e.clientY - rect.top;
+        const newZoom = Math.max(0.3, Math.min(2.5, _pop.zoom + delta));
+        _pop.pan.x = mx - (mx - _pop.pan.x) * (newZoom / _pop.zoom);
+        _pop.pan.y = my - (my - _pop.pan.y) * (newZoom / _pop.zoom);
+        _pop.zoom = newZoom;
+        _applyPopTransform();
+    }, { passive: false });
 }
 
 async function selectSubject(subject) {
