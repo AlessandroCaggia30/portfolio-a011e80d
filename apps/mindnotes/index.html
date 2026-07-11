@@ -542,117 +542,198 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
    POP / EXCALIDRAW MODE
    ══════════════════════════════════════════════ */
 .app.pop-mode {
-    --bg:  #f8f7f3;
+    --bg:  #f6f5f0;
     --bg2: #ffffff;
-    --bg3: #eeede8;
-    --border: rgba(30,28,50,0.13);
+    --bg3: #eeecea;
+    --border: rgba(30,28,50,0.11);
     --text:  #1e1e2e;
     --text2: #6b6b80;
     --accent: #6c5ce7;
 }
 
-/* ── Canvas: warm white, no grid ── */
-.app.pop-mode .canvas-wrapper { background: #f8f7f3; }
+/* ── Canvas: warm off-white, no grid ── */
+.app.pop-mode .canvas-wrapper { background: #f6f5f0; }
 .app.pop-mode .canvas-bg { display: none !important; }
 
-/* ── Nodes: Excalidraw/Miro card look with Caveat font ── */
+/* ── Sidebar: light warm theme ── */
+.app.pop-mode .sidebar { background: #efeeea; border-right: 1px solid rgba(0,0,0,0.08); }
+.app.pop-mode .sidebar-header { border-bottom-color: rgba(0,0,0,0.08); }
+
+/* ── Nodes: clean card look with Nunito font ── */
 .app.pop-mode .node {
     background: #ffffff !important;
-    border: 2.5px solid #1e1c3a !important;
-    border-left-width: 2.5px !important;         /* neutralize color accent */
-    border-radius: 12px !important;
-    box-shadow: 5px 5px 0 rgba(30,28,58,0.10) !important;
-    font-family: 'Caveat', cursive !important;
-    padding: 16px 18px 26px !important;
-    transition: transform 0.12s ease, box-shadow 0.12s ease !important;
-    min-height: 90px !important;
+    border: 2px solid #d4d2e0 !important;
+    border-left-width: 2px !important;
+    border-radius: 14px !important;
+    box-shadow: 0 2px 10px rgba(30,28,58,0.08), 0 0 0 1px rgba(30,28,58,0.04) !important;
+    font-family: 'Nunito', sans-serif !important;
+    padding: 14px 16px 24px !important;
+    transition: box-shadow 0.15s ease, transform 0.15s ease !important;
+    min-height: 80px !important;
+    overflow: visible !important;
 }
 .app.pop-mode .node:hover {
-    transform: translate(-1px, -2px) !important;
-    box-shadow: 7px 8px 0 rgba(30,28,58,0.13) !important;
-    border-color: #1e1c3a !important;
+    box-shadow: 0 6px 24px rgba(30,28,58,0.13), 0 0 0 2px rgba(108,92,231,0.18) !important;
+    transform: translateY(-2px) !important;
 }
 .app.pop-mode .node.selected {
-    border-color: #6c5ce7 !important;
-    box-shadow: 5px 5px 0 rgba(108,92,231,0.22) !important;
-    transform: none !important;
+    box-shadow: 0 0 0 3px rgba(108,92,231,0.35), 0 4px 20px rgba(108,92,231,0.15) !important;
+    transform: translateY(-1px) !important;
 }
 .app.pop-mode .node-title {
-    font-family: 'Caveat', cursive !important;
-    font-size: 17px !important;
-    font-weight: 700 !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 800 !important;
     color: #1e1c3a !important;
-    line-height: 1.25 !important;
-    letter-spacing: 0.01em !important;
-    margin-bottom: 4px !important;
+    line-height: 1.3 !important;
+    letter-spacing: -0.01em !important;
 }
 .app.pop-mode .node-preview {
-    font-family: 'Caveat', cursive !important;
-    font-size: 14.5px !important;
-    font-weight: 400 !important;
-    color: #44425a !important;
-    line-height: 1.55 !important;
-    opacity: 0.9 !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 500 !important;
+    color: #555468 !important;
+    line-height: 1.6 !important;
 }
-/* Color-tinted nodes in pop mode: border accent + very light bg */
-.app.pop-mode .node[data-pop-color="blue"]    { background: #eef6ff !important; border-color: #74b9ff !important; }
-.app.pop-mode .node[data-pop-color="purple"]  { background: #f3f0ff !important; border-color: #a29bfe !important; }
-.app.pop-mode .node[data-pop-color="green"]   { background: #edfff8 !important; border-color: #55efc4 !important; }
-.app.pop-mode .node[data-pop-color="orange"]  { background: #fffbee !important; border-color: #fdcb6e !important; }
-.app.pop-mode .node[data-pop-color="red"]     { background: #fff2f2 !important; border-color: #ff7675 !important; }
-.app.pop-mode .node[data-pop-color="pink"]    { background: #fff0f6 !important; border-color: #fd79a8 !important; }
-.app.pop-mode .node[data-pop-color="teal"]    { background: #edfcfc !important; border-color: #00cec9 !important; }
-.app.pop-mode .node[data-pop-color="yellow"]  { background: #fffde7 !important; border-color: #ffd93d !important; }
-.app.pop-mode .node[data-pop-color="coral"]   { background: #fff2f0 !important; border-color: #ff6b6b !important; }
-.app.pop-mode .node[data-pop-color="lavender"]{ background: #f6f3ff !important; border-color: #b8a9c9 !important; }
-.app.pop-mode .node[data-pop-color="mint"]    { background: #edfff5 !important; border-color: #a8e6cf !important; }
-.app.pop-mode .node[data-pop-color="peach"]   { background: #fff5f2 !important; border-color: #ffb4a2 !important; }
-/* Color dot button: hide in pop mode */
+
+/* ── Node shapes (applied via .pop-shape-* class) ── */
+.app.pop-mode .node.pop-shape-rounded { border-radius: 36px !important; }
+.app.pop-mode .node.pop-shape-ellipse {
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+}
+.app.pop-mode .node.pop-shape-diamond {
+    transform: rotate(45deg) !important;
+    border-radius: 8px !important;
+}
+.app.pop-mode .node.pop-shape-diamond:hover { transform: rotate(45deg) translateY(-2px) !important; }
+.app.pop-mode .node.pop-shape-diamond.selected { transform: rotate(45deg) translateY(-1px) !important; }
+.app.pop-mode .node.pop-shape-diamond .node-title,
+.app.pop-mode .node.pop-shape-diamond .node-preview,
+.app.pop-mode .node.pop-shape-diamond .resize-handle { transform: rotate(-45deg) !important; }
+.app.pop-mode .node.pop-shape-parallelogram {
+    clip-path: polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%) !important;
+    border-radius: 4px !important;
+}
+
+/* ── Color dot button: hide in pop (replaced by toolbar) ── */
 .app.pop-mode .node-color-btn { display: none !important; }
 
-/* ── Sidebar: light warm theme ── */
-.app.pop-mode .sidebar { background: #f3f2ee; border-right: 1px solid rgba(0,0,0,0.09); }
-.app.pop-mode .sidebar-header { border-bottom-color: rgba(0,0,0,0.09); }
-.app.pop-mode .topics-section { color: #1e1c3a; }
-
-/* ── Detail panel in pop mode: ONLY the textarea, no preview split ── */
-.app.pop-mode .detail-panel { background: #f8f7f3; }
+/* ── Detail panel: floating modal instead of side panel ── */
+.app.pop-mode .detail-panel {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 560px !important;
+    max-width: 92vw !important;
+    max-height: 80vh !important;
+    height: auto !important;
+    min-width: 0 !important;
+    border-radius: 18px !important;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.22), 0 0 0 1px rgba(0,0,0,0.08) !important;
+    border-left: none !important;
+    overflow: hidden !important;
+    transition: none !important;
+    z-index: 600 !important;
+    background: #ffffff !important;
+}
+.app.pop-mode .detail-panel:not(.open) { display: none !important; }
+.app.pop-mode .detail-panel.open { display: flex !important; }
+.app.pop-mode .detail-panel.open.view-mode { width: 560px !important; }
+.app.pop-mode .detail-panel.open:not(.view-mode) { width: 560px !important; }
+/* Editor: full width, no preview */
 .app.pop-mode .detail-panel:not(.view-mode) .detail-preview-pane { display: none !important; }
 .app.pop-mode .detail-panel:not(.view-mode) .detail-editor-pane {
-    display: flex !important;
-    flex: 1 !important;
-    border-right: none !important;
+    display: flex !important; flex: 1 !important; border-right: none !important;
 }
 .app.pop-mode .detail-editor-pane textarea {
-    font-family: 'Caveat', cursive !important;
-    font-size: 17px !important;
-    background: #ffffff !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    background: #fafafa !important;
     color: #1e1c3a !important;
     line-height: 1.8 !important;
-    padding: 28px !important;
-    border-radius: 0 !important;
+    padding: 24px !important;
 }
 .app.pop-mode .detail-panel .detail-title-input {
-    font-family: 'Caveat', cursive !important;
-    font-size: 22px !important;
-    font-weight: 700 !important;
-    background: transparent !important;
-    border-color: rgba(0,0,0,0.12) !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 19px !important;
+    font-weight: 800 !important;
 }
-/* Hide "Edit" button — always open in edit mode in pop */
+/* Hide "Edit" button — auto-enter edit mode in pop */
 .app.pop-mode .edit-btn.view-mode-only { display: none !important; }
-/* Hide the format selector (LaTeX/Obsidian/ChatGPT) — irrelevant in pop */
+/* Hide format selector */
 .app.pop-mode .detail-format-select { display: none !important; }
-/* Style the Done button for pop mode */
-.app.pop-mode .edit-btn.edit-mode-only {
-    font-family: 'Caveat', cursive !important;
-    font-size: 15px !important;
-    padding: 5px 16px !important;
-}
 
 /* ── Snippets tab: hide LaTeX pane ── */
 .app.pop-mode .snippets-tex-pane { display: none !important; }
 .app.pop-mode .snippets-view.has-tex .snippets-preview-pane { flex: 1 !important; border-right: none !important; }
+
+/* ── Pop node toolbar (shape + color picker) ── */
+.pop-node-toolbar {
+    position: fixed;
+    display: none;
+    align-items: center;
+    gap: 4px;
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.11);
+    border-radius: 12px;
+    padding: 6px 8px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.14);
+    z-index: 1200;
+    font-family: 'Nunito', sans-serif;
+    user-select: none;
+}
+.pop-node-toolbar.visible { display: flex; }
+.ptb-sep { width: 1px; height: 22px; background: rgba(0,0,0,0.1); margin: 0 4px; }
+.ptb-shape {
+    width: 32px; height: 32px;
+    border: 1.5px solid rgba(0,0,0,0.14);
+    border-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+    font-size: 15px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+    color: #444;
+}
+.ptb-shape:hover { background: #f0effe; border-color: #a29bfe; }
+.ptb-shape.active { background: #6c5ce7; border-color: #6c5ce7; color: #fff; }
+.ptb-color-wrap {
+    position: relative;
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    border: 1.5px solid rgba(0,0,0,0.14);
+    overflow: hidden;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: #666;
+    transition: border-color 0.15s;
+}
+.ptb-color-wrap:hover { border-color: #6c5ce7; }
+.ptb-color-wrap input[type=color] {
+    position: absolute; inset: -4px; width: calc(100% + 8px); height: calc(100% + 8px);
+    opacity: 0; cursor: pointer;
+}
+.ptb-color-preview {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 1.5px solid rgba(0,0,0,0.15);
+    pointer-events: none;
+}
+
+/* ── Backdrop for floating detail modal ── */
+.pop-detail-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(10,8,30,0.28);
+    z-index: 599;
+    display: none;
+    backdrop-filter: blur(2px);
+}
+.pop-detail-backdrop.visible { display: block; }
 
 .canvas-wrapper {
     flex: 1;
