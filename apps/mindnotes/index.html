@@ -9414,11 +9414,13 @@ function closeDetail() {
     State.isEditingFullContent = false;
     const panel = $('detailPanel');
     panel.classList.remove('open');
-    panel.classList.add('view-mode');  // Reset to view mode
+    panel.classList.add('view-mode');
     State.selectedNode = null;
     State.editingBlockIndex = -1;
     State.contentBlocks = [];
     State.currentContent = '';
+    _popDetailBackdrop(false);
+    hidePopToolbar();
     renderCanvas();
 }
 
