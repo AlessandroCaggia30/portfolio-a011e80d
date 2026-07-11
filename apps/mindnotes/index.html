@@ -536,47 +536,77 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 
 .main { flex: 1; display: flex; position: relative; }
 
-/* ── Pop / Excalidraw-style mode overrides ── */
+/* ══════════════════════════════════════════════
+   POP / EXCALIDRAW MODE
+   ══════════════════════════════════════════════ */
 .app.pop-mode {
-    --bg:  #f0efe9;
+    --bg:  #ffffff;
     --bg2: #ffffff;
-    --bg3: #e8e7e1;
-    --border: rgba(0,0,0,0.12);
-    --text:  #1a1a2e;
-    --text2: #666677;
+    --bg3: #f5f5f5;
+    --border: rgba(30,28,50,0.14);
+    --text:  #1e1e2e;
+    --text2: #6b6b80;
     --accent: #6c5ce7;
-    --accent2: #a29bfe;
 }
-.app.pop-mode .canvas-wrapper { background: #f0efe9; }
-.app.pop-mode .canvas-bg {
-    background-image: radial-gradient(circle, rgba(0,0,0,0.18) 1.5px, transparent 1.5px) !important;
-    background-size: 24px 24px !important;
-    opacity: 1 !important;
-}
+
+/* ── Canvas: pure white, no grid ── */
+.app.pop-mode .canvas-wrapper { background: #ffffff; }
+.app.pop-mode .canvas-bg { display: none !important; }
+
+/* ── Nodes: Excalidraw card look ── */
 .app.pop-mode .node {
-    background: #fff !important;
-    border: 1.5px solid rgba(0,0,0,0.13) !important;
-    border-radius: 14px !important;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.09), 0 0 0 1px rgba(0,0,0,0.05) !important;
-    font-family: 'Segoe UI', -apple-system, sans-serif;
+    background: #ffffff !important;
+    border: 2px solid rgba(30,28,50,0.72) !important;
+    border-radius: 8px !important;
+    box-shadow: 4px 4px 0 rgba(30,28,50,0.08) !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    transition: box-shadow 0.15s, border-color 0.15s !important;
 }
 .app.pop-mode .node:hover {
-    box-shadow: 0 6px 20px rgba(0,0,0,0.13), 0 0 0 2px rgba(108,92,231,0.2) !important;
+    box-shadow: 6px 6px 0 rgba(30,28,50,0.13) !important;
+    border-color: rgba(30,28,50,0.9) !important;
 }
 .app.pop-mode .node.selected {
     border-color: #6c5ce7 !important;
-    box-shadow: 0 0 0 3px rgba(108,92,231,0.2), 0 4px 14px rgba(0,0,0,0.1) !important;
+    box-shadow: 4px 4px 0 rgba(108,92,231,0.25) !important;
 }
-.app.pop-mode .node-title { color: #1a1a2e !important; font-weight: 700 !important; }
-.app.pop-mode .node-preview { color: #44445a !important; }
-.app.pop-mode .canvas svg line { stroke: rgba(0,0,0,0.22) !important; }
-.app.pop-mode .canvas svg polyline,
-.app.pop-mode .canvas svg polygon { stroke: rgba(0,0,0,0.22) !important; fill: rgba(0,0,0,0.22) !important; }
-/* Hide the LaTeX editor pane in pop mode — use only the preview/standard editor */
+.app.pop-mode .node-title {
+    color: #1e1e2e !important;
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.01em !important;
+}
+.app.pop-mode .node-preview {
+    color: #44445a !important;
+    font-size: 11px !important;
+    line-height: 1.55 !important;
+}
+
+/* ── Sidebar: light theme ── */
+.app.pop-mode .sidebar { background: #f7f7f7; border-right: 1px solid rgba(0,0,0,0.09); }
+.app.pop-mode .sidebar-header { border-bottom-color: rgba(0,0,0,0.09); }
+
+/* ── Detail panel edit mode: full-width textarea, no preview split ── */
+.app.pop-mode .detail-panel:not(.view-mode) .detail-preview-pane { display: none !important; }
+.app.pop-mode .detail-panel:not(.view-mode) .detail-live-editor { flex-direction: column !important; }
+.app.pop-mode .detail-panel:not(.view-mode) .detail-editor-pane {
+    display: flex !important;
+    flex: 1 !important;
+    border-right: none !important;
+}
+.app.pop-mode .detail-editor-pane textarea {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-size: 14px !important;
+    background: #fafafa !important;
+    color: #1e1e2e !important;
+    line-height: 1.75 !important;
+}
+/* Hide the "Edit" button — pop mode always opens in edit mode */
+.app.pop-mode .edit-btn.view-mode-only { display: none !important; }
+
+/* ── Snippets tab: hide LaTeX pane ── */
 .app.pop-mode .snippets-tex-pane { display: none !important; }
-.app.pop-mode .snippets-view.has-tex .snippets-preview-pane {
-    flex: 1 !important; border-right: none !important;
-}
+.app.pop-mode .snippets-view.has-tex .snippets-preview-pane { flex: 1 !important; border-right: none !important; }
 
 .canvas-wrapper {
     flex: 1;
