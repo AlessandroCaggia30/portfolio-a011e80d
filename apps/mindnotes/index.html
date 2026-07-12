@@ -13553,19 +13553,14 @@ function setPopNodeBg(color) {
     const node = State.selectedNode;
     if (!node) return;
     node.popBg = color;
-    $('ptbBgPreview').style.background = color;
+    // Highlight active swatch
+    const tb = $('popNodeToolbar');
+    if (tb) tb.querySelectorAll('.ptb-swatch').forEach(s =>
+        s.classList.toggle('active', s.dataset.color === color));
     // Apply live
     const el = canvas && canvas.querySelector('[data-id="' + node.id + '"]');
     if (el) el.style.setProperty('background', color, 'important');
-}
-
-function setPopNodeBorder(color) {
-    const node = State.selectedNode;
-    if (!node) return;
-    node.popBorder = color;
-    $('ptbBorderPreview').style.background = color;
-    const el = canvas && canvas.querySelector('[data-id="' + node.id + '"]');
-    if (el) el.style.setProperty('border-color', color, 'important');
+    autoSaveContent && autoSaveContent();
 }
 
 // Show/hide backdrop when detail panel opens/closes in pop mode
