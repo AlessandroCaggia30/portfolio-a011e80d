@@ -14577,14 +14577,12 @@ document.addEventListener('DOMContentLoaded', initApp);
         <button class="ptb-shape"        data-shape="diamond"       title="Diamond"       onclick="setPopNodeShape('diamond')">◇</button>
         <button class="ptb-shape"        data-shape="parallelogram" title="Parallelogram" onclick="setPopNodeShape('parallelogram')">▱</button>
         <div class="ptb-sep"></div>
-        <div class="ptb-color-wrap" title="Fill color">
-            <div class="ptb-color-preview" id="ptbBgPreview" style="background:#ffffff"></div>
-            <input type="color" id="ptbBgColor" value="#ffffff" oninput="setPopNodeBg(this.value)">
-        </div>
-        <div class="ptb-color-wrap" title="Border color">
-            <div class="ptb-color-preview" id="ptbBorderPreview" style="background:#d4d2e0"></div>
-            <input type="color" id="ptbBorderColor" value="#d4d2e0" oninput="setPopNodeBorder(this.value)">
-        </div>
+        <div class="ptb-swatch" data-color="#ffffff"   title="White"   style="background:#ffffff"   onclick="setPopNodeBg('#ffffff')"></div>
+        <div class="ptb-swatch" data-color="#fef9c3"   title="Yellow"  style="background:#fef9c3"   onclick="setPopNodeBg('#fef9c3')"></div>
+        <div class="ptb-swatch" data-color="#dcfce7"   title="Green"   style="background:#dcfce7"   onclick="setPopNodeBg('#dcfce7')"></div>
+        <div class="ptb-swatch" data-color="#dbeafe"   title="Blue"    style="background:#dbeafe"   onclick="setPopNodeBg('#dbeafe')"></div>
+        <div class="ptb-swatch" data-color="#ede9fe"   title="Purple"  style="background:#ede9fe"   onclick="setPopNodeBg('#ede9fe')"></div>
+        <div class="ptb-swatch" data-color="#fce7f3"   title="Pink"    style="background:#fce7f3"   onclick="setPopNodeBg('#fce7f3')"></div>
     </div>
 
     <!-- Backdrop for pop mode floating detail panel -->
