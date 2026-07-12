@@ -13523,13 +13523,10 @@ function showPopToolbar(node) {
     if (!tb) return;
     tb.classList.add('visible');
 
-    // Sync color previews
-    const bg  = node.popBg     || '#ffffff';
-    const bdr = node.popBorder || '#d4d2e0';
-    $('ptbBgColor').value = bg;
-    $('ptbBgPreview').style.background = bg;
-    $('ptbBorderColor').value = bdr;
-    $('ptbBorderPreview').style.background = bdr;
+    // Highlight active swatch
+    const bg = (node.popBg || '#ffffff').toLowerCase();
+    tb.querySelectorAll('.ptb-swatch').forEach(s =>
+        s.classList.toggle('active', s.dataset.color === bg));
 
     // Highlight active shape
     const shape = node.popShape || 'rect';
