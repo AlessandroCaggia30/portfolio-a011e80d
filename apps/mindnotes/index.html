@@ -652,8 +652,8 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
     display: flex !important; flex: 1 !important; border-right: none !important;
 }
 /* New-node modal: no preview in pop */
-.pop-mode-active #nodeModal .editor-preview { display: none !important; }
-.pop-mode-active #nodeModal .editor-input { border-left: none !important; }
+body:has(.app.pop-mode) #nodeModal .editor-preview { display: none !important; }
+body:has(.app.pop-mode) #nodeModal .editor-input { border-left: none !important; }
 .app.pop-mode .detail-editor-pane textarea {
     font-family: 'Nunito', sans-serif !important;
     font-size: 15px !important;
