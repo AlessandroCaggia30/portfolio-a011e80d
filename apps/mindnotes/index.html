@@ -13216,12 +13216,12 @@ function showPopToolbar(node) {
         const tbW = tb.offsetWidth  || 36;
         const GAP = 8;
 
-        // Preferred: right edge of node
-        let left = rect.right + GAP;
+        // Preferred: left edge of node
+        let left = rect.left - tbW - GAP;
         let top  = rect.top + rect.height / 2 - tbH / 2;
 
-        // If off right side of screen, flip to left edge
-        if (left + tbW > window.innerWidth - 8) left = rect.left - tbW - GAP;
+        // If off left side of screen, flip to right edge
+        if (left < 8) left = rect.right + GAP;
 
         // Clamp vertically
         if (top < 8) top = 8;
