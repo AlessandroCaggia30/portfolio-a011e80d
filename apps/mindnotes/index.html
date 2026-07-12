@@ -13503,6 +13503,7 @@ function showSubjectScreen() {
     $('subjectScreen').classList.remove('hidden');
     document.querySelector('.app').style.display = 'none';
     updateGhStatusDot();
+    renderAgenda();
 }
 
 function _subjectById(id) { return _allSubjects().find(s => s.id === id) || null; }
