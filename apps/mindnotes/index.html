@@ -13413,6 +13413,66 @@ function _spConfirm(mode) {
     else selectSubject(s);
 }
 
+// ==================== AGENDA ====================
+const AGENDA_KEYS = { short: 'mindnotes_agenda_short', long: 'mindnotes_agenda_long' };
+
+function _agendaLoad(col) {
+    try { return JSON.parse(localStorage.getItem(AGENDA_KEYS[col])) || []; } catch { return []; }
+}
+function _agendaSave(col, items) {
+    localStorage.setItem(AGENDA_KEYS[col], JSON.stringify(items));
+}
+
+function agendaAdd(col) {
+    const inp = $(col === 'short' ? 'agendaShortInput' : 'agendaLongInput');
+    const text = inp.value.trim();
+    if (!text) return;
+    const items = _agendaLoad(col);
+    items.push({ id: Date.now(), text, done: false });
+    _agendaSave(col, items);
+    inp.value = '';
+    _agendaRenderCol(col);
+}
+
+function agendaToggle(col, id) {
+    const items = _agendaLoad(col);
+    const item = items.find(i => i.id === id);
+    if (item) { item.done = !item.done; _agendaSave(col, items); _agendaRenderCol(col); }
+}
+
+function agendaDelete(col, id) {
+    const items = _agendaLoad(col).filter(i => i.id !== id);
+    _agendaSave(col, items);
+    _agendaRenderCol(col);
+}
+
+function _agendaRenderCol(col) {
+    const items = _agendaLoad(col);
+    const container = $(col === 'short' ? 'agendaShortItems' : 'agendaLongItems');
+    const countEl = $(col === 'short' ? 'agendaShortCount' : 'agendaLongCount');
+    if (!container) return;
+    const active = items.filter(i => !i.done).length;
+    if (countEl) countEl.textContent = active;
+    if (!items.length) {
+        container.innerHTML = '<div class="agenda-empty">Nothing here yet ✨</div>';
+        return;
+    }
+    container.innerHTML = items.map(item => `
+        <div class="agenda-item" data-id="${item.id}">
+            <div class="agenda-checkbox${item.done ? ' checked' : ''}" onclick="agendaToggle('${col}',${item.id})"></div>
+            <span class="agenda-item-text${item.done ? ' done' : ''}">${item.text.replace(/</g,'&lt;')}</span>
+            <button class="agenda-item-del" onclick="agendaDelete('${col}',${item.id})" title="Delete">×</button>
+        </div>`).join('');
+}
+
+function renderAgenda() {
+    const now = new Date();
+    const dateEl = $('agendaDate');
+    if (dateEl) dateEl.textContent = now.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' });
+    _agendaRenderCol('short');
+    _agendaRenderCol('long');
+}
+
 function showSubjectScreen() {
     const grid = $('subjectGrid');
     grid.innerHTML = '';
