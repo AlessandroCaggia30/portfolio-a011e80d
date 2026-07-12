@@ -625,17 +625,18 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 /* ── Detail panel: floating modal instead of side panel ── */
 .app.pop-mode .detail-panel {
     position: fixed !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
+    top: 0 !important;
+    right: 0 !important;
+    left: auto !important;
+    transform: none !important;
     width: 50vw !important;
     max-width: 50vw !important;
-    height: 60vh !important;
-    max-height: 60vh !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
     min-width: 0 !important;
-    border-radius: 18px !important;
-    box-shadow: 0 24px 80px rgba(0,0,0,0.22), 0 0 0 1px rgba(0,0,0,0.08) !important;
-    border-left: none !important;
+    border-radius: 0 !important;
+    border-left: 1px solid rgba(0,0,0,0.09) !important;
+    box-shadow: -10px 0 40px rgba(0,0,0,0.10) !important;
     overflow: hidden !important;
     transition: none !important;
     z-index: 600 !important;
