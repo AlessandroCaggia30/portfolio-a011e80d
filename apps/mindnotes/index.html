@@ -711,26 +711,16 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 }
 .ptb-shape:hover { background: #f0effe; border-color: #a29bfe; color: #6c5ce7; }
 .ptb-shape.active { background: #6c5ce7; border-color: #6c5ce7; color: #fff; }
-.ptb-color-wrap {
-    position: relative;
-    width: 26px; height: 26px;
-    border-radius: 7px;
-    border: 1.5px solid rgba(0,0,0,0.13);
-    overflow: hidden;
+.ptb-swatch {
+    width: 22px; height: 22px;
+    border-radius: 6px;
+    border: 2px solid rgba(0,0,0,0.12);
     cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: border-color 0.13s;
+    transition: transform 0.12s, border-color 0.12s, box-shadow 0.12s;
+    flex-shrink: 0;
 }
-.ptb-color-wrap:hover { border-color: #6c5ce7; }
-.ptb-color-wrap input[type=color] {
-    position: absolute; inset: -4px; width: calc(100% + 8px); height: calc(100% + 8px);
-    opacity: 0; cursor: pointer;
-}
-.ptb-color-preview {
-    width: 16px; height: 16px; border-radius: 50%;
-    border: 1.5px solid rgba(0,0,0,0.14);
-    pointer-events: none;
-}
+.ptb-swatch:hover { transform: scale(1.18); border-color: rgba(0,0,0,0.25); }
+.ptb-swatch.active { border-color: #6c5ce7; box-shadow: 0 0 0 2px #a29bfe; }
 
 /* ── Backdrop: invisible click-catcher, no shade ── */
 .pop-detail-backdrop {
