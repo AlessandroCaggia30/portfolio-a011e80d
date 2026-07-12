@@ -646,9 +646,9 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 .app.pop-mode .detail-panel.open { display: flex !important; }
 .app.pop-mode .detail-panel.open.view-mode { width: 50vw !important; }
 .app.pop-mode .detail-panel.open:not(.view-mode) { width: 50vw !important; }
-/* Editor: full width, no preview */
-.app.pop-mode .detail-panel:not(.view-mode) .detail-preview-pane { display: none !important; }
-.app.pop-mode .detail-panel:not(.view-mode) .detail-editor-pane {
+/* Editor: full width, no preview ever */
+.app.pop-mode .detail-preview-pane { display: none !important; }
+.app.pop-mode .detail-editor-pane {
     display: flex !important; flex: 1 !important; border-right: none !important;
 }
 .app.pop-mode .detail-editor-pane textarea {
