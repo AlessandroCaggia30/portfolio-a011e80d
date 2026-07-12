@@ -727,13 +727,12 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
     pointer-events: none;
 }
 
-/* ── Backdrop for floating detail modal ── */
+/* ── Backdrop covers only the canvas half (left 50%) ── */
 .pop-detail-backdrop {
-    position: fixed; inset: 0;
-    background: rgba(10,8,30,0.28);
+    position: fixed; top: 0; left: 0; right: 50%; bottom: 0;
+    background: rgba(10,8,30,0.12);
     z-index: 599;
     display: none;
-    backdrop-filter: blur(2px);
 }
 .pop-detail-backdrop.visible { display: block; }
 
