@@ -4197,6 +4197,47 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
             <h1><span>M</span>indNotes</h1>
             <p>Select a subject</p>
             <div id="subjectGrid" class="subject-grid"></div>
+
+            <!-- Agenda Section -->
+            <div class="agenda-section">
+                <div class="agenda-header">
+                    <h2>Agenda</h2>
+                    <div class="agenda-header-line"></div>
+                    <span class="agenda-date" id="agendaDate"></span>
+                </div>
+                <div class="agenda-cols">
+                    <div class="agenda-col short" id="agendaShort">
+                        <div class="agenda-col-header">
+                            <div class="agenda-col-icon">⚡</div>
+                            <div>
+                                <div class="agenda-col-title">Short Run</div>
+                                <div class="agenda-col-sub">Urgent — do this week</div>
+                            </div>
+                            <span class="agenda-col-count" id="agendaShortCount">0</span>
+                        </div>
+                        <div class="agenda-items" id="agendaShortItems"></div>
+                        <div class="agenda-add">
+                            <input class="agenda-add-input" id="agendaShortInput" placeholder="Add a task…" onkeydown="if(event.key==='Enter')agendaAdd('short')">
+                            <button class="agenda-add-btn" onclick="agendaAdd('short')">+</button>
+                        </div>
+                    </div>
+                    <div class="agenda-col long" id="agendaLong">
+                        <div class="agenda-col-header">
+                            <div class="agenda-col-icon">🎯</div>
+                            <div>
+                                <div class="agenda-col-title">Long Run</div>
+                                <div class="agenda-col-sub">Goals — do this month</div>
+                            </div>
+                            <span class="agenda-col-count" id="agendaLongCount">0</span>
+                        </div>
+                        <div class="agenda-items" id="agendaLongItems"></div>
+                        <div class="agenda-add">
+                            <input class="agenda-add-input" id="agendaLongInput" placeholder="Add a goal…" onkeydown="if(event.key==='Enter')agendaAdd('long')">
+                            <button class="agenda-add-btn" onclick="agendaAdd('long')">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
