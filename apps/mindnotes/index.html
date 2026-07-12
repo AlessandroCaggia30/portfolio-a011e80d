@@ -674,19 +674,24 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 .app.pop-mode .snippets-tex-pane { display: none !important; }
 .app.pop-mode .snippets-view.has-tex .snippets-preview-pane { flex: 1 !important; border-right: none !important; }
 
-/* ── Pop node toolbar — vertical strip glued to node's right edge ── */
+/* ── Pop node toolbar — vertical strip on left edge of the editor panel ── */
 .pop-node-toolbar {
     position: fixed;
+    top: 50%;
+    /* sits just outside the left edge of the 50vw panel */
+    right: calc(50vw - 1px);
+    transform: translateY(-50%);
     display: none;
     flex-direction: column;
     align-items: center;
     gap: 3px;
     background: #ffffff;
     border: 1px solid rgba(0,0,0,0.11);
-    border-radius: 10px;
+    border-radius: 10px 0 0 10px;
+    border-right: none;
     padding: 5px 5px;
-    box-shadow: 0 6px 22px rgba(0,0,0,0.13);
-    z-index: 1200;
+    box-shadow: -4px 0 18px rgba(0,0,0,0.10);
+    z-index: 601;
     font-family: 'Nunito', sans-serif;
     user-select: none;
     width: 36px;
@@ -13201,47 +13206,22 @@ async function openPopView(subject) {
 
 function showPopToolbar(node) {
     if (!node || !State.popMode) return;
-    const el = canvas && canvas.querySelector('[data-id="' + node.id + '"]');
-    if (!el) { hidePopToolbar(); return; }
-    const rect = el.getBoundingClientRect();
     const tb = $('popNodeToolbar');
     if (!tb) return;
-
     tb.classList.add('visible');
 
-    // Wait one frame so tb has real dimensions
-    requestAnimationFrame(() => {
-        const tbH = tb.offsetHeight || 200;
-        const tbW = tb.offsetWidth  || 36;
-        const GAP = 8;
+    // Sync color previews
+    const bg  = node.popBg     || '#ffffff';
+    const bdr = node.popBorder || '#d4d2e0';
+    $('ptbBgColor').value = bg;
+    $('ptbBgPreview').style.background = bg;
+    $('ptbBorderColor').value = bdr;
+    $('ptbBorderPreview').style.background = bdr;
 
-        // Preferred: left edge of node
-        let left = rect.left - tbW - GAP;
-        let top  = rect.top + rect.height / 2 - tbH / 2;
-
-        // If off left side of screen, flip to right edge
-        if (left < 8) left = rect.right + GAP;
-
-        // Clamp vertically
-        if (top < 8) top = 8;
-        if (top + tbH > window.innerHeight - 8) top = window.innerHeight - tbH - 8;
-
-        tb.style.left = left + 'px';
-        tb.style.top  = top  + 'px';
-
-        // Sync color previews
-        const bg  = node.popBg     || '#ffffff';
-        const bdr = node.popBorder || '#d4d2e0';
-        $('ptbBgColor').value = bg;
-        $('ptbBgPreview').style.background = bg;
-        $('ptbBorderColor').value = bdr;
-        $('ptbBorderPreview').style.background = bdr;
-
-        // Highlight active shape
-        const shape = node.popShape || 'rect';
-        tb.querySelectorAll('.ptb-shape').forEach(b =>
-            b.classList.toggle('active', b.dataset.shape === shape));
-    });
+    // Highlight active shape
+    const shape = node.popShape || 'rect';
+    tb.querySelectorAll('.ptb-shape').forEach(b =>
+        b.classList.toggle('active', b.dataset.shape === shape));
 }
 
 function hidePopToolbar() {
