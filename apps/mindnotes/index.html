@@ -14683,6 +14683,12 @@ document.addEventListener('DOMContentLoaded', initApp);
         <div class="ptb-swatch" data-color="#fce7f3"   title="Pink"    style="background:#fce7f3"   onclick="setPopNodeBg('#fce7f3')"></div>
     </div>
 
+    <!-- Pop-mode line-style toggle -->
+    <div id="popLineToggle" class="pop-line-toggle" onclick="togglePopStraight()" title="Toggle curved / straight arrows">
+        <span id="popLineToggleIcon">↝</span>
+        <span id="popLineToggleLabel">Curved</span>
+    </div>
+
     <!-- Backdrop for pop mode floating detail panel -->
     <div id="popDetailBackdrop" class="pop-detail-backdrop" onclick="closeDetail()"></div>
 </body>
