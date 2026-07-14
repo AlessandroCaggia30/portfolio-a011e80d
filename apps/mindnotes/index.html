@@ -13598,10 +13598,12 @@ function _subjectById(id) { return _allSubjects().find(s => s.id === id) || null
 async function openPopView(subject) {
     if (!subject) return;
     State.popMode = true;
+    State.popStraight = localStorage.getItem('mindnotes_pop_straight') === '1';
     await selectSubject(subject);
     document.querySelector('.app').classList.add('pop-mode');
     const badge = $('popModeBadge');
     if (badge) badge.style.display = 'inline';
+    _syncPopLineToggle();
     // Force arrow defs to regenerate so pop markers are included
     const existingDefs = svg && svg.querySelector('defs#arrowDefs');
     if (existingDefs) existingDefs.remove();
