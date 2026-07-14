@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-14T12:26:34.664Z",
+  "exportedAt": "2026-07-14T12:26:52.263Z",
   "data": {
     "topics": [
       {
@@ -291,15 +291,33 @@
               {
                 "id": "1784031939542",
                 "title": "Aim",
-                "content": "\n\nTask:\n1) find all the possible evaluation dimensions\n2) use to rank workers\n3) understand what we can do with such ranking.  Typical in personnel economics (Personnel economics (literature review by Edward P. Lazear, Paul Oyer 2007): \ni) matching firms with workers\nii) organization of work\niii) incentives, turnover & compensation\niv) skill development\nv) teamwork and worker empowerment\n",
+                "content": "\n\nTask:\n1) find all the possible evaluation dimensions\n2) use to rank workers\n3) understand what we can do with such ranking.  Typical in personnel economics (Personnel economics (literature review by Edward P. Lazear, Paul Oyer 2007): \ni) matching firms with workers\nii) organization of work\niii) incentives, turnover & compensation\niv) skill development\nv) teamwork and worker empowerment\nx",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
-                "links": [],
+                "links": [
+                  {
+                    "target": "1784032001376",
+                    "type": "forward"
+                  }
+                ],
                 "x": 5237.706357028471,
                 "y": 3909.659222384358,
                 "width": 408.88620384939134,
                 "height": 260.1894236309512
+              },
+              {
+                "id": "1784032001376",
+                "title": "Theory and issue",
+                "content": "\nTeory:\nMax the firm's profit sub to the endogenous reactions of the workers. \nRisk: if you do not understand clearly the gamma of incentives and the Game thoereitical reacitons of workers, your incentive scheem may fail badly \n\nModel: \nOutput of the firm: V(F) = g(effort) + e \nEmployee utility: U(W) = c(income) - h(effort) \n\nThe contracts are based on the (noisy) observed outcome, and not on the true effort of workers.   \n",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": 5042.131337438841,
+                "y": 4304.949242088795,
+                "width": 298.8473886341148,
+                "height": 126.68144962698688
               }
             ]
           }
