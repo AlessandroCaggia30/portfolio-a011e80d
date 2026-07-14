@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-14T12:39:55.824Z",
+  "exportedAt": "2026-07-14T12:40:40.613Z",
   "data": {
     "topics": [
       {
@@ -363,7 +363,7 @@
               {
                 "id": "f7",
                 "title": "F7. Safelite Preconditions (when piece rate works)",
-                "content": "**Three conditions that made Safelite work**\n\n1. **Output perfectly measurable**: install-a-windshield-or-not; discrete, countable, homogeneous.\n2. **Quality standard clear**: any leak/failure → worker returns to fix, unpaid, on own time. Solves the quality-quantity multitasking problem via ex-post penalty.\n3. **Production individual**: no cooperation externalities to destroy. One worker, one car, one windshield.\n\n**Implication for Quindi.AI**\nQuindi's setting almost certainly violates #3 (cooperation matters) and possibly #1 (AI-assisted output is multi-dimensional). The evaluation index must **price cooperation** and cannot rely on a single scalar throughput measure.\n\n**Which alternatives address #3 (cooperation)**\n- A4 Team pay, A8 Ownership: price joint output directly.",
+                "content": "**Three conditions that made Safelite work**\n\n1. **Output perfectly measurable**: install-a-windshield-or-not; discrete, countable, homogeneous.\n2. **Quality standard clear**: any leak/failure → worker returns to fix, unpaid, on own time. Solves the quality-quantity multitasking problem via ex-post penalty.\n3. **Production individual**: no cooperation externalities to destroy. One worker, one car, one windshield.\n\n\n",
                 "x": 6000,
                 "y": 6140,
                 "width": 260,
