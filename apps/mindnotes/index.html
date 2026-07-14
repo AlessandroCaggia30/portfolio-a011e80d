@@ -7353,6 +7353,23 @@ function attachNodeEventListeners(el, node) {
         }
         if (e.button !== 0) return;  // left button only
 
+        // ---- Pop-mode double-click detection (fires at mousedown for reliability) ----
+        if (State.popMode && !e.metaKey && !e.ctrlKey && !e.shiftKey) {
+            const now = Date.now();
+            const last = State._popLastClick;
+            if (last && last.id === node.id && (now - last.time) < 500) {
+                State._popLastClick = null;
+                e.preventDefault();
+                e.stopPropagation();
+                State.selectedNode = node;
+                closeDetail();
+                showPopDeletePill(node, e.clientX, e.clientY);
+                State.interaction = null;
+                return;
+            }
+            State._popLastClick = { id: node.id, time: now };
+        }
+
         // ---- modifier-key shortcuts ----
         // Cmd/Ctrl + click = linking
         if (e.metaKey || e.ctrlKey) {
