@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-14T12:55:31.614Z",
+  "exportedAt": "2026-07-14T12:55:34.733Z",
   "data": {
     "topics": [
       {
@@ -139,8 +139,8 @@
                 "id": "a7",
                 "title": "A7. Subjective Evaluation + Bonus (MacLeod 2003; Baker–Gibbons–Murphy 1994)",
                 "content": "**Signal**: manager's private assessment, converted to bonus/promotion.\n\n**Solves**\n- Manager can down-weight lucky outcomes and reward true effort → attacks measurement noise (F1).\n- Rewards multi-dim performance → attacks multitasking (F2).\n- Preserves flexibility to reward cooperation, culture, mentoring (F5).\n- No explicit threshold → no bunching (F6).\n\n**Breaks**\n- Influence activities (Milgrom 1988): workers persuade the manager instead of producing.\n- Favoritism, discrimination, arbitrary variation.\n- Requires a **relational contract**: manager must credibly commit to fair evaluation (MacLeod 2003).\n- Legally hard to defend if evaluations diverge from measurables.\n\n**Use when**: output is complex, multi-dimensional, hard to game via explicit metrics; long employment relationships with repeated interaction.",
-                "x": 4607.993143535253,
-                "y": 5540.633110672981,
+                "x": 4604.304000365136,
+                "y": 5511.119965312047,
                 "width": 260,
                 "height": 180,
                 "flashcard": false,
