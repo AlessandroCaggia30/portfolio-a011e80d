@@ -762,6 +762,33 @@ body:has(.app.pop-mode) #nodeModal .editor-input { border-left: none !important;
 .pdp-cancel { color: #666; padding: 6px 8px; }
 .pdp-cancel:hover { background: #f3f3f7; }
 
+/* ── Pop mode: curved / straight arrow toggle ── */
+.pop-line-toggle {
+    position: fixed;
+    top: 14px;
+    left: 320px;
+    z-index: 598;
+    display: none;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    border: 1.5px solid rgba(0,0,0,0.12);
+    border-radius: 999px;
+    padding: 6px 14px 6px 12px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e1c3a;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(30,28,50,0.10);
+    transition: transform 0.13s, box-shadow 0.13s;
+    user-select: none;
+}
+.pop-line-toggle:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(30,28,50,0.14); }
+.app.pop-mode ~ .pop-line-toggle,
+body:has(.app.pop-mode) .pop-line-toggle { display: inline-flex; }
+.pop-line-toggle span:first-child { font-size: 16px; line-height: 1; }
+
 /* ── Backdrop: purely visual, doesn't block canvas clicks ── */
 .pop-detail-backdrop {
     position: fixed; top: 0; left: 0; right: 50%; bottom: 0;
