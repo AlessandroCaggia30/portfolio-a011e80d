@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-14T14:30:00.000Z",
+  "exportedAt": "2026-07-14T12:25:41.647Z",
   "data": {
     "topics": [
       {
@@ -24,7 +24,15 @@
                 "color": "purple",
                 "popBg": "#ede9fe",
                 "popShape": "rounded",
-                "links": ["f1", "f2", "f3", "f4", "f5", "f6", "f7"]
+                "links": [
+                  "f1",
+                  "f2",
+                  "f3",
+                  "f4",
+                  "f5",
+                  "f6",
+                  "f7"
+                ]
               },
               {
                 "id": "a2",
@@ -39,7 +47,10 @@
                 "color": "blue",
                 "popBg": "#dbeafe",
                 "popShape": "rounded",
-                "links": ["f1", "f3"]
+                "links": [
+                  "f1",
+                  "f3"
+                ]
               },
               {
                 "id": "a3",
@@ -54,7 +65,12 @@
                 "color": "blue",
                 "popBg": "#dbeafe",
                 "popShape": "rounded",
-                "links": ["f2", "f4", "f5", "f6"]
+                "links": [
+                  "f2",
+                  "f4",
+                  "f5",
+                  "f6"
+                ]
               },
               {
                 "id": "a4",
@@ -69,7 +85,10 @@
                 "color": "blue",
                 "popBg": "#dbeafe",
                 "popShape": "rounded",
-                "links": ["f2", "f5"]
+                "links": [
+                  "f2",
+                  "f5"
+                ]
               },
               {
                 "id": "a5",
@@ -84,7 +103,10 @@
                 "color": "blue",
                 "popBg": "#dbeafe",
                 "popShape": "rounded",
-                "links": ["f3", "f6"]
+                "links": [
+                  "f3",
+                  "f6"
+                ]
               },
               {
                 "id": "a6",
@@ -99,7 +121,12 @@
                 "color": "blue",
                 "popBg": "#dbeafe",
                 "popShape": "rounded",
-                "links": ["f1", "f2", "f3", "f6"]
+                "links": [
+                  "f1",
+                  "f2",
+                  "f3",
+                  "f6"
+                ]
               },
               {
                 "id": "a7",
@@ -114,7 +141,12 @@
                 "color": "blue",
                 "popBg": "#dbeafe",
                 "popShape": "rounded",
-                "links": ["f1", "f2", "f5", "f6"]
+                "links": [
+                  "f1",
+                  "f2",
+                  "f5",
+                  "f6"
+                ]
               },
               {
                 "id": "a8",
@@ -129,7 +161,12 @@
                 "color": "blue",
                 "popBg": "#dbeafe",
                 "popShape": "rounded",
-                "links": ["f2", "f5", "f6", "f7"]
+                "links": [
+                  "f2",
+                  "f5",
+                  "f6",
+                  "f7"
+                ]
               },
               {
                 "id": "a9",
@@ -250,6 +287,17 @@
                 "popBg": "#fef9c3",
                 "popShape": "rect",
                 "links": []
+              },
+              {
+                "id": "1784031939542",
+                "title": "Aim",
+                "content": "\n\nTask:\n1) find all the possible evaluation dimensions\n2) use to rank workers\n3) understand what we can do with such ranking.  Typical in personnel economics (Personnel economics (literature review by Edward P. Lazear, Paul Oyer 2007): \ni) matching firms with workers\nii) organization of work\niii) incentives, turnover & compensation\niv) skill development\nv) teamwork and worker empowerment\n",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": 3402.5867377718287,
+                "y": 5484.814758300781
               }
             ]
           }
