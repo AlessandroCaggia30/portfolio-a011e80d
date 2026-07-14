@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-14T12:26:52.263Z",
+  "exportedAt": "2026-07-14T14:35:00.000Z",
   "data": {
     "topics": [
       {
@@ -14,7 +14,7 @@
               {
                 "id": "a1",
                 "title": "A1. Piece Rate (Lazear 2000, Safelite)",
-                "content": "**Signal**: individual measured output.\n\n**Solves**\n- Connects worker utility to firm output.\n- Strong effort incentive.\n- Sorts high-productivity types into the firm (Safelite: ~half the 44% gain is sorting).\n\n**Breaks**\n- Measurement error → risk transfer.\n- Multitasking (Holmström–Milgrom 1991).\n- Ratchet (Gibbons 1987).\n- Goodhart / bunching.\n- Cooperation collapse (Hamilton–Nickerson–Owan 2003).\n\n**Use when**: output perfectly measurable, quality clearly enforceable, production individual (Safelite is the textbook case).",
+                "content": "**Signal**: individual measured output.\n\n**Solves**\n- Connects worker utility to firm output.\n- Strong effort incentive.\n- Sorts high-productivity types into the firm (Safelite: ~half the 44% gain is sorting).\n\n**Breaks**\n- Measurement error → risk transfer.\n- Multitasking (Holmström–Milgrom 1991).\n- Ratchet (Gibbons 1987).\n- Goodhart / bunching.\n- Cooperation collapse (Hamilton–Nickerson–Owan 2003).\n\n**Use when**: output perfectly measurable, quality clearly enforceable, production individual (Safelite is the textbook case).\n\n---\n\n**Original notes (verbatim):**\n\npiece rates: not paid for hours of work but for  pieces produced  (ext. per objectives) <- bonus system. Lazear (2000)  44% average productivity gain.",
                 "x": 4600,
                 "y": 4600,
                 "width": 260,
@@ -24,15 +24,7 @@
                 "color": "purple",
                 "popBg": "#ede9fe",
                 "popShape": "rounded",
-                "links": [
-                  "f1",
-                  "f2",
-                  "f3",
-                  "f4",
-                  "f5",
-                  "f6",
-                  "f7"
-                ]
+                "links": ["f1", "f2", "f3", "f4", "f5", "f6", "f7"]
               },
               {
                 "id": "a2",
@@ -47,10 +39,7 @@
                 "color": "blue",
                 "popBg": "#dbeafe",
                 "popShape": "rounded",
-                "links": [
-                  "f1",
-                  "f3"
-                ]
+                "links": ["f1", "f3"]
               },
               {
                 "id": "a3",
@@ -65,12 +54,7 @@
                 "color": "blue",
                 "popBg": "#dbeafe",
                 "popShape": "rounded",
-                "links": [
-                  "f2",
-                  "f4",
-                  "f5",
-                  "f6"
-                ]
+                "links": ["f2", "f4", "f5", "f6"]
               },
               {
                 "id": "a4",
@@ -85,10 +69,7 @@
                 "color": "blue",
                 "popBg": "#dbeafe",
                 "popShape": "rounded",
-                "links": [
-                  "f2",
-                  "f5"
-                ]
+                "links": ["f2", "f5"]
               },
               {
                 "id": "a5",
@@ -103,10 +84,7 @@
                 "color": "blue",
                 "popBg": "#dbeafe",
                 "popShape": "rounded",
-                "links": [
-                  "f3",
-                  "f6"
-                ]
+                "links": ["f3", "f6"]
               },
               {
                 "id": "a6",
@@ -121,12 +99,7 @@
                 "color": "blue",
                 "popBg": "#dbeafe",
                 "popShape": "rounded",
-                "links": [
-                  "f1",
-                  "f2",
-                  "f3",
-                  "f6"
-                ]
+                "links": ["f1", "f2", "f3", "f6"]
               },
               {
                 "id": "a7",
@@ -141,12 +114,7 @@
                 "color": "blue",
                 "popBg": "#dbeafe",
                 "popShape": "rounded",
-                "links": [
-                  "f1",
-                  "f2",
-                  "f5",
-                  "f6"
-                ]
+                "links": ["f1", "f2", "f5", "f6"]
               },
               {
                 "id": "a8",
@@ -161,12 +129,7 @@
                 "color": "blue",
                 "popBg": "#dbeafe",
                 "popShape": "rounded",
-                "links": [
-                  "f2",
-                  "f5",
-                  "f6",
-                  "f7"
-                ]
+                "links": ["f2", "f5", "f6", "f7"]
               },
               {
                 "id": "a9",
@@ -186,7 +149,7 @@
               {
                 "id": "f1",
                 "title": "F1. Imperfect Performance Measurement",
-                "content": "**Problem**\n\nThe signal we contract on is $s = g(\\text{effort}) + \\varepsilon$, not effort itself. Any noise $\\varepsilon$ in the measurement gets transmitted into the worker's pay.\n\n**Consequences**\n- Risk-averse workers demand a wage premium for bearing noise → higher wage bill.\n- Or firm dampens piece rate to reduce risk exposure → weaker incentive → less effort.\n- Either way, first-best not achievable (Holmström–Milgrom 1987 optimal linear contract: risk vs incentive intensity tradeoff).\n\n**Which alternatives address it**\n- A2 Tournament (cancels common shock)\n- A6 Career concerns (market averages many signals)\n- A7 Subjective (manager corrects for luck)",
+                "content": "**Problem**\n\nThe signal we contract on is $s = g(\\text{effort}) + \\varepsilon$, not effort itself. Any noise $\\varepsilon$ in the measurement gets transmitted into the worker's pay.\n\n**Consequences**\n- Risk-averse workers demand a wage premium for bearing noise → higher wage bill.\n- Or firm dampens piece rate to reduce risk exposure → weaker incentive → less effort.\n- Either way, first-best not achievable (Holmström–Milgrom 1987 optimal linear contract: risk vs incentive intensity tradeoff).\n\n**Which alternatives address it**\n- A2 Tournament (cancels common shock)\n- A6 Career concerns (market averages many signals)\n- A7 Subjective (manager corrects for luck)\n\n---\n\n**Original notes (verbatim):**\n\nImperfections with performance measurement",
                 "x": 6000,
                 "y": 4700,
                 "width": 260,
@@ -201,7 +164,7 @@
               {
                 "id": "f2",
                 "title": "F2. Multitasking (Holmström–Milgrom 1991)",
-                "content": "**Problem**\n\nIf you reward one task among several, workers crowd out the un-rewarded tasks.\n\n**Evidence**\n- Asch (1990), Larkin (2014): piece rates on tasks A, B, C → worker picks only the mispriced (arbitrage) one.\n- If firm tracks 3 tasks, worker finds the highest-marginal-return one and dumps the rest.\n\n**Why**\nWorker's cost of effort is convex; marginal reward differs across tasks. Optimal worker response is a corner solution unless firm equalizes marginal incentives across ALL relevant dimensions.\n\n**Which alternatives address it**\n- A3 Fixed wage (no metric to game)\n- A4 Team pay (broader signal)\n- A6 Career concerns (market prices overall ability)\n- A7 Subjective (rewards all dimensions)\n- A8 Ownership (aligned to firm value)",
+                "content": "**Problem**\n\nIf you reward one task among several, workers crowd out the un-rewarded tasks.\n\n**Evidence**\n- Asch (1990), Larkin (2014): piece rates on tasks A, B, C → worker picks only the mispriced (arbitrage) one.\n- If firm tracks 3 tasks, worker finds the highest-marginal-return one and dumps the rest.\n\n**Why**\nWorker's cost of effort is convex; marginal reward differs across tasks. Optimal worker response is a corner solution unless firm equalizes marginal incentives across ALL relevant dimensions.\n\n**Which alternatives address it**\n- A3 Fixed wage (no metric to game)\n- A4 Team pay (broader signal)\n- A6 Career concerns (market prices overall ability)\n- A7 Subjective (rewards all dimensions)\n- A8 Ownership (aligned to firm value)\n\n---\n\n**Original notes (verbatim):**\n\nMultitasking effect Eg if you track one task by the worker and reward it, he will crowd out on other tasks (Holmström–Milgrom 1991). A piece rate for tasks A, B, C... worker will choose only the arbitrage pooportunity one (mispriced one)  Asch (1990), Larkin (2014). Solution: Quindi extensive tracking (?!)",
                 "x": 6000,
                 "y": 4940,
                 "width": 260,
@@ -216,7 +179,7 @@
               {
                 "id": "f3",
                 "title": "F3. Ratchet Effect (Gibbons 1987)",
-                "content": "**Problem**\n\nWorker hides capacity — puts low effort in easy periods so the firm doesn't discover the task is easy and raise the quota next period. Roy (1952); Bandiera–Barankay–Rasul (2005).\n\n**Mechanism**\nWorker's optimal effort today depends on how effort maps to *tomorrow's target*, not just today's pay. High output today → tighter quota tomorrow → dampen output.\n\n**Classical fix (Holmström 1982; Shleifer 1985)**\nIndex quota to *peers*, not own history — own effort no longer feeds own standard. Yardstick competition. This is essentially A2 Tournament.\n\n**Which alternatives address it**\n- A2 Tournament (peer-indexed quotas)\n- A5 Deferred comp (long horizon dilutes ratchet gain)\n- A6 Career concerns (market has no reason to raise your standard)",
+                "content": "**Problem**\n\nWorker hides capacity — puts low effort in easy periods so the firm doesn't discover the task is easy and raise the quota next period. Roy (1952); Bandiera–Barankay–Rasul (2005).\n\n**Mechanism**\nWorker's optimal effort today depends on how effort maps to *tomorrow's target*, not just today's pay. High output today → tighter quota tomorrow → dampen output.\n\n**Classical fix (Holmström 1982; Shleifer 1985)**\nIndex quota to *peers*, not own history — own effort no longer feeds own standard. Yardstick competition. This is essentially A2 Tournament.\n\n**Which alternatives address it**\n- A2 Tournament (peer-indexed quotas)\n- A5 Deferred comp (long horizon dilutes ratchet gain)\n- A6 Career concerns (market has no reason to raise your standard)\n\n---\n\n**Original notes (verbatim):**\n\nThe ratchet effect Gibbons (1987),  Roy (1952) Bandiera–Barankay–Rasul (2005)): the worker will put low effort in easy tasks, not to reveal they are truly easy. The firm will then think the task is difficult and keep the targets low. Solutions: Holmström (1982); Shleifer (1985): Quota indexed to peers, not to own history — own effort no longer feeds own standard",
                 "x": 6000,
                 "y": 5180,
                 "width": 260,
@@ -231,7 +194,7 @@
               {
                 "id": "f4",
                 "title": "F4. Risk Transfer to Worker",
-                "content": "**Problem**\n\nPay = f(output). Output varies for reasons the worker cannot control: machine downtime, random customer arrivals, seasonal variation, task-difficulty heterogeneity.\n\n**Consequence**\nRisk-averse workers dislike income variance; they demand a risk premium. Firm pays MORE in expected wage bill for the same expected effort. The insurance-vs-incentive tradeoff (Holmström–Milgrom 1987) is the core of contract theory.\n\n**Which alternatives address it**\n- A3 Fixed wage (removes ALL output risk)\n\n**Which alternatives make it WORSE**\n- A4 Team pay (loads systematic firm risk)\n- A8 Ownership (undiversified: labor + wealth co-move)",
+                "content": "**Problem**\n\nPay = f(output). Output varies for reasons the worker cannot control: machine downtime, random customer arrivals, seasonal variation, task-difficulty heterogeneity.\n\n**Consequence**\nRisk-averse workers dislike income variance; they demand a risk premium. Firm pays MORE in expected wage bill for the same expected effort. The insurance-vs-incentive tradeoff (Holmström–Milgrom 1987) is the core of contract theory.\n\n**Which alternatives address it**\n- A3 Fixed wage (removes ALL output risk)\n\n**Which alternatives make it WORSE**\n- A4 Team pay (loads systematic firm risk)\n- A8 Ownership (undiversified: labor + wealth co-move)\n\n---\n\n**Original notes (verbatim):**\n\nA piece rate transfers income risk to the worker. In a job where output  fluctuates due to factors outside the worker's control — machine downtime,  random customer arrivals, seasonal variation, task difficulty heterogeneity — a piece rate means the worker's income fluctuates for reasons they cannot control. Risk averse workers do not like this.",
                 "x": 6000,
                 "y": 5420,
                 "width": 260,
@@ -246,7 +209,7 @@
               {
                 "id": "f5",
                 "title": "F5. Cooperation Collapse (Hamilton–Nickerson–Owan 2003)",
-                "content": "**Evidence**\nGarment plant switched from team pay to individual piece rates → total output FELL despite rising individual effort. Workers stopped teaching, helping, covering. Also Encinosa–Gaynor–Rebitzer (2007) on physician groups.\n\n**Mechanism**\nUnder piece rates, time spent helping a peer = zero personal reward + opportunity cost of your own output. Rational response: withdraw from cooperation. Knowledge transfer disappears.\n\n**Which alternatives address it**\n- A3 Fixed wage (nothing to compete over)\n- A4 Team pay (directly rewards cooperation)\n- A7 Subjective (manager rewards mentoring)\n- A8 Ownership (residual claim on joint output)\n\n**Which alternatives make it WORSE**\n- A2 Tournament (helping a peer is directly costly)",
+                "content": "**Evidence**\nGarment plant switched from team pay to individual piece rates → total output FELL despite rising individual effort. Workers stopped teaching, helping, covering. Also Encinosa–Gaynor–Rebitzer (2007) on physician groups.\n\n**Mechanism**\nUnder piece rates, time spent helping a peer = zero personal reward + opportunity cost of your own output. Rational response: withdraw from cooperation. Knowledge transfer disappears.\n\n**Which alternatives address it**\n- A3 Fixed wage (nothing to compete over)\n- A4 Team pay (directly rewards cooperation)\n- A7 Subjective (manager rewards mentoring)\n- A8 Ownership (residual claim on joint output)\n\n**Which alternatives make it WORSE**\n- A2 Tournament (helping a peer is directly costly)\n\n---\n\n**Original notes (verbatim):**\n\nCooperation collapses   Hamilton–Nickerson–Owan (2003) find in a garment plant that switching to individual piece rates from team pay reduced total output despite raising individual effort, because workers stopped teaching, helping, and covering for each other. Encinosa–Gaynor–Rebitzer (2007)",
                 "x": 6000,
                 "y": 5660,
                 "width": 260,
@@ -261,7 +224,7 @@
               {
                 "id": "f6",
                 "title": "F6. Goodhart / Bunching",
-                "content": "**Evidence**\n- Oyer (1998): salespeople bunch deals before fiscal year-end.\n- Larkin (2014): software sales *sandbag* large deals to avoid ratcheting next quarter.\n- Camerer–Farber–Falk: taxi drivers, bike messengers stop at daily income target (backward-bending supply from loss aversion).\n\n**Mechanism**\nAny quota threshold creates a kink where marginal piece rate drops to zero (or turns negative via ratchet). Workers bunch AT the threshold — never above.\n\n> \"When a measure becomes a target, it ceases to be a good measure.\"\n\n**Which alternatives address it**\n- A3 Fixed wage (no threshold)\n- A5 Deferred comp (long horizon smooths bunching)\n- A6 Career concerns (continuous market pricing)\n- A7 Subjective (no bright-line target)\n- A8 Ownership (long-horizon claim)",
+                "content": "**Evidence**\n- Oyer (1998): salespeople bunch deals before fiscal year-end.\n- Larkin (2014): software sales *sandbag* large deals to avoid ratcheting next quarter.\n- Camerer–Farber–Falk: taxi drivers, bike messengers stop at daily income target (backward-bending supply from loss aversion).\n\n**Mechanism**\nAny quota threshold creates a kink where marginal piece rate drops to zero (or turns negative via ratchet). Workers bunch AT the threshold — never above.\n\n> \"When a measure becomes a target, it ceases to be a good measure.\"\n\n**Which alternatives address it**\n- A3 Fixed wage (no threshold)\n- A5 Deferred comp (long horizon smooths bunching)\n- A6 Career concerns (continuous market pricing)\n- A7 Subjective (no bright-line target)\n- A8 Ownership (long-horizon claim)\n\n---\n\n**Original notes (verbatim):**\n\nGoodhart Law: Oyer (1998): salespeople bunch deals before fiscal year-end to hit annual targets, creating artificial seasonality. Larkin (2014): software salespeople sandbagged large deals until the next quarter to avoid over-shooting targets that would ratchet future quotas.  Camerer–Farber–Falk: piece-rate taxi drivers and bicycle messengers stop after hitting a daily income target — the income target interacts with loss aversion to create backward-bending supply. Any time there is a quota threshold, workers produce exactly at the threshold, not above (bunching), because the marginal piece rate above the threshold is zero or negative.",
                 "x": 6000,
                 "y": 5900,
                 "width": 260,
@@ -276,7 +239,7 @@
               {
                 "id": "f7",
                 "title": "F7. Safelite Preconditions (when piece rate works)",
-                "content": "**Three conditions that made Safelite work**\n\n1. **Output perfectly measurable**: install-a-windshield-or-not; discrete, countable, homogeneous.\n2. **Quality standard clear**: any leak/failure → worker returns to fix, unpaid, on own time. Solves the quality-quantity multitasking problem via ex-post penalty.\n3. **Production individual**: no cooperation externalities to destroy. One worker, one car, one windshield.\n\n**Implication for Quindi.AI**\nQuindi's setting almost certainly violates #3 (cooperation matters) and possibly #1 (AI-assisted output is multi-dimensional). The evaluation index must **price cooperation** and cannot rely on a single scalar throughput measure.\n\n**Which alternatives address #3 (cooperation)**\n- A4 Team pay, A8 Ownership: price joint output directly.",
+                "content": "**Three conditions that made Safelite work**\n\n1. **Output perfectly measurable**: install-a-windshield-or-not; discrete, countable, homogeneous.\n2. **Quality standard clear**: any leak/failure → worker returns to fix, unpaid, on own time. Solves the quality-quantity multitasking problem via ex-post penalty.\n3. **Production individual**: no cooperation externalities to destroy. One worker, one car, one windshield.\n\n**Implication for Quindi.AI**\nQuindi's setting almost certainly violates #3 (cooperation matters) and possibly #1 (AI-assisted output is multi-dimensional). The evaluation index must **price cooperation** and cannot rely on a single scalar throughput measure.\n\n**Which alternatives address #3 (cooperation)**\n- A4 Team pay, A8 Ownership: price joint output directly.\n\n---\n\n**Original notes (verbatim):**\n\nConditions: 1) output perfecly measurable (either you install a windhield or not, discrete, coutnable, homogenous task difficulty), 2) quality level clear: if an installation leaked or failed, the worker returned to fix it on their own time, at zero pay. 3) Production was individual — no cooperation externalities.  Windshield installation is a genuinely solo task. One worker, one car, one  windshield. There were no team spillovers to destroy — no mentoring, no  knowledge transfer, no joint production. We learn that it is important to price coperation in our case!",
                 "x": 6000,
                 "y": 6140,
                 "width": 260,
@@ -285,6 +248,21 @@
                 "images": [],
                 "color": "yellow",
                 "popBg": "#fef9c3",
+                "popShape": "rect",
+                "links": []
+              },
+              {
+                "id": "further-reading",
+                "title": "Further Reading",
+                "content": "**Original notes (verbatim):**\n\nSearch: Gibbons and Waldman (1999), Malcomson (1999), Prendergast (1999), Murphy (1999), and Lazear (1999, 2000b).",
+                "x": 6000,
+                "y": 6420,
+                "width": 260,
+                "height": 140,
+                "flashcard": false,
+                "images": [],
+                "color": "green",
+                "popBg": "#dcfce7",
                 "popShape": "rect",
                 "links": []
               },
