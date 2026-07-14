@@ -725,6 +725,43 @@ body:has(.app.pop-mode) #nodeModal .editor-input { border-left: none !important;
 .ptb-swatch:hover { transform: scale(1.18); border-color: rgba(0,0,0,0.25); }
 .ptb-swatch.active { border-color: #6c5ce7; box-shadow: 0 0 0 2px #a29bfe; }
 
+/* ── Pop mode: floating delete pill ── */
+.pop-delete-pill {
+    position: fixed;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #fff;
+    border: 1.5px solid rgba(0,0,0,0.12);
+    border-radius: 12px;
+    padding: 4px;
+    box-shadow: 0 8px 24px rgba(30,28,50,0.18), 0 2px 6px rgba(30,28,50,0.10);
+    font-family: 'Nunito', sans-serif;
+    animation: popPillIn 0.14s ease;
+}
+@keyframes popPillIn {
+    from { opacity: 0; transform: translateY(-4px) scale(0.94); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.pdp-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    color: #1e1c3a;
+    transition: background 0.13s, color 0.13s;
+    display: flex; align-items: center; gap: 4px;
+}
+.pdp-delete { color: #d63447; }
+.pdp-delete:hover { background: #fee2e2; }
+.pdp-cancel { color: #666; padding: 6px 8px; }
+.pdp-cancel:hover { background: #f3f3f7; }
+
 /* ── Backdrop: invisible click-catcher, no shade ── */
 .pop-detail-backdrop {
     position: fixed; top: 0; left: 0; right: 50%; bottom: 0;
