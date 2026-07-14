@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-14T14:35:00.000Z",
+  "exportedAt": "2026-07-14T12:30:59.273Z",
   "data": {
     "topics": [
       {
@@ -24,7 +24,15 @@
                 "color": "purple",
                 "popBg": "#ede9fe",
                 "popShape": "rounded",
-                "links": ["f1", "f2", "f3", "f4", "f5", "f6", "f7"]
+                "links": [
+                  "f1",
+                  "f2",
+                  "f3",
+                  "f4",
+                  "f5",
+                  "f6",
+                  "f7"
+                ]
               },
               {
                 "id": "a2",
@@ -39,7 +47,10 @@
                 "color": "blue",
                 "popBg": "#dbeafe",
                 "popShape": "rounded",
-                "links": ["f1", "f3"]
+                "links": [
+                  "f1",
+                  "f3"
+                ]
               },
               {
                 "id": "a3",
@@ -54,7 +65,12 @@
                 "color": "blue",
                 "popBg": "#dbeafe",
                 "popShape": "rounded",
-                "links": ["f2", "f4", "f5", "f6"]
+                "links": [
+                  "f2",
+                  "f4",
+                  "f5",
+                  "f6"
+                ]
               },
               {
                 "id": "a4",
@@ -69,7 +85,10 @@
                 "color": "blue",
                 "popBg": "#dbeafe",
                 "popShape": "rounded",
-                "links": ["f2", "f5"]
+                "links": [
+                  "f2",
+                  "f5"
+                ]
               },
               {
                 "id": "a5",
@@ -84,7 +103,10 @@
                 "color": "blue",
                 "popBg": "#dbeafe",
                 "popShape": "rounded",
-                "links": ["f3", "f6"]
+                "links": [
+                  "f3",
+                  "f6"
+                ]
               },
               {
                 "id": "a6",
@@ -99,7 +121,12 @@
                 "color": "blue",
                 "popBg": "#dbeafe",
                 "popShape": "rounded",
-                "links": ["f1", "f2", "f3", "f6"]
+                "links": [
+                  "f1",
+                  "f2",
+                  "f3",
+                  "f6"
+                ]
               },
               {
                 "id": "a7",
@@ -114,7 +141,12 @@
                 "color": "blue",
                 "popBg": "#dbeafe",
                 "popShape": "rounded",
-                "links": ["f1", "f2", "f5", "f6"]
+                "links": [
+                  "f1",
+                  "f2",
+                  "f5",
+                  "f6"
+                ]
               },
               {
                 "id": "a8",
@@ -129,7 +161,12 @@
                 "color": "blue",
                 "popBg": "#dbeafe",
                 "popShape": "rounded",
-                "links": ["f2", "f5", "f6", "f7"]
+                "links": [
+                  "f2",
+                  "f5",
+                  "f6",
+                  "f7"
+                ]
               },
               {
                 "id": "a9",
@@ -287,7 +324,7 @@
               {
                 "id": "1784032001376",
                 "title": "Theory and issue",
-                "content": "\nTeory:\nMax the firm's profit sub to the endogenous reactions of the workers. \nRisk: if you do not understand clearly the gamma of incentives and the Game thoereitical reacitons of workers, your incentive scheem may fail badly \n\nModel: \nOutput of the firm: V(F) = g(effort) + e \nEmployee utility: U(W) = c(income) - h(effort) \n\nThe contracts are based on the (noisy) observed outcome, and not on the true effort of workers.   \n",
+                "content": "Task:\n1) find all the possible evaluation dimensions\n2) use to rank workers\n3) understand what we can do with such ranking.  Typical in personnel economics (Personnel economics (literature review by Edward P. Lazear, Paul Oyer 2007): \ni) matching firms with workers\nii) organization of work\niii) incentives, turnover & compensation\niv) skill development\nv) teamwork and worker empowerment\nx\n\nTeory:\nMax the firm's profit sub to the endogenous reactions of the workers. \nRisk: if you do not understand clearly the gamma of incentives and the Game thoereitical reacitons of workers, your incentive scheem may fail badly \n\nModel: \nOutput of the firm: V(F) = g(effort) + e \nEmployee utility: U(W) = c(income) - h(effort) \n\nThe contracts are based on the (noisy) observed outcome, and not on the true effort of workers.   \n",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
