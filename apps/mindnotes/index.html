@@ -13633,6 +13633,20 @@ function hidePopToolbar() {
     if (tb) tb.classList.remove('visible');
 }
 
+// ── Pop mode: curved / straight arrow toggle ──
+function togglePopStraight() {
+    State.popStraight = !State.popStraight;
+    localStorage.setItem('mindnotes_pop_straight', State.popStraight ? '1' : '0');
+    _syncPopLineToggle();
+    renderLinks();
+}
+function _syncPopLineToggle() {
+    const icon = document.getElementById('popLineToggleIcon');
+    const label = document.getElementById('popLineToggleLabel');
+    if (icon) icon.textContent = State.popStraight ? '↔' : '↝';
+    if (label) label.textContent = State.popStraight ? 'Straight' : 'Curved';
+}
+
 // ── Pop mode: floating delete pill on double-click ──
 function showPopDeletePill(node, x, y) {
     hidePopDeletePill();
