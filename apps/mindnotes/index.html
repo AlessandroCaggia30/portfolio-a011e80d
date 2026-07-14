@@ -7645,6 +7645,22 @@ function endDragging() {
     const dy = ev ? Math.abs(ev.clientY - I.startY) : 0;
     const duration = Date.now() - I.startTime;
     if (duration < 500 && dx < 10 && dy < 10 && !State.linkingNode) {
+        // Pop mode: detect double-click manually — the first click rerenders
+        // the canvas, so native `dblclick` never fires on the same DOM node.
+        if (State.popMode) {
+            const now = Date.now();
+            const last = State._popLastClick;
+            if (last && last.id === I.node.id && (now - last.time) < 450) {
+                State._popLastClick = null;
+                State.selectedNode = I.node;
+                closeDetail();
+                const cx = ev ? ev.clientX : I.startX;
+                const cy = ev ? ev.clientY : I.startY;
+                showPopDeletePill(I.node, cx, cy);
+                return;
+            }
+            State._popLastClick = { id: I.node.id, time: now };
+        }
         selectNode(I.node);
     }
 }
