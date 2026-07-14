@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-14T12:55:23.987Z",
+  "exportedAt": "2026-07-14T12:55:26.999Z",
   "data": {
     "topics": [
       {
@@ -131,30 +131,6 @@
                   },
                   {
                     "target": "f5",
-                    "type": "both"
-                  }
-                ]
-              },
-              {
-                "id": "a5",
-                "title": "A5. Deferred Compensation / Seniority Pay (Lazear 1979, 1981)",
-                "content": "**Signal**: tenure. Pay < marginal product early, > marginal product late.\n\n**Solves**\n- Bonds worker to firm — being fired for shirking forfeits back-loaded pay.\n- Long horizon dampens the ratchet incentive (F3): giving up short-run output for long-run tenure.\n- Long horizon dampens Goodhart bunching (F6): quarter-end games matter less if 30-year payoff dominates.\n- Solves moral hazard when short-run output isn't measurable but reputation shapes retention.\n\n**Breaks**\n- Requires credible commitment from firm not to fire senior workers arbitrarily.\n- Creates incentives for mandatory retirement (Lazear 1979).\n- Weakens mobility — inefficient if outside options shift.\n\n**Use when**: firm-specific human capital matters, output hard to measure period-by-period, firm has commitment techno",
-                "x": 4600,
-                "y": 5480,
-                "width": 260,
-                "height": 180,
-                "flashcard": false,
-                "images": [],
-                "color": "blue",
-                "popBg": "#dbeafe",
-                "popShape": "rounded",
-                "links": [
-                  {
-                    "target": "f3",
-                    "type": "both"
-                  },
-                  {
-                    "target": "f6",
                     "type": "both"
                   }
                 ]
@@ -426,6 +402,34 @@
         ]
       }
     ],
-    "trash": []
+    "trash": [
+      {
+        "id": "a5",
+        "title": "A5. Deferred Compensation / Seniority Pay (Lazear 1979, 1981)",
+        "content": "**Signal**: tenure. Pay < marginal product early, > marginal product late.\n\n**Solves**\n- Bonds worker to firm — being fired for shirking forfeits back-loaded pay.\n- Long horizon dampens the ratchet incentive (F3): giving up short-run output for long-run tenure.\n- Long horizon dampens Goodhart bunching (F6): quarter-end games matter less if 30-year payoff dominates.\n- Solves moral hazard when short-run output isn't measurable but reputation shapes retention.\n\n**Breaks**\n- Requires credible commitment from firm not to fire senior workers arbitrarily.\n- Creates incentives for mandatory retirement (Lazear 1979).\n- Weakens mobility — inefficient if outside options shift.\n\n**Use when**: firm-specific human capital matters, output hard to measure period-by-period, firm has commitment techno",
+        "x": 4600,
+        "y": 5480,
+        "width": 260,
+        "height": 180,
+        "flashcard": false,
+        "images": [],
+        "color": "blue",
+        "popBg": "#dbeafe",
+        "popShape": "rounded",
+        "links": [
+          {
+            "target": "f3",
+            "type": "both"
+          },
+          {
+            "target": "f6",
+            "type": "both"
+          }
+        ],
+        "deletedAt": 1784033724896,
+        "fromTopic": "pe-topic-1",
+        "fromSubtopic": "pe-sub-1"
+      }
+    ]
   }
 }
