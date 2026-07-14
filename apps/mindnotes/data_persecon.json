@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-14T12:55:29.683Z",
+  "exportedAt": "2026-07-14T12:55:31.614Z",
   "data": {
     "topics": [
       {
@@ -171,8 +171,8 @@
                 "id": "a8",
                 "title": "A8. Ownership / Equity (Hansmann 1996; Kruse–Blasi 1997)",
                 "content": "**Signal**: firm value — worker holds a residual claim (stock, options, partnership share, ESOP).\n\n**Solves**\n- Aligns effort with long-run firm value → solves multitasking (F2) and horizon jointly.\n- Rewards firm-level cooperation and mentoring (F5).\n- Long horizon smooths short-run bunching (F6).\n- Prices cooperation externality → useful when Safelite condition #3 (individual production) fails (F7).\n\n**Breaks**\n- Free-rider grows with N (each worker owns ≈ 1/N).\n- Loads undiversified risk onto workers (labor income + wealth co-move) — WORSENS F4.\n- Governance costs — worker-owners may block value-creating layoffs.\n- Requires liquidity / vesting to prevent early cash-out.\n\n**Use when**: small firm, high-skill workers, long horizon, output primarily reflects team effort (early-stage startup, law/consulting partnership).",
-                "x": 4600,
-                "y": 6140,
+                "x": 4611.68228670537,
+                "y": 5793.220542009013,
                 "width": 260,
                 "height": 180,
                 "flashcard": false,
