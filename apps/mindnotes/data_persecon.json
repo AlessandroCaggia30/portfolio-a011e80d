@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-14T12:55:42.245Z",
+  "exportedAt": "2026-07-14T12:55:50.069Z",
   "data": {
     "topics": [
       {
@@ -203,8 +203,8 @@
                 "id": "a9",
                 "title": "A9. Selection-Based Pay Structure (Lazear 1986, 2000)",
                 "content": "**Signal**: the *contract itself* acts as a filter — the pay structure attracts one type and repels another.\n\n**Solves**\n- You don't need to motivate ex-post; you need to attract the right type ex-ante.\n- Lazear (2000): ~**half** of the Safelite 44% productivity gain was *sorting*, not effort.\n- Reduces monitoring cost — the contract does the screening.\n- Complementary to any base scheme; layers on top.\n\n**Breaks**\n- Requires labor-market heterogeneity and mobility.\n- Sorting alone is often insufficient; usually combined with incentives.\n- Can create adverse selection if the signal the contract offers is misread.\n\n**Use when**: heterogeneous labor market, type unobservable directly, you want a self-enforcing filter. Note: this changes WHO applies, not what workers do once hired — so it doesn't fix any specific failure, it prevents them from arising.",
-                "x": 4591.08231597393,
-                "y": 6045.333149365803,
+                "x": 4804.164167161708,
+                "y": 6221.1256765957205,
                 "width": 260,
                 "height": 180,
                 "flashcard": false,
