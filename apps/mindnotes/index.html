@@ -13547,6 +13547,45 @@ function hidePopToolbar() {
     if (tb) tb.classList.remove('visible');
 }
 
+// ── Pop mode: floating delete pill on double-click ──
+function showPopDeletePill(node, x, y) {
+    hidePopDeletePill();
+    const pill = document.createElement('div');
+    pill.id = 'popDeletePill';
+    pill.className = 'pop-delete-pill';
+    pill.innerHTML = '<button class="pdp-btn pdp-delete">🗑 Delete</button>' +
+                     '<button class="pdp-btn pdp-cancel" title="Cancel">✕</button>';
+    pill.style.left = (x + 12) + 'px';
+    pill.style.top  = (y + 12) + 'px';
+    document.body.appendChild(pill);
+    pill.querySelector('.pdp-delete').onclick = (ev) => {
+        ev.stopPropagation();
+        State.selectedNodes = [node.id];
+        deleteSelectedNodes();
+        hidePopDeletePill();
+    };
+    pill.querySelector('.pdp-cancel').onclick = (ev) => {
+        ev.stopPropagation();
+        hidePopDeletePill();
+    };
+    // Dismiss on outside click / Escape
+    setTimeout(() => {
+        document.addEventListener('mousedown', _popDeletePillOutside, true);
+        document.addEventListener('keydown', _popDeletePillEsc, true);
+    }, 0);
+}
+function hidePopDeletePill() {
+    const pill = document.getElementById('popDeletePill');
+    if (pill) pill.remove();
+    document.removeEventListener('mousedown', _popDeletePillOutside, true);
+    document.removeEventListener('keydown', _popDeletePillEsc, true);
+}
+function _popDeletePillOutside(e) {
+    const pill = document.getElementById('popDeletePill');
+    if (pill && !pill.contains(e.target)) hidePopDeletePill();
+}
+function _popDeletePillEsc(e) { if (e.key === 'Escape') hidePopDeletePill(); }
+
 function setPopNodeShape(shape) {
     const node = State.selectedNode;
     if (!node) return;
