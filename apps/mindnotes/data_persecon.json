@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-14T12:55:26.999Z",
+  "exportedAt": "2026-07-14T12:55:29.683Z",
   "data": {
     "topics": [
       {
@@ -136,43 +136,11 @@
                 ]
               },
               {
-                "id": "a6",
-                "title": "A6. Career Concerns / Implicit Incentives (Fama 1980; Holmström 1982)",
-                "content": "**Signal**: your *future outside wage*, priced by the labor market from observed output.\n\n**Solves**\n- Market averages many noisy signals over time → attacks measurement noise (F1).\n- Naturally captures multidimensional output — market cares about overall ability, not one metric (F2).\n- Removes the ratchet (F3): market has no incentive to raise your standard if you produce more.\n- Continuous market pricing → no threshold to bunch at (F6).\n\n**Breaks**\n- Horizon effect: incentive weakens toward retirement (Gibbons–Murphy 1992).\n- Effort tilts to visible, market-legible activities → private-value tasks under-provided.\n- Requires market observability of individual output.\n\n**Use when**: high-visibility labor markets (CEOs, academics, professional services).",
-                "x": 4600,
-                "y": 5700,
-                "width": 260,
-                "height": 180,
-                "flashcard": false,
-                "images": [],
-                "color": "blue",
-                "popBg": "#dbeafe",
-                "popShape": "rounded",
-                "links": [
-                  {
-                    "target": "f1",
-                    "type": "both"
-                  },
-                  {
-                    "target": "f2",
-                    "type": "both"
-                  },
-                  {
-                    "target": "f3",
-                    "type": "both"
-                  },
-                  {
-                    "target": "f6",
-                    "type": "both"
-                  }
-                ]
-              },
-              {
                 "id": "a7",
                 "title": "A7. Subjective Evaluation + Bonus (MacLeod 2003; Baker–Gibbons–Murphy 1994)",
                 "content": "**Signal**: manager's private assessment, converted to bonus/promotion.\n\n**Solves**\n- Manager can down-weight lucky outcomes and reward true effort → attacks measurement noise (F1).\n- Rewards multi-dim performance → attacks multitasking (F2).\n- Preserves flexibility to reward cooperation, culture, mentoring (F5).\n- No explicit threshold → no bunching (F6).\n\n**Breaks**\n- Influence activities (Milgrom 1988): workers persuade the manager instead of producing.\n- Favoritism, discrimination, arbitrary variation.\n- Requires a **relational contract**: manager must credibly commit to fair evaluation (MacLeod 2003).\n- Legally hard to defend if evaluations diverge from measurables.\n\n**Use when**: output is complex, multi-dimensional, hard to game via explicit metrics; long employment relationships with repeated interaction.",
-                "x": 4600,
-                "y": 5920,
+                "x": 4607.993143535253,
+                "y": 5540.633110672981,
                 "width": 260,
                 "height": 180,
                 "flashcard": false,
@@ -427,6 +395,41 @@
           }
         ],
         "deletedAt": 1784033724896,
+        "fromTopic": "pe-topic-1",
+        "fromSubtopic": "pe-sub-1"
+      },
+      {
+        "id": "a6",
+        "title": "A6. Career Concerns / Implicit Incentives (Fama 1980; Holmström 1982)",
+        "content": "**Signal**: your *future outside wage*, priced by the labor market from observed output.\n\n**Solves**\n- Market averages many noisy signals over time → attacks measurement noise (F1).\n- Naturally captures multidimensional output — market cares about overall ability, not one metric (F2).\n- Removes the ratchet (F3): market has no incentive to raise your standard if you produce more.\n- Continuous market pricing → no threshold to bunch at (F6).\n\n**Breaks**\n- Horizon effect: incentive weakens toward retirement (Gibbons–Murphy 1992).\n- Effort tilts to visible, market-legible activities → private-value tasks under-provided.\n- Requires market observability of individual output.\n\n**Use when**: high-visibility labor markets (CEOs, academics, professional services).",
+        "x": 4600,
+        "y": 5700,
+        "width": 260,
+        "height": 180,
+        "flashcard": false,
+        "images": [],
+        "color": "blue",
+        "popBg": "#dbeafe",
+        "popShape": "rounded",
+        "links": [
+          {
+            "target": "f1",
+            "type": "both"
+          },
+          {
+            "target": "f2",
+            "type": "both"
+          },
+          {
+            "target": "f3",
+            "type": "both"
+          },
+          {
+            "target": "f6",
+            "type": "both"
+          }
+        ],
+        "deletedAt": 1784033727579,
         "fromTopic": "pe-topic-1",
         "fromSubtopic": "pe-sub-1"
       }
