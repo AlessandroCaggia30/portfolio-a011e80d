@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-14T12:55:50.069Z",
+  "exportedAt": "2026-07-14T12:55:57.132Z",
   "data": {
     "topics": [
       {
@@ -323,8 +323,8 @@
                 "id": "further-reading",
                 "title": "Further Reading",
                 "content": "**Original notes (verbatim):**\n\nSearch: Gibbons and Waldman (1999), Malcomson (1999), Prendergast (1999), Murphy (1999), and Lazear (1999, 2000b).",
-                "x": 6000,
-                "y": 6420,
+                "x": 5602.864112761791,
+                "y": 6301.219175720294,
                 "width": 260,
                 "height": 140,
                 "flashcard": false,
