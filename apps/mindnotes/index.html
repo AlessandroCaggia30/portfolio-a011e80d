@@ -762,12 +762,13 @@ body:has(.app.pop-mode) #nodeModal .editor-input { border-left: none !important;
 .pdp-cancel { color: #666; padding: 6px 8px; }
 .pdp-cancel:hover { background: #f3f3f7; }
 
-/* ── Backdrop: invisible click-catcher, no shade ── */
+/* ── Backdrop: purely visual, doesn't block canvas clicks ── */
 .pop-detail-backdrop {
     position: fixed; top: 0; left: 0; right: 50%; bottom: 0;
     background: transparent;
     z-index: 599;
     display: none;
+    pointer-events: none;
 }
 .pop-detail-backdrop.visible { display: block; }
 
