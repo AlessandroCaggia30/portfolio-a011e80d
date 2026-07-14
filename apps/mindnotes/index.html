@@ -669,8 +669,9 @@ body:has(.app.pop-mode) #nodeModal .editor-input { border-left: none !important;
     font-size: 19px !important;
     font-weight: 800 !important;
 }
-/* Hide "Edit" button — auto-enter edit mode in pop */
-.app.pop-mode .edit-btn.view-mode-only { display: none !important; }
+/* Keep the "Edit" button visible in pop mode so the user can flip back
+   from the rendered view (bold/headings) into raw edit. */
+.app.pop-mode .edit-btn.view-mode-only { display: inline-block !important; }
 /* Hide format selector */
 .app.pop-mode .detail-format-select { display: none !important; }
 
