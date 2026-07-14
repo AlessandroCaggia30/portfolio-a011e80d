@@ -7357,7 +7357,7 @@ function attachNodeEventListeners(el, node) {
         };
     });
 
-    // Double click to edit
+    // Double click to edit (or, in pop mode, show delete pill)
     el.addEventListener('dblclick', (e) => {
         if (e.target.closest('.node-color-btn') || e.target.closest('.color-picker') ||
             e.target.closest('.resize-handle') || e.target.closest('.editable-formula') ||
@@ -7367,7 +7367,12 @@ function attachNodeEventListeners(el, node) {
         e.preventDefault();
         e.stopPropagation();
         State.selectedNode = node;
-        editSelectedNode();
+        if (State.popMode) {
+            closeDetail();
+            showPopDeletePill(node, e.clientX, e.clientY);
+        } else {
+            editSelectedNode();
+        }
     });
 }
 
