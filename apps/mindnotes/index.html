@@ -8917,14 +8917,9 @@ function openDetail(node) {
 
     renderObsidianPreview();
 
-    // In pop mode: skip the view-mode step and jump straight into editing
-    if (State.popMode) {
-        setTimeout(() => {
-            enterDetailEditMode();
-            const ed = $('detailContentEditor');
-            if (ed) ed.focus();
-        }, 0);
-    }
+    // Pop mode: OPEN IN VIEW MODE so KaTeX + markdown render.
+    // Click the "Edit" button to switch to raw editing.
+    // (Detail panel already has view-mode class from openDetail; nothing to do.)
 
     // Update links list
     const linksList = $('linksListDetail');
