@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-14T14:15:00.000Z",
+  "exportedAt": "2026-07-14T12:20:14.234Z",
   "data": {
     "topics": [
       {
@@ -15,8 +15,8 @@
                 "id": "pr-hub",
                 "title": "Piece Rate (Lazear 2000, Safelite)",
                 "content": "**The reference contract**\n\nPay per unit of output. Safelite auto-glass workers switched from hourly to per-windshield → **+44%** productivity (Lazear 2000). About half of the gain is *effort* (moral hazard resolved), half is *sorting* (high-productivity workers self-select in).\n\n**Signal**: individual measured output.\n\n**Model context**\n- Firm output: $V(F) = g(\\text{effort}) + \\varepsilon$\n- Worker utility: $U(W) = c(\\text{income}) - h(\\text{effort})$\n- Piece rate connects the two by tying income directly to $g(\\text{effort})$.\n\n**Six failure modes** (see failure snippets below):\n1. Imperfect measurement → risk transfer\n2. Multitasking distortion\n3. Ratchet effect\n4. Risk transfer to worker\n5. Cooperation collapse\n6. Goodhart / bunching at thresholds\n\n**Safelite preconditions** (see Conditions snippet): perfect measurability, clear quality standard, individual production.",
-                "x": 5000,
-                "y": 4700,
+                "x": 5328.647757080959,
+                "y": 4258.102002303305,
                 "width": 280,
                 "height": 160,
                 "flashcard": false,
@@ -24,7 +24,15 @@
                 "color": "purple",
                 "popBg": "#ede9fe",
                 "popShape": "rounded",
-                "links": ["f1", "f2", "f3", "f4", "f5", "f6", "f7"]
+                "links": [
+                  "f1",
+                  "f2",
+                  "f3",
+                  "f4",
+                  "f5",
+                  "f6",
+                  "f7"
+                ]
               },
               {
                 "id": "f1",
@@ -39,7 +47,11 @@
                 "color": "red",
                 "popBg": "#fce7f3",
                 "popShape": "rect",
-                "links": ["s2", "s6", "s7"]
+                "links": [
+                  "s2",
+                  "s6",
+                  "s7"
+                ]
               },
               {
                 "id": "f2",
@@ -54,7 +66,12 @@
                 "color": "red",
                 "popBg": "#fce7f3",
                 "popShape": "rect",
-                "links": ["s3", "s7", "s8", "s6"]
+                "links": [
+                  "s3",
+                  "s7",
+                  "s8",
+                  "s6"
+                ]
               },
               {
                 "id": "f3",
@@ -69,7 +86,10 @@
                 "color": "red",
                 "popBg": "#fce7f3",
                 "popShape": "rect",
-                "links": ["s2", "s6"]
+                "links": [
+                  "s2",
+                  "s6"
+                ]
               },
               {
                 "id": "f4",
@@ -84,7 +104,10 @@
                 "color": "red",
                 "popBg": "#fce7f3",
                 "popShape": "rect",
-                "links": ["s3", "s6"]
+                "links": [
+                  "s3",
+                  "s6"
+                ]
               },
               {
                 "id": "f5",
@@ -99,7 +122,12 @@
                 "color": "red",
                 "popBg": "#fce7f3",
                 "popShape": "rect",
-                "links": ["s4", "s7", "s8", "s3"]
+                "links": [
+                  "s4",
+                  "s7",
+                  "s8",
+                  "s3"
+                ]
               },
               {
                 "id": "f6",
@@ -114,7 +142,12 @@
                 "color": "red",
                 "popBg": "#fce7f3",
                 "popShape": "rect",
-                "links": ["s3", "s6", "s7", "s8"]
+                "links": [
+                  "s3",
+                  "s6",
+                  "s7",
+                  "s8"
+                ]
               },
               {
                 "id": "f7",
@@ -195,8 +228,8 @@
                 "id": "s6",
                 "title": "S6. Career Concerns / Implicit Incentives (Fama 1980; Holmström 1982)",
                 "content": "**Signal**: your *future outside wage*, priced by the labor market from your observed output.\n\n**Solves**\n- Motivates effort without an explicit contract — good today = better wage tomorrow at other firms.\n- Works when firm can't credibly commit but the labor market can.\n- Naturally captures multidimensional output — market cares about overall ability.\n\n**Breaks**\n- **Horizon effect**: incentive weakens toward retirement (Gibbons–Murphy 1992).\n- Effort tilted toward visible, market-legible activities → private-value tasks under-provided.\n- Requires market observability of individual output.\n\n**Use when**: high-visibility labor markets (CEOs, academics, professional services).",
-                "x": 4400,
-                "y": 5670,
+                "x": 4202.367227160775,
+                "y": 4712.92443714937,
                 "width": 240,
                 "height": 160,
                 "flashcard": false,
