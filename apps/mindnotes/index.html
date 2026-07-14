@@ -7771,13 +7771,17 @@ function drawLink(from, to, linkType) {
     const markerSuffix = isSelected ? 'selected' : 'normal';
 
     if (State.popMode) {
-        // ── Excalidraw-style: curved quadratic bezier with open arrowheads ──
-        const midX = (x1 + x2) / 2, midY = (y1 + y2) / 2;
-        const perpLen = dist * 0.15;
-        // Perpendicular offset to curve the line
-        const cpX = midX - uy * perpLen;
-        const cpY = midY + ux * perpLen;
-        const pathD = `M ${x1},${y1} Q ${cpX},${cpY} ${x2},${y2}`;
+        // ── Excalidraw-style arrows: curved (default) or straight ──
+        let pathD;
+        if (State.popStraight) {
+            pathD = `M ${x1},${y1} L ${x2},${y2}`;
+        } else {
+            const midX = (x1 + x2) / 2, midY = (y1 + y2) / 2;
+            const perpLen = dist * 0.15;
+            const cpX = midX - uy * perpLen;
+            const cpY = midY + ux * perpLen;
+            pathD = `M ${x1},${y1} Q ${cpX},${cpY} ${x2},${y2}`;
+        }
         const popMarker = 'pop-arrow-' + markerSuffix;
 
         const hitPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
