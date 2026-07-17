@@ -9234,14 +9234,19 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
     if (!text) return '';
 
     // ── Markdown pipe-table support (GFM) ──
-    // Converts | col | col |  \n | --- | --- |  \n | ... |  into <table>.
-    // Runs before all other processing so tables get segment-parsed as HTML blocks.
+    // Converts | col | col |  \n | --- | --- |  \n | ... |  into <table class="md-table">.
+    // Runs first so tables become HTML blocks; each cell may still contain $math$
+    // which gets rendered by KaTeX when the final HTML is inserted.
+    const _tableStore = [];
     text = (function convertPipeTables(src) {
         const lines = src.split('\n');
         const out = [];
         let i = 0;
         const rowRe = /^\s*\|(.+)\|\s*$/;
         const sepRe = /^\s*\|(\s*:?-{2,}:?\s*\|)+\s*$/;
+        const inlineBold = (s) => s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                                   .replace(/\*([^*]+?)\*/g, '<em>$1</em>')
+                                   .replace(/`([^`]+?)`/g, '<code>$1</code>');
         while (i < lines.length) {
             if (rowRe.test(lines[i]) && i + 1 < lines.length && sepRe.test(lines[i+1])) {
                 const splitRow = (l) => l.replace(/^\s*\|/, '').replace(/\|\s*$/, '').split('|').map(s => s.trim());
@@ -9253,17 +9258,18 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
                     j++;
                 }
                 let html = '<table class="md-table"><thead><tr>';
-                header.forEach(h => html += '<th>' + h + '</th>');
+                header.forEach(h => html += '<th>' + inlineBold(h) + '</th>');
                 html += '</tr></thead><tbody>';
                 rows.forEach(r => {
                     html += '<tr>';
                     for (let k = 0; k < header.length; k++) {
-                        html += '<td>' + (r[k] || '') + '</td>';
+                        html += '<td>' + inlineBold(r[k] || '') + '</td>';
                     }
                     html += '</tr>';
                 });
                 html += '</tbody></table>';
-                out.push(html);
+                _tableStore.push(html);
+                out.push('\x01T' + (_tableStore.length - 1) + '\x01');
                 i = j;
             } else {
                 out.push(lines[i]);
@@ -9272,6 +9278,18 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
         }
         return out.join('\n');
     })(text);
+
+    // ── Bold / italic / code across math ──
+    // Stash math, run inline markdown, restore math.
+    // This fixes **bold $math$ more** which otherwise breaks because the segment
+    // parser splits on $ before the inline regex ever runs.
+    (function processInlineMarkdown() {
+        const stash = [];
+        text = text.replace(/\$\$([\s\S]*?)\$\$/g, m => { stash.push(m); return '\x01X' + (stash.length - 1) + '\x01'; });
+        text = text.replace(/\$([^\$\n]+?)\$/g, m => { stash.push(m); return '\x01X' + (stash.length - 1) + '\x01'; });
+        text = text.replace(/\*\*(.+?)\*\*/g, '%%B%%$1%%/B%%');
+        stash.forEach((b, i) => { text = text.replace('\x01X' + i + '\x01', () => b); });
+    })();
 
     // Pre-process color commands BEFORE segment parsing.
     // \textcolor{red}{text $math$ text} spans across math blocks, so if we parse
