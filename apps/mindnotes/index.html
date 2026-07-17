@@ -13748,6 +13748,7 @@ function _subjectById(id) { return _allSubjects().find(s => s.id === id) || null
 async function openPopView(subject) {
     if (!subject) return;
     State.popMode = true;
+    try { localStorage.setItem('mindnotes_current_pop', '1'); } catch (_) {}
     // Default: straight (localStorage empty → treat as straight)
     const _popStraightLS = localStorage.getItem('mindnotes_pop_straight');
     State.popStraight = _popStraightLS === null ? true : _popStraightLS === '1';
