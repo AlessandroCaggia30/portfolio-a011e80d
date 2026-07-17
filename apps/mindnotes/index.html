@@ -13872,6 +13872,8 @@ function _popDetailBackdrop(show) {
 
 async function selectSubject(subject) {
     State.currentSubject = subject;
+    // Persist so a page refresh keeps the user inside this subject.
+    try { localStorage.setItem('mindnotes_current_subject', subject.id); } catch (_) {}
     $('subjectScreen').classList.add('hidden');
 
     const useStatsTable = subject.id === 'statistics';
