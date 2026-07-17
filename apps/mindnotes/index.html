@@ -7750,7 +7750,7 @@ function ensureSvgArrowDefs() {
     svg.insertBefore(defs, svg.firstChild);
 }
 
-function drawLink(from, to, linkType) {
+function drawLink(from, to, linkType, curvedOverride) {
     linkType = linkType || 'both';
     const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     group.style.cursor = 'pointer';
