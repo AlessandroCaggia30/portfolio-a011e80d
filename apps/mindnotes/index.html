@@ -13957,6 +13957,8 @@ async function backToSubjects() {
     appEl.style.display = '';
     appEl.classList.remove('pop-mode');
     closeStatsSnippet();
+    // Clear persisted subject so next refresh lands on the picker.
+    try { localStorage.removeItem('mindnotes_current_subject'); localStorage.removeItem('mindnotes_current_pop'); } catch (_) {}
     showSubjectScreen();
 }
 
