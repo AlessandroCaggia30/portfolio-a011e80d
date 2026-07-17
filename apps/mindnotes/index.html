@@ -13432,6 +13432,26 @@ function loadTheme() {
 
 let _customSubjects = JSON.parse(localStorage.getItem('mindnotes_custom_subjects') || '[]');
 
+// One-time cleanup: remove any custom subject whose name clashes with a
+// hardcoded seeded subject (e.g. old custom "Personnel Economics" now that
+// there's a seeded version). Also purges its local storage / IndexedDB data.
+(function _cleanupClashingCustomSubjects() {
+    const flag = 'mindnotes_cleanup_persecon_v1';
+    if (localStorage.getItem(flag)) return;
+    const hardcodedNames = new Set(SUBJECTS.map(s => s.name.toLowerCase()));
+    const toRemove = _customSubjects.filter(s => hardcodedNames.has((s.name || '').toLowerCase()));
+    if (toRemove.length) {
+        toRemove.forEach(s => {
+            try { localStorage.removeItem(s.dataKey); } catch (_) {}
+            try { localStorage.removeItem(s.dataKey + '_seedVersion'); } catch (_) {}
+            try { if (window.indexedDB) indexedDB.deleteDatabase(s.dataKey); } catch (_) {}
+        });
+        _customSubjects = _customSubjects.filter(s => !hardcodedNames.has((s.name || '').toLowerCase()));
+        localStorage.setItem('mindnotes_custom_subjects', JSON.stringify(_customSubjects));
+    }
+    localStorage.setItem(flag, '1');
+})();
+
 function _allSubjects() { return [...SUBJECTS, ..._customSubjects]; }
 
 function _saveCustomSubject(name, icon) {
