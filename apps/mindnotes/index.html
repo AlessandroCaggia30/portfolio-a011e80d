@@ -7959,7 +7959,7 @@ function showLinkDirectionPicker(fromId, toId) {
     }
 
     document.body.appendChild(menu);
-    const menuW = 130;
+    const menuW = State.popMode ? 230 : 130;
     menu.style.left = Math.max(4, Math.min(midX - menuW/2, window.innerWidth - menuW - 4)) + 'px';
     menu.style.top = (midY - 54) + 'px';
 
