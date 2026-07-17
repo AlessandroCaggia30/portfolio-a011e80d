@@ -1533,6 +1533,33 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
     font-size: 0.9em;
 }
 
+/* ── Markdown pipe tables ── */
+.live-preview .md-table {
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 13.5px;
+    max-width: 100%;
+    display: block;
+    overflow-x: auto;
+}
+.live-preview .md-table th,
+.live-preview .md-table td {
+    border: 1px solid var(--border);
+    padding: 7px 11px;
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.55;
+}
+.live-preview .md-table th {
+    background: var(--bg3);
+    font-weight: 700;
+    color: var(--text);
+}
+.live-preview .md-table tr:nth-child(even) td {
+    background: rgba(108,92,231,0.03);
+}
+.live-preview .md-table .katex { font-size: 0.95em; }
+
 .live-preview h2, .live-preview h3, .live-preview h4 {
     margin: 20px 0 10px 0;
     color: var(--text);
