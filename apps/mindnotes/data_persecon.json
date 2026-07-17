@@ -14,7 +14,7 @@
               {
                 "id": "a1",
                 "title": "A1. Piece Rate (Lazear 2000, Safelite)",
-                "content": "**Signal**: individual measured output.\n\n**Solves**\n- Connects worker utility to firm output.\n- Strong effort incentive.\n- Sorts high-productivity types into the firm (Safelite: ~half the 44% gain is sorting).\n\n**Breaks**\n- Measurement error → risk transfer.\n- Multitasking (Holmström–Milgrom 1991).\n- Ratchet (Gibbons 1987).\n- Goodhart / bunching.\n- Cooperation collapse (Hamilton–Nickerson–Owan 2003).\n\n**Use when**: output perfectly measurable, quality clearly enforceable, production individual (Safelite is the textbook case).",
+                "content": "### How this modifies the base model\n\nLayer output-contingent slope on top of $w_0$:\n$$w_i = \\alpha + \\beta\\, s_i, \\quad s_i = g(e_i) + \\varepsilon_i$$\n\nWorker's problem (CARA-Gaussian):\n$$\\max_{e_i}\\; \\alpha + \\beta g(e_i) - c(e_i) - \\tfrac{1}{2}\\rho\\beta^2\\sigma^2$$\n\nFOC: $\\beta\\, g'(e_i^{*}) = c'(e_i^{*}) \\Rightarrow e_i^{*} > 0$.\n\nOptimal slope (Holmström–Milgrom 1987):\n$$\\beta^{*} = \\frac{1}{1 + \\rho\\,\\sigma^2\\, k/g'^{\\,2}}$$\n\nEfficiency loss vs first-best: $\\Delta = \\tfrac{1}{2}\\rho\\sigma^2(\\beta^{*})^2$.\n\n---\n\n**Signal**: individual measured output.\n\n**Solves**\n- Connects worker utility to firm output.\n- Strong effort incentive.\n- Sorts high-productivity types into the firm (Safelite: ~half the 44% gain is sorting).\n\n**Breaks**\n- Measurement error → risk transfer.\n- Multitasking (Holmström–Milgrom 1991).\n- Ratchet (Gibbons 1987).\n- Goodhart / bunching.\n- Cooperation collapse (Hamilton–Nickerson–Owan 2003).\n\n**Use when**: output perfectly measurable, quality clearly enforceable, production individual (Safelite is the textbook case).",
                 "x": 4600,
                 "y": 4600,
                 "width": 260,
@@ -58,7 +58,7 @@
               {
                 "id": "a2",
                 "title": "A2. Tournament / Rank-Order Contest (Lazear–Rosen 1981)",
-                "content": "**Signal**: your *rank* among peers, not your level.\n\n**Solves**\n- Cancels common shocks (market, weather, task difficulty) via relative comparison → attacks F1 (measurement).\n- Fights the ratchet (F3): can't hide capacity if effort still moves rank.\n- Simple prize structure; only ordinal ranking needed.\n\n**Breaks**\n- Sabotage (Chan 1996; Dye 1984; Lazear 1989).\n- Collusion: everyone agrees to low effort.\n- Kills cooperation completely — helping a peer is directly costly (worsens F5).\n- Discourages risky innovation late in the round if ahead.\n\n**Use when**: individual output measurable up to a common shock, peer group homogeneous, cooperation not required.",
+                "content": "### How this modifies the base model\n\nReplace flat $w_0$ with rank-based prizes: winner gets $w_H$, loser $w_L$, spread $\\Delta = w_H - w_L$. $P_i(\\text{win})$ depends on relative effort.\n\nWorker's problem:\n$$\\max_{e_i}\\; \\Delta \\cdot P_i(\\text{win} \\mid e_i, e_{-i}) - c(e_i)$$\n\nLazear–Rosen (1981) optimal spread:\n$$\\Delta^{*} \\cdot \\frac{\\partial P_i}{\\partial e_i} = c'(e_i^{*})$$\n\nCommon noise $\\varepsilon$ cancels — only *relative* effort determines rank.\n\n---\n\n**Signal**: your *rank* among peers, not your level.\n\n**Solves**\n- Cancels common shocks (market, weather, task difficulty) via relative comparison → attacks F1 (measurement).\n- Fights the ratchet (F3): can't hide capacity if effort still moves rank.\n- Simple prize structure; only ordinal ranking needed.\n\n**Breaks**\n- Sabotage (Chan 1996; Dye 1984; Lazear 1989).\n- Collusion: everyone agrees to low effort.\n- Kills cooperation completely — helping a peer is directly costly (worsens F5).\n- Discourages risky innovation late in the round if ahead.\n\n**Use when**: individual output measurable up to a common shock, peer group homogeneous, cooperation not required.",
                 "x": 4600,
                 "y": 4820,
                 "width": 260,
@@ -82,7 +82,7 @@
               {
                 "id": "a3",
                 "title": "A3. Fixed Wage + Efficiency Wage (Shapiro–Stiglitz 1984)",
-                "content": "**Signal**: none directly — pay is flat. Motivation from *threat of dismissal* under monitoring, plus wage above market-clearing so the job is worth keeping.\n\n**Solves**\n- Removes all output-based risk (F4).\n- No metric to game → attacks multitasking (F2), Goodhart (F6).\n- No incentive to hoard output → attacks cooperation collapse (F5).\n\n**Breaks**\n- Requires credible monitoring AND credible dismissal.\n- Involuntary unemployment as equilibrium feature.\n- No high-powered incentive → productivity ceiling.\n\n**Use when**: output signals noisy or gameable; quality > quantity; firm has monitoring infrastructure.",
+                "content": "### How this modifies the base model\n\nKeep $w_0 > w^{MC}$ (as in Weiss) **plus** monitoring probability $q$ + dismissal on detected shirking.\n\n**Shapiro–Stiglitz no-shirking condition**:\n$$w_0 - w^{MC} \\;\\geq\\; \\frac{c(e)\\,(1-\\delta)}{q\\,\\delta}$$\n\nWage premium must exceed effort cost adjusted by monitoring intensity. $e_i^{*} > 0$ induced by threat of losing the rent — not by output linkage.\n\n---\n\n**Signal**: none directly — pay is flat. Motivation from *threat of dismissal* under monitoring, plus wage above market-clearing so the job is worth keeping.\n\n**Solves**\n- Removes all output-based risk (F4).\n- No metric to game → attacks multitasking (F2), Goodhart (F6).\n- No incentive to hoard output → attacks cooperation collapse (F5).\n\n**Breaks**\n- Requires credible monitoring AND credible dismissal.\n- Involuntary unemployment as equilibrium feature.\n- No high-powered incentive → productivity ceiling.\n\n**Use when**: output signals noisy or gameable; quality > quantity; firm has monitoring infrastructure.",
                 "x": 4600,
                 "y": 5040,
                 "width": 260,
@@ -114,7 +114,7 @@
               {
                 "id": "a4",
                 "title": "A4. Team Pay / Profit Sharing (Kandel–Lazear 1992; Weitzman–Kruse 1990)",
-                "content": "**Signal**: group-level output — team quota, plant profits, firm profit.\n\n**Solves**\n- Rewards cooperation, mentoring, mutual help directly (F5).\n- Aligns worker to firm value → attacks narrow-metric multitasking (F2).\n- Peer pressure polices free-riders in small teams (Kandel–Lazear).\n\n**Breaks**\n- Free-rider problem grows with N — marginal reward on effort ≈ 1/N.\n- Requires observability *between* peers so social pressure operates.\n- Loads systematic risk (firm-wide shocks) onto workers — WORSENS F4.\n\n**Use when**: small tight teams with strong cooperation externalities and mutual observability (surgical team, small startup).o",
+                "content": "### How this modifies the base model\n\nAdd group-signal slope on top of $w_0$:\n$$w_i = w_0 + \\beta_T \\cdot s_{\\text{team}}, \\quad s_{\\text{team}} = \\frac{1}{N}\\sum_{j=1}^N y_j$$\n\nMarginal own-effort incentive:\n$$\\frac{\\partial w_i}{\\partial e_i} = \\frac{\\beta_T}{N}$$\n\nFree-rider scales with $N$: individual reward on own effort $\\propto 1/N$.\n\nKandel–Lazear (1992): peer pressure supplements the $1/N$ direct incentive for small $N$ — worker $i$ internalizes some cost of others' scrutiny.\n\n---\n\n**Signal**: group-level output — team quota, plant profits, firm profit.\n\n**Solves**\n- Rewards cooperation, mentoring, mutual help directly (F5).\n- Aligns worker to firm value → attacks narrow-metric multitasking (F2).\n- Peer pressure polices free-riders in small teams (Kandel–Lazear).\n\n**Breaks**\n- Free-rider problem grows with N — marginal reward on effort ≈ 1/N.\n- Requires observability *between* peers so social pressure operates.\n- Loads systematic risk (firm-wide shocks) onto workers — WORSENS F4.\n\n**Use when**: small tight teams with strong cooperation externalities and mutual observability (surgical team, small startup).o",
                 "x": 4600,
                 "y": 5260,
                 "width": 260,
@@ -138,7 +138,7 @@
               {
                 "id": "a7",
                 "title": "A7. Subjective Evaluation + Bonus (MacLeod 2003; Baker–Gibbons–Murphy 1994)",
-                "content": "**Signal**: manager's private assessment, converted to bonus/promotion.\n\n**Solves**\n- Manager can down-weight lucky outcomes and reward true effort → attacks measurement noise (F1).\n- Rewards multi-dim performance → attacks multitasking (F2).\n- Preserves flexibility to reward cooperation, culture, mentoring (F5).\n- No explicit threshold → no bunching (F6).\n\n**Breaks**\n- Influence activities (Milgrom 1988): workers persuade the manager instead of producing.\n- Favoritism, discrimination, arbitrary variation.\n- Requires a **relational contract**: manager must credibly commit to fair evaluation (MacLeod 2003).\n- Legally hard to defend if evaluations diverge from measurables.\n\n**Use when**: output is complex, multi-dimensional, hard to game via explicit metrics; long employment relationships with repeated interaction.",
+                "content": "### How this modifies the base model\n\nManager privately observes rating $m_i$ correlated with effort. Bonus $b(m_i)$ on top of $w_0$:\n$$w_i = w_0 + b(m_i)$$\n\nWorker's effort FOC:\n$$\\mathbb{E}\\!\\left[\\frac{\\partial b(m_i)}{\\partial e_i}\\right] = c'(e_i^{*})$$\n\nOptimal $b^{*}$ (MacLeod 2003) balances effort inducement against **influence-activity** cost. Requires a **relational contract**: manager must credibly commit not to renege; reneging destroys the equilibrium.\n\n---\n\n**Signal**: manager's private assessment, converted to bonus/promotion.\n\n**Solves**\n- Manager can down-weight lucky outcomes and reward true effort → attacks measurement noise (F1).\n- Rewards multi-dim performance → attacks multitasking (F2).\n- Preserves flexibility to reward cooperation, culture, mentoring (F5).\n- No explicit threshold → no bunching (F6).\n\n**Breaks**\n- Influence activities (Milgrom 1988): workers persuade the manager instead of producing.\n- Favoritism, discrimination, arbitrary variation.\n- Requires a **relational contract**: manager must credibly commit to fair evaluation (MacLeod 2003).\n- Legally hard to defend if evaluations diverge from measurables.\n\n**Use when**: output is complex, multi-dimensional, hard to game via explicit metrics; long employment relationships with repeated interaction.",
                 "x": 4604.304000365136,
                 "y": 5511.119965312047,
                 "width": 260,
@@ -170,7 +170,7 @@
               {
                 "id": "a8",
                 "title": "A8. Ownership / Equity (Hansmann 1996; Kruse–Blasi 1997)",
-                "content": "**Signal**: firm value — worker holds a residual claim (stock, options, partnership share, ESOP).\n\n**Solves**\n- Aligns effort with long-run firm value → solves multitasking (F2) and horizon jointly.\n- Rewards firm-level cooperation and mentoring (F5).\n- Long horizon smooths short-run bunching (F6).\n- Prices cooperation externality → useful when Safelite condition #3 (individual production) fails (F7).\n\n**Breaks**\n- Free-rider grows with N (each worker owns ≈ 1/N).\n- Loads undiversified risk onto workers (labor income + wealth co-move) — WORSENS F4.\n- Governance costs — worker-owners may block value-creating layoffs.\n- Requires liquidity / vesting to prevent early cash-out.\n\n**Use when**: small firm, high-skill workers, long horizon, output primarily reflects team effort (early-stage startup, law/consulting partnership).",
+                "content": "### How this modifies the base model\n\nAdd equity share $\\phi \\in (0,1)$ on top of $w_0$:\n$$w_i = w_0 + \\phi \\cdot V, \\qquad V = \\sum_{j=1}^N y_j$$\n\nMarginal own-effort incentive:\n$$\\frac{\\partial w_i}{\\partial e_i} = \\phi \\cdot \\frac{\\partial V}{\\partial e_i}$$\n\nFor workforce size $N$, effective incentive per worker on own task is $\\phi/N$ — free-rider like team pay. But alignment with **long-run** firm value handles multi-dim + horizon simultaneously.\n\n---\n\n**Signal**: firm value — worker holds a residual claim (stock, options, partnership share, ESOP).\n\n**Solves**\n- Aligns effort with long-run firm value → solves multitasking (F2) and horizon jointly.\n- Rewards firm-level cooperation and mentoring (F5).\n- Long horizon smooths short-run bunching (F6).\n- Prices cooperation externality → useful when Safelite condition #3 (individual production) fails (F7).\n\n**Breaks**\n- Free-rider grows with N (each worker owns ≈ 1/N).\n- Loads undiversified risk onto workers (labor income + wealth co-move) — WORSENS F4.\n- Governance costs — worker-owners may block value-creating layoffs.\n- Requires liquidity / vesting to prevent early cash-out.\n\n**Use when**: small firm, high-skill workers, long horizon, output primarily reflects team effort (early-stage startup, law/consulting partnership).",
                 "x": 4595.695999634863,
                 "y": 5740.342823237337,
                 "width": 260,
@@ -202,7 +202,7 @@
               {
                 "id": "a9",
                 "title": "A9. Selection-Based Pay Structure (Lazear 1986, 2000)",
-                "content": "**Signal**: the *contract itself* acts as a filter — the pay structure attracts one type and repels another.\n\n**Solves**\n- You don't need to motivate ex-post; you need to attract the right type ex-ante.\n- Lazear (2000): ~**half** of the Safelite 44% productivity gain was *sorting*, not effort.\n- Reduces monitoring cost — the contract does the screening.\n- Complementary to any base scheme; layers on top.\n\n**Breaks**\n- Requires labor-market heterogeneity and mobility.\n- Sorting alone is often insufficient; usually combined with incentives.\n- Can create adverse selection if the signal the contract offers is misread.\n\n**Use when**: heterogeneous labor market, type unobservable directly, you want a self-enforcing filter. Note: this changes WHO applies, not what workers do once hired — so it doesn't fix any specific failure, it prevents them from arising.",
+                "content": "### How this modifies the base model\n\n**No modification.** Selection IS the base mechanism — Weiss (1980) + PVR (2002) already sort $\\theta$ via $w_0$ and $w(z)$.\n\nA9's contribution: makes the sorting margin *explicit* in contract design. The CHOICE of $(w_0, \\{\\beta_j\\})$ operates through sorting as much as through moral hazard.\n\nLazear (2000): about **half** of Safelite's 44% productivity gain came from sorting, not effort. Selection is the silent workhorse layered underneath every other alternative.\n\n---\n\n**Signal**: the *contract itself* acts as a filter — the pay structure attracts one type and repels another.\n\n**Solves**\n- You don't need to motivate ex-post; you need to attract the right type ex-ante.\n- Lazear (2000): ~**half** of the Safelite 44% productivity gain was *sorting*, not effort.\n- Reduces monitoring cost — the contract does the screening.\n- Complementary to any base scheme; layers on top.\n\n**Breaks**\n- Requires labor-market heterogeneity and mobility.\n- Sorting alone is often insufficient; usually combined with incentives.\n- Can create adverse selection if the signal the contract offers is misread.\n\n**Use when**: heterogeneous labor market, type unobservable directly, you want a self-enforcing filter. Note: this changes WHO applies, not what workers do once hired — so it doesn't fix any specific failure, it prevents them from arising.",
                 "x": 4804.164167161708,
                 "y": 6221.1256765957205,
                 "width": 260,
@@ -333,12 +333,14 @@
                 "popBg": "#dcfce7",
                 "popShape": "rounded",
                 "links": [
-                  "a1",
-                  "a2",
-                  "a3",
-                  "a4",
-                  "a7",
-                  "a8"
+                  { "target": "a1", "type": "forward" },
+                  { "target": "a2", "type": "forward" },
+                  { "target": "a3", "type": "forward" },
+                  { "target": "a4", "type": "forward" },
+                  { "target": "a5", "type": "forward" },
+                  { "target": "a6", "type": "forward" },
+                  { "target": "a7", "type": "forward" },
+                  { "target": "a8", "type": "forward" }
                 ]
               },
               {
