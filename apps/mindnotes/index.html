@@ -7806,9 +7806,16 @@ function drawLink(from, to, linkType, curvedOverride) {
     const markerSuffix = isSelected ? 'selected' : 'normal';
 
     if (State.popMode) {
-        // ── Excalidraw-style arrows: curved (default) or straight ──
+        // ── Per-link straight/curved. Default: STRAIGHT.
+        // curvedOverride=true → force curved. Global State.popStraight=false → curved unless override says straight. ──
+        let useCurved = false;
+        if (typeof curvedOverride === 'boolean') {
+            useCurved = curvedOverride;
+        } else if (State.popStraight === false) {
+            useCurved = true;
+        }
         let pathD;
-        if (State.popStraight) {
+        if (!useCurved) {
             pathD = `M ${x1},${y1} L ${x2},${y2}`;
         } else {
             const midX = (x1 + x2) / 2, midY = (y1 + y2) / 2;
