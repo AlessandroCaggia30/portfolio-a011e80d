@@ -7931,6 +7931,33 @@ function showLinkDirectionPicker(fromId, toId) {
         menu.appendChild(btn);
     });
 
+    // ── Straight / Curved toggle (pop mode) ──
+    if (State.popMode) {
+        const sep = document.createElement('div');
+        sep.style.cssText = 'width:1px;height:22px;background:rgba(0,0,0,0.12);margin:0 4px;';
+        menu.appendChild(sep);
+        const styles = [
+            { curved: false, label: '─', title: 'Straight line' },
+            { curved: true,  label: '⌒', title: 'Curved line' }
+        ];
+        const isCurved = getLinkCurved(link);
+        styles.forEach(s => {
+            const btn = document.createElement('button');
+            btn.textContent = s.label;
+            btn.title = s.title;
+            if (s.curved === isCurved) btn.style.background = 'var(--accent)';
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                link.curved = s.curved;
+                hideLinkTypeMenu();
+                saveData();
+                renderCanvas();
+                showToast('Line style changed');
+            });
+            menu.appendChild(btn);
+        });
+    }
+
     document.body.appendChild(menu);
     const menuW = 130;
     menu.style.left = Math.max(4, Math.min(midX - menuW/2, window.innerWidth - menuW - 4)) + 'px';
