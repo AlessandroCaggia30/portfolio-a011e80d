@@ -9206,6 +9206,46 @@ function startFullContentEdit() {
 function formatContentWithEditableFormulas(text, applyLatexCommands) {
     if (!text) return '';
 
+    // ── Markdown pipe-table support (GFM) ──
+    // Converts | col | col |  \n | --- | --- |  \n | ... |  into <table>.
+    // Runs before all other processing so tables get segment-parsed as HTML blocks.
+    text = (function convertPipeTables(src) {
+        const lines = src.split('\n');
+        const out = [];
+        let i = 0;
+        const rowRe = /^\s*\|(.+)\|\s*$/;
+        const sepRe = /^\s*\|(\s*:?-{2,}:?\s*\|)+\s*$/;
+        while (i < lines.length) {
+            if (rowRe.test(lines[i]) && i + 1 < lines.length && sepRe.test(lines[i+1])) {
+                const splitRow = (l) => l.replace(/^\s*\|/, '').replace(/\|\s*$/, '').split('|').map(s => s.trim());
+                const header = splitRow(lines[i]);
+                const rows = [];
+                let j = i + 2;
+                while (j < lines.length && rowRe.test(lines[j])) {
+                    rows.push(splitRow(lines[j]));
+                    j++;
+                }
+                let html = '<table class="md-table"><thead><tr>';
+                header.forEach(h => html += '<th>' + h + '</th>');
+                html += '</tr></thead><tbody>';
+                rows.forEach(r => {
+                    html += '<tr>';
+                    for (let k = 0; k < header.length; k++) {
+                        html += '<td>' + (r[k] || '') + '</td>';
+                    }
+                    html += '</tr>';
+                });
+                html += '</tbody></table>';
+                out.push(html);
+                i = j;
+            } else {
+                out.push(lines[i]);
+                i++;
+            }
+        }
+        return out.join('\n');
+    })(text);
+
     // Pre-process color commands BEFORE segment parsing.
     // \textcolor{red}{text $math$ text} spans across math blocks, so if we parse
     // segments first the command gets split and processLatexCommands can't match it.
