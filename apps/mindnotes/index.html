@@ -14635,7 +14635,20 @@ async function initApp() {
     initDetailImageInput();
 
     loadTheme();
-    showSubjectScreen();
+
+    // Resume last subject if the user was inside one when they refreshed.
+    const _lastSubjectId = (() => { try { return localStorage.getItem('mindnotes_current_subject'); } catch (_) { return null; } })();
+    const _lastPop = (() => { try { return localStorage.getItem('mindnotes_current_pop') === '1'; } catch (_) { return false; } })();
+    const _resumeSubject = _lastSubjectId && _allSubjects().find(s => s.id === _lastSubjectId);
+    if (_resumeSubject) {
+        if (_lastPop) {
+            openPopView(_resumeSubject);
+        } else {
+            selectSubject(_resumeSubject);
+        }
+    } else {
+        showSubjectScreen();
+    }
 
     // Auto-save when title changes in detail panel
     const detailTitle = $('detailTitle');
