@@ -9455,6 +9455,14 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
     html = restoreColorMarkers(html);
     html = restoreFormattingMarkers(html);
 
+    // Restore pipe-table blocks. Strip surrounding <span class="detail-text">
+    // wrappers so <table> isn't nested inside inline elements (invalid HTML).
+    _tableStore.forEach((tbl, idx) => {
+        const marker = '\x01T' + idx + '\x01';
+        html = html.replace(new RegExp('<span[^>]*class="detail-text"[^>]*>\\s*' + marker + '\\s*</span>', 'g'), tbl);
+        html = html.replace(marker, tbl);
+    });
+
     return html;
 }
 
