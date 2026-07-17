@@ -7019,7 +7019,7 @@ function renderCanvas() {
         try {
             node.links?.forEach(link => {
                 const target = nodes.find(n => n.id === getLinkTarget(link));
-                if (target) drawLink(node, target, getLinkType(link));
+                if (target) drawLink(node, target, getLinkType(link), getLinkCurved(link));
             });
         } catch (e) {
             console.error('Error drawing links for node', node.id, e);
@@ -7041,7 +7041,7 @@ function renderLinks() {
     State.currentSubtopic?.nodes.forEach(node => {
         node.links?.forEach(link => {
             const target = State.currentSubtopic.nodes.find(n => n.id === getLinkTarget(link));
-            if (target) drawLink(node, target, getLinkType(link));
+            if (target) drawLink(node, target, getLinkType(link), getLinkCurved(link));
         });
     });
     if (State.linkLine) svg.appendChild(State.linkLine);
