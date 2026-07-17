@@ -6357,6 +6357,11 @@ function getLinkType(link) {
     return typeof link === 'string' ? 'both' : (link.type || 'both');
 }
 
+// Per-link straight/curved override. Default is straight in pop mode.
+function getLinkCurved(link) {
+    return typeof link === 'object' && link && link.curved === true;
+}
+
 function findLinkTo(node, targetId) {
     if (!node.links) return null;
     return node.links.find(l => getLinkTarget(l) === targetId) || null;
