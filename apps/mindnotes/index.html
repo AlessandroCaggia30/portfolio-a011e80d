@@ -13895,6 +13895,18 @@ function _spConfirm(mode) {
 // ==================== AGENDA ====================
 const AGENDA_KEYS = { short: 'mindnotes_agenda_short', long: 'mindnotes_agenda_long' };
 
+// One-time cleanup: wipe the fake seeded tasks that shouldn't have been added.
+const AGENDA_CLEANUP_FLAG = 'mindnotes_agenda_cleanup_v1';
+(function _agendaOneTimeCleanup() {
+    try {
+        if (localStorage.getItem(AGENDA_CLEANUP_FLAG)) return;
+        localStorage.removeItem(AGENDA_KEYS.short);
+        localStorage.removeItem(AGENDA_KEYS.long);
+        localStorage.removeItem('mindnotes_agenda_seeded_v1');
+        localStorage.setItem(AGENDA_CLEANUP_FLAG, '1');
+    } catch (e) {}
+})();
+
 function _agendaLoad(col) {
     try { return JSON.parse(localStorage.getItem(AGENDA_KEYS[col])) || []; } catch { return []; }
 }
