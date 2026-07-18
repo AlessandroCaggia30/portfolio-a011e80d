@@ -14176,6 +14176,9 @@ async function selectSubject(subject) {
 }
 
 async function backToSubjects() {
+    // Hide the reading list button when returning to the subject picker
+    _updateReadingListButtonVisibility(null);
+    closeReadingList();
     // Always flush local content of any open editor first
     if (State.selectedNode && typeof autoSaveContent === 'function') {
         try { autoSaveContent(); } catch (e) {}
