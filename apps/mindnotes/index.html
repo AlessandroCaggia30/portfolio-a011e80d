@@ -183,6 +183,110 @@ body {
     border-bottom: 1px solid var(--border);
 }
 
+/* ── Reading List button + modal ── */
+.reading-list-btn {
+    display: block;
+    width: calc(100% - 32px);
+    margin: 4px 16px 12px;
+    padding: 9px 12px;
+    background: linear-gradient(135deg, rgba(108,92,231,0.10), rgba(0,184,148,0.08));
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+}
+.reading-list-btn:hover {
+    background: linear-gradient(135deg, rgba(108,92,231,0.18), rgba(0,184,148,0.14));
+    border-color: var(--accent);
+    transform: translateY(-1px);
+}
+.reading-list-modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 9998;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    animation: rlFadeIn 0.15s ease;
+}
+.reading-list-modal.visible { display: flex; }
+@keyframes rlFadeIn { from { opacity: 0; } to { opacity: 1; } }
+.reading-list-panel {
+    background: var(--bg);
+    color: var(--text);
+    border-radius: 14px;
+    width: min(880px, 92vw);
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    animation: rlPanelIn 0.18s ease;
+}
+@keyframes rlPanelIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.reading-list-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.reading-list-header h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+.reading-list-close {
+    background: none;
+    border: none;
+    color: var(--text2);
+    font-size: 22px;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+.reading-list-close:hover { background: var(--bg3); color: var(--text); }
+.reading-list-body {
+    padding: 20px 28px;
+    overflow-y: auto;
+    line-height: 1.65;
+    font-size: 14px;
+}
+.reading-list-body h3 {
+    margin: 22px 0 10px;
+    font-size: 15px;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+.reading-list-body h4 {
+    margin: 14px 0 4px;
+    font-size: 15px;
+    color: var(--text);
+    font-weight: 700;
+}
+.reading-list-body p, .reading-list-body ul { margin: 6px 0; }
+.reading-list-body ul { padding-left: 20px; }
+.reading-list-body li { margin: 4px 0; }
+.reading-list-body .rl-cite { color: var(--text2); font-size: 13px; }
+.reading-list-body a { color: var(--accent); text-decoration: none; }
+.reading-list-body a:hover { text-decoration: underline; }
+.reading-list-body hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 20px 0;
+}
+.reading-list-empty {
+    text-align: center;
+    padding: 40px;
+    color: var(--text2);
+}
+
 .search-input {
     width: 100%;
     padding: 10px 14px;
