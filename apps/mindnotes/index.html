@@ -14233,6 +14233,16 @@ function _updateReadingListButtonVisibility(subject) {
     const btn = document.getElementById('readingListBtn');
     if (!btn) return;
     btn.style.display = (subject && READING_LISTS[subject.id]) ? 'block' : 'none';
+    const abmBtn = document.getElementById('abmDashboardBtn');
+    if (abmBtn) abmBtn.style.display = (subject && subject.id === 'personnel-econ') ? 'block' : 'none';
+}
+
+// ==================== ABM DASHBOARD LAUNCHER ====================
+function openAbmDashboard() {
+    // Compute the dashboard URL relative to the current app location.
+    // apps/mindnotes/index.html → apps/mindnotes/personnel-econ-dashboard/index.html
+    const dashUrl = 'personnel-econ-dashboard/index.html';
+    window.open(dashUrl, '_blank', 'noopener');
 }
 
 async function selectSubject(subject) {
