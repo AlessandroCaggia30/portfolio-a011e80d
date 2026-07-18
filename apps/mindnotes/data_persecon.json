@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-18T19:23:52.028Z",
+  "exportedAt": "2026-07-18T19:26:32.873Z",
   "data": {
     "topics": [
       {
@@ -833,8 +833,8 @@
                 "id": "p-ross-1973",
                 "title": "P·Ross (1973) — Agency",
                 "content": "w",
-                "x": 5970.409336370454,
-                "y": 1557.218173817531,
+                "x": 6081.486280273928,
+                "y": 1560.4534246108356,
                 "width": 340,
                 "height": 240,
                 "flashcard": false,
@@ -863,8 +863,8 @@
                 "id": "p-holmstrom-1979",
                 "title": "P·Holmström (1979) — Sufficient Statistic",
                 "content": "**Ref.** Holmström, B. (1979). Moral hazard and observability. *Bell JE*, 10(1), 74–91.\n\n## Contribution\nCanonical PA model + **sufficient-statistic principle**.\n\n## Idea\nPA with unobservable effort $e$, noisy output $y$. Which additional signals should enter the contract?\n\n## Result\nAny signal informative about $e$ *beyond* what $y$ tells us should enter the contract. Contract $w(y, z)$ uses ALL sufficient statistics for $e$.\n\n## Impact\n**Base model** for the entire literature. Justifies A2 tournaments (peer signals), A7 subjective (manager info), A4 team pay (peer output), and multi-signal indices generally.\n\n→ Anchor: **Incentives Theory Core**",
-                "x": 7325,
-                "y": 1975,
+                "x": 6055.703272093318,
+                "y": 2109.8021163877106,
                 "width": 340,
                 "height": 240,
                 "flashcard": false,
@@ -893,8 +893,8 @@
                 "id": "p-hm-1987",
                 "title": "P·Holmström–Milgrom (1987) — Linear Contract",
                 "content": "**Ref.** Holmström, B. & Milgrom, P. (1987). Aggregation and linearity in the provision of intertemporal incentives. *Econometrica*, 55(2), 303–328.\n\n## Contribution\n**The optimal linear contract** theorem — the workhorse of applied incentive theory.\n\n## Idea\nAgent controls the drift of a Brownian motion over $[0,T]$; CARA preferences; quadratic effort cost. Principal picks $w(\\cdot)$.\n\n## Result\nOptimal contract is **linear** in the aggregate signal:\n$$w = \\alpha + \\beta \\int_0^T dY_t$$\nwith\n$$\\beta^* = \\frac{1}{1 + \\rho\\sigma^2 k / g'^2}$$\nAlso proves **aggregation**: only the sum of signals matters.\n\n## Impact\nEvery A-alternative in our graph uses this template. THE benchmark.\n\n→ Anchor: **Incentives Theory Core**",
-                "x": 6466.157489270075,
-                "y": 1699.798323494545,
+                "x": 6631.155279728633,
+                "y": 1655.5832293193757,
                 "width": 340,
                 "height": 240,
                 "flashcard": false,
