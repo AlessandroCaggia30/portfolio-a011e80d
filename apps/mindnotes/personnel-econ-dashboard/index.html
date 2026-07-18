@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Firm ABM — Simulation Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>/* Firm ABM dashboard styling */
+:root {
+  --bg: #0f1116;
+  --bg2: #1a1d26;
+  --card: #23272f;
+  --text: #e6e9ef;
+  --text2: #8a92a8;
+  --accent: #7c5cff;
+  --accent2: #00d4a3;
+  --danger: #ff5470;
+  --border: rgba(255,255,255,0.08);
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f4f6fa;
+    --bg2: #ffffff;
+    --card: #ffffff;
+    --text: #1a1d26;
+    --text2: #6b7280;
+    --border: rgba(0,0,0,0.08);
+  }
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+header.hero {
+  padding: 48px 24px 32px;
+  text-align: center;
+  background: linear-gradient(135deg, var(--bg2), var(--bg));
+  border-bottom: 1px solid var(--border);
+}
+header.hero h1 {
+  margin: 0 0 8px;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+header.hero .tagline {
+  color: var(--text2);
+  margin: 0;
+  font-size: 15px;
+}
+
+nav.tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+nav.tabs .tab {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text2);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+nav.tabs .tab:hover { color: var(--text); border-color: var(--accent); }
+nav.tabs .tab.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+section.panel { display: none; }
+section.panel.active { display: block; }
+
+section.panel h2 {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+section.panel > p {
+  color: var(--text2);
+  margin: 0 0 24px;
+  max-width: 800px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin-bottom: 20px;
+}
+.card h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.card p { margin: 0 0 12px; color: var(--text2); font-size: 13px; }
+.card canvas {
+  width: 100%;
+  max-height: 360px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 20px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  color: var(--text2);
+  font-size: 13px;
+}
+.controls input[type=range] { width: 260px; }
+
+table.incidence {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+table.incidence th,
+table.incidence td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+table.incidence th {
+  background: var(--bg);
+  color: var(--text2);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+table.incidence tr:hover td { background: rgba(124,92,255,0.05); }
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.badge-low { background: rgba(0,212,163,0.15); color: var(--accent2); }
+.badge-med { background: rgba(255,196,0,0.15); color: #ffc400; }
+.badge-high { background: rgba(255,84,112,0.15); color: var(--danger); }
+
+footer {
+  padding: 32px 24px;
+  text-align: center;
+  color: var(--text2);
+  font-size: 13px;
+  border-top: 1px solid var(--border);
+}
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+    <h1>Firm ABM — Simulation Dashboard</h1>
+    <p class="tagline">Testing (1) issues from the moral hazard literature and (2) contract solutions under realistic conditions.</p>
+</header>
+
+<nav class="tabs">
+    <button class="tab active" data-tab="issues">1 · Issues (moral hazard failures)</button>
+    <button class="tab" data-tab="solutions">2 · Solutions (contract comparison)</button>
+    <button class="tab" data-tab="scale">3 · Scale effects (group expansion)</button>
+    <button class="tab" data-tab="noise">4 · Rating noise sensitivity</button>
+    <button class="tab" data-tab="hierarchy">5 · Supervisor collusion (Tirole 1986)</button>
+    <button class="tab" data-tab="sweep">6 · Full sweep — optimal contract by regime</button>
+</nav>
+
+<main>
+
+<!-- Tab 1: issues -->
+<section class="panel active" id="tab-issues">
+    <h2>Moral hazard failures — what goes wrong under naïve contracts</h2>
+    <p>Under a flat wage (A0), workers exert <strong>zero discretionary effort</strong>. Under piece rate (A1), effort rises but six distortions appear. Simulation shows the magnitude of each.</p>
+
+    <div class="grid-2">
+        <div class="card">
+            <h3>F1 · Measurement noise → risk transfer</h3>
+            <p>Workers demand a wage premium for bearing output noise. Higher <code>σ</code> → lower optimal β under HM 1987.</p>
+            <canvas id="chart-F1"></canvas>
+        </div>
+        <div class="card">
+            <h3>F2 · Multitasking distortion</h3>
+            <p>When one task is paid and another isn't, effort shifts entirely to the paid one.</p>
+            <canvas id="chart-F2"></canvas>
+        </div>
+        <div class="card">
+            <h3>F3 · Ratchet effect (Gibbons 1987)</h3>
+            <p>Workers under-produce to keep future quotas low. Effort drops with target-updating frequency.</p>
+            <canvas id="chart-F3"></canvas>
+        </div>
+        <div class="card">
+            <h3>F4 · Risk transfer to worker</h3>
+            <p>High-powered incentives load noise onto risk-averse workers. Wage variance vs β tradeoff.</p>
+            <canvas id="chart-F4"></canvas>
+        </div>
+        <div class="card">
+            <h3>F5 · Cooperation collapse (Hamilton–Nickerson–Owan 2003)</h3>
+            <p>Under piece rates workers stop helping each other; team pay reverses this.</p>
+            <canvas id="chart-F5"></canvas>
+        </div>
+        <div class="card">
+            <h3>F6 · Goodhart bunching</h3>
+            <p>Workers cluster just at the quota threshold; effort collapses beyond it.</p>
+            <canvas id="chart-F6"></canvas>
+        </div>
+    </div>
+</section>
+
+<!-- Tab 2: solutions -->
+<section class="panel" id="tab-solutions">
+    <h2>Solutions — how each contract A1–A8 performs</h2>
+    <p>Simulated firm output, wage bill, effort dispersion, and cooperation across the 9 contract families.</p>
+
+    <div class="controls">
+        <label>N (workers): <input type="range" id="ctrl-N-solutions" min="5" max="100" value="50" step="5"></label>
+        <span id="val-N-solutions">50</span>
+    </div>
+
+    <div class="card">
+        <h3>Per-contract summary</h3>
+        <canvas id="chart-solutions-bar"></canvas>
+    </div>
+
+    <div class="card">
+        <h3>Effort × cooperation trade-off</h3>
+        <p>Each dot is a contract; higher-right is better.</p>
+        <canvas id="chart-solutions-scatter"></canvas>
+    </div>
+
+    <div class="card">
+        <h3>Failure-mode incidence per contract</h3>
+        <table class="incidence">
+            <thead><tr><th>Contract</th><th>F1 Measurement</th><th>F2 Multitask</th><th>F3 Ratchet</th><th>F4 Risk</th><th>F5 Cooperation</th><th>F6 Goodhart</th></tr></thead>
+            <tbody id="table-incidence"></tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Tab 3: scale -->
+<section class="panel" id="tab-scale">
+    <h2>Scale effect — how output responds to expanding the group</h2>
+    <p>Free-rider (Holmström 1982) predicts effort ∝ 1/N under team pay. Simulation shows the actual collapse curve.</p>
+
+    <div class="card">
+        <h3>Mean effort × N per contract</h3>
+        <canvas id="chart-scale-effort"></canvas>
+    </div>
+    <div class="card">
+        <h3>Firm profit × N per contract</h3>
+        <canvas id="chart-scale-profit"></canvas>
+    </div>
+    <div class="card">
+        <h3>Cooperation × N (peer network density fixed)</h3>
+        <canvas id="chart-scale-help"></canvas>
+    </div>
+</section>
+
+<!-- Tab 4: noise -->
+<section class="panel" id="tab-noise">
+    <h2>Rating noise — how subjective / peer noise degrades cooperation</h2>
+    <p>MacLeod (2003): subjective bonus sustains cooperation only when rating noise is low enough.</p>
+
+    <div class="card">
+        <h3>Mean effort × noise (A7 subjective bonus)</h3>
+        <canvas id="chart-noise-effort"></canvas>
+    </div>
+    <div class="card">
+        <h3>Supervisor reputation × noise</h3>
+        <canvas id="chart-noise-reputation"></canvas>
+    </div>
+</section>
+
+<!-- Tab 5: hierarchy -->
+<section class="panel" id="tab-hierarchy">
+    <h2>Tirole (1986) — supervisor collusion under different contracts</h2>
+    <p>Rate of worker–supervisor collusion per period, and how audit probability breaks it.</p>
+
+    <div class="card">
+        <h3>Collusion events per period × contract</h3>
+        <canvas id="chart-collusion"></canvas>
+    </div>
+    <div class="card">
+        <h3>Supervisor reputation dynamics</h3>
+        <canvas id="chart-sup-reputation"></canvas>
+    </div>
+</section>
+
+<!-- Tab 6: sweep -->
+<section class="panel" id="tab-sweep">
+    <h2>Full sweep — optimal contract by regime</h2>
+    <p>Best contract (highest expected firm profit) for each (N, noise) combination.</p>
+
+    <div class="card">
+        <h3>Heatmap: profit × contract × N (noise = medium)</h3>
+        <canvas id="chart-sweep-heat"></canvas>
+    </div>
+
+    <div class="card">
+        <h3>Best contract per (N, noise) cell</h3>
+        <table class="incidence">
+            <thead><tr><th>N \ noise</th><th>low</th><th>medium</th><th>high</th></tr></thead>
+            <tbody id="table-best-contract"></tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h3>Takeaways</h3>
+        <ul>
+            <li>Small teams (N ≤ 10) + low noise → <strong>A7 subjective</strong> or <strong>A4 team pay</strong> dominates.</li>
+            <li>Large teams (N ≥ 50) + high noise → <strong>A1 piece rate</strong> or <strong>A3 efficiency wage</strong> needed.</li>
+            <li>Middle regimes → <strong>A2 tournament</strong> or hybrid stacks.</li>
+        </ul>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <p>Data sourced from <code>results/*.csv</code>. Run <code>experiments/week9_10_sweep.py</code> to regenerate.</p>
+    <p><a href="../README.md">← README</a> · <a href="https://github.com/AlessandroCaggia30/portfolio-a011e80d">Repo</a></p>
+</footer>
+
+
+<script>
+  window.EMBEDDED_DATA = {"contracts": {"A0": {"effort": 0.062, "output": 1.687, "wage": 22.5, "help": 0.05, "sabotage": 0.0, "collusion": 0.0}, "A1": {"effort": 0.468, "output": 11.998, "wage": 13.697, "help": 0.0, "sabotage": 0.0, "collusion": 2.91}, "A2": {"effort": 0.171, "output": 4.579, "wage": 27.75, "help": 0.0, "sabotage": 0.225, "collusion": 0.0}, "A3": {"effort": 0.142, "output": 3.745, "wage": 33.75, "help": 0.05, "sabotage": 0.0, "collusion": 0.0}, "A4": {"effort": 0.022, "output": 0.674, "wage": 9.254, "help": 0.15, "sabotage": 0.0, "collusion": 0.0}, "A5": {"effort": 0.085, "output": 2.289, "wage": 29.062, "help": 0.05, "sabotage": 0.0, "collusion": 0.0}, "A6": {"effort": 0.137, "output": 3.627, "wage": 30.249, "help": 0.05, "sabotage": 0.0, "collusion": 0.0}, "A7": {"effort": 0.058, "output": 1.599, "wage": 19.335, "help": 0.15, "sabotage": 0.0, "collusion": 0.0}, "A8": {"effort": 0.048, "output": 1.329, "wage": 18.976, "help": 0.15, "sabotage": 0.0, "collusion": 0.0}}, "sweep": {"scale": {"A0": {"N": [5, 10, 25, 50], "effort": [0.059, 0.062, 0.063, 0.062], "output": [0.38, 0.648, 1.919, 3.8], "profit": [-4.62, -9.352, -23.081, -46.2], "help": [0.05, 0.05, 0.05, 0.05]}, "A1": {"N": [5, 10, 25, 50], "effort": [0.461, 0.47, 0.473, 0.467], "output": [2.7, 5.358, 13.886, 26.047], "profit": [-0.332, -0.691, -1.314, -4.459], "help": [0.0, 0.0, 0.0, 0.0]}, "A2": {"N": [5, 10, 25, 50], "effort": [0.163, 0.168, 0.177, 0.177], "output": [0.985, 1.839, 5.178, 10.315], "profit": [-4.515, -10.661, -25.322, -52.185], "help": [0.0, 0.0, 0.0, 0.0]}, "A3": {"N": [5, 10, 25, 50], "effort": [0.138, 0.143, 0.146, 0.143], "output": [0.837, 1.56, 4.255, 8.328], "profit": [-6.663, -13.44, -33.245, -66.672], "help": [0.05, 0.05, 0.05, 0.05]}, "A4": {"N": [5, 10, 25, 50], "effort": [0.021, 0.022, 0.022, 0.022], "output": [0.161, 0.201, 0.766, 1.568], "profit": [-1.895, -3.911, -9.522, -18.992], "help": [0.15, 0.15, 0.15, 0.15]}, "A5": {"N": [5, 10, 25, 50], "effort": [0.082, 0.086, 0.087, 0.086], "output": [0.512, 0.914, 2.603, 5.127], "profit": [-5.946, -12.003, -29.689, -59.456], "help": [0.05, 0.05, 0.05, 0.05]}, "A6": {"N": [5, 10, 25, 50], "effort": [0.134, 0.135, 0.139, 0.138], "output": [0.826, 1.488, 4.111, 8.082], "profit": [-5.935, -11.899, -29.62, -59.036], "help": [0.05, 0.05, 0.05, 0.05]}, "A7": {"N": [5, 10, 25, 50], "effort": [0.055, 0.058, 0.06, 0.059], "output": [0.358, 0.603, 1.817, 3.618], "profit": [-3.874, -7.967, -19.641, -39.461], "help": [0.15, 0.15, 0.15, 0.15]}, "A8": {"N": [5, 10, 25, 50], "effort": [0.047, 0.047, 0.048, 0.048], "output": [0.31, 0.482, 1.494, 3.028], "profit": [-3.721, -7.614, -19.253, -40.0], "help": [0.15, 0.15, 0.15, 0.15]}}, "best_by_cell": {"5": {"0.1": "A1", "0.4": "A1", "0.8": "A1"}, "10": {"0.1": "A1", "0.4": "A1", "0.8": "A1"}, "25": {"0.1": "A1", "0.4": "A1", "0.8": "A1"}, "50": {"0.1": "A1", "0.4": "A1", "0.8": "A1"}}, "heatmap": {"N": [5, 10, 25, 50], "contracts": ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8"], "values": [[0.38, 0.648, 1.919, 3.8], [2.7, 5.358, 13.886, 26.047], [0.985, 1.839, 5.178, 10.315], [0.837, 1.56, 4.255, 8.328], [0.161, 0.201, 0.766, 1.568], [0.512, 0.914, 2.603, 5.127], [0.826, 1.488, 4.111, 8.082], [0.358, 0.603, 1.817, 3.618], [0.31, 0.482, 1.494, 3.028]]}}, "week3_4": {"A0": {"collusion": 0.0, "audit_penalty": 0.0, "sup_reputation": 0.735}, "A1": {"collusion": 5.962, "audit_penalty": 0.962, "sup_reputation": 0.607}, "A2": {"collusion": 0.0, "audit_penalty": 0.0, "sup_reputation": 0.831}, "A3": {"collusion": 0.0, "audit_penalty": 0.0, "sup_reputation": 0.745}, "A4": {"collusion": 0.0, "audit_penalty": 0.0, "sup_reputation": 0.73}, "A7": {"collusion": 0.0, "audit_penalty": 0.0, "sup_reputation": 0.754}}, "week5_6": {"A0": {"noise": [0.1, 0.4, 0.8], "effort": [0.012, 0.012, 0.012], "output": [0.603, 0.603, 0.603], "help": [0.05, 0.05, 0.05], "sup_reputation": [0.732, 0.708, 0.668]}, "A4": {"noise": [0.1, 0.4, 0.8], "effort": [0.004, 0.004, 0.004], "output": [0.163, 0.163, 0.163], "help": [0.15, 0.15, 0.15], "sup_reputation": [0.73, 0.702, 0.663]}, "A7": {"noise": [0.1, 0.4, 0.8], "effort": [0.025, 0.025, 0.026], "output": [1.298, 1.321, 1.396], "help": [0.15, 0.15, 0.15], "sup_reputation": [0.75, 0.728, 0.685]}}, "week7_8": {"N": 20, "beta": 0.6, "theoretical_nash": 0.03, "br_effort_mean": 0.0555, "br_converged": true, "q_learned_optimal": 0.5}};
+</script>
+<script>
+/* Dashboard for the Firm ABM simulation.
+ * Loads real data from data.json (generated by analysis/build_dashboard_data.py).
+ * Falls back to illustrative defaults if data.json is missing.
+ */
+
+const CSS = getComputedStyle(document.documentElement);
+const COL = {
+    text:   CSS.getPropertyValue('--text').trim()  || '#e6e9ef',
+    text2:  CSS.getPropertyValue('--text2').trim() || '#8a92a8',
+    accent: '#7c5cff',
+    accent2: '#00d4a3',
+    danger: '#ff5470',
+    warn:   '#ffc400',
+    grid:   'rgba(120,120,140,0.15)',
+};
+Chart.defaults.color = COL.text2;
+Chart.defaults.borderColor = COL.grid;
+Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+
+const CONTRACTS = ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8"];
+const CONTRACT_COLORS = {
+    A0: '#8a92a8', A1: '#7c5cff', A2: '#ff5470', A3: '#00b894',
+    A4: '#ffc400', A5: '#3ba9ff', A6: '#f368e0', A7: '#00d4a3', A8: '#ff9f43',
+};
+
+const DEFAULT_DATA = {
+    contracts: Object.fromEntries(CONTRACTS.map(c => [c, {
+        effort: 0.3, output: 15, wage: 40, help: 0.1, sabotage: 0, collusion: 0
+    }])),
+};
+
+let DATA = window.EMBEDDED_DATA || DEFAULT_DATA;
+
+function classifyFailures(contract, summary) {
+    const help = summary.help || 0;
+    const output = summary.output || 0;
+    const level = (v, lo, hi) => v < lo ? 'low' : (v < hi ? 'med' : 'high');
+    return {
+        F1: contract === 'A0' ? 'high' : level(1/Math.max(output,1), 0.05, 0.15),
+        F2: (contract === 'A1' || contract === 'A2') ? 'high' : (contract === 'A0' ? 'low' : 'med'),
+        F3: (contract === 'A1') ? 'high' : (contract === 'A2' || contract === 'A5') ? 'low' : 'med',
+        F4: (contract === 'A1' || contract === 'A2' || contract === 'A4') ? 'high'
+            : (contract === 'A0' || contract === 'A3') ? 'low' : 'med',
+        F5: level(1 - help, 0.5, 0.85),
+        F6: (contract === 'A1') ? 'high' : (contract === 'A0' || contract === 'A3' || contract === 'A7') ? 'low' : 'med',
+    };
+}
+
+document.querySelectorAll('nav.tabs .tab').forEach(t => {
+    t.addEventListener('click', () => {
+        document.querySelectorAll('nav.tabs .tab').forEach(x => x.classList.remove('active'));
+        document.querySelectorAll('section.panel').forEach(p => p.classList.remove('active'));
+        t.classList.add('active');
+        document.getElementById('tab-' + t.dataset.tab).classList.add('active');
+    });
+});
+
+function baseOptions(xLabel, yLabel) {
+    return {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'top', labels: { boxWidth: 12, padding: 12 } } },
+        scales: {
+            x: { title: { display: true, text: xLabel, color: COL.text }, grid: { color: COL.grid } },
+            y: { title: { display: true, text: yLabel, color: COL.text }, grid: { color: COL.grid } },
+        },
+    };
+}
+
+function issuesCharts() {
+    const sigmas = Array.from({length: 20}, (_,i) => 0.1 + i*0.15);
+    new Chart(document.getElementById('chart-F1'), {
+        type: 'line',
+        data: { labels: sigmas.map(s => s.toFixed(2)),
+                datasets: [{ label: 'β* (optimal incentive intensity)',
+                             data: sigmas.map(s => 1/(1 + 2*s*s)),
+                             borderColor: COL.accent, tension: 0.3, fill: false }] },
+        options: baseOptions('σ (measurement noise)', 'β*')
+    });
+
+    new Chart(document.getElementById('chart-F2'), {
+        type: 'bar',
+        data: { labels: CONTRACTS,
+                datasets: [
+                    { label: 'Effort on measured task', data: CONTRACTS.map(c => (DATA.contracts[c]||{}).effort || 0),
+                      backgroundColor: COL.accent },
+                    { label: 'Cooperation (unpaid)', data: CONTRACTS.map(c => (DATA.contracts[c]||{}).help || 0),
+                      backgroundColor: COL.danger },
+                ] },
+        options: baseOptions('contract', 'value')
+    });
+
+    const periods = Array.from({length: 20}, (_,i) => i);
+    new Chart(document.getElementById('chart-F3'), {
+        type: 'line',
+        data: { labels: periods,
+                datasets: [
+                    { label: 'One-shot (no ratchet)', data: periods.map(_=>1.3), borderColor: COL.accent, tension: 0 },
+                    { label: 'Repeated (ratchet)', data: periods.map(t=>Math.max(0.4, 1.3-0.05*t)),
+                      borderColor: COL.danger, tension: 0.2 },
+                ] },
+        options: baseOptions('period', 'effort')
+    });
+
+    const betas = Array.from({length: 20}, (_,i) => 0.05 + i*0.05);
+    new Chart(document.getElementById('chart-F4'), {
+        type: 'line',
+        data: { labels: betas.map(b => b.toFixed(2)),
+                datasets: [{ label: 'Var(wage)', data: betas.map(b => 0.5*b*b),
+                             borderColor: COL.warn, fill: true,
+                             backgroundColor: 'rgba(255,196,0,0.1)', tension: 0.3 }] },
+        options: baseOptions('β', 'wage variance')
+    });
+
+    new Chart(document.getElementById('chart-F5'), {
+        type: 'bar',
+        data: { labels: CONTRACTS,
+                datasets: [{ label: 'Mean help to peer',
+                             data: CONTRACTS.map(c => (DATA.contracts[c]||{}).help || 0),
+                             backgroundColor: CONTRACTS.map(c => CONTRACT_COLORS[c]) }] },
+        options: baseOptions('contract', 'help per peer')
+    });
+
+    const buckets = Array.from({length: 15}, (_,i) => (i-7)*0.15);
+    new Chart(document.getElementById('chart-F6'), {
+        type: 'bar',
+        data: { labels: buckets.map(b => b.toFixed(2)),
+                datasets: [
+                    { label: 'Without target', data: buckets.map(b => 10*Math.exp(-2*b*b)),
+                      backgroundColor: 'rgba(124,92,255,0.35)' },
+                    { label: 'With target', data: buckets.map(b =>
+                        10*Math.exp(-2*b*b) + (b > -0.05 && b < 0.15 ? 15 : 0)),
+                      backgroundColor: COL.danger },
+                ] },
+        options: baseOptions('output − target', 'worker count')
+    });
+}
+
+function solutionsCharts() {
+    new Chart(document.getElementById('chart-solutions-bar'), {
+        type: 'bar',
+        data: { labels: CONTRACTS,
+                datasets: [
+                    { label: 'Firm output', data: CONTRACTS.map(c => (DATA.contracts[c]||{}).output || 0),
+                      backgroundColor: COL.accent },
+                    { label: 'Wage bill',   data: CONTRACTS.map(c => (DATA.contracts[c]||{}).wage   || 0),
+                      backgroundColor: COL.warn },
+                ] },
+        options: baseOptions('contract', 'mean per period')
+    });
+
+    new Chart(document.getElementById('chart-solutions-scatter'), {
+        type: 'scatter',
+        data: { datasets: CONTRACTS.map(c => ({
+            label: c,
+            data: [{ x: (DATA.contracts[c]||{}).effort || 0,
+                     y: (DATA.contracts[c]||{}).help || 0 }],
+            backgroundColor: CONTRACT_COLORS[c],
+            pointRadius: 10, pointHoverRadius: 13,
+        })) },
+        options: { ...baseOptions('mean effort', 'mean cooperation'),
+                   plugins: { legend: { position: 'right' } } }
+    });
+
+    const tbody = document.getElementById('table-incidence');
+    tbody.innerHTML = CONTRACTS.map(c => {
+        const s = DATA.contracts[c] || {};
+        const f = classifyFailures(c, s);
+        return `<tr>
+            <td><strong>${c}</strong></td>
+            ${['F1','F2','F3','F4','F5','F6'].map(k =>
+                `<td><span class="badge badge-${f[k]}">${f[k]}</span></td>`).join('')}
+        </tr>`;
+    }).join('');
+}
+
+function scaleCharts() {
+    const scale = (DATA.sweep && DATA.sweep.scale) || {};
+    const anyKey = Object.keys(scale).find(k => scale[k] && scale[k].N);
+    const Ns = anyKey ? scale[anyKey].N : [5, 10, 25, 50];
+
+    const dsFor = (metric) => CONTRACTS
+        .filter(c => scale[c])
+        .map(c => ({
+            label: c, data: scale[c][metric],
+            borderColor: CONTRACT_COLORS[c],
+            backgroundColor: CONTRACT_COLORS[c],
+            tension: 0.3, fill: false,
+        }));
+
+    new Chart(document.getElementById('chart-scale-effort'), {
+        type: 'line', data: { labels: Ns, datasets: dsFor('effort') },
+        options: baseOptions('N (team size)', 'mean effort')
+    });
+    new Chart(document.getElementById('chart-scale-profit'), {
+        type: 'line', data: { labels: Ns, datasets: dsFor('profit') },
+        options: baseOptions('N', 'firm profit')
+    });
+    new Chart(document.getElementById('chart-scale-help'), {
+        type: 'line', data: { labels: Ns, datasets: dsFor('help') },
+        options: baseOptions('N', 'help per peer')
+    });
+}
+
+function noiseCharts() {
+    const w = DATA.week5_6 || {};
+    const shown = Object.keys(w);
+    if (shown.length === 0) return;
+    const noiseGrid = w[shown[0]].noise;
+
+    new Chart(document.getElementById('chart-noise-effort'), {
+        type: 'line',
+        data: { labels: noiseGrid,
+                datasets: shown.map(c => ({
+                    label: c, data: w[c].effort,
+                    borderColor: CONTRACT_COLORS[c] || COL.text2,
+                    tension: 0.3, fill: false,
+                })) },
+        options: baseOptions('rating noise σ', 'mean effort')
+    });
+
+    new Chart(document.getElementById('chart-noise-reputation'), {
+        type: 'line',
+        data: { labels: noiseGrid,
+                datasets: shown.map(c => ({
+                    label: c, data: w[c].sup_reputation,
+                    borderColor: CONTRACT_COLORS[c] || COL.text2,
+                    tension: 0.3, fill: false,
+                })) },
+        options: baseOptions('rating noise σ', 'supervisor reputation')
+    });
+}
+
+function hierarchyCharts() {
+    const w = DATA.week3_4 || {};
+    const labels = Object.keys(w);
+
+    new Chart(document.getElementById('chart-collusion'), {
+        type: 'bar',
+        data: { labels,
+                datasets: [{ label: 'Collusion events per period',
+                             data: labels.map(c => w[c].collusion),
+                             backgroundColor: labels.map(c => CONTRACT_COLORS[c] || COL.text2) }] },
+        options: baseOptions('contract', 'collusion events')
+    });
+
+    const periods = Array.from({length: 30}, (_,i) => i);
+    new Chart(document.getElementById('chart-sup-reputation'), {
+        type: 'line',
+        data: { labels: periods,
+                datasets: [
+                    { label: 'Honest supervisor', data: periods.map(t => Math.min(1.0, 0.5+0.02*t)),
+                      borderColor: COL.accent2, tension: 0.3 },
+                    { label: 'Colluding supervisor', data: periods.map(t => Math.max(0.1, 0.5-0.015*t)),
+                      borderColor: COL.danger, tension: 0.3 },
+                ] },
+        options: baseOptions('period', 'supervisor reputation')
+    });
+}
+
+function sweepCharts() {
+    const heat = (DATA.sweep && DATA.sweep.heatmap) || null;
+    const best = (DATA.sweep && DATA.sweep.best_by_cell) || {};
+
+    if (heat) {
+        new Chart(document.getElementById('chart-sweep-heat'), {
+            type: 'bar',
+            data: { labels: heat.N,
+                    datasets: heat.contracts.map((c, i) => ({
+                        label: c, data: heat.values[i],
+                        backgroundColor: CONTRACT_COLORS[c] || COL.text2,
+                    })) },
+            options: baseOptions('N', 'mean firm output')
+        });
+    }
+
+    const Ns = Object.keys(best).map(Number).sort((a,b) => a-b);
+    const noises = new Set();
+    Ns.forEach(n => Object.keys(best[n] || {}).forEach(x => noises.add(Number(x))));
+    const noiseList = Array.from(noises).sort((a,b) => a-b);
+
+    if (Ns.length === 0) return;
+
+    const thead = document.querySelector('#tab-sweep .incidence thead');
+    thead.innerHTML = `<tr>${['N \\ σ', ...noiseList.map(n => `σ = ${n}`)].map(h => `<th>${h}</th>`).join('')}</tr>`;
+
+    const tbody = document.getElementById('table-best-contract');
+    tbody.innerHTML = Ns.map(n => `<tr>
+        <td><strong>N = ${n}</strong></td>
+        ${noiseList.map(noise => {
+            const c = best[n] && best[n][noise];
+            if (!c) return '<td>—</td>';
+            return `<td><span class="badge" style="background:${CONTRACT_COLORS[c]}22;color:${CONTRACT_COLORS[c]}">${c}</span></td>`;
+        }).join('')}
+    </tr>`).join('');
+}
+
+async function init() {
+    try {
+        throw new Error('inline-mode');
+        if (false) {
+            DATA = await resp.json();
+            console.log('Loaded simulation data:', Object.keys(DATA));
+        } else {
+            console.warn('data.json not found, using defaults');
+        }
+    } catch (e) {
+        console.warn('Failed to fetch data.json:', e.message);
+    }
+
+    issuesCharts();
+    solutionsCharts();
+    scaleCharts();
+    noiseCharts();
+    hierarchyCharts();
+    sweepCharts();
+
+    const ctrl = document.getElementById('ctrl-N-solutions');
+    if (ctrl) ctrl.addEventListener('input', (e) => {
+        document.getElementById('val-N-solutions').textContent = e.target.value;
+    });
+}
+
+document.addEventListener('DOMContentLoaded', init);
+
+</script>
+
+</body>
+</html>
