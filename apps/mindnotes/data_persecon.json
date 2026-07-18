@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-18T19:26:32.873Z",
+  "exportedAt": "2026-07-18T19:37:55.117Z",
   "data": {
     "topics": [
       {
@@ -848,8 +848,8 @@
                 "id": "p-mirrlees-1975",
                 "title": "P·Mirrlees (1975) — Moral Hazard",
                 "content": "**Ref.** Mirrlees, J. (1975 working paper; 1999 *REStud* 66(1), 3–21). The theory of moral hazard and unobservable behaviour.\n\n## Contribution\nFirst formal **moral-hazard** model with unobservable effort.\n\n## Idea\nAgent chooses effort $e$; output distribution $F(y \\mid e)$ depends on it; principal observes $y$, not $e$.\n\n## Result\n- First-best not attainable (agent bears risk).\n- Second-best contract convex where MLRP holds.\n- The signal is a **sufficient statistic** for effort.\n\n## Impact\nGrounds Holmström (1979).\n\n→ Anchor: **Incentives Theory Core**",
-                "x": 6925,
-                "y": 1975,
+                "x": 6258.922948036213,
+                "y": 1840.10590756809,
                 "width": 340,
                 "height": 240,
                 "flashcard": false,
