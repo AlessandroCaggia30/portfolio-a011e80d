@@ -13894,44 +13894,11 @@ function _spConfirm(mode) {
 
 // ==================== AGENDA ====================
 const AGENDA_KEYS = { short: 'mindnotes_agenda_short', long: 'mindnotes_agenda_long' };
-const AGENDA_SEED_FLAG = 'mindnotes_agenda_seeded_v1';
-
-// Default short-run tasks tied to the current research program.
-// Seeded on first load or if the agenda has been emptied.
-const AGENDA_DEFAULTS = {
-    short: [
-        { text: 'Finish reading Tirole (1986) — collusion in hierarchies' },
-        { text: 'Draft methodology for Paper 1 (Incentive lever)' },
-        { text: 'Review BBR (2005–2010) empirical field designs' },
-        { text: 'Run ABM baseline (A0 vs A1) with 30 seeds' },
-        { text: 'Sketch 2×2 RCT protocol (reorg × incentive)' },
-        { text: 'Confirm Quindi client rollout window' },
-    ],
-    long: [
-        { text: 'Paper 1 — Incentive lever (submit to JEBO)' },
-        { text: 'Paper 2 — Reorganisation lever (JEDC)' },
-        { text: 'Build full 3-tier hierarchical ABM' },
-        { text: 'Publish dashboard + code as replication package' },
-    ],
-};
 
 function _agendaLoad(col) {
     try { return JSON.parse(localStorage.getItem(AGENDA_KEYS[col])) || []; } catch { return []; }
 }
 
-function _agendaSeedIfEmpty() {
-    if (localStorage.getItem(AGENDA_SEED_FLAG)) return;
-    ['short', 'long'].forEach(col => {
-        const existing = _agendaLoad(col);
-        if (existing.length === 0) {
-            const items = AGENDA_DEFAULTS[col].map((t, i) => ({
-                id: Date.now() + i, text: t.text, done: false
-            }));
-            _agendaSave(col, items);
-        }
-    });
-    localStorage.setItem(AGENDA_SEED_FLAG, '1');
-}
 function _agendaSave(col, items) {
     localStorage.setItem(AGENDA_KEYS[col], JSON.stringify(items));
 }
