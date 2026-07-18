@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-18T19:20:46.027Z",
+  "exportedAt": "2026-07-18T19:21:30.383Z",
   "data": {
     "topics": [
       {
@@ -900,7 +900,7 @@
                 "flashcard": false,
                 "images": [],
                 "color": "purple",
-                "popBg": "#ede9fe",
+                "popBg": "#dbeafe",
                 "popShape": "rounded",
                 "links": []
               },
