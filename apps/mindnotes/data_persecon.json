@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-18T19:08:14.483Z",
+  "exportedAt": "2026-07-18T19:08:26.791Z",
   "data": {
     "topics": [
       {
@@ -893,8 +893,8 @@
                 "id": "p-hm-1987",
                 "title": "P·Holmström–Milgrom (1987) — Linear Contract",
                 "content": "**Ref.** Holmström, B. & Milgrom, P. (1987). Aggregation and linearity in the provision of intertemporal incentives. *Econometrica*, 55(2), 303–328.\n\n## Contribution\n**The optimal linear contract** theorem — the workhorse of applied incentive theory.\n\n## Idea\nAgent controls the drift of a Brownian motion over $[0,T]$; CARA preferences; quadratic effort cost. Principal picks $w(\\cdot)$.\n\n## Result\nOptimal contract is **linear** in the aggregate signal:\n$$w = \\alpha + \\beta \\int_0^T dY_t$$\nwith\n$$\\beta^* = \\frac{1}{1 + \\rho\\sigma^2 k / g'^2}$$\nAlso proves **aggregation**: only the sum of signals matters.\n\n## Impact\nEvery A-alternative in our graph uses this template. THE benchmark.\n\n→ Anchor: **Incentives Theory Core**",
-                "x": 6419.083480686134,
-                "y": 1713.0378884087781,
+                "x": 6466.157489270075,
+                "y": 1699.798323494545,
                 "width": 340,
                 "height": 240,
                 "flashcard": false,
