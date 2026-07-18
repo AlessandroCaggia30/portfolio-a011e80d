@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-18T19:19:55.116Z",
+  "exportedAt": "2026-07-18T19:20:46.027Z",
   "data": {
     "topics": [
       {
@@ -832,7 +832,7 @@
               {
                 "id": "p-ross-1973",
                 "title": "P·Ross (1973) — Agency",
-                "content": "**Ref.** Ross, S. (1973). The economic theory of agency: the principal's problem. *AER*, 63(2), 134–139.\n\n## Contribution\nFirst formal statement of the **agency problem**.\n\n## Idea\nPrincipal delegates an action to an agent whose objectives differ. Agent has private information about the action taken.\n\n## Result\nOptimal contract must trade off **risk sharing** vs **incentive alignment**. Both parties cannot simultaneously bear efficient risk and be incentivised.\n\n## Impact\nFoundational: precedes and motivates Holmström (1979).\n\n→ Anchor: **Incentives Theory Core**\n\n=>  Risk asymmetry is the only source of second-best in HM 1987, but not in the world.\nThe other primitive frictions I listed survive risk-neutrality:\n- Team production / free-riding: ",
+                "content": "w",
                 "x": 5970.409336370454,
                 "y": 1557.218173817531,
                 "width": 340,
