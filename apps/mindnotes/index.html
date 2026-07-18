@@ -13946,7 +13946,6 @@ function _agendaRenderCol(col) {
 }
 
 function renderAgenda() {
-    _agendaSeedIfEmpty();
     const now = new Date();
     const dateEl = $('agendaDate');
     if (dateEl) dateEl.textContent = now.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' });
