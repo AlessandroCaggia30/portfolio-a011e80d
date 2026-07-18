@@ -14156,223 +14156,271 @@ function _popDetailBackdrop(show) {
 const READING_LISTS = {
     'personnel-econ': {
         title: '📚 Reading List — Personnel Economics + ABM',
-        html: `
-<h3>1 · Agent-Based Demographic Models (Vienna–Rostock tradition)</h3>
-<p>The demographic-ABM tradition motivated the ML3 formalism. All three papers are central to understanding how life-course events are modelled at agent level.</p>
-
-<h4>Wedding-Ring Model</h4>
-<p class="rl-cite">Billari, F. C., Prskawetz, A., Aparicio Diaz, B., &amp; Fent, T. (2007). The "Wedding-Ring": An Agent-Based Marriage Model Based on Social Interaction. <em>Demographic Research</em>, 17, 59–82.</p>
-<ul>
-    <li>ABM of marriage: partner-search depends on the structure of the social network (the "ring" of acquaintances).</li>
-    <li>Reproduces empirical age-at-marriage distributions and cross-country variation.</li>
-    <li>Prototypical linked-lives ABM that motivated ML3.</li>
-</ul>
-
-<h4>Transition to Parenthood Model</h4>
-<p class="rl-cite">Aparicio Diaz, B., Fent, T., Prskawetz, A., &amp; Bernardi, L. (2011). Transition to Parenthood: The Role of Social Interaction and Endogenous Networks. <em>Demography</em>, 48(2), 559–579.</p>
-<ul>
-    <li>Extends the Wedding-Ring to first-birth decisions.</li>
-    <li>Social interaction + endogenous networks drive fertility timing.</li>
-    <li>Explains clustering of first-birth ages via peer effects.</li>
-</ul>
-
-<h4>Age-at-Marriage Norms Model</h4>
-<p class="rl-cite">Billari, F. C., Prskawetz, A., &amp; Fürnkranz, J. (2003). On the Cultural Evolution of Age-at-Marriage Norms. In <em>Agent-Based Computational Demography</em>, pp. 139–157.</p>
-<ul>
-    <li>ABM of how cultural norms about marriage age evolve through social imitation.</li>
-    <li>Grounds Boudreau-style imitation rules in demographic behaviour.</li>
-</ul>
-
-<hr>
-
-<h3>2 · ABM Software Frameworks</h3>
-
-<h4>Mesa</h4>
-<p class="rl-cite">Masad, D., &amp; Kazil, J. L. (2015). Mesa: An Agent-Based Modeling Framework. In K. Huff &amp; J. Bergstra (Eds.), <em>Proceedings of the 14th Python in Science Conference (SciPy 2015)</em> (pp. 51–58). <a href="https://doi.org/10.25080/Majora-7b98e3ed-009" target="_blank" rel="noopener">DOI</a>.</p>
-<ul>
-    <li>Open-source Python framework for ABMs.</li>
-    <li>Standard choice for Quindi ABM implementation.</li>
-    <li>Alternatives: NetLogo, Julia + Agents.jl, ML3.</li>
-</ul>
-
-<hr>
-
-<h3>3 · ABM of Firms and Organisations</h3>
-
-<h4>Firm Emergence — Axtell</h4>
-<p class="rl-cite">Axtell, R. (1999, 2001). The emergence of firms in a population of agents. <em>Santa Fe Institute Working Paper</em>; developed further in Axtell (2018).</p>
-<ul>
-    <li>Foundational ABM where firm size and effort emerge from <strong>free-riding dynamics</strong>.</li>
-    <li>Reproduces Zipf's law for firm sizes endogenously.</li>
-    <li>Closest ancestor for any firm-scale ABM including Quindi's.</li>
-</ul>
-
-<h4>Computational Sociology of Workplace Cooperation — Squazzoni</h4>
-<p class="rl-cite">Squazzoni, F. (2014). <em>Agent-Based Computational Sociology</em>. Wiley.</p>
-<ul>
-    <li>Reviews computational sociology models of workplace incentives and cooperation.</li>
-    <li>Bridges economic and sociological ABM traditions.</li>
-    <li>Useful for grounding cooperation and peer-effect rules in Quindi's simulation.</li>
-</ul>
-
-<hr>
-
-<h3>4 · ABM Macroeconomic with Institutions</h3>
-
-<h4>Unemployment Benefits and Financial Factors</h4>
-<p class="rl-cite">Riccetti, L., Russo, A., &amp; Gallegati, M. Unemployment Benefits and Financial Factors in an Agent-Based Macroeconomic Model.</p>
-<ul>
-    <li>CATS-family ABM with unemployment insurance as an institutional shock-absorber.</li>
-    <li>Shows how labor-market institutions interact with financial dynamics.</li>
-    <li>Reference for plugging institutions into ABMs without formal optimisation.</li>
-</ul>
-
-<hr>
-
-<h3>5 · Management as a Technology (Bloom–Sadun–Van Reenen)</h3>
-<p>Directly relevant to Quindi as a management-technology firm. If management practices are a form of technology firms adopt, Quindi is selling technology adoption.</p>
-
-<h4>Management as a Technology?</h4>
-<p class="rl-cite">Bloom, N., Sadun, R., &amp; Van Reenen, J. (2016). Management as a Technology? <em>NBER Working Paper 22327</em>. <a href="http://www.nber.org/papers/w22327" target="_blank" rel="noopener">http://www.nber.org/papers/w22327</a></p>
-<ul>
-    <li>Argues management practices are a <strong>form of technology</strong> firms adopt.</li>
-    <li>Documents huge dispersion in management quality across firms.</li>
-    <li>~30% of cross-firm TFP variance attributed to management practices.</li>
-    <li><strong>Framework directly maps onto Quindi</strong>: management-as-a-service.</li>
-</ul>
-
-<h4>Does Management Matter?</h4>
-<p class="rl-cite">Bloom, N., Eifert, B., Mahajan, A., McKenzie, D., &amp; Roberts, J. (2013). Does Management Matter? Evidence from India. <em>QJE</em>, 128(1), 1–51.</p>
-<ul>
-    <li>Field experiment on management practices in Indian textile firms.</li>
-    <li>Randomised management consulting → <strong>~17% output gain, ~11% profits</strong> in 1 year.</li>
-    <li><strong>The prime empirical foundation</strong> for the "Quindi effect" research question.</li>
-    <li>Template for the RCT identification design Quindi should follow.</li>
-</ul>
-
-<hr>
-
-<h3>6 · Game Theory in Firms — the analytical canon</h3>
-<p>Highly cited, foundational, standard reading on game-theoretic incentive interactions inside firms.</p>
-
-<h4>Multi-tier hierarchy games (workers × middle × top)</h4>
-<ul>
-    <li><strong>Tirole, J. (1986).</strong> Hierarchies and bureaucracies: On the role of collusion in organizations. <em>JLEO</em>, 2(2), 181–214.
-        <br><span class="rl-cite">The canonical paper. Three-player game: principal, supervisor, agent. Supervisor observes agent's productivity but can collude with agent to under-report. Principal designs contract to break collusion. Nash equilibrium characterizes which side-payment structures are sustainable. Foundational for the entire literature on middle-manager incentives.</span></li>
-    <li><strong>Kofman, F. &amp; Lawarrée, J. (1993).</strong> Collusion in hierarchical agency. <em>Econometrica</em>, 61(3), 629–656.
-        <br><span class="rl-cite">Extends Tirole to endogenous supervisor selection and auditing.</span></li>
-    <li><strong>Faure-Grimaud, A., Laffont, J.-J. &amp; Martimort, D. (2003).</strong> Collusion, delegation and supervision with soft information. <em>REStud</em>, 70(2), 253–279.
-        <br><span class="rl-cite">Game of soft (unverifiable) information transmission up the hierarchy.</span></li>
-</ul>
-
-<h4>Authority and delegation games</h4>
-<ul>
-    <li><strong>Aghion, P. &amp; Tirole, J. (1997).</strong> Formal and real authority in organizations. <em>JPE</em>, 105(1), 1–29.
-        <br><span class="rl-cite">Two-player game: principal has formal authority; agent has private information and thus real authority. Nash equilibrium of communication + delegation intensity. Explains why bosses delegate.</span></li>
-    <li><strong>Dessein, W. (2002).</strong> Authority and communication in organizations. <em>REStud</em>, 69(4), 811–838.
-        <br><span class="rl-cite">Cheap-talk game inside hierarchies.</span></li>
-</ul>
-
-<h4>Signaling and information games</h4>
-<ul>
-    <li><strong>Prendergast, C. (1993).</strong> A theory of "yes men". <em>AER</em>, 83(4), 757–770.
-        <br><span class="rl-cite">Signaling game where subordinates distort reports to please bosses. Nash: yes-men behavior in equilibrium.</span></li>
-    <li><strong>Milgrom, P. (1988).</strong> Employment contracts, influence activities, and efficient organization design. <em>JPE</em>, 96(1), 42–60.
-        <br><span class="rl-cite">Multi-worker game competing for boss's attention. Nash: wasteful influence activities in equilibrium.</span></li>
-    <li><strong>Prendergast, C. &amp; Topel, R. (1996).</strong> Favoritism in organizations. <em>JPE</em>, 104(5), 958–978.
-        <br><span class="rl-cite">Signaling + favoritism game.</span></li>
-</ul>
-
-<h4>Relational contracts (repeated games in firms)</h4>
-<ul>
-    <li><strong>Baker, G., Gibbons, R. &amp; Murphy, K. J. (1994).</strong> Subjective performance measures in optimal incentive contracts. <em>QJE</em>, 109(4), 1125–1156.</li>
-    <li><strong>Baker, G., Gibbons, R. &amp; Murphy, K. J. (2002).</strong> Relational contracts and the theory of the firm. <em>QJE</em>, 117(1), 39–84.</li>
-    <li><strong>MacLeod, W. B. (2003).</strong> Optimal contracting with subjective evaluation. <em>AER</em>, 93(1), 216–240.</li>
-    <li><strong>Levin, J. (2003).</strong> Relational incentive contracts. <em>AER</em>, 93(3), 835–857.</li>
-</ul>
-<p class="rl-cite">The canonical relational-contract papers. Infinite repeated game between firm and worker; folk-theorem-style Nash equilibria characterize which cooperative outcomes are sustainable.</p>
-
-<h4>Team production games</h4>
-<ul>
-    <li><strong>Holmström, B. (1982).</strong> Moral hazard in teams. <em>Bell JE</em>, 13(2), 324–340.
-        <br><span class="rl-cite">N-player team production game. Nash: free-riding. Foundational.</span></li>
-    <li><strong>Kandel, E. &amp; Lazear, E. (1992).</strong> Peer pressure and partnerships. <em>JPE</em>, 100(4), 801–817.
-        <br><span class="rl-cite">Game with peer-pressure augmentation.</span></li>
-    <li><strong>Che, Y.-K. &amp; Yoo, S.-W. (2001).</strong> Optimal incentives for teams. <em>AER</em>, 91(3), 525–541.
-        <br><span class="rl-cite">Optimal team contracts.</span></li>
-</ul>
-
-<hr>
-
-<h3>7 · Empirical firm-level tests of game-theoretic predictions</h3>
-<p>The field's contemporary frontier — Bandiera, Barankay &amp; Rasul (LSE / UChicago Booth / UCL) run field experiments testing game-theoretic incentive models on real firms:</p>
-<ul>
-    <li><strong>Bandiera, O., Barankay, I. &amp; Rasul, I. (2005).</strong> Social preferences and the response to incentives: evidence from personnel data. <em>QJE</em>, 120(3), 917–962.
-        <br><span class="rl-cite">Fruit-pickers. Tests game-theoretic peer-effect models.</span></li>
-    <li><strong>Bandiera, O., Barankay, I. &amp; Rasul, I. (2007).</strong> Incentives for managers and inequality among workers: evidence from a firm-level experiment. <em>QJE</em>, 122(2), 729–773.
-        <br><span class="rl-cite">Same fruit-picker firm; this time studying manager incentives.</span></li>
-    <li><strong>Bandiera, O., Barankay, I. &amp; Rasul, I. (2009).</strong> Social connections and incentives in the workplace: evidence from personnel data. <em>Econometrica</em>, 77(4), 1047–1094 (also AER version).
-        <br><span class="rl-cite">Connectedness reduces response to individual incentives.</span></li>
-    <li><strong>Bandiera, O., Barankay, I. &amp; Rasul, I. (2010).</strong> Social incentives in the workplace. <em>REStud</em>, 77(2), 417–458.
-        <br><span class="rl-cite">Peer effects on productivity.</span></li>
-    <li><strong>Bandiera, O., Prat, A. &amp; Sadun, R. (2020).</strong> CEO behavior and firm performance. <em>QJE</em>, 128(4), 1425–1474.
-        <br><span class="rl-cite">Studies the top of the hierarchy game.</span></li>
-</ul>
-<p class="rl-cite">These are the closest to "game theory inside a firm, tested empirically". They validate analytical predictions from Tirole / Milgrom / Prendergast against firm data.</p>
-
-<hr>
-
-<h3>8 · Firm-level game theory + ABM — the thin literature</h3>
-<p>Few papers combine game-theoretic firm-level analysis with ABM simulation. Chang &amp; Harrington (2006) explicitly identifies this gap — which is exactly what Quindi's ABM would fill.</p>
-<ul>
-    <li><strong>Axtell, R. (1999, 2001).</strong> Emergence of firms in a population of agents. <em>SFI Working Paper</em>; developed in Axtell (2018).
-        <br><span class="rl-cite">Team-production game embedded in an ABM; firms emerge from voluntary membership + free-riding dynamics. Closest to Holmström (1982) team model, dynamically simulated.</span></li>
-    <li><strong>Chang, M.-H. &amp; Harrington, J. E. (2006).</strong> Agent-based models of organizations. In <em>Handbook of Computational Economics</em>, Vol. 2, pp. 1273–1337.
-        <br><span class="rl-cite">Definitive survey chapter. Explicitly identifies the gap: no ABM at the sophistication of Tirole (1986) analytically.</span></li>
-    <li><strong>Rivkin, J. &amp; Siggelkow, N. (2003).</strong> Balancing search and stability. <em>Management Science</em>, 49(3), 290–311.
-        <br><span class="rl-cite">3-tier ABM but focused on NK-landscape adaptation, not classical game theory.</span></li>
-    <li><strong>Zenger, T. R. (1994).</strong> Explaining organizational diseconomies of scale in R&amp;D: agency problems and the allocation of engineering talent. <em>Management Science</em>, 40(6), 708–729.
-        <br><span class="rl-cite">Evolutionary game theory + firm size.</span></li>
-    <li><strong>Nowak, M. A. et al. (2004).</strong> Emergence of cooperation and evolutionary stability in finite populations. <em>Nature</em>, 428, 646–650.
-        <br><span class="rl-cite">Cooperation on graphs; often applied to firm-team games.</span></li>
-    <li><strong>Kollman, K., Miller, J. H. &amp; Page, S. E. (2000).</strong> Decentralization and the search for policy solutions. <em>JLEO</em>, 16(1), 102–128.
-        <br><span class="rl-cite">Multi-tier organizations as simulated games.</span></li>
-</ul>
-
-<h4>The seven papers closest to Quindi's ABM</h4>
-<ol>
-    <li>Axtell (2001) — team game embedded in emergent-firm simulation.</li>
-    <li>Rivkin &amp; Siggelkow (2003) — hierarchical simulation but on NK landscape.</li>
-    <li>BBR (2005–2010) — empirical tests of game-theoretic firm models (not ABM).</li>
-    <li>Chang &amp; Harrington (2006) — survey chapter identifying the gap.</li>
-    <li>Tirole (1986) — canonical three-tier collusion game.</li>
-    <li>Milgrom (1988) — influence activities as multi-worker game.</li>
-    <li>Baker–Gibbons–Murphy (2002) — relational contracts.</li>
-</ol>
-
-<hr>
-
-<h3>9 · Additional recommended background</h3>
-<ul>
-    <li>Neugart &amp; Richiardi (2018) — <em>Handbook of Computational Economics</em>, Vol. 4. See dedicated snippet.</li>
-    <li>Lazear &amp; Oyer (2007) — Personnel Economics survey.</li>
-    <li>Prendergast (1999) — The Provision of Incentives in Firms, <em>JEL</em>. See dedicated snippet.</li>
-    <li>Bloom &amp; Van Reenen (2007, QJE; 2010, JEP) — measuring management practices.</li>
-    <li>Bandiera, Prat &amp; Sadun (2020, QJE) — CEO behavior and firm performance.</li>
-</ul>
-
-<hr>
-
-<h3>How to use this list</h3>
-<ul>
-    <li><strong>Quindi ABM design</strong>: Mesa docs → Axtell 2001 → Neugart–Richiardi 2018 → ML3 paper.</li>
-    <li><strong>Empirical strategy</strong>: Bloom et al. (2013) is the template; Bloom–Sadun–Van Reenen (2016) is the frame.</li>
-    <li><strong>Theoretical foundations</strong>: Lazear–Oyer 2007 + Prendergast 1999; then the Incentives Theory Core snippet.</li>
-    <li><strong>ABM tradition</strong>: Squazzoni 2014 (sociology angle); Vienna–Rostock demography papers for linked-lives / ML3.</li>
-</ul>
-`
+        sections: [
+            {
+                title: '1 · Agent-Based Demographic Models (Vienna–Rostock)',
+                intro: 'The tradition that motivated the ML3 formalism. Life-course events modelled at agent level.',
+                items: [
+                    { id: 'billari-wedding-2007',
+                      cite: 'Billari, Prskawetz, Aparicio Diaz & Fent (2007). The "Wedding-Ring": An Agent-Based Marriage Model Based on Social Interaction. <em>Demographic Research</em>, 17, 59–82.',
+                      note: 'Partner-search on a social-network "ring". Reproduces empirical age-at-marriage.' },
+                    { id: 'aparicio-parenthood-2011',
+                      cite: 'Aparicio Diaz, Fent, Prskawetz & Bernardi (2011). Transition to Parenthood: The Role of Social Interaction and Endogenous Networks. <em>Demography</em>, 48(2), 559–579.',
+                      note: 'Extends the Wedding-Ring to first-birth decisions; peer effects drive fertility timing.' },
+                    { id: 'billari-norms-2003',
+                      cite: 'Billari, Prskawetz & Fürnkranz (2003). On the Cultural Evolution of Age-at-Marriage Norms. In <em>Agent-Based Computational Demography</em>, pp. 139–157.',
+                      note: 'Cultural evolution of norms via social imitation.' },
+                ]
+            },
+            {
+                title: '2 · ABM Software Frameworks',
+                items: [
+                    { id: 'mesa-2015',
+                      cite: 'Masad & Kazil (2015). Mesa: An Agent-Based Modeling Framework. <em>SciPy 2015</em>, pp. 51–58.',
+                      note: 'Open-source Python ABM framework. Standard for the Quindi ABM.' },
+                ]
+            },
+            {
+                title: '3 · ABM of Firms and Organisations',
+                items: [
+                    { id: 'axtell-firms-2001',
+                      cite: 'Axtell, R. (1999, 2001). The emergence of firms in a population of agents. <em>SFI Working Paper</em>.',
+                      note: 'Free-riding dynamics; firm-size distribution (Zipf) emerges endogenously.' },
+                    { id: 'squazzoni-2014',
+                      cite: 'Squazzoni, F. (2014). <em>Agent-Based Computational Sociology</em>. Wiley.',
+                      note: 'Computational sociology of workplace incentives + cooperation.' },
+                ]
+            },
+            {
+                title: '4 · ABM Macroeconomic with Institutions',
+                items: [
+                    { id: 'riccetti-unemp',
+                      cite: 'Riccetti, Russo & Gallegati. Unemployment Benefits and Financial Factors in an Agent-Based Macroeconomic Model.',
+                      note: 'CATS-family ABM. Unemployment insurance as an institutional shock absorber.' },
+                ]
+            },
+            {
+                title: '5 · Management as a Technology (Bloom–Sadun–Van Reenen)',
+                intro: 'Directly relevant to Quindi as a management-technology firm.',
+                items: [
+                    { id: 'bsvr-2016',
+                      cite: 'Bloom, Sadun & Van Reenen (2016). Management as a Technology? <em>NBER Working Paper 22327</em>.',
+                      note: 'Management practices as an adopted technology. ~30% of TFP dispersion. Framework maps onto Quindi.' },
+                    { id: 'bloom-eifert-2013',
+                      cite: 'Bloom, Eifert, Mahajan, McKenzie & Roberts (2013). Does Management Matter? <em>QJE</em>, 128(1), 1–51.',
+                      note: 'Field RCT in Indian textile firms: consulting → +17% output. Template for the Quindi RCT design.' },
+                ]
+            },
+            {
+                title: '6a · Game Theory in Firms — Multi-tier Hierarchy',
+                items: [
+                    { id: 'tirole-1986',
+                      cite: 'Tirole, J. (1986). Hierarchies and bureaucracies: On the role of collusion in organizations. <em>JLEO</em>, 2(2), 181–214.',
+                      note: '**Canonical.** 3-player game with supervisor collusion. Foundation for middle-manager incentives.' },
+                    { id: 'kofman-lawarree-1993',
+                      cite: 'Kofman & Lawarrée (1993). Collusion in hierarchical agency. <em>Econometrica</em>, 61(3), 629–656.',
+                      note: 'Endogenous supervisor selection + auditing.' },
+                    { id: 'fgm-2003',
+                      cite: 'Faure-Grimaud, Laffont & Martimort (2003). Collusion, delegation and supervision with soft information. <em>REStud</em>, 70(2), 253–279.',
+                      note: 'Soft-info transmission up the hierarchy.' },
+                ]
+            },
+            {
+                title: '6b · Game Theory in Firms — Authority & Delegation',
+                items: [
+                    { id: 'aghion-tirole-1997',
+                      cite: 'Aghion & Tirole (1997). Formal and real authority in organizations. <em>JPE</em>, 105(1), 1–29.',
+                      note: 'Formal (principal) vs real (agent) authority. Nash of delegation intensity.' },
+                    { id: 'dessein-2002',
+                      cite: 'Dessein, W. (2002). Authority and communication in organizations. <em>REStud</em>, 69(4), 811–838.',
+                      note: 'Cheap-talk game inside hierarchies.' },
+                ]
+            },
+            {
+                title: '6c · Game Theory in Firms — Signaling & Info',
+                items: [
+                    { id: 'prendergast-1993',
+                      cite: 'Prendergast, C. (1993). A theory of "yes men". <em>AER</em>, 83(4), 757–770.',
+                      note: 'Subordinates distort reports to please bosses.' },
+                    { id: 'milgrom-1988',
+                      cite: 'Milgrom, P. (1988). Employment contracts, influence activities, and efficient organization design. <em>JPE</em>, 96(1), 42–60.',
+                      note: 'Multi-worker game competing for boss attention.' },
+                    { id: 'prendergast-topel-1996',
+                      cite: 'Prendergast & Topel (1996). Favoritism in organizations. <em>JPE</em>, 104(5), 958–978.',
+                      note: 'Signaling + favoritism.' },
+                ]
+            },
+            {
+                title: '6d · Game Theory in Firms — Relational Contracts',
+                intro: 'Infinite-horizon games; folk-theorem-style Nash equilibria sustain cooperation.',
+                items: [
+                    { id: 'bgm-1994',
+                      cite: 'Baker, Gibbons & Murphy (1994). Subjective performance measures in optimal incentive contracts. <em>QJE</em>, 109(4), 1125–1156.' },
+                    { id: 'bgm-2002',
+                      cite: 'Baker, Gibbons & Murphy (2002). Relational contracts and the theory of the firm. <em>QJE</em>, 117(1), 39–84.' },
+                    { id: 'macleod-2003',
+                      cite: 'MacLeod, W. B. (2003). Optimal contracting with subjective evaluation. <em>AER</em>, 93(1), 216–240.' },
+                    { id: 'levin-2003',
+                      cite: 'Levin, J. (2003). Relational incentive contracts. <em>AER</em>, 93(3), 835–857.' },
+                ]
+            },
+            {
+                title: '6e · Game Theory in Firms — Team Production',
+                items: [
+                    { id: 'holmstrom-1982',
+                      cite: 'Holmström, B. (1982). Moral hazard in teams. <em>Bell JE</em>, 13(2), 324–340.',
+                      note: 'N-player team production game. Free-riding as Nash. Foundational.' },
+                    { id: 'kandel-lazear-1992',
+                      cite: 'Kandel & Lazear (1992). Peer pressure and partnerships. <em>JPE</em>, 100(4), 801–817.',
+                      note: 'Peer-pressure-augmented team game.' },
+                    { id: 'che-yoo-2001',
+                      cite: 'Che & Yoo (2001). Optimal incentives for teams. <em>AER</em>, 91(3), 525–541.' },
+                ]
+            },
+            {
+                title: '7 · Empirical Firm-Level Tests of GT (BBR series)',
+                intro: 'Field experiments testing game-theoretic incentive models on real firms.',
+                items: [
+                    { id: 'bbr-2005',
+                      cite: 'Bandiera, Barankay & Rasul (2005). Social preferences and the response to incentives. <em>QJE</em>, 120(3), 917–962.',
+                      note: 'Fruit-pickers. Peer-effect tests.' },
+                    { id: 'bbr-2007',
+                      cite: 'Bandiera, Barankay & Rasul (2007). Incentives for managers and inequality among workers. <em>QJE</em>, 122(2), 729–773.' },
+                    { id: 'bbr-2009',
+                      cite: 'Bandiera, Barankay & Rasul (2009). Social connections and incentives in the workplace. <em>Econometrica</em>, 77(4), 1047–1094.' },
+                    { id: 'bbr-2010',
+                      cite: 'Bandiera, Barankay & Rasul (2010). Social incentives in the workplace. <em>REStud</em>, 77(2), 417–458.' },
+                    { id: 'bps-2020',
+                      cite: 'Bandiera, Prat & Sadun (2020). CEO behavior and firm performance. <em>QJE</em>, 128(4), 1425–1474.',
+                      note: 'Top of the hierarchy game.' },
+                ]
+            },
+            {
+                title: '8 · Firm-Level GT + ABM — The Thin Literature',
+                intro: 'Few papers combine game-theoretic firm-level analysis with ABM simulation. This is the gap Quindi\'s ABM fills.',
+                items: [
+                    { id: 'axtell-1999',
+                      cite: 'Axtell, R. (1999, 2001). Emergence of firms in a population of agents. <em>SFI Working Paper</em>.',
+                      note: 'Team-production game embedded in ABM. Closest to Holmström (1982) simulated.' },
+                    { id: 'chang-harrington-2006',
+                      cite: 'Chang & Harrington (2006). Agent-based models of organizations. <em>Handbook of Computational Economics</em>, Vol. 2.',
+                      note: 'Definitive survey. Explicitly identifies the Quindi gap.' },
+                    { id: 'rivkin-siggelkow-2003',
+                      cite: 'Rivkin & Siggelkow (2003). Balancing search and stability. <em>Management Science</em>, 49(3), 290–311.',
+                      note: '3-tier ABM on NK landscape (not classical GT).' },
+                    { id: 'zenger-1994',
+                      cite: 'Zenger, T. R. (1994). Explaining organizational diseconomies of scale in R&D. <em>Management Science</em>, 40(6), 708–729.',
+                      note: 'Evolutionary GT + firm size.' },
+                    { id: 'nowak-2004',
+                      cite: 'Nowak et al. (2004). Emergence of cooperation and evolutionary stability in finite populations. <em>Nature</em>, 428, 646–650.',
+                      note: 'Cooperation on graphs — applies to firm-team games.' },
+                    { id: 'kollman-2000',
+                      cite: 'Kollman, Miller & Page (2000). Decentralization and the search for policy solutions. <em>JLEO</em>, 16(1), 102–128.',
+                      note: 'Multi-tier organizations as simulated games.' },
+                ]
+            },
+            {
+                title: '9 · Additional Background',
+                items: [
+                    { id: 'neugart-richiardi-2018',
+                      cite: 'Neugart & Richiardi (2018). Agent-based models of the labor market. <em>Handbook of Computational Economics</em>, Vol. 4.' },
+                    { id: 'lazear-oyer-2007',
+                      cite: 'Lazear & Oyer (2007). Personnel Economics survey.' },
+                    { id: 'prendergast-1999',
+                      cite: 'Prendergast, C. (1999). The provision of incentives in firms. <em>JEL</em>, 37(1), 7–63.' },
+                    { id: 'bloom-vanreenen-2010',
+                      cite: 'Bloom & Van Reenen (2007, QJE; 2010, JEP). Measuring & explaining management practices.' },
+                    { id: 'bandiera-prat-sadun-2020b',
+                      cite: 'Bandiera, Prat & Sadun (2020). CEO behavior and firm performance. <em>QJE</em>.' },
+                ]
+            },
+        ]
     }
 };
+
+// ---------- Reading-list persistence ----------
+function _rlReadStorageKey(subjectId) { return `mindnotes_reading_read_${subjectId}`; }
+
+function _rlLoadRead(subjectId) {
+    try { return JSON.parse(localStorage.getItem(_rlReadStorageKey(subjectId))) || {}; }
+    catch { return {}; }
+}
+function _rlSaveRead(subjectId, obj) {
+    try { localStorage.setItem(_rlReadStorageKey(subjectId), JSON.stringify(obj)); } catch {}
+}
+
+function _rlRenderChecklist(list, read) {
+    // Total-progress pill
+    const total = list.sections.reduce((s, sec) => s + sec.items.length, 0);
+    const done = list.sections.reduce((s, sec) =>
+        s + sec.items.filter(it => read[it.id]).length, 0);
+    let html = `<div class="rl-progress"><strong>${done}</strong> / ${total} papers read</div>`;
+    html += `<div class="rl-controls">
+        <button class="rl-btn" onclick="_rlMarkAllRead(true)">Mark all read</button>
+        <button class="rl-btn" onclick="_rlMarkAllRead(false)">Unmark all</button>
+        <label class="rl-toggle"><input type="checkbox" id="rlHideDone" onchange="_rlToggleHideDone(this.checked)"> Hide read</label>
+    </div>`;
+
+    list.sections.forEach(section => {
+        const doneInSection = section.items.filter(it => read[it.id]).length;
+        html += `<div class="rl-section">
+            <div class="rl-section-header">
+                <h3 class="rl-section-title">${section.title}</h3>
+                <span class="rl-section-count">${doneInSection}/${section.items.length}</span>
+            </div>`;
+        if (section.intro) html += `<p class="rl-section-intro">${section.intro}</p>`;
+        html += `<ul class="rl-checklist">`;
+        section.items.forEach(item => {
+            const isDone = !!read[item.id];
+            html += `<li class="rl-check-item ${isDone ? 'done' : ''}" data-id="${item.id}" onclick="_rlToggle('${item.id}')">
+                <div class="rl-checkbox ${isDone ? 'checked' : ''}"></div>
+                <div class="rl-item-body">
+                    <div class="rl-item-cite">${item.cite}</div>
+                    ${item.note ? `<div class="rl-item-note">${item.note}</div>` : ''}
+                </div>
+            </li>`;
+        });
+        html += `</ul></div>`;
+    });
+    return html;
+}
+
+let _rlCurrentSubjectId = null;
+
+function _rlToggle(itemId) {
+    if (!_rlCurrentSubjectId) return;
+    const read = _rlLoadRead(_rlCurrentSubjectId);
+    read[itemId] = !read[itemId];
+    if (!read[itemId]) delete read[itemId];
+    _rlSaveRead(_rlCurrentSubjectId, read);
+    // Re-render to update counts
+    const list = READING_LISTS[_rlCurrentSubjectId];
+    document.getElementById('readingListBody').innerHTML = _rlRenderChecklist(list, read);
+    if (_rlHideDoneState) _rlApplyHideDone(true);
+}
+
+function _rlMarkAllRead(shouldRead) {
+    if (!_rlCurrentSubjectId) return;
+    const list = READING_LISTS[_rlCurrentSubjectId];
+    if (!list) return;
+    const read = shouldRead
+        ? Object.fromEntries(list.sections.flatMap(sec => sec.items.map(it => [it.id, true])))
+        : {};
+    _rlSaveRead(_rlCurrentSubjectId, read);
+    document.getElementById('readingListBody').innerHTML = _rlRenderChecklist(list, read);
+    if (_rlHideDoneState) _rlApplyHideDone(true);
+}
+
+let _rlHideDoneState = false;
+function _rlToggleHideDone(v) {
+    _rlHideDoneState = v;
+    _rlApplyHideDone(v);
+}
+function _rlApplyHideDone(hide) {
+    document.querySelectorAll('#readingListBody .rl-check-item').forEach(el => {
+        el.style.display = (hide && el.classList.contains('done')) ? 'none' : '';
+    });
+}
 
 function openReadingList() {
     const subj = State.currentSubject;
@@ -14381,10 +14429,13 @@ function openReadingList() {
     const title = document.getElementById('readingListTitle');
     if (list) {
         title.textContent = list.title;
-        body.innerHTML = list.html;
+        _rlCurrentSubjectId = subj.id;
+        const read = _rlLoadRead(subj.id);
+        body.innerHTML = _rlRenderChecklist(list, read);
     } else {
         title.textContent = '📚 Reading List';
         body.innerHTML = '<div class="reading-list-empty">No reading list yet for this subject.</div>';
+        _rlCurrentSubjectId = null;
     }
     document.getElementById('readingListModal').classList.add('visible');
     const _esc = (e) => { if (e.key === 'Escape') closeReadingList(); };
