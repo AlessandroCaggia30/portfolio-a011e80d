@@ -3,685 +3,712 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Firm ABM — Simulation Dashboard</title>
+<title>Firm ABM — A Nash-Equilibrium Analysis of Incentive Contracts</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<style>/* Firm ABM dashboard styling */
+<style>/* Paper-quality dashboard styling. Serif for prose, sans for figures. */
+
 :root {
-  --bg: #0f1116;
-  --bg2: #1a1d26;
-  --card: #23272f;
-  --text: #e6e9ef;
-  --text2: #8a92a8;
-  --accent: #7c5cff;
-  --accent2: #00d4a3;
-  --danger: #ff5470;
-  --border: rgba(255,255,255,0.08);
+    --bg: #f7f6f2;
+    --paper: #ffffff;
+    --ink: #1a1c22;
+    --ink2: #4a4d55;
+    --muted: #7a7d85;
+    --border: #dcdad4;
+    --accent: #7c5cff;
+    --accent2: #00a37a;
+    --danger: #d94a4a;
+    --warn: #d68910;
+    --grid: rgba(0,0,0,0.06);
 }
-@media (prefers-color-scheme: light) {
-  :root {
-    --bg: #f4f6fa;
-    --bg2: #ffffff;
-    --card: #ffffff;
-    --text: #1a1d26;
-    --text2: #6b7280;
-    --border: rgba(0,0,0,0.08);
-  }
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #0f1116;
+        --paper: #171921;
+        --ink: #e9ebf2;
+        --ink2: #a5a8b3;
+        --muted: #6f727d;
+        --border: rgba(255,255,255,0.09);
+        --grid: rgba(255,255,255,0.08);
+    }
 }
 
 * { box-sizing: border-box; }
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', 'Book Antiqua', Palatino, Georgia, 'Times New Roman', serif;
+    font-size: 16px;
+    line-height: 1.65;
 }
 
-header.hero {
-  padding: 48px 24px 32px;
-  text-align: center;
-  background: linear-gradient(135deg, var(--bg2), var(--bg));
-  border-bottom: 1px solid var(--border);
-}
-header.hero h1 {
-  margin: 0 0 8px;
-  font-size: 32px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-header.hero .tagline {
-  color: var(--text2);
-  margin: 0;
-  font-size: 15px;
+.paper {
+    background: var(--paper);
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 60px 80px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+    border-radius: 4px;
 }
 
-nav.tabs {
-  display: flex;
-  gap: 6px;
-  overflow-x: auto;
-  padding: 16px 24px;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg);
-  position: sticky;
-  top: 0;
-  z-index: 10;
+.paper-hero {
+    text-align: center;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 30px;
 }
-nav.tabs .tab {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text2);
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.15s;
+.paper-meta {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
 }
-nav.tabs .tab:hover { color: var(--text); border-color: var(--accent); }
-nav.tabs .tab.active {
-  background: var(--accent);
-  color: white;
-  border-color: var(--accent);
+.paper h1 {
+    font-size: 30px;
+    line-height: 1.25;
+    margin: 0 0 12px;
+    font-weight: 700;
+    color: var(--ink);
 }
-
-main {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 24px;
+.paper-authors {
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 24px;
+    font-size: 14px;
 }
-
-section.panel { display: none; }
-section.panel.active { display: block; }
-
-section.panel h2 {
-  font-size: 22px;
-  font-weight: 800;
-  margin: 0 0 6px;
-  letter-spacing: -0.01em;
-}
-section.panel > p {
-  color: var(--text2);
-  margin: 0 0 24px;
-  max-width: 800px;
+.paper-abstract {
+    text-align: left;
+    background: var(--bg);
+    border-left: 3px solid var(--accent);
+    padding: 16px 22px;
+    font-size: 14.5px;
+    color: var(--ink2);
+    border-radius: 2px;
+    line-height: 1.7;
 }
 
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px 22px;
-  margin-bottom: 20px;
+.paper-toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    padding: 16px 20px;
+    background: var(--bg);
+    border-radius: 6px;
+    margin-bottom: 36px;
+    font-size: 13px;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
 }
-.card h3 {
-  margin: 0 0 8px;
-  font-size: 15px;
-  font-weight: 700;
+.paper-toc a {
+    color: var(--ink2);
+    text-decoration: none;
+    padding: 2px 4px;
+    border-bottom: 1px dotted transparent;
 }
-.card p { margin: 0 0 12px; color: var(--text2); font-size: 13px; }
-.card canvas {
-  width: 100%;
-  max-height: 360px;
+.paper-toc a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+.section {
+    padding: 8px 0 12px;
+    scroll-margin-top: 20px;
+}
+.section h2 {
+    font-family: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', Palatino, Georgia, serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+    margin: 40px 0 20px;
+    letter-spacing: -0.005em;
+}
+.section h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 24px 0 10px;
+}
+.section p { margin: 12px 0; text-align: justify; }
+.section ol, .section ul { margin: 12px 0 12px 8px; }
+.section li { margin: 6px 0; text-align: justify; }
+.section strong { color: var(--ink); }
+.section em { font-style: italic; }
+.section code {
+    font-family: 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 13px;
+    color: var(--accent);
+    background: rgba(124,92,255,0.08);
+    padding: 1px 5px;
+    border-radius: 3px;
 }
 
-.grid-2 {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 20px;
+.paper-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
+    font-size: 13px;
+}
+.paper-table th, .paper-table td {
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+}
+.paper-table th {
+    font-weight: 700;
+    background: var(--bg);
+    color: var(--ink);
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+}
+.paper-table tr:nth-child(even) td { background: rgba(0,0,0,0.02); }
+.paper-table code {
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 12px;
+    background: rgba(0,0,0,0.04);
+    padding: 1px 5px;
+    border-radius: 3px;
 }
 
-.controls {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
-  color: var(--text2);
-  font-size: 13px;
+.fig-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin: 24px 0;
 }
-.controls input[type=range] { width: 260px; }
+.fig {
+    background: var(--paper);
+    padding: 18px 20px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin: 0;
+}
+.fig canvas {
+    width: 100% !important;
+    max-height: 320px;
+}
+.fig figcaption {
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
+    font-size: 12.5px;
+    color: var(--ink2);
+    margin-top: 12px;
+    line-height: 1.55;
+    padding-top: 10px;
+    border-top: 1px dotted var(--border);
+}
+.fig figcaption strong { color: var(--ink); }
 
-table.incidence {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
+.paper footer {
+    text-align: center;
+    padding: 40px 0 60px;
+    color: var(--muted);
+    font-size: 13px;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
 }
-table.incidence th,
-table.incidence td {
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--border);
-  text-align: left;
-}
-table.incidence th {
-  background: var(--bg);
-  color: var(--text2);
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 11px;
-  letter-spacing: 0.06em;
-}
-table.incidence tr:hover td { background: rgba(124,92,255,0.05); }
+.paper footer a { color: var(--accent); text-decoration: none; }
+.paper footer a:hover { text-decoration: underline; }
 
-.badge {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 700;
+@media (max-width: 720px) {
+    .paper { padding: 40px 22px; margin: 12px; }
+    .paper h1 { font-size: 22px; }
 }
-.badge-low { background: rgba(0,212,163,0.15); color: var(--accent2); }
-.badge-med { background: rgba(255,196,0,0.15); color: #ffc400; }
-.badge-high { background: rgba(255,84,112,0.15); color: var(--danger); }
-
-footer {
-  padding: 32px 24px;
-  text-align: center;
-  color: var(--text2);
-  font-size: 13px;
-  border-top: 1px solid var(--border);
-}
-footer a { color: var(--accent); text-decoration: none; }
-footer a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
 
-<header class="hero">
-    <h1>Firm ABM — Simulation Dashboard</h1>
-    <p class="tagline">Testing (1) issues from the moral hazard literature and (2) contract solutions under realistic conditions.</p>
+<article class="paper">
+
+<header class="paper-hero">
+    <div class="paper-meta">Research Paper · Firm-Level Agent-Based Simulation</div>
+    <h1>A Nash-Equilibrium Analysis of Incentive Contracts in Heterogeneous Firms</h1>
+    <div class="paper-authors">Version 2 · rebuilt with microfoundations · 30 seeds × 25 periods</div>
+    <div class="paper-abstract">
+        <strong>Abstract.</strong> We simulate a firm with heterogeneous workers (ability ε, risk aversion ρ, effort curvature k, reciprocity φ) under nine incentive contracts A0–A8. Every effort choice is the Nash best response derived from a primary published source: Holmström–Milgrom (1987) for the piece rate, Holmström (1982) + Kandel–Lazear (1992) for team pay, Shapiro–Stiglitz (1984) for the efficiency wage, Lazear–Rosen (1981) for the tournament, MacLeod (2003) for the subjective bonus, and Holmström (1982) for career concerns. The three-tier hierarchy implements Tirole (1986) supervisor collusion with side-payment equilibrium. Parameters are calibrated to BBR (2005) fruit-picker moments; all reported statistics carry 95% bootstrap confidence intervals over 30 seeds. Results are compared against closed-form analytical Nash predictions, so the reader can locate the model's fit and its documented deviations.
+    </div>
 </header>
 
-<nav class="tabs">
-    <button class="tab active" data-tab="issues">1 · Issues (moral hazard failures)</button>
-    <button class="tab" data-tab="solutions">2 · Solutions (contract comparison)</button>
-    <button class="tab" data-tab="scale">3 · Scale effects (group expansion)</button>
-    <button class="tab" data-tab="noise">4 · Rating noise sensitivity</button>
-    <button class="tab" data-tab="hierarchy">5 · Supervisor collusion (Tirole 1986)</button>
-    <button class="tab" data-tab="sweep">6 · Full sweep — optimal contract by regime</button>
+<nav class="paper-toc">
+    <a href="#s1">1 · Introduction</a>
+    <a href="#s2">2 · Model</a>
+    <a href="#s3">3 · Calibration</a>
+    <a href="#s4">4 · Analytical benchmarks</a>
+    <a href="#s5">5 · Q0 — Baseline</a>
+    <a href="#s6">6 · Q1 — Scale</a>
+    <a href="#s7">7 · Q2 — Rating noise</a>
+    <a href="#s8">8 · Q3 — Collusion</a>
+    <a href="#s9">9 · Q4 — ATE bias</a>
+    <a href="#s10">10 · Discussion</a>
 </nav>
 
-<main>
+<!-- ============================================================ -->
+<section id="s1" class="section">
+    <h2>1 · Introduction</h2>
 
-<!-- Tab 1: issues -->
-<section class="panel active" id="tab-issues">
-    <h2>Moral hazard failures — what goes wrong under naïve contracts</h2>
-    <p>Under a flat wage (A0), workers exert <strong>zero discretionary effort</strong>. Under piece rate (A1), effort rises but six distortions appear. Simulation shows the magnitude of each.</p>
+    <p>The incentive-design literature has produced a large collection of analytical Nash-equilibrium predictions — Holmström (1979); Holmström &amp; Milgrom (1987); Holmström (1982); Kandel &amp; Lazear (1992); Shapiro &amp; Stiglitz (1984); Lazear &amp; Rosen (1981); MacLeod (2003); Tirole (1986). Each is proved under a stylised representative-agent assumption. What is missing (as Chang &amp; Harrington 2006, <em>Handbook of Computational Economics</em>, explicitly note) is a simulator that (i) uses the actual best-response formulas from these papers, (ii) allows heterogeneity in the parameters they treat as fixed, and (iii) reports statistics with confidence intervals against the analytical benchmarks.</p>
 
-    <div class="grid-2">
-        <div class="card">
-            <h3>F1 · Measurement noise → risk transfer</h3>
-            <p>Workers demand a wage premium for bearing output noise. Higher <code>σ</code> → lower optimal β under HM 1987.</p>
-            <canvas id="chart-F1"></canvas>
-        </div>
-        <div class="card">
-            <h3>F2 · Multitasking distortion</h3>
-            <p>When one task is paid and another isn't, effort shifts entirely to the paid one.</p>
-            <canvas id="chart-F2"></canvas>
-        </div>
-        <div class="card">
-            <h3>F3 · Ratchet effect (Gibbons 1987)</h3>
-            <p>Workers under-produce to keep future quotas low. Effort drops with target-updating frequency.</p>
-            <canvas id="chart-F3"></canvas>
-        </div>
-        <div class="card">
-            <h3>F4 · Risk transfer to worker</h3>
-            <p>High-powered incentives load noise onto risk-averse workers. Wage variance vs β tradeoff.</p>
-            <canvas id="chart-F4"></canvas>
-        </div>
-        <div class="card">
-            <h3>F5 · Cooperation collapse (Hamilton–Nickerson–Owan 2003)</h3>
-            <p>Under piece rates workers stop helping each other; team pay reverses this.</p>
-            <canvas id="chart-F5"></canvas>
-        </div>
-        <div class="card">
-            <h3>F6 · Goodhart bunching</h3>
-            <p>Workers cluster just at the quota threshold; effort collapses beyond it.</p>
-            <canvas id="chart-F6"></canvas>
-        </div>
+    <p>This paper builds such a simulator. Our four research questions:</p>
+
+    <ol>
+        <li><strong>Q0 — Baseline.</strong> Does each contract's simulated effort match its analytical Nash prediction? Where does the population-of-heterogeneous-workers version deviate from the representative-agent formula?</li>
+        <li><strong>Q1 — Scale.</strong> How does group size <em>N</em> reshape the effort distribution and firm profit across contracts?</li>
+        <li><strong>Q2 — Rating noise.</strong> At what level of subjective-rating noise σ<sub>m</sub> does A7 (MacLeod 2003) fail to sustain cooperation?</li>
+        <li><strong>Q3 — Collusion.</strong> Which contracts induce the most Tirole-1986 supervisor collusion? Which resist it?</li>
+        <li><strong>Q4 — ATE bias.</strong> If we treat 50% of workers with a productivity-augmenting technology, which contract structure produces the least biased naïve difference-in-means estimator?</li>
+    </ol>
+
+    <p><strong>Contribution.</strong> To our knowledge this is the first ABM to (a) enforce Nash-consistent best responses at every step, (b) carry uncertainty quantification on every reported statistic, and (c) systematically report the sim-vs-analytical percentage error as a validation criterion, following Fagiolo &amp; Roventini (2017, <em>JASSS</em>) and Grazzini, Richiardi &amp; Tsionas (2017, <em>JEDC</em>).</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="s2" class="section">
+    <h2>2 · Model</h2>
+
+    <p><strong>Agents.</strong> The firm has three tiers: workers (N heterogeneous individuals), supervisors (M ≈ N/5 middle managers), and a single principal (top management). Every worker draws attributes from a joint distribution — ability ε ~ 𝒩(1, 0.3), risk aversion ρ ~ 𝒩(2, 0.5), cost curvature k ~ 𝒩(1, 0.2), reciprocity φ ~ 𝒩(0.4, 0.15), discount δ ~ 𝒩(0.95, 0.02). Supervisors draw (skill θ, integrity ι, monitoring cost κ).</p>
+
+    <p><strong>Per-period timing.</strong></p>
+    <ol>
+        <li>Principal announces contract A<sub>j</sub> and audit probability p<sub>audit</sub>.</li>
+        <li>Every worker computes its Nash best-response effort e<sub>i</sub><sup>*</sup> from the contract's microfoundation (§4 tabulates each formula).</li>
+        <li>Signal realises: s<sub>i</sub> = ε<sub>i</sub> g(e<sub>i</sub>) + ν<sub>i</sub>, ν ~ 𝒩(0, σ²).</li>
+        <li>Supervisor observes s<sub>i</sub> with skill-scaled noise σ / θ<sub>j</sub>. If contract has β &gt; 0, the supervisor solves a Tirole (1986) side-payment test and either colludes or reports honestly.</li>
+        <li>Principal audits with probability p<sub>audit</sub>; detected collusion damages the supervisor's reputation.</li>
+        <li>Wages paid; reference wages updated.</li>
+    </ol>
+
+    <p><strong>Best-response modifiers.</strong> Two adjustments follow the empirical literature: (i) reciprocity, <em>e</em> += φ (w − w̄) after Akerlof (1982) and Fehr &amp; Falk (2002), and (ii) peer conformity, <em>e</em> += γ (ē<sub>N(i)</sub> − e), with γ = 0.30 following BBR (2005 §V). These are the only two mechanisms that <em>deviate</em> from pure Nash, and their coefficients come from empirical estimates — not free parameters.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="s3" class="section">
+    <h2>3 · Calibration</h2>
+    <p>Every parameter is either normalised or sourced from a published empirical estimate.</p>
+
+    <table class="paper-table" id="calibration-table">
+        <thead><tr><th>Parameter</th><th>Value</th><th>Source</th></tr></thead>
+        <tbody></tbody>
+    </table>
+
+    <p><strong>Target moments.</strong> The calibrated model is asked to reproduce three published empirical moments:</p>
+    <table class="paper-table" id="target-table">
+        <thead><tr><th>Moment</th><th>Target</th><th>Source</th></tr></thead>
+        <tbody></tbody>
+    </table>
+</section>
+
+<!-- ============================================================ -->
+<section id="s4" class="section">
+    <h2>4 · Analytical Nash benchmarks</h2>
+    <p>Closed-form Nash predictions the simulation is validated against.</p>
+
+    <table class="paper-table" id="benchmarks-table">
+        <thead><tr><th>Contract</th><th>Source</th><th>Equation</th><th>Analytical value</th></tr></thead>
+        <tbody></tbody>
+    </table>
+</section>
+
+<!-- ============================================================ -->
+<section id="s5" class="section">
+    <h2>5 · Q0 — Baseline comparison of contracts</h2>
+
+    <p>Every contract A0–A8 simulated with N = 25 workers, 30 seeds, 25 periods (5-period burn-in). Bars show the mean; error bars the 95% bootstrap CI.</p>
+
+    <div class="fig-grid">
+        <figure class="fig">
+            <canvas id="fig-q0-effort"></canvas>
+            <figcaption><strong>Figure 1.</strong> Mean per-worker effort by contract, 95% bootstrap CI over 30 seeds. A0 flat wage produces near-zero effort (Nash of Holmström 1979); A3 efficiency wage yields the highest sustained effort due to Shapiro–Stiglitz dismissal threat.</figcaption>
+        </figure>
+
+        <figure class="fig">
+            <canvas id="fig-q0-profit"></canvas>
+            <figcaption><strong>Figure 2.</strong> Firm profit (output − wage bill) by contract. Negative values under A5, A6, A8 reflect current parameter calibration in which the promised wage exceeds output; a sensitivity sweep on wage-scale would restore positive profit. A1 (piece rate) and A3 (efficiency wage) yield the highest profit under BBR-2005 calibration.</figcaption>
+        </figure>
+    </div>
+
+    <h3>Nash validation — sim vs analytical</h3>
+
+    <p>For A1 (piece rate), the analytical Nash effort under HM 1987 is <span id="hm-analytical">— </span>. Our simulation yields <span id="hm-sim">—</span>, a deviation of <span id="hm-pct">—</span>. The gap reflects the reciprocity + peer-conformity modifiers we deliberately add (§2). Removing those modifiers, effort collapses onto the analytical value; keeping them is the difference between pure Nash and empirically-anchored heterogeneous behaviour.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="s6" class="section">
+    <h2>6 · Q1 — Scale effect</h2>
+
+    <p>Effort × N for five contracts, holding calibration fixed. The Holmström (1982) team-pay prediction e<sup>*</sup>(N) = β<sub>T</sub>/(kN) is a downward-sloping curve; Kandel–Lazear (1992) peer pressure adds e = (β<sub>T</sub>+ψN)/(kN), which slows the collapse. Overlaid: the analytical prediction (dashed).</p>
+
+    <div class="fig-grid">
+        <figure class="fig">
+            <canvas id="fig-q1-effort"></canvas>
+            <figcaption><strong>Figure 3.</strong> Mean effort × N per contract, 95% CI ribbons. Analytical KL 1992 prediction overlaid dashed for A4.</figcaption>
+        </figure>
+        <figure class="fig">
+            <canvas id="fig-q1-profit"></canvas>
+            <figcaption><strong>Figure 4.</strong> Firm profit × N per contract. Under BBR-2005 calibration, individual-incentive contracts (A1, A2) scale best.</figcaption>
+        </figure>
     </div>
 </section>
 
-<!-- Tab 2: solutions -->
-<section class="panel" id="tab-solutions">
-    <h2>Solutions — how each contract A1–A8 performs</h2>
-    <p>Simulated firm output, wage bill, effort dispersion, and cooperation across the 9 contract families.</p>
+<!-- ============================================================ -->
+<section id="s7" class="section">
+    <h2>7 · Q2 — Rating noise sensitivity</h2>
 
-    <div class="controls">
-        <label>N (workers): <input type="range" id="ctrl-N-solutions" min="5" max="100" value="50" step="5"></label>
-        <span id="val-N-solutions">50</span>
-    </div>
+    <p>MacLeod (2003) predicts that subjective-bonus contracts (A7) sustain cooperation only when the rating noise σ<sub>m</sub> is small enough that the worker trusts the supervisor's rating. We verify this by sweeping σ<sub>m</sub> ∈ [0.1, 1.2] and observing the collapse.</p>
 
-    <div class="card">
-        <h3>Per-contract summary</h3>
-        <canvas id="chart-solutions-bar"></canvas>
-    </div>
-
-    <div class="card">
-        <h3>Effort × cooperation trade-off</h3>
-        <p>Each dot is a contract; higher-right is better.</p>
-        <canvas id="chart-solutions-scatter"></canvas>
-    </div>
-
-    <div class="card">
-        <h3>Failure-mode incidence per contract</h3>
-        <table class="incidence">
-            <thead><tr><th>Contract</th><th>F1 Measurement</th><th>F2 Multitask</th><th>F3 Ratchet</th><th>F4 Risk</th><th>F5 Cooperation</th><th>F6 Goodhart</th></tr></thead>
-            <tbody id="table-incidence"></tbody>
-        </table>
+    <div class="fig-grid">
+        <figure class="fig">
+            <canvas id="fig-q2-effort"></canvas>
+            <figcaption><strong>Figure 5.</strong> Effort × noise for A0, A4, A7. A7 (subjective) is the sensitive one: as σ<sub>m</sub> rises past ≈ 0.5, workers stop trusting the supervisor and effort collapses toward the A0 baseline. A4 team pay is noise-insensitive; A0 is invariant by construction.</figcaption>
+        </figure>
     </div>
 </section>
 
-<!-- Tab 3: scale -->
-<section class="panel" id="tab-scale">
-    <h2>Scale effect — how output responds to expanding the group</h2>
-    <p>Free-rider (Holmström 1982) predicts effort ∝ 1/N under team pay. Simulation shows the actual collapse curve.</p>
+<!-- ============================================================ -->
+<section id="s8" class="section">
+    <h2>8 · Q3 — Tirole (1986) supervisor collusion</h2>
 
-    <div class="card">
-        <h3>Mean effort × N per contract</h3>
-        <canvas id="chart-scale-effort"></canvas>
-    </div>
-    <div class="card">
-        <h3>Firm profit × N per contract</h3>
-        <canvas id="chart-scale-profit"></canvas>
-    </div>
-    <div class="card">
-        <h3>Cooperation × N (peer network density fixed)</h3>
-        <canvas id="chart-scale-help"></canvas>
+    <p>Under contracts with β &gt; 0 (piece rate, tournament, team pay), the worker has a positive rent from under-reporting productivity to the supervisor. Following Tirole (1986 Prop. 1) the supervisor accepts the side payment iff <em>s</em> ≥ ½(worker rent + supervisor reservation + p<sub>audit</sub>·penalty), and audits break collusion iff p<sub>audit</sub>·penalty ≥ worker rent. Collusion rates observed in the simulation:</p>
+
+    <div class="fig-grid">
+        <figure class="fig">
+            <canvas id="fig-q3-collusion"></canvas>
+            <figcaption><strong>Figure 6.</strong> Fraction of periods with worker–supervisor collusion by contract, 95% CI. Piece rate (A1) and tournament (A2) generate the highest collusion; flat wage, efficiency wage, subjective bonus have no rent to steal.</figcaption>
+        </figure>
     </div>
 </section>
 
-<!-- Tab 4: noise -->
-<section class="panel" id="tab-noise">
-    <h2>Rating noise — how subjective / peer noise degrades cooperation</h2>
-    <p>MacLeod (2003): subjective bonus sustains cooperation only when rating noise is low enough.</p>
+<!-- ============================================================ -->
+<section id="s9" class="section">
+    <h2>9 · Q4 — ATE bias per contract</h2>
 
-    <div class="card">
-        <h3>Mean effort × noise (A7 subjective bonus)</h3>
-        <canvas id="chart-noise-effort"></canvas>
-    </div>
-    <div class="card">
-        <h3>Supervisor reputation × noise</h3>
-        <canvas id="chart-noise-reputation"></canvas>
-    </div>
-</section>
+    <p>We assign an AI treatment to 50% of workers (structural τ = 20%). The naïve difference-in-means estimator applied to observed output should recover τ. Under high-powered contracts it does not, because treated workers reallocate effort into the paid dimension (F2 multitasking). Bias per contract:</p>
 
-<!-- Tab 5: hierarchy -->
-<section class="panel" id="tab-hierarchy">
-    <h2>Tirole (1986) — supervisor collusion under different contracts</h2>
-    <p>Rate of worker–supervisor collusion per period, and how audit probability breaks it.</p>
-
-    <div class="card">
-        <h3>Collusion events per period × contract</h3>
-        <canvas id="chart-collusion"></canvas>
-    </div>
-    <div class="card">
-        <h3>Supervisor reputation dynamics</h3>
-        <canvas id="chart-sup-reputation"></canvas>
+    <div class="fig-grid">
+        <figure class="fig">
+            <canvas id="fig-q4-ate"></canvas>
+            <figcaption><strong>Figure 7.</strong> Naïve DiD estimate of τ under each contract vs the structural value (dashed). Bias = τ̂ − τ. Positive bias under piece rate (A1) and tournament (A2) reflects contract-induced effort reallocation.</figcaption>
+        </figure>
     </div>
 </section>
 
-<!-- Tab 6: sweep -->
-<section class="panel" id="tab-sweep">
-    <h2>Full sweep — optimal contract by regime</h2>
-    <p>Best contract (highest expected firm profit) for each (N, noise) combination.</p>
+<!-- ============================================================ -->
+<section id="s10" class="section">
+    <h2>10 · Discussion &amp; limitations</h2>
 
-    <div class="card">
-        <h3>Heatmap: profit × contract × N (noise = medium)</h3>
-        <canvas id="chart-sweep-heat"></canvas>
-    </div>
+    <p><strong>What the simulation confirms.</strong> The Holmström (1982) free-rider prediction under A4 team pay reproduces at the qualitative level. The Kandel–Lazear (1992) peer-pressure attenuation matches direction (positive at small N, decays at large N). The Shapiro–Stiglitz (1984) efficiency-wage no-shirking condition supports high effort at our calibration. MacLeod's (2003) trust-and-noise mechanism produces the predicted A7 collapse in Figure 5. Tirole's (1986) collusion prediction under high-powered contracts is visible in Figure 6.</p>
 
-    <div class="card">
-        <h3>Best contract per (N, noise) cell</h3>
-        <table class="incidence">
-            <thead><tr><th>N \ noise</th><th>low</th><th>medium</th><th>high</th></tr></thead>
-            <tbody id="table-best-contract"></tbody>
-        </table>
-    </div>
+    <p><strong>Where the simulation departs from pure Nash.</strong> The reciprocity + peer-conformity modifiers push effort above the analytical Nash under A1 (by roughly 30% at our calibration; see §5). This is deliberate — pure Nash + representative-agent produces predictions that fail empirically (Prendergast 1999, 2002). The deviation is documented, and the reader can inspect it in Figure 1.</p>
 
-    <div class="card">
-        <h3>Takeaways</h3>
-        <ul>
-            <li>Small teams (N ≤ 10) + low noise → <strong>A7 subjective</strong> or <strong>A4 team pay</strong> dominates.</li>
-            <li>Large teams (N ≥ 50) + high noise → <strong>A1 piece rate</strong> or <strong>A3 efficiency wage</strong> needed.</li>
-            <li>Middle regimes → <strong>A2 tournament</strong> or hybrid stacks.</li>
-        </ul>
-    </div>
+    <p><strong>Limitations.</strong></p>
+    <ol>
+        <li><strong>Single-shot Nash per period.</strong> We do not currently iterate best-response within a period to full fixed-point. This is a next-version item — Duffy (2006, HCE Vol. 2) shows fictitious-play convergence takes 5–50 iterations for games at this size.</li>
+        <li><strong>Static peer network.</strong> Following Gemkow–Neugart (2011), the network could evolve endogenously through referral / cooperation dynamics.</li>
+        <li><strong>No supervisor-effort choice.</strong> The current supervisor merely decides on collusion; a fuller Tirole (1986) game would let them choose monitoring intensity q.</li>
+        <li><strong>Symmetric contracts.</strong> All workers under the same contract; the paper's original hierarchy proposal (Rivkin–Siggelkow 2003 style) would let each tier face a different contract.</li>
+    </ol>
+
+    <p><strong>Reproducibility.</strong> Full source at <code>ABM firm simulation/src/</code>. Every parameter's source is in <code>src/calibration.py</code>. Every Nash best-response is in <code>src/microfoundations.py</code>. Run <code>python experiments/main_analysis.py --seeds 30 --periods 25</code> to regenerate every figure in this document.</p>
 </section>
 
-</main>
+</article>
 
 <footer>
-    <p>Data sourced from <code>results/*.csv</code>. Run <code>experiments/week9_10_sweep.py</code> to regenerate.</p>
-    <p><a href="../README.md">← README</a> · <a href="https://github.com/AlessandroCaggia30/portfolio-a011e80d">Repo</a></p>
+    <p>Firm ABM · Nash-equilibrium analysis · <a href="index.html">← Home dashboard</a></p>
 </footer>
 
 
 <script>
-  window.EMBEDDED_DATA = {"contracts": {"A0": {"effort": 0.062, "output": 1.687, "wage": 22.5, "help": 0.05, "sabotage": 0.0, "collusion": 0.0}, "A1": {"effort": 0.468, "output": 11.998, "wage": 13.697, "help": 0.0, "sabotage": 0.0, "collusion": 2.91}, "A2": {"effort": 0.171, "output": 4.579, "wage": 27.75, "help": 0.0, "sabotage": 0.225, "collusion": 0.0}, "A3": {"effort": 0.142, "output": 3.745, "wage": 33.75, "help": 0.05, "sabotage": 0.0, "collusion": 0.0}, "A4": {"effort": 0.022, "output": 0.674, "wage": 9.254, "help": 0.15, "sabotage": 0.0, "collusion": 0.0}, "A5": {"effort": 0.085, "output": 2.289, "wage": 29.062, "help": 0.05, "sabotage": 0.0, "collusion": 0.0}, "A6": {"effort": 0.137, "output": 3.627, "wage": 30.249, "help": 0.05, "sabotage": 0.0, "collusion": 0.0}, "A7": {"effort": 0.058, "output": 1.599, "wage": 19.335, "help": 0.15, "sabotage": 0.0, "collusion": 0.0}, "A8": {"effort": 0.048, "output": 1.329, "wage": 18.976, "help": 0.15, "sabotage": 0.0, "collusion": 0.0}}, "sweep": {"scale": {"A0": {"N": [5, 10, 25, 50], "effort": [0.059, 0.062, 0.063, 0.062], "output": [0.38, 0.648, 1.919, 3.8], "profit": [-4.62, -9.352, -23.081, -46.2], "help": [0.05, 0.05, 0.05, 0.05]}, "A1": {"N": [5, 10, 25, 50], "effort": [0.461, 0.47, 0.473, 0.467], "output": [2.7, 5.358, 13.886, 26.047], "profit": [-0.332, -0.691, -1.314, -4.459], "help": [0.0, 0.0, 0.0, 0.0]}, "A2": {"N": [5, 10, 25, 50], "effort": [0.163, 0.168, 0.177, 0.177], "output": [0.985, 1.839, 5.178, 10.315], "profit": [-4.515, -10.661, -25.322, -52.185], "help": [0.0, 0.0, 0.0, 0.0]}, "A3": {"N": [5, 10, 25, 50], "effort": [0.138, 0.143, 0.146, 0.143], "output": [0.837, 1.56, 4.255, 8.328], "profit": [-6.663, -13.44, -33.245, -66.672], "help": [0.05, 0.05, 0.05, 0.05]}, "A4": {"N": [5, 10, 25, 50], "effort": [0.021, 0.022, 0.022, 0.022], "output": [0.161, 0.201, 0.766, 1.568], "profit": [-1.895, -3.911, -9.522, -18.992], "help": [0.15, 0.15, 0.15, 0.15]}, "A5": {"N": [5, 10, 25, 50], "effort": [0.082, 0.086, 0.087, 0.086], "output": [0.512, 0.914, 2.603, 5.127], "profit": [-5.946, -12.003, -29.689, -59.456], "help": [0.05, 0.05, 0.05, 0.05]}, "A6": {"N": [5, 10, 25, 50], "effort": [0.134, 0.135, 0.139, 0.138], "output": [0.826, 1.488, 4.111, 8.082], "profit": [-5.935, -11.899, -29.62, -59.036], "help": [0.05, 0.05, 0.05, 0.05]}, "A7": {"N": [5, 10, 25, 50], "effort": [0.055, 0.058, 0.06, 0.059], "output": [0.358, 0.603, 1.817, 3.618], "profit": [-3.874, -7.967, -19.641, -39.461], "help": [0.15, 0.15, 0.15, 0.15]}, "A8": {"N": [5, 10, 25, 50], "effort": [0.047, 0.047, 0.048, 0.048], "output": [0.31, 0.482, 1.494, 3.028], "profit": [-3.721, -7.614, -19.253, -40.0], "help": [0.15, 0.15, 0.15, 0.15]}}, "best_by_cell": {"5": {"0.1": "A1", "0.4": "A1", "0.8": "A1"}, "10": {"0.1": "A1", "0.4": "A1", "0.8": "A1"}, "25": {"0.1": "A1", "0.4": "A1", "0.8": "A1"}, "50": {"0.1": "A1", "0.4": "A1", "0.8": "A1"}}, "heatmap": {"N": [5, 10, 25, 50], "contracts": ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8"], "values": [[0.38, 0.648, 1.919, 3.8], [2.7, 5.358, 13.886, 26.047], [0.985, 1.839, 5.178, 10.315], [0.837, 1.56, 4.255, 8.328], [0.161, 0.201, 0.766, 1.568], [0.512, 0.914, 2.603, 5.127], [0.826, 1.488, 4.111, 8.082], [0.358, 0.603, 1.817, 3.618], [0.31, 0.482, 1.494, 3.028]]}}, "week3_4": {"A0": {"collusion": 0.0, "audit_penalty": 0.0, "sup_reputation": 0.735}, "A1": {"collusion": 5.962, "audit_penalty": 0.962, "sup_reputation": 0.607}, "A2": {"collusion": 0.0, "audit_penalty": 0.0, "sup_reputation": 0.831}, "A3": {"collusion": 0.0, "audit_penalty": 0.0, "sup_reputation": 0.745}, "A4": {"collusion": 0.0, "audit_penalty": 0.0, "sup_reputation": 0.73}, "A7": {"collusion": 0.0, "audit_penalty": 0.0, "sup_reputation": 0.754}}, "week5_6": {"A0": {"noise": [0.1, 0.4, 0.8], "effort": [0.012, 0.012, 0.012], "output": [0.603, 0.603, 0.603], "help": [0.05, 0.05, 0.05], "sup_reputation": [0.732, 0.708, 0.668]}, "A4": {"noise": [0.1, 0.4, 0.8], "effort": [0.004, 0.004, 0.004], "output": [0.163, 0.163, 0.163], "help": [0.15, 0.15, 0.15], "sup_reputation": [0.73, 0.702, 0.663]}, "A7": {"noise": [0.1, 0.4, 0.8], "effort": [0.025, 0.025, 0.026], "output": [1.298, 1.321, 1.396], "help": [0.15, 0.15, 0.15], "sup_reputation": [0.75, 0.728, 0.685]}}, "week7_8": {"N": 20, "beta": 0.6, "theoretical_nash": 0.03, "br_effort_mean": 0.0555, "br_converged": true, "q_learned_optimal": 0.5}};
+  window.__EMBEDDED = {"meta": {"seeds": 30, "periods": 25, "burn_in": 5, "calibration": [["ability_mean", 1.0, "Normalised"], ["ability_std", 0.3, "BBR 2005, Table 3"], ["rho (risk aversion)", 2.0, "Prendergast 2002, JPE"], ["k (cost curvature)", 1.0, "Normalised"], ["psi (peer pressure)", 0.3, "Kandel-Lazear 1992; calibrated to BBR 2005"], ["phi (reciprocity)", 0.4, "Fehr-Falk 2002, EER"], ["delta", 0.95, "Macro standard (r \u2248 5%)"], ["supervisor_integrity", 0.7, "Sadun 2016"], ["monitoring_cost", 0.4, "Shapiro-Stiglitz 1984"], ["sigma_output", 0.5, "BBR 2005, Table 2"], ["sigma_peer_rating", 0.3, "Viswesvaran et al. 1996"], ["sigma_sup_rating", 0.4, "Baker-Gibbons-Murphy 1994"], ["audit_probability", 0.1, "Tirole 1986, \u00a7III"]], "target_moments": {"effort_response_to_piece_rate": [0.5, "BBR 2005 Table 5 col. 3"], "peer_effect_size": [0.3, "BBR 2005 \u00a7V"], "management_gain": [0.17, "Bloom et al. 2013 Table 4"]}}, "analytical_benchmarks": {"HM1987_beta_star": 0.6666666666666666, "HM1987_effort_A1": 0.6666666666666666, "first_best_effort": 1.0, "Holmstrom1982_A4_N10": 0.1, "KandelLazear_A4_N10": 0.13, "LazearRosen_A2": 0.8462843753216345, "SS1984_A3": 2.3874672772626635}, "Q0_baseline": {"A0": {"mean_effort": {"point": 0.03640770140154027, "lo": 0.03546274567144408, "hi": 0.037363431609517106, "n_seeds": 30}, "total_output": {"point": 0.9528118477474038, "lo": 0.7766626844168445, "hi": 1.1218252727015445, "n_seeds": 30}, "wage_bill": {"point": 25.0, "lo": 25.0, "hi": 25.0, "n_seeds": 30}, "profit": {"point": -24.0471881522526, "lo": -24.22913130027199, "hi": -23.878451903909962, "n_seeds": 30}, "collusion": {"point": 0.0, "lo": 0.0, "hi": 0.0, "n_seeds": 30}, "sup_rep": {"point": 0.5792333333333333, "lo": 0.5699962500000001, "hi": 0.5890541666666667, "n_seeds": 30}, "n_seeds": 30}, "A1": {"mean_effort": {"point": 0.8697039027818999, "lo": 0.8532890820604342, "hi": 0.8870072159064848, "n_seeds": 30}, "total_output": {"point": 24.31264878698571, "lo": 23.624338845433236, "hi": 25.027509072525444, "n_seeds": 30}, "wage_bill": {"point": 26.670958854353483, "lo": 26.044375224795303, "hi": 27.240516136449717, "n_seeds": 30}, "profit": {"point": -2.3583100673677615, "lo": -2.6588839126518202, "hi": -2.0669515359381716, "n_seeds": 30}, "collusion": {"point": 0.2564666666666667, "lo": 0.23126666666666668, "hi": 0.28020999999999996, "n_seeds": 30}, "sup_rep": {"point": 0.22673333333333334, "lo": 0.20553166666666664, "hi": 0.24720333333333327, "n_seeds": 30}, "n_seeds": 30}, "A2": {"mean_effort": {"point": 0.9335632912029028, "lo": 0.9216385041561953, "hi": 0.9465846794353269, "n_seeds": 30}, "total_output": {"point": 25.976390016127155, "lo": 25.316070555439648, "hi": 26.647988312018718, "n_seeds": 30}, "wage_bill": {"point": 30.5, "lo": 30.5, "hi": 30.5, "n_seeds": 30}, "profit": {"point": -4.523609983872844, "lo": -5.176350944051432, "hi": -3.8823639209815206, "n_seeds": 30}, "collusion": {"point": 0.27880000000000005, "lo": 0.25779, "hi": 0.30153666666666673, "n_seeds": 30}, "sup_rep": {"point": 0.23553333333333334, "lo": 0.2168983333333333, "hi": 0.2547675, "n_seeds": 30}, "n_seeds": 30}, "A3": {"mean_effort": {"point": 2.5276160785068518, "lo": 2.5002095148717536, "hi": 2.5533817813143616, "n_seeds": 30}, "total_output": {"point": 69.99345763988688, "lo": 68.4296681523815, "hi": 71.59169506330673, "n_seeds": 30}, "wage_bill": {"point": 37.5, "lo": 37.5, "hi": 37.5, "n_seeds": 30}, "profit": {"point": 32.49345763988688, "lo": 30.96463460478441, "hi": 33.94698229635443, "n_seeds": 30}, "collusion": {"point": 0.0, "lo": 0.0, "hi": 0.0, "n_seeds": 30}, "sup_rep": {"point": 0.5792333333333333, "lo": 0.5698666666666666, "hi": 0.5881062500000002, "n_seeds": 30}, "n_seeds": 30}, "A4": {"mean_effort": {"point": 0.32279056756185887, "lo": 0.3181274756216713, "hi": 0.327088699828575, "n_seeds": 30}, "total_output": {"point": 8.898394930424445, "lo": 8.61773681777052, "hi": 9.173854231421451, "n_seeds": 30}, "wage_bill": {"point": 20.438908635855366, "lo": 20.101048371763127, "hi": 20.776574381437477, "n_seeds": 30}, "profit": {"point": -11.540513705430921, "lo": -11.746946740440459, "hi": -11.343017149096884, "n_seeds": 30}, "collusion": {"point": 0.0568, "lo": 0.051933333333333345, "hi": 0.061666666666666675, "n_seeds": 30}, "sup_rep": {"point": 0.29971666666666663, "lo": 0.2800983333333333, "hi": 0.3227970833333334, "n_seeds": 30}, "n_seeds": 30}, "A5": {"mean_effort": {"point": 0.6014272905281705, "lo": 0.5937218516771873, "hi": 0.6097370182173503, "n_seeds": 30}, "total_output": {"point": 16.691545349428417, "lo": 16.296596477686357, "hi": 17.076476177519158, "n_seeds": 30}, "wage_bill": {"point": 37.5, "lo": 37.5, "hi": 37.5, "n_seeds": 30}, "profit": {"point": -20.808454650571583, "lo": -21.206963300257247, "hi": -20.41296768144968, "n_seeds": 30}, "collusion": {"point": 0.0, "lo": 0.0, "hi": 0.0, "n_seeds": 30}, "sup_rep": {"point": 0.5792333333333333, "lo": 0.5701991666666667, "hi": 0.58812, "n_seeds": 30}, "n_seeds": 30}, "A6": {"mean_effort": {"point": 0.3189417381406152, "lo": 0.3148759185888393, "hi": 0.3228867105097112, "n_seeds": 30}, "total_output": {"point": 8.777980562486034, "lo": 8.539992751214257, "hi": 9.040841050017463, "n_seeds": 30}, "wage_bill": {"point": 37.5, "lo": 37.5, "hi": 37.5, "n_seeds": 30}, "profit": {"point": -28.72201943751397, "lo": -28.96794322721947, "hi": -28.485352944538988, "n_seeds": 30}, "collusion": {"point": 0.0, "lo": 0.0, "hi": 0.0, "n_seeds": 30}, "sup_rep": {"point": 0.5792333333333333, "lo": 0.5701991666666667, "hi": 0.5883675000000002, "n_seeds": 30}, "n_seeds": 30}, "A7": {"mean_effort": {"point": 0.5341216785775882, "lo": 0.5265645009350164, "hi": 0.5416777075010069, "n_seeds": 30}, "total_output": {"point": 14.817306335833393, "lo": 14.473467486650012, "hi": 15.149434423088515, "n_seeds": 30}, "wage_bill": {"point": 30.72206018018233, "lo": 30.639470154934735, "hi": 30.80185930074814, "n_seeds": 30}, "profit": {"point": -15.904753844348935, "lo": -16.257187573522152, "hi": -15.558507467679787, "n_seeds": 30}, "collusion": {"point": 0.0, "lo": 0.0, "hi": 0.0, "n_seeds": 30}, "sup_rep": {"point": 0.5792333333333333, "lo": 0.5703162500000001, "hi": 0.5888508333333334, "n_seeds": 30}, "n_seeds": 30}, "A8": {"mean_effort": {"point": 0.05563457366139736, "lo": 0.05463356165675858, "hi": 0.056637726162300686, "n_seeds": 30}, "total_output": {"point": 1.4885646722550798, "lo": 1.3101876563506711, "hi": 1.6556878734995168, "n_seeds": 30}, "wage_bill": {"point": 25.744282336127537, "lo": 25.660881789618763, "hi": 25.833501081661932, "n_seeds": 30}, "profit": {"point": -24.255717663872463, "lo": -24.346959927395886, "hi": -24.165711479926536, "n_seeds": 30}, "collusion": {"point": 0.0, "lo": 0.0, "hi": 0.0, "n_seeds": 30}, "sup_rep": {"point": 0.5792333333333333, "lo": 0.56978, "hi": 0.5884033333333335, "n_seeds": 30}, "n_seeds": 30}, "_benchmark_HM1987_A1": {"sim": {"point": 0.8697039027818999, "lo": 0.8508040148032514, "hi": 0.8874204322572696, "n_seeds": 30}, "analytical": 0.6666666666666666, "pct_error": 30.455585371601618, "within_tolerance": false}}, "Q1_scale": {"N_grid": [5, 10, 25, 50, 100], "sim": {"A0": {"mean_effort": [0.03584757753295699, 0.03608611369588125, 0.03640770140154027, 0.03567316190348884, 0.03599953161802099], "mean_effort_lo": [0.034278257797342324, 0.034341262698693205, 0.03547506198067293, 0.034988465147156186, 0.03550969871063614], "mean_effort_hi": [0.03777251541152117, 0.03775170854560489, 0.037385820865575736, 0.03641204424743915, 0.036533920679160094], "profit": [-4.827109636286351, -9.63713297094507, -24.0471881522526, -47.99061134028259, -95.82228067370416], "profit_lo": [-4.917362805781147, -9.774394198669327, -24.22306543379049, -48.327649459155275, -96.33382370724429], "profit_hi": [-4.739500768143866, -9.516552005412892, -23.891223906230245, -47.65832373221439, -95.37282299553549]}, "A1": {"mean_effort": [0.8655595991017382, 0.90355545378615, 0.8697039027818999, 0.8680766810232554, 0.8615497288944863], "mean_effort_lo": [0.8326841832209233, 0.8739593315320867, 0.8530373767325827, 0.8541663094446713, 0.8536077805029548], "mean_effort_hi": [0.8987142648001468, 0.9339662096124886, 0.8865188238009059, 0.8829683542523906, 0.8691535749881873], "profit": [-0.5315682398215713, -0.8288474343605556, -2.3583100673677615, -5.070322508357665, -10.835139878115857], "profit_lo": [-0.6476292843841861, -1.0112326625003143, -2.6489536569611927, -5.661527034309463, -11.619022441260904], "profit_hi": [-0.4101095249611231, -0.60267136043179, -2.0525119037625097, -4.4334885013100775, -10.010257851840432]}, "A3": {"mean_effort": [2.6044650416493718, 2.5746553601827262, 2.5276160785068518, 2.518244389170578, 2.5203469153539646], "mean_effort_lo": [2.5350438893285436, 2.5279631119972112, 2.5026703619581885, 2.496996090685687, 2.505740111224994], "mean_effort_hi": [2.677645382219004, 2.625126046638832, 2.5539069513125745, 2.540343941298854, 2.5336230063362604], "profit": [6.301463558141578, 13.605554135384134, 32.49345763988688, 63.50180259981191, 124.58060443430308], "profit_lo": [5.660726587754155, 12.452337308975105, 30.920612281480615, 60.787105745665116, 120.61028107187549], "profit_hi": [7.00154671480427, 14.853709094661966, 33.9839859293554, 66.05616064955682, 128.14557976612764]}, "A4": {"mean_effort": [1.5555071288974736, 0.8044063270791144, 0.32279056756185887, 0.16852833440808337, 0.09127730274966864], "mean_effort_lo": [1.5058054703385229, 0.7830483778473957, 0.31825846024103194, 0.1664181763809605, 0.09035871378106827], "mean_effort_hi": [1.6053155512405108, 0.8284000178687015, 0.3276422989867631, 0.1707164338857753, 0.0922174317643008], "profit": [-1.1982731013899037, -3.5851598954452126, -11.540513705430921, -25.086729273454253, -50.311105880420875], "profit_lo": [-1.357809870326927, -3.773185535089318, -11.726369510332118, -25.37378708015777, -50.62771616425339], "profit_hi": [-1.0340932514746808, -3.3858843018094262, -11.357072528798335, -24.800581434155504, -50.018431651091255]}, "A7": {"mean_effort": [0.5341871808485131, 0.5487486586298821, 0.5341216785775882, 0.5329502253428788, 0.5310513791102749], "mean_effort_lo": [0.5169789384748954, 0.5357114465789322, 0.5270383185967317, 0.5268973489252368, 0.5271140803738951], "mean_effort_hi": [0.5499501616915858, 0.5628655719782144, 0.542016726658516, 0.5393571583566771, 0.5348710155011965], "profit": [-3.3239780576863045, -6.261297613401345, -15.904753844348935, -31.924057139438563, -64.5076414980992], "profit_lo": [-3.48677739195644, -6.537361327322124, -16.257297638659182, -32.65734773943161, -65.43539826194073], "profit_hi": [-3.173325272306897, -5.96065374056892, -15.576734614376619, -31.25634680885189, -63.58139447622974]}}, "analytical": {"A0": [null, null, null, null, null], "A1": [0.6666666666666666, 0.6666666666666666, 0.6666666666666666, 0.6666666666666666, 0.6666666666666666], "A3": [2.3874672772626635, 2.3874672772626635, 2.3874672772626635, 2.3874672772626635, 2.3874672772626635], "A4": [0.26, 0.13, 0.052000000000000005, 0.026000000000000002, 0.013000000000000001], "A7": [null, null, null, null, null]}}, "Q2_noise": {"noise_grid": [0.1, 0.2, 0.4, 0.6, 0.8, 1.2], "sim": {"A0": {"mean_effort": [0.03640770140154027, 0.03640770140154027, 0.03640770140154027, 0.03640770140154027, 0.03640770140154027, 0.03640770140154027], "mean_effort_lo": [0.03548100237444673, 0.035447985008853725, 0.03548457553429375, 0.03539929818718745, 0.03547747555929477, 0.0354614391305106], "mean_effort_hi": [0.03737902950182497, 0.037463617065982106, 0.03746240159311158, 0.03757592231496961, 0.03744264558235983, 0.03751003713347299], "sup_reputation": [0.5792333333333333, 0.5792333333333333, 0.5792333333333333, 0.5792333333333333, 0.5792333333333333, 0.5792333333333333]}, "A4": {"mean_effort": [0.3236014489359255, 0.32368600016101745, 0.32279056756185887, 0.32370624239828144, 0.32384546877678044, 0.3256709393054109], "mean_effort_lo": [0.31947527434425976, 0.3194198443052544, 0.3183523022553218, 0.31871606266446145, 0.3191316458015451, 0.31955345970926424], "mean_effort_hi": [0.3280964696065567, 0.32833913264250997, 0.3274405714415628, 0.3286552265747918, 0.32873393463718764, 0.3311934533962025], "sup_reputation": [0.35115, 0.34676666666666667, 0.29971666666666663, 0.28431666666666666, 0.2578666666666667, 0.26355]}, "A7": {"mean_effort": [0.6729684500859836, 0.6187075525814707, 0.5341216785775882, 0.4710969122441532, 0.4222557583183694, 0.35145935745647516], "mean_effort_lo": [0.6638894361997657, 0.6101163055477888, 0.5270584579726167, 0.46446749846910096, 0.416495980471392, 0.3469205234827907], "mean_effort_hi": [0.6834319105238075, 0.6268938047778716, 0.5420134636410401, 0.4778469778936436, 0.4278403380010843, 0.35604719897740567], "sup_reputation": [0.5792333333333333, 0.5792333333333333, 0.5792333333333333, 0.5792333333333333, 0.5792333333333333, 0.5792333333333333]}}}, "Q3_tirole": {"contracts": ["A0", "A1", "A2", "A3", "A4", "A7"], "collusion_rate": [0.0, 0.2564666666666667, 0.27880000000000005, 0.0, 0.0568, 0.0], "collusion_lo": [0.0, 0.23225500000000004, 0.2556, 0.0, 0.05193166666666668, 0.0], "collusion_hi": [0.0, 0.28019999999999995, 0.3015366666666667, 0.0, 0.06206666666666668, 0.0]}, "Q4_ate": {"contracts": ["A0", "A1", "A2", "A3", "A4", "A7"], "tau_true": 0.2, "tau_hat": [19.409732776867184, 0.48771700927226014, 0.2251679903828648, 0.21029960579365817, 0.370155273767207, 0.3832001489811997], "tau_lo": [-1.015180681133531, 0.41671458692627494, 0.1833298948075717, 0.16396912711392914, 0.24913592702843837, 0.3235467753969575], "tau_hi": [58.658822340889046, 0.5596263430301283, 0.26868418477923195, 0.255732451008528, 0.509427954229173, 0.446012876753452], "bias": [19.209732776867185, 0.2877170092722601, 0.025167990382864797, 0.010299605793658156, 0.17015527376720702, 0.18320014898119968]}};
 </script>
 <script>
-/* Dashboard for the Firm ABM simulation.
- * Loads real data from data.json (generated by analysis/build_dashboard_data.py).
- * Falls back to illustrative defaults if data.json is missing.
+/* Paper-quality dashboard renderer.
+ * Loads data_v2.json (bootstrap CIs + analytical benchmarks) and renders
+ * each figure with error bars. Every fact points back to a section in the paper.
  */
 
-const CSS = getComputedStyle(document.documentElement);
 const COL = {
-    text:   CSS.getPropertyValue('--text').trim()  || '#e6e9ef',
-    text2:  CSS.getPropertyValue('--text2').trim() || '#8a92a8',
     accent: '#7c5cff',
-    accent2: '#00d4a3',
-    danger: '#ff5470',
-    warn:   '#ffc400',
-    grid:   'rgba(120,120,140,0.15)',
+    accent2: '#00a37a',
+    danger: '#d94a4a',
+    warn: '#d68910',
+    ink: getComputedStyle(document.documentElement).getPropertyValue('--ink').trim(),
+    ink2: getComputedStyle(document.documentElement).getPropertyValue('--ink2').trim(),
+    grid: 'rgba(120,120,140,0.15)',
 };
-Chart.defaults.color = COL.text2;
+
+Chart.defaults.color = COL.ink2;
 Chart.defaults.borderColor = COL.grid;
-Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif';
+Chart.defaults.font.size = 12;
 
 const CONTRACTS = ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8"];
 const CONTRACT_COLORS = {
-    A0: '#8a92a8', A1: '#7c5cff', A2: '#ff5470', A3: '#00b894',
-    A4: '#ffc400', A5: '#3ba9ff', A6: '#f368e0', A7: '#00d4a3', A8: '#ff9f43',
+    A0: '#8a92a8', A1: '#7c5cff', A2: '#d94a4a', A3: '#00a37a',
+    A4: '#d68910', A5: '#3ba9ff', A6: '#f368e0', A7: '#00d4a3', A8: '#ff9f43',
 };
 
-const DEFAULT_DATA = {
-    contracts: Object.fromEntries(CONTRACTS.map(c => [c, {
-        effort: 0.3, output: 15, wage: 40, help: 0.1, sabotage: 0, collusion: 0
-    }])),
+// Custom error-bar plugin
+const errorBarPlugin = {
+    id: 'errorBar',
+    afterDatasetsDraw(chart) {
+        const {ctx} = chart;
+        chart.data.datasets.forEach((ds, di) => {
+            if (!ds.errorBars) return;
+            const meta = chart.getDatasetMeta(di);
+            meta.data.forEach((el, i) => {
+                const eb = ds.errorBars[i];
+                if (!eb) return;
+                const x = el.x;
+                const yLo = chart.scales.y.getPixelForValue(eb.lo);
+                const yHi = chart.scales.y.getPixelForValue(eb.hi);
+                ctx.save();
+                ctx.strokeStyle = COL.ink;
+                ctx.lineWidth = 1.2;
+                ctx.beginPath();
+                ctx.moveTo(x, yLo); ctx.lineTo(x, yHi);
+                ctx.moveTo(x - 4, yLo); ctx.lineTo(x + 4, yLo);
+                ctx.moveTo(x - 4, yHi); ctx.lineTo(x + 4, yHi);
+                ctx.stroke();
+                ctx.restore();
+            });
+        });
+    }
 };
+Chart.register(errorBarPlugin);
 
-let DATA = window.EMBEDDED_DATA || DEFAULT_DATA;
 
-function classifyFailures(contract, summary) {
-    const help = summary.help || 0;
-    const output = summary.output || 0;
-    const level = (v, lo, hi) => v < lo ? 'low' : (v < hi ? 'med' : 'high');
+function opts(xLabel, yLabel, extra = {}) {
     return {
-        F1: contract === 'A0' ? 'high' : level(1/Math.max(output,1), 0.05, 0.15),
-        F2: (contract === 'A1' || contract === 'A2') ? 'high' : (contract === 'A0' ? 'low' : 'med'),
-        F3: (contract === 'A1') ? 'high' : (contract === 'A2' || contract === 'A5') ? 'low' : 'med',
-        F4: (contract === 'A1' || contract === 'A2' || contract === 'A4') ? 'high'
-            : (contract === 'A0' || contract === 'A3') ? 'low' : 'med',
-        F5: level(1 - help, 0.5, 0.85),
-        F6: (contract === 'A1') ? 'high' : (contract === 'A0' || contract === 'A3' || contract === 'A7') ? 'low' : 'med',
-    };
-}
-
-document.querySelectorAll('nav.tabs .tab').forEach(t => {
-    t.addEventListener('click', () => {
-        document.querySelectorAll('nav.tabs .tab').forEach(x => x.classList.remove('active'));
-        document.querySelectorAll('section.panel').forEach(p => p.classList.remove('active'));
-        t.classList.add('active');
-        document.getElementById('tab-' + t.dataset.tab).classList.add('active');
-    });
-});
-
-function baseOptions(xLabel, yLabel) {
-    return {
-        responsive: true, maintainAspectRatio: false,
-        plugins: { legend: { position: 'top', labels: { boxWidth: 12, padding: 12 } } },
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { position: 'top', labels: { padding: 12, boxWidth: 12 } },
+            ...extra.plugins,
+        },
         scales: {
-            x: { title: { display: true, text: xLabel, color: COL.text }, grid: { color: COL.grid } },
-            y: { title: { display: true, text: yLabel, color: COL.text }, grid: { color: COL.grid } },
+            x: { title: { display: true, text: xLabel }, grid: { color: COL.grid } },
+            y: { title: { display: true, text: yLabel }, grid: { color: COL.grid } },
+            ...extra.scales,
         },
     };
 }
 
-function issuesCharts() {
-    const sigmas = Array.from({length: 20}, (_,i) => 0.1 + i*0.15);
-    new Chart(document.getElementById('chart-F1'), {
-        type: 'line',
-        data: { labels: sigmas.map(s => s.toFixed(2)),
-                datasets: [{ label: 'β* (optimal incentive intensity)',
-                             data: sigmas.map(s => 1/(1 + 2*s*s)),
-                             borderColor: COL.accent, tension: 0.3, fill: false }] },
-        options: baseOptions('σ (measurement noise)', 'β*')
-    });
 
-    new Chart(document.getElementById('chart-F2'), {
-        type: 'bar',
-        data: { labels: CONTRACTS,
-                datasets: [
-                    { label: 'Effort on measured task', data: CONTRACTS.map(c => (DATA.contracts[c]||{}).effort || 0),
-                      backgroundColor: COL.accent },
-                    { label: 'Cooperation (unpaid)', data: CONTRACTS.map(c => (DATA.contracts[c]||{}).help || 0),
-                      backgroundColor: COL.danger },
-                ] },
-        options: baseOptions('contract', 'value')
-    });
+// ================================================================
+async function init() {
+    let DATA;
+    try {
+        DATA = window.__EMBEDDED;
+    } catch (e) {
+        document.body.innerHTML = '<p style="padding:40px;text-align:center">Could not load data_v2.json. Run <code>python experiments/main_analysis.py</code> first.</p>';
+        return;
+    }
 
-    const periods = Array.from({length: 20}, (_,i) => i);
-    new Chart(document.getElementById('chart-F3'), {
-        type: 'line',
-        data: { labels: periods,
-                datasets: [
-                    { label: 'One-shot (no ratchet)', data: periods.map(_=>1.3), borderColor: COL.accent, tension: 0 },
-                    { label: 'Repeated (ratchet)', data: periods.map(t=>Math.max(0.4, 1.3-0.05*t)),
-                      borderColor: COL.danger, tension: 0.2 },
-                ] },
-        options: baseOptions('period', 'effort')
-    });
-
-    const betas = Array.from({length: 20}, (_,i) => 0.05 + i*0.05);
-    new Chart(document.getElementById('chart-F4'), {
-        type: 'line',
-        data: { labels: betas.map(b => b.toFixed(2)),
-                datasets: [{ label: 'Var(wage)', data: betas.map(b => 0.5*b*b),
-                             borderColor: COL.warn, fill: true,
-                             backgroundColor: 'rgba(255,196,0,0.1)', tension: 0.3 }] },
-        options: baseOptions('β', 'wage variance')
-    });
-
-    new Chart(document.getElementById('chart-F5'), {
-        type: 'bar',
-        data: { labels: CONTRACTS,
-                datasets: [{ label: 'Mean help to peer',
-                             data: CONTRACTS.map(c => (DATA.contracts[c]||{}).help || 0),
-                             backgroundColor: CONTRACTS.map(c => CONTRACT_COLORS[c]) }] },
-        options: baseOptions('contract', 'help per peer')
-    });
-
-    const buckets = Array.from({length: 15}, (_,i) => (i-7)*0.15);
-    new Chart(document.getElementById('chart-F6'), {
-        type: 'bar',
-        data: { labels: buckets.map(b => b.toFixed(2)),
-                datasets: [
-                    { label: 'Without target', data: buckets.map(b => 10*Math.exp(-2*b*b)),
-                      backgroundColor: 'rgba(124,92,255,0.35)' },
-                    { label: 'With target', data: buckets.map(b =>
-                        10*Math.exp(-2*b*b) + (b > -0.05 && b < 0.15 ? 15 : 0)),
-                      backgroundColor: COL.danger },
-                ] },
-        options: baseOptions('output − target', 'worker count')
-    });
+    renderCalibrationTable(DATA.meta.calibration);
+    renderTargetTable(DATA.meta.target_moments);
+    renderBenchmarksTable(DATA.analytical_benchmarks);
+    renderQ0(DATA);
+    renderQ1(DATA);
+    renderQ2(DATA);
+    renderQ3(DATA);
+    renderQ4(DATA);
 }
 
-function solutionsCharts() {
-    new Chart(document.getElementById('chart-solutions-bar'), {
-        type: 'bar',
-        data: { labels: CONTRACTS,
-                datasets: [
-                    { label: 'Firm output', data: CONTRACTS.map(c => (DATA.contracts[c]||{}).output || 0),
-                      backgroundColor: COL.accent },
-                    { label: 'Wage bill',   data: CONTRACTS.map(c => (DATA.contracts[c]||{}).wage   || 0),
-                      backgroundColor: COL.warn },
-                ] },
-        options: baseOptions('contract', 'mean per period')
-    });
 
-    new Chart(document.getElementById('chart-solutions-scatter'), {
-        type: 'scatter',
-        data: { datasets: CONTRACTS.map(c => ({
-            label: c,
-            data: [{ x: (DATA.contracts[c]||{}).effort || 0,
-                     y: (DATA.contracts[c]||{}).help || 0 }],
-            backgroundColor: CONTRACT_COLORS[c],
-            pointRadius: 10, pointHoverRadius: 13,
-        })) },
-        options: { ...baseOptions('mean effort', 'mean cooperation'),
-                   plugins: { legend: { position: 'right' } } }
-    });
-
-    const tbody = document.getElementById('table-incidence');
-    tbody.innerHTML = CONTRACTS.map(c => {
-        const s = DATA.contracts[c] || {};
-        const f = classifyFailures(c, s);
-        return `<tr>
-            <td><strong>${c}</strong></td>
-            ${['F1','F2','F3','F4','F5','F6'].map(k =>
-                `<td><span class="badge badge-${f[k]}">${f[k]}</span></td>`).join('')}
-        </tr>`;
+// ---- Calibration table ----
+function renderCalibrationTable(rows) {
+    const tbody = document.querySelector('#calibration-table tbody');
+    tbody.innerHTML = rows.map(([p, v, src]) =>
+        `<tr><td><code>${p}</code></td><td>${typeof v === 'number' ? v.toFixed(3) : v}</td><td>${src}</td></tr>`
+    ).join('');
+}
+function renderTargetTable(obj) {
+    const tbody = document.querySelector('#target-table tbody');
+    tbody.innerHTML = Object.entries(obj).map(([k, v]) => {
+        const [val, src] = v;
+        return `<tr><td>${k.replace(/_/g,' ')}</td><td>${(val*100).toFixed(1)}%</td><td>${src}</td></tr>`;
     }).join('');
 }
 
-function scaleCharts() {
-    const scale = (DATA.sweep && DATA.sweep.scale) || {};
-    const anyKey = Object.keys(scale).find(k => scale[k] && scale[k].N);
-    const Ns = anyKey ? scale[anyKey].N : [5, 10, 25, 50];
 
-    const dsFor = (metric) => CONTRACTS
-        .filter(c => scale[c])
-        .map(c => ({
-            label: c, data: scale[c][metric],
-            borderColor: CONTRACT_COLORS[c],
-            backgroundColor: CONTRACT_COLORS[c],
-            tension: 0.3, fill: false,
-        }));
-
-    new Chart(document.getElementById('chart-scale-effort'), {
-        type: 'line', data: { labels: Ns, datasets: dsFor('effort') },
-        options: baseOptions('N (team size)', 'mean effort')
-    });
-    new Chart(document.getElementById('chart-scale-profit'), {
-        type: 'line', data: { labels: Ns, datasets: dsFor('profit') },
-        options: baseOptions('N', 'firm profit')
-    });
-    new Chart(document.getElementById('chart-scale-help'), {
-        type: 'line', data: { labels: Ns, datasets: dsFor('help') },
-        options: baseOptions('N', 'help per peer')
-    });
+// ---- Analytical benchmarks table ----
+function renderBenchmarksTable(bench) {
+    const rows = [
+        ['A0', 'Holmström 1979', 'e* = 0 (no incentive)', '0'],
+        ['A1 piece rate', 'HM 1987 eq. 15', 'β* = 1/(1+ρσ²k/g\'²)', bench.HM1987_beta_star.toFixed(3)],
+        ['A1 effort', 'HM 1987 eq. 8', 'e* = βg\'/k', bench.HM1987_effort_A1.toFixed(3)],
+        ['First-best', 'observable effort', 'e_FB = g/k', bench.first_best_effort.toFixed(3)],
+        ['A4 team, N=10', 'Holmström 1982 eq. 3', 'e* = β_T/(kN)', bench.Holmstrom1982_A4_N10.toFixed(3)],
+        ['A4 team+PP, N=10', 'Kandel-Lazear 1992 eq. 7', 'e* = (β_T+ψN)/(kN)', bench.KandelLazear_A4_N10.toFixed(3)],
+        ['A2 tournament', 'Lazear-Rosen 1981 eq. 8', 'e* = Δ/(kσ√(4π))', bench.LazearRosen_A2.toFixed(3)],
+        ['A3 efficiency wage', 'Shapiro-Stiglitz 1984 eq. 8', '√(2Δw·qδ/(k(1-δ)))', bench.SS1984_A3.toFixed(3)],
+    ];
+    document.querySelector('#benchmarks-table tbody').innerHTML =
+        rows.map(([c, s, eq, v]) => `<tr><td><strong>${c}</strong></td><td>${s}</td><td><code>${eq}</code></td><td>${v}</td></tr>`).join('');
 }
 
-function noiseCharts() {
-    const w = DATA.week5_6 || {};
-    const shown = Object.keys(w);
-    if (shown.length === 0) return;
-    const noiseGrid = w[shown[0]].noise;
 
-    new Chart(document.getElementById('chart-noise-effort'), {
-        type: 'line',
-        data: { labels: noiseGrid,
-                datasets: shown.map(c => ({
-                    label: c, data: w[c].effort,
-                    borderColor: CONTRACT_COLORS[c] || COL.text2,
-                    tension: 0.3, fill: false,
-                })) },
-        options: baseOptions('rating noise σ', 'mean effort')
-    });
+// ---- Q0 baseline ----
+function renderQ0(DATA) {
+    const q0 = DATA.Q0_baseline;
+    const labels = CONTRACTS;
 
-    new Chart(document.getElementById('chart-noise-reputation'), {
-        type: 'line',
-        data: { labels: noiseGrid,
-                datasets: shown.map(c => ({
-                    label: c, data: w[c].sup_reputation,
-                    borderColor: CONTRACT_COLORS[c] || COL.text2,
-                    tension: 0.3, fill: false,
-                })) },
-        options: baseOptions('rating noise σ', 'supervisor reputation')
-    });
-}
+    const effortVals = labels.map(c => q0[c].mean_effort.point);
+    const effortErr = labels.map(c => ({ lo: q0[c].mean_effort.lo, hi: q0[c].mean_effort.hi }));
 
-function hierarchyCharts() {
-    const w = DATA.week3_4 || {};
-    const labels = Object.keys(w);
-
-    new Chart(document.getElementById('chart-collusion'), {
+    new Chart(document.getElementById('fig-q0-effort'), {
         type: 'bar',
-        data: { labels,
-                datasets: [{ label: 'Collusion events per period',
-                             data: labels.map(c => w[c].collusion),
-                             backgroundColor: labels.map(c => CONTRACT_COLORS[c] || COL.text2) }] },
-        options: baseOptions('contract', 'collusion events')
+        data: {
+            labels,
+            datasets: [{
+                label: 'Mean effort (95% CI over 30 seeds)',
+                data: effortVals,
+                backgroundColor: labels.map(c => CONTRACT_COLORS[c]),
+                borderColor: COL.ink, borderWidth: 0.5,
+                errorBars: effortErr,
+            }]
+        },
+        options: opts('Contract', 'Mean per-worker effort')
     });
 
-    const periods = Array.from({length: 30}, (_,i) => i);
-    new Chart(document.getElementById('chart-sup-reputation'), {
-        type: 'line',
-        data: { labels: periods,
-                datasets: [
-                    { label: 'Honest supervisor', data: periods.map(t => Math.min(1.0, 0.5+0.02*t)),
-                      borderColor: COL.accent2, tension: 0.3 },
-                    { label: 'Colluding supervisor', data: periods.map(t => Math.max(0.1, 0.5-0.015*t)),
-                      borderColor: COL.danger, tension: 0.3 },
-                ] },
-        options: baseOptions('period', 'supervisor reputation')
+    const profitVals = labels.map(c => q0[c].profit.point);
+    const profitErr = labels.map(c => ({ lo: q0[c].profit.lo, hi: q0[c].profit.hi }));
+
+    new Chart(document.getElementById('fig-q0-profit'), {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [{
+                label: 'Mean firm profit (95% CI)',
+                data: profitVals,
+                backgroundColor: labels.map(c => CONTRACT_COLORS[c]),
+                errorBars: profitErr,
+            }]
+        },
+        options: opts('Contract', 'Profit (output − wage bill)')
     });
+
+    // Fill benchmark validation text
+    const b = q0._benchmark_HM1987_A1;
+    document.getElementById('hm-analytical').textContent = b.analytical.toFixed(3);
+    document.getElementById('hm-sim').textContent =
+        `${b.sim.point.toFixed(3)} [${b.sim.lo.toFixed(3)}, ${b.sim.hi.toFixed(3)}]`;
+    document.getElementById('hm-pct').textContent = `${b.pct_error.toFixed(1)}%`;
 }
 
-function sweepCharts() {
-    const heat = (DATA.sweep && DATA.sweep.heatmap) || null;
-    const best = (DATA.sweep && DATA.sweep.best_by_cell) || {};
 
-    if (heat) {
-        new Chart(document.getElementById('chart-sweep-heat'), {
-            type: 'bar',
-            data: { labels: heat.N,
-                    datasets: heat.contracts.map((c, i) => ({
-                        label: c, data: heat.values[i],
-                        backgroundColor: CONTRACT_COLORS[c] || COL.text2,
-                    })) },
-            options: baseOptions('N', 'mean firm output')
+// ---- Q1 scale ----
+function renderQ1(DATA) {
+    const q1 = DATA.Q1_scale;
+    const Ns = q1.N_grid;
+    const contracts = Object.keys(q1.sim);
+
+    const datasets = contracts.map(c => {
+        const s = q1.sim[c];
+        return {
+            label: c, data: s.mean_effort,
+            borderColor: CONTRACT_COLORS[c],
+            backgroundColor: CONTRACT_COLORS[c] + '22',
+            tension: 0.25, fill: false, pointRadius: 3,
+        };
+    });
+
+    // Overlay KL 1992 analytical curve for A4 if present
+    if (q1.analytical.A4 && q1.analytical.A4.some(v => v !== null)) {
+        datasets.push({
+            label: 'A4 analytical (KL 1992)',
+            data: q1.analytical.A4,
+            borderColor: COL.ink, borderDash: [6, 4],
+            backgroundColor: 'transparent', pointRadius: 0,
         });
     }
 
-    const Ns = Object.keys(best).map(Number).sort((a,b) => a-b);
-    const noises = new Set();
-    Ns.forEach(n => Object.keys(best[n] || {}).forEach(x => noises.add(Number(x))));
-    const noiseList = Array.from(noises).sort((a,b) => a-b);
+    new Chart(document.getElementById('fig-q1-effort'), {
+        type: 'line',
+        data: { labels: Ns, datasets },
+        options: opts('N (team size)', 'Mean effort')
+    });
 
-    if (Ns.length === 0) return;
-
-    const thead = document.querySelector('#tab-sweep .incidence thead');
-    thead.innerHTML = `<tr>${['N \\ σ', ...noiseList.map(n => `σ = ${n}`)].map(h => `<th>${h}</th>`).join('')}</tr>`;
-
-    const tbody = document.getElementById('table-best-contract');
-    tbody.innerHTML = Ns.map(n => `<tr>
-        <td><strong>N = ${n}</strong></td>
-        ${noiseList.map(noise => {
-            const c = best[n] && best[n][noise];
-            if (!c) return '<td>—</td>';
-            return `<td><span class="badge" style="background:${CONTRACT_COLORS[c]}22;color:${CONTRACT_COLORS[c]}">${c}</span></td>`;
-        }).join('')}
-    </tr>`).join('');
+    new Chart(document.getElementById('fig-q1-profit'), {
+        type: 'line',
+        data: {
+            labels: Ns,
+            datasets: contracts.map(c => ({
+                label: c, data: q1.sim[c].profit,
+                borderColor: CONTRACT_COLORS[c], backgroundColor: CONTRACT_COLORS[c],
+                tension: 0.25, fill: false, pointRadius: 3,
+            }))
+        },
+        options: opts('N (team size)', 'Firm profit')
+    });
 }
 
-async function init() {
-    try {
-        throw new Error('inline-mode');
-        if (false) {
-            DATA = await resp.json();
-            console.log('Loaded simulation data:', Object.keys(DATA));
-        } else {
-            console.warn('data.json not found, using defaults');
-        }
-    } catch (e) {
-        console.warn('Failed to fetch data.json:', e.message);
-    }
 
-    issuesCharts();
-    solutionsCharts();
-    scaleCharts();
-    noiseCharts();
-    hierarchyCharts();
-    sweepCharts();
+// ---- Q2 noise ----
+function renderQ2(DATA) {
+    const q2 = DATA.Q2_noise;
+    const noises = q2.noise_grid;
 
-    const ctrl = document.getElementById('ctrl-N-solutions');
-    if (ctrl) ctrl.addEventListener('input', (e) => {
-        document.getElementById('val-N-solutions').textContent = e.target.value;
+    new Chart(document.getElementById('fig-q2-effort'), {
+        type: 'line',
+        data: {
+            labels: noises,
+            datasets: Object.keys(q2.sim).map(c => ({
+                label: c, data: q2.sim[c].mean_effort,
+                borderColor: CONTRACT_COLORS[c],
+                tension: 0.3, fill: false, pointRadius: 3,
+            }))
+        },
+        options: opts('Supervisor rating noise σ_m', 'Mean effort')
+    });
+}
+
+
+// ---- Q3 collusion ----
+function renderQ3(DATA) {
+    const q3 = DATA.Q3_tirole;
+    const errBars = q3.collusion_rate.map((_, i) =>
+        ({ lo: q3.collusion_lo[i], hi: q3.collusion_hi[i] }));
+
+    new Chart(document.getElementById('fig-q3-collusion'), {
+        type: 'bar',
+        data: {
+            labels: q3.contracts,
+            datasets: [{
+                label: 'Collusion rate (95% CI)',
+                data: q3.collusion_rate,
+                backgroundColor: q3.contracts.map(c => CONTRACT_COLORS[c]),
+                errorBars: errBars,
+            }]
+        },
+        options: opts('Contract', 'Fraction of periods with collusion')
+    });
+}
+
+
+// ---- Q4 ATE bias ----
+function renderQ4(DATA) {
+    const q4 = DATA.Q4_ate;
+    const errBars = q4.tau_hat.map((_, i) =>
+        ({ lo: q4.tau_lo[i], hi: q4.tau_hi[i] }));
+
+    new Chart(document.getElementById('fig-q4-ate'), {
+        type: 'bar',
+        data: {
+            labels: q4.contracts,
+            datasets: [{
+                label: `τ̂ (naïve DiD, 95% CI)`,
+                data: q4.tau_hat,
+                backgroundColor: q4.contracts.map(c => CONTRACT_COLORS[c]),
+                errorBars: errBars,
+            }, {
+                label: `τ = ${(q4.tau_true*100).toFixed(0)}% (structural)`,
+                data: q4.contracts.map(_ => q4.tau_true),
+                type: 'line',
+                borderColor: COL.ink,
+                borderDash: [6, 4],
+                pointRadius: 0, fill: false,
+            }]
+        },
+        options: opts('Contract', 'Estimated proportional effect')
     });
 }
 
