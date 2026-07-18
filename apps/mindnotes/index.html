@@ -289,6 +289,137 @@ body {
     border-top: 1px solid var(--border);
     margin: 20px 0;
 }
+
+/* ── Reading-list checklist ── */
+.rl-progress {
+    font-size: 12px;
+    color: var(--text2);
+    background: var(--bg3);
+    padding: 6px 12px;
+    border-radius: 999px;
+    display: inline-block;
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+.rl-progress strong { color: var(--accent); }
+.rl-section {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px 12px;
+    margin-bottom: 18px;
+}
+.rl-section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+.rl-section-title {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    color: var(--text);
+    margin: 0;
+    flex: 1;
+}
+.rl-section-count {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text2);
+    background: var(--bg3);
+    border-radius: 999px;
+    padding: 2px 9px;
+}
+.rl-section-intro {
+    color: var(--text2);
+    font-size: 12.5px;
+    margin: 0 0 10px;
+}
+.rl-checklist { list-style: none; padding: 0; margin: 0; }
+.rl-check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 8px 6px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.13s;
+}
+.rl-check-item:hover { background: var(--bg3); }
+.rl-checkbox {
+    width: 18px; height: 18px;
+    border-radius: 5px;
+    border: 2px solid var(--border);
+    background: transparent;
+    flex-shrink: 0;
+    margin-top: 2px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+    position: relative;
+    overflow: hidden;
+    border-color: var(--accent);
+}
+.rl-checkbox.checked {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+.rl-checkbox.checked::after {
+    content: '';
+    width: 5px; height: 9px;
+    border: 2px solid #fff;
+    border-top: none; border-left: none;
+    transform: rotate(45deg) translate(-1px,-1px);
+    display: block;
+}
+.rl-item-body { flex: 1; min-width: 0; }
+.rl-item-cite {
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--text);
+    word-break: break-word;
+}
+.rl-item-cite strong { font-weight: 700; }
+.rl-check-item.done .rl-item-cite {
+    color: var(--text2);
+    text-decoration: line-through;
+    text-decoration-color: var(--text2);
+}
+.rl-item-note {
+    color: var(--text2);
+    font-size: 12px;
+    margin-top: 3px;
+    line-height: 1.5;
+}
+.rl-check-item.done .rl-item-note { opacity: 0.6; }
+.rl-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.rl-controls .rl-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text2);
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.rl-controls .rl-btn:hover { color: var(--text); border-color: var(--accent); }
+.rl-controls .rl-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text2);
+    cursor: pointer;
+}
 .reading-list-empty {
     text-align: center;
     padding: 40px;
