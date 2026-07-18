@@ -14398,55 +14398,30 @@ const READING_LISTS = {
 </ul>
 <p class="rl-cite">These are the closest to "game theory inside a firm, tested empirically". They validate analytical predictions from Tirole / Milgrom / Prendergast against firm data.</p>
 
-<hr>
-
-<h3>7b · Has HM 1987's β* ever been tested inside a real firm?</h3>
-<p><strong>Short answer.</strong> No one has ever literally installed the Holmström–Milgrom optimal slope
-<code>β* = 1 / (1 + ρσ²k/g′²)</code>
-in a real firm and measured the efficiency gain against alternatives. But a lot of empirical work orbits the question. Here is the honest map.</p>
-
-<h4>Why the exact test is basically impossible</h4>
-<p>To dial in β* you'd need to know the agent's risk aversion ρ, the effort-cost curvature k, the marginal product g′, and the signal variance σ² — none of which the firm observes. So you can't "install the optimum and check". The literature splits into three strategies instead.</p>
-
-<h4>Strategy 1 — Field experiments: "does moving toward incentive pay raise output?"</h4>
-<p>These test the direction (higher-powered incentives → more effort), not the optimal slope. Piece rates are essentially β = 1 linear contracts.</p>
+<p><em>Additional empirical / structural tests of the HM 1987 linear-contract benchmark (does β* actually describe real firms?):</em></p>
 <ul>
     <li><strong>Lazear, E. P. (2000).</strong> Performance pay and productivity. <em>AER</em>, 90(5), 1346–1361.
-        <br><span class="rl-cite">Safelite: hourly → piece rate, output +44%. The canonical piece-rate field study.</span></li>
+        <br><span class="rl-cite">Safelite: hourly → piece rate, output +44%. Canonical piece-rate field study.</span></li>
     <li><strong>Shearer, B. (2004).</strong> Piece rates, fixed wages and incentives: evidence from a field experiment. <em>REStud</em>, 71(2), 513–534.
         <br><span class="rl-cite">Randomized tree-planters, piece vs. fixed, ≈ +20% output.</span></li>
-    <li><strong>Bandiera, Barankay &amp; Rasul (2005–2010)</strong> — fruit-pickers, relative vs. individual incentives (already in §7).</li>
-    <li><strong>Hong, F., Hossain, T. &amp; List, J. A. (2015).</strong> Framing manipulations in contracts: relative performance and effective contracting. <em>Management Science</em>, 61(9), 2251–2271. And <strong>Hossain &amp; List (2012, Management Science)</strong> — Chinese electronics factory. Closest to a direct test of HM's multitask prediction (quality ↔ quantity substitution under one-dimensional pay).</li>
-</ul>
-<p class="rl-cite">These confirm incentives work but say nothing about whether the observed slope is the efficient one.</p>
-
-<h4>Strategy 2 — Structural estimation: the closest thing to the direct question</h4>
-<p>Someone actually estimates the primitives, backs out the implied optimal contract, and compares to what firms use.</p>
-<ul>
-    <li><strong>D'Haultfœuille, X. &amp; Février, P. (2020).</strong> The provision of incentives in firms: control of effort and selection of workers. <em>Quantitative Economics</em>, 11(3), 861–899.
-        <br><span class="rl-cite">Structurally estimates a moral-hazard + adverse-selection model on real contract data. Efficiency loss from using a linear contract instead of the fully optimal non-linear one is ≤ 16%. Arguably the empirical vindication of why linear contracts are "good enough" and so widespread. <strong>Closest paper to "is the HM linear contract efficient inside a firm?"</strong></span></li>
-    <li><strong>Haubrich, J. G. (1994).</strong> Risk aversion, performance pay, and the principal-agent problem. <em>JPE</em>, 102(2), 258–276.
-        <br><span class="rl-cite">Calibrates HM's pay–performance sensitivity to CEO data. The tiny observed slopes are consistent with the model only under implausibly small risk aversion.</span></li>
-    <li><strong>Paarsch, H. J. &amp; Shearer, B. (1999, 2000).</strong> Fixed wages, piece rates, and intertemporal productivity: a study of tree planters in British Columbia. <em>Canadian Journal of Economics</em> / <em>JLE</em>.
+    <li><strong>Paarsch, H. J. &amp; Shearer, B. (1999, 2000).</strong> Fixed wages, piece rates, and intertemporal productivity: a study of tree planters in British Columbia. <em>Canadian J. Economics</em> / <em>JLE</em>.
         <br><span class="rl-cite">Structural estimation of the effort–pay map.</span></li>
     <li><strong>Ferrall, C. &amp; Shearer, B. (1999).</strong> Incentives and transaction costs within the firm: estimating an agency model using payroll records. <em>REStud</em>, 66(2), 309–338.
         <br><span class="rl-cite">Estimates the agency model from a mining firm's payroll.</span></li>
-</ul>
-
-<h4>Strategy 3 — Testing the signature comparative static (and finding it wrong-signed)</h4>
-<p>HM predicts β* falls as noise σ² rises — the risk–incentive trade-off. Cross-industry / cross-job evidence:</p>
-<ul>
+    <li><strong>Haubrich, J. G. (1994).</strong> Risk aversion, performance pay, and the principal-agent problem. <em>JPE</em>, 102(2), 258–276.
+        <br><span class="rl-cite">Calibrates HM's pay–performance sensitivity to CEO data. Observed slopes fit only under implausibly small risk aversion.</span></li>
+    <li><strong>D'Haultfœuille, X. &amp; Février, P. (2020).</strong> The provision of incentives in firms: control of effort and selection of workers. <em>Quantitative Economics</em>, 11(3), 861–899.
+        <br><span class="rl-cite">Structural moral-hazard + adverse-selection model on real contract data; efficiency loss from linear vs fully-optimal contract ≤ 16%. Closest paper to "is the HM linear contract efficient inside a firm?".</span></li>
+    <li><strong>Hossain, T. &amp; List, J. A. (2012).</strong> The behavioralist visits the factory: increasing productivity using simple framing manipulations. <em>Management Science</em>, 58(12), 2151–2167.
+        <br><span class="rl-cite">Chinese electronics factory field experiment; closest direct test of HM's multitask prediction (quality ↔ quantity substitution under one-dimensional pay).</span></li>
+    <li><strong>Hong, F., Hossain, T. &amp; List, J. A. (2015).</strong> Framing manipulations in contracts: relative performance and effective contracting. <em>Management Science</em>, 61(9), 2251–2271.
+        <br><span class="rl-cite">Follow-up: framing incentives as losses vs gains changes effective slope even when nominal β is fixed.</span></li>
     <li><strong>Prendergast, C. (2002).</strong> The tenuous trade-off between risk and incentives. <em>JPE</em>, 110(5), 1071–1102.
-        <br><span class="rl-cite">Shows the σ² ↑ ⇒ β* ↓ relationship is weak or wrong-signed in the data. Plausible reason: riskier jobs get delegated (more autonomy → higher-powered pay), which reverses the sign. <strong>The core empirical prediction of HM 1987 is contested.</strong></span></li>
-</ul>
-
-<h4>Anchor for a review-style citation on this whole gap</h4>
-<ul>
+        <br><span class="rl-cite">Shows σ² ↑ ⇒ β* ↓ relationship is weak or wrong-signed in the data — the core HM comparative static is contested. Likely mechanism: riskier jobs get delegated (more autonomy → higher-powered pay), reversing the sign.</span></li>
     <li><strong>Georgiadis, G. (2022).</strong> Contracting with moral hazard: a review of theory &amp; empirics. Working paper / handbook chapter.
-        <br><span class="rl-cite">Ideal anchor: surveys what's been shown empirically vs. the theoretical benchmarks. Explicitly discusses the gap between the linear-contract theory and the field/structural tradition.</span></li>
+        <br><span class="rl-cite">Review anchor: surveys the gap between linear-contract theory and the field/structural evidence.</span></li>
 </ul>
-
-<p class="rl-cite"><strong>Bottom line for Paper 1.</strong> Nobody has run "here is β*, we installed it, output rose X%". The nearest answers are D'Haultfœuille–Février (linear contracts lose ≤ 16% vs optimal ⇒ efficient enough to explain their ubiquity) and the field-experiment tradition (incentives raise productivity), while Prendergast casts doubt on the model's signature comparative static. Consequence for the Quindi ABM: this is an empirically-underidentified benchmark — universally used as a modelling template, rarely tested at the level of its own optimality formula. That gap is a genuine contribution slot: <em>simulate the primitives, back out the implied β*, and compare to observed slopes in analogous jobs</em>.</p>
+<p class="rl-cite"><strong>Take-away for Paper 1.</strong> Nobody has run "here is β*, we installed it, output rose X%" — the primitives (ρ, k, g′, σ²) aren't observable inside firms. The nearest evidence: D'Haultfœuille–Février (linear ≤ 16% suboptimal ⇒ good-enough), the field-experiment tradition (incentives raise output), and Prendergast (signature comparative static is contested). The HM benchmark is universally used as a modelling template, rarely tested at the level of its own optimality formula — a genuine contribution slot for the Quindi ABM: <em>simulate the primitives, back out the implied β*, compare to observed slopes in analogous jobs</em>.</p>
 
 <hr>
 
