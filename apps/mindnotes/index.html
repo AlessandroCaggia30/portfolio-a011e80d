@@ -11072,6 +11072,106 @@ function updateGhStatusDot() {
     dot.title = title;
 }
 
+// ==================== SAFETY LAYER (added 2026-07-18) ====================
+// After silent-push-failure caused data loss: this makes such failure impossible
+// to ignore. Persistent banner, beforeunload guard, auto-retry, offline backup.
+
+let _safetyBannerEl = null;
+function _safetyEnsureBanner() {
+    if (_safetyBannerEl && document.body && document.body.contains(_safetyBannerEl)) return _safetyBannerEl;
+    if (!document.body) return null;
+    const el = document.createElement('div');
+    el.id = 'safetyBanner';
+    el.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;padding:10px 14px;background:#d94a4a;color:#fff;font:600 13px/1.4 -apple-system,Inter,sans-serif;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.25);cursor:pointer;display:none;';
+    el.title = 'Click to retry push';
+    el.onclick = () => { try { ghPushNow(); } catch (e) {} };
+    document.body.appendChild(el);
+    _safetyBannerEl = el;
+    return el;
+}
+function _safetyUpdateBanner() {
+    const el = _safetyEnsureBanner();
+    if (!el) return;
+    const pending = (typeof _ghPendingPushSet !== 'undefined') ? _ghPendingPushSet.size : 0;
+    const err = (typeof _ghLastError !== 'undefined') ? _ghLastError : null;
+    if (pending > 0 || err) {
+        const parts = [];
+        if (pending > 0) parts.push('⚠ ' + pending + ' subject' + (pending > 1 ? 's' : '') + ' with UNSYNCED edits');
+        if (err) parts.push('Last error: ' + err);
+        parts.push('(click to retry)');
+        el.textContent = parts.join(' · ');
+        el.style.display = 'block';
+    } else {
+        el.style.display = 'none';
+    }
+}
+
+// beforeunload guard — refuse to close/reload if there are unpushed edits.
+window.addEventListener('beforeunload', function (e) {
+    try {
+        const pending = (typeof _ghPendingPushSet !== 'undefined') ? _ghPendingPushSet.size : 0;
+        const dirty = (typeof _dataIsDirty !== 'undefined') ? _dataIsDirty : false;
+        if (pending > 0 || dirty) {
+            e.preventDefault();
+            e.returnValue = 'You have unsynced edits. Leave anyway?';
+            return e.returnValue;
+        }
+    } catch (_) {}
+});
+
+// Health check every 60s: refresh banner + auto-retry pending pushes.
+setInterval(function () {
+    try { _safetyUpdateBanner(); } catch (_) {}
+    try {
+        if (typeof _ghPendingPushSet === 'undefined') return;
+        if (_ghPendingPushSet.size === 0) return;
+        if (!_ghToken || _ghPushInFlight) return;
+        // If the currently loaded subject is pending, retry its push silently.
+        if (State && State.currentSubject && _ghPendingPushSet.has(State.currentSubject.dataKey)) {
+            ghPushNow().catch(() => {});
+        }
+    } catch (_) {}
+}, 60000);
+
+// Auto-download JSON backup: every 15 min IF there's dirty state or a pending
+// push (i.e. push isn't succeeding). File goes to your Downloads folder. This
+// is the offline safety net if IndexedDB gets nuked before push succeeds.
+let _lastAutoDownload = 0;
+function _safetyAutoDownload() {
+    try {
+        if (!State || !State.currentSubject || !State.data) return;
+        const now = Date.now();
+        if (now - _lastAutoDownload < 15 * 60 * 1000) return;
+        const pending = (typeof _ghPendingPushSet !== 'undefined') && _ghPendingPushSet.size > 0;
+        const dirty = (typeof _dataIsDirty !== 'undefined') && _dataIsDirty;
+        if (!pending && !dirty) return;
+        _lastAutoDownload = now;
+        const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
+        const name = 'mindnotes-backup-' + State.currentSubject.id + '-' + stamp + '.json';
+        const payload = { version: '2.0', exportedAt: new Date().toISOString(), _reason: 'auto-backup (unpushed edits detected)', data: State.data };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = name; a.style.display = 'none';
+        document.body.appendChild(a); a.click();
+        setTimeout(function () { try { document.body.removeChild(a); } catch (_) {} URL.revokeObjectURL(url); }, 500);
+        console.log('[safety] Offline backup downloaded:', name);
+    } catch (e) { console.warn('safety auto-download failed:', e); }
+}
+setInterval(_safetyAutoDownload, 5 * 60 * 1000);
+
+// Wire banner into the existing status-dot updates so it refreshes on every gh event.
+(function _wireSafetyBanner() {
+    if (typeof updateGhStatusDot === 'function') {
+        const orig = updateGhStatusDot;
+        window.updateGhStatusDot = function () { try { orig(); } catch (_) {} try { _safetyUpdateBanner(); } catch (_) {} };
+    }
+})();
+
+document.addEventListener('DOMContentLoaded', function () { try { _safetyUpdateBanner(); } catch (_) {} });
+
+// ==================== END SAFETY LAYER ====================
+
 function _ghUpdateStatusUI() {
     const path = _ghCurrentPath();
     const key = _ghCurrentKey();
