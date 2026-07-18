@@ -15009,5 +15009,16 @@ document.addEventListener('DOMContentLoaded', initApp);
 
     <!-- Backdrop for pop mode floating detail panel -->
     <div id="popDetailBackdrop" class="pop-detail-backdrop" onclick="closeDetail()"></div>
+
+    <!-- Reading List modal -->
+    <div id="readingListModal" class="reading-list-modal" onclick="if(event.target===this)closeReadingList()">
+        <div class="reading-list-panel">
+            <div class="reading-list-header">
+                <h2 id="readingListTitle">📚 Reading List</h2>
+                <button class="reading-list-close" onclick="closeReadingList()" title="Close">✕</button>
+            </div>
+            <div class="reading-list-body" id="readingListBody"></div>
+        </div>
+    </div>
 </body>
 </html>
