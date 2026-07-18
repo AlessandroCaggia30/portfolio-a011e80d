@@ -321,8 +321,8 @@
               },
               {
                 "id": "abm-quindi",
-                "title": "★ Agent-Based Model for Quindi",
-                "content": "# Agent-Based Model (ABM) for Quindi's Incentive Design\n\nSimulate heterogeneous workers who under-produce for well-identified behavioral reasons, plug in each contract A0–A9 as a swappable module, and observe what happens to output, wage bill, cooperation, sabotage, and — crucially — the estimated $\\hat\\tau$ from the AI treatment.\n\n---\n\n# Part B — Behavioral mechanisms agents must embody\n\nEach agent carries **attributes** (heterogeneous parameters) AND **behavioral rules** (how they respond to a contract).\n\n## Agent attributes\n\n| Symbol | Meaning | Distribution |\n|---|---|---|\n| $\\varepsilon_i$ | Ability (efficiency units of labor) | $\\sim H$, e.g. lognormal |\n| $\\rho_i$ | CARA risk aversion | $\\sim$ truncated normal $(2, 1)$ |\n| $k_i$ | Effort-cost curvature | $\\sim$ gamma |\n| $\\phi_i$ | Reciprocity intensity (Akerlof–Fehr) | $\\sim \\text{Beta}(2, 2)$ |\n| $\\delta_i$ | Discount factor | $\\sim U[0.90, 0.99]$ |\n| $\\mathcal{N}_i$ | Peer network (which workers $i$ observes) | Erdős–Rényi or small-world |\n| $\\bar w_i$ | Reference wage (last-period, peer avg) | Updated each period |\n| $Y_i^{\\text{target}}$ | Income target (loss aversion) | Set by peer earnings |\n\n## Behavioral rules — why agents under-produce\n\nTen distinct mechanisms; each is a switchable component. Agents' effort $e_i$ is the equilibrium of these forces.\n\n### 1. Shirking under flat wage (Shapiro–Stiglitz 1984)\n$$\\max_{e_i}\\; w_0 - c(e_i) \\;\\;\\Longrightarrow\\;\\; e_i^{*} = 0$$\n\nNo monitoring → zero effort. Adds monitoring hazard $q$ + dismissal penalty $\\Delta w$: worker exerts $e_i > 0$ iff $q\\,\\delta_i\\,\\Delta w \\geq c(e_i)$.\n\n### 2. Free-riding in teams (Alchian–Demsetz 1972; Holmström 1982; Kandel–Lazear 1992)\n$$\\frac{\\partial w_i}{\\partial e_i} = \\frac{\\beta_T}{n} \\;\\Rightarrow\\; e_i^{*} \\text{ decreasing in } n$$\n\nOffset: peer pressure $\\psi$ raises effective cost of shirking, $c(e_i) + \\psi \\cdot (\\bar e_{\\mathcal{N}_i} - e_i)^{+}$.\n\n### 3. Multitasking arbitrage (Holmström–Milgrom 1991)\nWorker allocates effort $\\mathbf{e}$ across dims to equalise $\\beta_j g_j'(e_j) = c_j'(e_j)$. If $\\beta_j = 0$, worker sets $e_j = 0$ — crowd-out.\n\n### 4. Ratchet strategic hiding (Gibbons 1987; Bandiera–Barankay–Rasul 2005)\nIf next-period target depends on this-period output:\n$$e_{i,t}^{*} = e^{\\text{one-shot}} - \\alpha \\cdot \\frac{\\partial \\text{target}_{t+1}}{\\partial s_{i,t}}$$\n\nWorker under-produces to hide capacity.\n\n### 5. Sabotage under tournaments (Chan 1996; Lazear 1989)\nWorker chooses effort $e_i$ AND sabotage $\\sigma_{ij}$ against peer $j$:\n$$P_i(\\text{win rank}) = P\\big(g(e_i) - \\textstyle\\sum_j \\sigma_{ji} > g(e_j) - \\textstyle\\sum_k \\sigma_{kj}\\big)$$\n\nOptimum has $\\sigma_{ij}^{*} > 0$ whenever the prize gap is large.\n\n### 6. Loss-averse Goodhart bunching (Camerer–Babcock–Loewenstein–Thaler 1997; Kahneman–Tversky 1979)\n$$U_i(w_i) = \\begin{cases} w_i - Y_i^{\\text{target}} & \\text{if } w_i \\geq Y_i^{\\text{target}} \\\\ \\lambda\\,(w_i - Y_i^{\\text{target}}) & \\text{else},\\; \\lambda > 1 \\end{cases}$$\n\nEffort spikes just below target; drops sharply above → **bunching at kink**.\n\n### 7. Reciprocity / gift exchange (Akerlof 1982; Fehr & Falk 2002)\n$$e_i^{*} = e_i^{\\text{base}} + \\phi_i \\cdot (w_i - \\bar w_i)$$\n\nHigher wage than reference → more effort even with $\\beta = 0$. Adds a channel through which A3 (efficiency wage) works.\n\n### 8. Peer effects / social conformity (Bandiera–Barankay–Rasul 2005, 2010; Mas & Moretti 2009)\nEffort cost gets a peer-conformity term:\n$$c(e_i) \\;\\to\\; c(e_i) + \\gamma \\cdot (e_i - \\bar e_{\\mathcal{N}_i})^{2}$$\n\nHigh-effort peers pull the worker up; low-effort peers drag them down.\n\n### 9. Career-concern signalling (Holmström 1982; Gibbons–Murphy 1992)\nMarket Bayes-updates $\\varepsilon_i$ from observed $s_t$; future wage $w_{t+1} = \\mathbb{E}[\\varepsilon_i \\mid s_1, \\dots, s_t]$. Worker's effort FOC:\n$$\\delta_i \\cdot \\frac{\\partial w_{t+1}}{\\partial s_t} = c'(e_t^{*})$$\n\nDeclines toward retirement (horizon effect).\n\n### 10. Cooperation externality collapse (Hamilton–Nickerson–Owan 2003; Encinosa–Gaynor–Rebitzer 2007)\nHelping peer $j$ costs $h(a_{ij})$ but boosts $g_j$ by $\\Delta g$:\n- Under piece rate: help is unpaid → $a_{ij}^{*} = 0$.\n- Under team pay / equity / subjective: help is (partially) priced → $a_{ij}^{*} > 0$.\n\n---\n\n# Part C — Simulation architecture\n\n## 1. Population\n\n- $N$ workers with attributes drawn from priors.\n- $N/n$ teams of size $n$ (Quindi: $n = 5$).\n- One firm of productivity $p$.\n\n## 2. Contract module (plug-in interface)\n\nDefine an abstract interface:\n```\nclass Contract:\n    def wage(self, worker, signals, history): -> float\n    def enter_period(self, workers): -> None    # e.g. tournament ranking\n    def monitor(self, worker): -> bool          # for A3\n```\n\nImplementations:\n\n| Contract | Implementation |\n|---|---|\n| **A0** Baseline | $w = w_0$ |\n| **A1** Piece rate | $w = \\alpha + \\beta\\, s_i$ |\n| **A2** Tournament | $w = w_H$ if rank $\\leq K$ else $w_L$ |\n| **A3** Efficiency wage | $w = w_H$; monitoring prob $q$; dismiss if $s_i$ below threshold |\n| **A4** Team pay | $w = \\alpha + \\beta_T\\, \\bar s_{\\text{team}}$ |\n| **A5** Deferred | $w_t = w_{\\text{low}}$ if $t < T^{*}$; $w_t = w_{\\text{high}}$ later |\n| **A6** Career concerns | $w_{t+1} = \\mathbb{E}[\\varepsilon_i \\mid s_{1:t}]$ (market rule) |\n| **A7** Subjective | $w = \\alpha + b(m_i)$, $m_i = \\varepsilon_i e_i + $ manager noise |\n| **A8** Equity | $w = \\alpha + \\phi \\cdot V_{\\text{firm}}$ |\n\n## 3. Time step (one period)\n\nFor $t = 1, 2, \\dots, T$:\n\n**(a)** *Contract announces state.* Enter_period hook runs (rank workers, set targets, etc.).\n\n**(b)** *Workers choose actions.* Each worker $i$ picks:\n- Effort $e_i$ on each task,\n- Help $a_{ij}$ to peers,\n- Sabotage $\\sigma_{ij}$ against peers (only under tournament),\nas best response to the announced wage rule + behavioral rules (1–10 above).\n\n**(c)** *Signals realise.* $s_{ij} = \\varepsilon_i g_j(e_{ij}) + \\text{help} - \\text{sabotage} + \\text{noise}_j$.\n\n**(d)** *Team & firm output.* $\\bar s_{\\text{team}} = \\frac{1}{n}\\sum s_i$; $V_{\\text{firm}} = \\sum_i s_i - \\sum_i w_i$.\n\n**(e)** *Wages paid.* Contract.wage returns $w_i$. Workers update $\\bar w_i, Y_i^{\\text{target}}, \\mathcal{N}_i$'s belief about $\\varepsilon_j$.\n\n## 4. Treatment layer\n\nAssign $T_i \\in \\{0, 1\\}$ (AI access) randomly to a share $\\pi$ of workers. AI shifts the technology:\n\n$$g_j(e) \\;\\to\\; g_j^{T=1}(e) = (1 + \\alpha_{\\text{AI}})\\, g_j(e)$$\n\nor equivalently reduces effort cost:\n\n$$c(e) \\;\\to\\; c^{T=1}(e) = (1 - \\eta_{\\text{AI}})\\, c(e)$$\n\nStructural ATE is the parameter $\\tau = \\alpha_{\\text{AI}}$ (or $\\eta_{\\text{AI}}$).\n\n## 5. Outcome measurement\n\nCompute the composite outcome from the **Quindi Optimal Reward Formula**:\n\n$$R_i \\;=\\; \\boldsymbol{\\beta}^{*\\top} \\mathbf{s}_i \\;=\\; \\beta_3^{*} s_3(i) + \\beta_4^{*} s_4(i) + \\beta_5^{*} s_5 + \\beta_6^{*} s_6(i)$$\n\nEstimate ATE from simulated data:\n\n$$\\hat\\tau \\;=\\; \\bar R_{T=1} - \\bar R_{T=0}$$\n\n**Bias**: $\\text{bias} = \\hat\\tau - \\tau$ (accessible because you know $\\tau$ inside the simulation).\n\n## 6. Comparison across contracts\n\nRun steps 1–5 for each contract A0–A9, holding population and shocks fixed. Report per contract:\n\n| Metric | Interpretation |\n|---|---|\n| Aggregate output $\\sum s_i$ | Productive efficiency |\n| Wage bill $\\sum w_i$ | Cost |\n| Effort distribution | Worker welfare |\n| Wage variance $\\mathrm{Var}(w_i)$ | Risk transfer (F4) |\n| Cooperation flags $\\sum a_{ij}$ | F5 outcome |\n| Sabotage flags $\\sum \\sigma_{ij}$ | Tournament pathology |\n| Bunching mass at target | F6 outcome |\n| $\\text{bias}(\\hat\\tau)$ | ATE identification quality |\n\n## 7. Robustness sweeps\n\nGrid over key parameters:\n- Risk aversion $\\rho$: low → high\n- Team size $n$: 2, 5, 10, 25 (free-rider strength)\n- Peer-network topology: Erdős–Rényi, small-world, scale-free\n- Effort-cost curvature $k$\n- Noise variance $\\sigma^{2}$ (F1 severity)\n- Treatment intensity $\\pi$ (SUTVA / saturation)\n\nIdentify Pareto-dominant contracts and the regions where $\\text{bias}(\\hat\\tau) \\to 0$.\n\n---\n\n# Concrete tech stack\n\n**Language**: Python 3.11 + **Mesa 2.x** (agent-based framework).\n\nAlternatives: NetLogo (fast prototyping), Julia + **Agents.jl** (fast + expressive), C++/GAMA (large scale).\n\n**Repo layout**:\n```\nquindi-abm/\n├── agents.py      # Worker class + behavioral rules (1-10)\n├── contracts.py   # Plug-in Contract implementations A0-A9\n├── network.py     # Peer network construction\n├── model.py       # Mesa Model orchestrating one time step\n├── simulate.py    # Batch runner over (contract, seed) grid\n├── measure.py     # Compute R_i, tau_hat, biases\n├── analysis.ipynb # Plots, comparison tables, robustness\n└── config.yaml    # Parameters, distributions, treatment specs\n```\n\n**Data collection**: Mesa's `DataCollector` logs `(t, agent_id, contract, T_i, e_i, a_ij, sigma_ij, s_i, w_i, R_i)` for every period. Turn into a long panel `pandas.DataFrame`.\n\n**ATE estimation**: regressions on the simulated panel — matches how you'd analyse real Quindi data. Statsmodels / linearmodels.\n\n**Reproducibility**: seed every RNG (numpy, network draw, contract stochastics). Ship a `docker` container.\n\n**Scale target**: $N = 10{,}000$ workers, $T = 500$ periods, 20 contract configurations, 100 seeds — feasible on a single machine overnight.\n\n---\n\n# Literature grounding\n\n| Reference | What it gives the ABM |\n|---|---|\n| **Neugart & Richiardi (2018)** *Handbook of Computational Economics* | Survey of labor-market ABMs; design patterns |\n| **Axtell (1999, 2001)** *AER Papers & Proceedings; ASSA* | Firm-emergence ABM with free-riding — closest ancestor |\n| **Fagiolo, Dosi & Gabriele (2004)** *IJME* | Labor-market ABM with heterogeneous workers/firms + search |\n| **Bewley (1999)** *Why Wages Don't Fall* | Behavioral micro-foundations (fairness, reciprocity) motivating rules 6–8 |\n| **Squazzoni (2014)** | Computational sociology of workplace cooperation |\n| **Dawid, Gemkow, Harting, van der Hoog & Neugart (2012)** *EURACE* | Full-scale labor-market ABM within macro model |\n| **Gemkow & Neugart (2011)** *Rev Netw Econ* | Endogenous peer network + wage effects |\n| **Riccetti, Russo & Gallegati (2015)** *JEIC* | Heterogeneous workers + firms + wage bargaining/posting |\n| **Bandiera–Barankay–Rasul (2005, 2010)** *QJE, REStud* | Empirical calibration targets for rules 4, 5, 8, 10 |\n| **Hamilton–Nickerson–Owan (2003)** *JPE* | Calibration target for team-pay cooperation shift |\n| **Fehr & Falk (2002)** *EER* | Reciprocity module (rule 7) |\n| **Kahneman & Tversky (1979)** *Econometrica* | Loss-aversion module (rule 6) |\n| **Camerer et al. (1997)** *QJE* | Field evidence for rule 6 |\n\n## Prior similar attempts — an honest gap statement\n\nNo published paper implements **all A1–A9 as swappable modules in one ABM with an ATE identification analysis**. The closest neighbours are:\n- Axtell (2001) — firm dynamics with A0/A4 only;\n- EURACE-type macro ABMs — many contracts implemented but no per-contract ATE-bias comparison;\n- Squazzoni (2014) — cooperation-under-contract simulations without heterogeneous-firm identification.\n\nBuilding this for Quindi is a genuine contribution.\n\n---\n\n### References\n\n- **Neugart, M. & Richiardi, M. (2018)**. Agent-based models of the labor market. In *Handbook of Computational Economics*, Vol. 4.\n- **Axtell, R. (2001)**. The emergence of firms in a population of agents. *SFI Working Paper*; later in various venues.\n- **Fagiolo, G., Dosi, G. & Gabriele, R. (2004)**. Matching, bargaining and wage setting in an evolutionary model of labor market. *International Journal of Modern Physics C*, 15, 1–16.\n- **Dawid, H., Gemkow, S., Harting, P., van der Hoog, S. & Neugart, M. (2012)**. The EURACE@Unibi model. *Working Paper*.\n- **Gemkow, S. & Neugart, M. (2011)**. Referral hiring, endogenous social networks, and inequality: an agent-based analysis. *Journal of Evolutionary Economics*, 21, 703–719.\n- **Riccetti, L., Russo, A. & Gallegati, M. (2015)**. An agent based decentralized matching macroeconomic model. *JEIC*, 12(1), 51–75.\n- **Bewley, T. (1999)**. *Why Wages Don't Fall During a Recession*. Harvard University Press.\n- **Squazzoni, F. (2014)**. *Agent-Based Computational Sociology*. Wiley.\n- **Shapiro, C. & Stiglitz, J. (1984)** — rule 1.\n- **Alchian & Demsetz (1972); Holmström (1982); Kandel & Lazear (1992)** — rule 2.\n- **Holmström & Milgrom (1991)** — rule 3.\n- **Gibbons (1987); Bandiera–Barankay–Rasul (2005)** — rule 4.\n- **Chan (1996); Lazear (1989)** — rule 5.\n- **Kahneman–Tversky (1979); Camerer–Babcock–Loewenstein–Thaler (1997)** — rule 6.\n- **Akerlof (1982); Fehr & Falk (2002)** — rule 7.\n- **Bandiera–Barankay–Rasul (2005, 2010); Mas & Moretti (2009)** — rule 8.\n- **Holmström (1982); Gibbons & Murphy (1992)** — rule 9.\n- **Hamilton–Nickerson–Owan (2003); Encinosa–Gaynor–Rebitzer (2007)** — rule 10.\n- **Mesa (Python)** — https://mesa.readthedocs.io\n- **Agents.jl (Julia)** — https://juliadynamics.github.io/Agents.jl",
+                "title": "★ ABM Theory — Core",
+                "content": "# ABM Theory — Core\n\n## Why ABM?\n\nAnalytical incentive models (HM 1987 etc.) buy tractability with three assumptions that fail for Quindi:\n\n| Analytical assumption | Reality at Quindi |\n|---|---|\n| Representative agent | **Heterogeneous** workers: ability, risk aversion, peer network, reciprocity |\n| Common knowledge, rationality | **Bounded rationality**; workers use heuristics |\n| No interaction / mean-field | **Peer effects, cooperation, sabotage** matter |\n| Equilibrium closed-form | **Out-of-equilibrium** transitions (AI rollout, contract switch) |\n| Same $\\beta$ for all | Real firms **layer** multiple mechanisms |\n\n**ABM (Agent-Based Model)** relaxes each: simulate a population of heterogeneous agents whose behavior is specified by rules, let interactions unfold, and observe emergent outcomes.\n\nFor Quindi's ATE question: swap in each contract A0–A9 as a module, hold population + shocks fixed, and observe **per-contract** productivity, cooperation, sabotage, wage bill, and — crucially — **bias of $\\hat\\tau$**.\n\n---\n\n## What ABM adds over analytical PA\n\n- **Heterogeneity**: workers differ in $(\\varepsilon_i, \\rho_i, k_i, \\phi_i, \\delta_i)$.\n- **Rules over optima**: agents follow behavioral rules; effort $e_i$ is the equilibrium of those rules given the contract.\n- **Interactions**: peer effects, help/sabotage, network diffusion.\n- **Emergence**: aggregate output, wage dispersion, cooperation clusters emerge; they are not assumed.\n- **Out-of-equilibrium**: treatment (AI rollout) and contract switches can be studied without new equilibrium assumptions.\n- **Empirical calibration**: rules calibrated to observed micro-data (BBR 2005; Mas–Moretti 2009).\n\n---\n\n## Design taxonomy — how ABM agents decide\n\nAgents' decisions can be modelled in five styles, in increasing sophistication:\n\n| Approach | Rule | Example |\n|---|---|---|\n| **Fixed heuristics** | Static formula (e.g., markup pricing) | Dawid EURACE; Boudreau 2010 |\n| **Discrete choice** | Random-utility logit / probit | Neugart 2008; Martin–Neugart 2009 |\n| **Adaptive rules** | Rule updates parameters from experience | Richiardi 2006 |\n| **Reinforcement learning** | Q-learning / softmax update | Gemkow–Neugart 2011 |\n| **Optimising** | Solve Bellman (rare in ABM) | Standard DSGE-adjacent |\n\nQuindi ABM uses a mix: **adaptive rules** for effort; **discrete choice** for menu decisions (help whom, accept promotion); **RL** for slow-feedback decisions (cooperation investment).\n\n---\n\n## Behavioral mechanisms — why agents under-produce\n\nTen literature-backed mechanisms; agents' equilibrium effort is the joint response to all:\n\n1. **Shirking under flat wage** — Shapiro–Stiglitz 1984 → $e^* = 0$.\n2. **Free-riding in teams** — Alchian–Demsetz 1972; Kandel–Lazear 1992 → $\\partial w/\\partial e = \\beta_T/n$.\n3. **Multitasking arbitrage** — HM 1991 → $e_j = 0$ if $\\beta_j = 0$.\n4. **Ratchet hiding** — Gibbons 1987 → under-produce to hide capacity.\n5. **Tournament sabotage** — Chan 1996; Lazear 1989 → $\\sigma_{ij}^* > 0$.\n6. **Loss-averse Goodhart bunching** — Kahneman–Tversky 1979; Camerer et al. 1997.\n7. **Reciprocity / gift exchange** — Akerlof 1982; Fehr–Falk 2002 → $e = e^{\\text{base}} + \\phi(w - \\bar w)$.\n8. **Peer conformity** — BBR 2005/2010; Mas–Moretti 2009.\n9. **Career-concern signalling** — Holmström 1982; Gibbons–Murphy 1992.\n10. **Cooperation externality** — Hamilton–Nickerson–Owan 2003 → $a_{ij}^* = 0$ under piece rate.\n\nEach is a switchable module in the simulation.\n\n---\n\n## Simulation architecture (7 steps)\n\n1. **Population**: $N$ workers with heterogeneous attributes, $N/n$ teams, one firm.\n2. **Contract module** (plug-in): implement `Contract.wage`, `enter_period`, `monitor` for each A0–A9.\n3. **Time step**: (a) contract announces state → (b) workers choose $(e_i, a_{ij}, \\sigma_{ij})$ → (c) signals realise → (d) team + firm output → (e) wages, updates.\n4. **Treatment layer**: assign $T_i \\in \\{0,1\\}$; AI shifts $g \\to g_T$ or $c \\to c_T$; structural $\\tau$ known inside the sim.\n5. **Outcome measurement**: $R_i = \\boldsymbol\\beta^{*\\top} \\mathbf{s}_i$; $\\hat\\tau = \\bar R_{T=1} - \\bar R_{T=0}$; bias $= \\hat\\tau - \\tau$.\n6. **Comparison across contracts**: hold population + shocks fixed; log per-contract metrics.\n7. **Robustness sweeps**: grid over $(\\rho, n, \\text{network topology}, k, \\sigma^2, \\pi)$; identify Pareto-dominant contracts.\n\n---\n\n## Tech stack\n\n**Python 3.11 + Mesa 2.x**. Alternatives: Julia + Agents.jl (speed), NetLogo (prototyping), ML3 (formal DSL — see paper snippet).\n\nRepo: `agents.py`, `contracts.py`, `network.py`, `model.py`, `simulate.py`, `measure.py`, `analysis.ipynb`, `config.yaml`.\n\nScale target: $N = 10{,}000$, $T = 500$, 20 contracts, 100 seeds → feasible overnight on one machine.\n\n---\n\n## Prior-work gap\n\nNo published paper implements **all A1–A9 as swappable modules in one ABM with per-contract ATE identification analysis**. Closest neighbours: Axtell 2001 (firm emergence); EURACE (many contracts, no ATE); Squazzoni 2014 (cooperation, no identification). Building this for Quindi is a genuine contribution.\n\n---\n\n## Literature map — one paper snippet per node\n\nFollow arrows from this core to individual paper snippets:\n\n| Snippet | Contribution |\n|---|---|\n| **P·Bergmann 1974** | Original micro-simulation of the macroeconomy |\n| **P·Axtell 2001** | Firm emergence + free-riding (closest ancestor) |\n| **P·EURACE (Dawid et al. 2008–12)** | Full macro ABM with mgmt-science rules |\n| **P·K+S (Dosi–Fagiolo–Roventini 2010)** | Keynes + Schumpeter macro ABM |\n| **P·CATS (Delli Gatti et al. 2011)** | Bottom-up macroeconomics ABM |\n| **P·Fagiolo–Dosi–Gabriele 2004** | Evolutionary labor-market ABM |\n| **P·Neugart 2008** | Discrete-choice job search / policy |\n| **P·Martin–Neugart 2009** | Discrete-choice wage-setting |\n| **P·Richiardi 2006** | Adaptive-rule job search |\n| **P·Gemkow–Neugart 2011** | RL for network investment |\n| **P·Boudreau 2010** | Rank-imitation human-capital rule |\n| **P·ML3 (Reinhardt et al. 2022)** | Formal DSL for linked-lives ABM |\n| **P·Rivkin–Siggelkow 2003** | 3-tier org ABM (workers × middle × top) |\n| **P·Levinthal 1997** | NK-landscape organisational adaptation |\n| **P·Neugart–Richiardi 2018** | Handbook survey — design patterns |\n\n---\n\n## Bottom line\n\n- ABM relaxes the 3 crippling assumptions of analytical PA (representative agent, common knowledge, no interaction).\n- Agents follow behavioural rules (fixed / discrete choice / adaptive / RL / optimising).\n- Ten literature-backed mechanisms explain under-production; each is switchable.\n- Contract A0–A9 is a plug-in module; per-contract ATE bias is the key output.\n- Genuine research contribution: no published paper combines all these elements.",
                 "x": 3700,
                 "y": 3400,
                 "width": 620,
@@ -332,7 +332,128 @@
                 "color": "yellow",
                 "popBg": "#fef9c3",
                 "popShape": "rounded",
-                "links": []
+                "links": [
+                  { "target": "p-bergmann-1974", "type": "forward" },
+                  { "target": "p-axtell-2001", "type": "forward" },
+                  { "target": "p-eurace-2012", "type": "forward" },
+                  { "target": "p-ks-2010", "type": "forward" },
+                  { "target": "p-cats-2011", "type": "forward" },
+                  { "target": "p-fdg-2004", "type": "forward" },
+                  { "target": "p-neugart-2008", "type": "forward" },
+                  { "target": "p-mn-2009", "type": "forward" },
+                  { "target": "p-richiardi-2006", "type": "forward" },
+                  { "target": "p-gn-2011", "type": "forward" },
+                  { "target": "p-boudreau-2010", "type": "forward" },
+                  { "target": "p-ml3-2022", "type": "forward" },
+                  { "target": "p-rs-2003", "type": "forward" },
+                  { "target": "p-levinthal-1997", "type": "forward" },
+                  { "target": "p-nr-2018", "type": "forward" }
+                ]
+              },
+              {
+                "id": "p-bergmann-1974",
+                "title": "P·Bergmann (1974) — Micro-Simulation",
+                "content": "**Ref.** Bergmann, B. (1974). A microsimulation of the macroeconomy with explicitly represented money flows. *Annals of Economic and Social Measurement*, 3(3), 475–489.\n\n## Contribution\nFounding **micro-simulation of the whole macroeconomy** with agent-level firms, workers, banks, government.\n\n## Idea\nEach period: firms plan → hire → produce → price → pay taxes → invest → finance; workers earn → consume → save; banks + monetary authority intermediate. All flows tracked explicitly.\n\n## Result\nDemonstrated feasibility of full-economy micro-simulation decades before ABM became standard. Predicted stagflation dynamics.\n\n## Impact\n**Direct ancestor** of every modern macro ABM (EURACE, K+S, CATS). Template for the 12-step economy simulation.\n\n→ Anchor: **ABM Theory Core**",
+                "x": 1000, "y": 3100, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "yellow", "popBg": "#fef9c3", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-axtell-2001",
+                "title": "P·Axtell (2001) — Firm Emergence",
+                "content": "**Ref.** Axtell, R. (2001). Effort dynamics in economic organizations. *SFI Working Paper 99-11-076*; later in various venues.\n\n## Contribution\nABM where **firms emerge endogenously** from workers' effort/free-riding choices.\n\n## Idea\nAgents voluntarily form firms. Each agent chooses effort trading own income vs shirking. Firms grow if effort high enough; collapse otherwise.\n\n## Result\nReproduces empirical firm-size distribution (Zipf's law) endogenously. Explains firm dynamics through effort–free-rider tension.\n\n## Impact\n**Closest ancestor** for the Quindi hierarchical ABM. Grounds F5 (cooperation collapse) at firm scale.\n\n→ Anchor: **ABM Theory Core**",
+                "x": 1400, "y": 3100, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "yellow", "popBg": "#fef9c3", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-eurace-2012",
+                "title": "P·EURACE (Dawid et al. 2008–12)",
+                "content": "**Ref.** Dawid, H., Gemkow, S., Harting, P., van der Hoog, S. & Neugart, M. (2012). The EURACE@Unibi model. *Working paper*, Bielefeld University.\n\n## Contribution\n**Largest published macro-ABM**: 50k+ agents, European economy.\n\n## Idea\nFirms follow rules from **management science** (inventory: safety stock; pricing: markup over cost; hiring: fill vacancies). Households: consumption/savings rules. Banks: capital ratios. Central bank: Taylor rule.\n\n## Result\nReplicates macro stylised facts (Beveridge curve, wage–price spiral, unemployment cycles). Used for policy experiments (fiscal, labor).\n\n## Impact\nDemonstrates ABM scalability. Uses **fixed rules** from OR/management-science textbooks.\n\n→ Anchor: **ABM Theory Core**",
+                "x": 1800, "y": 3100, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "yellow", "popBg": "#fef9c3", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-ks-2010",
+                "title": "P·Dosi–Fagiolo–Roventini (2010) — K+S",
+                "content": "**Ref.** Dosi, G., Fagiolo, G. & Roventini, A. (2010). Schumpeter meeting Keynes: A policy-friendly model of endogenous growth and business cycles. *JEDC*, 34(9), 1748–1767.\n\n## Contribution\n**Keynes + Schumpeter** macro-ABM (K+S family).\n\n## Idea\nHeterogeneous firms + workers + banks. Firms innovate (R&D) and imitate (Schumpeter). Households consume (Keynes). Endogenous growth + business cycles.\n\n## Result\nReplicates coexistence of endogenous long-run growth AND short-run fluctuations. Grounded in evolutionary economics.\n\n## Impact\nAlternative to EURACE. Extensively used for climate + inequality policy analysis (Dosi et al. 2015+).\n\n→ Anchor: **ABM Theory Core**",
+                "x": 2200, "y": 3100, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "yellow", "popBg": "#fef9c3", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-cats-2011",
+                "title": "P·Delli Gatti et al. (2011) — CATS",
+                "content": "**Ref.** Delli Gatti, D., Desiderio, S., Gaffeo, E., Cirillo, P. & Gallegati, M. (2011). *Macroeconomics from the Bottom-Up*. Springer.\n\n## Contribution\n**CATS / CC-CATS** framework — bottom-up macro-ABM.\n\n## Idea\nHouseholds + firms + banks. Firms borrow to produce; banks lend under capital constraints. Credit-network cascades transmit shocks.\n\n## Result\nExplains endogenous crises via **credit-network amplification**. Firm bankruptcies cascade through inter-firm and firm-bank linkages.\n\n## Impact\nParadigmatic for **financial fragility** in ABMs. Assenza–Delli Gatti–Grazzini 2015 extends with heterogeneous households.\n\n→ Anchor: **ABM Theory Core**",
+                "x": 1000, "y": 3450, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "yellow", "popBg": "#fef9c3", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-fdg-2004",
+                "title": "P·Fagiolo–Dosi–Gabriele (2004)",
+                "content": "**Ref.** Fagiolo, G., Dosi, G. & Gabriele, R. (2004). Matching, bargaining, and wage setting in an evolutionary model of labor and output markets. *International Journal of Modern Physics C*, 15, 1–16.\n\n## Contribution\n**Evolutionary labor-market ABM** with heterogeneous workers and firms.\n\n## Idea\nWorkers search; firms post wages; matching frictions produce assignments. Wage bargaining evolves via replicator dynamics.\n\n## Result\nReplicates Beveridge curve, Okun's law. Matches empirical unemployment autocorrelation.\n\n## Impact\nAmong the earliest full labor-market ABMs. Design template for Quindi's within-firm module.\n\n→ Anchor: **ABM Theory Core**",
+                "x": 1400, "y": 3450, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "yellow", "popBg": "#fef9c3", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-neugart-2008",
+                "title": "P·Neugart (2008) — Discrete Choice",
+                "content": "**Ref.** Neugart, M. (2008). Labor market policy evaluation with ACE. *Journal of Economic Behavior & Organization*, 67(2), 418–430.\n\n## Contribution\n**Discrete-choice ABM** for labor-market policy.\n\n## Idea\nWorkers' policy-participation decisions (accept training, apply for a job) are logit choices over utility differences. Coefficients calibrated to real micro-data (SOEP, LFS).\n\n## Result\nSimulates aggregate policy response (training subsidies, wage insurance) via thousands of individual logit choices.\n\n## Impact\nCanonical example of **discrete-choice** ABM: empirically anchored, computationally cheap.\n\n→ Anchor: **ABM Theory Core**",
+                "x": 1800, "y": 3450, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "yellow", "popBg": "#fef9c3", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-mn-2009",
+                "title": "P·Martin–Neugart (2009) — Wage-Setting DC",
+                "content": "**Ref.** Martin, C. & Neugart, M. (2009). Shocks, endogenous rigidity, and the role of a shock-absorbing labor market institution. *Applied Economics*, 41(9), 1141–1153.\n\n## Contribution\nExtends Neugart 2008 to **wage-setting and turnover decisions**.\n\n## Idea\nFirm hiring, worker acceptance, quit decisions all modeled as **discrete choices** with logit probabilities.\n\n## Result\nEquilibrium wage distribution + unemployment dynamics emerge from aggregate of individual DC choices. Reveals rigidity from institutional constraints.\n\n## Impact\nProves DC-ABM tractable at scale for labor markets.\n\n→ Anchor: **ABM Theory Core**",
+                "x": 2200, "y": 3450, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "yellow", "popBg": "#fef9c3", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-richiardi-2006",
+                "title": "P·Richiardi (2006) — Adaptive Rules",
+                "content": "**Ref.** Richiardi, M. (2006). Toward a non-equilibrium unemployment theory. *Computational Economics*, 27(1), 135–160.\n\n## Contribution\n**Adaptive-rule job search**.\n\n## Idea\nWorkers decide whether to search this period. Instead of solving a Bellman equation (McCall model), they use a rule that updates from past experience (temporal-difference learning).\n\n## Result\nOver time, workers' behavior converges to near-optimal without ever computing a value function. Explains persistent non-equilibrium unemployment.\n\n## Impact\nCanonical **adaptive-rule** ABM. Shows agents can approximate optimality via learning without foresight.\n\n→ Anchor: **ABM Theory Core**",
+                "x": 1000, "y": 3800, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "yellow", "popBg": "#fef9c3", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-gn-2011",
+                "title": "P·Gemkow–Neugart (2011) — RL Networks",
+                "content": "**Ref.** Gemkow, S. & Neugart, M. (2011). Referral hiring, endogenous social networks, and inequality: an agent-based analysis. *Journal of Evolutionary Economics*, 21, 703–719.\n\n## Contribution\n**Reinforcement learning** applied to network investment.\n\n## Idea\nWorkers invest time in maintaining friendships. Friends give referrals. Q-learning updates the perceived value of tie maintenance from realised referral payoffs.\n\n## Result\n**Endogenous heterogeneity** in network sizes: some workers accumulate large networks (repeated referral wins); others disengage. Inequality reinforces itself.\n\n## Impact\nGrounds RL-based cooperation/help decisions in the Quindi ABM.\n\n→ Anchor: **ABM Theory Core**",
+                "x": 1400, "y": 3800, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "yellow", "popBg": "#fef9c3", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-boudreau-2010",
+                "title": "P·Boudreau (2010) — Rank Imitation",
+                "content": "**Ref.** Boudreau, J. (2010). Ranking based rules and workforce decisions in an agent-based model.\n\n## Contribution\n**Rank-based imitation rule** for human capital investment.\n\n## Idea\nWorkers observe higher-ranked peers' outcomes and invest in human capital to match. No formal optimization — simple imitation of the person above.\n\n## Result\nInequality dynamics emerge from who successfully matches whom. Simple heuristic reproduces complex distributional patterns.\n\n## Impact\nCanonical **fixed rule-based** ABM in the Dawid–Boudreau tradition.\n\n→ Anchor: **ABM Theory Core**",
+                "x": 1800, "y": 3800, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "yellow", "popBg": "#fef9c3", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-ml3-2022",
+                "title": "P·ML3 (Reinhardt–Warnke–Uhrmacher 2022)",
+                "content": "**Ref.** Reinhardt, O., Warnke, T. & Uhrmacher, A. M. (2022). A formal foundation for the modeling language ML3. *ACM TOMACS*, 32(1), Article 6.\n\n## Contribution\nFormal semantics for **ML3** (Modeling Language for Linked Lives): a domain-specific ABM language for demography.\n\n## Idea\nDiscrete events in **continuous time**, **age-specific + deterministic** events, network-linked agents. Maps to Generalized Semi-Markov Processes.\n\n## Result\nRigorous mathematical semantics — reproducibility + verifiability that Mesa/NetLogo lack.\n\n## Impact\nRelevant for hierarchical Quindi ABM if continuous-time career events (promotion, retirement) matter.\n\n→ Anchor: **ABM Theory Core**",
+                "x": 2200, "y": 3800, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "yellow", "popBg": "#fef9c3", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-rs-2003",
+                "title": "P·Rivkin–Siggelkow (2003) — 3-Tier Org",
+                "content": "**Ref.** Rivkin, J. & Siggelkow, N. (2003). Balancing search and stability: interdependencies among elements of organizational design. *Management Science*, 49(3), 290–311.\n\n## Contribution\n**3-level org ABM**: workers + middle managers + top level, on an NK landscape.\n\n## Idea\nOrg searches over strategy landscape with interdependencies. Middle managers filter/amplify search decisions. Structure affects speed vs stability tradeoff.\n\n## Result\nShows organizational architecture (span of control, delegation, filtering) drives adaptive performance. Closest published 3-tier ABM.\n\n## Impact\n**Direct template** for the hierarchical Quindi firm ABM.\n\n→ Anchor: **ABM Theory Core**",
+                "x": 1000, "y": 4150, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "yellow", "popBg": "#fef9c3", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-levinthal-1997",
+                "title": "P·Levinthal (1997) — Rugged Landscape",
+                "content": "**Ref.** Levinthal, D. (1997). Adaptation on rugged landscapes. *Management Science*, 43(7), 934–950.\n\n## Contribution\n**NK-landscape** ABM of organizational adaptation.\n\n## Idea\nFirm characterized by $N$ policy choices with $K$-degree interdependencies. Firms adapt through local search + occasional long jumps.\n\n## Result\nShows path-dependence + lock-in on rugged landscapes. Explains why similar firms produce very different outcomes.\n\n## Impact\nFounding paper of **NK-ABM** in strategy / organization science. Feeds into Rivkin–Siggelkow 2003.\n\n→ Anchor: **ABM Theory Core**",
+                "x": 1400, "y": 4150, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "yellow", "popBg": "#fef9c3", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-nr-2018",
+                "title": "P·Neugart–Richiardi (2018) — Survey",
+                "content": "**Ref.** Neugart, M. & Richiardi, M. (2018). Agent-based models of the labor market. In *Handbook of Computational Economics*, Vol. 4.\n\n## Contribution\n**Definitive survey** of labor-market ABMs.\n\n## Idea\nReviews the field: fixed-rule, discrete-choice, adaptive, RL approaches. Compares model architectures, calibration strategies, validation targets.\n\n## Result\nDocuments strengths of each approach, standard design patterns, and gaps (integrated incentive-alternative ABMs among them).\n\n## Impact\n**Roadmap** for anyone building a labor-market ABM. Starting reference for the Quindi project.\n\n→ Anchor: **ABM Theory Core**",
+                "x": 1800, "y": 4150, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "yellow", "popBg": "#fef9c3", "popShape": "rounded", "links": []
               },
               {
                 "id": "quindi-optimal",
@@ -398,11 +519,172 @@
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
-                "links": [],
+                "links": [
+                  { "target": "p-ross-1973", "type": "forward" },
+                  { "target": "p-mirrlees-1975", "type": "forward" },
+                  { "target": "p-holmstrom-1979", "type": "forward" },
+                  { "target": "p-gh-1983", "type": "forward" },
+                  { "target": "p-hm-1987", "type": "forward" },
+                  { "target": "p-hm-1991", "type": "forward" },
+                  { "target": "p-lr-1981", "type": "forward" },
+                  { "target": "p-lazear-1979", "type": "forward" },
+                  { "target": "p-holmstrom-1982", "type": "forward" },
+                  { "target": "p-fama-1980", "type": "forward" },
+                  { "target": "p-ss-1984", "type": "forward" },
+                  { "target": "p-bgm-1994", "type": "forward" },
+                  { "target": "p-macleod-2003", "type": "forward" },
+                  { "target": "p-jm-1976", "type": "forward" },
+                  { "target": "p-hansmann-1996", "type": "forward" },
+                  { "target": "p-kl-1992", "type": "forward" },
+                  { "target": "p-gibbons-1987", "type": "forward" },
+                  { "target": "p-hno-2003", "type": "forward" },
+                  { "target": "p-lazear-2000", "type": "forward" },
+                  { "target": "p-prendergast-1999", "type": "forward" }
+                ],
                 "x": 5164.724068351474,
                 "y": 4222.1355756237,
                 "width": 520,
                 "height": 420
+              },
+              {
+                "id": "p-ross-1973",
+                "title": "P·Ross (1973) — Agency",
+                "content": "**Ref.** Ross, S. (1973). The economic theory of agency: the principal's problem. *AER*, 63(2), 134–139.\n\n## Contribution\nFirst formal statement of the **agency problem**.\n\n## Idea\nPrincipal delegates an action to an agent whose objectives differ. Agent has private information about the action taken.\n\n## Result\nOptimal contract must trade off **risk sharing** vs **incentive alignment**. Both parties cannot simultaneously bear efficient risk and be incentivised.\n\n## Impact\nFoundational: precedes and motivates Holmström (1979).\n\n→ Anchor: **Incentives Theory Core**",
+                "x": 6800, "y": 3100, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "purple", "popBg": "#ede9fe", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-mirrlees-1975",
+                "title": "P·Mirrlees (1975) — Moral Hazard",
+                "content": "**Ref.** Mirrlees, J. (1975 working paper; 1999 *REStud* 66(1), 3–21). The theory of moral hazard and unobservable behaviour.\n\n## Contribution\nFirst formal **moral-hazard** model with unobservable effort.\n\n## Idea\nAgent chooses effort $e$; output distribution $F(y \\mid e)$ depends on it; principal observes $y$, not $e$.\n\n## Result\n- First-best not attainable (agent bears risk).\n- Second-best contract convex where MLRP holds.\n- The signal is a **sufficient statistic** for effort.\n\n## Impact\nGrounds Holmström (1979).\n\n→ Anchor: **Incentives Theory Core**",
+                "x": 7200, "y": 3100, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "purple", "popBg": "#ede9fe", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-holmstrom-1979",
+                "title": "P·Holmström (1979) — Sufficient Statistic",
+                "content": "**Ref.** Holmström, B. (1979). Moral hazard and observability. *Bell JE*, 10(1), 74–91.\n\n## Contribution\nCanonical PA model + **sufficient-statistic principle**.\n\n## Idea\nPA with unobservable effort $e$, noisy output $y$. Which additional signals should enter the contract?\n\n## Result\nAny signal informative about $e$ *beyond* what $y$ tells us should enter the contract. Contract $w(y, z)$ uses ALL sufficient statistics for $e$.\n\n## Impact\n**Base model** for the entire literature. Justifies A2 tournaments (peer signals), A7 subjective (manager info), A4 team pay (peer output), and multi-signal indices generally.\n\n→ Anchor: **Incentives Theory Core**",
+                "x": 7600, "y": 3100, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "purple", "popBg": "#ede9fe", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-gh-1983",
+                "title": "P·Grossman–Hart (1983) — General PA",
+                "content": "**Ref.** Grossman, S. & Hart, O. (1983). An analysis of the principal-agent problem. *Econometrica*, 51(1), 7–45.\n\n## Contribution\n**General** PA formulation; existence conditions.\n\n## Idea\nDecompose the PA problem into (1) picking implementable effort, (2) minimising cost of inducing it. Sidesteps the invalidity of the first-order approach.\n\n## Result\nOptimal contract exists under MLRP + convex distribution function condition (CDFC).\n\n## Impact\nMathematical foundation for HM (1987) and all subsequent PA models.\n\n→ Anchor: **Incentives Theory Core**",
+                "x": 8000, "y": 3100, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "purple", "popBg": "#ede9fe", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-hm-1987",
+                "title": "P·Holmström–Milgrom (1987) — Linear Contract",
+                "content": "**Ref.** Holmström, B. & Milgrom, P. (1987). Aggregation and linearity in the provision of intertemporal incentives. *Econometrica*, 55(2), 303–328.\n\n## Contribution\n**The optimal linear contract** theorem — the workhorse of applied incentive theory.\n\n## Idea\nAgent controls the drift of a Brownian motion over $[0,T]$; CARA preferences; quadratic effort cost. Principal picks $w(\\cdot)$.\n\n## Result\nOptimal contract is **linear** in the aggregate signal:\n$$w = \\alpha + \\beta \\int_0^T dY_t$$\nwith\n$$\\beta^* = \\frac{1}{1 + \\rho\\sigma^2 k / g'^2}$$\nAlso proves **aggregation**: only the sum of signals matters.\n\n## Impact\nEvery A-alternative in our graph uses this template. THE benchmark.\n\n→ Anchor: **Incentives Theory Core**",
+                "x": 6800, "y": 3450, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "purple", "popBg": "#ede9fe", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-hm-1991",
+                "title": "P·Holmström–Milgrom (1991) — Multitasking",
+                "content": "**Ref.** Holmström, B. & Milgrom, P. (1991). Multitask principal-agent analyses: incentive contracts, asset ownership, job design. *JLEO*, 7(Special), 24–52.\n\n## Contribution\n**Multitasking** extension.\n\n## Idea\nAgent chooses effort vector $\\mathbf{e}$; multiple signals $\\mathbf{s}$ with noise covariance $\\Sigma$; incentive weights $\\boldsymbol\\beta$.\n\n## Result\n$$\\boldsymbol\\beta^* = (I + \\rho C \\Sigma)^{-1} \\mathbf{g}'$$\nIf one task cannot be measured ($\\beta_j = 0$), agent sets $e_j = 0$; firm must **dampen ALL** $\\beta_k$ to preserve balance.\n\n## Impact\n**F2 multitasking**. Direct foundation for our Quindi Optimal formula.\n\n→ Anchor: **Incentives Theory Core**",
+                "x": 7200, "y": 3450, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "purple", "popBg": "#ede9fe", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-lr-1981",
+                "title": "P·Lazear–Rosen (1981) — Tournaments",
+                "content": "**Ref.** Lazear, E. & Rosen, S. (1981). Rank-order tournaments as optimum labor contracts. *JPE*, 89(5), 841–864.\n\n## Contribution\n**Tournament theory**.\n\n## Idea\nInstead of paying cardinal output, pay by rank. Winner gets $w_H$, loser $w_L$; spread $\\Delta$.\n\n## Result\nOptimal $\\Delta^*$ satisfies:\n$$\\Delta \\cdot \\frac{\\partial P_{\\text{win}}}{\\partial e} = c'(e^*)$$\n**Cancels common shocks** across peers (F1). Requires homogeneous peer group.\n\n## Impact\n**A2 Tournament**. Ground for promotion contests, sales tournaments, CEO succession.\n\n→ Anchor: **Incentives Theory Core**",
+                "x": 7600, "y": 3450, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "purple", "popBg": "#ede9fe", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-lazear-1979",
+                "title": "P·Lazear (1979) — Deferred Comp",
+                "content": "**Ref.** Lazear, E. (1979). Why is there mandatory retirement? *JPE*, 87(6), 1261–1284.\n\n## Contribution\nTheory of **back-loaded pay** as an incentive device.\n\n## Idea\nSet wage below MPL early, above MPL late. Shirking (if detected) forfeits future rents.\n\n## Result\nWorker's participation requires future rent > shirking gain today. Mandatory retirement needed to prevent perpetual over-payment.\n\n## Impact\n**A5 Deferred Compensation**. Explains seniority wage profiles, defined-benefit pensions, tenure track.\n\n→ Anchor: **Incentives Theory Core**",
+                "x": 8000, "y": 3450, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "purple", "popBg": "#ede9fe", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-holmstrom-1982",
+                "title": "P·Holmström (1982) — Career Concerns",
+                "content": "**Ref.** Holmström, B. (1982 working paper; 1999 *REStud* 66(1), 169–182). Managerial incentive problems: a dynamic perspective.\n\n## Contribution\n**Career concerns**: implicit incentives via market reputation. Also introduces **yardstick** peer benchmarks.\n\n## Idea\nWorker's ability $\\theta$ unknown to labor market. Signal $s_t = \\theta + e_t + \\varepsilon_t$. Market Bayes-updates; future wage $\\propto \\mathbb{E}[\\theta \\mid s_{1:t}]$.\n\n## Result\nEven with $\\beta = 0$ today, worker exerts $e_t > 0$ to signal high $\\theta$. Effort declines toward retirement (horizon effect).\n\n## Impact\n**A6 Career Concerns**. Also the **yardstick** fix for **F3 ratchet** (peer-indexed quotas).\n\n→ Anchor: **Incentives Theory Core**",
+                "x": 6800, "y": 3800, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "purple", "popBg": "#ede9fe", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-fama-1980",
+                "title": "P·Fama (1980) — Implicit Incentives",
+                "content": "**Ref.** Fama, E. (1980). Agency problems and the theory of the firm. *JPE*, 88(2), 288–307.\n\n## Contribution\n**Implicit incentives via managerial labor market**.\n\n## Idea\nEven without explicit performance contracts, market reputation disciplines managers. Managerial labor market prices past performance directly.\n\n## Result\nFormal incentive contracts are less crucial than reputational ones. Firm's board is redundant if market pricing is efficient.\n\n## Impact\n**A6 Career Concerns** (alongside Holmström 1982). Motivates CEO market discipline.\n\n→ Anchor: **Incentives Theory Core**",
+                "x": 7200, "y": 3800, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "purple", "popBg": "#ede9fe", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-ss-1984",
+                "title": "P·Shapiro–Stiglitz (1984) — Efficiency Wage",
+                "content": "**Ref.** Shapiro, C. & Stiglitz, J. (1984). Equilibrium unemployment as a worker discipline device. *AER*, 74(3), 433–444.\n\n## Contribution\n**Efficiency-wage** theory + involuntary unemployment.\n\n## Idea\nFirm pays $w > w^{MC}$; monitors with probability $q$; dismisses on detected shirking.\n\n## Result\n**No-shirking condition**:\n$$w - w^{MC} \\geq \\frac{c(e)(1-\\delta)}{q\\delta}$$\nInvoluntary unemployment sustains the punishment: dismissal must be costly.\n\n## Impact\n**A3 Efficiency Wage**. Also explains persistent unemployment.\n\n→ Anchor: **Incentives Theory Core**",
+                "x": 7600, "y": 3800, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "purple", "popBg": "#ede9fe", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-bgm-1994",
+                "title": "P·Baker–Gibbons–Murphy (1994) — Subjective",
+                "content": "**Ref.** Baker, G., Gibbons, R. & Murphy, K. J. (1994). Subjective performance measures in optimal incentive contracts. *QJE*, 109(4), 1125–1156.\n\n## Contribution\nOptimal contract combining **objective + subjective** measures.\n\n## Idea\nObjective signal $y$ is noisy or gameable; subjective rating $m$ is manager's private info. Contract uses both.\n\n## Result\nOptimal weights vary **inversely with variance and gameability** of each. Subjective term corrects gaming of $y$; objective term disciplines manager.\n\n## Impact\n**A7 Subjective Evaluation**. Justifies hybrid pay systems ubiquitous in corporate practice.\n\n→ Anchor: **Incentives Theory Core**",
+                "x": 8000, "y": 3800, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "purple", "popBg": "#ede9fe", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-macleod-2003",
+                "title": "P·MacLeod (2003) — Relational Contracts",
+                "content": "**Ref.** MacLeod, W. B. (2003). Optimal contracting with subjective evaluation. *AER*, 93(1), 216–240.\n\n## Contribution\n**Relational-contract** foundation for subjective evaluation.\n\n## Idea\nManager's rating is private; workers can only trust it if the manager's reputation for fairness is sustained.\n\n## Result\nRelational contract sustains subjective bonus iff discount $\\delta$ is high enough (repeated game). Reneging destroys equilibrium — one-shot subjective evaluation collapses.\n\n## Impact\n**A7 Subjective**. Explains why subjective bonuses work in long-tenure firms and fail in high-turnover ones.\n\n→ Anchor: **Incentives Theory Core**",
+                "x": 6800, "y": 4150, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "purple", "popBg": "#ede9fe", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-jm-1976",
+                "title": "P·Jensen–Meckling (1976) — Agency Costs",
+                "content": "**Ref.** Jensen, M. & Meckling, W. (1976). Theory of the firm: managerial behavior, agency costs and ownership structure. *JFE*, 3(4), 305–360.\n\n## Contribution\nFoundational **agency-cost** framework applied to ownership.\n\n## Idea\nManagers with < 100% ownership divert firm resources (perks, shirking). Ownership share $\\phi$ reduces divergence.\n\n## Result\n**Agency cost** = deadweight loss from manager–shareholder objective divergence. Increasing $\\phi$ trades off manager alignment vs risk-sharing.\n\n## Impact\n**A8 Ownership / Equity**. Founding paper of corporate-governance economics.\n\n→ Anchor: **Incentives Theory Core**",
+                "x": 7200, "y": 4150, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "purple", "popBg": "#ede9fe", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-hansmann-1996",
+                "title": "P·Hansmann (1996) — Ownership of Enterprise",
+                "content": "**Ref.** Hansmann, H. (1996). *The Ownership of Enterprise*. Harvard University Press.\n\n## Contribution\nBook-length theory of **who should own firms**.\n\n## Idea\nAssign ownership to the input-supplier whose contributions are hardest to contract on ex-ante. Whoever bears the residual risk best is the efficient owner.\n\n## Result\nExplains investor-owned firms, worker cooperatives, consumer cooperatives, mutuals as efficient solutions in different environments.\n\n## Impact\n**A8 Ownership**. Theoretical rationale for employee ownership when human capital is dominant.\n\n→ Anchor: **Incentives Theory Core**",
+                "x": 7600, "y": 4150, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "purple", "popBg": "#ede9fe", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-kl-1992",
+                "title": "P·Kandel–Lazear (1992) — Peer Pressure",
+                "content": "**Ref.** Kandel, E. & Lazear, E. (1992). Peer pressure and partnerships. *JPE*, 100(4), 801–817.\n\n## Contribution\n**Peer pressure** as a supplement to team pay.\n\n## Idea\nIn small teams under team pay, peer pressure $\\psi$ raises effective cost of shirking. Free-rider ($\\propto 1/N$) offset by peer observability.\n\n## Result\nOptimal team size trades off free-riding vs peer monitoring. Small $N$ sustains cooperation; large $N$ needs formal supervision.\n\n## Impact\n**A4 Team Pay**. Explains professional partnerships (law, medicine, consulting).\n\n→ Anchor: **Incentives Theory Core**",
+                "x": 8000, "y": 4150, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "purple", "popBg": "#ede9fe", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-gibbons-1987",
+                "title": "P·Gibbons (1987) — Ratchet",
+                "content": "**Ref.** Gibbons, R. (1987). Piece-rate incentive schemes. *Journal of Labor Economics*, 5(4), 413–429.\n\n## Contribution\nFormalizes the **ratchet effect**.\n\n## Idea\nTwo periods. Firm updates target based on period-1 output. Rational worker under-produces in $t=1$ to keep $t=2$ target low.\n\n## Result\n$$e_1^* < e^{\\text{one-shot}}$$\nStrategic hiding is welfare-reducing. Worse when firm cannot commit to future quotas.\n\n## Impact\n**F3 Ratchet Effect**. Motivates yardstick competition (Holmström 1982; Shleifer 1985).\n\n→ Anchor: **Incentives Theory Core**",
+                "x": 6800, "y": 4500, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "purple", "popBg": "#ede9fe", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-hno-2003",
+                "title": "P·Hamilton–Nickerson–Owan (2003) — Cooperation",
+                "content": "**Ref.** Hamilton, B., Nickerson, J. & Owan, H. (2003). Team incentives and worker heterogeneity. *JPE*, 111(3), 465–497.\n\n## Contribution\nEmpirical evidence of **cooperation collapse** under piece rates.\n\n## Idea\nGarment plant switched from team pay to individual piece rates. Detailed data before and after.\n\n## Result\n**Total output FELL** despite individual effort rising. Workers stopped teaching, helping, covering.\n\n## Impact\n**F5 Cooperation Collapse**. Empirical evidence that peer help is a *priced* good under team pay and a *free* good under piece rates.\n\n→ Anchor: **Incentives Theory Core**",
+                "x": 7200, "y": 4500, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "purple", "popBg": "#ede9fe", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-lazear-2000",
+                "title": "P·Lazear (2000) — Safelite",
+                "content": "**Ref.** Lazear, E. (2000). Performance pay and productivity. *AER*, 90(5), 1346–1361.\n\n## Contribution\nThe **Safelite Auto Glass** field experiment.\n\n## Idea\nCompany switched from hourly wages to per-windshield piece rate over 19 months. Rich individual-level data.\n\n## Result\n**+44% productivity gain.** Decomposition:\n- ~**½ effort** response;\n- ~**½ sorting**: high-productivity workers self-selected into piece-rate firm.\n\n## Impact\n**A1 Piece Rate** and **A9 Selection**. THE most-cited empirical study on high-powered incentives.\n\n→ Anchor: **Incentives Theory Core**",
+                "x": 7600, "y": 4500, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "purple", "popBg": "#ede9fe", "popShape": "rounded", "links": []
+              },
+              {
+                "id": "p-prendergast-1999",
+                "title": "P·Prendergast (1999) — Survey",
+                "content": "**Ref.** Prendergast, C. (1999). The provision of incentives in firms. *JEL*, 37(1), 7–63.\n\n## Contribution\n**Comprehensive survey** of the incentives literature.\n\n## Idea\nReview theoretical and empirical evidence on incentive contracts. Confront theory with actual firm practice.\n\n## Result\nExplicit piece rates are **rare** in observed data. Most workers on fixed wages + subjective bonuses. Risk-incentive tradeoff empirically weaker than theory predicts (Prendergast 2002).\n\n## Impact\nReality-check on the whole literature. Motivates A3 (fixed wage + efficiency wage) and A7 (subjective) as empirically dominant.\n\n→ Anchor: **Incentives Theory Core**",
+                "x": 8000, "y": 4500, "width": 340, "height": 240,
+                "flashcard": false, "images": [], "color": "purple", "popBg": "#ede9fe", "popShape": "rounded", "links": []
               }
             ]
           }
