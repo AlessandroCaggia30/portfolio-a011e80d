@@ -13976,8 +13976,159 @@ function _popDetailBackdrop(show) {
     if (bd) bd.classList.toggle('visible', !!show);
 }
 
+// ==================== READING LIST (per-subject bibliography popup) ====================
+
+const READING_LISTS = {
+    'personnel-econ': {
+        title: '📚 Reading List — Personnel Economics + ABM',
+        html: `
+<h3>1 · Agent-Based Demographic Models (Vienna–Rostock tradition)</h3>
+<p>The demographic-ABM tradition motivated the ML3 formalism. All three papers are central to understanding how life-course events are modelled at agent level.</p>
+
+<h4>Wedding-Ring Model</h4>
+<p class="rl-cite">Billari, F. C., Prskawetz, A., Aparicio Diaz, B., &amp; Fent, T. (2007). The "Wedding-Ring": An Agent-Based Marriage Model Based on Social Interaction. <em>Demographic Research</em>, 17, 59–82.</p>
+<ul>
+    <li>ABM of marriage: partner-search depends on the structure of the social network (the "ring" of acquaintances).</li>
+    <li>Reproduces empirical age-at-marriage distributions and cross-country variation.</li>
+    <li>Prototypical linked-lives ABM that motivated ML3.</li>
+</ul>
+
+<h4>Transition to Parenthood Model</h4>
+<p class="rl-cite">Aparicio Diaz, B., Fent, T., Prskawetz, A., &amp; Bernardi, L. (2011). Transition to Parenthood: The Role of Social Interaction and Endogenous Networks. <em>Demography</em>, 48(2), 559–579.</p>
+<ul>
+    <li>Extends the Wedding-Ring to first-birth decisions.</li>
+    <li>Social interaction + endogenous networks drive fertility timing.</li>
+    <li>Explains clustering of first-birth ages via peer effects.</li>
+</ul>
+
+<h4>Age-at-Marriage Norms Model</h4>
+<p class="rl-cite">Billari, F. C., Prskawetz, A., &amp; Fürnkranz, J. (2003). On the Cultural Evolution of Age-at-Marriage Norms. In <em>Agent-Based Computational Demography</em>, pp. 139–157.</p>
+<ul>
+    <li>ABM of how cultural norms about marriage age evolve through social imitation.</li>
+    <li>Grounds Boudreau-style imitation rules in demographic behaviour.</li>
+</ul>
+
+<hr>
+
+<h3>2 · ABM Software Frameworks</h3>
+
+<h4>Mesa</h4>
+<p class="rl-cite">Masad, D., &amp; Kazil, J. L. (2015). Mesa: An Agent-Based Modeling Framework. In K. Huff &amp; J. Bergstra (Eds.), <em>Proceedings of the 14th Python in Science Conference (SciPy 2015)</em> (pp. 51–58). <a href="https://doi.org/10.25080/Majora-7b98e3ed-009" target="_blank" rel="noopener">DOI</a>.</p>
+<ul>
+    <li>Open-source Python framework for ABMs.</li>
+    <li>Standard choice for Quindi ABM implementation.</li>
+    <li>Alternatives: NetLogo, Julia + Agents.jl, ML3.</li>
+</ul>
+
+<hr>
+
+<h3>3 · ABM of Firms and Organisations</h3>
+
+<h4>Firm Emergence — Axtell</h4>
+<p class="rl-cite">Axtell, R. (1999, 2001). The emergence of firms in a population of agents. <em>Santa Fe Institute Working Paper</em>; developed further in Axtell (2018).</p>
+<ul>
+    <li>Foundational ABM where firm size and effort emerge from <strong>free-riding dynamics</strong>.</li>
+    <li>Reproduces Zipf's law for firm sizes endogenously.</li>
+    <li>Closest ancestor for any firm-scale ABM including Quindi's.</li>
+</ul>
+
+<h4>Computational Sociology of Workplace Cooperation — Squazzoni</h4>
+<p class="rl-cite">Squazzoni, F. (2014). <em>Agent-Based Computational Sociology</em>. Wiley.</p>
+<ul>
+    <li>Reviews computational sociology models of workplace incentives and cooperation.</li>
+    <li>Bridges economic and sociological ABM traditions.</li>
+    <li>Useful for grounding cooperation and peer-effect rules in Quindi's simulation.</li>
+</ul>
+
+<hr>
+
+<h3>4 · ABM Macroeconomic with Institutions</h3>
+
+<h4>Unemployment Benefits and Financial Factors</h4>
+<p class="rl-cite">Riccetti, L., Russo, A., &amp; Gallegati, M. Unemployment Benefits and Financial Factors in an Agent-Based Macroeconomic Model.</p>
+<ul>
+    <li>CATS-family ABM with unemployment insurance as an institutional shock-absorber.</li>
+    <li>Shows how labor-market institutions interact with financial dynamics.</li>
+    <li>Reference for plugging institutions into ABMs without formal optimisation.</li>
+</ul>
+
+<hr>
+
+<h3>5 · Management as a Technology (Bloom–Sadun–Van Reenen)</h3>
+<p>Directly relevant to Quindi as a management-technology firm. If management practices are a form of technology firms adopt, Quindi is selling technology adoption.</p>
+
+<h4>Management as a Technology?</h4>
+<p class="rl-cite">Bloom, N., Sadun, R., &amp; Van Reenen, J. (2016). Management as a Technology? <em>NBER Working Paper 22327</em>. <a href="http://www.nber.org/papers/w22327" target="_blank" rel="noopener">http://www.nber.org/papers/w22327</a></p>
+<ul>
+    <li>Argues management practices are a <strong>form of technology</strong> firms adopt.</li>
+    <li>Documents huge dispersion in management quality across firms.</li>
+    <li>~30% of cross-firm TFP variance attributed to management practices.</li>
+    <li><strong>Framework directly maps onto Quindi</strong>: management-as-a-service.</li>
+</ul>
+
+<h4>Does Management Matter?</h4>
+<p class="rl-cite">Bloom, N., Eifert, B., Mahajan, A., McKenzie, D., &amp; Roberts, J. (2013). Does Management Matter? Evidence from India. <em>QJE</em>, 128(1), 1–51.</p>
+<ul>
+    <li>Field experiment on management practices in Indian textile firms.</li>
+    <li>Randomised management consulting → <strong>~17% output gain, ~11% profits</strong> in 1 year.</li>
+    <li><strong>The prime empirical foundation</strong> for the "Quindi effect" research question.</li>
+    <li>Template for the RCT identification design Quindi should follow.</li>
+</ul>
+
+<hr>
+
+<h3>6 · Additional recommended background</h3>
+<ul>
+    <li>Neugart &amp; Richiardi (2018) — <em>Handbook of Computational Economics</em>, Vol. 4. See dedicated snippet.</li>
+    <li>Lazear &amp; Oyer (2007) — Personnel Economics survey.</li>
+    <li>Prendergast (1999) — The Provision of Incentives in Firms, <em>JEL</em>. See dedicated snippet.</li>
+    <li>Bloom &amp; Van Reenen (2007, QJE; 2010, JEP) — measuring management practices.</li>
+    <li>Bandiera, Prat &amp; Sadun (2020, QJE) — CEO behavior and firm performance.</li>
+</ul>
+
+<hr>
+
+<h3>How to use this list</h3>
+<ul>
+    <li><strong>Quindi ABM design</strong>: Mesa docs → Axtell 2001 → Neugart–Richiardi 2018 → ML3 paper.</li>
+    <li><strong>Empirical strategy</strong>: Bloom et al. (2013) is the template; Bloom–Sadun–Van Reenen (2016) is the frame.</li>
+    <li><strong>Theoretical foundations</strong>: Lazear–Oyer 2007 + Prendergast 1999; then the Incentives Theory Core snippet.</li>
+    <li><strong>ABM tradition</strong>: Squazzoni 2014 (sociology angle); Vienna–Rostock demography papers for linked-lives / ML3.</li>
+</ul>
+`
+    }
+};
+
+function openReadingList() {
+    const subj = State.currentSubject;
+    const list = subj && READING_LISTS[subj.id];
+    const body = document.getElementById('readingListBody');
+    const title = document.getElementById('readingListTitle');
+    if (list) {
+        title.textContent = list.title;
+        body.innerHTML = list.html;
+    } else {
+        title.textContent = '📚 Reading List';
+        body.innerHTML = '<div class="reading-list-empty">No reading list yet for this subject.</div>';
+    }
+    document.getElementById('readingListModal').classList.add('visible');
+    const _esc = (e) => { if (e.key === 'Escape') closeReadingList(); };
+    document.addEventListener('keydown', _esc, { once: true });
+}
+
+function closeReadingList() {
+    document.getElementById('readingListModal').classList.remove('visible');
+}
+
+function _updateReadingListButtonVisibility(subject) {
+    const btn = document.getElementById('readingListBtn');
+    if (!btn) return;
+    btn.style.display = (subject && READING_LISTS[subject.id]) ? 'block' : 'none';
+}
+
 async function selectSubject(subject) {
     State.currentSubject = subject;
+    _updateReadingListButtonVisibility(subject);
     // Persist so a page refresh keeps the user inside this subject.
     try { localStorage.setItem('mindnotes_current_subject', subject.id); } catch (_) {}
     $('subjectScreen').classList.add('hidden');
