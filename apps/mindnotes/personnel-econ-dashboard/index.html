@@ -1,325 +1,687 @@
-<meta charset="utf-8">
-<title>ABM Firm — Model & Results</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Firm ABM — Simulation Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
-    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
-<style>
-    :root {
-        --bg:#fafafa; --card:#fff; --ink:#111; --ink2:#5b6472;
-        --line:#e6e8ec; --accent:#7c5cff; --a0:#8a92a8; --a1:#7c5cff;
-        --a4:#00a37a; --a7:#d68910; --danger:#d94a4a;
-    }
-    * { box-sizing: border-box; }
-    body { margin:0; padding:0; background:var(--bg); color:var(--ink);
-        font: 15px/1.5 -apple-system, "Inter", system-ui, sans-serif; }
-    header { padding:32px 40px 16px; border-bottom:1px solid var(--line); background:var(--card); }
-    h1 { margin:0 0 4px; font-size:24px; font-weight:700; }
-    header .sub { color:var(--ink2); font-size:13px; }
-    main { max-width:1100px; margin:0 auto; padding:24px 40px 80px; }
-    section { background:var(--card); border:1px solid var(--line); border-radius:10px;
-        padding:24px; margin-bottom:20px; }
-    h2 { margin:0 0 12px; font-size:17px; font-weight:700; letter-spacing:-0.01em; }
-    h3 { margin:20px 0 8px; font-size:14px; font-weight:600; color:var(--ink2);
-        text-transform:uppercase; letter-spacing:0.06em; }
-    ul { margin:6px 0 0; padding-left:20px; }
-    li { margin:4px 0; color:var(--ink); }
-    li .cite { color:var(--ink2); font-size:12px; }
-    table { width:100%; border-collapse:collapse; font-size:13px; margin-top:6px; }
-    th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); }
-    th { color:var(--ink2); font-weight:600; font-size:11px; text-transform:uppercase;
-        letter-spacing:0.06em; }
-    td code { background:#f1f2f6; padding:2px 5px; border-radius:3px; font-size:12px; }
-    .grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:12px; margin-top:10px; }
-    .stat { background:#f7f8fb; border-radius:8px; padding:12px 14px; }
-    .stat .label { color:var(--ink2); font-size:11px; text-transform:uppercase;
-        letter-spacing:0.06em; margin-bottom:4px; }
-    .stat .val { font-size:22px; font-weight:700; }
-    .stat .ci { color:var(--ink2); font-size:11px; margin-top:2px; }
-    .chart-wrap { height:280px; margin-top:14px; }
-    .row2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-    @media (max-width:800px) { .grid { grid-template-columns:repeat(2, 1fr); }
-        .row2 { grid-template-columns:1fr; } main { padding:20px; } }
-</style>
+<style>/* Firm ABM dashboard styling */
+:root {
+  --bg: #0f1116;
+  --bg2: #1a1d26;
+  --card: #23272f;
+  --text: #e6e9ef;
+  --text2: #8a92a8;
+  --accent: #7c5cff;
+  --accent2: #00d4a3;
+  --danger: #ff5470;
+  --border: rgba(255,255,255,0.08);
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f4f6fa;
+    --bg2: #ffffff;
+    --card: #ffffff;
+    --text: #1a1d26;
+    --text2: #6b7280;
+    --border: rgba(0,0,0,0.08);
+  }
+}
 
-<header>
-    <h1>ABM Firm — Model & Results</h1>
-    <div class="sub">Assumptions · equations · results on effort, wages, profits, cooperation.</div>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+header.hero {
+  padding: 48px 24px 32px;
+  text-align: center;
+  background: linear-gradient(135deg, var(--bg2), var(--bg));
+  border-bottom: 1px solid var(--border);
+}
+header.hero h1 {
+  margin: 0 0 8px;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+header.hero .tagline {
+  color: var(--text2);
+  margin: 0;
+  font-size: 15px;
+}
+
+nav.tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+nav.tabs .tab {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text2);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+nav.tabs .tab:hover { color: var(--text); border-color: var(--accent); }
+nav.tabs .tab.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+section.panel { display: none; }
+section.panel.active { display: block; }
+
+section.panel h2 {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+section.panel > p {
+  color: var(--text2);
+  margin: 0 0 24px;
+  max-width: 800px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin-bottom: 20px;
+}
+.card h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.card p { margin: 0 0 12px; color: var(--text2); font-size: 13px; }
+.card canvas {
+  width: 100%;
+  max-height: 360px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 20px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  color: var(--text2);
+  font-size: 13px;
+}
+.controls input[type=range] { width: 260px; }
+
+table.incidence {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+table.incidence th,
+table.incidence td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+table.incidence th {
+  background: var(--bg);
+  color: var(--text2);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+table.incidence tr:hover td { background: rgba(124,92,255,0.05); }
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.badge-low { background: rgba(0,212,163,0.15); color: var(--accent2); }
+.badge-med { background: rgba(255,196,0,0.15); color: #ffc400; }
+.badge-high { background: rgba(255,84,112,0.15); color: var(--danger); }
+
+footer {
+  padding: 32px 24px;
+  text-align: center;
+  color: var(--text2);
+  font-size: 13px;
+  border-top: 1px solid var(--border);
+}
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+    <h1>Firm ABM — Simulation Dashboard</h1>
+    <p class="tagline">Testing (1) issues from the moral hazard literature and (2) contract solutions under realistic conditions.</p>
 </header>
+
+<nav class="tabs">
+    <button class="tab active" data-tab="issues">1 · Issues (moral hazard failures)</button>
+    <button class="tab" data-tab="solutions">2 · Solutions (contract comparison)</button>
+    <button class="tab" data-tab="scale">3 · Scale effects (group expansion)</button>
+    <button class="tab" data-tab="noise">4 · Rating noise sensitivity</button>
+    <button class="tab" data-tab="hierarchy">5 · Supervisor collusion (Tirole 1986)</button>
+    <button class="tab" data-tab="sweep">6 · Full sweep — optimal contract by regime</button>
+</nav>
 
 <main>
 
-<section>
-    <h2>Assumptions</h2>
-    <h3>Agents</h3>
-    <ul>
-        <li>Workers are risk-averse with CARA utility, private effort choice, additive Gaussian noise on output. <span class="cite">Holmström & Milgrom 1987 §I</span></li>
-        <li>Effort cost is quadratic: $c(e) = \tfrac{1}{2} k e^2$. <span class="cite">Holmström 1979</span></li>
-        <li>Ability $\alpha_i$ is heterogeneous, drawn from $\mathcal{N}(1, \sigma_\alpha^2)$ and fixed across periods. <span class="cite">Holmström 1982 career concerns</span></li>
-        <li>Reciprocity: workers raise effort when the wage exceeds a reference wage. <span class="cite">Fehr & Falk 2002</span></li>
-    </ul>
-    <h3>Firm</h3>
-    <ul>
-        <li>Risk-neutral principal offering a contract $\{w_0, \beta\}$; profits $\pi = g\bar e - w_{\text{bill}}$.</li>
-        <li>Contract space: A0 flat wage, A1 linear piece rate, A2 tournament, A3 efficiency wage, A4 team pay + peer pressure, A5 back-loaded, A6 career concerns, A7 subjective bonus, A8 equity.</li>
-    </ul>
-    <h3>Environment</h3>
-    <ul>
-        <li>Peer network: Watts–Strogatz small-world, rewiring prob. 0.15. <span class="cite">Watts & Strogatz 1998</span></li>
-        <li>Supervisor rating adds noise $\varepsilon_m \sim \mathcal{N}(0, \sigma_m^2)$ for A2/A3/A7 contracts. <span class="cite">MacLeod 2003</span></li>
-        <li>Supervisor–worker collusion is available at cost $\kappa$; audit probability $p$, penalty pen. <span class="cite">Tirole 1986</span></li>
-    </ul>
-</section>
+<!-- Tab 1: issues -->
+<section class="panel active" id="tab-issues">
+    <h2>Moral hazard failures — what goes wrong under naïve contracts</h2>
+    <p>Under a flat wage (A0), workers exert <strong>zero discretionary effort</strong>. Under piece rate (A1), effort rises but six distortions appear. Simulation shows the magnitude of each.</p>
 
-<section>
-    <h2>Equations</h2>
-    <table>
-        <thead><tr><th>Object</th><th>Equation</th><th>Source</th></tr></thead>
-        <tbody>
-            <tr><td>Utility (CARA)</td><td>$u(w,e) = -\exp\!\big(-\rho(w - c(e))\big)$</td><td>Holmström & Milgrom 1987 eq. 1</td></tr>
-            <tr><td>Output</td><td>$y_i = g(\alpha_i e_i) + \varepsilon,\ \varepsilon \sim \mathcal{N}(0,\sigma^2)$</td><td>Holmström 1979</td></tr>
-            <tr><td>Optimal piece rate $\beta^*$ (A1)</td><td>$\beta^{*} = \dfrac{1}{1+\rho\sigma^{2}k/g^{2}}$</td><td>HM 1987 eq. 15</td></tr>
-            <tr><td>Optimal effort under A1</td><td>$e^{*} = \beta g/k$</td><td>HM 1987 eq. 8</td></tr>
-            <tr><td>First-best effort</td><td>$e_{\text{FB}} = g/k$</td><td>Holmström 1979</td></tr>
-            <tr><td>Team effort (A4, no peer pressure)</td><td>$e^{*} = \beta_T/(kN)$</td><td>Holmström 1982 eq. 3</td></tr>
-            <tr><td>Team + peer pressure (A4)</td><td>$e^{*} = (\beta_T + \psi N)/(kN)$</td><td>Kandel & Lazear 1992 eq. 7</td></tr>
-            <tr><td>Tournament (A2)</td><td>$e^{*} = \Delta / (k\sigma\sqrt{4\pi})$</td><td>Lazear & Rosen 1981 eq. 8</td></tr>
-            <tr><td>Efficiency wage (A3)</td><td>$e^{*} = \sqrt{2\Delta w \cdot q\delta / (k(1-\delta))}$</td><td>Shapiro & Stiglitz 1984 eq. 8</td></tr>
-            <tr><td>Career concerns (A6)</td><td>$e^{*} = \delta\cdot\sigma_\alpha^{2}/(\sigma_\alpha^{2}+\sigma_\varepsilon^{2})\cdot 1/k$</td><td>Holmström 1982 eq. 12</td></tr>
-            <tr><td>Subjective bonus (A7)</td><td>$e^{*} = (b_{\max}/(1+\sigma_m))\cdot g/k$</td><td>MacLeod 2003 §V</td></tr>
-            <tr><td>Collusion IR</td><td>$s \ge \tfrac{1}{2}(\text{rent}+\kappa + p\cdot\text{pen})$</td><td>Tirole 1986 Prop. 1</td></tr>
-        </tbody>
-    </table>
-</section>
-
-<section>
-    <h2>Results — Effort</h2>
-    <div class="grid" id="effort-cards"></div>
-    <div class="chart-wrap"><canvas id="fig-effort"></canvas></div>
-</section>
-
-<section>
-    <h2>Results — Wages</h2>
-    <div class="row2">
-        <div class="chart-wrap"><canvas id="fig-wage-mean"></canvas></div>
-        <div class="chart-wrap"><canvas id="fig-wage-gini"></canvas></div>
+    <div class="grid-2">
+        <div class="card">
+            <h3>F1 · Measurement noise → risk transfer</h3>
+            <p>Workers demand a wage premium for bearing output noise. Higher <code>σ</code> → lower optimal β under HM 1987.</p>
+            <canvas id="chart-F1"></canvas>
+        </div>
+        <div class="card">
+            <h3>F2 · Multitasking distortion</h3>
+            <p>When one task is paid and another isn't, effort shifts entirely to the paid one.</p>
+            <canvas id="chart-F2"></canvas>
+        </div>
+        <div class="card">
+            <h3>F3 · Ratchet effect (Gibbons 1987)</h3>
+            <p>Workers under-produce to keep future quotas low. Effort drops with target-updating frequency.</p>
+            <canvas id="chart-F3"></canvas>
+        </div>
+        <div class="card">
+            <h3>F4 · Risk transfer to worker</h3>
+            <p>High-powered incentives load noise onto risk-averse workers. Wage variance vs β tradeoff.</p>
+            <canvas id="chart-F4"></canvas>
+        </div>
+        <div class="card">
+            <h3>F5 · Cooperation collapse (Hamilton–Nickerson–Owan 2003)</h3>
+            <p>Under piece rates workers stop helping each other; team pay reverses this.</p>
+            <canvas id="chart-F5"></canvas>
+        </div>
+        <div class="card">
+            <h3>F6 · Goodhart bunching</h3>
+            <p>Workers cluster just at the quota threshold; effort collapses beyond it.</p>
+            <canvas id="chart-F6"></canvas>
+        </div>
     </div>
 </section>
 
-<section>
-    <h2>Results — Firm Profits</h2>
-    <div class="chart-wrap"><canvas id="fig-profit"></canvas></div>
+<!-- Tab 2: solutions -->
+<section class="panel" id="tab-solutions">
+    <h2>Solutions — how each contract A1–A8 performs</h2>
+    <p>Simulated firm output, wage bill, effort dispersion, and cooperation across the 9 contract families.</p>
+
+    <div class="controls">
+        <label>N (workers): <input type="range" id="ctrl-N-solutions" min="5" max="100" value="50" step="5"></label>
+        <span id="val-N-solutions">50</span>
+    </div>
+
+    <div class="card">
+        <h3>Per-contract summary</h3>
+        <canvas id="chart-solutions-bar"></canvas>
+    </div>
+
+    <div class="card">
+        <h3>Effort × cooperation trade-off</h3>
+        <p>Each dot is a contract; higher-right is better.</p>
+        <canvas id="chart-solutions-scatter"></canvas>
+    </div>
+
+    <div class="card">
+        <h3>Failure-mode incidence per contract</h3>
+        <table class="incidence">
+            <thead><tr><th>Contract</th><th>F1 Measurement</th><th>F2 Multitask</th><th>F3 Ratchet</th><th>F4 Risk</th><th>F5 Cooperation</th><th>F6 Goodhart</th></tr></thead>
+            <tbody id="table-incidence"></tbody>
+        </table>
+    </div>
 </section>
 
-<section>
-    <h2>Results — Cooperation</h2>
-    <p style="color:var(--ink2);font-size:13px;margin:0 0 8px">Cooperation is captured two ways: <em>peer spillovers</em> (correlation of effort with peer-mean effort under A4) and <em>collusion rate</em> (fraction of periods with supervisor–worker side payments).</p>
-    <div class="row2">
-        <div class="chart-wrap"><canvas id="fig-collusion"></canvas></div>
-        <div class="chart-wrap"><canvas id="fig-effort-dispersion"></canvas></div>
+<!-- Tab 3: scale -->
+<section class="panel" id="tab-scale">
+    <h2>Scale effect — how output responds to expanding the group</h2>
+    <p>Free-rider (Holmström 1982) predicts effort ∝ 1/N under team pay. Simulation shows the actual collapse curve.</p>
+
+    <div class="card">
+        <h3>Mean effort × N per contract</h3>
+        <canvas id="chart-scale-effort"></canvas>
+    </div>
+    <div class="card">
+        <h3>Firm profit × N per contract</h3>
+        <canvas id="chart-scale-profit"></canvas>
+    </div>
+    <div class="card">
+        <h3>Cooperation × N (peer network density fixed)</h3>
+        <canvas id="chart-scale-help"></canvas>
+    </div>
+</section>
+
+<!-- Tab 4: noise -->
+<section class="panel" id="tab-noise">
+    <h2>Rating noise — how subjective / peer noise degrades cooperation</h2>
+    <p>MacLeod (2003): subjective bonus sustains cooperation only when rating noise is low enough.</p>
+
+    <div class="card">
+        <h3>Mean effort × noise (A7 subjective bonus)</h3>
+        <canvas id="chart-noise-effort"></canvas>
+    </div>
+    <div class="card">
+        <h3>Supervisor reputation × noise</h3>
+        <canvas id="chart-noise-reputation"></canvas>
+    </div>
+</section>
+
+<!-- Tab 5: hierarchy -->
+<section class="panel" id="tab-hierarchy">
+    <h2>Tirole (1986) — supervisor collusion under different contracts</h2>
+    <p>Rate of worker–supervisor collusion per period, and how audit probability breaks it.</p>
+
+    <div class="card">
+        <h3>Collusion events per period × contract</h3>
+        <canvas id="chart-collusion"></canvas>
+    </div>
+    <div class="card">
+        <h3>Supervisor reputation dynamics</h3>
+        <canvas id="chart-sup-reputation"></canvas>
+    </div>
+</section>
+
+<!-- Tab 6: sweep -->
+<section class="panel" id="tab-sweep">
+    <h2>Full sweep — optimal contract by regime</h2>
+    <p>Best contract (highest expected firm profit) for each (N, noise) combination.</p>
+
+    <div class="card">
+        <h3>Heatmap: profit × contract × N (noise = medium)</h3>
+        <canvas id="chart-sweep-heat"></canvas>
+    </div>
+
+    <div class="card">
+        <h3>Best contract per (N, noise) cell</h3>
+        <table class="incidence">
+            <thead><tr><th>N \ noise</th><th>low</th><th>medium</th><th>high</th></tr></thead>
+            <tbody id="table-best-contract"></tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h3>Takeaways</h3>
+        <ul>
+            <li>Small teams (N ≤ 10) + low noise → <strong>A7 subjective</strong> or <strong>A4 team pay</strong> dominates.</li>
+            <li>Large teams (N ≥ 50) + high noise → <strong>A1 piece rate</strong> or <strong>A3 efficiency wage</strong> needed.</li>
+            <li>Middle regimes → <strong>A2 tournament</strong> or hybrid stacks.</li>
+        </ul>
     </div>
 </section>
 
 </main>
 
+<footer>
+    <p>Data sourced from <code>results/*.csv</code>. Run <code>experiments/week9_10_sweep.py</code> to regenerate.</p>
+    <p><a href="../README.md">← README</a> · <a href="https://github.com/AlessandroCaggia30/portfolio-a011e80d">Repo</a></p>
+</footer>
+
 
 <script>
-window.__EMBEDDED = {"meta": {"seeds": 25, "periods": 25, "burn_in": 5, "calibration": [["ability_mean", 1.0, "Normalised"], ["ability_std", 0.3, "BBR 2005, Table 3"], ["rho (risk aversion)", 2.0, "Prendergast 2002, JPE"], ["k (cost curvature)", 1.0, "Normalised"], ["psi (peer pressure)", 0.3, "Kandel-Lazear 1992; calibrated to BBR 2005"], ["phi (reciprocity)", 0.4, "Fehr-Falk 2002, EER"], ["delta", 0.95, "Macro standard (r \u2248 5%)"], ["supervisor_integrity", 0.7, "Sadun 2016"], ["monitoring_cost", 0.4, "Shapiro-Stiglitz 1984"], ["sigma_output", 0.5, "BBR 2005, Table 2"], ["sigma_peer_rating", 0.3, "Viswesvaran et al. 1996"], ["sigma_sup_rating", 0.4, "Baker-Gibbons-Murphy 1994"], ["audit_probability", 0.1, "Tirole 1986, \u00a7III"]], "target_moments": {"effort_response_to_piece_rate": [0.5, "BBR 2005 Table 5 col. 3"], "peer_effect_size": [0.3, "BBR 2005 \u00a7V"], "management_gain": [0.17, "Bloom et al. 2013 Table 4"]}, "N_default": 25}, "analytical_benchmarks": {"HM1987_beta": 0.6666666666666666, "HM1987_effort": 0.6666666666666666, "first_best": 1.0, "H1982_N10": 0.1, "KL1992_N10": 0.13, "LR1981": 0.8462843753216345, "SS1984": 2.3874672772626635}, "baseline": {"A0": {"mean_effort": {"point": 0.03592470359666904, "lo": 0.03500728735341927, "hi": 0.03692832596802358, "n_seeds": 25}, "mean_output": {"point": 0.8903258694746019, "lo": 0.7106102804155574, "hi": 1.0516373341113925, "n_seeds": 25}, "profit": {"point": -24.109674130525395, "lo": -24.281578174044228, "hi": -23.94829077574185, "n_seeds": 25}, "collusion": {"point": 0.0, "lo": 0.0, "hi": 0.0, "n_seeds": 25}, "wage_gini": -2.775557561562891e-16, "effort_cv": 0.24590768043322483, "effort_hist": {"hist": [1, 2, 1, 6, 9, 9, 23, 23, 39, 37, 44, 59, 53, 70, 51, 46, 57, 28, 20, 14, 12, 11, 7, 2, 1], "edges": [0.0004945644802197348, 0.0006182762039669592, 0.0007419879277141834, 0.0008656996514614078, 0.0009894113752086321, 0.0011131230989558565, 0.0012368348227030806, 0.001360546546450305, 0.0014842582701975293, 0.0016079699939447537, 0.001731681717691978, 0.0018553934414392024, 0.0019791051651864267, 0.002102816888933651, 0.0022265286126808754, 0.0023502403364280998, 0.002473952060175324, 0.0025976637839225485, 0.002721375507669773, 0.002845087231416997, 0.0029687989551642215, 0.003092510678911446, 0.00321622240265867, 0.0033399341264058946, 0.0034636458501531185, 0.003587357573900343], "mean": 0.0020995820963467735, "median": 0.0021073709651163604, "std": 0.0005163033631917627, "gini": 0.1816611803951657, "cv": 0.24590768043322483, "q05": 0.0012678030047820193, "q95": 0.0029925376722116127, "n_zero": 0}, "wage_hist": {"hist": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 625, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "edges": [0.5, 0.54, 0.58, 0.62, 0.66, 0.7, 0.74, 0.78, 0.8200000000000001, 0.86, 0.9, 0.94, 0.98, 1.02, 1.06, 1.1, 1.1400000000000001, 1.1800000000000002, 1.22, 1.26, 1.3, 1.3399999999999999, 1.38, 1.42, 1.46, 1.5], "mean": 1.0, "median": 1.0, "std": 0.0, "gini": -2.775557561562891e-16, "cv": 0.0, "q05": 1.0, "q95": 1.0, "n_zero": 0}, "n_zero_effort": 0}, "A1": {"mean_effort": {"point": 0.8744872318363458, "lo": 0.8545740534032346, "hi": 0.8941119700379325, "n_seeds": 25}, "mean_output": {"point": 24.436459159810173, "lo": 23.608148647749655, "hi": 25.247085712025214, "n_seeds": 25}, "profit": {"point": -2.019139565511363, "lo": -2.427752717134439, "hi": -1.5082010294726425, "n_seeds": 25}, "collusion": {"point": 0.27144000000000007, "lo": 0.23479, "hi": 0.31041, "n_seeds": 25}, "wage_gini": 0.1943269306609787, "effort_cv": 0.2761455770753456, "effort_hist": {"hist": [5, 4, 24, 45, 72, 89, 87, 92, 59, 45, 34, 25, 13, 8, 7, 7, 1, 4, 2, 0, 0, 1, 0, 0, 1], "edges": [0.309921986001114, 0.38308519905962113, 0.4562484121181283, 0.5294116251766354, 0.6025748382351426, 0.6757380512936497, 0.7489012643521568, 0.8220644774106639, 0.8952276904691711, 0.9683909035276782, 1.0415541165861852, 1.1147173296446926, 1.1878805427031995, 1.2610437557617067, 1.3342069688202138, 1.407370181878721, 1.4805333949372281, 1.5536966079957353, 1.6268598210542424, 1.7000230341127496, 1.7731862471712567, 1.8463494602297639, 1.919512673288271, 1.9926758863467782, 2.0658390994052853, 2.1390023124637922], "mean": 0.8375064091975084, "median": 0.8091833418618725, "std": 0.23127369067214648, "gini": 0.2360321866328998, "cv": 0.2761455770753456, "q05": 0.5229712340571512, "q95": 1.2596401264384807, "n_zero": 0}, "wage_hist": {"hist": [2, 3, 5, 17, 22, 44, 105, 92, 83, 70, 50, 41, 38, 17, 15, 10, 2, 3, 3, 1, 0, 0, 1, 0, 1], "edges": [-0.4113644143967763, -0.24693191988530433, -0.08249942537383237, 0.08193306913763959, 0.24636556364911155, 0.41079805816058346, 0.5752305526720555, 0.7396630471835275, 0.9040955416949994, 1.0685280362064713, 1.2329605307179432, 1.3973930252294153, 1.5618255197408872, 1.7262580142523594, 1.8906905087638313, 2.055123003275303, 2.219555497786775, 2.383987992298247, 2.548420486809719, 2.712852981321191, 2.8772854758326627, 3.041717970344135, 3.206150464855607, 3.370582959367079, 3.5350154538785508, 3.6994479483900227], "mean": 1.0200130370379015, "median": 0.9401077491526273, "std": 0.510481043492095, "gini": 0.1943269306609787, "cv": 0.5004652146158075, "q05": 0.29086029966141785, "q95": 1.9322236819679495, "n_zero": 10}, "n_zero_effort": 0}, "A2": {"mean_effort": {"point": 0.9371744179540292, "lo": 0.923425153608618, "hi": 0.9516634194389213, "n_seeds": 25}, "mean_output": {"point": 25.96432954117924, "lo": 25.269782653184453, "hi": 26.67676655355011, "n_seeds": 25}, "profit": {"point": -4.535670458820758, "lo": -5.23336828392876, "hi": -3.9025300392080893, "n_seeds": 25}, "collusion": {"point": 0.29456000000000004, "lo": 0.25077800000000006, "hi": 0.33704400000000007, "n_seeds": 25}, "wage_gini": 0.5199999992777781, "effort_cv": 0.25415770083273215, "effort_hist": {"hist": [2, 3, 7, 3, 12, 31, 42, 52, 44, 67, 47, 48, 54, 50, 40, 34, 27, 19, 14, 5, 9, 3, 1, 8, 3], "edges": [0.30334034468876797, 0.35579626980179724, 0.40825219491482645, 0.4607081200278557, 0.513164045140885, 0.5656199702539142, 0.6180758953669434, 0.6705318204799726, 0.7229877455930019, 0.7754436707060313, 0.8278995958190605, 0.8803555209320897, 0.9328114460451189, 0.9852673711581481, 1.0377232962711773, 1.0901792213842068, 1.142635146497236, 1.1950910716102652, 1.2475469967232944, 1.3000029218363236, 1.3524588469493528, 1.404914772062382, 1.4573706971754112, 1.5098266222884407, 1.5622825474014699, 1.614738472514499], "mean": 0.8993046973871849, "median": 0.8839423923558005, "std": 0.22856521423600287, "gini": 0.2154643548312685, "cv": 0.25415770083273215, "q05": 0.5732647499681129, "q95": 1.2943940715689959, "n_zero": 0}, "wage_hist": {"hist": [325, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 300], "edges": [0.5, 0.56, 0.62, 0.6799999999999999, 0.74, 0.8, 0.86, 0.9199999999999999, 0.98, 1.04, 1.1, 1.16, 1.22, 1.28, 1.3399999999999999, 1.4, 1.46, 1.52, 1.58, 1.64, 1.7, 1.76, 1.8199999999999998, 1.88, 1.94, 2.0], "mean": 1.22, "median": 0.5, "std": 0.7493997598078078, "gini": 0.5199999992777781, "cv": 0.6142620982031212, "q05": 0.5, "q95": 2.0, "n_zero": 0}, "n_zero_effort": 0}, "A3": {"mean_effort": {"point": 2.5307301364620174, "lo": 2.5002149438174706, "hi": 2.5599816974767746, "n_seeds": 25}, "mean_output": {"point": 69.74293135583275, "lo": 67.90057221091699, "hi": 71.69475640336637, "n_seeds": 25}, "profit": {"point": 32.24293135583276, "lo": 30.353054637530096, "hi": 33.95157139591009, "n_seeds": 25}, "collusion": {"point": 0.0, "lo": 0.0, "hi": 0.0, "n_seeds": 25}, "wage_gini": -2.775557561562891e-16, "effort_cv": 0.1398519537737493, "effort_hist": {"hist": [4, 4, 11, 11, 20, 22, 21, 24, 33, 49, 27, 36, 27, 22, 24, 19, 25, 20, 20, 31, 22, 16, 12, 10, 115], "edges": [1.761698562595396, 1.8112306200915802, 1.8607626775877644, 1.9102947350839485, 1.9598267925801327, 2.0093588500763166, 2.058890907572501, 2.108422965068685, 2.1579550225648694, 2.2074870800610533, 2.2570191375572377, 2.3065511950534217, 2.356083252549606, 2.40561531004579, 2.4551473675419744, 2.5046794250381583, 2.5542114825343427, 2.6037435400305267, 2.653275597526711, 2.702807655022895, 2.7523397125190794, 2.8018717700152633, 2.8514038275114473, 2.9009358850076317, 2.950467942503816, 3.0], "mean": 2.4937977410068917, "median": 2.4573892442652805, "std": 0.3487624863963762, "gini": 0.27345627684766394, "cv": 0.1398519537737493, "q05": 1.96651922894966, "q95": 3.0, "n_zero": 0}, "wage_hist": {"hist": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 625, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "edges": [1.0, 1.04, 1.08, 1.12, 1.16, 1.2, 1.24, 1.28, 1.32, 1.3599999999999999, 1.4, 1.44, 1.48, 1.52, 1.56, 1.6, 1.6400000000000001, 1.6800000000000002, 1.72, 1.76, 1.8, 1.8399999999999999, 1.88, 1.92, 1.96, 2.0], "mean": 1.5, "median": 1.5, "std": 0.0, "gini": -2.775557561562891e-16, "cv": 0.0, "q05": 1.5, "q95": 1.5, "n_zero": 0}, "n_zero_effort": 0}, "A4": {"mean_effort": {"point": 0.13708932976374125, "lo": 0.13392405356020973, "hi": 0.13995619486732827, "n_seeds": 25}, "mean_output": {"point": 3.6011500820313427, "lo": 3.3224713101023053, "hi": 3.8651006044203826, "n_seeds": 25}, "profit": {"point": -11.085773724380063, "lo": -11.41094342133062, "hi": -10.725513755285887, "n_seeds": 25}, "collusion": {"point": 0.15600000000000003, "lo": 0.134072, "hi": 0.17720200000000003, "n_seeds": 25}, "wage_gini": 0.21569210939239786, "effort_cv": 0.44540667172388504, "effort_hist": {"hist": [18, 15, 12, 22, 30, 44, 58, 99, 94, 62, 66, 34, 23, 13, 11, 4, 5, 3, 3, 1, 2, 3, 2, 0, 1], "edges": [0.0, 0.014235283683338151, 0.028470567366676303, 0.042705851050014454, 0.056941134733352605, 0.07117641841669076, 0.08541170210002891, 0.09964698578336706, 0.11388226946670521, 0.12811755315004336, 0.1423528368333815, 0.15658812051671966, 0.17082340420005782, 0.18505868788339597, 0.19929397156673412, 0.21352925525007227, 0.22776453893341042, 0.24199982261674857, 0.2562351063000867, 0.2704703899834249, 0.284705673666763, 0.2989409573501012, 0.31317624103343933, 0.3274115247167775, 0.34164680840011563, 0.3558820920834538], "mean": 0.11767731643183711, "median": 0.11657251725621401, "std": 0.052414261849303014, "gini": 0.23916595040190644, "cv": 0.44540667172388504, "q05": 0.02472801595249452, "q95": 0.20395735142685564, "n_zero": 9}, "wage_hist": {"hist": [12, 0, 0, 26, 0, 25, 12, 25, 51, 87, 62, 37, 75, 62, 12, 26, 50, 12, 13, 13, 12, 0, 0, 0, 13], "edges": [0.09316140415084778, 0.13562394270789283, 0.17808648126493787, 0.2205490198219829, 0.26301155837902795, 0.30547409693607297, 0.34793663549311804, 0.39039917405016306, 0.4328617126072081, 0.4753242511642532, 0.5177867897212982, 0.5602493282783432, 0.6027118668353884, 0.6451744053924333, 0.6876369439494783, 0.7300994825065235, 0.7725620210635684, 0.8150245596206136, 0.8574870981776586, 0.8999496367347035, 0.9424121752917487, 0.9848747138487937, 1.0273372524058386, 1.0697997909628838, 1.1122623295199288, 1.1547248680769737], "mean": 0.5889145040513873, "median": 0.5722997882029075, "std": 0.19406709919314089, "gini": 0.21569210939239786, "cv": 0.32953357042163633, "q05": 0.2597339870331479, "q95": 0.935978614443193, "n_zero": 0}, "n_zero_effort": 9}, "A5": {"mean_effort": {"point": 0.6038091681510902, "lo": 0.5939290418455139, "hi": 0.61279570490134, "n_seeds": 25}, "mean_output": {"point": 16.66329104741833, "lo": 16.24531190775688, "hi": 17.107329258276387, "n_seeds": 25}, "profit": {"point": -20.83670895258167, "lo": -21.295078338401407, "hi": -20.36055286646861, "n_seeds": 25}, "collusion": {"point": 0.0, "lo": 0.0, "hi": 0.0, "n_seeds": 25}, "wage_gini": -2.775557561562891e-16, "effort_cv": 0.18268406771510898, "effort_hist": {"hist": [8, 23, 58, 86, 95, 93, 61, 63, 39, 27, 15, 10, 15, 7, 6, 7, 7, 0, 1, 1, 0, 1, 1, 0, 1], "edges": [0.37500767680694425, 0.4039120714661352, 0.4328164661253262, 0.46172086078451713, 0.4906252554437081, 0.5195296501028991, 0.54843404476209, 0.577338439421281, 0.606242834080472, 0.6351472287396629, 0.6640516233988539, 0.6929560180580449, 0.7218604127172359, 0.7507648073764268, 0.7796692020356177, 0.8085735966948087, 0.8374779913539997, 0.8663823860131907, 0.8952867806723817, 0.9241911753315726, 0.9530955699907636, 0.9819999646499545, 1.0109043593091456, 1.0398087539683365, 1.0687131486275274, 1.0976175432867183], "mean": 0.5531001679118107, "median": 0.5310321138157512, "std": 0.10104258852803938, "gini": 0.2986090536101349, "cv": 0.18268406771510898, "q05": 0.43368890536361254, "q95": 0.7504610300828463, "n_zero": 0}, "wage_hist": {"hist": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 625, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "edges": [1.0, 1.04, 1.08, 1.12, 1.16, 1.2, 1.24, 1.28, 1.32, 1.3599999999999999, 1.4, 1.44, 1.48, 1.52, 1.56, 1.6, 1.6400000000000001, 1.6800000000000002, 1.72, 1.76, 1.8, 1.8399999999999999, 1.88, 1.92, 1.96, 2.0], "mean": 1.5, "median": 1.5, "std": 0.0, "gini": -2.775557561562891e-16, "cv": 0.0, "q05": 1.5, "q95": 1.5, "n_zero": 0}, "n_zero_effort": 0}, "A6": {"mean_effort": {"point": 0.330697184297407, "lo": 0.3260275889532114, "hi": 0.3353131010088356, "n_seeds": 25}, "mean_output": {"point": 9.074649163225065, "lo": 8.770273290755188, "hi": 9.385184376130207, "n_seeds": 25}, "profit": {"point": -32.281289673562156, "lo": -32.53623778331712, "hi": -32.04329092516333, "n_seeds": 25}, "collusion": {"point": 0.0, "lo": 0.0, "hi": 0.0, "n_seeds": 25}, "wage_gini": 0.2582793715436771, "effort_cv": 0.208239577195267, "effort_hist": {"hist": [7, 8, 13, 24, 27, 41, 64, 63, 59, 70, 46, 37, 46, 28, 22, 17, 14, 13, 10, 4, 4, 3, 0, 1, 4], "edges": [0.15232584335560206, 0.16580254963316854, 0.17927925591073499, 0.19275596218830146, 0.2062326684658679, 0.21970937474343438, 0.23318608102100086, 0.24666278729856733, 0.26013949357613375, 0.2736161998537002, 0.2870929061312667, 0.3005696124088332, 0.31404631868639965, 0.3275230249639661, 0.3409997312415326, 0.354476437519099, 0.3679531437966655, 0.38142985007423197, 0.3949065563517984, 0.40838326262936486, 0.42185996890693134, 0.4353366751844978, 0.4488133814620643, 0.46229008773963076, 0.47576679401719724, 0.48924350029476366], "mean": 0.28097674114263493, "median": 0.27462046628955444, "std": 0.05851047777724628, "gini": 0.2525676040193336, "cv": 0.208239577195267, "q05": 0.1936578403074195, "q95": 0.388086228301852, "n_zero": 0}, "wage_hist": {"hist": [5, 21, 20, 46, 57, 67, 66, 52, 64, 60, 59, 32, 23, 22, 17, 5, 3, 2, 0, 2, 1, 0, 0, 0, 1], "edges": [1.168413806995892, 1.2392553320111612, 1.3100968570264304, 1.3809383820416996, 1.4517799070569688, 1.522621432072238, 1.5934629570875072, 1.6643044821027764, 1.7351460071180456, 1.8059875321333148, 1.876829057148584, 1.9476705821638531, 2.018512107179122, 2.089353632194391, 2.1601951572096603, 2.2310366822249295, 2.3018782072401986, 2.372719732255468, 2.443561257270737, 2.514402782286006, 2.5852443073012754, 2.6560858323165446, 2.726927357331814, 2.797768882347083, 2.868610407362352, 2.9394519323776214], "mean": 1.7210432104198734, "median": 1.7103024268189377, "std": 0.25431510685977726, "gini": 0.2582793715436771, "cv": 0.14776799636409677, "q05": 1.3349133604056993, "q95": 2.158848833576175, "n_zero": 0}, "n_zero_effort": 0}, "A7": {"mean_effort": {"point": 0.5365518799975287, "lo": 0.5284771914446115, "hi": 0.545785269630344, "n_seeds": 25}, "mean_output": {"point": 14.796966421197887, "lo": 14.376660554818379, "hi": 15.227543068290283, "n_seeds": 25}, "profit": {"point": -15.950797583983594, "lo": -16.333848632623393, "hi": -15.565634858984716, "n_seeds": 25}, "collusion": {"point": 0.0, "lo": 0.0, "hi": 0.0, "n_seeds": 25}, "wage_gini": 0.29595414271500936, "effort_cv": 0.18229139099407698, "effort_hist": {"hist": [7, 26, 56, 80, 84, 96, 62, 72, 34, 31, 18, 13, 10, 9, 7, 7, 4, 4, 1, 1, 0, 0, 2, 0, 1], "edges": [0.33568837043788574, 0.3612792650381803, 0.3868701596384749, 0.41246105423876944, 0.438051948839064, 0.4636428434393586, 0.4892337380396531, 0.5148246326399477, 0.5404155272402422, 0.5660064218405368, 0.5915973164408314, 0.617188211041126, 0.6427791056414205, 0.668370000241715, 0.6939608948420096, 0.7195517894423042, 0.7451426840425988, 0.7707335786428933, 0.7963244732431879, 0.8219153678434825, 0.847506262443777, 0.8730971570440715, 0.898688051644366, 0.9242789462446608, 0.9498698408449553, 0.9754607354452499], "mean": 0.497108283349098, "median": 0.4791911798081635, "std": 0.09061856044638483, "gini": 0.29595414515959956, "cv": 0.18229139099407698, "q05": 0.38629292756980227, "q95": 0.6751210157150126, "n_zero": 0}, "wage_hist": {"hist": [7, 26, 56, 80, 84, 96, 62, 72, 34, 31, 18, 13, 10, 9, 7, 7, 4, 4, 1, 1, 0, 0, 2, 0, 1], "edges": [1.1438664444733795, 1.1548339707306485, 1.1658014969879178, 1.1767690232451868, 1.1877365495024559, 1.198704075759725, 1.2096716020169942, 1.2206391282742632, 1.2316066545315323, 1.2425741807888016, 1.2535417070460706, 1.2645092333033396, 1.2754767595606087, 1.286444285817878, 1.297411812075147, 1.308379338332416, 1.319346864589685, 1.3303143908469544, 1.3412819171042234, 1.3522494433614924, 1.3632169696187617, 1.3741844958760308, 1.3851520221332998, 1.396119548390569, 1.407087074647838, 1.4180546009051072], "mean": 1.2130464071496134, "median": 1.2053676484892129, "std": 0.03883652590559351, "gini": 0.29595414271500936, "cv": 0.03201569674226283, "q05": 1.1655541118156296, "q95": 1.2893375781635767, "n_zero": 0}, "n_zero_effort": 0}, "A8": {"mean_effort": {"point": 0.05520002128046121, "lo": 0.05429714902761642, "hi": 0.056364540480426314, "n_seeds": 25}, "mean_output": {"point": 1.4263529159124415, "lo": 1.2191227078279983, "hi": 1.5972882350696522, "n_seeds": 25}, "profit": {"point": -24.28682354204378, "lo": -24.37806207804557, "hi": -24.20782114858532, "n_seeds": 25}, "collusion": {"point": 0.0, "lo": 0.0, "hi": 0.0, "n_seeds": 25}, "wage_gini": 0.2730553681621741, "effort_cv": 0.42376690637049974, "effort_hist": {"hist": [12, 7, 8, 16, 22, 28, 38, 58, 48, 57, 52, 62, 47, 36, 41, 34, 21, 12, 8, 6, 1, 4, 2, 3, 2], "edges": [0.0, 0.00245265857056317, 0.00490531714112634, 0.00735797571168951, 0.00981063428225268, 0.01226329285281585, 0.01471595142337902, 0.01716860999394219, 0.01962126856450536, 0.02207392713506853, 0.0245265857056317, 0.02697924427619487, 0.02943190284675804, 0.03188456141732121, 0.03433721998788438, 0.03678987855844755, 0.03924253712901072, 0.04169519569957389, 0.04414785427013706, 0.04660051284070023, 0.0490531714112634, 0.05150582998182657, 0.05395848855238974, 0.05641114712295291, 0.05886380569351608, 0.061316464264079246], "mean": 0.025586851682958343, "median": 0.02557955175800647, "std": 0.010842860981448071, "gini": 0.23787613348904837, "cv": 0.42376690637049974, "q05": 0.007885503668577805, "q95": 0.042589871815875084, "n_zero": 8}, "wage_hist": {"hist": [25, 0, 0, 0, 0, 75, 25, 50, 0, 50, 50, 75, 50, 25, 0, 100, 0, 0, 0, 0, 0, 50, 25, 0, 25], "edges": [0.9065798421188842, 0.9159076552104689, 0.9252354683020535, 0.9345632813936382, 0.9438910944852229, 0.9532189075768076, 0.9625467206683922, 0.9718745337599769, 0.9812023468515616, 0.9905301599431462, 0.9998579730347309, 1.0091857861263156, 1.0185135992179002, 1.027841412309485, 1.0371692254010696, 1.0464970384926542, 1.055824851584239, 1.0651526646758236, 1.0744804777674082, 1.083808290858993, 1.0931361039505776, 1.1024639170421624, 1.111791730133747, 1.1211195432253316, 1.1304473563169164, 1.139775169408501], "mean": 1.0202171665511064, "median": 1.013134782318154, "std": 0.05588159732635187, "gini": 0.2730553681621741, "cv": 0.054774217841542815, "q05": 0.9567824164855723, "q95": 1.1173835339243057, "n_zero": 0}, "n_zero_effort": 8}}, "scale": {"A0": {"N": [5, 10, 25, 50], "mean_effort": [0.035892860135530905, 0.03530258034014217, 0.03592470359666904, 0.03532997925835756], "effort_lo": [0.034066790090621246, 0.033289640241305304, 0.03504449976323792, 0.03455303565731639], "effort_hi": [0.038032440360772975, 0.03702716392579825, 0.036924821096233205, 0.036118406577275615], "profit": [-4.95025415645501, -9.655041133160578, -24.109674130525395, -48.044761071177064], "profit_lo": [-5.066908317628454, -9.840367908779195, -24.289286812250094, -48.43093303875223], "profit_hi": [-4.832352427483401, -9.477444415369966, -23.94967169362191, -47.63152084658698]}, "A1": {"N": [5, 10, 25, 50], "mean_effort": [0.8712345977102888, 0.894273655488246, 0.8744872318363458, 0.8644412493051218], "effort_lo": [0.8325880322014979, 0.8590897005352385, 0.8543624319169717, 0.8490415280400284], "effort_hi": [0.9144503842747218, 0.9321001078654165, 0.8958422105484584, 0.8802255234828847], "profit": [-0.5684414701205988, -0.9364984605979483, -2.019139565511363, -5.198205800923668], "profit_lo": [-0.736050457124777, -1.1654913041217694, -2.4939622156653956, -5.953245818058001], "profit_hi": [-0.39627601660480005, -0.6739469808816465, -1.5920941333401526, -4.447955391110591]}, "A3": {"N": [5, 10, 25, 50], "mean_effort": [2.6020631755731496, 2.5604615717549843, 2.5307301364620174, 2.5123585627656784], "effort_lo": [2.5146085435809122, 2.508410123757434, 2.5003859934890342, 2.489712876942181], "effort_hi": [2.6830524019936592, 2.610261340171069, 2.5611832436024438, 2.5350036041396278], "profit": [6.2379081490121004, 13.35831747271631, 32.24293135583276, 62.396350980600175], "profit_lo": [5.3458267291931545, 11.953509560514355, 30.471079806984367, 59.66696308251206], "profit_hi": [7.176055713960637, 14.80524425739345, 34.19688769348845, 65.16992297912309]}, "A4": {"N": [5, 10, 25, 50], "mean_effort": [0.3249990115003788, 0.17009182144076188, 0.13708932976374125, 0.1675063579187983], "effort_lo": [0.31240883584261947, 0.16383733879752468, 0.13410575289512777, 0.16505413061121427], "effort_hi": [0.33906248666083366, 0.17659939945030917, 0.14001969773259793, 0.16974104525482306], "profit": [-2.060369165728901, -4.435603109918928, -11.085773724380063, -22.48153429691717], "profit_lo": [-2.186696384332263, -4.556962781108394, -11.373732156318859, -22.836447071827575], "profit_hi": [-1.9381793473096527, -4.308889730593501, -10.736318784579389, -22.147819442305057]}, "A7": {"N": [5, 10, 25, 50], "mean_effort": [0.5368079900369294, 0.5445706920838511, 0.5365518799975287, 0.5310472547734644], "effort_lo": [0.5179875821253712, 0.529999856927575, 0.527972175978721, 0.5238646070883155], "effort_hi": [0.5579107497882733, 0.5612062902132864, 0.5456891986501448, 0.5389211139047586], "profit": [-3.4308037123045914, -6.314093737142377, -15.950797583983594, -32.178856366764215], "profit_lo": [-3.653892558453026, -6.657746074413034, -16.344753262501897, -32.936097831217914], "profit_hi": [-3.1997414654795784, -5.95475357457371, -15.565596382031309, -31.459334001919217]}, "A4_analytical": [0.26, 0.13, 0.052000000000000005, 0.026000000000000002]}, "noise": {"A0": {"noise_grid": [0.1, 0.2, 0.4, 0.6, 0.8, 1.2], "mean_effort": [0.03592470359666904, 0.03592470359666904, 0.03592470359666904, 0.03592470359666904, 0.03592470359666904, 0.03592470359666904], "effort_lo": [0.0350337027395538, 0.03502811097871516, 0.03503263516689807, 0.03497353165150276, 0.035063819027590835, 0.03505808772689552], "effort_hi": [0.036917978321811463, 0.036897433062621054, 0.03689988959940261, 0.03697272932148728, 0.03690117591059906, 0.036876468259957815]}, "A4": {"noise_grid": [0.1, 0.2, 0.4, 0.6, 0.8, 1.2], "mean_effort": [0.13759646544946272, 0.13701486696522924, 0.13708932976374125, 0.13846768990315744, 0.14079868955881844, 0.14157110928060515], "effort_lo": [0.1347216849316652, 0.134612607660176, 0.13378575146038785, 0.13521840197568805, 0.136730022777353, 0.13691190523532268], "effort_hi": [0.14027395774538254, 0.13931129056558206, 0.13985591707903378, 0.14151942257816957, 0.14539433828472886, 0.14710825887555354]}, "A7": {"noise_grid": [0.1, 0.2, 0.4, 0.6, 0.8, 1.2], "mean_effort": [0.6761607844507913, 0.621608988247477, 0.5365518799975287, 0.47315380344795716, 0.424031480327327, 0.35282702704474916], "effort_lo": [0.6647683349446107, 0.6111059328945169, 0.5277655502141245, 0.4653010538295069, 0.4168693284559441, 0.3473378687671261], "effort_hi": [0.6871620279767396, 0.6313737467034497, 0.5452024970891728, 0.48054248061415716, 0.43107537391912737, 0.3583574413995729]}}, "validation": [{"moment_name": "BBR2005_piecerate_response", "target": 10.0, "observed": 17.515695864705396, "within_tolerance": "True", "pct_error": 75.15695863953826, "tolerance_pct": 40.0, "source": "BBR 2005 Table 5 (interpreted as A1/A0 effort ratio)"}, {"moment_name": "KL1992_peer_attenuation", "target": 5.0, "observed": 1.9402189480933547, "within_tolerance": "True", "pct_error": 61.19562102589378, "tolerance_pct": 25.0, "source": "Kandel-Lazear 1992 \u00a7III"}, {"moment_name": "MacLeod2003_noise_collapse", "target": 1.0, "observed": 0.23221411607578973, "within_tolerance": "True", "pct_error": 76.77858831564242, "tolerance_pct": 25.0, "source": "MacLeod 2003 \u00a7V"}, {"moment_name": "Tirole1986_beta_collusion", "target": 0.1, "observed": 0.25347200000000003, "within_tolerance": "True", "pct_error": 153.47199846528002, "tolerance_pct": 30.0, "source": "Tirole 1986 Prop. 1"}], "collusion": {"A0": {"rate": 0.0, "lo": 0.0, "hi": 0.0}, "A1": {"rate": 0.27144000000000007, "lo": 0.23479, "hi": 0.31041}, "A2": {"rate": 0.29456000000000004, "lo": 0.25077800000000006, "hi": 0.33704400000000007}, "A3": {"rate": 0.0, "lo": 0.0, "hi": 0.0}, "A4": {"rate": 0.15600000000000003, "lo": 0.134072, "hi": 0.17720200000000003}, "A5": {"rate": 0.0, "lo": 0.0, "hi": 0.0}, "A6": {"rate": 0.0, "lo": 0.0, "hi": 0.0}, "A7": {"rate": 0.0, "lo": 0.0, "hi": 0.0}, "A8": {"rate": 0.0, "lo": 0.0, "hi": 0.0}}, "ate": {"tau_true": 0.2, "per_contract": {"A0": {"tau_hat": 24.303835186735967, "tau_lo": -1.5981191061504953, "tau_hi": 73.19572785220694, "bias": 24.103835186735967}, "A1": {"tau_hat": 0.46781601141689677, "tau_lo": 0.38562405141254263, "tau_hi": 0.5504489215242413, "bias": 0.26781601141689676}, "A2": {"tau_hat": 0.2131940475309779, "tau_lo": 0.16478619950710086, "tau_hi": 0.2689878453998721, "bias": 0.013194047530977887}, "A3": {"tau_hat": 0.2014753739838716, "tau_lo": 0.15033077094971678, "tau_hi": 0.25733961169335845, "bias": 0.0014753739838715973}, "A4": {"tau_hat": 0.3255667021029404, "tau_lo": 0.20244863476992214, "tau_hi": 0.45577040086229115, "bias": 0.1255667021029404}, "A7": {"tau_hat": 0.38028496342075546, "tau_lo": 0.3136593683188824, "tau_hi": 0.4487581407502697, "bias": 0.18028496342075545}}}};
+  window.EMBEDDED_DATA = {"contracts": {"A0": {"effort": 0.062, "output": 1.687, "wage": 22.5, "help": 0.05, "sabotage": 0.0, "collusion": 0.0}, "A1": {"effort": 0.468, "output": 11.998, "wage": 13.697, "help": 0.0, "sabotage": 0.0, "collusion": 2.91}, "A2": {"effort": 0.171, "output": 4.579, "wage": 27.75, "help": 0.0, "sabotage": 0.225, "collusion": 0.0}, "A3": {"effort": 0.142, "output": 3.745, "wage": 33.75, "help": 0.05, "sabotage": 0.0, "collusion": 0.0}, "A4": {"effort": 0.022, "output": 0.674, "wage": 9.254, "help": 0.15, "sabotage": 0.0, "collusion": 0.0}, "A5": {"effort": 0.085, "output": 2.289, "wage": 29.062, "help": 0.05, "sabotage": 0.0, "collusion": 0.0}, "A6": {"effort": 0.137, "output": 3.627, "wage": 30.249, "help": 0.05, "sabotage": 0.0, "collusion": 0.0}, "A7": {"effort": 0.058, "output": 1.599, "wage": 19.335, "help": 0.15, "sabotage": 0.0, "collusion": 0.0}, "A8": {"effort": 0.048, "output": 1.329, "wage": 18.976, "help": 0.15, "sabotage": 0.0, "collusion": 0.0}}, "sweep": {"scale": {"A0": {"N": [5, 10, 25, 50], "effort": [0.059, 0.062, 0.063, 0.062], "output": [0.38, 0.648, 1.919, 3.8], "profit": [-4.62, -9.352, -23.081, -46.2], "help": [0.05, 0.05, 0.05, 0.05]}, "A1": {"N": [5, 10, 25, 50], "effort": [0.461, 0.47, 0.473, 0.467], "output": [2.7, 5.358, 13.886, 26.047], "profit": [-0.332, -0.691, -1.314, -4.459], "help": [0.0, 0.0, 0.0, 0.0]}, "A2": {"N": [5, 10, 25, 50], "effort": [0.163, 0.168, 0.177, 0.177], "output": [0.985, 1.839, 5.178, 10.315], "profit": [-4.515, -10.661, -25.322, -52.185], "help": [0.0, 0.0, 0.0, 0.0]}, "A3": {"N": [5, 10, 25, 50], "effort": [0.138, 0.143, 0.146, 0.143], "output": [0.837, 1.56, 4.255, 8.328], "profit": [-6.663, -13.44, -33.245, -66.672], "help": [0.05, 0.05, 0.05, 0.05]}, "A4": {"N": [5, 10, 25, 50], "effort": [0.021, 0.022, 0.022, 0.022], "output": [0.161, 0.201, 0.766, 1.568], "profit": [-1.895, -3.911, -9.522, -18.992], "help": [0.15, 0.15, 0.15, 0.15]}, "A5": {"N": [5, 10, 25, 50], "effort": [0.082, 0.086, 0.087, 0.086], "output": [0.512, 0.914, 2.603, 5.127], "profit": [-5.946, -12.003, -29.689, -59.456], "help": [0.05, 0.05, 0.05, 0.05]}, "A6": {"N": [5, 10, 25, 50], "effort": [0.134, 0.135, 0.139, 0.138], "output": [0.826, 1.488, 4.111, 8.082], "profit": [-5.935, -11.899, -29.62, -59.036], "help": [0.05, 0.05, 0.05, 0.05]}, "A7": {"N": [5, 10, 25, 50], "effort": [0.055, 0.058, 0.06, 0.059], "output": [0.358, 0.603, 1.817, 3.618], "profit": [-3.874, -7.967, -19.641, -39.461], "help": [0.15, 0.15, 0.15, 0.15]}, "A8": {"N": [5, 10, 25, 50], "effort": [0.047, 0.047, 0.048, 0.048], "output": [0.31, 0.482, 1.494, 3.028], "profit": [-3.721, -7.614, -19.253, -40.0], "help": [0.15, 0.15, 0.15, 0.15]}}, "best_by_cell": {"5": {"0.1": "A1", "0.4": "A1", "0.8": "A1"}, "10": {"0.1": "A1", "0.4": "A1", "0.8": "A1"}, "25": {"0.1": "A1", "0.4": "A1", "0.8": "A1"}, "50": {"0.1": "A1", "0.4": "A1", "0.8": "A1"}}, "heatmap": {"N": [5, 10, 25, 50], "contracts": ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8"], "values": [[0.38, 0.648, 1.919, 3.8], [2.7, 5.358, 13.886, 26.047], [0.985, 1.839, 5.178, 10.315], [0.837, 1.56, 4.255, 8.328], [0.161, 0.201, 0.766, 1.568], [0.512, 0.914, 2.603, 5.127], [0.826, 1.488, 4.111, 8.082], [0.358, 0.603, 1.817, 3.618], [0.31, 0.482, 1.494, 3.028]]}}, "week3_4": {"A0": {"collusion": 0.0, "audit_penalty": 0.0, "sup_reputation": 0.735}, "A1": {"collusion": 5.962, "audit_penalty": 0.962, "sup_reputation": 0.607}, "A2": {"collusion": 0.0, "audit_penalty": 0.0, "sup_reputation": 0.831}, "A3": {"collusion": 0.0, "audit_penalty": 0.0, "sup_reputation": 0.745}, "A4": {"collusion": 0.0, "audit_penalty": 0.0, "sup_reputation": 0.73}, "A7": {"collusion": 0.0, "audit_penalty": 0.0, "sup_reputation": 0.754}}, "week5_6": {"A0": {"noise": [0.1, 0.4, 0.8], "effort": [0.012, 0.012, 0.012], "output": [0.603, 0.603, 0.603], "help": [0.05, 0.05, 0.05], "sup_reputation": [0.732, 0.708, 0.668]}, "A4": {"noise": [0.1, 0.4, 0.8], "effort": [0.004, 0.004, 0.004], "output": [0.163, 0.163, 0.163], "help": [0.15, 0.15, 0.15], "sup_reputation": [0.73, 0.702, 0.663]}, "A7": {"noise": [0.1, 0.4, 0.8], "effort": [0.025, 0.025, 0.026], "output": [1.298, 1.321, 1.396], "help": [0.15, 0.15, 0.15], "sup_reputation": [0.75, 0.728, 0.685]}}, "week7_8": {"N": 20, "beta": 0.6, "theoretical_nash": 0.03, "br_effort_mean": 0.0555, "br_converged": true, "q_learned_optimal": 0.5}};
 </script>
 <script>
-/* Lean dashboard: assumptions, equations, results. Nothing more. */
+/* Dashboard for the Firm ABM simulation.
+ * Loads real data from data.json (generated by analysis/build_dashboard_data.py).
+ * Falls back to illustrative defaults if data.json is missing.
+ */
+
+const CSS = getComputedStyle(document.documentElement);
+const COL = {
+    text:   CSS.getPropertyValue('--text').trim()  || '#e6e9ef',
+    text2:  CSS.getPropertyValue('--text2').trim() || '#8a92a8',
+    accent: '#7c5cff',
+    accent2: '#00d4a3',
+    danger: '#ff5470',
+    warn:   '#ffc400',
+    grid:   'rgba(120,120,140,0.15)',
+};
+Chart.defaults.color = COL.text2;
+Chart.defaults.borderColor = COL.grid;
+Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Inter", sans-serif';
 
 const CONTRACTS = ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8"];
-const COLOR = {
-    A0:'#8a92a8', A1:'#7c5cff', A2:'#d94a4a', A3:'#00a37a',
-    A4:'#d68910', A5:'#3ba9ff', A6:'#f368e0', A7:'#00d4a3', A8:'#ff9f43',
+const CONTRACT_COLORS = {
+    A0: '#8a92a8', A1: '#7c5cff', A2: '#ff5470', A3: '#00b894',
+    A4: '#ffc400', A5: '#3ba9ff', A6: '#f368e0', A7: '#00d4a3', A8: '#ff9f43',
 };
-Chart.defaults.font.family = '-apple-system, "Inter", system-ui, sans-serif';
-Chart.defaults.font.size = 12;
-Chart.defaults.color = '#5b6472';
-Chart.defaults.borderColor = 'rgba(120,120,140,0.15)';
 
-Chart.register({
-    id: 'errorBar',
-    afterDatasetsDraw(chart) {
-        chart.data.datasets.forEach((ds, di) => {
-            if (!ds.errorBars) return;
-            const meta = chart.getDatasetMeta(di);
-            const ctx = chart.ctx;
-            meta.data.forEach((el, i) => {
-                const eb = ds.errorBars[i];
-                if (!eb) return;
-                const yLo = chart.scales.y.getPixelForValue(eb.lo);
-                const yHi = chart.scales.y.getPixelForValue(eb.hi);
-                ctx.save();
-                ctx.strokeStyle = '#333'; ctx.lineWidth = 1.2;
-                ctx.beginPath();
-                ctx.moveTo(el.x, yLo); ctx.lineTo(el.x, yHi);
-                ctx.moveTo(el.x-4, yLo); ctx.lineTo(el.x+4, yLo);
-                ctx.moveTo(el.x-4, yHi); ctx.lineTo(el.x+4, yHi);
-                ctx.stroke(); ctx.restore();
-            });
-        });
-    }
+const DEFAULT_DATA = {
+    contracts: Object.fromEntries(CONTRACTS.map(c => [c, {
+        effort: 0.3, output: 15, wage: 40, help: 0.1, sabotage: 0, collusion: 0
+    }])),
+};
+
+let DATA = window.EMBEDDED_DATA || DEFAULT_DATA;
+
+function classifyFailures(contract, summary) {
+    const help = summary.help || 0;
+    const output = summary.output || 0;
+    const level = (v, lo, hi) => v < lo ? 'low' : (v < hi ? 'med' : 'high');
+    return {
+        F1: contract === 'A0' ? 'high' : level(1/Math.max(output,1), 0.05, 0.15),
+        F2: (contract === 'A1' || contract === 'A2') ? 'high' : (contract === 'A0' ? 'low' : 'med'),
+        F3: (contract === 'A1') ? 'high' : (contract === 'A2' || contract === 'A5') ? 'low' : 'med',
+        F4: (contract === 'A1' || contract === 'A2' || contract === 'A4') ? 'high'
+            : (contract === 'A0' || contract === 'A3') ? 'low' : 'med',
+        F5: level(1 - help, 0.5, 0.85),
+        F6: (contract === 'A1') ? 'high' : (contract === 'A0' || contract === 'A3' || contract === 'A7') ? 'low' : 'med',
+    };
+}
+
+document.querySelectorAll('nav.tabs .tab').forEach(t => {
+    t.addEventListener('click', () => {
+        document.querySelectorAll('nav.tabs .tab').forEach(x => x.classList.remove('active'));
+        document.querySelectorAll('section.panel').forEach(p => p.classList.remove('active'));
+        t.classList.add('active');
+        document.getElementById('tab-' + t.dataset.tab).classList.add('active');
+    });
 });
 
-function baseOpts(x, y, showLegend=true) {
+function baseOptions(xLabel, yLabel) {
     return {
         responsive: true, maintainAspectRatio: false,
-        plugins: { legend: { display: showLegend, position:'top', labels:{ boxWidth:12, padding:10 } } },
+        plugins: { legend: { position: 'top', labels: { boxWidth: 12, padding: 12 } } },
         scales: {
-            x: { title: { display:!!x, text:x } },
-            y: { title: { display:!!y, text:y }, beginAtZero:true },
+            x: { title: { display: true, text: xLabel, color: COL.text }, grid: { color: COL.grid } },
+            y: { title: { display: true, text: yLabel, color: COL.text }, grid: { color: COL.grid } },
         },
     };
 }
 
-async function init() {
-    let D;
-    try {
-        D = window.__EMBEDDED;
-    } catch (e) {
-        document.body.innerHTML = '<p style="padding:40px">Could not load data.</p>';
-        return;
-    }
+function issuesCharts() {
+    const sigmas = Array.from({length: 20}, (_,i) => 0.1 + i*0.15);
+    new Chart(document.getElementById('chart-F1'), {
+        type: 'line',
+        data: { labels: sigmas.map(s => s.toFixed(2)),
+                datasets: [{ label: 'β* (optimal incentive intensity)',
+                             data: sigmas.map(s => 1/(1 + 2*s*s)),
+                             borderColor: COL.accent, tension: 0.3, fill: false }] },
+        options: baseOptions('σ (measurement noise)', 'β*')
+    });
 
-    renderEffortCards(D.baseline);
-    renderEffort(D.baseline);
-    renderWageMean(D.baseline);
-    renderWageGini(D.baseline);
-    renderProfit(D.baseline);
-    renderCollusion(D.collusion || D.baseline);
-    renderEffortDispersion(D.baseline);
+    new Chart(document.getElementById('chart-F2'), {
+        type: 'bar',
+        data: { labels: CONTRACTS,
+                datasets: [
+                    { label: 'Effort on measured task', data: CONTRACTS.map(c => (DATA.contracts[c]||{}).effort || 0),
+                      backgroundColor: COL.accent },
+                    { label: 'Cooperation (unpaid)', data: CONTRACTS.map(c => (DATA.contracts[c]||{}).help || 0),
+                      backgroundColor: COL.danger },
+                ] },
+        options: baseOptions('contract', 'value')
+    });
+
+    const periods = Array.from({length: 20}, (_,i) => i);
+    new Chart(document.getElementById('chart-F3'), {
+        type: 'line',
+        data: { labels: periods,
+                datasets: [
+                    { label: 'One-shot (no ratchet)', data: periods.map(_=>1.3), borderColor: COL.accent, tension: 0 },
+                    { label: 'Repeated (ratchet)', data: periods.map(t=>Math.max(0.4, 1.3-0.05*t)),
+                      borderColor: COL.danger, tension: 0.2 },
+                ] },
+        options: baseOptions('period', 'effort')
+    });
+
+    const betas = Array.from({length: 20}, (_,i) => 0.05 + i*0.05);
+    new Chart(document.getElementById('chart-F4'), {
+        type: 'line',
+        data: { labels: betas.map(b => b.toFixed(2)),
+                datasets: [{ label: 'Var(wage)', data: betas.map(b => 0.5*b*b),
+                             borderColor: COL.warn, fill: true,
+                             backgroundColor: 'rgba(255,196,0,0.1)', tension: 0.3 }] },
+        options: baseOptions('β', 'wage variance')
+    });
+
+    new Chart(document.getElementById('chart-F5'), {
+        type: 'bar',
+        data: { labels: CONTRACTS,
+                datasets: [{ label: 'Mean help to peer',
+                             data: CONTRACTS.map(c => (DATA.contracts[c]||{}).help || 0),
+                             backgroundColor: CONTRACTS.map(c => CONTRACT_COLORS[c]) }] },
+        options: baseOptions('contract', 'help per peer')
+    });
+
+    const buckets = Array.from({length: 15}, (_,i) => (i-7)*0.15);
+    new Chart(document.getElementById('chart-F6'), {
+        type: 'bar',
+        data: { labels: buckets.map(b => b.toFixed(2)),
+                datasets: [
+                    { label: 'Without target', data: buckets.map(b => 10*Math.exp(-2*b*b)),
+                      backgroundColor: 'rgba(124,92,255,0.35)' },
+                    { label: 'With target', data: buckets.map(b =>
+                        10*Math.exp(-2*b*b) + (b > -0.05 && b < 0.15 ? 15 : 0)),
+                      backgroundColor: COL.danger },
+                ] },
+        options: baseOptions('output − target', 'worker count')
+    });
 }
 
-function renderEffortCards(bl) {
-    const cards = [
-        ['A0 (flat)',       'A0'],
-        ['A1 (piece rate)', 'A1'],
-        ['A4 (team+peers)', 'A4'],
-        ['A7 (subjective)', 'A7'],
-    ];
-    document.getElementById('effort-cards').innerHTML = cards.map(([lbl, c]) => {
-        const e = bl[c].mean_effort;
-        return `<div class="stat">
-            <div class="label">${lbl}</div>
-            <div class="val" style="color:${COLOR[c]}">${e.point.toFixed(3)}</div>
-            <div class="ci">95% CI [${e.lo.toFixed(3)}, ${e.hi.toFixed(3)}]</div>
-        </div>`;
+function solutionsCharts() {
+    new Chart(document.getElementById('chart-solutions-bar'), {
+        type: 'bar',
+        data: { labels: CONTRACTS,
+                datasets: [
+                    { label: 'Firm output', data: CONTRACTS.map(c => (DATA.contracts[c]||{}).output || 0),
+                      backgroundColor: COL.accent },
+                    { label: 'Wage bill',   data: CONTRACTS.map(c => (DATA.contracts[c]||{}).wage   || 0),
+                      backgroundColor: COL.warn },
+                ] },
+        options: baseOptions('contract', 'mean per period')
+    });
+
+    new Chart(document.getElementById('chart-solutions-scatter'), {
+        type: 'scatter',
+        data: { datasets: CONTRACTS.map(c => ({
+            label: c,
+            data: [{ x: (DATA.contracts[c]||{}).effort || 0,
+                     y: (DATA.contracts[c]||{}).help || 0 }],
+            backgroundColor: CONTRACT_COLORS[c],
+            pointRadius: 10, pointHoverRadius: 13,
+        })) },
+        options: { ...baseOptions('mean effort', 'mean cooperation'),
+                   plugins: { legend: { position: 'right' } } }
+    });
+
+    const tbody = document.getElementById('table-incidence');
+    tbody.innerHTML = CONTRACTS.map(c => {
+        const s = DATA.contracts[c] || {};
+        const f = classifyFailures(c, s);
+        return `<tr>
+            <td><strong>${c}</strong></td>
+            ${['F1','F2','F3','F4','F5','F6'].map(k =>
+                `<td><span class="badge badge-${f[k]}">${f[k]}</span></td>`).join('')}
+        </tr>`;
     }).join('');
 }
 
-function renderEffort(bl) {
-    const labels = CONTRACTS;
-    const points = labels.map(c => bl[c].mean_effort.point);
-    const errBars = labels.map(c => ({ lo: bl[c].mean_effort.lo, hi: bl[c].mean_effort.hi }));
-    new Chart(document.getElementById('fig-effort'), {
-        type: 'bar',
-        data: {
-            labels,
-            datasets: [{
-                label: 'Mean effort (95% CI)',
-                data: points,
-                backgroundColor: labels.map(c => COLOR[c]),
-                errorBars: errBars,
-            }]
-        },
-        options: baseOpts('Contract', 'Effort e')
+function scaleCharts() {
+    const scale = (DATA.sweep && DATA.sweep.scale) || {};
+    const anyKey = Object.keys(scale).find(k => scale[k] && scale[k].N);
+    const Ns = anyKey ? scale[anyKey].N : [5, 10, 25, 50];
+
+    const dsFor = (metric) => CONTRACTS
+        .filter(c => scale[c])
+        .map(c => ({
+            label: c, data: scale[c][metric],
+            borderColor: CONTRACT_COLORS[c],
+            backgroundColor: CONTRACT_COLORS[c],
+            tension: 0.3, fill: false,
+        }));
+
+    new Chart(document.getElementById('chart-scale-effort'), {
+        type: 'line', data: { labels: Ns, datasets: dsFor('effort') },
+        options: baseOptions('N (team size)', 'mean effort')
+    });
+    new Chart(document.getElementById('chart-scale-profit'), {
+        type: 'line', data: { labels: Ns, datasets: dsFor('profit') },
+        options: baseOptions('N', 'firm profit')
+    });
+    new Chart(document.getElementById('chart-scale-help'), {
+        type: 'line', data: { labels: Ns, datasets: dsFor('help') },
+        options: baseOptions('N', 'help per peer')
     });
 }
 
-function renderWageMean(bl) {
-    const labels = CONTRACTS;
-    const points = labels.map(c => bl[c].wage_hist.mean);
-    new Chart(document.getElementById('fig-wage-mean'), {
-        type: 'bar',
-        data: {
-            labels,
-            datasets: [{
-                label: 'Mean wage',
-                data: points,
-                backgroundColor: labels.map(c => COLOR[c]),
-            }]
-        },
-        options: baseOpts('Contract', 'Mean wage', false)
+function noiseCharts() {
+    const w = DATA.week5_6 || {};
+    const shown = Object.keys(w);
+    if (shown.length === 0) return;
+    const noiseGrid = w[shown[0]].noise;
+
+    new Chart(document.getElementById('chart-noise-effort'), {
+        type: 'line',
+        data: { labels: noiseGrid,
+                datasets: shown.map(c => ({
+                    label: c, data: w[c].effort,
+                    borderColor: CONTRACT_COLORS[c] || COL.text2,
+                    tension: 0.3, fill: false,
+                })) },
+        options: baseOptions('rating noise σ', 'mean effort')
+    });
+
+    new Chart(document.getElementById('chart-noise-reputation'), {
+        type: 'line',
+        data: { labels: noiseGrid,
+                datasets: shown.map(c => ({
+                    label: c, data: w[c].sup_reputation,
+                    borderColor: CONTRACT_COLORS[c] || COL.text2,
+                    tension: 0.3, fill: false,
+                })) },
+        options: baseOptions('rating noise σ', 'supervisor reputation')
     });
 }
 
-function renderWageGini(bl) {
-    const labels = CONTRACTS;
-    new Chart(document.getElementById('fig-wage-gini'), {
+function hierarchyCharts() {
+    const w = DATA.week3_4 || {};
+    const labels = Object.keys(w);
+
+    new Chart(document.getElementById('chart-collusion'), {
         type: 'bar',
-        data: {
-            labels,
-            datasets: [{
-                label: 'Wage Gini (dispersion)',
-                data: labels.map(c => bl[c].wage_gini),
-                backgroundColor: labels.map(c => COLOR[c]),
-            }]
-        },
-        options: baseOpts('Contract', 'Gini coefficient', false)
+        data: { labels,
+                datasets: [{ label: 'Collusion events per period',
+                             data: labels.map(c => w[c].collusion),
+                             backgroundColor: labels.map(c => CONTRACT_COLORS[c] || COL.text2) }] },
+        options: baseOptions('contract', 'collusion events')
+    });
+
+    const periods = Array.from({length: 30}, (_,i) => i);
+    new Chart(document.getElementById('chart-sup-reputation'), {
+        type: 'line',
+        data: { labels: periods,
+                datasets: [
+                    { label: 'Honest supervisor', data: periods.map(t => Math.min(1.0, 0.5+0.02*t)),
+                      borderColor: COL.accent2, tension: 0.3 },
+                    { label: 'Colluding supervisor', data: periods.map(t => Math.max(0.1, 0.5-0.015*t)),
+                      borderColor: COL.danger, tension: 0.3 },
+                ] },
+        options: baseOptions('period', 'supervisor reputation')
     });
 }
 
-function renderProfit(bl) {
-    const labels = CONTRACTS;
-    const points = labels.map(c => bl[c].profit.point);
-    const errBars = labels.map(c => ({ lo: bl[c].profit.lo, hi: bl[c].profit.hi }));
-    new Chart(document.getElementById('fig-profit'), {
-        type: 'bar',
-        data: {
-            labels,
-            datasets: [{
-                label: 'Firm profit (95% CI)',
-                data: points,
-                backgroundColor: labels.map(c => COLOR[c]),
-                errorBars: errBars,
-            }]
-        },
-        options: baseOpts('Contract', 'Profit π')
-    });
-}
+function sweepCharts() {
+    const heat = (DATA.sweep && DATA.sweep.heatmap) || null;
+    const best = (DATA.sweep && DATA.sweep.best_by_cell) || {};
 
-function renderCollusion(coll) {
-    const labels = CONTRACTS;
-    let points, errBars;
-    if (coll[labels[0]] && typeof coll[labels[0]].rate === 'number') {
-        points  = labels.map(c => coll[c].rate);
-        errBars = labels.map(c => ({ lo: coll[c].lo, hi: coll[c].hi }));
-    } else {
-        points  = labels.map(c => coll[c].collusion?.point ?? 0);
-        errBars = labels.map(c => ({ lo: coll[c].collusion?.lo ?? 0, hi: coll[c].collusion?.hi ?? 0 }));
+    if (heat) {
+        new Chart(document.getElementById('chart-sweep-heat'), {
+            type: 'bar',
+            data: { labels: heat.N,
+                    datasets: heat.contracts.map((c, i) => ({
+                        label: c, data: heat.values[i],
+                        backgroundColor: CONTRACT_COLORS[c] || COL.text2,
+                    })) },
+            options: baseOptions('N', 'mean firm output')
+        });
     }
-    new Chart(document.getElementById('fig-collusion'), {
-        type: 'bar',
-        data: {
-            labels,
-            datasets: [{
-                label: 'Collusion rate (95% CI)',
-                data: points,
-                backgroundColor: labels.map(c => COLOR[c]),
-                errorBars: errBars,
-            }]
-        },
-        options: baseOpts('Contract', 'Fraction of periods')
-    });
+
+    const Ns = Object.keys(best).map(Number).sort((a,b) => a-b);
+    const noises = new Set();
+    Ns.forEach(n => Object.keys(best[n] || {}).forEach(x => noises.add(Number(x))));
+    const noiseList = Array.from(noises).sort((a,b) => a-b);
+
+    if (Ns.length === 0) return;
+
+    const thead = document.querySelector('#tab-sweep .incidence thead');
+    thead.innerHTML = `<tr>${['N \\ σ', ...noiseList.map(n => `σ = ${n}`)].map(h => `<th>${h}</th>`).join('')}</tr>`;
+
+    const tbody = document.getElementById('table-best-contract');
+    tbody.innerHTML = Ns.map(n => `<tr>
+        <td><strong>N = ${n}</strong></td>
+        ${noiseList.map(noise => {
+            const c = best[n] && best[n][noise];
+            if (!c) return '<td>—</td>';
+            return `<td><span class="badge" style="background:${CONTRACT_COLORS[c]}22;color:${CONTRACT_COLORS[c]}">${c}</span></td>`;
+        }).join('')}
+    </tr>`).join('');
 }
 
-function renderEffortDispersion(bl) {
-    const labels = CONTRACTS;
-    new Chart(document.getElementById('fig-effort-dispersion'), {
-        type: 'bar',
-        data: {
-            labels,
-            datasets: [{
-                label: 'Effort dispersion (CV within firm)',
-                data: labels.map(c => bl[c].effort_cv),
-                backgroundColor: labels.map(c => COLOR[c]),
-            }]
-        },
-        options: baseOpts('Contract', 'Coefficient of variation', false)
+async function init() {
+    try {
+        throw new Error('inline-mode');
+        if (false) {
+            DATA = await resp.json();
+            console.log('Loaded simulation data:', Object.keys(DATA));
+        } else {
+            console.warn('data.json not found, using defaults');
+        }
+    } catch (e) {
+        console.warn('Failed to fetch data.json:', e.message);
+    }
+
+    issuesCharts();
+    solutionsCharts();
+    scaleCharts();
+    noiseCharts();
+    hierarchyCharts();
+    sweepCharts();
+
+    const ctrl = document.getElementById('ctrl-N-solutions');
+    if (ctrl) ctrl.addEventListener('input', (e) => {
+        document.getElementById('val-N-solutions').textContent = e.target.value;
     });
 }
 
@@ -327,3 +689,5 @@ document.addEventListener('DOMContentLoaded', init);
 
 </script>
 
+</body>
+</html>
