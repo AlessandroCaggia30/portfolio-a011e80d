@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-19T08:36:18.628Z",
+  "exportedAt": "2026-07-19T08:38:23.689Z",
   "data": {
     "topics": [
       {
@@ -872,7 +872,7 @@
               {
                 "id": "p-gh-1983",
                 "title": "P·Grossman–Hart (1983) — General PA",
-                "content": "**Ref.** Grossman, S. & Hart, O. (1983). An analysis of the principal-agent problem. *Econometrica*, 51(1), 7–45.\n\n## Contribution\n**General** PA formulation; existence conditions.\n\n## Idea\nDecompose the PA problem into (1) picking implementable effort, (2) minimising cost of inducing it. Sidesteps the invalidity of the first-order approach.\n\n## Result\nOptimal contract exists under MLRP + convex distribution function condition (CDFC).\n\n## Impact\nMathematical foundation for HM (1987) and all subsequent PA models.\n\n→ Anchor: **Incentives Theory Core**",
+                "content": "**Ref.** Grossman, S. & Hart, O. (1983). An analysis of the principal-agent problem. *Econometrica*, 51(1), 7–45.\n\nTheir innovation is to provide rigorous foundations for optimal contracting by replacing the potentially invalid first-order approach with a two-stage optimisation and establishing existence and implementability under MLRP and the Convex Distribution Function Condition (CDFC).\n\n## Contribution\n**General** PA formulation; existence conditions.\n\n## Idea\nDecompose the PA problem into (1) picking implementable effort, (2) minimising cost of inducing it. Sidesteps the invalidity of the first-order approach.\n\n## Result\nOptimal contract exists under MLRP + convex distribution function condition (CDFC).\n\n## Impact\nMathematical foundation for HM (1987) and all subsequent PA models.\n\n→ Anchor: **Incentives Theory Core**",
                 "x": 6429.055580937007,
                 "y": 1847.5177262314978,
                 "width": 340,
