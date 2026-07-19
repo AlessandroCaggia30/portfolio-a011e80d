@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-19T10:16:42.687Z",
+  "exportedAt": "2026-07-19T10:16:52.500Z",
   "data": {
     "topics": [
       {
@@ -664,14 +664,6 @@
                 "popBg": "#dcfce7",
                 "popShape": "rounded",
                 "links": [
-                  {
-                    "target": "a1",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "a2",
-                    "type": "forward"
-                  },
                   {
                     "target": "a3",
                     "type": "forward"
