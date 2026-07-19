@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-19T07:37:50.097Z",
+  "exportedAt": "2026-07-19T07:37:57.769Z",
   "data": {
     "topics": [
       {
@@ -826,7 +826,12 @@
                 "color": "purple",
                 "popBg": "#ede9fe",
                 "popShape": "rounded",
-                "links": []
+                "links": [
+                  {
+                    "target": "p-mirrlees-1975",
+                    "type": "forward"
+                  }
+                ]
               },
               {
                 "id": "p-mirrlees-1975",
@@ -841,7 +846,12 @@
                 "color": "purple",
                 "popBg": "#ede9fe",
                 "popShape": "rounded",
-                "links": []
+                "links": [
+                  {
+                    "target": "p-hm-1987",
+                    "type": "forward"
+                  }
+                ]
               },
               {
                 "id": "p-holmstrom-1979",
