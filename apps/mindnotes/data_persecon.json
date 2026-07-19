@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-19T10:11:36.493Z",
+  "exportedAt": "2026-07-19T10:11:38.719Z",
   "data": {
     "topics": [
       {
@@ -745,10 +745,6 @@
                     "type": "forward"
                   },
                   {
-                    "target": "p-holmstrom-1982",
-                    "type": "forward"
-                  },
-                  {
                     "target": "p-macleod-2003",
                     "type": "forward"
                   },
@@ -758,10 +754,6 @@
                   },
                   {
                     "target": "p-hansmann-1996",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-kl-1992",
                     "type": "forward"
                   },
                   {
