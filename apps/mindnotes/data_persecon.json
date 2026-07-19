@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-19T07:41:19.596Z",
+  "exportedAt": "2026-07-19T07:41:22.665Z",
   "data": {
     "topics": [
       {
@@ -856,7 +856,7 @@
               {
                 "id": "p-holmstrom-1979",
                 "title": "P·Holmström (1979) — Sufficient Statistic",
-                "content": "**Ref.** Holmström, B. (1979). Moral hazard and observability. *Bell JE*, 10(1), 74–91.\n\n\n## Contribution\nCanonical PA model + **sufficient-statistic principle**.\n\n## Idea\nPA with unobservable effort $e$, noisy output $y$. Which additional signals should enter the contract?\n\n## Result\nAny signal informative about $e$ *beyond* what $y$ tells us should enter the contract. Contract $w(y, z)$ uses ALL sufficient statistics for $e$.\n\n## Impact\n**Base model** for the entire literature. Justifies A2 tournaments (peer signals), A7 subjective (manager info), A4 team pay (peer output), and multi-signal indices generally.\n\n→ Anchor: **Incentives Theory Core**",
+                "content": "**Ref.** Holmström, B. (1979). Moral hazard and observability. *Bell JE*, 10(1), 74–91.\n\n\"The role of imperfect information in a principal-agent relationship subject to moral hazard is considered. A necessary and sufficient condition for imperfect information to improve on contracts based on the payoff alone is derived, and a characterization of the optimal use of such information is given\"\n\n## Contribution\nCanonical PA model + **sufficient-statistic principle**.\n\n## Idea\nPA with unobservable effort $e$, noisy output $y$. Which additional signals should enter the contract?\n\n## Result\nAny signal informative about $e$ *beyond* what $y$ tells us should enter the contract. Contract $w(y, z)$ uses ALL sufficient statistics for $e$.\n\n## Impact\n**Base model** for the entire literature. Justifies A2 tournaments (peer signals), A7 subjective (manager info), A4 team pay (peer output), and multi-signal indices generally.\n\n→ Anchor: **Incentives Theory Core**",
                 "x": 7222.705032431662,
                 "y": 1825.7005642454174,
                 "width": 340,
