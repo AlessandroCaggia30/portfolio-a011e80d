@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-19T08:09:21.092Z",
+  "exportedAt": "2026-07-19T08:09:24.815Z",
   "data": {
     "topics": [
       {
@@ -908,8 +908,8 @@
                 "id": "p-hm-1991",
                 "title": "P·Holmström–Milgrom (1991) — Multitasking",
                 "content": "**Ref.** Holmström, B. & Milgrom, P. (1991). Multitask principal-agent analyses: incentive contracts, asset ownership, job design. *JLEO*, 7(Special), 24–52.\n\n## Contribution\n**Multitasking** extension.\n\n## Idea\nAgent chooses effort vector $\\mathbf{e}$; multiple signals $\\mathbf{s}$ with noise covariance $\\Sigma$; incentive weights $\\boldsymbol\\beta$.\n\n## Result\n$$\\boldsymbol\\beta^* = (I + \\rho C \\Sigma)^{-1} \\mathbf{g}'$$\nIf one task cannot be measured ($\\beta_j = 0$), agent sets $e_j = 0$; firm must **dampen ALL** $\\beta_k$ to preserve balance.\n\n## Impact\n**F2 multitasking**. Direct foundation for our Quindi Optimal formula.\n\n→ Anchor: **Incentives Theory Core**",
-                "x": 7231.25185746455,
-                "y": 1510.8641685637822,
+                "x": 7476.016271617909,
+                "y": 1375.369582157458,
                 "width": 340,
                 "height": 240,
                 "flashcard": false,
