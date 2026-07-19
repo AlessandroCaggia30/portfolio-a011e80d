@@ -244,6 +244,71 @@
     </div>
 </section>
 
+<!-- ================= PHASE 4 ================= -->
+<section>
+    <h2><span class="phase">PHASE 4</span> Robustness — does the finding survive?</h2>
+    <p>Three cross-cutting checks on the Phase 1 headline. The claim we care about surviving: <em>reorg × incent complementarity is real and large</em>.</p>
+
+    <h3>4a — Alpha-structure robustness</h3>
+    <p>Rerun the 2×2 ceiling under three worker–task fit distributions: i.i.d. lognormal, block (workers and tasks cluster into types — Roy–Sattinger), and Roy (two skill dimensions per worker, task weights dot-product). Same seeds, same everything else.</p>
+    <table id="phase4a-table">
+        <thead><tr><th>α structure</th><th class="num">τ_reorg</th><th class="num">τ_incent</th><th class="num">τ_full</th><th class="num">τ_interaction</th><th class="num">Interaction share</th></tr></thead>
+        <tbody></tbody>
+    </table>
+    <p style="color:var(--ink2);font-size:13px">Interaction is positive and large across all three structures. Block gives the strongest complementarity because within-block workers concentrate on tasks they are especially good at; Roy delivers the highest total value because the skill-tail is heavier. i.i.d. is the least favourable structure and still shows a substantial interaction. The finding is not a fit-distribution artefact.</p>
+
+    <h3>4b — Network topology robustness</h3>
+    <p>Rerun with Erdős-Rényi (random graph, same expected degree) and pure lattice ring (no rewiring) alongside baseline Watts-Strogatz small-world.</p>
+    <table id="phase4b-table">
+        <thead><tr><th>Network</th><th class="num">τ_reorg</th><th class="num">τ_incent</th><th class="num">τ_full</th><th class="num">τ_interaction</th></tr></thead>
+        <tbody></tbody>
+    </table>
+    <p style="color:var(--ink2);font-size:13px">Essentially identical results across all three topologies. Under this calibration the peer-conformity channel is not the load-bearing structure — the two-lever value comes from worker-task fit × contract-type fit, not from social spillovers.</p>
+
+    <h3>4c — Elasticity of τ_full to each parameter</h3>
+    <p>Sweep each parameter individually over a 4-point grid, hold others at baseline, measure the resulting value ceiling.</p>
+    <div class="row2">
+        <div class="chart-wrap"><canvas id="fig-elast-rho"></canvas></div>
+        <div class="chart-wrap"><canvas id="fig-elast-sigma"></canvas></div>
+    </div>
+    <div class="row2" style="margin-top:16px">
+        <div class="chart-wrap"><canvas id="fig-elast-k"></canvas></div>
+        <div class="chart-wrap"><canvas id="fig-elast-psi"></canvas></div>
+    </div>
+    <div class="callout">
+        <strong>Key comparative statics.</strong> Signal noise σ (τ_full: 80 → 38 as σ: 0.3 → 1.0) and effort-cost curvature k (τ_full: 135 → 20 as k: 0.5 → 2.0) drive most of the value variation. Risk aversion ρ matters moderately. Peer-pressure ψ is essentially flat — Quindi's value does not depend on the contested Kandel-Lazear 1992 calibration.
+    </div>
+</section>
+
+<!-- ================= PHASE 5 ================= -->
+<section>
+    <h2><span class="phase">PHASE 5</span> Long-horizon replication + emergent wage tails</h2>
+    <p>Phase 1 rerun at publishable statistical power: 50 seeds × 100 periods × 50 workers × 10-period burn-in. Long enough horizons to compute wage-tail statistics that were previously too noisy.</p>
+
+    <h3>Replicated 2×2 headline (tighter CIs)</h3>
+    <table id="phase5-cells">
+        <thead><tr><th>Cell</th><th class="num">Output</th><th class="num">Profit</th><th class="num">Mean effort</th><th class="num">Wage Gini</th></tr></thead>
+        <tbody></tbody>
+    </table>
+
+    <h3>DiD under long-horizon calibration</h3>
+    <table id="phase5-did">
+        <thead><tr><th>Effect</th><th class="num">Estimate (long)</th><th class="num">95% CI (long)</th><th class="num">Phase 1 estimate</th><th class="num">Change</th></tr></thead>
+        <tbody></tbody>
+    </table>
+
+    <h3>Wage-tail emergence — Song et al. 2019 comparison</h3>
+    <p>At long horizons, the wage distribution reaches a stationary shape. Report the top-1% share, top-10% share, and Pareto-tail exponent α for each cell.</p>
+    <table id="phase5-tail">
+        <thead><tr><th>Cell</th><th class="num">Top-1% share</th><th class="num">Top-10% share</th><th class="num">Pareto α (top 20%)</th></tr></thead>
+        <tbody></tbody>
+    </table>
+
+    <div class="callout">
+        <strong>New emergent finding.</strong> Full-stack Quindi produces <em>less</em> wage inequality in the tail than the incentives-only cell (Pareto α ≈ 3.60 vs 2.95; higher α means thinner tail). Reorganisation lifts the floor more than the ceiling — matching or exceeding wages for lower-fit workers previously stuck on the wrong tasks. This runs directly counter to the "personnel AI concentrates rewards at the top" narrative and is testable against Song, Price, Guvenen, Bloom & von Wachter (2019 QJE) firming-up-inequality moments.
+    </div>
+</section>
+
 <!-- ================= SUMMARY ================= -->
 <section>
     <h2>Summary — three headline numbers</h2>
@@ -280,6 +345,8 @@
 window.__EMBEDDED_P1 = {"meta": {"seeds": 30, "periods": 40, "N_workers": 50, "N_tasks": 5, "alpha_structure": "block", "burn_in": 5}, "cells": {"00_status_quo": {"label": "Assign: status-quo \u00b7 Contract: flat A0", "mean_effort": {"point": 0.02075459545485336, "lo": 0.02040914833559918, "hi": 0.02111511487772505, "n_seeds": 30}, "total_output": {"point": 1.0401297819777173, "lo": 0.7700089530432576, "hi": 1.2993514495046803, "n_seeds": 30}, "profit": {"point": -48.95987021802229, "lo": -49.215658253432785, "hi": -48.71642034985891, "n_seeds": 30}, "wage_bill": {"point": 50.0, "lo": 50.0, "hi": 50.0, "n_seeds": 30}, "mean_utility": {"point": 0.9991166947322764, "lo": 0.9990878178011089, "hi": 0.9991459559335804, "n_seeds": 30}, "wage_gini": -3.8549410577262366e-16, "effort_gini": 0.19226542055838655, "n_seeds": 30}, "10_reorg_only": {"label": "Assign: oracle    \u00b7 Contract: flat A0", "mean_effort": {"point": 0.02075459545485336, "lo": 0.020363805750561775, "hi": 0.021124880863772774, "n_seeds": 30}, "total_output": {"point": 1.6305537254729034, "lo": 1.3595981169819142, "hi": 1.8907943035484491, "n_seeds": 30}, "profit": {"point": -48.3694462745271, "lo": -48.61807249520357, "hi": -48.11212773448903, "n_seeds": 30}, "wage_bill": {"point": 50.0, "lo": 50.0, "hi": 50.0, "n_seeds": 30}, "mean_utility": {"point": 0.9991166947322764, "lo": 0.9990875581710064, "hi": 0.9991456124866067, "n_seeds": 30}, "wage_gini": -3.8549410577262366e-16, "effort_gini": 0.19226542055838655, "n_seeds": 30}, "01_incent_only": {"label": "Assign: status-quo \u00b7 Contract: oracle", "mean_effort": {"point": 0.5634883770941825, "lo": 0.5370579189146679, "hi": 0.5921902313524229, "n_seeds": 30}, "total_output": {"point": 31.24252348774382, "lo": 29.13638948699496, "hi": 33.454508834847225, "n_seeds": 30}, "profit": {"point": -17.091088191966172, "lo": -18.191832611788993, "hi": -15.816787555954711, "n_seeds": 30}, "wage_bill": {"point": 48.333611679709996, "lo": 46.84267188780244, "hi": 49.69363101230724, "n_seeds": 30}, "mean_utility": {"point": 0.7506852214828608, "lo": 0.7352476426521309, "hi": 0.7656943469457743, "n_seeds": 30}, "wage_gini": 0.16635025733389358, "effort_gini": 0.3633666065194448, "n_seeds": 30}, "11_full_stack": {"label": "Assign: oracle    \u00b7 Contract: oracle", "mean_effort": {"point": 1.1301191075368175, "lo": 1.0781301322826111, "hi": 1.176434403231052, "n_seeds": 30}, "total_output": {"point": 89.1446424528688, "lo": 84.35857966485764, "hi": 93.92781830145303, "n_seeds": 30}, "profit": {"point": 8.833776581620324, "lo": 6.297576691473959, "hi": 11.298650980173488, "n_seeds": 30}, "wage_bill": {"point": 80.3108658712485, "lo": 77.27563750100884, "hi": 83.29013672289099, "n_seeds": 30}, "mean_utility": {"point": 0.9002698910910686, "lo": 0.8803966546266172, "hi": 0.9199760560937245, "n_seeds": 30}, "wage_gini": 0.19152291626899898, "effort_gini": 0.26762253227093646, "n_seeds": 30}}, "did": {"tau_reorg": {"point": 0.5904239434951862, "lo": 0.5497534089013448, "hi": 0.6305781959417264, "n_seeds": 30}, "tau_incent": {"point": 30.202393705766102, "lo": 28.138945461668747, "hi": 32.42400491857827, "n_seeds": 30}, "tau_full": {"point": 88.10451267089108, "lo": 82.97438241865036, "hi": 92.89608953716971, "n_seeds": 30}, "tau_inter": {"point": 57.311695021629795, "lo": 53.17840619750814, "hi": 61.433350623614956, "n_seeds": 30}}};
 window.__EMBEDDED_P2 = {"meta": {"seeds": 30, "periods": 40, "N_workers": 50, "N_tasks": 5, "alpha_structure": "block", "burn_in": 5}, "y00": {"point": 1.0401297819777173, "lo": 0.7572248800839715, "hi": 1.3075012308554859, "n_seeds": 30}, "y11_ceiling": {"point": 89.1446424528688, "lo": 83.99337228708778, "hi": 94.20243323411526, "n_seeds": 30}, "ceiling_gain": {"point": 88.10451267089108, "lo": 83.28979843958027, "hi": 92.98712519098422, "n_seeds": 30}, "curve": [{"sigma_AI": 0.0, "sigma_display": "0.00", "y_quindi": {"point": 88.75029125694606, "lo": 83.9687848616836, "hi": 93.68775152767797, "n_seeds": 30}, "y_gain": {"point": 87.71016147496832, "lo": 82.79202822903405, "hi": 92.73109811687556, "n_seeds": 30}, "capture_ratio": {"point": 0.9955240522424107, "lo": 0.9397677114153118, "hi": 1.0523786968167013, "n_seeds": 30}, "profit": {"point": 8.731996366279581, "lo": 6.51815545101744, "hi": 11.19431892528265, "n_seeds": 30}}, {"sigma_AI": 0.05, "sigma_display": "0.05", "y_quindi": {"point": 88.69167916892818, "lo": 83.89997051626442, "hi": 93.66734727768842, "n_seeds": 30}, "y_gain": {"point": 87.65154938695045, "lo": 82.92399279853564, "hi": 92.47929505204306, "n_seeds": 30}, "capture_ratio": {"point": 0.9948587958753866, "lo": 0.9389850530314107, "hi": 1.0484800707082005, "n_seeds": 30}, "profit": {"point": 8.946855305865542, "lo": 6.604198437673948, "hi": 11.455544755391633, "n_seeds": 30}}, {"sigma_AI": 0.1, "sigma_display": "0.10", "y_quindi": {"point": 87.95323174540911, "lo": 83.14842004415766, "hi": 93.11575773762846, "n_seeds": 30}, "y_gain": {"point": 86.91310196343143, "lo": 81.70602007142341, "hi": 92.13482040394699, "n_seeds": 30}, "capture_ratio": {"point": 0.9864773021115262, "lo": 0.9299960720841765, "hi": 1.0465475173466814, "n_seeds": 30}, "profit": {"point": 8.76812134645365, "lo": 6.275651979597318, "hi": 11.249923041047882, "n_seeds": 30}}, {"sigma_AI": 0.2, "sigma_display": "0.20", "y_quindi": {"point": 84.09799840732207, "lo": 78.67651124050929, "hi": 89.57906204559646, "n_seeds": 30}, "y_gain": {"point": 83.05786862534435, "lo": 77.4691524740571, "hi": 88.66064800474558, "n_seeds": 30}, "capture_ratio": {"point": 0.9427198006939989, "lo": 0.8823018092090779, "hi": 1.003712065589452, "n_seeds": 30}, "profit": {"point": 6.759496120469873, "lo": 3.802534189447336, "hi": 9.48692319140161, "n_seeds": 30}}, {"sigma_AI": 0.35, "sigma_display": "0.35", "y_quindi": {"point": 77.01210208225633, "lo": 72.18034881825842, "hi": 82.05221593783098, "n_seeds": 30}, "y_gain": {"point": 75.97197230027861, "lo": 70.40875250919126, "hi": 81.19547565042977, "n_seeds": 30}, "capture_ratio": {"point": 0.8622937690384507, "lo": 0.8044039792587909, "hi": 0.9242480627057352, "n_seeds": 30}, "profit": {"point": 3.4289097906311894, "lo": 1.081666411492491, "hi": 6.043752546084089, "n_seeds": 30}}, {"sigma_AI": 0.5, "sigma_display": "0.50", "y_quindi": {"point": 69.86604684235908, "lo": 65.01640822195353, "hi": 74.5582812300564, "n_seeds": 30}, "y_gain": {"point": 68.82591706038137, "lo": 64.3596293377097, "hi": 73.43284710362337, "n_seeds": 30}, "capture_ratio": {"point": 0.7811849242895913, "lo": 0.7284867584239646, "hi": 0.8324961843859009, "n_seeds": 30}, "profit": {"point": -0.004686758072952261, "lo": -2.129142248780167, "hi": 2.243640100057157, "n_seeds": 30}}, {"sigma_AI": 0.75, "sigma_display": "0.75", "y_quindi": {"point": 58.39016104679807, "lo": 54.754252721628966, "hi": 62.0514651276525, "n_seeds": 30}, "y_gain": {"point": 57.350031264820345, "lo": 53.656707201848356, "hi": 61.04496383017862, "n_seeds": 30}, "capture_ratio": {"point": 0.6509318254678715, "lo": 0.6102127280329959, "hi": 0.6932762228831558, "n_seeds": 30}, "profit": {"point": -5.776233656783417, "lo": -7.695711374077475, "hi": -3.878787461758792, "n_seeds": 30}}, {"sigma_AI": 1.0, "sigma_display": "1.00", "y_quindi": {"point": 50.824581037255506, "lo": 47.81215345314682, "hi": 53.89465376187309, "n_seeds": 30}, "y_gain": {"point": 49.78445125527779, "lo": 46.877080216796024, "hi": 53.00374863288285, "n_seeds": 30}, "capture_ratio": {"point": 0.5650613089620564, "lo": 0.5295559477457077, "hi": 0.599829238130077, "n_seeds": 30}, "profit": {"point": -9.388026452690376, "lo": -10.833145220397611, "hi": -7.7599094752025595, "n_seeds": 30}}, {"sigma_AI": 1.5, "sigma_display": "1.50", "y_quindi": {"point": 43.01789548247632, "lo": 40.0534833560501, "hi": 45.71443076330458, "n_seeds": 30}, "y_gain": {"point": 41.9777657004986, "lo": 39.150861563561534, "hi": 44.7405375032109, "n_seeds": 30}, "capture_ratio": {"point": 0.47645420680441125, "lo": 0.44587068797369855, "hi": 0.5098202372587598, "n_seeds": 30}, "profit": {"point": -12.991901806332514, "lo": -14.43821882623894, "hi": -11.505991869900877, "n_seeds": 30}}, {"sigma_AI": 2.0, "sigma_display": "2.00", "y_quindi": {"point": 40.10480736734434, "lo": 37.71102698539548, "hi": 42.87469293050192, "n_seeds": 30}, "y_gain": {"point": 39.06467758536663, "lo": 36.41212823283867, "hi": 41.872603796962025, "n_seeds": 30}, "capture_ratio": {"point": 0.4433902010364702, "lo": 0.4128698380833753, "hi": 0.47418776390730516, "n_seeds": 30}, "profit": {"point": -14.39021419893486, "lo": -15.754214109944332, "hi": -13.054178423947942, "n_seeds": 30}}, {"sigma_AI": 1000000000.0, "sigma_display": "inf", "y_quindi": {"point": 33.22195670266172, "lo": 30.814404189033517, "hi": 35.53390007103787, "n_seeds": 30}, "y_gain": {"point": 32.181826920684, "lo": 29.87322533283778, "hi": 34.4387997401327, "n_seeds": 30}, "capture_ratio": {"point": 0.3652687693863902, "lo": 0.33704478863496257, "hi": 0.39307842984907193, "n_seeds": 30}, "profit": {"point": -23.797367453231804, "lo": -25.056515794786606, "hi": -22.52815540689098, "n_seeds": 30}}]};
 window.__EMBEDDED_P3 = {"structural_truth": {"tau_reorg": 0.3899981762086475, "tau_incent": 14.766639029358736, "tau_full": 41.873194043323075, "tau_inter": 26.71655683775569}, "designs": {"factorial_2x2": {"tau_reorg_hat": {"mean": 0.341272123708366, "bias": -0.0487260525002815, "std": 0.2597977833021521, "mse": 0.06986911640097215, "n_trials": 50, "true": 0.3899981762086475}, "tau_incent_hat": {"mean": 14.786329590129819, "bias": 0.019690560771083554, "std": 1.2540716254725675, "mse": 1.5730833599988872, "n_trials": 50, "true": 14.766639029358736}, "tau_full_hat": {"mean": 41.32391065751435, "bias": -0.549283385808728, "std": 2.7378970527645543, "mse": 7.797792509462333, "n_trials": 50, "true": 41.873194043323075}, "tau_inter_hat": {"mean": 26.19630894367616, "bias": -0.5202478940795281, "std": 2.832567728297607, "mse": 8.294097806687251, "n_trials": 50, "true": 26.71655683775569}}, "staged_rollout": {"tau_reorg_hat": {"mean": 0.3767257037945373, "bias": -0.013272472414110226, "std": 0.016569114637255095, "mse": 0.00045069408384581795, "n_trials": 50, "true": 0.3899981762086475}, "tau_incent_hat": {"mean": 40.72339046349759, "bias": 25.95675143413885, "std": 1.2671472861333108, "mse": 675.3586072584243, "n_trials": 50, "true": 14.766639029358736}, "tau_full_hat": {"mean": 41.10011616729213, "bias": -0.7730778760309462, "std": 1.2788502798062158, "mse": 2.2331074405689555, "n_trials": 50, "true": 41.873194043323075}}, "encouragement_iv": {"tau_full_hat": {"mean": 41.15966963314682, "bias": -0.7135244101762552, "std": 2.673528027617682, "mse": 7.656869198374666, "n_trials": 50, "true": 41.873194043323075}}, "did_two_way_fe": {"tau_full_hat": {"mean": 42.2992508298111, "bias": 0.4260567864880258, "std": 2.0863237243565615, "mse": 4.534271068125537, "n_trials": 50, "true": 41.873194043323075}}}};
+window.__EMBEDDED_P4 = {"meta": {"seeds": 20, "periods": 25, "N_workers": 40, "N_tasks": 5}, "alpha_robustness": {"iid": {"cells": {"Y00": {"point": 1.4367090235548408, "lo": 1.1399689392196164, "hi": 1.7235642332320888, "n_seeds": 20}, "Y10": {"point": 1.79562079650345, "lo": 1.5020918450766103, "hi": 2.040263005609929, "n_seeds": 20}, "Y01": {"point": 31.227344968401507, "lo": 29.79814247139016, "hi": 32.63700157184649, "n_seeds": 20}, "Y11": {"point": 51.455728733850435, "lo": 50.0478124924198, "hi": 52.90302019994087, "n_seeds": 20}}, "did": {"tau_reorg": {"point": 0.35891177294860926, "lo": 0.33468434637966443, "hi": 0.38142586187511945, "n_seeds": 20}, "tau_incent": {"point": 29.790635944846667, "lo": 28.50755835615064, "hi": 31.201265930326034, "n_seeds": 20}, "tau_full": {"point": 50.01901971029558, "lo": 48.55008563715659, "hi": 51.49160952508477, "n_seeds": 20}, "tau_inter": {"point": 19.869471992500305, "lo": 18.490938648901142, "hi": 21.195936320515766, "n_seeds": 20}}}, "block": {"cells": {"Y00": {"point": 1.14610159404432, "lo": 0.8841749803582557, "hi": 1.3715166769797096, "n_seeds": 20}, "Y10": {"point": 1.9092975097029121, "lo": 1.6891593058596994, "hi": 2.116854055250365, "n_seeds": 20}, "Y01": {"point": 24.70266221142503, "lo": 21.766974928507206, "hi": 27.9538683195185, "n_seeds": 20}, "Y11": {"point": 68.29965473959736, "lo": 62.31029438200296, "hi": 73.86654929199057, "n_seeds": 20}}, "did": {"tau_reorg": {"point": 0.7631959156585923, "lo": 0.687511784741831, "hi": 0.8477241295939739, "n_seeds": 20}, "tau_incent": {"point": 23.556560617380704, "lo": 20.927675945199777, "hi": 26.466278896383393, "n_seeds": 20}, "tau_full": {"point": 67.15355314555303, "lo": 61.32114901939985, "hi": 72.2953685782863, "n_seeds": 20}, "tau_inter": {"point": 42.83379661251373, "lo": 37.12918561352564, "hi": 48.03419438185173, "n_seeds": 20}}}, "roy": {"cells": {"Y00": {"point": 1.5554986270121245, "lo": 1.2885102358063698, "hi": 1.807577981055923, "n_seeds": 20}, "Y10": {"point": 2.076618682282857, "lo": 1.8157855499943985, "hi": 2.3352316183813144, "n_seeds": 20}, "Y01": {"point": 52.19951684323886, "lo": 48.743329646499284, "hi": 55.79730922994699, "n_seeds": 20}, "Y11": {"point": 90.4928619066689, "lo": 84.55417049945113, "hi": 96.2439097428539, "n_seeds": 20}}, "did": {"tau_reorg": {"point": 0.5211200552707324, "lo": 0.4808060390776349, "hi": 0.562749616741927, "n_seeds": 20}, "tau_incent": {"point": 50.64401821622675, "lo": 47.15675361995863, "hi": 54.3271990876775, "n_seeds": 20}, "tau_full": {"point": 88.93736327965676, "lo": 83.31944556829387, "hi": 94.75278362053443, "n_seeds": 20}, "tau_inter": {"point": 37.77222500815929, "lo": 34.38920928624337, "hi": 41.33346983443077, "n_seeds": 20}}}}, "network_robustness": {"ws": {"cells": {"Y00": {"point": 1.14610159404432, "lo": 0.8830158864213421, "hi": 1.3856140177222074, "n_seeds": 20}, "Y10": {"point": 1.9092975097029121, "lo": 1.6783623290365828, "hi": 2.1251577264537325, "n_seeds": 20}, "Y01": {"point": 24.70266221142503, "lo": 21.792365527861353, "hi": 28.07933234070073, "n_seeds": 20}, "Y11": {"point": 68.29965473959736, "lo": 62.599943250472705, "hi": 73.33467100489959, "n_seeds": 20}}, "did": {"tau_reorg": {"point": 0.7631959156585923, "lo": 0.6880412550545227, "hi": 0.8384919255099498, "n_seeds": 20}, "tau_incent": {"point": 23.556560617380704, "lo": 20.98841566287566, "hi": 26.485097446464707, "n_seeds": 20}, "tau_full": {"point": 67.15355314555303, "lo": 61.62483736690268, "hi": 72.89321232550016, "n_seeds": 20}, "tau_inter": {"point": 42.83379661251373, "lo": 37.89661647952546, "hi": 48.6166134214445, "n_seeds": 20}}}, "er": {"cells": {"Y00": {"point": 1.075526757415201, "lo": 0.8138919988303516, "hi": 1.3345844510414762, "n_seeds": 20}, "Y10": {"point": 1.835998121184049, "lo": 1.5712694254598831, "hi": 2.1101970964676298, "n_seeds": 20}, "Y01": {"point": 24.63229675925484, "lo": 21.5362853060049, "hi": 27.752714547604636, "n_seeds": 20}, "Y11": {"point": 67.92649148399218, "lo": 62.496109673232, "hi": 72.83440917058766, "n_seeds": 20}}, "did": {"tau_reorg": {"point": 0.760471363768848, "lo": 0.6847467400828124, "hi": 0.8445492421323446, "n_seeds": 20}, "tau_incent": {"point": 23.55677000183964, "lo": 20.7034540760266, "hi": 26.754600115134608, "n_seeds": 20}, "tau_full": {"point": 66.85096472657699, "lo": 61.24391751320622, "hi": 71.714275273922, "n_seeds": 20}, "tau_inter": {"point": 42.533723360968494, "lo": 37.90172895588284, "hi": 47.736288848896535, "n_seeds": 20}}}, "lattice": {"cells": {"Y00": {"point": 1.2266680210606746, "lo": 0.9976774757419338, "hi": 1.4195130266688347, "n_seeds": 20}, "Y10": {"point": 1.9897042690917588, "lo": 1.7578732716789576, "hi": 2.1969119956324166, "n_seeds": 20}, "Y01": {"point": 24.682511218440688, "lo": 21.594099440510263, "hi": 27.72993709916154, "n_seeds": 20}, "Y11": {"point": 68.4378095346373, "lo": 63.18303818554811, "hi": 73.33160666363727, "n_seeds": 20}}, "did": {"tau_reorg": {"point": 0.7630362480310838, "lo": 0.6920220953112318, "hi": 0.8466628745391922, "n_seeds": 20}, "tau_incent": {"point": 23.455843197380013, "lo": 20.721827410345274, "hi": 26.561255088824858, "n_seeds": 20}, "tau_full": {"point": 67.2111415135766, "lo": 61.9816202751726, "hi": 72.51746247999662, "n_seeds": 20}, "tau_inter": {"point": 42.99226206816553, "lo": 38.27703674310602, "hi": 48.26860651482383, "n_seeds": 20}}}}, "elasticity": {"rho": {"baseline": 2.0, "grid": [0.5, 1.0, 1.5, 2.0], "curve": [{"param_value": 0.5, "tau_full": {"point": 82.00174668115953, "lo": 75.81274193057789, "hi": 87.89229448161838, "n_seeds": 20}, "y11": {"point": 83.14784827520386, "lo": 76.86941589872853, "hi": 89.1661036232395, "n_seeds": 20}}, {"param_value": 1.0, "tau_full": {"point": 78.11739374634035, "lo": 71.75886782511853, "hi": 83.74194779113586, "n_seeds": 20}, "y11": {"point": 79.26349534038471, "lo": 72.59128117931478, "hi": 84.90792008286355, "n_seeds": 20}}, {"param_value": 1.5, "tau_full": {"point": 73.82478553481283, "lo": 68.33687878504493, "hi": 79.51104839460393, "n_seeds": 20}, "y11": {"point": 74.97088712885717, "lo": 69.06768788797021, "hi": 80.5252476034641, "n_seeds": 20}}, {"param_value": 2.0, "tau_full": {"point": 67.15355314555303, "lo": 61.67294774765061, "hi": 72.78654512509564, "n_seeds": 20}, "y11": {"point": 68.29965473959736, "lo": 62.569762025342506, "hi": 73.2729892221309, "n_seeds": 20}}]}, "sigma_output": {"baseline": 0.5, "grid": [0.3, 0.5, 0.7, 1.0], "curve": [{"param_value": 0.3, "tau_full": {"point": 80.30011536315718, "lo": 73.51383814904024, "hi": 85.92400266217791, "n_seeds": 20}, "y11": {"point": 81.4756115252377, "lo": 75.47141799783176, "hi": 87.13176522094658, "n_seeds": 20}}, {"param_value": 0.5, "tau_full": {"point": 67.15355314555303, "lo": 61.25153740604319, "hi": 72.43531770594463, "n_seeds": 20}, "y11": {"point": 68.29965473959736, "lo": 62.12850966677662, "hi": 73.77034160852868, "n_seeds": 20}}, {"param_value": 0.7, "tau_full": {"point": 42.82826780722555, "lo": 39.505085596516, "hi": 46.0241893154783, "n_seeds": 20}, "y11": {"point": 43.94497483323367, "lo": 40.379498396636, "hi": 47.131219210795386, "n_seeds": 20}}, {"param_value": 1.0, "tau_full": {"point": 37.746614493593455, "lo": 34.97771536186701, "hi": 40.32979876717614, "n_seeds": 20}, "y11": {"point": 38.81922966754727, "lo": 36.24823261401802, "hi": 41.426266295056266, "n_seeds": 20}}]}, "k": {"baseline": 1.0, "grid": [0.5, 1.0, 1.5, 2.0], "curve": [{"param_value": 0.5, "tau_full": {"point": 134.93017748103568, "lo": 126.21716717245187, "hi": 142.30681782657982, "n_seeds": 20}, "y11": {"point": 136.07627907508004, "lo": 127.56858763008168, "hi": 144.2475389094016, "n_seeds": 20}}, {"param_value": 1.0, "tau_full": {"point": 67.15355314555303, "lo": 61.34320441004169, "hi": 72.43882317690539, "n_seeds": 20}, "y11": {"point": 68.29965473959736, "lo": 62.714415602575535, "hi": 73.7398710196878, "n_seeds": 20}}, {"param_value": 1.5, "tau_full": {"point": 30.425229758863026, "lo": 27.71713263713597, "hi": 32.884529469823356, "n_seeds": 20}, "y11": {"point": 31.57133135290735, "lo": 29.10755562591055, "hi": 33.926902842819224, "n_seeds": 20}}, {"param_value": 2.0, "tau_full": {"point": 19.666525627324148, "lo": 18.423456024518046, "hi": 21.01587666832842, "n_seeds": 20}, "y11": {"point": 20.812627221368466, "lo": 19.495649255794888, "hi": 22.03295949162754, "n_seeds": 20}}]}, "psi_peer": {"baseline": 0.3, "grid": [0.0, 0.15, 0.3, 0.45], "curve": [{"param_value": 0.0, "tau_full": {"point": 67.15355314555303, "lo": 61.41338430666043, "hi": 72.49350901229765, "n_seeds": 20}, "y11": {"point": 68.29965473959736, "lo": 62.41314896241805, "hi": 73.2876053397984, "n_seeds": 20}}, {"param_value": 0.15, "tau_full": {"point": 67.15355314555303, "lo": 61.53181162116319, "hi": 72.5611387728473, "n_seeds": 20}, "y11": {"point": 68.29965473959736, "lo": 62.81772233577282, "hi": 73.2245167836916, "n_seeds": 20}}, {"param_value": 0.3, "tau_full": {"point": 67.15355314555303, "lo": 61.37962267960522, "hi": 72.3846673265988, "n_seeds": 20}, "y11": {"point": 68.29965473959736, "lo": 62.55837461452635, "hi": 73.31129660236516, "n_seeds": 20}}, {"param_value": 0.45, "tau_full": {"point": 67.15355314555303, "lo": 61.34001067361958, "hi": 72.51684956585517, "n_seeds": 20}, "y11": {"point": 68.29965473959736, "lo": 62.20169868300747, "hi": 73.45231210303402, "n_seeds": 20}}]}}};
+window.__EMBEDDED_P5 = {"meta": {"seeds": 50, "periods": 100, "N_workers": 50, "N_tasks": 5, "burn_in": 10, "alpha_structure": "block", "network": "ws"}, "cells": {"00_status_quo": {"label": "Assign: status-quo \u00b7 Contract: flat A0", "total_output": {"point": 0.14054955764083865, "lo": 0.05195067108898041, "hi": 0.22235812542450462, "n_seeds": 50}, "profit": {"point": -49.85945044235917, "lo": -49.9491526862754, "hi": -49.76956051896488, "n_seeds": 50}, "mean_effort": {"point": 0.002681374956921618, "lo": 0.0026453532703769526, "hi": 0.002718305744370194, "n_seeds": 50}, "wage_gini": 0.0, "effort_gini": 0.014607875272341283, "n_seeds": 50}, "10_reorg_only": {"label": "Assign: oracle    \u00b7 Contract: flat A0", "total_output": {"point": 0.2145182690797116, "lo": 0.12275877128145962, "hi": 0.29981920948742885, "n_seeds": 50}, "profit": {"point": -49.78548173092029, "lo": -49.87779530701355, "hi": -49.69952208803854, "n_seeds": 50}, "mean_effort": {"point": 0.002681374956921618, "lo": 0.0026458749266510106, "hi": 0.0027217959213631216, "n_seeds": 50}, "wage_gini": 0.0, "effort_gini": 0.014607875272341283, "n_seeds": 50}, "01_incent_only": {"label": "Assign: status-quo \u00b7 Contract: oracle", "total_output": {"point": 30.198230875965155, "lo": 28.53760179122404, "hi": 31.895806116674528, "n_seeds": 50}, "profit": {"point": -17.50853251481923, "lo": -18.37304026156264, "hi": -16.589409514654477, "n_seeds": 50}, "mean_effort": {"point": 0.5471824002982614, "lo": 0.5248299330026891, "hi": 0.5684931994794269, "n_seeds": 50}, "wage_gini": 0.16890147132326602, "effort_gini": 0.35904494577119805, "n_seeds": 50}, "11_full_stack": {"label": "Assign: oracle    \u00b7 Contract: oracle", "total_output": {"point": 85.35785645938029, "lo": 82.12010683727631, "hi": 88.8082993117876, "n_seeds": 50}, "profit": {"point": 7.2260174755425775, "lo": 5.768928890386929, "hi": 8.839643217823538, "n_seeds": 50}, "mean_effort": {"point": 1.0925807205379716, "lo": 1.0635626538124452, "hi": 1.1246381953036233, "n_seeds": 50}, "wage_gini": 0.19957477249416716, "effort_gini": 0.25696550090956494, "n_seeds": 50}}, "did": {"tau_reorg": {"point": 0.07396871143887292, "lo": 0.0704987888387944, "hi": 0.07761763916757762, "n_seeds": 50}, "tau_incent": {"point": 30.057681318324317, "lo": 28.35680030868173, "hi": 31.84091979504719, "n_seeds": 50}, "tau_full": {"point": 85.21730690173943, "lo": 81.71598651730653, "hi": 88.45879747424058, "n_seeds": 50}, "tau_inter": {"point": 55.085656871976255, "lo": 52.12060094882606, "hi": 58.24838176765998, "n_seeds": 50}}, "tail_stats": {"00_status_quo": {"top1_share": 1.0, "top10_share": 1.0, "pareto_alpha": 999999999.9999999}, "10_reorg_only": {"top1_share": 1.0, "top10_share": 1.0, "pareto_alpha": 999999999.9999999}, "01_incent_only": {"top1_share": 0.03852594769858015, "top10_share": 0.2304753647143904, "pareto_alpha": 2.946075929391899}, "11_full_stack": {"top1_share": 0.03241184693013216, "top10_share": 0.21966196462772564, "pareto_alpha": 3.597735306055177}}};
 </script>
 <script>
 /* Quindi ABM dashboard — driven by real JSON results. */
@@ -329,19 +396,23 @@ function fmtCI(ci, d=2) {
 }
 
 async function init() {
-    const [P1, P2, P3] = await Promise.all([
-        (window.__EMBEDDED_P1) ? Promise.resolve(window.__EMBEDDED_P1)
-            : fetch('../results/two_levers_ceiling.json').then(r => r.json()),
-        (window.__EMBEDDED_P2) ? Promise.resolve(window.__EMBEDDED_P2)
-            : fetch('../results/two_levers_noise.json').then(r => r.json()),
-        (window.__EMBEDDED_P3) ? Promise.resolve(window.__EMBEDDED_P3)
-            : fetch('../results/three_rct_designs.json').then(r => r.json()),
+    const load = (key, path) => (window[key])
+        ? Promise.resolve(window[key])
+        : fetch(path).then(r => r.json());
+    const [P1, P2, P3, P4, P5] = await Promise.all([
+        load('__EMBEDDED_P1', '../results/two_levers_ceiling.json'),
+        load('__EMBEDDED_P2', '../results/two_levers_noise.json'),
+        load('__EMBEDDED_P3', '../results/three_rct_designs.json'),
+        load('__EMBEDDED_P4', '../results/four_robustness.json'),
+        load('__EMBEDDED_P5', '../results/five_long_horizon.json'),
     ]);
 
     renderPhase1(P1);
     renderPhase2(P2);
     renderPhase3(P3);
-    renderSummary(P1, P2, P3);
+    renderPhase4(P4);
+    renderPhase5(P5, P1);
+    renderSummary(P1, P2, P3, P5);
 }
 
 // ===================== PHASE 1 =====================
@@ -550,11 +621,156 @@ function renderPhase3(D) {
     document.querySelector('#phase3-designs tbody').innerHTML = rows.join('');
 }
 
+// ===================== PHASE 4 =====================
+
+function renderPhase4(D) {
+    // 4a: alpha structure
+    if (D.alpha_robustness) {
+        document.querySelector('#phase4a-table tbody').innerHTML =
+            Object.entries(D.alpha_robustness).map(([struct, r]) => {
+                const d = r.did;
+                const share = (d.tau_inter.point / d.tau_full.point) * 100;
+                return `<tr>
+                    <td><code>${struct}</code></td>
+                    <td class="num">${fmtCI(d.tau_reorg, 2)}</td>
+                    <td class="num">${fmtCI(d.tau_incent, 2)}</td>
+                    <td class="num">${fmtCI(d.tau_full, 2)}</td>
+                    <td class="num" style="color:var(--warn);font-weight:600">${fmtCI(d.tau_inter, 2)}</td>
+                    <td class="num">${share.toFixed(0)}%</td>
+                </tr>`;
+            }).join('');
+    }
+    // 4b: network
+    if (D.network_robustness) {
+        document.querySelector('#phase4b-table tbody').innerHTML =
+            Object.entries(D.network_robustness).map(([net, r]) => {
+                const d = r.did;
+                const labels = {ws:'Watts-Strogatz (small-world)', er:'Erdős-Rényi (random)',
+                                lattice:'Ring lattice (no rewire)'};
+                return `<tr>
+                    <td>${labels[net] || net}</td>
+                    <td class="num">${fmtCI(d.tau_reorg, 2)}</td>
+                    <td class="num">${fmtCI(d.tau_incent, 2)}</td>
+                    <td class="num">${fmtCI(d.tau_full, 2)}</td>
+                    <td class="num">${fmtCI(d.tau_inter, 2)}</td>
+                </tr>`;
+            }).join('');
+    }
+    // 4c: elasticity curves
+    if (D.elasticity) {
+        const params = ['rho', 'sigma_output', 'k', 'psi_peer'];
+        const canvasIds = {
+            rho: 'fig-elast-rho', sigma_output: 'fig-elast-sigma',
+            k: 'fig-elast-k', psi_peer: 'fig-elast-psi',
+        };
+        const paramLabels = {
+            rho: 'ρ (risk aversion)',
+            sigma_output: 'σ (output noise)',
+            k: 'k (effort cost)',
+            psi_peer: 'ψ (peer pressure)',
+        };
+        params.forEach(p => {
+            const e = D.elasticity[p];
+            if (!e) return;
+            const labels = e.curve.map(r => r.param_value.toFixed(2));
+            const points = e.curve.map(r => r.tau_full.point);
+            const errBars = e.curve.map(r => ({ lo: r.tau_full.lo, hi: r.tau_full.hi }));
+            new Chart(document.getElementById(canvasIds[p]), {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: `τ_full vs ${paramLabels[p]}`,
+                        data: points,
+                        borderColor: COL.accent,
+                        backgroundColor: COL.accent + '20',
+                        tension: 0.35, fill: false,
+                        pointRadius: 5, pointBackgroundColor: COL.accent,
+                        errorBars: errBars,
+                    }],
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false },
+                        title: { display: true, text: paramLabels[p], font: { size: 13, weight: 600 } }},
+                    scales: {
+                        x: { title: { display: true, text: p } },
+                        y: { title: { display: true, text: 'τ_full' }, beginAtZero: true },
+                    },
+                },
+            });
+        });
+    }
+}
+
+// ===================== PHASE 5 =====================
+
+function renderPhase5(D, P1) {
+    // Cells table
+    const cellLabels = {
+        '00_status_quo':  '(0,0) status quo',
+        '10_reorg_only':  '(1,0) reorg only',
+        '01_incent_only': '(0,1) incent only',
+        '11_full_stack':  '(1,1) full stack',
+    };
+    document.querySelector('#phase5-cells tbody').innerHTML =
+        Object.entries(D.cells).map(([k, c]) => {
+            const posColor = c.profit.point >= 0 ? 'var(--pos)' : 'var(--neg)';
+            return `<tr>
+                <td><strong>${cellLabels[k] || k}</strong></td>
+                <td class="num">${fmtCI(c.total_output, 2)}</td>
+                <td class="num" style="color:${posColor}">${fmtCI(c.profit, 2)}</td>
+                <td class="num">${fmt(c.mean_effort.point, 3)}</td>
+                <td class="num">${fmt(c.wage_gini, 3)}</td>
+            </tr>`;
+        }).join('');
+
+    // DiD vs Phase 1
+    const labels = {
+        tau_reorg: 'τ reorg', tau_incent: 'τ incent',
+        tau_full: 'τ full', tau_inter: 'τ interaction',
+    };
+    document.querySelector('#phase5-did tbody').innerHTML =
+        Object.entries(D.did).map(([k, v]) => {
+            const p1 = P1.did[k];
+            const delta = v.point - p1.point;
+            const relChange = delta / Math.abs(p1.point) * 100;
+            const badgeCls = Math.abs(relChange) < 10 ? 'pos' : (Math.abs(relChange) < 25 ? 'warn' : 'neg');
+            return `<tr>
+                <td><strong>${labels[k]}</strong></td>
+                <td class="num">${fmt(v.point, 2)}</td>
+                <td class="num">[${fmt(v.lo, 2)}, ${fmt(v.hi, 2)}]</td>
+                <td class="num" style="color:var(--ink3)">${fmt(p1.point, 2)}</td>
+                <td class="num"><span class="badge ${badgeCls}">${delta >= 0 ? '+' : ''}${fmt(delta, 2)} (${relChange >= 0 ? '+' : ''}${relChange.toFixed(1)}%)</span></td>
+            </tr>`;
+        }).join('');
+
+    // Wage tail table
+    if (D.tail_stats) {
+        document.querySelector('#phase5-tail tbody').innerHTML =
+            Object.entries(D.tail_stats).map(([k, t]) => {
+                if (!t || Object.keys(t).length === 0) return '';
+                const isDegenerate = t.pareto_alpha > 100;
+                const alpha = isDegenerate ? 'n/a (degenerate)' : fmt(t.pareto_alpha, 2);
+                const t1 = isDegenerate ? 'n/a' : fmt(t.top1_share * 100, 1) + '%';
+                const t10 = isDegenerate ? 'n/a' : fmt(t.top10_share * 100, 1) + '%';
+                return `<tr>
+                    <td><strong>${cellLabels[k] || k}</strong></td>
+                    <td class="num">${t1}</td>
+                    <td class="num">${t10}</td>
+                    <td class="num" style="color:${isDegenerate ? 'var(--ink3)' : 'var(--pos)'}">${alpha}</td>
+                </tr>`;
+            }).join('');
+    }
+}
+
 // ===================== SUMMARY =====================
 
-function renderSummary(P1, P2, P3) {
-    const tFull = P1.did.tau_full.point;
-    const tInter = P1.did.tau_inter.point;
+function renderSummary(P1, P2, P3, P5) {
+    // Prefer Phase 5 long-horizon numbers if available.
+    const source = (P5 && P5.did) ? P5 : P1;
+    const tFull = source.did.tau_full.point;
+    const tInter = source.did.tau_inter.point;
     document.getElementById('sum-ceiling').textContent = '+' + fmt(tFull, 1);
     document.getElementById('sum-inter').textContent = (tInter / tFull * 100).toFixed(0) + '%';
     const point035 = P2.curve.find(r => Math.abs(r.sigma_AI - 0.35) < 0.01);
