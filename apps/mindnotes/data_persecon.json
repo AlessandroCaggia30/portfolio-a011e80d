@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-19T10:20:02.665Z",
+  "exportedAt": "2026-07-19T10:20:04.641Z",
   "data": {
     "topics": [
       {
@@ -746,10 +746,6 @@
                 "links": [
                   {
                     "target": "p-mirrlees-1975",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-gh-1983",
                     "type": "forward"
                   }
                 ]
