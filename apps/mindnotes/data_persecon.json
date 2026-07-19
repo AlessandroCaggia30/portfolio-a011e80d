@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-19T08:09:08.258Z",
+  "exportedAt": "2026-07-19T08:09:21.092Z",
   "data": {
     "topics": [
       {
@@ -744,10 +744,6 @@
                     "type": "forward"
                   },
                   {
-                    "target": "p-gh-1983",
-                    "type": "forward"
-                  },
-                  {
                     "target": "p-lr-1981",
                     "type": "forward"
                   },
@@ -877,8 +873,8 @@
                 "id": "p-gh-1983",
                 "title": "P·Grossman–Hart (1983) — General PA",
                 "content": "**Ref.** Grossman, S. & Hart, O. (1983). An analysis of the principal-agent problem. *Econometrica*, 51(1), 7–45.\n\n## Contribution\n**General** PA formulation; existence conditions.\n\n## Idea\nDecompose the PA problem into (1) picking implementable effort, (2) minimising cost of inducing it. Sidesteps the invalidity of the first-order approach.\n\n## Result\nOptimal contract exists under MLRP + convex distribution function condition (CDFC).\n\n## Impact\nMathematical foundation for HM (1987) and all subsequent PA models.\n\n→ Anchor: **Incentives Theory Core**",
-                "x": 7725,
-                "y": 1975,
+                "x": 7762.880206952305,
+                "y": 1848.2469998134388,
                 "width": 340,
                 "height": 240,
                 "flashcard": false,
