@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-19T10:11:51.763Z",
+  "exportedAt": "2026-07-19T10:11:56.113Z",
   "data": {
     "topics": [
       {
@@ -1018,8 +1018,8 @@
                 "id": "p-gibbons-1987",
                 "title": "P·Gibbons (1987) — Ratchet",
                 "content": "**Ref.** Gibbons, R. (1987). Piece-rate incentive schemes. *Journal of Labor Economics*, 5(4), 413–429.\n\n## Contribution\nFormalizes the **ratchet effect**.\n\n## Idea\nTwo periods. Firm updates target based on period-1 output. Rational worker under-produces in $t=1$ to keep $t=2$ target low.\n\n## Result\n$$e_1^* < e^{\\text{one-shot}}$$\nStrategic hiding is welfare-reducing. Worse when firm cannot commit to future quotas.\n\n## Impact\n**F3 Ratchet Effect**. Motivates yardstick competition (Holmström 1982; Shleifer 1985).\n\n→ Anchor: **Incentives Theory Core**",
-                "x": 6525,
-                "y": 3375,
+                "x": 7619.59318506821,
+                "y": 1902.9608890462,
                 "width": 340,
                 "height": 240,
                 "flashcard": false,
