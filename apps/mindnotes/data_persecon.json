@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-19T07:37:59.316Z",
+  "exportedAt": "2026-07-19T07:38:01.016Z",
   "data": {
     "topics": [
       {
@@ -866,7 +866,12 @@
                 "color": "purple",
                 "popBg": "#ede9fe",
                 "popShape": "rounded",
-                "links": []
+                "links": [
+                  {
+                    "target": "p-hm-1991",
+                    "type": "both"
+                  }
+                ]
               },
               {
                 "id": "p-gh-1983",
