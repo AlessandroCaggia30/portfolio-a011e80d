@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-19T10:11:49.334Z",
+  "exportedAt": "2026-07-19T10:11:51.763Z",
   "data": {
     "topics": [
       {
@@ -742,10 +742,6 @@
                 "links": [
                   {
                     "target": "p-ross-1973",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-gibbons-1987",
                     "type": "forward"
                   },
                   {
