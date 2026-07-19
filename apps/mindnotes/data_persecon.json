@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-19T10:11:38.719Z",
+  "exportedAt": "2026-07-19T10:11:41.785Z",
   "data": {
     "topics": [
       {
@@ -746,14 +746,6 @@
                   },
                   {
                     "target": "p-macleod-2003",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-jm-1976",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-hansmann-1996",
                     "type": "forward"
                   },
                   {
