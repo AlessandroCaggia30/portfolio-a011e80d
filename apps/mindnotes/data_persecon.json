@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-19T07:37:43.593Z",
+  "exportedAt": "2026-07-19T07:37:47.274Z",
   "data": {
     "topics": [
       {
@@ -749,14 +749,6 @@
                   },
                   {
                     "target": "p-gh-1983",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-hm-1987",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-hm-1991",
                     "type": "forward"
                   },
                   {
