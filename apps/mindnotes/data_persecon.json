@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-19T10:11:18.197Z",
+  "exportedAt": "2026-07-19T10:11:24.078Z",
   "data": {
     "topics": [
       {
@@ -745,10 +745,6 @@
                     "type": "forward"
                   },
                   {
-                    "target": "p-lr-1981",
-                    "type": "forward"
-                  },
-                  {
                     "target": "p-lazear-1979",
                     "type": "forward"
                   },
@@ -924,8 +920,8 @@
                 "id": "p-lr-1981",
                 "title": "P·Lazear–Rosen (1981) — Tournaments",
                 "content": "**Ref.** Lazear, E. & Rosen, S. (1981). Rank-order tournaments as optimum labor contracts. *JPE*, 89(5), 841–864.\n\n## Contribution\n**Tournament theory**.\n\n## Idea\nInstead of paying cardinal output, pay by rank. Winner gets $w_H$, loser $w_L$; spread $\\Delta$.\n\n## Result\nOptimal $\\Delta^*$ satisfies:\n$$\\Delta \\cdot \\frac{\\partial P_{\\text{win}}}{\\partial e} = c'(e^*)$$\n**Cancels common shocks** across peers (F1). Requires homogeneous peer group.\n\n## Impact\n**A2 Tournament**. Ground for promotion contests, sales tournaments, CEO succession.\n\n→ Anchor: **Incentives Theory Core**",
-                "x": 7477.775731906072,
-                "y": 2044.6115979135616,
+                "x": 7885.776804172876,
+                "y": 1679.747202890825,
                 "width": 340,
                 "height": 240,
                 "flashcard": false,
