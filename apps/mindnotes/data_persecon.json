@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-19T10:11:28.788Z",
+  "exportedAt": "2026-07-19T10:11:36.493Z",
   "data": {
     "topics": [
       {
@@ -746,18 +746,6 @@
                   },
                   {
                     "target": "p-holmstrom-1982",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-fama-1980",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-ss-1984",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-bgm-1994",
                     "type": "forward"
                   },
                   {
