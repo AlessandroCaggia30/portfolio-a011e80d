@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-19T10:16:58.126Z",
+  "exportedAt": "2026-07-19T10:17:00.990Z",
   "data": {
     "topics": [
       {
@@ -670,10 +670,6 @@
                   },
                   {
                     "target": "a6",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "a8",
                     "type": "forward"
                   }
                 ]
