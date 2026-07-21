@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-21T20:26:58.052Z",
+  "exportedAt": "2026-07-21T20:27:02.193Z",
   "data": {
     "topics": [
       {
@@ -645,8 +645,8 @@
                 "id": "p-ml3-2022",
                 "title": "P·ML3 (Reinhardt–Warnke–Uhrmacher 2022)",
                 "content": "**Ref.** Reinhardt, O., Warnke, T. & Uhrmacher, A. M. (2022). A formal foundation for the modeling language ML3. *ACM Transactions on Modeling and Computer Simulation (TOMACS)*, 32(1), Article 6.\n\n---\n\n## Intro\n\nStandard demography ABMs face two joint problems: (1) events happen in **continuous time** (a birth doesn't wait for a discrete tick), and (2) some events are **age-linked and deterministic** (retirement at 65) while others are **stochastic** with arbitrary waiting-time distributions. NetLogo/Mesa force discrete time; CTMC-based tools force memoryless exponential distributions; DEVS is too hierarchical. **ML3** (\"Modeling Language for Linked Lives\") from Rostock provides the missing formalism — this paper gives it a rigorous mathematical semantics.\n\n## Methodology — how the agents are built\n\n- **Agents.** Attributes (age, sex, employment, income), **links** to other agents (spouse, employer, parents, children), and **rules** the agent obeys.\n- **Rules** specify four things:\n  - **who** it applies to (agent type),\n  - **when** it can occur (a guard predicate),\n  - **how** it fires (waiting-time distribution),\n  - **what happens** (state and link updates).\n\nFour rule types, each with its own waiting-time distribution $F$:\n\n- **Stochastic (Exp).** Fires with a time-varying exponential rate → non-homogeneous CTMC semantics. Rate can depend on age.\n- **Instant (Inst).** Fires immediately when the guard becomes true. $F$ jumps from 0 to 1 at $\\Delta t = 0$.\n- **Age-based (At age).** Fires deterministically at a specified age. $F$ is a step at $[e_a] + a.\\text{birth} - \\tau$.\n- **Periodic (Every).** Fires at fixed intervals — monthly salary, annual review.\n\n**Simulation execution (GSMP scheduler).**\n1. Sample a waiting time for each active event from its $F$.\n2. Execute the event with the smallest waiting time.\n3. Advance simulation clock.\n4. Update state and links.\n5. Update event clocks: inactive → $-1$; newly active or just-executed → $0$; other active events advanced by the elapsed time.\n\nThe union of the four rule types is not a plain CTMC — it's a **Generalized Semi-Markov Process (GSMP)**. This paper proves the mapping formally, giving ML3 verifiable semantics.\n\n## Results & Contribution\n\n- **First formal semantics for a continuous-time ABM language with mixed rule types.** Solves what NetLogo/Mesa (discrete), PRISM/CTMC-based tools (memoryless only), and DEVS (too hierarchical) all handle awkwardly.\n- **Reproducibility.** Other researchers can now check semantic equivalence of a reimplementation against the spec.\n- **Verification.** Formal properties of the model can be proven.\n- **Composition.** Sub-models can be safely combined without semantic ambiguity.\n- **Brings the demography ABM community up to the standard already achieved by macro ABM (EURACE) and org ABM (NK-based).** Life-course sociology (Elder, Bengtson) now has an executable, verifiable computational counterpart.\n",
-                "x": -65,
-                "y": 975,
+                "x": 3306.0932533511395,
+                "y": 2395.80265370484,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
