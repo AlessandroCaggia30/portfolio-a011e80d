@@ -413,8 +413,8 @@
                 "id": "p-bergmann-1974",
                 "title": "P·Bergmann (1974) — Micro-Simulation of the Macroeconomy",
                 "content": "**Ref.** Bergmann, B. (1974). A microsimulation of the macroeconomy with explicitly represented money flows. *Annals of Economic and Social Measurement*, 3(3), 475–489.\n\n---\n\n## Intro\n\nThe **founding paper of agent-based macroeconomics.** In 1974 macro was dominated by representative-agent theory (Lucas 1972; Sargent–Wallace 1975) — one household, one firm, closed-form analytic solutions. Barbara Bergmann rejected the aggregation and asked: *what if we simulate every actor explicitly, track every dollar between them, and let the macro emerge from that?* She built the first full-economy agent-based model, decades before ABM had a name.\n\n## Methodology — how the agents are built\n\nThree agent classes, all with an explicit balance sheet:\n\n- **Firms.** State = inventory, price, workforce, cash. Each period they (1) plan production from past sales, (2) adjust workforce and pay wages, (3) produce, (4) set prices as markup, (5) pay taxes and buy inputs, (6) invest, (7) borrow/repay.\n- **Households.** State = wage income, transfers, taxes owed, financial portfolio. Each period they (1) receive wages/transfers/property income, (2) pay taxes, (3) choose consumption vs. savings, (4) allocate wealth across cash/bonds/equity.\n- **Banks + central bank.** Buy and sell government bonds, set the interest rate.\n\nEvery action posts a **double-entry accounting** entry — a debit on one balance sheet and a credit on another. Decision rules come from **operations research** (safety stock, EOQ, markup pricing), not from optimization. Twelve sequential steps per period (a week) close the loop: production → wages → consumption → investment → bank flows → rate setting.\n\n## Results & Contribution\n\n- **First full-economy micro-simulation.** Every dollar tracked from source to sink.\n- **Stock-flow consistent** decades before Godley–Lavoie (2007) formalized the accounting discipline.\n- **Predicted stagflation:** the model produced the 1970s combination of high inflation + high unemployment that broke Phillips-curve theory.\n- **Demonstrated emergent macro:** GDP growth, inflation, unemployment fall out of micro flows without any representative agent or rational-expectations assumption.\n- **Ancestor of every modern macro ABM.** EURACE, K+S, CATS, JAMEL, Ashraf–Gershman–Howitt — all inherit the 12-step architecture with variations. Bergmann was a decade ahead of the ABM movement AND ahead of the intellectual challenge to the representative-agent orthodoxy that Kirman (1992) later articulated.\n",
-                "x": 1613.7236030822532,
-                "y": 834.210427978489,
+                "x": 2800,
+                "y": -1000,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
@@ -423,18 +423,6 @@
                 "popBg": "#fef9c3",
                 "popShape": "rounded",
                 "links": [
-                  {
-                    "target": "p-eurace-2012",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-ks-2010",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-cats-2011",
-                    "type": "forward"
-                  },
                   {
                     "target": "p-axtell-2001",
                     "type": "forward"
@@ -458,6 +446,18 @@
                   {
                     "target": "p-boudreau-2010",
                     "type": "forward"
+                  },
+                  {
+                    "target": "p-eurace-2012",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-ks-2010",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-cats-2011",
+                    "type": "forward"
                   }
                 ]
               },
@@ -465,8 +465,8 @@
                 "id": "p-axtell-2001",
                 "title": "P·Axtell (2001) — Endogenous Firm Emergence",
                 "content": "**Ref.** Axtell, R. (2001). Effort dynamics in economic organizations. *Santa Fe Institute Working Paper 99-11-076*. Extended in Axtell (2018) *Endogenous firms and their dynamics*.\n\n---\n\n## Intro\n\nCoase (1937) and Alchian–Demsetz (1972) argued theoretically *why* firms exist — transaction costs, team-monitoring. But the empirical Zipf's law of firm sizes (Simon–Bonini 1958) had no bottom-up model. Axtell's move was radical: **don't assume firms; let them emerge** from workers' effort and mobility choices, and see if the emergent size distribution matches the data.\n\n## Methodology — how the agents are built\n\n- **A population of $N$ workers**, each with a heterogeneous parameter for the effort-vs-leisure tradeoff.\n- **No exogenous firms.** A \"firm\" is defined as *a set of workers who cooperate and share output equally* (team pay, Kandel–Lazear 1992 style).\n\nEach period, each worker chooses two things:\n\n1. **Effort $e_i \\in [0,1]$** given the current firm membership. Payoff = share of team output − cost of effort. Under team pay of size $N$, marginal own-effort return is $1/N$ — the classic free-rider gap widens with firm size.\n2. **Membership.** Stay in current firm, join another existing firm, found a new firm (solo), or become solo. Choice is myopic best-response to expected payoffs.\n\n**Dynamics.** As a firm grows, the free-rider gap widens → high-effort members earn less on the margin than they contribute → they leave. As high-effort members exit, the remaining low-effort members' payoff falls → firm becomes unattractive → collapse. Ex-members disperse and start new smaller firms. A **Sisyphean cycle**: grow, get raided, collapse, re-form.\n\n## Results & Contribution\n\n- **First serious demonstration that firms can emerge endogenously** from micro decisions — no exogenous size assumption, no imposed distribution.\n- **Zipf's law emerges.** The steady-state distribution of firm sizes is a power law, matching US Census data (Gaffeo–Gallegati–Palestrini 2003 confirm cross-country).\n- **The Kandel–Lazear peer-pressure logic played out dynamically.** Analytical PA showed free-riding scales with $N$; Axtell shows what that scaling *does* to the industrial structure.\n- **Established a validation target for firm-scale ABMs.** Any subsequent firm-scale model is expected to reproduce Zipf-tailed size distributions — Gaffeo–Gallegati–Palestrini (2003) and Delli Gatti et al. use it as a benchmark.\n",
-                "x": -2625,
-                "y": 1140,
+                "x": 0,
+                "y": 500,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
@@ -480,8 +480,8 @@
                 "id": "p-eurace-2012",
                 "title": "P·EURACE — Dawid et al. (2008–2012)",
                 "content": "**Ref.** Dawid, H., Gemkow, S., Harting, P., van der Hoog, S. & Neugart, M. (2012). The EURACE@Unibi Model: An Agent-Based Macroeconomic Model for Economic Policy Analysis. *Working paper*, Bielefeld University. Continued in Dawid et al. (2018) and *JEDC* articles.\n\n---\n\n## Intro\n\nThe **largest published macro ABM:** 50,000+ agents simulating an entire European economy. Built by the Bielefeld group (Dawid, Neugart, Harting, van der Hoog, Gemkow) under an EU-funded project. Its point is to show ABM can scale AND deliver serious policy analysis without any optimizing agent — an alternative to DSGE for the post-2008 policy environment.\n\n## Methodology — how the agents are built\n\nEvery rule is from an **operations-management or industrial-relations textbook**, not from theory:\n\n- **Firms.** State = inventory, capital stock, workforce, cash, debt. Rules:\n  - inventory management with a safety-stock target,\n  - production plan adjusted from last period's demand,\n  - **markup pricing** over unit cost with periodic revision,\n  - hiring/firing based on labor requirement of the production target,\n  - wage-setting as markup over a collective-bargaining floor,\n  - investment tied to capacity utilization and expected profit.\n- **Households.** Keynesian consumption function of disposable income; savings target a wealth-to-income ratio; fixed portfolio shares across cash / bonds / equity.\n- **Banks.** Lending subject to **Basel-style capital ratios**; interest-rate spreads increase with borrower leverage.\n- **Central bank.** Standard **Taylor rule** on policy rate.\n- **Government.** Fiscal rules on tax rates and spending; issues bonds when in deficit.\n\nEvery rule has a management-science pedigree, blunting the \"arbitrary heuristics\" critique.\n\n## Results & Contribution\n\n- **Scale proof:** 50k agents × decades of simulated periods runs on modest hardware. Refutes the \"ABM can't scale\" complaint.\n- **Rules-not-optimization discipline:** every heuristic is what real firms actually do (Bloom–Van Reenen management-practices data).\n- **Reproduced macro stylised facts:** Beveridge curve, wage–price spiral, endogenous business cycles, distributional dynamics, financial-fragility clustering.\n- **Policy laboratory:** ran counterfactuals for fiscal consolidation, wage-bargaining regime changes, monetary union — the kind of distributionally-detailed analysis DSGE can't produce.\n- **Established the \"large-scale management-rules\" wing of macro ABM.** Sister frameworks (K+S evolutionary, CATS network-fragility) descend from the same Bergmann root but pick different substantive emphases; EURACE picked scale + management-science-anchored rules.\n",
-                "x": 800,
-                "y": 1840,
+                "x": 4200,
+                "y": 500,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
@@ -495,8 +495,8 @@
                 "id": "p-ks-2010",
                 "title": "P·Dosi–Fagiolo–Roventini (2010) — K+S Model",
                 "content": "**Ref.** Dosi, G., Fagiolo, G. & Roventini, A. (2010). Schumpeter meeting Keynes: A policy-friendly model of endogenous growth and business cycles. *Journal of Economic Dynamics and Control*, 34(9), 1748–1767.\n\n---\n\n## Intro\n\nThe **K+S (\"Keynes + Schumpeter\") model** — flagship of the Pisa–Sant'Anna evolutionary tradition (Dosi, Nelson, Winter). Standard macro treated growth (Solow, Ramsey) and business cycles (RBC, New Keynesian) as separate objects. K+S argues they are the **same phenomenon**: firms' R&D + Keynesian aggregate-demand feedback jointly generate trend growth AND fluctuations.\n\n## Methodology — how the agents are built\n\n**Two firm sectors + households + banks + government + central bank.**\n\n- **Capital-good firms (Schumpeter).** State = productivity level, R&D budget, market share. Each period they (1) allocate a fraction of profits to R&D, (2) innovate with some probability (draw from a productivity distribution), (3) imitate leading competitors with another probability, (4) sell machines to consumer-good firms. Losers exit; winners grow.\n- **Consumer-good firms (Keynes).** State = capital stock (vintages of machines), inventory, cash. Each period they (1) plan output from expected demand, (2) buy machines from the capital sector, (3) hire workers, (4) sell to households.\n- **Households.** Receive wages from both sectors; consume by a Keynesian marginal-propensity rule; save the residual.\n- **Banks.** Lend to firms; firms default if losses exceed net worth; failed loans reduce bank capital.\n- **Government.** Countercyclical spending and tax rules; issues debt when in deficit.\n- **Central bank.** Taylor rule.\n\nFirms are **heterogeneous** — different productivity, R&D budgets, leverage — and **selected** by profitability: losses shrink market share and eventually cause exit.\n\n## Results & Contribution\n\n- **Growth and cycles unified.** In booms, high demand → firms invest → R&D up → productivity grows. In recessions, weak firms fail → productivity distribution improves via selection. **Cycles are the mechanism through which growth happens**, not deviations from it.\n- **Endogenous productivity growth** of 2–3% per period without any imposed TFP shock.\n- **Endogenous business cycles** — recessions of 5–15% real GDP contraction emerge from firm heterogeneity + credit dynamics alone.\n- **Zipf firm-size tail** matches Axtell (2001).\n- **Policy laboratory** for climate transition (Lamperti et al. 2018), inequality (Dosi et al. 2015), macroprudential regulation (Popoyan et al. 2017), fiscal policy (Dosi et al. 2013).\n- **Executable Nelson–Winter.** Nelson–Winter (1982) laid the theoretical foundation for evolutionary economics; K+S is its computable version — the evolutionary counterpart to EURACE's management-science emphasis.\n",
-                "x": 495,
-                "y": 2970,
+                "x": 4900,
+                "y": 500,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
@@ -510,8 +510,8 @@
                 "id": "p-cats-2011",
                 "title": "P·Delli Gatti et al. (2011) — CATS",
                 "content": "**Ref.** Delli Gatti, D., Desiderio, S., Gaffeo, E., Cirillo, P. & Gallegati, M. (2011). *Macroeconomics from the Bottom-Up*. Springer.\n\n---\n\n## Intro\n\n**CATS** (\"Complex Adaptive Trivial System\") comes from the Ancona / Politecnico-Milano group (Gallegati, Delli Gatti). Where K+S emphasizes Schumpeterian innovation, CATS emphasizes **financial-network fragility**: cascading firm bankruptcies as the *endogenous* source of macroeconomic crises. It is the first rigorous ABM implementation of Minsky's (1986) financial-instability hypothesis.\n\n## Methodology — how the agents are built\n\nThe distinctive feature is **two overlaid networks**:\n\n- **Firm–bank credit network** (bipartite): every firm has a debt relationship with a specific bank.\n- **Firm–firm supply-chain network:** firms buy intermediate inputs from other firms.\n\nAgents:\n\n- **Firms.** State = productivity, capital, net worth, debt, supplier and customer links. Each period they (1) produce using labor + intermediate goods, (2) borrow from their bank to finance production, (3) sell output, (4) service debt. Default triggers when revenues < wage bill + interest + supplier payments.\n- **Banks.** State = capital, loan portfolio. Lend under Basel-style capital ratios; loan losses reduce capital; bank capital below the regulatory floor → bank failure. Failed banks call in loans from surviving borrowers → *cascade pressure*.\n- **Households + government + central bank** are standard: households hold deposits, government does fiscal, central bank sets a policy rate.\n\n**Contagion mechanism.** Firm A defaults → Bank X takes a loss → Bank X tightens or fails → other firms borrowing from X face credit rationing and some default → their suppliers lose customers and some default. Losses propagate through *both* networks simultaneously.\n\n## Results & Contribution\n\n- **Endogenous financial crises.** No exogenous banking shock needed; the model produces recurrent fat-tailed recessions from ordinary business decisions.\n- **Credit-cycle dynamics** — boom → leverage up → small shock → cascade → recession. Minsky quantified.\n- **Network topology is first-order.** Sparse and dense networks give very different systemic-risk properties; a 5–10% initial failure rate can amplify to a 30–50% real-GDP contraction depending on network density and capital thresholds.\n- **Policy tools built in:** macroprudential capital buffers, countercyclical capital rules, bailout decisions.\n- **Battiston et al. (2016, *Nature Communications*)** extended the CATS network machinery to cross-country systemic-risk measurement, establishing network ABMs in top general-science venues.\n",
-                "x": 3372.4210427978483,
-                "y": 2598.2961128631755,
+                "x": 5600,
+                "y": 500,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
@@ -525,8 +525,8 @@
                 "id": "p-fdg-2004",
                 "title": "P·Fagiolo–Dosi–Gabriele (2004) — Evolutionary Labor Market",
                 "content": "**Ref.** Fagiolo, G., Dosi, G. & Gabriele, R. (2004). Matching, bargaining, and wage setting in an evolutionary model of labor and output markets. *International Journal of Modern Physics C*, 15, 1–16.\n\n---\n\n## Intro\n\nEarly labor ABMs used fixed decision rules; the analytical benchmark was Diamond–Mortensen–Pissarides search. FDG's move: keep search-matching, but let the **wage-setting rules themselves evolve** via replicator dynamics — not agent-level learning, **population-level rule selection** in the Nelson–Winter (1982) evolutionary-economics tradition.\n\n## Methodology — how the agents are built\n\n- **Workers.** State = ability, reservation wage, employment status. Search sequentially over posting firms. Reservation wage adjusts to outside options.\n- **Firms.** State = productivity, vacancy count, wage-setting *rule*. Each firm follows ONE of a menu of rules:\n  - **markup over cost:** $w = (1-\\pi) \\cdot p \\cdot y$,\n  - **follow the leader:** match the highest-productivity firm's wage,\n  - **local adjustment:** raise wage if a vacancy stays open too long,\n  - **efficiency-wage rule:** pay above the market-clearing wage to cut turnover cost.\n- **Matching.** Random meetings between unemployed workers and posting firms; a match forms if the offered wage exceeds the reservation; matches dissolve stochastically (layoffs, quits).\n\n**The evolutionary twist.** Rules that produce higher firm profit spread through the firm population; unprofitable rules exit. Population share $x_r$ of each rule follows a **replicator dynamic**:\n$$\\dot x_r = x_r \\, (\\pi_r - \\bar\\pi)$$\nwhere $\\pi_r$ is average profit for rule $r$ and $\\bar\\pi$ the population mean. The rule mix emerges endogenously from selection.\n\n## Results & Contribution\n\n- **First labor ABM with population-level rule evolution.** No single rule dominates; a stable *mixture* emerges.\n- **Reproduced macro stylised facts:** Beveridge curve with clockwise cyclical loops, Okun's law, wage–productivity co-movement, unemployment autocorrelation.\n- **Explained institutional inertia.** Rules persist long after conditions change because rule-mix evolution is slow → labor markets appear \"rigid\" not because agents can't reoptimize but because the rule population lags.\n- **Policy responses:** unemployment-insurance changes shift the equilibrium rule mix toward efficiency-wage rules; the response is slow.\n- **Uniquely evolutionary at the population level, not just agent level.** Neugart-family papers, Richiardi, Boudreau all learn/choose at the agent level with a fixed rule; FDG lets the *rule* itself compete. This distinguishes the paper from the entire rest of the labor-ABM tradition.\n",
-                "x": -1625,
-                "y": 2540,
+                "x": 1400,
+                "y": 500,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
@@ -534,19 +534,14 @@
                 "color": "yellow",
                 "popBg": "#fef9c3",
                 "popShape": "rounded",
-                "links": [
-                  {
-                    "target": "p-nr-2018",
-                    "type": "forward"
-                  }
-                ]
+                "links": []
               },
               {
                 "id": "p-neugart-2008",
                 "title": "P·Neugart (2008) — Discrete Choice",
                 "content": "**Ref.** Neugart, M. (2008). Labor market policy evaluation with ACE. *Journal of Economic Behavior & Organization*, 67(2), 418–430.\n\n---\n\n## Intro\n\nBetween full dynamic optimization (intractable at scale) and fixed heuristics (arbitrary) lies **discrete choice**: agents pick from a finite menu with a probabilistic rule whose coefficients are estimated from real data. Neugart is the paper that integrated McFadden's (1974) discrete-choice toolkit into labor-market ABM — the empirical anchor the field had been missing.\n\n## Methodology — how the agents are built\n\n- **Workers.** State = age, skill, tenure, unemployment history, current wage.\n- **Firms.** State = productivity, size, vacancy count.\n- Search frictions à la Diamond–Mortensen–Pissarides, implemented at the individual level (not aggregate).\n\n**Every agent decision is a multinomial logit.**\n\nFor a decision with menu $\\{1, 2, \\ldots, J\\}$:\n$$P_{ij} = \\frac{\\exp(V_{ij})}{\\sum_{k=1}^J \\exp(V_{ik})}$$\nwhere $V_{ij}$ is the systematic-utility function of individual state and policy parameters. Extreme-value error term absorbed into the choice probabilities.\n\nDecisions modeled as logits:\n- Worker: accept a job offer? enroll in training? change occupation?\n- Firm: post vacancy? hire this applicant? offer training subsidy?\n\n**The critical move.** Coefficients on $V_{ij}$ are **estimated from real German micro-data** (SOEP, LFS, IAB). Each coefficient has an economic meaning and is pinned down from observed choices — not chosen by the modeler.\n\n## Results & Contribution\n\n- **Bridge between econometrics and ABM.** Discrete-choice models — the workhorse of empirical labor economics — slot cleanly into an ABM without loss of interpretability.\n- **Policy evaluation without a representative agent.** Compare policy A vs. B under realistic heterogeneity; distributional consequences fall out (who benefits, who loses).\n- **Computational scalability.** Logit is $O(J)$ per agent per period — millions of agents × decades of periods is feasible.\n- **Validated aggregate responses** against natural-experiment estimates for training subsidies and unemployment-insurance changes.\n- **Established the empirical-anchor standard** for labor ABMs. Prior work chose parameters by hand or matched stylised facts; Neugart demands each coefficient come from a discrete-choice regression on micro-data — a standard the field's later work (Martin–Neugart 2009) inherits.\n",
-                "x": 1180,
-                "y": 1345,
+                "x": 2100,
+                "y": 500,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
@@ -565,8 +560,8 @@
                 "id": "p-mn-2009",
                 "title": "P·Martin–Neugart (2009) — Wage-Setting Discrete Choice",
                 "content": "**Ref.** Martin, C. & Neugart, M. (2009). Shocks, endogenous rigidity, and the role of a shock-absorbing labor market institution. *Applied Economics*, 41(9), 1141–1153.\n\n---\n\n## Intro\n\n[[P·Neugart (2008) — Discrete Choice]] applied discrete choice to worker–policy decisions (accept training, enroll in a program). Martin–Neugart extend the framework to the **transactional core** of the labor market — how wages actually get set, when firms hire, when workers quit — closing the last gap between empirical discrete-choice models and a full labor-market ABM.\n\n## Methodology — how the agents are built\n\nSame worker–firm ABM skeleton as Neugart 2008 (heterogeneous types, DMP search frictions, individual-level matching), but the discrete-choice module now covers the **transactional decisions**:\n\n| Agent | Decision | Menu |\n|---|---|---|\n| Firm | Post a vacancy? | Yes / No |\n| Firm | Hire this applicant? | Yes / No |\n| Firm | Wage offer to a new hire | Discrete grid over $[w_{\\min}, w_{\\max}]$ |\n| Worker | Accept the offer? | Accept / reject |\n| Worker | Quit this period? | Stay / quit |\n\nEach decision uses the same logit form as Neugart 2008: $P_{ij} \\propto \\exp(V_{ij})$, with $V_{ij}$ a function of match surplus, current wage, outside option, etc.\n\n**Institutional module.** An institutional feature (short-time work, unemployment insurance, wage subsidy) enters as a **shift in $V_{ij}$** for the affected decisions — firm hires vs. lays off, worker accepts partial hours vs. quits. Small changes in $V$ shift many individual probabilities, producing large aggregate effects.\n\n## Results & Contribution\n\n- **Full labor-market equilibrium** from discrete choice alone — no Nash bargaining, no wage posting, no Rubinstein.\n- **Endogenous wage distribution** emerges from the joint distribution of logit choices.\n- **Unemployment dynamics** track empirical patterns (persistence, hiring-firing asymmetry).\n- **Institutional shock-absorbers cut cyclical amplitude** by 15–30% in the calibrated model.\n- **Institution-as-parameter design** — any labor institution is a $V$-shift, making counterfactual policy comparison mechanical.\n- **Alternative to bargaining models.** No need to assume Nash / Rubinstein / Bertrand explicitly; equilibrium wages emerge from the joint distribution of logit choices. This closes the loop between Neugart's policy-participation focus and the transactional core of DMP.\n",
-                "x": -25,
-                "y": 2350,
+                "x": 2100,
+                "y": 1000,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
@@ -574,19 +569,14 @@
                 "color": "yellow",
                 "popBg": "#fef9c3",
                 "popShape": "rounded",
-                "links": [
-                  {
-                    "target": "p-nr-2018",
-                    "type": "forward"
-                  }
-                ]
+                "links": []
               },
               {
                 "id": "p-richiardi-2006",
                 "title": "P·Richiardi (2006) — Adaptive Rules",
                 "content": "**Ref.** Richiardi, M. (2006). Toward a non-equilibrium unemployment theory. *Computational Economics*, 27(1), 135–160.\n\n---\n\n## Intro\n\nStandard search theory (McCall 1970; Mortensen–Pissarides 1994) has the worker solve a Bellman equation for the reservation wage. Feasible for a single agent under stationarity; **infeasible in an ABM with heterogeneous, non-stationary workers**. Richiardi asked: what's the simplest rule that gets you *close* to optimal search without any value-function computation?\n\n## Methodology — how the agents are built\n\n- **Workers.** State = employment status, past search history, **a running estimate $\\hat V_{\\text{search}}$** = perceived value of searching this period.\n- **Firms.** Post vacancies at an exogenous rate; matches form with Poisson intensity.\n\nEach period, each worker executes a **temporal-difference (TD) learning rule**:\n\n1. **Decide.** Search this period iff $\\hat V_{\\text{search}} > w_{\\text{stay}}$ (reservation-payoff test).\n2. **Realize payoff.** Found a job → wage; no job → search cost.\n3. **Update.**\n   $$\\hat V_{\\text{search}} \\;\\leftarrow\\; \\hat V_{\\text{search}} + \\alpha \\cdot (\\text{realized payoff} - \\hat V_{\\text{search}})$$\n   where $\\alpha$ is the learning rate.\n\nThe rule stays fixed; its **parameter** ($\\hat V$) evolves with experience. No Bellman equation is ever computed. Over many periods, workers' search behavior converges toward near-optimal without solving any dynamic programming problem.\n\n## Results & Contribution\n\n- **Simplest reinforcement-learning primitive in a labor ABM.** One state variable per worker, one update per period.\n- **Persistent non-equilibrium unemployment.** Because new workers keep entering and learning from scratch, the aggregate search rate never fully converges — a feature closed-form models rule out by stationarity assumption.\n- **Hysteresis.** Shocks leave lasting imprints on aggregate search behavior via the learned $\\hat V$ distribution.\n- **Heterogeneity from luck.** Workers who succeed early accumulate high $\\hat V$ and keep searching; unlucky workers disengage — endogenous mobility inequality from initially identical types.\n- **Bounded-rationality bridge.** Simon-style satisficing gets a formal foundation: agents approximate the reservation wage *without* computing it.\n- **Legitimated non-equilibrium as a theoretical object.** The paper argues unemployment isn't a deviation from equilibrium; it's a persistent property of the learning process — a claim analytical models rule out by assumption. Foundation for the RL branch of the field (Gemkow–Neugart 2011 extends this to Q-learning).\n",
-                "x": 2374.9999999999995,
-                "y": 3200,
+                "x": 2800,
+                "y": 500,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
@@ -605,8 +595,8 @@
                 "id": "p-gn-2011",
                 "title": "P·Gemkow–Neugart (2011) — RL for Networks",
                 "content": "**Ref.** Gemkow, S. & Neugart, M. (2011). Referral hiring, endogenous social networks, and inequality: an agent-based analysis. *Journal of Evolutionary Economics*, 21, 703–719.\n\n---\n\n## Intro\n\nSocial networks matter for labor outcomes — friends give referrals, referrals produce jobs (Ioannides–Loury 2004; Bayer–Ross–Topa 2008). But analytical models treat network structure as exogenous. Gemkow–Neugart make it **endogenous** via reinforcement learning: workers *choose* how much to invest in maintaining each tie, given uncertain and delayed referral payoffs. Extends [[P·Richiardi (2006) — Adaptive Rules]] from a single decision to a richer state–action space.\n\n## Methodology — how the agents are built\n\n- **Workers.** State = employment status, current tie set, **Q-table over actions** $Q_i(n)$ = perceived value of maintaining $n$ ties.\n- **Firms.** Post vacancies; match either via direct search (external candidate) or via referral (candidate suggested by an existing employee).\n- **Graph.** Evolves over time — ties decay if not maintained; new ties form via matching.\n\nEach period, each worker:\n\n1. **Choose action.** Investment level $n$ (or a softmax draw over $n$-values weighted by $Q_i(n)$).\n2. **Realize.** Pay maintenance cost of $n$ ties; possibly receive a referral (stochastic, delayed).\n3. **Observe payoff.** Wage from a referred job if it landed; else zero.\n4. **Update.**\n   $$Q_i(n) \\;\\leftarrow\\; Q_i(n) + \\alpha \\cdot (\\pi_t - Q_i(n))$$\n\n**Softmax exploration** occasionally picks suboptimal actions — necessary because the payoff landscape isn't monotonic. Over time, each worker converges to their *individually optimal* network size, which depends on labor-market position and past luck.\n\n## Results & Contribution\n\n- **First serious use of Q-learning in labor economics.** Richer state space than Richiardi's TD (many actions per state, not just one binary decision).\n- **Endogenous social networks.** Structure isn't given — it emerges from thousands of individual RL decisions.\n- **Cumulative advantage from identical starts.** Two ex-ante identical workers end up with very different network sizes and lifetime wages:\n  - Early luck → high $Q$ → more investment → more referrals → **positive feedback**.\n  - Early failure → low $Q$ → disengagement → fewer referrals → **cumulative disadvantage**.\n- **Policy implications:** referral-hiring subsidies amplify inequality; anti-discrimination in referrals reduces it more than search subsidies.\n- **Established RL as a legitimate primitive in labor economics.** Before this paper, RL was AI-side folklore; Gemkow–Neugart bring it into the *Journal of Evolutionary Economics* with a calibrated model and cleanly interpretable results.\n",
-                "x": 2664.999999999999,
-                "y": 3855,
+                "x": 2800,
+                "y": 1000,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
@@ -614,19 +604,14 @@
                 "color": "yellow",
                 "popBg": "#fef9c3",
                 "popShape": "rounded",
-                "links": [
-                  {
-                    "target": "p-nr-2018",
-                    "type": "forward"
-                  }
-                ]
+                "links": []
               },
               {
                 "id": "p-boudreau-2010",
                 "title": "P·Boudreau (2010) — Rank-Based Imitation",
                 "content": "**Ref.** Boudreau, J. (2010). Rank-based rules and workforce decisions in agent-based models.\n\n---\n\n## Intro\n\nAt the opposite end of the ABM design spectrum from RL sits the **fixed heuristic**. Where Neugart brings McFadden's random-utility toolkit and Richiardi brings TD learning, Boudreau brings the simplest possible behavioral rule from social-comparison psychology (Festinger 1954): **imitate the person ranked just above you**.\n\n## Methodology — how the agents are built\n\n- **Workers.** State = current rank in the population, initial ability, cumulative human capital $h_i$.\n- **Ranking.** Updated each period from realized outcomes.\n- No firms, no matching frictions — the paper isolates the imitation mechanism.\n\nEach period, each worker $i$:\n\n1. **Look up.** Observe the labour-market outcome (wage, job stability) of the worker at rank $r_i - 1$.\n2. **Compare.** Is that outcome higher than mine?\n3. **Adjust.** If yes, raise human-capital investment $h_i$ upward toward the rank-$(r_i - 1)$ worker's investment level. If no, leave unchanged.\n\nParaphrased: *\"I invest to match the observed choice of the worker at rank $r_i - 1$.\"*\n\n**No learning parameters. No logit coefficients. No optimization.** The population's dynamics emerge from who successfully imitates whom.\n\n## Results & Contribution\n\n- **Emergent inequality from a minimal rule.**\n  - **Stratification** — workers cluster at rank tiers based on match success.\n  - **Path dependence** — early failures propagate into permanent lag.\n  - **Realistic right tail** in the skill-inequality distribution.\n- **Empirical grounding.** Rank-based imitation is a documented behavioral pattern (Festinger; Falk–Knell 2004 on reference groups). The rule isn't invented — it's imported from behavioral science.\n- **Sensitivity insight.** Small tweaks (imitate rank $r-3$ instead of $r-1$) produce large aggregate shifts; adding imitation noise accelerates convergence but flattens tails.\n- **A Schelling-style demonstration:** minimal rules → non-obvious aggregate outcomes.\n- **Provides the field's \"null model\" for richer decision rules.** Every richer labor ABM (Neugart discrete choice, Richiardi TD, Gemkow–Neugart RL) implicitly claims to beat rank imitation. Boudreau is the benchmark those claims must clear.\n",
-                "x": 3262.3093813873747,
-                "y": 590.5129882628935,
+                "x": 3500,
+                "y": 500,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
@@ -634,19 +619,14 @@
                 "color": "yellow",
                 "popBg": "#fef9c3",
                 "popShape": "rounded",
-                "links": [
-                  {
-                    "target": "p-nr-2018",
-                    "type": "forward"
-                  }
-                ]
+                "links": []
               },
               {
                 "id": "p-ml3-2022",
                 "title": "P·ML3 (Reinhardt–Warnke–Uhrmacher 2022)",
                 "content": "**Ref.** Reinhardt, O., Warnke, T. & Uhrmacher, A. M. (2022). A formal foundation for the modeling language ML3. *ACM Transactions on Modeling and Computer Simulation (TOMACS)*, 32(1), Article 6.\n\n---\n\n## Intro\n\nStandard demography ABMs face two joint problems: (1) events happen in **continuous time** (a birth doesn't wait for a discrete tick), and (2) some events are **age-linked and deterministic** (retirement at 65) while others are **stochastic** with arbitrary waiting-time distributions. NetLogo/Mesa force discrete time; CTMC-based tools force memoryless exponential distributions; DEVS is too hierarchical. **ML3** (\"Modeling Language for Linked Lives\") from Rostock provides the missing formalism — this paper gives it a rigorous mathematical semantics.\n\n## Methodology — how the agents are built\n\n- **Agents.** Attributes (age, sex, employment, income), **links** to other agents (spouse, employer, parents, children), and **rules** the agent obeys.\n- **Rules** specify four things:\n  - **who** it applies to (agent type),\n  - **when** it can occur (a guard predicate),\n  - **how** it fires (waiting-time distribution),\n  - **what happens** (state and link updates).\n\nFour rule types, each with its own waiting-time distribution $F$:\n\n- **Stochastic (Exp).** Fires with a time-varying exponential rate → non-homogeneous CTMC semantics. Rate can depend on age.\n- **Instant (Inst).** Fires immediately when the guard becomes true. $F$ jumps from 0 to 1 at $\\Delta t = 0$.\n- **Age-based (At age).** Fires deterministically at a specified age. $F$ is a step at $[e_a] + a.\\text{birth} - \\tau$.\n- **Periodic (Every).** Fires at fixed intervals — monthly salary, annual review.\n\n**Simulation execution (GSMP scheduler).**\n1. Sample a waiting time for each active event from its $F$.\n2. Execute the event with the smallest waiting time.\n3. Advance simulation clock.\n4. Update state and links.\n5. Update event clocks: inactive → $-1$; newly active or just-executed → $0$; other active events advanced by the elapsed time.\n\nThe union of the four rule types is not a plain CTMC — it's a **Generalized Semi-Markov Process (GSMP)**. This paper proves the mapping formally, giving ML3 verifiable semantics.\n\n## Results & Contribution\n\n- **First formal semantics for a continuous-time ABM language with mixed rule types.** Solves what NetLogo/Mesa (discrete), PRISM/CTMC-based tools (memoryless only), and DEVS (too hierarchical) all handle awkwardly.\n- **Reproducibility.** Other researchers can now check semantic equivalence of a reimplementation against the spec.\n- **Verification.** Formal properties of the model can be proven.\n- **Composition.** Sub-models can be safely combined without semantic ambiguity.\n- **Brings the demography ABM community up to the standard already achieved by macro ABM (EURACE) and org ABM (NK-based).** Life-course sociology (Elder, Bengtson) now has an executable, verifiable computational counterpart.\n",
-                "x": 3976.0932533511395,
-                "y": 3120.80265370484,
+                "x": -1500,
+                "y": -1000,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
@@ -660,8 +640,8 @@
                 "id": "p-rs-2003",
                 "title": "P·Rivkin–Siggelkow (2003) — 3-Tier Hierarchy",
                 "content": "**Ref.** Rivkin, J. & Siggelkow, N. (2003). Balancing search and stability: Interdependencies among elements of organizational design. *Management Science*, 49(3), 290–311.\n\n---\n\n## Intro\n\nAlmost every organizational ABM before Rivkin–Siggelkow was one-tier (workers only) or two-tier (workers + boss). Middle managers were treated as passive information conduits. This paper is the **canonical three-tier organizational ABM** — the first to model workers, middle managers, and top-management as three distinct agent classes with distinct decision rules.\n\n## Methodology — how the agents are built\n\nSits on top of [[P·Levinthal (1997) — NK-Landscape Adaptation]]: policy vector $s \\in \\{0,1\\}^N$ with $K$-degree interdependencies. What Rivkin–Siggelkow add is **three explicit agent types**:\n\n- **Workers (bottom tier).** State = current policy vector. Each period they *implement* the policy and generate performance readings. No autonomous change proposals.\n- **Middle managers (middle tier).** State = span of control (which workers they oversee), a filter rule. Each period they (1) receive proposed local changes from workers or from their own scanning, (2) **filter** — approve small changes locally; escalate larger changes upward, (3) send filtered proposals to top.\n- **Top managers (top tier).** State = strategic priorities, approval threshold. Each period they (1) review escalated proposals, (2) approve those above a threshold, (3) veto misaligned ones, (4) can override middle-manager filtering for strategic reasons.\n\nDesign parameters studied: **span of control** (how many workers per middle manager), **filter strictness** (how many changes middle managers block), **approval threshold** (what top requires), **interdependence $K$**, **environmental turbulence** (rate of landscape shifts).\n\n## Results & Contribution\n\n- **First rigorous three-tier organizational ABM.** Middle managers are active filters/amplifiers, not conduits.\n- **Search-vs-stability tradeoff formalized.**\n  - Loose delegation → aggressive local search → org oscillates without settling.\n  - Strict filtering → convergence but slow adaptation.\n  - Optimum depends on landscape ruggedness AND environmental turbulence.\n- **Empirical regularity emerges:** optimal span of control ≈ 5–15, matching management-consulting rules of thumb, from the NK dynamics.\n- **Turbulent environments** ($K$ high, landscape shifts) → loose hierarchies win; **stable environments** → strict filtering wins.\n- **Middle managers become active agents in the theory.** Standard organizational theory treated them as conduits; Rivkin–Siggelkow show their filter rules are as consequential as top-management decisions. This reframes the middle-management debate that Weber, Chandler, and Mintzberg argued about verbally.\n",
-                "x": -1495,
-                "y": 1830,
+                "x": 700,
+                "y": 1000,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
@@ -675,8 +655,8 @@
                 "id": "p-levinthal-1997",
                 "title": "P·Levinthal (1997) — NK-Landscape Adaptation",
                 "content": "**Ref.** Levinthal, D. A. (1997). Adaptation on rugged landscapes. *Management Science*, 43(7), 934–950.\n\n---\n\n## Intro\n\nStandard economics couldn't explain persistent firm heterogeneity — why do similar firms end up so different? March's (1991) exploration-exploitation tradeoff was verbal. Levinthal imported Kauffman's (1993) **NK model** from evolutionary biology and reinterpreted it as an organizational-choice problem, giving strategy science its first computational primitive.\n\n## Methodology — how the agents are built\n\n- **A firm is $N$ binary policy choices** (product line, hiring criterion, marketing strategy, technology, HR policy). State = vector $s \\in \\{0,1\\}^N$.\n- **Fitness.** Each policy dimension contributes to firm performance based on (i) its own value AND (ii) the values of $K$ other policies it interacts with. Contribution of dimension $j$ is a random function of $s_j$ and $K$ other bits.\n- Total fitness = mean of the $N$ contributions.\n- **Landscape ruggedness controlled by $K$.**\n  - $K=0$: additive; landscape smooth; local search always finds global optimum.\n  - $K=N-1$: every policy interacts with every other; maximally rugged; local search stuck at local peaks.\n  - Realistic firms: modest $K$ → rugged but not random landscape with multiple local optima.\n\nEach period, the firm:\n\n1. **Considers** a change to one dimension (\"local search\").\n2. **Computes** expected performance change.\n3. **Adopts** the change if fitness improves.\n4. Occasionally takes a **long jump** (flip several dimensions at once), risking a worse landing but escaping local peaks.\n\n## Results & Contribution\n\n- **Founding paper of NK-strategy simulation.** Every subsequent org-simulation paper (Rivkin–Siggelkow, Siggelkow–Levinthal, Ethiraj–Levinthal, Chang–Harrington) builds on this base.\n- **Explains persistent firm heterogeneity from identical starts.** Path-dependent search on rugged landscapes → firms with identical adaptation rules end up at *different local peaks*.\n- **Formalizes exploration-vs-exploitation** as a landscape-ruggedness tradeoff: local search improves reliably but gets stuck; long jumps have high variance but occasionally find better peaks.\n- **Environmental turbulence effects:** when the landscape shifts, stable strategies become obsolete → firms committed to a local peak get stranded.\n- **Spawned the NK-strategy literature.** Every subsequent org-simulation paper (Rivkin–Siggelkow 2003; Siggelkow–Levinthal 2003; Ethiraj–Levinthal 2004; Chang–Harrington 2000) builds on this base and now dominates the *Management Science* / *Organization Science* computational tradition.\n",
-                "x": -220,
-                "y": 1685,
+                "x": 700,
+                "y": 500,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
@@ -695,8 +675,8 @@
                 "id": "p-nr-2018",
                 "title": "P·Neugart–Richiardi (2018) — Handbook Survey",
                 "content": "**Ref.** Neugart, M. & Richiardi, M. (2018). Agent-based models of the labor market. In *Handbook of Computational Economics*, Vol. 4 (edited by Cars Hommes & Blake LeBaron). Elsevier / North-Holland.\n\n---\n\n## Intro\n\nThe **definitive field survey** of labor-market ABM, published in the flagship *Handbook of Computational Economics* Vol. 4. Written by two of the most productive practitioners. Before this chapter, labor-market ABMs were scattered across journals with no shared vocabulary; the chapter maps the landscape, publishes the taxonomy, and states the gaps.\n\n## Methodology — how the survey is organized\n\nNot a model paper — a **taxonomy** on four orthogonal axes. Any paper in the field can be positioned on the four:\n\n**1. Agent decision rule**\n\n| Approach | Representative | Property |\n|---|---|---|\n| Fixed heuristics | Dawid EURACE; Boudreau 2010 | Static rules from OR/management |\n| Discrete choice | Neugart 2008; Martin–Neugart 2009 | Logit/probit |\n| Adaptive rules | Richiardi 2006 | TD-style parameter updating |\n| Reinforcement learning | Gemkow–Neugart 2011 | Q-learning; softmax exploration |\n| Optimizing | (Rare in ABM) | Bellman at agent level |\n\n**2. Market focus:** search-matching, wage-setting, policy evaluation, institutional analysis.\n\n**3. Calibration strategy:** data-anchored (SOEP/LFS), stylized-fact matching (Beveridge, Okun), structural estimation (SMM).\n\n**4. Validation target:** aggregate stylized facts, individual heterogeneity, out-of-sample policy responses.\n\n## Results & Contribution\n\n- **Establishes field identity** — before this, labor ABMs had no canonical intro.\n- **Publishes best practices** — modular architecture, seed every RNG, distribute source + data, sensitivity sweeps, convergence tests, multiple validation levels (face + empirical + predictive).\n- **Publishes the gap list** — the actionable part:\n  1. **Integrated incentive-alternative ABMs** — no published paper implements multiple contract families (piece rate, tournament, subjective, team) as swappable modules with per-contract identification.\n  2. **Hierarchical firm structures** — only Rivkin–Siggelkow 2003 is serious; the rest treat firms as monolithic.\n  3. **Cross-country institutional comparisons** — rare.\n  4. **Empirical validation standards** — no consensus.\n  5. **Sensitivity-analysis discipline** — often skipped.\n- **Field-defining reference.** Now the canonical starting citation for anyone entering labor-market ABM. Complements Chang–Harrington (2006, Handbook Vol. 2) on organizational ABMs and LeBaron–Tesfatsion (2008, AER P&P) on ACE more broadly.\n",
-                "x": 1405,
-                "y": 3775,
+                "x": 2100,
+                "y": 1500,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
