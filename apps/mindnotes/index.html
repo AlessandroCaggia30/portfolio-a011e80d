@@ -7232,10 +7232,83 @@ function renderMath(element) {
     const retry = () => {
         if (!needsMoreMath(element)) return;
         try { _runRenderMathInElement(element); } catch (e) { console.warn('renderMath retry', e); }
+        // If auto-render still left something behind, rescue by hand: walk text
+        // nodes, split on $...$ patterns, and katex.render each math span. This
+        // is our fallback for content paths that auto-render can't handle.
+        if (needsMoreMath(element)) {
+            try { _rescueMathManually(element); } catch (e) { console.warn('rescue', e); }
+        }
     };
     Promise.resolve().then(retry);
     setTimeout(retry, 80);
     setTimeout(retry, 400);
+}
+
+// Aggressive fallback: for every unrendered $...$ or $$...$$ we can find,
+// manually katex.render into a span and splice it in. Skips <code>, <pre>,
+// and .katex containers. Idempotent.
+function _rescueMathManually(root) {
+    if (typeof katex === 'undefined' || !root) return;
+    const dollarPair = /\$\$([^\$\n][\s\S]*?)\$\$|\$([^\$\n]+?)\$/g;
+    const macros = { // subset of the main macros for the manual path
+        "\\R": "\\mathbb{R}", "\\E": "\\mathbb{E}", "\\P": "\\mathbb{P}",
+        "\\N": "\\mathbb{N}", "\\Z": "\\mathbb{Z}",
+        "\\Var": "\\operatorname{Var}", "\\Cov": "\\operatorname{Cov}",
+        "\\eps": "\\varepsilon"
+    };
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+        acceptNode(n) {
+            if (!n.nodeValue || !n.nodeValue.includes('$')) return NodeFilter.FILTER_REJECT;
+            let p = n.parentNode;
+            while (p && p !== root) {
+                const tag = (p.tagName || '').toLowerCase();
+                if (tag === 'code' || tag === 'pre' || tag === 'textarea' || tag === 'input')
+                    return NodeFilter.FILTER_REJECT;
+                if (p.classList && (p.classList.contains('katex') ||
+                                      p.classList.contains('katex-display')))
+                    return NodeFilter.FILTER_REJECT;
+                p = p.parentNode;
+            }
+            return dollarPair.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT
+                                                : NodeFilter.FILTER_REJECT;
+        }
+    });
+    const targets = [];
+    let cur;
+    while ((cur = walker.nextNode())) targets.push(cur);
+    for (const node of targets) {
+        const text = node.nodeValue;
+        const frag = document.createDocumentFragment();
+        let last = 0;
+        dollarPair.lastIndex = 0;
+        let m;
+        let anyMatch = false;
+        while ((m = dollarPair.exec(text)) !== null) {
+            anyMatch = true;
+            if (m.index > last) {
+                frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+            }
+            const body = m[1] != null ? m[1] : m[2];
+            const display = m[1] != null;
+            const span = document.createElement('span');
+            try {
+                katex.render(body, span, {
+                    displayMode: display, throwOnError: false,
+                    strict: false, trust: true, macros,
+                });
+            } catch (e) {
+                span.textContent = m[0]; // fallback: keep original text
+            }
+            frag.appendChild(span);
+            last = m.index + m[0].length;
+        }
+        if (last < text.length) {
+            frag.appendChild(document.createTextNode(text.slice(last)));
+        }
+        if (anyMatch && node.parentNode) {
+            node.parentNode.replaceChild(frag, node);
+        }
+    }
 }
 
 async function copyToClipboard(text) {
