@@ -14542,6 +14542,127 @@ const READING_LISTS = {
 
 <hr>
 
+<h3>10 · Contract Theory — foundational papers used in the ABM microfoundations</h3>
+<p>Every contract family (A0–A8) in the ABM is derived from one of these primary sources. Each is cited by equation number in <code>src/microfoundations.py</code>.</p>
+<ul>
+    <li><strong>Ross (1973, AER)</strong> — first formal statement of the principal-agent problem.</li>
+    <li><strong>Mirrlees (1971, REStud; 1975/1999, REStud)</strong> — optimal taxation; theory of moral hazard.</li>
+    <li><strong>Holmström (1979, Bell J. Econ)</strong> — sufficient-statistic principle for incentive contracts.</li>
+    <li><strong>Holmström (1982, Bell J. Econ)</strong> — moral hazard in teams; career concerns.</li>
+    <li><strong>Holmström &amp; Milgrom (1987, Econometrica)</strong> — optimal linear contracts (A1 microfoundation).</li>
+    <li><strong>Holmström &amp; Milgrom (1991, JLEO)</strong> — multitask principal-agent (F2 pathology).</li>
+    <li><strong>Grossman &amp; Hart (1983, Econometrica; 1986, JPE)</strong> — principal-agent; property rights.</li>
+    <li><strong>Hart &amp; Moore (1990, JPE)</strong> — property rights, hold-up.</li>
+    <li><strong>Lazear &amp; Rosen (1981, JPE)</strong> — rank-order tournaments (A2 microfoundation).</li>
+    <li><strong>Rosen (1986, AER)</strong> — heterogeneity in tournaments.</li>
+    <li><strong>Green &amp; Stokey (1983, JPE)</strong> — tournaments vs contracts comparison.</li>
+    <li><strong>Chan &amp; Zheng (2011)</strong>; <strong>Chowdhury &amp; Gürtler (2015, Public Choice)</strong> — sabotage in tournaments.</li>
+    <li><strong>Shapiro &amp; Stiglitz (1984, AER)</strong> — efficiency wage / no-shirking (A3 microfoundation).</li>
+    <li><strong>Kandel &amp; Lazear (1992, JPE)</strong> — peer pressure in team production (A4 microfoundation).</li>
+    <li><strong>MacLeod (2003, AER)</strong> — subjective evaluation contracts (A7 microfoundation).</li>
+    <li><strong>Baker, Gibbons &amp; Murphy (1994, QJE)</strong> — subjective performance measures.</li>
+    <li><strong>Fama (1980, JPE)</strong> — career concerns; grounding for intrinsic effort baseline.</li>
+    <li><strong>Alchian &amp; Demsetz (1972, AER)</strong> — residual claimant theory of the firm.</li>
+    <li><strong>Milgrom (1988, JPE)</strong> — influence activities.</li>
+    <li><strong>Tirole (1986, JLEO)</strong> — hierarchies and collusion (A1/A2 collusion mechanism).</li>
+    <li><strong>Weitzman (1980, Bell J.)</strong>; <strong>Gibbons (1987, JLE)</strong> — ratchet effect.</li>
+    <li><strong>Laffont &amp; Tirole (1988, Econometrica)</strong> — dynamic incentive contracts.</li>
+    <li><strong>Levin (2003, AER)</strong> — relational incentive contracts.</li>
+    <li><strong>Innes (1990, JET)</strong>; <strong>Sappington (1983, JET)</strong> — limited liability.</li>
+    <li><strong>Bénabou &amp; Tirole (2003, REStud)</strong> — intrinsic vs extrinsic motivation.</li>
+    <li><strong>Akerlof (1982, QJE)</strong> — labor contracts as gift exchange.</li>
+    <li><strong>Fehr &amp; Falk (2002, EER)</strong> — psychological foundations of incentives.</li>
+    <li><strong>Prendergast (1999, JEL)</strong> — provision of incentives in firms (survey).</li>
+    <li><strong>Prendergast (2002, JPE)</strong> — tenuous trade-off between risk and incentives.</li>
+    <li><strong>Jensen &amp; Meckling (1976, JFE)</strong> — agency costs; ownership structure.</li>
+    <li><strong>Hansmann (1996)</strong> — <em>The Ownership of Enterprise</em>. Belknap.</li>
+    <li><strong>Lazear (1979, JPE)</strong> — mandatory retirement / deferred comp.</li>
+    <li><strong>Lazear (1986, J. Business)</strong> — salaries vs piece rates.</li>
+    <li><strong>Williamson (1985)</strong> — <em>Economic Institutions of Capitalism</em>. Free Press.</li>
+    <li><strong>Rothschild &amp; Stiglitz (1976, QJE)</strong> — adverse selection in insurance markets.</li>
+    <li><strong>Salanié (1997)</strong> — <em>The Economics of Contracts</em>. MIT Press.</li>
+    <li><strong>Deci &amp; Ryan (1985)</strong> — <em>Intrinsic Motivation and Self-Determination</em>. Plenum.</li>
+</ul>
+
+<hr>
+
+<h3>11 · Empirical calibration anchors — moments used in SMM</h3>
+<p>Every parameter value in the ABM's <code>calibration.py</code> traces to one of these. Explicit anchors for matched/held-out moments.</p>
+<ul>
+    <li><strong>Lazear (2000, AER)</strong> — Safelite Glass: 44% productivity gain, 50/50 sorting vs intensive decomposition. THE central calibration target for τ<sub>full</sub>.</li>
+    <li><strong>Bandiera, Barankay &amp; Rasul (2005, QJE)</strong> — fruit-picker field experiment. Peer-effect coefficient, effort dispersion, output CV.</li>
+    <li><strong>Bandiera, Barankay &amp; Rasul (2007, 2009, 2010)</strong> — manager, social-connections, and social-incentive extensions of the fruit-picker series.</li>
+    <li><strong>Bloom, Eifert, Mahajan, McKenzie &amp; Roberts (2013, QJE)</strong> — Indian textile management practices: 17% output gain. Calibration target for τ<sub>incent</sub>.</li>
+    <li><strong>Shearer (2004, REStud)</strong> — piece rates vs fixed wages, tree planters. 20% intensive-margin effect.</li>
+    <li><strong>Paarsch &amp; Shearer (1999, JHR)</strong> — structural estimation of the effort-pay map.</li>
+    <li><strong>Ferrall &amp; Shearer (1999, REStud)</strong> — agency-model estimation from mining payroll.</li>
+    <li><strong>Haubrich (1994, JPE)</strong> — CEO risk aversion calibration.</li>
+    <li><strong>D'Haultfœuille &amp; Février (2020, QE)</strong> — structural M-H + adverse-selection; ≤ 16% efficiency loss of linear vs optimal contracts.</li>
+    <li><strong>Hossain &amp; List (2012, MS)</strong>; <strong>Hong, Hossain &amp; List (2015, MS)</strong> — framing manipulations, Chinese electronics factory.</li>
+    <li><strong>Ichniowski, Shaw &amp; Prennushi (1997, AER)</strong> — HR practice complementarities.</li>
+    <li><strong>Hamilton, Nickerson &amp; Owan (2003, JPE)</strong> — team incentives with heterogeneous workers.</li>
+    <li><strong>Ehrenberg &amp; Bognanno (1990, JPE)</strong> — golf tournament incentive test.</li>
+    <li><strong>Casas-Arce &amp; Martínez-Jerez (2009, MS)</strong> — sales-force tournaments.</li>
+    <li><strong>Georgiadis (2022)</strong> — moral-hazard theory-and-empirics review.</li>
+    <li><strong>Sadun (2016)</strong> — supervisor integrity prior.</li>
+    <li><strong>Cohen &amp; Einav (2007, AER)</strong> — CARA risk-aversion dispersion.</li>
+    <li><strong>Viswesvaran, Ones &amp; Schmidt (1996, JAP)</strong> — supervisor rating noise meta-analysis.</li>
+    <li><strong>Bewley (1999)</strong> — <em>Why Wages Don't Fall During a Recession</em>. Harvard.</li>
+    <li><strong>Falk &amp; Ichino (2006, JLE)</strong> — clean evidence on peer effects at work.</li>
+</ul>
+
+<hr>
+
+<h3>12 · Sorting, task assignment, worker heterogeneity</h3>
+<p>Foundations for the two-lever ABM's Roy-style heterogeneous productivity matrix α<sub>ij</sub>.</p>
+<ul>
+    <li><strong>Roy (1951, Oxford Econ. Papers)</strong> — comparative advantage across occupations. Origin of the α<sub>ij</sub> structure.</li>
+    <li><strong>Sattinger (1993, JEL)</strong> — assignment models of the earnings distribution.</li>
+    <li><strong>Costinot &amp; Vogel (2010, JPE)</strong> — matching and inequality.</li>
+    <li><strong>Song, Price, Guvenen, Bloom &amp; von Wachter (2019, QJE)</strong> — firming up inequality. Held-out validation target for wage-tail moments.</li>
+    <li><strong>Autor (2013, J. Labor Econ)</strong> — task approach to labor markets. Anchor for α<sub>ij</sub> productivity dispersion.</li>
+    <li><strong>Deming (2017, QJE)</strong> — growing importance of social skills.</li>
+    <li><strong>Cornelissen, Dustmann &amp; Schönberg (2017, JEP)</strong> — within-firm worker fixed effects ≈ 2× top/bottom ratio. Direct anchor for `alpha_max` parameter.</li>
+</ul>
+
+<hr>
+
+<h3>13 · Learning-by-doing — the ABM's dynamic engine</h3>
+<p>Empirical basis for the Argote-Epple-style learning function driving α<sub>ij</sub> growth on assigned tasks.</p>
+<ul>
+    <li><strong>Wright (1936, J. Aeronautical Sci)</strong> — original aircraft learning curve.</li>
+    <li><strong>Levy (1965, Management Science)</strong> — exponential adaptation function. Direct anchor for the `learning_rate` parameter.</li>
+    <li><strong>Yelle (1979, Decision Sci)</strong> — learning-curve review.</li>
+    <li><strong>Bahk &amp; Gort (1993, JPE)</strong> — plant-level learning half-life ≈ 2-3 years.</li>
+    <li><strong>Benkard (2000, AER)</strong> — 80% learning by cumulative unit 100 in aircraft.</li>
+    <li><strong>Adler &amp; Clark (1991, MS)</strong> — factory learning: half-life 2-4 months.</li>
+    <li><strong>Anzanello &amp; Fogliatto (2011, IJIE)</strong> — learning-curve model review.</li>
+    <li><strong>Thompson (2010, HB Innovation)</strong> — learning by doing survey.</li>
+    <li><strong>Argote &amp; Epple (1990, Science)</strong> — 20-30% productivity gain per doubling. Anchor for our learning target.</li>
+    <li><strong>Argote (1999)</strong> — <em>Organizational Learning</em>. Kluwer. Organisational forgetting → atrophy_rate.</li>
+</ul>
+
+<hr>
+
+<h3>14 · Statistics, macro-moments, SMM methodology</h3>
+<p>Grounds our matched vs unmatched moments protocol in mainstream econometrics.</p>
+<ul>
+    <li><strong>Hansen (1982, Econometrica)</strong> — GMM. Statistical foundation for over-identification tests.</li>
+    <li><strong>Kydland &amp; Prescott (1982, Econometrica)</strong> — calibration methodology for macro DSGE.</li>
+    <li><strong>Christiano, Eichenbaum &amp; Evans (2005, JPE)</strong> — impulse-response matching.</li>
+    <li><strong>Smets &amp; Wouters (2003, EER; 2007, AER)</strong> — Bayesian DSGE estimation.</li>
+    <li><strong>Fagiolo &amp; Roventini (2017, JASSS)</strong> — ABM validation protocol.</li>
+    <li><strong>Guerini &amp; Moneta (2017, JEDC)</strong> — moment matching for ABMs.</li>
+    <li><strong>Grazzini, Richiardi &amp; Tsionas (2017, JEDC)</strong> — Bayesian estimation of ABMs.</li>
+    <li><strong>Franke &amp; Westerhoff (2012, JEDC)</strong> — structural stochastic volatility validation.</li>
+    <li><strong>Fagiolo, Moneta &amp; Windrum (2007, Comp. Econ)</strong> — critical guide to empirical validation of ABMs.</li>
+    <li><strong>Efron &amp; Tibshirani (1993)</strong> — <em>An Introduction to the Bootstrap</em>. Chapman &amp; Hall. Bootstrap CIs on all ABM statistics.</li>
+    <li><strong>Kuhn (1955, NRL)</strong> — Hungarian algorithm for assignment (used in oracle-assignment policy).</li>
+    <li><strong>Grimm et al. (2020, JASSS)</strong> — ODD protocol for describing agent-based models.</li>
+</ul>
+
+<hr>
+
 <h3>How to use this list</h3>
 <ul>
     <li><strong>Quindi ABM design</strong>: Mesa docs → Axtell 2001 → Neugart–Richiardi 2018 → ML3 paper.</li>
