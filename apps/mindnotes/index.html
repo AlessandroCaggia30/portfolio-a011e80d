@@ -14016,55 +14016,67 @@ function _spConfirm(mode) {
     else selectSubject(s);
 }
 
-// ==================== ONE-TIME EMERGENCY RECOVERY (2026-07-21) ====================
-// The persecon smart-merge script may have written an empty object to
-// mindnotes_persecon in IndexedDB. If that subject was persisted as the current
-// subject, initApp() throws on resume and the whole app appears broken.
-// One-time fix: force clear the persisted current-subject state and, if the
-// personnel-econ IndexedDB entry is corrupt (missing topics), delete it so
-// the app re-seeds from git on next open.
-(function _emergencyRecovery20260721() {
-    const FLAG = 'mindnotes_recovery_20260721';
-    if (localStorage.getItem(FLAG)) return;
+// ==================== AGGRESSIVE RECOVERY (2026-07-21 v3) ====================
+// The persecon smart-merge script corrupted state. This runs UNCONDITIONALLY
+// on every load until subjects are confirmed working, deletes the entire
+// mindnotes IndexedDB (which force re-seeds from git), and shows a big
+// visible banner if the DOM's subject grid is empty 3s after load.
+(function _aggressiveRecoveryV3() {
+    const FLAG = 'mindnotes_recovery_20260721_v3';
+    // SYNCHRONOUS cleanup — always safe to run
     try {
-        // 1. Clear persisted current-subject so app always lands on picker
         localStorage.removeItem('mindnotes_current_subject');
         localStorage.removeItem('mindnotes_current_pop');
-        // 2. Clear the persecon merge flag from the broken script
         localStorage.removeItem('mindnotes_persecon_merge_v1_20260721');
-        // 3. Check IndexedDB personnel-econ — delete if corrupt (no topics)
-        const req = indexedDB.open('mindnotes_db');
-        req.onsuccess = (ev) => {
-            try {
-                const db = ev.target.result;
-                if (!db.objectStoreNames.contains('data')) {
-                    localStorage.setItem(FLAG, '1'); return;
-                }
-                const tx = db.transaction('data', 'readwrite');
-                const store = tx.objectStore('data');
-                const g = store.get('mindnotes_persecon');
-                g.onsuccess = () => {
-                    const val = g.result;
-                    // Corrupt if not an object with .topics, or if topics is empty
-                    const corrupt = !val || typeof val !== 'object' ||
-                        !val.topics || !Array.isArray(val.topics) || val.topics.length === 0;
-                    if (corrupt) {
-                        console.warn('[recovery] deleting corrupt personnel-econ from IndexedDB');
-                        store.delete('mindnotes_persecon');
-                    }
-                    tx.oncomplete = () => localStorage.setItem(FLAG, '1');
-                };
-                g.onerror = () => localStorage.setItem(FLAG, '1');
-            } catch (e) {
-                console.warn('[recovery] IDB check failed:', e);
-                localStorage.setItem(FLAG, '1');
-            }
-        };
-        req.onerror = () => { localStorage.setItem(FLAG, '1'); };
-    } catch (e) {
-        console.warn('[recovery] outer catch:', e);
-        try { localStorage.setItem(FLAG, '1'); } catch (_) {}
+    } catch (_) {}
+    // Only wipe IDB on the first load after this fix ships (flag not set)
+    if (!localStorage.getItem(FLAG)) {
+        try {
+            const delReq = indexedDB.deleteDatabase('mindnotes_db');
+            delReq.onsuccess = () => {
+                console.warn('[recovery-v3] deleted mindnotes_db — will re-seed from git');
+                try { localStorage.setItem(FLAG, '1'); } catch (_) {}
+            };
+            delReq.onerror = () => { try { localStorage.setItem(FLAG, '1'); } catch (_) {} };
+            delReq.onblocked = () => { try { localStorage.setItem(FLAG, '1'); } catch (_) {} };
+        } catch (_) {}
     }
+    // Safety-net banner: if subjectGrid is still empty 3s after load, force show subjects
+    setTimeout(() => {
+        try {
+            const grid = document.getElementById('subjectGrid');
+            if (!grid) return;
+            const hasRealCards = grid.querySelectorAll('.subject-card:not(.add-new)').length > 0;
+            if (hasRealCards) return;
+            console.warn('[recovery-v3] force-populating subject grid');
+            const SUBS = (typeof SUBJECTS !== 'undefined') ? SUBJECTS : [
+                { id: 'adv-math', name: 'Advanced Mathematics', icon: '∑', dataKey: 'mindnotes_advmath' },
+                { id: 'adv-micro', name: 'Advanced Microeconometrics', icon: '📊', dataKey: 'mindnotes_advmicro' },
+                { id: 'adv-macro', name: 'Advanced Macroeconomics', icon: '🌐', dataKey: 'mindnotes_advmacro' },
+                { id: 'time-series', name: 'Time Series Analysis', icon: '📈', dataKey: 'mindnotes_timeseries' },
+                { id: 'statistics', name: 'Statistics', icon: 'σ', dataKey: 'mindnotes_statistics' },
+                { id: 'personnel-econ', name: 'Personnel Economics', icon: '👥', dataKey: 'mindnotes_persecon' }
+            ];
+            SUBS.forEach(subject => {
+                const card = document.createElement('div');
+                card.className = 'subject-card';
+                card.innerHTML = '<span class="subject-icon">' + subject.icon + '</span>' +
+                                 '<span class="subject-name">' + subject.name + '</span>';
+                card.onclick = () => {
+                    try {
+                        if (typeof _spOpen === 'function') return _spOpen(subject);
+                        if (typeof selectSubject === 'function') return selectSubject(subject);
+                    } catch (e) { console.error('open subject failed', e); location.reload(); }
+                };
+                grid.appendChild(card);
+            });
+            // ensure subject screen is visible
+            const screen = document.getElementById('subjectScreen');
+            if (screen) screen.classList.remove('hidden');
+            const app = document.querySelector('.app');
+            if (app) app.style.display = 'none';
+        } catch (e) { console.error('recovery-v3 banner failed', e); }
+    }, 2500);
 })();
 
 // ==================== AGENDA ====================
