@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-21T20:26:53.715Z",
+  "exportedAt": "2026-07-21T20:26:58.052Z",
   "data": {
     "topics": [
       {
@@ -413,8 +413,8 @@
                 "id": "p-bergmann-1974",
                 "title": "P·Bergmann (1974) — Micro-Simulation of the Macroeconomy",
                 "content": "**Ref.** Bergmann, B. (1974). A microsimulation of the macroeconomy with explicitly represented money flows. *Annals of Economic and Social Measurement*, 3(3), 475–489.\n\n---\n\n## Intro\n\nThe **founding paper of agent-based macroeconomics.** In 1974 macro was dominated by representative-agent theory (Lucas 1972; Sargent–Wallace 1975) — one household, one firm, closed-form analytic solutions. Barbara Bergmann rejected the aggregation and asked: *what if we simulate every actor explicitly, track every dollar between them, and let the macro emerge from that?* She built the first full-economy agent-based model, decades before ABM had a name.\n\n## Methodology — how the agents are built\n\nThree agent classes, all with an explicit balance sheet:\n\n- **Firms.** State = inventory, price, workforce, cash. Each period they (1) plan production from past sales, (2) adjust workforce and pay wages, (3) produce, (4) set prices as markup, (5) pay taxes and buy inputs, (6) invest, (7) borrow/repay.\n- **Households.** State = wage income, transfers, taxes owed, financial portfolio. Each period they (1) receive wages/transfers/property income, (2) pay taxes, (3) choose consumption vs. savings, (4) allocate wealth across cash/bonds/equity.\n- **Banks + central bank.** Buy and sell government bonds, set the interest rate.\n\nEvery action posts a **double-entry accounting** entry — a debit on one balance sheet and a credit on another. Decision rules come from **operations research** (safety stock, EOQ, markup pricing), not from optimization. Twelve sequential steps per period (a week) close the loop: production → wages → consumption → investment → bank flows → rate setting.\n\n## Results & Contribution\n\n- **First full-economy micro-simulation.** Every dollar tracked from source to sink.\n- **Stock-flow consistent** decades before Godley–Lavoie (2007) formalized the accounting discipline.\n- **Predicted stagflation:** the model produced the 1970s combination of high inflation + high unemployment that broke Phillips-curve theory.\n- **Demonstrated emergent macro:** GDP growth, inflation, unemployment fall out of micro flows without any representative agent or rational-expectations assumption.\n- **Ancestor of every modern macro ABM.** EURACE, K+S, CATS, JAMEL, Ashraf–Gershman–Howitt — all inherit the 12-step architecture with variations. Bergmann was a decade ahead of the ABM movement AND ahead of the intellectual challenge to the representative-agent orthodoxy that Kirman (1992) later articulated.\n",
-                "x": 1647.5920388854802,
-                "y": 964.0394318908579,
+                "x": 1613.7236030822532,
+                "y": 834.210427978489,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
@@ -625,8 +625,8 @@
                 "id": "p-boudreau-2010",
                 "title": "P·Boudreau (2010) — Rank-Based Imitation",
                 "content": "**Ref.** Boudreau, J. (2010). Rank-based rules and workforce decisions in agent-based models.\n\n---\n\n## Intro\n\nAt the opposite end of the ABM design spectrum from RL sits the **fixed heuristic**. Where Neugart brings McFadden's random-utility toolkit and Richiardi brings TD learning, Boudreau brings the simplest possible behavioral rule from social-comparison psychology (Festinger 1954): **imitate the person ranked just above you**.\n\n## Methodology — how the agents are built\n\n- **Workers.** State = current rank in the population, initial ability, cumulative human capital $h_i$.\n- **Ranking.** Updated each period from realized outcomes.\n- No firms, no matching frictions — the paper isolates the imitation mechanism.\n\nEach period, each worker $i$:\n\n1. **Look up.** Observe the labour-market outcome (wage, job stability) of the worker at rank $r_i - 1$.\n2. **Compare.** Is that outcome higher than mine?\n3. **Adjust.** If yes, raise human-capital investment $h_i$ upward toward the rank-$(r_i - 1)$ worker's investment level. If no, leave unchanged.\n\nParaphrased: *\"I invest to match the observed choice of the worker at rank $r_i - 1$.\"*\n\n**No learning parameters. No logit coefficients. No optimization.** The population's dynamics emerge from who successfully imitates whom.\n\n## Results & Contribution\n\n- **Emergent inequality from a minimal rule.**\n  - **Stratification** — workers cluster at rank tiers based on match success.\n  - **Path dependence** — early failures propagate into permanent lag.\n  - **Realistic right tail** in the skill-inequality distribution.\n- **Empirical grounding.** Rank-based imitation is a documented behavioral pattern (Festinger; Falk–Knell 2004 on reference groups). The rule isn't invented — it's imported from behavioral science.\n- **Sensitivity insight.** Small tweaks (imitate rank $r-3$ instead of $r-1$) produce large aggregate shifts; adding imitation noise accelerates convergence but flattens tails.\n- **A Schelling-style demonstration:** minimal rules → non-obvious aggregate outcomes.\n- **Provides the field's \"null model\" for richer decision rules.** Every richer labor ABM (Neugart discrete choice, Richiardi TD, Gemkow–Neugart RL) implicitly claims to beat rank imitation. Boudreau is the benchmark those claims must clear.\n",
-                "x": 2869.9999999999995,
-                "y": 980,
+                "x": 3262.3093813873747,
+                "y": 590.5129882628935,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
