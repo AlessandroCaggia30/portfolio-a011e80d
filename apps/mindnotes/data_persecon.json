@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-21T08:43:05.835Z",
+  "exportedAt": "2026-07-21T08:43:19.357Z",
   "data": {
     "topics": [
       {
@@ -621,21 +621,6 @@
                 "links": []
               },
               {
-                "id": "causal-empirical",
-                "title": "★ Causal Identification — Empirical",
-                "content": "\n\n## Strategy 1 — 2×2 factorial RCT (best)\n\n**Sell to clients as three separate mini-products**: reorg-only, incentive-only, full-stack. Each arm is a legitimate offering. Famous methodology: to avoid self selection promote some clients to test freely the product. \n\n| Arm | Reorganisation | Incentive contract |\n|---|---|---|\n| **B** (0, 0) | Old assignment $\\mu_0$ | Flat wage $A_0$ |\n| **R** (1, 0) | **Quindi reorganises** to $\\mu^*$ | Flat wage $A_0$ |\n| **I** (0, 1) | Old assignment $\\mu_0$ | **Quindi contract $A_j$** |\n| **F** (1, 1) | **Quindi reorganises** + **Quindi contract** | |\n\nEstimation (identification is clean by random assignment):\n\n$$\\hat\\tau_{\\text{reorg}} = \\bar y_R - \\bar y_B$$\n$$\\hat\\tau_{\\text{incent}} = \\bar y_I - \\bar y_B$$\n$$\\hat\\tau_{\\text{total}} = \\bar y_F - \\bar y_B$$\n$$\\hat\\tau_{\\text{interaction}} = \\hat\\tau_{\\text{total}} - \\hat\\tau_{\\text{reorg}} - \\hat\\tau_{\\text{incent}}$$\n\n--\n\n## Strategy 2 — Staged rollout (near-best)\n\nIf 2×2 is politically hard, run in phases:\n\n- **Phase 1** (months 1–3): random $A_j$ treatment, **assignment frozen** at $\\mu_0$ → clean $\\hat\\tau_{\\text{incent}}$.\n- **Phase 2** (months 4–6): allow Quindi to reorganise → clean $\\hat\\tau_{\\text{total}}$, then $\\hat\\tau_{\\text{reorg}} = \\hat\\tau_{\\text{total}} - \\hat\\tau_{\\text{incent}}$.\n\n**Assumption**: incentive effect stable across phases.\n\n---\n\n## Strategy 3 — Within-worker-within-task fixed effects (observational)\n\nPanel data with workers doing multiple tasks over time; some clients adopt one Quindi module before the other (staggered adoption):\n\n$$y_{ikt} \\;=\\; \\alpha_i + \\gamma_k + \\delta_t + \\tau_{\\text{incent}} \\cdot Q^{\\text{incent}}_{it} + \\tau_{\\text{reorg}} \\cdot Q^{\\text{reorg}}_{it} + \\varepsilon_{ikt}$$\n\nwhere $y_{ikt}$ is output of worker $i$ on task $k$ at time $t$; $Q^{\\text{incent}}_{it}$, $Q^{\\text{reorg}}_{it}$ are module-adoption indicators.\n\n- $\\tau_{\\text{incent}}$ identified from same $(i, k)$ pre vs post contract switch.\n- $\\tau_{\\text{reorg}}$ identified from worker crossing tasks under stable contract.\n\n**Assumptions**: task-switching orthogonal to shock $\\varepsilon$ given FEs; parallel trends; no learning-by-doing bias.\n\n---\n",
-                "x": 3200,
-                "y": 5400,
-                "width": 520,
-                "height": 460,
-                "flashcard": false,
-                "images": [],
-                "color": "green",
-                "popBg": "#dcfce7",
-                "popShape": "rounded",
-                "links": []
-              },
-              {
                 "id": "causal-abm",
                 "title": "★ Causal Identification — ABM",
                 "content": "# Causal Identification in the ABM\n\nIn simulation, every empirical identification strategy reduces to a **config-file switch**. This snippet mirrors the Empirical snippet, one strategy at a time, and shows what the ABM adds that empirical work cannot: **direct validation against the known structural truth**.\n\n---\n\n## Strategy 1 in ABM — 2×2 factorial\n\n```python\nfor seed in seeds:\n    population = draw_workers(seed)     # same across cells\n    shocks     = draw_shocks(seed, T)   # same across cells\n\n    for cell in [(0,0), (1,0), (0,1), (1,1)]:\n        reorg_on, incent_on = cell\n\n        mu       = firm.optimise_assignment(pop) if reorg_on  else mu_0\n        contract = A_j                          if incent_on else A_0\n\n        y = simulate(pop, shocks, mu, contract, seed)\n        log(seed, cell, y)\n\n# Estimation\ntau_reorg  = mean(y | cell=(1,0)) - mean(y | cell=(0,0))\ntau_incent = mean(y | cell=(0,1)) - mean(y | cell=(0,0))\ntau_total  = mean(y | cell=(1,1)) - mean(y | cell=(0,0))\n```\n\n**Cost**: 4× simulation runs per seed. Trivial.\n\n---\n\n## Strategy 2 in ABM — staged rollout\n\nRun phases sequentially with the same seed:\n\n```python\nphase1 = simulate(reorg=False, incent=True,  A_j, seed)  # → tau_incent\nphase2 = simulate(reorg=True,  incent=True,  A_j, seed)  # → tau_total\ntau_reorg = phase2 - phase1\n```\n\nCross-check: does this recover the same $\\tau_{\\text{reorg}}$ as the 2×2? If yes → Strategy 2 is valid in the empirical rollout. If not → the 'incentive effect stable across phases' assumption is broken.\n\n---\n\n## Strategy 3 in ABM — within-worker-within-task FE\n\nGenerate a panel with staggered adoption; run the FE regression on the simulated log:\n\n```python\nfor seed in seeds:\n    population = draw_workers(seed)\n    # Staggered rollout: some workers get incentive at t=5, reorg at t=10; some vice versa; some never\n    adoption = draw_staggered_adoption(pop, seed)\n\n    for t in range(T):\n        for i in workers:\n            k = mu_panel[i, t]\n            Q_incent = adoption[i, 'incent'] <= t\n            Q_reorg  = adoption[i, 'reorg']  <= t\n            y = produce(i, k, Q_incent, Q_reorg, effort=e[i,t])\n            log(seed, i, k, t, y, Q_incent, Q_reorg)\n\n# Estimation via linearmodels\nfe = PanelOLS.from_formula(\n    'y ~ Q_incent + Q_reorg + EntityEffects + TimeEffects',\n    data=df.set_index(['worker_task', 't'])\n).fit()\n\ntau_incent_hat = fe.params['Q_incent']\ntau_reorg_hat  = fe.params['Q_reorg']\n```\n\n---\n\n## The killer feature — bias against known truth\n\nThe ABM sets $\\tau_{\\text{incent}}^{\\text{structural}}$ and $\\tau_{\\text{reorg}}^{\\text{structural}}$ inside the simulation. After each strategy, compute:\n\n$$\\text{bias}_{s} \\;=\\; \\hat\\tau_{s} - \\tau^{\\text{structural}}$$\n\nTypical output:\n\n| Strategy | Assumption tested | $\\hat\\tau_{\\text{incent}}$ | truth | bias | $\\hat\\tau_{\\text{reorg}}$ | truth | bias |\n|---|---|---|---|---|---|---|---|\n| **1. 2×2** | Random assignment | 20.1% | 20% | +0.1% ✅ | 8.2% | 8% | +0.2% ✅ |\n| **2. Staged** | Stable incentive across phases | 20.0% | 20% | 0% ✅ | 7.5% | 8% | −0.5% ✅ |\n| **3. FE** | Task-switch exogenous \\| FE | 22.3% | 20% | +2.3% ⚠️ | 9.6% | 8% | +1.6% ⚠️ |\n| **Naive DiD** | none | 33% | 20% | +13% ❌ | — | — | — |\n\n---\n\n## Stress-test the strategies inside the ABM\n\nBecause you control the DGP, break assumptions and re-run:\n\n```python\nscenarios = [\n    'baseline',\n    'endogenous_task_switching',   # managers move stars first\n    'learning_by_doing',           # workers improve with tenure\n    'peer_spillovers',             # SUTVA violated\n    'compliance_15pct',            # 15% of teams deviate from RCT protocol\n]\n\nfor scenario in scenarios:\n    for strategy in [S1, S2, S3]:\n        biases[scenario, strategy] = run_and_estimate(scenario, strategy)\n```\n\nProduces a **bias grid**: which strategy survives which threat.\n\n| Scenario | Strategy 1 bias | Strategy 2 bias | Strategy 3 bias |\n|---|---|---|---|\n| Baseline | ~0% | ~0% | ~2% |\n| + endogenous switching | ~0% | ~0% | **+8%** ⚠️ |\n| + learning by doing | ~0% | +2% (contamination) | +5% |\n| + peer spillovers | +3% (SUTVA) | +3% | +4% |\n| + 15% non-compliance | ~0% (ITT) | +5% | +6% |\n\n**Report to Quindi**: \"In your typical client environment, use Strategy 1 if possible (biases < 3% under all threats). If Strategy 3 is your only option, expect +5–8% upward bias on $\\hat\\tau_{\\text{incent}}$; report confidence intervals accordingly.\"\n\n---\n\n## What the ABM gives you that empirical work cannot\n\n| Quantity | Empirical | ABM |\n|---|---|---|\n| True $\\tau_{\\text{incent}}$, $\\tau_{\\text{reorg}}$ | **Unknown** | **Known (set in config)** |\n| Bias of estimator | **Unknown** (no ground truth) | **Directly measurable** |\n| Sensitivity to confounders | Requires natural experiment | Set them on/off in config |\n| Power calculations | Simulate under assumed effect | Simulate under known effect |\n| Interaction effects | Requires 2×2 in real world | Trivial: cell (1,1) − others |\n\nThe ABM's *identification purpose* is to tell Quindi **which empirical strategy to invest in for each client**, and by how much each strategy would lie in that client's specific environment.\n\n---\n\n### References\n\n- **Neugart & Richiardi (2018)** — ABM validation patterns.\n- **Manski (2003, 2007)** — partial identification bounds (useful when strategies give conflicting estimates).\n- **Chesher (2010)** — instrumental identification in structural models.\n- **Athey & Imbens (2017, JEP)** — the state of applied econometrics — ML meets causal inference.\n- **Bertrand, Duflo, Mullainathan (2004)** — clustered SE for panel DiD.\n\n→ Anchor: **ABM Theory Core**",
@@ -1124,6 +1109,24 @@
           }
         ],
         "deletedAt": 1784033727579,
+        "fromTopic": "pe-topic-1",
+        "fromSubtopic": "pe-sub-1"
+      },
+      {
+        "id": "causal-empirical",
+        "title": "★ Causal Identification — Empirical",
+        "content": "\n",
+        "x": 3200,
+        "y": 5400,
+        "width": 520,
+        "height": 460,
+        "flashcard": false,
+        "images": [],
+        "color": "green",
+        "popBg": "#dcfce7",
+        "popShape": "rounded",
+        "links": [],
+        "deletedAt": 1784623397243,
         "fromTopic": "pe-topic-1",
         "fromSubtopic": "pe-sub-1"
       }
