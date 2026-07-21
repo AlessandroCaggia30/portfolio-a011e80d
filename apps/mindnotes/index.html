@@ -13907,7 +13907,23 @@ function loadTheme() {
 
 // ==================== CUSTOM SUBJECTS ====================
 
-let _customSubjects = JSON.parse(localStorage.getItem('mindnotes_custom_subjects') || '[]');
+let _customSubjects = (() => {
+    try {
+        const raw = localStorage.getItem('mindnotes_custom_subjects');
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) {
+            console.warn('mindnotes_custom_subjects is not an array, resetting');
+            localStorage.removeItem('mindnotes_custom_subjects');
+            return [];
+        }
+        return parsed;
+    } catch (e) {
+        console.warn('mindnotes_custom_subjects parse failed, resetting:', e.message);
+        localStorage.removeItem('mindnotes_custom_subjects');
+        return [];
+    }
+})();
 
 // One-time cleanup: remove any custom subject whose name clashes with a
 // hardcoded seeded subject (e.g. old custom "Personnel Economics" now that
