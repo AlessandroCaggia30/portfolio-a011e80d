@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-21T20:26:43.765Z",
+  "exportedAt": "2026-07-21T20:26:45.475Z",
   "data": {
     "topics": [
       {
@@ -495,8 +495,8 @@
                 "id": "p-ks-2010",
                 "title": "P·Dosi–Fagiolo–Roventini (2010) — K+S Model",
                 "content": "**Ref.** Dosi, G., Fagiolo, G. & Roventini, A. (2010). Schumpeter meeting Keynes: A policy-friendly model of endogenous growth and business cycles. *Journal of Economic Dynamics and Control*, 34(9), 1748–1767.\n\n---\n\n## Intro\n\nThe **K+S (\"Keynes + Schumpeter\") model** — flagship of the Pisa–Sant'Anna evolutionary tradition (Dosi, Nelson, Winter). Standard macro treated growth (Solow, Ramsey) and business cycles (RBC, New Keynesian) as separate objects. K+S argues they are the **same phenomenon**: firms' R&D + Keynesian aggregate-demand feedback jointly generate trend growth AND fluctuations.\n\n## Methodology — how the agents are built\n\n**Two firm sectors + households + banks + government + central bank.**\n\n- **Capital-good firms (Schumpeter).** State = productivity level, R&D budget, market share. Each period they (1) allocate a fraction of profits to R&D, (2) innovate with some probability (draw from a productivity distribution), (3) imitate leading competitors with another probability, (4) sell machines to consumer-good firms. Losers exit; winners grow.\n- **Consumer-good firms (Keynes).** State = capital stock (vintages of machines), inventory, cash. Each period they (1) plan output from expected demand, (2) buy machines from the capital sector, (3) hire workers, (4) sell to households.\n- **Households.** Receive wages from both sectors; consume by a Keynesian marginal-propensity rule; save the residual.\n- **Banks.** Lend to firms; firms default if losses exceed net worth; failed loans reduce bank capital.\n- **Government.** Countercyclical spending and tax rules; issues debt when in deficit.\n- **Central bank.** Taylor rule.\n\nFirms are **heterogeneous** — different productivity, R&D budgets, leverage — and **selected** by profitability: losses shrink market share and eventually cause exit.\n\n## Results & Contribution\n\n- **Growth and cycles unified.** In booms, high demand → firms invest → R&D up → productivity grows. In recessions, weak firms fail → productivity distribution improves via selection. **Cycles are the mechanism through which growth happens**, not deviations from it.\n- **Endogenous productivity growth** of 2–3% per period without any imposed TFP shock.\n- **Endogenous business cycles** — recessions of 5–15% real GDP contraction emerge from firm heterogeneity + credit dynamics alone.\n- **Zipf firm-size tail** matches Axtell (2001).\n- **Policy laboratory** for climate transition (Lamperti et al. 2018), inequality (Dosi et al. 2015), macroprudential regulation (Popoyan et al. 2017), fiscal policy (Dosi et al. 2013).\n- **Executable Nelson–Winter.** Nelson–Winter (1982) laid the theoretical foundation for evolutionary economics; K+S is its computable version — the evolutionary counterpart to EURACE's management-science emphasis.\n",
-                "x": 6590,
-                "y": -1570,
+                "x": 495,
+                "y": 2970,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
