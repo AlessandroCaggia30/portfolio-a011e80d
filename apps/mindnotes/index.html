@@ -15456,17 +15456,30 @@ async function initApp() {
     loadTheme();
 
     // Resume last subject if the user was inside one when they refreshed.
-    const _lastSubjectId = (() => { try { return localStorage.getItem('mindnotes_current_subject'); } catch (_) { return null; } })();
-    const _lastPop = (() => { try { return localStorage.getItem('mindnotes_current_pop') === '1'; } catch (_) { return false; } })();
-    const _resumeSubject = _lastSubjectId && _allSubjects().find(s => s.id === _lastSubjectId);
-    if (_resumeSubject) {
-        if (_lastPop) {
-            openPopView(_resumeSubject);
-        } else {
-            selectSubject(_resumeSubject);
+    // Wrap the whole thing in try/catch — if resume fails (e.g. corrupted
+    // IndexedDB entry from an interrupted merge), fall back to the picker.
+    let _resumeOK = false;
+    try {
+        const _lastSubjectId = localStorage.getItem('mindnotes_current_subject');
+        const _lastPop = localStorage.getItem('mindnotes_current_pop') === '1';
+        const _resumeSubject = _lastSubjectId && _allSubjects().find(s => s.id === _lastSubjectId);
+        if (_resumeSubject) {
+            try {
+                if (_lastPop) { await openPopView(_resumeSubject); }
+                else          { await selectSubject(_resumeSubject); }
+                _resumeOK = true;
+            } catch (e) {
+                console.error('resume subject failed, clearing persisted state and falling back to picker:', e);
+                localStorage.removeItem('mindnotes_current_subject');
+                localStorage.removeItem('mindnotes_current_pop');
+            }
         }
-    } else {
-        showSubjectScreen();
+    } catch (e) {
+        console.error('resume logic threw:', e);
+    }
+    if (!_resumeOK) {
+        try { showSubjectScreen(); }
+        catch (e) { console.error('showSubjectScreen threw:', e); }
     }
 
     // Auto-save when title changes in detail panel
