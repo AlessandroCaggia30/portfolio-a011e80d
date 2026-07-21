@@ -14094,34 +14094,55 @@ function renderAgenda() {
 function showSubjectScreen() {
     const grid = $('subjectGrid');
     grid.innerHTML = '';
-    _allSubjects().forEach(subject => {
-        const card = document.createElement('div');
-        card.className = 'subject-card';
-        card.style.position = 'relative';
-        card.onclick = () => _spOpen(subject);
-        card.innerHTML = '<span class="subject-icon">' + subject.icon + '</span>' +
-                         '<span class="subject-name">' + subject.name + '</span>';
-        if (subject.custom) {
-            const del = document.createElement('button');
-            del.className = 'subject-card-delete';
-            del.title = 'Delete subject';
-            del.textContent = '×';
-            del.onclick = (e) => { e.stopPropagation(); if(confirm('Delete "' + subject.name + '"?')) { _deleteCustomSubject(subject.id); showSubjectScreen(); } };
-            card.appendChild(del);
-        }
-        grid.appendChild(card);
+    let subjects;
+    try { subjects = _allSubjects(); }
+    catch (e) { console.error('_allSubjects failed, using SUBJECTS fallback', e); subjects = [...SUBJECTS]; }
+    subjects.forEach(subject => {
+        try {
+            const card = document.createElement('div');
+            card.className = 'subject-card';
+            card.style.position = 'relative';
+            card.onclick = () => _spOpen(subject);
+            card.innerHTML = '<span class="subject-icon">' + (subject.icon || '📚') + '</span>' +
+                             '<span class="subject-name">' + (subject.name || 'Untitled') + '</span>';
+            if (subject.custom) {
+                const del = document.createElement('button');
+                del.className = 'subject-card-delete';
+                del.title = 'Delete subject';
+                del.textContent = '×';
+                del.onclick = (e) => { e.stopPropagation(); if(confirm('Delete "' + subject.name + '"?')) { _deleteCustomSubject(subject.id); showSubjectScreen(); } };
+                card.appendChild(del);
+            }
+            grid.appendChild(card);
+        } catch (e) { console.error('subject card render failed for', subject, e); }
     });
     // "+ Add Subject" card
-    const addCard = document.createElement('div');
-    addCard.className = 'subject-card add-new';
-    addCard.onclick = openAddSubjectModal;
-    addCard.innerHTML = '<span class="add-icon">＋</span><span class="subject-name">Add Subject</span>';
-    grid.appendChild(addCard);
+    try {
+        const addCard = document.createElement('div');
+        addCard.className = 'subject-card add-new';
+        addCard.onclick = openAddSubjectModal;
+        addCard.innerHTML = '<span class="add-icon">＋</span><span class="subject-name">Add Subject</span>';
+        grid.appendChild(addCard);
+    } catch (e) { console.error('add-subject card failed', e); }
 
     $('subjectScreen').classList.remove('hidden');
     document.querySelector('.app').style.display = 'none';
-    updateGhStatusDot();
-    renderAgenda();
+    try { updateGhStatusDot(); } catch (e) {}
+    try { renderAgenda(); } catch (e) {}
+
+    // Safety net: if the grid ended up empty despite all our attempts, force-populate
+    // with the 6 hardcoded SUBJECTS.
+    if (grid.children.length === 0) {
+        console.warn('subject grid ended up empty — using hardcoded fallback');
+        SUBJECTS.forEach(subject => {
+            const card = document.createElement('div');
+            card.className = 'subject-card';
+            card.innerHTML = '<span class="subject-icon">' + subject.icon + '</span>' +
+                             '<span class="subject-name">' + subject.name + '</span>';
+            card.onclick = () => _spOpen(subject);
+            grid.appendChild(card);
+        });
+    }
 }
 
 function _subjectById(id) { return _allSubjects().find(s => s.id === id) || null; }
