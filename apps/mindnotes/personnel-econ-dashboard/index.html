@@ -891,14 +891,29 @@ async function init() {
         load('__EMBEDDED_P5', '../results/five_long_horizon.json'),
     ]);
 
-    renderTrajectories(TR);
-    renderMainResult(P5 || P1);
-    renderWorkerTypes(WT);
-    renderSorting(SO, SS, EST);
-    renderCapture(P2);
-    renderRCT(P3);
-    renderRobustness(P4);
-    renderSignalCost(SG);
+    const safe = (fn, name) => { try { fn(); } catch (e) { console.error(`[${name}] failed:`, e); } };
+    safe(() => renderTrajectories(TR),         'renderTrajectories');
+    safe(() => renderMainResult(P5 || P1),     'renderMainResult');
+    safe(() => renderWorkerTypes(WT),          'renderWorkerTypes');
+    safe(() => renderSorting(SO, SS, EST),     'renderSorting');
+    safe(() => renderCapture(P2),              'renderCapture');
+    safe(() => renderRCT(P3),                  'renderRCT');
+    safe(() => renderRobustness(P4),           'renderRobustness');
+    safe(() => renderSignalCost(SG),           'renderSignalCost');
+
+    // Re-run KaTeX on the whole body AFTER JS has filled dynamic content.
+    // The onload attribute on auto-render.min.js runs too early — before init().
+    if (typeof renderMathInElement === 'function') {
+        try {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$',  right: '$',  display: false},
+                ],
+                throwOnError: false,
+            });
+        } catch (e) { console.error('KaTeX re-render failed:', e); }
+    }
 }
 
 // ===================== SORTING =====================
@@ -1089,21 +1104,24 @@ function tsDatasets(data, metric) {
 }
 
 function makeTS(canvasId, data, metric, yLabel, title) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) { console.warn(`Canvas ${canvasId} not found`); return; }
     const t = data.cells[CELLS[0]].trajectory;
-    new Chart(document.getElementById(canvasId), {
-        type: 'line',
-        data: { labels: t.period, datasets: tsDatasets(data, metric) },
-        options: {
-            ...baseChartOpts('period t', yLabel, title),
-            plugins: {
-                ...baseChartOpts('period t', yLabel, title).plugins,
-                legend: { display: false },
-                filter: { legend: { labels: { filter: item => !item.text.startsWith('_') } } },
-                tooltip: { mode: 'index', intersect: false,
-                    filter: item => !item.dataset.label.startsWith('_') },
+    try {
+        new Chart(canvas, {
+            type: 'line',
+            data: { labels: t.period, datasets: tsDatasets(data, metric) },
+            options: {
+                ...baseChartOpts('period t', yLabel, title),
+                plugins: {
+                    ...baseChartOpts('period t', yLabel, title).plugins,
+                    legend: { display: false },
+                    tooltip: { mode: 'index', intersect: false,
+                        filter: item => !item.dataset.label.startsWith('_') },
+                },
             },
-        },
-    });
+        });
+    } catch (e) { console.error(`[${canvasId}] chart error:`, e); }
 }
 
 function renderTrajectories(D) {
