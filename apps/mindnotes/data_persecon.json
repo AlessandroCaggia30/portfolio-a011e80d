@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-21T20:26:34.421Z",
+  "exportedAt": "2026-07-21T20:26:37.191Z",
   "data": {
     "topics": [
       {
@@ -413,8 +413,8 @@
                 "id": "p-bergmann-1974",
                 "title": "P·Bergmann (1974) — Micro-Simulation of the Macroeconomy",
                 "content": "**Ref.** Bergmann, B. (1974). A microsimulation of the macroeconomy with explicitly represented money flows. *Annals of Economic and Social Measurement*, 3(3), 475–489.\n\n---\n\n## Intro\n\nThe **founding paper of agent-based macroeconomics.** In 1974 macro was dominated by representative-agent theory (Lucas 1972; Sargent–Wallace 1975) — one household, one firm, closed-form analytic solutions. Barbara Bergmann rejected the aggregation and asked: *what if we simulate every actor explicitly, track every dollar between them, and let the macro emerge from that?* She built the first full-economy agent-based model, decades before ABM had a name.\n\n## Methodology — how the agents are built\n\nThree agent classes, all with an explicit balance sheet:\n\n- **Firms.** State = inventory, price, workforce, cash. Each period they (1) plan production from past sales, (2) adjust workforce and pay wages, (3) produce, (4) set prices as markup, (5) pay taxes and buy inputs, (6) invest, (7) borrow/repay.\n- **Households.** State = wage income, transfers, taxes owed, financial portfolio. Each period they (1) receive wages/transfers/property income, (2) pay taxes, (3) choose consumption vs. savings, (4) allocate wealth across cash/bonds/equity.\n- **Banks + central bank.** Buy and sell government bonds, set the interest rate.\n\nEvery action posts a **double-entry accounting** entry — a debit on one balance sheet and a credit on another. Decision rules come from **operations research** (safety stock, EOQ, markup pricing), not from optimization. Twelve sequential steps per period (a week) close the loop: production → wages → consumption → investment → bank flows → rate setting.\n\n## Results & Contribution\n\n- **First full-economy micro-simulation.** Every dollar tracked from source to sink.\n- **Stock-flow consistent** decades before Godley–Lavoie (2007) formalized the accounting discipline.\n- **Predicted stagflation:** the model produced the 1970s combination of high inflation + high unemployment that broke Phillips-curve theory.\n- **Demonstrated emergent macro:** GDP growth, inflation, unemployment fall out of micro flows without any representative agent or rational-expectations assumption.\n- **Ancestor of every modern macro ABM.** EURACE, K+S, CATS, JAMEL, Ashraf–Gershman–Howitt — all inherit the 12-step architecture with variations. Bergmann was a decade ahead of the ABM movement AND ahead of the intellectual challenge to the representative-agent orthodoxy that Kirman (1992) later articulated.\n",
-                "x": 3245,
-                "y": -270,
+                "x": 1800,
+                "y": 1060,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
@@ -545,8 +545,8 @@
                 "id": "p-neugart-2008",
                 "title": "P·Neugart (2008) — Discrete Choice",
                 "content": "**Ref.** Neugart, M. (2008). Labor market policy evaluation with ACE. *Journal of Economic Behavior & Organization*, 67(2), 418–430.\n\n---\n\n## Intro\n\nBetween full dynamic optimization (intractable at scale) and fixed heuristics (arbitrary) lies **discrete choice**: agents pick from a finite menu with a probabilistic rule whose coefficients are estimated from real data. Neugart is the paper that integrated McFadden's (1974) discrete-choice toolkit into labor-market ABM — the empirical anchor the field had been missing.\n\n## Methodology — how the agents are built\n\n- **Workers.** State = age, skill, tenure, unemployment history, current wage.\n- **Firms.** State = productivity, size, vacancy count.\n- Search frictions à la Diamond–Mortensen–Pissarides, implemented at the individual level (not aggregate).\n\n**Every agent decision is a multinomial logit.**\n\nFor a decision with menu $\\{1, 2, \\ldots, J\\}$:\n$$P_{ij} = \\frac{\\exp(V_{ij})}{\\sum_{k=1}^J \\exp(V_{ik})}$$\nwhere $V_{ij}$ is the systematic-utility function of individual state and policy parameters. Extreme-value error term absorbed into the choice probabilities.\n\nDecisions modeled as logits:\n- Worker: accept a job offer? enroll in training? change occupation?\n- Firm: post vacancy? hire this applicant? offer training subsidy?\n\n**The critical move.** Coefficients on $V_{ij}$ are **estimated from real German micro-data** (SOEP, LFS, IAB). Each coefficient has an economic meaning and is pinned down from observed choices — not chosen by the modeler.\n\n## Results & Contribution\n\n- **Bridge between econometrics and ABM.** Discrete-choice models — the workhorse of empirical labor economics — slot cleanly into an ABM without loss of interpretability.\n- **Policy evaluation without a representative agent.** Compare policy A vs. B under realistic heterogeneity; distributional consequences fall out (who benefits, who loses).\n- **Computational scalability.** Logit is $O(J)$ per agent per period — millions of agents × decades of periods is feasible.\n- **Validated aggregate responses** against natural-experiment estimates for training subsidies and unemployment-insurance changes.\n- **Established the empirical-anchor standard** for labor ABMs. Prior work chose parameters by hand or matched stylised facts; Neugart demands each coefficient come from a discrete-choice regression on micro-data — a standard the field's later work (Martin–Neugart 2009) inherits.\n",
-                "x": 2290,
-                "y": 725,
+                "x": 1180,
+                "y": 1345,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
