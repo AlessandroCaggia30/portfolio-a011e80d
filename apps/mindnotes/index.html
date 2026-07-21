@@ -14689,15 +14689,48 @@ const READING_LISTS = {
     <li><strong>Kydland &amp; Prescott (1982, Econometrica)</strong> — calibration methodology for macro DSGE.</li>
     <li><strong>Christiano, Eichenbaum &amp; Evans (2005, JPE)</strong> — impulse-response matching.</li>
     <li><strong>Smets &amp; Wouters (2003, EER; 2007, AER)</strong> — Bayesian DSGE estimation.</li>
-    <li><strong>Fagiolo &amp; Roventini (2017, JASSS)</strong> — ABM validation protocol.</li>
-    <li><strong>Guerini &amp; Moneta (2017, JEDC)</strong> — moment matching for ABMs.</li>
-    <li><strong>Grazzini, Richiardi &amp; Tsionas (2017, JEDC)</strong> — Bayesian estimation of ABMs.</li>
-    <li><strong>Franke &amp; Westerhoff (2012, JEDC)</strong> — structural stochastic volatility validation.</li>
-    <li><strong>Fagiolo, Moneta &amp; Windrum (2007, Comp. Econ)</strong> — critical guide to empirical validation of ABMs.</li>
     <li><strong>Efron &amp; Tibshirani (1993)</strong> — <em>An Introduction to the Bootstrap</em>. Chapman &amp; Hall. Bootstrap CIs on all ABM statistics.</li>
     <li><strong>Kuhn (1955, NRL)</strong> — Hungarian algorithm for assignment (used in oracle-assignment policy).</li>
-    <li><strong>Grimm et al. (2020, JASSS)</strong> — ODD protocol for describing agent-based models.</li>
 </ul>
+
+<h4>Method-of-Moments (SMM/MSM) applied to ABMs</h4>
+<p>The specific papers that established and demonstrated the macro-style moment-matching approach for agent-based models. Our SMM in <code>src/smm.py</code> follows the Grazzini-Richiardi-Tsionas (2017) framework most closely.</p>
+<ul>
+    <li><strong>Grazzini, Richiardi &amp; Tsionas (2017, JEDC)</strong> — "Bayesian estimation of agent-based models". <em>The</em> reference we follow. Formal SMM framework with over-identification tests specifically for ABMs.</li>
+    <li><strong>Guerini &amp; Moneta (2017, JEDC)</strong> — "A method for agent-based models validation". Moment matching against real data with over-identification.</li>
+    <li><strong>Franke &amp; Westerhoff (2012, JEDC)</strong> — "Structural stochastic volatility in asset pricing dynamics". SMM applied to a financial-market ABM matching return-moment distributions.</li>
+    <li><strong>Chen &amp; Lux (2018, Journal of Economic Dynamics &amp; Control)</strong> — estimation of sentiment effects in financial-market ABMs via SMM.</li>
+    <li><strong>Recchioni, Tedeschi &amp; Gallegati (2015, JEDC)</strong> — indirect inference on agent-based computational-economics models.</li>
+    <li><strong>Assenza, Delli Gatti &amp; Grazzini (2015, JEDC)</strong> — heterogeneous-agent New Keynesian ABM matched to VAR impulse-responses.</li>
+    <li><strong>Bianchi, Cirillo, Gallegati &amp; Vagliasindi (2007, Comp. Econ)</strong> — early ACE validation via stylised-facts matching.</li>
+</ul>
+
+<h4>ABM validation protocol papers</h4>
+<ul>
+    <li><strong>Fagiolo &amp; Roventini (2017, JASSS)</strong> — "Macroeconomic policy in DSGE and agent-based models redux". <em>The</em> canonical validation-protocol paper: matched moments + over-ID + sensitivity + robustness.</li>
+    <li><strong>Fagiolo, Moneta &amp; Windrum (2007, Comp. Econ)</strong> — "A critical guide to empirical validation of agent-based models".</li>
+    <li><strong>Grimm et al. (2020, JASSS)</strong> — ODD protocol for describing agent-based models.</li>
+    <li><strong>Windrum, Fagiolo &amp; Moneta (2007, JASSS)</strong> — earlier ABM-validation companion piece.</li>
+</ul>
+
+<h4>Specific macro ABMs that used moment matching / stylised-fact validation</h4>
+<ul>
+    <li><strong>Dosi, Fagiolo &amp; Roventini (2010, JEDC)</strong> — the <em>K+S</em> (Keynes-plus-Schumpeter) model. Matched against stylised facts of business cycles, growth rates, unemployment, R&amp;D intensity across countries.</li>
+    <li><strong>Dawid et al. (2008-2012)</strong> — <em>EURACE</em>. Validated against 12+ stylised facts of European macro data (Beveridge curve, price-wage-employment dynamics).</li>
+    <li><strong>Delli Gatti et al. (2011)</strong> — <em>Macroeconomics from the Bottom-Up</em> (Springer). CATS model, indirect inference on firm-size distributions.</li>
+    <li><strong>Dosi, Napoletano, Roventini, Stiglitz &amp; Treibich (2020, JEBO)</strong> — labour-market extension of K+S matched to unemployment and wage-share moments.</li>
+    <li><strong>Caiani, Godin, Caverzasi, Gallegati, Kinsella &amp; Stiglitz (2016, JEDC)</strong> — stock-flow consistent ABM calibrated to national accounts.</li>
+</ul>
+
+<h4>Labour / personnel ABMs closer to our setting</h4>
+<ul>
+    <li><strong>Fagiolo, Dosi &amp; Gabriele (2004, Advances in Complex Systems)</strong> — labour-market ABM matching wage and unemployment distributions.</li>
+    <li><strong>Neugart (2008, JEBO)</strong> — matching-frictions ABM calibrated to the Beveridge curve.</li>
+    <li><strong>Neugart &amp; Richiardi (2018, HB Comp. Econ. Vol. 4)</strong> — review of labour ABMs and their validation protocols.</li>
+    <li><strong>Martin &amp; Neugart (2009, JEDC)</strong> — endogenous rigidity in sluggish-employment ABM.</li>
+</ul>
+
+<p class="rl-cite" style="margin-top:12px"><strong>Bottom line for our paper.</strong> The SMM/moment-matching approach for ABMs is established in macro (K+S, EURACE, CATS) and financial (Franke-Westerhoff, Chen-Lux) settings. Ours is the first (as far as I can find) to apply it to <em>personnel economics</em> with contract-family microfoundations. The methodology is standard; the application is novel.</p>
 
 <hr>
 
