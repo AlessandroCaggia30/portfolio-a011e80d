@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-21T20:25:52.007Z",
+  "exportedAt": "2026-07-21T20:25:57.646Z",
   "data": {
     "topics": [
       {
@@ -695,8 +695,8 @@
                 "id": "p-nr-2018",
                 "title": "P·Neugart–Richiardi (2018) — Handbook Survey",
                 "content": "**Ref.** Neugart, M. & Richiardi, M. (2018). Agent-based models of the labor market. In *Handbook of Computational Economics*, Vol. 4 (edited by Cars Hommes & Blake LeBaron). Elsevier / North-Holland.\n\n---\n\n## Intro\n\nThe **definitive field survey** of labor-market ABM, published in the flagship *Handbook of Computational Economics* Vol. 4. Written by two of the most productive practitioners. Before this chapter, labor-market ABMs were scattered across journals with no shared vocabulary; the chapter maps the landscape, publishes the taxonomy, and states the gaps.\n\n## Methodology — how the survey is organized\n\nNot a model paper — a **taxonomy** on four orthogonal axes. Any paper in the field can be positioned on the four:\n\n**1. Agent decision rule**\n\n| Approach | Representative | Property |\n|---|---|---|\n| Fixed heuristics | Dawid EURACE; Boudreau 2010 | Static rules from OR/management |\n| Discrete choice | Neugart 2008; Martin–Neugart 2009 | Logit/probit |\n| Adaptive rules | Richiardi 2006 | TD-style parameter updating |\n| Reinforcement learning | Gemkow–Neugart 2011 | Q-learning; softmax exploration |\n| Optimizing | (Rare in ABM) | Bellman at agent level |\n\n**2. Market focus:** search-matching, wage-setting, policy evaluation, institutional analysis.\n\n**3. Calibration strategy:** data-anchored (SOEP/LFS), stylized-fact matching (Beveridge, Okun), structural estimation (SMM).\n\n**4. Validation target:** aggregate stylized facts, individual heterogeneity, out-of-sample policy responses.\n\n## Results & Contribution\n\n- **Establishes field identity** — before this, labor ABMs had no canonical intro.\n- **Publishes best practices** — modular architecture, seed every RNG, distribute source + data, sensitivity sweeps, convergence tests, multiple validation levels (face + empirical + predictive).\n- **Publishes the gap list** — the actionable part:\n  1. **Integrated incentive-alternative ABMs** — no published paper implements multiple contract families (piece rate, tournament, subjective, team) as swappable modules with per-contract identification.\n  2. **Hierarchical firm structures** — only Rivkin–Siggelkow 2003 is serious; the rest treat firms as monolithic.\n  3. **Cross-country institutional comparisons** — rare.\n  4. **Empirical validation standards** — no consensus.\n  5. **Sensitivity-analysis discipline** — often skipped.\n- **Field-defining reference.** Now the canonical starting citation for anyone entering labor-market ABM. Complements Chang–Harrington (2006, Handbook Vol. 2) on organizational ABMs and LeBaron–Tesfatsion (2008, AER P&P) on ACE more broadly.\n",
-                "x": 3750,
-                "y": 2800,
+                "x": 2205,
+                "y": -480,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
