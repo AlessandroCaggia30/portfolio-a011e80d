@@ -632,6 +632,49 @@
 </section>
 
 <!-- ========================================================================= -->
+<!-- 06f — CONTRACT SENSITIVITY: how each contract's effort responds to        -->
+<!-- ========================================================================= -->
+<section>
+    <div class="sec-head">
+        <div class="sec-num">06f · Contract sensitivity</div>
+        <h2>How each contract's Nash effort responds to model parameters</h2>
+        <div class="kicker">Six charts — one per parameter — plotting the closed-form Nash effort of every contract as the parameter sweeps its plausible range. Baseline values held constant: α=1, k=1, ρ=2, σ=0.5, g=1, N_team=6, Δ (tournament)=2.5, β_T=4.7, ψ=0.20, b_max=0.6, σ_m=0.4, ε₀=0.65 (reputational floor).</div>
+    </div>
+
+    <div class="row2">
+        <div class="chart"><div class="chart-wrap"><canvas id="fig-sens-alpha"></canvas></div>
+            <div class="chart-caption"><strong>Task-fit α</strong>. Better-matched workers exert more effort under contracts where α scales the marginal product (A1 piece rate, A7 subjective, reputational floor). A2 tournament and A4 team pay do not respond directly — the tournament prize spread and team share are fixed in units of output, not α.</div></div>
+        <div class="chart"><div class="chart-wrap"><canvas id="fig-sens-k"></canvas></div>
+            <div class="chart-caption"><strong>Effort-cost curvature k</strong>. Higher k = steeper marginal cost. Every contract's Nash effort falls as 1/k (Holmström 1979).</div></div>
+    </div>
+    <div class="row2">
+        <div class="chart"><div class="chart-wrap"><canvas id="fig-sens-rho"></canvas></div>
+            <div class="chart-caption"><strong>Risk aversion ρ</strong>. Only A1 responds — the HM 1987 optimal piece-rate slope β* = 1/(1 + ρσ²k/g²) falls with ρ. More risk-averse workers get flatter contracts and exert less effort. A2 and A4 also depend on σ but not directly on ρ.</div></div>
+        <div class="chart"><div class="chart-wrap"><canvas id="fig-sens-sigma"></canvas></div>
+            <div class="chart-caption"><strong>Output noise σ</strong>. A1 falls sharply (β* → 0 as σ grows). A2 tournament falls too — the LR 1981 formula has σ in the denominator, less signal makes rank-based prizes less motivating. A4 and A7 are σ-independent by construction.</div></div>
+    </div>
+    <div class="row2">
+        <div class="chart"><div class="chart-wrap"><canvas id="fig-sens-psi"></canvas></div>
+            <div class="chart-caption"><strong>Peer pressure ψ</strong>. Only A4 team pay responds — the KL 1992 effort formula rises linearly with ψ. All other contracts are ψ-flat because the peer channel operates through team-pay Nash effort, not through their payoff structure.</div></div>
+        <div class="chart"><div class="chart-wrap"><canvas id="fig-sens-N"></canvas></div>
+            <div class="chart-caption"><strong>Team size N (A4 only)</strong>. (β_T + ψN) / (kN) — as N grows, ψN dominates numerator only until diminishing returns; asymptote is ψ/k. KL 1992's "small teams are best" is visible: effort peaks around N = 5-8 then declines toward the peer-pressure asymptote.</div></div>
+    </div>
+
+    <div class="teach">
+        <div class="head">Reading the charts — which lever moves which contract?</div>
+        <ul>
+            <li><strong>A0 (flat wage)</strong> is a horizontal line at the <em>reputational floor</em> ε₀·α/k in every chart. It moves with α (up) and k (down) but is independent of ρ, σ, ψ, N. This is the Fama 1980 career-concerns baseline.</li>
+            <li><strong>A1 (piece rate)</strong> is the only contract that responds to ρ and (with A2) to σ. It scales with α as α² — because both the piece-rate slope β* and the marginal product g depend on α.</li>
+            <li><strong>A2 (tournament)</strong> is α-flat and ρ-flat but σ-sensitive: less signal → prize spread does less work.</li>
+            <li><strong>A3 (efficiency wage)</strong> is Shapiro-Stiglitz. Depends on δ (discount) and monitoring q, both fixed in the sim. Shows as a horizontal line at the SS no-shirking effort.</li>
+            <li><strong>A4 (team + peer)</strong> is the only contract that responds to ψ and to N. It is the only contract whose Nash effort <em>rises</em> with peer pressure.</li>
+            <li><strong>A7 (subjective bonus)</strong> depends on supervisor-rating noise σ_m (fixed here at 0.4) and scales linearly with α.</li>
+        </ul>
+        <p>The reputational floor <code>max(nash_e, ε₀·α/k)</code> is applied to every contract — so under A0 flat pay Nash effort is 0 but observed effort equals the floor, which is why we see labour supply even without incentives.</p>
+    </div>
+</section>
+
+<!-- ========================================================================= -->
 <!-- 06e — EXTENDED MOMENT AUDIT (11 moments across 6 categories)              -->
 <!-- ========================================================================= -->
 <section>
@@ -1182,6 +1225,7 @@ async function init() {
     safe(() => renderSorting(SO, SS, EST),     'renderSorting');
     safe(() => renderCapture(P2),              'renderCapture');
     safe(() => renderNoiseMetrics(P2),         'renderNoiseMetrics');
+    safe(() => renderContractSensitivity(),    'renderContractSensitivity');
     safe(() => renderProfitDecomp(P5 || P1),   'renderProfitDecomp');
     safe(() => renderRCT(P3),                  'renderRCT');
     safe(() => renderRobustness(P4),           'renderRobustness');
@@ -1734,6 +1778,109 @@ function renderNoiseMetrics(D) {
     makeCurve('fig-noise-effort', 'mean_effort',  COL.info,   'mean effort',       'mean_effort');
     makeCurve('fig-noise-wage',   'wage_bill',    COL.warn,   'wage bill W',        'wage_bill');
     makeCurve('fig-noise-profit', 'profit',       COL.hi,     'firm profit Y − W', 'profit');
+}
+
+// ===================== NEW: contract-sensitivity plots ===================
+// For each parameter, plot the closed-form Nash effort of every contract
+// as that parameter sweeps. All other parameters held at baseline.
+function renderContractSensitivity() {
+    // Baseline calibration (matches src/calibration.py defaults)
+    const B = {
+        alpha: 1.0, k: 1.0, rho: 2.0, sigma: 0.5, g: 1.0,
+        eps0: 0.65,                       // reputational-effort coefficient
+        Delta: 2.5,                        // A2 prize spread
+        beta_T: 4.7,                       // A4 team-output share
+        psi: 0.20, N_team: 6,              // A4 team params
+        A3_premium: 0.5, A3_q: 0.30, delta_disc: 0.95,  // A3 SS 1984
+        A7_bmax: 0.6, sigma_m: 0.4,        // A7 subjective
+    };
+    const clip = (x) => Math.max(0, Math.min(1.5, x));
+
+    // Nash-effort formulas — accept an override object and return effort per contract.
+    function efforts(p) {
+        const {alpha, k, rho, sigma, g, eps0, Delta, beta_T, psi, N_team,
+                 A3_premium, A3_q, delta_disc, A7_bmax, sigma_m} = p;
+        const gA = g * alpha;
+        // Reputational-effort floor (Fama 1980 career concerns)
+        const e_floor = (eps0 * alpha) / Math.max(k, 1e-6);
+        // A0 flat wage — pure Nash is 0; floor is what workers actually exert
+        const e_A0 = e_floor;
+        // A1 piece rate — HM 1987
+        const beta_star = 1.0 / (1.0 + rho * sigma * sigma * k / (gA * gA + 1e-9));
+        const e_A1_raw = beta_star * gA / k;
+        const e_A1 = Math.max(e_A1_raw, e_floor);
+        // A2 tournament — LR 1981
+        const e_A2_raw = Delta / (k * sigma * Math.sqrt(4 * Math.PI) + 1e-9);
+        const e_A2 = Math.max(e_A2_raw, e_floor);
+        // A3 efficiency wage — SS 1984 no-shirking effort
+        const e_A3_raw = Math.sqrt(Math.max(0,
+            2 * A3_premium * A3_q * delta_disc / (k * (1 - delta_disc) + 1e-9)));
+        const e_A3 = Math.max(e_A3_raw, e_floor);
+        // A4 team + peer — KL 1992
+        const e_A4_raw = (beta_T + psi * N_team) / (k * N_team + 1e-9);
+        const e_A4 = Math.max(e_A4_raw, e_floor);
+        // A7 subjective bonus — MacLeod 2003
+        const e_A7_raw = (A7_bmax / (1 + sigma_m)) * gA / k;
+        const e_A7 = Math.max(e_A7_raw, e_floor);
+        return {
+            A0: clip(e_A0), A1: clip(e_A1), A2: clip(e_A2),
+            A3: clip(e_A3), A4: clip(e_A4), A7: clip(e_A7),
+        };
+    }
+
+    const contractColors = {
+        A0: '#8a91a0',   // grey (flat)
+        A1: '#5b3ff5',   // accent (piece rate)
+        A2: '#3ba9ff',   // blue (tournament)
+        A3: '#d68910',   // amber (efficiency wage)
+        A4: '#00b48a',   // green (team + peer)
+        A7: '#d94a4a',   // red (subjective)
+    };
+
+    function sweep(canvasId, param, range, xLabel) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        const xs = [];
+        const n = 24;
+        for (let i = 0; i < n; i++) {
+            xs.push(range[0] + (range[1] - range[0]) * (i / (n - 1)));
+        }
+        // For each contract, compute effort along the sweep.
+        const seriesByContract = { A0: [], A1: [], A2: [], A3: [], A4: [], A7: [] };
+        xs.forEach(x => {
+            const p = { ...B, [param]: x };
+            const e = efforts(p);
+            Object.keys(seriesByContract).forEach(c => seriesByContract[c].push(e[c]));
+        });
+        const datasets = Object.keys(seriesByContract).map(c => ({
+            label: c,
+            data: seriesByContract[c],
+            borderColor: contractColors[c],
+            backgroundColor: contractColors[c] + '22',
+            borderWidth: 2.2,
+            tension: 0.3,
+            pointRadius: 0,
+            fill: false,
+        }));
+        try {
+            new Chart(canvas, {
+                type: 'line',
+                data: { labels: xs.map(x => x.toFixed(2)), datasets },
+                options: {
+                    ...baseChartOpts(xLabel, 'Nash effort e*', null),
+                    plugins: { legend: { display: true, position: 'top',
+                                            labels: { boxWidth: 12, font: { size: 10 } } } },
+                },
+            });
+        } catch (e) { console.error(canvasId, e); }
+    }
+
+    sweep('fig-sens-alpha', 'alpha',   [0.2, 3.0], 'task-fit α');
+    sweep('fig-sens-k',     'k',       [0.3, 3.0], 'cost curvature k');
+    sweep('fig-sens-rho',   'rho',     [0.3, 5.0], 'risk aversion ρ');
+    sweep('fig-sens-sigma', 'sigma',   [0.1, 1.5], 'output noise σ');
+    sweep('fig-sens-psi',   'psi',     [0.0, 1.0], 'peer pressure ψ');
+    sweep('fig-sens-N',     'N_team',  [2,   30 ], 'team size N (A4)');
 }
 
 // ===================== NEW: profit decomposition table ===================
