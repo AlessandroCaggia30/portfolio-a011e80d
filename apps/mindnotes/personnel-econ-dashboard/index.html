@@ -632,45 +632,62 @@
 </section>
 
 <!-- ========================================================================= -->
-<!-- 06f — CONTRACT SENSITIVITY: how each contract's effort responds to        -->
+<!-- 06f — CONTRACT SWITCH: firm outcomes when switching FROM A0 flat pay      -->
 <!-- ========================================================================= -->
 <section>
     <div class="sec-head">
-        <div class="sec-num">06f · Contract sensitivity</div>
-        <h2>How each contract's Nash effort responds to model parameters</h2>
-        <div class="kicker">Six charts — one per parameter — plotting the closed-form Nash effort of every contract as the parameter sweeps its plausible range. Baseline values held constant: α=1, k=1, ρ=2, σ=0.5, g=1, N_team=6, Δ (tournament)=2.5, β_T=4.7, ψ=0.20, b_max=0.6, σ_m=0.4, ε₀=0.65 (reputational floor).</div>
+        <div class="sec-num">06f · Contract switch</div>
+        <h2>What happens when the firm switches from A0 flat pay to each alternative?</h2>
+        <div class="kicker">Simulated firm outcomes — effort, output, wage bill, profit — for a firm running each contract on the same worker population and shocks. A0 is the baseline; every other contract shows the change from A0.</div>
     </div>
 
+    <table id="contract-switch-table" style="max-width:1200px">
+        <thead><tr>
+            <th>Contract</th>
+            <th class="num">Effort e</th>
+            <th class="num">Output Y</th>
+            <th class="num">Wage bill W</th>
+            <th class="num">Profit Π</th>
+            <th class="num">Δe</th>
+            <th class="num">ΔY</th>
+            <th class="num">ΔW</th>
+            <th class="num">ΔΠ</th>
+            <th>Firm verdict</th>
+        </tr></thead>
+        <tbody id="contract-switch-tbody"></tbody>
+    </table>
+
     <div class="row2">
-        <div class="chart"><div class="chart-wrap"><canvas id="fig-sens-alpha"></canvas></div>
-            <div class="chart-caption"><strong>Task-fit α</strong>. Better-matched workers exert more effort under contracts where α scales the marginal product (A1 piece rate, A7 subjective, reputational floor). A2 tournament and A4 team pay do not respond directly — the tournament prize spread and team share are fixed in units of output, not α.</div></div>
-        <div class="chart"><div class="chart-wrap"><canvas id="fig-sens-k"></canvas></div>
-            <div class="chart-caption"><strong>Effort-cost curvature k</strong>. Higher k = steeper marginal cost. Every contract's Nash effort falls as 1/k (Holmström 1979).</div></div>
+        <div class="chart"><div class="chart-wrap"><canvas id="fig-switch-effort"></canvas></div>
+            <div class="chart-caption"><strong>Mean effort</strong> by contract. Every non-flat contract raises effort above the A0 reputational-floor baseline.</div></div>
+        <div class="chart"><div class="chart-wrap"><canvas id="fig-switch-output"></canvas></div>
+            <div class="chart-caption"><strong>Total output Y</strong>. Effort gains translate into output gains via y = gαe·mult + fe + ε.</div></div>
     </div>
     <div class="row2">
-        <div class="chart"><div class="chart-wrap"><canvas id="fig-sens-rho"></canvas></div>
-            <div class="chart-caption"><strong>Risk aversion ρ</strong>. Only A1 responds — the HM 1987 optimal piece-rate slope β* = 1/(1 + ρσ²k/g²) falls with ρ. More risk-averse workers get flatter contracts and exert less effort. A2 and A4 also depend on σ but not directly on ρ.</div></div>
-        <div class="chart"><div class="chart-wrap"><canvas id="fig-sens-sigma"></canvas></div>
-            <div class="chart-caption"><strong>Output noise σ</strong>. A1 falls sharply (β* → 0 as σ grows). A2 tournament falls too — the LR 1981 formula has σ in the denominator, less signal makes rank-based prizes less motivating. A4 and A7 are σ-independent by construction.</div></div>
-    </div>
-    <div class="row2">
-        <div class="chart"><div class="chart-wrap"><canvas id="fig-sens-psi"></canvas></div>
-            <div class="chart-caption"><strong>Peer pressure ψ</strong>. Only A4 team pay responds — the KL 1992 effort formula rises linearly with ψ. All other contracts are ψ-flat because the peer channel operates through team-pay Nash effort, not through their payoff structure.</div></div>
-        <div class="chart"><div class="chart-wrap"><canvas id="fig-sens-N"></canvas></div>
-            <div class="chart-caption"><strong>Team size N (A4 only)</strong>. (β_T + ψN) / (kN) — as N grows, ψN dominates numerator only until diminishing returns; asymptote is ψ/k. KL 1992's "small teams are best" is visible: effort peaks around N = 5-8 then declines toward the peer-pressure asymptote.</div></div>
+        <div class="chart"><div class="chart-wrap"><canvas id="fig-switch-wage"></canvas></div>
+            <div class="chart-caption"><strong>Wage bill W</strong>. PC-binding contracts (A1, A4) require paying a risk premium — high output, but also high wages. A2 tournament pays winner-takes-most, so wage bill often FALLS.</div></div>
+        <div class="chart"><div class="chart-wrap"><canvas id="fig-switch-profit"></canvas></div>
+            <div class="chart-caption"><strong>Firm profit Π = Y − W</strong>. This is what the firm cares about. Not every effort-raising contract raises profit.</div></div>
     </div>
 
     <div class="teach">
-        <div class="head">Reading the charts — which lever moves which contract?</div>
+        <div class="head">Which contract wins on firm profit?</div>
+        <p>The ranking is not "highest effort wins" — the wage bill matters. Read the sign of ΔΠ in the table above.</p>
         <ul>
-            <li><strong>A0 (flat wage)</strong> is a horizontal line at the <em>reputational floor</em> ε₀·α/k in every chart. It moves with α (up) and k (down) but is independent of ρ, σ, ψ, N. This is the Fama 1980 career-concerns baseline.</li>
-            <li><strong>A1 (piece rate)</strong> is the only contract that responds to ρ and (with A2) to σ. It scales with α as α² — because both the piece-rate slope β* and the marginal product g depend on α.</li>
-            <li><strong>A2 (tournament)</strong> is α-flat and ρ-flat but σ-sensitive: less signal → prize spread does less work.</li>
-            <li><strong>A3 (efficiency wage)</strong> is Shapiro-Stiglitz. Depends on δ (discount) and monitoring q, both fixed in the sim. Shows as a horizontal line at the SS no-shirking effort.</li>
-            <li><strong>A4 (team + peer)</strong> is the only contract that responds to ψ and to N. It is the only contract whose Nash effort <em>rises</em> with peer pressure.</li>
-            <li><strong>A7 (subjective bonus)</strong> depends on supervisor-rating noise σ_m (fixed here at 0.4) and scales linearly with α.</li>
+            <li><strong>Effort ranking</strong> tracks the closed-form Nash-effort formulas ranked at baseline calibration: A3 &gt; A4 &gt; A2 &gt; A1 &gt; A7 &gt; A0. Everything beats flat pay because every contract adds an incentive channel on top of the reputational floor.</li>
+            <li><strong>Wage-bill ranking</strong> depends on the participation-constraint math: A1 and A4 require a full PC-binding risk-premium payment, so they push wages up a lot; A2 pays only the winner's prize so wages are compressed; A3 has a fixed premium.</li>
+            <li><strong>Profit ranking</strong> is what actually decides whether the firm should switch. If ΔΠ &lt; 0 under a contract, switching to it destroys firm value even though workers work harder.</li>
         </ul>
-        <p>The reputational floor <code>max(nash_e, ε₀·α/k)</code> is applied to every contract — so under A0 flat pay Nash effort is 0 but observed effort equals the floor, which is why we see labour supply even without incentives.</p>
+        <p>Formulas used to generate the effort per contract:</p>
+        <ul style="font-size:14px">
+            <li><strong>A0 flat:</strong> $e = 0$ Nash; observed effort $= \varepsilon_0 \alpha_i / k_i$ (Fama 1980 reputational floor).</li>
+            <li><strong>A1 piece rate:</strong> $e^{*} = \beta^{*} g \alpha_i / k_i$ with $\beta^{*} = 1/(1 + \rho_i \sigma^2 k_i / (g\alpha_i)^2)$ — HM 1987 eq. 15.</li>
+            <li><strong>A2 tournament:</strong> $e^{*} = \Delta / (k \sigma \sqrt{4\pi})$ — LR 1981.</li>
+            <li><strong>A3 efficiency wage:</strong> no-shirking effort $e^{*} = \sqrt{2 \Delta w \cdot q\delta / (k(1-\delta))}$ — SS 1984.</li>
+            <li><strong>A4 team + peer:</strong> $e^{*} = (\beta_T + \psi N) / (kN)$ — KL 1992.</li>
+            <li><strong>A7 subjective:</strong> $e^{*} = (b_{\max}/(1+\sigma_m)) g / k$ — MacLeod 2003.</li>
+        </ul>
+        <p>Reputational floor $e \geq \varepsilon_0 \alpha_i / k_i$ (Fama 1980) added to every contract.</p>
     </div>
 </section>
 
@@ -1121,6 +1138,7 @@ window.__EMBEDDED_P2 = {"meta": {"seeds": 15, "periods": 20, "N_workers": 40, "N
 window.__EMBEDDED_P3 = {"structural_truth": {"tau_reorg": 16.39259574490493, "tau_incent": 8.36539078741059, "tau_full": 24.097843467007927, "tau_inter": -0.6601430653075937}, "designs": {"factorial_2x2": {"tau_reorg_hat": {"mean": 16.14289842880368, "bias": -0.24969731610125123, "std": 2.695699437586325, "mse": 7.329144207471396, "n_trials": 30, "true": 16.39259574490493}, "tau_incent_hat": {"mean": 8.223494307151903, "bias": -0.14189648025868706, "std": 2.3592597280525913, "mse": 5.586241075520591, "n_trials": 30, "true": 8.36539078741059}, "tau_full_hat": {"mean": 23.706615886043675, "bias": -0.3912275809642516, "std": 2.0348154594273766, "mse": 4.293532974031786, "n_trials": 30, "true": 24.097843467007927}, "tau_inter_hat": {"mean": -0.6597768499119049, "bias": 0.0003662153956888181, "std": 3.539672059205543, "mse": 12.529278420834125, "n_trials": 30, "true": -0.6601430653075937}}, "staged_rollout": {"tau_reorg_hat": {"mean": 16.11393158403176, "bias": -0.2786641608731699, "std": 0.4720028331553435, "mse": 0.30044038906181897, "n_trials": 30, "true": 16.39259574490493}, "tau_incent_hat": {"mean": 7.758658750420017, "bias": -0.6067320369905724, "std": 0.25301166275630627, "mse": 0.4321386662014402, "n_trials": 30, "true": 8.36539078741059}, "tau_full_hat": {"mean": 23.87259033445178, "bias": -0.22525313255614776, "std": 0.4817505313375737, "mse": 0.28282254817039204, "n_trials": 30, "true": 24.097843467007927}}, "encouragement_iv": {"tau_full_hat": {"mean": 23.687752196294866, "bias": -0.4100912707130604, "std": 2.022758979891835, "mse": 4.259728741048109, "n_trials": 30, "true": 24.097843467007927}}, "did_two_way_fe": {"tau_full_hat": {"mean": 28.44058928699351, "bias": 4.342745819985584, "std": 2.3074151477460507, "mse": 24.183605921050194, "n_trials": 30, "true": 24.097843467007927}}}};
 window.__EMBEDDED_P4 = {"meta": {"seeds": 15, "periods": 20, "N_workers": 40, "N_tasks": 5}, "alpha_robustness": {"iid": {"cells": {"Y00": {"point": 73.08954478702017, "lo": 71.07507705950587, "hi": 74.99523993794438, "n_seeds": 15}, "Y10": {"point": 87.03128027171591, "lo": 85.49433378692078, "hi": 88.67291676862529, "n_seeds": 15}, "Y01": {"point": 90.60273644828975, "lo": 88.41098435969332, "hi": 92.68060345449675, "n_seeds": 15}, "Y11": {"point": 103.83599719510597, "lo": 102.39391840588425, "hi": 105.29988902368633, "n_seeds": 15}}, "did": {"tau_reorg": {"point": 13.94173548469575, "lo": 13.04460923734373, "hi": 14.750108326072755, "n_seeds": 15}, "tau_incent": {"point": 17.513191661269577, "lo": 16.832461891056827, "hi": 18.229568745318094, "n_seeds": 15}, "tau_full": {"point": 30.746452408085815, "lo": 29.792574151562008, "hi": 31.622680152398363, "n_seeds": 15}, "tau_inter": {"point": -0.7084747378795114, "lo": -1.4880820698155444, "hi": 0.022921421974218453, "n_seeds": 15}}}, "block": {"cells": {"Y00": {"point": 59.529588524523014, "lo": 57.17579342416519, "hi": 62.20293906586038, "n_seeds": 15}, "Y10": {"point": 90.42776336067482, "lo": 87.40260545955434, "hi": 94.03280819030455, "n_seeds": 15}, "Y01": {"point": 73.13935988665098, "lo": 70.1326784791963, "hi": 76.03704193076456, "n_seeds": 15}, "Y11": {"point": 104.1299529272506, "lo": 101.39755394865391, "hi": 107.02248554652158, "n_seeds": 15}}, "did": {"tau_reorg": {"point": 30.898174836151803, "lo": 27.75227092421638, "hi": 34.12851795115635, "n_seeds": 15}, "tau_incent": {"point": 13.60977136212796, "lo": 12.882628617205558, "hi": 14.348628464848106, "n_seeds": 15}, "tau_full": {"point": 44.600364402727585, "lo": 42.08437544508787, "hi": 46.95721773956101, "n_seeds": 15}, "tau_inter": {"point": 0.09241820444781676, "lo": -1.0367044037220972, "hi": 1.2835514673533126, "n_seeds": 15}}}, "roy": {"cells": {"Y00": {"point": 77.77516471345471, "lo": 74.97362957403313, "hi": 80.1337674089053, "n_seeds": 15}, "Y10": {"point": 95.94180201733256, "lo": 94.00841689424273, "hi": 97.938280102301, "n_seeds": 15}, "Y01": {"point": 92.76896026784674, "lo": 90.39235201853862, "hi": 95.05727457189519, "n_seeds": 15}, "Y11": {"point": 109.21742023528942, "lo": 107.80916565741427, "hi": 110.62690679367296, "n_seeds": 15}}, "did": {"tau_reorg": {"point": 18.166637303877838, "lo": 17.102650577918403, "hi": 19.217651829902564, "n_seeds": 15}, "tau_incent": {"point": 14.993795554392, "lo": 14.353006722293252, "hi": 15.648775898146727, "n_seeds": 15}, "tau_full": {"point": 31.442255521834674, "lo": 30.088609480652885, "hi": 32.96970770972152, "n_seeds": 15}, "tau_inter": {"point": -1.718177336435166, "lo": -2.297379637088545, "hi": -1.1037499955434684, "n_seeds": 15}}}}, "network_robustness": {"ws": {"cells": {"Y00": {"point": 59.529588524523014, "lo": 56.808249764608625, "hi": 62.08544154152215, "n_seeds": 15}, "Y10": {"point": 90.42776336067482, "lo": 87.03968568167559, "hi": 93.89513457845327, "n_seeds": 15}, "Y01": {"point": 73.13935988665098, "lo": 70.23325906511907, "hi": 76.14698660466887, "n_seeds": 15}, "Y11": {"point": 104.1299529272506, "lo": 101.31417630573965, "hi": 107.04678531182262, "n_seeds": 15}}, "did": {"tau_reorg": {"point": 30.898174836151803, "lo": 28.012816945924346, "hi": 34.31384217180111, "n_seeds": 15}, "tau_incent": {"point": 13.60977136212796, "lo": 12.860518366285575, "hi": 14.35924186700992, "n_seeds": 15}, "tau_full": {"point": 44.600364402727585, "lo": 41.96840791333672, "hi": 47.31790319765374, "n_seeds": 15}, "tau_inter": {"point": 0.09241820444781676, "lo": -0.9772322440637045, "hi": 1.1704547657203264, "n_seeds": 15}}}, "er": {"cells": {"Y00": {"point": 59.175135117243975, "lo": 56.25420874594934, "hi": 61.78543998789596, "n_seeds": 15}, "Y10": {"point": 89.5465085318377, "lo": 86.00688611412477, "hi": 93.04084169659905, "n_seeds": 15}, "Y01": {"point": 73.09880682696014, "lo": 69.87525048839706, "hi": 76.20822711291086, "n_seeds": 15}, "Y11": {"point": 103.64228250252246, "lo": 100.9612398723512, "hi": 106.51146246417713, "n_seeds": 15}}, "did": {"tau_reorg": {"point": 30.37137341459373, "lo": 27.18283367542438, "hi": 33.68993347141241, "n_seeds": 15}, "tau_incent": {"point": 13.923671709716167, "lo": 13.076407768734144, "hi": 14.676726725408198, "n_seeds": 15}, "tau_full": {"point": 44.46714738527849, "lo": 41.98769815799807, "hi": 47.437060292126134, "n_seeds": 15}, "tau_inter": {"point": 0.17210226096859316, "lo": -1.0870634931392795, "hi": 1.3486509349864202, "n_seeds": 15}}}, "lattice": {"cells": {"Y00": {"point": 59.80953414042506, "lo": 57.44284357949309, "hi": 62.34588978644764, "n_seeds": 15}, "Y10": {"point": 90.54938341598418, "lo": 87.12327715672518, "hi": 94.00353258921547, "n_seeds": 15}, "Y01": {"point": 73.31082107260525, "lo": 70.23355476587712, "hi": 76.26271657147464, "n_seeds": 15}, "Y11": {"point": 104.30014245879774, "lo": 101.18228191451581, "hi": 107.49887041305648, "n_seeds": 15}}, "did": {"tau_reorg": {"point": 30.739849275559102, "lo": 27.687272231299456, "hi": 34.102898407593834, "n_seeds": 15}, "tau_incent": {"point": 13.501286932180193, "lo": 12.780840705799985, "hi": 14.21809132990169, "n_seeds": 15}, "tau_full": {"point": 44.49060831837267, "lo": 41.65126987853826, "hi": 47.50931534713036, "n_seeds": 15}, "tau_inter": {"point": 0.2494721106333723, "lo": -0.7713614474208544, "hi": 1.2002016064983994, "n_seeds": 15}}}}, "elasticity": {"rho": {"baseline": 2.0, "grid": [0.5, 1.0, 1.5, 2.0], "curve": [{"param_value": 0.5, "tau_full": {"point": 53.500138986906975, "lo": 51.32825063635666, "hi": 55.78814178771651, "n_seeds": 15}, "y11": {"point": 113.02972751142998, "lo": 111.31623683578836, "hi": 114.8712073533549, "n_seeds": 15}}, {"param_value": 1.0, "tau_full": {"point": 51.678908412551756, "lo": 49.06660257564443, "hi": 54.15200551373392, "n_seeds": 15}, "y11": {"point": 111.20849693707478, "lo": 108.97474412699093, "hi": 113.35642457571387, "n_seeds": 15}}, {"param_value": 1.5, "tau_full": {"point": 48.855871369207684, "lo": 46.28174714119618, "hi": 51.60157325416021, "n_seeds": 15}, "y11": {"point": 108.38545989373071, "lo": 105.44277568156116, "hi": 111.13776201652068, "n_seeds": 15}}, {"param_value": 2.0, "tau_full": {"point": 44.600364402727585, "lo": 42.02914902700425, "hi": 47.164710993800476, "n_seeds": 15}, "y11": {"point": 104.1299529272506, "lo": 101.26223405358535, "hi": 107.08474133702542, "n_seeds": 15}}]}, "sigma_output": {"baseline": 0.5, "grid": [0.3, 0.5, 0.7, 1.0], "curve": [{"param_value": 0.3, "tau_full": {"point": 52.63333729848959, "lo": 50.35419044487092, "hi": 54.89477249118779, "n_seeds": 15}, "y11": {"point": 112.14101531257738, "lo": 110.10779943057555, "hi": 114.54961976006796, "n_seeds": 15}}, {"param_value": 0.5, "tau_full": {"point": 44.600364402727585, "lo": 42.01759913702174, "hi": 47.04506998132933, "n_seeds": 15}, "y11": {"point": 104.1299529272506, "lo": 101.48255454369828, "hi": 106.97533106997211, "n_seeds": 15}}, {"param_value": 0.7, "tau_full": {"point": 32.160526512354934, "lo": 29.11169536278222, "hi": 35.67164283594615, "n_seeds": 15}, "y11": {"point": 91.71202554731317, "lo": 88.11516386838139, "hi": 95.11243314340416, "n_seeds": 15}}, {"param_value": 1.0, "tau_full": {"point": 30.907023558205193, "lo": 27.649522108405943, "hi": 34.29297972311884, "n_seeds": 15}, "y11": {"point": 90.49138835881622, "lo": 87.04045089184481, "hi": 94.09591984080342, "n_seeds": 15}}]}, "k": {"baseline": 1.0, "grid": [0.5, 1.0, 1.5, 2.0], "curve": [{"param_value": 0.5, "tau_full": {"point": 15.140164080333163, "lo": 13.85017321896462, "hi": 16.3797571476232, "n_seeds": 15}, "y11": {"point": 117.90254142334352, "lo": 116.71049574367586, "hi": 119.02912202550039, "n_seeds": 15}}, {"param_value": 1.0, "tau_full": {"point": 44.600364402727585, "lo": 41.95659314970443, "hi": 47.33630742034574, "n_seeds": 15}, "y11": {"point": 104.1299529272506, "lo": 101.30097355845248, "hi": 107.09995188731716, "n_seeds": 15}}, {"param_value": 1.5, "tau_full": {"point": 30.494657754720027, "lo": 27.386841080252484, "hi": 34.12238735008529, "n_seeds": 15}, "y11": {"point": 60.023658688704664, "lo": 56.91344141103187, "hi": 63.09930385311817, "n_seeds": 15}}, {"param_value": 2.0, "tau_full": {"point": 19.012989540342524, "lo": 17.04608255815576, "hi": 21.318813524382406, "n_seeds": 15}, "y11": {"point": 37.71317665809271, "lo": 35.776407347541586, "hi": 39.834969579863824, "n_seeds": 15}}]}, "psi_peer": {"baseline": 0.3, "grid": [0.0, 0.15, 0.3, 0.45], "curve": [{"param_value": 0.0, "tau_full": {"point": 44.600364402727585, "lo": 42.03298802834424, "hi": 47.43700632605223, "n_seeds": 15}, "y11": {"point": 104.1299529272506, "lo": 101.22643487255361, "hi": 107.03554052593485, "n_seeds": 15}}, {"param_value": 0.15, "tau_full": {"point": 44.600364402727585, "lo": 42.10330069941327, "hi": 47.21842912349073, "n_seeds": 15}, "y11": {"point": 104.1299529272506, "lo": 101.29191560632125, "hi": 107.10580056564919, "n_seeds": 15}}, {"param_value": 0.3, "tau_full": {"point": 44.600364402727585, "lo": 41.88828091575942, "hi": 47.286161901691166, "n_seeds": 15}, "y11": {"point": 104.1299529272506, "lo": 101.18327712301281, "hi": 107.17487561063356, "n_seeds": 15}}, {"param_value": 0.45, "tau_full": {"point": 44.600364402727585, "lo": 42.000949700978886, "hi": 47.080441245992276, "n_seeds": 15}, "y11": {"point": 104.1299529272506, "lo": 101.44665680554833, "hi": 107.2071820164792, "n_seeds": 15}}]}}};
 window.__EMBEDDED_P5 = {"meta": {"seeds": 25, "periods": 30, "N_workers": 50, "N_tasks": 5, "burn_in": 5, "alpha_structure": "block", "network": "ws"}, "cells": {"00_status_quo": {"label": "Assign: status-quo \u00b7 Contract: flat A0", "total_output": {"point": 95.53857213702433, "lo": 93.38825118525655, "hi": 97.95511383105598, "n_seeds": 25}, "profit": {"point": 45.53857213702434, "lo": 43.45629782015155, "hi": 47.89062601994807, "n_seeds": 25}, "mean_effort": {"point": 1.0976160058387827, "lo": 1.0823002794261625, "hi": 1.1158726945379989, "n_seeds": 25}, "wage_gini": 0.0, "effort_gini": 0.0663478293728319, "n_seeds": 25}, "10_reorg_only": {"label": "Assign: oracle    \u00b7 Contract: flat A0", "total_output": {"point": 126.69430279510416, "lo": 124.75393330948579, "hi": 128.78876212448773, "n_seeds": 25}, "profit": {"point": 76.69430279510415, "lo": 74.69847138383628, "hi": 79.02919665987244, "n_seeds": 25}, "mean_effort": {"point": 1.2748207509868978, "lo": 1.2601844248861647, "hi": 1.2896050673760164, "n_seeds": 25}, "wage_gini": 0.0, "effort_gini": 0.052720117327644145, "n_seeds": 25}, "01_incent_only": {"label": "Assign: status-quo \u00b7 Contract: oracle", "total_output": {"point": 113.48458280897718, "lo": 111.46359463452315, "hi": 115.60394561906776, "n_seeds": 25}, "profit": {"point": 32.73262655890603, "lo": 30.7577888345071, "hi": 34.77055893028896, "n_seeds": 25}, "mean_effort": {"point": 1.2574310572389675, "lo": 1.2430877137477618, "hi": 1.273577001672781, "n_seeds": 25}, "wage_gini": 0.13604776186973244, "effort_gini": 0.036028423964057144, "n_seeds": 25}, "11_full_stack": {"label": "Assign: oracle    \u00b7 Contract: oracle", "total_output": {"point": 140.75704175174434, "lo": 138.84464065031747, "hi": 142.5347438445598, "n_seeds": 25}, "profit": {"point": 55.88452807803647, "lo": 54.035170875776835, "hi": 57.77080564005596, "n_seeds": 25}, "mean_effort": {"point": 1.4023704035545657, "lo": 1.391273893246555, "hi": 1.4122874962503882, "n_seeds": 25}, "wage_gini": 0.13817748708425537, "effort_gini": 0.028599604697712167, "n_seeds": 25}}, "did": {"tau_reorg": {"point": 31.155730658079815, "lo": 29.184846072167183, "hi": 33.48096663062896, "n_seeds": 25}, "tau_incent": {"point": 17.946010671952852, "lo": 17.34331259590721, "hi": 18.52043313082117, "n_seeds": 25}, "tau_full": {"point": 45.21846961472001, "lo": 42.686046418948386, "hi": 48.09891904914138, "n_seeds": 25}, "tau_inter": {"point": -3.883271715312662, "lo": -4.948784179175212, "hi": -2.8866868859493366, "n_seeds": 25}}, "tail_stats": {"00_status_quo": {"top1_share": 1.0, "top10_share": 1.0, "pareto_alpha": 999999999.9999999}, "10_reorg_only": {"top1_share": 1.0, "top10_share": 1.0, "pareto_alpha": 999999999.9999999}, "01_incent_only": {"top1_share": 0.02454671291296487, "top10_share": 0.15998480309165458, "pareto_alpha": 5.339308378608956}, "11_full_stack": {"top1_share": 0.023163896664308892, "top10_share": 0.1584289937197955, "pareto_alpha": 5.50336905260552}}};
+window.__EMBEDDED_CS = {"meta": {"seeds": 10, "periods": 25, "N": 30, "baseline": "A0"}, "baseline": "A0", "contracts": ["A0", "A1", "A2", "A3", "A4", "A7"], "results": {"A0": {"effort": {"point": 0.8158258816295783, "lo": 0.7665462909900417, "hi": 0.8614035081734722, "n_seeds": 10}, "output": {"point": 39.423889271637925, "lo": 32.90752270174467, "hi": 45.02283835494213, "n_seeds": 10}, "wage_bill": {"point": 34.10736000000001, "lo": 33.95082, "hi": 34.27071000000001, "n_seeds": 10}, "profit": {"point": 5.316529271637927, "lo": -1.3799338794639795, "hi": 11.002245706271227, "n_seeds": 10}, "label": "Flat wage (baseline)"}, "A1": {"effort": {"point": 1.0513322270386798, "lo": 1.0025276692580685, "hi": 1.106244048919986, "n_seeds": 10}, "output": {"point": 59.05047339267702, "lo": 51.27820963533897, "hi": 67.94605408287542, "n_seeds": 10}, "wage_bill": {"point": 60.78467850464089, "lo": 55.56391523401813, "hi": 66.01676047561465, "n_seeds": 10}, "profit": {"point": -1.734205111963854, "lo": -5.734749074291147, "hi": 2.7727445571551423, "n_seeds": 10}, "label": "Piece rate (HM 1987)"}, "A2": {"effort": {"point": 1.1505287361636243, "lo": 1.1408417735395406, "hi": 1.1613239787271572, "n_seeds": 10}, "output": {"point": 60.32965864865675, "lo": 54.66981044825916, "hi": 67.06333622647217, "n_seeds": 10}, "wage_bill": {"point": 32.35698000000001, "lo": 32.27404800000001, "hi": 32.444830500000016, "n_seeds": 10}, "profit": {"point": 27.972678648656746, "lo": 22.11217528830784, "hi": 34.76405820341669, "n_seeds": 10}, "label": "Tournament (LR 1981)"}, "A3": {"effort": {"point": 1.4286932858833368, "lo": 1.420199512525578, "hi": 1.4375905205721728, "n_seeds": 10}, "output": {"point": 81.9287535987694, "lo": 76.32264415051061, "hi": 87.19010990779365, "n_seeds": 10}, "wage_bill": {"point": 50.65011000000001, "lo": 50.42110500000001, "hi": 50.864805000000004, "n_seeds": 10}, "profit": {"point": 31.278643598769396, "lo": 26.098945103791472, "hi": 36.995008603745134, "n_seeds": 10}, "label": "Efficiency wage (SS 1984)"}, "A4": {"effort": {"point": 1.2616111800305707, "lo": 1.2085365331153148, "hi": 1.3106866679588847, "n_seeds": 10}, "output": {"point": 68.69368393366499, "lo": 60.972504363197736, "hi": 76.10249431891586, "n_seeds": 10}, "wage_bill": {"point": 72.74528702025704, "lo": 69.08192908445895, "hi": 76.41071937050279, "n_seeds": 10}, "profit": {"point": -4.051603086592053, "lo": -8.39685868224068, "hi": 0.42897116462198487, "n_seeds": 10}, "label": "Team + peer (KL 1992)"}, "A7": {"effort": {"point": 0.9783385056868449, "lo": 0.9181177533463214, "hi": 1.0387472746620632, "n_seeds": 10}, "output": {"point": 54.032290332037675, "lo": 45.9149585078307, "hi": 63.342761471879676, "n_seeds": 10}, "wage_bill": {"point": 47.305488150556826, "lo": 46.79578070724281, "hi": 47.83523902775827, "n_seeds": 10}, "profit": {"point": 6.726802181480868, "lo": -0.8831890288133474, "hi": 15.48084753857247, "n_seeds": 10}, "label": "Subjective bonus (MacLeod 2003)"}}};
 </script>
 <script>
 /* Quindi ABM — lean, story-driven dashboard. */
@@ -1225,7 +1243,7 @@ async function init() {
     safe(() => renderSorting(SO, SS, EST),     'renderSorting');
     safe(() => renderCapture(P2),              'renderCapture');
     safe(() => renderNoiseMetrics(P2),         'renderNoiseMetrics');
-    safe(() => renderContractSensitivity(),    'renderContractSensitivity');
+    safe(() => renderContractSwitch(window.__EMBEDDED_CS), 'renderContractSwitch');
     safe(() => renderProfitDecomp(P5 || P1),   'renderProfitDecomp');
     safe(() => renderRCT(P3),                  'renderRCT');
     safe(() => renderRobustness(P4),           'renderRobustness');
@@ -1780,7 +1798,85 @@ function renderNoiseMetrics(D) {
     makeCurve('fig-noise-profit', 'profit',       COL.hi,     'firm profit Y − W', 'profit');
 }
 
-// ===================== NEW: contract-sensitivity plots ===================
+// ===================== NEW: contract-switch — from A0 to A_j ============
+function renderContractSwitch(D) {
+    if (!D || !D.results) return;
+    const CONTRACTS = D.contracts || ['A0','A1','A2','A3','A4','A7'];
+    const base = D.results[D.baseline || 'A0'];
+    if (!base) return;
+    const contractColors = {
+        A0: '#8a91a0', A1: '#5b3ff5', A2: '#3ba9ff',
+        A3: '#d68910', A4: '#00b48a', A7: '#d94a4a',
+    };
+    // ---- populate table ------------------------------------------------
+    const tbody = document.getElementById('contract-switch-tbody');
+    if (tbody) {
+        tbody.innerHTML = CONTRACTS.map(c => {
+            const r = D.results[c];
+            if (!r) return '';
+            const e = r.effort?.point ?? 0;
+            const y = r.output?.point ?? 0;
+            const w = r.wage_bill?.point ?? 0;
+            const pi = r.profit?.point ?? 0;
+            const de = e - base.effort.point;
+            const dy = y - base.output.point;
+            const dw = w - base.wage_bill.point;
+            const dpi = pi - base.profit.point;
+            const sign = (x) => x >= 0 ? '+' : '';
+            const clr = (x) => x >= 0 ? 'var(--pos)' : 'var(--neg)';
+            let verdict;
+            if (c === D.baseline) verdict = '<span class="badge">baseline</span>';
+            else if (dpi > 1)  verdict = '<span class="badge pos">Adopt ✓</span>';
+            else if (dpi > -1) verdict = '<span class="badge warn">Marginal</span>';
+            else verdict = '<span class="badge neg">Skip ✗</span>';
+            return `<tr>
+                <td><strong>${c}</strong> — ${r.label || ''}</td>
+                <td class="num">${e.toFixed(3)}</td>
+                <td class="num">${y.toFixed(1)}</td>
+                <td class="num">${w.toFixed(1)}</td>
+                <td class="num" style="font-weight:600">${pi.toFixed(1)}</td>
+                <td class="num" style="color:${clr(de)}">${sign(de)}${de.toFixed(3)}</td>
+                <td class="num" style="color:${clr(dy)}">${sign(dy)}${dy.toFixed(1)}</td>
+                <td class="num" style="color:${clr(dw)}">${sign(dw)}${dw.toFixed(1)}</td>
+                <td class="num" style="color:${clr(dpi)};font-weight:600">${sign(dpi)}${dpi.toFixed(1)}</td>
+                <td>${verdict}</td>
+            </tr>`;
+        }).join('');
+    }
+
+    // ---- bar charts ----------------------------------------------------
+    function bar(canvasId, key, yLabel) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        const data = CONTRACTS.map(c => D.results[c]?.[key]?.point ?? 0);
+        const bgcolors = CONTRACTS.map(c => contractColors[c] || '#999');
+        try {
+            new Chart(canvas, {
+                type: 'bar',
+                data: {
+                    labels: CONTRACTS,
+                    datasets: [{
+                        label: yLabel,
+                        data,
+                        backgroundColor: bgcolors,
+                        borderColor: bgcolors,
+                        borderWidth: 1,
+                    }],
+                },
+                options: {
+                    ...baseChartOpts('contract', yLabel, null),
+                    plugins: { legend: { display: false } },
+                },
+            });
+        } catch (e) { console.error(canvasId, e); }
+    }
+    bar('fig-switch-effort', 'effort',    'mean effort e');
+    bar('fig-switch-output', 'output',    'total output Y');
+    bar('fig-switch-wage',   'wage_bill', 'wage bill W');
+    bar('fig-switch-profit', 'profit',    'firm profit Π = Y − W');
+}
+
+// ===================== NEW: contract-sensitivity plots (unused) ==========
 // For each parameter, plot the closed-form Nash effort of every contract
 // as that parameter sweeps. All other parameters held at baseline.
 function renderContractSensitivity() {
