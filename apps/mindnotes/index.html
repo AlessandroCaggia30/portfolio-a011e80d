@@ -7499,14 +7499,17 @@ function createNodeElement(node) {
         <div class="resize-handle"></div>
     `;
 
-    // Render math in preview — deferred via IntersectionObserver so the canvas paints
-    // first and KaTeX only runs for nodes the user is actually looking at.
+    // Render math in preview. Historically this was deferred via
+    // IntersectionObserver for lazy KaTeX rendering, but with fitView zoom
+    // (e.g. 0.30x) the viewport-relative intersection never fires for most
+    // cards and the math stays as raw $...$ text. Render eagerly instead —
+    // KaTeX on ~60 short previews is fast enough.
     const preview = el.querySelector('.node-preview');
-    if (_lazyMathObserver) {
-        _lazyMathObserver.observe(preview);
-    } else {
-        renderMath(preview);
-    }
+    renderMath(preview);
+    // Keep the observer as a belt-and-braces fallback: if renderMath was a
+    // no-op because KaTeX hadn't loaded yet, the observer will retry when the
+    // card scrolls into view.
+    if (_lazyMathObserver) _lazyMathObserver.observe(preview);
 
     // Make formulas clickable for inline editing
     attachFormulaClickHandlers(el, node);
