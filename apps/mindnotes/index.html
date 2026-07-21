@@ -14007,6 +14007,82 @@ const AGENDA_CLEANUP_FLAG = 'mindnotes_agenda_cleanup_v1';
     } catch (e) {}
 })();
 
+// One-time SMART MERGE for personnel-econ subject (2026-07-21 update):
+// The IndexedDB has a stale copy of the ABM Theory Core snippet. Backup local
+// state to Downloads, fetch fresh git version, merge — for each node, prefer
+// git only if its content is >15% longer than local (i.e. a real content
+// upgrade). This preserves any user edits while pulling my new content.
+const PERSECON_MERGE_FLAG_V1 = 'mindnotes_persecon_merge_v1_20260721';
+(function _perseconSmartMerge() {
+    try {
+        if (localStorage.getItem(PERSECON_MERGE_FLAG_V1)) return;
+        // Run once, only when we can. Defer until IDB is initialised.
+        setTimeout(async () => {
+            try {
+                if (localStorage.getItem(PERSECON_MERGE_FLAG_V1)) return;
+                const req = indexedDB.open('mindnotes_db');
+                const idb = await new Promise((res, rej) => {
+                    req.onsuccess = () => res(req.result); req.onerror = () => rej(req.error);
+                });
+                const local = await new Promise((res) => {
+                    const r = idb.transaction('data', 'readonly').objectStore('data').get('mindnotes_persecon');
+                    r.onsuccess = () => res(r.result || {});
+                });
+                if (!local) { localStorage.setItem(PERSECON_MERGE_FLAG_V1, '1'); return; }
+                const flatten = (topics) => {
+                    const out = {};
+                    for (const t of (topics || [])) for (const s of (t.subtopics || []))
+                        for (const n of (s.nodes || [])) out[n.id] = n;
+                    return out;
+                };
+                // 1. Backup local to Downloads BEFORE merging
+                try {
+                    const stamp = new Date().toISOString().slice(0,19).replace(/[:T]/g,'-');
+                    const blob = new Blob([JSON.stringify(local, null, 2)], { type: 'application/json' });
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(blob);
+                    a.download = 'persecon-backup-BEFORE-MERGE-' + stamp + '.json';
+                    a.style.display = 'none';
+                    document.body.appendChild(a); a.click();
+                    setTimeout(() => { try { document.body.removeChild(a); } catch (_) {}
+                                        URL.revokeObjectURL(a.href); }, 500);
+                } catch (e) { console.warn('backup failed', e); }
+                // 2. Fetch fresh git version
+                const rawUrl = 'https://raw.githubusercontent.com/AlessandroCaggia30/portfolio-a011e80d/main/apps/mindnotes/data_persecon.json?t=' + Date.now();
+                const gitRaw = await (await fetch(rawUrl, { cache: 'no-store' })).json();
+                const gitData = gitRaw.data || gitRaw;
+                const localTopics = local.topics || local.data?.topics || [];
+                const gitFlat = flatten(gitData.topics || []);
+                const localFlat = flatten(localTopics);
+                // 3. Merge — for each node, take git if its content is >15% longer
+                let updated = 0, kept = 0;
+                for (const id of Object.keys(gitFlat)) {
+                    if (!localFlat[id]) continue;
+                    const gLen = (gitFlat[id].content || '').length;
+                    const lLen = (localFlat[id].content || '').length;
+                    if (gLen > lLen * 1.15) {
+                        localFlat[id].content = gitFlat[id].content;
+                        localFlat[id].title = gitFlat[id].title;
+                        updated++;
+                        console.log('[persecon-merge] updated ' + id + ' ('
+                                     + lLen + ' → ' + gLen + ' chars)');
+                    } else { kept++; }
+                }
+                // 4. Write merged back
+                await new Promise((res) => {
+                    const tx = idb.transaction('data', 'readwrite');
+                    tx.objectStore('data').put(local, 'mindnotes_persecon');
+                    tx.oncomplete = res;
+                });
+                localStorage.setItem(PERSECON_MERGE_FLAG_V1, '1');
+                console.log('[persecon-merge] ✓ done: ' + updated + ' updated, '
+                             + kept + ' kept. Reloading in 1s...');
+                setTimeout(() => location.reload(), 1000);
+            } catch (e) { console.error('persecon-merge failed', e); }
+        }, 3000);
+    } catch (e) {}
+})();
+
 function _agendaLoad(col) {
     try { return JSON.parse(localStorage.getItem(AGENDA_KEYS[col])) || []; } catch { return []; }
 }
