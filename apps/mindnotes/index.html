@@ -13945,7 +13945,15 @@ let _customSubjects = (() => {
     localStorage.setItem(flag, '1');
 })();
 
-function _allSubjects() { return [...SUBJECTS, ..._customSubjects]; }
+function _allSubjects() {
+    try {
+        const custom = Array.isArray(_customSubjects) ? _customSubjects : [];
+        return [...SUBJECTS, ...custom];
+    } catch (e) {
+        console.error('_allSubjects fallback:', e);
+        return [...SUBJECTS];
+    }
+}
 
 function _saveCustomSubject(name, icon) {
     const id = 'custom-' + Date.now();
