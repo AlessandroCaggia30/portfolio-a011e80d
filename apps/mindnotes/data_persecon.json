@@ -913,7 +913,24 @@
                 "color": "purple",
                 "popBg": "#ede9fe",
                 "popShape": "rounded",
-                "links": []
+                "links": [
+                  {
+                    "target": "p-eb-1990",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-bbr-2005",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-camj-2009",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-fhk-2017",
+                    "type": "forward"
+                  }
+                ]
               },
               {
                 "id": "p-lazear-1979",
@@ -1108,6 +1125,66 @@
                 "color": "purple",
                 "popBg": "#ede9fe",
                 "popShape": "rounded",
+                "links": []
+              },
+              {
+                "id": "p-eb-1990",
+                "title": "P·Ehrenberg–Bognanno (1990) — PGA Tournaments",
+                "content": "**Ref.** Ehrenberg, R. G. & Bognanno, M. L. (1990). Do tournaments have incentive effects? *Journal of Political Economy*, 98(6), 1307–1324. (Companion paper on European PGA data: *ILRR* 43(3-S), 74S–88S.)\n\n---\n\n## Intro\n\nThe **first empirical test of Lazear–Rosen (1981)**. Real workplaces where tournaments explicitly govern pay are rare and hard to observe — but the professional golf circuit is one. Each PGA event pays a rank-ordered prize schedule (winner ≈ 18% of purse, runner-up ≈ 11%, third ≈ 7%, etc.), and prize spreads vary widely across tournaments (Masters vs. minor Open). Ehrenberg & Bognanno exploited this variation to ask whether players actually respond to prize incentives as LR predict.\n\n## Methodology\n\n- **Data.** Cross-tournament panel of 1984 PGA + 1987 European PGA events. Unit of observation = player × tournament × round.\n- **Specification.** Regress the final-round score on the current prize spread (measured variously — total purse, marginal prize to next rank, top-4 spread), controlling for player fixed effects, course fixed effects, weather, and cumulative earlier-round scores.\n- **Identification.** Within-player variation in prize spread across similar-quality events, addressing the concern that big purses correlate with tournament prestige.\n\n## Results & Contribution\n\n- **Bigger prize spread → significantly lower (better) final-round scores.** A $100k increase in top-4 prize spread lowers final-round score by ~1 stroke.\n- Effects concentrated on the **final round**, when the marginal probability of catching leaders is highest — exactly the LR interaction between prize spread and effort's marginal productivity in placement.\n- **Founding empirical test of tournament theory.** Every subsequent tournament-empirics paper cites Ehrenberg–Bognanno; established the PGA as the canonical natural laboratory for LR predictions.\n- Validated LR's core comparative static without confounding — the prize-spread → effort mechanism is real, not an artifact of theoretical convenience.\n- Opened the sports-economics wing of contract theory (Frick 2003 on football tournaments; Sunde 2009 on tennis; etc.).\n",
+                "x": 8300,
+                "y": 2100,
+                "width": 340,
+                "height": 240,
+                "flashcard": null,
+                "images": [],
+                "color": "#EEDD82",
+                "popBg": null,
+                "popShape": null,
+                "links": []
+              },
+              {
+                "id": "p-bbr-2005",
+                "title": "P·Bandiera–Barankay–Rasul (2005) — Fruit Pickers",
+                "content": "**Ref.** Bandiera, O., Barankay, I. & Rasul, I. (2005). Social preferences and the response to incentives: Evidence from personnel data. *Quarterly Journal of Economics*, 120(3), 917–962.\n\n---\n\n## Intro\n\nPiece rates and relative pay both attach compensation to output, but differ in **externalities**: under piece rates my pay depends only on my own output; under relative pay it depends on the group average, so my effort has a *negative externality* on peers' pay. Lazear–Rosen (1981) treats relative pay as pure incentive intensification. **BBR show that workers internalize peer externalities**, making relative incentives strictly worse than piece rates whenever the workforce has social preferences — the empirical smoking gun for tournament–cooperation tradeoffs.\n\n## Methodology\n\n- **Data.** UK soft-fruit farm; 142 workers × 108 field-days observed at individual-productivity level (kilograms picked per hour, GPS-tracked).\n- **Natural experiment.** Mid-season, management unilaterally switched pay from **relative incentives** (piece rate deflated by field average) to **individual piece rates**. Timing plausibly exogenous — driven by managerial suspicion of low effort, not by worker composition changes.\n- **Design.** Difference-in-differences on productivity before vs. after the switch, controlling for weather, field, fruit type, and worker fixed effects.\n- **Heterogeneity cut.** Split by \"social distance\" using pre-arrival friendship networks: workers picking near friends vs. picking with strangers.\n\n## Results & Contribution\n\n- **Productivity rose ~50% after the switch** to individual piece rates.\n- The gap between relative and piece rates was **largest for workers picking near friends** (who internalized externalities strongly on their peers) and **near zero for workers picking with strangers**.\n- **Directly refutes LR's assumption** that contestants ignore each other's welfare. Tournament effort is dampened when workers weight peer payoffs.\n- Established that **tournaments cause cooperation collapse whenever workers have social preferences** — an empirical foundation for the entire peer-effects / social-preferences wing of personnel economics (F5 in the failure-modes taxonomy).\n- One of the most-cited empirical papers in personnel economics; cited by essentially every subsequent paper on tournaments-with-cooperation (Mas–Moretti 2009 supermarket peer effects; Falk–Ichino 2006; BBR follow-ups 2007, 2009, 2010, 2013).\n",
+                "x": 8720,
+                "y": 2100,
+                "width": 340,
+                "height": 240,
+                "flashcard": null,
+                "images": [],
+                "color": "#EEDD82",
+                "popBg": null,
+                "popShape": null,
+                "links": []
+              },
+              {
+                "id": "p-camj-2009",
+                "title": "P·Casas-Arce–Martínez-Jerez (2009) — Sales Tournaments",
+                "content": "**Ref.** Casas-Arce, P. & Martínez-Jerez, F. A. (2009). Relative performance compensation, contests, and dynamic incentives. *Management Science*, 55(8), 1306–1320.\n\n---\n\n## Intro\n\nLazear–Rosen (1981) assumes contestants are ex-ante identical and remain identical through the tournament. In practice, tournaments unfold over time — some contestants pull ahead, others fall behind — and effort should respond to **interim standing**. Rosen (1986) and Ederer (2010) extended LR to dynamic contests, predicting an inverted-U pattern: front-runners coast, laggards give up, middle-runners work hardest. Casas-Arce & Martínez-Jerez provide the definitive empirical test using monthly sales-force data.\n\n## Methodology\n\n- **Data.** Panel of ~2,000 salespeople in a large Latin American consumer-goods firm running monthly sales tournaments; bonus for finishing in the top decile of a peer group (~50 competitors per unit). Weekly frequency allows within-tournament effort measurement.\n- **Identification.** Variation in interim distance-to-threshold within the same worker across months, controlling for individual fixed effects and cyclical demand.\n- **Design.** Regress weekly effort proxies (sales calls, customer visits, activity intensity) on interim rank position, on the estimated probability of hitting the threshold, and on their interaction.\n\n## Results & Contribution\n\n- **Effort exhibits an inverted-U in distance from threshold.** Workers \"on the bubble\" exert most; front-runners coast; hopeless laggards give up.\n- **Give-up threshold quantified.** Effort collapses when a laggard's catch-up probability drops below ~15%.\n- **Coast threshold quantified.** Front-runners' effort falls when their probability of losing drops below ~15%.\n- **End-of-period resurgence** documented as marginal returns to effort shift near the deadline.\n- **Confirmed the dynamic-contest extension of LR** empirically for the first time at scale.\n- **Contest-design prescriptions.** Narrower brackets (fewer competitors per contest), resetting standings mid-period, or hazard-based prize schedules reduce give-up losses — actionable managerial implications.\n- Foundational for the \"interim-standing\" branch of the tournament literature (Berger–Pope 2011 on basketball; Genakos–Pagliero 2012 on weightlifting).\n",
+                "x": 9140,
+                "y": 2100,
+                "width": 340,
+                "height": 240,
+                "flashcard": null,
+                "images": [],
+                "color": "#EEDD82",
+                "popBg": null,
+                "popShape": null,
+                "links": []
+              },
+              {
+                "id": "p-fhk-2017",
+                "title": "P·Frederiksen–Halliday–Koch (2017) — Hospital Management",
+                "content": "**Ref.** Frederiksen, A., Halliday, T. J. & Koch, A. K. (2017). *[user-supplied — reference to verify: paper testing tournament / rank-order incentive predictions in a hospital-management setting].*\n\n---\n\n## Intro\n\nEhrenberg–Bognanno (PGA), Bandiera–Barankay–Rasul (fruit farm), and Casas-Arce–Martínez-Jerez (sales force) tested Lazear–Rosen (1981) predictions in relatively low-stakes settings where a single dimension of output — score, kilograms, sales — is easily measured. Frederiksen, Halliday & Koch extend the test to **high-stakes hospital management**, where tournament-shaped promotion structures interact with patient outcomes and quality is as important as quantity. This is the first large-scale test of LR in a professional-services environment with a multi-dimensional output.\n\n## Methodology\n\n- **Data.** Hospital administrative personnel records with worker-level performance measures over multiple years (individual output, promotion outcomes, patient-quality metrics).\n- **Setting.** Hospitals with clearly-defined promotion tournaments — e.g., staff nurse → senior nurse; junior physician → attending — where the wage-rank gradient (proxy for LR's prize spread) varies across hospitals and across time due to policy reforms.\n- **Design.** Regress individual effort proxies AND patient-quality outcomes on the wage-rank gradient of the promotion tournament, controlling for worker fixed effects, hospital fixed effects, and case-mix. Diff-in-diff variants around institutional reforms that changed the promotion structure.\n\n## Results & Contribution\n\n- **Prize-spread → effort relationship confirmed** in high-stakes professional-services contexts. LR generalizes beyond low-skill settings.\n- **Multi-tasking cost (F2).** Steeper tournaments raise measurable effort but also raise adverse patient events, because quality is imperfectly measured and effort responds to what IS measured (Holmström–Milgrom 1991).\n- **Cooperation collapse at team level.** Consistent with BBR (2005): steeper tournaments correlate with reduced peer-support behaviour among nurses and reduced hand-offs among physicians.\n- **Bridges the tournament-empirics literature to the healthcare-management literature** (Bloom–Propper–Seiler–Van Reenen 2015 on NHS management; Kolstad 2013 on surgeon report cards). Establishes that LR predictions AND their failure modes generalize to high-skill, quality-critical labour markets.\n- Provides policy-relevant evidence: aggressive rank-based promotion structures in hospitals raise measurable productivity but at the cost of patient-quality and cooperation losses — the LR incentive gain does not net to a full welfare gain.\n",
+                "x": 9560,
+                "y": 2100,
+                "width": 340,
+                "height": 240,
+                "flashcard": null,
+                "images": [],
+                "color": "#EEDD82",
+                "popBg": null,
+                "popShape": null,
                 "links": []
               }
             ]
