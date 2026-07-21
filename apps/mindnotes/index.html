@@ -7196,7 +7196,46 @@ function _runRenderMathInElement(element) {
                 "\\omark": "\\textcolor{orange}{#1}"
             }
         });
-    }
+}
+
+function renderMath(element) {
+    if (typeof renderMathInElement === 'undefined' || !element) return;
+    // Primary pass on the container as delivered.
+    try { _runRenderMathInElement(element); } catch (e) { console.warn('renderMath primary pass', e); }
+    // Safety net: some content paths (markdown tables, editable-formula pipeline,
+    // lazy-loaded panels) end up with $...$ text nodes that the primary pass did
+    // not walk because the DOM was still mutating. Re-run once the microtask
+    // queue drains, then again after a short delay. Idempotent — KaTeX skips
+    // nodes marked with .katex.
+    const needsMoreMath = (root) => {
+        if (!root || !root.querySelectorAll) return false;
+        // Look for a $...$ pair in visible text that isn't inside <code>, <pre>,
+        // or already-rendered .katex spans.
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+            acceptNode(n) {
+                if (!n.nodeValue) return NodeFilter.FILTER_REJECT;
+                let p = n.parentNode;
+                while (p && p !== root) {
+                    const tag = (p.tagName || '').toLowerCase();
+                    if (tag === 'code' || tag === 'pre') return NodeFilter.FILTER_REJECT;
+                    if (p.classList && (p.classList.contains('katex') ||
+                                          p.classList.contains('katex-display')))
+                        return NodeFilter.FILTER_REJECT;
+                    p = p.parentNode;
+                }
+                return /\$[^$\n]+\$/.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT
+                                                       : NodeFilter.FILTER_REJECT;
+            }
+        });
+        return walker.nextNode() != null;
+    };
+    const retry = () => {
+        if (!needsMoreMath(element)) return;
+        try { _runRenderMathInElement(element); } catch (e) { console.warn('renderMath retry', e); }
+    };
+    Promise.resolve().then(retry);
+    setTimeout(retry, 80);
+    setTimeout(retry, 400);
 }
 
 async function copyToClipboard(text) {
