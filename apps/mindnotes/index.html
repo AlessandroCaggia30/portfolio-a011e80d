@@ -14130,17 +14130,21 @@ function showSubjectScreen() {
     try { updateGhStatusDot(); } catch (e) {}
     try { renderAgenda(); } catch (e) {}
 
-    // Safety net: if the grid ended up empty despite all our attempts, force-populate
-    // with the 6 hardcoded SUBJECTS.
-    if (grid.children.length === 0) {
-        console.warn('subject grid ended up empty — using hardcoded fallback');
+    // Safety net: if no REAL subject card (excluding the "+ Add Subject" card)
+    // ended up in the grid, force-populate with the 6 hardcoded SUBJECTS.
+    const realCardCount = grid.querySelectorAll('.subject-card:not(.add-new)').length;
+    if (realCardCount === 0) {
+        console.warn('subject grid had no real subject cards — using hardcoded fallback');
+        const addCard = grid.querySelector('.subject-card.add-new');
         SUBJECTS.forEach(subject => {
             const card = document.createElement('div');
             card.className = 'subject-card';
             card.innerHTML = '<span class="subject-icon">' + subject.icon + '</span>' +
                              '<span class="subject-name">' + subject.name + '</span>';
             card.onclick = () => _spOpen(subject);
-            grid.appendChild(card);
+            // insert before the Add Subject card so subjects appear first
+            if (addCard) grid.insertBefore(card, addCard);
+            else grid.appendChild(card);
         });
     }
 }
