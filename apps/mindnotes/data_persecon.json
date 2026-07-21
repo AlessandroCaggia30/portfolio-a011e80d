@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-21T20:26:47.562Z",
+  "exportedAt": "2026-07-21T20:26:49.727Z",
   "data": {
     "topics": [
       {
@@ -511,7 +511,7 @@
                 "title": "P·Delli Gatti et al. (2011) — CATS",
                 "content": "**Ref.** Delli Gatti, D., Desiderio, S., Gaffeo, E., Cirillo, P. & Gallegati, M. (2011). *Macroeconomics from the Bottom-Up*. Springer.\n\n---\n\n## Intro\n\n**CATS** (\"Complex Adaptive Trivial System\") comes from the Ancona / Politecnico-Milano group (Gallegati, Delli Gatti). Where K+S emphasizes Schumpeterian innovation, CATS emphasizes **financial-network fragility**: cascading firm bankruptcies as the *endogenous* source of macroeconomic crises. It is the first rigorous ABM implementation of Minsky's (1986) financial-instability hypothesis.\n\n## Methodology — how the agents are built\n\nThe distinctive feature is **two overlaid networks**:\n\n- **Firm–bank credit network** (bipartite): every firm has a debt relationship with a specific bank.\n- **Firm–firm supply-chain network:** firms buy intermediate inputs from other firms.\n\nAgents:\n\n- **Firms.** State = productivity, capital, net worth, debt, supplier and customer links. Each period they (1) produce using labor + intermediate goods, (2) borrow from their bank to finance production, (3) sell output, (4) service debt. Default triggers when revenues < wage bill + interest + supplier payments.\n- **Banks.** State = capital, loan portfolio. Lend under Basel-style capital ratios; loan losses reduce capital; bank capital below the regulatory floor → bank failure. Failed banks call in loans from surviving borrowers → *cascade pressure*.\n- **Households + government + central bank** are standard: households hold deposits, government does fiscal, central bank sets a policy rate.\n\n**Contagion mechanism.** Firm A defaults → Bank X takes a loss → Bank X tightens or fails → other firms borrowing from X face credit rationing and some default → their suppliers lose customers and some default. Losses propagate through *both* networks simultaneously.\n\n## Results & Contribution\n\n- **Endogenous financial crises.** No exogenous banking shock needed; the model produces recurrent fat-tailed recessions from ordinary business decisions.\n- **Credit-cycle dynamics** — boom → leverage up → small shock → cascade → recession. Minsky quantified.\n- **Network topology is first-order.** Sparse and dense networks give very different systemic-risk properties; a 5–10% initial failure rate can amplify to a 30–50% real-GDP contraction depending on network density and capital thresholds.\n- **Policy tools built in:** macroprudential capital buffers, countercyclical capital rules, bailout decisions.\n- **Battiston et al. (2016, *Nature Communications*)** extended the CATS network machinery to cross-country systemic-risk measurement, establishing network ABMs in top general-science venues.\n",
                 "x": 3394.9999999999995,
-                "y": 2450,
+                "y": 2460,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
