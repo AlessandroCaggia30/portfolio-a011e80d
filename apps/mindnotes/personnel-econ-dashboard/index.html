@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<title>Quindi ABM — Two Levers</title>
+<title>Personnel AI and Firm Productivity — a computational study</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
@@ -8,253 +8,528 @@
     onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
 <style>
     :root {
-        --bg:#fbfbfd; --card:#fff; --ink:#1a1a1a; --ink2:#525862; --ink3:#8a91a0;
-        --line:#eef0f4; --accent:#5b3ff5;
-        --c00:#8a91a0; --c10:#d68910; --c01:#3ba9ff; --c11:#00a37a;
-        --hi:#00a37a; --lo:#d94a4a; --warn:#d68910;
+        --bg:#fafafd; --card:#fff; --ink:#0a0a0f; --ink2:#4a5060; --ink3:#8a91a0;
+        --line:#e8ebf1; --hairline:#f1f3f7; --accent:#5b3ff5; --accent-soft:#f0edff;
+        --c00:#8a91a0; --c10:#e8a53a; --c01:#3ba9ff; --c11:#00b48a;
+        --pos:#00a37a; --neg:#d94a4a; --warn:#d68910;
     }
     * { box-sizing: border-box; }
     body {
         margin:0; padding:0; background:var(--bg); color:var(--ink);
-        font: 15.5px/1.65 -apple-system, "Inter", system-ui, sans-serif;
+        font: 16px/1.7 -apple-system, "Inter", system-ui, sans-serif;
         -webkit-font-smoothing:antialiased;
     }
-    header {
-        padding:56px 40px 32px; text-align:center;
-        border-bottom:1px solid var(--line); background:var(--card);
+
+    /* --- Hero --- */
+    header.hero {
+        background:linear-gradient(180deg, #f5f2ff 0%, #fafafd 100%);
+        padding:80px 24px 60px; text-align:center; border-bottom:1px solid var(--line);
     }
-    header h1 {
-        margin:0 0 10px; font-size:34px; font-weight:750; letter-spacing:-0.02em;
+    .hero .eyebrow {
+        display:inline-block; font-size:12px; letter-spacing:0.16em;
+        color:var(--accent); text-transform:uppercase; font-weight:700;
+        margin-bottom:18px;
     }
-    header .tag {
-        display:inline-block; font-size:11px; letter-spacing:0.12em;
-        color:var(--accent); text-transform:uppercase; font-weight:600;
-        margin-bottom:12px;
+    .hero h1 {
+        margin:0 auto 20px; font-size:48px; line-height:1.15; letter-spacing:-0.03em;
+        font-weight:800; max-width:820px;
     }
-    header .sub {
-        color:var(--ink2); font-size:15px; max-width:640px; margin:0 auto;
+    .hero h1 em { font-style:italic; color:var(--accent); font-weight:800; }
+    .hero .lede {
+        color:var(--ink2); font-size:19px; line-height:1.55;
+        max-width:640px; margin:0 auto 22px;
     }
-    main { max-width:960px; margin:0 auto; padding:0 32px 100px; }
+    .hero .byline {
+        color:var(--ink3); font-size:14px;
+    }
+
+    /* --- Layout --- */
+    main { max-width:920px; margin:0 auto; padding:0 32px; }
     section {
-        padding:56px 0; border-bottom:1px solid var(--line);
+        padding:80px 0; border-bottom:1px solid var(--line);
     }
     section:last-child { border-bottom:none; }
-    h2 { margin:0 0 8px; font-size:24px; font-weight:700; letter-spacing:-0.015em; }
-    h2 .sec-num {
-        color:var(--accent); font-size:13px; font-weight:600;
-        letter-spacing:0.08em; text-transform:uppercase;
-        display:block; margin-bottom:6px;
+    .sec-head { margin-bottom:36px; }
+    .sec-num {
+        display:inline-block; color:var(--accent); font-size:12px;
+        letter-spacing:0.16em; text-transform:uppercase; font-weight:700;
+        margin-bottom:8px;
     }
-    h3 { margin:32px 0 10px; font-size:15px; font-weight:600; color:var(--ink); }
-    section > p:first-of-type, section > .lead {
-        color:var(--ink2); font-size:16px; margin:0 0 24px; max-width:720px;
+    h2 {
+        margin:0 0 10px; font-size:32px; letter-spacing:-0.02em;
+        font-weight:750; line-height:1.2;
     }
-    p { margin:0 0 12px; }
-    ul, ol { margin:8px 0 12px; padding-left:22px; }
-    li { margin:5px 0; color:var(--ink); }
+    .sec-head .kicker {
+        color:var(--ink2); font-size:17px; line-height:1.55; max-width:640px;
+    }
+    h3 { margin:36px 0 12px; font-size:17px; font-weight:700; letter-spacing:-0.01em; }
+    p { margin:0 0 14px; }
+    ul, ol { margin:10px 0 14px; padding-left:22px; }
+    li { margin:6px 0; }
     li .cite { color:var(--ink3); font-size:12px; }
-    table {
-        width:100%; border-collapse:collapse; font-size:14px;
-        margin:8px 0; background:var(--card); border-radius:8px; overflow:hidden;
+
+    /* --- Big pull quote / insight --- */
+    .insight {
+        background:var(--card); border:1px solid var(--line);
+        border-radius:14px; padding:32px 36px; margin:32px 0;
+        position:relative;
     }
-    th, td { text-align:left; padding:10px 14px; border-bottom:1px solid var(--line); }
+    .insight .label {
+        color:var(--accent); font-size:11px; font-weight:700;
+        letter-spacing:0.14em; text-transform:uppercase; margin-bottom:12px;
+    }
+    .insight .body {
+        font-size:22px; line-height:1.4; font-weight:600; letter-spacing:-0.015em;
+    }
+    .insight .body em { color:var(--accent); font-style:normal; font-weight:700; }
+
+    /* --- KPI strip --- */
+    .kpis {
+        display:grid; grid-template-columns:repeat(3, 1fr); gap:16px;
+        margin:36px 0;
+    }
+    .kpi {
+        background:var(--card); border:1px solid var(--line);
+        border-radius:12px; padding:24px 20px; text-align:center;
+    }
+    .kpi .n {
+        font-size:44px; font-weight:800; letter-spacing:-0.03em;
+        color:var(--ink); line-height:1;
+    }
+    .kpi .n.pos { color:var(--pos); }
+    .kpi .n.warn { color:var(--warn); }
+    .kpi .n.accent { color:var(--accent); }
+    .kpi .cap { color:var(--ink2); font-size:12.5px; margin-top:10px;
+        letter-spacing:0.02em; line-height:1.4; }
+
+    /* --- Diagram --- */
+    .diagram {
+        background:var(--card); border:1px solid var(--line);
+        border-radius:14px; padding:36px 40px; margin:28px 0;
+    }
+    .diagram .row {
+        display:grid; grid-template-columns:1fr auto 1fr;
+        gap:24px; align-items:center;
+    }
+    .diagram .row + .row { margin-top:20px; padding-top:20px; border-top:1px solid var(--hairline); }
+    .agent {
+        text-align:center; padding:20px;
+        background:var(--accent-soft); border-radius:10px;
+    }
+    .agent h5 { margin:0 0 6px; font-size:15px; font-weight:700; color:var(--accent); }
+    .agent .details { color:var(--ink2); font-size:13px; }
+    .arrow { color:var(--ink3); font-size:18px; }
+
+    /* --- Two-column cards --- */
+    .cards2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:28px 0; }
+    .card {
+        background:var(--card); border:1px solid var(--line);
+        border-radius:14px; padding:28px;
+    }
+    .card .tag {
+        display:inline-block; padding:3px 10px; background:var(--accent-soft);
+        color:var(--accent); font-size:11px; font-weight:700;
+        letter-spacing:0.1em; text-transform:uppercase; border-radius:12px;
+        margin-bottom:12px;
+    }
+    .card h4 { margin:4px 0 10px; font-size:19px; font-weight:700; letter-spacing:-0.01em; }
+    .card .body { color:var(--ink2); font-size:14.5px; line-height:1.6; }
+    .card .body strong { color:var(--ink); }
+
+    /* --- Tables --- */
+    table {
+        width:100%; border-collapse:collapse; font-size:14.5px;
+        background:var(--card); border-radius:10px; overflow:hidden;
+        margin:16px 0; border:1px solid var(--line);
+    }
+    th, td { text-align:left; padding:12px 16px; border-bottom:1px solid var(--hairline); }
+    tr:last-child td { border-bottom:none; }
     th {
-        color:var(--ink2); font-weight:600; font-size:11px;
-        text-transform:uppercase; letter-spacing:0.06em;
+        color:var(--ink2); font-weight:600; font-size:11.5px;
+        letter-spacing:0.06em; text-transform:uppercase;
         background:#f8f9fc;
     }
     td.num { text-align:right; font-variant-numeric:tabular-nums; }
     td code, code {
-        background:#f1f2f6; padding:2px 5px; border-radius:3px; font-size:12.5px;
+        background:#f1f2f6; padding:2px 6px; border-radius:4px;
+        font-size:13px; font-family:"SF Mono", Monaco, monospace;
     }
-    .ci { color:var(--ink3); font-size:11px; margin-left:4px; }
-    .chart-wrap { height:290px; margin:20px 0; }
-    .chart-wrap.tall { height:340px; }
-    .row2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    .ci { color:var(--ink3); font-size:11.5px; margin-left:4px; }
+
+    /* --- Charts --- */
+    .chart {
+        background:var(--card); border:1px solid var(--line);
+        border-radius:12px; padding:20px; margin:20px 0;
+    }
+    .chart-caption {
+        font-size:13.5px; color:var(--ink2); margin-top:12px; line-height:1.55;
+    }
+    .chart-caption strong { color:var(--ink); }
+    .chart-wrap { height:320px; }
+    .chart-wrap.tall { height:380px; }
+    .row2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
     .row2 .chart-wrap { height:260px; }
-    .cards2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:24px 0; }
-    .card {
-        padding:20px 24px; background:var(--card);
-        border:1px solid var(--line); border-radius:10px;
+
+    /* --- Legend --- */
+    .legend {
+        display:flex; flex-wrap:wrap; gap:16px; margin:10px 0 6px;
+        font-size:12.5px;
     }
-    .card .num {
-        font-size:12px; font-weight:600; color:var(--accent);
-        letter-spacing:0.1em; text-transform:uppercase;
+    .legend span {
+        display:inline-flex; align-items:center; gap:6px; color:var(--ink2);
     }
-    .card h4 { margin:6px 0 6px; font-size:17px; font-weight:700; }
-    .card p { margin:0; color:var(--ink2); font-size:14px; }
-    .kpi-strip { display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; margin:26px 0; }
-    .kpi {
-        text-align:center; padding:20px 12px; background:var(--card);
-        border:1px solid var(--line); border-radius:10px;
+    .legend i { width:12px; height:12px; border-radius:3px; display:inline-block; }
+
+    /* --- Callout --- */
+    .teach {
+        background:var(--accent-soft); border-radius:12px;
+        padding:20px 26px; margin:24px 0; border-left:4px solid var(--accent);
     }
-    .kpi .val { font-size:32px; font-weight:750; color:var(--ink); letter-spacing:-0.02em; }
-    .kpi .val.pos { color:var(--hi); }
-    .kpi .val.warn { color:var(--warn); }
-    .kpi .label { font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink3); margin-top:6px; }
-    .callout {
-        background:#f5f2ff; border-left:3px solid var(--accent);
-        padding:16px 22px; border-radius:0 8px 8px 0; margin:24px 0;
-        font-size:14.5px; color:var(--ink);
+    .teach .head {
+        color:var(--accent); font-size:11px; font-weight:700;
+        letter-spacing:0.14em; text-transform:uppercase; margin-bottom:8px;
     }
-    .callout strong { color:var(--accent); }
-    .legend-dots { display:flex; gap:20px; margin-bottom:6px; font-size:12px; flex-wrap:wrap; }
-    .legend-dots span { display:inline-flex; align-items:center; gap:5px; color:var(--ink2); }
-    .legend-dots i { width:10px; height:10px; border-radius:2px; display:inline-block; }
-    details {
-        margin:24px 0; background:var(--card);
-        border:1px solid var(--line); border-radius:10px; padding:0 22px;
+    .teach p { margin:0; font-size:15.5px; line-height:1.65; }
+
+    /* --- Small badges --- */
+    .badge {
+        display:inline-block; padding:2px 9px; border-radius:12px;
+        font-size:11px; font-weight:600; letter-spacing:0.03em;
     }
-    details summary {
-        padding:16px 0; cursor:pointer; font-weight:600; font-size:14px;
-        color:var(--ink); list-style:none; user-select:none;
+    .badge.pos { background:#dff5ec; color:var(--pos); }
+    .badge.warn { background:#fdf1d8; color:var(--warn); }
+    .badge.neg { background:#fcdedc; color:var(--neg); }
+    .badge.info { background:#dfeffd; color:var(--accent); }
+
+    /* --- Methods details --- */
+    details.methods {
+        background:var(--card); border:1px solid var(--line);
+        border-radius:12px; margin:16px 0; padding:0 24px;
     }
-    details summary::marker { display:none; }
-    details summary::-webkit-details-marker { display:none; }
-    details summary::before {
-        content:"▶"; color:var(--ink3); margin-right:10px; font-size:11px;
-        display:inline-block; transition:transform 0.15s;
+    details.methods summary {
+        padding:18px 0; cursor:pointer; font-weight:600;
+        color:var(--ink); list-style:none;
     }
-    details[open] summary::before { transform:rotate(90deg); }
-    details[open] { padding-bottom:22px; }
+    details.methods summary::-webkit-details-marker { display:none; }
+    details.methods summary::before {
+        content:"›"; color:var(--ink3); font-size:18px; margin-right:12px;
+        display:inline-block; transition:transform 0.15s; vertical-align:middle;
+    }
+    details.methods[open] summary::before { transform:rotate(90deg); }
+    details.methods[open] { padding-bottom:24px; }
+
+    /* --- Footer --- */
+    footer {
+        text-align:center; padding:60px 24px 80px; color:var(--ink3);
+        font-size:14px; background:var(--card); border-top:1px solid var(--line);
+    }
+    footer a { color:var(--accent); text-decoration:none; }
+
     @media (max-width:720px) {
-        header { padding:36px 24px 24px; }
-        header h1 { font-size:26px; }
-        main { padding:0 20px 60px; }
-        section { padding:36px 0; }
-        h2 { font-size:20px; }
-        .row2, .cards2, .kpi-strip { grid-template-columns:1fr; }
+        .hero { padding:60px 20px 40px; }
+        .hero h1 { font-size:34px; }
+        .hero .lede { font-size:16px; }
+        main { padding:0 20px; }
+        section { padding:56px 0; }
+        h2 { font-size:24px; }
+        .kpis, .cards2, .row2 { grid-template-columns:1fr; }
+        .diagram .row { grid-template-columns:1fr; gap:12px; }
+        .arrow { transform:rotate(90deg); }
     }
 </style>
 
-<header>
-    <div class="tag">Quindi ABM</div>
-    <h1>Two levers, one AI</h1>
-    <div class="sub">A computational proof-of-concept for a personnel AI. What is the value ceiling of putting the right worker on the right task under the right contract, and how good does the AI have to be to capture it?</div>
+<!-- ========================================================================= -->
+<!-- HERO                                                                       -->
+<!-- ========================================================================= -->
+<header class="hero">
+    <div class="eyebrow">Personnel economics · ABM</div>
+    <h1>How much productivity does <em>personnel AI</em> unlock in a firm?</h1>
+    <div class="lede">A computational proof-of-concept for <strong>Quindi</strong>. The ABM is the digital twin where we know the ground truth. We ask: what is the value ceiling of putting the right worker on the right task under the right contract — and how much of that ceiling survives noisy AI in practice?</div>
 </header>
 
 <main>
 
-<!-- ============ 1. THE QUESTION ============ -->
+<!-- ========================================================================= -->
+<!-- 1. THE QUESTION                                                            -->
+<!-- ========================================================================= -->
 <section>
-    <h2><span class="sec-num">01 · Framing</span>Two levers with different microfoundations</h2>
-    <p class="lead">Quindi is not one product — it is two interventions in one interface. AI is the infrastructure delivering both, not a third treatment. The paper is one joint contribution because the two levers interact: neither answers its own research question in isolation.</p>
+    <div class="sec-head">
+        <div class="sec-num">01</div>
+        <h2>The question, in one sentence</h2>
+    </div>
 
+    <div class="insight">
+        <div class="label">Central question</div>
+        <div class="body">Can an AI that observes worker-task fit better than a human manager <em>causally raise firm output</em>, and by how much — decomposed into what workers do (intensive margin) and who is doing it (assignment margin)?</div>
+    </div>
+
+    <p style="color:var(--ink2);font-size:15.5px">
+        This maps onto <strong>two of the five classical dimensions of personnel economics</strong>
+        (Lazear &amp; Oyer 2007): <em>organisation of work</em> (which task does each worker perform?)
+        and <em>incentives</em> (under what contract?). The other three dimensions —
+        matching, skill development, teamwork — are future work.
+    </p>
+
+    <div class="teach">
+        <div class="head">Why this question matters</div>
+        <p>Lazear (2000, <em>AER</em>) showed that switching Safelite Glass installers from hourly to piece-rate raised productivity <strong>44%</strong> — half from workers exerting more effort, half from self-selection into the firm. If a compensation-scheme change alone can produce that gain, an AI that simultaneously optimises assignment <em>and</em> contracts should do much more. Our ABM quantifies exactly how much more, and identifies the conditions under which the gain materialises.</p>
+    </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- 2. THE MODEL                                                               -->
+<!-- ========================================================================= -->
+<section>
+    <div class="sec-head">
+        <div class="sec-num">02</div>
+        <h2>The model — three kinds of agents</h2>
+        <div class="kicker">Every result in this paper is generated by simulating firms of these three agent types interacting under game-theoretic best-responses.</div>
+    </div>
+
+    <div class="diagram">
+        <div class="row">
+            <div class="agent">
+                <h5>Worker $i$</h5>
+                <div class="details">Private type $(\rho_i, k_i)$ · productivity vector $\alpha_{i,\cdot}$ · chooses effort $e_i$ · CARA utility</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="agent">
+                <h5>Firm (Principal)</h5>
+                <div class="details">Risk-neutral · chooses assignment $\mu$ and contract $c_i$ · maximises profit</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="agent">
+                <h5>Supervisor $s$</h5>
+                <div class="details">Observes worker output with rating noise $\sigma_m$ · can collude with workers under piece rates</div>
+            </div>
+            <div class="arrow">↔</div>
+            <div class="agent">
+                <h5>Peer network</h5>
+                <div class="details">Watts-Strogatz small-world · workers see neighbours' effort and adjust toward it (BBR 2005 §V)</div>
+            </div>
+        </div>
+    </div>
+
+    <h3>The two Quindi levers</h3>
     <div class="cards2">
         <div class="card">
-            <div class="num">Lever 1</div>
+            <span class="tag">Lever 1</span>
             <h4>Reorganisation</h4>
-            <p>Reassign each worker $i$ to their best-fit task $j$ using the worker–task fit matrix $\alpha_{ij}$. Reallocation gain — extensive margin.</p>
+            <div class="body">Reassign each worker to their best-fit task. Formally: choose $\mu: i \mapsto j$ to maximise $\sum_i \alpha_{i,\mu(i)}$. <strong>Extensive margin</strong> — reallocation gains from putting the right person in the right seat.</div>
         </div>
         <div class="card">
-            <div class="num">Lever 2</div>
+            <span class="tag">Lever 2</span>
             <h4>Incentives</h4>
-            <p>Assign contract $A_j$ per worker matched to their private type $(\rho_i, k_i)$. Same worker, same task, more effort — intensive margin.</p>
+            <div class="body">Assign each worker a contract $A_j$ matched to their type. Piece-rate for those who respond, tournament for those who benefit from relative ranking, team pay for cooperators. <strong>Intensive margin</strong> — same worker, same task, more effort.</div>
         </div>
+    </div>
+
+    <div class="teach">
+        <div class="head">Why both levers, not one</div>
+        <p>The two levers are not independent. Under flat pay, no worker exerts more than baseline intrinsic effort — so putting them on their best task barely matters. Under piece rates but wrong task assignment, workers exert effort but produce mediocre output. Only when <em>both</em> levers work together does the full comparative advantage of each worker materialise. The <strong>interaction of the two levers is the paper's main finding.</strong></p>
     </div>
 </section>
 
-<!-- ============ 2. FIRM EVOLUTION ============ -->
+<!-- ========================================================================= -->
+<!-- 3. THE EXPERIMENT                                                          -->
+<!-- ========================================================================= -->
 <section>
-    <h2><span class="sec-num">02 · Firm evolution</span>Per-period trajectories across the 2×2</h2>
-    <p class="lead">The four cells of the factorial correspond to four counterfactual firm histories over 60 periods (30 seeds, 95% CI bands). Each cell converges to a stationary output level; the incentives lever moves the transient dynamics as much as the level.</p>
-
-    <div class="legend-dots">
-        <span><i style="background:var(--c00)"></i>(0,0) status-quo × flat A0</span>
-        <span><i style="background:var(--c10)"></i>(1,0) oracle assign × flat A0</span>
-        <span><i style="background:var(--c01)"></i>(0,1) status-quo × oracle contract</span>
-        <span><i style="background:var(--c11)"></i>(1,1) full stack</span>
+    <div class="sec-head">
+        <div class="sec-num">03</div>
+        <h2>The experiment — a 2×2 factorial</h2>
+        <div class="kicker">Run four counterfactual firms, seed-matched, and compare. This is the causal-inference gold standard applied inside a computational lab where we control every primitive.</div>
     </div>
 
-    <div class="chart-wrap tall"><canvas id="fig-output-t"></canvas></div>
-    <div class="row2">
-        <div class="chart-wrap"><canvas id="fig-effort-t"></canvas></div>
-        <div class="chart-wrap"><canvas id="fig-profit-t"></canvas></div>
-    </div>
-    <div class="row2">
-        <div class="chart-wrap"><canvas id="fig-wagebill-t"></canvas></div>
-        <div class="chart-wrap"><canvas id="fig-collusion-t"></canvas></div>
-    </div>
-
-    <p style="color:var(--ink2);font-size:13.5px;margin-top:16px">Reading order: <strong>output</strong> first — the fan opens by period 5. <strong>Effort</strong> (top-left below) drives the fan: the full stack goes to ~1.6 while the status-quo baseline stays under 0.4. <strong>Profit</strong> (top-right) — three of four cells lose money persistently, only the full stack turns positive. <strong>Wage bill</strong> — flat contracts pin wages at the outside option regardless of effort; oracle contracts pay for productivity. <strong>Collusion</strong> — supervisor–worker side-payments appear only under piece rates (Tirole 1986 signature).</p>
-</section>
-
-<!-- ============ 3. VALUE CEILINGS ============ -->
-<section>
-    <h2><span class="sec-num">03 · Main result</span>The two-lever value ceiling</h2>
-    <p class="lead">Long-horizon 2×2 factorial: 50 seeds × 100 periods × 50 workers × 5 tasks × 10-period burn-in. The interaction of the two levers explains ~half of the joint value.</p>
-
-    <div class="kpi-strip">
-        <div class="kpi">
-            <div class="val" id="kpi-full">—</div>
-            <div class="label">τ full (joint effect)</div>
-        </div>
-        <div class="kpi">
-            <div class="val warn" id="kpi-inter">—</div>
-            <div class="label">τ interaction</div>
-        </div>
-        <div class="kpi">
-            <div class="val pos" id="kpi-inter-share">—</div>
-            <div class="label">interaction share of joint</div>
-        </div>
-    </div>
-
-    <div class="chart-wrap"><canvas id="fig-2x2"></canvas></div>
-
-    <table id="did-table">
-        <thead><tr><th>Effect</th><th>Definition</th><th class="num">Estimate</th><th class="num">95% CI</th></tr></thead>
-        <tbody></tbody>
+    <table>
+        <thead><tr>
+            <th></th>
+            <th>Flat wage A0</th>
+            <th>Oracle contracts</th>
+        </tr></thead>
+        <tbody>
+            <tr>
+                <td><strong>Status-quo assignment</strong></td>
+                <td><span class="badge" style="background:#8a91a020;color:var(--c00);font-weight:700">(0,0) baseline</span></td>
+                <td><span class="badge" style="background:#3ba9ff20;color:var(--c01);font-weight:700">(0,1) incent only</span></td>
+            </tr>
+            <tr>
+                <td><strong>Oracle assignment</strong></td>
+                <td><span class="badge" style="background:#e8a53a20;color:var(--c10);font-weight:700">(1,0) reorg only</span></td>
+                <td><span class="badge" style="background:#00b48a20;color:var(--c11);font-weight:700">(1,1) full stack</span></td>
+            </tr>
+        </tbody>
     </table>
 
-    <div class="callout">
-        <strong>The finding.</strong> Neither lever answers its own research question in isolation. Under flat pay, reorganisation delivers only <span id="tau-reorg-flat">—</span> output units because effort is dominated by intrinsic-motivation baseline; under oracle contracts, reorganisation delivers <span id="tau-reorg-oracle">—</span>. Field experiments in the BBR / Lazear tradition measure only the low-baseline case. Quindi lives in the high-baseline case, where the effects are much larger.
-    </div>
+    <p style="color:var(--ink2);font-size:14.5px">The four <em>differences</em> across cells identify the two levers separately and their interaction:</p>
+    <ul>
+        <li><strong>$\tau_{\text{reorg}}$</strong> = $Y_{10} - Y_{00}$ — effect of assignment lever alone</li>
+        <li><strong>$\tau_{\text{incent}}$</strong> = $Y_{01} - Y_{00}$ — effect of contract lever alone</li>
+        <li><strong>$\tau_{\text{full}}$</strong> = $Y_{11} - Y_{00}$ — joint effect of both</li>
+        <li><strong>$\tau_{\text{interaction}}$</strong> = $Y_{11} - Y_{10} - Y_{01} + Y_{00}$ — the complementarity</li>
+    </ul>
 </section>
 
-<!-- ============ 4. WHO WINS ============ -->
+<!-- ========================================================================= -->
+<!-- 4. RESULT 1 — CEILINGS                                                     -->
+<!-- ========================================================================= -->
 <section>
-    <h2><span class="sec-num">04 · Heterogeneity</span>Who gains from each lever?</h2>
-    <p class="lead">Workers draw an archetype from a mixture: <em>generalists</em> (high-median productivity across tasks), <em>specialists</em> (one high spike, mediocre elsewhere), <em>stars</em> (high mean and high spread), <em>weak</em> (uniformly low). N=80 workers, T=10 tasks.</p>
+    <div class="sec-head">
+        <div class="sec-num">04 · Result 1</div>
+        <h2>The two levers are strong complements</h2>
+        <div class="kicker">50 seeds × 100 periods × 50 workers × 5 tasks. Long enough to reach stationary state, wide enough for tight bootstrap CIs.</div>
+    </div>
 
-    <table id="types-simple-table">
+    <div class="kpis">
+        <div class="kpi">
+            <div class="n" id="kpi-full">—</div>
+            <div class="cap">τ<sub>full</sub> — full-stack value ceiling</div>
+        </div>
+        <div class="kpi">
+            <div class="n warn" id="kpi-inter">—</div>
+            <div class="cap">τ<sub>interaction</sub> — the complementarity</div>
+        </div>
+        <div class="kpi">
+            <div class="n accent" id="kpi-inter-share">—</div>
+            <div class="cap">share of joint value from complementarity</div>
+        </div>
+    </div>
+
+    <div class="chart">
+        <div class="chart-wrap"><canvas id="fig-2x2"></canvas></div>
+        <div class="chart-caption">
+            <strong>Reading:</strong> the height difference between the two flat-wage bars (grey and orange) is the reorganisation lever <em>on its own</em>. The difference between grey and blue is the incentives lever on its own. The green bar dwarfs the sum of those two individual effects — that's the complementarity.
+        </div>
+    </div>
+
+    <table id="did-table">
         <thead><tr>
-            <th>Archetype</th>
-            <th class="num">Multiplier from full stack</th>
-            <th class="num">τ_reorg (under oracle contract)</th>
-            <th class="num">τ_incent (under oracle assign.)</th>
-            <th>Lever that dominates</th>
+            <th>Effect</th>
+            <th>Definition</th>
+            <th class="num">Estimate</th>
+            <th class="num">95% CI</th>
         </tr></thead>
         <tbody></tbody>
     </table>
 
-    <div class="callout">
-        <strong>Quindi's value is contingent on workforce composition.</strong> Specialists gain 22× from being put on their spike task with proper incentives — they explain most of the aggregate ceiling. A specialist-heavy client firm gains ~4× more than a generalist-heavy one. Testable against Autor 2013 (JLE) task-complexity data and Deming 2017 (QJE) skill composition.
+    <div class="teach">
+        <div class="head">The economic mechanism</div>
+        <p>Under flat pay, workers exert only intrinsic effort — reallocation to a better task raises output modestly. Under piece rates, workers exert Nash effort proportional to their marginal productivity $\alpha_{i,\mu(i)}$ — but if $\mu$ is bad, the marginal productivity is low. Only when both levers align do we get workers on high-fit tasks with high-powered incentives multiplying each other. Neither lever answers its own research question in isolation.</p>
     </div>
 </section>
 
-<!-- ============ 5. AI PRECISION ============ -->
+<!-- ========================================================================= -->
+<!-- 5. RESULT 2 — DYNAMICS                                                     -->
+<!-- ========================================================================= -->
 <section>
-    <h2><span class="sec-num">05 · Practical AI precision</span>How much survives noise?</h2>
-    <p class="lead">Quindi does not have oracle knowledge. Its inputs are noisy: $\hat\alpha = \alpha + \eta$ with $\eta \sim \mathcal N(0, \sigma_{AI}^{2})$. We ask: as $\sigma_{AI}$ grows, how much of the value ceiling does the noisy-Quindi policy still capture?</p>
+    <div class="sec-head">
+        <div class="sec-num">05 · Result 2</div>
+        <h2>Firm dynamics — how the four counterfactuals evolve</h2>
+        <div class="kicker">80 periods, 30 seeds, learning-by-doing on. This is what an ABM adds over static analytical theory: <em>path dependence</em>.</div>
+    </div>
 
-    <div class="chart-wrap tall"><canvas id="fig-capture"></canvas></div>
+    <div class="legend">
+        <span><i style="background:var(--c00)"></i>(0,0) status-quo × flat</span>
+        <span><i style="background:var(--c10)"></i>(1,0) oracle × flat</span>
+        <span><i style="background:var(--c01)"></i>(0,1) status-quo × oracle</span>
+        <span><i style="background:var(--c11)"></i>(1,1) full stack</span>
+    </div>
 
-    <p style="color:var(--ink2);font-size:14px">
-        The knee sits around $\sigma_{AI} \approx 0.35$–$0.50$. Below that, Quindi captures ≥85% of the value ceiling — precision beyond that point is worthless because the model's own output noise dominates. Above it, value degrades roughly linearly.
-    </p>
+    <div class="chart">
+        <div class="chart-wrap tall"><canvas id="fig-output-t"></canvas></div>
+        <div class="chart-caption">
+            <strong>Reading:</strong> all four cells start at the same point — same workers, same shocks, only the policy differs. Under flat pay (grey, orange) growth is slow because workers exert intrinsic effort only. Under piece rates + oracle assignment (green), effort is high, workers learn faster on their best-fit tasks, and output diverges rapidly. <strong>The fan opens with each period</strong> — this is the learning-by-doing signature.
+        </div>
+    </div>
+
+    <div class="row2">
+        <div class="chart">
+            <div class="chart-wrap"><canvas id="fig-effort-t"></canvas></div>
+            <div class="chart-caption"><strong>Effort</strong> jumps immediately on contract change (period 1), then rises slowly as workers learn their tasks.</div>
+        </div>
+        <div class="chart">
+            <div class="chart-wrap"><canvas id="fig-profit-t"></canvas></div>
+            <div class="chart-caption"><strong>Profit</strong> is negative for three of four cells because the wage bill exceeds output. Only full-stack turns profitable.</div>
+        </div>
+    </div>
+
+    <div class="row2">
+        <div class="chart">
+            <div class="chart-wrap"><canvas id="fig-wagebill-t"></canvas></div>
+            <div class="chart-caption"><strong>Wage bill</strong> is constant under flat pay (contract-mandated) and rises under piece rate (workers earn more when they produce more).</div>
+        </div>
+        <div class="chart">
+            <div class="chart-wrap"><canvas id="fig-collusion-t"></canvas></div>
+            <div class="chart-caption"><strong>Collusion</strong> only appears under piece rates — supervisors can misreport worker output for a side payment (Tirole 1986 signature).</div>
+        </div>
+    </div>
 </section>
 
-<!-- ============ 6. RCT DESIGN ============ -->
+<!-- ========================================================================= -->
+<!-- 6. RESULT 3 — WHO WINS                                                     -->
+<!-- ========================================================================= -->
 <section>
-    <h2><span class="sec-num">06 · How should Quindi evaluate itself?</span>RCT design for client trials</h2>
-    <p class="lead">The ABM is ground truth for four candidate real-world designs. For each, 50 trials × 40 firms/trial. Reported: bias and standard error of the estimator against the true τ.</p>
+    <div class="sec-head">
+        <div class="sec-num">06 · Result 3</div>
+        <h2>Who benefits from each lever?</h2>
+        <div class="kicker">Workers draw one of four archetypes with distinct productivity distributions across tasks. Each archetype benefits from a different lever mix — Quindi's value is <em>contingent on workforce composition</em>.</div>
+    </div>
+
+    <table id="types-table">
+        <thead><tr>
+            <th>Archetype</th>
+            <th class="num">Multiplier (Y<sub>11</sub> / Y<sub>00</sub>)</th>
+            <th class="num">τ<sub>reorg</sub> effect</th>
+            <th class="num">τ<sub>incent</sub> effect</th>
+            <th>Which lever dominates</th>
+        </tr></thead>
+        <tbody></tbody>
+    </table>
+
+    <div class="teach">
+        <div class="head">The teaching takeaway</div>
+        <p>Specialists — workers with one spike task and mediocre performance elsewhere — gain <strong>most from reorganisation</strong>. They need to be moved to their spike task before piece rates matter. Generalists gain most from incentives — they can respond well to piece rate on any task. Weak workers barely move under either lever. <strong>Quindi's value proposition therefore depends on the client's workforce composition</strong>: a specialist-heavy firm gains roughly 4× more than a generalist-heavy firm from the same intervention. This is testable against Autor 2013 (JLE) task-complexity data.</p>
+    </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- 7. RESULT 4 — HOW GOOD DOES THE AI NEED TO BE?                             -->
+<!-- ========================================================================= -->
+<section>
+    <div class="sec-head">
+        <div class="sec-num">07 · Result 4</div>
+        <h2>How good does the AI need to be?</h2>
+        <div class="kicker">Quindi does not observe worker types with perfect precision. It observes $\hat\alpha = \alpha + \eta$ with noise $\eta \sim \mathcal N(0, \sigma_{AI}^{2})$. We ask: as $\sigma_{AI}$ grows, how much of the value ceiling does Quindi still capture?</div>
+    </div>
+
+    <div class="chart">
+        <div class="chart-wrap tall"><canvas id="fig-capture"></canvas></div>
+        <div class="chart-caption">
+            <strong>Reading:</strong> the horizontal axis is AI signal noise, from oracle (left) to random (right). The vertical axis is the fraction of the value ceiling Quindi captures. Below <code>σ ≈ 0.35</code> capture is ≥85% — the knee of the curve. Above that, capture degrades roughly linearly. Even at random precision, Quindi still captures ~35% of the ceiling because having <em>any</em> contract menu beats uniform flat pay.
+        </div>
+    </div>
+
+    <div class="teach">
+        <div class="head">The policy takeaway</div>
+        <p>Investing in AI precision has sharply diminishing returns. Once $\sigma_{AI}$ is below the knee, further improvements are worthless because the ABM's <em>own</em> output noise dominates the AI's marginal signal. This gives Quindi a concrete engineering target: get $\sigma_{AI}$ below the knee for the target industry, then invest resources elsewhere.</p>
+    </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- 8. RESULT 5 — RCT DESIGN                                                   -->
+<!-- ========================================================================= -->
+<section>
+    <div class="sec-head">
+        <div class="sec-num">08 · Result 5</div>
+        <h2>Which real-world experiment should Quindi run?</h2>
+        <div class="kicker">The ABM is the ground truth. We simulate four candidate field-experiment designs inside it, and ask which recovers the true τ with least bias and variance. 50 trials per design.</div>
+    </div>
 
     <table id="rct-table">
         <thead><tr>
             <th>Design</th>
             <th>Estimand</th>
             <th class="num">True</th>
-            <th class="num">Mean $\hat\tau$</th>
             <th class="num">Bias</th>
             <th class="num">SE</th>
             <th>Verdict</th>
@@ -262,77 +537,136 @@
         <tbody></tbody>
     </table>
 
-    <div class="callout">
-        <strong>Recommendation.</strong> For decomposing the two levers separately (needed to price the two products): use the 2×2 factorial. For a cheap estimate of total value: staged rollout — but avoid attributing per-lever effects, it will mis-attribute the interaction to whichever lever is deployed second.
+    <div class="teach">
+        <div class="head">The recommendation</div>
+        <p>For decomposing the two levers separately (needed to price the two products): <strong>2×2 factorial</strong>. Only design that identifies τ<sub>reorg</sub>, τ<sub>incent</sub>, and their interaction without bias. For a cheap estimate of total value: staged rollout — but never use staged rollout to attribute per-lever effects. It <strong>massively biases the incentive-lever estimate upward</strong> because the interaction gets loaded onto whichever lever is deployed second.</p>
     </div>
 </section>
 
-<!-- ============ 7. ROBUSTNESS ============ -->
+<!-- ========================================================================= -->
+<!-- 9. ROBUSTNESS                                                              -->
+<!-- ========================================================================= -->
 <section>
-    <h2><span class="sec-num">07 · Robustness</span>Does the finding survive?</h2>
-    <p class="lead">Three cross-cutting sweeps: fit-matrix structure, network topology, elasticities to each key parameter. The complementarity between levers is robust to all three; the level of the ceiling depends most on effort-cost curvature $k$ and signal noise $\sigma$.</p>
-
-    <div class="row2">
-        <div class="chart-wrap"><canvas id="fig-elast-k"></canvas></div>
-        <div class="chart-wrap"><canvas id="fig-elast-sigma"></canvas></div>
+    <div class="sec-head">
+        <div class="sec-num">09</div>
+        <h2>Does the finding survive perturbations?</h2>
+        <div class="kicker">Three cross-cutting sensitivity sweeps. If the complementarity broke under any of these, the paper would be over.</div>
     </div>
 
-    <h3>Alpha-structure robustness (τ_interaction is positive across all three)</h3>
-    <table id="alpha-simple-table">
-        <thead><tr><th>α structure</th><th class="num">τ_full</th><th class="num">τ_interaction</th><th class="num">Interaction share</th></tr></thead>
+    <div class="row2">
+        <div class="chart">
+            <div class="chart-wrap"><canvas id="fig-elast-k"></canvas></div>
+            <div class="chart-caption"><strong>Effort-cost elasticity.</strong> Higher $k$ (steeper marginal cost) uniformly lowers the value ceiling — but the complementarity survives across the range.</div>
+        </div>
+        <div class="chart">
+            <div class="chart-wrap"><canvas id="fig-elast-sigma"></canvas></div>
+            <div class="chart-caption"><strong>Output-noise elasticity.</strong> More noise makes incentive contracts more expensive to run (higher risk premium), so the ceiling drops.</div>
+        </div>
+    </div>
+
+    <h3>Alpha-structure sensitivity</h3>
+    <table id="alpha-table">
+        <thead><tr><th>Fit-matrix structure</th><th class="num">τ<sub>full</sub></th><th class="num">τ<sub>interaction</sub></th><th class="num">Complementarity share</th></tr></thead>
         <tbody></tbody>
     </table>
 </section>
 
-<!-- ============ 8. METHODS ============ -->
+<!-- ========================================================================= -->
+<!-- 10. WHAT'S COMING NEXT                                                     -->
+<!-- ========================================================================= -->
 <section>
-    <h2><span class="sec-num">08 · Methods</span>Model at a glance</h2>
-    <p class="lead">CARA workers with private effort choice; Nash effort per worker; Watts–Strogatz peer network; supervisor collusion under piece rates. Nine contract families microfounded from primary sources; two policy interfaces (assignment, contract) that Quindi's AI parameterises.</p>
+    <div class="sec-head">
+        <div class="sec-num">10 · Roadmap</div>
+        <h2>Path to journal publication</h2>
+        <div class="kicker">Current state is a solid two-lever ABM with heterogeneous workers, learning dynamics, and a clean identification design. Below is what still needs adding to make this a JEBO paper.</div>
+    </div>
 
-    <details>
+    <div class="cards2">
+        <div class="card">
+            <span class="tag">Weeks 1–3</span>
+            <h4>Structural upgrades</h4>
+            <div class="body">Add worker turnover with adverse selection (Lazear 2000's <strong>sorting channel</strong>), endogenous signal precision (firm chooses σ<sub>AI</sub> vs cost), and target the 50/50 intensive-vs-sorting split empirically.</div>
+        </div>
+        <div class="card">
+            <span class="tag">Weeks 4–5</span>
+            <h4>Empirical calibration</h4>
+            <div class="body">Simulated Method of Moments matching 6-8 target moments from Safelite (Lazear 2000), fruit-pickers (BBR 2005), management (Bloom-Van Reenen 2013), wage tails (Song et al. 2019).</div>
+        </div>
+        <div class="card">
+            <span class="tag">Weeks 6–7</span>
+            <h4>Analytical benchmark</h4>
+            <div class="body">Prove a two-type theorem (specialists vs generalists only) that the multi-type ABM extends. Extended robustness on functional forms.</div>
+        </div>
+        <div class="card">
+            <span class="tag">Weeks 8–10</span>
+            <h4>Writing + submission</h4>
+            <div class="body">Draft introduction linking to Lazear-Oyer 2007 five dimensions, results, discussion. Replication package on Zenodo. Submit to JEBO.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- METHODS                                                                    -->
+<!-- ========================================================================= -->
+<section>
+    <div class="sec-head">
+        <div class="sec-num">11</div>
+        <h2>Methods — model at a glance</h2>
+    </div>
+
+    <details class="methods">
         <summary>Assumptions</summary>
         <h3>Agents</h3>
         <ul>
-            <li>Workers risk-averse with CARA utility, private effort, additive Gaussian output noise. <span class="cite">HM 1987 §I</span></li>
+            <li>Workers risk-averse with CARA utility, private effort, additive Gaussian output noise. <span class="cite">Holmström &amp; Milgrom 1987 §I</span></li>
             <li>Quadratic effort cost $c(e) = \tfrac{1}{2}ke^{2}$. <span class="cite">Holmström 1979</span></li>
             <li>Type $(\rho_i, k_i, \phi_i, \delta_i)$ and productivity vector $\alpha_{i,\cdot}$ across $T$ tasks. <span class="cite">Roy 1951</span></li>
-            <li>Intrinsic effort baseline $e \geq \epsilon_0 \cdot \alpha_{i,\mu(i)}/k_i$ even under flat pay. <span class="cite">Fama 1980; Deci-Ryan 1985</span></li>
+            <li>Intrinsic effort baseline $e \geq \epsilon_0 \cdot \alpha_{i,\mu(i)}/k_i$ even under flat pay. <span class="cite">Fama 1980</span></li>
+            <li>Learning-by-doing: $\alpha_{ij}$ grows on assigned task with effort. <span class="cite">Argote &amp; Epple 1990 <em>Science</em></span></li>
         </ul>
         <h3>Firm</h3>
         <ul>
             <li>Risk-neutral principal. Assignment policy $\mu: i \mapsto j$; contract policy $c_i$ per worker.</li>
-            <li>Policy sources: oracle (full-info), Quindi (noisy signal $\sigma_{AI}$), status-quo (persistence-based).</li>
+            <li>Policy sources: oracle (full-info), Quindi (noisy signal), status-quo (persistence).</li>
         </ul>
         <h3>Environment</h3>
         <ul>
             <li>Peer network: Watts–Strogatz small-world (k=4, p=0.15). <span class="cite">Watts-Strogatz 1998; BBR 2010</span></li>
             <li>Supervisor rating noise $\varepsilon_m \sim \mathcal N(0, \sigma_m^{2})$. <span class="cite">MacLeod 2003</span></li>
-            <li>Supervisor–worker collusion under piece rates; audits at prob $p$, penalty pen. <span class="cite">Tirole 1986</span></li>
+            <li>Supervisor–worker collusion under piece rates; audits at prob $p$. <span class="cite">Tirole 1986</span></li>
         </ul>
     </details>
 
-    <details>
-        <summary>Equations</summary>
+    <details class="methods">
+        <summary>Nash-effort microfoundations</summary>
         <table>
-            <thead><tr><th>Object</th><th>Equation</th><th>Source</th></tr></thead>
+            <thead><tr><th>Contract</th><th>Nash effort $e^{*}$</th><th>Source</th></tr></thead>
             <tbody>
-                <tr><td>Utility (CARA)</td><td>$u(w,e) = -\exp\!\big(-\rho(w-c(e))\big)$</td><td>HM 1987 eq. 1</td></tr>
-                <tr><td>Worker–task output</td><td>$y_i = g\,\alpha_{i,\mu(i)}\,e_i + \varepsilon$</td><td>Roy 1951</td></tr>
-                <tr><td>Piece rate $\beta^{*}$ (A1)</td><td>$\beta^{*} = 1/(1+\rho\sigma^{2}k/g^{2})$</td><td>HM 1987 eq. 15</td></tr>
-                <tr><td>Nash effort (A1)</td><td>$e^{*} = \beta^{*} g/k$</td><td>HM 1987 eq. 8</td></tr>
-                <tr><td>Team + peer (A4)</td><td>$e^{*} = (\beta_T + \psi N)/(kN)$</td><td>Kandel-Lazear 1992 eq. 7</td></tr>
-                <tr><td>Efficiency wage (A3)</td><td>$e^{*} = \sqrt{2\Delta w \cdot q\delta / (k(1-\delta))}$</td><td>Shapiro-Stiglitz 1984 eq. 8</td></tr>
-                <tr><td>Subjective bonus (A7)</td><td>$e^{*} = (b_{\max}/(1+\sigma_m))\,g/k$</td><td>MacLeod 2003 §V</td></tr>
-                <tr><td>Intrinsic baseline</td><td>$e_{0} = \epsilon_0\,\alpha_{i,\mu(i)}/k_i$</td><td>Fama 1980</td></tr>
-                <tr><td>Peer conformity</td><td>$e\mathrel{+}=0.30(\bar e^{\text{peers}} - e)$</td><td>BBR 2005 §V</td></tr>
-                <tr><td>Oracle assignment</td><td>$\mu^{\star} = \arg\max_\mu \sum_i \alpha_{i,\mu(i)}$</td><td>Kuhn 1955 Hungarian</td></tr>
-                <tr><td>Noisy signal</td><td>$\hat\alpha_{ij} = \alpha_{ij} + \eta$, $\eta\sim\mathcal N(0,\sigma_{AI}^{2})$</td><td>this paper</td></tr>
+                <tr><td><strong>A0</strong> flat wage</td><td>$e^{*} = 0$ (plus intrinsic)</td><td>Holmström 1979</td></tr>
+                <tr><td><strong>A1</strong> piece rate</td><td>$e^{*} = \beta^{*} g/k$ with $\beta^{*} = 1/(1+\rho\sigma^{2}k/g^{2})$</td><td>HM 1987 eq. 8, 15</td></tr>
+                <tr><td><strong>A2</strong> tournament</td><td>$e^{*} = \Delta / (k\sigma\sqrt{4\pi})$</td><td>LR 1981 eq. 8</td></tr>
+                <tr><td><strong>A3</strong> efficiency wage</td><td>$e^{*} = \sqrt{2\Delta w \cdot q\delta / (k(1-\delta))}$</td><td>SS 1984 eq. 8</td></tr>
+                <tr><td><strong>A4</strong> team pay + peer</td><td>$e^{*} = (\beta_T + \psi N)/(kN)$</td><td>KL 1992 eq. 7</td></tr>
+                <tr><td><strong>A7</strong> subjective bonus</td><td>$e^{*} = (b_{\max}/(1+\sigma_m))\,g/k$</td><td>MacLeod 2003 §V</td></tr>
             </tbody>
         </table>
+    </details>
+
+    <details class="methods">
+        <summary>Simulation parameters</summary>
+        <ul>
+            <li><strong>Cell definition</strong>: 50 seeds × 100 periods × 50 workers × 5 tasks × 10-period burn-in (headline table); 30 seeds × 80 periods × 60 workers × 10 tasks for heterogeneity experiment.</li>
+            <li><strong>Bootstrap</strong>: percentile method, B=1000, seed as resampling unit.</li>
+            <li><strong>Statistics</strong>: seed-paired differences for CIs on the DiD estimates.</li>
+        </ul>
     </details>
 </section>
 
 </main>
+
+<footer>
+    A computational personnel-economics laboratory. Code and data: <a href="#">github repository forthcoming</a>.
+</footer>
 
 
 <script>
