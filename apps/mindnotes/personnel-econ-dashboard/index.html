@@ -1218,7 +1218,7 @@ function renderWorkerTypes(D) {
             <td>${winLabel}</td>
         </tr>`;
     }).join('');
-    document.querySelector('#types-simple-table tbody').innerHTML = rows;
+    document.querySelector('#types-table tbody').innerHTML = rows;
 }
 
 // ==================================================================
@@ -1315,7 +1315,7 @@ function renderRobustness(D) {
     if (!D) return;
     // Alpha simple table
     if (D.alpha_robustness) {
-        document.querySelector('#alpha-simple-table tbody').innerHTML =
+        document.querySelector('#alpha-table tbody').innerHTML =
             Object.entries(D.alpha_robustness).map(([struct, r]) => {
                 const d = r.did;
                 const share = (d.tau_inter.point / d.tau_full.point) * 100;
