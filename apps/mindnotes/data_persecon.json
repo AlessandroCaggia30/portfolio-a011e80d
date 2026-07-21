@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-21T20:25:57.646Z",
+  "exportedAt": "2026-07-21T20:26:01.094Z",
   "data": {
     "topics": [
       {
@@ -413,8 +413,8 @@
                 "id": "p-bergmann-1974",
                 "title": "P·Bergmann (1974) — Micro-Simulation of the Macroeconomy",
                 "content": "**Ref.** Bergmann, B. (1974). A microsimulation of the macroeconomy with explicitly represented money flows. *Annals of Economic and Social Measurement*, 3(3), 475–489.\n\n---\n\n## Intro\n\nThe **founding paper of agent-based macroeconomics.** In 1974 macro was dominated by representative-agent theory (Lucas 1972; Sargent–Wallace 1975) — one household, one firm, closed-form analytic solutions. Barbara Bergmann rejected the aggregation and asked: *what if we simulate every actor explicitly, track every dollar between them, and let the macro emerge from that?* She built the first full-economy agent-based model, decades before ABM had a name.\n\n## Methodology — how the agents are built\n\nThree agent classes, all with an explicit balance sheet:\n\n- **Firms.** State = inventory, price, workforce, cash. Each period they (1) plan production from past sales, (2) adjust workforce and pay wages, (3) produce, (4) set prices as markup, (5) pay taxes and buy inputs, (6) invest, (7) borrow/repay.\n- **Households.** State = wage income, transfers, taxes owed, financial portfolio. Each period they (1) receive wages/transfers/property income, (2) pay taxes, (3) choose consumption vs. savings, (4) allocate wealth across cash/bonds/equity.\n- **Banks + central bank.** Buy and sell government bonds, set the interest rate.\n\nEvery action posts a **double-entry accounting** entry — a debit on one balance sheet and a credit on another. Decision rules come from **operations research** (safety stock, EOQ, markup pricing), not from optimization. Twelve sequential steps per period (a week) close the loop: production → wages → consumption → investment → bank flows → rate setting.\n\n## Results & Contribution\n\n- **First full-economy micro-simulation.** Every dollar tracked from source to sink.\n- **Stock-flow consistent** decades before Godley–Lavoie (2007) formalized the accounting discipline.\n- **Predicted stagflation:** the model produced the 1970s combination of high inflation + high unemployment that broke Phillips-curve theory.\n- **Demonstrated emergent macro:** GDP growth, inflation, unemployment fall out of micro flows without any representative agent or rational-expectations assumption.\n- **Ancestor of every modern macro ABM.** EURACE, K+S, CATS, JAMEL, Ashraf–Gershman–Howitt — all inherit the 12-step architecture with variations. Bergmann was a decade ahead of the ABM movement AND ahead of the intellectual challenge to the representative-agent orthodoxy that Kirman (1992) later articulated.\n",
-                "x": 2500,
-                "y": -3000,
+                "x": 3655,
+                "y": -100,
                 "width": 520,
                 "height": 360,
                 "flashcard": false,
