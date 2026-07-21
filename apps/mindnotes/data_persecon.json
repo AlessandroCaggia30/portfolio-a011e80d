@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-21T19:47:44.669Z",
+  "exportedAt": "2026-07-21T19:47:50.319Z",
   "data": {
     "topics": [
       {
@@ -392,6 +392,10 @@
                   {
                     "target": "p-nr-2018",
                     "type": "forward"
+                  },
+                  {
+                    "target": "abm-empirical-alignment",
+                    "type": "both"
                   }
                 ]
               },
