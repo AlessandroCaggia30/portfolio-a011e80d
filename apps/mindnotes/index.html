@@ -7107,9 +7107,8 @@ function formatContent(text) {
     return processed;
 }
 
-function renderMath(element) {
-    if (typeof renderMathInElement !== 'undefined') {
-        renderMathInElement(element, {
+function _runRenderMathInElement(element) {
+    renderMathInElement(element, {
             delimiters: [
                 { left: '$$', right: '$$', display: true },
                 { left: '\\[', right: '\\]', display: true },
