@@ -11402,6 +11402,108 @@ function clearGhToken() {
     showToast('Token forgotten');
 }
 
+// Runs three progressively-narrower GitHub API tests against the currently-
+// stored token and reports which one fails. Isolates the exact cause of any
+// 401/403 without needing DevTools console.
+async function ghDiagnoseToken() {
+    const out = document.getElementById('ghDiagOut');
+    out.style.display = 'block';
+    const lines = [];
+    const log = (s) => { lines.push(s); out.textContent = lines.join('\n'); };
+
+    const t = _ghToken || localStorage.getItem('mindnotes_ghToken') || '';
+    if (!t) { log('❌ NO TOKEN in localStorage. Paste one in the field above and save first.'); return; }
+
+    const prefix = t.substring(0, 12);
+    const suffix = t.substring(t.length - 4);
+    const kind =
+        t.startsWith('github_pat_') ? 'fine-grained PAT (github_pat_*)' :
+        t.startsWith('ghp_')        ? 'classic PAT (ghp_*)' :
+        t.startsWith('gho_')        ? 'OAuth token (gho_*) — WRONG TYPE, these expire in hours' :
+        t.startsWith('ghs_')        ? 'app installation token (ghs_*)' :
+        t.startsWith('ghu_')        ? 'user-to-server token (ghu_*)' : 'unknown / not a GitHub token';
+    log(`Token: ${prefix}…${suffix}  (${t.length} chars)`);
+    log(`Kind:  ${kind}`);
+    log('');
+
+    const H = { Authorization: `Bearer ${t}`, 'Accept': 'application/vnd.github+json' };
+    const repo = 'AlessandroCaggia30/portfolio-a011e80d';
+
+    // Test 1 — /user (any valid token authenticates)
+    try {
+        const r = await fetch('https://api.github.com/user', { headers: H, cache: 'no-store' });
+        const body = await r.text();
+        log(`Test 1  /user                  → HTTP ${r.status} ${r.statusText}`);
+        if (r.status === 200) {
+            const u = JSON.parse(body);
+            log(`         logged in as: ${u.login}`);
+            log(`         x-oauth-scopes:          ${r.headers.get('x-oauth-scopes') || '(fine-grained PAT — scopes not applicable)'}`);
+            log(`         x-accepted-oauth-scopes: ${r.headers.get('x-accepted-oauth-scopes') || '—'}`);
+        } else {
+            log(`         body: ${body.substring(0, 200)}`);
+            log('');
+            log('❌ Token is invalid at the auth layer. Either it was mistyped, revoked, or expired.');
+            log('   Nothing else can succeed until this passes. Regenerate on GitHub, paste, save, retry.');
+            return;
+        }
+    } catch (e) { log(`Test 1 threw: ${e.message}`); return; }
+    log('');
+
+    // Test 2 — repo-level access
+    try {
+        const r = await fetch(`https://api.github.com/repos/${repo}`, { headers: H, cache: 'no-store' });
+        log(`Test 2  /repos/${repo}  → HTTP ${r.status}`);
+        if (r.status === 404) {
+            log('❌ Token authenticates but has NO access to this repo.');
+            log('   → For a fine-grained PAT, the repo must be in the token\'s "Repository access" list.');
+            log('   Regenerate the token with "Only select repositories" → portfolio-a011e80d.');
+            return;
+        } else if (r.status !== 200) {
+            log(`         body: ${(await r.text()).substring(0, 200)}`);
+        }
+    } catch (e) { log(`Test 2 threw: ${e.message}`); return; }
+    log('');
+
+    // Test 3 — the actual failing call: POST /git/blobs
+    try {
+        const r = await fetch(`https://api.github.com/repos/${repo}/git/blobs`, {
+            method: 'POST',
+            headers: { ...H, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content: btoa('mindnotes token diagnostic test ' + Date.now()), encoding: 'base64' })
+        });
+        const body = await r.text();
+        log(`Test 3  POST /git/blobs        → HTTP ${r.status}`);
+        if (r.status === 201) {
+            const b = JSON.parse(body);
+            log(`         created blob sha: ${b.sha}`);
+            log('');
+            log('✅ ALL THREE TESTS PASS. Token can write to this repo. If the app still shows unsynced,');
+            log('   run in the console:  localStorage.removeItem(\'mindnotes_ghPendingPush\')');
+            return;
+        }
+        log(`         body: ${body.substring(0, 400)}`);
+        log('');
+        if (r.status === 403 || r.status === 404) {
+            log('❌ Token authenticates but is missing "Contents: Read and write" permission on the repo.');
+            log('   → For fine-grained PATs: token settings → Repository permissions → Contents = Read and write.');
+            log('   → For classic PATs:      token settings → check the "repo" scope box.');
+        } else if (r.status === 401) {
+            log('❌ Token rejected at the write layer despite passing Test 1. This is unusual and usually means');
+            log('   the token was revoked between tests, or the token was created for a different account.');
+        } else {
+            log(`❌ Unexpected status ${r.status}. Full body above — paste it to your assistant.`);
+        }
+    } catch (e) { log(`Test 3 threw: ${e.message}`); }
+
+    // Rate-limit info at the end
+    try {
+        const r = await fetch('https://api.github.com/rate_limit', { headers: H, cache: 'no-store' });
+        const rl = await r.json();
+        log('');
+        log(`Rate limit: ${rl.rate?.remaining}/${rl.rate?.limit}, resets at ${new Date(rl.rate?.reset*1000).toLocaleTimeString()}`);
+    } catch (_) {}
+}
+
 function toggleGhAutoSync() {
     const box = document.getElementById('ghAutoSync');
     _ghAutoSync = box.checked;
