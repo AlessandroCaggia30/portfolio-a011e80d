@@ -83,10 +83,11 @@ fswatch -o "$WATCH_DIR/index.html" "$WATCH_DIR"/data*.json 2>/dev/null | while r
 
     _clean_stale_git_locks
 
-    # Stage only what we care about.
-    git add apps/mindnotes/index.html apps/mindnotes/data*.json 2>/dev/null
+    # Stage what we care about — includes the images/ folder now that data JSONs
+    # reference external files (see 2026-07-25 extraction migration).
+    git add apps/mindnotes/index.html apps/mindnotes/data*.json apps/mindnotes/images 2>/dev/null
 
-    if git diff --cached --quiet -- apps/mindnotes/index.html apps/mindnotes/data*.json; then
+    if git diff --cached --quiet -- apps/mindnotes/index.html apps/mindnotes/data*.json apps/mindnotes/images; then
         _release_lock
         continue
     fi
