@@ -5251,7 +5251,9 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
                 <div style="display:flex; gap:10px; margin-top:15px;">
                     <button class="btn btn-primary" onclick="ghPullNow()" style="flex:1;">⬇️ Pull now</button>
                     <button class="btn btn-primary" onclick="ghPushNow()" style="flex:1;">⬆️ Push now</button>
+                    <button class="btn btn-ghost" onclick="ghDiagnoseToken()" style="flex:1;" title="Run 3 tests against GitHub API: /user auth, repo access, blob-write (the actual failing call). Pinpoints the exact permission missing.">🩺 Diagnose token</button>
                 </div>
+                <pre id="ghDiagOut" style="display:none; margin-top:12px; padding:12px; background:var(--bg); border:1px solid var(--border); border-radius:8px; font-size:11px; font-family:var(--font-mono, monospace); white-space:pre-wrap; word-break:break-all; max-height:280px; overflow:auto;"></pre>
                 <hr style="border:none; border-top:1px solid var(--border); margin:20px 0;">
                 <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
                     <h3 style="font-size:14px; margin:0;">🕒 Version History</h3>
