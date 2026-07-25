@@ -8995,12 +8995,6 @@ function substituteInlineImageTokens(html, imagesArray, widthsArray) {
         used.add(idx);
         const w = parseInt(wStr, 10) || (widthsArray && widthsArray[idx]) || 300;
         const hAttr = hStr ? `height:${parseInt(hStr, 10)}px;` : 'height:auto;';
-        // If the src points to a video (by extension) render <video>; otherwise <img>.
-        // Works for both data-URIs (rare for video) and URL references (images/…/x.mp4).
-        const isVideo = /\.(mp4|webm|mov|m4v)(\?|$)/i.test(String(src));
-        if (isVideo) {
-            return `<video src="${src}" class="inline-image-token" data-img-index="${idx}" controls playsinline preload="metadata" style="width:${w}px;${hAttr}max-width:100%;vertical-align:middle;display:inline-block;border-radius:6px;background:#000;"></video>`;
-        }
         return `<img src="${src}" class="inline-image-token" data-img-index="${idx}" style="width:${w}px;${hAttr}max-width:100%;vertical-align:middle;display:inline-block;">`;
     });
     return { html: result, usedIndices: used };
