@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-26T07:05:29.979Z",
+  "exportedAt": "2026-07-26T07:05:39.069Z",
   "data": {
     "topics": [
       {
@@ -689,7 +689,7 @@
               {
                 "id": "1780305259868",
                 "title": "Some key remarks",
-                "content": "\n\n1) In CE we always have that the lhs of the foc for all agents has to be equal to the same lhs = pi.  \non the left hand side, if utilieies are QL you have just MUi, this means all agents will consume the same quantiy of the non quasilinear good yi. If utilities are not QL you have a $\\lambda_i$ term coming out of the lagrangian coefficien ton the BC, representing marginal utility of wealth. If there is no QL good (or the solution is not interior) this MU of wealth will not be equal to 1, and will be different across agents\n\n2) Since the price ratio is unique, also the MRSi have to be equal across agents! (except extrnalities = that truly are unequal price ratios)\n\n",
+                "content": "\n\n1) In CE we always have that the lhs of the foc for all agents has to be equal to the same lhs = pi.  \non the left hand side, if utilieies are QL you have just MUi, this means all agents will consume the same quantiy of the non quasilinear good yi. If utilities are not QL you have a $\\lambda_i$ term coming out of the lagrangian coefficien ton the BC, representing marginal utility of wealth. If there is no QL good (or the solution is not interior) this MU of wealth will not be equal to 1, and will be different across agents\n\n",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
