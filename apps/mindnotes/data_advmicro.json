@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-26T06:56:02.183Z",
+  "exportedAt": "2026-07-26T06:57:42.459Z",
   "data": {
     "topics": [
       {
@@ -161,7 +161,7 @@
               {
                 "id": "ch_ce_viz",
                 "title": "CE equilibrium visualized",
-                "content": "You have to consider that they are takign prices as given.There is an auctioner proposing some prices, agents are giving their optimal quantities for the given prices, the prices that \"work\" are those for which agents maximize and markets clear. The prices are then pinned down by **market clearing** where each x is the marshallian demand of a given agent! ceteris parisbus agrgeagte scarcity of an endowmnt will bring out the relative price of that good.\n\nAggregate $\\omega_a/\\omega_b$ does NOT enter Marshallian demand as a function. It enters CE only through the \\textbf{market-clearing equation}, which is what pins down prices. After prices are solved, plugging them back into Marshallian demand gives the actual quantities.\n\n{{img:0|w=1100}}\n\n\nNote how the given p gives you a specific demand point. \n\n\n",
+                "content": "You have to consider that they are takign prices as given.There is an auctioner proposing some prices, agents are giving their optimal quantities for the given prices, the prices that \"work\" are those for which agents maximize and markets clear. The prices are then pinned down by **market clearing** where each x is the marshallian demand of a given agent! ceteris parisbus agrgeagte scarcity of an endowmnt will bring out the relative price of that good.\n\nAggregate $\\omega_a/\\omega_b$ does NOT enter Marshallian demand as a function. It enters CE only through the \\textbf{market-clearing equation}, which is what pins down prices. After prices are solved, plugging them back into Marshallian demand gives the actual quantities.\n\n{{img:0|w=1100}}\n\n\nNote how the given p gives you a specific demand point. \n\n\nhigh endowments ceteris paribus reduce prices because they reflect a decresing marginal utility",
                 "images": [
                   "images/advmicro/ch_ce_viz_0_2a766f81b9bd.png"
                 ],
