@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-26T07:08:49.279Z",
+  "exportedAt": "2026-07-26T07:26:12.468Z",
   "data": {
     "topics": [
       {
@@ -177,10 +177,6 @@
                   {
                     "target": "ch_quasi_pref",
                     "type": "forward"
-                  },
-                  {
-                    "target": "1780305259868",
-                    "type": "both"
                   }
                 ],
                 "flashcard": false
