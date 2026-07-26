@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-26T07:26:15.971Z",
+  "exportedAt": "2026-07-26T07:26:25.046Z",
   "data": {
     "topics": [
       {
@@ -138,6 +138,10 @@
                 "links": [
                   {
                     "target": "ch_rep_agent",
+                    "type": "both"
+                  },
+                  {
+                    "target": "1780305259868",
                     "type": "both"
                   }
                 ],
