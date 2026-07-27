@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-27T18:16:14.608Z",
+  "exportedAt": "2026-07-27T18:16:18.285Z",
   "data": {
     "topics": [
       {
@@ -488,10 +488,10 @@
                 "images": [
                   "images/advmicro/ch_lin_tax_guiding_1780236905_0_9e77801739fd.png"
                 ],
-                "x": 7186.761041119209,
-                "y": -1379.403791880818,
-                "width": 779.8062981287741,
-                "height": 459.61259625754815,
+                "x": 7286.423981436743,
+                "y": -1387.8857442482677,
+                "width": 694.9867744542771,
+                "height": 389.6364892260882,
                 "links": [
                   {
                     "target": "ch_lin_tax_hsv_1780236906",
@@ -505,8 +505,8 @@
                 "title": "HSV taxation framework --- $c = B y^{1-\tau}$",
                 "content": "\\textbf{\\textcolor{red}{MODELLING TAXATION (HSV FRAMEWORK).}}\n\nGov spends each year  G (defense, healthcare...)\n\\[ G = \\int T(y)\\, df(y) \\;\\;\\;\\;\\textbf{[A]} \\quad\\quad\\text{Totally diff than before.} \\]\\[ T(y) = y - c, \\quad \\text{where} \\;\\; \\boxed{\\;c \\;=\\; B\\, y^{1-\\tau},\\;\\; B > 0,\\;\\; \\tau \\in [0, 1].\\;} \\]\n\\emph{So planner chooses $B, \\tau$ to satisfy [A]. Note: if you choose $\\tau$, $B$ needs to adjust to have G.}\n\n\\textbf{\\textcolor{red}{Reading $\\tau$ (progressivity dial).}}\n$\\bullet$ \\emph{If $\\tau = 0$} (0 progressivity), tax is indep.\\ of income: $c = B y$ (flat tax, \\% of $y$).\n$\\bullet$ \\emph{If $\\tau > 0$}, $c < y$ $\\to$ \\textbf{progressive tax} (rich pay an higher %) \n$\\bullet$ \\emph{$\\tau = 1$}: total tax, $c = B$, \\emph{we all consume the same amount} (communism). Hyper progressivity: the rich pays so much he gets to the poor level of consumption. \n\n",
                 "images": [],
-                "x": 8693.788222043837,
-                "y": -995.1239669421493,
+                "x": 7130.98849834123,
+                "y": -785.1956458477698,
                 "width": 1100,
                 "height": 1200,
                 "links": [
