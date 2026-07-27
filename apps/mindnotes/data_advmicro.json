@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-27T15:10:46.620Z",
+  "exportedAt": "2026-07-27T15:33:10.766Z",
   "data": {
     "topics": [
       {
@@ -229,17 +229,6 @@
                 "color": null
               },
               {
-                "id": "1779997224281",
-                "title": "Indirect utility + roy identity",
-                "content": "\\textbf{\\textcolor{red}{2.6 --- INDIRECT UTILITY $v(p,w)$ \\& ROY'S IDENTITY.}}\n\n\\begin{keydef}\n\\textbf{Proposition (Roy's identity).} If $x^*$ satisfies Walras's law and $v$ is differentiable:\n\\[ x_n^*(p, w) = -\\dfrac{\\partial v(p, w)/\\partial p_n}{\\partial v(p, w)/\\partial w}, \\qquad n = 1, \\ldots, N. \\]\n\\end{keydef}\n",
-                "flashcard": false,
-                "images": [],
-                "imageWidths": [],
-                "links": [],
-                "x": 3121.158029845151,
-                "y": -1878.6644460244215
-              },
-              {
                 "id": "ch_labor_elast",
                 "title": "Application: Labor Supply Elasticities (General, Frisch, Applied)",
                 "images": [],
@@ -294,10 +283,6 @@
                   },
                   {
                     "target": "1780132024926",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "1779997224281",
                     "type": "forward"
                   }
                 ],
@@ -1005,6 +990,21 @@
         ]
       }
     ],
-    "trash": []
+    "trash": [
+      {
+        "id": "1779997224281",
+        "title": "Indirect utility + roy identity",
+        "content": "\\textbf{\\textcolor{red}{2.6 --- INDIRECT UTILITY $v(p,w)$ \\& ROY'S IDENTITY.}}\n\n\\begin{keydef}\n\\textbf{Proposition (Roy's identity).} If $x^*$ satisfies Walras's law and $v$ is differentiable:\n\\[ x_n^*(p, w) = -\\dfrac{\\partial v(p, w)/\\partial p_n}{\\partial v(p, w)/\\partial w}, \\qquad n = 1, \\ldots, N. \\]\n\\end{keydef}\n",
+        "flashcard": false,
+        "images": [],
+        "imageWidths": [],
+        "links": [],
+        "x": 3121.158029845151,
+        "y": -1878.6644460244215,
+        "deletedAt": 1785166386588,
+        "fromTopic": "1740100000001",
+        "fromSubtopic": "1740100000101"
+      }
+    ]
   }
 }
