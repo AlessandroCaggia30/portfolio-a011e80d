@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-27T18:15:30.993Z",
+  "exportedAt": "2026-07-27T18:16:01.007Z",
   "data": {
     "topics": [
       {
@@ -470,7 +470,7 @@
                   "images/advmicro/ch_lin_tax_setup_1780236904_0_21edecadf00a.png"
                 ],
                 "x": 7257.671943279058,
-                "y": -2377.735361655078,
+                "y": -2290.9585021509465,
                 "width": 1100,
                 "height": 1100,
                 "flashcard": false,
@@ -488,8 +488,8 @@
                 "images": [
                   "images/advmicro/ch_lin_tax_guiding_1780236905_0_9e77801739fd.png"
                 ],
-                "x": 7290.447468062935,
-                "y": -1110.1561415095948,
+                "x": 7282.183005253018,
+                "y": -1031.6437448153802,
                 "width": 1100,
                 "height": 1100,
                 "links": [
@@ -505,8 +505,8 @@
                 "title": "HSV taxation framework --- $c = B y^{1-\tau}$",
                 "content": "\\textbf{\\textcolor{red}{MODELLING TAXATION (HSV FRAMEWORK).}}\n\nGov spends each year  G (defense, healthcare...)\n\\[ G = \\int T(y)\\, df(y) \\;\\;\\;\\;\\textbf{[A]} \\quad\\quad\\text{Totally diff than before.} \\]\\[ T(y) = y - c, \\quad \\text{where} \\;\\; \\boxed{\\;c \\;=\\; B\\, y^{1-\\tau},\\;\\; B > 0,\\;\\; \\tau \\in [0, 1].\\;} \\]\n\\emph{So planner chooses $B, \\tau$ to satisfy [A]. Note: if you choose $\\tau$, $B$ needs to adjust to have G.}\n\n\\textbf{\\textcolor{red}{Reading $\\tau$ (progressivity dial).}}\n$\\bullet$ \\emph{If $\\tau = 0$} (0 progressivity), tax is indep.\\ of income: $c = B y$ (flat tax, \\% of $y$).\n$\\bullet$ \\emph{If $\\tau > 0$}, $c < y$ $\\to$ \\textbf{progressive tax} (rich pay an higher %) \n$\\bullet$ \\emph{$\\tau = 1$}: total tax, $c = B$, \\emph{we all consume the same amount} (communism). Hyper progressivity: the rich pays so much he gets to the poor level of consumption. \n\n",
                 "images": [],
-                "x": 8875.606403862017,
-                "y": -1210,
+                "x": 8693.788222043837,
+                "y": -995.1239669421493,
                 "width": 1100,
                 "height": 1200,
                 "links": [
@@ -525,8 +525,8 @@
                   "images/advmicro/ch_lin_tax_rawls_1780236907_0_3db3df40f331.heic",
                   "images/advmicro/ch_lin_tax_rawls_1780236907_1_24909d93d162.png"
                 ],
-                "x": 10319.738323225658,
-                "y": -1278.1365438884577,
+                "x": 10009.820967853757,
+                "y": -1001.2770397562263,
                 "width": 1100,
                 "height": 1200,
                 "links": [],
