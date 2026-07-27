@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-27T18:16:21.094Z",
+  "exportedAt": "2026-07-27T18:16:25.998Z",
   "data": {
     "topics": [
       {
@@ -505,10 +505,10 @@
                 "title": "HSV taxation framework --- $c = B y^{1-\tau}$",
                 "content": "\\textbf{\\textcolor{red}{MODELLING TAXATION (HSV FRAMEWORK).}}\n\nGov spends each year  G (defense, healthcare...)\n\\[ G = \\int T(y)\\, df(y) \\;\\;\\;\\;\\textbf{[A]} \\quad\\quad\\text{Totally diff than before.} \\]\\[ T(y) = y - c, \\quad \\text{where} \\;\\; \\boxed{\\;c \\;=\\; B\\, y^{1-\\tau},\\;\\; B > 0,\\;\\; \\tau \\in [0, 1].\\;} \\]\n\\emph{So planner chooses $B, \\tau$ to satisfy [A]. Note: if you choose $\\tau$, $B$ needs to adjust to have G.}\n\n\\textbf{\\textcolor{red}{Reading $\\tau$ (progressivity dial).}}\n$\\bullet$ \\emph{If $\\tau = 0$} (0 progressivity), tax is indep.\\ of income: $c = B y$ (flat tax, \\% of $y$).\n$\\bullet$ \\emph{If $\\tau > 0$}, $c < y$ $\\to$ \\textbf{progressive tax} (rich pay an higher %) \n$\\bullet$ \\emph{$\\tau = 1$}: total tax, $c = B$, \\emph{we all consume the same amount} (communism). Hyper progressivity: the rich pays so much he gets to the poor level of consumption. \n\n",
                 "images": [],
-                "x": 7211.567045832002,
+                "x": 7269.201425637122,
                 "y": -914.5454194513777,
-                "width": 1100,
-                "height": 1200,
+                "width": 718.7264105199754,
+                "height": 561.5884083125169,
                 "links": [
                   {
                     "target": "ch_lin_tax_rawls_1780236907",
