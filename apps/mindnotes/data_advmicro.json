@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T10:10:40.777Z",
+  "exportedAt": "2026-07-28T10:10:42.574Z",
   "data": {
     "topics": [
       {
@@ -351,8 +351,8 @@
                 "images": [
                   "images/advmicro/ch_ps_edgeworth_0_e6877a100e6f.png"
                 ],
-                "x": 363.53488247310634,
-                "y": -1859.7322092471204,
+                "x": 783.6760352622787,
+                "y": -1392.9087061480386,
                 "width": 785,
                 "height": 405,
                 "flashcard": false,
@@ -1008,6 +1008,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-07-28T10:10:40.459Z"
+    "lastEditedAt": "2026-07-28T10:10:42.143Z"
   }
 }
