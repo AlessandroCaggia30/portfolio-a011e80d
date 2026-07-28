@@ -61,6 +61,14 @@
                   {
                     "target": "p-wilensky-rand-2015",
                     "type": "forward"
+                  },
+                  {
+                    "target": "p-prendergast-1999",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-ml3-2022",
+                    "type": "forward"
                   }
                 ],
                 "color": "purple",
