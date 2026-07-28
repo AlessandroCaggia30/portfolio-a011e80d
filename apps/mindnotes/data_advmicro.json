@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T10:07:43.562Z",
+  "exportedAt": "2026-07-28T10:07:47.241Z",
   "data": {
     "topics": [
       {
@@ -300,10 +300,6 @@
                   },
                   {
                     "target": "ch_po_upf",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "ch_ce_def",
                     "type": "forward"
                   }
                 ]
@@ -1006,6 +1002,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-07-28T10:07:39.627Z"
+    "lastEditedAt": "2026-07-28T10:07:44.015Z"
   }
 }
