@@ -11831,9 +11831,10 @@ async function ghPullAll() {
             return { ok: false, name: s.name, error: (e && e.message) || String(e) };
         }
     }));
-    _ghPersistShas(); _ghPersistPullStamps();
-    const ok = results.filter(r => r.ok).length;
-    const failures = results.filter(r => !r.ok);
+    _ghPersistShas(); _ghPersistPullStamps(); _ghPersistSyncHash();
+    const kept = results.filter(r => r && r.kept).length;
+    const ok = results.filter(r => r && r.ok && !r.kept).length;
+    const failures = results.filter(r => r && !r.ok);
     const err = failures.length;
     const dt = Math.round(performance.now() - t0);
     // Build a per-subject failure summary so users see WHAT failed, not just a count.
@@ -11841,6 +11842,7 @@ async function ghPullAll() {
     _ghLastError = err ? failSummary : null;
     const parts = [];
     if (ok) parts.push(`pulled ${ok}`);
+    if (kept) parts.push(`${kept} kept local (newer than remote)`);
     if (skipped) parts.push(`${skipped} unchanged`);
     if (err) parts.push(`${err} failed`);
     const msg = (parts.join(', ') || 'no work') + ` (${dt}ms)`;
@@ -11849,6 +11851,10 @@ async function ghPullAll() {
     _ghUpdateStatusUI();
     _ghPullInFlight = false;
     updateGhStatusDot();
+    // Subjects kept because local was newer: push them now so remote catches up.
+    if (kept && _ghToken && !_ghPushInFlight) {
+        ghPushAll().catch(e => console.warn('post-pull push of kept subjects failed:', e));
+    }
 }
 
 async function ghPushAll() {
