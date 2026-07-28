@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T10:30:51.523Z",
+  "exportedAt": "2026-07-28T10:30:57.786Z",
   "data": {
     "topics": [
       {
@@ -181,12 +181,7 @@
                 "y": -825.6880047476134,
                 "width": 679.7757102367937,
                 "height": 266.0762073896593,
-                "links": [
-                  {
-                    "target": "ch_homo_pref",
-                    "type": "forward"
-                  }
-                ],
+                "links": [],
                 "flashcard": false
               },
               {
@@ -999,6 +994,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-07-28T10:30:49.408Z"
+    "lastEditedAt": "2026-07-28T10:30:55.587Z"
   }
 }
