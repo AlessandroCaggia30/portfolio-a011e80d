@@ -7445,13 +7445,6 @@ function renderCanvas() {
 
     // Fix nodes with missing or invalid positions — lay them out in a grid
     const nodes = State.currentSubtopic.nodes;
-    // Log positions for debugging
-    const positionSummary = {};
-    nodes.forEach(n => {
-        const key = `${Math.round(n.x || 0)},${Math.round(n.y || 0)}`;
-        positionSummary[key] = (positionSummary[key] || 0) + 1;
-    });
-    console.log('Node positions:', positionSummary);
 
     // A node is "bad" only if its position is truly invalid (NaN, undefined, null).
     // We deliberately do NOT reposition nodes that the user has dragged toward the canvas edges —
