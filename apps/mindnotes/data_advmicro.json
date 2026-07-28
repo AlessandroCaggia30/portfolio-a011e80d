@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T10:31:11.321Z",
+  "exportedAt": "2026-07-28T10:31:15.290Z",
   "data": {
     "topics": [
       {
@@ -283,6 +283,10 @@
                   {
                     "target": "ch_quasi_pref",
                     "type": "forward"
+                  },
+                  {
+                    "target": "ch_homo_pref",
+                    "type": "forward"
                   }
                 ],
                 "flashcard": false
@@ -402,7 +406,7 @@
                 ],
                 "imageWidths": [],
                 "links": [],
-                "x": 500.6820054977543,
+                "x": 570.6820054977543,
                 "y": -2874.1887122340077,
                 "width": 541.6554383394084,
                 "height": 199.94529062222534
@@ -1002,6 +1006,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-07-28T10:31:09.200Z"
+    "lastEditedAt": "2026-07-28T10:31:13.152Z"
   }
 }
