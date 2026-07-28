@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T10:34:55.429Z",
+  "exportedAt": "2026-07-28T10:34:59.672Z",
   "data": {
     "topics": [
       {
@@ -153,8 +153,8 @@
                     "type": "both"
                   }
                 ],
-                "x": 3760.0875599023257,
-                "y": 37.28626056299345,
+                "x": 4670.087559902326,
+                "y": 107.28626056299345,
                 "width": 900,
                 "height": 1100,
                 "sectionNumber": 1,
@@ -201,7 +201,7 @@
                 "title": "Representative Agent Assumption",
                 "images": [],
                 "content": "\\textbf{\\textcolor{red}{REPRESENTATIVE AGENT ASSUMPTION --- when can a single agent stand in for the whole population?}}\n\n\\textbf{\\textcolor{red}{Definition.}}\nA \\emph{representative agent} is a single hypothetical consumer whose demand reproduces aggregate demand. Formally: there exists a utility function $U^R$ and a wealth $W$ such that\n\\[ \\boxed{\\;\\sum_h x_i^*(p, w^h; U^h) \\;=\\; x_i^*(p, W; U^R) \\quad \\forall\\, i.\\;} \\]\n\\emph{When this works, macro/aggregative analysis collapses to a single optimization problem --- a huge workhorse simplification.}\n\n\\textbf{\\textcolor{red}{When is the assumption valid?}}\nAggregate demand must depend on \\emph{total} wealth only, \\textbf{not on its distribution} across agents:\n\\[ \\sum_h x_i^*(p, w^h) \\;=\\; X_i(p, W), \\quad W = \\textstyle\\sum_h w^h. \\]\n\n\\textbf{Two canonical families that satisfy Gorman aggregation:}\n\n\\bigskip\n\n\\textbf{\\textcolor{red}{1. Homothetic preferences} --- whatever the wealth, agents all consume the same RATIO.}}\n\n\\textbf{\\textcolor{red}{2. Quasilinear preferences} --- whatever the endowment, agents all consume the same NON-NUMERAIRE $y$.}}\n",
-                "x": 5644.533327773971,
+                "x": 6327.866661107304,
                 "y": 537.7835997105612,
                 "width": 454.38607762025504,
                 "height": 381.0832671756041,
@@ -681,8 +681,8 @@
                 "images": [],
                 "imageWidths": [],
                 "links": [],
-                "x": 4990.716760489906,
-                "y": 491.5575599542244
+                "x": 5717.383427156573,
+                "y": 471.5575599542244
               },
               {
                 "id": "ch_asset_pricing_framework_1780600030",
@@ -1007,6 +1007,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-07-28T10:34:54.900Z"
+    "lastEditedAt": "2026-07-28T10:34:59.350Z"
   }
 }
