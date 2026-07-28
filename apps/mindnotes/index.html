@@ -14796,6 +14796,40 @@ async function openPopView(subject) {
     if (existingDefs) existingDefs.remove();
     ensureSvgArrowDefs();
     renderLinks();
+    _updatePopToggleBtn();
+}
+
+function _updatePopToggleBtn() {
+    const b = $('popToggleBtn');
+    if (b) b.classList.toggle('active', !!State.popMode);
+}
+
+// In-place POP toggle from the sidebar header — no subject reload.
+function togglePopMode() {
+    if (!State.currentSubject) return;
+    if (State.popMode) {
+        State.popMode = false;
+        try { localStorage.setItem('mindnotes_current_pop', '0'); } catch (_) {}
+        document.querySelector('.app').classList.remove('pop-mode');
+        const badge = $('popModeBadge');
+        if (badge) badge.style.display = 'none';
+        if (typeof hidePopToolbar === 'function') hidePopToolbar();
+    } else {
+        State.popMode = true;
+        try { localStorage.setItem('mindnotes_current_pop', '1'); } catch (_) {}
+        const _popStraightLS = localStorage.getItem('mindnotes_pop_straight');
+        State.popStraight = _popStraightLS === null ? true : _popStraightLS === '1';
+        document.querySelector('.app').classList.add('pop-mode');
+        const badge = $('popModeBadge');
+        if (badge) badge.style.display = 'inline';
+        _syncPopLineToggle();
+    }
+    // Pop mode uses its own SVG arrow markers — regenerate defs and re-render.
+    const existingDefs = svg && svg.querySelector('defs#arrowDefs');
+    if (existingDefs) existingDefs.remove();
+    ensureSvgArrowDefs();
+    renderCanvas();
+    _updatePopToggleBtn();
 }
 
 // ── Pop node toolbar: shape & color ──────────────────
