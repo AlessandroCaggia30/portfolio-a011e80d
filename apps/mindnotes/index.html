@@ -6406,7 +6406,9 @@ async function initAutosaveForSubject(dataKey) {
     }
 
     if (!window.showSaveFilePicker) {
-        updateAutosaveUI(dataKey, '', 'Browser does not support file backup');
+        // Firefox/Safari: no File System Access API. GitHub sync + IndexedDB
+        // snapshots + the stuck-push auto-download remain active.
+        updateAutosaveUI(dataKey, '', 'File backup: n/a in this browser (git sync + snapshots active)');
         return;
     }
 
