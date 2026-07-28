@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T12:07:42.151847Z",
+  "exportedAt": "2026-07-28T12:10:32.184307Z",
   "data": {
     "topics": [
       {
@@ -52,6 +52,14 @@
                   },
                   {
                     "target": "p-axtell-2018",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-epstein-axtell-1996",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-wilensky-rand-2015",
                     "type": "forward"
                   }
                 ],
@@ -453,6 +461,14 @@
                   {
                     "target": "p-bps-2020",
                     "type": "forward"
+                  },
+                  {
+                    "target": "p-lazear-1986",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-innes-1990",
+                    "type": "forward"
                   }
                 ],
                 "color": "green",
@@ -589,6 +605,18 @@
                   },
                   {
                     "target": "p-laffont-tirole-1988",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-kerr-1975",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "f1-imperfect-measurement",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "f4-risk-transfer",
                     "type": "forward"
                   }
                 ],
@@ -797,6 +825,10 @@
                   {
                     "target": "p-freeman-kleiner-2005",
                     "type": "forward"
+                  },
+                  {
+                    "target": "p-roy-1952",
+                    "type": "forward"
                   }
                 ],
                 "color": "red",
@@ -914,6 +946,26 @@
                   },
                   {
                     "target": "p-gr-2000",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-bull-1987",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-halac-2012",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-bar-isaac-2007",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-fehr-gaechter-2000",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-bewley-1999",
                     "type": "forward"
                   }
                 ],
@@ -1474,6 +1526,182 @@
                 "links": [],
                 "color": "yellow",
                 "popBg": "#fef9c3"
+              },
+              {
+                "id": "p-epstein-axtell-1996",
+                "title": "P·Epstein–Axtell (1996) — Sugarscape",
+                "content": "**Ref.** Epstein, J. M. & Axtell, R. (1996). *Growing Artificial Societies: Social Science from the Bottom Up.* Brookings Institution Press / MIT Press.\n\n---\n\n## Intro\n\n**Founding book of modern ABM** — introduces Sugarscape as a proof-of-concept: many complex social phenomena (inequality, migration, trade, epidemics, conflict) emerge from very simple agent rules on a 2D grid with a distributed resource.\n\n## Contribution\n\n- Establishes the **generative** paradigm: \"if you didn't grow it, you didn't explain it\".\n- Shows that Zipf-like wealth distributions emerge from local trade + inheritance.\n- Migration patterns, group formation, epidemic dynamics all emerge from minimal rules.\n- **Massive interdisciplinary impact** — brings ABM to political science, epidemiology, sociology.\n\n## Position\n\nBlue **ABM foundation** — the canonical starting point for anyone building an ABM. Sits alongside Nelson-Winter (theory) and Bergmann (macro application) as one of the three founding pillars.\n",
+                "x": -2500,
+                "y": -800,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "blue",
+                "popBg": "#dbeafe"
+              },
+              {
+                "id": "p-lazear-1986",
+                "title": "P·Lazear (1986) — Salaries vs Piece Rates (Sorting)",
+                "content": "**Ref.** Lazear, E. P. (1986). Salaries and piece rates. *Journal of Business*, 59(3), 405–431.\n\n---\n\n## Intro\n\nFormalizes the **sorting** side of the piece-rate decision — separate from the incentive effect.\n\n## Contribution\n\n- Under piece rates, high-ability workers self-select in; low-ability workers self-select out.\n- Under salaries, all types accept.\n- Firm's choice: salary (loses high-effort ability sorting) vs piece rate (loses high-ability workers who dislike measurement).\n- **Two channels** by which piece rates raise measured productivity — incentive AND selection — both of which Lazear 2000 later decomposed empirically (~50/50).\n\n## Position\n\nGreen **②** theory — theoretical companion to Lazear 2000's empirical decomposition.\n",
+                "x": 1900,
+                "y": 1350,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-innes-1990",
+                "title": "P·Innes (1990) — Debt as Optimal Contract",
+                "content": "**Ref.** Innes, R. D. (1990). Limited liability and incentive contracting with ex-ante action choices. *Journal of Economic Theory*, 52(1), 45–67.\n\n---\n\n## Intro\n\nSolves the PA problem under **limited liability** (wage cannot go below zero / bankruptcy). Shows that the optimal contract is a **live-or-die debt contract**.\n\n## Contribution\n\n- With limited liability + monotonicity constraint, optimal $w(y)$ is a step function: pay a fixed amount $F$ if $y \\geq y^*$, zero otherwise.\n- This is **equivalent to debt with default threshold** $y^*$.\n- Rationalizes the pervasive use of debt financing in venture capital, sharecropping, franchising — settings where limited liability matters.\n\n## Position\n\nGreen **②** — theoretical extension of HM 1987 to limited-liability settings. Explains the widespread use of threshold-based bonus schemes.\n",
+                "x": 1900,
+                "y": 1700,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-kerr-1975",
+                "title": "P·Kerr (1975) — On the Folly of Rewarding A While Hoping for B",
+                "content": "**Ref.** Kerr, S. (1975). On the folly of rewarding A, while hoping for B. *Academy of Management Journal*, 18(4), 769–783.\n\n---\n\n## Intro\n\n**Classic management-science critique** of poorly-designed incentives. Predates the formal PA literature but anticipates every modern multi-tasking result.\n\n## Argument\n\nFirms constantly reward measurable behaviors (A) that are proxies for what they actually want (B) — creating perverse outcomes:\n- **Universities want teaching (B); reward publications (A)** — teaching suffers.\n- **Sports teams want winning (B); reward individual stats (A)** — team play suffers.\n- **Politicians want good policy (B); reward reelection (A)** — short-termism dominates.\n- **Firms want long-term value (B); reward quarterly earnings (A)** — myopic decisions dominate.\n\n## Contribution\n\n- Anticipates HM 1991 multi-tasking BY 16 YEARS.\n- Widely cited in management education → shapes how MBA students think about incentive design.\n- Foundational for Baker 1992 formal multi-task theory.\n\n## Position\n\nRed **③** — management-science formulation of the multi-tasking problem. Predates the formal theoretical papers but articulates the intuition brilliantly.\n",
+                "x": 4500,
+                "y": 1990,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-roy-1952",
+                "title": "P·Roy (1952) — Goldbricking and Quota Restriction",
+                "content": "**Ref.** Roy, D. (1952). Quota restriction and goldbricking in a machine shop. *American Journal of Sociology*, 57(5), 427–442.\n\n---\n\n## Intro\n\n**Classical sociological study** of worker gaming behavior under piece rates. Roy worked undercover for 10 months as a machine operator to document how workers responded to piece-rate incentives.\n\n## Findings\n\n- **Quota restriction**: workers collectively agreed to cap daily output to prevent rate-setters from cutting the piece rate (the classic **ratchet-avoidance** behavior).\n- **Goldbricking**: on days when rates were bad, workers deliberately produced little (to signal the rate was too tight).\n- **\"Making out\"**: workers built up \"banks\" of unreported output to smooth commissions across days.\n\n## Contribution\n\n- **First systematic ethnographic evidence** of the ratchet effect (Gibbons 1987 formalized it 35 years later).\n- Documents strategic under-production and collective norms as workers' response to poorly-designed incentives.\n- Foundational reading in industrial sociology.\n\n## Position\n\nRed **⑤** — classical empirical documentation of the failure modes of piece-rate incentives.\n",
+                "x": 6900,
+                "y": 1290,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "yellow",
+                "popBg": "#fef9c3"
+              },
+              {
+                "id": "p-bull-1987",
+                "title": "P·Bull (1987) — Self-Enforcing Implicit Contracts",
+                "content": "**Ref.** Bull, C. (1987). The existence of self-enforcing implicit contracts. *Quarterly Journal of Economics*, 102(1), 147–159.\n\n---\n\n## Intro\n\n**Founding paper of the self-enforcing implicit contracts literature.** Shows when and how repeated interaction can substitute for explicit enforcement.\n\n## Contribution\n\n- **Existence proof**: under infinite horizon + sufficient patience ($\\delta$ high enough) + credible punishment threat, self-enforcing implicit contracts exist that implement first-best.\n- Foundation for the entire relational-contracts literature (BGM 1994, MacLeod 2003, Levin 2003, BGM 2002).\n- Establishes the **credibility constraint** $b \\leq \\delta \\cdot V^{\\text{future}}$ that BGM 1994 later formalizes.\n\n## Position\n\nGreen **⑥** — theoretical foundation for relational contracts. Predates BGM 1994 and MacLeod 2003 as the earliest formal existence result for the self-enforcing mechanism.\n",
+                "x": 9000,
+                "y": 3260,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-halac-2012",
+                "title": "P·Halac (2012) — Relational Contracts and the Value of Relationships",
+                "content": "**Ref.** Halac, M. (2012). Relational contracts and the value of relationships. *American Economic Review*, 102(2), 750–779.\n\n---\n\n## Intro\n\n**Modern extension** of the relational-contracts literature — analyses the value of a specific relationship (rather than treating all matches as identical).\n\n## Contribution\n\n- Introduces **asymmetric information about the value of the relationship** to the classical relational-contracts model.\n- When one party knows more about the relationship's value, contracts adapt endogenously: relationships build \"trust\" over time as private information is revealed.\n- Explains observed patterns: probationary periods, escalation-of-trust dynamics, gradual delegation of authority.\n\n## Position\n\nGreen **⑥** — modern extension of Levin 2003 / BGM 2002 into asymmetric-information settings. Modernizes the relational-contract framework.\n",
+                "x": 9600,
+                "y": 1200,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-bar-isaac-2007",
+                "title": "P·Bar-Isaac (2007) — Reputation in Teams",
+                "content": "**Ref.** Bar-Isaac, H. (2007). Something to prove: Reputation in teams. *RAND Journal of Economics*, 38(2), 495–511.\n\n---\n\n## Intro\n\nExtends career-concerns theory (Holmström 1982) to the **team-production** setting — how team members' effort choices depend on their individual reputations.\n\n## Contribution\n\n- In teams, some workers have \"something to prove\" (uncertain reputation) — they exert high effort.\n- Others have established reputations — they can free-ride.\n- **Optimal team composition** mixes early-career (motivated) with established (skilled) workers.\n- Explains observed **mentor-junior team structures** in law firms, consulting, academia.\n\n## Position\n\nGreen **⑥** — extension of team-pay theory (KL 1992) to career-concerns settings. Complements Bénabou-Tirole 2003 (intrinsic motivation) with reputation as an implicit incentive.\n",
+                "x": 9600,
+                "y": 1550,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-fehr-gaechter-2000",
+                "title": "P·Fehr–Gächter (2000) — Cooperation and Punishment",
+                "content": "**Ref.** Fehr, E. & Gächter, S. (2000). Cooperation and punishment in public goods experiments. *American Economic Review*, 90(4), 980–994.\n\n---\n\n## Intro\n\n**Landmark laboratory experiment** on **decentralized peer punishment** as the mechanism sustaining cooperation in public-goods settings. Direct empirical evidence for the peer-pressure mechanism.\n\n## Design\n\n- Public-goods game with 4 players over 10 rounds.\n- Two conditions:\n  1. No punishment: cooperation collapses to 0 by round 10 (standard free-rider result).\n  2. Punishment: each player can pay 1 unit to reduce another's payoff by 3 units.\n\n## Findings\n\n- **With punishment: cooperation rises to ~90%** and stabilizes.\n- Without punishment: cooperation collapses to ~10% by round 10.\n- Punishment happens: free-riders get punished by cooperators, even when punishment is costly.\n\n## Contribution\n\n- **First clean lab evidence** for the peer-punishment mechanism (Kandel–Lazear 1992's psychic cost, made concrete).\n- Foundation for a large behavioral-economics literature on norm enforcement.\n\n## Position\n\nYellow **⑥** — laboratory evidence for peer punishment as the enforcement mechanism behind team pay. Complements Falk-Ichino 2006 (peer presence) and Mas-Moretti 2009 (peer observation) with peer PUNISHMENT.\n",
+                "x": 9600,
+                "y": 1900,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "yellow",
+                "popBg": "#fef9c3"
+              },
+              {
+                "id": "p-bewley-1999",
+                "title": "P·Bewley (1999) — Why Wages Don't Fall",
+                "content": "**Ref.** Bewley, T. F. (1999). *Why Wages Don't Fall During a Recession.* Harvard University Press.\n\n---\n\n## Intro\n\n**Field-defining interview study** of 300+ managers, workers, and labor experts in New England during the 1990-92 recession. Answers a classical puzzle: why don't firms cut nominal wages when demand falls?\n\n## Findings\n\n- **Morale is the answer.** Managers universally believe cutting wages destroys morale → productivity drops → net cost > savings.\n- Firms prefer layoffs to wage cuts because the pain is concentrated (departing workers) rather than diffused (morale of surviving workers).\n- **Managers reject explicit-contract PA theory** — they emphasize implicit norms, trust, and reciprocity.\n\n## Contribution\n\n- **Provides microfoundation** for downward nominal wage rigidity used in macro models.\n- **Confirms Bénabou-Tirole 2003** intrinsic-motivation theory: managers see workers as morally-motivated, not just monetarily-motivated.\n- Empirically supports the relational-contract framework (Bull 1987, BGM 1994, MacLeod 2003).\n\n## Position\n\nYellow **⑥** — empirical support for morale-based / relational-contract models over the sharp-incentive-contract theories.\n",
+                "x": 9600,
+                "y": 2250,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "yellow",
+                "popBg": "#fef9c3"
+              },
+              {
+                "id": "p-wilensky-rand-2015",
+                "title": "P·Wilensky–Rand (2015) — Introduction to ABM (NetLogo)",
+                "content": "**Ref.** Wilensky, U. & Rand, W. (2015). *An Introduction to Agent-Based Modeling: Modeling Natural, Social, and Engineered Complex Systems with NetLogo.* MIT Press.\n\n---\n\n## Intro\n\n**Standard textbook** for ABM education. NetLogo (Wilensky 1999) is the most-used ABM platform globally, especially in teaching.\n\n## Contribution\n\n- Provides a systematic pedagogical framework for building ABMs from scratch.\n- Covers all classical examples: Segregation (Schelling 1971), Predator-Prey, Wolf-Sheep, Ant-Foraging, Traffic, Voting.\n- Provides **teaching infrastructure** — most first-year PhD ABM courses use this textbook.\n\n## Position\n\nBlue **ABM** — pedagogical foundation. Cited whenever an ABM paper is written for interdisciplinary audiences.\n",
+                "x": -2500,
+                "y": -1500,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "blue",
+                "popBg": "#dbeafe"
+              },
+              {
+                "id": "f1-imperfect-measurement",
+                "title": "F1 · Imperfect Performance Measurement",
+                "content": "# F1: Imperfect Performance Measurement\n\n**Even under HM 1987's optimal $\\beta^*$, measurement error $\\sigma^2$ enters the trade-off.**\n\n$$\\beta^* = \\frac{1}{1 + \\rho\\sigma^2 k / g^2}$$\n\n- Large $\\sigma^2$ → $\\beta^*$ collapses toward 0 → weak incentives.\n- Fixing $\\sigma^2$ requires better measurement technology — Quindi's core business.\n\n## Failure mechanism\n\nThe firm knows some $y_i$ but cannot separate:\n- **Effort component** $e_i$ (what to reward).\n- **Skill component** $\\theta_i$ (fixed).\n- **Noise component** $\\varepsilon_i$ (uncontrollable — weather, machine, luck).\n\nHigher $\\text{Var}(\\varepsilon_i)$ → higher risk premium → firm reduces $\\beta$ → workers exert less effort. In extreme, $\\beta^* \\to 0$ and no piece-rate incentive is used at all.\n\n## Solutions across phases\n\n- **Phase ② (Quindi):** reduce $\\sigma^2$ via better sensors/tracking.\n- **Phase ④ (tournaments):** use ranks — common shocks cancel out.\n- **Phase ⑥ (subjective evaluation):** use human judgment where signals fail.\n\n## Position\n\nRed **③** — the fundamental residual failure that motivates every subsequent phase.\n",
+                "x": 4500,
+                "y": 2310,
+                "width": 460,
+                "height": 380,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "red",
+                "popBg": "#fee2e2"
+              },
+              {
+                "id": "f4-risk-transfer",
+                "title": "F4 · Risk Transfer to Worker",
+                "content": "# F4: Risk Transfer to Worker\n\nUnder the HM 1987 optimal linear contract, the worker bears fraction $\\beta$ of output risk. **Total welfare loss** from risk-bearing:\n$$\\Delta W = \\frac{\\rho\\sigma^2 \\beta^{*\\,2}}{2}$$\n\nThis is a **deadweight loss** — surplus that gets destroyed simply because the worker is more risk-averse than the firm's shareholders.\n\n## Failure mechanism\n\n- Worker's utility: $U(w) = -\\exp(-\\rho w)$ (CARA).\n- Firm's utility: risk-neutral (diversified shareholders).\n- Optimal contract shifts risk to the WORKER — the wrong party.\n- Even at $\\beta^*$, welfare is below the risk-neutral first-best.\n\n## Solutions across phases\n\n- **Phase ④ (tournaments):** common noise cancels — reduces $\\sigma^2$ effectively.\n- **Phase ② (efficiency wages / career concerns):** move to non-output-contingent pay.\n- **Phase ⑥ (team pay):** diversify individual risk across team members.\n\n## Position\n\nRed **③** — quantifies the \"cost of the solution\" that HM 1987's contract still bears. Motivates tournaments as a way to eliminate the risk-premium loss from common shocks.\n",
+                "x": 5000,
+                "y": 2310,
+                "width": 460,
+                "height": 380,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "red",
+                "popBg": "#fee2e2"
               }
             ]
           }
