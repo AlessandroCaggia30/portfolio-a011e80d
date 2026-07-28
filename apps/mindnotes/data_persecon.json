@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T12:05:21.519077Z",
+  "exportedAt": "2026-07-28T12:07:42.151847Z",
   "data": {
     "topics": [
       {
@@ -44,6 +44,14 @@
                   },
                   {
                     "target": "p-tesfatsion-2006",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-farmer-foley-2009",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-axtell-2018",
                     "type": "forward"
                   }
                 ],
@@ -429,6 +437,22 @@
                   {
                     "target": "p-bjm-1988",
                     "type": "forward"
+                  },
+                  {
+                    "target": "p-rogerson-1985",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-sannikov-2008",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-bvr-2007",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-bps-2020",
+                    "type": "forward"
                   }
                 ],
                 "color": "green",
@@ -562,6 +586,10 @@
                   {
                     "target": "p-prendergast-2002",
                     "type": "forward"
+                  },
+                  {
+                    "target": "p-laffont-tirole-1988",
+                    "type": "forward"
                   }
                 ],
                 "color": "red",
@@ -640,6 +668,10 @@
                   },
                   {
                     "target": "p-genakos-pagliero-2012",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-shleifer-1985",
                     "type": "forward"
                   }
                 ],
@@ -874,6 +906,14 @@
                   },
                   {
                     "target": "p-benabou-tirole-2003",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-abj-2014",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-gr-2000",
                     "type": "forward"
                   }
                 ],
@@ -1298,6 +1338,142 @@
                 "images": [],
                 "links": [],
                 "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-farmer-foley-2009",
+                "title": "P·Farmer–Foley (2009) — The Economy Needs Agent-Based Modeling",
+                "content": "**Ref.** Farmer, J. D. & Foley, D. (2009). The economy needs agent-based modeling. *Nature*, 460(7256), 685–686.\n\n---\n\n## Intro\n\n**High-profile op-ed** in Nature immediately after the 2008 financial crisis. Argued that mainstream DSGE macro missed the crisis because it assumes rational-expectations equilibrium and representative agents, which cannot capture:\n- Endogenous credit-network fragility.\n- Heterogeneous learning and belief updating.\n- Positive-feedback cascades.\n\n## Contribution\n\n- **Field-shaping call to arms** — brought ABM to the attention of the broader scientific community.\n- Positioned ABM as the natural alternative to DSGE after the crisis.\n- Motivated large ABM projects (EURACE FP7 grant, EU Horizon 2020 CRISIS, etc.).\n\n## Position\n\nBlue **ABM meta** — the political-economic moment when ABM became a credible alternative to DSGE. Complements Kirman 1992 (theoretical critique) with a crisis-motivated policy critique.\n",
+                "x": -1500,
+                "y": 1750,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "blue",
+                "popBg": "#dbeafe"
+              },
+              {
+                "id": "p-axtell-2018",
+                "title": "P·Axtell (2018) — Endogenous Firms Follow-up",
+                "content": "**Ref.** Axtell, R. L. (2018). *Endogenous firms and their dynamics.* Working paper (SFI/Mason Univ.); see also Axtell (2016, *Complexity*) and follow-up papers.\n\n---\n\n## Intro\n\nExtends Axtell (2001) to a **full-employment general-equilibrium ABM** where firms endogenously form, grow, and die from workers' team-formation decisions.\n\n## What it adds to Axtell (2001)\n\n- **Larger scale**: 100k+ agents (vs ~10k in 2001).\n- **Full labor-market clearing** — endogenous unemployment.\n- **Wage-setting** as an outcome of within-firm bargaining, not exogenous.\n- Reproduces additional stylised facts: Zipf firm-size, Gibrat-law growth-rate distribution, log-normal age distribution, firm-entry/exit rates.\n\n## Contribution\n\nEstablishes that a very simple set of behavioral rules (peer pressure + join/leave decision) generates a wide range of Industrial Organization empirical regularities without any optimizing agent or equilibrium concept.\n\n## Position\n\nBlue **ABM** — modern demonstration of the Axtell 2001 mechanism at scale.\n",
+                "x": -1500,
+                "y": 2100,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "blue",
+                "popBg": "#dbeafe"
+              },
+              {
+                "id": "p-rogerson-1985",
+                "title": "P·Rogerson (1985) — First-Order Approach Validity",
+                "content": "**Ref.** Rogerson, W. P. (1985). The first-order approach to principal-agent problems. *Econometrica*, 53(6), 1357–1367.\n\n---\n\n## Intro\n\nSolves a **critical technical problem** in the classical PA framework: the first-order approach (replace the agent's IC constraint with its FOC) is not always valid.\n\n## Contribution\n\n- Proves the **MLRP (Monotone Likelihood Ratio Property) + CDFC (Concavity of Distribution Function Condition)** are sufficient for the first-order approach to be valid.\n- Under MLRP+CDFC, the optimal contract is monotone in output — a foundational result used throughout applied PA work.\n- Otherwise, one must solve the full IC constraint (much harder).\n\n## Position\n\nGreen **②** theory — technical foundation used by every applied PA paper that uses the first-order approach.\n",
+                "x": 2400,
+                "y": 650,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-sannikov-2008",
+                "title": "P·Sannikov (2008) — Continuous-Time Principal-Agent",
+                "content": "**Ref.** Sannikov, Y. (2008). A continuous-time version of the principal-agent problem. *Review of Economic Studies*, 75(3), 957–984.\n\n---\n\n## Intro\n\n**Modern theoretical extension** of HM 1987 to the fully continuous-time case with general utility functions — not restricted to CARA.\n\n## Contribution\n\n- Formulates the PA problem as a **stochastic-control problem** where the state is the agent's promised continuation utility.\n- Solves via HJB equation.\n- Shows how the optimal contract's structure evolves with the agent's promised utility: **retirement region** (agent's utility high enough that no incentive is needed) and **incentive region** (agent's utility depends on output).\n- Explains observed **stylised facts** about executive contracts (deferred pay, retirement bonuses).\n\n## Position\n\nGreen **②** theory — modern generalization of HM 1987 that removes the CARA-Gaussian assumptions and provides a fully rigorous foundation.\n",
+                "x": 2400,
+                "y": 1000,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-bvr-2007",
+                "title": "P·Bloom–Van Reenen (2007) — Management as Technology (QJE)",
+                "content": "**Ref.** Bloom, N. & Van Reenen, J. (2007). Measuring and explaining management practices across firms and countries. *Quarterly Journal of Economics*, 122(4), 1351–1408.\n\n---\n\n## Intro\n\n**Founding paper of the World Management Survey (WMS)** — the largest cross-country dataset on management practices. Establishes the methodology used by all subsequent WMS papers (including Bloom-Van Reenen 2013).\n\n## Design\n\n- Standardized double-blind interviews with mid-level managers across ~700 firms in US, UK, France, Germany.\n- 18-question survey scoring monitoring, targets, and incentive practices.\n- **Double-blind + Standardized** → cross-firm and cross-country comparable.\n\n## Findings\n\n- **US firms score highest** on average management practices.\n- Practice heterogeneity WITHIN industries is enormous (mean SD ~0.65 on 1-5 scale).\n- Best-managed firms have BOTH strong **monitoring** (Holmström 1979 informativeness) AND explicit **incentive design** (HM 1987 linear contracts).\n- Practices robustly correlate with productivity, profitability, growth, survival.\n\n## Position\n\nYellow **②** — the empirical foundation for \"management practices matter for productivity\" claim. Complements Lazear 2000 (single firm) with cross-country breadth.\n",
+                "x": 2400,
+                "y": 1350,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "yellow",
+                "popBg": "#fef9c3"
+              },
+              {
+                "id": "p-bps-2020",
+                "title": "P·Bandiera–Prat–Sadun (2020) — CEO Behavior & Firm Performance",
+                "content": "**Ref.** Bandiera, O., Prat, A., Hansen, S. & Sadun, R. (2020). CEO behavior and firm performance. *Journal of Political Economy*, 128(4), 1325–1369.\n\n---\n\n## Intro\n\n**Modern empirical benchmark for the CEO-agency problem.** Uses machine-learning to classify CEO behavior from time-use diaries.\n\n## Design\n\n- Time-use diaries for ~1,100 CEOs across 6 countries.\n- Every 15 min: activity, participants, planning horizon.\n- ML classifies each CEO as \"leader\" (long-horizon, multi-participant) or \"manager\" (short-horizon, single-participant).\n\n## Findings\n\n- **Leader-type CEOs run more productive firms** — ~7% higher productivity conditional on industry, size, country.\n- Effect is causal (identified from CEO-fixed-firm switches).\n- **CEOs are commonly misassigned** — many \"manager\" CEOs would produce more as \"leaders\" at other firms; matching frictions are large.\n\n## Contribution\n\n- First **large-scale, quantitative measurement of CEO agency** using behavioral rather than accounting-based measures.\n- Direct implication for corporate-governance: better CEO-firm matching is worth ~7% of firm value.\n\n## Position\n\nYellow **②** — modern empirical evidence for CEO agency. Complements Baker-Jensen-Murphy 1988 by measuring behavior directly rather than inferring it from pay-performance sensitivity.\n",
+                "x": 2400,
+                "y": 1700,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "yellow",
+                "popBg": "#fef9c3"
+              },
+              {
+                "id": "p-laffont-tirole-1988",
+                "title": "P·Laffont–Tirole (1988) — Dynamic Mechanism with Commitment",
+                "content": "**Ref.** Laffont, J.-J. & Tirole, J. (1988). The dynamics of incentive contracts. *Econometrica*, 56(5), 1153–1175.\n\n---\n\n## Intro\n\n**Formal solution to the ratchet problem** (Gibbons 1987) — analyzes when the firm can and cannot commit to long-term contracts.\n\n## Contribution\n\n- **Full commitment**: firm can commit to never revising the wage schedule → efficient (no ratchet distortion).\n- **No commitment**: firm optimizes each period → ratchet distortion binds → inefficient.\n- **Renegotiation-proof**: intermediate case — firm commits to schedules that survive ex-post renegotiation.\n- Establishes that **institutional commitment devices** (unions, long-term contracts, reputation) are welfare-improving.\n\n## Position\n\nRed **③** — theoretical follow-up to Gibbons 1987. Explains why some firms use long-term contracts (avoids ratchet) and others don't (needs flexibility).\n",
+                "x": 3900,
+                "y": 1610,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-shleifer-1985",
+                "title": "P·Shleifer (1985) — Yardstick Competition",
+                "content": "**Ref.** Shleifer, A. (1985). A theory of yardstick competition. *RAND Journal of Economics*, 16(3), 319–327.\n\n---\n\n## Intro\n\n**Alternative to LR 1981 tournaments** for filtering common shocks. Uses **cost comparisons** across similar firms instead of pure ranking of output.\n\n## Contribution\n\n- Regulator (or principal) sets each firm's allowed price/subsidy as a function of the AVERAGE cost of comparable firms.\n- Each firm's incentive to reduce cost is preserved (they capture the difference between their cost and the peer average).\n- Common shocks cancel out (they raise all firms' costs equally).\n- **Widely used in utility regulation** (electricity, water, gas): the UK RPI-X regulation is Shleifer 1985 in action.\n\n## Position\n\nGreen **④** — alternative rank-based solution. Complements LR 1981 tournaments (pure rank) with yardstick competition (cost benchmarking). Both filter common shocks — the difference is whether the signal is ordinal (LR) or cardinal-with-benchmark (Shleifer).\n",
+                "x": 5400,
+                "y": 1610,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-abj-2014",
+                "title": "P·Ashraf–Bandiera–Jack (2014) — Mission-Driven Incentives",
+                "content": "**Ref.** Ashraf, N., Bandiera, O. & Jack, B. K. (2014). No margin, no mission? A field experiment on incentives for pro-social tasks. *Journal of Public Economics*, 120, 1–17.\n\n---\n\n## Intro\n\n**Field experiment** testing whether monetary incentives crowd out or complement pro-social motivation. Uses hairdressers in Zambia paid piece-rate for selling female condoms.\n\n## Design\n\n- 205 hairdressers randomized into 4 arms:\n  1. No incentive (control).\n  2. Small financial reward per condom sold.\n  3. Large financial reward per condom sold.\n  4. Non-financial recognition (public star chart).\n\n## Findings\n\n- **Non-financial recognition raised sales the most** (~2× control).\n- Financial incentives raised sales modestly (~1.3×) — but LESS than recognition.\n- No crowding-out from financial incentives in this setting.\n- Effect concentrated among high-baseline-motivation workers.\n\n## Contribution\n\nConfirms **Bénabou-Tirole 2003** theoretical prediction: in pro-social settings, financial incentives are weakly effective at best; social/recognition incentives can dominate. Direct policy implication for public-service compensation.\n\n## Position\n\nYellow **⑥** — modern empirical evidence for the intrinsic-motivation and recognition mechanisms. Complements Bénabou-Tirole 2003 (theory) with a clean field-experiment.\n",
+                "x": 8400,
+                "y": 2080,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "yellow",
+                "popBg": "#fef9c3"
+              },
+              {
+                "id": "p-gr-2000",
+                "title": "P·Gneezy–Rustichini (2000) — Pay Enough or Don't Pay",
+                "content": "**Ref.** Gneezy, U. & Rustichini, A. (2000). Pay enough or don't pay at all. *Quarterly Journal of Economics*, 115(3), 791–810.\n\n---\n\n## Intro\n\n**Landmark field-experiment** demonstrating the **crowding-out** effect of monetary incentives.\n\n## Design 1 (Israel high schoolers, door-to-door fundraising)\n\n- Students randomized into: no reward / 1% commission / 10% commission on donations.\n- **No reward** raised the MOST money (donations).\n- **1% commission** raised the LEAST — worse than no reward.\n- **10% commission** raised more than 1% but still less than no reward.\n\n## Design 2 (Haifa day-care, late-pickup fines)\n\n- Small fine for late pickup INCREASED late pickups — parents interpreted fine as \"price\" rather than moral violation.\n- After fine was removed, late pickups stayed elevated — the moral norm did not recover.\n\n## Contribution\n\n- **Motivational crowding-out is real and large.**\n- Small incentives can be **worse than no incentives** — they replace an intrinsic/moral motive with a weaker monetary one.\n- **Norms don't come back easily** once replaced by market logic.\n\n## Position\n\nYellow **⑥** — foundational empirical evidence for the intrinsic-motivation-crowding channel that Bénabou-Tirole 2003 formalized. Together with Ashraf-Bandiera-Jack 2014, provides the empirical grounding for \"sometimes you shouldn't use monetary incentives\" as a solution.\n",
+                "x": 8400,
+                "y": 2440,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "yellow",
+                "popBg": "#fef9c3"
               }
             ]
           }
