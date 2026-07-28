@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T15:18:19.321Z",
+  "exportedAt": "2026-07-28T15:18:24.371Z",
   "data": {
     "topics": [
       {
@@ -1163,8 +1163,8 @@
                 "id": "p-kirman-1992",
                 "title": "P·Kirman (1992) — Critique of Representative Agent",
                 "content": "**Ref.** Kirman, A. P. (1992). Whom or what does the representative individual represent? *Journal of Economic Perspectives*, 6(2), 117–136.\n\n---\n\n## Intro\n\nThe **theoretical justification for turning to ABM.** Kirman's field-defining critique showed that the standard representative-agent macro is not a valid microfoundation:\n- **Sonnenschein–Mantel–Debreu (1970s)**: aggregate excess demand can take ANY shape — heterogeneous individual utility functions do NOT aggregate to a \"representative\" utility.\n- Comparative statics on the representative agent may have the **opposite sign** from the average of individual comparative statics.\n\n## Implication\n\nIf aggregation is impossible in general, macro must be built **from below**: simulate the heterogeneous individuals explicitly. ABM is the natural methodological response.\n\n## Position\n\nBlue **ABM meta** — why the ABM literature exists. Every subsequent ABM paper implicitly answers Kirman's challenge.\n",
-                "x": -5545,
-                "y": -500,
+                "x": -5576.120966417991,
+                "y": -369.5313330938061,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -1183,7 +1183,7 @@
                 "title": "P·Nelson–Winter (1982) — Evolutionary Economics",
                 "content": "**Ref.** Nelson, R. R. & Winter, S. G. (1982). *An Evolutionary Theory of Economic Change.* Belknap Press / Harvard University Press.\n\n---\n\n## Intro\n\n**Founding book of evolutionary economics** — the theoretical framework that ABM operationalises. Argues that firms don't optimize; they follow **routines** (organizational habits) that are selected upon by market competition.\n\n## Contribution\n\n- **Firms as bundles of routines** — not optimizing agents.\n- **Search + selection dynamics**: firms occasionally search for new routines (R&D, imitation); markets select via survival.\n- **No equilibrium concept required** — the aggregate is whatever the population of routines settles into.\n\n## Position\n\nBlue **ABM meta** — theoretical parent of all the Sant'Anna / K+S / CATS work. Every macro ABM's \"firms follow rules that evolve\" is Nelson–Winter's insight, implemented computationally.\n",
                 "x": -4505,
-                "y": -500,
+                "y": -367.0930637191541,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -1878,6 +1878,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-28T15:18:17.148Z"
+    "lastEditedAt": "2026-07-28T15:18:23.931Z"
   }
 }
