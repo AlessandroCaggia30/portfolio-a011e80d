@@ -8273,7 +8273,11 @@ function endDragging() {
     const dy = ev ? Math.abs(ev.clientY - I.startY) : 0;
     const duration = Date.now() - I.startTime;
     if (duration < 500 && dx < 10 && dy < 10 && !State.linkingNode) {
-        selectNode(I.node);
+        // A quick click on a member of a multi-selection keeps the group
+        // intact (otherwise a slightly-too-short group drag destroyed it).
+        if (!(State.selectedNodes.length > 1 && State.selectedNodes.includes(I.node.id))) {
+            selectNode(I.node);
+        }
     }
 }
 
