@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T09:05:34.020Z",
+  "exportedAt": "2026-07-28T09:05:39.457Z",
   "data": {
     "topics": [
       {
@@ -221,7 +221,12 @@
                 "width": 330.3167163653038,
                 "height": 224.6996165219718,
                 "flashcard": false,
-                "links": [],
+                "links": [
+                  {
+                    "target": "ch1_app_consumer",
+                    "type": "both"
+                  }
+                ],
                 "color": null
               },
               {
