@@ -7791,8 +7791,20 @@ function openFormulaEditor(span, node, event) {
     // Sort by position
     formulas.sort((a, b) => a.start - b.start);
 
-    if (formulaIdx >= formulas.length) return;
-    const formula = formulas[formulaIdx];
+    // Prefer content-based matching (immune to preview truncation and to the
+    // extraction-order vs document-order index mismatch): find the nth
+    // occurrence of this exact formula in the full content.
+    let formula = null;
+    if (span.dataset.inner !== undefined) {
+        const inner = decodeURIComponent(span.dataset.inner);
+        const occ = parseInt(span.dataset.occ || '0');
+        const matches = formulas.filter(f => f.display === isDisplay && f.inner === inner);
+        formula = matches[occ] || matches[0] || null;
+    }
+    if (!formula) {
+        if (formulaIdx >= formulas.length) return;
+        formula = formulas[formulaIdx];
+    }
 
     // Create popup
     const popup = document.createElement('div');
