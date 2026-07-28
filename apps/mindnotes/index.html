@@ -11559,6 +11559,13 @@ async function ghPullNow() {
     if (_ghPendingPushSet.has(key) && _ghToken && !_ghPushInFlight) {
         _ghSetState('Flushing pending push first…');
         try { await ghPushNow(); } catch (e) { console.warn('Pending push during pull failed:', e); }
+        // If the flush did NOT succeed the key is still pending — never pull
+        // remote over unpushed local edits.
+        if (_ghPendingPushSet.has(key)) {
+            _ghSetState('Pull blocked: local has unpushed edits that could not be pushed');
+            _safetyUpdateBanner();
+            return;
+        }
     }
     _ghPullInFlight = true;
     _ghSetState('Pulling…');
