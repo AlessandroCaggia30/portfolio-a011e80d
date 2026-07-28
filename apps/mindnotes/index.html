@@ -11593,6 +11593,16 @@ async function ghPullNow() {
         // Unwrap { data: {...} } if needed
         const incoming = (parsed.data && !parsed.topics) ? parsed.data : parsed;
         if (!incoming.topics || !Array.isArray(incoming.topics)) throw new Error('Remote has no "topics" array');
+        // NEVER overwrite newer local content with older remote content —
+        // this is the guard that would have prevented the Jul 25/28 data loss.
+        const localEdit = (State.data && State.data.lastEditedAt) || '';
+        const remoteEdit = incoming.lastEditedAt || '';
+        if (localEdit && localEdit > remoteEdit) {
+            _ghSetState('Pull skipped: local content is newer than remote — pushing instead');
+            _ghMarkPending(key);
+            schedulePush();
+            return;
+        }
         // If local is dirty, ask before overwriting
         if (_dataIsDirty && _ghShas[key] && _ghShas[key] !== remote.sha) {
             if (!confirm('You have unsaved local changes. Overwrite with remote version?')) {
@@ -11600,6 +11610,8 @@ async function ghPullNow() {
                 return;
             }
         }
+        // Keep a rolling snapshot of what we're about to replace.
+        await _ghSnapshotLocal(key, State.data);
         State.data = incoming;
         if (!State.data.trash) State.data.trash = [];
         _ghShas[key] = remote.sha; _ghPersistShas();
