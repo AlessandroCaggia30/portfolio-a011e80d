@@ -11685,6 +11685,7 @@ async function ghPushNow() {
         const msg = `mindnotes: update ${State.currentSubject.name} ${new Date().toISOString().slice(0,19).replace('T',' ')}`;
         const newSha = await ghPutFile(path, content, msg, _ghShas[key]);
         _ghShas[key] = newSha; _ghPersistShas();
+        _ghLastSyncHash[key] = curHash; _ghPersistSyncHash();
         _ghLastPush[key] = new Date().toISOString(); _ghPersistPushStamps();
         _ghLastError = null;
         _ghClearPending(key);
