@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T10:11:20.174Z",
+  "exportedAt": "2026-07-28T10:11:28.504Z",
   "data": {
     "topics": [
       {
@@ -260,8 +260,8 @@
                 "images": [
                   "images/advmicro/ch_contract_curve_0_788188d6108a.png"
                 ],
-                "x": 2627.0125057414843,
-                "y": -902.1434460639139,
+                "x": -180.59742004013333,
+                "y": -695.4073232628925,
                 "width": 900,
                 "height": 700,
                 "links": [],
@@ -272,8 +272,8 @@
                 "title": "Competitive Equilibrium — definition + solve process",
                 "content": "\\textbf{\\textcolor{red}{COMPETITIVE EQUILIBRIUM (CE) --- prices and allocation where markets clear and consumers optimize.}}\n\nNote the CE must be studied given Omega. \n\n\\textbf{\\textcolor{red}{Definition.}} A pair $(\\hat p, \\hat x)$ with $\\hat p \\in \\mathbb{R}^N_+$ and $\\hat x = (\\hat x^1, \\ldots, \\hat x^I)$ such that:\n\n\\textbf{1) Consumer optimization:} for every agent $i$,\n\\[ \\boxed{\\;\\hat x^i \\;\\in\\; \\arg\\max_{x^i \\geq 0} U^i(x^i) \\;\\;\\text{s.t.}\\;\\; \\hat p \\cdot x^i \\leq \\hat p \\cdot \\omega^i.\\;} \\]\n\n\\textbf{2) Market clearing:} for every good $n$,\n\\[ \\boxed{\\;\\sum_{i=1}^I \\hat x_n^i \\;=\\; \\sum_{i=1}^I \\omega_n^i \\;=\\; \\omega_n.\\;} \\]\n\nUnder strictly increasing preferences, the budget constraint binds with equality.\n\n\\textbf{\\textcolor{red}{Solve process (smooth interior case).}}\n\\textbf{1)} Write each agent's optimization problem.\n\\textbf{2)} Take FOCs and \\emph{set them to $0$}: MRS$^i = \\hat p_a / \\hat p_b$ for each $i$.\n\\textbf{3)} Solve for individual demand $x^i(p)$ from FOCs $+$ budget.\n\\textbf{4)} Impose market clearing for one good (Walras' Law gives the other automatically) and solve for $\\hat p$.\n\\textbf{5)} Plug $\\hat p$ back into individual demands to get $\\hat x$.\n\n",
                 "images": [],
-                "x": 1701.397187809548,
-                "y": -2298.8727033437226,
+                "x": 537.6728836554094,
+                "y": -2308.876064124417,
                 "width": 803.3333333333334,
                 "height": 613.3333333333334,
                 "links": [
@@ -320,8 +320,8 @@
                   "images/advmicro/ch_po_upf_1_545b6745817d.png"
                 ],
                 "content": "\\textbf{\\textcolor{red}{PARETO OPTIMUM --- UPF and PS, the two coordinate views.}}\n\n\\textbf{\\textcolor{blue}{(1) UPF --- where it lives.}}\n$\\mathrm{UPF} \\subset \\mathcal{U}$, where\n\\[ \\mathcal{U} \\;=\\; \\bigl\\{(u^1, u^2) \\;:\\; \\exists\\, x \\in \\mathcal{F},\\; U^i(x^i) \\geq u^i \\;\\forall i\\bigr\\} \\]\nis the set of \\emph{utility profiles dominated by some feasible allocation}.\n\n\\textbf{\\textcolor{blue}{(2) UPF --- definition (no domination).}}\n$(\\bar u^1, \\bar u^2) \\in \\mathcal{U}$ is on the UPF iff\n\\[ \\boxed{\\;\\nexists\\, (\\tilde u^1, \\tilde u^2) \\in \\mathcal{U} : \\tilde u^i \\geq \\bar u^i \\;\\forall i,\\; > \\text{some } j.\\;} \\]\nset of utiliteis that are undominated\n\n{{img:0|w=580}}\n\n\\textbf{\\textcolor{blue}{(4) PS --- definition (no domination).}}\n$\\bar x \\in \\mathcal{F}$ is Pareto Optimal iff\n\\[ \\boxed{\\;\\nexists\\, y \\in \\mathcal{F} : U^i(y^i) \\geq U^i(\\bar x^i) \\;\\forall i,\\; > \\text{some } j.\\;} \\]\nand $\\mathrm{PS} = \\{x \\in \\mathcal{F} : x \\text{ is PO}\\}$. Basically is an allocaiton taht cannot e dominated.\n\n\\textcolor{orange}{\\emph{The allocation-space picture (Edgeworth box) lives in its own snippet --- ``PS in the Edgeworth box''.}}\n\n\\textbf{\\textcolor{red}{(5) Finding PS $\\equiv$ finding UPF.}}\nThe two problems are equivalent via the utility map: every $x^* \\in \\mathrm{PS}$ pushes forward to a UPF point, and every UPF point is the image of some $x^* \\in \\mathrm{PS}$. Formally:\n\\[ \\boxed{\\;\\mathrm{PS} \\;\\subset\\; \\mathcal{F} \\;\\;\\xrightarrow{\\;(U^1,\\, U^2)\\;}\\;\\; \\mathrm{UPF} \\;\\subset\\; \\mathcal{U}.\\;} \\]\n\n\\textcolor{orange}{\\emph{Comment: the UPF is the set of all PO allocations viewed in utility coordinates instead of allocation coordinates.}}\n",
-                "x": 1738.1344977060044,
-                "y": -1434.3892972724261,
+                "x": 574.4101935518656,
+                "y": -1444.3926580531206,
                 "width": 833.3333333333333,
                 "height": 476.66666666666663,
                 "flashcard": false,
@@ -355,8 +355,8 @@
                 "images": [
                   "images/advmicro/ch_ps_edgeworth_0_e6877a100e6f.png"
                 ],
-                "x": 783.6760352622787,
-                "y": -1392.9087061480386,
+                "x": -380.04826889186006,
+                "y": -1402.912066928733,
                 "width": 785,
                 "height": 405,
                 "flashcard": false,
@@ -377,8 +377,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 892.9169256204077,
-                "y": -2147.1216541451568,
+                "x": -270.807378533731,
+                "y": -2157.1250149258512,
                 "width": 557.3212538989987,
                 "height": 296.791380268947
               },
@@ -408,8 +408,8 @@
                 ],
                 "imageWidths": [],
                 "links": [],
-                "x": 1827.794535736571,
-                "y": -2706.477312442018,
+                "x": 664.0702315824324,
+                "y": -2716.4806732227125,
                 "width": 541.6554383394084,
                 "height": 199.94529062222534
               },
@@ -421,8 +421,8 @@
                 "images": [],
                 "imageWidths": [],
                 "links": [],
-                "x": 1816.3639806592219,
-                "y": -1657.7788000635055,
+                "x": 652.6396765050831,
+                "y": -1667.7821608442,
                 "width": 621.8423064076358,
                 "height": 138.15792006614674
               },
@@ -459,8 +459,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 706.9711706820835,
-                "y": -449.97153292762414,
+                "x": 1140.4501378455166,
+                "y": -526.6639655796162,
                 "width": 879.7042608185659,
                 "height": 514.6449261414084
               },
@@ -1008,6 +1008,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-07-28T10:11:17.960Z"
+    "lastEditedAt": "2026-07-28T10:11:28.210Z"
   }
 }
