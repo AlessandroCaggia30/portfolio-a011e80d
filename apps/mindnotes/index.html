@@ -11692,6 +11692,58 @@ async function _ghWriteToIDB(dataKey, data) {
     });
 }
 
+// ==================== PRE-OVERWRITE SNAPSHOTS ====================
+// Before ANYTHING (pull, seed merge, restore) replaces local subject data,
+// the old local version is kept as snap::<dataKey>::<iso> in IndexedDB.
+// Recovery from DevTools console:
+//   mindnotesListSnapshots('mindnotes_persecon')          — list available
+//   mindnotesRestoreSnapshot('snap::mindnotes_persecon::<iso>') — restore one
+const SNAPSHOT_KEEP = 15;
+async function _ghSnapshotLocal(dataKey, data) {
+    try {
+        if (!data || !data.topics || !data.topics.length) return;
+        await _ghWriteToIDB('snap::' + dataKey + '::' + new Date().toISOString(), data);
+        const keys = await new Promise((resolve, reject) => {
+            const tx = db.transaction(STORE_NAME, 'readonly');
+            const rq = tx.objectStore(STORE_NAME).getAllKeys();
+            rq.onsuccess = () => resolve(rq.result);
+            rq.onerror = () => reject(rq.error);
+        });
+        const mine = keys.filter(k => typeof k === 'string' && k.startsWith('snap::' + dataKey + '::')).sort();
+        for (const k of mine.slice(0, Math.max(0, mine.length - SNAPSHOT_KEEP))) {
+            await new Promise((resolve, reject) => {
+                const tx = db.transaction(STORE_NAME, 'readwrite');
+                tx.objectStore(STORE_NAME).delete(k);
+                tx.oncomplete = resolve;
+                tx.onerror = () => reject(tx.error);
+            });
+        }
+    } catch (e) { console.warn('[snapshot] failed (non-fatal):', e); }
+}
+window.mindnotesListSnapshots = async function (dataKey) {
+    if (!db) await initDB();
+    const keys = await new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, 'readonly');
+        const rq = tx.objectStore(STORE_NAME).getAllKeys();
+        rq.onsuccess = () => resolve(rq.result);
+        rq.onerror = () => reject(rq.error);
+    });
+    const mine = keys.filter(k => typeof k === 'string' && k.startsWith('snap::' + (dataKey || '') )).sort();
+    console.table(mine);
+    return mine;
+};
+window.mindnotesRestoreSnapshot = async function (snapKey) {
+    const data = await _ghReadFromIDB(snapKey);
+    if (!data || !data.topics) throw new Error('Snapshot not found or invalid: ' + snapKey);
+    const dataKey = snapKey.split('::')[1];
+    const current = await _ghReadFromIDB(dataKey).catch(() => null);
+    await _ghSnapshotLocal(dataKey, current); // keep what we're replacing, too
+    await _ghWriteToIDB(dataKey, data);
+    _ghMarkPending(dataKey);
+    console.log('[snapshot] Restored to ' + dataKey + '. Reload the subject; it will push on next sync.');
+    return true;
+};
+
 // Cheap SHA-only check (no content download) to decide if a pull is needed.
 async function ghPeekRemoteSha(path) {
     const url = `${GH_API}/repos/${GH_OWNER}/${GH_REPO}/contents/${path}?ref=${GH_BRANCH}&t=${Date.now()}`;
