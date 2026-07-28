@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T10:07:27.552Z",
+  "exportedAt": "2026-07-28T10:07:31.097Z",
   "data": {
     "topics": [
       {
@@ -264,8 +264,8 @@
                 "title": "Competitive Equilibrium — definition + solve process",
                 "content": "\\textbf{\\textcolor{red}{COMPETITIVE EQUILIBRIUM (CE) --- prices and allocation where markets clear and consumers optimize.}}\n\nNote the CE must be studied given Omega. \n\n\\textbf{\\textcolor{red}{Definition.}} A pair $(\\hat p, \\hat x)$ with $\\hat p \\in \\mathbb{R}^N_+$ and $\\hat x = (\\hat x^1, \\ldots, \\hat x^I)$ such that:\n\n\\textbf{1) Consumer optimization:} for every agent $i$,\n\\[ \\boxed{\\;\\hat x^i \\;\\in\\; \\arg\\max_{x^i \\geq 0} U^i(x^i) \\;\\;\\text{s.t.}\\;\\; \\hat p \\cdot x^i \\leq \\hat p \\cdot \\omega^i.\\;} \\]\n\n\\textbf{2) Market clearing:} for every good $n$,\n\\[ \\boxed{\\;\\sum_{i=1}^I \\hat x_n^i \\;=\\; \\sum_{i=1}^I \\omega_n^i \\;=\\; \\omega_n.\\;} \\]\n\nUnder strictly increasing preferences, the budget constraint binds with equality.\n\n\\textbf{\\textcolor{red}{Solve process (smooth interior case).}}\n\\textbf{1)} Write each agent's optimization problem.\n\\textbf{2)} Take FOCs and \\emph{set them to $0$}: MRS$^i = \\hat p_a / \\hat p_b$ for each $i$.\n\\textbf{3)} Solve for individual demand $x^i(p)$ from FOCs $+$ budget.\n\\textbf{4)} Impose market clearing for one good (Walras' Law gives the other automatically) and solve for $\\hat p$.\n\\textbf{5)} Plug $\\hat p$ back into individual demands to get $\\hat x$.\n\n",
                 "images": [],
-                "x": 954.7372427042701,
-                "y": -1685.2425010490333,
+                "x": 1061.403909370937,
+                "y": -861.9091677157003,
                 "width": 900,
                 "height": 700,
                 "links": [
@@ -288,8 +288,8 @@
                 "id": "ch_exchange_setting",
                 "title": "Exchange Economy — setting and feasibility",
                 "content": "\\textbf{\\textcolor{red}{EXCHANGE ECONOMY --- the standard setting for PO and CE.}}\n\n\n\\textbf{\\textcolor{red}{Ingredients.}}\n$\\bullet$ \\textbf{$I$ consumers / agents}, indexed by $i = 1, 2, \\ldots, I$.\n$\\bullet$ \\textbf{$N$ goods}, indexed by $n = 1, 2, \\ldots, N$.\n$\\bullet$ \\textbf{Initial endowments} $\\omega^i = (\\omega_1^i, \\ldots, \\omega_N^i) \\in \\mathbb{R}^N_+$: agent $i$'s initial stock of each good \\emph{before} any trade.\n$\\bullet$ \\textbf{Utility functions} $U^i : \\mathbb{R}^N_+ \\to \\mathbb{R}$, one per agent.\n$\\bullet$ GE setting: \n- Anonymous agents interacitng, they are small, they take prices as given\n- General equilibrium: all prices are free to adjust vs Partial Equilirbium, ome prices are fixed\n\n\\emph{No production} --- the only way goods change hands is by exchange between consumers.\n\n\\textbf{\\textcolor{red}{Feasible set.}}\n\\[ \\mathcal{F} \\;=\\; \\bigl\\{\\, x = (x^1, \\ldots, x^I) \\;:\\; x_n^i \\geq 0 \\;\\forall i, n, \\;\\; \\textstyle\\sum_i x_n^i = \\omega_n \\;\\forall n \\,\\bigr\\}. \\]\n\nRemark: price takers agents mean they do not know they cnanto affect prices. But then note that at CE we look for prices such that AS = AD, and this clearly is composed of individual agents demand decisions! ",
-                "x": 2300.935111703587,
-                "y": -1739.1125848084857,
+                "x": 2107.601778370254,
+                "y": -1765.7792514751518,
                 "width": 900,
                 "height": 700,
                 "flashcard": false,
@@ -1006,6 +1006,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-07-28T10:07:25.410Z"
+    "lastEditedAt": "2026-07-28T10:07:30.693Z"
   }
 }
