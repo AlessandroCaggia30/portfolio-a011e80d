@@ -11241,20 +11241,42 @@ function _safetyEnsureBanner() {
     _safetyBannerEl = el;
     return el;
 }
+let _safetyGraceTimer = null;
+const SAFETY_BANNER_GRACE_MS = 20000; // give the normal debounced push time to land before alarming
 function _safetyUpdateBanner() {
     const el = _safetyEnsureBanner();
     if (!el) return;
     const pending = (typeof _ghPendingPushSet !== 'undefined') ? _ghPendingPushSet.size : 0;
     const err = (typeof _ghLastError !== 'undefined') ? _ghLastError : null;
-    if (pending > 0 || err) {
+    // Grace period: a just-marked pending push is normal (debounce + network).
+    // Only alarm when the OLDEST pending edit has been stuck longer than the grace.
+    let oldest = null;
+    if (pending > 0 && typeof _ghPendingSince !== 'undefined') {
+        for (const k of _ghPendingPushSet) {
+            const t = _ghPendingSince[k];
+            if (t && (oldest === null || t < oldest)) oldest = t;
+        }
+    }
+    const stuck = pending > 0 && (oldest === null || (Date.now() - oldest) > SAFETY_BANNER_GRACE_MS);
+    if (stuck || err) {
         const parts = [];
-        if (pending > 0) parts.push('⚠ ' + pending + ' subject' + (pending > 1 ? 's' : '') + ' with UNSYNCED edits');
+        if (pending > 0) {
+            let label = '⚠ ' + pending + ' subject' + (pending > 1 ? 's' : '') + ' with UNSYNCED edits';
+            if (oldest) label += ' (since ' + new Date(oldest).toLocaleTimeString() + ')';
+            parts.push(label);
+        }
         if (err) parts.push('Last error: ' + err);
         parts.push('(click to retry)');
         el.textContent = parts.join(' · ');
         el.style.display = 'block';
     } else {
         el.style.display = 'none';
+        // Still within grace: re-check shortly so a genuinely stuck push
+        // surfaces right after the grace expires.
+        if (pending > 0) {
+            clearTimeout(_safetyGraceTimer);
+            _safetyGraceTimer = setTimeout(_safetyUpdateBanner, SAFETY_BANNER_GRACE_MS + 1000);
+        }
     }
 }
 
