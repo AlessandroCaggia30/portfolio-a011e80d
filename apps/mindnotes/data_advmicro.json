@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T10:30:48.845Z",
+  "exportedAt": "2026-07-28T10:30:51.523Z",
   "data": {
     "topics": [
       {
@@ -184,10 +184,6 @@
                 "links": [
                   {
                     "target": "ch_homo_pref",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "ch_quasi_pref",
                     "type": "forward"
                   }
                 ],
@@ -1003,6 +999,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-07-28T10:30:45.500Z"
+    "lastEditedAt": "2026-07-28T10:30:49.408Z"
   }
 }
