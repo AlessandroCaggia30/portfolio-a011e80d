@@ -4668,7 +4668,12 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
                     <span class="trash-count" id="trashCount">0</span>
                 </button>
             </div>
+            <div class="autosave-status" id="autosaveStatus" onclick="onAutosaveBannerClick()" title="Local file backup — click to configure">
+                <span class="autosave-dot"></span>
+                <span id="autosaveStatusText">File backup: off</span>
+            </div>
         </div>
+        <div class="autosave-banner" id="autosaveBanner" onclick="onAutosaveBannerClick()"></div>
 
         <!-- Main area -->
         <div class="main">
