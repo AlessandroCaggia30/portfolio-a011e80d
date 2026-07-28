@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T10:30:57.786Z",
+  "exportedAt": "2026-07-28T10:31:00.986Z",
   "data": {
     "topics": [
       {
@@ -177,8 +177,8 @@
                 "images": [
                   "images/advmicro/ch_ce_viz_0_2a766f81b9bd.png"
                 ],
-                "x": 4608.689042962515,
-                "y": -825.6880047476134,
+                "x": 5098.689042962515,
+                "y": -770.6880047476134,
                 "width": 679.7757102367937,
                 "height": 266.0762073896593,
                 "links": [],
@@ -259,8 +259,8 @@
                 "title": "Competitive Equilibrium — definition + solve process",
                 "content": "\\textbf{\\textcolor{red}{COMPETITIVE EQUILIBRIUM (CE) --- prices and allocation where markets clear and consumers optimize.}}\n\nNote the CE must be studied given Omega. \n\n\\textbf{\\textcolor{red}{Definition.}} A pair $(\\hat p, \\hat x)$ with $\\hat p \\in \\mathbb{R}^N_+$ and $\\hat x = (\\hat x^1, \\ldots, \\hat x^I)$ such that:\n\n\\textbf{1) Consumer optimization:} for every agent $i$,\n\\[ \\boxed{\\;\\hat x^i \\;\\in\\; \\arg\\max_{x^i \\geq 0} U^i(x^i) \\;\\;\\text{s.t.}\\;\\; \\hat p \\cdot x^i \\leq \\hat p \\cdot \\omega^i.\\;} \\]\n\n\\textbf{2) Market clearing:} for every good $n$,\n\\[ \\boxed{\\;\\sum_{i=1}^I \\hat x_n^i \\;=\\; \\sum_{i=1}^I \\omega_n^i \\;=\\; \\omega_n.\\;} \\]\n\nUnder strictly increasing preferences, the budget constraint binds with equality.\n\n\\textbf{\\textcolor{red}{Solve process (smooth interior case).}}\n\\textbf{1)} Write each agent's optimization problem.\n\\textbf{2)} Take FOCs and \\emph{set them to $0$}: MRS$^i = \\hat p_a / \\hat p_b$ for each $i$.\n\\textbf{3)} Solve for individual demand $x^i(p)$ from FOCs $+$ budget.\n\\textbf{4)} Impose market clearing for one good (Walras' Law gives the other automatically) and solve for $\\hat p$.\n\\textbf{5)} Plug $\\hat p$ back into individual demands to get $\\hat x$.\n\n",
                 "images": [],
-                "x": 374.2846575707308,
-                "y": -2582.301258796736,
+                "x": 3304.284657570731,
+                "y": -1307.301258796736,
                 "width": 803.3333333333334,
                 "height": 613.3333333333334,
                 "links": [
@@ -994,6 +994,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-07-28T10:30:55.587Z"
+    "lastEditedAt": "2026-07-28T10:30:58.867Z"
   }
 }
