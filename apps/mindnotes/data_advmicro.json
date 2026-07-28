@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T09:05:11.289Z",
+  "exportedAt": "2026-07-28T09:05:29.735Z",
   "data": {
     "topics": [
       {
@@ -62,10 +62,6 @@
                   {
                     "target": "ch_ce_viz",
                     "type": "forward"
-                  },
-                  {
-                    "target": "ch_real_endow",
-                    "type": "both"
                   }
                 ],
                 "x": 3478.867363715587,
