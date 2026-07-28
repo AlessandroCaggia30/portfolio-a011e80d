@@ -6299,16 +6299,17 @@ async function setupAutosaveDirectory() {
     const dataKey = State.currentSubject ? State.currentSubject.dataKey : null;
     if (!dataKey || !AUTOSAVE_SUBJECTS[dataKey]) return;
 
-    if (!window.showOpenFilePicker) {
+    if (!window.showSaveFilePicker) {
         alert('Your browser does not support the File System Access API. Please use Chrome or Edge.');
         return;
     }
 
     try {
-        // Step 1: Pick the main backup .json file
-        const [handle] = await window.showOpenFilePicker({
+        // Step 1: Pick (or create) the main backup .json file
+        const handle = await window.showSaveFilePicker({
             id: 'autosave-' + dataKey,
             startIn: 'desktop',
+            suggestedName: dataKey.replace('mindnotes_', '') + '-backup.json',
             types: [{
                 description: 'JSON Backup',
                 accept: { 'application/json': ['.json'] }
