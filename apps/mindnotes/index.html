@@ -7626,7 +7626,8 @@ function scheduleRenderLinks() {
 
 function createNodeElement(node) {
     const el = document.createElement('div');
-    el.className = 'node' + (State.selectedNode?.id === node.id ? ' selected' : '');
+    el.className = 'node' + (State.selectedNode?.id === node.id ? ' selected' : '')
+        + (State.selectedNodes && State.selectedNodes.includes(node.id) ? ' multi-selected' : '');
     el.dataset.id = node.id;
     el.style.left = node.x + 'px';
     el.style.top = node.y + 'px';
