@@ -8006,6 +8006,7 @@ function attachNodeEventListeners(el, node) {
         // ---- begin a pending click / drag ----
         // Always record click info so mouseup can decide click-vs-drag.
         // Drag itself starts on first mousemove > threshold.
+        e.preventDefault();    // block native image-drag / text-selection start
         e.stopPropagation();   // prevent canvasWrapper.mousedown (panning)
         const rect = canvasWrapper.getBoundingClientRect();
         State.interaction = {
