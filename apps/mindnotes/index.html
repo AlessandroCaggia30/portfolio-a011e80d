@@ -11302,6 +11302,14 @@ setInterval(function () {
         if (!_ghToken || _ghPushInFlight) return;
         // If the currently loaded subject is pending, retry its push silently.
         if (State && State.currentSubject && _ghPendingPushSet.has(State.currentSubject.dataKey)) {
+            // While unsynced, also mirror the data to the local backup file
+            // (if folder autosave is connected) so the edits exist on disk
+            // even if the browser storage is later lost.
+            try {
+                if (autosaveFileHandles[State.currentSubject.dataKey] && State.data) {
+                    _writeAutosaveFile(State.currentSubject.dataKey, State.data);
+                }
+            } catch (_) {}
             ghPushNow().catch(() => {});
         }
     } catch (_) {}
