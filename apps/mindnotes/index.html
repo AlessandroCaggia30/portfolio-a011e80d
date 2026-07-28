@@ -7627,9 +7627,6 @@ function createNodeElement(node) {
     // Calculate preview lines based on height
     const previewLines = calculatePreviewLines(node.height);
 
-    // Format content with editable formula markers
-    const formattedPreview = formatNodePreview(node.content || '');
-
     el.innerHTML = `
         <div class="node-color-btn" style="background:${NODE_COLORS[node.color] || 'var(--border)'}"></div>
         <div class="color-picker" id="picker-${node.id}">
@@ -7639,24 +7636,25 @@ function createNodeElement(node) {
             ).join('')}
         </div>
         <div class="node-title" style="font-size:${titleSize}px">${isFlashcardNode(node) ? '🎴 ' : ''}${escapeHtml(node.title || 'Untitled')}</div>
-        <div class="node-preview${(node.content || '').includes('\\begin{tabular}') ? ' has-table' : ''}" style="${(node.content || '').includes('\\begin{tabular}') ? 'display:block;-webkit-line-clamp:unset;overflow:auto;' : `-webkit-line-clamp:${previewLines};`}font-size:${calculatePreviewSize(node.width, node.height)}px">${formattedPreview}</div>
+        <div class="node-preview${(node.content || '').includes('\\begin{tabular}') ? ' has-table' : ''}" style="${(node.content || '').includes('\\begin{tabular}') ? 'display:block;-webkit-line-clamp:unset;overflow:auto;' : `-webkit-line-clamp:${previewLines};`}font-size:${calculatePreviewSize(node.width, node.height)}px"></div>
         <div class="resize-handle"></div>
     `;
 
-    // Render math in preview. Historically this was deferred via
-    // IntersectionObserver for lazy KaTeX rendering, but with fitView zoom
-    // (e.g. 0.30x) the viewport-relative intersection never fires for most
-    // cards and the math stays as raw $...$ text. Render eagerly instead —
-    // KaTeX on ~60 short previews is fast enough.
+    // Preview: reuse the cached fully-rendered HTML when content and size are
+    // unchanged; otherwise format the truncated content now (fast) and queue
+    // KaTeX for idle time (visible nodes render first).
     const preview = el.querySelector('.node-preview');
-    renderMath(preview);
-    // Keep the observer as a belt-and-braces fallback: if renderMath was a
-    // no-op because KaTeX hadn't loaded yet, the observer will retry when the
-    // card scrolls into view.
-    if (_lazyMathObserver) _lazyMathObserver.observe(preview);
-
-    // Make formulas clickable for inline editing
-    attachFormulaClickHandlers(el, node);
+    const contentStr = node.content || '';
+    const sig = _previewSig(contentStr, previewLines);
+    const cached = _previewCache.get(node.id);
+    if (cached && cached.sig === sig) {
+        preview.innerHTML = cached.html;
+        attachFormulaClickHandlers(el, node);
+    } else {
+        preview.innerHTML = formatNodePreview(_truncateForPreview(contentStr, node));
+        attachFormulaClickHandlers(el, node); // formula spans clickable even pre-math
+        _queueNodeMath(el, node, preview, sig);
+    }
 
     attachNodeEventListeners(el, node);
     canvas.appendChild(el);
