@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T09:23:26.257Z",
+  "exportedAt": "2026-07-28T10:06:16.976Z",
   "data": {
     "topics": [
       {
@@ -62,6 +62,10 @@
                   {
                     "target": "ch_ce_viz",
                     "type": "forward"
+                  },
+                  {
+                    "target": "ch_real_endow",
+                    "type": "both"
                   }
                 ],
                 "x": 3478.867363715587,
@@ -221,12 +225,7 @@
                 "width": 330.3167163653038,
                 "height": 224.6996165219718,
                 "flashcard": false,
-                "links": [
-                  {
-                    "target": "ch1_app_consumer",
-                    "type": "both"
-                  }
-                ],
+                "links": [],
                 "color": null
               },
               {
@@ -234,8 +233,8 @@
                 "title": "Application: Labor Supply Elasticities (General, Frisch, Applied)",
                 "images": [],
                 "content": "\\textbf{\\textcolor{red}{LABOR SUPPLY ELASTICITIES --- general, Frisch, applied:}}\n\n\\textbf{\\textcolor{red}{Setup.}}\n\\[ \\max_{c, h} \\;U(c) - v(h) \\quad\\text{s.t.}\\quad c = w h + I, \\;\\; c, h > 0. \\]\n$U$ concave in $c$, $v$ convex in $h$. Lagrangian (multiplier $\\lambda$ on the budget):\n\\[ \\mathcal{L} = U(c) - v(h) - \\lambda\\,(c - w h - I). \\]\n\n\\textbf{\\textcolor{red}{Question.}} How does the optimal hours $h^*$ respond to a wage change?\n\\[ \\boxed{\\;\\epsilon_{h, w} \\;:=\\; \\dfrac{\\partial h^*}{\\partial w} \\cdot \\dfrac{w}{h^*}.\\;} \\]\n\n\n\n\\textbf{\\textcolor{orange}{Reminder: every FOC step starts by setting the relevant partial of $\\mathcal{L}$ to $0$.}}\n\n\\textbf{Notation:} the multiplier $\\lambda^*$ depends on the \\emph{exogenous} parameters of the Lagrangian $(w, I)$ --- never on the endogenous choice variables $c, h$ (they get absorbed into $c^*(w, I), h^*(w, I)$ after solving).\n\n\\begin{tabular}{p{7cm}|p{13cm}|p{10cm}|p{10cm}}\n\\textbf{Step} & \\textbf{\\textcolor{red}{GENERAL}} & \\textbf{\\textcolor{red}{FRISCH ($\\bar\\lambda$ fixed)}} & \\textbf{\\textcolor{red}{APPLIED}  $v(h) = h^{1+1/\\epsilon}/(1+1/\\epsilon)$, $U(c) = c$} \\\\\n\\hline\n\\textbf{(1) Retrieve $h^*$} from FOC w.r.t.\\ $h$. &\n\\textbf{FOC$_h$:} $-v'(h^*) + \\lambda^*(w, I)\\, w = 0$\n$\\Rightarrow v'(h^*(w, I)) = w \\lambda^*(w, I)$\n\nA wage change has two channels:\n\n$\\bullet$ \\textcolor{blue}{Direct ($+\\Delta w$):} higher wage $\\to$ more work.\n$\\bullet$ \\textcolor{blue}{Indirect / income ($-\\Delta w$):} $\\lambda^* \\downarrow$ (richer $\\to$ less marginal value of $c$) $\\to$ work less. &\n\\textbf{FOC$_h$:} $-v'(h^*) + \\bar\\lambda\\, w = 0$\n$\\Rightarrow v'(h^*) = w \\bar\\lambda$\n\n\\emph{(no income effect: $\\bar\\lambda$ fixed by assumption $\\Rightarrow$ only the direct channel survives)} &\n\\textbf{FOC$_h$:} $-h^{*\\,1/\\epsilon} + \\bar\\lambda\\, w = 0$\n$\\Rightarrow h^*(w, \\lambda) = (w \\lambda)^{\\epsilon}$ \\\\\n\\hline\n\\textbf{(2) Find $\\lambda^*$} from FOC w.r.t.\\ $c$. &\n\\textbf{FOC$_c$:} $U'(c^*) - \\lambda^* = 0$\n$\\Rightarrow \\lambda^*(w, I) = U'(c^*(w, I))$\n\\emph{(depends on $w, I$ through $c^*$)} &\n\\emph{No need;} $\\bar\\lambda$ fixed by assumption. &\n\\textbf{FOC$_c$:} $1 - \\lambda^* = 0$\n\\emph{(since $U(c) = c \\Rightarrow U'(c) = 1$)}\n$\\Rightarrow \\lambda^* = \\bar\\lambda = 1$ \\\\\n\\hline\n\\textbf{(3) Compute $\\partial h^*/\\partial w$.} Differentiate FOC$_h$ (and FOC$_c$, FOC$_{BC}$ where needed) w.r.t.\\ $w$. &\nFrom FOC$_h$ (product rule): $v''(h^*)\\, \\dfrac{\\partial h^*}{\\partial w} = \\lambda^*(w, I) + w\\, \\boxed{\\dfrac{\\partial \\lambda^*}{\\partial w}}$\n\n\\emph{Need} $\\boxed{\\partial \\lambda^*/\\partial w}$. From FOC$_c$ (chain rule): $\\boxed{\\dfrac{\\partial \\lambda^*}{\\partial w}} = U''(c^*)\\, \\boxed{\\dfrac{\\partial c^*}{\\partial w}}$\n\n\\emph{Need} $\\boxed{\\partial c^*/\\partial w}$. From FOC$_{BC}$ (product rule): $\\boxed{\\dfrac{\\partial c^*}{\\partial w}} = h^* + w\\, \\dfrac{\\partial h^*}{\\partial w}$\n &\nFrom FOC$_h$ (with $\\partial \\bar\\lambda/\\partial w = 0$):\n$v''(h^*)\\, \\dfrac{\\partial h^*}{\\partial w} = \\bar\\lambda$ &\nDirect from $h^*(w, \\bar\\lambda) = (w\\bar\\lambda)^{\\epsilon}$:\n$\\dfrac{\\partial h^*}{\\partial w} = \\epsilon\\, \\bar\\lambda^{\\epsilon}\\, w^{\\epsilon - 1}$ \\\\\n\\hline\n\\textbf{(4) Convert to elasticity:} multiply by $w/h^*$. &\nSubstitute (FOC$_c$, FOC$_{BC}$) into the differentiated FOC$_h$ and solve:\n$\\boxed{\\;\\epsilon_{h, w} = -\\dfrac{U'(c^*) + h^* w\\, U''(c^*)}{w^2 U''(c^*) - v''(h^*)} \\cdot \\dfrac{w}{h^*}\\;}$ &\n$\\epsilon^{F}_{h, w} = \\dfrac{\\underbrace{\\bar\\lambda\\, w}_{v'(h^*)}}{v''(h^*)\\, h^*}$\n &\n$\\epsilon^{*}_{h, w} = \\epsilon\\, \\bar\\lambda^{\\epsilon} w^{\\epsilon - 1} \\cdot \\dfrac{w}{(w \\bar\\lambda)^{\\epsilon}}$\n$\\Rightarrow \\boxed{\\;\\epsilon^{*}_{h, w} = \\epsilon\\;}$ \\\\\n\\end{tabular}\n\n\n\\textbf{\\textcolor{red}{LABOR SUPPLY ELASTICITIES WITH TAXES --- general, Frisch, applied:}}\n\n\\textbf{\\textcolor{red}{Setup with labor income tax.}}\n\\[\n\\max_{c,h} \\; U(c)-v(h)\n\\quad \\text{s.t.} \\quad\nc=(1-\\tau)wh+I, \\qquad c,h>0.\n\\]\n\nHere \\(\\tau\\) is the proportional labor income tax and \\(1-\\tau\\) is the net-of-tax rate. The gross wage is \\(w\\), while the private net wage is \\((1-\\tau)w\\).\n\nThe Lagrangian is\n\\[\n\\mathcal{L}\n=\nU(c)-v(h)-\\lambda\\big(c-(1-\\tau)wh-I\\big).\n\\]\n\nnow optimal h* will depend on $\\tau$ as well!",
-                "x": 5526.986455641923,
-                "y": -2035.1731254950582,
+                "x": 5550.319788975256,
+                "y": -2011.8397921617252,
                 "width": 1473.3333333333335,
                 "height": 540,
                 "flashcard": false,
@@ -317,8 +316,8 @@
                   "images/advmicro/ch_po_upf_1_545b6745817d.png"
                 ],
                 "content": "\\textbf{\\textcolor{red}{PARETO OPTIMUM --- UPF and PS, the two coordinate views.}}\n\n\\textbf{\\textcolor{blue}{(1) UPF --- where it lives.}}\n$\\mathrm{UPF} \\subset \\mathcal{U}$, where\n\\[ \\mathcal{U} \\;=\\; \\bigl\\{(u^1, u^2) \\;:\\; \\exists\\, x \\in \\mathcal{F},\\; U^i(x^i) \\geq u^i \\;\\forall i\\bigr\\} \\]\nis the set of \\emph{utility profiles dominated by some feasible allocation}.\n\n\\textbf{\\textcolor{blue}{(2) UPF --- definition (no domination).}}\n$(\\bar u^1, \\bar u^2) \\in \\mathcal{U}$ is on the UPF iff\n\\[ \\boxed{\\;\\nexists\\, (\\tilde u^1, \\tilde u^2) \\in \\mathcal{U} : \\tilde u^i \\geq \\bar u^i \\;\\forall i,\\; > \\text{some } j.\\;} \\]\nset of utiliteis that are undominated\n\n{{img:0|w=580}}\n\n\\textbf{\\textcolor{blue}{(4) PS --- definition (no domination).}}\n$\\bar x \\in \\mathcal{F}$ is Pareto Optimal iff\n\\[ \\boxed{\\;\\nexists\\, y \\in \\mathcal{F} : U^i(y^i) \\geq U^i(\\bar x^i) \\;\\forall i,\\; > \\text{some } j.\\;} \\]\nand $\\mathrm{PS} = \\{x \\in \\mathcal{F} : x \\text{ is PO}\\}$. Basically is an allocaiton taht cannot e dominated.\n\n\\textcolor{orange}{\\emph{The allocation-space picture (Edgeworth box) lives in its own snippet --- ``PS in the Edgeworth box''.}}\n\n\\textbf{\\textcolor{red}{(5) Finding PS $\\equiv$ finding UPF.}}\nThe two problems are equivalent via the utility map: every $x^* \\in \\mathrm{PS}$ pushes forward to a UPF point, and every UPF point is the image of some $x^* \\in \\mathrm{PS}$. Formally:\n\\[ \\boxed{\\;\\mathrm{PS} \\;\\subset\\; \\mathcal{F} \\;\\;\\xrightarrow{\\;(U^1,\\, U^2)\\;}\\;\\; \\mathrm{UPF} \\;\\subset\\; \\mathcal{U}.\\;} \\]\n\n\\textcolor{orange}{\\emph{Comment: the UPF is the set of all PO allocations viewed in utility coordinates instead of allocation coordinates.}}\n",
-                "x": -1736.3765716967055,
-                "y": -1561.0154865461918,
+                "x": -255.21563953080295,
+                "y": -2578.0015754034102,
                 "width": 1360,
                 "height": 810,
                 "flashcard": false,
@@ -391,8 +390,8 @@
                 "images": [],
                 "imageWidths": [],
                 "links": [],
-                "x": -492.839043390245,
-                "y": -2012.596661471096,
+                "x": 155.1585565041123,
+                "y": -2979.280060593578,
                 "width": 519.079627676156,
                 "height": 211.03256588884287
               },
@@ -416,7 +415,7 @@
               },
               {
                 "id": "1780132024926",
-                "title": "PO and CE: first and second WT",
+                "title": "PO and CE",
                 "content": "\nIf CE exists (given this omega), is it PO? YES \\textbf{\\textcolor{red}{FIRST WELFARE THEOREM --- every CE is Pareto Optimal.}}\n\n\n\\textbf{\\textcolor{red}{Statement.}} If $(\\hat p, \\hat x)$ is a Competitive Equilibrium \\emph{and} each $U^i$ is strictly increasing in every good, then $\\hat x$ is Pareto Optimal.\n\\[ \\boxed{\\;\\text{CE} \\;\\;\\Longrightarrow\\;\\; \\text{PO}\\quad \\text{(under strict monotonicity)}.\\;} \\]\nMoreover $U^i(\\hat x_i) \\ge U^i(\\omega^i)$\n\\textbf{\\textcolor{red}{Proof sketch.}}\n\\textbf{(i)} Suppose for contradiction $\\hat x$ is not PO. Then $\\exists y \\in \\mathcal{F}$ with $U^i(y^i) \\geq U^i(\\hat x^i)$ $\\forall i$ (ahemts) and strict for some $j$.\n\\textbf{(ii)} Strict monotonicity $+$ consumer optimization at prices $\\hat p$:\n$\\bullet$ For agent $j$ (strictly better off): $\\hat p \\cdot y^j > \\hat p \\cdot \\hat x^j$ (otherwise $y^j$ would have been chosen). The point is that he is already at the boudnary and this $y^j$ is not feasible\n$\\bullet$ For other agents: $\\hat p \\cdot y^i \\geq \\hat p \\cdot \\hat x^i$.\n\\textbf{(iii)} Sum: $\\hat p \\cdot \\sum_i y^i \\;>\\; \\hat p \\cdot \\sum_i \\hat x^i = \\omega$. Not feasible!\n\n\\textbf{\\textcolor{red}{Key takeaway.}} CE allocations are always on the \\emph{Pareto Set} (and in fact on the \\emph{Contract Curve}, since they're individually rational by construction). The market efficiently rules out wasteful allocations \\emph{without a planner}.\n\n\\textbf{\\textcolor{orange}{What FWT does NOT say.}}\n$\\bullet$ CE allocations need not be \\emph{fair}. The endowment distribution determines who gets what at the CE.\n\n\n\nIf a point is PO, can some $\\omega$ exists where $\\hat x$ is the CE ? failure is not CE non existence for one omega, but for all omega. \\textbf{\\textcolor{red}{SECOND WELFARE THEOREM --- any PO can be supported as a CE with lump-sum transfers.}}\n\n\\textbf{\\textcolor{red}{Statement.}} Under \\emph{convexity of preferences} (concave $U^i$), \\emph{strict monotonicity}, and continuity: \\emph{any} Pareto-optimal allocation $\\bar x$ can be supported as a CE relative to some prices $\\hat p \\in \\mathbb{R}^N_+$ \\emph{after} lump-sum transfers $T = (T^1, \\ldots, T^I)$ with $\\sum_i T^i = 0$.\n\n\\[ \\boxed{\\;\\text{Any PO} \\;\\;\\Longrightarrow\\;\\; \\text{CE} \\;\\;\\text{with transfers (under convexity)}.\\;} \\]\n\n\\textbf{\\textcolor{red}{Proof sketch.}}\n\\textbf{(i)} Take any PO $\\bar x$ with utilities $\\bar u^i = U^i(\\bar x^i)$.\n\\textbf{(ii)} \\emph{Separating hyperplane theorem.} Define the upper-contour sets $V^i = \\{x^i : U^i(x^i) \\geq \\bar u^i\\}$. Under convexity, $\\sum_i V^i$ is convex. Since $\\bar x$ is PO and feasibility is binding, the aggregate endowment $\\omega$ lies on the boundary of $\\sum_i V^i$. $\\Rightarrow$ $\\exists$ a hyperplane (with normal vector $\\hat p$) supporting $\\sum_i V^i$ at $\\omega$.\n\\textbf{(iii)} These supporting prices $\\hat p$ are the CE prices: at $\\hat p$, every $\\bar x^i$ is utility-maximizing in agent $i$'s budget set.\n\\textbf{(iv)} Choose transfers $T^i = \\hat p \\cdot (\\bar x^i - \\omega^i)$ to make $\\bar x^i$ affordable for agent $i$ at prices $\\hat p$. $\\sum_i T^i = 0$ by feasibility. $\\;\\square$\n\n\\textbf{\\textcolor{red}{Reading the picture (Edgeworth box).}} At any PO interior point, the two agents' ICs are tangent. The \\emph{slope of the common tangent} = $-\\hat p_a / \\hat p_b$ = supporting prices. Transfers shift the budget line so it passes through the desired PO bundle instead of through the original endowment.\n\n\\textbf{\\textcolor{red}{Why this matters.}}\n$\\bullet$ \\textcolor{orange}{Equity-efficiency separation.} The planner can pick the most equitable PO and \\emph{implement it via the price mechanism} just by redistributing endowments. Market efficiency and distributional choice are separable.\n$\\bullet$ \\textcolor{orange}{Decentralization.} A planner doesn't need to choose individual allocations --- they just set transfers and let markets clear.\n\n\\textbf{\\textcolor{red}{Super-concise intuition (why SWT works).}}\n\n\\emph{Planner's FOCs.} In $[\\mathrm{A}]$ there is \\emph{one} market-clearing constraint per good $n$: $\\sum_i x^i_n = \\omega_n$, with shadow price $\\mu_n$ --- the planner's marginal welfare from one extra unit of good $n$. Differentiating the Lagrangian w.r.t.\\ each agent's own bundle gives one FOC per agent:\n\\[ \\lambda\\,\\frac{\\partial U^1}{\\partial x_n^1} \\;=\\; \\mu_n, \\qquad (1-\\lambda)\\,\\frac{\\partial U^2}{\\partial x_n^2} \\;=\\; \\mu_n. \\]\nDifferent equations (one per agent) but the \\emph{same} $\\mu_n$ on the RHS, because both agents share the constraint.\nNote crucially how if you choose $\\lambda = 1/2$ the two agents are consumign the same quantity of the good $x_n$! Basically the planner is splitting consumption in two!   \nTaking the ratio between any two goods $n, m$:\n\\[ \\frac{\\partial U^i/\\partial x^i_n}{\\partial U^i/\\partial x^i_m} \\;=\\; \\frac{\\mu_n}{\\mu_m} \\qquad \\text{for both } i=1, 2. \\]\n\\emph{Each agent's MRS equals the planner's relative shadow prices.}\n\n\\emph{Consumer's CE FOCs} at market prices $p$:\n\\[ \\frac{\\partial U^i/\\partial x^i_n}{\\partial U^i/\\partial x^i_m} \\;=\\; \\frac{p_n}{p_m}. \\]\n\\emph{Same equations, with $p$ replacing $\\mu$.}\n\n\\emph{The link.} Set $\\;\\boxed{\\;p_n \\,=\\, \\mu_n\\;}\\;$ (up to a positive normalization). Then the planner's allocation \\emph{is} a consumer-optimal bundle at those prices --- the FOCs match. Lump-sum transfers $T^i$ are picked so each agent's budget at $p$ exactly affords the planner's bundle: $p \\cdot \\bar x^i = p \\cdot \\omega^i + T^i$, with $\\sum_i T^i = 0$.\n\n\\textbf{Slogan:} \\emph{decentralization is just renaming Lagrange multipliers as prices}. The planner's shadow prices on market clearing $=$ the CE market prices.\n",
                 "flashcard": false,
                 "images": [],
