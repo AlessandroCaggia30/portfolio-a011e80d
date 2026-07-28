@@ -14548,10 +14548,9 @@ function confirmAddSubject() {
 
 let _spSubject = null;
 function _spOpen(subject) {
-    _spSubject = subject;
-    $('spIcon').textContent = subject.icon;
-    $('spName').textContent = subject.name;
-    $('subjectPickerModal').classList.remove('hidden');
+    // No picker modal anymore: subjects open straight into Notes view.
+    // POP is toggled in-app via the POP button in the sidebar header.
+    selectSubject(subject);
 }
 function _spClose() { $('subjectPickerModal').classList.add('hidden'); _spSubject = null; }
 function _spConfirm(mode) {
