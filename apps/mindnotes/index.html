@@ -7975,12 +7975,16 @@ function attachNodeEventListeners(el, node) {
         }
 
         // ---- modifier-key shortcuts ----
-        // Cmd/Ctrl + click = linking
+        // Cmd/Ctrl on a multi-selected node = drag the whole group (falls
+        // through to the pending-drag path below). Otherwise = linking.
         if (e.metaKey || e.ctrlKey) {
-            e.preventDefault();
-            e.stopPropagation();
-            handleLinkingClick(el, node);
-            return;
+            const inGroup = State.selectedNodes.length > 1 && State.selectedNodes.includes(node.id);
+            if (!inGroup) {
+                e.preventDefault();
+                e.stopPropagation();
+                handleLinkingClick(el, node);
+                return;
+            }
         }
         // Shift+click on node = toggle in multi-selection; Shift+drag = area select.
         // Defer the toggle until mouseup so a drag starting on a node still triggers
