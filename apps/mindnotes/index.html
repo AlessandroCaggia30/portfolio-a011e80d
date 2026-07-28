@@ -7528,6 +7528,77 @@ function calculatePreviewLines(height) {
     return 20;
 }
 
+// ==================== PREVIEW RENDER CACHE + IDLE MATH QUEUE ====================
+// Perf layer for large subjects: node previews used to be re-formatted and
+// KaTeX-rendered from FULL content on every renderCanvas() (drag end, resize,
+// color change, save — 30+ call sites). Now: content is truncated to what the
+// clamped preview can actually show, the rendered HTML is cached per node,
+// and math renders in idle-time chunks with visible nodes first.
+const _previewCache = new Map(); // node.id -> { sig, html }
+function _previewSig(s, lines) {
+    let h = 5381;
+    for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0;
+    return lines + ':' + s.length + ':' + (h >>> 0).toString(36);
+}
+function _truncateForPreview(text, node) {
+    const isTable = text.includes('\\begin{tabular}');
+    const lines = calculatePreviewLines(node.height);
+    const budget = isTable ? 6000 : Math.min(2500, Math.max(700, lines * 130));
+    if (text.length <= budget) return text;
+    let cut = text.slice(0, budget);
+    // Never cut inside a formula: rebalance $$ pairs, then single $.
+    if ((cut.match(/\$\$/g) || []).length % 2 === 1) cut = cut.slice(0, cut.lastIndexOf('$$'));
+    const singles = (cut.match(/\$/g) || []).length - 2 * ((cut.match(/\$\$/g) || []).length);
+    if (singles % 2 === 1) cut = cut.slice(0, cut.lastIndexOf('$'));
+    // Prefer ending at a line break so the preview doesn't stop mid-word.
+    const nl = cut.lastIndexOf('\n');
+    if (nl > budget * 0.5) cut = cut.slice(0, nl);
+    return cut + '\n⋯';
+}
+let _mathQueue = [];
+let _mathQueueScheduled = false;
+function _queueNodeMath(el, node, preview, sig) {
+    _mathQueue.push({ el, node, preview, sig });
+    _scheduleMathQueue();
+}
+function _scheduleMathQueue() {
+    if (_mathQueueScheduled) return;
+    _mathQueueScheduled = true;
+    if (window.requestIdleCallback) requestIdleCallback(_drainMathQueue, { timeout: 300 });
+    else setTimeout(_drainMathQueue, 16);
+}
+function _drainMathQueue() {
+    _mathQueueScheduled = false;
+    if (!_mathQueue.length) return;
+    if (typeof renderMathInElement === 'undefined') {
+        // KaTeX not loaded yet — retry; caching unrendered HTML would pin raw $..$ text.
+        setTimeout(_scheduleMathQueue, 300);
+        return;
+    }
+    const vw = window.innerWidth, vh = window.innerHeight;
+    const vis = (p) => {
+        const r = p.getBoundingClientRect();
+        return (r.bottom > 0 && r.top < vh && r.right > 0 && r.left < vw) ? 1 : 0;
+    };
+    _mathQueue.sort((a, b) => vis(b.preview) - vis(a.preview));
+    const start = performance.now();
+    while (_mathQueue.length && performance.now() - start < 12) {
+        const job = _mathQueue.shift();
+        if (!job.preview.isConnected) continue; // element replaced by a newer render
+        try { renderMath(job.preview); } catch (e) { console.warn('math render failed:', e); }
+        attachFormulaClickHandlers(job.el, job.node);
+        _previewCache.set(job.node.id, { sig: job.sig, html: job.preview.innerHTML });
+    }
+    if (_mathQueue.length) _scheduleMathQueue();
+}
+// Frame-throttled link redraw for drag/resize mousemove paths.
+let _linksRafPending = false;
+function scheduleRenderLinks() {
+    if (_linksRafPending) return;
+    _linksRafPending = true;
+    requestAnimationFrame(() => { _linksRafPending = false; renderLinks(); });
+}
+
 function createNodeElement(node) {
     const el = document.createElement('div');
     el.className = 'node' + (State.selectedNode?.id === node.id ? ' selected' : '');
