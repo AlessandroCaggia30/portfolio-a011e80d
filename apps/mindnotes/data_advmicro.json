@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T10:08:32.776Z",
+  "exportedAt": "2026-07-28T10:08:38.269Z",
   "data": {
     "topics": [
       {
@@ -270,13 +270,9 @@
                 "images": [],
                 "x": 1721.403909370937,
                 "y": -1415.2425010490333,
-                "width": 900,
-                "height": 700,
+                "width": 803.3333333333334,
+                "height": 613.3333333333334,
                 "links": [
-                  {
-                    "target": "ch1_app_consumer",
-                    "type": "forward"
-                  },
                   {
                     "target": "1780130334934",
                     "type": "forward"
@@ -1006,6 +1002,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-07-28T10:08:30.659Z"
+    "lastEditedAt": "2026-07-28T10:08:37.015Z"
   }
 }
