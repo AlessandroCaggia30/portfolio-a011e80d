@@ -3959,13 +3959,21 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
 .autosave-status.error .autosave-dot { background: #f87171; }
 .autosave-banner {
     display: none;
-    padding: 8px 12px;
+    position: fixed;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: min(480px, 88vw);
+    padding: 9px 18px;
     background: var(--accent);
     color: #fff;
     font-size: 12px;
+    font-weight: 600;
     cursor: pointer;
     text-align: center;
-    border-bottom: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.3);
+    z-index: 9999;
 }
 .autosave-banner:hover { filter: brightness(1.1); }
 .autosave-banner.visible { display: block; }
