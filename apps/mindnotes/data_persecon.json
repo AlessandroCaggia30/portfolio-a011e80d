@@ -478,12 +478,7 @@
                 "color": "yellow",
                 "popBg": "#fef9c3",
                 "popShape": "rounded",
-                "links": [
-                  {
-                    "target": "p-neugart-2008",
-                    "type": "forward"
-                  }
-                ]
+                "links": []
               },
               {
                 "id": "p-neugart-2008",
@@ -501,14 +496,6 @@
                 "links": [
                   {
                     "target": "p-mn-2009",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-richiardi-2006",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-nr-2018",
                     "type": "forward"
                   }
                 ]
@@ -544,14 +531,6 @@
                 "links": [
                   {
                     "target": "p-gn-2011",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-boudreau-2010",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-nr-2018",
                     "type": "forward"
                   }
                 ]
@@ -894,10 +873,6 @@
                   {
                     "target": "p-fhk-2017",
                     "type": "forward"
-                  },
-                  {
-                    "target": "p-lr-rankpay",
-                    "type": "forward"
                   }
                 ]
               },
@@ -1147,21 +1122,6 @@
                 "content": "**Ref.** Frederiksen, A., Halliday, T. J. & Koch, A. K. (2017). *[user-supplied — reference to verify: paper testing tournament / rank-order incentive predictions in a hospital-management setting].*\n\n---\n\n## Intro\n\nEhrenberg–Bognanno (PGA), Bandiera–Barankay–Rasul (fruit farm), and Casas-Arce–Martínez-Jerez (sales force) tested Lazear–Rosen (1981) predictions in relatively low-stakes settings where a single dimension of output — score, kilograms, sales — is easily measured. Frederiksen, Halliday & Koch extend the test to **high-stakes hospital management**, where tournament-shaped promotion structures interact with patient outcomes and quality is as important as quantity. This is the first large-scale test of LR in a professional-services environment with a multi-dimensional output.\n\n## Methodology\n\n- **Data.** Hospital administrative personnel records with worker-level performance measures over multiple years (individual output, promotion outcomes, patient-quality metrics).\n- **Setting.** Hospitals with clearly-defined promotion tournaments — e.g., staff nurse → senior nurse; junior physician → attending — where the wage-rank gradient (proxy for LR's prize spread) varies across hospitals and across time due to policy reforms.\n- **Design.** Regress individual effort proxies AND patient-quality outcomes on the wage-rank gradient of the promotion tournament, controlling for worker fixed effects, hospital fixed effects, and case-mix. Diff-in-diff variants around institutional reforms that changed the promotion structure.\n\n## Results & Contribution\n\n- **Prize-spread → effort relationship confirmed** in high-stakes professional-services contexts. LR generalizes beyond low-skill settings.\n- **Multi-tasking cost (F2).** Steeper tournaments raise measurable effort but also raise adverse patient events, because quality is imperfectly measured and effort responds to what IS measured (Holmström–Milgrom 1991).\n- **Cooperation collapse at team level.** Consistent with BBR (2005): steeper tournaments correlate with reduced peer-support behaviour among nurses and reduced hand-offs among physicians.\n- **Bridges the tournament-empirics literature to the healthcare-management literature** (Bloom–Propper–Seiler–Van Reenen 2015 on NHS management; Kolstad 2013 on surgeon report cards). Establishes that LR predictions AND their failure modes generalize to high-skill, quality-critical labour markets.\n- Provides policy-relevant evidence: aggressive rank-based promotion structures in hospitals raise measurable productivity but at the cost of patient-quality and cooperation losses — the LR incentive gain does not net to a full welfare gain.\n",
                 "x": 9560,
                 "y": 2100,
-                "width": 340,
-                "height": 240,
-                "flashcard": null,
-                "images": [],
-                "color": "#EEDD82",
-                "popBg": null,
-                "popShape": null,
-                "links": []
-              },
-              {
-                "id": "p-lr-rankpay",
-                "title": "P·LR — Rank Pay Implements First-Best (under risk-neutrality)",
-                "content": "**Ref.** Theoretical result of Lazear, E. & Rosen, S. (1981); formalization in Nalebuff, B. & Stiglitz, J. (1983) *Bell J. Econ.* 14(1), 21–43; Green, J. & Stokey, N. (1983) *JPE* 91(3), 349–364.\n\n---\n\n## Intro\n\nThe core theoretical claim of LR 1981: **pay by rank, not by cardinal output**. Under risk-neutrality this contract *implements first-best effort exactly*. Two clarifications up front:\n\n- Under risk-neutrality, HM 1987's linear contract ALSO implements first-best (Holmström's \"sell the firm to the agent\" — $\\beta^* = 1$). So on the \"first-best under risk-neutrality\" property, rank and linear tie.\n- Under risk-aversion, BOTH mechanisms face a risk-effort tradeoff — LR is not free of the problem. What genuinely distinguishes tournaments from linear contracts is not risk-aversion behaviour per se, but **the ability to filter out common shocks** by using ordinal information.\n\nThe derivation below is the mechanics of the incentive constraint; the \"why choose ranks over cardinal pay\" argument is at the end.\n\n## Setup\n\n$N$ agents (we can already see the mechanism at $N = 2$). Agent $i$ chooses effort $e_i$ at cost $c(e_i)$ (convex, $c'>0$, $c''>0$). Output is\n$$y_i = \\mu(e_i) + \\varepsilon_i,$$\nwith $\\mu$ strictly increasing (marginal product of effort) and $\\varepsilon_i$ i.i.d. Prize $w_H$ to the winner (highest $y$), $w_L$ to the loser. Spread $\\Delta = w_H - w_L$. Agents are **risk-neutral** for this derivation.\n\n## Step 1 — Win probability\n\nAgent $i$ wins iff $y_i > y_j$, i.e.\n$$\\mu(e_i) + \\varepsilon_i > \\mu(e_j) + \\varepsilon_j\n  \\;\\Longleftrightarrow\\; \\xi := \\varepsilon_j - \\varepsilon_i < \\mu(e_i) - \\mu(e_j).$$\n\nLet $G(\\cdot)$ denote the CDF of $\\xi$ and $g_\\xi(\\cdot) = G'(\\cdot)$ its density (I write $g_\\xi$ to avoid clashing with $\\mu$'s marginal). Then\n$$P_i^{\\text{win}}(e_i, e_j) = G\\!\\big(\\mu(e_i) - \\mu(e_j)\\big).$$\n\n## Step 2 — Agent's expected utility and FOC\n\nUnder risk-neutrality the agent's expected utility is\n$$\\mathbb{E}[U_i] = w_L + \\Delta \\cdot P_i^{\\text{win}}(e_i, e_j) - c(e_i).$$\n\n(The $w_L$ is paid for sure; winning adds the prize spread $\\Delta$ with probability $P^{\\text{win}}$.)\n\nDifferentiate in $e_i$. By the chain rule on $G(\\mu(e_i)-\\mu(e_j))$:\n$$\\frac{\\partial}{\\partial e_i} G\\!\\big(\\mu(e_i)-\\mu(e_j)\\big)\n   = g_\\xi\\!\\big(\\mu(e_i)-\\mu(e_j)\\big) \\cdot \\mu'(e_i).$$\n\nSetting $\\partial \\mathbb{E}[U_i]/\\partial e_i = 0$:\n$$\\Delta \\cdot \\mu'(e_i) \\cdot g_\\xi\\!\\big(\\mu(e_i)-\\mu(e_j)\\big) = c'(e_i).$$\n\n## Step 3 — Symmetric equilibrium\n\nImpose $e_i = e_j = e^*$. Then $\\mu(e_i)-\\mu(e_j)=0$, so the density is evaluated at zero:\n$$\\boxed{\\;\\Delta \\cdot \\mu'(e^*) \\cdot g_\\xi(0) = c'(e^*)\\;}\\quad\\text{(IC).}$$\n\nThat is the tournament incentive constraint. Nothing beyond risk-neutrality has been assumed about the noise or the cost.\n\n## Step 4 — Closed form under Gaussian noise + linear $\\mu$ + quadratic $c$\n\nTake $\\varepsilon_i \\sim \\mathcal{N}(0, \\sigma^2)$ i.i.d. Then $\\xi = \\varepsilon_j - \\varepsilon_i \\sim \\mathcal{N}(0, 2\\sigma^2)$, so\n$$g_\\xi(0) = \\frac{1}{\\sqrt{2\\pi \\cdot 2\\sigma^2}} = \\frac{1}{\\sqrt{4\\pi\\sigma^2}}.$$\n\nAssume $\\mu(e) = e$ (so $\\mu'(e) = 1$) and $c(e) = k e^2/2$ (so $c'(e) = ke$). Substituting into (IC):\n$$\\Delta \\cdot 1 \\cdot \\frac{1}{\\sqrt{4\\pi\\sigma^2}} = k e^*\n   \\;\\Longrightarrow\\;\n   \\boxed{\\;e^* = \\frac{\\Delta}{k\\sigma\\sqrt{4\\pi}}\\;.}$$\n\nTwo points that fall out of this expression:\n\n- $e^*$ scales **linearly** in the prize spread $\\Delta$ (the firm's design lever).\n- $e^*$ scales **inversely** in noise $\\sigma$: noisier environments mean ranks are less informative about effort, so a given $\\Delta$ buys less effort.\n\n## Step 5 — First-best under risk-neutrality\n\nThe planner solves $\\max_e \\mathbb{E}[y] - c(e) = e - k e^2/2$, giving $e^{FB} = 1/k$.\n\nSetting $e^* = e^{FB}$ and solving for the prize spread:\n$$\\Delta^{FB} = \\sigma \\sqrt{4\\pi}.$$\n\n**Interpretation.** The firm can implement first-best effort exactly by choosing $\\Delta$ to scale with the noise level $\\sigma$. This is the LR 1981 first-best-under-risk-neutrality result.\n\n## Step 6 — What LR 1981 does NOT solve\n\n- **Risk aversion.** If the agent is CARA with parameter $\\rho$, the prize lottery introduces variance $\\text{Var}(\\text{payoff}) = \\Delta^2 \\cdot P(1-P)$; the agent demands a risk premium, and $e^*$ falls short of $e^{FB}$ for the same reason $\\beta^* < 1$ in HM 1987. Both mechanisms have the same risk-aversion problem.\n- **Sabotage / collusion.** Rank pay creates incentives to lower opponents' output (Lazear 1989) or to collude on low effort — not present under linear pay.\n\n## Step 7 — What LR 1981 DOES uniquely solve: common noise\n\nChange the DGP to $y_i = \\mu(e_i) + \\eta + \\varepsilon_i$ with a **common shock** $\\eta$ affecting all agents equally. Then\n$$y_i - y_j = \\mu(e_i) - \\mu(e_j) + (\\varepsilon_i - \\varepsilon_j),$$\n\nand $\\eta$ drops out. The **rank** of $y_i$ is invariant to $\\eta$; the tournament payoff is unaffected.\n\nFor the linear contract $w_i = \\alpha + \\beta y_i$, the wage does depend on $\\eta$, so the agent bears $\\eta$-risk and demands a risk premium proportional to $\\text{Var}(\\eta)$.\n\n**Nalebuff-Stiglitz 1983 conclusion:** whenever $\\text{Var}(\\eta) > 0$, the tournament strictly Pareto-dominates the linear contract. This is Holmström's (1979) sufficient-statistic theorem applied to ordinal signals — ranks aggregate away the common component.\n\n## Conclusion\n\n- LR 1981's first-best-under-risk-neutrality result is real but not the reason to use tournaments (linear also achieves first-best there).\n- LR 1981's risk-aversion behaviour is not better than HM 1987 — both fall short of first-best in the same qualitative way.\n- The reason firms actually use tournaments (promotions, sales contests, up-or-out) in high-common-noise industries is the ordinal-filtering property: ranks are sufficient statistics for effort when common shocks are large.\n",
-                "x": 9200,
-                "y": 1193,
                 "width": 340,
                 "height": 240,
                 "flashcard": null,
