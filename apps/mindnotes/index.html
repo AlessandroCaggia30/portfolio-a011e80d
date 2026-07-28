@@ -11096,6 +11096,16 @@ function toggleSidebar() {
     toggle.textContent = isCollapsed ? '▶' : '◀';
 }
 
+// The left menu starts collapsed; the ▶ arrow opens it.
+document.addEventListener('DOMContentLoaded', function () {
+    const sidebar = document.getElementById('sidebar');
+    const toggle = document.getElementById('sidebarToggle');
+    if (sidebar && !sidebar.classList.contains('collapsed')) {
+        sidebar.classList.add('collapsed');
+        if (toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+    }
+});
+
 // ==================== GITHUB SYNC ====================
 // Two-way live sync of per-subject JSON files to the deployment repo.
 // Pull on subject open, debounced push on every edit, periodic poll for
