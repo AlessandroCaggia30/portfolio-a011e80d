@@ -1065,6 +1065,14 @@ body:has(.app.pop-mode) .pop-line-toggle { display: inline-flex; }
     position: relative;
     overflow: hidden;
     background: var(--bg);
+    /* Never let a node drag turn into text selection (incl. the zoom % label) */
+    user-select: none;
+    -webkit-user-select: none;
+}
+/* Inline note images must not start a native HTML5 drag ("ghost image") */
+.canvas-wrapper img, .node img {
+    -webkit-user-drag: none;
+    user-drag: none;
 }
 
 .canvas-bg {
