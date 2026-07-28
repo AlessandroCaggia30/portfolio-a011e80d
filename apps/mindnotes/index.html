@@ -11491,10 +11491,11 @@ function saveGhToken() {
     }
     _ghToken = v;
     localStorage.setItem('mindnotes_ghToken', v);
+    localStorage.setItem('mindnotes_ghTokenSavedAt', new Date().toISOString());
     input.value = '';
     const hint = document.getElementById('ghTokenSavedHint');
     if (hint) {
-        hint.innerHTML = 'Currently saved: <code style="background:var(--bg3);padding:2px 6px;border-radius:4px;">••••••••••••' + v.slice(-4) + '</code> — leave field empty to keep it, or paste a new one to replace.';
+        hint.innerHTML = 'Currently saved: <code style="background:var(--bg3);padding:2px 6px;border-radius:4px;">••••••••••••' + v.slice(-4) + '</code> — leave field empty to keep it, or paste a new one to replace.<br><b>Using more than one browser?</b> Paste this SAME token in each of them. Do NOT click Regenerate on GitHub to fix a browser — regenerating kills the token in every other browser.';
     }
     showToast('Token saved');
     _ghUpdateStatusUI();
