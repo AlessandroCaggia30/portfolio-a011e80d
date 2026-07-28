@@ -11234,7 +11234,7 @@ function _safetyEnsureBanner() {
     if (!document.body) return null;
     const el = document.createElement('div');
     el.id = 'safetyBanner';
-    el.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;padding:10px 14px;background:#d94a4a;color:#fff;font:600 13px/1.4 -apple-system,Inter,sans-serif;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.25);cursor:pointer;display:none;';
+    el.style.cssText = 'position:fixed;top:14px;left:50%;transform:translateX(-50%);max-width:min(520px,88vw);z-index:99999;padding:10px 18px;background:#d94a4a;color:#fff;font:600 13px/1.4 -apple-system,Inter,sans-serif;text-align:center;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.35);cursor:pointer;display:none;';
     el.title = 'Click to retry push';
     el.onclick = () => { try { ghPushNow(); } catch (e) {} };
     document.body.appendChild(el);
