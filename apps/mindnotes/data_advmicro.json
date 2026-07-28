@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T10:08:30.510Z",
+  "exportedAt": "2026-07-28T10:08:32.776Z",
   "data": {
     "topics": [
       {
@@ -268,7 +268,7 @@
                 "title": "Competitive Equilibrium — definition + solve process",
                 "content": "\\textbf{\\textcolor{red}{COMPETITIVE EQUILIBRIUM (CE) --- prices and allocation where markets clear and consumers optimize.}}\n\nNote the CE must be studied given Omega. \n\n\\textbf{\\textcolor{red}{Definition.}} A pair $(\\hat p, \\hat x)$ with $\\hat p \\in \\mathbb{R}^N_+$ and $\\hat x = (\\hat x^1, \\ldots, \\hat x^I)$ such that:\n\n\\textbf{1) Consumer optimization:} for every agent $i$,\n\\[ \\boxed{\\;\\hat x^i \\;\\in\\; \\arg\\max_{x^i \\geq 0} U^i(x^i) \\;\\;\\text{s.t.}\\;\\; \\hat p \\cdot x^i \\leq \\hat p \\cdot \\omega^i.\\;} \\]\n\n\\textbf{2) Market clearing:} for every good $n$,\n\\[ \\boxed{\\;\\sum_{i=1}^I \\hat x_n^i \\;=\\; \\sum_{i=1}^I \\omega_n^i \\;=\\; \\omega_n.\\;} \\]\n\nUnder strictly increasing preferences, the budget constraint binds with equality.\n\n\\textbf{\\textcolor{red}{Solve process (smooth interior case).}}\n\\textbf{1)} Write each agent's optimization problem.\n\\textbf{2)} Take FOCs and \\emph{set them to $0$}: MRS$^i = \\hat p_a / \\hat p_b$ for each $i$.\n\\textbf{3)} Solve for individual demand $x^i(p)$ from FOCs $+$ budget.\n\\textbf{4)} Impose market clearing for one good (Walras' Law gives the other automatically) and solve for $\\hat p$.\n\\textbf{5)} Plug $\\hat p$ back into individual demands to get $\\hat x$.\n\n",
                 "images": [],
-                "x": 1724.7372427042706,
+                "x": 1721.403909370937,
                 "y": -1415.2425010490333,
                 "width": 900,
                 "height": 700,
@@ -1006,6 +1006,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-07-28T10:08:28.396Z"
+    "lastEditedAt": "2026-07-28T10:08:30.659Z"
   }
 }
