@@ -8022,6 +8022,12 @@ function attachNodeEventListeners(el, node) {
         };
     });
 
+    // macOS Ctrl+click fires a context menu — suppress it on grouped nodes so
+    // Ctrl+drag can move the group instead.
+    el.addEventListener('contextmenu', (e) => {
+        if (State.selectedNodes.length > 1 && State.selectedNodes.includes(node.id)) e.preventDefault();
+    });
+
     // Double click to edit (or, in pop mode, show delete pill)
     el.addEventListener('dblclick', (e) => {
         if (e.target.closest('.node-color-btn') || e.target.closest('.color-picker') ||
