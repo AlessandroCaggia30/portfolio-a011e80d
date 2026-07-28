@@ -8204,7 +8204,7 @@ function handleDragMove(e) {
         I.el.style.top  = newY + 'px';
     }
 
-    renderLinks();
+    scheduleRenderLinks();
 }
 
 function endDragging() {
@@ -15384,6 +15384,9 @@ async function backToSubjects() {
             console.warn('Exit-flush push failed:', e);
         }
     }
+    // Drop per-subject render caches
+    _previewCache.clear();
+    _mathQueue = [];
     // Stop GitHub polling when leaving a subject
     stopGhAutoSync();
     clearTimeout(_ghPushTimer);
