@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T10:06:16.976Z",
+  "exportedAt": "2026-07-28T10:07:09.104Z",
   "data": {
     "topics": [
       {
@@ -316,8 +316,8 @@
                   "images/advmicro/ch_po_upf_1_545b6745817d.png"
                 ],
                 "content": "\\textbf{\\textcolor{red}{PARETO OPTIMUM --- UPF and PS, the two coordinate views.}}\n\n\\textbf{\\textcolor{blue}{(1) UPF --- where it lives.}}\n$\\mathrm{UPF} \\subset \\mathcal{U}$, where\n\\[ \\mathcal{U} \\;=\\; \\bigl\\{(u^1, u^2) \\;:\\; \\exists\\, x \\in \\mathcal{F},\\; U^i(x^i) \\geq u^i \\;\\forall i\\bigr\\} \\]\nis the set of \\emph{utility profiles dominated by some feasible allocation}.\n\n\\textbf{\\textcolor{blue}{(2) UPF --- definition (no domination).}}\n$(\\bar u^1, \\bar u^2) \\in \\mathcal{U}$ is on the UPF iff\n\\[ \\boxed{\\;\\nexists\\, (\\tilde u^1, \\tilde u^2) \\in \\mathcal{U} : \\tilde u^i \\geq \\bar u^i \\;\\forall i,\\; > \\text{some } j.\\;} \\]\nset of utiliteis that are undominated\n\n{{img:0|w=580}}\n\n\\textbf{\\textcolor{blue}{(4) PS --- definition (no domination).}}\n$\\bar x \\in \\mathcal{F}$ is Pareto Optimal iff\n\\[ \\boxed{\\;\\nexists\\, y \\in \\mathcal{F} : U^i(y^i) \\geq U^i(\\bar x^i) \\;\\forall i,\\; > \\text{some } j.\\;} \\]\nand $\\mathrm{PS} = \\{x \\in \\mathcal{F} : x \\text{ is PO}\\}$. Basically is an allocaiton taht cannot e dominated.\n\n\\textcolor{orange}{\\emph{The allocation-space picture (Edgeworth box) lives in its own snippet --- ``PS in the Edgeworth box''.}}\n\n\\textbf{\\textcolor{red}{(5) Finding PS $\\equiv$ finding UPF.}}\nThe two problems are equivalent via the utility map: every $x^* \\in \\mathrm{PS}$ pushes forward to a UPF point, and every UPF point is the image of some $x^* \\in \\mathrm{PS}$. Formally:\n\\[ \\boxed{\\;\\mathrm{PS} \\;\\subset\\; \\mathcal{F} \\;\\;\\xrightarrow{\\;(U^1,\\, U^2)\\;}\\;\\; \\mathrm{UPF} \\;\\subset\\; \\mathcal{U}.\\;} \\]\n\n\\textcolor{orange}{\\emph{Comment: the UPF is the set of all PO allocations viewed in utility coordinates instead of allocation coordinates.}}\n",
-                "x": -255.21563953080295,
-                "y": -2578.0015754034102,
+                "x": -305.21563953080295,
+                "y": -2708.0015754034102,
                 "width": 1360,
                 "height": 810,
                 "flashcard": false,
@@ -421,8 +421,8 @@
                 "images": [],
                 "imageWidths": [],
                 "links": [],
-                "x": 476.5828579913905,
-                "y": -1236.7699826899288
+                "x": 849.9161913247244,
+                "y": -1553.4366493565958
               },
               {
                 "id": "1780146685789",
@@ -1005,6 +1005,7 @@
         "fromTopic": "1740100000001",
         "fromSubtopic": "1740100000101"
       }
-    ]
+    ],
+    "lastEditedAt": "2026-07-28T10:07:06.526Z"
   }
 }
