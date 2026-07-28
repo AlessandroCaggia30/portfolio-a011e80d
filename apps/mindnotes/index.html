@@ -7616,6 +7616,11 @@ function _drainMathQueue() {
     }
     if (_mathQueue.length) _scheduleMathQueue();
 }
+// Belt-and-braces: no element inside the canvas ever starts a native drag.
+document.addEventListener('dragstart', (e) => {
+    if (e.target && e.target.closest && e.target.closest('.canvas-wrapper')) e.preventDefault();
+});
+
 // Frame-throttled link redraw for drag/resize mousemove paths.
 let _linksRafPending = false;
 function scheduleRenderLinks() {
