@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T09:04:57.104Z",
+  "exportedAt": "2026-07-28T09:05:07.369Z",
   "data": {
     "topics": [
       {
@@ -173,7 +173,7 @@
                 "images": [
                   "images/advmicro/ch_ce_viz_0_2a766f81b9bd.png"
                 ],
-                "x": 3589.049995613519,
+                "x": 3758.6890429625128,
                 "y": -460.6880047476134,
                 "width": 679.7757102367937,
                 "height": 266.0762073896593,
@@ -194,8 +194,8 @@
                 "title": "no universal ratio under heterogeneous preferneces",
                 "images": [],
                 "content": "\n\\textbf{\\textcolor{red}{This is to make you understand the commonr ation result deries from 1) homothetic prefercnes and 2) homogeneity of such}}\n\nIf agents have het. hom. preferences they will demand different opt. consumption ratios. And representative agent assumpt breaks down because agggreagate demand dpends on distirbution of endowmentsgDO NOT\n\n\\emph{Common setup:} $\\omega^1 = (5, 1),\\, \\omega^2 = (1, 4),\\, \\omega = (6, 5)$.\n\n\\begin{tabular}{p{4cm}|p{10cm}|p{10cm}}\n & \\textbf{\\textcolor{red}{Col 2: IDENTICAL homothetic}} & \\textbf{\\textcolor{red}{Col 3: HETEROGENEOUS homothetic}} \\\\\n\\textit{Preferences} & both $U^h = x_a^{0.4} x_b^{0.6}$ & $U^1 = x_a^{0.2} x_b^{0.8}$, $\\;U^2 = x_a^{0.8} x_b^{0.2}$ \\\\\n\\textit{Each agent homothetic?} & \\textcolor{green}{✓} & \\textcolor{green}{✓} \\\\\n\\textit{Same $r^*(p)$ across agents?} & \\textcolor{green}{✓} & \\textcolor{red}{✗} \\\\\n\\hline\n\\textbf{(1) Agent $h$'s problem.}\n$\\max U^h$ s.t.\\ $p_a x_a + p_b x_b = w^h$, where $w^h = p_a \\omega_a^h + p_b \\omega_b^h$. &\n\\emph{Identical Marshallian structure in both columns;} &\n\\emph{the difference is only in $U^h$ (see row above).} \\\\\n\\hline\n\\textbf{(2) FOCs} (one per good) &\n$0.4\\, x_a^{-0.6} x_b^{0.6} = \\lambda^h p_a$\n$0.6\\, x_a^{0.4} x_b^{-0.4} = \\lambda^h p_b$\n\\emph{(same form for both agents)} &\nAgent 1 ($\\alpha = 0.2$): $0.2 \\,x_a^{-0.8} x_b^{0.8} = \\lambda^1 p_a$, $\\,0.8\\, x_a^{0.2} x_b^{-0.2} = \\lambda^1 p_b$.\nAgent 2 ($\\alpha = 0.8$): $0.8\\, x_a^{-0.2} x_b^{0.2} = \\lambda^2 p_a$, $\\,0.2\\, x_a^{0.8} x_b^{-0.8} = \\lambda^2 p_b$. \\\\\n\\hline\n\\textbf{(3) Ratio of FOCs} (kill $\\lambda^h$) $\\to$ $r^*(p)$ &\n$\\dfrac{x_a^h}{x_b^h} = \\dfrac{0.4}{0.6}\\,\\dfrac{p_b}{p_a} = \\dfrac{2}{3}\\dfrac{p_b}{p_a} \\equiv r^*(p).$\n\\textcolor{orange}{Same function for both agents.} &\nAgent 1: $\\dfrac{x_a^1}{x_b^1} = \\dfrac{0.2}{0.8}\\,\\dfrac{p_b}{p_a} = \\dfrac{1}{4}\\dfrac{p_b}{p_a} \\equiv r_1^*(p).$\nAgent 2: $\\dfrac{x_a^2}{x_b^2} = \\dfrac{0.8}{0.2}\\,\\dfrac{p_b}{p_a} = 4\\dfrac{p_b}{p_a} \\equiv r_2^*(p).$\n\\textcolor{red}{Different functions: $r_1^* \\neq r_2^*$.} \\\\\n\\hline\n\\textbf{(4) FOC ratio $+$ budget} $\\to$ \\emph{Marshallian demand}.\nTake budget $p_a x_a^h + p_b x_b^h = w^h$ (with $w^h = p_a \\omega_a^h + p_b \\omega_b^h$ known), and plug in $p_b/p_a$ from the FOC ratio (Step 3) to eliminate one variable. &\n$r^*(p) = \\tfrac{2}{3}\\tfrac{p_b}{p_a}$.\n$p_a r^* + p_b = \\tfrac{2}{3} p_b + p_b = \\tfrac{5}{3} p_b.$\n$x_b^h \\cdot \\tfrac{5}{3} p_b = w^h \\;\\Rightarrow\\; x_b^h = \\tfrac{3}{5}\\dfrac{w^h}{p_b} = \\dfrac{0.6\\, w^h}{p_b}.$\n$x_a^h = r^*(p)\\, x_b^h = \\tfrac{2}{3}\\tfrac{p_b}{p_a} \\cdot \\tfrac{3}{5}\\tfrac{w^h}{p_b} = \\dfrac{0.4\\, w^h}{p_a}.$\n\\textcolor{orange}{Same coefficient $0.4$ on $w^h$ for both agents.} &\n\\emph{Agent 1} ($r_1^* = \\tfrac{1}{4}\\tfrac{p_b}{p_a}$): $p_a r_1^* + p_b = \\tfrac{1}{4} p_b + p_b = \\tfrac{5}{4} p_b.$\n$x_b^1 = \\tfrac{4}{5}\\dfrac{w^1}{p_b} = \\dfrac{0.8\\, w^1}{p_b}.\\;\\;x_a^1 = r_1^* x_b^1 = \\dfrac{0.2\\, w^1}{p_a}.$\n\\emph{Agent 2} ($r_2^* = 4\\tfrac{p_b}{p_a}$): $p_a r_2^* + p_b = 4 p_b + p_b = 5 p_b.$\n$x_b^2 = \\tfrac{1}{5}\\dfrac{w^2}{p_b} = \\dfrac{0.2\\, w^2}{p_b}.\\;\\;x_a^2 = r_2^* x_b^2 = \\dfrac{0.8\\, w^2}{p_a}.$\n\\textcolor{red}{Different coefficients on $w^h$ across agents.} \\\\\n\\hline\n\\textbf{(5) Market clearing for $A$} \\emph{(the pivot step)} &\n$\\sum_h x_a^h = \\dfrac{0.4 (w^1 + w^2)}{p_a} = \\omega_a$\n$\\Rightarrow 0.4\\,(p_a \\omega_a + p_b \\omega_b) = p_a \\omega_a$\n$\\Rightarrow 0.4(6 p_a + 5 p_b) = 6 p_a$\n$\\Rightarrow 2 p_b = 3.6 p_a.$\n\\textcolor{orange}{Truly depends on aggregate $\\omega$!} &\n$\\sum_h x_a^h = \\dfrac{0.2\\, w^1 + 0.8\\, w^2}{p_a} = \\omega_a$\n$\\Rightarrow 0.2(5 p_a + p_b) + 0.8(p_a + 4 p_b) = 6 p_a$\n$\\Rightarrow 1.8 p_a + 3.4 p_b = 6 p_a$\n$\\Rightarrow 3.4 p_b = 4.2 p_a.$\n\\textcolor{red}{Individual $\\omega^h$ enter \\emph{separately}.} \\\\\n\\hline\n\\textbf{(6) Equilibrium prices} &\n$\\hat p_b/\\hat p_a = 3.6/2 = 1.8.$\n\\emph{Normalize:} $\\hat p_a = 1$, $\\hat p_b = 1.8.$ &\n$\\hat p_b/\\hat p_a = 4.2/3.4 \\approx 1.235.$\n\\emph{Normalize:} $\\hat p_a = 1$, $\\hat p_b \\approx 1.235.$ \\\\\n\\hline\n\\textbf{(7) Wealths at CE} &\n$w^1 = 5 + 1.8 = 6.8$, $w^2 = 1 + 7.2 = 8.2$. &\n$w^1 = 5 + 1.235 = 6.235$, $w^2 = 1 + 4.94 = 5.94$. \\\\\n\\hline\n\\textbf{(8) Individual demands and ratios} &\n$x^1 = (0.4 \\cdot 6.8,\\, 0.6 \\cdot 6.8 / 1.8) = (2.72,\\, 2.267)$.\n$x^2 = (3.28,\\, 2.733)$.\n\\emph{Ratios:} $2.72/2.267 = 1.2$;\\; $3.28/2.733 = 1.2$.\n\\textcolor{orange}{Both $= \\omega_a/\\omega_b = 1.2$.} &\n$x^1 \\approx (0.2 \\cdot 6.235,\\; 0.8 \\cdot 6.235 / 1.235) \\approx (1.247,\\, 4.039)$.\n$x^2 \\approx (4.752,\\, 0.962)$.\n\\emph{Ratios:} $1.247/4.039 \\approx 0.31$;\\; $4.752/0.962 \\approx 4.94$.\n\\textcolor{red}{Wildly different; neither $= 1.2$.} \\\\\n\\hline\n\\textbf{(*) Swap test} \\;($\\omega^1 \\leftrightarrow \\omega^2$, same aggregate) &\nIdentical agents $\\Rightarrow$ swapping is a relabel: clearing equation \\emph{unchanged}.\n$\\hat p_b/\\hat p_a = 1.8$ (\\textcolor{green}{unchanged}).\n\\textcolor{orange}{Distribution irrelevant.} &\nAfter swap: $0.2(p_a + 4 p_b) + 0.8(5 p_a + p_b) = 6 p_a \\Rightarrow 4.2 p_a + 1.6 p_b = 6 p_a \\Rightarrow \\hat p_b/\\hat p_a = 1.125$.\n\\textcolor{red}{Prices change from $1.235$ to $1.125$.}\nDistribution \\textcolor{red}{matters}. \\\\\n\\end{tabular}\n\n\\bigskip\n\n\\textbf{\\textcolor{orange}{In the specific context of this question: why is the aggregate endowment ratio equal to the optimal individual consumption ratio?}}\n\n\\emph{The point:} agents are identical and homothetic, so each one wants a fixed consumption ratio $x_a^h/x_b^h$ (wealth-independent, and the \\emph{same} across agents). The only feasible value of that common ratio --- i.e., **the only one for which prices exist** that clear the market --- is the one matching the aggregate endowment ratio $\\omega_a/\\omega_b$. Note how prices reflect scarcity! \n\n\n",
-                "x": 5428.939737195349,
-                "y": 1429.5216246000791,
+                "x": 6578.451382574764,
+                "y": 681.9633977030098,
                 "width": 946.6666666666667,
                 "height": 653.3333333333334,
                 "links": [],
@@ -229,17 +229,6 @@
                 "color": null
               },
               {
-                "id": "1779997224281",
-                "title": "Indirect utility + roy identity",
-                "content": "\\textbf{\\textcolor{red}{2.6 --- INDIRECT UTILITY $v(p,w)$ \\& ROY'S IDENTITY.}}\n\n\\begin{keydef}\n\\textbf{Proposition (Roy's identity).} If $x^*$ satisfies Walras's law and $v$ is differentiable:\n\\[ x_n^*(p, w) = -\\dfrac{\\partial v(p, w)/\\partial p_n}{\\partial v(p, w)/\\partial w}, \\qquad n = 1, \\ldots, N. \\]\n\\end{keydef}\n",
-                "flashcard": false,
-                "images": [],
-                "imageWidths": [],
-                "links": [],
-                "x": 3121.158029845151,
-                "y": -1878.6644460244215
-              },
-              {
                 "id": "ch_labor_elast",
                 "title": "Application: Labor Supply Elasticities (General, Frisch, Applied)",
                 "images": [],
@@ -263,8 +252,8 @@
                 "images": [
                   "images/advmicro/ch_contract_curve_0_788188d6108a.png"
                 ],
-                "x": -2858.5462947028664,
-                "y": -1530.7836082084277,
+                "x": -2851.494748485591,
+                "y": -1529.0207216541085,
                 "width": 900,
                 "height": 700,
                 "links": [],
@@ -299,8 +288,8 @@
                 "id": "ch_exchange_setting",
                 "title": "Exchange Economy — setting and feasibility",
                 "content": "\\textbf{\\textcolor{red}{EXCHANGE ECONOMY --- the standard setting for PO and CE.}}\n\n\n\\textbf{\\textcolor{red}{Ingredients.}}\n$\\bullet$ \\textbf{$I$ consumers / agents}, indexed by $i = 1, 2, \\ldots, I$.\n$\\bullet$ \\textbf{$N$ goods}, indexed by $n = 1, 2, \\ldots, N$.\n$\\bullet$ \\textbf{Initial endowments} $\\omega^i = (\\omega_1^i, \\ldots, \\omega_N^i) \\in \\mathbb{R}^N_+$: agent $i$'s initial stock of each good \\emph{before} any trade.\n$\\bullet$ \\textbf{Utility functions} $U^i : \\mathbb{R}^N_+ \\to \\mathbb{R}$, one per agent.\n$\\bullet$ GE setting: \n- Anonymous agents interacitng, they are small, they take prices as given\n- General equilibrium: all prices are free to adjust vs Partial Equilirbium, ome prices are fixed\n\n\\emph{No production} --- the only way goods change hands is by exchange between consumers.\n\n\\textbf{\\textcolor{red}{Feasible set.}}\n\\[ \\mathcal{F} \\;=\\; \\bigl\\{\\, x = (x^1, \\ldots, x^I) \\;:\\; x_n^i \\geq 0 \\;\\forall i, n, \\;\\; \\textstyle\\sum_i x_n^i = \\omega_n \\;\\forall n \\,\\bigr\\}. \\]\n\nRemark: price takers agents mean they do not know they cnanto affect prices. But then note that at CE we look for prices such that AS = AD, and this clearly is composed of individual agents demand decisions! ",
-                "x": 1252.1783373108342,
-                "y": -2754.513911660906,
+                "x": 1700.9351117035872,
+                "y": -2729.1125848084857,
                 "width": 900,
                 "height": 700,
                 "flashcard": false,
@@ -419,8 +408,8 @@
                 ],
                 "imageWidths": [],
                 "links": [],
-                "x": 741.5685708125775,
-                "y": -1703.0571957838301,
+                "x": 1590.5542958313604,
+                "y": -859.0802361043916,
                 "width": 541.6554383394084,
                 "height": 199.94529062222534
               },
@@ -480,10 +469,10 @@
                 "images": [
                   "images/advmicro/ch_lin_tax_setup_1780236904_0_21edecadf00a.png"
                 ],
-                "x": 7257.671943279058,
-                "y": -2377.735361655078,
-                "width": 1100,
-                "height": 1100,
+                "x": 7272.515359922094,
+                "y": -1983.4877288308944,
+                "width": 680.1433578112401,
+                "height": 529.5887032890081,
                 "flashcard": false,
                 "links": [
                   {
@@ -499,10 +488,10 @@
                 "images": [
                   "images/advmicro/ch_lin_tax_guiding_1780236905_0_9e77801739fd.png"
                 ],
-                "x": 7290.447468062935,
-                "y": -1110.1561415095948,
-                "width": 1100,
-                "height": 1100,
+                "x": 7286.423981436743,
+                "y": -1387.8857442482677,
+                "width": 694.9867744542771,
+                "height": 389.6364892260882,
                 "links": [
                   {
                     "target": "ch_lin_tax_hsv_1780236906",
@@ -516,10 +505,10 @@
                 "title": "HSV taxation framework --- $c = B y^{1-\tau}$",
                 "content": "\\textbf{\\textcolor{red}{MODELLING TAXATION (HSV FRAMEWORK).}}\n\nGov spends each year  G (defense, healthcare...)\n\\[ G = \\int T(y)\\, df(y) \\;\\;\\;\\;\\textbf{[A]} \\quad\\quad\\text{Totally diff than before.} \\]\\[ T(y) = y - c, \\quad \\text{where} \\;\\; \\boxed{\\;c \\;=\\; B\\, y^{1-\\tau},\\;\\; B > 0,\\;\\; \\tau \\in [0, 1].\\;} \\]\n\\emph{So planner chooses $B, \\tau$ to satisfy [A]. Note: if you choose $\\tau$, $B$ needs to adjust to have G.}\n\n\\textbf{\\textcolor{red}{Reading $\\tau$ (progressivity dial).}}\n$\\bullet$ \\emph{If $\\tau = 0$} (0 progressivity), tax is indep.\\ of income: $c = B y$ (flat tax, \\% of $y$).\n$\\bullet$ \\emph{If $\\tau > 0$}, $c < y$ $\\to$ \\textbf{progressive tax} (rich pay an higher %) \n$\\bullet$ \\emph{$\\tau = 1$}: total tax, $c = B$, \\emph{we all consume the same amount} (communism). Hyper progressivity: the rich pays so much he gets to the poor level of consumption. \n\n",
                 "images": [],
-                "x": 8875.606403862017,
-                "y": -1210,
-                "width": 1100,
-                "height": 1200,
+                "x": 7269.201425637122,
+                "y": -914.5454194513777,
+                "width": 718.7264105199754,
+                "height": 561.5884083125169,
                 "links": [
                   {
                     "target": "ch_lin_tax_rawls_1780236907",
@@ -536,10 +525,10 @@
                   "images/advmicro/ch_lin_tax_rawls_1780236907_0_3db3df40f331.heic",
                   "images/advmicro/ch_lin_tax_rawls_1780236907_1_24909d93d162.png"
                 ],
-                "x": 10319.738323225658,
-                "y": -1278.1365438884577,
-                "width": 1100,
-                "height": 1200,
+                "x": 8161.0874002587525,
+                "y": -761.8726928734204,
+                "width": 426.12109766321237,
+                "height": 233.51578480644923,
                 "links": [],
                 "flashcard": false
               },
@@ -691,8 +680,8 @@
                 "images": [],
                 "imageWidths": [],
                 "links": [],
-                "x": 4671.182732257248,
-                "y": -377.1395167096489
+                "x": 3252.383427156572,
+                "y": 413.2242266208905
               },
               {
                 "id": "ch_asset_pricing_framework_1780600030",
@@ -964,8 +953,8 @@
                   620
                 ],
                 "links": [],
-                "x": 3355,
-                "y": -570,
+                "x": 5635,
+                "y": -4230,
                 "createdAt": 1780598959537,
                 "updatedAt": 1780598959537,
                 "width": 1200,
@@ -1001,6 +990,21 @@
         ]
       }
     ],
-    "trash": []
+    "trash": [
+      {
+        "id": "1779997224281",
+        "title": "Indirect utility + roy identity",
+        "content": "\\textbf{\\textcolor{red}{2.6 --- INDIRECT UTILITY $v(p,w)$ \\& ROY'S IDENTITY.}}\n\n\\begin{keydef}\n\\textbf{Proposition (Roy's identity).} If $x^*$ satisfies Walras's law and $v$ is differentiable:\n\\[ x_n^*(p, w) = -\\dfrac{\\partial v(p, w)/\\partial p_n}{\\partial v(p, w)/\\partial w}, \\qquad n = 1, \\ldots, N. \\]\n\\end{keydef}\n",
+        "flashcard": false,
+        "images": [],
+        "imageWidths": [],
+        "links": [],
+        "x": 3121.158029845151,
+        "y": -1878.6644460244215,
+        "deletedAt": 1785166386588,
+        "fromTopic": "1740100000001",
+        "fromSubtopic": "1740100000101"
+      }
+    ]
   }
 }
