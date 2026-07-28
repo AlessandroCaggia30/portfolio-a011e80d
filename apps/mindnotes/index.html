@@ -11906,9 +11906,10 @@ async function ghPushAll() {
             err++;
         }
     }
+    _ghPersistShas(); _ghPersistSyncHash(); _ghPersistPushStamps();
     _ghLastError = err ? `${err} subject(s) failed` : null;
     const parts = [`pushed ${ok}`];
-    if (skipped) parts.push(`${skipped} skipped (no local data)`);
+    if (skipped) parts.push(`${skipped} skipped (unchanged or no local data)`);
     if (err) parts.push(`${err} failed`);
     _ghSetState(parts.join(', '));
     showToast(parts.join(', '));
