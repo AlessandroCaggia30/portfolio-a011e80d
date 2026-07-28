@@ -11449,7 +11449,9 @@ function openGhSyncModal() {
     const hint = document.getElementById('ghTokenSavedHint');
     if (hint) {
         if (_ghToken) {
-            hint.innerHTML = 'Currently saved: <code style="background:var(--bg3);padding:2px 6px;border-radius:4px;">••••••••••••' + _ghToken.slice(-4) + '</code> — leave field empty to keep it, or paste a new one to replace.';
+            const savedAt = localStorage.getItem('mindnotes_ghTokenSavedAt');
+            const savedTxt = savedAt ? ' (saved in this browser ' + new Date(savedAt).toLocaleString() + ')' : '';
+            hint.innerHTML = 'Currently saved: <code style="background:var(--bg3);padding:2px 6px;border-radius:4px;">••••••••••••' + _ghToken.slice(-4) + '</code>' + savedTxt + ' — leave field empty to keep it, or paste a new one to replace.<br><b>Using more than one browser?</b> Paste the SAME token in each. Do NOT click Regenerate on GitHub to fix one browser — it kills the token in the others.';
         } else {
             hint.innerHTML = 'Stored only in this browser\'s localStorage. Needs <code>Contents: Read &amp; write</code> on <code>portfolio-a011e80d</code>. <a href="https://github.com/settings/tokens?type=beta" target="_blank" style="color:var(--accent);">Create one →</a>';
         }
