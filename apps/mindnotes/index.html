@@ -5909,6 +5909,11 @@ async function loadData() {
         } else if (needsSeedRefresh && seedFile) {
             // Seed file updated — merge seed into existing data (preserve user flashcard flags & FSRS state)
             try {
+                // Keep a snapshot of the pre-merge local data, in case the
+                // seed merge ever goes wrong.
+                if (data && data.topics && typeof _ghSnapshotLocal === 'function') {
+                    try { await _ghSnapshotLocal(dataKey, data); } catch (_) {}
+                }
                 const resp = await fetch(seedFile);
                 if (resp.ok) {
                     const backup = await resp.json();
