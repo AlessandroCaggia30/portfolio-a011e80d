@@ -107,6 +107,22 @@ body {
 
 .sidebar-header span { color: var(--text); }
 
+.pop-toggle-btn {
+    margin-left: auto;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 3px 9px;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.15s;
+}
+.pop-toggle-btn:hover { border-color: #00b894; color: #00b894; }
+.pop-toggle-btn.active { background: #00b894; border-color: #00b894; color: #fff; }
+
 .header-actions {
     display: flex;
     gap: 8px;
