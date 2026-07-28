@@ -11615,6 +11615,7 @@ async function ghPullNow() {
         State.data = incoming;
         if (!State.data.trash) State.data.trash = [];
         _ghShas[key] = remote.sha; _ghPersistShas();
+        _ghLastSyncHash[key] = _ghContentHash(State.data); _ghPersistSyncHash();
         _ghLastPull[key] = new Date().toISOString(); _ghPersistPullStamps();
         _ghLastError = null;
         _dataIsDirty = false;
