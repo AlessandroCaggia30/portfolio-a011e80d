@@ -7701,13 +7701,17 @@ function formatNodePreview(text) {
 
     // Split by formula placeholders, escape non-formula parts
     const parts = processed.split(/(%%FORMULA\d+%%)/g);
+    const occCounter = {}; // nth occurrence of each identical formula, in document order
     processed = parts.map(part => {
         const placeholderMatch = part.match(/^%%FORMULA(\d+)%%$/);
         if (placeholderMatch) {
             const idx = parseInt(placeholderMatch[1]);
             const f = formulas[idx];
             const delim = f.display ? '$$' : '$';
-            return `<span class="editable-formula" data-formula-idx="${idx}" data-display="${f.display}">${delim}${f.inner}${delim}</span>`;
+            const occKey = (f.display ? 'D' : 'I') + f.inner;
+            const occ = occCounter[occKey] || 0;
+            occCounter[occKey] = occ + 1;
+            return `<span class="editable-formula" data-formula-idx="${idx}" data-display="${f.display}" data-inner="${encodeURIComponent(f.inner)}" data-occ="${occ}">${delim}${f.inner}${delim}</span>`;
         }
         // Escape and apply markdown formatting (LaTeX commands already processed above)
         let escaped = escapeHtml(part);
