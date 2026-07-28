@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T10:30:00.158Z",
+  "exportedAt": "2026-07-28T10:30:05.044Z",
   "data": {
     "topics": [
       {
@@ -506,8 +506,8 @@
                 "title": "HSV taxation framework --- $c = B y^{1-\tau}$",
                 "content": "\\textbf{\\textcolor{red}{MODELLING TAXATION (HSV FRAMEWORK).}}\n\nGov spends each year  G (defense, healthcare...)\n\\[ G = \\int T(y)\\, df(y) \\;\\;\\;\\;\\textbf{[A]} \\quad\\quad\\text{Totally diff than before.} \\]\\[ T(y) = y - c, \\quad \\text{where} \\;\\; \\boxed{\\;c \\;=\\; B\\, y^{1-\\tau},\\;\\; B > 0,\\;\\; \\tau \\in [0, 1].\\;} \\]\n\\emph{So planner chooses $B, \\tau$ to satisfy [A]. Note: if you choose $\\tau$, $B$ needs to adjust to have G.}\n\n\\textbf{\\textcolor{red}{Reading $\\tau$ (progressivity dial).}}\n$\\bullet$ \\emph{If $\\tau = 0$} (0 progressivity), tax is indep.\\ of income: $c = B y$ (flat tax, \\% of $y$).\n$\\bullet$ \\emph{If $\\tau > 0$}, $c < y$ $\\to$ \\textbf{progressive tax} (rich pay an higher %) \n$\\bullet$ \\emph{$\\tau = 1$}: total tax, $c = B$, \\emph{we all consume the same amount} (communism). Hyper progressivity: the rich pays so much he gets to the poor level of consumption. \n\n",
                 "images": [],
-                "x": 7269.201425637122,
-                "y": -914.5454194513777,
+                "x": 7839.201425637122,
+                "y": -2014.5454194513777,
                 "width": 718.7264105199754,
                 "height": 561.5884083125169,
                 "links": [
@@ -526,8 +526,8 @@
                   "images/advmicro/ch_lin_tax_rawls_1780236907_0_3db3df40f331.heic",
                   "images/advmicro/ch_lin_tax_rawls_1780236907_1_24909d93d162.png"
                 ],
-                "x": 8161.0874002587525,
-                "y": -761.8726928734204,
+                "x": 8766.087400258752,
+                "y": -1876.8726928734204,
                 "width": 426.12109766321237,
                 "height": 233.51578480644923,
                 "links": [],
@@ -1007,6 +1007,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-07-28T10:29:59.833Z"
+    "lastEditedAt": "2026-07-28T10:30:04.835Z"
   }
 }
