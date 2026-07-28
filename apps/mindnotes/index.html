@@ -11773,9 +11773,13 @@ async function ghPushNow() {
         _ghUpdateStatusUI();
     } catch (e) {
         console.error('ghPush error:', e);
-        _ghLastError = e.message;
-        _ghSetState('Push error: ' + e.message);
-        showToast('Push failed: ' + e.message);
+        let m = e.message;
+        if (/\b401\b/.test(m)) {
+            m = 'Token rejected (401). If you regenerated the token in another browser, the one saved HERE is now dead — open 🔄 Sync and paste the current token. Tip: never fix one browser by regenerating; paste the SAME token everywhere.';
+        }
+        _ghLastError = m;
+        _ghSetState('Push error: ' + m);
+        showToast('Push failed: ' + m);
     } finally {
         _ghPushInFlight = false;
         updateGhStatusDot();
