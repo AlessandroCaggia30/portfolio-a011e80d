@@ -5760,12 +5760,28 @@ function _openDBAt(version, resolve, reject) {
     };
 }
 
+// Ask the browser to mark this origin's storage as persistent, so IndexedDB
+// (notes + snapshots) is exempt from automatic eviction under disk pressure.
+// Especially important on Firefox, which evicts non-persisted origins first.
+let _persistRequested = false;
+async function ensurePersistentStorage() {
+    if (_persistRequested || !navigator.storage || !navigator.storage.persist) return;
+    _persistRequested = true;
+    try {
+        const already = await navigator.storage.persisted();
+        if (already) { console.log('[storage] already persistent'); return; }
+        const granted = await navigator.storage.persist();
+        console.log('[storage] persist() →', granted ? 'GRANTED — notes exempt from eviction' : 'not granted (browser may still evict under pressure)');
+    } catch (e) { console.warn('[storage] persist request failed:', e); }
+}
+
 async function loadData() {
     const dataKey = State.currentSubject ? State.currentSubject.dataKey : 'mindnotes2';
     const seedFile = State.currentSubject ? State.currentSubject.seedFile : 'data.json';
 
     try {
         if (!db) await initDB();
+        ensurePersistentStorage();
 
         // One-time migration: move old 'mindnotes2' data to 'mindnotes_advmath'
         if (dataKey === 'mindnotes_advmath') {
