@@ -6091,6 +6091,9 @@ let _dataIsDirty = false;
 
 let _ghEditSaveTimer = null;
 function markDirty() {
+    // Stamp the data itself with the edit time. Sync uses this to refuse to
+    // overwrite newer content with older content, independent of git SHAs.
+    if (State && State.data) State.data.lastEditedAt = new Date().toISOString();
     if (!_dataIsDirty) {
         _dataIsDirty = true;
         const btn = document.getElementById('saveNowBtn');
