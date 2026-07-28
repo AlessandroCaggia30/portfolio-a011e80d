@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T10:09:05.225Z",
+  "exportedAt": "2026-07-28T10:10:37.533Z",
   "data": {
     "topics": [
       {
@@ -272,8 +272,8 @@
                 "title": "Competitive Equilibrium — definition + solve process",
                 "content": "\\textbf{\\textcolor{red}{COMPETITIVE EQUILIBRIUM (CE) --- prices and allocation where markets clear and consumers optimize.}}\n\nNote the CE must be studied given Omega. \n\n\\textbf{\\textcolor{red}{Definition.}} A pair $(\\hat p, \\hat x)$ with $\\hat p \\in \\mathbb{R}^N_+$ and $\\hat x = (\\hat x^1, \\ldots, \\hat x^I)$ such that:\n\n\\textbf{1) Consumer optimization:} for every agent $i$,\n\\[ \\boxed{\\;\\hat x^i \\;\\in\\; \\arg\\max_{x^i \\geq 0} U^i(x^i) \\;\\;\\text{s.t.}\\;\\; \\hat p \\cdot x^i \\leq \\hat p \\cdot \\omega^i.\\;} \\]\n\n\\textbf{2) Market clearing:} for every good $n$,\n\\[ \\boxed{\\;\\sum_{i=1}^I \\hat x_n^i \\;=\\; \\sum_{i=1}^I \\omega_n^i \\;=\\; \\omega_n.\\;} \\]\n\nUnder strictly increasing preferences, the budget constraint binds with equality.\n\n\\textbf{\\textcolor{red}{Solve process (smooth interior case).}}\n\\textbf{1)} Write each agent's optimization problem.\n\\textbf{2)} Take FOCs and \\emph{set them to $0$}: MRS$^i = \\hat p_a / \\hat p_b$ for each $i$.\n\\textbf{3)} Solve for individual demand $x^i(p)$ from FOCs $+$ budget.\n\\textbf{4)} Impose market clearing for one good (Walras' Law gives the other automatically) and solve for $\\hat p$.\n\\textbf{5)} Plug $\\hat p$ back into individual demands to get $\\hat x$.\n\n",
                 "images": [],
-                "x": 1721.403909370937,
-                "y": -1415.2425010490333,
+                "x": 1701.397187809548,
+                "y": -2298.8727033437226,
                 "width": 803.3333333333334,
                 "height": 613.3333333333334,
                 "links": [
@@ -316,8 +316,8 @@
                   "images/advmicro/ch_po_upf_1_545b6745817d.png"
                 ],
                 "content": "\\textbf{\\textcolor{red}{PARETO OPTIMUM --- UPF and PS, the two coordinate views.}}\n\n\\textbf{\\textcolor{blue}{(1) UPF --- where it lives.}}\n$\\mathrm{UPF} \\subset \\mathcal{U}$, where\n\\[ \\mathcal{U} \\;=\\; \\bigl\\{(u^1, u^2) \\;:\\; \\exists\\, x \\in \\mathcal{F},\\; U^i(x^i) \\geq u^i \\;\\forall i\\bigr\\} \\]\nis the set of \\emph{utility profiles dominated by some feasible allocation}.\n\n\\textbf{\\textcolor{blue}{(2) UPF --- definition (no domination).}}\n$(\\bar u^1, \\bar u^2) \\in \\mathcal{U}$ is on the UPF iff\n\\[ \\boxed{\\;\\nexists\\, (\\tilde u^1, \\tilde u^2) \\in \\mathcal{U} : \\tilde u^i \\geq \\bar u^i \\;\\forall i,\\; > \\text{some } j.\\;} \\]\nset of utiliteis that are undominated\n\n{{img:0|w=580}}\n\n\\textbf{\\textcolor{blue}{(4) PS --- definition (no domination).}}\n$\\bar x \\in \\mathcal{F}$ is Pareto Optimal iff\n\\[ \\boxed{\\;\\nexists\\, y \\in \\mathcal{F} : U^i(y^i) \\geq U^i(\\bar x^i) \\;\\forall i,\\; > \\text{some } j.\\;} \\]\nand $\\mathrm{PS} = \\{x \\in \\mathcal{F} : x \\text{ is PO}\\}$. Basically is an allocaiton taht cannot e dominated.\n\n\\textcolor{orange}{\\emph{The allocation-space picture (Edgeworth box) lives in its own snippet --- ``PS in the Edgeworth box''.}}\n\n\\textbf{\\textcolor{red}{(5) Finding PS $\\equiv$ finding UPF.}}\nThe two problems are equivalent via the utility map: every $x^* \\in \\mathrm{PS}$ pushes forward to a UPF point, and every UPF point is the image of some $x^* \\in \\mathrm{PS}$. Formally:\n\\[ \\boxed{\\;\\mathrm{PS} \\;\\subset\\; \\mathcal{F} \\;\\;\\xrightarrow{\\;(U^1,\\, U^2)\\;}\\;\\; \\mathrm{UPF} \\;\\subset\\; \\mathcal{U}.\\;} \\]\n\n\\textcolor{orange}{\\emph{Comment: the UPF is the set of all PO allocations viewed in utility coordinates instead of allocation coordinates.}}\n",
-                "x": 1688.117693802531,
-                "y": -2264.668242070077,
+                "x": 1721.4622297381798,
+                "y": -850.8599183985743,
                 "width": 833.3333333333333,
                 "height": 476.66666666666663,
                 "flashcard": false,
@@ -351,8 +351,8 @@
                 "images": [
                   "images/advmicro/ch_ps_edgeworth_0_e6877a100e6f.png"
                 ],
-                "x": -800.975150512395,
-                "y": -1094.2294210662958,
+                "x": 363.53488247310634,
+                "y": -1859.7322092471204,
                 "width": 785,
                 "height": 405,
                 "flashcard": false,
@@ -377,8 +377,8 @@
                     "type": "both"
                   }
                 ],
-                "x": -122.33889663514856,
-                "y": -931.5340622531457,
+                "x": 622.8261845416546,
+                "y": -2350.523323352614,
                 "width": 557.3212538989987,
                 "height": 296.791380268947
               },
@@ -459,8 +459,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": -1416.7249641317312,
-                "y": -647.8692403515543,
+                "x": -243.3481034839033,
+                "y": -2634.038636712612,
                 "width": 879.7042608185659,
                 "height": 514.6449261414084
               },
@@ -1008,6 +1008,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-07-28T10:09:02.477Z"
+    "lastEditedAt": "2026-07-28T10:10:35.408Z"
   }
 }
