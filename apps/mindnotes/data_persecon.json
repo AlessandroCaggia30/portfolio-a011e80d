@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T11:59:33.492928Z",
+  "exportedAt": "2026-07-28T12:05:21.519077Z",
   "data": {
     "topics": [
       {
@@ -32,6 +32,18 @@
                   },
                   {
                     "target": "alternative-solutions-header",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-kirman-1992",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-nelson-winter-1982",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-tesfatsion-2006",
                     "type": "forward"
                   }
                 ],
@@ -331,6 +343,14 @@
                   {
                     "target": "p-alchian-demsetz-1972",
                     "type": "forward"
+                  },
+                  {
+                    "target": "p-jensen-meckling-1976",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-hart-moore-1990",
+                    "type": "forward"
                   }
                 ],
                 "color": "red",
@@ -404,6 +424,10 @@
                   },
                   {
                     "target": "quindi-info-substrate",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-bjm-1988",
                     "type": "forward"
                   }
                 ],
@@ -526,6 +550,18 @@
                   {
                     "target": "p-larkin-2014",
                     "type": "forward"
+                  },
+                  {
+                    "target": "p-baker-1992",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-baker-2002",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-prendergast-2002",
+                    "type": "forward"
                   }
                 ],
                 "color": "red",
@@ -592,6 +628,18 @@
                   },
                   {
                     "target": "p-nalebuff-stiglitz-1983",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-rosen-1986",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-malcomson-1984",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-genakos-pagliero-2012",
                     "type": "forward"
                   }
                 ],
@@ -709,6 +757,14 @@
                   {
                     "target": "p-bbr-2005",
                     "type": "forward"
+                  },
+                  {
+                    "target": "p-chan-1996",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-freeman-kleiner-2005",
+                    "type": "forward"
                   }
                 ],
                 "color": "red",
@@ -802,6 +858,22 @@
                   },
                   {
                     "target": "p-bbr-2013",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-falk-ichino-2006",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-mas-moretti-2009",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-hjort-2014",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-benabou-tirole-2003",
                     "type": "forward"
                   }
                 ],
@@ -978,6 +1050,250 @@
                 "y": 6500,
                 "width": 500,
                 "height": 380,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-kirman-1992",
+                "title": "P·Kirman (1992) — Critique of Representative Agent",
+                "content": "**Ref.** Kirman, A. P. (1992). Whom or what does the representative individual represent? *Journal of Economic Perspectives*, 6(2), 117–136.\n\n---\n\n## Intro\n\nThe **theoretical justification for turning to ABM.** Kirman's field-defining critique showed that the standard representative-agent macro is not a valid microfoundation:\n- **Sonnenschein–Mantel–Debreu (1970s)**: aggregate excess demand can take ANY shape — heterogeneous individual utility functions do NOT aggregate to a \"representative\" utility.\n- Comparative statics on the representative agent may have the **opposite sign** from the average of individual comparative statics.\n\n## Implication\n\nIf aggregation is impossible in general, macro must be built **from below**: simulate the heterogeneous individuals explicitly. ABM is the natural methodological response.\n\n## Position\n\nBlue **ABM meta** — why the ABM literature exists. Every subsequent ABM paper implicitly answers Kirman's challenge.\n",
+                "x": -1500,
+                "y": 700,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "blue",
+                "popBg": "#dbeafe"
+              },
+              {
+                "id": "p-nelson-winter-1982",
+                "title": "P·Nelson–Winter (1982) — Evolutionary Economics",
+                "content": "**Ref.** Nelson, R. R. & Winter, S. G. (1982). *An Evolutionary Theory of Economic Change.* Belknap Press / Harvard University Press.\n\n---\n\n## Intro\n\n**Founding book of evolutionary economics** — the theoretical framework that ABM operationalises. Argues that firms don't optimize; they follow **routines** (organizational habits) that are selected upon by market competition.\n\n## Contribution\n\n- **Firms as bundles of routines** — not optimizing agents.\n- **Search + selection dynamics**: firms occasionally search for new routines (R&D, imitation); markets select via survival.\n- **No equilibrium concept required** — the aggregate is whatever the population of routines settles into.\n\n## Position\n\nBlue **ABM meta** — theoretical parent of all the Sant'Anna / K+S / CATS work. Every macro ABM's \"firms follow rules that evolve\" is Nelson–Winter's insight, implemented computationally.\n",
+                "x": -1500,
+                "y": 1050,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "blue",
+                "popBg": "#dbeafe"
+              },
+              {
+                "id": "p-tesfatsion-2006",
+                "title": "P·Tesfatsion (2006) — ACE Handbook Overview",
+                "content": "**Ref.** Tesfatsion, L. (2006). Agent-based computational economics: A constructive approach to economic theory. In *Handbook of Computational Economics, Vol. 2* (K. Judd & L. Tesfatsion, eds.), ch. 16, pp. 831–880. Elsevier / North-Holland.\n\n---\n\n## Intro\n\n**Field-defining survey chapter** that coined \"ACE\" (Agent-based Computational Economics) as the name for the methodology. First-citation stop for any ABM paper.\n\n## Contribution\n\n- **Ontological claim**: economies as complex adaptive systems of interacting heterogeneous agents.\n- **Methodological claim**: understanding emerges from constructive bottom-up simulation, not from top-down equilibrium characterization.\n- **Common design patterns**: initialization, interaction protocols, learning rules, validation targets.\n- **Community infrastructure**: shared platforms, benchmark models, replication norms.\n\n## Position\n\nBlue **ABM meta** — establishes ABM as a field with its own methodology. Complements Nelson-Winter (theory) and Kirman (motivation).\n",
+                "x": -1500,
+                "y": 1400,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "blue",
+                "popBg": "#dbeafe"
+              },
+              {
+                "id": "p-jensen-meckling-1976",
+                "title": "P·Jensen–Meckling (1976) — Agency Costs of the Firm",
+                "content": "**Ref.** Jensen, M. C. & Meckling, W. H. (1976). Theory of the firm: Managerial behavior, agency costs and ownership structure. *Journal of Financial Economics*, 3(4), 305–360.\n\n---\n\n## Intro\n\n**Most-cited paper in finance.** Formalizes the **agency costs** of separating ownership from control — the modern corporation as a nexus of contracts among competing claimants.\n\n## Contribution\n\n- **Agency costs** = monitoring costs + bonding costs + residual loss.\n- Manager owns fraction $\\alpha$ of firm → captures $\\alpha$ of profit, but bears full private cost of effort or perquisite abstention → underprovides effort, over-consumes perquisites.\n- Optimal ownership structure trades off agency costs against risk-bearing costs.\n- Foundation for **corporate-governance** literature: board composition, executive comp, ownership concentration.\n\n## Position\n\nRed **①** raw agency problem — extends Alchian-Demsetz to the modern corporation with dispersed ownership. Motivates the entire corporate-governance literature.\n",
+                "x": 900,
+                "y": 650,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-hart-moore-1990",
+                "title": "P·Hart–Moore (1990) — Property Rights",
+                "content": "**Ref.** Hart, O. & Moore, J. (1990). Property rights and the nature of the firm. *Journal of Political Economy*, 98(6), 1119–1158.\n\n---\n\n## Intro\n\nTogether with Grossman-Hart (1986), the **property-rights theory of the firm** — Oliver Hart's Nobel-winning work.\n\n## Contribution\n\n- Contracts are **necessarily incomplete** — ex-ante unknown contingencies.\n- **Residual control rights over assets** are what firms allocate — not contractible tasks.\n- Owning an asset gives you leverage in ex-post bargaining → makes you willing to invest in specific human capital.\n- Firm boundaries determined by **which allocation of asset ownership maximizes joint surplus given incomplete contracts**.\n\n## Position\n\nRed **①** raw agency — sits alongside Alchian-Demsetz and Jensen-Meckling as a theory of WHY firms exist as institutions distinct from markets. Foundation for modern corporate governance.\n",
+                "x": 900,
+                "y": 1000,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-bjm-1988",
+                "title": "P·Baker–Jensen–Murphy (1988) — Practice vs. Theory",
+                "content": "**Ref.** Baker, G. P., Jensen, M. C. & Murphy, K. J. (1988). Compensation and incentives: Practice vs. theory. *Journal of Finance*, 43(3), 593–616.\n\n---\n\n## Intro\n\n**Landmark empirical challenge to PA theory.** Documents that real-world compensation contracts look nothing like the sharp incentive contracts PA theory predicts.\n\n## Findings\n\n- CEO pay-performance sensitivity is **tiny** — Jensen-Murphy (1990) estimated ~$3.25 change in CEO wealth per $1000 change in shareholder wealth (0.325%).\n- Individual worker pay-performance sensitivity is **also tiny** — pay compression is the empirical rule.\n- Bonus schemes are **highly formulaic** with kinks and caps that create bunching (Goodhart).\n- Contracts are much more **subjective** than PA theory allows.\n\n## Contribution\n\nMotivates the whole subsequent 1990s literature:\n- **Multi-tasking** (HM 1991) — why sharp incentives are dangerous.\n- **Subjective evaluation** (BGM 1994) — the actual mechanism in use.\n- **Career concerns** (Fama, Holmström) — implicit rather than explicit incentives.\n\n## Position\n\nYellow **②** — empirical benchmark for what real compensation looks like. Undermines the naive HM 1987 prediction and motivates the modern relational-contracts literature.\n",
+                "x": 3000,
+                "y": 2890,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "yellow",
+                "popBg": "#fef9c3"
+              },
+              {
+                "id": "p-baker-1992",
+                "title": "P·Baker (1992) — Incentive Contracts and Performance Measurement",
+                "content": "**Ref.** Baker, G. P. (1992). Incentive contracts and performance measurement. *Journal of Political Economy*, 100(3), 598–614.\n\n---\n\n## Intro\n\nFormalizes **the distortion cost of noisy or misaligned performance measures.**\n\n## Setup\n\n- Agent's true output $y$ (unobservable) vs measured performance $m$.\n- $m$ correlated with $y$ but imperfectly: $m = y + \\text{measurement error} + \\text{misalignment}$.\n- Contract must condition on $m$, not on $y$.\n\n## Result\n\n- Higher-powered incentives on $m$ (higher $\\beta$) → agent puts more effort into activities that raise $m$ but may not raise $y$.\n- If $m$ is a bad proxy for $y$, the **distortion cost** can exceed the incentive benefit → optimal $\\beta \\to 0$.\n\n## Position\n\nRed **③** — a residual problem after HM 1987's linear contract. Complements HM 1991 (multi-tasking) as the theoretical foundation for why sharp incentives fail when measurement is imperfect.\n",
+                "x": 3900,
+                "y": 650,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-baker-2002",
+                "title": "P·Baker (2002) — Distortion and Risk",
+                "content": "**Ref.** Baker, G. P. (2002). Distortion and risk in optimal incentive contracts. *Journal of Human Resources*, 37(4), 728–751.\n\n---\n\n## Intro\n\nExtends Baker (1992) to **jointly optimize** over distortion and risk in the linear contract.\n\n## Contribution\n\n- Optimal $\\beta$ depends on BOTH signal noise ($\\sigma^2$) AND signal misalignment (distortion).\n- Standard HM 1987 assumed pure noise (no distortion) → $\\beta^*$ falls only in $\\sigma^2$.\n- Baker: when signals are misaligned (correlation < 1 with true effort), $\\beta^*$ collapses much faster than HM 1987 predicts.\n- Explains why real-world $\\beta$ is typically small even in high-$g$ / low-$\\rho$ environments.\n\n## Position\n\nRed **③** — sharpens the residual problem with a more general theoretical framework.\n",
+                "x": 3900,
+                "y": 970,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-prendergast-2002",
+                "title": "P·Prendergast (2002) — Tenuous Trade-off",
+                "content": "**Ref.** Prendergast, C. (2002). The tenuous trade-off between risk and incentives. *Journal of Political Economy*, 110(5), 1071–1102.\n\n---\n\n## Intro\n\nDocuments the **field's central empirical puzzle**: HM 1987 predicts $\\partial\\beta^*/\\partial\\sigma^2 < 0$ (more noise → lower incentive intensity), but real-world data shows the relationship is often **weak, zero, or wrong-signed**.\n\n## Empirical findings\n\n- Across firm-level datasets, the risk-incentive trade-off HM 1987 predicts is empirically fragile.\n- In some settings (retail managers, franchisees), high-risk environments have HIGHER pay-performance sensitivity, not lower.\n\n## Theoretical resolution\n\n- **Delegation of decision rights**: when noise is high, monitoring is harder, so the firm delegates more autonomy — which comes bundled with high-powered incentives.\n- Endogenous job design confounds the naive $\\beta$–$\\sigma$ correlation.\n\n## Position\n\nRed **③** — empirical evidence that even the theoretical foundation of the linear-contract solution has holes when tested outside the CARA-Gaussian world. Motivates the shift toward subjective evaluation and relational contracts (Phase ⑥).\n",
+                "x": 3900,
+                "y": 1290,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "yellow",
+                "popBg": "#fef9c3"
+              },
+              {
+                "id": "p-rosen-1986",
+                "title": "P·Rosen (1986) — Elimination Tournaments",
+                "content": "**Ref.** Rosen, S. (1986). Prizes and incentives in elimination tournaments. *American Economic Review*, 76(4), 701–715.\n\n---\n\n## Intro\n\nExtends LR 1981 to **multi-stage elimination tournaments** — sequential brackets where losers exit and winners advance to the next round. The theoretical foundation for CEO/executive tournaments in hierarchical firms.\n\n## Setup\n\n- $K$ stages of pairwise elimination.\n- Prizes at each stage $w_1 < w_2 < ... < w_K$ (concentrated at the top).\n- Solve for the optimal prize schedule that implements first-best effort at EVERY stage.\n\n## Result\n\n- **Optimal prize schedule is convex** — the top prize must be disproportionately large.\n- Explains observed **super-star pay** at the top of corporate hierarchies (CEO ≫ VP ≫ manager).\n- Rationalizes the sharp compensation gradient in tournament ladders (law firm partnership, academic tenure).\n\n## Position\n\nGreen **④** — extension of LR 1981 that explains real-world hierarchical pay structures.\n",
+                "x": 5400,
+                "y": 650,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-malcomson-1984",
+                "title": "P·Malcomson (1984) — Internal Labor Markets",
+                "content": "**Ref.** Malcomson, J. M. (1984). Work incentives, hierarchy, and internal labor markets. *Journal of Political Economy*, 92(3), 486–507.\n\n---\n\n## Intro\n\nProvides the **theoretical foundation for internal-labor-market tournaments** — competition among workers for a fixed number of promotion slots.\n\n## Contribution\n\n- Rank-order pay + fixed promotion quota → self-enforcing incentive scheme even when individual performance is subjective and unverifiable.\n- Firm commits ex-ante to promote the top $k$ of $N$ workers — not to promote based on absolute performance.\n- Removes the ratchet effect (Gibbons 1987): the firm has no incentive to game the target because promotion is relative.\n\n## Position\n\nGreen **④** — theoretical foundation for promotion tournaments in internal labor markets. Complements LR 1981 (contest theory) with an institutional argument.\n",
+                "x": 5400,
+                "y": 970,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-genakos-pagliero-2012",
+                "title": "P·Genakos–Pagliero (2012) — Risk-Taking in Tournaments",
+                "content": "**Ref.** Genakos, C. & Pagliero, M. (2012). Interim rank, risk taking, and performance in dynamic tournaments. *Journal of Political Economy*, 120(4), 782–813.\n\n---\n\n## Intro\n\nEmpirical test of **dynamic incentives in tournaments** using professional weightlifting.\n\n## Findings\n\n- **Competitors behind take excessive risks** — attempt heavier weights with lower probability of success.\n- **Competitors ahead play safe** — attempt lower weights to protect their lead.\n- Both are RATIONAL responses to the tournament payoff structure but lead to **socially inefficient risk-taking** at the tails.\n- Confirms Casas-Arce–Martínez-Jerez (2009) inverted-U pattern.\n\n## Contribution\n\nDocuments a **specific failure mode** of tournaments: dynamic tournament pay induces excessive risk-taking by losers and excessive risk-avoidance by winners.\n\n## Position\n\nYellow **④** — empirical evidence for a subtle failure mode of tournaments not captured in LR 1981's static model.\n",
+                "x": 5400,
+                "y": 1290,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "yellow",
+                "popBg": "#fef9c3"
+              },
+              {
+                "id": "p-chan-1996",
+                "title": "P·Chan (1996) — Sabotage in Promotion Tournaments",
+                "content": "**Ref.** Chan, W. (1996). External recruitment versus internal promotion. *Journal of Labor Economics*, 14(4), 555–570.\n\n---\n\n## Intro\n\nExtends Lazear (1989) sabotage theory to the specific case of **internal promotion tournaments** — the mechanism most firms use for management-level hiring.\n\n## Contribution\n\n- When promotion is tournament-based, incumbent employees have an incentive to **sabotage rivals** in the same cohort.\n- The higher the promotion prize, the stronger the sabotage incentive.\n- Rationalizes the observed pattern of **external hiring** for senior positions — firms hire outside the tournament to escape sabotage equilibria.\n- Explains why firms use \"up-or-out\" (partner or leave) — a truncated tournament structure minimizes long-term sabotage exposure.\n\n## Position\n\nRed **⑤** — extension of Lazear 1989 sabotage to the specific institutional context of promotion tournaments.\n",
+                "x": 6900,
+                "y": 650,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-freeman-kleiner-2005",
+                "title": "P·Freeman–Kleiner (2005) — Piece Rate Abandonment",
+                "content": "**Ref.** Freeman, R. B. & Kleiner, M. M. (2005). The last American shoe manufacturers: Decreasing productivity and increasing profits in the shift from piece rates to continuous flow production. *Industrial Relations*, 44(2), 307–330.\n\n---\n\n## Intro\n\n**Striking empirical evidence** that piece rates CAN reduce productivity and profits in specific industrial contexts.\n\n## Findings\n\n- US shoe manufacturers moved AWAY from piece rates toward continuous-flow production (team pay + supervisor monitoring).\n- **Productivity fell after the switch** (measured per-hour output).\n- **Profits ROSE** — the productivity loss was more than offset by:\n  - Quality improvements (piece rates had been degrading quality).\n  - Reduced turnover.\n  - Reduced sabotage between workers competing for scarce raw materials.\n  - Reduced Goodhart-style gaming of the piece-rate schedule.\n\n## Position\n\nYellow **⑤** — dramatic empirical evidence that the Lazear 2000 Safelite result does NOT generalize. When output quality matters, when teamwork matters, when raw-material sabotage is possible, piece rates fail even before you get to phase ⑥.\n\n## Contribution\n\n- Documents the **boundary conditions** of the Lazear 2000 result.\n- Sets up the phase-⑥ team-pay solutions.\n",
+                "x": 6900,
+                "y": 970,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "yellow",
+                "popBg": "#fef9c3"
+              },
+              {
+                "id": "p-falk-ichino-2006",
+                "title": "P·Falk–Ichino (2006) — Clean Peer-Effects Evidence",
+                "content": "**Ref.** Falk, A. & Ichino, A. (2006). Clean evidence on peer effects. *Journal of Labor Economics*, 24(1), 39–57.\n\n---\n\n## Intro\n\n**First laboratory field-experiment on peer effects in production.** Cleanly identifies peer effects by removing all other channels (compensation, monitoring, communication).\n\n## Design\n\n- High-school students hired to stuff envelopes.\n- Randomized: work alone vs work in pairs.\n- Same hourly wage in both conditions (no team-pay incentive).\n- No communication between pairs (headphones, silence).\n\n## Findings\n\n- **Paired workers stuff ~14% more envelopes** than solo workers.\n- Effect entirely from **mere presence** — not from communication, not from social comparison, not from compensation.\n- Suggests peer effects are hard-wired social preferences, not derived from incentive structures.\n\n## Position\n\nYellow **⑥** — empirical evidence for peer pressure as a real, incentive-independent phenomenon. Provides microfoundation for the Kandel–Lazear 1992 team-pay result.\n",
+                "x": 8400,
+                "y": 650,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "yellow",
+                "popBg": "#fef9c3"
+              },
+              {
+                "id": "p-mas-moretti-2009",
+                "title": "P·Mas–Moretti (2009) — Peers at Work",
+                "content": "**Ref.** Mas, A. & Moretti, E. (2009). Peers at work. *American Economic Review*, 99(1), 112–145.\n\n---\n\n## Intro\n\n**Field-defining empirical paper on peer effects at work.** Uses high-frequency data from a large supermarket chain to identify peer effects in real production.\n\n## Design\n\n- 2 years of scanner data from all cashiers at a large supermarket chain.\n- Identify from within-cashier variation in the **composition of co-workers** on each shift.\n- ~370 cashiers × ~600 days.\n\n## Findings\n\n- **10% increase in average co-worker productivity → ~1.5% increase in own productivity.**\n- Effect strongest when the peer is **behind you in the checkout line** (i.e., you know they can see you).\n- Consistent with **social-pressure** mechanism, not knowledge spillover.\n- Weaker when workers are physically separated.\n\n## Contribution\n\nProvides the **modern empirical benchmark** for peer effects at work.\nMotivates workplace-design decisions (open-plan offices, visible metrics).\n\n## Position\n\nYellow **⑥** — the largest and cleanest empirical estimate of peer effects in a real workplace.\n",
+                "x": 8400,
+                "y": 1000,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "yellow",
+                "popBg": "#fef9c3"
+              },
+              {
+                "id": "p-hjort-2014",
+                "title": "P·Hjort (2014) — Ethnic Divisions and Firm Productivity",
+                "content": "**Ref.** Hjort, J. (2014). Ethnic divisions and production in firms. *Quarterly Journal of Economics*, 129(4), 1899–1946.\n\n---\n\n## Intro\n\nField experiment showing that **ethnic divisions among co-workers reduce team productivity** — a direct empirical test of the boundary of team-pay solutions.\n\n## Design\n\n- Flower-packing plant in Kenya post-2007 election violence.\n- Teams of 3 workers: 1 supplier + 2 processors.\n- Random assignment of team composition (co-ethnic vs mixed-ethnic).\n\n## Findings\n\n- **Mixed-ethnic teams produce ~9% less** than co-ethnic teams.\n- Effect grew after ethnic-violence spike (~+7 percentage points).\n- Mechanism: suppliers under-provide to processors of the OTHER ethnic group.\n\n## Contribution\n\nDocuments a **critical boundary condition** for the KL 1992 / BBR 2013 team-pay solution: when workers have strong out-group biases, team pay may fail entirely. The peer-pressure mechanism requires social bonds to function.\n\n## Position\n\nYellow **⑥** — boundary condition. Complements BBR 2013 by showing where team pay FAILS. Provides an honest counterweight to the phase-⑥ optimism.\n",
+                "x": 8400,
+                "y": 1360,
+                "width": 460,
+                "height": 320,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "color": "yellow",
+                "popBg": "#fef9c3"
+              },
+              {
+                "id": "p-benabou-tirole-2003",
+                "title": "P·Bénabou–Tirole (2003) — Intrinsic Motivation Crowding",
+                "content": "**Ref.** Bénabou, R. & Tirole, J. (2003). Intrinsic and extrinsic motivation. *Review of Economic Studies*, 70(3), 489–520.\n\n---\n\n## Intro\n\nTheoretical foundation for the **crowding-out** effect: extrinsic monetary incentives can REDUCE intrinsic motivation, so pay-for-performance sometimes lowers output.\n\n## Setup\n\n- Principal offers wage $w$ conditional on effort proxy $y$.\n- Agent has private information about task's intrinsic value.\n- Offering high $w$ signals to the agent that the task is either (i) unpleasant or (ii) principal doubts agent's competence.\n- Both interpretations DEPRESS the agent's intrinsic motivation.\n\n## Result\n\n- Optimal $w$ is often LOWER than PA theory predicts.\n- In some regimes, ZERO monetary incentive is optimal — pure intrinsic motivation dominates.\n- Explains why volunteers outperform paid workers in some settings (blood donation — Titmuss 1970; open-source software).\n\n## Position\n\nGreen **⑥** — theoretical extension showing that in some settings the \"solution\" to the raw agency problem is to NOT use monetary incentives at all. Motivates the design of intrinsic-motivation-preserving workplaces (mission-driven firms, autonomy-respecting management).\n",
+                "x": 8400,
+                "y": 1720,
+                "width": 460,
+                "height": 320,
                 "flashcard": false,
                 "images": [],
                 "links": [],
