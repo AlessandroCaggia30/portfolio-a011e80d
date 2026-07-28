@@ -12915,9 +12915,10 @@ function updateRectangleSelection(e) {
         }
     });
 
-    // Update visual selection
+    // Update visual selection (String() — node ids can be numbers, dataset ids are strings)
+    const idSet = new Set(selectedIds.map(String));
     document.querySelectorAll('.node').forEach(el => {
-        if (selectedIds.includes(el.dataset.id)) {
+        if (idSet.has(el.dataset.id)) {
             el.classList.add('multi-selected');
         } else {
             el.classList.remove('multi-selected');
