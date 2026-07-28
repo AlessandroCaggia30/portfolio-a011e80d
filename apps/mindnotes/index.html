@@ -11884,13 +11884,22 @@ async function ghPushAll() {
                 data = await _ghReadFromIDB(subj.dataKey);
             }
             if (!data || !data.topics) { skipped++; continue; }
+            // No-op guard: don't create a commit when nothing actually changed.
+            const h = _ghContentHash(data);
+            if (_ghLastSyncHash[subj.dataKey] === h) {
+                _ghClearPending(subj.dataKey);
+                skipped++;
+                continue;
+            }
             _ghSetState(`Pushing ${subj.name}…`);
             const payload = { version: '2.0', exportedAt: new Date().toISOString(), data };
             const content = JSON.stringify(payload, null, 2);
             const msg = `mindnotes: bulk push ${subj.name} ${new Date().toISOString().slice(0,19).replace('T',' ')}`;
             const newSha = await ghPutFile(subj.repoPath, content, msg, _ghShas[subj.dataKey]);
             _ghShas[subj.dataKey] = newSha;
+            _ghLastSyncHash[subj.dataKey] = h;
             _ghLastPush[subj.dataKey] = new Date().toISOString();
+            _ghClearPending(subj.dataKey);
             ok++;
         } catch (e) {
             console.error('pushAll failed for', subj.name, e);
