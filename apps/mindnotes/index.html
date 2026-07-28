@@ -6388,21 +6388,56 @@ async function initAutosaveForSubject(dataKey) {
         return;
     }
 
-    if (!window.showOpenFilePicker) {
+    if (!window.showSaveFilePicker) {
         updateAutosaveUI(dataKey, '', 'Browser does not support file backup');
         return;
     }
 
-    // Never auto-restore — user must manually click to enable each session
+    // Try to silently restore the stored handle first (works when the browser
+    // remembers the permission). Only nag with the banner if that fails.
+    try {
+        const handle = await getStoredAutosaveHandle(dataKey);
+        if (handle && (await handle.queryPermission({ mode: 'readwrite' })) === 'granted') {
+            autosaveFileHandles[dataKey] = handle;
+            try {
+                const dirHandle = await getStoredAutosaveHandle(dataKey + '_history');
+                if (dirHandle && (await dirHandle.queryPermission({ mode: 'readwrite' })) === 'granted') {
+                    autosaveHistoryHandles[dataKey] = dirHandle;
+                }
+            } catch (_) {}
+            updateAutosaveUI(dataKey, 'connected', 'Backup: ' + handle.name);
+            if (State.data) autoSaveToFileSystem(dataKey, State.data);
+            return;
+        }
+    } catch (e) { console.warn('Silent autosave restore failed:', e); }
+
     const bannerEl = document.getElementById('autosaveBanner');
     const statusEl = document.getElementById('autosaveStatus');
     if (bannerEl) {
-        bannerEl.textContent = '💾 Click to select a .json backup file for ' + AUTOSAVE_SUBJECTS[dataKey];
+        bannerEl.textContent = '💾 Enable local file backup for ' + AUTOSAVE_SUBJECTS[dataKey] + ' — click here (one time)';
         bannerEl.classList.add('visible');
     }
     if (statusEl) {
         statusEl.classList.add('active');
-        statusEl.querySelector('#autosaveStatusText').textContent = 'File backup: not configured';
+        statusEl.querySelector('#autosaveStatusText').textContent = 'File backup: not configured — click';
+    }
+}
+
+// Click on the banner or the sidebar status row: re-authorize the stored
+// backup file if there is one (single permission prompt), otherwise run the
+// full first-time setup (pick/create the backup file + history folder).
+async function onAutosaveBannerClick() {
+    const dataKey = State.currentSubject ? State.currentSubject.dataKey : null;
+    if (!dataKey || !AUTOSAVE_SUBJECTS[dataKey]) return;
+    try {
+        const restored = await restoreAutosaveHandle(dataKey);
+        if (restored) {
+            if (State.data) autoSaveToFileSystem(dataKey, State.data);
+        } else {
+            await setupAutosaveDirectory();
+        }
+    } catch (e) {
+        if (e.name !== 'AbortError') console.error('Autosave enable failed:', e);
     }
 }
 
