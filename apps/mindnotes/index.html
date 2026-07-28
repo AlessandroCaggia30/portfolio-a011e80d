@@ -10958,15 +10958,37 @@ let _ghPushInFlight = false;
 // Persisted to localStorage so a page reload doesn't lose the "must push" flag,
 // which prevents a stale remote from overwriting an unsynced local edit.
 let _ghPendingPushSet = new Set(JSON.parse(localStorage.getItem('mindnotes_ghPendingPush') || '[]'));
+// key -> epoch ms of when it first became pending (drives the banner grace period)
+let _ghPendingSince = JSON.parse(localStorage.getItem('mindnotes_ghPendingSince') || '{}');
 function _ghMarkPending(key) {
     if (!key) return;
     _ghPendingPushSet.add(key);
+    if (!_ghPendingSince[key]) {
+        _ghPendingSince[key] = Date.now();
+        localStorage.setItem('mindnotes_ghPendingSince', JSON.stringify(_ghPendingSince));
+    }
     localStorage.setItem('mindnotes_ghPendingPush', JSON.stringify([..._ghPendingPushSet]));
 }
 function _ghClearPending(key) {
     if (!key) return;
     _ghPendingPushSet.delete(key);
+    if (_ghPendingSince[key]) {
+        delete _ghPendingSince[key];
+        localStorage.setItem('mindnotes_ghPendingSince', JSON.stringify(_ghPendingSince));
+    }
     localStorage.setItem('mindnotes_ghPendingPush', JSON.stringify([..._ghPendingPushSet]));
+}
+
+// Content hash of the last successfully synced (pushed or pulled) data per
+// subject. Push uses it to skip commits when nothing actually changed; pull
+// uses it to detect real local edits even if the pending flag was lost.
+let _ghLastSyncHash = JSON.parse(localStorage.getItem('mindnotes_ghSyncHash') || '{}');
+function _ghPersistSyncHash() { localStorage.setItem('mindnotes_ghSyncHash', JSON.stringify(_ghLastSyncHash)); }
+function _ghContentHash(data) {
+    const s = JSON.stringify(data);
+    let h = 5381;
+    for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0;
+    return (h >>> 0).toString(36) + ':' + s.length;
 }
 
 function _ghHeaders() {
