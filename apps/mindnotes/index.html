@@ -11661,6 +11661,16 @@ async function ghPushNow() {
     const key = _ghCurrentKey();
     // On landing screen: push all subjects from local IndexedDB
     if (!path || !key) { return ghPushAll(); }
+    // No-op guard: if content is identical to the last synced version, there
+    // is nothing to commit. Kills the timestamp-only commits that used to
+    // bury real changes in the history.
+    const curHash = _ghContentHash(State.data);
+    if (_ghLastSyncHash[key] === curHash) {
+        _ghClearPending(key);
+        _ghSetState('Up to date (no changes)');
+        updateGhStatusDot();
+        return;
+    }
     console.log('[gh] ghPushNow → pushing', key, 'at', new Date().toISOString());
     _ghPushInFlight = true;
     _ghSetState('Pushing…');
