@@ -2143,31 +2143,49 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
     outline: 1px dashed rgba(108, 92, 231, 0.45);
 }
 
-/* Paragraph blocks: the click-to-edit unit. Whole block highlights on hover. */
+/* Paragraph blocks: the click-to-edit unit. The hover highlight ALWAYS shows
+   exactly the box a click would open: cell > formula > whole block. */
 .live-preview-content .lp-block {
     padding: 3px 8px;
     margin: 0 -8px 2px;
     border-radius: 6px;
     cursor: text;
     transition: background 0.12s;
+    outline: 1px dashed transparent;
 }
 .live-preview-content .lp-block:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(108, 92, 231, 0.07);
+    outline-color: rgba(108, 92, 231, 0.35);
 }
-.live-preview-content .lp-block.editing {
+/* Pointer is over a finer editable unit → the block-level highlight retracts */
+.live-preview-content .lp-block:has(td:hover):hover,
+.live-preview-content .lp-block:has(th:hover):hover,
+.live-preview-content .lp-block:has(.detail-formula:hover):hover {
     background: transparent;
+    outline-color: transparent;
+}
+.live-preview-content .lp-block.editing,
+.live-preview-content .lp-block.editing:hover {
+    background: transparent;
+    outline-color: transparent;
     cursor: default;
 }
 /* Inside a block, the old per-fragment hover is misleading — the block is the unit */
 .lp-block .detail-text:hover { background: transparent; }
 .lp-block .detail-text { cursor: inherit; }
 
-/* Table cells are individually editable */
+/* Table cells are individually editable — the cell is the highlighted unit */
 .lp-block td, .lp-block th { cursor: text; }
-.lp-block td:hover, .lp-block th:hover { background: rgba(108, 92, 231, 0.08); }
-.lp-block td.editing, .lp-block th.editing { background: rgba(0, 0, 0, 0.12); }
+.lp-block td:hover, .lp-block th:hover {
+    background: rgba(108, 92, 231, 0.1);
+    outline: 1px dashed rgba(108, 92, 231, 0.4);
+}
+.lp-block td.editing, .lp-block th.editing { background: rgba(0, 0, 0, 0.12); outline: none; }
 .lp-block td .detail-text-editor textarea,
 .lp-block th .detail-text-editor textarea { min-width: 200px; width: 100%; font-size: 12px; }
+/* A formula inside a cell opens the CELL editor — don't highlight the formula */
+.lp-block td .detail-formula:hover,
+.lp-block th .detail-formula:hover { background: transparent; outline: none; }
 
 /* Text inline editor */
 .detail-text-editor {
