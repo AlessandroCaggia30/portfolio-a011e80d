@@ -9878,6 +9878,15 @@ function attachBlockEditHandlers(container) {
         blockEl.querySelectorAll('.detail-formula').forEach(el => { el.style.cursor = 'pointer'; });
         blockEl.addEventListener('click', (e) => {
             if (blockEl.classList.contains('editing') || e.target.closest('textarea')) return;
+            if (e.target.closest('.editing')) return;
+            // Table cells edit individually — never the whole table block.
+            const cell = e.target.closest('td, th');
+            if (cell && blockEl.contains(cell)) {
+                e.stopPropagation();
+                pushToHistory();
+                openTableCellEditor(cell, blockEl);
+                return;
+            }
             const formulaSpan = e.target.closest('.detail-formula');
             e.stopPropagation();
             pushToHistory();
