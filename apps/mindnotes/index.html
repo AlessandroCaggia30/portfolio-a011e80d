@@ -10000,7 +10000,14 @@ function attachBlockEditHandlers(container) {
     });
 
     // Click in the empty space below the last block appends a new block.
+    // (A drag-select that ends outside its block lands here too — in that
+    // case show the formatting toolbar for the selection instead.)
     container.addEventListener('click', (e) => {
+        const captured = _captureRenderedSelection();
+        if (captured) {
+            _showFmtBarForRendered(e.clientX, e.clientY, captured);
+            return;
+        }
         if (e.target === container) { pushToHistory(); openBlockEditor(-1, null); }
     });
 }
