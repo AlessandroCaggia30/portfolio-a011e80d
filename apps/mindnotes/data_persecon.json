@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T11:30:23.181Z",
+  "exportedAt": "2026-07-29T11:30:28.351Z",
   "data": {
     "topics": [
       {
@@ -321,8 +321,8 @@
                 "id": "p-ross-1973",
                 "title": "P·Ross (1973) — Agency Problem",
                 "content": "**Ref.** Ross, S. A. (1973). The economic theory of agency: The principal's problem. *American Economic Review*, 63(2), 134–139.\n\n---\n\n## Intro\n\nThe **founding statement** of the principal-agent problem. Formalises the delegation of choice from principal to agent under asymmetric information and misaligned incentives.\n\n## Contribution\n\n- Defines the **agent's utility** and the **principal's problem** as separate optimization objects.\n- Shows the principal must design a contract $w(y)$ that induces the agent to act in the principal's interest despite the agent's private information.\n- Establishes the concept of **incentive compatibility**.\n\n## Position\n\nUnder **①** raw agency problem. First theoretical statement.\n",
-                "x": 2180,
-                "y": 90,
+                "x": 2205,
+                "y": 140,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -1468,8 +1468,8 @@
                 "id": "p-farmer-foley-2009",
                 "title": "P·Farmer–Foley (2009) — The Economy Needs Agent-Based Modeling",
                 "content": "**Ref.** Farmer, J. D. & Foley, D. (2009). The economy needs agent-based modeling. *Nature*, 460(7256), 685–686.\n\n---\n\n## Intro\n\n**High-profile op-ed** in Nature immediately after the 2008 financial crisis. Argued that mainstream DSGE macro missed the crisis because it assumes rational-expectations equilibrium and representative agents, which cannot capture:\n- Endogenous credit-network fragility.\n- Heterogeneous learning and belief updating.\n- Positive-feedback cascades.\n\n## Contribution\n\n- **Field-shaping call to arms** — brought ABM to the attention of the broader scientific community.\n- Positioned ABM as the natural alternative to DSGE after the crisis.\n- Motivated large ABM projects (EURACE FP7 grant, EU Horizon 2020 CRISIS, etc.).\n\n## Position\n\nBlue **ABM meta** — the political-economic moment when ABM became a credible alternative to DSGE. Complements Kirman 1992 (theoretical critique) with a crisis-motivated policy critique.\n",
-                "x": 3015,
-                "y": 120,
+                "x": 2100,
+                "y": 125,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -1878,6 +1878,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T11:30:21.069Z"
+    "lastEditedAt": "2026-07-29T11:30:26.186Z"
   }
 }
