@@ -9941,13 +9941,9 @@ function renderObsidianPreview() {
         ? blocks.map((b, i) => `<div class="lp-block" data-bi="${i}">${renderBlock(b.src)}</div>`).join('')
         : '<span class="detail-text empty-placeholder" data-seg-idx="0" style="color:var(--text2);cursor:text;">Click here to start writing...</span>';
 
-    let galleryHtml = '';
-    if (node && Array.isArray(node.images) && node.images.length) {
-        const remaining = node.images.map((img, i) => ({ img, i })).filter(({ i }) => !usedImgIdx.has(i));
-        if (remaining.length) galleryHtml = _imagesGalleryHtml(node, remaining);
-    }
-
-    container.innerHTML = `<div class="live-preview-content">${inner}${galleryHtml}</div>`;
+    // No bottom gallery: images render ONLY where their {{img:N}} token sits.
+    // (Unreferenced images stay in node.images but are not displayed.)
+    container.innerHTML = `<div class="live-preview-content">${inner}</div>`;
 
     const previewContent = container.querySelector('.live-preview-content');
     renderMath(previewContent);
