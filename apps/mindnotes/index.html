@@ -9959,6 +9959,102 @@ function attachBlockEditHandlers(container) {
     });
 }
 
+// ==================== SELECTION FORMATTING TOOLBAR ====================
+// Select text in a block/cell/source textarea → floating toolbar with bold,
+// italic, highlights, and text colors. Cmd/Ctrl+B and Cmd/Ctrl+I shortcuts.
+let _fmtBarEl = null;
+let _fmtTarget = null;
+function _isFmtTextarea(el) {
+    return el && el.tagName === 'TEXTAREA' &&
+        (el.id === 'lpBlockInput' || el.id === 'lpCellInput' || el.id === 'detailContentEditor');
+}
+function _fmtWrap(prefix, suffix) {
+    const ta = _fmtTarget;
+    if (!ta) return;
+    const s = ta.selectionStart, e = ta.selectionEnd;
+    if (s === e) return;
+    const v = ta.value;
+    let sel = v.slice(s, e);
+    if (v.slice(Math.max(0, s - prefix.length), s) === prefix && v.slice(e, e + suffix.length) === suffix) {
+        // markers sit just outside the selection → toggle OFF
+        ta.value = v.slice(0, s - prefix.length) + sel + v.slice(e + suffix.length);
+        ta.selectionStart = s - prefix.length;
+        ta.selectionEnd = e - prefix.length;
+    } else if (sel.startsWith(prefix) && sel.endsWith(suffix) && sel.length > prefix.length + suffix.length) {
+        // markers included in the selection → toggle OFF
+        sel = sel.slice(prefix.length, sel.length - suffix.length);
+        ta.value = v.slice(0, s) + sel + v.slice(e);
+        ta.selectionStart = s;
+        ta.selectionEnd = s + sel.length;
+    } else {
+        ta.value = v.slice(0, s) + prefix + sel + suffix + v.slice(e);
+        ta.selectionStart = s;
+        ta.selectionEnd = e + prefix.length + suffix.length;
+    }
+    ta.dispatchEvent(new Event('input', { bubbles: true }));
+    ta.focus();
+}
+function _ensureFmtBar() {
+    if (_fmtBarEl && document.body.contains(_fmtBarEl)) return _fmtBarEl;
+    const bar = document.createElement('div');
+    bar.id = 'fmtToolbar';
+    bar.className = 'fmt-toolbar';
+    bar.innerHTML =
+        '<button class="fmt-btn" title="Bold (Cmd/Ctrl+B)" data-fmt="b"><b>B</b></button>' +
+        '<button class="fmt-btn" title="Italic (Cmd/Ctrl+I)" data-fmt="i"><i>I</i></button>' +
+        '<span class="fmt-sep"></span>' +
+        '<button class="fmt-btn" title="Highlight yellow" style="background:#ffe08a;color:#333;" data-fmt="hy">a</button>' +
+        '<button class="fmt-btn" title="Highlight green" style="background:#a7f3c8;color:#333;" data-fmt="hg">a</button>' +
+        '<button class="fmt-btn" title="Highlight pink" style="background:#ffc4dd;color:#333;" data-fmt="hp">a</button>' +
+        '<span class="fmt-sep"></span>' +
+        ['red', 'blue', 'darkgreen', 'orange', 'purple'].map(c =>
+            `<button class="fmt-btn fmt-dot" title="Text color: ${c}" style="background:${c};" data-fmt="c:${c}"></button>`
+        ).join('');
+    bar.addEventListener('mousedown', (e) => {
+        e.preventDefault(); // keep focus + selection alive in the textarea
+        const b = e.target.closest('[data-fmt]');
+        if (!b) return;
+        const f = b.dataset.fmt;
+        if (f === 'b') _fmtWrap('**', '**');
+        else if (f === 'i') _fmtWrap('*', '*');
+        else if (f === 'hy') _fmtWrap('==', '==');
+        else if (f === 'hg') _fmtWrap('::', '::');
+        else if (f === 'hp') _fmtWrap('~~', '~~');
+        else if (f.indexOf('c:') === 0) _fmtWrap('\\textcolor{' + f.slice(2) + '}{', '}');
+    });
+    document.body.appendChild(bar);
+    _fmtBarEl = bar;
+    return bar;
+}
+function _showFmtBar(x, y, ta) {
+    _fmtTarget = ta;
+    const bar = _ensureFmtBar();
+    bar.style.display = 'flex';
+    const w = bar.offsetWidth || 280;
+    bar.style.left = Math.max(8, Math.min(window.innerWidth - w - 8, x - w / 2)) + 'px';
+    bar.style.top = Math.max(8, y - 48) + 'px';
+}
+function _hideFmtBar() {
+    if (_fmtBarEl) _fmtBarEl.style.display = 'none';
+    _fmtTarget = null;
+}
+document.addEventListener('mouseup', (e) => {
+    if (e.target.closest && e.target.closest('.fmt-toolbar')) return;
+    const ta = document.activeElement;
+    if (!_isFmtTextarea(ta)) { _hideFmtBar(); return; }
+    setTimeout(() => {
+        if (ta.selectionStart !== ta.selectionEnd) _showFmtBar(e.clientX, e.clientY, ta);
+        else _hideFmtBar();
+    }, 0);
+});
+document.addEventListener('keydown', (e) => {
+    if (!(e.metaKey || e.ctrlKey)) return;
+    const ta = document.activeElement;
+    if (!_isFmtTextarea(ta)) return;
+    if (e.key === 'b') { e.preventDefault(); _fmtTarget = ta; _fmtWrap('**', '**'); }
+    else if (e.key === 'i') { e.preventDefault(); _fmtTarget = ta; _fmtWrap('*', '*'); }
+});
+
 // Edit a whole block's source in place. bi = -1 appends a new block at the end.
 function openBlockEditor(bi, blockEl) {
     const content = State.currentContent || '';
