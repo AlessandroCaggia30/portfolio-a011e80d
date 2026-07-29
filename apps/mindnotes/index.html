@@ -9969,6 +9969,16 @@ function attachBlockEditHandlers(container) {
         blockEl.addEventListener('click', (e) => {
             if (blockEl.classList.contains('editing') || e.target.closest('textarea')) return;
             if (e.target.closest('.editing')) return;
+            // Cmd/Ctrl + select on COMPILED text: open the formatting toolbar
+            // for the selection without un-rendering the block.
+            if (e.metaKey || e.ctrlKey) {
+                e.stopPropagation();
+                const captured = _captureRenderedSelection();
+                if (captured && captured.bi === parseInt(blockEl.dataset.bi)) {
+                    _showFmtBarForRendered(e.clientX, e.clientY, captured);
+                }
+                return;
+            }
             // Table cells edit individually — never the whole table block.
             const cell = e.target.closest('td, th');
             if (cell && blockEl.contains(cell)) {
