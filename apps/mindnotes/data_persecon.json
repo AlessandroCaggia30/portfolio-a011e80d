@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T11:30:07.502Z",
+  "exportedAt": "2026-07-29T11:30:11.149Z",
   "data": {
     "topics": [
       {
@@ -111,8 +111,8 @@
                 "id": "p-eurace-2012",
                 "title": "P·EURACE (Dawid et al., 2008–2012)",
                 "content": "**Ref.** Dawid, H., Gemkow, S., Harting, P., van der Hoog, S. & Neugart, M. (2012). *The EURACE@Unibi Model: An Agent-Based Macroeconomic Model for Economic Policy Analysis.* Working paper, Bielefeld University. Continued in Dawid et al. (2018) and several *JEDC* articles.\n\n---\n\n## Intro\n\nThe **largest published macro ABM** — 50,000+ agents simulating a European economy. Built by the Bielefeld group under an EU-funded project.\n\n## What it adds to Bergmann (1974)\n\nBergmann proved the concept at ~1,000 agents with operations-research rules. EURACE:\n- **Scales 50×** to prove ABM computationally feasible against DSGE.\n- **Uses management-science rules** (Basel-style bank capital, Taylor-rule central bank, markup pricing, inventory targets) — blunts the \"arbitrary heuristics\" critique because every rule is what real firms do.\n- **Multi-market, stock-flow consistent** across labor / goods / credit / capital.\n\n## Results\n\nReproduces macro stylised facts without any optimising agent: Beveridge curve, endogenous business cycles, wage–price spiral, financial-fragility clustering, distributional dynamics.\n\n→ Anchor: **P·Bergmann (1974)**\n",
-                "x": -8875,
-                "y": 920,
+                "x": -4970,
+                "y": -490,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -126,8 +126,8 @@
                 "id": "p-ks-2010",
                 "title": "P·Dosi–Fagiolo–Roventini (2010) — K+S",
                 "content": "**Ref.** Dosi, G., Fagiolo, G. & Roventini, A. (2010). Schumpeter meeting Keynes: A policy-friendly model of endogenous growth and business cycles. *Journal of Economic Dynamics and Control*, 34(9), 1748–1767.\n\n---\n\n## Intro\n\nThe **K+S (\"Keynes + Schumpeter\") model** — flagship of the Pisa–Sant'Anna evolutionary tradition.\n\n## What it adds to Bergmann (1974)\n\nBergmann's model had no innovation dynamics. K+S adds:\n- **Two-sector economy**: capital-good firms (Schumpeter — do R&D, innovate/imitate) + consumer-good firms (Keynes — demand-constrained production).\n- **Endogenous productivity growth** from R&D + selection: winners grow, losers exit.\n- **Growth and business cycles unified.** In booms, high demand → R&D up → productivity grows. In recessions, weak firms exit → productivity distribution improves. Cycles are the mechanism through which growth happens.\n\n## Results\n\nReproduces joint growth + business-cycle stylised facts. Used for climate-policy simulations (Lamperti et al. 2018), inequality (Dosi et al. 2015), fiscal counterfactuals.\n\n→ Anchor: **P·Bergmann (1974)**\n",
-                "x": -8325,
-                "y": 920,
+                "x": -4420,
+                "y": -490,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -1878,6 +1878,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T11:30:05.386Z"
+    "lastEditedAt": "2026-07-29T11:30:09.036Z"
   }
 }
