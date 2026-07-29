@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T04:52:09.820Z",
+  "exportedAt": "2026-07-29T04:52:11.970Z",
   "data": {
     "topics": [
       {
@@ -224,7 +224,7 @@
                 "links": [],
                 "color": null,
                 "imageWidths": [
-                  576
+                  402
                 ]
               },
               {
@@ -1024,6 +1024,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-07-29T04:52:07.638Z"
+    "lastEditedAt": "2026-07-29T04:52:09.837Z"
   }
 }
