@@ -4742,7 +4742,7 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
                         <input type="file" id="detailImageInput" accept="image/*" multiple style="display:none">
                         <button class="image-btn" onmousedown="event.preventDefault(); triggerDetailImageUpload()">+ Image</button>
                     </div>
-                    <button class="edit-btn view-mode-only" onclick="enterDetailEditMode()">Edit</button>
+                    <button class="edit-btn view-mode-only" onclick="enterDetailEditMode()" title="Edit the whole note as raw source (split view)">Source</button>
                     <button class="edit-btn edit-mode-only" onclick="exitDetailEditMode()" style="background: var(--green);">Done</button>
                     <button class="detail-close" onclick="closeDetail()">&times;</button>
                 </div>
