@@ -9824,6 +9824,10 @@ function renderObsidianPreview() {
     const blocks = splitIntoEditBlocks(content);
     State._editBlocks = blocks;
 
+    // Image tokens substitute per block; the "unused images" gallery is
+    // computed across ALL blocks and appended once at the end of the note.
+    const node = State.selectedNode;
+    const usedImgIdx = new Set();
     const renderBlock = (src) => {
         let html;
         if (format === 'chatgpt') {
@@ -9836,14 +9840,25 @@ function renderObsidianPreview() {
         } else {
             html = formatContentWithEditableFormulas(normalizeLatexDelimiters(src), format === 'latex');
         }
-        return renderInlineImages(html, State.selectedNode);
+        if (node && Array.isArray(node.images) && node.images.length) {
+            const sub = substituteInlineImageTokens(html, node.images, node.imageWidths);
+            sub.usedIndices.forEach(i => usedImgIdx.add(i));
+            return sub.html;
+        }
+        return renderInlineImages(html, node);
     };
 
     const inner = blocks.length
         ? blocks.map((b, i) => `<div class="lp-block" data-bi="${i}">${renderBlock(b.src)}</div>`).join('')
         : '<span class="detail-text empty-placeholder" data-seg-idx="0" style="color:var(--text2);cursor:text;">Click here to start writing...</span>';
 
-    container.innerHTML = `<div class="live-preview-content">${inner}</div>`;
+    let galleryHtml = '';
+    if (node && Array.isArray(node.images) && node.images.length) {
+        const remaining = node.images.map((img, i) => ({ img, i })).filter(({ i }) => !usedImgIdx.has(i));
+        if (remaining.length) galleryHtml = _imagesGalleryHtml(node, remaining);
+    }
+
+    container.innerHTML = `<div class="live-preview-content">${inner}${galleryHtml}</div>`;
 
     const previewContent = container.querySelector('.live-preview-content');
     renderMath(previewContent);
