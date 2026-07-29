@@ -10486,6 +10486,12 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
         text = text.replace(/\$\$([\s\S]*?)\$\$/g, m => { stash.push(m); return '\x01X' + (stash.length - 1) + '\x01'; });
         text = text.replace(/\$([^\$\n]+?)\$/g, m => { stash.push(m); return '\x01X' + (stash.length - 1) + '\x01'; });
         text = text.replace(/\*\*(.+?)\*\*/g, '%%B%%$1%%/B%%');
+        // Italic + highlights across math too (math is stashed, so a pair of
+        // markers can bracket formulas: ==important $x=1$ result== works).
+        text = text.replace(/==(.+?)==/g, '%%HLY%%$1%%/HLY%%');
+        text = text.replace(/::(.+?)::/g, '%%HLG%%$1%%/HLG%%');
+        text = text.replace(/~~(.+?)~~/g, '%%HLP%%$1%%/HLP%%');
+        text = text.replace(/\*([^*\n]+?)\*/g, '%%I%%$1%%/I%%');
         stash.forEach((b, i) => { text = text.replace('\x01X' + i + '\x01', () => b); });
     })();
 
