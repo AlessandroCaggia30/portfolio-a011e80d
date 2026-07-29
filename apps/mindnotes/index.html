@@ -10725,11 +10725,11 @@ function enterDetailEditMode() {
 function exitDetailEditMode() {
     const panel = $('detailPanel');
 
-    // Save the content from editor
+    // Save the content from editor (normalized so block-editor offsets stay valid)
     const editor = $('detailContentEditor');
     if (editor && State.selectedNode) {
-        State.currentContent = editor.value;
-        State.contentBlocks = [editor.value];
+        State.currentContent = normalizeLatexDelimiters(editor.value);
+        State.contentBlocks = [State.currentContent];
         autoSaveContent();
     }
 
