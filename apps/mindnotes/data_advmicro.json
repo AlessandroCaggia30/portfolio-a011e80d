@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T08:48:14.030Z",
+  "exportedAt": "2026-07-29T08:48:17.688Z",
   "data": {
     "topics": [
       {
@@ -298,7 +298,7 @@
               {
                 "id": "ch_exchange_setting",
                 "title": "Exchange Economy — setting and feasibility",
-                "content": "\\textbf{\\textcolor{red}{EXCHANGE ECONOMY --- the standard setting for PO and CE.}}\n\n\n\\textbf{\\textcolor{red}{Ingredients.}}\n$\\bullet$ \\textbf{$I$ consumers / agents}, indexed by $i = 1, 2, \\ldots, I$.\n$\\bullet$ \\textbf{$N$ goods}, indexed by $n = 1, 2, \\ldots, N$.\n$\\bullet$ \\textbf{Initial endowments} $\\omega^i = (\\omega_1^i, \\ldots, \\omega_N^i) \\in \\mathbb{R}^N_+$: agent $i$'s initial stock of each good \\emph{before} any trade.\n$\\bullet$ \\textbf{Utility functions} $U^i : \\mathbb{R}^N_+ \\to \\mathbb{R}$, one per agent.\n$\\bullet$ GE setting: \n- Anonymous agents interacitng, they are small, they take prices as given\n- General equilibrium: all prices are free to adjust vs Partial Equilirbium, some prices are fixed\n\n\\emph{No production} --- the only way goods change hands is by exchange between consumers.\n\n\\textbf{\\textcolor{red}{Feasible set.}}\n$$ \\mathcal{F} \\;=\\; \\bigl\\{\\, x = (x^1, \\ldots, x^I) \\;:\\; x_n^i \\geq 0 \\;\\forall i, n, \\;\\; \\textstyle\\sum_i x_n^i = \\omega_n \\;\\forall n \\,\\bigr\\}. $$\n\nRemark: price takers agents mean they do not know they cnanto affect prices. But then note that at CE we look for prices such that AS = AD, and this clearly is composed of individual agents demand decisions! ",
+                "content": "\\textbf{\\textcolor{red}{EXCHANGE ECONOMY --- the standard setting for PO and CE.}}\n\n\n\\textbf{\\textcolor{red}{Ingredients.}}\n$\\bullet$ \\textbf{$I$ consumers / agents}, indexed by $i = 1, 2, \\ldots, I$.\n$\\bullet$ \\textbf{$N$ goods}, indexed by $n = 1, 2, \\ldots, N$.\n$\\bullet$ \\textbf{Initial endowments} $\\omega^i = (\\omega_1^i, \\ldots, \\omega_N^i) \\in \\mathbb{R}^N_+$: agent $i$'s initial stock of each good \\emph{before} any trade.\n$\\bullet$ \\textbf{Utility functions} $U^i : \\mathbb{R}^N_+ \\to \\mathbb{R}$, one per agent.\n$\\bullet$ GE setting: \n- Anonymous agents interacitng, they are small, they take prices as given- General equilibrium: all prices are free to adjust vs Partial Equilirbium, some prices are fixed\n\n\\emph{No production} --- the only way goods change hands is by exchange between consumers.\n\n\\textbf{\\textcolor{red}{Feasible set.}}\n$$ \\mathcal{F} \\;=\\; \\bigl\\{\\, x = (x^1, \\ldots, x^I) \\;:\\; x_n^i \\geq 0 \\;\\forall i, n, \\;\\; \\textstyle\\sum_i x_n^i = \\omega_n \\;\\forall n \\,\\bigr\\}. $$\n\nRemark: price takers agents mean they do not know they cnanto affect prices. But then note that at CE we look for prices such that AS = AD, and this clearly is composed of individual agents demand decisions! ",
                 "x": 3864.2684450369206,
                 "y": -2423.112584808485,
                 "width": 476.66666666666663,
@@ -1024,6 +1024,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-07-29T08:48:11.873Z"
+    "lastEditedAt": "2026-07-29T08:48:15.547Z"
   }
 }
