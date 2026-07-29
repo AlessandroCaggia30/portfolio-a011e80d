@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T11:31:36.213Z",
+  "exportedAt": "2026-07-29T11:35:56.832Z",
   "data": {
     "topics": [
       {
@@ -341,8 +341,8 @@
                 "id": "p-mirrlees-1975",
                 "title": "P·Mirrlees (1975/1999) — Moral Hazard",
                 "content": "**Ref.** Mirrlees, J. A. (1975 WP; 1999). The theory of moral hazard and unobservable behaviour. *Review of Economic Studies*, 66(1), 3–21.\n\n---\n\n## Intro\n\nThe formal foundation of **moral hazard**. Generalizes Ross 1973 to a fully-specified statistical decision problem.\n\n## Contribution\n\n- Frames the PA problem as: choose the wage function $w(y)$ to maximize principal's expected payoff subject to (i) the agent's participation constraint and (ii) the agent's incentive-compatibility constraint (agent chooses effort to maximize their own utility given the contract).\n- **Sufficient-statistic result:** the optimal wage depends only on those signals informative about effort — direct precursor to Holmström 1979.\n\n## Position\n\nUnder **①** raw agency problem. Establishes the mathematical setup used by every downstream paper.\n\n→ Anchor: extends to **P·Holmström (1979)** (informativeness principle)\n",
-                "x": 2940,
-                "y": 710,
+                "x": 2781.9058322622573,
+                "y": 707.4082923321675,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -1878,6 +1878,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T11:31:33.984Z"
+    "lastEditedAt": "2026-07-29T11:35:54.640Z"
   }
 }
