@@ -9900,7 +9900,11 @@ function attachBlockEditHandlers(container) {
     }
 
     container.querySelectorAll('.lp-block').forEach(blockEl => {
-        blockEl.querySelectorAll('.detail-formula').forEach(el => { el.style.cursor = 'pointer'; });
+        // Formulas get a pointer cursor except inside table cells, where the
+        // click unit (and hover highlight) is the cell itself.
+        blockEl.querySelectorAll('.detail-formula').forEach(el => {
+            if (!el.closest('td, th')) el.style.cursor = 'pointer';
+        });
         blockEl.addEventListener('click', (e) => {
             if (blockEl.classList.contains('editing') || e.target.closest('textarea')) return;
             if (e.target.closest('.editing')) return;
