@@ -9955,6 +9955,142 @@ function openBlockEditor(bi, blockEl) {
     });
 }
 
+// ---- per-cell table editing ----
+
+// Mask $...$ / $$...$$ so structural splits on & and \\ ignore math content.
+function _maskMathRanges(s) {
+    let out = s.replace(/\$\$[\s\S]*?\$\$/g, m => '\x00'.repeat(m.length));
+    out = out.replace(/\$[^\$\n]*?\$/g, m => '\x00'.repeat(m.length));
+    return out;
+}
+
+// Map a \begin{tabular} body to per-cell [start,end] source ranges (absolute
+// offsets into src). Mirrors convertTabularToTable's naive &/\\ splitting so
+// the ranges correspond 1:1 with the rendered <td>s.
+function _parseTabularCells(src) {
+    const m = /\\begin\{tabular\}\{((?:[^{}]|\{[^{}]*\})*)\}/.exec(src);
+    if (!m) return null;
+    const bodyStart = m.index + m[0].length;
+    const endIdx = src.indexOf('\\end{tabular}', bodyStart);
+    if (endIdx < 0) return null;
+    const body = src.slice(bodyStart, endIdx);
+    const masked = _maskMathRanges(body);
+
+    const rowRanges = [];
+    let rowStart = 0;
+    const rowSep = /\\\\/g;
+    let rm;
+    while ((rm = rowSep.exec(masked)) !== null) {
+        rowRanges.push([rowStart, rm.index]);
+        rowStart = rm.index + 2;
+    }
+    rowRanges.push([rowStart, masked.length]);
+
+    const ruleRe = /\\hline|\\toprule|\\midrule|\\bottomrule|\\cline\{[^}]*\}|\\noalign\{[^}]*\}/g;
+    const rows = [];
+    rowRanges.forEach(([rs, re]) => {
+        // Render drops rows that are empty after stripping rule commands.
+        if (!body.slice(rs, re).replace(ruleRe, '').trim()) return;
+        const cells = [];
+        let cs = rs;
+        for (let i = rs; i < re; i++) {
+            if (masked[i] === '&') { cells.push([cs, i]); cs = i + 1; }
+        }
+        cells.push([cs, re]);
+        rows.push(cells.map(([a, b]) => [bodyStart + a, bodyStart + b]));
+    });
+    return rows;
+}
+
+// Map a GFM pipe-table to per-cell source ranges. Row order matches the
+// rendered table: header row first, then body rows (separator line skipped).
+function _parsePipeTableCells(src) {
+    const lines = src.split('\n');
+    const rowRe = /^\s*\|(.+)\|\s*$/;
+    const sepRe = /^\s*\|(\s*:?-{2,}:?\s*\|)+\s*$/;
+    let offset = 0, start = -1;
+    const lineOffsets = lines.map(l => { const o = offset; offset += l.length + 1; return o; });
+    for (let i = 0; i + 1 < lines.length; i++) {
+        if (rowRe.test(lines[i]) && sepRe.test(lines[i + 1])) { start = i; break; }
+    }
+    if (start < 0) return null;
+    const rows = [];
+    const parseLine = (li) => {
+        const line = lines[li];
+        const base = lineOffsets[li];
+        const first = line.indexOf('|');
+        const last = line.lastIndexOf('|');
+        if (first < 0 || last <= first) return null;
+        const cells = [];
+        let cs = first + 1;
+        for (let i = first + 1; i < last; i++) {
+            if (line[i] === '|') { cells.push([base + cs, base + i]); cs = i + 1; }
+        }
+        cells.push([base + cs, base + last]);
+        return cells;
+    };
+    rows.push(parseLine(start));
+    for (let j = start + 2; j < lines.length && rowRe.test(lines[j]); j++) rows.push(parseLine(j));
+    return rows.every(Boolean) ? rows : null;
+}
+
+// Click on a table cell: edit just that cell's source. Any mapping doubt →
+// fall back to the whole-block editor (always safe).
+function openTableCellEditor(cellEl, blockEl) {
+    const bi = parseInt(blockEl.dataset.bi);
+    const b = State._editBlocks && State._editBlocks[bi];
+    if (!b) return;
+    const table = cellEl.closest('table');
+    // Only handle blocks with exactly one table — otherwise mapping is ambiguous.
+    if (!table || blockEl.querySelectorAll('table').length !== 1) {
+        openBlockEditor(bi, blockEl);
+        return;
+    }
+    const parsed = table.classList.contains('md-table') ? _parsePipeTableCells(b.src) : _parseTabularCells(b.src);
+    const trs = [...table.querySelectorAll('tr')];
+    const tr = cellEl.closest('tr');
+    const r = trs.indexOf(tr);
+    const c = [...tr.children].indexOf(cellEl);
+    const ok = parsed && parsed.length === trs.length && parsed[r] &&
+               parsed[r].length === tr.children.length && parsed[r][c];
+    if (!ok) {
+        openBlockEditor(bi, blockEl);
+        return;
+    }
+    const [cs, ce] = parsed[r][c];
+    const cellSrc = b.src.slice(cs, ce);
+    const lead = (cellSrc.match(/^\s*/) || [''])[0];
+    const trail = cellSrc.trim() ? (cellSrc.match(/\s*$/) || [''])[0] : '';
+
+    cellEl.classList.add('editing');
+    cellEl.innerHTML = '<div class="detail-text-editor"><textarea id="lpCellInput"></textarea></div>';
+    const ta = cellEl.querySelector('textarea');
+    ta.value = cellSrc.trim();
+    const autoResize = () => { ta.style.height = 'auto'; ta.style.height = Math.max(48, ta.scrollHeight + 4) + 'px'; };
+    ta.addEventListener('input', autoResize);
+    ta.focus();
+    autoResize();
+
+    let done = false;
+    const commit = () => {
+        if (done) return; done = true;
+        const nv = normalizeLatexDelimiters(ta.value);
+        const newBlockSrc = b.src.slice(0, cs) + lead + nv + trail + b.src.slice(ce);
+        const content = State.currentContent || '';
+        State.currentContent = content.slice(0, b.start) + newBlockSrc + content.slice(b.end);
+        State.contentBlocks = [State.currentContent];
+        autoSaveContent();
+        renderObsidianPreview();
+    };
+    const cancel = () => { if (done) return; done = true; renderObsidianPreview(); };
+
+    ta.addEventListener('blur', () => setTimeout(() => { if (document.activeElement !== ta) commit(); }, 120));
+    ta.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') { e.preventDefault(); cancel(); }
+        else if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); commit(); }
+    });
+}
+
 // Precision editor for a single formula inside a block. Falls back to the
 // whole-block editor whenever the segment indices cannot be trusted.
 function openBlockFormulaEditor(span, blockEl) {
