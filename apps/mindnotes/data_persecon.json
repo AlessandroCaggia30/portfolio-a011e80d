@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T20:04:37.712Z",
+  "exportedAt": "2026-07-29T20:04:48.111Z",
   "data": {
     "topics": [
       {
@@ -2887,6 +2887,17 @@
                 "y": -1228.6356091318512,
                 "width": 544.1154246696123,
                 "height": 155.08205184760126
+              },
+              {
+                "id": "1785355485989",
+                "title": "Research question 2: reorganization",
+                "content": "",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": -3759.6631740203975,
+                "y": -1174.120723076153
               }
             ]
           }
@@ -2975,6 +2986,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T20:04:35.554Z"
+    "lastEditedAt": "2026-07-29T20:04:45.990Z"
   }
 }
