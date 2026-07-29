@@ -6905,6 +6905,9 @@ function restoreBulletMarkers(text) {
 function restoreFormattingMarkers(text) {
     text = text.replace(/%%B%%/g, '<strong>').replace(/%%\/B%%/g, '</strong>');
     text = text.replace(/%%I%%/g, '<em>').replace(/%%\/I%%/g, '</em>');
+    text = text.replace(/%%HLY%%/g, '<span class="hl-yellow">').replace(/%%\/HLY%%/g, '</span>');
+    text = text.replace(/%%HLG%%/g, '<span class="hl-green">').replace(/%%\/HLG%%/g, '</span>');
+    text = text.replace(/%%HLP%%/g, '<span class="hl-pink">').replace(/%%\/HLP%%/g, '</span>');
     text = text.replace(/%%TT%%/g, '<code>').replace(/%%\/TT%%/g, '</code>');
     text = text.replace(/%%U%%/g, '<u>').replace(/%%\/U%%/g, '</u>');
     text = text.replace(/%%SZ:([^%]*)%%/g, '<span style="font-size:$1">');
