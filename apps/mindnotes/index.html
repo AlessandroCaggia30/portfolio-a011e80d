@@ -47,6 +47,14 @@ body {
     overflow: hidden;
 }
 
+/* Default text style for NOTE CONTENT: Garamond (UI chrome stays sans-serif).
+   Slightly larger line-height — Garamond's small x-height needs the air. */
+.node-title, .node-preview,
+.live-preview-content, .detail-title-display {
+    font-family: 'EB Garamond', Garamond, 'Apple Garamond', Georgia, serif;
+}
+.live-preview-content { line-height: 1.55; }
+
 .app { display: flex; height: 100vh; }
 
 .sidebar {
