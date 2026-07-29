@@ -7719,7 +7719,8 @@ function createNodeElement(node) {
                 `<div class="color-opt" style="background:${color}" data-c="${name}"></div>`
             ).join('')}
         </div>
-        <div class="node-title" style="font-size:${titleSize}px">${isFlashcardNode(node) ? '🎴 ' : ''}${escapeHtml(node.title || 'Untitled')}</div>
+        ${isFlashcardNode(node) ? '<div class="fc-badge" title="Flashcard">🎴</div>' : ''}
+        <div class="node-title" style="font-size:${titleSize}px">${escapeHtml(node.title || 'Untitled')}</div>
         <div class="node-preview${(node.content || '').includes('\\begin{tabular}') ? ' has-table' : ''}" style="${(node.content || '').includes('\\begin{tabular}') ? 'display:block;-webkit-line-clamp:unset;overflow:auto;' : `-webkit-line-clamp:${previewLines};`}font-size:${calculatePreviewSize(node.width, node.height)}px"></div>
         <div class="resize-handle"></div>
     `;
