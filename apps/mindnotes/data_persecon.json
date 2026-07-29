@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T21:00:31.188Z",
+  "exportedAt": "2026-07-29T21:00:33.462Z",
   "data": {
     "topics": [
       {
@@ -736,6 +736,10 @@
                   },
                   {
                     "target": "phase-2-solution",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-alchian-demsetz-1972",
                     "type": "forward"
                   }
                 ],
@@ -3029,6 +3033,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T21:00:29.052Z"
+    "lastEditedAt": "2026-07-29T21:00:31.320Z"
   }
 }
