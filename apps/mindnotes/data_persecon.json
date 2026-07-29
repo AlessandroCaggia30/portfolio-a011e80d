@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T20:01:45.624Z",
+  "exportedAt": "2026-07-29T20:01:55.964Z",
   "data": {
     "topics": [
       {
@@ -2873,6 +2873,17 @@
                 "width": 514.699826275169,
                 "height": 440.482975616612,
                 "color": "purple"
+              },
+              {
+                "id": "1785355313840",
+                "title": "Research question 2: Incentives",
+                "content": "",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": 506.9051028725953,
+                "y": -1246.0459399950632
               }
             ]
           }
@@ -2961,6 +2972,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T20:01:43.457Z"
+    "lastEditedAt": "2026-07-29T20:01:53.841Z"
   }
 }
