@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T20:04:00.221Z",
+  "exportedAt": "2026-07-29T20:04:09.372Z",
   "data": {
     "topics": [
       {
@@ -156,8 +156,8 @@
                 "id": "p-mn-2009",
                 "title": "P·Martin–Neugart (2009) — DC for Wage-Setting",
                 "content": "**Ref.** Martin, C. & Neugart, M. (2009). Shocks, endogenous rigidity, and the role of a shock-absorbing labor market institution. *Applied Economics*, 41(9), 1141–1153.\n\n---\n\n## Intro\n\nExtends Neugart 2008's discrete-choice ABM from **policy-participation** decisions to the **transactional core** of the labor market — wage-setting, turnover, hiring/firing.\n\n## What it adds to Neugart (2008)\n\nNeugart 2008 handled accept-training-yes/no decisions. MN 2009:\n- **Firm posts vacancy? Hire? Wage offer?** All logit choices.\n- **Worker accept? Quit?** All logit choices.\n- Institutional features (UI, short-time work, wage subsidies) enter as $V$-shifts.\n\n## Results\n\n- **Full labor-market equilibrium** from discrete choice alone — no Nash bargaining, no wage posting.\n- **Institutional shock-absorbers** cut cyclical amplitude by 15–30% in calibrated model.\n\n→ Anchor: **P·Neugart (2008)**\n",
-                "x": -5905,
-                "y": 2680,
+                "x": -2385.000000000001,
+                "y": 2760,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -191,8 +191,8 @@
                 "id": "p-gn-2011",
                 "title": "P·Gemkow–Neugart (2011) — RL + Networks",
                 "content": "**Ref.** Gemkow, S. & Neugart, M. (2011). Referral hiring, endogenous social networks, and inequality: an agent-based analysis. *Journal of Evolutionary Economics*, 21, 703–719.\n\n---\n\n## Intro\n\nExtends Richiardi's TD to a **richer state–action space**: how much to invest in maintaining each social tie, given uncertain and delayed referral payoffs.\n\n## What it adds to Richiardi (2006)\n\nRichiardi's TD was scalar (search or not). GN:\n- **Q-table over network-investment actions**.\n- **Softmax exploration** — occasionally picks suboptimal actions (necessary when payoff landscape isn't monotonic).\n- **Endogenous networks** — ties decay if not maintained; new ties form via matching.\n\n## Results\n\n- **Endogenous inequality from cumulative advantage.** Two ex-ante identical workers diverge: early luck → high Q → more investment → more referrals; early failure → disengagement → cumulative disadvantage.\n- **First serious use of Q-learning in labor economics** — imports RL from AI without pretending agents are hyper-rational.\n\n→ Anchor: **P·Richiardi (2006)**\n",
-                "x": -5355,
-                "y": 2680,
+                "x": -1835.000000000001,
+                "y": 2760,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -276,8 +276,8 @@
                 "id": "p-nr-2018",
                 "title": "P·Neugart–Richiardi (2018) — Handbook Synthesis",
                 "content": "**Ref.** Neugart, M. & Richiardi, M. (2018). Agent-based models of the labor market. In *Handbook of Computational Economics, Vol. 4* (Cars Hommes & Blake LeBaron, eds.). Elsevier / North-Holland.\n\n---\n\n## Intro\n\n**Definitive field survey.** Written by two of the most productive practitioners. Serves as the roadmap for anyone building a labor-market ABM.\n\n## What it adds\n\n- **Taxonomy on 4 axes**: agent decision rule (fixed / DC / adaptive / RL / optimizing), market focus, calibration strategy, validation target.\n- **Best-practice design patterns**: modular architecture, RNG seeding, sensitivity sweeps.\n- **Gap list** — actionable open problems. First one: integrated incentive-alternative ABMs with per-contract identification.\n- **Validation criteria** — how to demonstrate the ABM is credible.\n\n## Contribution\n\nEstablishes field identity. First citation in any subsequent labor-market ABM paper.\n\n→ Anchor: labor branch synthesis of **P·Bergmann (1974)** lineage\n",
-                "x": -4805,
-                "y": 2680,
+                "x": -1285.000000000001,
+                "y": 2760,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2975,6 +2975,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T20:03:58.104Z"
+    "lastEditedAt": "2026-07-29T20:04:07.241Z"
   }
 }
