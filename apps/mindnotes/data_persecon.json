@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T20:58:20.609Z",
+  "exportedAt": "2026-07-29T20:58:23.587Z",
   "data": {
     "topics": [
       {
@@ -746,8 +746,8 @@
                 "id": "p-alchian-demsetz-1972",
                 "title": "P·Alchian–Demsetz (1972) — Team Production",
                 "content": "**Ref.** Alchian, A. A. & Demsetz, H. (1972). Production, information costs, and economic organization. *American Economic Review*, 62(5), 777–795.\n\n---\n\n## Intro\n\nReframes the raw agency problem as a **team-production monitoring** problem. Fundamental for understanding why firms exist as institutions distinct from markets.\n\n## Contribution\n\n- **Team production** ($y = f(e_1, e_2, ..., e_N)$ where individual $e_i$ aren't separately observable) creates a monitoring problem.\n- The solution is to assign a **residual claimant** — someone who owns the profit after paying inputs, and therefore has the strongest incentive to monitor.\n- This IS the classical firm: someone with residual-claim rights is the boss.\n\n## Position\n\nUnder **①** raw agency problem. Complements Ross–Mirrlees by explaining WHY firms exist as institutional solutions to the agency problem (rather than pure market contracting).\n",
-                "x": 2880,
-                "y": 120,
+                "x": 4064.3334182949266,
+                "y": -264.6316475303611,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -1185,8 +1185,8 @@
                 "id": "p-jensen-meckling-1976",
                 "title": "P·Jensen–Meckling (1976) — Agency Costs of the Firm",
                 "content": "**Ref.** Jensen, M. & Meckling, W. (1976). Theory of the firm: Managerial behavior, agency costs and ownership structure. *Journal of Financial Economics*, 3(4), 305–360.\n\n---\n\n## Intro\n\nThe **founding paper of agency-cost theory of the firm**. Answers: why does firm ownership structure matter — why not have owner-managers everywhere, or professional managers with 100% outside capital? Because the separation of ownership and control creates agency costs: managers with less than 100% ownership have incentives to divert firm resources (perquisites, empire-building, effort-shirking) in ways that reduce firm value. The optimal ownership structure trades off these agency costs against the benefits of outside financing (risk-sharing, capital-market access).\n\n## Setup\n\n- Manager can consume \"perquisites\" $F$ (private benefits: corporate jets, lavish offices, empire-building) from firm resources.\n- Manager's private utility increases in perquisites: $U^M = \\alpha \\cdot y + F$, where $\\alpha$ is the manager's ownership share and $y$ is firm profit.\n- Firm profit $y = f(\\text{investment}, \\text{effort}) - F$: perquisites are consumed at the firm's expense.\n- Outside investors hold fraction $1 - \\alpha$.\n\n## Derivation — the agency-cost decomposition\n\n### Step 1 — sole-ownership benchmark ($\\alpha = 1$)\n\nManager captures the full marginal effect of both effort and perquisite reduction. Sets $F$ and effort to jointly maximize $y - F$ — the first-best.\n\n### Step 2 — outside ownership ($\\alpha < 1$)\n\nManager captures only $\\alpha$ of firm profit but bears full effort cost and enjoys full perquisite benefit. FOC on perquisites:\n$$\\alpha \\cdot \\frac{\\partial y}{\\partial F} + \\underbrace{1}_{\\text{own utility from perk}} = 0 \\Rightarrow F^*(\\alpha) > F^{FB}.$$\n\nManager over-consumes perquisites relative to first-best. Similarly under-invests in effort.\n\n### Step 3 — the agency-cost triad\n\n**Agency cost** = value destroyed by the separation of ownership and control. Decomposes into three parts:\n\n1. **Monitoring costs $M$** — outside investors' expenditures to observe manager behaviour (audits, boards, regulators).\n2. **Bonding costs $B$** — manager's expenditures to signal commitment (put personal capital at stake, non-compete clauses, deferred pay).\n3. **Residual loss $L$** — the value destruction from perquisite over-consumption and effort under-provision that remains despite $M$ and $B$.\n\nTotal agency cost:\n$$AC(\\alpha) = M(\\alpha) + B(\\alpha) + L(\\alpha).$$\n\n### Step 4 — optimal capital structure\n\nOwners choose ownership share $\\alpha$ and debt–equity mix to minimize the total cost of the firm:\n$$\\min_\\alpha \\; AC(\\alpha) + \\text{outside financing cost}(1 - \\alpha).$$\n\nHigher $\\alpha$ → lower agency costs but higher personal-risk premium demanded by manager. Lower $\\alpha$ → cheaper outside capital but higher agency costs.\n\n## Results & Contribution\n\n1. **Foundation of agency theory** applied to the firm. Frames firm ownership as an optimal-contracting problem, replacing the neoclassical black-box firm.\n2. **Explains observed capital structures.** Debt vs. equity choice determined by relative agency costs (Jensen 1986 free-cash-flow hypothesis; Myers 1977 debt overhang).\n3. **Explains managerial ownership**. Founder-run firms concentrate ownership because agency costs dominate outside-capital costs at their scale. Extended by Demsetz–Lehn 1985 empirical work on ownership concentration.\n4. **Extended to corporate governance.** Fama–Jensen 1983 on decision–residual claim separation; Shleifer–Vishny 1997 survey.\n5. **Contrast with Fama 1980.** Where Jensen–Meckling see agency as a fundamental cost requiring careful contracting, Fama argues the managerial labor market eventually solves it. Both views are now standard.\n6. **Empirical impact.** McConnell–Servaes 1990 on firm value and managerial ownership; Morck–Shleifer–Vishny 1988 on entrenchment.\n7. **Related to Alchian–Demsetz 1972** (team production and monitoring); **Hansmann 1996** (ownership of enterprise) uses this framework to compare investor-owned vs. worker-owned firms.\n\n→ Anchor: **Incentives Theory Core**\n\n---\n\n## Supplementary notes\n\n**Ref.** Jensen, M. C. & Meckling, W. H. (1976). Theory of the firm: Managerial behavior, agency costs and ownership structure. *Journal of Financial Economics*, 3(4), 305–360.\n\n---\n\n## Intro\n\n**Most-cited paper in finance.** Formalizes the **agency costs** of separating ownership from control — the modern corporation as a nexus of contracts among competing claimants.\n\n## Contribution\n\n- **Agency costs** = monitoring costs + bonding costs + residual loss.\n- Manager owns fraction $\\alpha$ of firm → captures $\\alpha$ of profit, but bears full private cost of effort or perquisite abstention → underprovides effort, over-consumes perquisites.\n- Optimal ownership structure trades off agency costs against risk-bearing costs.\n- Foundation for **corporate-governance** literature: board composition, executive comp, ownership concentration.\n\n## Position\n\nRed **①** raw agency problem — extends Alchian-Demsetz to the modern corporation with dispersed ownership. Motivates the entire corporate-governance literature.\n",
-                "x": 2605,
-                "y": 740,
+                "x": 3789.3334182949266,
+                "y": 355.3683524696389,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -1203,8 +1203,8 @@
                 "id": "p-hart-moore-1990",
                 "title": "P·Hart–Moore (1990) — Property Rights",
                 "content": "**Ref.** Hart, O. & Moore, J. (1990). Property rights and the nature of the firm. *Journal of Political Economy*, 98(6), 1119–1158.\n\n---\n\n## Intro\n\nTogether with Grossman-Hart (1986), the **property-rights theory of the firm** — Oliver Hart's Nobel-winning work.\n\n## Contribution\n\n- Contracts are **necessarily incomplete** — ex-ante unknown contingencies.\n- **Residual control rights over assets** are what firms allocate — not contractible tasks.\n- Owning an asset gives you leverage in ex-post bargaining → makes you willing to invest in specific human capital.\n- Firm boundaries determined by **which allocation of asset ownership maximizes joint surplus given incomplete contracts**.\n\n## Position\n\nRed **①** raw agency — sits alongside Alchian-Demsetz and Jensen-Meckling as a theory of WHY firms exist as institutions distinct from markets. Foundation for modern corporate governance.\n",
-                "x": 2605,
-                "y": 1360,
+                "x": 3789.3334182949266,
+                "y": 975.3683524696389,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -1958,8 +1958,8 @@
                 "id": "p-holmstrom-1982-team",
                 "title": "P·Holmström (1982) — Moral Hazard in Teams",
                 "content": "**Ref.** Holmström, B. (1982). Moral hazard in teams. *Bell Journal of Economics*, 13(2), 324–340.\n\n---\n\n## Intro\n\n**Founding paper of team moral hazard.** Distinct from Holmström (1982) *Managerial Incentive Problems* (career concerns) — same year, different Bell issue. Answers: in team production where individual effort is unobservable and only aggregate output is measurable, can any budget-balanced sharing rule implement first-best?\n\n## Setup\n\n- $N$ team members choose effort $e_i$ at private cost $c_i(e_i)$.\n- Aggregate output $y = f(e_1, ..., e_N)$ is observable; individual $e_i$ is not.\n- **Budget-balanced sharing rule**: $\\sum_i s_i(y) = y$ (nothing lost, nothing added).\n\n## Free-rider theorem\n\nUnder budget balance + equal sharing, worker $i$'s FOC is:\n$$\\frac{1}{N} \\cdot \\frac{\\partial y}{\\partial e_i} = c_i'(e_i^*)$$\n\nMarginal reward on own effort scales with $1/N$ — free-rider effect grows with team size. First-best requires $\\partial y/\\partial e_i = c_i'$, so equal sharing gives underprovision by factor $N$.\n\n## Impossibility result\n\n**No budget-balanced sharing rule implements first-best.** Requires a **residual claimant** (Alchian–Demsetz 1972 style) who breaks budget balance — burns output if targets are missed, redistributes surplus if targets are met.\n\n## Contribution\n\n- Establishes the **fundamental limit of team pay** in the absence of monitoring or peer pressure.\n- Motivates every subsequent paper on team incentives:\n  - **Kandel–Lazear (1992)** — peer pressure adds the missing wedge.\n  - **Bandiera–Barankay–Rasul (2013)** — endogenous team formation resolves it empirically.\n  - **Hamilton–Nickerson–Owan (2003)** — self-selection into teams reverses the free-rider prediction.\n- Referenced in the yardstick-competition literature (Shleifer 1985) as motivation for peer-benchmarked contracts.\n\n→ Anchor: parent to **P·Kandel–Lazear (1992)** in the Phase-6 team-pay branch.\n",
-                "x": 3155,
-                "y": 740,
+                "x": 4339.333418294927,
+                "y": 355.3683524696389,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3029,6 +3029,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T20:58:18.447Z"
+    "lastEditedAt": "2026-07-29T20:58:21.436Z"
   }
 }
