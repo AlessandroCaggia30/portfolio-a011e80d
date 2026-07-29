@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T11:37:56.551950Z",
+  "exportedAt": "2026-07-29T11:38:21.712Z",
   "data": {
     "topics": [
       {
@@ -700,8 +700,8 @@
                 "id": "hub-incentives-core",
                 "title": "★ Incentives Theory — Core",
                 "content": "# Incentives Theory — Core\n\n TWO ISSUES: 1) EFFORT CANNOT BE OBSERVED AND  (AS A CONSEQUENCE) 2) WAGE IS PAID TO OVERALL TEAM / FIRM PRODUCTION.\n\n## The question\n\n**Why doesn't a worker on flat pay exert socially optimal effort?**\nTwo primitive frictions drive everything downstream:\n\n1. **Effort $e$ is unobservable** (moral hazard).\n2. **Individual output $s_i$ is often also unobservable** — only team/firm output is → free-riding.",
-                "x": -280,
-                "y": -220,
+                "x": -25,
+                "y": -1280,
                 "width": 560,
                 "height": 440,
                 "flashcard": false,
@@ -1977,6 +1977,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T11:36:47.571Z"
+    "lastEditedAt": "2026-07-29T11:38:19.588Z"
   }
 }
