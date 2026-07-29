@@ -2162,6 +2162,13 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
 .lp-block .detail-text:hover { background: transparent; }
 .lp-block .detail-text { cursor: inherit; }
 
+/* Table cells are individually editable */
+.lp-block td, .lp-block th { cursor: text; }
+.lp-block td:hover, .lp-block th:hover { background: rgba(108, 92, 231, 0.08); }
+.lp-block td.editing, .lp-block th.editing { background: rgba(0, 0, 0, 0.12); }
+.lp-block td .detail-text-editor textarea,
+.lp-block th .detail-text-editor textarea { min-width: 200px; width: 100%; font-size: 12px; }
+
 /* Text inline editor */
 .detail-text-editor {
     display: block;
