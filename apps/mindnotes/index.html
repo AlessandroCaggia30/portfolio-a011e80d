@@ -10024,56 +10024,113 @@ function _isFmtTextarea(el) {
     return el && el.tagName === 'TEXTAREA' &&
         (el.id === 'lpBlockInput' || el.id === 'lpCellInput' || el.id === 'detailContentEditor');
 }
-// Rendered-mode selection (Cmd+select on compiled text): {bi, text, occ}
+// Rendered-mode selection (select on compiled text): {bi, S, E} — S/E are
+// exact offsets into the block SOURCE, mapped from the DOM selection.
 let _fmtRenderedSel = null;
+
+// Map a DOM point inside a rendered block to an offset in the block source.
+// Uses the segment spans' data-seg-idx (they carry exact source ranges) and
+// greedy alignment for the plain-text stretch after the last passed formula.
+// A point inside a formula snaps outward so the whole formula is included.
+function _pointToSourceOffset(blockEl, b, node, domOffset, snapDir) {
+    const el = node.nodeType === 1 ? node : node.parentElement;
+    if (!el) return null;
+    const segs = parseContentSegments(b.src);
+    const f = el.closest('.detail-formula');
+    if (f && blockEl.contains(f)) {
+        const seg = segs[parseInt(f.dataset.segIdx)];
+        return seg ? (snapDir < 0 ? seg.start : seg.end) : null;
+    }
+    // Last formula span located before the point (DOM order)
+    const pr = document.createRange();
+    try { pr.setStart(node, domOffset); } catch (_) { return null; }
+    pr.collapse(true);
+    let lastF = null;
+    blockEl.querySelectorAll('.detail-formula').forEach(fs => {
+        try { if (pr.comparePoint(fs, 0) === -1) lastF = fs; } catch (_) {}
+    });
+    const segIdx = lastF ? parseInt(lastF.dataset.segIdx) + 1 : 0;
+    const seg = segs[segIdx];
+    if (!seg) return lastF ? segs[parseInt(lastF.dataset.segIdx)].end : 0;
+    if (seg.type !== 'text') return snapDir < 0 ? seg.start : seg.end;
+    // Rendered text between the last formula (or block start) and the point
+    const ar = document.createRange();
+    if (lastF) ar.setStartAfter(lastF); else ar.setStart(blockEl, 0);
+    try { ar.setEnd(node, domOffset); } catch (_) { return null; }
+    const renderedPrefix = ar.toString();
+    // Greedy alignment: walk raw source, consuming rendered chars when they
+    // match; unmatched source chars are markers/commands and are skipped.
+    const raw = b.src.slice(seg.start, seg.end);
+    let si = 0, ri = 0;
+    while (ri < renderedPrefix.length && si < raw.length) {
+        if (raw[si] === renderedPrefix[ri]) { si++; ri++; }
+        else si++;
+    }
+    return seg.start + si;
+}
 
 // Capture the current DOM selection if it lives inside a single lp-block.
 function _captureRenderedSelection() {
     const sel = window.getSelection();
-    if (!sel || sel.isCollapsed) return null;
-    const text = sel.toString();
-    if (!text || !text.trim()) return null;
-    const blockEl = sel.anchorNode && (sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement)?.closest('.lp-block');
+    if (!sel || sel.isCollapsed || !sel.rangeCount) return null;
+    if (!sel.toString().trim()) return null;
+    const range = sel.getRangeAt(0);
+    const startHost = (range.startContainer.nodeType === 1 ? range.startContainer : range.startContainer.parentElement);
+    const blockEl = startHost && startHost.closest('.lp-block');
     if (!blockEl || blockEl.classList.contains('editing')) return null;
-    const focusEl = sel.focusNode && (sel.focusNode.nodeType === 1 ? sel.focusNode : sel.focusNode.parentElement)?.closest('.lp-block');
-    if (focusEl !== blockEl) return null; // selection must stay within one block
-    // Occurrence index of the selected string within this block's rendered text
-    let occ = 0;
-    try {
-        const pre = document.createRange();
-        pre.selectNodeContents(blockEl);
-        const r = sel.getRangeAt(0);
-        pre.setEnd(r.startContainer, r.startOffset);
-        const before = pre.toString();
-        let k = -1;
-        while ((k = before.indexOf(text, k + 1)) !== -1) occ++;
-    } catch (_) { occ = 0; }
-    return { bi: parseInt(blockEl.dataset.bi), text, occ };
+    const endHost = (range.endContainer.nodeType === 1 ? range.endContainer : range.endContainer.parentElement);
+    if (!endHost || endHost.closest('.lp-block') !== blockEl) return null; // one block only
+    const bi = parseInt(blockEl.dataset.bi);
+    const b = State._editBlocks && State._editBlocks[bi];
+    if (!b) return null;
+    const S = _pointToSourceOffset(blockEl, b, range.startContainer, range.startOffset, -1);
+    const E = _pointToSourceOffset(blockEl, b, range.endContainer, range.endOffset, +1);
+    if (S === null || E === null || E <= S) return null;
+    return { bi, S, E };
 }
 
-// Apply a format to a rendered selection by locating it in the block source.
-function _fmtWrapRendered(prefix, suffix) {
-    const { bi, text, occ } = _fmtRenderedSel;
+// Strip existing markers of the SAME kind inside a source span (outside math),
+// so the new format overrules instead of nesting/conflicting.
+function _stripFormatMarkers(s, kind) {
+    const stash = [];
+    let t = s.replace(/\$\$[\s\S]*?\$\$/g, m => { stash.push(m); return '\x01S' + (stash.length - 1) + '\x01'; });
+    t = t.replace(/\$[^\$\n]*?\$/g, m => { stash.push(m); return '\x01S' + (stash.length - 1) + '\x01'; });
+    if (kind === 'bold') {
+        t = t.replace(/\*\*/g, '');
+    } else if (kind === 'italic') {
+        t = t.replace(/\*\*/g, '\x02');
+        t = t.replace(/\*/g, '');
+        t = t.replace(/\x02/g, '**');
+    } else if (kind === 'hl') {
+        t = t.replace(/==|::|~~/g, '');
+    } else if (kind === 'color') {
+        let prev;
+        do {
+            prev = t;
+            t = t.replace(/\\textcolor(?:\[[^\]]*\])?\{[^}]*\}\{((?:[^{}]|\{[^{}]*\})*)\}/g, '$1');
+        } while (t !== prev);
+    }
+    stash.forEach((m, i) => { t = t.replace('\x01S' + i + '\x01', () => m); });
+    return t;
+}
+
+// Apply a format to a rendered selection via its exact source range.
+function _fmtWrapRendered(prefix, suffix, kind) {
+    const { bi, S, E } = _fmtRenderedSel;
     _fmtRenderedSel = null;
     const b = State._editBlocks && State._editBlocks[bi];
     if (!b) { _hideFmtBar(); return; }
-    const idxs = [];
-    let k = -1;
-    while ((k = b.src.indexOf(text, k + 1)) !== -1) idxs.push(k);
-    if (!idxs.length) {
-        showToast('Selection contains formatting/math — click the block to format there');
-        _hideFmtBar();
-        return;
-    }
-    const i = idxs[Math.min(occ, idxs.length - 1)];
     pushToHistory();
+    const orig = b.src.slice(S, E);
+    const inner = _stripFormatMarkers(orig, kind);
     let newSrc;
-    if (b.src.slice(Math.max(0, i - prefix.length), i) === prefix &&
-        b.src.slice(i + text.length, i + text.length + suffix.length) === suffix) {
-        // already wrapped → toggle off
-        newSrc = b.src.slice(0, i - prefix.length) + text + b.src.slice(i + text.length + suffix.length);
+    if (inner === orig &&
+        b.src.slice(Math.max(0, S - prefix.length), S) === prefix &&
+        b.src.slice(E, E + suffix.length) === suffix) {
+        // exact wrap already present, nothing to overrule → toggle OFF
+        newSrc = b.src.slice(0, S - prefix.length) + orig + b.src.slice(E + suffix.length);
     } else {
-        newSrc = b.src.slice(0, i) + prefix + text + suffix + b.src.slice(i + text.length);
+        newSrc = b.src.slice(0, S) + prefix + inner + suffix + b.src.slice(E);
     }
     const content = State.currentContent || '';
     State.currentContent = content.slice(0, b.start) + newSrc + content.slice(b.end);
@@ -10082,8 +10139,8 @@ function _fmtWrapRendered(prefix, suffix) {
     renderObsidianPreview();
 }
 
-function _fmtWrap(prefix, suffix) {
-    if (!_fmtTarget && _fmtRenderedSel) { _fmtWrapRendered(prefix, suffix); return; }
+function _fmtWrap(prefix, suffix, kind) {
+    if (!_fmtTarget && _fmtRenderedSel) { _fmtWrapRendered(prefix, suffix, kind); return; }
     const ta = _fmtTarget;
     if (!ta) return;
     const s = ta.selectionStart, e = ta.selectionEnd;
