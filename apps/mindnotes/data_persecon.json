@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T20:02:00.254Z",
+  "exportedAt": "2026-07-29T20:02:04.935Z",
   "data": {
     "topics": [
       {
@@ -1934,6 +1934,10 @@
                   {
                     "target": "1785355203938",
                     "type": "forward"
+                  },
+                  {
+                    "target": "1785355313840",
+                    "type": "forward"
                   }
                 ],
                 "x": -261.0335620263304,
@@ -2877,7 +2881,12 @@
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
-                "links": [],
+                "links": [
+                  {
+                    "target": "hub-incentives-core",
+                    "type": "forward"
+                  }
+                ],
                 "x": 560.2242411411817,
                 "y": -1228.6356091318512,
                 "width": 544.1154246696123,
@@ -2970,6 +2979,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T20:02:00.093Z"
+    "lastEditedAt": "2026-07-29T20:02:03.573Z"
   }
 }
