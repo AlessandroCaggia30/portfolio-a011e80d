@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T19:59:57.800Z",
+  "exportedAt": "2026-07-29T20:00:04.784Z",
   "data": {
     "topics": [
       {
@@ -2855,6 +2855,17 @@
                 "images": [],
                 "links": [],
                 "popBg": "#f3f4f6"
+              },
+              {
+                "id": "1785355203938",
+                "title": "Methodologies",
+                "content": "\n\n## Approaches (just the ones already realized, not the full set of what i have in mind): \n\n\n** 1) Causal Empirics**: self selection is a huge issue... (extra math course offered to a class... who will join..). Very foundamental econometric issue that inhibt any pubblication. \nSell to clients as three separate mini-products: reorg-only, incentive-only, full-stack. Each arm is a legitimate offering. Famous methodology: to avoid self selection promote some clients to test freely the product. \n\n| Arm | Reorganisation | Incentive contract |\n|---|---|---|\n| **B** (0, 0) | Old assignment $\\mu_0$ | Flat wage $A_0$ |\n| **R** (1, 0) | **Quindi reorganises** to $\\mu^*$ | Flat wage $A_0$ |\n| **I** (0, 1) | Old assignment $\\mu_0$ | **Quindi contract $A_j$** |\n| **F** (1, 1) | **Quindi reorganises** + **Quindi contract** | |\n\n\n## Strategy 2 — Staged rollout (near-best)\n\nIf 2×2 is politically hard, run in phases:\n\n- **Phase 1** (months 1–3): random $A_j$ treatment, **assignment frozen** at $\\mu_0$ → clean $\\hat\\tau_{\\text{incent}}$.\n- **Phase 2** (months 4–6): allow Quindi to reorganise → clean $\\hat\\tau_{\\text{total}}$, then $\\hat\\tau_{\\text{reorg}} = \\hat\\tau_{\\text{total}} - \\hat\\tau_{\\text{incent}}$.\n\n**Assumption**: incentive effect stable across phases + interaction effect unidentifiable (my simulation indicicates this is a severe concern)\n\n---\n\n## Strategy 3 — Within-worker-within-task fixed effects (observational)\n\nPanel data with workers doing multiple tasks over time; some clients adopt one Quindi module before the other (staggered adoption):\n\n$$y_{ikt} \\;=\\; \\alpha_i + \\gamma_k + \\delta_t + \\tau_{\\text{incent}} \\cdot Q^{\\text{incent}}_{it} + \\tau_{\\text{reorg}} \\cdot Q^{\\text{reorg}}_{it} + \\varepsilon_{ikt}$$\n\nwhere $y_{ikt}$ is output of worker $i$ on task $k$ at time $t$; $Q^{\\text{incent}}_{it}$, $Q^{\\text{reorg}}_{it}$ are module-adoption indicators.\n\n- $\\tau_{\\text{incent}}$ identified from same $(i, k)$ pre vs post contract switch.\n- $\\tau_{\\text{reorg}}$ identified from worker crossing tasks under stable contract.\n\nrecall: controls are a whitin group comparison...\n\n---\n",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": 1014.1769952955901,
+                "y": -1894.0372597419755
               }
             ]
           }
@@ -2943,6 +2954,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T19:59:55.629Z"
+    "lastEditedAt": "2026-07-29T20:00:03.939Z"
   }
 }
