@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T03:46:28.157Z",
+  "exportedAt": "2026-07-29T03:52:35.389Z",
   "data": {
     "topics": [
       {
@@ -346,7 +346,7 @@
               {
                 "id": "ch_ps_edgeworth",
                 "title": "PS in the Edgeworth box --- allocation-space view of UPF points",
-                "content": "\\textbf{\\textcolor{red}{PS in the Edgeworth box --- allocation-space view of the UPF.}}\n\nThis snippet is the \\emph{allocation-space} picture of the very same Pareto-efficient set that appears as the UPF in $(u^1, u^2)$ space. The link is the utility map:\n\\[ \\boxed{\\;\\text{PS}\\;\\subset\\;\\mathcal{F}\\;\\;\\xrightarrow{\\;(U^1,\\,U^2)\\;}\\;\\;\\text{UPF}\\;\\subset\\;\\mathcal{U}.\\;} \\]\n\\textbf{\\textcolor{red}{Every gold PO point shown below sits on the UPF}} of the companion snippet --- same set, two coordinate systems.\n\n\\textbf{\\textcolor{darkgreen}{Picture --- Edgeworth box.}} The green curve is the \\textbf{Pareto Set} (PS): the locus of all Pareto-efficient allocations, independent of $\\omega$. \n\n{{img:0|w=900}}\n\n\\textbf{\\textcolor{red}{Reading the link to the UPF.}}\n$\\bullet$ \\emph{Each gold PO point} in this Edgeworth box is sent by $(U^1, U^2)$ to a point on the UPF (other snippet).\n$\\bullet$ \\emph{The whole green PS curve} maps onto the whole UPF curve --- nothing is missed.\n$\\bullet$ \\emph{The supporting price slope} $-p_1/p_2$ here corresponds to the isowelfare slope $-\\lambda/(1-\\lambda)$ on the UPF.\n\n\\textcolor{orange}{\\emph{Important: Contract Curve vs Pareto Set.} The Contract Curve is \\emph{not} the green curve --- it is the subset of PS that Pareto-dominates a given endowment $\\omega$ (the agents agree to trade because both end up at least as well off as at $\\omega$). PS is endowment-free; the Contract Curve depends on $\\omega$ and is only a piece of PS.}\n\n\\textbf{\\textcolor{blue}{Cross-references.}}\n$\\bullet$ \\emph{Pareto Optimum (PS \\& UPF)} --- definitions, the duality box, two planner characterizations.\n$\\bullet$ \\emph{Contract Curve} --- the endowment-dependent subset of PS.\n$\\bullet$ \\emph{Exchange Economy} --- defines $\\mathcal{F}$.\n",
+                "content": "\\textbf{\\textcolor{red}{PS in the Edgeworth box --- allocation-space view of the UPF.}}\n\nThis snippet is the \\emph{allocation-space} picture of the very same Pareto-efficient set that appears as the UPF in $(u^1, u^2)$ space. The link is the utility map:\n$$ \\boxed{\\;\\text{PS}\\;\\subset\\;\\mathcal{F}\\;\\;\\xrightarrow{\\;(U^1,\\,U^2)\\;}\\;\\;\\text{UPF}\\;\\subset\\;\\mathcal{U}.\\;} $$\\textbf{\\textcolor{red}{Every gold PO point shown below sits on the UPF}} of the companion snippet --- same set, two coordinate systems.\n\n\\textbf{\\textcolor{darkgreen}{Picture --- Edgeworth box.}} The green curve is the \\textbf{Pareto Set} (PS): the locus of all Pareto-efficient allocations, independent of $\\omega$. \n\n{{img:0|w=900}}\n\n\\textbf{\\textcolor{red}{Reading the link to the UPF.}}\n$\\bullet$ \\emph{Each gold PO point} in this Edgeworth box is sent by $(U^1, U^2)$ to a point on the UPF (other snippet).\n$\\bullet$ \\emph{The whole green PS curve} maps onto the whole UPF curve --- nothing is missed.\n$\\bullet$ \\emph{The supporting price slope} $-p_1/p_2$ here corresponds to the isowelfare slope $-\\lambda/(1-\\lambda)$ on the UPF.\n\n\\textcolor{orange}{\\emph{Important: Contract Curve vs Pareto Set.} The Contract Curve is \\emph{not} the green curve --- it is the subset of PS that Pareto-dominates a given endowment $\\omega$ (the agents agree to trade because both end up at least as well off as at $\\omega$). PS is endowment-free; the Contract Curve depends on $\\omega$ and is only a piece of PS.}\n\n\\textbf{\\textcolor{blue}{Cross-references.}}\n$\\bullet$ \\emph{Pareto Optimum (PS \\& UPF)} --- definitions, the duality box, two planner characterizations.\n$\\bullet$ \\emph{Contract Curve} --- the endowment-dependent subset of PS.\n$\\bullet$ \\emph{Exchange Economy} --- defines $\\mathcal{F}$.\n",
                 "images": [
                   "images/advmicro/ch_ps_edgeworth_0_e6877a100e6f.png"
                 ],
@@ -1006,6 +1006,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-07-29T03:46:26.044Z"
+    "lastEditedAt": "2026-07-29T03:52:33.253Z"
   }
 }
