@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T11:30:11.149Z",
+  "exportedAt": "2026-07-29T11:30:20.052Z",
   "data": {
     "topics": [
       {
@@ -753,7 +753,7 @@
                 "id": "phase-1-problem",
                 "title": "① PROBLEM · Raw Agency",
                 "content": "# ① The raw agency problem\n\n**Effort is unobservable.**\n\nThe principal (firm) hires the agent (worker) to produce output $y$. Effort $e$ affects $y$ but is not directly seen. Any observable proxy is noisy:\n$$y = g e + \\varepsilon, \\quad \\varepsilon \\sim (\\text{noise})$$\n\nWorker dislikes effort ($c(e)$ increasing convex). If wage is FLAT ($w = w_0$), worker chooses $e = 0$. This is the **moral hazard core problem** (Ross 1973; Mirrlees 1975).\n\nAlchian & Demsetz (1972) reframed it as a **team-production monitoring** problem: firms exist as institutions that put someone (the residual claimant) in charge of monitoring effort in team settings where individual output isn't separately observable.\n\n## What the papers below establish\n\n- The formal PA setup and the impossibility of first-best.\n- Alchian–Demsetz's team-production monitoring frame.\n\n## What's needed next\n\nA contract that **conditions wage on a noisy output signal** — and that we can characterize as *optimal* given the signal-noise structure. → **Green ②** (linear contract + info tracking).\n",
-                "x": 2330,
+                "x": 3415,
                 "y": -500,
                 "width": 480,
                 "height": 400,
@@ -1878,6 +1878,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T11:30:09.036Z"
+    "lastEditedAt": "2026-07-29T11:30:17.937Z"
   }
 }
