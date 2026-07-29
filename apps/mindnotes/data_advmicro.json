@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T04:52:02.145Z",
+  "exportedAt": "2026-07-29T04:52:09.820Z",
   "data": {
     "topics": [
       {
@@ -222,7 +222,10 @@
                 "height": 224.6996165219718,
                 "flashcard": false,
                 "links": [],
-                "color": null
+                "color": null,
+                "imageWidths": [
+                  576
+                ]
               },
               {
                 "id": "ch_labor_elast",
@@ -1021,6 +1024,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-07-29T04:52:00.003Z"
+    "lastEditedAt": "2026-07-29T04:52:07.638Z"
   }
 }
