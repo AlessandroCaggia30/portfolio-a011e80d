@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T20:57:57.221Z",
+  "exportedAt": "2026-07-29T20:58:20.609Z",
   "data": {
     "topics": [
       {
@@ -732,10 +732,6 @@
                 "links": [
                   {
                     "target": "p-ross-1973",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-alchian-demsetz-1972",
                     "type": "forward"
                   },
                   {
@@ -3033,6 +3029,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T20:57:55.019Z"
+    "lastEditedAt": "2026-07-29T20:58:18.447Z"
   }
 }
