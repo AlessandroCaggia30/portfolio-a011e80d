@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T11:36:15.066Z",
+  "exportedAt": "2026-07-29T11:36:17.470Z",
   "data": {
     "topics": [
       {
@@ -376,8 +376,8 @@
                 "id": "p-gh-1983",
                 "title": "P·Grossman–Hart (1983) — General PA",
                 "content": "**Ref.** Grossman, S. J. & Hart, O. D. (1983). An analysis of the principal-agent problem. *Econometrica*, 51(1), 7–45.\n\n---\n\n## Intro\n\n**General characterization** of the optimal contract in the finite-action PA problem — without the CARA/Gaussian assumptions of HM 1987.\n\n## Contribution\n\n- Two-step decomposition:\n  1. **Implementation cost** $C(a)$ — the minimum expected wage bill to implement action $a$.\n  2. **Optimal action** — the one that maximizes $E[y | a] - C(a)$.\n- Characterizes when the optimal $w(y)$ is monotone in $y$ (needs MLRP — monotone likelihood ratio property).\n\n## Position\n\nGreen **②** — general theoretical framework that HM 1987's linear contract is a special case of.\n",
-                "x": 5459.864370601416,
-                "y": 740,
+                "x": 5418.397047916107,
+                "y": 752.9585383391595,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -1878,6 +1878,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T11:36:13.688Z"
+    "lastEditedAt": "2026-07-29T11:36:15.354Z"
   }
 }
