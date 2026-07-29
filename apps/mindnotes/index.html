@@ -10616,7 +10616,7 @@ function formatContentWithEditableFormulas(text, applyLatexCommands) {
 
     // Build HTML with editable spans for each segment
     let html = '';
-    const colorMarkerRe = /(%%TCLR:[^%]*%%|%%\/TCLR%%|%%CBOX:[^%]*%%|%%\/CBOX%%|%%SZ:[^%]*%%|%%\/SZ%%|%%B%%|%%\/B%%|%%I%%|%%\/I%%|%%TT%%|%%\/TT%%|%%U%%|%%\/U%%|%%HFILL%%|%%BITEM:\d+%%|%%\/BITEM%%)/g;
+    const colorMarkerRe = /(%%TCLR:[^%]*%%|%%\/TCLR%%|%%CBOX:[^%]*%%|%%\/CBOX%%|%%SZ:[^%]*%%|%%\/SZ%%|%%B%%|%%\/B%%|%%I%%|%%\/I%%|%%HLY%%|%%\/HLY%%|%%HLG%%|%%\/HLG%%|%%HLP%%|%%\/HLP%%|%%TT%%|%%\/TT%%|%%U%%|%%\/U%%|%%HFILL%%|%%BITEM:\d+%%|%%\/BITEM%%)/g;
     segments.forEach((seg, idx) => {
         if (seg.type === 'formula') {
             // Formula segment - render with KaTeX markers
