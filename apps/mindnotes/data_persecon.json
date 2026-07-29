@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T20:08:19.147Z",
+  "exportedAt": "2026-07-29T20:08:22.413Z",
   "data": {
     "topics": [
       {
@@ -2058,10 +2058,6 @@
                   {
                     "target": "reorg-genai-head",
                     "type": "forward"
-                  },
-                  {
-                    "target": "1785355485989",
-                    "type": "forward"
                   }
                 ],
                 "color": "purple",
@@ -2993,6 +2989,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T20:08:17.025Z"
+    "lastEditedAt": "2026-07-29T20:08:20.227Z"
   }
 }
