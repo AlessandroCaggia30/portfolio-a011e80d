@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T20:05:11.641Z",
+  "exportedAt": "2026-07-29T20:08:13.813Z",
   "data": {
     "topics": [
       {
@@ -2891,7 +2891,12 @@
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
-                "links": [],
+                "links": [
+                  {
+                    "target": "abm-quindi",
+                    "type": "forward"
+                  }
+                ],
                 "x": -3669.6631740203975,
                 "y": -1199.120723076153,
                 "width": 574,
@@ -2984,6 +2989,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T20:05:09.497Z"
+    "lastEditedAt": "2026-07-29T20:08:11.607Z"
   }
 }
