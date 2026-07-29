@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T11:56:15.595Z",
+  "exportedAt": "2026-07-29T11:56:42.358Z",
   "data": {
     "topics": [
       {
@@ -700,8 +700,8 @@
                 "id": "hub-incentives-core",
                 "title": "★ Incentives Theory — Core",
                 "content": "# Incentives Theory — Core\n\n\nAt the intersection of Game theory (and applied micro), Information theory (branch of micro) and Labor\n\n## The question\n\n**Why don't often workers exert socially optimal effort?**\n\nOR\n\n**Is it possible to boost worker productivity?**\n\n\n\nThe key problem: \n- First layer: **Effort $e$ is unobservable** (Agency theory, P. Ross 1973) \\& related problems. \n- Second layer: firm \"should\" use **Individual output $s_i$** as a noisy proxy, or overall team/firm output.\n\nIf worker \"knows\" his greater effort (wrt to his peers) will not be rewarded (flat pay) or will be rewarded only in part (measurment error) he will have a lower incentive to provide effort\n\n\nNotice how all the relevant topics in the literature can be reconducted to the two issues above. **Multitasking** (Holmström & Milgrom 1991) is a problem related to the completeness of the information observed by the firm, **career concerns** (Holmström 1982) is related to the completeness of the information observed by the market\n\n",
-                "x": 3,
-                "y": -1282,
+                "x": -217.24027443159775,
+                "y": -1556.588095732125,
                 "width": 560,
                 "height": 440,
                 "flashcard": false,
@@ -2452,6 +2452,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T11:56:13.661Z"
+    "lastEditedAt": "2026-07-29T11:56:42.040Z"
   }
 }
