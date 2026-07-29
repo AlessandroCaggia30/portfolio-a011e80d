@@ -2143,6 +2143,25 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
     outline: 1px dashed rgba(108, 92, 231, 0.45);
 }
 
+/* Paragraph blocks: the click-to-edit unit. Whole block highlights on hover. */
+.live-preview-content .lp-block {
+    padding: 3px 8px;
+    margin: 0 -8px 2px;
+    border-radius: 6px;
+    cursor: text;
+    transition: background 0.12s;
+}
+.live-preview-content .lp-block:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+.live-preview-content .lp-block.editing {
+    background: transparent;
+    cursor: default;
+}
+/* Inside a block, the old per-fragment hover is misleading — the block is the unit */
+.lp-block .detail-text:hover { background: transparent; }
+.lp-block .detail-text { cursor: inherit; }
+
 /* Text inline editor */
 .detail-text-editor {
     display: block;
