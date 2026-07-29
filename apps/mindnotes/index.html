@@ -1145,24 +1145,19 @@ body:has(.app.pop-mode) .pop-line-toggle { display: inline-flex; }
     box-shadow: 0 0 20px rgba(0, 184, 148, 0.3);
 }
 
-/* Flashcard badge: fixed-size chip in the card's bottom-left corner (the
-   bottom padding strip is always empty — resize handle is bottom-right).
-   Does NOT scale with the snippet's dimensions, unlike the old in-title emoji. */
+/* Flashcard badge: top-left chip. Size is set inline per card — proportional
+   to the card's dimensions with a hard cap (never balloons on huge snippets). */
 .node .fc-badge {
     position: absolute;
-    bottom: 5px;
+    top: 5px;
     left: 6px;
-    width: 17px;
-    height: 17px;
-    font-size: 10px;
-    line-height: 16px;
     text-align: center;
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 50%;
     pointer-events: none;
     z-index: 3;
-    opacity: 0.9;
+    opacity: 0.92;
 }
 
 .node-color-btn {
