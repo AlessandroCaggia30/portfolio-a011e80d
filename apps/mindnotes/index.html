@@ -10104,13 +10104,46 @@ function parseContentSegments(text) {
 function attachDetailFormulaHandlers(container) {
     if (!container) return;
 
-    // Preview pane is read-only - editing is done in the editor pane (split view)
-    // Set all cursors to default
-    container.querySelectorAll('.detail-formula').forEach(el => {
-        el.style.cursor = 'default';
+    // Click-to-edit: clicking a rendered segment opens an inline editor for
+    // JUST that segment — formulas get the formula editor, text runs get a
+    // textarea in place. The rest of the note stays rendered.
+    //
+    // Safety guard: segment indices in the DOM come from the render-side
+    // transformed text; the editors splice into the raw content. The two
+    // enumerations agree iff the formula count matches (it can diverge only
+    // when a GFM pipe-table contains $math$ in its cells). If they disagree,
+    // disable inline editing for this note — the Source button still works.
+    const rawFormulaCount = parseContentSegments(State.currentContent || '')
+        .filter(s => s.type === 'formula').length;
+    const domFormulas = container.querySelectorAll('.detail-formula');
+    const aligned = domFormulas.length === rawFormulaCount;
+
+    if (!aligned) {
+        container.querySelectorAll('.detail-formula, .detail-text').forEach(el => {
+            el.style.cursor = 'default';
+            el.title = 'Inline editing unavailable for this note (math inside a pipe-table) — use the Source button';
+        });
+        return;
+    }
+
+    domFormulas.forEach(el => {
+        el.style.cursor = 'pointer';
+        el.addEventListener('click', (e) => {
+            if (el.classList.contains('editing') || e.target.closest('textarea')) return;
+            e.stopPropagation();
+            pushToHistory();
+            openDetailFormulaEditor(el);
+        });
     });
     container.querySelectorAll('.detail-text').forEach(el => {
-        el.style.cursor = 'default';
+        el.style.cursor = 'text';
+        el.addEventListener('click', (e) => {
+            if (el.classList.contains('editing') || e.target.closest('textarea')) return;
+            if (e.target.classList && e.target.classList.contains('inline-image-token')) return;
+            e.stopPropagation();
+            pushToHistory();
+            openDetailTextEditor(el);
+        });
     });
 }
 
