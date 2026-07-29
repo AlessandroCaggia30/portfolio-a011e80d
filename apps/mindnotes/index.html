@@ -7739,8 +7739,13 @@ function createNodeElement(node) {
                 `<div class="color-opt" style="background:${color}" data-c="${name}"></div>`
             ).join('')}
         </div>
-        ${isFlashcardNode(node) ? '<div class="fc-badge" title="Flashcard">🎴</div>' : ''}
-        <div class="node-title" style="font-size:${titleSize}px">${escapeHtml(node.title || 'Untitled')}</div>
+        ${(() => {
+            if (!isFlashcardNode(node)) return '';
+            // Badge scales with the card (10% of its larger side), capped at 40px.
+            const s = Math.max(18, Math.min(40, Math.round(Math.max(node.width || 160, node.height || 80) * 0.10)));
+            return `<div class="fc-badge" title="Flashcard" style="width:${s}px;height:${s}px;line-height:${s - 1}px;font-size:${Math.round(s * 0.6)}px;">🎴</div>`;
+        })()}
+        <div class="node-title" style="font-size:${titleSize}px${isFlashcardNode(node) ? ';padding-left:' + (Math.max(18, Math.min(40, Math.round(Math.max(node.width || 160, node.height || 80) * 0.10))) - 6) + 'px' : ''}">${escapeHtml(node.title || 'Untitled')}</div>
         <div class="node-preview${(node.content || '').includes('\\begin{tabular}') ? ' has-table' : ''}" style="${(node.content || '').includes('\\begin{tabular}') ? 'display:block;-webkit-line-clamp:unset;overflow:auto;' : `-webkit-line-clamp:${previewLines};`}font-size:${calculatePreviewSize(node.width, node.height)}px"></div>
         <div class="resize-handle"></div>
     `;
