@@ -10000,7 +10000,66 @@ function _isFmtTextarea(el) {
     return el && el.tagName === 'TEXTAREA' &&
         (el.id === 'lpBlockInput' || el.id === 'lpCellInput' || el.id === 'detailContentEditor');
 }
+// Rendered-mode selection (Cmd+select on compiled text): {bi, text, occ}
+let _fmtRenderedSel = null;
+
+// Capture the current DOM selection if it lives inside a single lp-block.
+function _captureRenderedSelection() {
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed) return null;
+    const text = sel.toString();
+    if (!text || !text.trim()) return null;
+    const blockEl = sel.anchorNode && (sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement)?.closest('.lp-block');
+    if (!blockEl || blockEl.classList.contains('editing')) return null;
+    const focusEl = sel.focusNode && (sel.focusNode.nodeType === 1 ? sel.focusNode : sel.focusNode.parentElement)?.closest('.lp-block');
+    if (focusEl !== blockEl) return null; // selection must stay within one block
+    // Occurrence index of the selected string within this block's rendered text
+    let occ = 0;
+    try {
+        const pre = document.createRange();
+        pre.selectNodeContents(blockEl);
+        const r = sel.getRangeAt(0);
+        pre.setEnd(r.startContainer, r.startOffset);
+        const before = pre.toString();
+        let k = -1;
+        while ((k = before.indexOf(text, k + 1)) !== -1) occ++;
+    } catch (_) { occ = 0; }
+    return { bi: parseInt(blockEl.dataset.bi), text, occ };
+}
+
+// Apply a format to a rendered selection by locating it in the block source.
+function _fmtWrapRendered(prefix, suffix) {
+    const { bi, text, occ } = _fmtRenderedSel;
+    _fmtRenderedSel = null;
+    const b = State._editBlocks && State._editBlocks[bi];
+    if (!b) { _hideFmtBar(); return; }
+    const idxs = [];
+    let k = -1;
+    while ((k = b.src.indexOf(text, k + 1)) !== -1) idxs.push(k);
+    if (!idxs.length) {
+        showToast('Selection contains formatting/math — click the block to format there');
+        _hideFmtBar();
+        return;
+    }
+    const i = idxs[Math.min(occ, idxs.length - 1)];
+    pushToHistory();
+    let newSrc;
+    if (b.src.slice(Math.max(0, i - prefix.length), i) === prefix &&
+        b.src.slice(i + text.length, i + text.length + suffix.length) === suffix) {
+        // already wrapped → toggle off
+        newSrc = b.src.slice(0, i - prefix.length) + text + b.src.slice(i + text.length + suffix.length);
+    } else {
+        newSrc = b.src.slice(0, i) + prefix + text + suffix + b.src.slice(i + text.length);
+    }
+    const content = State.currentContent || '';
+    State.currentContent = content.slice(0, b.start) + newSrc + content.slice(b.end);
+    State.contentBlocks = [State.currentContent];
+    autoSaveContent();
+    renderObsidianPreview();
+}
+
 function _fmtWrap(prefix, suffix) {
+    if (!_fmtTarget && _fmtRenderedSel) { _fmtWrapRendered(prefix, suffix); return; }
     const ta = _fmtTarget;
     if (!ta) return;
     const s = ta.selectionStart, e = ta.selectionEnd;
