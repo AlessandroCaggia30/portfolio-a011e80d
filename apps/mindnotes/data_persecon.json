@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T11:50:01.907Z",
+  "exportedAt": "2026-07-29T11:50:07.821Z",
   "data": {
     "topics": [
       {
@@ -699,7 +699,7 @@
               {
                 "id": "hub-incentives-core",
                 "title": "★ Incentives Theory — Core",
-                "content": "# Incentives Theory — Core\n\n\nAt the intersection of Game theory (and applied micro), Information theory (branch of micro) and Labor\n\n## The question\n\n**Why don't often workers exert socially optimal effort?**\n\nOR\n\n**Is it possible to boost worker productivity?**\n\n\n\nThe key problem (Agency theory, P. Ross 1973): **Effort $e$ is unobservable** (moral hazard) \\& related problems \n2. **Individual output $s_i$ is often also unobservable** — only team/firm output is → free-riding.\n\n\nNotice how all the relevant topics in the literature can be reconducted to the two issues above. **Multitasking** (Holmström & Milgrom 1991) is a problem related to the completeness of the information observed by the firm, **career concerns** (Holmström 1982) is related to the completeness of the information observed by the market\n\n",
+                "content": "# Incentives Theory — Core\n\n\nAt the intersection of Game theory (and applied micro), Information theory (branch of micro) and Labor\n\n## The question\n\n**Why don't often workers exert socially optimal effort?**\n\nOR\n\n**Is it possible to boost worker productivity?**\n\n\n\nThe key problem (Agency theory, P. Ross 1973): **Effort $e$ is unobservable** (moral hazard) \\& related problems. F\n2. **Individual output $s_i$ is often also unobservable** — only team/firm output is → free-riding.\n\n\nNotice how all the relevant topics in the literature can be reconducted to the two issues above. **Multitasking** (Holmström & Milgrom 1991) is a problem related to the completeness of the information observed by the firm, **career concerns** (Holmström 1982) is related to the completeness of the information observed by the market\n\n",
                 "x": -25,
                 "y": -1280,
                 "width": 560,
@@ -1990,6 +1990,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T11:50:01.883Z"
+    "lastEditedAt": "2026-07-29T11:50:05.707Z"
   }
 }
