@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T12:10:01.170Z",
+  "exportedAt": "2026-07-29T12:10:10.364Z",
   "data": {
     "topics": [
       {
@@ -699,7 +699,7 @@
               {
                 "id": "hub-incentives-core",
                 "title": "★ Incentives Theory — Core",
-                "content": "# Incentives Theory — Core\n\n\nAt the crossroads of Game theory (and applied micro), Information theory (branch of micro) and Labor\n\n## The question\n\n**Why don't often workers exert socially optimal effort?**\n\nOR\n\n**Is it possible to boost worker productivity?**\n\n\n\nThe key problem: \n$\\bullet$ First layer: **Effort $e$ is unobservable** (Agency theory, P. Ross 1973) \\& related problems. \n$\\bullet$ Second layer: firm \"should\" use **Individual output $s_i$** as a noisy or overall team as a noisy proxy of effort. Usually compensation is anchored to overall firm profit. \n$\\rightarrow$ If worker \"knows\" his greater effort (wrt to his peers) will not be rewarded (flat pay) or will be rewarded only in part (measurment error) he will have a lower incentive to provide effort\n\n\n\nNotice how all the relevant topics in the literature can be reconducted to the two issues above. **Multitasking** (Holmström & Milgrom 1991) is a problem related to the completeness of the information observed by the firm, **career concerns** (Holmström 1982) is related to the completeness of the information observed by the market, **Ratcher effect** (Gibbons 1987) is about the worker hiding his true effort as an endogenous reaction to the compensation scheme\n\nWe need to: \n1) Build the best proxy of effort (individual output, team output, peer's feedback, supervisors' feedback, customer satisfaction (if relevant))\n2) Explore the different forms of compensations (bonus, deferred compensation (you unlock the benefit on the NEXT hours, Lazear (1979) called *Why Is There Mandatory Retirement?*), promotions, compensation gaps in the company hierarchy (interesting))\n\n",
+                "content": "# Incentives Theory — Core\n\n\nAt the crossroads of Game theory (and applied micro), Information theory (branch of micro) and Labor\n\n## The question\n\n**Why don't often workers exert socially optimal effort?**\n\nOR\n\n**Is it possible to boost worker productivity?**\n\n\n\nThe key problem: \n$\\bullet$ First layer: **Effort $e$ is unobservable** (Agency theory, P. Ross 1973) \\& related problems^*. \n$\\bullet$ Second layer: firm \"should\" use **Individual output $s_i$** as a noisy or overall team as a noisy proxy of effort. Usually compensation is anchored to overall firm profit. \n$\\rightarrow$ If worker \"knows\" his greater effort (wrt to his peers) will not be rewarded (flat pay) or will be rewarded only in part (measurment error) he will have a lower incentive to provide effort\n\n\n\nNotice how all the relevant topics in the literature can be reconducted to the two issues above. **Multitasking** (Holmström & Milgrom 1991) is a problem related to the completeness of the information observed by the firm, **career concerns** (Holmström 1982) is related to the completeness of the information observed by the market, **Ratcher effect** (Gibbons 1987) is about the worker hiding his true effort as an endogenous reaction to the compensation scheme\n\nWe need to: \n1) Build the best proxy of effort (individual output, team output, peer's feedback, supervisors' feedback, customer satisfaction (if relevant))\n2) Explore the different forms of compensations (bonus, deferred compensation (you unlock the benefit on the NEXT hours, Lazear (1979) called *Why Is There Mandatory Retirement?*), promotions, compensation gaps in the company hierarchy (interesting))\n\n",
                 "x": -217.24027443159775,
                 "y": -1556.588095732125,
                 "width": 560,
@@ -2025,6 +2025,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T12:09:59.044Z"
+    "lastEditedAt": "2026-07-29T12:10:09.776Z"
   }
 }
