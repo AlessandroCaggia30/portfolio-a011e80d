@@ -9762,40 +9762,191 @@ function parseAndRenderBlocks(content) {
 State.currentContent = '';
 State.isEditingFullContent = false;
 
+// ==================== BLOCK-BASED LIVE EDITOR ====================
+// The note is split into paragraph BLOCKS (separated by blank lines, with
+// $$...$$ and \begin{env}...\end{env} kept atomic). Each block renders into
+// its own container; clicking a block opens THAT block's raw source in place
+// — inline $math$ stays inside its paragraph and is never split away from it.
+
+function splitIntoEditBlocks(content) {
+    // Ranges that must never be split by a blank line inside them.
+    const prot = [];
+    let m;
+    const dd = /\$\$[\s\S]*?\$\$/g;
+    while ((m = dd.exec(content)) !== null) prot.push([m.index, m.index + m[0].length]);
+    const env = /\\begin\{([a-zA-Z*]+)\}[\s\S]*?\\end\{\1\}/g;
+    while ((m = env.exec(content)) !== null) prot.push([m.index, m.index + m[0].length]);
+    const inProt = (i) => prot.some(([a, b]) => i >= a && i < b);
+
+    const blocks = [];
+    let pos = 0;
+    const sep = /\n[ \t]*\n+/g;
+    while ((m = sep.exec(content)) !== null) {
+        if (inProt(m.index)) continue;
+        const src = content.slice(pos, m.index);
+        if (src.trim()) blocks.push({ src, start: pos, end: m.index });
+        pos = m.index + m[0].length;
+    }
+    const tail = content.slice(pos);
+    if (tail.trim()) blocks.push({ src: tail, start: pos, end: content.length });
+    return blocks;
+}
+
 function renderObsidianPreview() {
     const container = $('detailPreview');
     const content = State.currentContent || State.contentBlocks.join('\n') || '';
     const format = $('detailFormatSelector')?.value || 'latex';
 
-    // Render content (preview only - editing is done in the editor pane)
-    let html = '';
-    if (format === 'chatgpt') {
-        // Pre-process ChatGPT format, then make editable
-        const cleaned = content
-            .replace(/\\\[/g, '$$')
-            .replace(/\\\]/g, '$$')
-            .replace(/\\\(/g, '$')
-            .replace(/\\\)/g, '$');
-        html = formatContentWithEditableFormulas(cleaned);
-    } else {
-        let normalized = normalizeLatexDelimiters(content);
-        html = formatContentWithEditableFormulas(normalized, format === 'latex');
-    }
+    const blocks = splitIntoEditBlocks(content);
+    State._editBlocks = blocks;
 
-    // Render inline images
-    html = renderInlineImages(html, State.selectedNode);
+    const renderBlock = (src) => {
+        let html;
+        if (format === 'chatgpt') {
+            const cleaned = src
+                .replace(/\\\[/g, '$$')
+                .replace(/\\\]/g, '$$')
+                .replace(/\\\(/g, '$')
+                .replace(/\\\)/g, '$');
+            html = formatContentWithEditableFormulas(cleaned);
+        } else {
+            html = formatContentWithEditableFormulas(normalizeLatexDelimiters(src), format === 'latex');
+        }
+        return renderInlineImages(html, State.selectedNode);
+    };
 
-    container.innerHTML = `
-        <div class="live-preview-content">${html || '<span class="detail-text empty-placeholder" data-seg-idx="0" style="color:var(--text2);cursor:text;">Click here to start writing...</span>'}</div>
-    `;
+    const inner = blocks.length
+        ? blocks.map((b, i) => `<div class="lp-block" data-bi="${i}">${renderBlock(b.src)}</div>`).join('')
+        : '<span class="detail-text empty-placeholder" data-seg-idx="0" style="color:var(--text2);cursor:text;">Click here to start writing...</span>';
+
+    container.innerHTML = `<div class="live-preview-content">${inner}</div>`;
 
     const previewContent = container.querySelector('.live-preview-content');
-
-    // Always render math for all formats
     renderMath(previewContent);
+    attachBlockEditHandlers(previewContent);
+}
 
-    // Attach click handlers to formulas and text
-    attachDetailFormulaHandlers(previewContent);
+function attachBlockEditHandlers(container) {
+    if (!container) return;
+
+    const placeholder = container.querySelector('.empty-placeholder');
+    if (placeholder) {
+        placeholder.addEventListener('click', () => { pushToHistory(); openBlockEditor(-1, null); });
+        return;
+    }
+
+    container.querySelectorAll('.lp-block').forEach(blockEl => {
+        blockEl.querySelectorAll('.detail-formula').forEach(el => { el.style.cursor = 'pointer'; });
+        blockEl.addEventListener('click', (e) => {
+            if (blockEl.classList.contains('editing') || e.target.closest('textarea')) return;
+            const formulaSpan = e.target.closest('.detail-formula');
+            e.stopPropagation();
+            pushToHistory();
+            if (formulaSpan) openBlockFormulaEditor(formulaSpan, blockEl);
+            else openBlockEditor(parseInt(blockEl.dataset.bi), blockEl);
+        });
+    });
+
+    // Click in the empty space below the last block appends a new block.
+    container.addEventListener('click', (e) => {
+        if (e.target === container) { pushToHistory(); openBlockEditor(-1, null); }
+    });
+}
+
+// Edit a whole block's source in place. bi = -1 appends a new block at the end.
+function openBlockEditor(bi, blockEl) {
+    const content = State.currentContent || '';
+    let start, end, src;
+    const appendMode = bi < 0 || !State._editBlocks || !State._editBlocks[bi];
+    if (appendMode) {
+        src = ''; start = content.length; end = content.length;
+    } else {
+        ({ src, start, end } = State._editBlocks[bi]);
+    }
+
+    let host = blockEl;
+    if (!host) {
+        const pc = $('detailPreview').querySelector('.live-preview-content');
+        if (!pc) return;
+        const ph = pc.querySelector('.empty-placeholder');
+        if (ph) ph.remove();
+        host = document.createElement('div');
+        host.className = 'lp-block';
+        pc.appendChild(host);
+    }
+    host.classList.add('editing');
+    host.innerHTML = '<div class="detail-text-editor"><textarea id="lpBlockInput"></textarea></div>';
+    const ta = host.querySelector('textarea');
+    ta.value = src;
+    const autoResize = () => { ta.style.height = 'auto'; ta.style.height = Math.max(56, ta.scrollHeight + 4) + 'px'; };
+    ta.addEventListener('input', autoResize);
+    ta.focus();
+    autoResize();
+
+    let done = false;
+    const commit = () => {
+        if (done) return; done = true;
+        const nv = normalizeLatexDelimiters(ta.value);
+        let newContent;
+        if (appendMode) {
+            newContent = nv.trim() ? (content.trim() ? content.replace(/\s+$/, '') + '\n\n' + nv : nv) : content;
+        } else {
+            newContent = content.slice(0, start) + nv + content.slice(end);
+        }
+        State.currentContent = newContent;
+        State.contentBlocks = [newContent];
+        autoSaveContent();
+        renderObsidianPreview();
+    };
+    const cancel = () => { if (done) return; done = true; renderObsidianPreview(); };
+
+    ta.addEventListener('blur', () => setTimeout(() => { if (document.activeElement !== ta) commit(); }, 120));
+    ta.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') { e.preventDefault(); cancel(); }
+        else if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); commit(); }
+    });
+}
+
+// Precision editor for a single formula inside a block. Falls back to the
+// whole-block editor whenever the segment indices cannot be trusted.
+function openBlockFormulaEditor(span, blockEl) {
+    const bi = parseInt(blockEl.dataset.bi);
+    const b = State._editBlocks && State._editBlocks[bi];
+    if (!b) return;
+    const segs = parseContentSegments(b.src);
+    const idx = parseInt(span.dataset.segIdx);
+    const domCount = blockEl.querySelectorAll('.detail-formula').length;
+    const rawCount = segs.filter(s => s.type === 'formula').length;
+    if (domCount !== rawCount || !segs[idx] || segs[idx].type !== 'formula') {
+        openBlockEditor(bi, blockEl);
+        return;
+    }
+    const seg = segs[idx];
+
+    span.classList.add('editing');
+    span.innerHTML = `<div class="detail-formula-editor"><textarea id="lpFormulaInput" rows="${seg.display ? 4 : 2}">${escapeHtml(seg.inner)}</textarea></div>`;
+    const ta = span.querySelector('textarea');
+    ta.focus();
+    ta.select();
+
+    let done = false;
+    const commit = () => {
+        if (done) return; done = true;
+        const delim = seg.display ? '$$' : '$';
+        const newBlockSrc = b.src.slice(0, seg.start) + delim + ta.value + delim + b.src.slice(seg.end);
+        const content = State.currentContent || '';
+        State.currentContent = content.slice(0, b.start) + newBlockSrc + content.slice(b.end);
+        State.contentBlocks = [State.currentContent];
+        autoSaveContent();
+        renderObsidianPreview();
+    };
+    const cancel = () => { if (done) return; done = true; renderObsidianPreview(); };
+
+    ta.addEventListener('blur', () => setTimeout(() => { if (document.activeElement !== ta) commit(); }, 120));
+    ta.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') { e.preventDefault(); cancel(); }
+        else if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); commit(); }
+    });
 }
 
 function startFullContentEdit() {
