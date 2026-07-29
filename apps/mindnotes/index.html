@@ -7726,6 +7726,8 @@ function createNodeElement(node) {
     } else if (node.color && NODE_COLORS[node.color]) {
         el.style.borderLeftColor = NODE_COLORS[node.color];
         el.style.borderLeftWidth = '4px';
+        // Tint the WHOLE card with the chosen color, not just the left bar.
+        el.style.background = `color-mix(in srgb, ${NODE_COLORS[node.color]} 24%, var(--bg2))`;
     }
 
     // Calculate dynamic title size based on node dimensions
