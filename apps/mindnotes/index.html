@@ -9340,29 +9340,34 @@ function renderInlineImages(html, node) {
             .filter(({ i }) => !sub.usedIndices.has(i));
 
         if (remaining.length > 0) {
-            const imagesHtml = remaining.map(({ img, i }) => {
-                // Check if image has stored width
-                const width = node.imageWidths?.[i] || null;
-                const widthStyle = width ? `width:${width}px;` : '';
-                const canMoveUp = i > 0;
-                const canMoveDown = i < node.images.length - 1;
-                return `
-                    <div class="attached-image" data-img-index="${i}" onclick="selectImage(event, ${i})">
-                        <img src="${img}" alt="Image ${i+1}" style="${widthStyle}">
-                        <div class="image-controls">
-                            ${canMoveUp ? `<button onclick="event.stopPropagation(); moveImage(${i}, -1)" title="Move up">↑</button>` : ''}
-                            ${canMoveDown ? `<button onclick="event.stopPropagation(); moveImage(${i}, 1)" title="Move down">↓</button>` : ''}
-                            <button onclick="event.stopPropagation(); deleteImage(${i})" title="Delete">×</button>
-                        </div>
-                        <div class="resize-handle" onmousedown="startImageResize(event, ${i})"></div>
-                    </div>
-                `;
-            }).join('');
-            result += `<div class="attached-images">${imagesHtml}</div>`;
+            result += _imagesGalleryHtml(node, remaining);
         }
     }
 
     return result;
+}
+
+// Gallery of images NOT referenced by any {{img:N}} token — rendered ONCE per
+// note (never per block; that duplicated every image into every block).
+function _imagesGalleryHtml(node, remaining) {
+    const imagesHtml = remaining.map(({ img, i }) => {
+        const width = node.imageWidths?.[i] || null;
+        const widthStyle = width ? `width:${width}px;` : '';
+        const canMoveUp = i > 0;
+        const canMoveDown = i < node.images.length - 1;
+        return `
+            <div class="attached-image" data-img-index="${i}" onclick="selectImage(event, ${i})">
+                <img src="${img}" alt="Image ${i+1}" style="${widthStyle}">
+                <div class="image-controls">
+                    ${canMoveUp ? `<button onclick="event.stopPropagation(); moveImage(${i}, -1)" title="Move up">↑</button>` : ''}
+                    ${canMoveDown ? `<button onclick="event.stopPropagation(); moveImage(${i}, 1)" title="Move down">↓</button>` : ''}
+                    <button onclick="event.stopPropagation(); deleteImage(${i})" title="Delete">×</button>
+                </div>
+                <div class="resize-handle" onmousedown="startImageResize(event, ${i})"></div>
+            </div>
+        `;
+    }).join('');
+    return `<div class="attached-images">${imagesHtml}</div>`;
 }
 
 function selectImage(event, index) {
