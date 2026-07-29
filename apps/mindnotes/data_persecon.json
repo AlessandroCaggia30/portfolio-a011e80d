@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T11:36:17.470Z",
+  "exportedAt": "2026-07-29T11:36:44.820Z",
   "data": {
     "topics": [
       {
@@ -938,8 +938,8 @@
                 "id": "p-larkin-2014",
                 "title": "P·Larkin (2014) — Empirical Gaming",
                 "content": "**Ref.** Larkin, I. (2014). The cost of high-powered incentives: Employee gaming in enterprise software sales. *Journal of Labor Economics*, 32(2), 199–227.\n\n---\n\n## Intro\n\nEmpirical evidence for **multi-tasking + ratchet gaming**. Studies enterprise software salespeople paid nonlinear commissions tied to quarterly quotas.\n\n## Findings\n\n- Salespeople **sandbag** large deals — delay them across quarter-ends to smooth commission — instead of closing them optimally for the firm.\n- Sandbagging costs the firm ~6-8% of realized revenue.\n- Behaviour rationally responds to nonlinear commission schedule — worker strategically shifts revenue across periods to maximize personal payoff.\n\n## Position\n\nYellow **③** — empirical evidence of the multi-tasking/ratchet failure mode of piece-rate/commission contracts.\n",
-                "x": 10805,
-                "y": 740,
+                "x": 11014.92832109438,
+                "y": 729.633169328672,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -1767,8 +1767,8 @@
                 "id": "f1-imperfect-measurement",
                 "title": "F1 · Imperfect Performance Measurement",
                 "content": "# F1: Imperfect Performance Measurement\n\n**Even under HM 1987's optimal $\\beta^*$, measurement error $\\sigma^2$ enters the trade-off.**\n\n$$\\beta^* = \\frac{1}{1 + \\rho\\sigma^2 k / g^2}$$\n\n- Large $\\sigma^2$ → $\\beta^*$ collapses toward 0 → weak incentives.\n- Fixing $\\sigma^2$ requires better measurement technology — Quindi's core business.\n\n## Failure mechanism\n\nThe firm knows some $y_i$ but cannot separate:\n- **Effort component** $e_i$ (what to reward).\n- **Skill component** $\\theta_i$ (fixed).\n- **Noise component** $\\varepsilon_i$ (uncontrollable — weather, machine, luck).\n\nHigher $\\text{Var}(\\varepsilon_i)$ → higher risk premium → firm reduces $\\beta$ → workers exert less effort. In extreme, $\\beta^* \\to 0$ and no piece-rate incentive is used at all.\n\n## Solutions across phases\n\n- **Phase ② (Quindi):** reduce $\\sigma^2$ via better sensors/tracking.\n- **Phase ④ (tournaments):** use ranks — common shocks cancel out.\n- **Phase ⑥ (subjective evaluation):** use human judgment where signals fail.\n\n## Position\n\nRed **③** — the fundamental residual failure that motivates every subsequent phase.\n",
-                "x": 11355,
-                "y": 740,
+                "x": 10605.996483996594,
+                "y": 688.1658466433637,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -1878,6 +1878,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T11:36:15.354Z"
+    "lastEditedAt": "2026-07-29T11:36:42.671Z"
   }
 }
