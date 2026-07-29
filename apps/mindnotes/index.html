@@ -9537,8 +9537,11 @@ function openDetail(node) {
     // Update FSRS stats display
     updateFsrsStatsDisplay(node);
 
-    // Set content and render with Obsidian-style preview
-    State.currentContent = node.content || '';
+    // Set content and render with Obsidian-style preview.
+    // Normalize LaTeX delimiters ONCE here so the rendered segment indices and
+    // the inline editors' offsets are computed against the SAME string —
+    // \(...\) → $...$ changes lengths, which used to corrupt segment splices.
+    State.currentContent = normalizeLatexDelimiters(node.content || '');
     State.contentBlocks = [State.currentContent];
 
     // Update editor textarea (for when entering edit mode)
