@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T12:33:57.859Z",
+  "exportedAt": "2026-07-29T12:34:01.099Z",
   "data": {
     "topics": [
       {
@@ -1926,7 +1926,12 @@
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
-                "links": [],
+                "links": [
+                  {
+                    "target": "hub-incentives-core",
+                    "type": "forward"
+                  }
+                ],
                 "x": -261.0335620263304,
                 "y": -2449.414574391514,
                 "width": 700,
@@ -2106,6 +2111,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T12:33:57.516Z"
+    "lastEditedAt": "2026-07-29T12:33:58.980Z"
   }
 }
