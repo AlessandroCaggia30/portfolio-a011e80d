@@ -10236,7 +10236,7 @@ document.addEventListener('keydown', (e) => {
     if (_isFmtTextarea(ta)) {
         e.preventDefault();
         _fmtTarget = ta;
-        _fmtWrap(e.key === 'b' ? '**' : '*', e.key === 'b' ? '**' : '*');
+        _fmtWrap(e.key === 'b' ? '**' : '*', e.key === 'b' ? '**' : '*', e.key === 'b' ? 'bold' : 'italic');
         return;
     }
     // No editor focused: also allow Cmd+B / Cmd+I on a selection in COMPILED text.
@@ -10245,7 +10245,7 @@ document.addEventListener('keydown', (e) => {
         e.preventDefault();
         _fmtTarget = null;
         _fmtRenderedSel = captured;
-        _fmtWrap(e.key === 'b' ? '**' : '*', e.key === 'b' ? '**' : '*');
+        _fmtWrap(e.key === 'b' ? '**' : '*', e.key === 'b' ? '**' : '*', e.key === 'b' ? 'bold' : 'italic');
     }
 });
 
