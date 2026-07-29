@@ -1145,6 +1145,25 @@ body:has(.app.pop-mode) .pop-line-toggle { display: inline-flex; }
     box-shadow: 0 0 20px rgba(0, 184, 148, 0.3);
 }
 
+/* Flashcard badge: fixed-size chip pinned to the card's top-left corner —
+   does NOT scale with the snippet's dimensions (unlike the old in-title emoji). */
+.node .fc-badge {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    width: 18px;
+    height: 18px;
+    font-size: 11px;
+    line-height: 17px;
+    text-align: center;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 3;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
 .node-color-btn {
     position: absolute;
     top: 8px;
