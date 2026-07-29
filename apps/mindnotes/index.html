@@ -10160,10 +10160,22 @@ document.addEventListener('mouseup', (e) => {
 });
 document.addEventListener('keydown', (e) => {
     if (!(e.metaKey || e.ctrlKey)) return;
+    if (e.key !== 'b' && e.key !== 'i') return;
     const ta = document.activeElement;
-    if (!_isFmtTextarea(ta)) return;
-    if (e.key === 'b') { e.preventDefault(); _fmtTarget = ta; _fmtWrap('**', '**'); }
-    else if (e.key === 'i') { e.preventDefault(); _fmtTarget = ta; _fmtWrap('*', '*'); }
+    if (_isFmtTextarea(ta)) {
+        e.preventDefault();
+        _fmtTarget = ta;
+        _fmtWrap(e.key === 'b' ? '**' : '*', e.key === 'b' ? '**' : '*');
+        return;
+    }
+    // No editor focused: also allow Cmd+B / Cmd+I on a selection in COMPILED text.
+    const captured = _captureRenderedSelection();
+    if (captured) {
+        e.preventDefault();
+        _fmtTarget = null;
+        _fmtRenderedSel = captured;
+        _fmtWrap(e.key === 'b' ? '**' : '*', e.key === 'b' ? '**' : '*');
+    }
 });
 
 // Edit a whole block's source in place. bi = -1 appends a new block at the end.
