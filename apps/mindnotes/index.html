@@ -10187,12 +10187,12 @@ function _ensureFmtBar() {
         const b = e.target.closest('[data-fmt]');
         if (!b) return;
         const f = b.dataset.fmt;
-        if (f === 'b') _fmtWrap('**', '**');
-        else if (f === 'i') _fmtWrap('*', '*');
-        else if (f === 'hy') _fmtWrap('==', '==');
-        else if (f === 'hg') _fmtWrap('::', '::');
-        else if (f === 'hp') _fmtWrap('~~', '~~');
-        else if (f.indexOf('c:') === 0) _fmtWrap('\\textcolor{' + f.slice(2) + '}{', '}');
+        if (f === 'b') _fmtWrap('**', '**', 'bold');
+        else if (f === 'i') _fmtWrap('*', '*', 'italic');
+        else if (f === 'hy') _fmtWrap('==', '==', 'hl');
+        else if (f === 'hg') _fmtWrap('::', '::', 'hl');
+        else if (f === 'hp') _fmtWrap('~~', '~~', 'hl');
+        else if (f.indexOf('c:') === 0) _fmtWrap('\\textcolor{' + f.slice(2) + '}{', '}', 'color');
     });
     document.body.appendChild(bar);
     _fmtBarEl = bar;
