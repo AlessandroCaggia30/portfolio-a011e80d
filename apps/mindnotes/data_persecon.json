@@ -565,6 +565,10 @@
                   {
                     "target": "f4-risk-transfer",
                     "type": "forward"
+                  },
+                  {
+                    "target": "p-weitzman-1980",
+                    "type": "forward"
                   }
                 ]
               },
@@ -763,6 +767,10 @@
                 "links": [
                   {
                     "target": "p-jensen-meckling-1976",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-holmstrom-1982-team",
                     "type": "forward"
                   }
                 ],
@@ -1189,7 +1197,7 @@
                 "id": "p-jensen-meckling-1976",
                 "title": "P·Jensen–Meckling (1976) — Agency Costs of the Firm",
                 "content": "**Ref.** Jensen, M. & Meckling, W. (1976). Theory of the firm: Managerial behavior, agency costs and ownership structure. *Journal of Financial Economics*, 3(4), 305–360.\n\n---\n\n## Intro\n\nThe **founding paper of agency-cost theory of the firm**. Answers: why does firm ownership structure matter — why not have owner-managers everywhere, or professional managers with 100% outside capital? Because the separation of ownership and control creates agency costs: managers with less than 100% ownership have incentives to divert firm resources (perquisites, empire-building, effort-shirking) in ways that reduce firm value. The optimal ownership structure trades off these agency costs against the benefits of outside financing (risk-sharing, capital-market access).\n\n## Setup\n\n- Manager can consume \"perquisites\" $F$ (private benefits: corporate jets, lavish offices, empire-building) from firm resources.\n- Manager's private utility increases in perquisites: $U^M = \\alpha \\cdot y + F$, where $\\alpha$ is the manager's ownership share and $y$ is firm profit.\n- Firm profit $y = f(\\text{investment}, \\text{effort}) - F$: perquisites are consumed at the firm's expense.\n- Outside investors hold fraction $1 - \\alpha$.\n\n## Derivation — the agency-cost decomposition\n\n### Step 1 — sole-ownership benchmark ($\\alpha = 1$)\n\nManager captures the full marginal effect of both effort and perquisite reduction. Sets $F$ and effort to jointly maximize $y - F$ — the first-best.\n\n### Step 2 — outside ownership ($\\alpha < 1$)\n\nManager captures only $\\alpha$ of firm profit but bears full effort cost and enjoys full perquisite benefit. FOC on perquisites:\n$$\\alpha \\cdot \\frac{\\partial y}{\\partial F} + \\underbrace{1}_{\\text{own utility from perk}} = 0 \\Rightarrow F^*(\\alpha) > F^{FB}.$$\n\nManager over-consumes perquisites relative to first-best. Similarly under-invests in effort.\n\n### Step 3 — the agency-cost triad\n\n**Agency cost** = value destroyed by the separation of ownership and control. Decomposes into three parts:\n\n1. **Monitoring costs $M$** — outside investors' expenditures to observe manager behaviour (audits, boards, regulators).\n2. **Bonding costs $B$** — manager's expenditures to signal commitment (put personal capital at stake, non-compete clauses, deferred pay).\n3. **Residual loss $L$** — the value destruction from perquisite over-consumption and effort under-provision that remains despite $M$ and $B$.\n\nTotal agency cost:\n$$AC(\\alpha) = M(\\alpha) + B(\\alpha) + L(\\alpha).$$\n\n### Step 4 — optimal capital structure\n\nOwners choose ownership share $\\alpha$ and debt–equity mix to minimize the total cost of the firm:\n$$\\min_\\alpha \\; AC(\\alpha) + \\text{outside financing cost}(1 - \\alpha).$$\n\nHigher $\\alpha$ → lower agency costs but higher personal-risk premium demanded by manager. Lower $\\alpha$ → cheaper outside capital but higher agency costs.\n\n## Results & Contribution\n\n1. **Foundation of agency theory** applied to the firm. Frames firm ownership as an optimal-contracting problem, replacing the neoclassical black-box firm.\n2. **Explains observed capital structures.** Debt vs. equity choice determined by relative agency costs (Jensen 1986 free-cash-flow hypothesis; Myers 1977 debt overhang).\n3. **Explains managerial ownership**. Founder-run firms concentrate ownership because agency costs dominate outside-capital costs at their scale. Extended by Demsetz–Lehn 1985 empirical work on ownership concentration.\n4. **Extended to corporate governance.** Fama–Jensen 1983 on decision–residual claim separation; Shleifer–Vishny 1997 survey.\n5. **Contrast with Fama 1980.** Where Jensen–Meckling see agency as a fundamental cost requiring careful contracting, Fama argues the managerial labor market eventually solves it. Both views are now standard.\n6. **Empirical impact.** McConnell–Servaes 1990 on firm value and managerial ownership; Morck–Shleifer–Vishny 1988 on entrenchment.\n7. **Related to Alchian–Demsetz 1972** (team production and monitoring); **Hansmann 1996** (ownership of enterprise) uses this framework to compare investor-owned vs. worker-owned firms.\n\n→ Anchor: **Incentives Theory Core**\n\n---\n\n## Supplementary notes\n\n**Ref.** Jensen, M. C. & Meckling, W. H. (1976). Theory of the firm: Managerial behavior, agency costs and ownership structure. *Journal of Financial Economics*, 3(4), 305–360.\n\n---\n\n## Intro\n\n**Most-cited paper in finance.** Formalizes the **agency costs** of separating ownership from control — the modern corporation as a nexus of contracts among competing claimants.\n\n## Contribution\n\n- **Agency costs** = monitoring costs + bonding costs + residual loss.\n- Manager owns fraction $\\alpha$ of firm → captures $\\alpha$ of profit, but bears full private cost of effort or perquisite abstention → underprovides effort, over-consumes perquisites.\n- Optimal ownership structure trades off agency costs against risk-bearing costs.\n- Foundation for **corporate-governance** literature: board composition, executive comp, ownership concentration.\n\n## Position\n\nRed **①** raw agency problem — extends Alchian-Demsetz to the modern corporation with dispersed ownership. Motivates the entire corporate-governance literature.\n",
-                "x": 2605,
+                "x": 2330,
                 "y": 740,
                 "width": 440,
                 "height": 340,
@@ -1229,6 +1237,10 @@
                 "links": [
                   {
                     "target": "p-bps-2020",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-jensen-murphy-1990",
                     "type": "forward"
                   }
                 ],
@@ -1302,6 +1314,10 @@
                   {
                     "target": "p-malcomson-1984",
                     "type": "forward"
+                  },
+                  {
+                    "target": "p-bloom-1999",
+                    "type": "forward"
                   }
                 ],
                 "popBg": "#f3f4f6"
@@ -1310,7 +1326,7 @@
                 "id": "p-malcomson-1984",
                 "title": "P·Malcomson (1984) — Internal Labor Markets",
                 "content": "**Ref.** Malcomson, J. M. (1984). Work incentives, hierarchy, and internal labor markets. *Journal of Political Economy*, 92(3), 486–507.\n\n---\n\n## Intro\n\nProvides the **theoretical foundation for internal-labor-market tournaments** — competition among workers for a fixed number of promotion slots.\n\n## Contribution\n\n- Rank-order pay + fixed promotion quota → self-enforcing incentive scheme even when individual performance is subjective and unverifiable.\n- Firm commits ex-ante to promote the top $k$ of $N$ workers — not to promote based on absolute performance.\n- Removes the ratchet effect (Gibbons 1987): the firm has no incentive to game the target because promotion is relative.\n\n## Position\n\nGreen **④** — theoretical foundation for promotion tournaments in internal labor markets. Complements LR 1981 (contest theory) with an institutional argument.\n",
-                "x": 14355,
+                "x": 14080,
                 "y": 1360,
                 "width": 440,
                 "height": 340,
@@ -1515,7 +1531,7 @@
                 "id": "p-bps-2020",
                 "title": "P·Bandiera–Prat–Sadun (2020) — CEO Behavior & Firm Performance",
                 "content": "**Ref.** Bandiera, O., Prat, A., Hansen, S. & Sadun, R. (2020). CEO behavior and firm performance. *Journal of Political Economy*, 128(4), 1325–1369.\n\n---\n\n## Intro\n\n**Modern empirical benchmark for the CEO-agency problem.** Uses machine-learning to classify CEO behavior from time-use diaries.\n\n## Design\n\n- Time-use diaries for ~1,100 CEOs across 6 countries.\n- Every 15 min: activity, participants, planning horizon.\n- ML classifies each CEO as \"leader\" (long-horizon, multi-participant) or \"manager\" (short-horizon, single-participant).\n\n## Findings\n\n- **Leader-type CEOs run more productive firms** — ~7% higher productivity conditional on industry, size, country.\n- Effect is causal (identified from CEO-fixed-firm switches).\n- **CEOs are commonly misassigned** — many \"manager\" CEOs would produce more as \"leaders\" at other firms; matching frictions are large.\n\n## Contribution\n\n- First **large-scale, quantitative measurement of CEO agency** using behavioral rather than accounting-based measures.\n- Direct implication for corporate-governance: better CEO-firm matching is worth ~7% of firm value.\n\n## Position\n\nYellow **②** — modern empirical evidence for CEO agency. Complements Baker-Jensen-Murphy 1988 by measuring behavior directly rather than inferring it from pay-performance sensitivity.\n",
-                "x": 5055,
+                "x": 4780,
                 "y": 2600,
                 "width": 440,
                 "height": 340,
@@ -1529,7 +1545,7 @@
                 "id": "p-laffont-tirole-1988",
                 "title": "P·Laffont–Tirole (1988) — Dynamic Mechanism with Commitment",
                 "content": "**Ref.** Laffont, J.-J. & Tirole, J. (1988). The dynamics of incentive contracts. *Econometrica*, 56(5), 1153–1175.\n\n---\n\n## Intro\n\n**Formal solution to the ratchet problem** (Gibbons 1987) — analyzes when the firm can and cannot commit to long-term contracts.\n\n## Contribution\n\n- **Full commitment**: firm can commit to never revising the wage schedule → efficient (no ratchet distortion).\n- **No commitment**: firm optimizes each period → ratchet distortion binds → inefficient.\n- **Renegotiation-proof**: intermediate case — firm commits to schedules that survive ex-post renegotiation.\n- Establishes that **institutional commitment devices** (unions, long-term contracts, reputation) are welfare-improving.\n\n## Position\n\nRed **③** — theoretical follow-up to Gibbons 1987. Explains why some firms use long-term contracts (avoids ratchet) and others don't (needs flexibility).\n",
-                "x": 11905,
+                "x": 11630,
                 "y": 740,
                 "width": 440,
                 "height": 340,
@@ -1765,7 +1781,7 @@
                 "id": "f4-risk-transfer",
                 "title": "F4 · Risk Transfer to Worker",
                 "content": "**Problem**\n\nPay = f(output). Output varies for reasons the worker cannot control: machine downtime, random customer arrivals, seasonal variation, task-difficulty heterogeneity.\n\n**Consequence**\nRisk-averse workers dislike income variance; they demand a risk premium. Firm pays MORE in expected wage bill for the same expected effort. The insurance-vs-incentive tradeoff (Holmström–Milgrom 1987) is the core of contract theory.\n\n**Which alternatives address it**\n- A3 Fixed wage (removes ALL output risk)\n\n**Which alternatives make it WORSE**\n- A4 Team pay (loads systematic firm risk)\n- A8 Ownership (undiversified: labor + wealth co-move)\n\n---\n\n### References\n\n- **Ross, S. (1973)**. The economic theory of agency. *AER*, 63(2), 134–139.\n- **Mirrlees, J. (1975/1999)**. The theory of moral hazard and unobservable behaviour. *REStud*, 66(1), 3–21.\n- **Holmström, B. & Milgrom, P. (1987)**. Aggregation and linearity. *Econometrica*, 55(2), 303–328 (risk-incentive tradeoff).\n- **Prendergast, C. (2002)**. The tenuous trade-off between risk and incentives. *JPE*, 110(5), 1071–1102 (empirical test).\n- **Ackerberg, D. & Botticini, M. (2002)**. Endogenous matching and the empirical determinants of contract form. *JPE*, 110(3), 564–591.\n\n---\n\n## Position in presentation flow\n\n# F4: Risk Transfer to Worker\n\nUnder the HM 1987 optimal linear contract, the worker bears fraction $\\beta$ of output risk. **Total welfare loss** from risk-bearing:\n$$\\Delta W = \\frac{\\rho\\sigma^2 \\beta^{*\\,2}}{2}$$\n\nThis is a **deadweight loss** — surplus that gets destroyed simply because the worker is more risk-averse than the firm's shareholders.\n\n## Failure mechanism\n\n- Worker's utility: $U(w) = -\\exp(-\\rho w)$ (CARA).\n- Firm's utility: risk-neutral (diversified shareholders).\n- Optimal contract shifts risk to the WORKER — the wrong party.\n- Even at $\\beta^*$, welfare is below the risk-neutral first-best.\n\n## Solutions across phases\n\n- **Phase ④ (tournaments):** common noise cancels — reduces $\\sigma^2$ effectively.\n- **Phase ② (efficiency wages / career concerns):** move to non-output-contingent pay.\n- **Phase ⑥ (team pay):** diversify individual risk across team members.\n\n## Position\n\nRed **③** — quantifies the \"cost of the solution\" that HM 1987's contract still bears. Motivates tournaments as a way to eliminate the risk-premium loss from common shocks.\n",
-                "x": 12455,
+                "x": 12180,
                 "y": 740,
                 "width": 440,
                 "height": 340,
@@ -1937,6 +1953,76 @@
                 "popBg": "#ede9fe",
                 "popShape": "rounded",
                 "links": []
+              },
+              {
+                "id": "p-holmstrom-1982-team",
+                "title": "P·Holmström (1982) — Moral Hazard in Teams",
+                "content": "**Ref.** Holmström, B. (1982). Moral hazard in teams. *Bell Journal of Economics*, 13(2), 324–340.\n\n---\n\n## Intro\n\n**Founding paper of team moral hazard.** Distinct from Holmström (1982) *Managerial Incentive Problems* (career concerns) — same year, different Bell issue. Answers: in team production where individual effort is unobservable and only aggregate output is measurable, can any budget-balanced sharing rule implement first-best?\n\n## Setup\n\n- $N$ team members choose effort $e_i$ at private cost $c_i(e_i)$.\n- Aggregate output $y = f(e_1, ..., e_N)$ is observable; individual $e_i$ is not.\n- **Budget-balanced sharing rule**: $\\sum_i s_i(y) = y$ (nothing lost, nothing added).\n\n## Free-rider theorem\n\nUnder budget balance + equal sharing, worker $i$'s FOC is:\n$$\\frac{1}{N} \\cdot \\frac{\\partial y}{\\partial e_i} = c_i'(e_i^*)$$\n\nMarginal reward on own effort scales with $1/N$ — free-rider effect grows with team size. First-best requires $\\partial y/\\partial e_i = c_i'$, so equal sharing gives underprovision by factor $N$.\n\n## Impossibility result\n\n**No budget-balanced sharing rule implements first-best.** Requires a **residual claimant** (Alchian–Demsetz 1972 style) who breaks budget balance — burns output if targets are missed, redistributes surplus if targets are met.\n\n## Contribution\n\n- Establishes the **fundamental limit of team pay** in the absence of monitoring or peer pressure.\n- Motivates every subsequent paper on team incentives:\n  - **Kandel–Lazear (1992)** — peer pressure adds the missing wedge.\n  - **Bandiera–Barankay–Rasul (2013)** — endogenous team formation resolves it empirically.\n  - **Hamilton–Nickerson–Owan (2003)** — self-selection into teams reverses the free-rider prediction.\n- Referenced in the yardstick-competition literature (Shleifer 1985) as motivation for peer-benchmarked contracts.\n\n→ Anchor: parent to **P·Kandel–Lazear (1992)** in the Phase-6 team-pay branch.\n",
+                "x": 2880,
+                "y": 740,
+                "width": 440,
+                "height": 340,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-weitzman-1980",
+                "title": "P·Weitzman (1980) — The Ratchet Principle",
+                "content": "**Ref.** Weitzman, M. L. (1980). The \"ratchet principle\" and performance incentives. *Bell Journal of Economics*, 11(1), 302–308.\n\n---\n\n## Intro\n\n**Original formal treatment of the ratchet effect** — in the Soviet-planning context. Central planner sets next period's quota based on this period's realized output. Firm rationally under-produces today to avoid tighter targets tomorrow. Weitzman formalises what Roy (1952) had documented ethnographically in US machine shops and what became the canonical dynamic-incentive puzzle.\n\n## Setup\n\n- Soviet enterprise with hidden productivity $\\theta$.\n- Planner sets quota $q_t$; enterprise chooses effort $e_t$; output $y_t = \\theta e_t$ observed.\n- Planner updates: $q_{t+1} = q_t + \\lambda(y_t - q_t)$ — reward attainment, ratchet on excess.\n\n## Result\n\nFirm's optimal $e_t^*$ falls short of the static optimum: the future-quota penalty $\\lambda \\cdot$ (discount factor) exactly offsets today's marginal reward for extra effort. Enterprises pool at the quota — never above.\n\n## Contribution\n\n- **First formal model of dynamic incentive distortion.** Predates Gibbons (1987) by 7 years but was largely confined to the planning literature.\n- Explains observed under-performance in centrally planned economies and quota-based sales organizations.\n- **Foundation for the dynamic-mechanism-design literature** — Freixas-Guesnerie-Tirole 1985 provides the fully rational-expectations extension; Laffont-Tirole 1988 studies commitment as the solution.\n\n→ Anchor: parent-in-lineage to **P·Gibbons (1987)** in the Phase-3 ratchet cluster.\n",
+                "x": 12730,
+                "y": 740,
+                "width": 440,
+                "height": 340,
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  {
+                    "target": "p-fgt-1985",
+                    "type": "forward"
+                  }
+                ],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-fgt-1985",
+                "title": "P·Freixas–Guesnerie–Tirole (1985) — Ratchet Effect Formalized",
+                "content": "**Ref.** Freixas, X., Guesnerie, R. & Tirole, J. (1985). Planning under incomplete information and the ratchet effect. *Review of Economic Studies*, 52(2), 173–191.\n\n---\n\n## Intro\n\n**Fully-rational-expectations formalization of the ratchet effect.** Extends Weitzman (1980) with Bayesian updating and strategic signal-jamming. The canonical theoretical statement of the ratchet problem that Gibbons (1987) then applies to the labor context.\n\n## Setup\n\n- Two-period model. Planner and firm both play Nash.\n- Firm has private type $\\theta$; observable output $y_1 = f(\\theta, e_1)$; planner updates belief about $\\theta$ from $y_1$.\n- Period-2 quota is chosen conditional on inferred $\\theta$.\n\n## Result\n\n- **Firms strategically pool** — high-$\\theta$ firm chooses $e_1$ equal to what a low-$\\theta$ firm would choose, to prevent the planner from learning $\\theta$.\n- **Full separation is impossible** without commitment: the planner would love to promise \"I won't ratchet\", but ex-post has no incentive to honour that promise, so firms don't believe it.\n- **Long-term commitment** (Laffont-Tirole 1988) restores efficiency; **no commitment** produces the pooling equilibrium.\n\n## Contribution\n\n- **Foundation for dynamic mechanism design** with private information and adverse selection.\n- Provides the game-theoretic rigor Weitzman (1980) lacked.\n- Direct predecessor to **Laffont-Tirole 1988** (formal commitment solution) and **Gibbons 1987** (labour-context application).\n\n→ Anchor: extends **P·Weitzman (1980)**, leads into **P·Gibbons (1987)** and **P·Laffont–Tirole (1988)**.\n",
+                "x": 12730,
+                "y": 1280,
+                "width": 440,
+                "height": 340,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-bloom-1999",
+                "title": "P·Bloom (1999) — Pay Dispersion Effects",
+                "content": "**Ref.** Bloom, M. (1999). The performance effects of pay dispersion on individuals and organizations. *Academy of Management Journal*, 42(1), 25–40.\n\n---\n\n## Intro\n\n**Empirical challenge to tournament theory's steep-prize prediction.** Studies Major League Baseball teams as a natural laboratory for pay-dispersion effects on team performance. Rosen (1986) predicts steeper prize spreads → more effort → better outcomes. Bloom finds the OPPOSITE for team sports.\n\n## Setup\n\n- Panel of MLB teams 1985-1993.\n- Within-team pay dispersion (Gini coefficient of player salaries) as key regressor.\n- Team-performance outcomes: winning percentage, playoff appearances, revenue.\n\n## Findings\n\n- **More compressed pay structures → better team performance.**\n- **Wider dispersion → worse team performance**, especially for teams where cooperation is critical (defense metrics fall more than individual offensive stats).\n- Effect concentrated among lower-paid players: they under-perform when the star's salary is very high relative to theirs.\n\n## Contribution\n\n- **Empirical counter-example to naïve tournament theory** in team settings.\n- Rationalizes observed **within-firm pay compression** documented by Baker-Jensen-Murphy 1988.\n- Supports **Lazear 1989 sabotage** framework: pay dispersion incentivizes sabotage / withdrawal of cooperation.\n- Motivates the **KL 1992 peer pressure** and **BBR 2013 team incentives** solutions.\n\n## Boundary conditions\n\n- Applies to sports and other team-cooperation settings.\n- Does NOT invalidate Rosen (1986) for individual-contest settings (executive tournaments, sales contests without cooperation).\n\n→ Anchor: sibling of **P·Rosen (1986)** — empirical evidence that qualifies tournament theory's prescription.\n",
+                "x": 14630,
+                "y": 1360,
+                "width": 440,
+                "height": 340,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-jensen-murphy-1990",
+                "title": "P·Jensen–Murphy (1990) — CEO Pay-Performance Sensitivity",
+                "content": "**Ref.** Jensen, M. C. & Murphy, K. J. (1990). Performance pay and top-management incentives. *Journal of Political Economy*, 98(2), 225–264.\n\n---\n\n## Intro\n\nThe **famous \"$3.25 per $1000\"** paper. Documents that CEO wealth changes only \\$3.25 for every \\$1,000 change in shareholder wealth — a pay-performance sensitivity of ~0.325%. Concludes observed CEO compensation cannot possibly provide the incentive alignment classical agency theory predicts.\n\n## Setup\n\n- Sample of ~2,000 CEOs of large US corporations, 1974-1988.\n- Estimate the sensitivity of CEO wealth (salary + bonus + stock + options + dismissal probability) to changes in shareholder wealth.\n\n## Findings\n\n- **Median pay-performance sensitivity: $3.25 per $1,000** of shareholder wealth change.\n- Decomposition:\n  - Salary + bonus: ~$1.35\n  - Stock ownership: ~$0.75\n  - Options: ~$0.50\n  - Dismissal risk: ~$0.65\n- Sensitivity **declined** through the sample period (contrary to popular narrative of \"increased\" pay-for-performance).\n- Sensitivity is HIGHER for smaller firms and DECREASES with firm size (harder to concentrate ownership in a giant firm).\n\n## Contribution\n\n- **Field-defining empirical benchmark** for CEO agency. Every subsequent study of executive compensation compares its sensitivity to Jensen-Murphy's $3.25.\n- **Puzzle for agency theory**: if sensitivity is this low, either agency costs are trivial (unlikely) or observed compensation is a poor solution to the agency problem.\n- Motivates the subsequent literature:\n  - **BJM 1988 (already in the tree)** — real contracts vs theoretical predictions.\n  - **Hall-Liebman 1998** — the stock-option boom of the 1990s changed the sensitivity story.\n  - **Bandiera-Prat-Sadun 2020 (in the tree)** — measure CEO behaviour directly rather than inferring from pay-performance sensitivity.\n\n→ Anchor: successor to **P·Baker–Jensen–Murphy (1988)** in the empirical CEO-agency chain.\n",
+                "x": 5330,
+                "y": 2600,
+                "width": 440,
+                "height": 340,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
               }
             ]
           }
