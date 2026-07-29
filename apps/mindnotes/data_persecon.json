@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T20:44:55.535Z",
+  "exportedAt": "2026-07-29T20:45:09.387Z",
   "data": {
     "topics": [
       {
@@ -2774,7 +2774,7 @@
                     "type": "forward"
                   },
                   {
-                    "target": "p-hkl-2018",
+                    "target": "p-bloom-lry-2015",
                     "type": "forward"
                   }
                 ],
@@ -2829,18 +2829,13 @@
                 "id": "p-hkl-2018",
                 "title": "P·Hoffman–Kahn–Li (2018) — Discretion in Hiring",
                 "content": "**Ref.** Hoffman, M., Kahn, L. B. & Li, D. (2018). Discretion in hiring. *Quarterly Journal of Economics*, 133(2), 765–800.\n\n---\n\n## Intro\n\n**Empirical study of algorithmic hiring vs manager discretion.** Uses data from 15 large firms that adopted a machine-learning-based job-test for entry-level positions. When the algorithm's recommendation and the human hiring manager's judgment disagreed, the human sometimes overrode the algorithm. Hoffman et al. use these override decisions to identify the value of algorithmic vs discretionary hiring.\n\n## Setup\n\n- 15 firms adopting a common ML-based hiring test.\n- ~300,000 job applications; ~100,000 hires.\n- For each candidate: (i) test score (algorithm recommendation), (ii) whether hired, (iii) subsequent tenure/productivity.\n- Test scores were shown to managers as a green/yellow/red flag.\n\n## Findings\n\n- **Managers frequently overrode the algorithm**: 20-40% of hires had lower test scores than rejected candidates.\n- **Overrides led to WORSE hires**: 15-20% shorter tenure and lower productivity for algorithm-overridden hires.\n- Discretion is costly: managers' override authority destroyed value on average.\n- **Following the algorithm perfectly would have raised hire quality by 15-20%.**\n\n## Contribution\n\n- **Cleanest empirical evidence** that algorithmic assignment (of workers to jobs at hiring stage) beats human discretion.\n- Direct implication: firm value can be raised by REASSIGNING hiring authority from humans to algorithms.\n- **For Paper 2**: reassigning DECISION authority is a form of task reassignment. Provides an upper bound on the value of algorithmic assignment when types are observable via testing.\n\n→ Anchor: **Field experiments cluster**; child: **Bloom et al. (2015) WFH**\n",
-                "x": -5845,
-                "y": 1025,
+                "x": -5518.444833853187,
+                "y": 745.0955718741598,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
                 "images": [],
-                "links": [
-                  {
-                    "target": "p-bloom-lry-2015",
-                    "type": "forward"
-                  }
-                ],
+                "links": [],
                 "popBg": "#f3f4f6"
               },
               {
@@ -2848,7 +2843,7 @@
                 "title": "P·Bloom–Liang–Roberts–Ying (2015) — Working from Home RCT",
                 "content": "**Ref.** Bloom, N., Liang, J., Roberts, J. & Ying, Z. J. (2015). Does working from home work? Evidence from a Chinese experiment. *Quarterly Journal of Economics*, 130(1), 165–218.\n\n---\n\n## Intro\n\n**Landmark RCT of work-location reassignment.** Chinese travel firm Ctrip randomly assigned call-center employees to work-from-home vs office for 9 months. Measures productivity, promotions, and quit rates.\n\n## Setup\n\n- ~250 volunteers eligible to WFH.\n- Randomly assigned: WFH (4 days/week) vs office.\n- 9-month experiment.\n- Outcomes: calls handled, minutes per call, quit rate, promotion.\n\n## Findings\n\n- **WFH raised productivity by 13%.**\n  - +9% from more time worked per shift (fewer breaks, less commuting-based sick leave).\n  - +4% from more calls per hour (quieter environment).\n- Quit rate fell 50%.\n- **BUT**: promotion rate fell HALF as much for WFH workers.\n- After the experiment, 50% of WFH workers wanted to return to the office (loneliness, career concerns).\n\n## Contribution\n\n- **First rigorous RCT of remote work.** Foundational for a huge subsequent literature on WFH.\n- Documents the productivity vs career-progression tradeoff of location reassignment.\n- **For Paper 2**: cleanest example of a work-organization RCT. Directly demonstrates that reassigning workers (across the office/home boundary) produces measurable output effects. Complements Adhvaryu et al. (within-firm reassignment) with a different-dimension reassignment.\n\n→ Anchor: extends **Hoffman-Kahn-Li (2018)** — different type of decision-authority reassignment\n",
                 "x": -5845,
-                "y": 1645,
+                "y": 1031.5427950242006,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3028,6 +3023,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T20:44:53.411Z"
+    "lastEditedAt": "2026-07-29T20:45:08.370Z"
   }
 }
