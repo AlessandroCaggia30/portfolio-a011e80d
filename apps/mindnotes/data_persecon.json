@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-29T11:43:50.129Z",
+  "exportedAt": "2026-07-29T11:43:54.344Z",
   "data": {
     "topics": [
       {
@@ -699,7 +699,7 @@
               {
                 "id": "hub-incentives-core",
                 "title": "★ Incentives Theory — Core",
-                "content": "# Incentives Theory — Core\n\n\n\n## The question\n\n**Why doesn't a worker on flat pay exert socially optimal effort?**\nTwo primitive frictions drive everything downstream:\n\n1. **Effort $e$ is unobservable** (moral hazard).\n2. **Individual output $s_i$ is often also unobservable** — only team/firm output is → free-riding.",
+                "content": "# Incentives Theory — Core\n\n\n\n## The question\n\n**Why doesn't a worker on flat pay exert socially optimal effort?**\nTwo primitive frictions drive everything downstream:\n\n1. **Effort $e$ is unobservable** (moral hazard).\n2. **Individual output $s_i$ is often also unobservable** — only team/firm output is → free-riding.\n\n",
                 "x": -25,
                 "y": -1280,
                 "width": 560,
@@ -1977,6 +1977,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-29T11:43:48.013Z"
+    "lastEditedAt": "2026-07-29T11:43:52.216Z"
   }
 }
