@@ -7726,6 +7726,11 @@ function createNodeElement(node) {
     // Calculate preview lines based on height
     const previewLines = calculatePreviewLines(node.height);
 
+    // Flashcard badge: 10% of the card's larger side, clamped to [18, 40] px.
+    const fcBadgeSize = isFlashcardNode(node)
+        ? Math.max(18, Math.min(40, Math.round(Math.max(node.width || 160, node.height || 80) * 0.10)))
+        : 0;
+
     el.innerHTML = `
         <div class="node-color-btn" style="background:${NODE_COLORS[node.color] || 'var(--border)'}"></div>
         <div class="color-picker" id="picker-${node.id}">
