@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-28T15:18:24.371Z",
+  "exportedAt": "2026-07-29T11:30:01.686Z",
   "data": {
     "topics": [
       {
@@ -730,8 +730,8 @@
                 "id": "hub-incentives-core",
                 "title": "★ INCENTIVES THEORY — CORE",
                 "content": "# Incentives Theory — Core\n\n*The unifying frame of this presentation.*\n\n## The two questions\n\n**Q1 (theory).** How do we design contracts when agents' effort is unobservable and agents dislike effort? — the classical **principal-agent problem** (Ross 1973; Mirrlees 1975).\n\n**Q2 (implementation).** How do we compute and evaluate contract mechanisms across large populations of heterogeneous agents in dynamic settings that closed-form analytical models cannot handle? — the **agent-based modelling** approach (Bergmann 1974; Neugart–Richiardi 2018).\n\n## The two trees below\n\n**← LEFT branch (blue): ABM literature.** Rooted at Bergmann 1974 (first full-economy micro-simulation). Splits into three sub-branches — macro, firm-scale, labor — each showing which paper built on which. Methodology (ML3) as a satellite.\n\n**→ RIGHT branch (colored): Agency problem-solution flow.** Horizontal narrative. Each RED card is a problem; each GREEN card the solution introduced to fix it. Under each phase: the theoretical papers that established the mechanism, and the empirical papers that measured it.\n\n## Reading protocol\n\n- **RED** = a *problem* that a preceding solution left unsolved.\n- **GREEN** = a *solution* that solves the immediately-preceding red problem.\n- **BLUE** = ABM-cluster paper.\n- **YELLOW** = empirical evidence.\n- **ORANGE** = root / anchor paper of a cluster.\n- **PURPLE** = hub / meta card.\n\nArrows point in the direction of intellectual descent: parent → child means \"child extends parent\". In the agency flow, arrows also connect **problem → solution → next problem**.\n\n## The central claim of the presentation\n\nThe agency problem is not solved by any single contract. It is refined by a **cascade of contracts**, each solving what the previous introduced. Information technology (Quindi) is a **substrate**, not a contract — it improves the signal quality on which every contract depends, and thereby shifts the entire cascade favourably.\n",
-                "x": 55,
-                "y": -465,
+                "x": 944.3347168574378,
+                "y": -498.09152434818407,
                 "width": 560,
                 "height": 440,
                 "flashcard": false,
@@ -1878,6 +1878,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-28T15:18:23.931Z"
+    "lastEditedAt": "2026-07-29T11:29:59.570Z"
   }
 }
