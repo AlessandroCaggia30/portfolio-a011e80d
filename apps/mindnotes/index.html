@@ -9871,6 +9871,7 @@ function splitIntoEditBlocks(content) {
 }
 
 function renderObsidianPreview() {
+    if (typeof _hideFmtBar === 'function') _hideFmtBar();
     const container = $('detailPreview');
     const content = State.currentContent || State.contentBlocks.join('\n') || '';
     const format = $('detailFormatSelector')?.value || 'latex';
