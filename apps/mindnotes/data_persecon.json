@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:35:39.595Z",
+  "exportedAt": "2026-07-30T08:35:43.206Z",
   "data": {
     "topics": [
       {
@@ -2112,8 +2112,8 @@
                 "id": "p-bis-2007",
                 "title": "P·Bartel–Ichniowski–Shaw (2007) — IT + Process Re-engineering",
                 "content": "**Ref.** Bartel, A., Ichniowski, C. & Shaw, K. (2007). How does information technology affect productivity? Plant-level comparisons of product innovation, process improvement, and worker skills. *Quarterly Journal of Economics*, 122(4), 1721–1758.\n\n---\n\n## Intro\n\nExtends BBH 2002 with **plant-level micro-data on valve manufacturers.** Provides one of the cleanest identifications of the IT + reorganization mechanism.\n\n## Design\n\n- 212 valve-manufacturing plants, panel 1997–2005.\n- Detailed measurement of IT adoption (CAD/CAM, ERP), process re-engineering, and worker-skill composition.\n- Instrumental-variable identification using pre-existing IT investments as an instrument.\n\n## Findings\n\n- **Plants adopting IT + process re-engineering saw 15–20% productivity gains** relative to plants adopting IT alone.\n- **Product innovation** was the primary channel: IT enabled reorganized production, which enabled new product introductions.\n- Worker-skill composition shifted toward higher cognitive skill demand (echoing BBH 2002).\n\n## Contribution\n\n- Cleanest micro-identification of the IT-reorganization complementarity.\n- **For Paper 2**: 15–20% is a middle-of-range estimate. Suggests Paper 2's target magnitude for AI-enabled reorganization is realistic.\n- Confirms BBH 2002 at the plant level with cleaner identification.\n\n→ Anchor: extends **BBH 2002**\n",
-                "x": -7752.40932163057,
-                "y": 1802.5906783694313,
+                "x": -7742.068220271762,
+                "y": 1823.2728810870458,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3080,6 +3080,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:35:37.458Z"
+    "lastEditedAt": "2026-07-30T08:35:41.082Z"
   }
 }
