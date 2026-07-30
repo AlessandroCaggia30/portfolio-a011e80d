@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T06:59:25.439Z",
+  "exportedAt": "2026-07-30T06:59:41.277Z",
   "data": {
     "topics": [
       {
@@ -2635,7 +2635,7 @@
                 "id": "p-heckman-honore-1990",
                 "title": "P·Heckman–Honoré (1990) — Empirical Content of Roy Model",
                 "content": "\\section{Heckman, J. J. \\& Honoré, B. E. (1990). \\textit{The Empirical Content of the Roy Model}. \\textit{Econometrica}, 58(5), 1121--1149.}\n\n\\subsection{Introduction}\n\n\\textbf{Non-parametric identification theorem for the Roy model.} Rather than estimating a new empirical model, this paper asks a fundamental econometric question:\n\n\\begin{quote}\n\\emph{Suppose we only observe workers' occupations and wages. Can we recover the underlying distribution of skills and comparative advantage?}\n\\end{quote}\n\nTheir answer is remarkably strong:\n\n\\begin{quote}\n\\textbf{In general, no.}\n\\end{quote}\n\nThe paper establishes the identification limits of the Roy model and explains why richer data or additional assumptions are necessary for empirical work on worker sorting.\n\n\\subsection{The Intuition}\n\nSuppose there are only two occupations:\n\n\\begin{itemize}\n    \\item Engineer\n    \\item Teacher\n\\end{itemize}\n\nEach worker has \\textbf{two potential wages}.\n\n\n\n\n\n\n\n\n\nThe crucial problem is that we never observe the counterfactual wage.\n\n\\begin{itemize}\n    \\item We never observe A's teaching wage.\n    \\item We never observe B's engineering wage.\n    \\item We never observe C's teaching wage.\n\\end{itemize}\n\nHalf of the information needed to recover the joint distribution of skills is permanently missing.\n\n\\subsection{Why This Creates an Identification Problem}\n\nDifferent underlying economies can generate exactly the same observed data.\n\n\\paragraph{World 1: Engineers earn higher wages}\n\nEveryone has similar abilities, but engineering jobs pay more.\n\n\\paragraph{World 2: Engineers are simply better workers}\n\n\n\n\n\n\n\n\n\n\n\n\\subsection{Main Result}\n\nGiven standard cross-sectional data (observed wages and observed occupation choice),\n\n\\begin{itemize}\n    \\item the \\textbf{joint distribution of skills is \\emph{not} non-parametrically identified};\n    \\item without additional information, one cannot separately identify:\n    \\begin{enumerate}\n        \\item the distribution of worker skills,\n        \\item the mapping from skills to wages,\n        \\item and the occupational sorting mechanism.\n    \\end{enumerate}\n\\end{itemize}\n\nThis is fundamentally a \\textbf{missing counterfactual problem}: each worker reveals only one of their potential wages.\n\n\\subsection{What Makes Identification Possible?}\n\nThe paper shows that additional information or assumptions are required.\n\n\\subsubsection*{1. Exclusion Restrictions}\n\nFind variables that affect occupational choice but do \\emph{not} directly affect wages.\n\nFor example, distance to a university may influence whether someone becomes an engineer without affecting engineering productivity itself.\n\nSuch variables generate exogenous variation that helps identify the Roy model.\n\n\\subsubsection*{2. Panel Data}\n\nObserve workers repeatedly over time.\n\nOccupational switches, wage growth, and career histories reveal much more information about workers' comparative advantage than a single cross section. I mean if A was a teacher and then becomes and engineer you can estimate something. \n\n\\subsubsection*{3. Rank Invariance (or Similar Structural Assumptions)}\n\nAssume workers maintain their relative ordering in skill across occupations or over time.\n\nIf Alice is more skilled than Bob, she remains more skilled in every potential outcome.\n\n\\subsection{Why This Paper Matters}\n\nThis paper explains why \\textbf{Heckman \\& Sedlacek (1985)} had to impose strong distributional assumptions.\n\nWithout those assumptions, the observed data are insufficient to identify the Roy model.\n\n\n\n\n",
-                "x": -7365.6906078479315,
+                "x": -7118.441696336773,
                 "y": 1027.923536464259,
                 "width": 440,
                 "height": 340,
@@ -2737,6 +2737,10 @@
                   {
                     "target": "p-bloom-lry-2015",
                     "type": "forward"
+                  },
+                  {
+                    "target": "p-heckman-honore-1990",
+                    "type": "forward"
                   }
                 ],
                 "color": "purple",
@@ -2746,7 +2750,7 @@
                 "id": "p-adhvaryu-2024",
                 "title": "P·Adhvaryu–Bassi–Nyshadham–Tamayo (2024) — No Line Left Behind",
                 "content": "**Ref.** Adhvaryu, A., Bassi, V., Nyshadham, A. & Tamayo, J. (forthcoming). No line left behind: Assortative matching inside the firm. *Review of Economics and Statistics*, DOI: 10.1162/rest_a_01516. (Online October 2024.)\n\n---\n\n## Intro\n\n**The closest published paper to Paper 2's design.** Directly estimates the productivity gain from optimal assortative matching of workers to teams inside a firm. Uses granular data from a large Indian garment manufacturer with detailed worker productivity records and observed line-team composition.\n\n## Setup\n\n- Indian garment factory with ~100 production lines × ~30 workers per line.\n- Each worker has an individual-productivity measure (pieces per shift).\n- Team output is a nonlinear function of individual productivities within the line.\n- Question: how much would firm output rise if workers were REASSIGNED across lines to maximize aggregate output?\n\n## Identification\n\nUses quasi-experimental variation in team composition driven by absenteeism + hiring flows to identify:\n1. The production function $F(\\alpha_1, ..., \\alpha_N)$ within a team.\n2. The counterfactual optimal assignment $\\mu^*$.\n3. The productivity gap between observed $\\mu_0$ and optimal $\\mu^*$.\n\n## Findings\n\n- **Optimal assortative matching would raise firm output by 1–5%** relative to current (near-random) assignment.\n- Complementarities are moderate — the production function has meaningful positive assortative matching returns.\n- Gains concentrated in lines with high skill variance among workers.\n\n## Contribution\n\n- **Cleanest published measure of within-firm assortative-matching value.**\n- Direct empirical bridge between assignment theory (Costinot-Vogel 2010) and firm reality.\n- **For Paper 2**: THE benchmark paper. Paper 2's $V^*$ target is directly comparable to Adhvaryu et al.'s ~1-5%. Paper 2 goes beyond by (i) considering MULTI-dimensional skills, not just single productivity, (ii) simulating the counterfactual under different AI-observability regimes, (iii) linking to broader task landscape.\n\n→ Anchor: **Field experiments cluster** — the primary reference paper\n",
-                "x": -6891.764010204859,
+                "x": -6644.515098693701,
                 "y": 1022.9524619309564,
                 "width": 440,
                 "height": 340,
@@ -2764,7 +2768,7 @@
                 "id": "p-chan-2016",
                 "title": "P·Chan (2016) — Teamwork & Moral Hazard in the ED",
                 "content": "**Ref.** Chan, D. C. (2016). Teamwork and moral hazard: Evidence from the emergency department. *Journal of Political Economy*, 124(3), 734–770.\n\n---\n\n## Intro\n\n**Random-assignment field study** of nurse-team composition effects on ED productivity. Uses shift-scheduling procedures that quasi-randomly assign nurses to teams.\n\n## Setup\n\n- Emergency department: physicians + nurses working in teams.\n- Shift scheduling gives quasi-random variation in team composition.\n- Outcome: patient throughput, patient outcomes.\n\n## Findings\n\n- **Substantial team-composition effects**: swap-in of a high-productivity nurse raises team output by 5-10% depending on the shift.\n- Peer effects (moral hazard channel): high-effort nurses raise the effort of others in the same team.\n- Optimal team composition can raise ED productivity by ~10-15% over random assignment.\n\n## Contribution\n\n- **Cleanest identification of team-composition value** in a real workplace via quasi-random assignment.\n- Confirms the Roy/assortative-matching prediction: matching matters, and observed matching is far from optimal.\n- **For Paper 2**: high-stakes complement to Adhvaryu et al. The ED setting is very different from a garment factory but the underlying result is the same — reassignment generates non-trivial value.\n\n→ Anchor: extends **Adhvaryu et al.** — team-composition experimental evidence\n",
-                "x": -6936.809847723822,
+                "x": -6689.560936212663,
                 "y": 1663.427842621395,
                 "width": 440,
                 "height": 340,
@@ -2777,7 +2781,7 @@
                 "id": "p-bbr-2007-managers",
                 "title": "P·Bandiera–Barankay–Rasul (2007) — Manager Incentives & Worker Reassignment",
                 "content": "**Ref.** Bandiera, O., Barankay, I. & Rasul, I. (2007). Incentives for managers and inequality among workers: Evidence from a firm-level experiment. *Quarterly Journal of Economics*, 122(2), 729–773.\n\n---\n\n## Intro\n\n**Field experiment where managers received performance-based bonuses.** The unintended-but-central effect: managers began reassigning workers to teams differently — cherry-picking high-productivity workers into their own teams and reallocating tasks to favor them.\n\n## Setup\n\n- UK soft-fruit farm; same firm as BBR 2005 and BBR 2013 but different experiment.\n- Managers (previously flat-paid) randomly assigned to receive performance bonuses based on team output.\n- Rich data on worker × field × day productivity + observed manager task-assignment decisions.\n\n## Findings\n\n- **Managers reassigned workers strategically** once given incentives: high-productivity workers pulled onto manager's own team; low-productivity workers relegated.\n- **Team productivity rose 21%** on average, but concentrated in already-productive workers.\n- **Increased inequality among workers** — low-productivity workers earned LESS after the intervention.\n\n## Contribution\n\n- **Documents reassignment as an endogenous response** to incentive changes.\n- Direct empirical evidence that: (i) managers CAN reassign to raise productivity, (ii) reassignment is CONSTRAINED without proper incentives to do so.\n- **For Paper 2**: shows the \"given contract\" framing matters. Manager incentives affect whether reassignment happens. Paper 2's design controls for this by fixing contract while varying reassignment technology.\n\n→ Anchor: **Field experiments cluster**\n",
-                "x": -6395,
+                "x": -6147.751088488842,
                 "y": 1025,
                 "width": 440,
                 "height": 340,
@@ -2803,7 +2807,7 @@
                 "id": "p-bloom-lry-2015",
                 "title": "P·Bloom–Liang–Roberts–Ying (2015) — Working from Home RCT",
                 "content": "**Ref.** Bloom, N., Liang, J., Roberts, J. & Ying, Z. J. (2015). Does working from home work? Evidence from a Chinese experiment. *Quarterly Journal of Economics*, 130(1), 165–218.\n\n---\n\n## Intro\n\n**Landmark RCT of work-location reassignment.** Chinese travel firm Ctrip randomly assigned call-center employees to work-from-home vs office for 9 months. Measures productivity, promotions, and quit rates.\n\n## Setup\n\n- ~250 volunteers eligible to WFH.\n- Randomly assigned: WFH (4 days/week) vs office.\n- 9-month experiment.\n- Outcomes: calls handled, minutes per call, quit rate, promotion.\n\n## Findings\n\n- **WFH raised productivity by 13%.**\n  - +9% from more time worked per shift (fewer breaks, less commuting-based sick leave).\n  - +4% from more calls per hour (quieter environment).\n- Quit rate fell 50%.\n- **BUT**: promotion rate fell HALF as much for WFH workers.\n- After the experiment, 50% of WFH workers wanted to return to the office (loneliness, career concerns).\n\n## Contribution\n\n- **First rigorous RCT of remote work.** Foundational for a huge subsequent literature on WFH.\n- Documents the productivity vs career-progression tradeoff of location reassignment.\n- **For Paper 2**: cleanest example of a work-organization RCT. Directly demonstrates that reassigning workers (across the office/home boundary) produces measurable output effects. Complements Adhvaryu et al. (within-firm reassignment) with a different-dimension reassignment.\n\n→ Anchor: extends **Hoffman-Kahn-Li (2018)** — different type of decision-authority reassignment\n",
-                "x": -5845,
+                "x": -5597.751088488842,
                 "y": 1031.5427950242006,
                 "width": 440,
                 "height": 340,
@@ -3052,6 +3056,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T06:59:23.315Z"
+    "lastEditedAt": "2026-07-30T06:59:40.935Z"
   }
 }
