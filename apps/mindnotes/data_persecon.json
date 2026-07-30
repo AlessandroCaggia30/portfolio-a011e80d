@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T07:22:00.985Z",
+  "exportedAt": "2026-07-30T07:22:04.164Z",
   "data": {
     "topics": [
       {
@@ -2147,6 +2147,10 @@
                   {
                     "target": "p-athey-bryan-gans-2020",
                     "type": "forward"
+                  },
+                  {
+                    "target": "p-beane-2019",
+                    "type": "forward"
                   }
                 ],
                 "color": "purple",
@@ -3050,6 +3054,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T07:22:00.362Z"
+    "lastEditedAt": "2026-07-30T07:22:02.046Z"
   }
 }
