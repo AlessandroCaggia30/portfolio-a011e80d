@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T09:05:12.224Z",
+  "exportedAt": "2026-07-30T09:05:39.585Z",
   "data": {
     "topics": [
       {
@@ -324,12 +324,7 @@
                 "color": "purple",
                 "popBg": "#ede9fe",
                 "popShape": "rounded",
-                "links": [
-                  {
-                    "target": "quindi-info-substrate",
-                    "type": "forward"
-                  }
-                ]
+                "links": []
               },
               {
                 "id": "p-gh-1983",
@@ -778,33 +773,6 @@
                   },
                   {
                     "target": "phase-3-problem",
-                    "type": "forward"
-                  }
-                ],
-                "color": "green",
-                "popBg": "#dcfce7"
-              },
-              {
-                "id": "quindi-info-substrate",
-                "title": "★ Quindi = Information Substrate",
-                "content": "# Quindi as the information substrate\n\n**Quindi is not a contract. Quindi is the technology that makes every contract better.**\n\n## The formal claim\n\nHolmström & Milgrom (1987) prove the optimal linear contract is\n$$w^* = \\alpha + \\beta y, \\quad \\beta^* = \\frac{1}{1 + \\rho\\sigma^2 k / g^2}.$$\n\n**Every $\\sigma^2$-reducing intervention:**\n- Raises $\\beta^*$ (worker takes more of the residual).\n- Raises equilibrium effort $e^* = \\beta^* g / k$.\n- Reduces the risk premium $\\rho\\sigma^2\\beta^{*2}/2$ the firm must pay.\n- Raises equilibrium output $\\mathbb{E}[y^*]$ and firm profit.\n\n## Quindi's business = reducing $\\sigma^2$\n\nQuindi's product produces high-frequency, high-fidelity signals of worker effort (task completion, activity metrics, output-quality proxies) that a firm's manager alone cannot cheaply observe.\n\nUnder Holmström's (1979) **informativeness principle**, each additional informative signal Quindi provides *should* enter the wage contract — improving welfare on both sides.\n\n## Empirical grounding\n\n- **Lazear 2000** (Safelite): switching to piece rate → 44% productivity gain. This is HM 1987 in the field, with clean signals of individual output. Quindi generalises the Safelite condition (clean individual signal) to industries where signals are noisier.\n- **Bloom & Van Reenen 2013**: better management practices (largely = better measurement + info flow) → 17% productivity gain across 30k firms globally.\n\n## The three empirical papers below (yellow)\n\nSupport the claim that better info + optimal linear contract raises productivity in a range of empirical settings.\n\n→ Anchor: **P·Holmström–Milgrom (1987)** and **P·Holmström (1979)**\n",
-                "x": 4715,
-                "y": 1350,
-                "width": 460,
-                "height": 400,
-                "flashcard": false,
-                "images": [],
-                "links": [
-                  {
-                    "target": "p-lazear-2000-safelite",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-bloom-van-reenen-2013",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-bjm-1988",
                     "type": "forward"
                   }
                 ],
@@ -3087,8 +3055,38 @@
         "deletedAt": 1785401208837,
         "fromTopic": "pe-topic-1",
         "fromSubtopic": "pe-sub-1"
+      },
+      {
+        "id": "quindi-info-substrate",
+        "title": "★ Quindi = Information Substrate",
+        "content": "# Quindi as the information substrate\n\n**Quindi is not a contract. Quindi is the technology that makes every contract better.**\n\n## The formal claim\n\nHolmström & Milgrom (1987) prove the optimal linear contract is\n$$w^* = \\alpha + \\beta y, \\quad \\beta^* = \\frac{1}{1 + \\rho\\sigma^2 k / g^2}.$$\n\n**Every $\\sigma^2$-reducing intervention:**\n- Raises $\\beta^*$ (worker takes more of the residual).\n- Raises equilibrium effort $e^* = \\beta^* g / k$.\n- Reduces the risk premium $\\rho\\sigma^2\\beta^{*2}/2$ the firm must pay.\n- Raises equilibrium output $\\mathbb{E}[y^*]$ and firm profit.\n\n## Quindi's business = reducing $\\sigma^2$\n\nQuindi's product produces high-frequency, high-fidelity signals of worker effort (task completion, activity metrics, output-quality proxies) that a firm's manager alone cannot cheaply observe.\n\nUnder Holmström's (1979) **informativeness principle**, each additional informative signal Quindi provides *should* enter the wage contract — improving welfare on both sides.\n\n## Empirical grounding\n\n- **Lazear 2000** (Safelite): switching to piece rate → 44% productivity gain. This is HM 1987 in the field, with clean signals of individual output. Quindi generalises the Safelite condition (clean individual signal) to industries where signals are noisier.\n- **Bloom & Van Reenen 2013**: better management practices (largely = better measurement + info flow) → 17% productivity gain across 30k firms globally.\n\n## The three empirical papers below (yellow)\n\nSupport the claim that better info + optimal linear contract raises productivity in a range of empirical settings.\n\n→ Anchor: **P·Holmström–Milgrom (1987)** and **P·Holmström (1979)**\n",
+        "x": 4715,
+        "y": 1350,
+        "width": 460,
+        "height": 400,
+        "flashcard": false,
+        "images": [],
+        "links": [
+          {
+            "target": "p-lazear-2000-safelite",
+            "type": "forward"
+          },
+          {
+            "target": "p-bloom-van-reenen-2013",
+            "type": "forward"
+          },
+          {
+            "target": "p-bjm-1988",
+            "type": "forward"
+          }
+        ],
+        "color": "green",
+        "popBg": "#dcfce7",
+        "deletedAt": 1785402337407,
+        "fromTopic": "pe-topic-1",
+        "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T09:05:11.767Z"
+    "lastEditedAt": "2026-07-30T09:05:37.407Z"
   }
 }
