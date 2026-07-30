@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T06:51:00.813Z",
+  "exportedAt": "2026-07-30T06:51:05.151Z",
   "data": {
     "topics": [
       {
@@ -2624,7 +2624,7 @@
               },
               {
                 "id": "p-heckman-sedlacek-1985",
-                "title": "P·Heckman–Sedlacek (1985) — Empirical Roy Model (Heckman selection)",
+                "title": "P·Heckman–Sedlacek (1985) — Empirical Roy Model (Heckman selection into unions!)",
                 "content": "**Ref.** Heckman, J. J. & Sedlacek, G. (1985). Heterogeneity, aggregation, and market wage functions: An empirical model of self-selection in the labor market. *Journal of Political Economy*, 93(6), 1077–1125.\n\n---\n\n## Intro\n\n**First rigorous structural estimation of the Roy model.** Answers: can we empirically identify the underlying joint distribution of skills across occupations from observed self-selection outcomes?\n\n## Setup\n\n- Two-sector Roy model (union vs non-union manufacturing).\n- Wages depend on skill × sector.\n- Workers self-select into sectors based on comparative advantage.\n- Estimation from CPS + other US micro data.\n\n## Key results\n\n- Structural estimation recovers the joint skill distribution using self-selection corrections.\n- Wage differentials across sectors are ~50% due to composition (sorting) and ~50% due to true wage premium.\n- The apparent \"union wage premium\" overstates the causal effect by a factor of 2 due to self-selection.\n\n## Contribution\n\n- **Founding paper of the empirical Roy literature.** Every subsequent structural sorting paper builds on this framework.\n- Introduces the Heckman-selection correction into occupation choice.\n- **For Paper 2**: shows HOW MUCH of observed cross-sector wage differences reflect SORTING vs true wage differences. Direct answer to a Paper 2 sub-question — mismatch reduction ≈ SORTING GAIN component.\n\n→ Anchor: extends **Roy (1951)**\n",
                 "x": -8134.006318613878,
                 "y": -2270.466762163215,
@@ -3056,6 +3056,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T06:50:59.008Z"
+    "lastEditedAt": "2026-07-30T06:51:05.139Z"
   }
 }
