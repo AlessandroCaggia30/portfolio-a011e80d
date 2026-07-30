@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T07:45:05.237Z",
+  "exportedAt": "2026-07-30T07:45:10.434Z",
   "data": {
     "topics": [
       {
@@ -713,10 +713,6 @@
                 "links": [
                   {
                     "target": "phase-1-problem",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "abm-quindi",
                     "type": "forward"
                   }
                 ],
@@ -3064,6 +3060,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T07:45:03.080Z"
+    "lastEditedAt": "2026-07-30T07:45:08.315Z"
   }
 }
