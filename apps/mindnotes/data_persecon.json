@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:21:02.320Z",
+  "exportedAt": "2026-07-30T08:21:22.206Z",
   "data": {
     "topics": [
       {
@@ -2394,7 +2394,7 @@
               {
                 "id": "p-guvenen-2020",
                 "title": "P·Guvenen–Kuruscu–Tanaka–Wiczer (2020) — Multidim Skill Mismatch",
-                "content": "**Ref.** Guvenen, F., Kuruscu, B., Tanaka, S. & Wiczer, D. (2020). Multidimensional skill mismatch. *American Economic Journal: Macroeconomics*, 12(1), 210–244.\n\n---\n\n## Intro\n\n**THE central paper for Paper 2.** Directly measures the productivity loss from multi-dim worker-task mismatch and estimates how much of it is resolved by job mobility over the lifecycle.\n\n## Setup\n\n- Worker skill vector $\\alpha_i \\in \\mathbb{R}^3$ (verbal, math, spatial from ASVAB).\n- Job requirement vector $\\sigma_j \\in \\mathbb{R}^3$ (from O*NET).\n- **Mismatch**: distance $d(\\alpha_i, \\sigma_{j(i)})$.\n- Wage regression: $\\log w = \\beta_0 + \\beta_1 \\alpha + \\beta_2 \\sigma + \\beta_3 \\text{mismatch}$.\n\n## Findings\n\n- **Mismatch has large negative wage effect**: 1 SD of mismatch → ~10% wage penalty.\n- Mismatch decays with tenure: workers gradually find better matches.\n- **BUT mismatch never fully resolves**: even at 30 years of experience, substantial mismatch remains.\n- Aggregate mismatch resolution contributes ~15–20% to lifecycle wage growth. \n\n## Contribution\n\n- **Most direct empirical answer to Paper 2's core question.** Quantifies value lost to mismatch as ~10% per SD.\n- Shows resolution is incomplete → substantial reassignment gain remains available even in mature workers.\n- **For Paper 2 target**: $V^{*}$ from perfect reassignment (Paper 2 counterfactual) is an upper bound on GKTW's observed mismatch — plausibly 10-20% of wages / output.\n\n→ Anchor: **Skill heterogeneity & mismatch cluster** — the central paper\n",
+                "content": "**Ref.** Guvenen, F., Kuruscu, B., Tanaka, S. & Wiczer, D. (2020). Multidimensional skill mismatch. *American Economic Journal: Macroeconomics*, 12(1), 210–244.\n\n---\n\n## Intro\n\n**THE central paper for Paper 2.** Directly measures the productivity loss from multi-dim worker-task mismatch and estimates how much of it is resolved by job mobility over the lifecycle.\n\n## Setup\n\n- Worker skill vector $\\alpha_i \\in \\mathbb{R}^3$ (verbal, math, spatial from ASVAB).\n- Job requirement vector $\\sigma_j \\in \\mathbb{R}^3$ (from O*NET).\n- **Mismatch**: distance $d(\\alpha_i, \\sigma_{j(i)})$.\n- Wage regression: $\\log w = \\beta_0 + \\beta_1 \\alpha + \\beta_2 \\sigma + \\beta_3 \\text{mismatch}$.\n\n## Findings\n\n- **Mismatch has large negative wage effect**: 1 SD of mismatch → ~10% wage penalty (in their model this correspondes to -10% productivity, as wages reflect Marginal profucts).\n- Mismatch decays with tenure: workers gradually find better matches.\n- **BUT mismatch never fully resolves**: even at 30 years of experience, substantial mismatch remains.\n- Aggregate mismatch resolution contributes ~15–20% to lifecycle wage growth. \n\n## Contribution\n\n- **Most direct empirical answer to Paper 2's core question.** Quantifies value lost to mismatch as ~10% per SD.\n- Shows resolution is incomplete → substantial reassignment gain remains available even in mature workers.\n- **For Paper 2 target**: $V^{*}$ from perfect reassignment (Paper 2 counterfactual) is an upper bound on GKTW's observed mismatch — plausibly 10-20% of wages / output.\n\n→ Anchor: **Skill heterogeneity & mismatch cluster** — the central paper\n",
                 "x": -10948.184451452704,
                 "y": 1232.0729768830988,
                 "width": 440,
@@ -3081,6 +3081,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:21:00.158Z"
+    "lastEditedAt": "2026-07-30T08:21:20.058Z"
   }
 }
