@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T07:06:28.280Z",
+  "exportedAt": "2026-07-30T07:06:31.251Z",
   "data": {
     "topics": [
       {
@@ -2235,8 +2235,8 @@
                 "id": "p-lazear-1995",
                 "title": "P·Lazear (1995) — Personnel Economics",
                 "content": "**Ref.** Lazear, E. P. (1995). *Personnel Economics.* MIT Press. Wicksell Lectures.\n\n---\n\n## Intro\n\n**Founding book of \"personnel economics\"** as a distinct field. Applies rigorous economic theory (agency, matching, tournaments, human capital) to HR practice: hiring, promotion, job design, compensation.\n\n## Structure\n\n- Ch 1: The Employment Relationship (agency framework).\n- Ch 2: Wage Structure (tournaments, promotions).\n- Ch 3: Sorting Through Compensation.\n- Ch 4: Turnover and Retirement.\n- Ch 5: Payment Methods (piece rate, bonus, deferred pay).\n- Ch 6: Fringe Benefits.\n- Ch 7: Team Compensation.\n\n## Contribution\n\n- **Treats task assignment as an HR decision**, explicitly. Provides the applied bridge between assignment theory (Rosen, Sattinger) and firm-level practice.\n- Field-defining textbook. Extended in Lazear-Shaw (2007) and Lazear-Oyer (2013).\n- **For Paper 2**: the analytical toolkit for translating task-reassignment predictions into HR-implementable policies.\n\n→ Anchor: extends **Sattinger (1993)**; child: **Lazear-Oyer (2013)**\n",
-                "x": -2379.796427095549,
-                "y": -1086.914467985117,
+                "x": -2014.796427095549,
+                "y": -1071.914467985117,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3054,6 +3054,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T07:06:27.956Z"
+    "lastEditedAt": "2026-07-30T07:06:29.089Z"
   }
 }
