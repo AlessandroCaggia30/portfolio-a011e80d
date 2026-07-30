@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T07:12:10.915Z",
+  "exportedAt": "2026-07-30T07:12:20.677Z",
   "data": {
     "topics": [
       {
@@ -2187,8 +2187,8 @@
                 "id": "p-garicano-2000",
                 "title": "P·Garicano (2000) — Knowledge Hierarchies",
                 "content": "**Ref.** Garicano, L. (2000). Hierarchies and the organization of knowledge in production. *Journal of Political Economy*, 108(5), 874–904.\n\n---\n\n## Intro\n\nOne of the **most important organizational-economics papers of the last 25 years.** Explains why firms are organized as hierarchies with experts at the top: knowledge/attention is scarce, and hierarchies economize on it by referring hard problems upward.\n\n## Setup\n\n- Problems arrive with a distribution of complexity.\n- Workers can solve any problem below their knowledge threshold $z$; refer harder problems upward.\n- Higher-$z$ workers cost more to hire (higher training).\n- Communication cost $h$ per referral.\n\n## Result\n\n- Firm chooses $L$ (number of layers) + $z_\\ell$ (threshold at each layer) to minimize total cost.\n- **Optimal hierarchy**: low-$z$ workers handle common problems; rare problems escalate to specialists.\n- Example\n  - Cheaper problems (routine) → fewer specialists needed.\n\n## Contribution\n\n- **Foundation** for a large literature on knowledge hierarchies (Garicano-Rossi-Hansberg 2006, 2015).\n- Explains observed layered structure of professional-services firms (consulting, law, medicine).\n- **Directly relevant to Paper 2**: AI is a technology that changes the cost of solving problems at each level → reshapes the optimal hierarchy → forces reassignment.\n\n→ Anchor: **Assignment theory cluster**; children: **G&R-H (2006)**, **Costinot-Vogel (2010)**\n",
-                "x": -10107.631878429147,
-                "y": 1035.263162364614,
+                "x": -9984.473930053777,
+                "y": 1009.6052564530787,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2209,7 +2209,7 @@
                 "id": "p-garicano-rrh-2006",
                 "title": "P·Garicano–Rossi-Hansberg (2006) — Org & Inequality",
                 "content": "**Ref.** Garicano, L. & Rossi-Hansberg, E. (2006). Organization and inequality in a knowledge economy. *Quarterly Journal of Economics*, 121(4), 1383–1435.\n\n---\n\n## Intro\n\nExtends Garicano (2000) with **endogenous knowledge acquisition + wage distribution effects.** Answers: how does the internal organization of firms determine the wage distribution across skills?\n\n## Setup\n\n- Continuous distribution of worker skill.\n- Firms choose hierarchy structure endogenously.\n- Workers choose knowledge acquisition ex-ante.\n\n## Result\n\n- **Assortative matching**: high-skill workers sort into upper layers.\n- Technology (ICT lowering communication cost) → higher-skill workers become more valuable, wage inequality rises.\n- Explains the observed \"hollowing out\" of middle-skill jobs: technology reduces the value of intermediate-layer supervisors.\n\n## Contribution\n\n- Very close to Paper 2's framing: technology → task reallocation → wage inequality.\n- **Direct prediction**: AI lowering solving-cost at low layers should REDUCE returns to low-layer workers (they're substituted) but INCREASE returns to high-layer workers (leverage grows).\n- BLR (2023) finding — bottom-quartile customer service agents gain most from AI — is empirical evidence AGAINST this prediction in the customer-service context. Interesting tension for the paper.\n\n→ Anchor: extends **Garicano (2000)**\n",
-                "x": -10382.631878429147,
+                "x": -10223.552861777629,
                 "y": 1655.263162364614,
                 "width": 440,
                 "height": 340,
@@ -2222,8 +2222,8 @@
                 "id": "p-costinot-vogel-2010",
                 "title": "P·Costinot–Vogel (2010) — Matching & Inequality",
                 "content": "**Ref.** Costinot, A. & Vogel, J. (2010). Matching and inequality in the world economy. *Journal of Political Economy*, 118(4), 747–786.\n\n---\n\n## Intro\n\n**Unified assignment framework** with continuous worker types and continuous task complexities. Generalizes Sattinger (1993) and connects the assignment literature to international trade.\n\n## Setup\n\n- Worker skill $\\theta \\in [\\underline\\theta, \\bar\\theta]$; task complexity $\\sigma \\in [\\underline\\sigma, \\bar\\sigma]$.\n- Production function $f(\\theta, \\sigma)$ log-supermodular → positive assortative matching.\n- Continuous market clearing.\n\n## Result\n\n- **PAM**: unique equilibrium assignment $\\sigma^*(\\theta)$ increasing in $\\theta$.\n- **Wage function**: $w(\\theta) = \\int_{\\underline\\theta}^\\theta \\partial f/\\partial\\theta$ evaluated along the matching curve.\n- Comparative statics on skill supply changes: adding low-skill workers RAISES the wages of ALL workers above them (via reallocation toward higher-complexity tasks).\n\n## Why it matters for Paper 2\n\n- Provides the **general theoretical apparatus** for continuous task reallocation.\n- AI-enabled reassignment IS a shift in the matching function $\\sigma^*(\\theta)$. C-V's comparative statics give predictions about who gains and loses.\n\n→ Anchor: extends **Sattinger (1993)** and **Garicano (2000)**\n",
-                "x": -9757.631878429147,
-                "y": 1670.263162364614,
+                "x": -9477.960703993413,
+                "y": 1660,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3056,6 +3056,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T07:12:08.765Z"
+    "lastEditedAt": "2026-07-30T07:12:18.558Z"
   }
 }
