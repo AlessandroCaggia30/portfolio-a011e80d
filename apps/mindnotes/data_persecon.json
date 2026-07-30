@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T07:22:47.498Z",
+  "exportedAt": "2026-07-30T07:22:49.963Z",
   "data": {
     "topics": [
       {
@@ -1942,6 +1942,10 @@
                   {
                     "target": "p-lazear-oyer-2013",
                     "type": "forward"
+                  },
+                  {
+                    "target": "reorg-genai-head",
+                    "type": "forward"
                   }
                 ],
                 "x": -951.0335620263304,
@@ -2201,8 +2205,8 @@
                 "id": "p-lazear-oyer-2013",
                 "title": "P·Lazear–Oyer (2013) — Personnel Economics Handbook",
                 "content": "**Ref.** Lazear, E. P. & Oyer, P. (2013). Personnel economics. Chapter 12 in *Handbook of Organizational Economics* (Gibbons, R. & Roberts, J., eds.), pp. 479–519. Princeton University Press.\n\n---\n\n## Intro\n\n**Handbook synthesis** of the personnel-economics literature circa 2013. The reference chapter for anyone entering the field.\n\n## Structure\n\n- Job design (including task assignment).\n- Compensation and incentives.\n- Careers and turnover.\n- Team production and peer effects.\n- Recruitment and selection.\n\n## Contribution\n\n- Consolidates 20+ years of empirical progress since Lazear (1995).\n- **Positions task assignment** as a core HR lever alongside compensation.\n- Emphasises comparative-advantage sorting in job design (Roy-style).\n- **For Paper 2**: the definitive reference for the current state of personnel economics on task assignment.\n\n→ Anchor: extends **Lazear (1995)**\n",
-                "x": -560.480411446074,
-                "y": -3255.65816069454,
+                "x": -675.480411446074,
+                "y": -3555.65816069454,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3052,6 +3056,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T07:22:45.378Z"
+    "lastEditedAt": "2026-07-30T07:22:47.830Z"
   }
 }
