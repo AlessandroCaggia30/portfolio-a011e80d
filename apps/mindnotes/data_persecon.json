@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T09:07:29.178Z",
+  "exportedAt": "2026-07-30T09:07:31.240Z",
   "data": {
     "topics": [
       {
@@ -1116,6 +1116,10 @@
                 "links": [
                   {
                     "target": "p-hart-moore-1990",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-hansmann-1996",
                     "type": "forward"
                   }
                 ],
@@ -3100,6 +3104,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T09:07:28.984Z"
+    "lastEditedAt": "2026-07-30T09:07:30.523Z"
   }
 }
