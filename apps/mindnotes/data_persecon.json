@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T07:05:32.395Z",
+  "exportedAt": "2026-07-30T07:06:00.794Z",
   "data": {
     "topics": [
       {
@@ -2172,12 +2172,7 @@
                 "height": 340,
                 "flashcard": false,
                 "images": [],
-                "links": [
-                  {
-                    "target": "p-lazear-1995",
-                    "type": "forward"
-                  }
-                ],
+                "links": [],
                 "popBg": "#f3f4f6"
               },
               {
@@ -2238,12 +2233,7 @@
                 "height": 340,
                 "flashcard": false,
                 "images": [],
-                "links": [
-                  {
-                    "target": "p-lazear-oyer-2013",
-                    "type": "forward"
-                  }
-                ],
+                "links": [],
                 "popBg": "#f3f4f6"
               },
               {
@@ -3056,6 +3046,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T07:05:30.259Z"
+    "lastEditedAt": "2026-07-30T07:06:00.446Z"
   }
 }
