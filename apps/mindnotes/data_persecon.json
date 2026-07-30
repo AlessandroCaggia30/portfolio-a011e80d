@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:21:29.227Z",
+  "exportedAt": "2026-07-30T08:22:10.486Z",
   "data": {
     "topics": [
       {
@@ -1968,10 +1968,6 @@
                 "images": [],
                 "links": [
                   {
-                    "target": "p-alm-2003",
-                    "type": "forward"
-                  },
-                  {
                     "target": "p-acemoglu-autor-2011",
                     "type": "forward"
                   },
@@ -2072,24 +2068,6 @@
                 "links": [],
                 "popBg": "#f3f4f6",
                 "color": "coral"
-              },
-              {
-                "id": "p-alm-2003",
-                "title": "P·Autor–Levy–Murnane (2003) — Skill Content of Technological Change",
-                "content": "**Ref.** Autor, D. H., Levy, F. & Murnane, R. J. (2003). The skill content of recent technological change: An empirical exploration. *Quarterly Journal of Economics*, 118(4), 1279–1333.\n\n---\n\n## Intro\n\n**Founding paper of the task-based approach to labour economics.** Answers: what specifically does technology substitute for and complement?\n\n## Framework\n\nTasks classified along two dimensions:\n- **Routine vs non-routine** (rule-based vs judgement-based).\n- **Cognitive vs manual** (thinking vs physical).\n\nFour cells; computers substitute for **routine** tasks (both cognitive and manual) and complement **non-routine cognitive** tasks (analysis, communication).\n\n## Empirical findings\n\nBetween 1960 and 1998:\n- **Routine cognitive** task share fell 8pp.\n- **Routine manual** task share fell 3pp.\n- **Non-routine cognitive** task share ROSE 15pp.\n- **Non-routine manual** task share unchanged.\n\n## Contribution\n\n- Replaces the canonical skill-biased-technical-change (SBTC) model with a task-based framework.\n- **Explains wage polarization** (Autor-Katz-Kearney 2006): middle jobs (many routine tasks) hollow out; top and bottom grow.\n- Foundation for Acemoglu-Autor 2011, Autor 2015, Acemoglu-Restrepo 2018.\n- **For Paper 2**: gives the taxonomy for classifying which tasks AI substitutes vs complements.\n\n→ Anchor: **Task-based cluster**; child: **Deming (2017)**\n",
-                "x": -10220.000000000002,
-                "y": 1215,
-                "width": 440,
-                "height": 340,
-                "flashcard": false,
-                "images": [],
-                "links": [
-                  {
-                    "target": "p-deming-2017",
-                    "type": "forward"
-                  }
-                ],
-                "popBg": "#f3f4f6"
               },
               {
                 "id": "p-deming-2017",
@@ -3079,8 +3057,29 @@
         "deletedAt": 1785398844190,
         "fromTopic": "pe-topic-1",
         "fromSubtopic": "pe-sub-1"
+      },
+      {
+        "id": "p-alm-2003",
+        "title": "P·Autor–Levy–Murnane (2003) — Skill Content of Technological Change",
+        "content": "**Ref.** Autor, D. H., Levy, F. & Murnane, R. J. (2003). The skill content of recent technological change: An empirical exploration. *Quarterly Journal of Economics*, 118(4), 1279–1333.\n\n---\n\n## Intro\n\n**Founding paper of the task-based approach to labour economics.** Answers: what specifically does technology substitute for and complement?\n\n## Framework\n\nTasks classified along two dimensions:\n- **Routine vs non-routine** (rule-based vs judgement-based).\n- **Cognitive vs manual** (thinking vs physical).\n\nFour cells; computers substitute for **routine** tasks (both cognitive and manual) and complement **non-routine cognitive** tasks (analysis, communication).\n\n## Empirical findings\n\nBetween 1960 and 1998:\n- **Routine cognitive** task share fell 8pp.\n- **Routine manual** task share fell 3pp.\n- **Non-routine cognitive** task share ROSE 15pp.\n- **Non-routine manual** task share unchanged.\n\n## Contribution\n\n- Replaces the canonical skill-biased-technical-change (SBTC) model with a task-based framework.\n- **Explains wage polarization** (Autor-Katz-Kearney 2006): middle jobs (many routine tasks) hollow out; top and bottom grow.\n- Foundation for Acemoglu-Autor 2011, Autor 2015, Acemoglu-Restrepo 2018.\n- **For Paper 2**: gives the taxonomy for classifying which tasks AI substitutes vs complements.\n\n→ Anchor: **Task-based cluster**; child: **Deming (2017)**\n",
+        "x": -10220.000000000002,
+        "y": 1215,
+        "width": 440,
+        "height": 340,
+        "flashcard": false,
+        "images": [],
+        "links": [
+          {
+            "target": "p-deming-2017",
+            "type": "forward"
+          }
+        ],
+        "popBg": "#f3f4f6",
+        "deletedAt": 1785399728324,
+        "fromTopic": "pe-topic-1",
+        "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:21:27.073Z"
+    "lastEditedAt": "2026-07-30T08:22:08.325Z"
   }
 }
