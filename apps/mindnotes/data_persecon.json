@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:53:13.164Z",
+  "exportedAt": "2026-07-30T08:55:29.275Z",
   "data": {
     "topics": [
       {
@@ -634,7 +634,7 @@
                 "height": 340,
                 "flashcard": null,
                 "images": [],
-                "color": "#EEDD82",
+                "color": "red",
                 "popBg": null,
                 "popShape": null,
                 "links": [
@@ -3088,6 +3088,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:53:11.044Z"
+    "lastEditedAt": "2026-07-30T08:55:27.113Z"
   }
 }
