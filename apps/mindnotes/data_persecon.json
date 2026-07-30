@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:35:34.161Z",
+  "exportedAt": "2026-07-30T08:35:36.940Z",
   "data": {
     "topics": [
       {
@@ -2831,6 +2831,24 @@
                 "popBg": "#fef9c3",
                 "popShape": "rounded",
                 "links": []
+              },
+              {
+                "id": "p-bbh-2002",
+                "title": "P·Bresnahan–Brynjolfsson–Hitt (2002) — IT + Reorganization Complementarity",
+                "content": "**Ref.** Bresnahan, T. F., Brynjolfsson, E. & Hitt, L. M. (2002). Information technology, workplace organization, and the demand for skilled labor: Firm-level evidence. *Quarterly Journal of Economics*, 117(1), 339–376.\n\n---\n\n## Intro\n\n**Seminal empirical study of IT–organization complementarity.** Answers: do firms that combine IT adoption with organizational restructuring get more than the sum of the two parts?\n\n## Design\n\n- Firm-level panel data: ~400 large US firms, 1987–1994.\n- Measures: IT capital stock, use of decentralized decision-making, teamwork, skill composition.\n- Test: is the interaction term IT × reorganization significantly positive?\n\n## Findings\n\n- **YES — strong super-modularity between IT and reorganization.**\n- Firms adopting IT + reorganizing had productivity gains that exceeded the sum of IT-alone gain plus reorganization-alone gain.\n- The complementarity was concentrated in the demand for skilled labor (decision-authority reorganization increased returns to cognitive skill).\n\n## Contribution\n\n- **Foundation for the \"IT–organization complementarity\" literature.**\n- Directly relevant to Paper 2: gen-AI is the modern analog to 1990s IT; the same complementarity mechanism predicts firms that reorganize alongside AI adoption will gain more than the sum of the parts.\n- Motivates the ABM design where AI capability and reassignment are separate levers whose interaction matters.\n\n→ Anchor: **Reorganization value cluster**; child: **BIS 2007**\n",
+                "x": -7740,
+                "y": 1195,
+                "width": 440,
+                "height": 340,
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  {
+                    "target": "p-bis-2007",
+                    "type": "forward"
+                  }
+                ],
+                "popBg": "#f3f4f6"
               }
             ]
           }
@@ -3056,29 +3074,8 @@
         "deletedAt": 1785400012690,
         "fromTopic": "pe-topic-1",
         "fromSubtopic": "pe-sub-1"
-      },
-      {
-        "id": "p-bbh-2002",
-        "title": "P·Bresnahan–Brynjolfsson–Hitt (2002) — IT + Reorganization Complementarity",
-        "content": "**Ref.** Bresnahan, T. F., Brynjolfsson, E. & Hitt, L. M. (2002). Information technology, workplace organization, and the demand for skilled labor: Firm-level evidence. *Quarterly Journal of Economics*, 117(1), 339–376.\n\n---\n\n## Intro\n\n**Seminal empirical study of IT–organization complementarity.** Answers: do firms that combine IT adoption with organizational restructuring get more than the sum of the two parts?\n\n## Design\n\n- Firm-level panel data: ~400 large US firms, 1987–1994.\n- Measures: IT capital stock, use of decentralized decision-making, teamwork, skill composition.\n- Test: is the interaction term IT × reorganization significantly positive?\n\n## Findings\n\n- **YES — strong super-modularity between IT and reorganization.**\n- Firms adopting IT + reorganizing had productivity gains that exceeded the sum of IT-alone gain plus reorganization-alone gain.\n- The complementarity was concentrated in the demand for skilled labor (decision-authority reorganization increased returns to cognitive skill).\n\n## Contribution\n\n- **Foundation for the \"IT–organization complementarity\" literature.**\n- Directly relevant to Paper 2: gen-AI is the modern analog to 1990s IT; the same complementarity mechanism predicts firms that reorganize alongside AI adoption will gain more than the sum of the parts.\n- Motivates the ABM design where AI capability and reassignment are separate levers whose interaction matters.\n\n→ Anchor: **Reorganization value cluster**; child: **BIS 2007**\n",
-        "x": -7740,
-        "y": 1195,
-        "width": 440,
-        "height": 340,
-        "flashcard": false,
-        "images": [],
-        "links": [
-          {
-            "target": "p-bis-2007",
-            "type": "forward"
-          }
-        ],
-        "popBg": "#f3f4f6",
-        "deletedAt": 1785400506151,
-        "fromTopic": "pe-topic-1",
-        "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:35:32.007Z"
+    "lastEditedAt": "2026-07-30T08:35:34.825Z"
   }
 }
