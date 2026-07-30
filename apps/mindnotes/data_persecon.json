@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T07:06:31.251Z",
+  "exportedAt": "2026-07-30T07:06:33.714Z",
   "data": {
     "topics": [
       {
@@ -2242,7 +2242,8 @@
                 "flashcard": false,
                 "images": [],
                 "links": [],
-                "popBg": "#f3f4f6"
+                "popBg": "#f3f4f6",
+                "color": "coral"
               },
               {
                 "id": "p-lazear-oyer-2013",
@@ -3054,6 +3055,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T07:06:29.089Z"
+    "lastEditedAt": "2026-07-30T07:06:31.590Z"
   }
 }
