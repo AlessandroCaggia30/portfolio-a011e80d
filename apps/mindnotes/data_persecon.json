@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T07:16:44.605Z",
+  "exportedAt": "2026-07-30T07:18:28.818Z",
   "data": {
     "topics": [
       {
@@ -2128,7 +2128,7 @@
               {
                 "id": "reorg-genai-head",
                 "title": "▼ Gen-AI Empirical · modern type-observation enabler",
-                "content": "# Gen-AI Empirical · modern type-observation enabler\n\n**Enabler cluster.** Field experiments and RCTs measuring how generative AI actually changes worker productivity and — crucially for Paper 2 — how it enables the firm to observe $\\{\\alpha_{ij}\\}$ at scale.\n\n## Three families of evidence\n\n**Customer service** (Brynjolfsson-Li-Raymond 2023) — 5,179 agents given AI assistant. **14% average productivity gain**, but **bottom-quartile +34%, top-quartile ~0%**. AI substitutes for tacit knowledge → compresses within-firm productivity distribution.\n\n**Software engineering** (Peng et al 2023 GitHub Copilot RCT) — **55.8% faster** task completion. Junior developers gained more than seniors.\n\n**Professional writing** (Noy-Zhang 2023, Science) — ChatGPT: 40% faster + 18% higher quality. Time shifted from drafting to editing.\n\n**Knowledge work + \"jagged frontier\"** (Dell'Acqua et al 2023 BCG × GPT-4) — AI helps on tasks INSIDE its capability, hurts on tasks OUTSIDE. Skill required to filter AI output.\n\n**Theoretical framework** (Athey-Bryan-Gans 2020) — allocation of decision authority between humans and AI. When to delegate / consult / overrule.\n\n**Cautionary tale** (Beane 2019) — shadow learning in robotic surgery. When automation displaces the trainer role, apprenticeship breaks.\n\n## Role in Paper 2\n\n- Establishes that AI reveals $\\{\\alpha_{ij}\\}$ that were previously hidden (BLR 14% gain is largely the value of NEWLY-OBSERVED types).\n- Provides the current empirical benchmarks Paper 2's ABM must match.\n- Winners/losers evidence: BLR compression finding directly informs Paper 2's heterogeneous-effects section.\n\n**Direct empirical bridge to Paper 2's central question**: BLR's 14% is a lower-bound estimate of the value of type-observation-enabled reassignment in customer service. Paper 2 generalizes this to a broader class of firms with counterfactual identification.\n\n→ Anchor: **Reorganization Theory — Core**\n",
+                "content": "# Gen-AI Empirical · modern type-observation enabler\n\n**Enabler cluster.** Field experiments and RCTs measuring how generative AI actually changes worker productivity and — crucially for Paper 2 — how it enables the firm to observe $\\{\\alpha_{ij}\\}$ at scale.\n\n## Three families of evidence\n\n**Customer service** (Brynjolfsson-Li-Raymond 2023) — 5,179 agents given AI assistant. **14% average productivity gain**, but **bottom-quartile +34%, top-quartile ~0%**. AI substitutes for tacit knowledge → compresses within-firm productivity distribution.\n\n**Software engineering** (Peng et al 2023 GitHub Copilot RCT) — **55.8% faster** task completion. Junior developers gained more than seniors.\n\n**Professional writing** (Noy-Zhang 2023, Science) — ChatGPT: 40% faster + 18% higher quality. Time shifted from drafting to editing.\n\n**Knowledge work + \"jagged frontier\"** (Dell'Acqua et al 2023 BCG × GPT-4) — AI helps on tasks INSIDE its capability, hurts on tasks OUTSIDE. Skill required to filter AI output.\n\n**Theoretical framework** (Athey-Bryan-Gans 2020) — allocation of decision authority between humans and AI. When to delegate / consult / overrule.\n\n**Cautionary tale** (Beane 2019) — shadow learning in robotic surgery. When automation displaces the trainer role, apprenticeship breaks.\n\n\n\n- Establishes that AI reveals $\\{\\alpha_{ij}\\}$ that were previously hidden (BLR 14% gain is largely the value of NEWLY-OBSERVED types).\n- Provides the current empirical benchmarks Paper 2's ABM must match.\n- Winners/losers evidence: BLR compression finding directly informs Paper 2's heterogeneous-effects section.\n\n**Direct empirical bridge to Paper 2's central question**: BLR's 14% is a lower-bound estimate of the value of type-observation-enabled reassignment in customer service. Paper 2 generalizes this to a broader class of firms with counterfactual identification.\n\n→ Anchor: **Reorganization Theory — Core**\n",
                 "x": -12305,
                 "y": 420,
                 "width": 480,
@@ -3055,6 +3055,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T07:16:42.481Z"
+    "lastEditedAt": "2026-07-30T07:18:26.662Z"
   }
 }
