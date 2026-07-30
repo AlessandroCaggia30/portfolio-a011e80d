@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T06:30:09.085Z",
+  "exportedAt": "2026-07-30T06:30:13.569Z",
   "data": {
     "topics": [
       {
@@ -2661,8 +2661,8 @@
                 "id": "p-lise-postelvinay-2020",
                 "title": "P·Lise–Postel-Vinay (2020) — Multidim Skills, Sorting, Accumulation",
                 "content": "**Ref.** Lise, J. & Postel-Vinay, F. (2020). Multidimensional skills, sorting, and human capital accumulation. *American Economic Review*, 110(8), 2328–2376.\n\n---\n\n## Intro\n\n**Frontier structural paper** on multi-dim skill sorting + on-the-job search + human capital accumulation. Merges the Roy-model sorting with the Postel-Vinay-Robin search framework.\n\n## Setup\n\n- Worker skill: 3-dim (cognitive, manual, interpersonal).\n- Jobs require multi-dim skills; wages depend on skill-job match.\n- On-the-job search: workers occasionally receive outside offers → move to better matches.\n- Skills accumulate in relevant dimensions on the job.\n\n## Findings\n\n- **Sorting explains ~30% of cross-worker wage variance.** Skill accumulation ~20%; search frictions + luck ~50%.\n- **Multi-dim skills essential**: 1-dim models miss 40% of sorting effects.\n- Better matches on cognitive skill are worth more than better matches on manual skill (higher wage return per unit of match quality).\n\n## Contribution\n\n- **Cleanest structural estimate** of the value of skill-job sorting.\n- Provides the mid-range benchmark: pure sorting (no productivity gain from reassignment, just re-matching) generates ~30% of wage variance.\n\n\n",
-                "x": -8567.138385299742,
-                "y": 2755.112595614827,
+                "x": -8603.829190753238,
+                "y": 2738.1783777132136,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2679,8 +2679,8 @@
                 "id": "p-guvenen-2020",
                 "title": "P·Guvenen–Kuruscu–Tanaka–Wiczer (2020) — Multidim Skill Mismatch",
                 "content": "**Ref.** Guvenen, F., Kuruscu, B., Tanaka, S. & Wiczer, D. (2020). Multidimensional skill mismatch. *American Economic Journal: Macroeconomics*, 12(1), 210–244.\n\n---\n\n## Intro\n\n**THE central paper for Paper 2.** Directly measures the productivity loss from multi-dim worker-task mismatch and estimates how much of it is resolved by job mobility over the lifecycle.\n\n## Setup\n\n- Worker skill vector $\\alpha_i \\in \\mathbb{R}^3$ (verbal, math, spatial from ASVAB).\n- Job requirement vector $\\sigma_j \\in \\mathbb{R}^3$ (from O*NET).\n- **Mismatch**: distance $d(\\alpha_i, \\sigma_{j(i)})$.\n- Wage regression: $\\log w = \\beta_0 + \\beta_1 \\alpha + \\beta_2 \\sigma + \\beta_3 \\text{mismatch}$.\n\n## Findings\n\n- **Mismatch has large negative wage effect**: 1 SD of mismatch → ~10% wage penalty.\n- Mismatch decays with tenure: workers gradually find better matches.\n- **BUT mismatch never fully resolves**: even at 30 years of experience, substantial mismatch remains.\n- Aggregate mismatch resolution contributes ~15–20% to lifecycle wage growth.\n\n## Contribution\n\n- **Most direct empirical answer to Paper 2's core question.** Quantifies value lost to mismatch as ~10% per SD.\n- Shows resolution is incomplete → substantial reassignment gain remains available even in mature workers.\n- **For Paper 2 target**: $V^{*}$ from perfect reassignment (Paper 2 counterfactual) is an upper bound on GKTW's observed mismatch — plausibly 10-20% of wages / output.\n\n→ Anchor: **Skill heterogeneity & mismatch cluster** — the central paper\n",
-                "x": -8045,
-                "y": 1645,
+                "x": -8595.362081802432,
+                "y": 3177.5467200960056,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3052,6 +3052,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T06:30:06.966Z"
+    "lastEditedAt": "2026-07-30T06:30:11.415Z"
   }
 }
