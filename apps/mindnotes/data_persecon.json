@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:42:44.263Z",
+  "exportedAt": "2026-07-30T08:43:21.676Z",
   "data": {
     "topics": [
       {
@@ -2301,7 +2301,7 @@
               {
                 "id": "p-adhvaryu-2024",
                 "title": "P·Adhvaryu–Bassi–Nyshadham–Tamayo (2024) — No Line Left Behind",
-                "content": "**Ref.** Adhvaryu, A., Bassi, V., Nyshadham, A. & Tamayo, J. (forthcoming). No line left behind: Assortative matching inside the firm. *Review of Economics and Statistics*, DOI: 10.1162/rest_a_01516. (Online October 2024.)\n\n---\n\n## Intro\n\n**The closest published paper to Paper 2's design.** Directly estimates the productivity gain from optimal assortative matching of workers to teams inside a firm. Uses granular data from a large Indian garment manufacturer with detailed worker productivity records and observed line-team composition.\n\n## Setup\n\n- Indian garment factory with ~100 production lines × ~30 workers per line.\n- Each worker has an individual-productivity measure (pieces per shift).\n- Team output is a nonlinear function of individual productivities within the line.\n- Question: how much would firm output rise if workers were REASSIGNED across lines to maximize aggregate output?\n\n## Identification\n\nUses quasi-experimental variation in team composition driven by absenteeism + hiring flows to identify:\n1. The production function $F(\\alpha_1, ..., \\alpha_N)$ within a team.\n2. The counterfactual optimal assignment $\\mu^*$.\n3. The productivity gap between observed $\\mu_0$ and optimal $\\mu^*$.\n\n## Findings\n\n- **Optimal assortative matching would raise firm output by 1–5%** relative to current (near-random) assignment.\n- Complementarities are moderate — the production function has meaningful positive assortative matching returns.\n- Gains concentrated in lines with high skill variance among workers.\n\n## Contribution\n\n- **Cleanest published measure of within-firm assortative-matching value.**\n- Direct empirical bridge between assignment theory (Costinot-Vogel 2010) and firm reality.\n- **For Paper 2**: THE benchmark paper. Paper 2's $V^*$ target is directly comparable to Adhvaryu et al.'s ~1-5%. Paper 2 goes beyond by (i) considering MULTI-dimensional skills, not just single productivity, (ii) simulating the counterfactual under different AI-observability regimes, (iii) linking to broader task landscape.\n\n→ Anchor: **Field experiments cluster** — the primary reference paper\n",
+                "content": "**Ref.** Adhvaryu, A., Bassi, V., Nyshadham, A. & Tamayo, J. (forthcoming). No line left behind: Assortative matching inside the firm. *Review of Economics and Statistics*, DOI: 10.1162/rest_a_01516. (Online October 2024.)\n\n---\n\n## Intro\n\nInteresting for the methodolofy\n\n## Setup\n\n- Indian garment factory with ~100 production lines × ~30 workers per line.\n- Each worker has an individual-productivity measure (pieces per shift).\n- Team output is a nonlinear function of individual productivities within the line.\n- Question: how much would firm output rise if workers were REASSIGNED across lines to maximize aggregate output?\n\n## Identification\n\nUses quasi-experimental variation in team composition driven by absenteeism + hiring flows to identify:\n1. The production function $F(\\alpha_1, ..., \\alpha_N)$ within a team.\n2. The counterfactual optimal assignment $\\mu^*$.\n3. The productivity gap between observed $\\mu_0$ and optimal $\\mu^*$.\n\n## Findings\n\n- **Optimal assortative matching would raise firm output by 1–5%** relative to current (near-random) assignment.\n- Complementarities are moderate — the production function has meaningful positive assortative matching returns.\n- Gains concentrated in lines with high skill variance among workers.\n\n## Contribution\n\n- **Cleanest published measure of within-firm assortative-matching value.**\n- Direct empirical bridge between assignment theory (Costinot-Vogel 2010) and firm reality.\n- **For Paper 2**: THE benchmark paper. Paper 2's $V^*$ target is directly comparable to Adhvaryu et al.'s ~1-5%. Paper 2 goes beyond by (i) considering MULTI-dimensional skills, not just single productivity, (ii) simulating the counterfactual under different AI-observability regimes, (iii) linking to broader task landscape.\n\n→ Anchor: **Field experiments cluster** — the primary reference paper\n",
                 "x": -4229.515098693701,
                 "y": 1117.9524619309564,
                 "width": 440,
@@ -3077,6 +3077,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:42:42.095Z"
+    "lastEditedAt": "2026-07-30T08:43:19.522Z"
   }
 }
