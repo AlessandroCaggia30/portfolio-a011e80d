@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:41:14.423Z",
+  "exportedAt": "2026-07-30T08:41:16.872Z",
   "data": {
     "topics": [
       {
@@ -1933,8 +1933,8 @@
                 "id": "reorg-assignment-head",
                 "title": "▼ Roy & Assignment theory · why reassignment generates value",
                 "content": "# Roy & Assignment theory · why reassignment generates value\n\n\n\n## Three theoretical lineages\n\n\n\n**Assignment models — optimal matching of heterogeneous types** (Rosen 1982, Sattinger 1993)\n- Given $\\theta_i$ worker type × $\\sigma_j$ task complexity, optimal assignment $\\sigma^*(\\theta)$ gives positive assortative matching (PAM).\n\n**Knowledge hierarchies — technology-sensitive assignment** (Garicano 2000)\n- Workers specialise in the frequency of problems they solve; hard problems escalate upward.\n- Extended in Garicano-Rossi-Hansberg (2006) — technology (including AI) changes the optimal cutoffs, forcing reassignment.\n- Continuous generalisation: Costinot-Vogel (2010).\n\n## The prediction Paper 2 tests\n\nIf $\\{\\alpha_{ij}\\}$ is not rank-invariant across tasks (i.e., some workers are relatively better at some tasks than others), then optimal reassignment generates strictly positive value $V^* > 0$. The **magnitude** depends on the dispersion of $\\alpha$ within workers across tasks — quantified in the next cluster.\n\n→ Anchor: **Reorganization Theory — Core**\n",
-                "x": -9730,
-                "y": 480,
+                "x": -9725,
+                "y": 505,
                 "width": 480,
                 "height": 360,
                 "flashcard": false,
@@ -1956,8 +1956,8 @@
                 "id": "p-rosen-1982",
                 "title": "P·Rosen (1982) — Authority & Distribution of Earnings",
                 "content": "**Ref.** Rosen, S. (1982). Authority, control, and the distribution of earnings. *Bell Journal of Economics*, 13(2), 311–323.\n\n---\n\n## Intro\n\nThe **founding paper of talent-based hierarchical assignment.** Explains why earnings distributions have a stretched right tail: small differences in ability translate into large differences in earnings when talent operates on a larger scale via hierarchy.\n\n## Setup\n\n- Firm has a hierarchy with $L$ layers.\n- Worker at layer $\\ell$ manages workers at layer $\\ell - 1$.\n- Talent scales multiplicatively: a manager with talent $\\theta$ multiplies each subordinate's output by $\\theta$.\n\n## Result\n\n- Optimal assignment sorts high-$\\theta$ workers into higher layers.\n- Marginal returns to talent grow exponentially with layer.\n- **Earnings distribution has a stretched right tail** driven purely by hierarchical assignment — not by superstar demand-side (that came later in Rosen 1981 superstars, Rosen 1986 elimination tournaments).\n\n## Contribution\n\n- Precursor to knowledge hierarchies (Garicano 2000).\n- Complement to Rosen (1986) elimination tournaments in Paper 1.\n- Assignment as a source of within-firm wage inequality — reappears in Song et al. 2019 empirical work.\n\n→ Anchor: **Assignment theory cluster**\n",
-                "x": -10122.631878429147,
-                "y": 1110.263162364614,
+                "x": -10117.631878429147,
+                "y": 1135.263162364614,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -1974,8 +1974,8 @@
                 "id": "p-sattinger-1993",
                 "title": "P·Sattinger (1993) — Assignment Models Survey",
                 "content": "\\section{Sattinger, M. (1993). \\textit{Assignment Models of the Distribution of Earnings}. \\textit{Journal of Economic Literature}, 31(2), 831--880.}\n\n\\subsection{Introduction}\n\n\\textbf{Field-defining survey of assignment models.} Rather than proposing a new model, Sattinger synthesizes the assignment literature into a unified framework showing how heterogeneous workers and heterogeneous jobs jointly determine productivity, wages, and the distribution of earnings.\n\nThe central question is:\n\n\\begin{quote}\n\\emph{Given workers with different abilities and jobs with different requirements, who should perform which job?}\n\\end{quote}\n\nThe key insight is that earnings depend not only on worker ability, but on the \\emph{match} between workers and jobs.\n\n\\subsection{The Assignment Framework}\n\nWorkers differ in ability (or productivity)\n\n$$\n\\theta_i,\n$$\n\nwhile jobs differ in complexity\n\n$$\nc_j.\n$$\n\nIf worker $i$ is assigned to job $j$, output is\n\n$$\ny_{ij}=f(\\theta_i,c_j),\n$$\n\nwhere the production function determines how worker ability and job complexity interact.\n\nThe planner (or competitive market) chooses the assignment that maximizes total output across all workers and jobs.\n\n\\subsection{Log-Supermodularity}\n\nThe central assumption is that the production function is \\textbf{log-supermodular}.\n\nEconomically, this means:\n\n\\begin{quote}\n\\textit{The return to additional worker skill is larger in more complex jobs.}\n\\end{quote}\n\nEquivalently,\n\n$$\n\\frac{\\partial^2 \\log f(\\theta,c)}\n{\\partial\\theta\\,\\partial c}>0.\n$$\n\nThis condition says that worker skill and job complexity are \\textbf{complements}: increasing worker ability generates a larger productivity gain when the worker performs a more complex task.\n\nThere are only two possible assignments.\n\n\\paragraph{Positive assortative matching}\n\n$$\n\\theta_H c_H+\\theta_L c_L.\n$$\n\n\\paragraph{Negative assortative matching}\n\n$$\n\\theta_H c_L+\\theta_L c_H.\n$$\n\nThe difference in total output is\n\n$$\n(\\theta_H c_H+\\theta_L c_L)\n-\n(\\theta_H c_L+\\theta_L c_H)\n=\n(\\theta_H-\\theta_L)(c_H-c_L).\n$$\n\nSince\n\n$$\n(\\theta_H-\\theta_L)>0\n\\qquad\\text{and}\\qquad\n(c_H-c_L)>0,\n$$\n\nthe difference is strictly positive.\n\nTherefore,\n\n$$\n\\theta_H c_H+\\theta_L c_L\n>\n\\theta_H c_L+\\theta_L c_H.\n$$\n\nMatching the highest-skill worker with the most complex job always produces higher total output.\n\n\\subsection{Positive Assortative Matching (PAM)}\n\nThe previous example illustrates the general result.\n\nWhen the production function is log-supermodular, any assignment that mismatches high-skill workers with low-complexity jobs can be improved by swapping workers.\n\nConsequently, the optimal assignment exhibits \\textbf{positive assortative matching (PAM)}:\n\n$$\n\\text{High skill}\n\\longrightarrow\n\\text{High complexity},\n$$\n\n$$\n\\text{Medium skill}\n\\longrightarrow\n\\text{Medium complexity},\n$$\n\n$$\n\\text{Low skill}\n\\longrightarrow\n\\text{Low complexity}.\n$$\n\nThus, earnings differences arise not only because workers differ in ability, but because higher-skilled workers are assigned to jobs where their skills generate the greatest productivity gains.\n",
-                "x": -10120.299341528098,
-                "y": 1751.255994474052,
+                "x": -10115.299341528098,
+                "y": 1776.255994474052,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -1987,8 +1987,8 @@
                 "id": "p-garicano-2000",
                 "title": "P·Garicano (2000) — Knowledge Hierarchies",
                 "content": "**Ref.** Garicano, L. (2000). Hierarchies and the organization of knowledge in production. *Journal of Political Economy*, 108(5), 874–904.\n\n---\n\n## Intro\n\nOne of the **most important organizational-economics papers of the last 25 years.** Explains why firms are organized as hierarchies with experts at the top: knowledge/attention is scarce, and hierarchies economize on it by referring hard problems upward.\n\n## Setup\n\n- Problems arrive with a distribution of complexity.\n- Workers can solve any problem below their knowledge threshold $z$; refer harder problems upward.\n- Higher-$z$ workers cost more to hire (higher training).\n- Communication cost $h$ per referral.\n\n## Result\n\n- Firm chooses $L$ (number of layers) + $z_\\ell$ (threshold at each layer) to minimize total cost.\n- **Optimal hierarchy**: low-$z$ workers handle common problems; rare problems escalate to specialists.\n- Example\n  - Cheaper problems (routine) → fewer specialists needed.\n\n## Contribution\n\n- **Foundation** for a large literature on knowledge hierarchies (Garicano-Rossi-Hansberg 2006, 2015).\n- Explains observed layered structure of professional-services firms (consulting, law, medicine).\n- **Directly relevant to Paper 2**: AI is a technology that changes the cost of solving problems at each level → reshapes the optimal hierarchy → forces reassignment.\n\n→ Anchor: **Assignment theory cluster**; children: **G&R-H (2006)**, **Costinot-Vogel (2010)**\n",
-                "x": -9174.473930053777,
-                "y": 1084.6052564530787,
+                "x": -9169.473930053777,
+                "y": 1109.6052564530787,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2005,8 +2005,8 @@
                 "id": "p-garicano-rrh-2006",
                 "title": "P·Garicano–Rossi-Hansberg (2006) — Org & Inequality",
                 "content": "**Ref.** Garicano, L. & Rossi-Hansberg, E. (2006). Organization and inequality in a knowledge economy. *Quarterly Journal of Economics*, 121(4), 1383–1435.\n\n---\n\n## Intro\n\nExtends Garicano (2000) with **endogenous knowledge acquisition + wage distribution effects.** Answers: how does the internal organization of firms determine the wage distribution across skills?\n\n## Setup\n\n- Continuous distribution of worker skill.\n- Firms choose hierarchy structure endogenously.\n- Workers choose knowledge acquisition ex-ante.\n\n## Result\n\n- **Assortative matching**: high-skill workers sort into upper layers.\n- Technology (ICT lowering communication cost) → higher-skill workers become more valuable, wage inequality rises.\n- Explains the observed \"hollowing out\" of middle-skill jobs: technology reduces the value of intermediate-layer supervisors.\n\n## Contribution\n\n- Very close to Paper 2's framing: technology → task reallocation → wage inequality.\n- **Direct prediction**: AI lowering solving-cost at low layers should REDUCE returns to low-layer workers (they're substituted) but INCREASE returns to high-layer workers (leverage grows).\n- BLR (2023) finding — bottom-quartile customer service agents gain most from AI — is empirical evidence AGAINST this prediction in the customer-service context. Interesting tension for the paper.\n\n→ Anchor: extends **Garicano (2000)**\n",
-                "x": -9168.63648716752,
-                "y": 1718.6004778593706,
+                "x": -9163.63648716752,
+                "y": 1743.6004778593706,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3078,6 +3078,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:41:12.307Z"
+    "lastEditedAt": "2026-07-30T08:41:14.758Z"
   }
 }
