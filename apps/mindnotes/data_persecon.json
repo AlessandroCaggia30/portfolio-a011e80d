@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:51:01.128Z",
+  "exportedAt": "2026-07-30T08:51:03.445Z",
   "data": {
     "topics": [
       {
@@ -2315,8 +2315,8 @@
                 "id": "p-chan-2016",
                 "title": "P·Chan (2016) — Teamwork & Moral Hazard in the ED",
                 "content": "**Ref.** Chan, D. C. (2016). Teamwork and moral hazard: Evidence from the emergency department. *Journal of Political Economy*, 124(3), 734–770.\n\n---\n\n## Intro\n\n**Random-assignment field study** of nurse-team composition effects on ED productivity. Uses shift-scheduling procedures that quasi-randomly assign nurses to teams.\n\n## Setup\n\n- Emergency department: physicians + nurses working in teams.\n- Shift scheduling gives quasi-random variation in team composition.\n- Outcome: patient throughput, patient outcomes.\n\n## Findings\n\n- **Substantial team-composition effects**: swap-in of a high-productivity nurse raises team output by 5-10% depending on the shift.\n- Peer effects (moral hazard channel): high-effort nurses raise the effort of others in the same team.\n- Optimal team composition can raise ED productivity by ~10-15% over random assignment.\n\n## Contribution\n\n- **Cleanest identification of team-composition value** in a real workplace via quasi-random assignment.\n- Confirms the Roy/assortative-matching prediction: matching matters, and observed matching is far from optimal.\n- **For Paper 2**: high-stakes complement to Adhvaryu et al. The ED setting is very different from a garment factory but the underlying result is the same — reassignment generates non-trivial value.\n\n→ Anchor: extends **Adhvaryu et al.** — team-composition experimental evidence\n",
-                "x": 1207.7505675520006,
-                "y": 1440.6806206870901,
+                "x": 8093.755397421784,
+                "y": 1520.4820696480256,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3088,6 +3088,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:50:59.000Z"
+    "lastEditedAt": "2026-07-30T08:51:01.325Z"
   }
 }
