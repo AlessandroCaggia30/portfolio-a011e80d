@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T06:57:14.481Z",
+  "exportedAt": "2026-07-30T06:57:20.141Z",
   "data": {
     "topics": [
       {
@@ -2608,10 +2608,6 @@
                     "type": "forward"
                   },
                   {
-                    "target": "p-heckman-honore-1990",
-                    "type": "forward"
-                  },
-                  {
                     "target": "p-borjas-1987",
                     "type": "forward"
                   },
@@ -3056,6 +3052,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T06:57:13.872Z"
+    "lastEditedAt": "2026-07-30T06:57:18.016Z"
   }
 }
