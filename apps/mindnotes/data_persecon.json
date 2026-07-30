@@ -2321,7 +2321,12 @@
                 "height": 340,
                 "flashcard": false,
                 "images": [],
-                "links": [],
+                "links": [
+                  {
+                    "target": "1785401374760",
+                    "type": "forward"
+                  }
+                ],
                 "popBg": "#f3f4f6"
               },
               {
@@ -2798,8 +2803,8 @@
               },
               {
                 "id": "1785401374760",
-                "title": "Emergency Department Rotational Patient Assignment, Traub 2016",
-                "content": "",
+                "title": "P·Traub et al. (2016) — ED Rotational Patient Assignment",
+                "content": "**Ref.** Traub, S. J., Stewart, C. F., Didehban, R., Bartley, A. C., Saghafian, S., Smith, V. D., Silvers, S. M., LeCheminant, R. & Lipinski, C. A. (2016). Emergency department rotational patient assignment. *Annals of Emergency Medicine*, 67(2), 206–215. DOI: 10.1016/j.annemergmed.2015.07.008.\n\n---\n\n## Intro\n\n**Natural experiment on algorithmic vs discretionary patient assignment** in an ED. Directly relevant to Paper 2: removes physician discretion over which patient to see next and replaces it with rule-based rotation. Isolates the *assignment mechanism* since the ED had NO financial productivity incentives — the only thing that changed was who decides which patient goes to which physician.\n\n## Design — pre-post, single site\n\nMayo Clinic Arizona ED. Compares:\n- **Pre** (self-assignment): last year of the traditional regime — physicians choose which patient to see next at their discretion. ~23,500 visits.\n- **Post** (rotational assignment): first year after switching — an algorithm auto-assigns arriving patients to physicians in rotation. ~24,100 visits.\n\n## Findings — large throughput gains, no quality loss\n\n| Metric | Self-assignment | Rotational | Change |\n|---|---|---|---|\n| Median length of stay | 232 min | 207 min | −11% |\n| Arrival-to-provider time | 39 min | 22 min | **−44%** |\n| Left without being seen | 0.73% | 0.36% | **−51%** |\n| Patient complaint rate | 9.0 / 1,000 | 5.4 / 1,000 | −40% |\n\n- **No adverse change** in early return rates or return-with-admission rates.\n- Follow-up paper (Traub et al. 2018, *Ann Emerg Med* — PMID 29331271) documents persistence of these gains over years.\n\n## Contribution — clean isolation of the assignment channel\n\n- **Cherry-picking / free-riding on the queue was substantial** under self-assignment. Rotation removed the option and immediately raised throughput.\n- **NO financial incentives changed** — pure test of the assignment mechanism, not compensation. Unusual for the field experiments cluster: BBR 2007 bundled reassignment with manager incentives, HKL 2018 bundled with algorithm adoption at hiring stage. **Traub isolates reassignment alone.**\n- Direct empirical anchor for Paper 2: switching from discretionary to algorithmic within-firm assignment produces ~10–50% operational gains depending on metric — even without any incentive change.\n\n## Position in Paper 2\n\nBelongs in the **▼ Field experiments · actually rearranging work** cluster. Sits alongside Chan (2016, JPE — ED team assignment) as ED-setting evidence. Complements Adhvaryu et al. 2024 (garment factory assortative matching) by showing that even RANDOM rotation (not optimal assortative) beats discretion when discretion allows cherry-picking.\n\n→ Anchor: **Field experiments · actually rearranging work** cluster\n",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
