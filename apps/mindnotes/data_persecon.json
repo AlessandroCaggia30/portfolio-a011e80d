@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T07:22:15.235Z",
+  "exportedAt": "2026-07-30T07:22:25.206Z",
   "data": {
     "topics": [
       {
@@ -2827,6 +2827,127 @@
                   }
                 ],
                 "popBg": "#f3f4f6"
+              },
+              {
+                "id": "reorg-genai-head",
+                "title": "▼ Secondary: how an AI support tool for workers affects productivity",
+                "content": "# Gen-AI Empirical · modern type-observation enabler\n\n**Enabler cluster.** Field experiments and RCTs measuring how generative AI actually changes worker productivity and — crucially for Paper 2 — how it enables the firm to observe $\\{\\alpha_{ij}\\}$ at scale.\n\n## Three families of evidence\n\n**Customer service** (Brynjolfsson-Li-Raymond 2023) — 5,179 agents given AI assistant. **14% average productivity gain**, but **bottom-quartile +34%, top-quartile ~0%**. AI substitutes for tacit knowledge → compresses within-firm productivity distribution.\n\n**Software engineering** (Peng et al 2023 GitHub Copilot RCT) — **55.8% faster** task completion. Junior developers gained more than seniors.\n\n**Professional writing** (Noy-Zhang 2023, Science) — ChatGPT: 40% faster + 18% higher quality. Time shifted from drafting to editing.\n\n**Knowledge work + \"jagged frontier\"** (Dell'Acqua et al 2023 BCG × GPT-4) — AI helps on tasks INSIDE its capability, hurts on tasks OUTSIDE. Skill required to filter AI output.\n\n**Theoretical framework** (Athey-Bryan-Gans 2020) — allocation of decision authority between humans and AI. When to delegate / consult / overrule.\n\n**Cautionary tale** (Beane 2019) — shadow learning in robotic surgery. When automation displaces the trainer role, apprenticeship breaks.\n\n\n\n\n\n\n\n→ Anchor: **Reorganization Theory — Core**\n",
+                "x": -11940,
+                "y": -2419.9999999999995,
+                "width": 480,
+                "height": 360,
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  {
+                    "target": "p-blr-2023",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-noy-zhang-2023",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-athey-bryan-gans-2020",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-beane-2019",
+                    "type": "forward"
+                  }
+                ],
+                "color": "purple",
+                "popBg": "#e0e7ff"
+              },
+              {
+                "id": "p-blr-2023",
+                "title": "P·Brynjolfsson–Li–Raymond (2023) — Generative AI at Work",
+                "content": "**Ref.** Brynjolfsson, E., Li, D. & Raymond, L. (2023). Generative AI at work. NBER Working Paper 31161. (Later *QJE* 140(2), 889–942, 2025.)\n\n---\n\n## Intro\n\n**Canonical field study of gen-AI at work.** Uses proprietary data from a Fortune-500 software firm that rolled out a generative-AI conversation assistant to customer-service agents.\n\n## Design\n\n- ~5,179 customer-service agents.\n- Staggered rollout of GPT-based assistant across offices.\n- Rich individual-level productivity data: issues resolved per hour, resolution time, customer satisfaction.\n\n## Findings\n\n- **Average productivity gain: +14% issues resolved per hour.**\n- **Bottom-quartile workers gained +34%** — enormous.\n- **Top-quartile workers gained ~0%** — no improvement.\n- **Customer satisfaction improved**, particularly for interactions handled by low-tenure agents.\n- Effects strongest for the tacit-knowledge dimensions of the job.\n\n## Interpretation\n\nGen-AI diffuses tacit knowledge from top performers to bottom performers via its training data. **Compresses within-firm productivity distribution.**\n\n## Contribution\n\n- Field-defining benchmark for gen-AI productivity effects.\n- **Direct evidence AGAINST skill-biased tech change** in customer service: AI COMPLEMENTS low-skill workers most.\n- **For Paper 2**: exactly the winners/losers question. Answer for customer service: low-skill workers WIN.\n\n→ Anchor: **Gen-AI empirical cluster**; child: **Peng et al. (2023) Copilot**\n",
+                "x": -12470,
+                "y": -1799.9999999999995,
+                "width": 440,
+                "height": 340,
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  {
+                    "target": "p-peng-2023-copilot",
+                    "type": "forward"
+                  }
+                ],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-peng-2023-copilot",
+                "title": "P·Peng et al. (2023) — GitHub Copilot RCT",
+                "content": "**Ref.** Peng, S., Kalliamvakou, E., Cihon, P. & Demirer, M. (2023). The impact of AI on developer productivity: Evidence from GitHub Copilot. arXiv:2302.06590.\n\n---\n\n## Intro\n\n**Randomized controlled trial** of GitHub Copilot (AI code-completion tool based on GPT). First large-scale RCT of gen-AI in software development.\n\n## Design\n\n- 95 developers recruited.\n- Randomly assigned to Copilot vs no-Copilot.\n- Task: implement an HTTP server in JavaScript.\n- Measurement: time to completion, code quality.\n\n## Findings\n\n- **Copilot users completed the task 55.8% faster** (median).\n- Effect concentrated among:\n  - **Junior developers** (larger relative gain).\n  - **Older developers** (larger relative gain — Copilot substitutes for outdated syntax knowledge).\n  - Developers less familiar with the language.\n- Code quality unchanged or slightly improved.\n\n## Contribution\n\n- Complements BLR (2023) with clean RCT design.\n- **Confirms compression pattern**: AI helps those with lower baseline productivity more.\n- Central to the debate on gen-AI in high-skill work.\n- **For Paper 2**: gen-AI as task-reallocation tool. Junior developers now do senior-developer tasks with Copilot assistance.\n\n→ Anchor: extends **BLR (2023)**\n",
+                "x": -12470,
+                "y": -1179.9999999999995,
+                "width": 440,
+                "height": 340,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-noy-zhang-2023",
+                "title": "P·Noy–Zhang (2023) — GPT for Professional Writing",
+                "content": "**Ref.** Noy, S. & Zhang, W. (2023). Experimental evidence on the productivity effects of generative artificial intelligence. *Science*, 381(6654), 187–192.\n\n---\n\n## Intro\n\n**Randomized controlled trial** of ChatGPT for mid-level professional writing tasks (marketing copy, HR communication, business analysis). Published in *Science* — indicates the level of interest.\n\n## Design\n\n- 453 college-educated professionals.\n- Randomly assigned to ChatGPT vs no-ChatGPT.\n- Task: write a short professional document.\n- Blind evaluators graded output quality.\n\n## Findings\n\n- **Time to complete task fell 40%** (median).\n- **Output quality rose 18%** (blind grader ratings).\n- **Between-writer inequality FELL**: low-baseline writers gained most in quality; high-baseline writers gained most in time.\n- Time allocation shifted: less time drafting, more time editing.\n\n## Contribution\n\n- Second-major RCT of gen-AI (after Peng et al.); different domain.\n- **Confirms compression pattern** across a broader class of knowledge work.\n- Task-level substitution: drafting → editing.\n- **For Paper 2**: within-task reallocation. AI takes the drafting sub-task; humans keep the editing sub-task. Comparative advantage rearranged.\n\n→ Anchor: **Gen-AI empirical cluster**; child: **Dell'Acqua et al. (2023)**\n",
+                "x": -11920,
+                "y": -1799.9999999999995,
+                "width": 440,
+                "height": 340,
+                "flashcard": false,
+                "images": [],
+                "links": [
+                  {
+                    "target": "p-dellacqua-2023",
+                    "type": "forward"
+                  }
+                ],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-dellacqua-2023",
+                "title": "P·Dell'Acqua et al. (2023) — Jagged Technological Frontier",
+                "content": "**Ref.** Dell'Acqua, F., McFowland III, E., Mollick, E., Lifshitz-Assaf, H., Kellogg, K., Rajendran, S., Krayer, L., Candelon, F. & Lakhani, K. (2023). Navigating the jagged technological frontier: Field experimental evidence of the effects of AI on knowledge worker productivity and quality. Harvard Business School Working Paper 24-013.\n\n---\n\n## Intro\n\n**Large field experiment with Boston Consulting Group** using GPT-4. Tests gen-AI on real consulting tasks with 758 BCG consultants.\n\n## Design\n\n- 18 consulting-realistic tasks.\n- Consultants randomly assigned to: no-AI, AI-only, AI + prompt training.\n- Tasks fell into two groups (unknown to participants):\n  - \"Inside the frontier\": tasks GPT-4 can do well (creative product ideation, structured analysis).\n  - \"Outside the frontier\": tasks requiring information beyond GPT-4's knowledge or nuanced judgement.\n\n## Findings\n\n- **Inside the frontier**: AI users completed 12.2% more tasks, 25.1% faster, with 40% higher quality.\n- **Outside the frontier**: AI users were **19 percentage points more likely to produce INCORRECT answers.** AI misled them.\n- **Skill compression**: within tasks inside the frontier, low performers gained more.\n\n## The \"jagged frontier\"\n\nAI capabilities are non-monotonic: it can do genuinely hard things but fail at things that seem easy. Workers cannot easily predict where the frontier is. **Skill is required to filter AI output.**\n\n## Contribution\n\n- **Central caveat** to the productivity-gain literature: AI can HURT productivity when misapplied.\n- Introduces the \"jagged frontier\" concept, now widely cited.\n- **For Paper 2**: task reassignment must respect the frontier. Some tasks should go to AI+human; some should stay human-only; some should NOT use AI at all.\n\n→ Anchor: extends **Noy-Zhang (2023)**\n",
+                "x": -11920,
+                "y": -1179.9999999999995,
+                "width": 440,
+                "height": 340,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6",
+                "color": "green"
+              },
+              {
+                "id": "p-athey-bryan-gans-2020",
+                "title": "P·Athey–Bryan–Gans (2020) — Human vs AI Decision Authority",
+                "content": "**Ref.** Athey, S., Bryan, K. & Gans, J. S. (2020). The allocation of decision authority to human and artificial intelligence. *AEA Papers and Proceedings*, 110, 80–84.\n\n---\n\n## Intro\n\n**Theoretical framework** for allocating decision authority between humans and AI. Answers: given an AI that can make some decisions, when should the firm delegate, consult, or overrule?\n\n## Setup\n\n- Task with probability $p$ of being \"AI-solvable\" (AI's accuracy exceeds human's).\n- Human decision authority has cost $c_H$; AI has cost $c_A < c_H$.\n- Firm's optimal delegation policy depends on: prior belief about $p$, cost gap, and cost of learning $p$.\n\n## Key results\n\n- **Delegate to AI** when confidence in AI capability is high.\n- **Consult** (AI recommends, human decides) when confidence is intermediate — expensive but resolves uncertainty.\n- **Overrule** (human decides alone) when confidence in AI is low.\n- **Learning dynamics**: firm learns $p$ through experience; delegation policy evolves.\n\n## Contribution\n\n- **First formal model** of decision-authority allocation in the AI era.\n- Provides the theoretical scaffolding all empirical gen-AI papers implicitly cite.\n- **For Paper 2**: exactly the assignment problem, but between HUMANS and AI rather than between two humans. The task reassignment mechanism.\n\n→ Anchor: **Gen-AI empirical cluster**; child: **Beane (2019)**\n",
+                "x": -11370,
+                "y": -1799.9999999999995,
+                "width": 440,
+                "height": 340,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6"
+              },
+              {
+                "id": "p-beane-2019",
+                "title": "P·Beane (2019) — Shadow Learning in Robotic Surgery",
+                "content": "**Ref.** Beane, M. (2019). Shadow learning: Building robotic surgical skill when approved means fail. *Administrative Science Quarterly*, 64(1), 87–123.\n\n---\n\n## Intro\n\n**Ethnographic study** of how robotic-surgery adoption disrupts surgical apprenticeship. Two years of field observation across 5 hospitals.\n\n## The problem\n\nTraditional surgical training: senior surgeon operates while junior watches; junior gradually takes over sub-tasks. Robotic surgery: senior surgeon sits at console. Junior cannot physically take over sub-tasks. **Apprenticeship channel breaks.**\n\n## Response — shadow learning\n\nJunior residents secretly:\n- Practice on cadavers after hours.\n- Watch YouTube videos of robotic surgeries.\n- Ask retired non-robotic surgeons for advice.\n- Volunteer for the few robotic-free hospitals to gain hands-on experience.\n\nInstitutions officially DO NOT support this. Formal training channels have collapsed.\n\n## Contribution\n\n- **Central cautionary tale**: automation of skilled work can foreclose the human learning path.\n- Related to broader \"hollowing out\" of mid-skill jobs — automation removes the training rungs of career ladders.\n- **For Paper 2**: if gen-AI takes over the \"junior-level\" cognitive tasks (drafting, coding boilerplate, summarizing), how do juniors gain the tacit expertise they'll need as seniors? This is the DARKEST winners/losers question.\n- Long-term implication: today's productivity gains may compromise tomorrow's talent pipeline.\n\n→ Anchor: extends **Athey-Bryan-Gans (2020)**\n",
+                "x": -10820.000000000002,
+                "y": -1800,
+                "width": 440,
+                "height": 340,
+                "flashcard": false,
+                "images": [],
+                "links": [],
+                "popBg": "#f3f4f6",
+                "color": "green"
               }
             ]
           }
@@ -2929,150 +3050,8 @@
         "deletedAt": 1785395784887,
         "fromTopic": "pe-topic-1",
         "fromSubtopic": "pe-sub-1"
-      },
-      {
-        "id": "reorg-genai-head",
-        "title": "▼ Secondary: how an AI support tool for workers affects productivity",
-        "content": "# Gen-AI Empirical · modern type-observation enabler\n\n**Enabler cluster.** Field experiments and RCTs measuring how generative AI actually changes worker productivity and — crucially for Paper 2 — how it enables the firm to observe $\\{\\alpha_{ij}\\}$ at scale.\n\n## Three families of evidence\n\n**Customer service** (Brynjolfsson-Li-Raymond 2023) — 5,179 agents given AI assistant. **14% average productivity gain**, but **bottom-quartile +34%, top-quartile ~0%**. AI substitutes for tacit knowledge → compresses within-firm productivity distribution.\n\n**Software engineering** (Peng et al 2023 GitHub Copilot RCT) — **55.8% faster** task completion. Junior developers gained more than seniors.\n\n**Professional writing** (Noy-Zhang 2023, Science) — ChatGPT: 40% faster + 18% higher quality. Time shifted from drafting to editing.\n\n**Knowledge work + \"jagged frontier\"** (Dell'Acqua et al 2023 BCG × GPT-4) — AI helps on tasks INSIDE its capability, hurts on tasks OUTSIDE. Skill required to filter AI output.\n\n**Theoretical framework** (Athey-Bryan-Gans 2020) — allocation of decision authority between humans and AI. When to delegate / consult / overrule.\n\n**Cautionary tale** (Beane 2019) — shadow learning in robotic surgery. When automation displaces the trainer role, apprenticeship breaks.\n\n\n\n\n\n\n\n→ Anchor: **Reorganization Theory — Core**\n",
-        "x": -11940,
-        "y": -2419.9999999999995,
-        "width": 480,
-        "height": 360,
-        "flashcard": false,
-        "images": [],
-        "links": [
-          {
-            "target": "p-blr-2023",
-            "type": "forward"
-          },
-          {
-            "target": "p-noy-zhang-2023",
-            "type": "forward"
-          },
-          {
-            "target": "p-athey-bryan-gans-2020",
-            "type": "forward"
-          },
-          {
-            "target": "p-beane-2019",
-            "type": "forward"
-          }
-        ],
-        "color": "purple",
-        "popBg": "#e0e7ff",
-        "deletedAt": 1785396133104,
-        "fromTopic": "pe-topic-1",
-        "fromSubtopic": "pe-sub-1"
-      },
-      {
-        "id": "p-blr-2023",
-        "title": "P·Brynjolfsson–Li–Raymond (2023) — Generative AI at Work",
-        "content": "**Ref.** Brynjolfsson, E., Li, D. & Raymond, L. (2023). Generative AI at work. NBER Working Paper 31161. (Later *QJE* 140(2), 889–942, 2025.)\n\n---\n\n## Intro\n\n**Canonical field study of gen-AI at work.** Uses proprietary data from a Fortune-500 software firm that rolled out a generative-AI conversation assistant to customer-service agents.\n\n## Design\n\n- ~5,179 customer-service agents.\n- Staggered rollout of GPT-based assistant across offices.\n- Rich individual-level productivity data: issues resolved per hour, resolution time, customer satisfaction.\n\n## Findings\n\n- **Average productivity gain: +14% issues resolved per hour.**\n- **Bottom-quartile workers gained +34%** — enormous.\n- **Top-quartile workers gained ~0%** — no improvement.\n- **Customer satisfaction improved**, particularly for interactions handled by low-tenure agents.\n- Effects strongest for the tacit-knowledge dimensions of the job.\n\n## Interpretation\n\nGen-AI diffuses tacit knowledge from top performers to bottom performers via its training data. **Compresses within-firm productivity distribution.**\n\n## Contribution\n\n- Field-defining benchmark for gen-AI productivity effects.\n- **Direct evidence AGAINST skill-biased tech change** in customer service: AI COMPLEMENTS low-skill workers most.\n- **For Paper 2**: exactly the winners/losers question. Answer for customer service: low-skill workers WIN.\n\n→ Anchor: **Gen-AI empirical cluster**; child: **Peng et al. (2023) Copilot**\n",
-        "x": -12470,
-        "y": -1799.9999999999995,
-        "width": 440,
-        "height": 340,
-        "flashcard": false,
-        "images": [],
-        "links": [
-          {
-            "target": "p-peng-2023-copilot",
-            "type": "forward"
-          }
-        ],
-        "popBg": "#f3f4f6",
-        "deletedAt": 1785396133104,
-        "fromTopic": "pe-topic-1",
-        "fromSubtopic": "pe-sub-1"
-      },
-      {
-        "id": "p-peng-2023-copilot",
-        "title": "P·Peng et al. (2023) — GitHub Copilot RCT",
-        "content": "**Ref.** Peng, S., Kalliamvakou, E., Cihon, P. & Demirer, M. (2023). The impact of AI on developer productivity: Evidence from GitHub Copilot. arXiv:2302.06590.\n\n---\n\n## Intro\n\n**Randomized controlled trial** of GitHub Copilot (AI code-completion tool based on GPT). First large-scale RCT of gen-AI in software development.\n\n## Design\n\n- 95 developers recruited.\n- Randomly assigned to Copilot vs no-Copilot.\n- Task: implement an HTTP server in JavaScript.\n- Measurement: time to completion, code quality.\n\n## Findings\n\n- **Copilot users completed the task 55.8% faster** (median).\n- Effect concentrated among:\n  - **Junior developers** (larger relative gain).\n  - **Older developers** (larger relative gain — Copilot substitutes for outdated syntax knowledge).\n  - Developers less familiar with the language.\n- Code quality unchanged or slightly improved.\n\n## Contribution\n\n- Complements BLR (2023) with clean RCT design.\n- **Confirms compression pattern**: AI helps those with lower baseline productivity more.\n- Central to the debate on gen-AI in high-skill work.\n- **For Paper 2**: gen-AI as task-reallocation tool. Junior developers now do senior-developer tasks with Copilot assistance.\n\n→ Anchor: extends **BLR (2023)**\n",
-        "x": -12470,
-        "y": -1179.9999999999995,
-        "width": 440,
-        "height": 340,
-        "flashcard": false,
-        "images": [],
-        "links": [],
-        "popBg": "#f3f4f6",
-        "deletedAt": 1785396133104,
-        "fromTopic": "pe-topic-1",
-        "fromSubtopic": "pe-sub-1"
-      },
-      {
-        "id": "p-noy-zhang-2023",
-        "title": "P·Noy–Zhang (2023) — GPT for Professional Writing",
-        "content": "**Ref.** Noy, S. & Zhang, W. (2023). Experimental evidence on the productivity effects of generative artificial intelligence. *Science*, 381(6654), 187–192.\n\n---\n\n## Intro\n\n**Randomized controlled trial** of ChatGPT for mid-level professional writing tasks (marketing copy, HR communication, business analysis). Published in *Science* — indicates the level of interest.\n\n## Design\n\n- 453 college-educated professionals.\n- Randomly assigned to ChatGPT vs no-ChatGPT.\n- Task: write a short professional document.\n- Blind evaluators graded output quality.\n\n## Findings\n\n- **Time to complete task fell 40%** (median).\n- **Output quality rose 18%** (blind grader ratings).\n- **Between-writer inequality FELL**: low-baseline writers gained most in quality; high-baseline writers gained most in time.\n- Time allocation shifted: less time drafting, more time editing.\n\n## Contribution\n\n- Second-major RCT of gen-AI (after Peng et al.); different domain.\n- **Confirms compression pattern** across a broader class of knowledge work.\n- Task-level substitution: drafting → editing.\n- **For Paper 2**: within-task reallocation. AI takes the drafting sub-task; humans keep the editing sub-task. Comparative advantage rearranged.\n\n→ Anchor: **Gen-AI empirical cluster**; child: **Dell'Acqua et al. (2023)**\n",
-        "x": -11920,
-        "y": -1799.9999999999995,
-        "width": 440,
-        "height": 340,
-        "flashcard": false,
-        "images": [],
-        "links": [
-          {
-            "target": "p-dellacqua-2023",
-            "type": "forward"
-          }
-        ],
-        "popBg": "#f3f4f6",
-        "deletedAt": 1785396133104,
-        "fromTopic": "pe-topic-1",
-        "fromSubtopic": "pe-sub-1"
-      },
-      {
-        "id": "p-dellacqua-2023",
-        "title": "P·Dell'Acqua et al. (2023) — Jagged Technological Frontier",
-        "content": "**Ref.** Dell'Acqua, F., McFowland III, E., Mollick, E., Lifshitz-Assaf, H., Kellogg, K., Rajendran, S., Krayer, L., Candelon, F. & Lakhani, K. (2023). Navigating the jagged technological frontier: Field experimental evidence of the effects of AI on knowledge worker productivity and quality. Harvard Business School Working Paper 24-013.\n\n---\n\n## Intro\n\n**Large field experiment with Boston Consulting Group** using GPT-4. Tests gen-AI on real consulting tasks with 758 BCG consultants.\n\n## Design\n\n- 18 consulting-realistic tasks.\n- Consultants randomly assigned to: no-AI, AI-only, AI + prompt training.\n- Tasks fell into two groups (unknown to participants):\n  - \"Inside the frontier\": tasks GPT-4 can do well (creative product ideation, structured analysis).\n  - \"Outside the frontier\": tasks requiring information beyond GPT-4's knowledge or nuanced judgement.\n\n## Findings\n\n- **Inside the frontier**: AI users completed 12.2% more tasks, 25.1% faster, with 40% higher quality.\n- **Outside the frontier**: AI users were **19 percentage points more likely to produce INCORRECT answers.** AI misled them.\n- **Skill compression**: within tasks inside the frontier, low performers gained more.\n\n## The \"jagged frontier\"\n\nAI capabilities are non-monotonic: it can do genuinely hard things but fail at things that seem easy. Workers cannot easily predict where the frontier is. **Skill is required to filter AI output.**\n\n## Contribution\n\n- **Central caveat** to the productivity-gain literature: AI can HURT productivity when misapplied.\n- Introduces the \"jagged frontier\" concept, now widely cited.\n- **For Paper 2**: task reassignment must respect the frontier. Some tasks should go to AI+human; some should stay human-only; some should NOT use AI at all.\n\n→ Anchor: extends **Noy-Zhang (2023)**\n",
-        "x": -11920,
-        "y": -1179.9999999999995,
-        "width": 440,
-        "height": 340,
-        "flashcard": false,
-        "images": [],
-        "links": [],
-        "popBg": "#f3f4f6",
-        "color": "green",
-        "deletedAt": 1785396133104,
-        "fromTopic": "pe-topic-1",
-        "fromSubtopic": "pe-sub-1"
-      },
-      {
-        "id": "p-athey-bryan-gans-2020",
-        "title": "P·Athey–Bryan–Gans (2020) — Human vs AI Decision Authority",
-        "content": "**Ref.** Athey, S., Bryan, K. & Gans, J. S. (2020). The allocation of decision authority to human and artificial intelligence. *AEA Papers and Proceedings*, 110, 80–84.\n\n---\n\n## Intro\n\n**Theoretical framework** for allocating decision authority between humans and AI. Answers: given an AI that can make some decisions, when should the firm delegate, consult, or overrule?\n\n## Setup\n\n- Task with probability $p$ of being \"AI-solvable\" (AI's accuracy exceeds human's).\n- Human decision authority has cost $c_H$; AI has cost $c_A < c_H$.\n- Firm's optimal delegation policy depends on: prior belief about $p$, cost gap, and cost of learning $p$.\n\n## Key results\n\n- **Delegate to AI** when confidence in AI capability is high.\n- **Consult** (AI recommends, human decides) when confidence is intermediate — expensive but resolves uncertainty.\n- **Overrule** (human decides alone) when confidence in AI is low.\n- **Learning dynamics**: firm learns $p$ through experience; delegation policy evolves.\n\n## Contribution\n\n- **First formal model** of decision-authority allocation in the AI era.\n- Provides the theoretical scaffolding all empirical gen-AI papers implicitly cite.\n- **For Paper 2**: exactly the assignment problem, but between HUMANS and AI rather than between two humans. The task reassignment mechanism.\n\n→ Anchor: **Gen-AI empirical cluster**; child: **Beane (2019)**\n",
-        "x": -11370,
-        "y": -1799.9999999999995,
-        "width": 440,
-        "height": 340,
-        "flashcard": false,
-        "images": [],
-        "links": [],
-        "popBg": "#f3f4f6",
-        "deletedAt": 1785396133104,
-        "fromTopic": "pe-topic-1",
-        "fromSubtopic": "pe-sub-1"
-      },
-      {
-        "id": "p-beane-2019",
-        "title": "P·Beane (2019) — Shadow Learning in Robotic Surgery",
-        "content": "**Ref.** Beane, M. (2019). Shadow learning: Building robotic surgical skill when approved means fail. *Administrative Science Quarterly*, 64(1), 87–123.\n\n---\n\n## Intro\n\n**Ethnographic study** of how robotic-surgery adoption disrupts surgical apprenticeship. Two years of field observation across 5 hospitals.\n\n## The problem\n\nTraditional surgical training: senior surgeon operates while junior watches; junior gradually takes over sub-tasks. Robotic surgery: senior surgeon sits at console. Junior cannot physically take over sub-tasks. **Apprenticeship channel breaks.**\n\n## Response — shadow learning\n\nJunior residents secretly:\n- Practice on cadavers after hours.\n- Watch YouTube videos of robotic surgeries.\n- Ask retired non-robotic surgeons for advice.\n- Volunteer for the few robotic-free hospitals to gain hands-on experience.\n\nInstitutions officially DO NOT support this. Formal training channels have collapsed.\n\n## Contribution\n\n- **Central cautionary tale**: automation of skilled work can foreclose the human learning path.\n- Related to broader \"hollowing out\" of mid-skill jobs — automation removes the training rungs of career ladders.\n- **For Paper 2**: if gen-AI takes over the \"junior-level\" cognitive tasks (drafting, coding boilerplate, summarizing), how do juniors gain the tacit expertise they'll need as seniors? This is the DARKEST winners/losers question.\n- Long-term implication: today's productivity gains may compromise tomorrow's talent pipeline.\n\n→ Anchor: extends **Athey-Bryan-Gans (2020)**\n",
-        "x": -10820.000000000002,
-        "y": -1800,
-        "width": 440,
-        "height": 340,
-        "flashcard": false,
-        "images": [],
-        "links": [],
-        "popBg": "#f3f4f6",
-        "color": "green",
-        "deletedAt": 1785396133104,
-        "fromTopic": "pe-topic-1",
-        "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T07:22:13.104Z"
+    "lastEditedAt": "2026-07-30T07:22:23.078Z"
   }
 }
