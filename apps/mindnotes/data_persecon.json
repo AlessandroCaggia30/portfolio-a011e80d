@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T09:04:46.127Z",
+  "exportedAt": "2026-07-30T09:05:12.224Z",
   "data": {
     "topics": [
       {
@@ -341,7 +341,7 @@
                 "height": 340,
                 "flashcard": false,
                 "images": [],
-                "color": "purple",
+                "color": "yellow",
                 "popBg": "#ede9fe",
                 "popShape": "rounded",
                 "links": [
@@ -1395,7 +1395,8 @@
                 "flashcard": false,
                 "images": [],
                 "links": [],
-                "popBg": "#f3f4f6"
+                "popBg": "#f3f4f6",
+                "color": "yellow"
               },
               {
                 "id": "p-sannikov-2008",
@@ -3088,6 +3089,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T09:04:45.233Z"
+    "lastEditedAt": "2026-07-30T09:05:11.767Z"
   }
 }
