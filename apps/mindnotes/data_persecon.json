@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:55:29.275Z",
+  "exportedAt": "2026-07-30T08:56:05.037Z",
   "data": {
     "topics": [
       {
@@ -585,8 +585,8 @@
                 "id": "p-prendergast-1999",
                 "title": "P·Prendergast (1999) — Field Survey",
                 "content": "**Ref.** Prendergast, C. (1999). The provision of incentives in firms. *Journal of Economic Literature*, 37(1), 7–63.\n\n---\n\n## Intro\n\n**Field-defining survey** of the incentives literature circa 1999. Positions Prendergast's own empirical work on the $\\beta^*$-vs-$\\sigma$ puzzle.\n\n## Structure\n\nReviews:\n- **Explicit incentives** (piece rates, tournaments, efficiency wages, back-loaded pay).\n- **Implicit incentives** (career concerns, promotion tournaments, yardstick competition).\n- **Non-monetary incentives** (peer pressure, subjective evaluation, multitasking).\n\n## Key puzzle\n\n- HM 1987 predicts $\\beta^*$ falls in $\\sigma^2$.\n- Empirical work shows the relationship is **weak or wrong-signed**.\n\n## Resolutions\n\n1. **Delegation of decision rights** (Prendergast 2000, 2002 follow-ups).\n2. **Multi-tasking distortion** (HM 1991).\n3. **Subjective evaluation** (BGM 1994).\n4. **Sample selection** — firms that survive with high-$\\beta$ in high-$\\sigma$ environments are the ones we observe.\n\n## Position\n\nMeta — starting citation for anyone entering personnel economics. Complements the presentation's narrative flow with the field's own self-understanding.\n\n---\n\n## Further reading (user notes)\n\n**Original notes (verbatim):**\n\nSearch: Gibbons and Waldman (1999), Malcomson (1999), Prendergast (1999), Murphy (1999), and Lazear (1999, 2000b).\n",
-                "x": 27400,
-                "y": 300,
+                "x": 27480.995027018085,
+                "y": -443.95432224018623,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3088,6 +3088,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:55:27.113Z"
+    "lastEditedAt": "2026-07-30T08:56:02.861Z"
   }
 }
