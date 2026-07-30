@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:41:46.937Z",
+  "exportedAt": "2026-07-30T08:42:44.263Z",
   "data": {
     "topics": [
       {
@@ -2201,19 +2201,6 @@
                 "popBg": "#f3f4f6"
               },
               {
-                "id": "p-heckman-honore-1990",
-                "title": "P·Heckman–Honoré (1990) — Empirical Content of Roy Model",
-                "content": "\\section{Heckman, J. J. \\& Honoré, B. E. (1990). \\textit{The Empirical Content of the Roy Model}. \\textit{Econometrica}, 58(5), 1121--1149.}\n\n\\subsection{Introduction}\n\n\\textbf{Non-parametric identification theorem for the Roy model.} Rather than estimating a new empirical model, this paper asks a fundamental econometric question:\n\n\\begin{quote}\n\\emph{Suppose we only observe workers' occupations and wages. Can we recover the underlying distribution of skills and comparative advantage?}\n\\end{quote}\n\nTheir answer is remarkably strong:\n\n\\begin{quote}\n\\textbf{In general, no.}\n\\end{quote}\n\nThe paper establishes the identification limits of the Roy model and explains why richer data or additional assumptions are necessary for empirical work on worker sorting.\n\n\\subsection{The Intuition}\n\nSuppose there are only two occupations:\n\n\\begin{itemize}\n    \\item Engineer\n    \\item Teacher\n\\end{itemize}\n\nEach worker has \\textbf{two potential wages}.\n\n\n\n\n\n\n\n\n\nThe crucial problem is that we never observe the counterfactual wage.\n\n\\begin{itemize}\n    \\item We never observe A's teaching wage.\n    \\item We never observe B's engineering wage.\n    \\item We never observe C's teaching wage.\n\\end{itemize}\n\nHalf of the information needed to recover the joint distribution of skills is permanently missing.\n\n\\subsection{Why This Creates an Identification Problem}\n\nDifferent underlying economies can generate exactly the same observed data.\n\n\\paragraph{World 1: Engineers earn higher wages}\n\nEveryone has similar abilities, but engineering jobs pay more.\n\n\\paragraph{World 2: Engineers are simply better workers}\n\n\n\n\n\n\n\n\n\n\n\n\\subsection{Main Result}\n\nGiven standard cross-sectional data (observed wages and observed occupation choice),\n\n\\begin{itemize}\n    \\item the \\textbf{joint distribution of skills is \\emph{not} non-parametrically identified};\n    \\item without additional information, one cannot separately identify:\n    \\begin{enumerate}\n        \\item the distribution of worker skills,\n        \\item the mapping from skills to wages,\n        \\item and the occupational sorting mechanism.\n    \\end{enumerate}\n\\end{itemize}\n\nThis is fundamentally a \\textbf{missing counterfactual problem}: each worker reveals only one of their potential wages.\n\n\\subsection{What Makes Identification Possible?}\n\nThe paper shows that additional information or assumptions are required.\n\n\\subsubsection*{1. Exclusion Restrictions}\n\nFind variables that affect occupational choice but do \\emph{not} directly affect wages.\n\nFor example, distance to a university may influence whether someone becomes an engineer without affecting engineering productivity itself.\n\nSuch variables generate exogenous variation that helps identify the Roy model.\n\n\\subsubsection*{2. Panel Data}\n\nObserve workers repeatedly over time.\n\nOccupational switches, wage growth, and career histories reveal much more information about workers' comparative advantage than a single cross section. I mean if A was a teacher and then becomes and engineer you can estimate something. \n\n\\subsubsection*{3. Rank Invariance (or Similar Structural Assumptions)}\n\nAssume workers maintain their relative ordering in skill across occupations or over time.\n\nIf Alice is more skilled than Bob, she remains more skilled in every potential outcome.\n\n\\subsection{Why This Paper Matters}\n\nThis paper explains why \\textbf{Heckman \\& Sedlacek (1985)} had to impose strong distributional assumptions.\n\nWithout those assumptions, the observed data are insufficient to identify the Roy model.\n\n\n\n\n",
-                "x": -4703.441696336773,
-                "y": 1122.923536464259,
-                "width": 440,
-                "height": 340,
-                "flashcard": false,
-                "images": [],
-                "links": [],
-                "popBg": "#f3f4f6"
-              },
-              {
                 "id": "p-borjas-1987",
                 "title": "P·Borjas (1987) — Self-Selection & Immigrant Earnings",
                 "content": "**Ref.** Borjas, G. J. (1987). Self-selection and the earnings of immigrants. *American Economic Review*, 77(4), 531–553.\n\n---\n\n## Intro\n\n**Roy model applied to migration.** Explains observed patterns in immigrant quality (average skill of migrants from country $c$ to US) as the result of self-selection based on returns to skill in origin vs destination.\n\n## Roy application\n\n- Country of origin $c$ has skill distribution $F_c$ + skill return $r_c$.\n- Destination (US) has return $r_{\\text{US}}$.\n- Workers migrate iff net gain (destination wage − origin wage − migration cost) > 0.\n- **Positive selection** if $r_{\\text{US}} > r_c$: high-skill emigrate (US attracts talent from egalitarian countries).\n- **Negative selection** if $r_{\\text{US}} < r_c$: low-skill emigrate (US attracts unskilled from unequal countries).\n\n## Empirical findings\n\n- Consistent with the Roy prediction: immigrants from egalitarian countries (Nordic) are positively selected; from unequal countries (Latin America) more mixed.\n- Contradicts naive \"human-capital\" model that predicts uniform positive selection.\n\n## Contribution\n\n- **Canonical empirical application of the Roy model** outside labour-market sector choice.\n- Field-defining for the migration-selection literature.\n- **For Paper 2**: showcases the general applicability of Roy sorting → task/context selection generates aggregate value through comparative advantage.\n\n→ Anchor: extends **Roy (1951)** — migration application\n",
@@ -2305,10 +2292,6 @@
                   },
                   {
                     "target": "p-bloom-lry-2015",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-heckman-honore-1990",
                     "type": "forward"
                   }
                 ],
@@ -3076,8 +3059,24 @@
         "deletedAt": 1785400731260,
         "fromTopic": "pe-topic-1",
         "fromSubtopic": "pe-sub-1"
+      },
+      {
+        "id": "p-heckman-honore-1990",
+        "title": "P·Heckman–Honoré (1990) — Empirical Content of Roy Model",
+        "content": "\\section{Heckman, J. J. \\& Honoré, B. E. (1990). \\textit{The Empirical Content of the Roy Model}. \\textit{Econometrica}, 58(5), 1121--1149.}\n\n\\subsection{Introduction}\n\n\\textbf{Non-parametric identification theorem for the Roy model.} Rather than estimating a new empirical model, this paper asks a fundamental econometric question:\n\n\\begin{quote}\n\\emph{Suppose we only observe workers' occupations and wages. Can we recover the underlying distribution of skills and comparative advantage?}\n\\end{quote}\n\nTheir answer is remarkably strong:\n\n\\begin{quote}\n\\textbf{In general, no.}\n\\end{quote}\n\nThe paper establishes the identification limits of the Roy model and explains why richer data or additional assumptions are necessary for empirical work on worker sorting.\n\n\\subsection{The Intuition}\n\nSuppose there are only two occupations:\n\n\\begin{itemize}\n    \\item Engineer\n    \\item Teacher\n\\end{itemize}\n\nEach worker has \\textbf{two potential wages}.\n\n\n\n\n\n\n\n\n\nThe crucial problem is that we never observe the counterfactual wage.\n\n\\begin{itemize}\n    \\item We never observe A's teaching wage.\n    \\item We never observe B's engineering wage.\n    \\item We never observe C's teaching wage.\n\\end{itemize}\n\nHalf of the information needed to recover the joint distribution of skills is permanently missing.\n\n\\subsection{Why This Creates an Identification Problem}\n\nDifferent underlying economies can generate exactly the same observed data.\n\n\\paragraph{World 1: Engineers earn higher wages}\n\nEveryone has similar abilities, but engineering jobs pay more.\n\n\\paragraph{World 2: Engineers are simply better workers}\n\n\n\n\n\n\n\n\n\n\n\n\\subsection{Main Result}\n\nGiven standard cross-sectional data (observed wages and observed occupation choice),\n\n\\begin{itemize}\n    \\item the \\textbf{joint distribution of skills is \\emph{not} non-parametrically identified};\n    \\item without additional information, one cannot separately identify:\n    \\begin{enumerate}\n        \\item the distribution of worker skills,\n        \\item the mapping from skills to wages,\n        \\item and the occupational sorting mechanism.\n    \\end{enumerate}\n\\end{itemize}\n\nThis is fundamentally a \\textbf{missing counterfactual problem}: each worker reveals only one of their potential wages.\n\n\\subsection{What Makes Identification Possible?}\n\nThe paper shows that additional information or assumptions are required.\n\n\\subsubsection*{1. Exclusion Restrictions}\n\nFind variables that affect occupational choice but do \\emph{not} directly affect wages.\n\nFor example, distance to a university may influence whether someone becomes an engineer without affecting engineering productivity itself.\n\nSuch variables generate exogenous variation that helps identify the Roy model.\n\n\\subsubsection*{2. Panel Data}\n\nObserve workers repeatedly over time.\n\nOccupational switches, wage growth, and career histories reveal much more information about workers' comparative advantage than a single cross section. I mean if A was a teacher and then becomes and engineer you can estimate something. \n\n\\subsubsection*{3. Rank Invariance (or Similar Structural Assumptions)}\n\nAssume workers maintain their relative ordering in skill across occupations or over time.\n\nIf Alice is more skilled than Bob, she remains more skilled in every potential outcome.\n\n\\subsection{Why This Paper Matters}\n\nThis paper explains why \\textbf{Heckman \\& Sedlacek (1985)} had to impose strong distributional assumptions.\n\nWithout those assumptions, the observed data are insufficient to identify the Roy model.\n\n\n\n\n",
+        "x": -4703.441696336773,
+        "y": 1122.923536464259,
+        "width": 440,
+        "height": 340,
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "popBg": "#f3f4f6",
+        "deletedAt": 1785400962095,
+        "fromTopic": "pe-topic-1",
+        "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:41:44.770Z"
+    "lastEditedAt": "2026-07-30T08:42:42.095Z"
   }
 }
