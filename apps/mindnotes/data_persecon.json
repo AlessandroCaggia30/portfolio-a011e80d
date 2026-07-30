@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T06:46:33.352Z",
+  "exportedAt": "2026-07-30T06:46:40.502Z",
   "data": {
     "topics": [
       {
@@ -2790,8 +2790,8 @@
                 "id": "p-hkl-2018",
                 "title": "P·Hoffman–Kahn–Li (2018) — Discretion in Hiring",
                 "content": "**Ref.** Hoffman, M., Kahn, L. B. & Li, D. (2018). Discretion in hiring. *Quarterly Journal of Economics*, 133(2), 765–800.\n\n---\n\n## Intro\n\n**Empirical study of algorithmic hiring vs manager discretion.** Uses data from 15 large firms that adopted a machine-learning-based job-test for entry-level positions. When the algorithm's recommendation and the human hiring manager's judgment disagreed, the human sometimes overrode the algorithm. Hoffman et al. use these override decisions to identify the value of algorithmic vs discretionary hiring.\n\n## Setup\n\n- 15 firms adopting a common ML-based hiring test.\n- ~300,000 job applications; ~100,000 hires.\n- The firm offers a test designed to predict performance for a particular job in the low- skilled service sector.\n- For each candidate: (i) test score (algorithm recommendation), (ii) whether hired, (iii) subsequent tenure/productivity.\n- Test scores were shown to managers as a green/yellow/red flag.\n\n## Findings\n\n- testing increases work duration by 26%\n- **Managers frequently overrode the algorithm**: 20-40% of hires had lower test scores than rejected candidates.\n- **Overrides led to WORSE hires**: 15-20% shorter tenure and lower productivity for algorithm-overridden hires.\n\n\n## Contribution\n\n- **Cleanest empirical evidence** that algorithmic assignment (of workers to jobs at hiring stage) beats human discretion.\n- Direct implication: firm value can be raised by REASSIGNING hiring authority from humans to algorithms.\n- **For Paper 2**: reassigning DECISION authority is a form of task reassignment. Provides an upper bound on the value of algorithmic assignment when types are observable via testing.\n\n→ Anchor: **Field experiments cluster**; child: **Bloom et al. (2015) WFH**\n",
-                "x": -5360.6479196716855,
-                "y": -2507.706726937161,
+                "x": -5223.028242509816,
+                "y": -2701.3072897242,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2881,10 +2881,6 @@
                 "links": [
                   {
                     "target": "p-hkl-2018",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-fhs-2018",
                     "type": "forward"
                   }
                 ],
@@ -3052,6 +3048,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T06:46:31.140Z"
+    "lastEditedAt": "2026-07-30T06:46:40.046Z"
   }
 }
