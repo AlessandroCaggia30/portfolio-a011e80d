@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:25:42.983Z",
+  "exportedAt": "2026-07-30T08:25:44.589Z",
   "data": {
     "topics": [
       {
@@ -2082,8 +2082,8 @@
                 "id": "p-acemoglu-autor-2011",
                 "title": "P·Acemoglu–Autor (2011) — Skills, Tasks, and Technologies",
                 "content": "**Ref.** Acemoglu, D. & Autor, D. (2011). Skills, tasks and technologies: Implications for employment and earnings. In *Handbook of Labor Economics*, Vol. 4B, pp. 1043–1171. Elsevier.\n\n---\n\n## Intro\n\n**Handbook chapter formalizing the task-based framework** that ALM 2003 introduced. The theoretical apparatus underlying essentially all subsequent work on technology + wages.\n\n## Setup\n\n- Continuum of tasks $i \\in [0, 1]$.\n- Each task done by one of: high-skill labour, low-skill labour, or capital.\n- Output aggregator over tasks.\n- Comparative-advantage rankings determine allocation.\n\n## Key results\n\n- **Task allocation frontier**: cut-offs $I_L, I_H$ divide tasks among low-skill, high-skill, capital.\n- Technology (falling capital cost) shifts $I_L, I_H$ right — capital captures more tasks.\n- **Wages driven by task allocation**, not by aggregate factor supplies.\n\n## Contribution\n\n- Rigorous general-equilibrium version of ALM 2003.\n- **Foundation for Acemoglu-Restrepo (2018, 2022) task-decomposition of inequality.**\n- Direct precursor to Autor (2015) \"still so many jobs\" and Autor (2019) commuting-zone analysis.\n- **For Paper 2**: canonical framework for translating \"AI takes tasks\" into wage-distribution predictions.\n\n→ Anchor: extends **ALM (2003)**; child: **Autor (2015)**\n",
-                "x": -12256.995472072158,
-                "y": 1648.5220098918735,
+                "x": -12202.805220835671,
+                "y": 1660.3024992911091,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
