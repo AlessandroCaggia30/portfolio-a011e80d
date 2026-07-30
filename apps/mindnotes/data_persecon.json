@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T06:59:57.891Z",
+  "exportedAt": "2026-07-30T07:00:52.124Z",
   "data": {
     "topics": [
       {
@@ -2070,7 +2070,7 @@
               {
                 "id": "reorg-assignment-head",
                 "title": "▼ Roy & Assignment theory · why reassignment generates value",
-                "content": "# Roy & Assignment theory · why reassignment generates value\n\n**The theoretical foundation of Paper 2.** Explains WHY worker-task comparative advantage generates positive value from sorting.\n\n## Three theoretical lineages\n\n\n\n**Assignment models — optimal matching of heterogeneous types** (Rosen 1982, Sattinger 1993)\n- Given $\\theta_i$ worker type × $\\sigma_j$ task complexity, optimal assignment $\\sigma^*(\\theta)$ gives positive assortative matching (PAM).\n\n**Knowledge hierarchies — technology-sensitive assignment** (Garicano 2000)\n- Workers specialise in the frequency of problems they solve; hard problems escalate upward.\n- Extended in Garicano-Rossi-Hansberg (2006) — technology (including AI) changes the optimal cutoffs, forcing reassignment.\n- Continuous generalisation: Costinot-Vogel (2010).\n\n## The prediction Paper 2 tests\n\nIf $\\{\\alpha_{ij}\\}$ is not rank-invariant across tasks (i.e., some workers are relatively better at some tasks than others), then optimal reassignment generates strictly positive value $V^* > 0$. The **magnitude** depends on the dispersion of $\\alpha$ within workers across tasks — quantified in the next cluster.\n\n→ Anchor: **Reorganization Theory — Core**\n",
+                "content": "# Roy & Assignment theory · why reassignment generates value\n\n\n\n## Three theoretical lineages\n\n\n\n**Assignment models — optimal matching of heterogeneous types** (Rosen 1982, Sattinger 1993)\n- Given $\\theta_i$ worker type × $\\sigma_j$ task complexity, optimal assignment $\\sigma^*(\\theta)$ gives positive assortative matching (PAM).\n\n**Knowledge hierarchies — technology-sensitive assignment** (Garicano 2000)\n- Workers specialise in the frequency of problems they solve; hard problems escalate upward.\n- Extended in Garicano-Rossi-Hansberg (2006) — technology (including AI) changes the optimal cutoffs, forcing reassignment.\n- Continuous generalisation: Costinot-Vogel (2010).\n\n## The prediction Paper 2 tests\n\nIf $\\{\\alpha_{ij}\\}$ is not rank-invariant across tasks (i.e., some workers are relatively better at some tasks than others), then optimal reassignment generates strictly positive value $V^* > 0$. The **magnitude** depends on the dispersion of $\\alpha$ within workers across tasks — quantified in the next cluster.\n\n→ Anchor: **Reorganization Theory — Core**\n",
                 "x": -10540,
                 "y": 405,
                 "width": 480,
@@ -3056,6 +3056,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T06:59:57.267Z"
+    "lastEditedAt": "2026-07-30T07:00:49.913Z"
   }
 }
