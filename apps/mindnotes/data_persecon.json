@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:28:43.981Z",
+  "exportedAt": "2026-07-30T08:32:17.992Z",
   "data": {
     "topics": [
       {
@@ -2098,7 +2098,7 @@
               {
                 "id": "p-isp-1997",
                 "title": "P·Ichniowski–Shaw–Prennushi (1997) — HRM Bundles in Steel Lines",
-                "content": "**Ref.** Ichniowski, C., Shaw, K. & Prennushi, G. (1997). The effects of human resource management practices on productivity: A study of steel finishing lines. *American Economic Review*, 87(3), 291–313.\n\n---\n\n## Intro\n\n**Cleanly-identified plant-level study** of how coordinated HRM changes (task assignment + team structure + incentive alignment) affect productivity. Uses a rare setting: 36 steel finishing lines with detailed matched data on organizational practices and output.\n\n## Design\n\n- Panel data on 36 steel finishing lines, monthly frequency.\n- Rich measurement of HRM practices: incentive pay, teamwork, flexible job assignment, employment security, extensive training, information sharing.\n- **Bundles hypothesis**: HRM practices are complements — changing one alone has little effect; changing them together has large effect.\n\n## Findings\n\n- **Complete HRM bundle → ~7% productivity gain** vs traditional practice.\n- **Piecemeal adoption → near-zero gain.** Confirms the complementarity/bundles hypothesis.\n- Practices that matter most: performance pay + teamwork + flexible job assignment (the reassignment margin).\n\n## Contribution\n\n- **Foundation for the \"bundles\" literature** in HRM economics.\n- Cleanly identified via within-plant variation over time.\n- **For Paper 2**: shows that task reassignment ALONE doesn't work — must be bundled with other changes. Suggests Paper 2's ABM should model reassignment × contract × team-structure jointly.\n\n→ Anchor: **Reorganization value cluster**\n",
+                "content": "**Ref.** Ichniowski, C., Shaw, K. & Prennushi, G. (1997). The effects of human resource management practices on productivity: A study of steel finishing lines. *American Economic Review*, 87(3), 291–313.\n\n---\n\nProxy of efficiency: UPTIME of the machine\n\n## Intro\n\n**Cleanly-identified plant-level study** of how coordinated HRM changes (task assignment + team structure + incentive alignment) affect productivity. Uses a rare setting: 36 steel finishing lines with detailed matched data on organizational practices and output.\n\n## Design\n\n- Panel data on 36 steel finishing lines, monthly frequency.\n- Rich measurement of HRM practices: incentive pay, teamwork, flexible job assignment, employment security, extensive training, information sharing.\n- **Bundles hypothesis**: HRM practices are complements — changing one alone has little effect; changing them together has large effect.\n\n## Findings\n\n- **Complete HRM bundle → ~7% productivity gain** vs traditional practice.\n- **Piecemeal adoption → near-zero gain.** Confirms the complementarity/bundles hypothesis.\n- Practices that matter most: performance pay + teamwork + flexible job assignment (the reassignment margin).\n\n## Contribution\n\n- **Foundation for the \"bundles\" literature** in HRM economics.\n- Cleanly identified via within-plant variation over time.\n- **For Paper 2**: shows that task reassignment ALONE doesn't work — must be bundled with other changes. Suggests Paper 2's ABM should model reassignment × contract × team-structure jointly.\n\n→ Anchor: **Reorganization value cluster**\n",
                 "x": -8290,
                 "y": 1195,
                 "width": 440,
@@ -3080,6 +3080,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:28:41.815Z"
+    "lastEditedAt": "2026-07-30T08:32:15.821Z"
   }
 }
