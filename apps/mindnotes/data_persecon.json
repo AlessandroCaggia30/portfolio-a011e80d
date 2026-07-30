@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:23:42.274Z",
+  "exportedAt": "2026-07-30T08:23:50.230Z",
   "data": {
     "topics": [
       {
@@ -2072,7 +2072,7 @@
               {
                 "id": "p-deming-2017",
                 "title": "P·Deming (2017) — Rise of Social Skills",
-                "content": "**Ref.** Deming, D. J. (2017). The growing importance of social skills in the labor market. *Quarterly Journal of Economics*, 132(4), 1593–1640.\n\nA lot of tasks, a lot of skills. Among skills, social skills are becomng particuarly imporant (having a proxy for them would be great)\n\n## Intro\n\n**Extends ALM 2003** by adding *social skills* as a complement to non-routine cognitive tasks. Answers: why did the labour market keep rewarding college graduates in the 2000s despite the routine-cognitive-decline (Beaudry-Green-Sand \"great reversal\")?\n\n## Empirical findings\n\nBetween 1980 and 2012:\n- Jobs requiring HIGH social skills + HIGH math skills grew **24 percentage points**.\n- Jobs requiring HIGH math but LOW social skills stagnated or declined.\n- Social-skill returns rose sharply after 2000.\n\n## Framework\n\nSocial skills are the technology that lets workers **TRADE tasks efficiently within teams. As tasks become more specialized, coordination cost rises, and social skills become the binding scarce input.**\n\n## Contribution\n\n- **Explains why humans still matter** in high-cognitive settings: coordination + persuasion + judgement in social contexts are hard to automate.\n- Extends ALM 2003 with a THIRD dimension: routine × cognitive × social.\n\n→ Anchor: extends **ALM (2003)**\n",
+                "content": "**Ref.** Deming, D. J. (2017). The growing importance of social skills in the labor market. *Quarterly Journal of Economics*, 132(4), 1593–1640.\n\nA lot of tasks, a lot of skills. Among skills, social skills are becomng particuarly imporant (having a proxy for them would be great)\n\n## Intro\n\n**Extends ALM 2003** by adding *social skills* as a complement to non-routine cognitive tasks. Answers: why did the labour market keep rewarding college graduates in the 2000s despite the routine-cognitive-decline (Beaudry-Green-Sand \"great reversal\")?\n\n## Empirical findings\n\nBetween 1980 and 2012:\n- Jobs requiring HIGH social skills + HIGH math skills grew **24 percentage points**.\n- Jobs requiring HIGH math but LOW social skills stagnated or declined.\n- Social-skill returns rose sharply after 2000.\n\n## Framework\n\nSocial skills are the technology that lets workers **TRADE tasks efficiently within teams. As tasks become more specialized, coordination cost rises, and social skills become the binding scarce input.**\n\n## Contribution\n\n- **Explains why humans still matter** in high-cognitive settings: coordination + persuasion + judgement in social contexts are hard to automate.\n- Extends ALM 2003 with a THIRD dimension: routine × cognitive × social.\n\n",
                 "x": -12195,
                 "y": 1240,
                 "width": 440,
@@ -3084,6 +3084,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:23:40.132Z"
+    "lastEditedAt": "2026-07-30T08:23:48.115Z"
   }
 }
