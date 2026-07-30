@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:37:17.821Z",
+  "exportedAt": "2026-07-30T08:38:53.443Z",
   "data": {
     "topics": [
       {
@@ -2131,24 +2131,6 @@
                 "height": 340,
                 "flashcard": false,
                 "images": [],
-                "links": [
-                  {
-                    "target": "p-hsieh-klenow-2009",
-                    "type": "forward"
-                  }
-                ],
-                "popBg": "#f3f4f6"
-              },
-              {
-                "id": "p-hsieh-klenow-2009",
-                "title": "P·Hsieh–Klenow (2009) — Misallocation and TFP",
-                "content": "**Ref.** Hsieh, C.-T. & Klenow, P. J. (2009). Misallocation and manufacturing TFP in China and India. *Quarterly Journal of Economics*, 124(4), 1403–1448.\n\n---\n\n## Intro\n\n**Field-defining macro paper on misallocation.** Uses a monopolistic-competition model to estimate the aggregate TFP loss from misallocation of capital and labor across manufacturing plants within the same industry.\n\n## Method\n\n- Model: heterogeneous plants within each 4-digit industry, monopolistic competition, Cobb-Douglas production.\n- Under efficient allocation, marginal revenue products would be equalized across plants.\n- Observed dispersion of revenue products → measure of misallocation.\n- Counterfactual: what TFP would we observe if misallocation were eliminated (to US level)?\n\n## Findings\n\n- **China 1998**: eliminating misallocation would raise manufacturing TFP by **30–50%**.\n- **India 1994**: **40–60%** TFP gain.\n- Sources of misallocation: distortionary taxes, credit constraints, size-dependent regulations, labour market frictions.\n- Even the US has misallocation; benchmark is \"as good as US\" not \"first-best\".\n\n## Contribution\n\n- **Establishes the upper-bound estimate** for how much productivity is lost to misallocation across the economy.\n- Massive follow-up literature: Restuccia-Rogerson 2008 (methodology), Bils-Klenow-Ruane 2020 (updated estimates), Adamopoulos-Restuccia 2014 (agriculture).\n- **For Paper 2**: the upper-bound reference. If a single firm's task reassignment can capture even a fraction of the within-industry misallocation, gains could be very large. Says the \"ceiling\" of the reorganization value is HIGH.\n\n→ Anchor: extends **BEMMR 2013**\n",
-                "x": -7190,
-                "y": 1815,
-                "width": 440,
-                "height": 340,
-                "flashcard": false,
-                "images": [],
                 "links": [],
                 "popBg": "#f3f4f6"
               },
@@ -3078,8 +3060,24 @@
         "deletedAt": 1785400012690,
         "fromTopic": "pe-topic-1",
         "fromSubtopic": "pe-sub-1"
+      },
+      {
+        "id": "p-hsieh-klenow-2009",
+        "title": "P·Hsieh–Klenow (2009) — Misallocation and TFP",
+        "content": "**Ref.** Hsieh, C.-T. & Klenow, P. J. (2009). Misallocation and manufacturing TFP in China and India. *Quarterly Journal of Economics*, 124(4), 1403–1448.\n\n---\n\n## Intro\n\n**Field-defining macro paper on misallocation.** Uses a monopolistic-competition model to estimate the aggregate TFP loss from misallocation of capital and labor across manufacturing plants within the same industry.\n\n## Method\n\n- Model: heterogeneous plants within each 4-digit industry, monopolistic competition, Cobb-Douglas production.\n- Under efficient allocation, marginal revenue products would be equalized across plants.\n- Observed dispersion of revenue products → measure of misallocation.\n- Counterfactual: what TFP would we observe if misallocation were eliminated (to US level)?\n\n## Findings\n\n- **China 1998**: eliminating misallocation would raise manufacturing TFP by **30–50%**.\n- **India 1994**: **40–60%** TFP gain.\n- Sources of misallocation: distortionary taxes, credit constraints, size-dependent regulations, labour market frictions.\n- Even the US has misallocation; benchmark is \"as good as US\" not \"first-best\".\n\n## Contribution\n\n- **Establishes the upper-bound estimate** for how much productivity is lost to misallocation across the economy.\n- Massive follow-up literature: Restuccia-Rogerson 2008 (methodology), Bils-Klenow-Ruane 2020 (updated estimates), Adamopoulos-Restuccia 2014 (agriculture).\n- **For Paper 2**: the upper-bound reference. If a single firm's task reassignment can capture even a fraction of the within-industry misallocation, gains could be very large. Says the \"ceiling\" of the reorganization value is HIGH.\n\n→ Anchor: extends **BEMMR 2013**\n",
+        "x": -7190,
+        "y": 1815,
+        "width": 440,
+        "height": 340,
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "popBg": "#f3f4f6",
+        "deletedAt": 1785400731260,
+        "fromTopic": "pe-topic-1",
+        "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:37:15.660Z"
+    "lastEditedAt": "2026-07-30T08:38:51.260Z"
   }
 }
