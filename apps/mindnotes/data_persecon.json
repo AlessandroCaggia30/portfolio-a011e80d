@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:11:50.753Z",
+  "exportedAt": "2026-07-30T08:12:44.692Z",
   "data": {
     "topics": [
       {
@@ -1901,7 +1901,7 @@
               {
                 "id": "reorg-core",
                 "title": "★ Reorganization Theory — Core",
-                "content": "# Reorganization Theory — Core\n\n**Paper 2's central question.**\n\nGiven $N$ workers each with a distribution of skills $\\{\\alpha_{ij}\\}$ across $K$ tasks, and given the firm can observe worker types, how much output does OPTIMAL REASSIGNMENT generate over the status-quo?\n\n$$V^{*} \\;=\\; \\max_{\\mu:\\, [N]\\to[K]} \\sum_i g(\\alpha_{i,\\mu(i)}) \\;-\\; \\sum_i g(\\alpha_{i,\\mu_0(i)})$$\n\nwhere $\\mu_0$ is the status-quo assignment and $\\mu$ is the reassignment enabled by type-observation.\n\n\n\n\n\n## The three sub-questions Paper 2 answers\n\n1. **WHY** does reassignment generate value? → Roy model + assignment theory (foundational).\n2. **HOW MUCH** value in practice? → Multidimensional skill mismatch literature + FIELD EXPERIMENTS (empirical cluster + direct-interventions cluster).\n3. **WHY NOW** is this feasible? → AI / IT / management-practice as type-observation technologies (enablers).\n\n## The six literature clusters\n\n1. **▼ Roy & Assignment theory** — theoretical foundation. Roy (1951), Heckman-Sedlacek (1985), Rosen (1982), Sattinger (1993), Garicano (2000), Costinot-Vogel (2010), Lazear (1995).\n\n2. **▼ Skill Heterogeneity & Mismatch Value** All these papers MEASURE mismatch — none actually intervenes.\n\n3. **▼ Field experiments ** Exploring how productivity is assigned by \"who does what\" \n\n4. **▼ Reorganization Value · pre-AI empirical estimates** — historical bounds from IT and management-practice studies: ISP 1997 (~7%), BBH 2002/BIS 2007 (15-20%), BEMMR 2013 (17%), HK 2009 (30-60% macro upper bound).\n\n5. **▼ Task-Based framework** — context: how technology reshapes the α-matrix (ALM 2003, Acemoglu-Autor 2011, Autor 2015/2019, Acemoglu-Restrepo 2018/2022, Deming 2017).\n\n6. **▼ Gen-AI Empirical** — modern type-observation enabler: BLR 2023, Peng 2023, Noy-Zhang 2023, Dell'Acqua 2023, Athey-Bryan-Gans 2020, Beane 2019.\n\n## Winners / losers — heterogeneous treatment effects\n\nCentral to Paper 2's contribution:\n- **High-skill vs low-skill** — compression (BLR 2023, Guvenen et al 2020) or polarization (G-RH 2006)?\n- **Junior vs senior** — apprenticeship channel effects (Beane 2019).\n- **Specialists vs generalists** — the α-matrix determines who wins.\n\n\n\n\n\n\n\n\n\n",
+                "content": "# Reorganization Theory — Core\n\n**Paper 2's central question.**\n\nGiven $N$ workers each with a distribution of skills $\\{\\alpha_{ij}\\}$ across $K$ tasks, and given the firm can observe worker types, how much output does OPTIMAL REASSIGNMENT generate over the status-quo?\n\n$$V^{*} \\;=\\; \\max_{\\mu:\\, [N]\\to[K]} \\sum_i g(\\alpha_{i,\\mu(i)}) \\;-\\; \\sum_i g(\\alpha_{i,\\mu_0(i)})$$\n\nwhere $\\mu_0$ is the status-quo assignment and $\\mu$ is the reassignment enabled by type-observation.\n\n\n\n\n\n## The three sub-questions Paper 2 answers\n\n\n\n## The six literature clusters\n\n1. **▼ Roy & Assignment theory** — theoretical foundation. Roy (1951), Heckman-Sedlacek (1985), Rosen (1982), Sattinger (1993), Garicano (2000), Costinot-Vogel (2010), Lazear (1995).\n\n2. **▼ Skill Heterogeneity & Mismatch Value** All these papers MEASURE mismatch — none actually intervenes.\n\n3. **▼ Field experiments ** Exploring how productivity is assigned by \"who does what\" \n\n4. **▼ Reorganization Value · pre-AI empirical estimates** — historical bounds from IT and management-practice studies: ISP 1997 (~7%), BBH 2002/BIS 2007 (15-20%), BEMMR 2013 (17%), HK 2009 (30-60% macro upper bound).\n\n5. **▼ Task-Based framework** — context: how technology reshapes the α-matrix (ALM 2003, Acemoglu-Autor 2011, Autor 2015/2019, Acemoglu-Restrepo 2018/2022, Deming 2017).\n\n6. **▼ Gen-AI Empirical** — modern type-observation enabler: BLR 2023, Peng 2023, Noy-Zhang 2023, Dell'Acqua 2023, Athey-Bryan-Gans 2020, Beane 2019.\n\n## Winners / losers — heterogeneous treatment effects\n\nCentral to Paper 2's contribution:\n- **High-skill vs low-skill** — compression (BLR 2023, Guvenen et al 2020) or polarization (G-RH 2006)?\n- **Junior vs senior** — apprenticeship channel effects (Beane 2019).\n- **Specialists vs generalists** — the α-matrix determines who wins.\n\n\n\n\n\n\n\n\n\n",
                 "x": -7450,
                 "y": -525,
                 "width": 620,
@@ -3082,6 +3082,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:11:50.323Z"
+    "lastEditedAt": "2026-07-30T08:12:42.537Z"
   }
 }
