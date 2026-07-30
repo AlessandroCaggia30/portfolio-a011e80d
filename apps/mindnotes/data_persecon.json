@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:26:06.093Z",
+  "exportedAt": "2026-07-30T08:26:19.041Z",
   "data": {
     "topics": [
       {
@@ -2092,19 +2092,6 @@
                 "popBg": "#f3f4f6"
               },
               {
-                "id": "p-autor-2019",
-                "title": "P·Autor (2019) — Work of the Past, Work of the Future",
-                "content": "**Ref.** Autor, D. H. (2019). Work of the past, work of the future. *AEA Papers and Proceedings*, 109, 1–32. (Richard T. Ely Lecture.)\n\n---\n\n## Intro\n\n**AEA presidential lecture** documenting how the collapse of middle-skill jobs varies dramatically across US commuting zones. Introduces the concept of \"work of the past\" (routine tasks) vs \"work of the future\" (non-routine social + cognitive).\n\n## Empirical findings\n\n- Middle-skill routine jobs disappeared roughly equally across regions.\n- **Non-college workers in dense/urban zones** transitioned to non-routine service jobs (health, food service, personal care) — lower wages but stayed employed.\n- **Non-college workers in less-dense zones** experienced sharp declines in employment and wages.\n- **College workers** absorbed the growth in high-skill non-routine work — concentrated in dense zones.\n\n## Contribution\n\n- **Geographic heterogeneity** is central to understanding technology's labour-market effects.\n- Explains \"the geography of despair\" (Case-Deaton) via the task-based framework.\n- **For Paper 2**: heterogeneous treatment effects don't happen uniformly. Firm-level task reassignment plays out differently for workers in different local labour markets.\n\n→ Anchor: extends **Autor (2015)**\n",
-                "x": -9902.595629722662,
-                "y": 1296.787461010013,
-                "width": 440,
-                "height": 340,
-                "flashcard": false,
-                "images": [],
-                "links": [],
-                "popBg": "#f3f4f6"
-              },
-              {
                 "id": "p-acemoglu-restrepo-2018",
                 "title": "P·Acemoglu–Restrepo (2018) — Race Between Man & Machine",
                 "content": "**Ref.** Acemoglu, D. & Restrepo, P. (2018). The race between man and machine: Implications of technology for growth, factor shares, and employment. *American Economic Review*, 108(6), 1488–1542.\n\n---\n\n## Intro\n\n**Modern general-equilibrium model of automation** with endogenous creation of new tasks. Introduces the crucial distinction between:\n- **Displacement effect** — automation removes tasks from labour.\n- **Reinstatement effect** — new tasks emerge, some assigned to labour.\n\n## Setup\n\n- Continuum of tasks; automation moves cutoff, capital takes over tasks below.\n- Endogenous R&D creates new tasks at the frontier, initially assigned to labour.\n- Labour share depends on the RACE between displacement and reinstatement.\n\n## Result\n\n- **When reinstatement > displacement**: labour share stable, wages rise.\n- **When displacement > reinstatement**: labour share falls, wages stagnate.\n- 1987–2017 US: displacement > reinstatement → falling labour share.\n\n## Contribution\n\n- Formalises the \"task destruction vs creation\" narrative.\n- Explains observed decline in US labour share via task-based mechanism.\n- **For Paper 2**: gen-AI dramatically speeds up displacement. Does it also speed up reinstatement? If yes, labour share protected. If no, sharp reallocation losses.\n\n→ Anchor: **Task-based cluster**; child: **A&R (2022)**\n",
@@ -3080,8 +3067,24 @@
         "deletedAt": 1785399898395,
         "fromTopic": "pe-topic-1",
         "fromSubtopic": "pe-sub-1"
+      },
+      {
+        "id": "p-autor-2019",
+        "title": "P·Autor (2019) — Work of the Past, Work of the Future",
+        "content": "**Ref.** Autor, D. H. (2019). Work of the past, work of the future. *AEA Papers and Proceedings*, 109, 1–32. (Richard T. Ely Lecture.)\n\n---\n\n## Intro\n\n**AEA presidential lecture** documenting how the collapse of middle-skill jobs varies dramatically across US commuting zones. Introduces the concept of \"work of the past\" (routine tasks) vs \"work of the future\" (non-routine social + cognitive).\n\n## Empirical findings\n\n- Middle-skill routine jobs disappeared roughly equally across regions.\n- **Non-college workers in dense/urban zones** transitioned to non-routine service jobs (health, food service, personal care) — lower wages but stayed employed.\n- **Non-college workers in less-dense zones** experienced sharp declines in employment and wages.\n- **College workers** absorbed the growth in high-skill non-routine work — concentrated in dense zones.\n\n## Contribution\n\n- **Geographic heterogeneity** is central to understanding technology's labour-market effects.\n- Explains \"the geography of despair\" (Case-Deaton) via the task-based framework.\n- **For Paper 2**: heterogeneous treatment effects don't happen uniformly. Firm-level task reassignment plays out differently for workers in different local labour markets.\n\n→ Anchor: extends **Autor (2015)**\n",
+        "x": -9902.595629722662,
+        "y": 1296.787461010013,
+        "width": 440,
+        "height": 340,
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "popBg": "#f3f4f6",
+        "deletedAt": 1785399976912,
+        "fromTopic": "pe-topic-1",
+        "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:26:03.938Z"
+    "lastEditedAt": "2026-07-30T08:26:16.913Z"
   }
 }
