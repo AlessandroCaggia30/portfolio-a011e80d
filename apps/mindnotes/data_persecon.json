@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T06:30:33.817Z",
+  "exportedAt": "2026-07-30T06:30:36.314Z",
   "data": {
     "topics": [
       {
@@ -2223,8 +2223,8 @@
                 "id": "p-costinot-vogel-2010",
                 "title": "P·Costinot–Vogel (2010) — Matching & Inequality",
                 "content": "**Ref.** Costinot, A. & Vogel, J. (2010). Matching and inequality in the world economy. *Journal of Political Economy*, 118(4), 747–786.\n\n---\n\n## Intro\n\n**Unified assignment framework** with continuous worker types and continuous task complexities. Generalizes Sattinger (1993) and connects the assignment literature to international trade.\n\n## Setup\n\n- Worker skill $\\theta \\in [\\underline\\theta, \\bar\\theta]$; task complexity $\\sigma \\in [\\underline\\sigma, \\bar\\sigma]$.\n- Production function $f(\\theta, \\sigma)$ log-supermodular → positive assortative matching.\n- Continuous market clearing.\n\n## Result\n\n- **PAM**: unique equilibrium assignment $\\sigma^*(\\theta)$ increasing in $\\theta$.\n- **Wage function**: $w(\\theta) = \\int_{\\underline\\theta}^\\theta \\partial f/\\partial\\theta$ evaluated along the matching curve.\n- Comparative statics on skill supply changes: adding low-skill workers RAISES the wages of ALL workers above them (via reallocation toward higher-complexity tasks).\n\n## Why it matters for Paper 2\n\n- Provides the **general theoretical apparatus** for continuous task reallocation.\n- AI-enabled reassignment IS a shift in the matching function $\\sigma^*(\\theta)$. C-V's comparative statics give predictions about who gains and loses.\n\n→ Anchor: extends **Sattinger (1993)** and **Garicano (2000)**\n",
-                "x": -9020,
-                "y": 1635,
+                "x": -9070,
+                "y": 1660,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3052,6 +3052,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T06:30:31.701Z"
+    "lastEditedAt": "2026-07-30T06:30:34.198Z"
   }
 }
