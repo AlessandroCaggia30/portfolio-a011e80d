@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T09:07:12.018Z",
+  "exportedAt": "2026-07-30T09:07:19.311Z",
   "data": {
     "topics": [
       {
@@ -1401,8 +1401,8 @@
                 "id": "p-bvr-2007",
                 "title": "P·Bloom–Van Reenen (2007) — Management as Technology (QJE)",
                 "content": "**Ref.** Bloom, N. & Van Reenen, J. (2007). Measuring and explaining management practices across firms and countries. *Quarterly Journal of Economics*, 122(4), 1351–1408.\n\n---\n\n## Intro\n\n**Founding paper of the World Management Survey (WMS)** — the largest cross-country dataset on management practices. Establishes the methodology used by all subsequent WMS papers (including Bloom-Van Reenen 2013).\n\n## Design\n\n- Standardized double-blind interviews with mid-level managers across ~700 firms in US, UK, France, Germany.\n- 18-question survey scoring monitoring, targets, and incentive practices.\n- **Double-blind + Standardized** → cross-firm and cross-country comparable.\n\n## Findings\n\n- **US firms score highest** on average management practices.\n- Practice heterogeneity WITHIN industries is enormous (mean SD ~0.65 on 1-5 scale).\n- Best-managed firms have BOTH strong **monitoring** (Holmström 1979 informativeness) AND explicit **incentive design** (HM 1987 linear contracts).\n- Practices robustly correlate with productivity, profitability, growth, survival.\n\n## Position\n\nYellow **②** — the empirical foundation for \"management practices matter for productivity\" claim. Complements Lazear 2000 (single firm) with cross-country breadth.\n",
-                "x": 4317.43879871043,
-                "y": 1995.0675020735484,
+                "x": 4286.595335556068,
+                "y": 1991.212069179253,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3100,6 +3100,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T09:07:09.901Z"
+    "lastEditedAt": "2026-07-30T09:07:17.134Z"
   }
 }
