@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:16:06.952Z",
+  "exportedAt": "2026-07-30T08:16:18.868Z",
   "data": {
     "topics": [
       {
@@ -2681,7 +2681,7 @@
               {
                 "id": "p-yamaguchi-2012",
                 "title": "P·Yamaguchi (2012) — Tasks & Heterogeneous Human Capital",
-                "content": "**Ref.** Yamaguchi, S. (2012). Tasks and heterogeneous human capital. *Journal of Labor Economics*, 30(1), 1–53.\n\n---\n\n## Intro\n\n**Structural lifecycle model of task-based human capital.** Workers have multi-dimensional skills; jobs use different task bundles; workers accumulate skill in tasks they perform. Estimates the model on NLSY79.\n\n## Setup\n\n- Worker skill: 2-dim (cognitive + motor).\n- Jobs are task bundles (cognitive intensity + motor intensity) — from ALM 2003 measures.\n- On-the-job skill accumulation depends on TASKS PERFORMED, not just years worked.\n- Dynamic structural model: writes and solves a Bellman eqution with state variales (latent skills, age , experience, current occupations) and choice variabels (occupational choices) to maximize excected lifetime utilty. He adds skill accoumulation .\n- The researcher observes wages, occupations, occupational transitions, ages. He guesses values for parameters governing: returns to cognitive skill, returns to motor skill, skill accumulation, occupational preferences, switching costs.\n\n## Findings\n\n- Cognitive skill accumulates faster in cognitive-intensive jobs; motor in motor-intensive jobs.\n- **Job-switching to better-matched tasks explains significant wage growth**, particularly in early career.\n- In terms of wage growth, cognitive skills play a central role. They account for all of the wage growth for high school and college workers. However, for high school dropouts, the growth of motor skills accounts for about half of their wage growth\n\n## Contribution\n\n- **First fully-structural estimation** of multi-dim task-based human capital accumulation.\n- Establishes that skill × task matching evolves over the lifecycle — an endogenous version of the $\\{\\alpha_{ij}\\}$ matrix.\n- **For Paper 2**: shows the α matrix is DYNAMIC. Reassignment doesn't just harvest current comparative advantage — it also shapes future skill accumulation. Suggests Paper 2's ABM should include a dynamic skill-accumulation module.\n\n→ Anchor: extends **Autor-Handel (2013)**\n",
+                "content": "**Ref.** Yamaguchi, S. (2012). Tasks and heterogeneous human capital. *Journal of Labor Economics*, 30(1), 1–53.\n\nINTERESTING FOR THE METHODOLOGY\n\n## Intro\n\n**Structural lifecycle model of task-based human capital.** Workers have multi-dimensional skills; jobs use different task bundles; workers accumulate skill in tasks they perform. Estimates the model on NLSY79.\n\n## Setup\n\n- Worker skill: 2-dim (cognitive + motor).\n- Jobs are task bundles (cognitive intensity + motor intensity) — from ALM 2003 measures.\n- On-the-job skill accumulation depends on TASKS PERFORMED, not just years worked.\n- Dynamic structural model: writes and solves a Bellman eqution with state variales (latent skills, age , experience, current occupations) and choice variabels (occupational choices) to maximize excected lifetime utilty. He adds skill accoumulation .\n- The researcher observes wages, occupations, occupational transitions, ages. He guesses values for parameters governing: returns to cognitive skill, returns to motor skill, skill accumulation, occupational preferences, switching costs.\n\n## Findings\n\n- Cognitive skill accumulates faster in cognitive-intensive jobs; motor in motor-intensive jobs.\n- **Job-switching to better-matched tasks explains significant wage growth**, particularly in early career.\n- In terms of wage growth, cognitive skills play a central role. They account for all of the wage growth for high school and college workers. However, for high school dropouts, the growth of motor skills accounts for about half of their wage growth\n\n## Contribution\n\n- **First fully-structural estimation** of multi-dim task-based human capital accumulation.\n- Establishes that skill × task matching evolves over the lifecycle — an endogenous version of the $\\{\\alpha_{ij}\\}$ matrix.\n- **For Paper 2**: shows the α matrix is DYNAMIC. Reassignment doesn't just harvest current comparative advantage — it also shapes future skill accumulation. Suggests Paper 2's ABM should include a dynamic skill-accumulation module.\n\n→ Anchor: extends **Autor-Handel (2013)**\n",
                 "x": -11528.46710895081,
                 "y": 2331.092319146786,
                 "width": 440,
@@ -3082,6 +3082,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:16:04.801Z"
+    "lastEditedAt": "2026-07-30T08:16:18.594Z"
   }
 }
