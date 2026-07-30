@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T06:43:37.962Z",
+  "exportedAt": "2026-07-30T06:43:44.367Z",
   "data": {
     "topics": [
       {
@@ -2688,8 +2688,8 @@
                 "id": "p-fhs-2018",
                 "title": "P·Fredriksson–Hensvik–Skans (2018) — Mismatch & Match Quality",
                 "content": "**Ref.** Fredriksson, P., Hensvik, L. & Skans, O. N. (2018). Mismatch of talent: Evidence on match quality, entry wages, and job mobility. *American Economic Review*, 108(11), 3303–3338.\n\n---\n\n## Intro\n\n**Cleanest empirical mismatch measurement using Swedish employer-employee registry data.** Direct measure of worker skill × job requirement match quality, linked to wage and mobility outcomes.\n\n## Design\n\n- Swedish military enlistment tests (cognitive + non-cognitive skills) for all conscripted males.\n- Merged with employer-employee panel data.\n- Job requirements from occupational task measures.\n- Measure: multi-dim distance between individual skills and job requirements.\n\n## Findings\n\n- **Better matches → 5–10% higher entry wages**, cleanly identified.\n- Better matches → **20–30% lower quit probability**.\n- Match quality persists: workers who start in good matches STAY in good matches (path dependency).\n- **Mismatch decays only slowly**: after 5 years, initial mismatch still explains 40% of current mismatch.\n\n## Contribution\n\n- **Cleanest reduced-form estimate** of mismatch effects.\n- Complements GKTW 2020 (structural) with cleaner identification (Swedish register + military tests).\n- **For Paper 2**: provides the empirical anchor for entry-wage effects of matching, and quantifies mismatch persistence.\n\n→ Anchor: **Skill heterogeneity & mismatch cluster**\n",
-                "x": 2955,
-                "y": -2025,
+                "x": -5735,
+                "y": -2230,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2785,8 +2785,8 @@
                 "id": "p-hkl-2018",
                 "title": "P·Hoffman–Kahn–Li (2018) — Discretion in Hiring",
                 "content": "**Ref.** Hoffman, M., Kahn, L. B. & Li, D. (2018). Discretion in hiring. *Quarterly Journal of Economics*, 133(2), 765–800.\n\n---\n\n## Intro\n\n**Empirical study of algorithmic hiring vs manager discretion.** Uses data from 15 large firms that adopted a machine-learning-based job-test for entry-level positions. When the algorithm's recommendation and the human hiring manager's judgment disagreed, the human sometimes overrode the algorithm. Hoffman et al. use these override decisions to identify the value of algorithmic vs discretionary hiring.\n\n## Setup\n\n- 15 firms adopting a common ML-based hiring test.\n- ~300,000 job applications; ~100,000 hires.\n- The firm offers a test designed to predict performance for a particular job in the low- skilled service sector.\n- For each candidate: (i) test score (algorithm recommendation), (ii) whether hired, (iii) subsequent tenure/productivity.\n- Test scores were shown to managers as a green/yellow/red flag.\n\n## Findings\n\n- testing increases work duration by 26%\n- **Managers frequently overrode the algorithm**: 20-40% of hires had lower test scores than rejected candidates.\n- **Overrides led to WORSE hires**: 15-20% shorter tenure and lower productivity for algorithm-overridden hires.\n\n\n## Contribution\n\n- **Cleanest empirical evidence** that algorithmic assignment (of workers to jobs at hiring stage) beats human discretion.\n- Direct implication: firm value can be raised by REASSIGNING hiring authority from humans to algorithms.\n- **For Paper 2**: reassigning DECISION authority is a form of task reassignment. Provides an upper bound on the value of algorithmic assignment when types are observable via testing.\n\n→ Anchor: **Field experiments cluster**; child: **Bloom et al. (2015) WFH**\n",
-                "x": 3329.3520803283145,
-                "y": -2302.706726937161,
+                "x": -5360.6479196716855,
+                "y": -2507.706726937161,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2883,8 +2883,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 2982.6289121178243,
-                "y": -2410.550103177342,
+                "x": -5707.371087882176,
+                "y": -2615.550103177342,
                 "width": 296.5025379362579,
                 "height": 168.9334716857438
               },
@@ -2901,8 +2901,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 2395.83876378432,
-                "y": -2454.0983625577774,
+                "x": -6294.16123621568,
+                "y": -2659.0983625577774,
                 "width": 422.6639745137084,
                 "height": 179.27457304455123
               },
@@ -3047,6 +3047,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T06:43:37.636Z"
+    "lastEditedAt": "2026-07-30T06:43:42.251Z"
   }
 }
