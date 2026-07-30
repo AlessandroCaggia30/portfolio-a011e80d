@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T06:43:26.729Z",
+  "exportedAt": "2026-07-30T06:43:30.273Z",
   "data": {
     "topics": [
       {
@@ -2581,10 +2581,6 @@
                 "images": [],
                 "links": [
                   {
-                    "target": "p-fhs-2018",
-                    "type": "forward"
-                  },
-                  {
                     "target": "1785392278570",
                     "type": "forward"
                   },
@@ -2698,12 +2694,7 @@
                 "height": 340,
                 "flashcard": false,
                 "images": [],
-                "links": [
-                  {
-                    "target": "p-groes-2015",
-                    "type": "forward"
-                  }
-                ],
+                "links": [],
                 "popBg": "#f3f4f6"
               },
               {
@@ -3052,6 +3043,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T06:43:25.168Z"
+    "lastEditedAt": "2026-07-30T06:43:29.957Z"
   }
 }
