@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:26:19.041Z",
+  "exportedAt": "2026-07-30T08:26:22.428Z",
   "data": {
     "topics": [
       {
@@ -2101,20 +2101,15 @@
                 "height": 340,
                 "flashcard": false,
                 "images": [],
-                "links": [
-                  {
-                    "target": "p-acemoglu-restrepo-2022",
-                    "type": "forward"
-                  }
-                ],
+                "links": [],
                 "popBg": "#f3f4f6"
               },
               {
                 "id": "p-acemoglu-restrepo-2022",
                 "title": "P·Acemoglu–Restrepo (2022) — Tasks, Automation & Wage Inequality",
                 "content": "**Ref.** Acemoglu, D. & Restrepo, P. (2022). Tasks, automation, and the rise in U.S. wage inequality. *Econometrica*, 90(5), 1973–2016.\n\n---\n\n## Intro\n\n**Task-based decomposition** of US wage inequality 1980–2016. Answers: how much of the observed inequality rise is attributable to task reallocation between labour and capital?\n\n## Method\n\n- Estimate a full task-based general-equilibrium model.\n- Identify parameters from industry × occupation task-share evolution.\n- Counterfactuals: what if automation had been slower?\n\n## Findings\n\n- **50–70% of the observed rise in college-wage-premium is due to task automation** (specifically: automation displaced routine-task workers, mostly non-college).\n- Automation reallocated tasks from mid-skill to high-skill labour and to capital.\n- Modest effect from skill-biased technical change; task-based effects dominate.\n\n## Contribution\n\n- **Most rigorous empirical decomposition** of task-based effects on inequality.\n- Quantifies the mechanism ALM (2003), Acemoglu-Autor (2011), A&R (2018) posited.\n- **For Paper 2**: if gen-AI shifts task boundaries again, the same mechanism predicts substantial wage-distribution effects. The 50–70% share of past inequality attributable to task reallocation suggests future effects will also be large.\n\n→ Anchor: extends **A&R (2018)**\n",
-                "x": -9341.473200705634,
-                "y": 1835,
+                "x": -9852.559680102444,
+                "y": 1205.870704295804,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3085,6 +3080,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:26:16.913Z"
+    "lastEditedAt": "2026-07-30T08:26:21.822Z"
   }
 }
