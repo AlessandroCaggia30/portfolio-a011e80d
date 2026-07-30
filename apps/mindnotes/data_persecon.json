@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:26:22.428Z",
+  "exportedAt": "2026-07-30T08:26:36.630Z",
   "data": {
     "topics": [
       {
@@ -1966,12 +1966,7 @@
                 "height": 360,
                 "flashcard": false,
                 "images": [],
-                "links": [
-                  {
-                    "target": "p-acemoglu-restrepo-2018",
-                    "type": "forward"
-                  }
-                ],
+                "links": [],
                 "color": "purple",
                 "popBg": "#e0e7ff"
               },
@@ -2084,19 +2079,6 @@
                 "content": "**Ref.** Acemoglu, D. & Autor, D. (2011). Skills, tasks and technologies: Implications for employment and earnings. In *Handbook of Labor Economics*, Vol. 4B, pp. 1043–1171. Elsevier.\n\n---\n\n## Intro\n\n**Handbook chapter formalizing the task-based framework** that ALM 2003 introduced. The theoretical apparatus underlying essentially all subsequent work on technology + wages.\n\n## Setup\n\n- Continuum of tasks $i \\in [0, 1]$.\n- Each task done by one of: high-skill labour, low-skill labour, or capital.\n- Output aggregator over tasks.\n- Comparative-advantage rankings determine allocation.\n\n## Key results\n\n- **Task allocation frontier**: cut-offs $I_L, I_H$ divide tasks among low-skill, high-skill, capital.\n- Technology (falling capital cost) shifts $I_L, I_H$ right — capital captures more tasks.\n- **Wages driven by task allocation**, not by aggregate factor supplies.\n\n## Contribution\n\n- Rigorous general-equilibrium version of ALM 2003.\n- **Foundation for Acemoglu-Restrepo (2018, 2022) task-decomposition of inequality.**\n- Direct precursor to Autor (2015) \"still so many jobs\" and Autor (2019) commuting-zone analysis.\n- **For Paper 2**: canonical framework for translating \"AI takes tasks\" into wage-distribution predictions.\n\n→ Anchor: extends **ALM (2003)**; child: **Autor (2015)**\n",
                 "x": -12202.805220835671,
                 "y": 1674.4390865701916,
-                "width": 440,
-                "height": 340,
-                "flashcard": false,
-                "images": [],
-                "links": [],
-                "popBg": "#f3f4f6"
-              },
-              {
-                "id": "p-acemoglu-restrepo-2018",
-                "title": "P·Acemoglu–Restrepo (2018) — Race Between Man & Machine",
-                "content": "**Ref.** Acemoglu, D. & Restrepo, P. (2018). The race between man and machine: Implications of technology for growth, factor shares, and employment. *American Economic Review*, 108(6), 1488–1542.\n\n---\n\n## Intro\n\n**Modern general-equilibrium model of automation** with endogenous creation of new tasks. Introduces the crucial distinction between:\n- **Displacement effect** — automation removes tasks from labour.\n- **Reinstatement effect** — new tasks emerge, some assigned to labour.\n\n## Setup\n\n- Continuum of tasks; automation moves cutoff, capital takes over tasks below.\n- Endogenous R&D creates new tasks at the frontier, initially assigned to labour.\n- Labour share depends on the RACE between displacement and reinstatement.\n\n## Result\n\n- **When reinstatement > displacement**: labour share stable, wages rise.\n- **When displacement > reinstatement**: labour share falls, wages stagnate.\n- 1987–2017 US: displacement > reinstatement → falling labour share.\n\n## Contribution\n\n- Formalises the \"task destruction vs creation\" narrative.\n- Explains observed decline in US labour share via task-based mechanism.\n- **For Paper 2**: gen-AI dramatically speeds up displacement. Does it also speed up reinstatement? If yes, labour share protected. If no, sharp reallocation losses.\n\n→ Anchor: **Task-based cluster**; child: **A&R (2022)**\n",
-                "x": -9341.473200705634,
-                "y": 1215,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3078,8 +3060,24 @@
         "deletedAt": 1785399976912,
         "fromTopic": "pe-topic-1",
         "fromSubtopic": "pe-sub-1"
+      },
+      {
+        "id": "p-acemoglu-restrepo-2018",
+        "title": "P·Acemoglu–Restrepo (2018) — Race Between Man & Machine",
+        "content": "**Ref.** Acemoglu, D. & Restrepo, P. (2018). The race between man and machine: Implications of technology for growth, factor shares, and employment. *American Economic Review*, 108(6), 1488–1542.\n\n---\n\n## Intro\n\n**Modern general-equilibrium model of automation** with endogenous creation of new tasks. Introduces the crucial distinction between:\n- **Displacement effect** — automation removes tasks from labour.\n- **Reinstatement effect** — new tasks emerge, some assigned to labour.\n\n## Setup\n\n- Continuum of tasks; automation moves cutoff, capital takes over tasks below.\n- Endogenous R&D creates new tasks at the frontier, initially assigned to labour.\n- Labour share depends on the RACE between displacement and reinstatement.\n\n## Result\n\n- **When reinstatement > displacement**: labour share stable, wages rise.\n- **When displacement > reinstatement**: labour share falls, wages stagnate.\n- 1987–2017 US: displacement > reinstatement → falling labour share.\n\n## Contribution\n\n- Formalises the \"task destruction vs creation\" narrative.\n- Explains observed decline in US labour share via task-based mechanism.\n- **For Paper 2**: gen-AI dramatically speeds up displacement. Does it also speed up reinstatement? If yes, labour share protected. If no, sharp reallocation losses.\n\n→ Anchor: **Task-based cluster**; child: **A&R (2022)**\n",
+        "x": -9341.473200705634,
+        "y": 1215,
+        "width": 440,
+        "height": 340,
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "popBg": "#f3f4f6",
+        "deletedAt": 1785399994432,
+        "fromTopic": "pe-topic-1",
+        "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:26:21.822Z"
+    "lastEditedAt": "2026-07-30T08:26:34.432Z"
   }
 }
