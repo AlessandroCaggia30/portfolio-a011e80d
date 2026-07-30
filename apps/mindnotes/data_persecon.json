@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T09:26:16.889Z",
+  "exportedAt": "2026-07-30T09:27:16.926Z",
   "data": {
     "topics": [
       {
@@ -900,8 +900,8 @@
                 "id": "phase-4-solution",
                 "title": "④ SOLUTION · Tournaments (Rank-Order)",
                 "content": "# ④ Tournaments — pay by RANK, not by cardinal output\n\n**Filter common shocks by comparing agents against each other.**\n\nLazear & Rosen (1981) show that with $N$ agents, output $y_i = e_i + \\varepsilon_i$, and prizes $w_H, w_L$:\n$$e^* = \\frac{\\Delta \\cdot g \\cdot f_\\varepsilon(0)}{k}, \\quad \\Delta = w_H - w_L$$\n\nUnder risk-neutrality, choosing $\\Delta^* = 1/f_\\varepsilon(0)$ implements **first-best effort exactly**.\n\n## Why tournaments solve ③\n\n- **Common noise cancels.** If $y_i = e_i + \\eta + \\varepsilon_i$ with $\\eta$ shared, ranks depend only on $\\varepsilon_i - \\varepsilon_j$; $\\eta$ drops out (Nalebuff–Stiglitz 1983 sufficient-statistic argument in ordinal form).\n- **No cardinal metric to game** for multi-tasking distortion (though rank creates new gaming — see phase ⑤).\n- **No own-history ratchet** — the target is set by peer performance, not own past.\n\n## Empirical evidence (yellow, below)\n\n- **Ehrenberg–Bognanno 1990**: PGA golf, prize spread → final-round score (canonical natural experiment).\n- **Casas-Arce & Martínez-Jerez 2009**: sales tournaments — inverted-U effort in interim distance.\n- **Kolstad 2013**: surgeon report cards — tournament-shaped public ranking → 10% risk-adjusted mortality reduction.\n\n## What's needed next\n\nTournaments create THEIR OWN failure modes:\n- **Sabotage** (Lazear 1989 — pay equality and industrial politics).\n- **Bunching / Goodhart** (Oyer 1998 — salespeople bunch deals around quarter-ends).\n- **Cooperation collapse** (Hamilton–Nickerson–Owan 2003 — teams outperform tournaments in some settings).\n- **Fairness collapse** in social settings (Bandiera–Barankay–Rasul 2005).\n\n→ **Red ⑤**.\n",
-                "x": 15130,
-                "y": -545,
+                "x": 15101.776303497312,
+                "y": -480.8552352211609,
                 "width": 480,
                 "height": 400,
                 "flashcard": false,
@@ -3138,6 +3138,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T09:26:14.761Z"
+    "lastEditedAt": "2026-07-30T09:27:14.712Z"
   }
 }
