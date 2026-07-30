@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:24:32.904Z",
+  "exportedAt": "2026-07-30T08:25:00.977Z",
   "data": {
     "topics": [
       {
@@ -2092,30 +2092,7 @@
                 "height": 340,
                 "flashcard": false,
                 "images": [],
-                "links": [
-                  {
-                    "target": "p-autor-2015",
-                    "type": "forward"
-                  }
-                ],
-                "popBg": "#f3f4f6"
-              },
-              {
-                "id": "p-autor-2015",
-                "title": "P·Autor (2015) — Why Are There Still So Many Jobs?",
-                "content": "**Ref.** Autor, D. H. (2015). Why are there still so many jobs? The history and future of workplace automation. *Journal of Economic Perspectives*, 29(3), 3–30.\n\n---\n\n## Intro\n\nAnswers the popular-press worry (\"robots will take all our jobs\") by applying the task-based framework: automation destroys *tasks*, not necessarily jobs. New tasks and services emerge.\n\n## Argument\n\n- Historical pattern: automation of specific tasks → productivity gain → income effect → demand shift toward new services → new tasks created.\n- **Polanyi's paradox**: many tasks require tacit knowledge that can't be codified for automation.\n- Complementarity between automated tasks and human residual tasks preserves labour demand.\n\n## Predictions\n\n- Middle-skill jobs (heavy on routine tasks) continue to erode.\n- High-skill non-routine cognitive + low-skill manual jobs relatively protected.\n- **Uncertainty**: does gen-AI break Polanyi's paradox by learning tacit patterns from data?\n\n## For Paper 2\n\n- Establishes the \"polarization\" prediction. Gen-AI evidence (BLR 2023) suggests the pattern may REVERSE for cognitive tasks — reducing polarization.\n- The tension between Autor (2015) and BLR (2023) is central to Paper 2's contribution.\n\n→ Anchor: extends **Acemoglu-Autor (2011)**; child: **Autor (2019)**\n",
-                "x": -9891.473200705634,
-                "y": 1835,
-                "width": 440,
-                "height": 340,
-                "flashcard": false,
-                "images": [],
-                "links": [
-                  {
-                    "target": "p-autor-2019",
-                    "type": "forward"
-                  }
-                ],
+                "links": [],
                 "popBg": "#f3f4f6"
               },
               {
@@ -3082,8 +3059,29 @@
         "deletedAt": 1785399728324,
         "fromTopic": "pe-topic-1",
         "fromSubtopic": "pe-sub-1"
+      },
+      {
+        "id": "p-autor-2015",
+        "title": "P·Autor (2015) — Why Are There Still So Many Jobs?",
+        "content": "**Ref.** Autor, D. H. (2015). Why are there still so many jobs? The history and future of workplace automation. *Journal of Economic Perspectives*, 29(3), 3–30.\n\n---\n\n## Intro\n\nAnswers the popular-press worry (\"robots will take all our jobs\") by applying the task-based framework: automation destroys *tasks*, not necessarily jobs. New tasks and services emerge.\n\n## Argument\n\n- Historical pattern: automation of specific tasks → productivity gain → income effect → demand shift toward new services → new tasks created.\n- **Polanyi's paradox**: many tasks require tacit knowledge that can't be codified for automation.\n- Complementarity between automated tasks and human residual tasks preserves labour demand.\n\n## Predictions\n\n- Middle-skill jobs (heavy on routine tasks) continue to erode.\n- High-skill non-routine cognitive + low-skill manual jobs relatively protected.\n- **Uncertainty**: does gen-AI break Polanyi's paradox by learning tacit patterns from data?\n\n## For Paper 2\n\n- Establishes the \"polarization\" prediction. Gen-AI evidence (BLR 2023) suggests the pattern may REVERSE for cognitive tasks — reducing polarization.\n- The tension between Autor (2015) and BLR (2023) is central to Paper 2's contribution.\n\n→ Anchor: extends **Acemoglu-Autor (2011)**; child: **Autor (2019)**\n",
+        "x": -9891.473200705634,
+        "y": 1835,
+        "width": 440,
+        "height": 340,
+        "flashcard": false,
+        "images": [],
+        "links": [
+          {
+            "target": "p-autor-2019",
+            "type": "forward"
+          }
+        ],
+        "popBg": "#f3f4f6",
+        "deletedAt": 1785399898395,
+        "fromTopic": "pe-topic-1",
+        "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:24:30.729Z"
+    "lastEditedAt": "2026-07-30T08:24:58.396Z"
   }
 }
