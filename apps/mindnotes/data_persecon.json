@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T06:46:21.972Z",
+  "exportedAt": "2026-07-30T06:46:24.634Z",
   "data": {
     "topics": [
       {
@@ -2596,8 +2596,8 @@
                 "id": "p-roy-1951",
                 "title": "P·Roy (1951) — Distribution of Earnings",
                 "content": "**Ref.** Roy, A. D. (1951). Some thoughts on the distribution of earnings. *Oxford Economic Papers*, 3(2), 135–146.\n\n---\n\n## Intro\n\n**Founding paper of self-selection models.** In 12 pages, Roy establishes the theoretical framework for what would become one of the most important tools in labour economics. Motivated by the observed shape of earnings distributions (log-normal with fat right tail), Roy asks: given workers with heterogeneous abilities across occupations, and given they self-select, what does the resulting earnings distribution look like?\n\n## Setup\n\n- Two occupations (hunting, fishing).\n- Each worker $i$ has ability $(\\alpha_{i,H}, \\alpha_{i,F})$ drawn from a joint distribution.\n- Worker chooses the occupation with the higher expected income.\n\n## The Roy prediction\n\nAggregate output is **strictly higher** than under random assignment whenever $\\text{Corr}(\\alpha_H, \\alpha_F) < 1$. The value gain from self-selection depends on:\n- **Variance** of each dimension (more heterogeneity → more sorting value).\n- **Correlation** across dimensions (lower correlation → more comparative advantage → more sorting value).\n\n## Contribution\n\n- **Template for all subsequent assignment models** (Sattinger 1993, Costinot-Vogel 2010, Guvenen et al 2020, etc.).\n- Explains the observed log-normal earnings distribution as a consequence of self-selection, not just underlying ability distribution.\n- **For Paper 2**: the ORIGINAL statement of \"value from sorting\". Every empirical mismatch paper below traces back to Roy's insight. $V^{*}$ is Roy's aggregate output gain generalized to $N$ workers × $K$ tasks.\n\n→ Anchor: **Roy & Assignment theory cluster**\n",
-                "x": -11310,
-                "y": 970,
+                "x": -8940,
+                "y": -2305,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2622,8 +2622,8 @@
                 "id": "p-heckman-sedlacek-1985",
                 "title": "P·Heckman–Sedlacek (1985) — Empirical Roy Model",
                 "content": "**Ref.** Heckman, J. J. & Sedlacek, G. (1985). Heterogeneity, aggregation, and market wage functions: An empirical model of self-selection in the labor market. *Journal of Political Economy*, 93(6), 1077–1125.\n\n---\n\n## Intro\n\n**First rigorous structural estimation of the Roy model.** Answers: can we empirically identify the underlying joint distribution of skills across occupations from observed self-selection outcomes?\n\n## Setup\n\n- Two-sector Roy model (union vs non-union manufacturing).\n- Wages depend on skill × sector.\n- Workers self-select into sectors based on comparative advantage.\n- Estimation from CPS + other US micro data.\n\n## Key results\n\n- Structural estimation recovers the joint skill distribution using self-selection corrections.\n- Wage differentials across sectors are ~50% due to composition (sorting) and ~50% due to true wage premium.\n- The apparent \"union wage premium\" overstates the causal effect by a factor of 2 due to self-selection.\n\n## Contribution\n\n- **Founding paper of the empirical Roy literature.** Every subsequent structural sorting paper builds on this framework.\n- Introduces the Heckman-selection correction into occupation choice.\n- **For Paper 2**: shows HOW MUCH of observed cross-sector wage differences reflect SORTING vs true wage differences. Direct answer to a Paper 2 sub-question — mismatch reduction ≈ SORTING GAIN component.\n\n→ Anchor: extends **Roy (1951)**\n",
-                "x": -11860,
-                "y": 1590,
+                "x": -9490,
+                "y": -1685,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2635,8 +2635,8 @@
                 "id": "p-heckman-honore-1990",
                 "title": "P·Heckman–Honoré (1990) — Empirical Content of Roy Model",
                 "content": "**Ref.** Heckman, J. J. & Honoré, B. E. (1990). The empirical content of the Roy model. *Econometrica*, 58(5), 1121–1149.\n\n---\n\n## Intro\n\n**Non-parametric identification theorem for the Roy model.** Answers: without functional-form assumptions, what CAN and CANNOT be identified from observational data about the underlying skill distribution?\n\n## Result\n\n- Given standard cross-section data (observed wages + observed occupation choice), the **joint distribution of skills is NOT non-parametrically identified** without further assumptions.\n- Specifically: without exclusion restrictions or panel data, one cannot separately identify (i) the skill distribution and (ii) the mapping from skill to wage.\n- **Rank invariance** or **panel variation** are the two main routes to identification.\n\n## Contribution\n\n- Sets the identification benchmark for all subsequent empirical Roy work.\n- Explains why later papers (Lise-Postel-Vinay 2020, Guvenen et al 2020) require rich panel data or specific structural assumptions.\n- **For Paper 2**: important caveat — observational estimates of $V^{*}$ have identification limits. The ABM's ability to KNOW true types is what lets Paper 2 sidestep these identification issues.\n\n→ Anchor: extends **Heckman-Sedlacek (1985)**\n",
-                "x": -11310,
-                "y": 1590,
+                "x": -8940,
+                "y": -1685,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2648,8 +2648,8 @@
                 "id": "p-borjas-1987",
                 "title": "P·Borjas (1987) — Self-Selection & Immigrant Earnings",
                 "content": "**Ref.** Borjas, G. J. (1987). Self-selection and the earnings of immigrants. *American Economic Review*, 77(4), 531–553.\n\n---\n\n## Intro\n\n**Roy model applied to migration.** Explains observed patterns in immigrant quality (average skill of migrants from country $c$ to US) as the result of self-selection based on returns to skill in origin vs destination.\n\n## Roy application\n\n- Country of origin $c$ has skill distribution $F_c$ + skill return $r_c$.\n- Destination (US) has return $r_{\\text{US}}$.\n- Workers migrate iff net gain (destination wage − origin wage − migration cost) > 0.\n- **Positive selection** if $r_{\\text{US}} > r_c$: high-skill emigrate (US attracts talent from egalitarian countries).\n- **Negative selection** if $r_{\\text{US}} < r_c$: low-skill emigrate (US attracts unskilled from unequal countries).\n\n## Empirical findings\n\n- Consistent with the Roy prediction: immigrants from egalitarian countries (Nordic) are positively selected; from unequal countries (Latin America) more mixed.\n- Contradicts naive \"human-capital\" model that predicts uniform positive selection.\n\n## Contribution\n\n- **Canonical empirical application of the Roy model** outside labour-market sector choice.\n- Field-defining for the migration-selection literature.\n- **For Paper 2**: showcases the general applicability of Roy sorting → task/context selection generates aggregate value through comparative advantage.\n\n→ Anchor: extends **Roy (1951)** — migration application\n",
-                "x": -10760,
-                "y": 1590,
+                "x": -8390,
+                "y": -1685,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2906,8 +2906,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": -6294.16123621568,
-                "y": -2659.0983625577774,
+                "x": -6294.161236215681,
+                "y": -3084.0983625577774,
                 "width": 422.6639745137084,
                 "height": 179.27457304455123
               },
@@ -3052,6 +3052,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T06:46:19.853Z"
+    "lastEditedAt": "2026-07-30T06:46:22.517Z"
   }
 }
