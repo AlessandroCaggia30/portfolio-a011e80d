@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T07:21:52.900Z",
+  "exportedAt": "2026-07-30T07:22:00.985Z",
   "data": {
     "topics": [
       {
@@ -2432,8 +2432,8 @@
                 "id": "p-beane-2019",
                 "title": "P·Beane (2019) — Shadow Learning in Robotic Surgery",
                 "content": "**Ref.** Beane, M. (2019). Shadow learning: Building robotic surgical skill when approved means fail. *Administrative Science Quarterly*, 64(1), 87–123.\n\n---\n\n## Intro\n\n**Ethnographic study** of how robotic-surgery adoption disrupts surgical apprenticeship. Two years of field observation across 5 hospitals.\n\n## The problem\n\nTraditional surgical training: senior surgeon operates while junior watches; junior gradually takes over sub-tasks. Robotic surgery: senior surgeon sits at console. Junior cannot physically take over sub-tasks. **Apprenticeship channel breaks.**\n\n## Response — shadow learning\n\nJunior residents secretly:\n- Practice on cadavers after hours.\n- Watch YouTube videos of robotic surgeries.\n- Ask retired non-robotic surgeons for advice.\n- Volunteer for the few robotic-free hospitals to gain hands-on experience.\n\nInstitutions officially DO NOT support this. Formal training channels have collapsed.\n\n## Contribution\n\n- **Central cautionary tale**: automation of skilled work can foreclose the human learning path.\n- Related to broader \"hollowing out\" of mid-skill jobs — automation removes the training rungs of career ladders.\n- **For Paper 2**: if gen-AI takes over the \"junior-level\" cognitive tasks (drafting, coding boilerplate, summarizing), how do juniors gain the tacit expertise they'll need as seniors? This is the DARKEST winners/losers question.\n- Long-term implication: today's productivity gains may compromise tomorrow's talent pipeline.\n\n→ Anchor: extends **Athey-Bryan-Gans (2020)**\n",
-                "x": -10715.000000000002,
-                "y": 30,
+                "x": -11185.000000000002,
+                "y": 1039.9999999999995,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3050,6 +3050,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T07:21:52.777Z"
+    "lastEditedAt": "2026-07-30T07:22:00.362Z"
   }
 }
