@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:26:36.630Z",
+  "exportedAt": "2026-07-30T08:26:53.544Z",
   "data": {
     "topics": [
       {
@@ -1924,10 +1924,6 @@
                   {
                     "target": "reorg-value-head",
                     "type": "forward"
-                  },
-                  {
-                    "target": "reorg-taskbased-head",
-                    "type": "forward"
                   }
                 ],
                 "color": "purple",
@@ -1953,20 +1949,6 @@
                     "type": "forward"
                   }
                 ],
-                "color": "purple",
-                "popBg": "#e0e7ff"
-              },
-              {
-                "id": "reorg-taskbased-head",
-                "title": "▼ Task-Based framework · technology reallocates tasks (enabler context)",
-                "content": "# Task-Based framework · technology reallocates tasks\n\n**Enabler-context cluster.** Explains how technology reshapes the task landscape that assignment operates on — the WHY NOW dimension.\n\n## What this cluster establishes\n\nInstead of technology raising productivity of all workers equally (SBTC), the task-based view asks:\n- Which SPECIFIC tasks does technology automate vs complement?\n- How does the task landscape evolve, and how does wage distribution respond?\n\n## The lineage\n\n**Foundational** (Autor-Levy-Murnane 2003) — routine vs non-routine × cognitive vs manual taxonomy. Computers displaced routine tasks; complemented non-routine cognitive.\n\n**Formalised** (Acemoglu-Autor 2011) — Handbook chapter with continuum-of-tasks GE model. Workers vs capital compete for tasks; wages set by market clearing.\n\n**Autor extensions** — Autor (2015) \"why still so many jobs\" (Polanyi's paradox); Autor (2019) \"work of the past/future\" (geographic heterogeneity).\n\n**Acemoglu-Restrepo modernization** — A&R (2018) race between man and machine (displacement vs reinstatement); A&R (2022) decomposes 50-70% of US wage inequality via task reallocation.\n\n**Deming (2017)** — social skills as complements to non-routine cognitive: what remains valuable when tasks are re-shuffled.\n\n## Role in Paper 2\n\nProvides the CONTEXT for the reassignment question:\n- The task landscape is itself dynamic (technology reshapes it).\n- Paper 2's $\\{\\alpha_{ij}\\}$ matrix is not static — it evolves as tasks change.\n- Explains WHY the reassignment question is timely (task landscape shifting fastest since Industrial Revolution).\n\n→ Anchor: **Reorganization Theory — Core**\n",
-                "x": -9690.000000000002,
-                "y": 595,
-                "width": 480,
-                "height": 360,
-                "flashcard": false,
-                "images": [],
-                "links": [],
                 "color": "purple",
                 "popBg": "#e0e7ff"
               },
@@ -2079,19 +2061,6 @@
                 "content": "**Ref.** Acemoglu, D. & Autor, D. (2011). Skills, tasks and technologies: Implications for employment and earnings. In *Handbook of Labor Economics*, Vol. 4B, pp. 1043–1171. Elsevier.\n\n---\n\n## Intro\n\n**Handbook chapter formalizing the task-based framework** that ALM 2003 introduced. The theoretical apparatus underlying essentially all subsequent work on technology + wages.\n\n## Setup\n\n- Continuum of tasks $i \\in [0, 1]$.\n- Each task done by one of: high-skill labour, low-skill labour, or capital.\n- Output aggregator over tasks.\n- Comparative-advantage rankings determine allocation.\n\n## Key results\n\n- **Task allocation frontier**: cut-offs $I_L, I_H$ divide tasks among low-skill, high-skill, capital.\n- Technology (falling capital cost) shifts $I_L, I_H$ right — capital captures more tasks.\n- **Wages driven by task allocation**, not by aggregate factor supplies.\n\n## Contribution\n\n- Rigorous general-equilibrium version of ALM 2003.\n- **Foundation for Acemoglu-Restrepo (2018, 2022) task-decomposition of inequality.**\n- Direct precursor to Autor (2015) \"still so many jobs\" and Autor (2019) commuting-zone analysis.\n- **For Paper 2**: canonical framework for translating \"AI takes tasks\" into wage-distribution predictions.\n\n→ Anchor: extends **ALM (2003)**; child: **Autor (2015)**\n",
                 "x": -12202.805220835671,
                 "y": 1674.4390865701916,
-                "width": 440,
-                "height": 340,
-                "flashcard": false,
-                "images": [],
-                "links": [],
-                "popBg": "#f3f4f6"
-              },
-              {
-                "id": "p-acemoglu-restrepo-2022",
-                "title": "P·Acemoglu–Restrepo (2022) — Tasks, Automation & Wage Inequality",
-                "content": "**Ref.** Acemoglu, D. & Restrepo, P. (2022). Tasks, automation, and the rise in U.S. wage inequality. *Econometrica*, 90(5), 1973–2016.\n\n---\n\n## Intro\n\n**Task-based decomposition** of US wage inequality 1980–2016. Answers: how much of the observed inequality rise is attributable to task reallocation between labour and capital?\n\n## Method\n\n- Estimate a full task-based general-equilibrium model.\n- Identify parameters from industry × occupation task-share evolution.\n- Counterfactuals: what if automation had been slower?\n\n## Findings\n\n- **50–70% of the observed rise in college-wage-premium is due to task automation** (specifically: automation displaced routine-task workers, mostly non-college).\n- Automation reallocated tasks from mid-skill to high-skill labour and to capital.\n- Modest effect from skill-biased technical change; task-based effects dominate.\n\n## Contribution\n\n- **Most rigorous empirical decomposition** of task-based effects on inequality.\n- Quantifies the mechanism ALM (2003), Acemoglu-Autor (2011), A&R (2018) posited.\n- **For Paper 2**: if gen-AI shifts task boundaries again, the same mechanism predicts substantial wage-distribution effects. The 50–70% share of past inequality attributable to task reallocation suggests future effects will also be large.\n\n→ Anchor: extends **A&R (2018)**\n",
-                "x": -9852.559680102444,
-                "y": 1205.870704295804,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3076,8 +3045,41 @@
         "deletedAt": 1785399994432,
         "fromTopic": "pe-topic-1",
         "fromSubtopic": "pe-sub-1"
+      },
+      {
+        "id": "p-acemoglu-restrepo-2022",
+        "title": "P·Acemoglu–Restrepo (2022) — Tasks, Automation & Wage Inequality",
+        "content": "**Ref.** Acemoglu, D. & Restrepo, P. (2022). Tasks, automation, and the rise in U.S. wage inequality. *Econometrica*, 90(5), 1973–2016.\n\n---\n\n## Intro\n\n**Task-based decomposition** of US wage inequality 1980–2016. Answers: how much of the observed inequality rise is attributable to task reallocation between labour and capital?\n\n## Method\n\n- Estimate a full task-based general-equilibrium model.\n- Identify parameters from industry × occupation task-share evolution.\n- Counterfactuals: what if automation had been slower?\n\n## Findings\n\n- **50–70% of the observed rise in college-wage-premium is due to task automation** (specifically: automation displaced routine-task workers, mostly non-college).\n- Automation reallocated tasks from mid-skill to high-skill labour and to capital.\n- Modest effect from skill-biased technical change; task-based effects dominate.\n\n## Contribution\n\n- **Most rigorous empirical decomposition** of task-based effects on inequality.\n- Quantifies the mechanism ALM (2003), Acemoglu-Autor (2011), A&R (2018) posited.\n- **For Paper 2**: if gen-AI shifts task boundaries again, the same mechanism predicts substantial wage-distribution effects. The 50–70% share of past inequality attributable to task reallocation suggests future effects will also be large.\n\n→ Anchor: extends **A&R (2018)**\n",
+        "x": -9852.559680102444,
+        "y": 1205.870704295804,
+        "width": 440,
+        "height": 340,
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "popBg": "#f3f4f6",
+        "deletedAt": 1785400010968,
+        "fromTopic": "pe-topic-1",
+        "fromSubtopic": "pe-sub-1"
+      },
+      {
+        "id": "reorg-taskbased-head",
+        "title": "▼ Task-Based framework · technology reallocates tasks (enabler context)",
+        "content": "# Task-Based framework · technology reallocates tasks\n\n**Enabler-context cluster.** Explains how technology reshapes the task landscape that assignment operates on — the WHY NOW dimension.\n\n## What this cluster establishes\n\nInstead of technology raising productivity of all workers equally (SBTC), the task-based view asks:\n- Which SPECIFIC tasks does technology automate vs complement?\n- How does the task landscape evolve, and how does wage distribution respond?\n\n## The lineage\n\n**Foundational** (Autor-Levy-Murnane 2003) — routine vs non-routine × cognitive vs manual taxonomy. Computers displaced routine tasks; complemented non-routine cognitive.\n\n**Formalised** (Acemoglu-Autor 2011) — Handbook chapter with continuum-of-tasks GE model. Workers vs capital compete for tasks; wages set by market clearing.\n\n**Autor extensions** — Autor (2015) \"why still so many jobs\" (Polanyi's paradox); Autor (2019) \"work of the past/future\" (geographic heterogeneity).\n\n**Acemoglu-Restrepo modernization** — A&R (2018) race between man and machine (displacement vs reinstatement); A&R (2022) decomposes 50-70% of US wage inequality via task reallocation.\n\n**Deming (2017)** — social skills as complements to non-routine cognitive: what remains valuable when tasks are re-shuffled.\n\n## Role in Paper 2\n\nProvides the CONTEXT for the reassignment question:\n- The task landscape is itself dynamic (technology reshapes it).\n- Paper 2's $\\{\\alpha_{ij}\\}$ matrix is not static — it evolves as tasks change.\n- Explains WHY the reassignment question is timely (task landscape shifting fastest since Industrial Revolution).\n\n→ Anchor: **Reorganization Theory — Core**\n",
+        "x": -9690.000000000002,
+        "y": 595,
+        "width": 480,
+        "height": 360,
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "color": "purple",
+        "popBg": "#e0e7ff",
+        "deletedAt": 1785400012690,
+        "fromTopic": "pe-topic-1",
+        "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:26:34.432Z"
+    "lastEditedAt": "2026-07-30T08:26:52.691Z"
   }
 }
