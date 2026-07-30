@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T06:43:52.779Z",
+  "exportedAt": "2026-07-30T06:43:59.418Z",
   "data": {
     "topics": [
       {
@@ -2587,6 +2587,10 @@
                   {
                     "target": "p-guvenen-2020",
                     "type": "forward"
+                  },
+                  {
+                    "target": "1785357816356",
+                    "type": "both"
                   }
                 ],
                 "color": "purple",
@@ -3047,6 +3051,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T06:43:50.667Z"
+    "lastEditedAt": "2026-07-30T06:43:57.301Z"
   }
 }
