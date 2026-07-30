@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:46:23.197Z",
+  "exportedAt": "2026-07-30T08:46:50.986Z",
   "data": {
     "topics": [
       {
@@ -2289,10 +2289,6 @@
                   {
                     "target": "p-bbr-2007-managers",
                     "type": "forward"
-                  },
-                  {
-                    "target": "p-bloom-lry-2015",
-                    "type": "forward"
                   }
                 ],
                 "color": "purple",
@@ -2353,24 +2349,6 @@
                 "flashcard": false,
                 "images": [],
                 "links": [],
-                "popBg": "#f3f4f6"
-              },
-              {
-                "id": "p-bloom-lry-2015",
-                "title": "P·Bloom–Liang–Roberts–Ying (2015) — Working from Home RCT",
-                "content": "**Ref.** Bloom, N., Liang, J., Roberts, J. & Ying, Z. J. (2015). Does working from home work? Evidence from a Chinese experiment. *Quarterly Journal of Economics*, 130(1), 165–218.\n\n---\n\n## Intro\n\n**Landmark RCT of work-location reassignment.** Chinese travel firm Ctrip randomly assigned call-center employees to work-from-home vs office for 9 months. Measures productivity, promotions, and quit rates.\n\n## Setup\n\n- ~250 volunteers eligible to WFH.\n- Randomly assigned: WFH (4 days/week) vs office.\n- 9-month experiment.\n- Outcomes: calls handled, minutes per call, quit rate, promotion.\n\n## Findings\n\n- **WFH raised productivity by 13%.**\n  - +9% from more time worked per shift (fewer breaks, less commuting-based sick leave).\n  - +4% from more calls per hour (quieter environment).\n- Quit rate fell 50%.\n- **BUT**: promotion rate fell HALF as much for WFH workers.\n- After the experiment, 50% of WFH workers wanted to return to the office (loneliness, career concerns).\n\n## Contribution\n\n- **First rigorous RCT of remote work.** Foundational for a huge subsequent literature on WFH.\n- Documents the productivity vs career-progression tradeoff of location reassignment.\n- **For Paper 2**: cleanest example of a work-organization RCT. Directly demonstrates that reassigning workers (across the office/home boundary) produces measurable output effects. Complements Adhvaryu et al. (within-firm reassignment) with a different-dimension reassignment.\n\n→ Anchor: extends **Hoffman-Kahn-Li (2018)** — different type of decision-authority reassignment\n",
-                "x": -3182.7510884888416,
-                "y": 1126.5427950242006,
-                "width": 440,
-                "height": 340,
-                "flashcard": false,
-                "images": [],
-                "links": [
-                  {
-                    "target": "abm-quindi",
-                    "type": "forward"
-                  }
-                ],
                 "popBg": "#f3f4f6"
               },
               {
@@ -3075,8 +3053,29 @@
         "deletedAt": 1785400962095,
         "fromTopic": "pe-topic-1",
         "fromSubtopic": "pe-sub-1"
+      },
+      {
+        "id": "p-bloom-lry-2015",
+        "title": "P·Bloom–Liang–Roberts–Ying (2015) — Working from Home RCT",
+        "content": "**Ref.** Bloom, N., Liang, J., Roberts, J. & Ying, Z. J. (2015). Does working from home work? Evidence from a Chinese experiment. *Quarterly Journal of Economics*, 130(1), 165–218.\n\n---\n\n## Intro\n\n**Landmark RCT of work-location reassignment.** Chinese travel firm Ctrip randomly assigned call-center employees to work-from-home vs office for 9 months. Measures productivity, promotions, and quit rates.\n\n## Setup\n\n- ~250 volunteers eligible to WFH.\n- Randomly assigned: WFH (4 days/week) vs office.\n- 9-month experiment.\n- Outcomes: calls handled, minutes per call, quit rate, promotion.\n\n## Findings\n\n- **WFH raised productivity by 13%.**\n  - +9% from more time worked per shift (fewer breaks, less commuting-based sick leave).\n  - +4% from more calls per hour (quieter environment).\n- Quit rate fell 50%.\n- **BUT**: promotion rate fell HALF as much for WFH workers.\n- After the experiment, 50% of WFH workers wanted to return to the office (loneliness, career concerns).\n\n## Contribution\n\n- **First rigorous RCT of remote work.** Foundational for a huge subsequent literature on WFH.\n- Documents the productivity vs career-progression tradeoff of location reassignment.\n- **For Paper 2**: cleanest example of a work-organization RCT. Directly demonstrates that reassigning workers (across the office/home boundary) produces measurable output effects. Complements Adhvaryu et al. (within-firm reassignment) with a different-dimension reassignment.\n\n→ Anchor: extends **Hoffman-Kahn-Li (2018)** — different type of decision-authority reassignment\n",
+        "x": -3182.7510884888416,
+        "y": 1126.5427950242006,
+        "width": 440,
+        "height": 340,
+        "flashcard": false,
+        "images": [],
+        "links": [
+          {
+            "target": "abm-quindi",
+            "type": "forward"
+          }
+        ],
+        "popBg": "#f3f4f6",
+        "deletedAt": 1785401208837,
+        "fromTopic": "pe-topic-1",
+        "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:46:21.075Z"
+    "lastEditedAt": "2026-07-30T08:46:48.837Z"
   }
 }
