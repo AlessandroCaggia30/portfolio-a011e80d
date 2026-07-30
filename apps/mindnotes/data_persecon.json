@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T06:46:10.259Z",
+  "exportedAt": "2026-07-30T06:46:18.476Z",
   "data": {
     "topics": [
       {
@@ -2900,7 +2900,7 @@
               {
                 "id": "1785357816356",
                 "title": "Research question 3: algorithmic reccomandations on hirign decisions",
-                "content": "",
+                "content": "**Roy model — self-selection based on comparative advantage** (Roy 1951)\n- Workers self-select into occupations where their comparative advantage is highest.\n- Aggregate output strictly higher than random assignment.\n- Empirical extensions: Heckman-Sedlacek (1985) structural estimation, Heckman-Honoré (1990) identification, Borjas (1987) migration application.",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
@@ -3056,6 +3056,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T06:46:08.107Z"
+    "lastEditedAt": "2026-07-30T06:46:16.358Z"
   }
 }
