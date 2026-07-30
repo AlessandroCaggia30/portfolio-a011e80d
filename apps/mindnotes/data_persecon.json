@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T09:09:05.759Z",
+  "exportedAt": "2026-07-30T09:09:15.509Z",
   "data": {
     "topics": [
       {
@@ -2794,6 +2794,17 @@
                 "images": [],
                 "links": [],
                 "popBg": "#f3f4f6"
+              },
+              {
+                "id": "1785402553369",
+                "title": "Bloom, N., Sadun, R. & Van Reenen, J. (2013). Management as a technology?",
+                "content": "**Ref.** Bloom, N., Sadun, R. & Van Reenen, J. (2013). Management as a technology? Manuscript / *NBER WP 22327* (2016); see also earlier Bloom–Van Reenen (2007) *QJE* 122(4), 1351–1408 for methodology and Bloom & Van Reenen (2010) *JEP* 24(1) survey.\n\n---\n\n## Intro\n\nFoundational empirical work measuring **management practices** (including target-setting, performance monitoring, incentive design) across ~10,000+ firms in ~30 countries via a standardized interview instrument.\n\n## Contribution\n\n- **Better management practices raise productivity ~17%** on average.\n- Best-managed firms have both **measurement discipline** (Holmström-1979-style informative signals) and **explicit incentive design** (HM-1987-style linear contracts on those signals).\n- Poor management ≈ poor measurement ≈ effectively $\\sigma^2$ high.\n\n## Position (empirical evidence under ②)\n\nYellow empirical card — supports the claim that **better information + explicit incentive design** raises productivity across a very broad set of industries and countries. Complements Lazear 2000 (single firm, clean setting) with cross-country/cross-industry breadth.\n",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": -4979.038805866381,
+                "y": 1144.424364538585
               }
             ]
           }
@@ -3104,6 +3115,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T09:09:03.554Z"
+    "lastEditedAt": "2026-07-30T09:09:13.370Z"
   }
 }
