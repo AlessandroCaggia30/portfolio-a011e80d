@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T06:29:37.678Z",
+  "exportedAt": "2026-07-30T06:29:59.654Z",
   "data": {
     "topics": [
       {
@@ -2664,7 +2664,7 @@
               {
                 "id": "p-lise-postelvinay-2020",
                 "title": "P·Lise–Postel-Vinay (2020) — Multidim Skills, Sorting, Accumulation",
-                "content": "**Ref.** Lise, J. & Postel-Vinay, F. (2020). Multidimensional skills, sorting, and human capital accumulation. *American Economic Review*, 110(8), 2328–2376.\n\n---\n\n## Intro\n\n**Frontier structural paper** on multi-dim skill sorting + on-the-job search + human capital accumulation. Merges the Roy-model sorting with the Postel-Vinay-Robin search framework.\n\n## Setup\n\n- Worker skill: 3-dim (cognitive, manual, interpersonal).\n- Jobs require multi-dim skills; wages depend on skill-job match.\n- On-the-job search: workers occasionally receive outside offers → move to better matches.\n- Skills accumulate in relevant dimensions on the job.\n\n## Findings\n\n- **Sorting explains ~30% of cross-worker wage variance.** Skill accumulation ~20%; search frictions + luck ~50%.\n- **Multi-dim skills essential**: 1-dim models miss 40% of sorting effects.\n- Better matches on cognitive skill are worth more than better matches on manual skill (higher wage return per unit of match quality).\n\n## Contribution\n\n- **Cleanest structural estimate** of the value of skill-job sorting.\n- Provides the mid-range benchmark: pure sorting (no productivity gain from reassignment, just re-matching) generates ~30% of wage variance.\n- **For Paper 2**: direct empirical anchor. If reassignment resolves even half the observed sorting variance, $V^{*}$ is on the order of ~15% of the wage bill.\n\n→ Anchor: extends **Yamaguchi (2012)**\n",
+                "content": "**Ref.** Lise, J. & Postel-Vinay, F. (2020). Multidimensional skills, sorting, and human capital accumulation. *American Economic Review*, 110(8), 2328–2376.\n\n---\n\n## Intro\n\n**Frontier structural paper** on multi-dim skill sorting + on-the-job search + human capital accumulation. Merges the Roy-model sorting with the Postel-Vinay-Robin search framework.\n\n## Setup\n\n- Worker skill: 3-dim (cognitive, manual, interpersonal).\n- Jobs require multi-dim skills; wages depend on skill-job match.\n- On-the-job search: workers occasionally receive outside offers → move to better matches.\n- Skills accumulate in relevant dimensions on the job.\n\n## Findings\n\n- **Sorting explains ~30% of cross-worker wage variance.** Skill accumulation ~20%; search frictions + luck ~50%.\n- **Multi-dim skills essential**: 1-dim models miss 40% of sorting effects.\n- Better matches on cognitive skill are worth more than better matches on manual skill (higher wage return per unit of match quality).\n\n## Contribution\n\n- **Cleanest structural estimate** of the value of skill-job sorting.\n- Provides the mid-range benchmark: pure sorting (no productivity gain from reassignment, just re-matching) generates ~30% of wage variance.\n\n\n",
                 "x": -8045,
                 "y": 1025,
                 "width": 440,
@@ -3051,6 +3051,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T06:29:35.519Z"
+    "lastEditedAt": "2026-07-30T06:29:57.517Z"
   }
 }
