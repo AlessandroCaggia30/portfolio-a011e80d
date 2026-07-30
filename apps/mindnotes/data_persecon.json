@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T06:43:32.071Z",
+  "exportedAt": "2026-07-30T06:43:33.805Z",
   "data": {
     "topics": [
       {
@@ -2688,8 +2688,8 @@
                 "id": "p-fhs-2018",
                 "title": "P·Fredriksson–Hensvik–Skans (2018) — Mismatch & Match Quality",
                 "content": "**Ref.** Fredriksson, P., Hensvik, L. & Skans, O. N. (2018). Mismatch of talent: Evidence on match quality, entry wages, and job mobility. *American Economic Review*, 108(11), 3303–3338.\n\n---\n\n## Intro\n\n**Cleanest empirical mismatch measurement using Swedish employer-employee registry data.** Direct measure of worker skill × job requirement match quality, linked to wage and mobility outcomes.\n\n## Design\n\n- Swedish military enlistment tests (cognitive + non-cognitive skills) for all conscripted males.\n- Merged with employer-employee panel data.\n- Job requirements from occupational task measures.\n- Measure: multi-dim distance between individual skills and job requirements.\n\n## Findings\n\n- **Better matches → 5–10% higher entry wages**, cleanly identified.\n- Better matches → **20–30% lower quit probability**.\n- Match quality persists: workers who start in good matches STAY in good matches (path dependency).\n- **Mismatch decays only slowly**: after 5 years, initial mismatch still explains 40% of current mismatch.\n\n## Contribution\n\n- **Cleanest reduced-form estimate** of mismatch effects.\n- Complements GKTW 2020 (structural) with cleaner identification (Swedish register + military tests).\n- **For Paper 2**: provides the empirical anchor for entry-wage effects of matching, and quantifies mismatch persistence.\n\n→ Anchor: **Skill heterogeneity & mismatch cluster**\n",
-                "x": -3815,
-                "y": -2220,
+                "x": -1180,
+                "y": -1920,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3043,6 +3043,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T06:43:31.684Z"
+    "lastEditedAt": "2026-07-30T06:43:33.668Z"
   }
 }
