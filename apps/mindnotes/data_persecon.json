@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T09:02:40.341Z",
+  "exportedAt": "2026-07-30T09:02:48.470Z",
   "data": {
     "topics": [
       {
@@ -1132,7 +1132,12 @@
                 "height": 340,
                 "flashcard": false,
                 "images": [],
-                "links": [],
+                "links": [
+                  {
+                    "target": "p-hart-moore-1990",
+                    "type": "forward"
+                  }
+                ],
                 "popBg": "#f3f4f6"
               },
               {
@@ -2795,8 +2800,8 @@
                 "id": "p-hart-moore-1990",
                 "title": "P·Hart–Moore (1990) — Property Rights",
                 "content": "**Ref.** Hart, O. & Moore, J. (1990). Property rights and the nature of the firm. *Journal of Political Economy*, 98(6), 1119–1158.\n\n---\n\n## Intro\n\nTogether with Grossman-Hart (1986), the **property-rights theory of the firm** — Oliver Hart's Nobel-winning work.\n\n## Contribution\n\n- Contracts are **necessarily incomplete** — ex-ante unknown contingencies.\n- **Residual control rights over assets** are what firms allocate — not contractible tasks.\n- Owning an asset gives you leverage in ex-post bargaining → makes you willing to invest in specific human capital.\n- Firm boundaries determined by **which allocation of asset ownership maximizes joint surplus given incomplete contracts**.\n\n## Position\n\nRed **①** raw agency — sits alongside Alchian-Demsetz and Jensen-Meckling as a theory of WHY firms exist as institutions distinct from markets. Foundation for modern corporate governance.\n",
-                "x": 2898.424327385838,
-                "y": 1374.4592615605488,
+                "x": 2895.8709690256383,
+                "y": 1254.451418631179,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3083,6 +3088,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T09:02:38.218Z"
+    "lastEditedAt": "2026-07-30T09:02:46.331Z"
   }
 }
