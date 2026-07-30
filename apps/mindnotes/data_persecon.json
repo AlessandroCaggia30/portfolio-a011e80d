@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T07:06:00.794Z",
+  "exportedAt": "2026-07-30T07:06:13.807Z",
   "data": {
     "topics": [
       {
@@ -2227,8 +2227,8 @@
                 "id": "p-lazear-1995",
                 "title": "P·Lazear (1995) — Personnel Economics",
                 "content": "**Ref.** Lazear, E. P. (1995). *Personnel Economics.* MIT Press. Wicksell Lectures.\n\n---\n\n## Intro\n\n**Founding book of \"personnel economics\"** as a distinct field. Applies rigorous economic theory (agency, matching, tournaments, human capital) to HR practice: hiring, promotion, job design, compensation.\n\n## Structure\n\n- Ch 1: The Employment Relationship (agency framework).\n- Ch 2: Wage Structure (tournaments, promotions).\n- Ch 3: Sorting Through Compensation.\n- Ch 4: Turnover and Retirement.\n- Ch 5: Payment Methods (piece rate, bonus, deferred pay).\n- Ch 6: Fringe Benefits.\n- Ch 7: Team Compensation.\n\n## Contribution\n\n- **Treats task assignment as an HR decision**, explicitly. Provides the applied bridge between assignment theory (Rosen, Sattinger) and firm-level practice.\n- Field-defining textbook. Extended in Lazear-Shaw (2007) and Lazear-Oyer (2013).\n- **For Paper 2**: the analytical toolkit for translating task-reassignment predictions into HR-implementable policies.\n\n→ Anchor: extends **Sattinger (1993)**; child: **Lazear-Oyer (2013)**\n",
-                "x": -10932.631878429147,
-                "y": 2275.263162364614,
+                "x": -8362.631878429147,
+                "y": -1619.736837635386,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2240,8 +2240,8 @@
                 "id": "p-lazear-oyer-2013",
                 "title": "P·Lazear–Oyer (2013) — Personnel Economics Handbook",
                 "content": "**Ref.** Lazear, E. P. & Oyer, P. (2013). Personnel economics. Chapter 12 in *Handbook of Organizational Economics* (Gibbons, R. & Roberts, J., eds.), pp. 479–519. Princeton University Press.\n\n---\n\n## Intro\n\n**Handbook synthesis** of the personnel-economics literature circa 2013. The reference chapter for anyone entering the field.\n\n## Structure\n\n- Job design (including task assignment).\n- Compensation and incentives.\n- Careers and turnover.\n- Team production and peer effects.\n- Recruitment and selection.\n\n## Contribution\n\n- Consolidates 20+ years of empirical progress since Lazear (1995).\n- **Positions task assignment** as a core HR lever alongside compensation.\n- Emphasises comparative-advantage sorting in job design (Roy-style).\n- **For Paper 2**: the definitive reference for the current state of personnel economics on task assignment.\n\n→ Anchor: extends **Lazear (1995)**\n",
-                "x": -10932.631878429147,
-                "y": 2895.263162364614,
+                "x": -8362.631878429147,
+                "y": -999.7368376353861,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3046,6 +3046,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T07:06:00.446Z"
+    "lastEditedAt": "2026-07-30T07:06:11.673Z"
   }
 }
