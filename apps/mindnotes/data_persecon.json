@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T10:11:55.779Z",
+  "exportedAt": "2026-07-30T10:16:26.704Z",
   "data": {
     "topics": [
       {
@@ -2256,8 +2256,8 @@
                 "id": "reorg-fieldexp-head",
                 "title": "▼ Field experiments",
                 "content": "# Field experiments \n\n\n\n\n\n\n",
-                "x": -4000,
-                "y": 500,
+                "x": -3946.2616505313563,
+                "y": 562.694741046751,
                 "width": 480,
                 "height": 360,
                 "flashcard": false,
@@ -3150,6 +3150,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T10:11:53.659Z"
+    "lastEditedAt": "2026-07-30T10:16:24.511Z"
   }
 }
