@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T06:19:08.520Z",
+  "exportedAt": "2026-07-30T06:19:12.677Z",
   "data": {
     "topics": [
       {
@@ -2922,11 +2922,16 @@
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
-                "links": [],
+                "links": [
+                  {
+                    "target": "p-autor-handel-2013",
+                    "type": "forward"
+                  }
+                ],
                 "x": -8591.409698807209,
                 "y": 1040.2263671409364,
                 "width": 450.70407397769526,
-                "height": 331.1908988739309
+                "height": 328.368529223662
               },
               {
                 "id": "p-autor-handel-2013",
@@ -3046,6 +3051,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T06:19:06.400Z"
+    "lastEditedAt": "2026-07-30T06:19:10.468Z"
   }
 }
