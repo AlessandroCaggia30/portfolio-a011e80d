@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T07:12:06.535Z",
+  "exportedAt": "2026-07-30T07:12:10.915Z",
   "data": {
     "topics": [
       {
@@ -2186,7 +2186,7 @@
               {
                 "id": "p-garicano-2000",
                 "title": "P·Garicano (2000) — Knowledge Hierarchies",
-                "content": "**Ref.** Garicano, L. (2000). Hierarchies and the organization of knowledge in production. *Journal of Political Economy*, 108(5), 874–904.\n\n---\n\n## Intro\n\nOne of the **most important organizational-economics papers of the last 25 years.** Explains why firms are organized as hierarchies with experts at the top: knowledge/attention is scarce, and hierarchies economize on it by referring hard problems upward.\n\n## Setup\n\n- Problems arrive with a distribution of complexity.\n- Workers can solve any problem below their knowledge threshold $z$; refer harder problems upward.\n- Higher-$z$ workers cost more to hire (higher training).\n- Communication cost $h$ per referral.\n\n## Result\n\n- Firm chooses $L$ (number of layers) + $z_\\ell$ (threshold at each layer) to minimize total cost.\n- **Optimal hierarchy**: low-$z$ workers handle common problems; rare problems escalate to specialists.\n- Comparative statics:\n  - Cheaper problems (routine) → fewer specialists needed.\n\n## Contribution\n\n- **Foundation** for a large literature on knowledge hierarchies (Garicano-Rossi-Hansberg 2006, 2015).\n- Explains observed layered structure of professional-services firms (consulting, law, medicine).\n- **Directly relevant to Paper 2**: AI is a technology that changes the cost of solving problems at each level → reshapes the optimal hierarchy → forces reassignment.\n\n→ Anchor: **Assignment theory cluster**; children: **G&R-H (2006)**, **Costinot-Vogel (2010)**\n",
+                "content": "**Ref.** Garicano, L. (2000). Hierarchies and the organization of knowledge in production. *Journal of Political Economy*, 108(5), 874–904.\n\n---\n\n## Intro\n\nOne of the **most important organizational-economics papers of the last 25 years.** Explains why firms are organized as hierarchies with experts at the top: knowledge/attention is scarce, and hierarchies economize on it by referring hard problems upward.\n\n## Setup\n\n- Problems arrive with a distribution of complexity.\n- Workers can solve any problem below their knowledge threshold $z$; refer harder problems upward.\n- Higher-$z$ workers cost more to hire (higher training).\n- Communication cost $h$ per referral.\n\n## Result\n\n- Firm chooses $L$ (number of layers) + $z_\\ell$ (threshold at each layer) to minimize total cost.\n- **Optimal hierarchy**: low-$z$ workers handle common problems; rare problems escalate to specialists.\n- Example\n  - Cheaper problems (routine) → fewer specialists needed.\n\n## Contribution\n\n- **Foundation** for a large literature on knowledge hierarchies (Garicano-Rossi-Hansberg 2006, 2015).\n- Explains observed layered structure of professional-services firms (consulting, law, medicine).\n- **Directly relevant to Paper 2**: AI is a technology that changes the cost of solving problems at each level → reshapes the optimal hierarchy → forces reassignment.\n\n→ Anchor: **Assignment theory cluster**; children: **G&R-H (2006)**, **Costinot-Vogel (2010)**\n",
                 "x": -10107.631878429147,
                 "y": 1035.263162364614,
                 "width": 440,
@@ -3056,6 +3056,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T07:12:04.372Z"
+    "lastEditedAt": "2026-07-30T07:12:08.765Z"
   }
 }
