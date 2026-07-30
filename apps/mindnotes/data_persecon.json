@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T06:44:42.918Z",
+  "exportedAt": "2026-07-30T06:44:45.976Z",
   "data": {
     "topics": [
       {
@@ -2698,7 +2698,12 @@
                 "height": 340,
                 "flashcard": false,
                 "images": [],
-                "links": [],
+                "links": [
+                  {
+                    "target": "p-groes-2015",
+                    "type": "forward"
+                  }
+                ],
                 "popBg": "#f3f4f6"
               },
               {
@@ -3051,6 +3056,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T06:44:42.617Z"
+    "lastEditedAt": "2026-07-30T06:44:43.852Z"
   }
 }
