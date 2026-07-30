@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T07:22:44.894Z",
+  "exportedAt": "2026-07-30T07:22:47.498Z",
   "data": {
     "topics": [
       {
@@ -2832,8 +2832,8 @@
                 "id": "reorg-genai-head",
                 "title": "▼ Secondary: how an AI support tool for workers affects productivity",
                 "content": "# Gen-AI Empirical · modern type-observation enabler\n\n**Enabler cluster.** Field experiments and RCTs measuring how generative AI actually changes worker productivity and — crucially for Paper 2 — how it enables the firm to observe $\\{\\alpha_{ij}\\}$ at scale.\n\n## Three families of evidence\n\n**Customer service** (Brynjolfsson-Li-Raymond 2023) — 5,179 agents given AI assistant. **14% average productivity gain**, but **bottom-quartile +34%, top-quartile ~0%**. AI substitutes for tacit knowledge → compresses within-firm productivity distribution.\n\n**Software engineering** (Peng et al 2023 GitHub Copilot RCT) — **55.8% faster** task completion. Junior developers gained more than seniors.\n\n**Professional writing** (Noy-Zhang 2023, Science) — ChatGPT: 40% faster + 18% higher quality. Time shifted from drafting to editing.\n\n**Knowledge work + \"jagged frontier\"** (Dell'Acqua et al 2023 BCG × GPT-4) — AI helps on tasks INSIDE its capability, hurts on tasks OUTSIDE. Skill required to filter AI output.\n\n**Theoretical framework** (Athey-Bryan-Gans 2020) — allocation of decision authority between humans and AI. When to delegate / consult / overrule.\n\n**Cautionary tale** (Beane 2019) — shadow learning in robotic surgery. When automation displaces the trainer role, apprenticeship breaks.\n\n\n\n\n\n\n\n→ Anchor: **Reorganization Theory — Core**\n",
-                "x": -680,
-                "y": -4885,
+                "x": -670,
+                "y": -4870,
                 "width": 480,
                 "height": 360,
                 "flashcard": false,
@@ -3052,6 +3052,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T07:22:42.777Z"
+    "lastEditedAt": "2026-07-30T07:22:45.378Z"
   }
 }
