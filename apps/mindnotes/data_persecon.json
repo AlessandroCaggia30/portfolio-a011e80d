@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:22:35.335Z",
+  "exportedAt": "2026-07-30T08:22:37.519Z",
   "data": {
     "topics": [
       {
@@ -2635,6 +2635,10 @@
                   {
                     "target": "p-autor-handel-2013",
                     "type": "forward"
+                  },
+                  {
+                    "target": "p-deming-2017",
+                    "type": "forward"
                   }
                 ],
                 "x": -11516.40969880721,
@@ -3080,6 +3084,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:22:33.184Z"
+    "lastEditedAt": "2026-07-30T08:22:35.403Z"
   }
 }
