@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:47:16.093Z",
+  "exportedAt": "2026-07-30T08:47:18.336Z",
   "data": {
     "topics": [
       {
@@ -2274,7 +2274,7 @@
               {
                 "id": "reorg-fieldexp-head",
                 "title": "▼ Field experiments",
-                "content": "# Field experiments \n\n\n\n\n\n\n\n## The three lineages\n\n**1) Within-firm worker-team assortative matching** (Adhvaryu-Bassi-Nyshadham-Tamayo; WP <- Imran Rasul student)\n- **Adhvaryu et al.**: quasi-experimental variation in team composition inside a large Indian garment manufacturer (observes existing assignment variation, doesn't experimentally re-assign.). Estimates the productivity gain from optimal assortative matching. They estimate worker productivity (good vs bad worker), managers productivity (good vs bad manager) and the interaction (is there a compelmentarity in matching good workers and good managers) -> they confirm the **positive assortative matching** hypothesis (+ 1 to 4% productivity gain, running a simulation). But find that NAM is used to guarantee minimum standards of production \n- **Chan 2016**: they change \"who does what\" in an hospital (very silly, introduce patient assignment), positive effects  on waiting times, quality of the service, patient satisfaction\n\n**2) Manager-driven reassignment under different incentives** (Bandiera-Barankay-Rasul 2007 QJE): \n\"firm level experiment in which we engineered an exogenous change in managerial compensation from fixed wages to performance pay based on the average productivity of lower-tier workers\". Theory assumes managerial effort has a higher return on more able workers. So we should see managers respond to incentives by targeting their efforts towards more able workers, implying that both the mean and the disper-\nsion increase. Second, managers select out the least able workers, implying that the mean increases but the dispersion may decrease. Managers target their effort towards high ability workers, and the least able workers are less likely to be selected into employment\n\nSome numbers: \n- Higher productivity: Introducing performance-based pay for managers increased average worker productivity by 21%.\n- Greater productivity differences: Productivity became more uneven across workers, with the coefficient of variation increasing by 38%. Managers focused their effort on the most capable workers, who became significantly more productive, while less capable workers saw little or no improvement., \n- Relative contributions: At least half of the 21% productivity gain came from selecting better workers (surprisingly close to Lazear 2000)\n\n**3) Decision-authority reassignment** (Hoffman-Kahn-Li 2018 QJE → Bloom-Liang-Roberts-Ying 2015 QJE)\n- **Hoffman et al.**: firms adopting algorithmic hiring recommendations vs continuing manager discretion. When managers override algorithm, hires are 15-20% worse.\n- **Bloom et al.**: RCT of WFH at Ctrip (Chinese travel firm). **13% productivity gain** from reassigning work location. Cleanest RCT of work-organization change.\n\n\n\n\n\n\n\n\n\n\n\n",
+                "content": "",
                 "x": -4000,
                 "y": 500,
                 "width": 480,
@@ -3076,6 +3076,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:47:13.956Z"
+    "lastEditedAt": "2026-07-30T08:47:16.219Z"
   }
 }
