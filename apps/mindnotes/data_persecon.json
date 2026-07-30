@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T09:05:43.867Z",
+  "exportedAt": "2026-07-30T09:05:48.470Z",
   "data": {
     "topics": [
       {
@@ -324,7 +324,20 @@
                 "color": "purple",
                 "popBg": "#ede9fe",
                 "popShape": "rounded",
-                "links": []
+                "links": [
+                  {
+                    "target": "p-bjm-1988",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-bloom-van-reenen-2013",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "p-lazear-2000-safelite",
+                    "type": "forward"
+                  }
+                ]
               },
               {
                 "id": "p-gh-1983",
@@ -3087,6 +3100,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T09:05:41.750Z"
+    "lastEditedAt": "2026-07-30T09:05:48.018Z"
   }
 }
