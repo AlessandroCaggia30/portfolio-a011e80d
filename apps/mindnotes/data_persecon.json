@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T06:43:47.405Z",
+  "exportedAt": "2026-07-30T06:43:50.636Z",
   "data": {
     "topics": [
       {
@@ -2573,7 +2573,7 @@
                 "id": "reorg-mismatch-head",
                 "title": "▼ Skill Heterogeneity & Mismatch Value · [PAPER 2 CORE]",
                 "content": "# Skill Heterogeneity & Mismatch Value · [PAPER 2 CORE]\n\n**The modern empirical literature quantifying value lost to worker-task mismatch.** This is the PRIMARY cluster for Paper 2 — every paper below directly measures the counterpart to $V^{*}$.\n\n## What these papers measure\n\nGiven matched employer-employee data with multi-dimensional skill measures ($\\alpha_i \\in \\mathbb{R}^K$ per worker, $\\sigma_j \\in \\mathbb{R}^K$ per job requirements), estimate:\n\n$$\\text{Mismatch}_i \\;=\\; d(\\alpha_i, \\sigma_{j(i)}) \\;\\;\\; \\text{vs.} \\;\\;\\; \\text{Mismatch}^{*}_i = \\min_j d(\\alpha_i, \\sigma_j)$$\n\nand the productivity gap between observed and best-matched.\n\n## Three empirical lineages\n\n**Individual-level task heterogeneity within occupations** (Autor-Handel 2013 → Yamaguchi 2012)\nAutor, Levy, and Murnane (2003), The Skill Content of Recent Technological Change, Quarterly Journal of Economics.:\n- ALM uses data from the Dictionary of Occupational Titles (DOT) to assign occupations scores on different task dimensions\n\nAutor-Handel 2013:\n- Occupation FE alone miss substantial within-occupation heterogeneity.\n- Individual task performance predicts wages significantly beyond occupation × industry FE. Adds ~20% to R² of wage regression.\n- Task heterogeneity within occupations is comparable in magnitude to between-occupation heterogeneity\nP·Yamaguchi (2012):\n\n\n**Multi-dim skill mismatch quantification** (Lise-Postel-Vinay 2020 → Guvenen-Kuruscu-Tanaka-Wiczer 2020)\n- LPV: multi-dim skills + on-the-job search. Sorting explains ~30% of wage variance.\n- **GKTW: THE central paper.** Multi-dim skill mismatch causes substantial productivity loss; mismatch decays with tenure but incompletely. Direct empirical estimate of $V^{*}$.\n\n**Match quality + mobility patterns** (Fredriksson-Hensvik-Skans 2018 → Groes-Kircher-Manovskii 2015)\n- FHS: Swedish employer-employee data. Better matches → higher entry wages, lower mobility. Documents match value directly.\n- GKM: U-shape of occupational mobility by wage — both low- and high-earners switch more, consistent with mismatch-detection models.\n\n\n\n\n\n\n\n",
-                "x": -8270,
+                "x": -8165,
                 "y": 405,
                 "width": 480,
                 "height": 360,
@@ -2661,7 +2661,7 @@
                 "id": "p-lise-postelvinay-2020",
                 "title": "P·Lise–Postel-Vinay (2020) — Multidim Skills, Sorting, Accumulation",
                 "content": "**Ref.** Lise, J. & Postel-Vinay, F. (2020). Multidimensional skills, sorting, and human capital accumulation. *American Economic Review*, 110(8), 2328–2376.\n\n---\n\n## Intro\n\n**Frontier structural paper** on multi-dim skill sorting + on-the-job search + human capital accumulation. Merges the Roy-model sorting with the Postel-Vinay-Robin search framework.\n\n## Setup\n\n- Worker skill: 3-dim (cognitive, manual, interpersonal).\n- Jobs require multi-dim skills; wages depend on skill-job match.\n- On-the-job search: workers occasionally receive outside offers → move to better matches.\n- Skills accumulate in relevant dimensions on the job.\n\n## Findings\n\n- **Sorting explains ~30% of cross-worker wage variance.** Skill accumulation ~20%; search frictions + luck ~50%.\n- **Multi-dim skills essential**: 1-dim models miss 40% of sorting effects.\n- Better matches on cognitive skill are worth more than better matches on manual skill (higher wage return per unit of match quality).\n\n## Contribution\n\n- **Cleanest structural estimate** of the value of skill-job sorting.\n- Provides the mid-range benchmark: pure sorting (no productivity gain from reassignment, just re-matching) generates ~30% of wage variance.\n\n\n",
-                "x": -8531.651560403508,
+                "x": -8426.651560403508,
                 "y": 2592.704634500307,
                 "width": 440,
                 "height": 340,
@@ -2674,7 +2674,7 @@
                 "id": "p-guvenen-2020",
                 "title": "P·Guvenen–Kuruscu–Tanaka–Wiczer (2020) — Multidim Skill Mismatch",
                 "content": "**Ref.** Guvenen, F., Kuruscu, B., Tanaka, S. & Wiczer, D. (2020). Multidimensional skill mismatch. *American Economic Journal: Macroeconomics*, 12(1), 210–244.\n\n---\n\n## Intro\n\n**THE central paper for Paper 2.** Directly measures the productivity loss from multi-dim worker-task mismatch and estimates how much of it is resolved by job mobility over the lifecycle.\n\n## Setup\n\n- Worker skill vector $\\alpha_i \\in \\mathbb{R}^3$ (verbal, math, spatial from ASVAB).\n- Job requirement vector $\\sigma_j \\in \\mathbb{R}^3$ (from O*NET).\n- **Mismatch**: distance $d(\\alpha_i, \\sigma_{j(i)})$.\n- Wage regression: $\\log w = \\beta_0 + \\beta_1 \\alpha + \\beta_2 \\sigma + \\beta_3 \\text{mismatch}$.\n\n## Findings\n\n- **Mismatch has large negative wage effect**: 1 SD of mismatch → ~10% wage penalty.\n- Mismatch decays with tenure: workers gradually find better matches.\n- **BUT mismatch never fully resolves**: even at 30 years of experience, substantial mismatch remains.\n- Aggregate mismatch resolution contributes ~15–20% to lifecycle wage growth.\n\n## Contribution\n\n- **Most direct empirical answer to Paper 2's core question.** Quantifies value lost to mismatch as ~10% per SD.\n- Shows resolution is incomplete → substantial reassignment gain remains available even in mature workers.\n- **For Paper 2 target**: $V^{*}$ from perfect reassignment (Paper 2 counterfactual) is an upper bound on GKTW's observed mismatch — plausibly 10-20% of wages / output.\n\n→ Anchor: **Skill heterogeneity & mismatch cluster** — the central paper\n",
-                "x": -7948.184451452702,
+                "x": -7843.184451452702,
                 "y": 1027.0729768830988,
                 "width": 440,
                 "height": 340,
@@ -2701,8 +2701,8 @@
                 "id": "p-groes-2015",
                 "title": "P·Groes–Kircher–Manovskii (2015) — U-Shape of Occupational Mobility",
                 "content": "**Ref.** Groes, F., Kircher, P. & Manovskii, I. (2015). The u-shapes of occupational mobility. *Review of Economic Studies*, 82(2), 659–692.\n\n---\n\n## Intro\n\n**Empirical documentation of U-shape of occupational mobility by wage.** Both low-wage AND high-wage workers within an occupation are more likely to switch occupations than mid-wage workers.\n\n## Empirical fact\n\n- Danish employer-employee registry, 1980-2006.\n- Within any occupation, quit-to-different-occupation probability is U-shaped in relative wage.\n- **Low earners quit** because they discover they're a bad match.\n- **High earners quit** because their skill outstrips the occupation's demand.\n- **Mid earners stay** — they've found a decent match.\n\n## Model interpretation\n\nConsistent with a **learning + reassignment** model:\n- Workers don't observe their own type perfectly.\n- They observe relative wage as signal about match quality.\n- Both very-low and very-high wages signal mismatch (in different directions) → prompt occupation change.\n\n## Contribution\n\n- **Documents the empirical footprint of mismatch resolution via mobility.**\n- Distinguishes mismatch-detection from human-capital models (latter predicts monotone mobility in wage).\n- **For Paper 2**: quantifies how much reassignment happens organically vs how much would require firm intervention. If firms can observe types faster than workers can discover them, firm-driven reassignment beats worker-driven mobility.\n\n→ Anchor: **Skill heterogeneity & mismatch cluster**\n",
-                "x": -7430,
-                "y": 1645,
+                "x": -7835,
+                "y": 1515,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2919,7 +2919,7 @@
                     "type": "forward"
                   }
                 ],
-                "x": -8516.409698807209,
+                "x": -8411.409698807209,
                 "y": 1030.2263671409364,
                 "width": 450.70407397769526,
                 "height": 328.368529223662
@@ -2928,7 +2928,7 @@
                 "id": "p-autor-handel-2013",
                 "title": "P·Autor–Handel (2013) — Tasks, Human Capital & Wages",
                 "content": "**Ref.** Autor, D. H. & Handel, M. J. (2013). Putting tasks to the test: Human capital, job tasks, and wages. *Journal of Labor Economics*, 31(S1), S59–S96.\n\n---\n\n## Intro\n\n**Empirical documentation of individual-level task heterogeneity WITHIN occupations.** Shows that occupation-level task measures (as in ALM 2003) miss substantial variation across workers within the same occupation code — meaning worker × task heterogeneity is real and quantifiable.\n\n## Design\n\n- Uses the Princeton Data Improvement Initiative (PDII) survey — direct individual-level measures of tasks performed on the job.\n- Merges with earnings data.\n- Tests whether individual task profiles predict wages BEYOND occupation × education × experience fixed effects.\n\n## Findings\n\n- **Individual task performance predicts wages significantly beyond occupation FE.** Adds ~20% to R² of wage regression.\n- Task heterogeneity within occupations is comparable in magnitude to between-occupation heterogeneity.\n- Analytical, managerial, and interactive tasks each have distinct wage returns.\n\n## Contribution\n\n- **First direct empirical evidence** that individual worker task profiles matter for productivity/wages independently of occupation.\n- Validates the \"multi-dim skill\" empirical program (Yamaguchi 2012, Lise-Postel-Vinay 2020, Guvenen et al 2020).\n- **For Paper 2**: shows $\\{\\alpha_{ij}\\}$ heterogeneity is measurable and consequential. Justifies the Paper 2 setup where reassignment matters at the INDIVIDUAL level, not just at the occupation level.\n\n→ Anchor: **Skill heterogeneity & mismatch cluster**\n",
-                "x": -8525.644739300538,
+                "x": -8420.644739300538,
                 "y": 1641.5660623596928,
                 "width": 440,
                 "height": 340,
@@ -2946,7 +2946,7 @@
                 "id": "p-yamaguchi-2012",
                 "title": "P·Yamaguchi (2012) — Tasks & Heterogeneous Human Capital",
                 "content": "**Ref.** Yamaguchi, S. (2012). Tasks and heterogeneous human capital. *Journal of Labor Economics*, 30(1), 1–53.\n\n---\n\n## Intro\n\n**Structural lifecycle model of task-based human capital.** Workers have multi-dimensional skills; jobs use different task bundles; workers accumulate skill in tasks they perform. Estimates the model on NLSY79.\n\n## Setup\n\n- Worker skill: 2-dim (cognitive + motor).\n- Jobs are task bundles (cognitive intensity + motor intensity) — from ALM 2003 measures.\n- On-the-job skill accumulation depends on TASKS PERFORMED, not just years worked.\n- Dynamic structural model: writes and solves a Bellman eqution with state variales (latent skills, age , experience, current occupations) and choice variabels (occupational choices) to maximize excected lifetime utilty. He adds skill accoumulation .\n- The researcher observes wages, occupations, occupational transitions, ages. He guesses values for parameters governing: returns to cognitive skill, returns to motor skill, skill accumulation, occupational preferences, switching costs.\n\n## Findings\n\n- Cognitive skill accumulates faster in cognitive-intensive jobs; motor in motor-intensive jobs.\n- **Job-switching to better-matched tasks explains significant wage growth**, particularly in early career.\n- In terms of wage growth, cognitive skills play a central role. They account for all of the wage growth for high school and college workers. However, for high school dropouts, the growth of motor skills accounts for about half of their wage growth\n\n## Contribution\n\n- **First fully-structural estimation** of multi-dim task-based human capital accumulation.\n- Establishes that skill × task matching evolves over the lifecycle — an endogenous version of the $\\{\\alpha_{ij}\\}$ matrix.\n- **For Paper 2**: shows the α matrix is DYNAMIC. Reassignment doesn't just harvest current comparative advantage — it also shapes future skill accumulation. Suggests Paper 2's ABM should include a dynamic skill-accumulation module.\n\n→ Anchor: extends **Autor-Handel (2013)**\n",
-                "x": -8528.467108950808,
+                "x": -8423.467108950808,
                 "y": 2126.092319146786,
                 "width": 440,
                 "height": 340,
@@ -3047,6 +3047,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T06:43:45.285Z"
+    "lastEditedAt": "2026-07-30T06:43:48.502Z"
   }
 }
