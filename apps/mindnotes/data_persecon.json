@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:56:39.875Z",
+  "exportedAt": "2026-07-30T08:56:46.390Z",
   "data": {
     "topics": [
       {
@@ -565,8 +565,8 @@
                 "id": "p-hno-2003",
                 "title": "P·Hamilton–Nickerson–Owan (2003) — Cooperation Collapse",
                 "content": "**Ref.** Hamilton, B. H., Nickerson, J. A. & Owan, H. (2003). Team incentives and worker heterogeneity: An empirical analysis of the impact of teams on productivity and participation. *Journal of Political Economy*, 111(3), 465–497.\n\n---\n\n## Intro\n\n**First large-N empirical decomposition** of team-vs-individual pay in a garment plant that switched to team pay in the early 1990s.\n\n## Findings\n\n- **Team productivity ~14% higher than individual productivity** on the same workers — REVERSING the Holmström 1982 free-rider prediction.\n- Decomposition: ~60% peer effects, ~40% ability sorting.\n- Shows that when individual pay was used, workers didn't share knowledge or help each other — cooperation had collapsed.\n\n## Position\n\nRed **⑤** in the \"diagnosis\" sense: piece rate / rank pay had killed cooperation.\nGreen **⑥** in the \"solution\" sense: switching to team pay REVERSED the collapse.\n\nBridging card that motivates the ⑥ green solutions.\n\n---\n\n## Failure-mode view (F5 Cooperation Collapse)\n\n**Evidence**\nGarment plant switched from team pay to individual piece rates → total output FELL despite rising individual effort. Workers stopped teaching, helping, covering. Also Encinosa–Gaynor–Rebitzer (2007) on physician groups.\n\n**Mechanism**\nUnder piece rates, time spent helping a peer = zero personal reward + opportunity cost of your own output. Rational response: withdraw from cooperation. Knowledge transfer disappears.\n\n**Which alternatives address it**\n- A3 Fixed wage (nothing to compete over)\n- A4 Team pay (directly rewards cooperation)\n- A7 Subjective (manager rewards mentoring)\n- A8 Ownership (residual claim on joint output)\n\n**Which alternatives make it WORSE**\n- A2 Tournament (helping a peer is directly costly)\n\n---\n\n### References\n\n- **Hamilton, B., Nickerson, J. & Owan, H. (2003)**. Team incentives and worker heterogeneity: garment plant evidence. *JPE*, 111(3), 465–497.\n- **Encinosa, W., Gaynor, M. & Rebitzer, J. (2007)**. The sociology of groups and the economics of incentives. *JEBO*, 62(2), 187–214.\n- **Bandiera, O., Barankay, I. & Rasul, I. (2005)**. Social preferences and the response to incentives. *QJE*, 120(3), 917–962 (peer effects).\n- **Bandiera, O., Barankay, I. & Rasul, I. (2010)**. Social incentives in the workplace. *REStud*, 77(2), 417–458.\n- **Freeman, R. & Medoff, J. (1984)**. *What Do Unions Do?* Basic Books (cooperation-through-voice).\n",
-                "x": 20655,
-                "y": 120,
+                "x": 18580,
+                "y": 95,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -628,8 +628,8 @@
                 "id": "p-bbr-2005",
                 "title": "P·Bandiera–Barankay–Rasul (2005) — Fruit-Picker Peer Effects",
                 "content": "**Ref.** Bandiera, O., Barankay, I. & Rasul, I. (2005). Social preferences and the response to incentives: Evidence from personnel data. *Quarterly Journal of Economics*, 120(3), 917–962.\n\n---\n\n## Intro\n\nEmpirical evidence that **social preferences** interact with the contract's payoff structure — a foundational empirical paper for personnel economics.\n\n## Design\n\n- UK soft-fruit farm; 142 workers × 108 field-days.\n- **Mid-season switch** from relative incentives (piece rate deflated by field-day average) to individual piece rates.\n\n## Findings\n\n- **Productivity rose ~50%** after switching FROM relative pay TO individual piece rates.\n- The gap was **largest for workers picking near friends** — social ties amplified the negative externality of relative pay on effort.\n- Under relative pay, working harder hurt friends' pay via the deflator → workers internalized this and worked less.\n\n## Contribution\n\nUnder **⑤** (red — problem): relative pay hurts effort when social ties are strong.\n\nUnder **⑥** (yellow — evidence): sets up the \"social preferences interact with contracts\" theme that BBR 2013 (below in ⑥) completes.\n",
-                "x": 20655,
-                "y": 740,
+                "x": 18580,
+                "y": 715,
                 "width": 440,
                 "height": 340,
                 "flashcard": null,
@@ -956,8 +956,8 @@
                 "id": "phase-5-problem",
                 "title": "⑤ PROBLEM · Sabotage · Goodhart · Cooperation Collapse",
                 "content": "# ⑤ Tournaments create their own failure modes\n\n**Rank pay is not a free lunch.** Once you make agents compete against each other:\n\n**a) Sabotage (Lazear 1989):** each agent has an incentive to *lower* opponents' output. When effort and sabotage are close substitutes, tournament designs must **compress pay** to reduce sabotage incentives — which cuts the effort incentive too.\n\n**b) Bunching / Goodhart (Oyer 1998):** when the pay schedule has kinks at quarter-ends / year-ends, agents strategically shift output across the kink. \"What is measured gets manipulated.\"\n\n**c) Cooperation collapse (Hamilton–Nickerson–Owan 2003; Bandiera–Barankay–Rasul 2005):** under piece rates / tournaments, agents stop helping each other. In the BBR 2005 UK fruit farm, switching FROM relative TO piece rates raised productivity 50% because workers no longer had to weigh peer welfare.\n\n**d) Late-round distortions (Genakos–Pagliero 2012):** contestants who are ahead avoid risk; contestants who are behind take reckless risks.\n\n## What's needed next\n\nContracts that:\n- Reward the group, not individuals (so cooperation is a private good, not a public one).\n- Use subjective evaluation to catch dimensions no metric captures.\n- Rely on peer pressure — the team polices itself.\n\n→ **Green ⑥** — team pay, subjective evaluation, peer pressure.\n",
-                "x": 20105,
-                "y": -500,
+                "x": 18030,
+                "y": -525,
                 "width": 480,
                 "height": 400,
                 "flashcard": false,
@@ -987,8 +987,8 @@
                 "id": "p-lazear-1989",
                 "title": "P·Lazear (1989) — Pay Equality & Sabotage",
                 "content": "**Ref.** Lazear, E. P. (1989). Pay equality and industrial politics. *Journal of Political Economy*, 97(3), 561–580.\n\n---\n\n## Intro\n\nFormalizes the **sabotage** cost of tournaments.\n\n## Argument\n\n- If workers can both increase own output AND decrease others' output, high-powered rank pay incentivizes both.\n- Optimal pay design **compresses** the prize spread — sacrificing effort incentive to reduce sabotage incentive.\n- Explains observed **within-firm pay compression** relative to what LR 1981's model would predict.\n\n## Position\n\nRed **⑤** — a fundamental problem introduced by tournaments. Motivates the shift to team pay + subjective evaluation.\n",
-                "x": 19555,
-                "y": 120,
+                "x": 17480,
+                "y": 95,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -1005,8 +1005,8 @@
                 "id": "p-oyer-1998",
                 "title": "P·Oyer (1998) — Bunching / Goodhart",
                 "content": "**Ref.** Oyer, P. (1998). Fiscal year ends and nonlinear incentive contracts: The effect on business seasonality. *Quarterly Journal of Economics*, 113(1), 149–185.\n\n---\n\n## Intro\n\nEmpirical demonstration of **Goodhart-style bunching** under nonlinear commission schedules.\n\n## Findings\n\n- Firm-level data shows revenue **spikes before fiscal year-ends** and troughs after — the pattern's magnitude matches the size of the year-end bonus discontinuity.\n- Salespeople strategically shift deal-close timing across fiscal boundaries to trigger higher commission tiers.\n- Effect not driven by real demand seasonality — it's the pay schedule that produces the timing pattern.\n\n## Contribution\n\n- **First large-N empirical proof of the Goodhart pathology** in incentive contracts.\n- Establishes that any kink or threshold in the pay schedule invites strategic timing.\n\n## Position\n\nRed **⑤** — bunching as a Goodhart problem created by tournaments / nonlinear commissions.\n\n---\n\n## Failure-mode view (F6 Goodhart / Bunching)\n\n**Evidence**\n- Oyer (1998): salespeople bunch deals before fiscal year-end.\n- Larkin (2014): software sales *sandbag* large deals to avoid ratcheting next quarter.\n- Camerer–Farber–Falk: taxi drivers, bike messengers stop at daily income target (backward-bending supply from loss aversion).\n\n**Mechanism**\nAny quota threshold creates a kink where marginal piece rate drops to zero (or turns negative via ratchet). Workers bunch AT the threshold — never above.\n\n> \"When a measure becomes a target, it ceases to be a good measure.\"\n\n**Which alternatives address it**\n- A3 Fixed wage (no threshold)\n- A5 Deferred comp (long horizon smooths bunching)\n- A6 Career concerns (continuous market pricing)\n- A7 Subjective (no bright-line target)\n- A8 Ownership (long-horizon claim)\n\n---\n\n### References\n\n- **Goodhart, C. (1975)**. Problems of monetary management: the U.K. experience. Papers in Monetary Economics, Reserve Bank of Australia (origin of Goodhart's Law).\n- **Oyer, P. (1998)**. Fiscal year ends and non-linear incentive contracts. *QJE*, 113(1), 149–185.\n- **Larkin, I. (2014)**. The cost of high-powered incentives: employee gaming in enterprise software sales. *Journal of Labor Economics*, 32(2), 199–227.\n- **Camerer, C., Babcock, L., Loewenstein, G. & Thaler, R. (1997)**. Labor supply of New York City cab drivers: one day at a time. *QJE*, 112(2), 407–441.\n- **Farber, H. (2015)**. Why you can't find a taxi in the rain and other labor supply lessons from cab drivers. *QJE*, 130(4), 1975–2026.\n- **Chevalier, J. & Ellison, G. (1997)**. Risk taking by mutual funds as a response to incentives. *JPE*, 105(6), 1167–1200 (kink-driven behavior).\n",
-                "x": 20105,
-                "y": 120,
+                "x": 18030,
+                "y": 95,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -1282,8 +1282,8 @@
                 "id": "p-chan-1996",
                 "title": "P·Chan (1996) — Sabotage in Promotion Tournaments",
                 "content": "**Ref.** Chan, W. (1996). External recruitment versus internal promotion. *Journal of Labor Economics*, 14(4), 555–570.\n\n---\n\n## Intro\n\nExtends Lazear (1989) sabotage theory to the specific case of **internal promotion tournaments** — the mechanism most firms use for management-level hiring.\n\n## Contribution\n\n- When promotion is tournament-based, incumbent employees have an incentive to **sabotage rivals** in the same cohort.\n- The higher the promotion prize, the stronger the sabotage incentive.\n- Rationalizes the observed pattern of **external hiring** for senior positions — firms hire outside the tournament to escape sabotage equilibria.\n- Explains why firms use \"up-or-out\" (partner or leave) — a truncated tournament structure minimizes long-term sabotage exposure.\n\n## Position\n\nRed **⑤** — extension of Lazear 1989 sabotage to the specific institutional context of promotion tournaments.\n",
-                "x": 19555,
-                "y": 740,
+                "x": 17480,
+                "y": 715,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -1295,8 +1295,8 @@
                 "id": "p-freeman-kleiner-2005",
                 "title": "P·Freeman–Kleiner (2005) — Piece Rate Abandonment",
                 "content": "**Ref.** Freeman, R. B. & Kleiner, M. M. (2005). The last American shoe manufacturers: Decreasing productivity and increasing profits in the shift from piece rates to continuous flow production. *Industrial Relations*, 44(2), 307–330.\n\n---\n\n## Intro\n\n**Striking empirical evidence** that piece rates CAN reduce productivity and profits in specific industrial contexts.\n\n## Findings\n\n- US shoe manufacturers moved AWAY from piece rates toward continuous-flow production (team pay + supervisor monitoring).\n- **Productivity fell after the switch** (measured per-hour output).\n- **Profits ROSE** — the productivity loss was more than offset by:\n  - Quality improvements (piece rates had been degrading quality).\n  - Reduced turnover.\n  - Reduced sabotage between workers competing for scarce raw materials.\n  - Reduced Goodhart-style gaming of the piece-rate schedule.\n\n## Position\n\nYellow **⑤** — dramatic empirical evidence that the Lazear 2000 Safelite result does NOT generalize. When output quality matters, when teamwork matters, when raw-material sabotage is possible, piece rates fail even before you get to phase ⑥.\n\n## Contribution\n\n- Documents the **boundary conditions** of the Lazear 2000 result.\n- Sets up the phase-⑥ team-pay solutions.\n",
-                "x": 20655,
-                "y": 1360,
+                "x": 18580,
+                "y": 1335,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -1558,8 +1558,8 @@
                 "id": "p-roy-1952",
                 "title": "P·Roy (1952) — Goldbricking and Quota Restriction",
                 "content": "**Ref.** Roy, D. (1952). Quota restriction and goldbricking in a machine shop. *American Journal of Sociology*, 57(5), 427–442.\n\n---\n\n## Intro\n\n**Classical sociological study** of worker gaming behavior under piece rates. Roy worked undercover for 10 months as a machine operator to document how workers responded to piece-rate incentives.\n\n## Findings\n\n- **Quota restriction**: workers collectively agreed to cap daily output to prevent rate-setters from cutting the piece rate (the classic **ratchet-avoidance** behavior).\n- **Goldbricking**: on days when rates were bad, workers deliberately produced little (to signal the rate was too tight).\n- **\"Making out\"**: workers built up \"banks\" of unreported output to smooth commissions across days.\n\n## Contribution\n\n- **First systematic ethnographic evidence** of the ratchet effect (Gibbons 1987 formalized it 35 years later).\n- Documents strategic under-production and collective norms as workers' response to poorly-designed incentives.\n- Foundational reading in industrial sociology.\n\n## Position\n\nRed **⑤** — classical empirical documentation of the failure modes of piece-rate incentives.\n",
-                "x": 20105,
-                "y": 740,
+                "x": 18030,
+                "y": 715,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3088,6 +3088,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:56:37.762Z"
+    "lastEditedAt": "2026-07-30T08:56:44.263Z"
   }
 }
