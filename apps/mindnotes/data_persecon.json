@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:18:58.289Z",
+  "exportedAt": "2026-07-30T08:19:01.338Z",
   "data": {
     "topics": [
       {
@@ -2668,8 +2668,8 @@
                 "id": "p-autor-handel-2013",
                 "title": "P·Autor–Handel (2013) — Tasks, Human Capital & Wages",
                 "content": "**Ref.** Autor, D. H. & Handel, M. J. (2013). Putting tasks to the test: Human capital, job tasks, and wages. *Journal of Labor Economics*, 31(S1), S59–S96.\n\n**THEY MAKE ONE STEP FURTHER, LOOKING INTO OCCUPATIONS**\n\n## Intro\n\n**Empirical documentation of individual-level task heterogeneity WITHIN occupations.** Shows that occupation-level task measures (as in ALM 2003) miss substantial variation across workers within the same occupation code — meaning worker × task heterogeneity is real and quantifiable.\n\n## Design\n\n- Uses the Princeton Data Improvement Initiative (PDII) survey — direct individual-level measures of tasks performed on the job.\n- Merges with earnings data.\n- Tests whether individual task profiles predict wages BEYOND occupation × education × experience fixed effects.\n\n## Findings\n\n- **Individual task performance predicts wages significantly beyond occupation FE.** Adds ~20% to R² of wage regression.\n- Task heterogeneity within occupations is comparable in magnitude to between-occupation heterogeneity.\n- Analytical, managerial, and interactive tasks each have distinct wage returns.\n\n## Contribution\n\n- **First direct empirical evidence** that individual worker task profiles matter for productivity/wages independently of occupation.\n- Validates the \"multi-dim skill\" empirical program (Yamaguchi 2012, Lise-Postel-Vinay 2020, Guvenen et al 2020).\n- **For Paper 2**: shows $\\{\\alpha_{ij}\\}$ heterogeneity is measurable and consequential. Justifies the Paper 2 setup where reassignment matters at the INDIVIDUAL level, not just at the occupation level.\n\n→ Anchor: **Skill heterogeneity & mismatch cluster**\n",
-                "x": -11816.909751940875,
-                "y": 1795.3546315657873,
+                "x": -11496.909751940875,
+                "y": 1780.3546315657873,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2686,8 +2686,8 @@
                 "id": "p-yamaguchi-2012",
                 "title": "P·Yamaguchi (2012) — Tasks & Heterogeneous Human Capital",
                 "content": "**Ref.** Yamaguchi, S. (2012). Tasks and heterogeneous human capital. *Journal of Labor Economics*, 30(1), 1–53.\n\nINTERESTING FOR THE METHODOLOGY, EVERY SERIOUS MODEL NEEDS SOME FORMALIZATION...\n\n## Intro\n\n**Structural lifecycle model of task-based human capital.** Workers have multi-dimensional skills; jobs use different task bundles; workers accumulate skill in tasks they perform. Estimates the model on NLSY79.\n\n## Setup\n\n- Worker skill: 2-dim (cognitive + motor).\n- Jobs are task bundles (cognitive intensity + motor intensity) — from ALM 2003 measures.\n- On-the-job skill accumulation depends on TASKS PERFORMED, not just years worked.\n- Dynamic structural model: writes and solves a Bellman eqution with state variales (latent skills, age , experience, current occupations) and choice variabels (occupational choices) to maximize excected lifetime utilty. He adds skill accoumulation .\n- The researcher observes wages, occupations, occupational transitions, ages. He guesses values for parameters governing: returns to cognitive skill, returns to motor skill, skill accumulation, occupational preferences, switching costs.\n\n## Findings\n\n- Cognitive skill accumulates faster in cognitive-intensive jobs; motor in motor-intensive jobs.\n- **Job-switching to better-matched tasks explains significant wage growth**, particularly in early career.\n- In terms of wage growth, cognitive skills play a central role. They account for all of the wage growth for high school and college workers. However, for high school dropouts, the growth of motor skills accounts for about half of their wage growth\n\n## Contribution\n\n- **First fully-structural estimation** of multi-dim task-based human capital accumulation.\n- Establishes that skill × task matching evolves over the lifecycle — an endogenous version of the $\\{\\alpha_{ij}\\}$ matrix.\n- **For Paper 2**: shows the α matrix is DYNAMIC. Reassignment doesn't just harvest current comparative advantage — it also shapes future skill accumulation. Suggests Paper 2's ABM should include a dynamic skill-accumulation module.\n\n→ Anchor: extends **Autor-Handel (2013)**\n",
-                "x": -11816.531407166527,
-                "y": 2279.8808883528804,
+                "x": -11461.531407166527,
+                "y": 2259.8808883528804,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3081,6 +3081,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:18:56.170Z"
+    "lastEditedAt": "2026-07-30T08:19:00.733Z"
   }
 }
