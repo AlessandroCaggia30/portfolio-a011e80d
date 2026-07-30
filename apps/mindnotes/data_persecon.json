@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T09:03:00.003Z",
+  "exportedAt": "2026-07-30T09:04:46.127Z",
   "data": {
     "topics": [
       {
@@ -335,7 +335,7 @@
                 "id": "p-gh-1983",
                 "title": "P·Grossman–Hart (1983) — General PA",
                 "content": "**Ref.** Grossman, S. J. & Hart, O. D. (1983). An analysis of the principal-agent problem. *Econometrica*, 51(1), 7–45.\n\n---\n\n## Intro\n\n**General characterization** of the optimal contract in the finite-action PA problem — without the CARA/Gaussian assumptions of HM 1987.\n\n## Contribution\n\n- Two-step decomposition:\n  1. **Implementation cost** $C(a)$ — the minimum expected wage bill to implement action $a$.\n  2. **Optimal action** — the one that maximizes $E[y | a] - C(a)$.\n- Characterizes when the optimal $w(y)$ is monotone in $y$ (needs MLRP — monotone likelihood ratio property).\n\n## Position\n\nGreen **②** — general theoretical framework that HM 1987's linear contract is a special case of.\n",
-                "x": 6090,
+                "x": 5684.016020728302,
                 "y": 730,
                 "width": 440,
                 "height": 340,
@@ -1388,8 +1388,8 @@
                 "id": "p-rogerson-1985",
                 "title": "P·Rogerson (1985) — First-Order Approach Validity",
                 "content": "**Ref.** Rogerson, W. P. (1985). The first-order approach to principal-agent problems. *Econometrica*, 53(6), 1357–1367.\n\n---\n\n## Intro\n\nSolves a **critical technical problem** in the classical PA framework: the first-order approach (replace the agent's IC constraint with its FOC) is not always valid.\n\n## Contribution\n\n- Proves the **MLRP (Monotone Likelihood Ratio Property) + CDFC (Concavity of Distribution Function Condition)** are sufficient for the first-order approach to be valid.\n- Under MLRP+CDFC, the optimal contract is monotone in output — a foundational result used throughout applied PA work.\n- Otherwise, one must solve the full IC constraint (much harder).\n\n## Position\n\nGreen **②** theory — technical foundation used by every applied PA paper that uses the first-order approach.\n",
-                "x": 6090,
-                "y": 1350,
+                "x": 5696.782812529298,
+                "y": 1355.1067167203987,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3088,6 +3088,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T09:02:57.860Z"
+    "lastEditedAt": "2026-07-30T09:04:45.233Z"
   }
 }
