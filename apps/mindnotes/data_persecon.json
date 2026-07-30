@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:47:25.741Z",
+  "exportedAt": "2026-07-30T08:47:34.960Z",
   "data": {
     "topics": [
       {
@@ -2329,8 +2329,8 @@
                 "id": "p-bbr-2007-managers",
                 "title": "P·Bandiera–Barankay–Rasul (2007) — Manager Incentives & Worker Reassignment",
                 "content": "**Ref.** Bandiera, O., Barankay, I. & Rasul, I. (2007). Incentives for managers and inequality among workers: Evidence from a firm-level experiment. *Quarterly Journal of Economics*, 122(2), 729–773.\n\n---\n\n## Intro\n\n**Field experiment where managers received performance-based bonuses.** The unintended-but-central effect: managers began reassigning workers to teams differently — cherry-picking high-productivity workers into their own teams and reallocating tasks to favor them.\n\n## Setup\n\n- UK soft-fruit farm; same firm as BBR 2005 and BBR 2013 but different experiment.\n- Managers (previously flat-paid) randomly assigned to receive performance bonuses based on team output.\n- Rich data on worker × field × day productivity + observed manager task-assignment decisions.\n\n## Findings\n\n- **Managers reassigned workers strategically** once given incentives: high-productivity workers pulled onto manager's own team; low-productivity workers relegated.\n- **Team productivity rose 21%** on average, but concentrated in already-productive workers.\n- **Increased inequality among workers** — low-productivity workers earned LESS after the intervention.\n\n## Contribution\n\n- **Documents reassignment as an endogenous response** to incentive changes.\n- Direct empirical evidence that: (i) managers CAN reassign to raise productivity, (ii) reassignment is CONSTRAINED without proper incentives to do so.\n- **For Paper 2**: shows the \"given contract\" framing matters. Manager incentives affect whether reassignment happens. Paper 2's design controls for this by fixing contract while varying reassignment technology.\n\n→ Anchor: **Field experiments cluster**\n",
-                "x": -3732.7510884888416,
-                "y": 1120,
+                "x": -3628.8471719875834,
+                "y": 1117.8795119081378,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3076,6 +3076,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:47:23.620Z"
+    "lastEditedAt": "2026-07-30T08:47:31.675Z"
   }
 }
