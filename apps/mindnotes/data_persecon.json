@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T06:59:41.277Z",
+  "exportedAt": "2026-07-30T06:59:50.912Z",
   "data": {
     "topics": [
       {
@@ -2148,8 +2148,8 @@
                 "id": "p-rosen-1982",
                 "title": "P·Rosen (1982) — Authority & Distribution of Earnings",
                 "content": "**Ref.** Rosen, S. (1982). Authority, control, and the distribution of earnings. *Bell Journal of Economics*, 13(2), 311–323.\n\n---\n\n## Intro\n\nThe **founding paper of talent-based hierarchical assignment.** Explains why earnings distributions have a stretched right tail: small differences in ability translate into large differences in earnings when talent operates on a larger scale via hierarchy.\n\n## Setup\n\n- Firm has a hierarchy with $L$ layers.\n- Worker at layer $\\ell$ manages workers at layer $\\ell - 1$.\n- Talent scales multiplicatively: a manager with talent $\\theta$ multiplies each subordinate's output by $\\theta$.\n\n## Result\n\n- Optimal assignment sorts high-$\\theta$ workers into higher layers.\n- Marginal returns to talent grow exponentially with layer.\n- **Earnings distribution has a stretched right tail** driven purely by hierarchical assignment — not by superstar demand-side (that came later in Rosen 1981 superstars, Rosen 1986 elimination tournaments).\n\n## Contribution\n\n- Precursor to knowledge hierarchies (Garicano 2000).\n- Complement to Rosen (1986) elimination tournaments in Paper 1.\n- Assignment as a source of within-firm wage inequality — reappears in Song et al. 2019 empirical work.\n\n→ Anchor: **Assignment theory cluster**\n",
-                "x": -10245,
-                "y": 1025,
+                "x": -10932.631878429147,
+                "y": 1035.263162364614,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2166,8 +2166,8 @@
                 "id": "p-sattinger-1993",
                 "title": "P·Sattinger (1993) — Assignment Models Survey",
                 "content": "**Ref.** Sattinger, M. (1993). Assignment models of the distribution of earnings. *Journal of Economic Literature*, 31(2), 831–880.\n\n---\n\n## Intro\n\n**Field-defining survey of assignment models.** Establishes the template for how comparative advantage between heterogeneous workers and heterogeneous jobs generates earnings distributions.\n\n## Contribution\n\n- Provides the taxonomy of assignment models: Roy (1951) selection, Tinbergen (1956) matching, Ricardian comparative advantage, task-based extensions.\n- Formalizes: worker $i$ of type $\\theta_i$ matched to job $j$ of complexity $c_j$; output $f(\\theta_i, c_j)$; equilibrium wage determined by market clearing.\n- **Log-supermodularity** of $f$ generates positive assortative matching.\n- The template for later empirical work: Costinot-Vogel (2010), Acemoglu-Autor (2011).\n\n## Why it matters for Paper 2\n\nIf task assignment is a free parameter (as AI enables), the Sattinger framework is exactly the right lens. Reorganization = re-matching workers to tasks along comparative advantage.\n\n→ Anchor: extends **Rosen (1982)**; template for **Costinot-Vogel (2010)**.\n",
-                "x": -10245,
-                "y": 1645,
+                "x": -10932.631878429147,
+                "y": 1655.263162364614,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2184,8 +2184,8 @@
                 "id": "p-garicano-2000",
                 "title": "P·Garicano (2000) — Knowledge Hierarchies",
                 "content": "**Ref.** Garicano, L. (2000). Hierarchies and the organization of knowledge in production. *Journal of Political Economy*, 108(5), 874–904.\n\n---\n\n## Intro\n\nOne of the **most important organizational-economics papers of the last 25 years.** Explains why firms are organized as hierarchies with experts at the top: knowledge/attention is scarce, and hierarchies economize on it by referring hard problems upward.\n\n## Setup\n\n- Problems arrive with a distribution of complexity.\n- Workers can solve any problem below their knowledge threshold $z$; refer harder problems upward.\n- Higher-$z$ workers cost more to hire (higher training).\n- Communication cost $h$ per referral.\n\n## Result\n\n- Firm chooses $L$ (number of layers) + $z_\\ell$ (threshold at each layer) to minimize total cost.\n- **Optimal hierarchy**: low-$z$ workers handle common problems; rare problems escalate to specialists.\n- Comparative statics:\n  - Cheaper communication → flatter hierarchies, more layers.\n  - Cheaper problems (routine) → fewer specialists needed.\n\n## Contribution\n\n- **Foundation** for a large literature on knowledge hierarchies (Garicano-Rossi-Hansberg 2006, 2015).\n- Explains observed layered structure of professional-services firms (consulting, law, medicine).\n- **Directly relevant to Paper 2**: AI is a technology that changes the cost of solving problems at each level → reshapes the optimal hierarchy → forces reassignment.\n\n→ Anchor: **Assignment theory cluster**; children: **G&R-H (2006)**, **Costinot-Vogel (2010)**\n",
-                "x": -9420,
-                "y": 1025,
+                "x": -10107.631878429147,
+                "y": 1035.263162364614,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2206,8 +2206,8 @@
                 "id": "p-garicano-rrh-2006",
                 "title": "P·Garicano–Rossi-Hansberg (2006) — Org & Inequality",
                 "content": "**Ref.** Garicano, L. & Rossi-Hansberg, E. (2006). Organization and inequality in a knowledge economy. *Quarterly Journal of Economics*, 121(4), 1383–1435.\n\n---\n\n## Intro\n\nExtends Garicano (2000) with **endogenous knowledge acquisition + wage distribution effects.** Answers: how does the internal organization of firms determine the wage distribution across skills?\n\n## Setup\n\n- Continuous distribution of worker skill.\n- Firms choose hierarchy structure endogenously.\n- Workers choose knowledge acquisition ex-ante.\n\n## Result\n\n- **Assortative matching**: high-skill workers sort into upper layers.\n- Technology (ICT lowering communication cost) → higher-skill workers become more valuable, wage inequality rises.\n- Explains the observed \"hollowing out\" of middle-skill jobs: technology reduces the value of intermediate-layer supervisors.\n\n## Contribution\n\n- Very close to Paper 2's framing: technology → task reallocation → wage inequality.\n- **Direct prediction**: AI lowering solving-cost at low layers should REDUCE returns to low-layer workers (they're substituted) but INCREASE returns to high-layer workers (leverage grows).\n- BLR (2023) finding — bottom-quartile customer service agents gain most from AI — is empirical evidence AGAINST this prediction in the customer-service context. Interesting tension for the paper.\n\n→ Anchor: extends **Garicano (2000)**\n",
-                "x": -9695,
-                "y": 1645,
+                "x": -10382.631878429147,
+                "y": 1655.263162364614,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2219,8 +2219,8 @@
                 "id": "p-costinot-vogel-2010",
                 "title": "P·Costinot–Vogel (2010) — Matching & Inequality",
                 "content": "**Ref.** Costinot, A. & Vogel, J. (2010). Matching and inequality in the world economy. *Journal of Political Economy*, 118(4), 747–786.\n\n---\n\n## Intro\n\n**Unified assignment framework** with continuous worker types and continuous task complexities. Generalizes Sattinger (1993) and connects the assignment literature to international trade.\n\n## Setup\n\n- Worker skill $\\theta \\in [\\underline\\theta, \\bar\\theta]$; task complexity $\\sigma \\in [\\underline\\sigma, \\bar\\sigma]$.\n- Production function $f(\\theta, \\sigma)$ log-supermodular → positive assortative matching.\n- Continuous market clearing.\n\n## Result\n\n- **PAM**: unique equilibrium assignment $\\sigma^*(\\theta)$ increasing in $\\theta$.\n- **Wage function**: $w(\\theta) = \\int_{\\underline\\theta}^\\theta \\partial f/\\partial\\theta$ evaluated along the matching curve.\n- Comparative statics on skill supply changes: adding low-skill workers RAISES the wages of ALL workers above them (via reallocation toward higher-complexity tasks).\n\n## Why it matters for Paper 2\n\n- Provides the **general theoretical apparatus** for continuous task reallocation.\n- AI-enabled reassignment IS a shift in the matching function $\\sigma^*(\\theta)$. C-V's comparative statics give predictions about who gains and loses.\n\n→ Anchor: extends **Sattinger (1993)** and **Garicano (2000)**\n",
-                "x": -9070,
-                "y": 1660,
+                "x": -9757.631878429147,
+                "y": 1670.263162364614,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2232,8 +2232,8 @@
                 "id": "p-lazear-1995",
                 "title": "P·Lazear (1995) — Personnel Economics",
                 "content": "**Ref.** Lazear, E. P. (1995). *Personnel Economics.* MIT Press. Wicksell Lectures.\n\n---\n\n## Intro\n\n**Founding book of \"personnel economics\"** as a distinct field. Applies rigorous economic theory (agency, matching, tournaments, human capital) to HR practice: hiring, promotion, job design, compensation.\n\n## Structure\n\n- Ch 1: The Employment Relationship (agency framework).\n- Ch 2: Wage Structure (tournaments, promotions).\n- Ch 3: Sorting Through Compensation.\n- Ch 4: Turnover and Retirement.\n- Ch 5: Payment Methods (piece rate, bonus, deferred pay).\n- Ch 6: Fringe Benefits.\n- Ch 7: Team Compensation.\n\n## Contribution\n\n- **Treats task assignment as an HR decision**, explicitly. Provides the applied bridge between assignment theory (Rosen, Sattinger) and firm-level practice.\n- Field-defining textbook. Extended in Lazear-Shaw (2007) and Lazear-Oyer (2013).\n- **For Paper 2**: the analytical toolkit for translating task-reassignment predictions into HR-implementable policies.\n\n→ Anchor: extends **Sattinger (1993)**; child: **Lazear-Oyer (2013)**\n",
-                "x": -10245,
-                "y": 2265,
+                "x": -10932.631878429147,
+                "y": 2275.263162364614,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2250,8 +2250,8 @@
                 "id": "p-lazear-oyer-2013",
                 "title": "P·Lazear–Oyer (2013) — Personnel Economics Handbook",
                 "content": "**Ref.** Lazear, E. P. & Oyer, P. (2013). Personnel economics. Chapter 12 in *Handbook of Organizational Economics* (Gibbons, R. & Roberts, J., eds.), pp. 479–519. Princeton University Press.\n\n---\n\n## Intro\n\n**Handbook synthesis** of the personnel-economics literature circa 2013. The reference chapter for anyone entering the field.\n\n## Structure\n\n- Job design (including task assignment).\n- Compensation and incentives.\n- Careers and turnover.\n- Team production and peer effects.\n- Recruitment and selection.\n\n## Contribution\n\n- Consolidates 20+ years of empirical progress since Lazear (1995).\n- **Positions task assignment** as a core HR lever alongside compensation.\n- Emphasises comparative-advantage sorting in job design (Roy-style).\n- **For Paper 2**: the definitive reference for the current state of personnel economics on task assignment.\n\n→ Anchor: extends **Lazear (1995)**\n",
-                "x": -10245,
-                "y": 2885,
+                "x": -10932.631878429147,
+                "y": 2895.263162364614,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3056,6 +3056,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T06:59:40.935Z"
+    "lastEditedAt": "2026-07-30T06:59:48.789Z"
   }
 }
