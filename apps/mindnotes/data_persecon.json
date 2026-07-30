@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:50:18.544Z",
+  "exportedAt": "2026-07-30T08:50:21.927Z",
   "data": {
     "topics": [
       {
@@ -2112,8 +2112,8 @@
                 "id": "p-bis-2007",
                 "title": "P·Bartel–Ichniowski–Shaw (2007) — IT + Process Re-engineering",
                 "content": "**Ref.** Bartel, A., Ichniowski, C. & Shaw, K. (2007). How does information technology affect productivity? Plant-level comparisons of product innovation, process improvement, and worker skills. *Quarterly Journal of Economics*, 122(4), 1721–1758.\n\n---\n\n## Intro\n\nExtends BBH 2002 with **plant-level micro-data on valve manufacturers.** Provides one of the cleanest identifications of the IT + reorganization mechanism.\n\n## Design\n\n- 212 valve-manufacturing plants, panel 1997–2005.\n- Detailed measurement of IT adoption (CAD/CAM, ERP), process re-engineering, and worker-skill composition.\n- Instrumental-variable identification using pre-existing IT investments as an instrument.\n\n## Findings\n\n- **Plants adopting IT + process re-engineering saw 15–20% productivity gains** relative to plants adopting IT alone.\n- **Product innovation** was the primary channel: IT enabled reorganized production, which enabled new product introductions.\n- Worker-skill composition shifted toward higher cognitive skill demand (echoing BBH 2002).\n\n## Contribution\n\n- Cleanest micro-identification of the IT-reorganization complementarity.\n- **For Paper 2**: 15–20% is a middle-of-range estimate. Suggests Paper 2's target magnitude for AI-enabled reorganization is realistic.\n- Confirms BBH 2002 at the plant level with cleaner identification.\n\n→ Anchor: extends **BBH 2002**\n",
-                "x": -5782.58575627973,
-                "y": 1760.3933691789084,
+                "x": -5477.235471051543,
+                "y": 1758.2728810870458,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2125,8 +2125,8 @@
                 "id": "p-bemmr-2013",
                 "title": "P·Bloom–Eifert–Mahajan–McKenzie–Roberts (2013) — Does Managment matter?",
                 "content": "**Ref.** Bloom, N., Eifert, B., Mahajan, A., McKenzie, D. & Roberts, J. (2013). Does management matter? Evidence from India. *Quarterly Journal of Economics*, 128(1), 1–51.\n\n---\n\n## Intro\n\n**The cleanest RCT of management-practice reorganization ever run.** Answers: does professional management (task allocation + monitoring + quality control) actually cause productivity gains, or is the correlation confounded?\n\n## Design\n\n- 20 Indian textile plants near Mumbai randomly assigned to receive intensive consulting (Accenture) or none.\n- Consulting focused on 38 management practices covering: factory operations, quality control, inventory management, HRM.\n- Baseline + 1-year outcomes on productivity, quality, output.\n\n## Findings\n\n- **~17% productivity gain in year 1** for treated plants vs controls.\n- Gains persisted after consultants left (partial retention).\n- Effects concentrated in factory-floor task reorganization: better job assignment, cleaner workflows, quality control at each station.\n- Management-practice gains alone explain **~35% of the productivity gap** between India and US textile production.\n\n## Contribution\n\n- **Gold-standard causal evidence** that management practices (including task reorganization) cause productivity.\n- **For Paper 2**: 17% is a strong reference number. RCT design means it's clean of confounding. Sets the \"reasonable magnitude\" bar for reorganization interventions.\n- Motivated a large follow-up literature on management-consulting experiments.\n\n→ Anchor: **Reorganization value cluster**; child: **Hsieh-Klenow 2009**\n",
-                "x": -6373.460617521816,
-                "y": 1488.3624875247497,
+                "x": -5972.688368159817,
+                "y": 1125.7590238162752,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2787,8 +2787,8 @@
                 "id": "p-bbh-2002",
                 "title": "P·Bresnahan–Brynjolfsson–Hitt (2002) — IT + Reorganization Complementarity",
                 "content": "**Ref.** Bresnahan, T. F., Brynjolfsson, E. & Hitt, L. M. (2002). Information technology, workplace organization, and the demand for skilled labor: Firm-level evidence. *Quarterly Journal of Economics*, 117(1), 339–376.\n\n---\n\n## Intro\n\n**Seminal empirical study of IT–organization complementarity.** Answers: do firms that combine IT adoption with organizational restructuring get more than the sum of the two parts?\n\n## Design\n\n- Firm-level panel data: ~400 large US firms, 1987–1994.\n- Measures: IT capital stock, use of decentralized decision-making, teamwork, skill composition.\n- Test: is the interaction term IT × reorganization significantly positive?\n\n## Findings\n\n- **YES — strong super-modularity between IT and reorganization.**\n- Firms adopting IT + reorganizing had productivity gains that exceeded the sum of IT-alone gain plus reorganization-alone gain.\n- The complementarity was concentrated in the demand for skilled labor (decision-authority reorganization increased returns to cognitive skill).\n\n## Contribution\n\n- **Foundation for the \"IT–organization complementarity\" literature.**\n- Directly relevant to Paper 2: gen-AI is the modern analog to 1990s IT; the same complementarity mechanism predicts firms that reorganize alongside AI adoption will gain more than the sum of the parts.\n- Motivates the ABM design where AI capability and reassignment are separate levers whose interaction matters.\n\n→ Anchor: **Reorganization value cluster**; child: **BIS 2007**\n",
-                "x": -5780.517536007968,
-                "y": 1132.1204880918626,
+                "x": -5475.167250779781,
+                "y": 1130,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3093,6 +3093,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:50:16.408Z"
+    "lastEditedAt": "2026-07-30T08:50:19.809Z"
   }
 }
