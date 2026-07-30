@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T07:25:46.843Z",
+  "exportedAt": "2026-07-30T07:25:49.845Z",
   "data": {
     "topics": [
       {
@@ -2330,8 +2330,8 @@
                 "id": "reorg-value-head",
                 "title": "▼ REORGANIZATION VALUE · empirical estimates",
                 "content": "# REORGANIZATION VALUE · empirical estimates\n\n**How much productivity does reorganizing work actually generate?**\n\nThis is the empirical core of Paper 2. Estimates come from three domains, each with different identification strategies and different magnitudes:\n\n## The three empirical lineages below\n\n**HRM bundle studies** (Ichniowski-Shaw-Prennushi 1997) — clean plant-level identification of coordinated changes in task assignment + teams + incentives. **~7% productivity gain** from complete HRM bundles. Small but very cleanly identified.\n\n**IT + workplace reorganization complementarity** (Bresnahan-Brynjolfsson-Hitt 2002 → Bartel-Ichniowski-Shaw 2007) — firms that combine IT adoption with organizational restructuring gain **more than the sum of the two parts** (super-modularity). Reorganization alone or IT alone under-shoot the joint effect. Direct analog to Paper 2's mechanism, but with IT instead of AI as the enabling technology. **BIS 2007** documents **15–20% gains** in valve manufacturing.\n\n**Management-practice RCTs and macro upper bounds** (Bloom-Eifert-Mahajan-McKenzie-Roberts 2013 → Hsieh-Klenow 2009) — RCT of consulting-driven management-practice reorganization in Indian textile plants shows **~17% productivity gain in year 1**. Hsieh-Klenow's cross-country misallocation study provides the **theoretical upper bound**: eliminating within-industry misallocation would raise TFP by **30–60% in developing countries** vs the US frontier.\n\n## What these estimates tell us about Paper 2's magnitude\n\n- **Lower bound (HRM alone, ISP 1997)**: ~7%\n- **Middle range (IT-enabled reorganization, BBH 2002 / BIS 2007)**: 15–20%\n- **Consulting-driven reorganization (BEMMR 2013)**: 17%\n- **Upper bound from macro misallocation (HK 2009)**: 30–60%\n- **Gen-AI single-domain (BLR 2023)**: 14% in customer service\n\nPaper 2's likely magnitude range: **10–30%** for a general firm-level intervention.\n\n## What the literature is missing (Paper 2's opening)\n\n**No published paper cleanly isolates task reassignment as a lever independent of the technology that triggered it.** Reorganization is always observed alongside IT adoption (BBH, BIS), consulting intervention (BEMMR), or AI rollout (BLR). The counterfactual \"same technology + no reassignment\" is rarely constructed.\n\nPaper 2's contribution: a design that isolates the reassignment margin. The ABM lets you toggle it on/off with fixed AI capability.\n\n→ Anchor: **Reorganization Theory — Core**\n",
-                "x": -10190,
-                "y": 475,
+                "x": -10175,
+                "y": 480,
                 "width": 480,
                 "height": 360,
                 "flashcard": false,
@@ -2357,8 +2357,8 @@
                 "id": "p-isp-1997",
                 "title": "P·Ichniowski–Shaw–Prennushi (1997) — HRM Bundles in Steel Lines",
                 "content": "**Ref.** Ichniowski, C., Shaw, K. & Prennushi, G. (1997). The effects of human resource management practices on productivity: A study of steel finishing lines. *American Economic Review*, 87(3), 291–313.\n\n---\n\n## Intro\n\n**Cleanly-identified plant-level study** of how coordinated HRM changes (task assignment + team structure + incentive alignment) affect productivity. Uses a rare setting: 36 steel finishing lines with detailed matched data on organizational practices and output.\n\n## Design\n\n- Panel data on 36 steel finishing lines, monthly frequency.\n- Rich measurement of HRM practices: incentive pay, teamwork, flexible job assignment, employment security, extensive training, information sharing.\n- **Bundles hypothesis**: HRM practices are complements — changing one alone has little effect; changing them together has large effect.\n\n## Findings\n\n- **Complete HRM bundle → ~7% productivity gain** vs traditional practice.\n- **Piecemeal adoption → near-zero gain.** Confirms the complementarity/bundles hypothesis.\n- Practices that matter most: performance pay + teamwork + flexible job assignment (the reassignment margin).\n\n## Contribution\n\n- **Foundation for the \"bundles\" literature** in HRM economics.\n- Cleanly identified via within-plant variation over time.\n- **For Paper 2**: shows that task reassignment ALONE doesn't work — must be bundled with other changes. Suggests Paper 2's ABM should model reassignment × contract × team-structure jointly.\n\n→ Anchor: **Reorganization value cluster**\n",
-                "x": -10720,
-                "y": 1095,
+                "x": -10705,
+                "y": 1100,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2370,8 +2370,8 @@
                 "id": "p-bbh-2002",
                 "title": "P·Bresnahan–Brynjolfsson–Hitt (2002) — IT + Reorganization Complementarity",
                 "content": "**Ref.** Bresnahan, T. F., Brynjolfsson, E. & Hitt, L. M. (2002). Information technology, workplace organization, and the demand for skilled labor: Firm-level evidence. *Quarterly Journal of Economics*, 117(1), 339–376.\n\n---\n\n## Intro\n\n**Seminal empirical study of IT–organization complementarity.** Answers: do firms that combine IT adoption with organizational restructuring get more than the sum of the two parts?\n\n## Design\n\n- Firm-level panel data: ~400 large US firms, 1987–1994.\n- Measures: IT capital stock, use of decentralized decision-making, teamwork, skill composition.\n- Test: is the interaction term IT × reorganization significantly positive?\n\n## Findings\n\n- **YES — strong super-modularity between IT and reorganization.**\n- Firms adopting IT + reorganizing had productivity gains that exceeded the sum of IT-alone gain plus reorganization-alone gain.\n- The complementarity was concentrated in the demand for skilled labor (decision-authority reorganization increased returns to cognitive skill).\n\n## Contribution\n\n- **Foundation for the \"IT–organization complementarity\" literature.**\n- Directly relevant to Paper 2: gen-AI is the modern analog to 1990s IT; the same complementarity mechanism predicts firms that reorganize alongside AI adoption will gain more than the sum of the parts.\n- Motivates the ABM design where AI capability and reassignment are separate levers whose interaction matters.\n\n→ Anchor: **Reorganization value cluster**; child: **BIS 2007**\n",
-                "x": -10170,
-                "y": 1095,
+                "x": -10155,
+                "y": 1100,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2388,8 +2388,8 @@
                 "id": "p-bis-2007",
                 "title": "P·Bartel–Ichniowski–Shaw (2007) — IT + Process Re-engineering",
                 "content": "**Ref.** Bartel, A., Ichniowski, C. & Shaw, K. (2007). How does information technology affect productivity? Plant-level comparisons of product innovation, process improvement, and worker skills. *Quarterly Journal of Economics*, 122(4), 1721–1758.\n\n---\n\n## Intro\n\nExtends BBH 2002 with **plant-level micro-data on valve manufacturers.** Provides one of the cleanest identifications of the IT + reorganization mechanism.\n\n## Design\n\n- 212 valve-manufacturing plants, panel 1997–2005.\n- Detailed measurement of IT adoption (CAD/CAM, ERP), process re-engineering, and worker-skill composition.\n- Instrumental-variable identification using pre-existing IT investments as an instrument.\n\n## Findings\n\n- **Plants adopting IT + process re-engineering saw 15–20% productivity gains** relative to plants adopting IT alone.\n- **Product innovation** was the primary channel: IT enabled reorganized production, which enabled new product introductions.\n- Worker-skill composition shifted toward higher cognitive skill demand (echoing BBH 2002).\n\n## Contribution\n\n- Cleanest micro-identification of the IT-reorganization complementarity.\n- **For Paper 2**: 15–20% is a middle-of-range estimate. Suggests Paper 2's target magnitude for AI-enabled reorganization is realistic.\n- Confirms BBH 2002 at the plant level with cleaner identification.\n\n→ Anchor: extends **BBH 2002**\n",
-                "x": -10170,
-                "y": 1715,
+                "x": -10155,
+                "y": 1720,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2401,8 +2401,8 @@
                 "id": "p-bemmr-2013",
                 "title": "P·Bloom–Eifert–Mahajan–McKenzie–Roberts (2013) — India Management RCT",
                 "content": "**Ref.** Bloom, N., Eifert, B., Mahajan, A., McKenzie, D. & Roberts, J. (2013). Does management matter? Evidence from India. *Quarterly Journal of Economics*, 128(1), 1–51.\n\n---\n\n## Intro\n\n**The cleanest RCT of management-practice reorganization ever run.** Answers: does professional management (task allocation + monitoring + quality control) actually cause productivity gains, or is the correlation confounded?\n\n## Design\n\n- 20 Indian textile plants near Mumbai randomly assigned to receive intensive consulting (Accenture) or none.\n- Consulting focused on 38 management practices covering: factory operations, quality control, inventory management, HRM.\n- Baseline + 1-year outcomes on productivity, quality, output.\n\n## Findings\n\n- **~17% productivity gain in year 1** for treated plants vs controls.\n- Gains persisted after consultants left (partial retention).\n- Effects concentrated in factory-floor task reorganization: better job assignment, cleaner workflows, quality control at each station.\n- Management-practice gains alone explain **~35% of the productivity gap** between India and US textile production.\n\n## Contribution\n\n- **Gold-standard causal evidence** that management practices (including task reorganization) cause productivity.\n- **For Paper 2**: 17% is a strong reference number. RCT design means it's clean of confounding. Sets the \"reasonable magnitude\" bar for reorganization interventions.\n- Motivated a large follow-up literature on management-consulting experiments.\n\n→ Anchor: **Reorganization value cluster**; child: **Hsieh-Klenow 2009**\n",
-                "x": -9620,
-                "y": 1095,
+                "x": -9605,
+                "y": 1100,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2419,8 +2419,8 @@
                 "id": "p-hsieh-klenow-2009",
                 "title": "P·Hsieh–Klenow (2009) — Misallocation and TFP",
                 "content": "**Ref.** Hsieh, C.-T. & Klenow, P. J. (2009). Misallocation and manufacturing TFP in China and India. *Quarterly Journal of Economics*, 124(4), 1403–1448.\n\n---\n\n## Intro\n\n**Field-defining macro paper on misallocation.** Uses a monopolistic-competition model to estimate the aggregate TFP loss from misallocation of capital and labor across manufacturing plants within the same industry.\n\n## Method\n\n- Model: heterogeneous plants within each 4-digit industry, monopolistic competition, Cobb-Douglas production.\n- Under efficient allocation, marginal revenue products would be equalized across plants.\n- Observed dispersion of revenue products → measure of misallocation.\n- Counterfactual: what TFP would we observe if misallocation were eliminated (to US level)?\n\n## Findings\n\n- **China 1998**: eliminating misallocation would raise manufacturing TFP by **30–50%**.\n- **India 1994**: **40–60%** TFP gain.\n- Sources of misallocation: distortionary taxes, credit constraints, size-dependent regulations, labour market frictions.\n- Even the US has misallocation; benchmark is \"as good as US\" not \"first-best\".\n\n## Contribution\n\n- **Establishes the upper-bound estimate** for how much productivity is lost to misallocation across the economy.\n- Massive follow-up literature: Restuccia-Rogerson 2008 (methodology), Bils-Klenow-Ruane 2020 (updated estimates), Adamopoulos-Restuccia 2014 (agriculture).\n- **For Paper 2**: the upper-bound reference. If a single firm's task reassignment can capture even a fraction of the within-industry misallocation, gains could be very large. Says the \"ceiling\" of the reorganization value is HIGH.\n\n→ Anchor: extends **BEMMR 2013**\n",
-                "x": -9620,
-                "y": 1715,
+                "x": -9605,
+                "y": 1720,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3056,6 +3056,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T07:25:44.712Z"
+    "lastEditedAt": "2026-07-30T07:25:47.729Z"
   }
 }
