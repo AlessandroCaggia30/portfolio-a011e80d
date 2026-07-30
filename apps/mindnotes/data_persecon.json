@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T06:59:17.215Z",
+  "exportedAt": "2026-07-30T06:59:23.153Z",
   "data": {
     "topics": [
       {
@@ -2569,8 +2569,8 @@
                 "id": "reorg-mismatch-head",
                 "title": "▼ Skill Heterogeneity & Mismatch Value · [PAPER 2 CORE]",
                 "content": "# Skill Heterogeneity & Mismatch Value · [PAPER 2 CORE]\n\n**The modern empirical literature quantifying value lost to worker-task mismatch.** This is the PRIMARY cluster for Paper 2 — every paper below directly measures the counterpart to $V^{*}$.\n\n## What these papers measure\n\nGiven matched employer-employee data with multi-dimensional skill measures ($\\alpha_i \\in \\mathbb{R}^K$ per worker, $\\sigma_j \\in \\mathbb{R}^K$ per job requirements), estimate:\n\n$$\\text{Mismatch}_i \\;=\\; d(\\alpha_i, \\sigma_{j(i)}) \\;\\;\\; \\text{vs.} \\;\\;\\; \\text{Mismatch}^{*}_i = \\min_j d(\\alpha_i, \\sigma_j)$$\n\nand the productivity gap between observed and best-matched.\n\n## Three empirical lineages\n\n**Individual-level task heterogeneity within occupations** (Autor-Handel 2013 → Yamaguchi 2012)\nAutor, Levy, and Murnane (2003), The Skill Content of Recent Technological Change, Quarterly Journal of Economics.:\n- ALM uses data from the Dictionary of Occupational Titles (DOT) to assign occupations scores on different task dimensions\n\nAutor-Handel 2013:\n- Occupation FE alone miss substantial within-occupation heterogeneity.\n- Individual task performance predicts wages significantly beyond occupation × industry FE. Adds ~20% to R² of wage regression.\n- Task heterogeneity within occupations is comparable in magnitude to between-occupation heterogeneity\nP·Yamaguchi (2012):\n\n\n**Multi-dim skill mismatch quantification** (Lise-Postel-Vinay 2020 → Guvenen-Kuruscu-Tanaka-Wiczer 2020)\n- LPV: multi-dim skills + on-the-job search. Sorting explains ~30% of wage variance.\n- **GKTW: THE central paper.** Multi-dim skill mismatch causes substantial productivity loss; mismatch decays with tenure but incompletely. Direct empirical estimate of $V^{*}$.\n\n**Match quality + mobility patterns** (Fredriksson-Hensvik-Skans 2018 → Groes-Kircher-Manovskii 2015)\n- FHS: Swedish employer-employee data. Better matches → higher entry wages, lower mobility. Documents match value directly.\n- GKM: U-shape of occupational mobility by wage — both low- and high-earners switch more, consistent with mismatch-detection models.\n\n\n\n\n\n\n\n",
-                "x": -8165,
-                "y": 405,
+                "x": -8116.016725077978,
+                "y": 370.0119464842701,
                 "width": 480,
                 "height": 360,
                 "flashcard": false,
@@ -2635,8 +2635,8 @@
                 "id": "p-heckman-honore-1990",
                 "title": "P·Heckman–Honoré (1990) — Empirical Content of Roy Model",
                 "content": "\\section{Heckman, J. J. \\& Honoré, B. E. (1990). \\textit{The Empirical Content of the Roy Model}. \\textit{Econometrica}, 58(5), 1121--1149.}\n\n\\subsection{Introduction}\n\n\\textbf{Non-parametric identification theorem for the Roy model.} Rather than estimating a new empirical model, this paper asks a fundamental econometric question:\n\n\\begin{quote}\n\\emph{Suppose we only observe workers' occupations and wages. Can we recover the underlying distribution of skills and comparative advantage?}\n\\end{quote}\n\nTheir answer is remarkably strong:\n\n\\begin{quote}\n\\textbf{In general, no.}\n\\end{quote}\n\nThe paper establishes the identification limits of the Roy model and explains why richer data or additional assumptions are necessary for empirical work on worker sorting.\n\n\\subsection{The Intuition}\n\nSuppose there are only two occupations:\n\n\\begin{itemize}\n    \\item Engineer\n    \\item Teacher\n\\end{itemize}\n\nEach worker has \\textbf{two potential wages}.\n\n\n\n\n\n\n\n\n\nThe crucial problem is that we never observe the counterfactual wage.\n\n\\begin{itemize}\n    \\item We never observe A's teaching wage.\n    \\item We never observe B's engineering wage.\n    \\item We never observe C's teaching wage.\n\\end{itemize}\n\nHalf of the information needed to recover the joint distribution of skills is permanently missing.\n\n\\subsection{Why This Creates an Identification Problem}\n\nDifferent underlying economies can generate exactly the same observed data.\n\n\\paragraph{World 1: Engineers earn higher wages}\n\nEveryone has similar abilities, but engineering jobs pay more.\n\n\\paragraph{World 2: Engineers are simply better workers}\n\n\n\n\n\n\n\n\n\n\n\n\\subsection{Main Result}\n\nGiven standard cross-sectional data (observed wages and observed occupation choice),\n\n\\begin{itemize}\n    \\item the \\textbf{joint distribution of skills is \\emph{not} non-parametrically identified};\n    \\item without additional information, one cannot separately identify:\n    \\begin{enumerate}\n        \\item the distribution of worker skills,\n        \\item the mapping from skills to wages,\n        \\item and the occupational sorting mechanism.\n    \\end{enumerate}\n\\end{itemize}\n\nThis is fundamentally a \\textbf{missing counterfactual problem}: each worker reveals only one of their potential wages.\n\n\\subsection{What Makes Identification Possible?}\n\nThe paper shows that additional information or assumptions are required.\n\n\\subsubsection*{1. Exclusion Restrictions}\n\nFind variables that affect occupational choice but do \\emph{not} directly affect wages.\n\nFor example, distance to a university may influence whether someone becomes an engineer without affecting engineering productivity itself.\n\nSuch variables generate exogenous variation that helps identify the Roy model.\n\n\\subsubsection*{2. Panel Data}\n\nObserve workers repeatedly over time.\n\nOccupational switches, wage growth, and career histories reveal much more information about workers' comparative advantage than a single cross section. I mean if A was a teacher and then becomes and engineer you can estimate something. \n\n\\subsubsection*{3. Rank Invariance (or Similar Structural Assumptions)}\n\nAssume workers maintain their relative ordering in skill across occupations or over time.\n\nIf Alice is more skilled than Bob, she remains more skilled in every potential outcome.\n\n\\subsection{Why This Paper Matters}\n\nThis paper explains why \\textbf{Heckman \\& Sedlacek (1985)} had to impose strong distributional assumptions.\n\nWithout those assumptions, the observed data are insufficient to identify the Roy model.\n\n\n\n\n",
-                "x": -7431.001641077295,
-                "y": 1032.5886102663567,
+                "x": -7365.6906078479315,
+                "y": 1027.923536464259,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3052,6 +3052,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T06:59:14.734Z"
+    "lastEditedAt": "2026-07-30T06:59:21.035Z"
   }
 }
