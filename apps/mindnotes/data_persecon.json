@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T07:06:55.638Z",
+  "exportedAt": "2026-07-30T07:07:01.640Z",
   "data": {
     "topics": [
       {
@@ -704,8 +704,8 @@
                 "id": "hub-incentives-core",
                 "title": "★ Incentives Theory — Core",
                 "content": "# Incentives Theory — Core\n\n\n\n## The question\n\n\\textbf{Why don't workers exert first-best (socially efficient) effort?}\n\nOR\n\n\\textbf{How can firms design incentives to increase worker productivity?}\n\n\n\n## The key problem\n$\\bullet$ First layer: \\textbf{Effort $e$ is unobservable} (hidden action / moral hazard), so contracts cannot be written directly on effort. \\textit{Ross (1973), \\emph{The Economic Theory of Agency: The Principal's Problem}; Holmström (1979), \\emph{Moral Hazard and Observability}}\n\n$\\bullet$ Second layer: firms therefore compensate workers using \\textbf{observable performance measures} (individual output $s_i$, team output, profits, supervisor evaluations, customer satisfaction, etc.), which are generally noisy and incomplete proxies for effort.\n\\hfill \\textit{Holmström (1979), \\emph{Moral Hazard and Observability}; Holmström \\& Milgrom (1987), \\emph{Aggregation and Linearity in the Provision of Intertemporal Incentives}}\n\n$\\rightarrow$ If a worker knows that greater effort will not be rewarded (flat pay), or will only be imperfectly rewarded because performance measures are noisy, incentives to exert effort are weakened.\n\\hfill \\textit{Holmström \\& Milgrom (1987), \\emph{Aggregation and Linearity in the Provision of Intertemporal Incentives}}\n\n\\vspace{0.5em}\n\n\\footnotesize\n$^1$ Much of the incentives literature can be interpreted as extensions of these two informational problems.\n\n\\begin{itemize}\n\\item \\textbf{Multitasking}: firms observe only some dimensions of effort, so strong incentives distort effort toward measurable tasks.\n\\hfill \\textit{Holmström \\& Milgrom (1991), \\emph{Multitask Principal--Agent Analyses: Incentive Contracts, Asset Ownership, and Job Design}}\n\n\\item \\textbf{Career concerns}: future wages depend on the market's inference about worker ability from observed performance, creating dynamic incentives.\n\\hfill \\textit{Holmström (1982), \\emph{Managerial Incentive Problems: A Dynamic Perspective}}\n\n\\item \\textbf{Team production / Free-riding}: when only aggregate output is observable, workers do not fully internalize the benefits of their effort.\n\\hfill \\textit{Alchian \\& Demsetz (1972), \\emph{Production, Information Costs, and Economic Organization}; Holmström (1982), \\emph{Moral Hazard in Teams}}\n\n\\item \\textbf{Relative performance evaluation / Tournaments}: when absolute performance is noisy, rewarding workers according to rank filters out common shocks.\n\\hfill \\textit{Lazear \\& Rosen (1981), \\emph{Rank-Order Tournaments as Optimum Labor Contracts}}\n\n\\item \\textbf{Ratchet effect}: workers may deliberately underperform or hide productivity today to avoid tougher future performance targets.\n\\hfill \\textit{Weitzman (1980), \\emph{The ``Ratchet Principle'' and Performance Incentives}; Freixas, Guesnerie \\& Tirole (1985), \\emph{Planning under Incomplete Information and the Ratchet Effect}}\n\\end{itemize}\n\n\\normalsize\n\nWe therefore study two questions:\n\n\\begin{enumerate}\n\\item \\textbf{Which observable performance measure best proxies hidden effort?}\n    \\begin{itemize}\n        \\item Individual output (piece rates)\n        \\hfill \\textit{Holmström \\& Milgrom (1987), \\emph{Aggregation and Linearity in the Provision of Intertemporal Incentives}; Lazear (2000), \\emph{Performance Pay and Productivity}}\n\n        \\item Team output\n        \\hfill \\textit{Holmström (1982), \\emph{Moral Hazard in Teams}}\n\n        \\item Relative performance (rankings)\n        \\hfill \\textit{Lazear \\& Rosen (1981), \\emph{Rank-Order Tournaments as Optimum Labor Contracts}}\n\n        \\item Supervisor evaluations / subjective performance\n        \\hfill \\textit{Baker, Gibbons \\& Murphy (1994), \\emph{Subjective Performance Measures in Optimal Incentive Contracts}}\n\n        \\item Customer satisfaction and other subjective metrics\n        \\hfill \\textit{Baker, Gibbons \\& Murphy (1994), \\emph{Subjective Performance Measures in Optimal Incentive Contracts}}\n    \\end{itemize}\n\n\\item \\textbf{Which compensation instrument best aligns incentives?}\n    \\begin{itemize}\n        \\item Flat wages (benchmark)\n\n        \\item Piece rates / bonuses\n        \\hfill \\textit{Holmström \\& Milgrom (1987), \\emph{Aggregation and Linearity in the Provision of Intertemporal Incentives}; Lazear (2000), \\emph{Performance Pay and Productivity}}\n\n        \\item Deferred compensation\n        \\hfill \\textit{Lazear (1979), \\emph{Why Is There Mandatory Retirement?}}\n\n        \\item Promotions\n        \\hfill \\textit{Lazear \\& Rosen (1981), \\emph{Rank-Order Tournaments as Optimum Labor Contracts}}\n\n        \\item Compensation gaps within the hierarchy (pay dispersion)\n        \\hfill \\textit{Rosen (1986), \\emph{Prizes and Incentives in Elimination Tournaments}; Bloom (1999), \\emph{The Performance Effects of Pay Dispersion on Individuals and Organizations}}\n\n        \\item Equity compensation / stock options\n        \\hfill \\textit{Jensen \\& Murphy (1990), \\emph{Performance Pay and Top-Management Incentives}}\n\n        \\item Efficiency wages\n        \\hfill \\textit{Shapiro \\& Stiglitz (1984), \\emph{Equilibrium Unemployment as a Worker Discipline Device}}\n    \\end{itemize}\n\\end{enumerate}",
-                "x": 550,
-                "y": -1035,
+                "x": 700,
+                "y": -1120,
                 "width": 560,
                 "height": 440,
                 "flashcard": false,
@@ -1944,8 +1944,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": -2346.0335620263304,
-                "y": -2764.414574391514,
+                "x": -2191.0335620263304,
+                "y": -1209.4145743915142,
                 "width": 700,
                 "height": 1000,
                 "popBg": "#ede9fe",
@@ -2235,8 +2235,8 @@
                 "id": "p-lazear-1995",
                 "title": "P·Lazear (1995) — Personnel Economics",
                 "content": "**Ref.** Lazear, E. P. (1995). *Personnel Economics.* MIT Press. Wicksell Lectures.\n\n---\n\n## Intro\n\n**Founding book of \"personnel economics\"** as a distinct field. Applies rigorous economic theory (agency, matching, tournaments, human capital) to HR practice: hiring, promotion, job design, compensation.\n\n## Structure\n\n- Ch 1: The Employment Relationship (agency framework).\n- Ch 2: Wage Structure (tournaments, promotions).\n- Ch 3: Sorting Through Compensation.\n- Ch 4: Turnover and Retirement.\n- Ch 5: Payment Methods (piece rate, bonus, deferred pay).\n- Ch 6: Fringe Benefits.\n- Ch 7: Team Compensation.\n\n## Contribution\n\n- **Treats task assignment as an HR decision**, explicitly. Provides the applied bridge between assignment theory (Rosen, Sattinger) and firm-level practice.\n- Field-defining textbook. Extended in Lazear-Shaw (2007) and Lazear-Oyer (2013).\n- **For Paper 2**: the analytical toolkit for translating task-reassignment predictions into HR-implementable policies.\n\n→ Anchor: extends **Sattinger (1993)**; child: **Lazear-Oyer (2013)**\n",
-                "x": -2669.796427095549,
-                "y": -3521.914467985116,
+                "x": -2519.796427095549,
+                "y": -3606.914467985116,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2249,8 +2249,8 @@
                 "id": "p-lazear-oyer-2013",
                 "title": "P·Lazear–Oyer (2013) — Personnel Economics Handbook",
                 "content": "**Ref.** Lazear, E. P. & Oyer, P. (2013). Personnel economics. Chapter 12 in *Handbook of Organizational Economics* (Gibbons, R. & Roberts, J., eds.), pp. 479–519. Princeton University Press.\n\n---\n\n## Intro\n\n**Handbook synthesis** of the personnel-economics literature circa 2013. The reference chapter for anyone entering the field.\n\n## Structure\n\n- Job design (including task assignment).\n- Compensation and incentives.\n- Careers and turnover.\n- Team production and peer effects.\n- Recruitment and selection.\n\n## Contribution\n\n- Consolidates 20+ years of empirical progress since Lazear (1995).\n- **Positions task assignment** as a core HR lever alongside compensation.\n- Emphasises comparative-advantage sorting in job design (Roy-style).\n- **For Paper 2**: the definitive reference for the current state of personnel economics on task assignment.\n\n→ Anchor: extends **Lazear (1995)**\n",
-                "x": -1905.480411446074,
-                "y": -3490.65816069454,
+                "x": -1755.480411446074,
+                "y": -3575.65816069454,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -2829,8 +2829,8 @@
                 "images": [],
                 "imageWidths": [],
                 "links": [],
-                "x": -1346.486456646524,
-                "y": -2485.8573415523797,
+                "x": -1196.486456646524,
+                "y": -2570.8573415523797,
                 "width": 514.699826275169,
                 "height": 440.482975616612,
                 "color": "purple"
@@ -2848,8 +2848,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 560.2242411411817,
-                "y": -1228.6356091318512,
+                "x": 710.2242411411817,
+                "y": -1313.6356091318512,
                 "width": 544.1154246696123,
                 "height": 155.08205184760126
               },
@@ -2870,8 +2870,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": -3669.6631740203975,
-                "y": -1199.120723076153,
+                "x": -3519.6631740203975,
+                "y": -1284.120723076153,
                 "width": 574,
                 "height": 171
               },
@@ -3056,6 +3056,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T07:06:53.506Z"
+    "lastEditedAt": "2026-07-30T07:06:59.475Z"
   }
 }
