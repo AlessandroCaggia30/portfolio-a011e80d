@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:50:21.927Z",
+  "exportedAt": "2026-07-30T08:50:24.690Z",
   "data": {
     "topics": [
       {
@@ -2125,8 +2125,8 @@
                 "id": "p-bemmr-2013",
                 "title": "P·Bloom–Eifert–Mahajan–McKenzie–Roberts (2013) — Does Managment matter?",
                 "content": "**Ref.** Bloom, N., Eifert, B., Mahajan, A., McKenzie, D. & Roberts, J. (2013). Does management matter? Evidence from India. *Quarterly Journal of Economics*, 128(1), 1–51.\n\n---\n\n## Intro\n\n**The cleanest RCT of management-practice reorganization ever run.** Answers: does professional management (task allocation + monitoring + quality control) actually cause productivity gains, or is the correlation confounded?\n\n## Design\n\n- 20 Indian textile plants near Mumbai randomly assigned to receive intensive consulting (Accenture) or none.\n- Consulting focused on 38 management practices covering: factory operations, quality control, inventory management, HRM.\n- Baseline + 1-year outcomes on productivity, quality, output.\n\n## Findings\n\n- **~17% productivity gain in year 1** for treated plants vs controls.\n- Gains persisted after consultants left (partial retention).\n- Effects concentrated in factory-floor task reorganization: better job assignment, cleaner workflows, quality control at each station.\n- Management-practice gains alone explain **~35% of the productivity gap** between India and US textile production.\n\n## Contribution\n\n- **Gold-standard causal evidence** that management practices (including task reorganization) cause productivity.\n- **For Paper 2**: 17% is a strong reference number. RCT design means it's clean of confounding. Sets the \"reasonable magnitude\" bar for reorganization interventions.\n- Motivated a large follow-up literature on management-consulting experiments.\n\n→ Anchor: **Reorganization value cluster**; child: **Hsieh-Klenow 2009**\n",
-                "x": -5972.688368159817,
-                "y": 1125.7590238162752,
+                "x": -5983.290808619129,
+                "y": 1134.2409761837248,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3093,6 +3093,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:50:19.809Z"
+    "lastEditedAt": "2026-07-30T08:50:22.559Z"
   }
 }
