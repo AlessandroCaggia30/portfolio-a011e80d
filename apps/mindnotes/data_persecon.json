@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T09:06:56.906Z",
+  "exportedAt": "2026-07-30T09:07:01.760Z",
   "data": {
     "topics": [
       {
@@ -331,10 +331,6 @@
                   },
                   {
                     "target": "p-bloom-van-reenen-2013",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "p-lazear-2000-safelite",
                     "type": "forward"
                   }
                 ]
@@ -796,8 +792,8 @@
                 "id": "p-lazear-2000-safelite",
                 "title": "P·Lazear (2000) — Safelite Empirics",
                 "content": "**Ref.** Lazear, E. (2000). Performance pay and productivity. *American Economic Review*, 90(5), 1346–1361.\n\n---\n\n## Intro\n\nThe **canonical empirical benchmark** for piece-rate incentive effects in personnel economics. Safelite Auto Glass (windshield installation) switched from hourly wages to per-windshield piece rates over 19 months, giving Lazear a rare natural experiment with rich individual-level data. Finding: **44% average productivity gain**. Lazear decomposes the gain into two channels — **incentive effect** (workers work harder) and **selection effect** (better workers stay, worse workers leave) — and shows both contribute roughly equally. This decomposition became the field-standard empirical framework for evaluating any performance-pay initiative.\n\n## Setup\n\n- Safelite installs auto windshields. Job is (i) discrete and countable, (ii) individually assignable, (iii) quality easily monitored (leaks reported by customers), (iv) individual output.\n- **Pre-switch**: hourly wage. Workers paid for time, not output.\n- **Post-switch**: piece rate per installed windshield, with guaranteed minimum hourly rate.\n- **Rollout**: staggered across ~4,000 workers over 19 months, giving within-worker before/after comparisons and cross-worker DiD.\n- **Data**: rich individual-level panel — pre-hire test scores, individual output, tenure, wages.\n\n## Identification\n\n### Step 1 — within-worker incentive effect\nCompare same worker $i$'s productivity before vs. after the switch (worker fixed effects absorb ability):\n$$\\text{Incentive effect} = \\bar y_i^{\\text{post}} - \\bar y_i^{\\text{pre}}.$$\n\n### Step 2 — selection effect\nCompare worker $i$'s pre-hire test scores by pre- vs. post-switch cohort. Selection effect = ability distribution of hires and stayers changes when workers' expected rewards shift.\n\n### Step 3 — decomposition\nTotal productivity gain = incentive effect + selection effect. Both estimated separately.\n\n## Results & Contribution\n\n### Main empirical findings\n\n1. **44% average productivity gain** for workers switched from hourly to piece rate.\n2. **Roughly half from incentive effect** (same worker works harder).\n3. **Roughly half from selection effect**:\n   - High-productivity workers stayed and gained.\n   - Low-productivity workers quit or were displaced.\n   - New hires under piece-rate regime are of higher average ability than under hourly.\n\n### Sorting channel elevated as important as incentive channel\n\nPrior empirical work (mostly on incentive effects only) may have understated the productivity gain from performance pay by ~50%. Lazear's decomposition became field-standard.\n\n### Boundary conditions — when piece rates work\n\nSafelite worked because:\n- **Output measurable** (installed windshield or not — binary, countable, homogeneous).\n- **Quality clear** (leak → return, worker fixes on own time, at zero pay).\n- **Individual production** (one worker, one car, one windshield — no cooperation externalities).\n- **Task homogeneous** (all windshields roughly equal difficulty).\n\nWhen these conditions fail, piece rates encounter the F1–F7 failure modes documented elsewhere in the notes.\n\n### Contribution to the literature\n\n1. **Field-standard empirical benchmark**. Every subsequent empirical study of PBP compares its magnitude to Lazear's 44%.\n2. **Selection channel elevated** to equal importance with incentive effect.\n3. **Motivated the ABM calibration**. Quindi's ABM targets the Lazear (2000) 44% total gain and ~50% sorting share as an over-identification test.\n4. **Empirical foundation for tournament theory** (LR 1981) as well — piece rates and tournaments both work when the output is measurable and cooperation externalities are absent.\n5. **Practical implication for firm design**. Piece rates dominate hourly pay when (i) output measurable, (ii) quality clear, (iii) individual production.\n6. **Related empirical work.**\n   - Paarsch–Shearer 1999, 2000: tree-planters in Canada; ~20% gain.\n   - Bandiera–Barankay–Rasul 2005: UK fruit farm; social preferences REDUCE piece-rate effectiveness with peers as friends.\n   - Copeland–Monnet 2009: postal workers; ~30% gain.\n   - Larkin 2014: software salespeople; gaming and sandbagging under piece rates.\n7. **Failure mode counter-examples**: Freeman–Kleiner 2005 (garment plant with team-pay switch); Hamilton–Nickerson–Owan 2003 (team pay outperforms individual pay in same industry).\n\n→ Anchor: **Incentives Theory Core**\n\n---\n\n## Supplementary notes\n\n**Ref.** Lazear, E. P. (2000). Performance pay and productivity. *American Economic Review*, 90(5), 1346–1361.\n\n",
-                "x": 3767.43879871043,
-                "y": 1367.4074269929506,
+                "x": 8902.43879871043,
+                "y": -882.5925730070494,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3100,6 +3096,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T09:06:54.783Z"
+    "lastEditedAt": "2026-07-30T09:07:01.503Z"
   }
 }
