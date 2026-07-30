@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T07:22:04.164Z",
+  "exportedAt": "2026-07-30T07:22:06.551Z",
   "data": {
     "topics": [
       {
@@ -2443,7 +2443,8 @@
                 "flashcard": false,
                 "images": [],
                 "links": [],
-                "popBg": "#f3f4f6"
+                "popBg": "#f3f4f6",
+                "color": "green"
               },
               {
                 "id": "reorg-value-head",
@@ -3054,6 +3055,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T07:22:02.046Z"
+    "lastEditedAt": "2026-07-30T07:22:04.413Z"
   }
 }
