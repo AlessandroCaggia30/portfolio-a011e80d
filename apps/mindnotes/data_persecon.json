@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T07:48:37.841Z",
+  "exportedAt": "2026-07-30T07:48:56.636Z",
   "data": {
     "topics": [
       {
@@ -226,8 +226,8 @@
                 "id": "p-ml3-2022",
                 "title": "P·ML3 (Reinhardt–Warnke–Uhrmacher 2022) — Methodology",
                 "content": "**Ref.** Reinhardt, O., Warnke, T. & Uhrmacher, A. M. (2022). A formal foundation for the modeling language ML3. *ACM Transactions on Modeling and Computer Simulation*, 32(1), Article 6.\n\n---\n\n## Intro\n\n**Domain-specific language** with rigorous mathematical semantics (Generalized Semi-Markov Process, GSMP) for **continuous-time, mixed-event agent-based simulations** — where some events are stochastic (fertility rates), some deterministic (retirement at 65), some periodic (monthly reviews).\n\n## Why it matters\n\nSolves what NetLogo/Mesa (discrete-time only), PRISM/CTMC (memoryless only), and DEVS (over-hierarchical) all handle awkwardly. Provides:\n- **Reproducibility** — semantic equivalence across reimplementations.\n- **Verification** — formal proofs of model properties.\n- **Composition** — safe combination of sub-models.\n\n## Where it fits\n\nMethodology / infrastructure — not a substantive paper. Sits alongside the ABM tree as **how you'd build the next generation** of demographic + labor-market ABMs rigorously.\n\n→ Anchor: methodology satellite of the ABM tree\n",
-                "x": -4358.684018321592,
-                "y": -2215.7890624555002,
+                "x": -3963.684018321592,
+                "y": -1955.7890624555002,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3060,6 +3060,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T07:48:35.598Z"
+    "lastEditedAt": "2026-07-30T07:48:54.481Z"
   }
 }
