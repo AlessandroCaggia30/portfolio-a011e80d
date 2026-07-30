@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T07:22:39.625Z",
+  "exportedAt": "2026-07-30T07:22:41.717Z",
   "data": {
     "topics": [
       {
@@ -2912,8 +2912,8 @@
                 "id": "p-dellacqua-2023",
                 "title": "P·Dell'Acqua et al. (2023) — Jagged Technological Frontier",
                 "content": "**Ref.** Dell'Acqua, F., McFowland III, E., Mollick, E., Lifshitz-Assaf, H., Kellogg, K., Rajendran, S., Krayer, L., Candelon, F. & Lakhani, K. (2023). Navigating the jagged technological frontier: Field experimental evidence of the effects of AI on knowledge worker productivity and quality. Harvard Business School Working Paper 24-013.\n\n---\n\n## Intro\n\n**Large field experiment with Boston Consulting Group** using GPT-4. Tests gen-AI on real consulting tasks with 758 BCG consultants.\n\n## Design\n\n- 18 consulting-realistic tasks.\n- Consultants randomly assigned to: no-AI, AI-only, AI + prompt training.\n- Tasks fell into two groups (unknown to participants):\n  - \"Inside the frontier\": tasks GPT-4 can do well (creative product ideation, structured analysis).\n  - \"Outside the frontier\": tasks requiring information beyond GPT-4's knowledge or nuanced judgement.\n\n## Findings\n\n- **Inside the frontier**: AI users completed 12.2% more tasks, 25.1% faster, with 40% higher quality.\n- **Outside the frontier**: AI users were **19 percentage points more likely to produce INCORRECT answers.** AI misled them.\n- **Skill compression**: within tasks inside the frontier, low performers gained more.\n\n## The \"jagged frontier\"\n\nAI capabilities are non-monotonic: it can do genuinely hard things but fail at things that seem easy. Workers cannot easily predict where the frontier is. **Skill is required to filter AI output.**\n\n## Contribution\n\n- **Central caveat** to the productivity-gain literature: AI can HURT productivity when misapplied.\n- Introduces the \"jagged frontier\" concept, now widely cited.\n- **For Paper 2**: task reassignment must respect the frontier. Some tasks should go to AI+human; some should stay human-only; some should NOT use AI at all.\n\n→ Anchor: extends **Noy-Zhang (2023)**\n",
-                "x": -650,
-                "y": -4790,
+                "x": -680,
+                "y": -6015,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3052,6 +3052,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T07:22:39.603Z"
+    "lastEditedAt": "2026-07-30T07:22:41.428Z"
   }
 }
