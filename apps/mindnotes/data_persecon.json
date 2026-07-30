@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T06:43:59.418Z",
+  "exportedAt": "2026-07-30T06:44:35.869Z",
   "data": {
     "topics": [
       {
@@ -2705,8 +2705,8 @@
                 "id": "p-groes-2015",
                 "title": "P·Groes–Kircher–Manovskii (2015) — U-Shape of Occupational Mobility",
                 "content": "**Ref.** Groes, F., Kircher, P. & Manovskii, I. (2015). The u-shapes of occupational mobility. *Review of Economic Studies*, 82(2), 659–692.\n\n---\n\n## Intro\n\n**Empirical documentation of U-shape of occupational mobility by wage.** Both low-wage AND high-wage workers within an occupation are more likely to switch occupations than mid-wage workers.\n\n## Empirical fact\n\n- Danish employer-employee registry, 1980-2006.\n- Within any occupation, quit-to-different-occupation probability is U-shaped in relative wage.\n- **Low earners quit** because they discover they're a bad match.\n- **High earners quit** because their skill outstrips the occupation's demand.\n- **Mid earners stay** — they've found a decent match.\n\n## Model interpretation\n\nConsistent with a **learning + reassignment** model:\n- Workers don't observe their own type perfectly.\n- They observe relative wage as signal about match quality.\n- Both very-low and very-high wages signal mismatch (in different directions) → prompt occupation change.\n\n## Contribution\n\n- **Documents the empirical footprint of mismatch resolution via mobility.**\n- Distinguishes mismatch-detection from human-capital models (latter predicts monotone mobility in wage).\n- **For Paper 2**: quantifies how much reassignment happens organically vs how much would require firm intervention. If firms can observe types faster than workers can discover them, firm-driven reassignment beats worker-driven mobility.\n\n→ Anchor: **Skill heterogeneity & mismatch cluster**\n",
-                "x": -7840,
-                "y": 1520,
+                "x": -5735.828817071499,
+                "y": -1875.7302373443536,
                 "width": 440,
                 "height": 340,
                 "flashcard": false,
@@ -3051,6 +3051,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T06:43:57.301Z"
+    "lastEditedAt": "2026-07-30T06:44:33.718Z"
   }
 }
