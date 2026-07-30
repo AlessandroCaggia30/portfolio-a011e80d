@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-07-30T08:48:50.088Z",
+  "exportedAt": "2026-07-30T08:49:36.911Z",
   "data": {
     "topics": [
       {
@@ -2796,6 +2796,17 @@
                   }
                 ],
                 "popBg": "#f3f4f6"
+              },
+              {
+                "id": "1785401374760",
+                "title": "Emergency Department Rotational Patient Assignment, Traub 2016",
+                "content": "",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": -3756.5651940389034,
+                "y": 1145.5891424250585
               }
             ]
           }
@@ -3076,6 +3087,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-07-30T08:48:47.927Z"
+    "lastEditedAt": "2026-07-30T08:49:34.760Z"
   }
 }
