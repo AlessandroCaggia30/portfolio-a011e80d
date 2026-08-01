@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-01T16:01:51.072Z",
+  "exportedAt": "2026-08-01T16:04:31.645Z",
   "data": {
     "topics": [
       {
@@ -322,8 +322,8 @@
                   "images/advmicro/ch_po_upf_0_0bc4b7f5db4a.png"
                 ],
                 "content": "\\textbf{\\textcolor{red}{PARETO OPTIMUM --- UPF and PS, the two coordinate views.}}\n\n\\textbf{\\textcolor{blue}{(1) UPF --- where it lives.}}\n$\\mathrm{UPF} \\subset \\mathcal{U}$, where\n$$ \\mathcal{U} \\;=\\; \\bigl\\{(u^1, u^2) \\;:\\; \\exists\\, x \\in \\mathcal{F},\\; U^i(x^i) \\geq u^i \\;\\forall i\\bigr\\} $$\nis the set of \\emph{utility profiles dominated by some feasible allocation}.\n\n\\textbf{\\textcolor{blue}{(2) UPF --- definition (no domination).}}\n$(\\bar u^1, \\bar u^2) \\in \\mathcal{U}$ is on the UPF iff\n$$ \\boxed{\\;\\nexists\\, (\\tilde u^1, \\tilde u^2) \\in \\mathcal{U} : \\tilde u^i \\geq \\bar u^i \\;\\forall i,\\; > \\text{some } j.\\;} $$\nset of utiliteis that are undominated\n\n\n{{img:0|w=580}}\n\ndo not care about the line rn pls\n\\textbf{\\textcolor{blue}{(3) PS --- definition (no domination).}}\n$\\bar x \\in \\mathcal{F}$ is Pareto Optimal iff\n$$ \\boxed{\\;\\nexists\\, y \\in \\mathcal{F} : U^i(y^i) \\geq U^i(\\bar x^i) \\;\\forall i,\\; > \\text{some } j.\\;} $$\nand $\\mathrm{PS} = \\{x \\in \\mathcal{F} : x \\text{ is PO}\\}$. Basically is an allocaiton taht cannot e dominated.\n\n\\textcolor{orange}{\\emph{The allocation-space picture (Edgeworth box) lives in its own snippet --- ``PS in the Edgeworth box''.}}\n\n\\textbf{\\textcolor{red}{(5) Finding PS $\\equiv$ finding UPF.}}\nThe two problems are equivalent via the utility map: every $x^* \\in \\mathrm{PS}$ pushes forward to a UPF point, and every UPF point is the image of some $x^* \\in \\mathrm{PS}$. Formally:\n$$ \\boxed{\\;\\mathrm{PS} \\;\\subset\\; \\mathcal{F} \\;\\;\\xrightarrow{\\;(U^1,\\, U^2)\\;}\\;\\; \\mathrm{UPF} \\;\\subset\\; \\mathcal{U}.\\;} $$\n\n\\textcolor{orange}{\\emph{Comment: the UPF is the set of all PO allocations viewed in utility coordinates instead of allocation coordinates.}}\n",
-                "x": 2245.3291208366327,
-                "y": -972.4950425096022,
+                "x": 2146.57112806198,
+                "y": -955.4023129909119,
                 "width": 833.3333333333333,
                 "height": 476.66666666666663,
                 "flashcard": false,
@@ -357,8 +357,8 @@
                 "images": [
                   "images/advmicro/ch_ps_edgeworth_0_e6877a100e6f.png"
                 ],
-                "x": 3413.4232738377027,
-                "y": -493.5065907360822,
+                "x": 3345.0523557629426,
+                "y": -1099.3488925652036,
                 "width": 785,
                 "height": 405,
                 "flashcard": false,
@@ -379,8 +379,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 4436.063631082887,
-                "y": -455.75219097282024,
+                "x": 4472.14828228901,
+                "y": -978.0300373772352,
                 "width": 557.3212538989987,
                 "height": 296.791380268947
               },
@@ -423,8 +423,8 @@
                 "images": [],
                 "imageWidths": [],
                 "links": [],
-                "x": 3843.9871930558265,
-                "y": -1030.4175731926025,
+                "x": 4003.519335230266,
+                "y": -413.1801183510215,
                 "width": 621.8423064076358,
                 "height": 138.15792006614674
               },
@@ -1024,6 +1024,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-01T16:01:48.916Z"
+    "lastEditedAt": "2026-08-01T16:04:31.212Z"
   }
 }
