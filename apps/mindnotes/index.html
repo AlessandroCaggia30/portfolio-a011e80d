@@ -1925,6 +1925,28 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
     overflow-y: hidden;
 }
 
+/* Proportional tables: absolute p{cm} column widths were converted to percentages,
+   so the table fills the available width and never overflows horizontally — it
+   adapts to the container (detail view or card) exactly like body text. */
+.latex-table-pct,
+.node-preview .latex-table-pct {
+    table-layout: fixed !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+}
+.latex-table-pct td,
+.latex-table-pct th {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-line;
+}
+.latex-table-pct td .katex-display,
+.latex-table-pct th .katex-display {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
 /* Key-definition yellow box — for exam-critical definitions */
 .key-def-box {
     background: #fff8d6;
