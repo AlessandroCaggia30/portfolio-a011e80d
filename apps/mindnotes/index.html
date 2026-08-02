@@ -7015,12 +7015,14 @@ function convertTabularToTable(body, colSpec) {
 
 // Restore table markers to HTML (call after escapeHtml + markdown)
 function restoreTableMarkers(text) {
+    text = text.replace(/%%TBLPCT%%/g, '<table class="latex-table latex-table-pct">');
     text = text.replace(/%%TBLFIXEDW:([^%]+)%%/g, (m, w) => `<table class="latex-table latex-table-fixed" style="width:${w};min-width:${w};max-width:${w};table-layout:fixed">`);
     text = text.replace(/%%TBLFIXEDSTART%%/g, '<table class="latex-table latex-table-fixed">');
     text = text.replace(/%%TBLSTART%%/g, '<table class="latex-table">');
     text = text.replace(/%%TBLEND%%/g, '</table>');
     text = text.replace(/%%CGSTART%%/g, '<colgroup>');
     text = text.replace(/%%CGEND%%/g, '</colgroup>');
+    text = text.replace(/%%COLP:([^%]+)%%/g, (m, w) => `<col style="width:${w}%">`);
     text = text.replace(/%%COL:([^%]+)%%/g, (m, w) => w === 'auto' ? '<col>' : `<col style="width:${w}">`);
     text = text.replace(/%%TROWSTART%%/g, '<tr>');
     text = text.replace(/%%TROWEND%%/g, '</tr>');
