@@ -7454,6 +7454,46 @@ function _runRenderMathInElement(element) {
         });
 }
 
+// Shrink-to-fit for display equations. KaTeX renders $$…$$ at a fixed intrinsic
+// width and would otherwise overflow (horizontal scroll) on a narrow pane instead
+// of adapting like body text. For every .katex-display wider than its container we
+// scale it down (never up) so it uses exactly the available horizontal space.
+// Idempotent: resets any prior scaling before measuring, so it re-runs safely on
+// every render pass and on window resize.
+function _fitMathDisplays(root) {
+    if (!root || !root.querySelectorAll) return;
+    root.querySelectorAll('.katex-display').forEach(disp => {
+        const k = disp.querySelector('.katex');
+        if (!k) return;
+        // Reset previous fit before measuring the natural (unscaled) width.
+        k.style.transform = '';
+        k.style.transformOrigin = '';
+        disp.style.height = '';
+        const avail = disp.clientWidth;
+        if (!avail) return; // inline/hidden contexts (e.g. card preview) → skip
+        const natural = k.scrollWidth || k.getBoundingClientRect().width;
+        if (natural > avail + 1) {
+            const s = Math.max(0.4, avail / natural);
+            k.style.transformOrigin = 'left top';
+            k.style.transform = `scale(${s})`;
+            // Reserve only the scaled height so we don't leave a large gap below.
+            disp.style.height = k.getBoundingClientRect().height + 'px';
+        }
+    });
+}
+
+// Re-fit visible display math when the pane width changes (window resize, sidebar
+// or POP toggle reflow), debounced to one pass per animation frame.
+let _fitResizeRaf = null;
+if (typeof window !== 'undefined') {
+    window.addEventListener('resize', () => {
+        if (_fitResizeRaf) cancelAnimationFrame(_fitResizeRaf);
+        _fitResizeRaf = requestAnimationFrame(() => {
+            document.querySelectorAll('.live-preview').forEach(_fitMathDisplays);
+        });
+    });
+}
+
 function renderMath(element) {
     if (typeof renderMathInElement === 'undefined' || !element) return;
     // Primary pass on the container as delivered.
