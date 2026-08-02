@@ -7535,9 +7535,11 @@ function renderMath(element) {
             try { _rescueMathManually(element); } catch (e) { console.warn('rescue', e); }
         }
     };
+    const fit = () => { try { requestAnimationFrame(() => _fitMathDisplays(element)); } catch (e) {} };
     Promise.resolve().then(retry);
-    setTimeout(retry, 80);
-    setTimeout(retry, 400);
+    fit();
+    setTimeout(() => { retry(); fit(); }, 80);
+    setTimeout(() => { retry(); fit(); }, 400);
 }
 
 // Aggressive fallback: for every unrendered $...$ or $$...$$ we can find,
