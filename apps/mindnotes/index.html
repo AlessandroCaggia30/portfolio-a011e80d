@@ -6955,25 +6955,39 @@ function convertTabularToTable(body, colSpec) {
     // Build table marker (use %%TABLE%% to survive escapeHtml)
     // For fixed widths: also compute the explicit table width (sum of col widths) so the
     // browser can't squeeze / expand columns. Only sums if all units are the same (cm).
+    // Adapt to container width: when every column carries an absolute width in the
+    // SAME unit (the p{Xcm}p{Ycm}… comparison tables), convert those widths into
+    // proportional PERCENTAGES so the table scales to the available horizontal space
+    // — like body text — instead of being pinned to absolute cm, which overflows on
+    // narrow views and looks undersized on wide ones. Mixed/odd units fall back to
+    // the old fixed-width path.
     let totalW = null;
+    let colPcts = null;
     if (hasFixedWidths) {
         const parsed = widths.map(w => {
             if (!w) return null;
-            const m = /^([\d.]+)\s*(cm|mm|px|em|rem)$/.exec(w);
+            const m = /^([\d.]+)\s*(cm|mm|px|em|rem|in|pt)$/.exec(w);
             return m ? { n: parseFloat(m[1]), u: m[2] } : null;
         });
         if (parsed.every(p => p) && parsed.every(p => p.u === parsed[0].u)) {
-            totalW = parsed.reduce((s, p) => s + p.n, 0) + parsed[0].u;
+            const sum = parsed.reduce((s, p) => s + p.n, 0);
+            if (sum > 0) colPcts = parsed.map(p => +(p.n / sum * 100).toFixed(4));
+            else totalW = sum + parsed[0].u;
         }
     }
-    let table = hasFixedWidths
-        ? (totalW ? `%%TBLFIXEDW:${totalW}%%` : '%%TBLFIXEDSTART%%')
-        : '%%TBLSTART%%';
+    const usePct = !!colPcts;
+    let table = usePct
+        ? '%%TBLPCT%%'
+        : (hasFixedWidths ? (totalW ? `%%TBLFIXEDW:${totalW}%%` : '%%TBLFIXEDSTART%%') : '%%TBLSTART%%');
     if (hasFixedWidths) {
         table += '%%CGSTART%%';
-        widths.forEach(w => {
-            table += w ? `%%COL:${w}%%` : '%%COL:auto%%';
-        });
+        if (usePct) {
+            colPcts.forEach(pct => { table += `%%COLP:${pct}%%`; });
+        } else {
+            widths.forEach(w => {
+                table += w ? `%%COL:${w}%%` : '%%COL:auto%%';
+            });
+        }
         table += '%%CGEND%%';
     }
     rows.forEach((row, rowIdx) => {
@@ -6982,11 +6996,15 @@ function convertTabularToTable(body, colSpec) {
         cells.forEach((cell, cellIdx) => {
             // Apply col width to first row cells too — belt-and-braces against browser quirks
             // where <colgroup> widths are sometimes ignored when content has unbreakable items
-            const w = (hasFixedWidths && rowIdx === 0 && widths[cellIdx]) ? widths[cellIdx] : null;
-            if (w) {
-                table += `%%TCELLW:${w}%%` + cell.trim() + '%%TCELLEND%%';
+            if (usePct && rowIdx === 0 && colPcts[cellIdx] != null) {
+                table += `%%TCELLP:${colPcts[cellIdx]}%%` + cell.trim() + '%%TCELLEND%%';
             } else {
-                table += '%%TCELLSTART%%' + cell.trim() + '%%TCELLEND%%';
+                const w = (!usePct && hasFixedWidths && rowIdx === 0 && widths[cellIdx]) ? widths[cellIdx] : null;
+                if (w) {
+                    table += `%%TCELLW:${w}%%` + cell.trim() + '%%TCELLEND%%';
+                } else {
+                    table += '%%TCELLSTART%%' + cell.trim() + '%%TCELLEND%%';
+                }
             }
         });
         table += '%%TROWEND%%';
