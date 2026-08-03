@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-03T15:50:29.909Z",
+  "exportedAt": "2026-08-03T15:52:27.208Z",
   "data": {
     "topics": [
       {
@@ -2819,7 +2819,7 @@
               {
                 "id": "1785404372971",
                 "title": "variables needed",
-                "content": " 1) individual producitivity measures: \n- all about individually generated output / hour. \n- uptime of the machine\n\n-> individual signal 25%\n-> tournament ranking (individuo tra le n) 25% <- indivudale (questo lavoratore è il 5), depending on group size\n\n\n2) premiare il team\n-> team signal\n-> team ranking\n\n3) targeting the supervisor\n- 1) get feedback on the workers (subj measure of performance) \n- 2) give benefit on the basis of the productivity increase of the team -> when the supervisor does the hiring , he picks better worker \n\ntie 1) and 2) \noutcomes del manager: assenteismo, %turnover operatori (good proxy), team production  \n\n\n\n4) Peer feedback\n-\n-\n\n\n\n5) Customer feedback\n\n\nweights modulari che si aggiornano con RCT\n",
+                "content": " 1) individual producitivity measures: \n- all about individually generated output / hour. \n- uptime of the machine\n\n-> individual signal 25%\n-> tournament ranking (individuo tra le n) 25% <- indivudale (questo lavoratore è il 5), depending on group size\n\n\n2) premiare il team\n-> team signal\n-> team ranking\n\n3) targeting the supervisor\n- 1) get feedback on the workers (subj measure of performance) \n- 2) give benefit on the basis of the productivity increase of the team -> when the supervisor does the hiring , he picks better worker \n\ntie 1) and 2) \noutcomes del manager: assenteismo, %turnover operatori (good proxy), team production  \n\n\n\n4) Peer feedback\n-\n-\n\n\n\n5) Customer feedback\n\n\nweights modulari che si aggiornano con RCT\n\n",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
@@ -3167,6 +3167,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-08-03T15:50:27.733Z"
+    "lastEditedAt": "2026-08-03T15:52:25.045Z"
   }
 }
