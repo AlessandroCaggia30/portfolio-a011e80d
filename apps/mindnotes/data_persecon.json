@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-03T13:16:24.567Z",
+  "exportedAt": "2026-08-03T13:16:52.108Z",
   "data": {
     "topics": [
       {
@@ -2824,6 +2824,17 @@
                 "y": -3059.1273149723793,
                 "width": 503.85403454843475,
                 "height": 408.61999504312433
+              },
+              {
+                "id": "1785763009928",
+                "title": "NOTES FOR MEETINGS",
+                "content": "- THE INCENTIVE STRUCTURE CAN HELP ME GATHER MORE DATA -> IMPROVING THE REALLOCATION",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": 372.760241500795,
+                "y": -4212.336247338613
               }
             ]
           }
@@ -3150,6 +3161,6 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-08-03T13:16:24.492Z"
+    "lastEditedAt": "2026-08-03T13:16:49.928Z"
   }
 }
