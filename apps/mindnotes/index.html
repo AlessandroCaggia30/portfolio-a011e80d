@@ -14671,18 +14671,21 @@ function updateFlashcardStats() {
     State.data.topics.forEach(topic => {
         topic.subtopics.forEach(sub => {
             sub.nodes.forEach(node => {
-                if (isFlashcardNode(node)) {
-                    FSRS.initCard(node);
+                if (!isFlashcardNode(node)) return;
+                // Count one card PER \keydef block (1a, 1b, …) — matching the
+                // actual review session — not one per node.
+                expandNodeToCards(node, {}).forEach(card => {
+                    FSRS.initCard(card.state);
                     totalCards++;
 
-                    const state = node.fsrs.state;
+                    const state = card.state.fsrs.state;
                     if (state === 'new') newCards++;
                     else if (state === 'learning') learningCards++;
                     else if (state === 'review') reviewCards++;
                     else if (state === 'relearning') relearningCards++;
 
-                    if (FSRS.isDue(node)) dueCards++;
-                }
+                    if (FSRS.isDue(card.state)) dueCards++;
+                });
             });
         });
     });
