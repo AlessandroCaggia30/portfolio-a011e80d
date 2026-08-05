@@ -15136,34 +15136,34 @@ function showCurrentFlashcard() {
 
     const cardData = session.cards[session.currentIndex];
     const node = cardData.node;
-    FSRS.initCard(node);
+    // Per-card FSRS state (one \keydef block = one independently scheduled card).
+    const cardState = cardData.state;
+    FSRS.initCard(cardState);
 
     // Update progress
     $('fcProgress').textContent = `${session.currentIndex + 1}/${session.cards.length}`;
     $('fcProgressFill').style.width = ((session.currentIndex + 1) / session.cards.length * 100) + '%';
 
-    // Update card display
+    // Update card display — append the \fcnum marker so sibling keydefs from the
+    // same snippet are distinguishable (e.g. "Guide to Constrained Maximization — 1a.").
     $('fcCardTopic').textContent = `${cardData.topic} > ${cardData.subtopic}`;
-    $('fcCardTitle').textContent = node.title || 'Untitled';
+    $('fcCardTitle').textContent = (node.title || 'Untitled') + (cardData.fcnum ? '  —  ' + cardData.fcnum : '');
 
-    const content = node.content || '';
     const format = localStorage.getItem('mindnotes_format') || 'latex';
 
     // Front: Show title as prompt, with hint to recall content
     $('fcCardContent').innerHTML = '<p style="color:var(--text2);font-style:italic;">Try to recall what you know about this topic...</p>';
 
-    // Back: Show ONLY the \begin{keydef}…\end{keydef} block as the answer.
-    // If the snippet has no keydef block, fall back to the full content (legacy behavior),
-    // but flag it visibly so the user can come back and mark the key def.
-    const keydef = extractKeydef(content);
-    const answerSource = keydef !== null ? keydef : content;
+    // Back: Show ONLY this card's \keydef block (cardData.answer). Nodes with no
+    // keydef block (cardKey === null) fall back to full content, flagged visibly.
+    const answerSource = cardData.answer;
     let formattedContent;
     if (format === 'obsidian') {
         formattedContent = formatForObsidian(answerSource);
     } else {
         formattedContent = formatContent(answerSource);
     }
-    if (keydef === null) {
+    if (cardData.cardKey === null) {
         formattedContent = '<div style="background:#fff3cd;border-left:4px solid #f0b400;padding:8px 12px;margin:0 0 12px;font-size:12px;color:#5a4400;border-radius:4px;">⚠️ No <code>\\begin{keydef}…\\end{keydef}</code> block — showing full content as fallback.</div>' + formattedContent;
     }
     $('fcCardAnswer').innerHTML = formattedContent;
