@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-05T14:46:49.852Z",
+  "exportedAt": "2026-08-05T14:46:54.526Z",
   "data": {
     "topics": [
       {
@@ -239,8 +239,8 @@
                 "images": [
                   "images/advmicro/ch_contract_curve_0_788188d6108a.png"
                 ],
-                "x": 2475.0674403611974,
-                "y": -1140.432845043314,
+                "x": 2780.0674403611974,
+                "y": -1230.432845043314,
                 "width": 900,
                 "height": 700,
                 "links": [],
@@ -318,8 +318,8 @@
                   "images/advmicro/ch_po_upf_0_0bc4b7f5db4a.png"
                 ],
                 "content": "\\textbf{\\textcolor{red}{PARETO OPTIMUM --- UPF and PS, the two coordinate views.}}\n\n\\textbf{\\textcolor{blue}{(1) UPF --- where it lives.}}\n$\\mathrm{UPF} \\subset \\mathcal{U}$, where\n$$ \\mathcal{U} \\;=\\; \\bigl\\{(u^1, u^2) \\;:\\; \\exists\\, x \\in \\mathcal{F},\\; U^i(x^i) \\geq u^i \\;\\forall i\\bigr\\} $$\nis the set of \\emph{utility profiles dominated by some feasible allocation}.\n\n\\textbf{\\textcolor{blue}{(2) UPF --- definition (no domination).}}\n$(\\bar u^1, \\bar u^2) \\in \\mathcal{U}$ is on the UPF iff\n$$ \\boxed{\\;\\nexists\\, (\\tilde u^1, \\tilde u^2) \\in \\mathcal{U} : \\tilde u^i \\geq \\bar u^i \\;\\forall i,\\; > \\text{some } j.\\;} $$\nset of utiliteis that are undominated\n\n\n{{img:0|w=580}}\n\ndo not care about the line rn pls\n\\textbf{\\textcolor{blue}{(3) PS --- definition (no domination).}}\n$\\bar x \\in \\mathcal{F}$ is Pareto Optimal iff\n$$ \\boxed{\\;\\nexists\\, y \\in \\mathcal{F} : U^i(y^i) \\geq U^i(\\bar x^i) \\;\\forall i,\\; > \\text{some } j.\\;} $$\nand $\\mathrm{PS} = \\{x \\in \\mathcal{F} : x \\text{ is PO}\\}$. Basically is an allocaiton taht cannot e dominated.\n\n\\textcolor{orange}{\\emph{The allocation-space picture (Edgeworth box) lives in its own snippet --- ``PS in the Edgeworth box''.}}\n\n\\textbf{\\textcolor{red}{(4) Finding PS $\\equiv$ finding UPF.}}\nThe two problems are equivalent via the utility map: every $x^* \\in \\mathrm{PS}$ pushes forward to a UPF point, and every UPF point is the image of some $x^* \\in \\mathrm{PS}$. Formally:\n$$ \\boxed{\\;\\mathrm{PS} \\;\\subset\\; \\mathcal{F} \\;\\;\\xrightarrow{\\;(U^1,\\, U^2)\\;}\\;\\; \\mathrm{UPF} \\;\\subset\\; \\mathcal{U}.\\;} $$\n\n\\textcolor{orange}{\\emph{Comment: the UPF is the set of all PO allocations viewed in utility coordinates instead of allocation coordinates.}}\n",
-                "x": 3679.1514027836265,
-                "y": -1015.4211132099445,
+                "x": 3984.1514027836265,
+                "y": -1105.4211132099445,
                 "width": 833.3333333333333,
                 "height": 476.66666666666663,
                 "flashcard": false,
@@ -349,8 +349,8 @@
                 "images": [
                   "images/advmicro/ch_ps_edgeworth_0_e6877a100e6f.png"
                 ],
-                "x": 5100.052355762943,
-                "y": -984.3488925652036,
+                "x": 5405.052355762943,
+                "y": -1074.3488925652036,
                 "width": 785,
                 "height": 405,
                 "flashcard": false,
@@ -384,8 +384,8 @@
                 "images": [],
                 "imageWidths": [],
                 "links": [],
-                "x": 3847.5389400602735,
-                "y": -1296.0940539928106,
+                "x": 4152.5389400602735,
+                "y": -1386.0940539928106,
                 "width": 519.079627676156,
                 "height": 211.03256588884287
               },
@@ -415,7 +415,7 @@
                 "images": [],
                 "imageWidths": [],
                 "links": [],
-                "x": 4003.5193352302663,
+                "x": 3048.5193352302667,
                 "y": -287.8334352139618,
                 "width": 621.8423064076358,
                 "height": 138.15792006614674
@@ -430,8 +430,8 @@
                 ],
                 "imageWidths": [],
                 "links": [],
-                "x": 4547.339538617599,
-                "y": 517.1870395695696,
+                "x": 4852.339538617599,
+                "y": 427.1870395695696,
                 "width": 1045,
                 "height": 530
               },
@@ -456,8 +456,8 @@
                     "type": "both"
                   }
                 ],
-                "x": 4617.105957461276,
-                "y": -281.4768364890797,
+                "x": 4922.105957461276,
+                "y": -371.4768364890797,
                 "width": 879.7042608185659,
                 "height": 514.6449261414084
               },
@@ -1023,6 +1023,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-05T14:46:47.722Z"
+    "lastEditedAt": "2026-08-05T14:46:54.241Z"
   }
 }
