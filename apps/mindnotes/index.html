@@ -15180,13 +15180,14 @@ function showCurrentFlashcard() {
     renderMath($('fcCardContent'));
     renderMath($('fcCardAnswer'));
 
-    // Update card info
-    $('fcCardState').textContent = node.fsrs.state.charAt(0).toUpperCase() + node.fsrs.state.slice(1);
-    $('fcCardReps').textContent = node.fsrs.reps + ' reps';
-    $('fcCardStability').textContent = 'Stability: ' + node.fsrs.stability.toFixed(1);
+    // Update card info (per-card FSRS state)
+    const fsrs = cardState.fsrs;
+    $('fcCardState').textContent = fsrs.state.charAt(0).toUpperCase() + fsrs.state.slice(1);
+    $('fcCardReps').textContent = fsrs.reps + ' reps';
+    $('fcCardStability').textContent = 'Stability: ' + fsrs.stability.toFixed(1);
 
     // Get next intervals
-    const intervals = FSRS.getNextIntervals(node);
+    const intervals = FSRS.getNextIntervals(cardState);
     $('fcInterval1').textContent = FSRS.formatInterval(intervals[1]);
     $('fcInterval2').textContent = FSRS.formatInterval(intervals[2]);
     $('fcInterval3').textContent = FSRS.formatInterval(intervals[3]);
