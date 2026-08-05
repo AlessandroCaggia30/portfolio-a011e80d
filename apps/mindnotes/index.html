@@ -4,6 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MindNotes</title>
+    <!-- Always-fresh app shell: register the service worker so new deploys are
+         picked up on the next reload without manual cache-clearing. Shell-only;
+         never touches IndexedDB (notes/FSRS live there). See sw.js. -->
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+            navigator.serviceWorker.register('sw.js').then(function (reg) {
+                // If a newer worker takes control while the app is open, reload
+                // once so the running tab also gets the latest code.
+                var reloaded = false;
+                navigator.serviceWorker.addEventListener('controllerchange', function () {
+                    if (reloaded) return;
+                    reloaded = true;
+                    location.reload();
+                });
+                // Poll for an updated shell periodically (belt-and-suspenders).
+                setInterval(function () { reg.update().catch(function () {}); }, 60 * 60 * 1000);
+            }).catch(function () { /* SW unsupported / blocked — app still works */ });
+        });
+    }
+    </script>
     <!-- KaTeX for LaTeX rendering -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <!-- Nunito: clean rounded font for Pop mode -->
