@@ -14805,13 +14805,16 @@ function getAllFlashcards(data) {
             const sorted = topologicalSortNodes(flashcardNodes);
 
             sorted.forEach(node => {
-                FSRS.initCard(node);
-                allCards.push({
-                    node,
+                const meta = {
                     topic: topic.name,
                     subtopic: sub.name,
                     topicId: topic.id,
                     subtopicId: sub.id
+                };
+                // One card PER \keydef block (identified by its \fcnum).
+                expandNodeToCards(node, meta).forEach(card => {
+                    FSRS.initCard(card.state);
+                    allCards.push(card);
                 });
             });
         });
