@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-05T15:09:30.443Z",
+  "exportedAt": "2026-08-05T15:09:47.526Z",
   "data": {
     "topics": [
       {
@@ -285,7 +285,18 @@
                     "type": "both"
                   }
                 ],
-                "flashcard": false
+                "flashcard": false,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-08-05T15:09:30.679Z"
+                }
               },
               {
                 "id": "ch_exchange_setting",
@@ -1023,6 +1034,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-05T15:09:28.094Z"
+    "lastEditedAt": "2026-08-05T15:09:45.399Z"
   }
 }
