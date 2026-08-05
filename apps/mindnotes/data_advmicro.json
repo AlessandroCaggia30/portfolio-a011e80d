@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-05T15:28:21.756Z",
+  "exportedAt": "2026-08-05T15:28:27.099Z",
   "data": {
     "topics": [
       {
@@ -143,7 +143,7 @@
                 "id": "ch_homo_pref",
                 "title": "Application: Homothetic Preferences",
                 "content": "\\textbf{\\textcolor{red}{HOMOTHETIC PREFERENCES --- demand scales linearly with wealth.}}\n\n\\textbf{\\textcolor{red}{Definition (primitive: scaling property of preferences).}}\nPreferences are \\emph{homothetic} iff for any bundles $x, y$ and any $\\alpha > 0$:\n\\[ \\boxed{\\;x \\sim y \\;\\;\\Longleftrightarrow\\;\\; \\alpha x \\sim \\alpha y.\\;} \\]\n\\emph{Stated purely on the preference order $\\sim$ --- the true definition.}\n\n\\textbf{\\textcolor{red}{Characterization (corollary, functional form).}}\n$U$ is homothetic iff\n\\[ U(x) = g\\bigl(h(x)\\bigr) \\]\nwith \\textcolor{blue}{$g: \\mathbb{R} \\to \\mathbb{R}$ strictly increasing} and \\textcolor{blue}{$h: \\mathbb{R}_+^N \\to \\mathbb{R}$ homogeneous of degree $1$}: $h(\\alpha x) = \\alpha\\, h(x)\\;\\forall \\alpha > 0$.\n\n\\emph{Example.} $U(x_1, x_2) = \\ln x_1 + \\ln x_2$: take $h(x_1, x_2) = \\sqrt{x_1 x_2}$ (homogeneous degree 1) and $g(z) = 2 \\ln z$. Then $g(h(x)) = 2 \\ln\\sqrt{x_1 x_2} = \\ln(x_1 x_2) = \\ln x_1 + \\ln x_2 = U(x).\\;✓$\n\n\\bigskip\n\n\\textbf{\\textcolor{red}{Property 1 --- MRS is constant along rays from the origin.}}\n\n\\emph{Concrete (1-good intuition).} If ``2 units of good $A$ $\\sim$ 4 units of good $B$'' (exchange ratio $1{:}2$), then scaling by $\\alpha = 4$: ``8 units of $A$ $\\sim$ 16 units of $B$'' (still $1{:}2$). The willingness to substitute is preserved. The optimal point will have the same slope!\n\n\\bigskip\n\n\\textbf{\\textcolor{red}{Property 2 --- Indifference curves are radial scaled copies.}}\n\nPick a point $P = (x_1, x_2)$ on one indifference curve. Then for any $\\alpha > 0$, the point $\\alpha P = (\\alpha x_1, \\alpha x_2)$ lies on a \\emph{different} indifference curve, but \\emph{in the same direction} from the origin. Each indifference curve is the image of any other under a radial scaling.\n\n{{img:0|w=720}}\n\n\\bigskip\n\n\\textbf{\\textcolor{red}{Property 3 --- Optimal consumption lies on a ray (income expansion path).}}\n\n\\emph{Claim.} If $x^*$ is optimal at prices $p$ and wealth $w$, then $\\alpha x^*$ is optimal at the same prices with wealth $\\alpha w$.\n\n\\emph{Proof.} Optimality: $\\text{MRS}(x^*) = p_1/p_2$. By Property 1, $\\text{MRS}(\\alpha x^*) = \\text{MRS}(x^*) = p_1/p_2$. So $\\alpha x^*$ satisfies the same tangency condition. Budget: $p \\cdot (\\alpha x^*) = \\alpha (p \\cdot x^*) = \\alpha w$. $\\square$. The agent picks the \\textcolor{orange}{same consumption ratio} (= direction in the bundle space) regardless of wealth. Wealth scales the bundle uniformly along that ray.\n\nCorollary: $\\;x_i^*(p, \\alpha w) = \\alpha\\, x_i^*(p, w)$. Hence\n\\[ \\boxed{\\;\\epsilon_{i, w} \\;:=\\; \\dfrac{\\partial \\ln x_i^*}{\\partial \\ln w} \\;=\\; 1 \\quad \\forall i.\\;} \\]\n\\emph{Equivalently:} $x_i^*(p, w) = x_i^*(p) \\cdot w$ and $v(p, w) = v(p) \\cdot w$.\n\n\\bigskip\n\n\\textbf{\\textcolor{red}{Why this matters: representative agent.}}\nWith homothetic preferences, \\emph{aggregate demand depends only on total wealth, not on its distribution}:\n\\[ \\sum_h x_i^*(p, w^h) \\;=\\; x_i^*(p) \\cdot \\sum_h w^h \\;=\\; x_i^*(p) \\cdot W. \\]\n$\\Rightarrow$ Replace many heterogeneous agents by a single \\emph{representative agent} with total wealth $W$ --- a workhorse of macro.\n\n\\textbf{So think about the optimization:} there is a given aggregate $\\omega_a/\\omega_b$ ratio, and in the identical-homothetic case all agents pick the \\emph{same} individual consumption ratio $x_a^h/x_b^h$ (because they share the same homothetic preferences, so ratios are wealth-independent and identical across agents). The aggregate consumption ratio --- being a sum of identical individual ratios --- equals that common individual ratio. Market clearing then forces it to equal $\\omega_a/\\omega_b$.\n\n\\bigskip\\bigskip\n\n",
-                "flashcard": true,
+                "flashcard": false,
                 "images": [
                   "images/advmicro/ch_homo_pref_0_f82474048508.png"
                 ],
@@ -1104,6 +1104,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-05T15:28:19.104Z"
+    "lastEditedAt": "2026-08-05T15:28:24.437Z"
   }
 }
