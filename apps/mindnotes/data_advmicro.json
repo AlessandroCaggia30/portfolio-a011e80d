@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-05T16:03:02.269Z",
+  "exportedAt": "2026-08-05T16:03:15.355Z",
   "data": {
     "topics": [
       {
@@ -218,8 +218,8 @@
               },
               {
                 "id": "ch_ce_viz",
-                "title": "CE equilibrium visualized",
-                "content": "\n\nYou have to consider that they are takign prices as given.There is an auctioner proposing some prices, agents are giving their optimal quantities for the given prices, the prices that \"work\" are those for which agents maximize and markets clear. The prices are then pinned down by **market clearing** where each x is the marshallian demand of a given agent! ceteris parisbus agrgeagte scarcity of an endowmnt will bring out the relative price of that good.\n\nAggregate $\\omega_a/\\omega_b$ does NOT enter Marshallian demand as a function. It enters CE only through the \\textbf{market-clearing equation}, which is what pins down prices. After prices are solved, plugging them back into Marshallian demand gives the actual quantities.\n\n{{img:0|w=1100}}\n\n\nNote how the given p gives you a specific demand point. \n\n\nhigh endowments ceteris paribus reduce prices because they reflect a decresing marginal utility",
+                "title": "THE MARKET CLEARING DYNAMIC:",
+                "content": "\n\nTHE MARKET CLEARING DYNAMIC:\nYou have to consider that they are takign prices as given.There is an auctioner proposing some prices, agents are giving their optimal quantities for the given prices, the prices that \"work\" are those for which agents maximize and markets clear. The prices are then pinned down by **market clearing** where each x is the marshallian demand of a given agent! ceteris parisbus agrgeagte scarcity of an endowmnt will bring out the relative price of that good.\n\nAggregate $\\omega_a/\\omega_b$ does NOT enter Marshallian demand as a function. It enters CE only through the \\textbf{market-clearing equation}, which is what pins down prices. After prices are solved, plugging them back into Marshallian demand gives the actual quantities.\n\n{{img:0|w=1100}}\n\n\nNote how the given p gives you a specific demand point. \n\n\nhigh endowments ceteris paribus reduce prices because they reflect a decresing marginal utility",
                 "images": [
                   "images/advmicro/ch_ce_viz_0_2a766f81b9bd.png"
                 ],
@@ -1115,6 +1115,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-05T16:03:00.111Z"
+    "lastEditedAt": "2026-08-05T16:03:15.090Z"
   }
 }
