@@ -14924,28 +14924,25 @@ function shuffleFlashcards(arr) {
     return arr;
 }
 
-// True if the content has at least one \begin{keydef}…\end{keydef} block whose
-// body contains a \fcnum{...} marker. Such snippets are auto-promoted to
-// flashcards regardless of the node.flashcard boolean.
-function hasNumberedKeydef(content) {
+// True if the content has at least one \begin{keydef}…\end{keydef} block.
+// Any keydef block auto-promotes its node to a flashcard, regardless of the
+// node.flashcard boolean and regardless of whether the block carries a
+// \fcnum{...} marker. (\fcnum is still honored — it drives study ORDER via
+// extractFcNumSortKey — but it is no longer REQUIRED to become a flashcard.)
+function hasKeydef(content) {
     if (!content) return false;
-    const re = /\\begin\{keydef\}\s*([\s\S]*?)\s*\\end\{keydef\}/g;
-    let m;
-    while ((m = re.exec(content)) !== null) {
-        if (/\\fcnum\{[^}]*\}/.test(m[1] || '')) return true;
-    }
-    return false;
+    return /\\begin\{keydef\}[\s\S]*?\\end\{keydef\}/.test(content);
 }
 
 // Single source of truth for "is this node a flashcard?":
 //   (a) the user explicitly toggled node.flashcard = true, OR
-//   (b) the content contains a numbered keydef block (\fcnum inside keydef).
+//   (b) the content contains any \begin{keydef}…\end{keydef} block.
 // Only read-side checks (filters, badges, icons) should use this helper —
 // write paths (editor checkbox, markdown export) must keep using node.flashcard
 // directly so the user's explicit choice is preserved on disk.
 function isFlashcardNode(node) {
     if (!node) return false;
-    return !!node.flashcard || hasNumberedKeydef(node.content || '');
+    return !!node.flashcard || hasKeydef(node.content || '');
 }
 
 // Extract \begin{keydef}…\end{keydef} body as the flashcard answer.
