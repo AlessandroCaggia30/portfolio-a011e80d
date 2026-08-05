@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-05T14:48:26.349Z",
+  "exportedAt": "2026-08-05T14:48:35.661Z",
   "data": {
     "topics": [
       {
@@ -65,8 +65,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": -768.0276219785737,
-                "y": -1528.4096543352862,
+                "x": -268.02762197857373,
+                "y": -1468.4096543352862,
                 "width": 1330,
                 "height": 646.6666666666665,
                 "sectionNumber": 1,
@@ -108,8 +108,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 1862.4403460635567,
-                "y": -315.7791861011183,
+                "x": 2362.4403460635567,
+                "y": -255.77918610111828,
                 "width": 900,
                 "height": 1100,
                 "sectionNumber": 1,
@@ -142,8 +142,8 @@
                     "type": "both"
                   }
                 ],
-                "x": -366.5791067643404,
-                "y": -534.3804061036735,
+                "x": 133.4208932356596,
+                "y": -474.3804061036735,
                 "width": 900,
                 "height": 1100,
                 "sectionNumber": 1,
@@ -166,8 +166,8 @@
                 "images": [
                   "images/advmicro/ch_ce_viz_0_2a766f81b9bd.png"
                 ],
-                "x": 1777.8858818266845,
-                "y": -1017.1084441230687,
+                "x": 2277.8858818266845,
+                "y": -957.1084441230687,
                 "width": 679.7757102367937,
                 "height": 266.0762073896593,
                 "links": [],
@@ -178,8 +178,8 @@
                 "title": "no universal ratio under heterogeneous preferneces",
                 "images": [],
                 "content": "\n\\textbf{\\textcolor{red}{This is to make you understand the commonr ation result deries from 1) homothetic prefercnes and 2) homogeneity of such}}\n\nIf agents have het. hom. preferences they will demand different opt. consumption ratios. And representative agent assumpt breaks down because agggreagate demand dpends on distirbution of endowmentsgDO NOT\n\n\\emph{Common setup:} $\\omega^1 = (5, 1),\\, \\omega^2 = (1, 4),\\, \\omega = (6, 5)$.\n\n\\begin{tabular}{p{4cm}|p{10cm}|p{10cm}}\n & \\textbf{\\textcolor{red}{Col 2: IDENTICAL homothetic}} & \\textbf{\\textcolor{red}{Col 3: HETEROGENEOUS homothetic}} \\\\\n\\textit{Preferences} & both $U^h = x_a^{0.4} x_b^{0.6}$ & $U^1 = x_a^{0.2} x_b^{0.8}$, $\\;U^2 = x_a^{0.8} x_b^{0.2}$ \\\\\n\\textit{Each agent homothetic?} & \\textcolor{green}{✓} & \\textcolor{green}{✓} \\\\\n\\textit{Same $r^*(p)$ across agents?} & \\textcolor{green}{✓} & \\textcolor{red}{✗} \\\\\n\\hline\n\\textbf{(1) Agent $h$'s problem.}\n$\\max U^h$ s.t.\\ $p_a x_a + p_b x_b = w^h$, where $w^h = p_a \\omega_a^h + p_b \\omega_b^h$. &\n\\emph{Identical Marshallian structure in both columns;} &\n\\emph{the difference is only in $U^h$ (see row above).} \\\\\n\\hline\n\\textbf{(2) FOCs} (one per good) &\n$0.4\\, x_a^{-0.6} x_b^{0.6} = \\lambda^h p_a$\n$0.6\\, x_a^{0.4} x_b^{-0.4} = \\lambda^h p_b$\n\\emph{(same form for both agents)} &\nAgent 1 ($\\alpha = 0.2$): $0.2 \\,x_a^{-0.8} x_b^{0.8} = \\lambda^1 p_a$, $\\,0.8\\, x_a^{0.2} x_b^{-0.2} = \\lambda^1 p_b$.\nAgent 2 ($\\alpha = 0.8$): $0.8\\, x_a^{-0.2} x_b^{0.2} = \\lambda^2 p_a$, $\\,0.2\\, x_a^{0.8} x_b^{-0.8} = \\lambda^2 p_b$. \\\\\n\\hline\n\\textbf{(3) Ratio of FOCs} (kill $\\lambda^h$) $\\to$ $r^*(p)$ &\n$\\dfrac{x_a^h}{x_b^h} = \\dfrac{0.4}{0.6}\\,\\dfrac{p_b}{p_a} = \\dfrac{2}{3}\\dfrac{p_b}{p_a} \\equiv r^*(p).$\n\\textcolor{orange}{Same function for both agents.} &\nAgent 1: $\\dfrac{x_a^1}{x_b^1} = \\dfrac{0.2}{0.8}\\,\\dfrac{p_b}{p_a} = \\dfrac{1}{4}\\dfrac{p_b}{p_a} \\equiv r_1^*(p).$\nAgent 2: $\\dfrac{x_a^2}{x_b^2} = \\dfrac{0.8}{0.2}\\,\\dfrac{p_b}{p_a} = 4\\dfrac{p_b}{p_a} \\equiv r_2^*(p).$\n\\textcolor{red}{Different functions: $r_1^* \\neq r_2^*$.} \\\\\n\\hline\n\\textbf{(4) FOC ratio $+$ budget} $\\to$ \\emph{Marshallian demand}.\nTake budget $p_a x_a^h + p_b x_b^h = w^h$ (with $w^h = p_a \\omega_a^h + p_b \\omega_b^h$ known), and plug in $p_b/p_a$ from the FOC ratio (Step 3) to eliminate one variable. &\n$r^*(p) = \\tfrac{2}{3}\\tfrac{p_b}{p_a}$.\n$p_a r^* + p_b = \\tfrac{2}{3} p_b + p_b = \\tfrac{5}{3} p_b.$\n$x_b^h \\cdot \\tfrac{5}{3} p_b = w^h \\;\\Rightarrow\\; x_b^h = \\tfrac{3}{5}\\dfrac{w^h}{p_b} = \\dfrac{0.6\\, w^h}{p_b}.$\n$x_a^h = r^*(p)\\, x_b^h = \\tfrac{2}{3}\\tfrac{p_b}{p_a} \\cdot \\tfrac{3}{5}\\tfrac{w^h}{p_b} = \\dfrac{0.4\\, w^h}{p_a}.$\n\\textcolor{orange}{Same coefficient $0.4$ on $w^h$ for both agents.} &\n\\emph{Agent 1} ($r_1^* = \\tfrac{1}{4}\\tfrac{p_b}{p_a}$): $p_a r_1^* + p_b = \\tfrac{1}{4} p_b + p_b = \\tfrac{5}{4} p_b.$\n$x_b^1 = \\tfrac{4}{5}\\dfrac{w^1}{p_b} = \\dfrac{0.8\\, w^1}{p_b}.\\;\\;x_a^1 = r_1^* x_b^1 = \\dfrac{0.2\\, w^1}{p_a}.$\n\\emph{Agent 2} ($r_2^* = 4\\tfrac{p_b}{p_a}$): $p_a r_2^* + p_b = 4 p_b + p_b = 5 p_b.$\n$x_b^2 = \\tfrac{1}{5}\\dfrac{w^2}{p_b} = \\dfrac{0.2\\, w^2}{p_b}.\\;\\;x_a^2 = r_2^* x_b^2 = \\dfrac{0.8\\, w^2}{p_a}.$\n\\textcolor{red}{Different coefficients on $w^h$ across agents.} \\\\\n\\hline\n\\textbf{(5) Market clearing for $A$} \\emph{(the pivot step)} &\n$\\sum_h x_a^h = \\dfrac{0.4 (w^1 + w^2)}{p_a} = \\omega_a$\n$\\Rightarrow 0.4\\,(p_a \\omega_a + p_b \\omega_b) = p_a \\omega_a$\n$\\Rightarrow 0.4(6 p_a + 5 p_b) = 6 p_a$\n$\\Rightarrow 2 p_b = 3.6 p_a.$\n\\textcolor{orange}{Truly depends on aggregate $\\omega$!} &\n$\\sum_h x_a^h = \\dfrac{0.2\\, w^1 + 0.8\\, w^2}{p_a} = \\omega_a$\n$\\Rightarrow 0.2(5 p_a + p_b) + 0.8(p_a + 4 p_b) = 6 p_a$\n$\\Rightarrow 1.8 p_a + 3.4 p_b = 6 p_a$\n$\\Rightarrow 3.4 p_b = 4.2 p_a.$\n\\textcolor{red}{Individual $\\omega^h$ enter \\emph{separately}.} \\\\\n\\hline\n\\textbf{(6) Equilibrium prices} &\n$\\hat p_b/\\hat p_a = 3.6/2 = 1.8.$\n\\emph{Normalize:} $\\hat p_a = 1$, $\\hat p_b = 1.8.$ &\n$\\hat p_b/\\hat p_a = 4.2/3.4 \\approx 1.235.$\n\\emph{Normalize:} $\\hat p_a = 1$, $\\hat p_b \\approx 1.235.$ \\\\\n\\hline\n\\textbf{(7) Wealths at CE} &\n$w^1 = 5 + 1.8 = 6.8$, $w^2 = 1 + 7.2 = 8.2$. &\n$w^1 = 5 + 1.235 = 6.235$, $w^2 = 1 + 4.94 = 5.94$. \\\\\n\\hline\n\\textbf{(8) Individual demands and ratios} &\n$x^1 = (0.4 \\cdot 6.8,\\, 0.6 \\cdot 6.8 / 1.8) = (2.72,\\, 2.267)$.\n$x^2 = (3.28,\\, 2.733)$.\n\\emph{Ratios:} $2.72/2.267 = 1.2$;\\; $3.28/2.733 = 1.2$.\n\\textcolor{orange}{Both $= \\omega_a/\\omega_b = 1.2$.} &\n$x^1 \\approx (0.2 \\cdot 6.235,\\; 0.8 \\cdot 6.235 / 1.235) \\approx (1.247,\\, 4.039)$.\n$x^2 \\approx (4.752,\\, 0.962)$.\n\\emph{Ratios:} $1.247/4.039 \\approx 0.31$;\\; $4.752/0.962 \\approx 4.94$.\n\\textcolor{red}{Wildly different; neither $= 1.2$.} \\\\\n\\hline\n\\textbf{(*) Swap test} \\;($\\omega^1 \\leftrightarrow \\omega^2$, same aggregate) &\nIdentical agents $\\Rightarrow$ swapping is a relabel: clearing equation \\emph{unchanged}.\n$\\hat p_b/\\hat p_a = 1.8$ (\\textcolor{green}{unchanged}).\n\\textcolor{orange}{Distribution irrelevant.} &\nAfter swap: $0.2(p_a + 4 p_b) + 0.8(5 p_a + p_b) = 6 p_a \\Rightarrow 4.2 p_a + 1.6 p_b = 6 p_a \\Rightarrow \\hat p_b/\\hat p_a = 1.125$.\n\\textcolor{red}{Prices change from $1.235$ to $1.125$.}\nDistribution \\textcolor{red}{matters}. \\\\\n\\end{tabular}\n\n\\bigskip\n\n\\textbf{\\textcolor{orange}{In the specific context of this question: why is the aggregate endowment ratio equal to the optimal individual consumption ratio?}}\n\n\\emph{The point:} agents are identical and homothetic, so each one wants a fixed consumption ratio $x_a^h/x_b^h$ (wealth-independent, and the \\emph{same} across agents). The only feasible value of that common ratio --- i.e., **the only one for which prices exist** that clear the market --- is the one matching the aggregate endowment ratio $\\omega_a/\\omega_b$. Note how prices reflect scarcity! \n\n\n",
-                "x": 1715.1180492414314,
-                "y": 911.9633977030098,
+                "x": 2215.1180492414314,
+                "y": 971.9633977030098,
                 "width": 946.6666666666667,
                 "height": 653.3333333333334,
                 "links": [],
@@ -190,8 +190,8 @@
                 "title": "Representative Agent Assumption",
                 "images": [],
                 "content": "\\textbf{\\textcolor{red}{REPRESENTATIVE AGENT ASSUMPTION --- when can a single agent stand in for the whole population?}}\n\n\\textbf{\\textcolor{red}{Definition.}}\nA \\emph{representative agent} is a single hypothetical consumer whose demand reproduces aggregate demand. Formally: there exists a utility function $U^R$ and a wealth $W$ such that\n\\[ \\boxed{\\;\\sum_h x_i^*(p, w^h; U^h) \\;=\\; x_i^*(p, W; U^R) \\quad \\forall\\, i.\\;} \\]\n\\emph{When this works, macro/aggregative analysis collapses to a single optimization problem --- a huge workhorse simplification.}\n\n\\textbf{\\textcolor{red}{When is the assumption valid?}}\nAggregate demand must depend on \\emph{total} wealth only, \\textbf{not on its distribution} across agents:\n\\[ \\sum_h x_i^*(p, w^h) \\;=\\; X_i(p, W), \\quad W = \\textstyle\\sum_h w^h. \\]\n\n\\textbf{Two canonical families that satisfy Gorman aggregation:}\n\n\\bigskip\n\n\\textbf{\\textcolor{red}{1. Homothetic preferences} --- whatever the wealth, agents all consume the same RATIO.}}\n\n\\textbf{\\textcolor{red}{2. Quasilinear preferences} --- whatever the endowment, agents all consume the same NON-NUMERAIRE $y$.}}\n",
-                "x": 1062.866661107304,
-                "y": 82.78359971056125,
+                "x": 1562.866661107304,
+                "y": 142.78359971056125,
                 "width": 454.38607762025504,
                 "height": 381.0832671756041,
                 "flashcard": false,
@@ -204,8 +204,8 @@
                   "images/advmicro/ch_real_endow_0_f11898e8a11c.png"
                 ],
                 "content": "\n\n---\n\n\\textbf{\\textcolor{red}{REAL ENDOWMENTS --- when wealth itself depends on prices.}}\n\n\\textbf{\\textcolor{red}{Setup: nominal vs.\\ real wealth.}}\n\n\\emph{Usual textbook problem (nominal wealth).} The consumer is given $(p, w)$ \\emph{exogenously}. Wealth $w$ is just a number, unrelated to prices. The Marshallian demand $x_i^*(p, w)$ is a function of these two independent arguments.\n\n\\emph{Real-endowment problem (this snippet).} The consumer owns physical quantities --- the \\emph{real endowment vector} $\\omega = (\\omega_1, \\ldots, \\omega_N)$ --- and faces market prices $p$. Their wealth is then \\emph{endogenously determined} by the value of what they own:\n$$ \\boxed{\\;w(p) \\;=\\; p \\cdot \\omega \\;=\\; \\sum_j p_j\\, \\omega_j.\\;} $$\nThe relevant demand is now the \\emph{endowment-economy demand}: substitute the wealth identity into the Marshallian formula,\n$$ \\hat x_i^*(p, \\omega) \\;:=\\; x_i^*\\bigl(p,\\; p \\cdot \\omega\\bigr). $$\nThis is the demand of an agent who owns $\\omega$ and trades in markets at prices $p$ --- the natural object for a CE.\n\n\\textbf{\\textcolor{red}{Step 1 --- The chain rule: two channels for a price change.}}\n\nWhen $p_j$ rises, the consumer feels it \\emph{twice}: directly through the demand formula at fixed wealth, and indirectly through the value of their endowment. By the chain rule:\n$$ \\boxed{\\;\\dfrac{\\partial \\hat x_i^*(p, \\omega)}{\\partial p_j} \\;=\\; \\underbrace{\\dfrac{\\partial x_i^*(p, w)}{\\partial p_j}\\bigg|_{w\\text{ fixed}}}_{\\text{Marshallian price effect}} \\;+\\; \\underbrace{\\dfrac{\\partial x_i^*(p, w)}{\\partial w} \\cdot \\dfrac{\\partial w}{\\partial p_j}}_{\\text{endowment-wealth effect}}.\\;} $$\n\nThe agent gets ``richer'' when the price of a good they own rises --- by exactly $\\omega_j$ extra dollars per unit of $p_j$ change.\n\n\\textbf{\\textcolor{red}{Step 2 --- The first term IS the standard Slutsky decomposition.}}\n\nThe first term $\\partial x_i^*/\\partial p_j$ at fixed $w$ is the \\textbf{Marshallian price effect}. The Slutsky equation splits it:\n$$ \\boxed{\\;\\dfrac{\\partial x_i^*(p, w)}{\\partial p_j}\\bigg|_{w} \\;=\\; \\underbrace{\\dfrac{\\partial x_i^h(p, \\bar U)}{\\partial p_j}}_{\\text{substitution } S_{ij}} \\;-\\; \\underbrace{x_j^*(p, w) \\cdot \\dfrac{\\partial x_i^*}{\\partial w}}_{\\text{(Marshallian) income effect}}.\\;} $$\n\n\n\\textbf{\\textcolor{red}{Preamble.}}\n$\\bullet$ Different points on the same Indifference Curve represent the loci with same utility under different prices, hence, requiring different w to be attained\n$\\bullet$ \"Bad\" price systems (or \"stupid\" utility functions) can be very inefficient — they require a lot of wealth to reach a given indifference curve.\n\n\\textbf{\\textcolor{red}{0) Motivation.}}\nLook at the image, look at what happened to the consumption of xa. It goes down for two reasons: a sub effect to xb and an income effect.\n\n{{img:0|w=402}}\n\nIf you go directly from the black point to the blue point, you see $x_a$ went down by about $1.2$ units. But two things could have happened:\n$\\bullet$ Starting point: $w = 10$, $U = 10$, $x_a = 5$, $x_b = 5$ (prices $p = (1,1)$).\n$\\bullet$ After price change to $p' = (1,2)$:\n\\quad \\emph{Case B (income effect only):} $w = 10$, $x_a = 5$, $x_b = 2.5$.\n\\quad \\emph{Case A (mixture of income + substitution):} $w = 10$, $x_a = 9$, $x_b = 0.5$.\n\nSo why is $x_b$ going down? If a sub. effect is present, part of the change is being driven by it. We want to \\emph{quantify how much of the observed change comes from a substitution effect and how much from an income effect}.\n\n\n\n\\textbf{\\textcolor{red}{2) The process}} \nThe agent has choosen the optimal bundle through the foc condition. If a price goes up, the optimal consumption ratio changes (sub. eff., loses some $x_b$ in favour of $x_a$, mathmetically this is the MRS = prices), and this is a movement on the IC + the BC shifts inward (income eff., loses some $x_b$, mathematically this is in the BC ).  \n\n\\textbf{\\textcolor{red}{3) isolate the sub effect with an EXPERIMENT:}}  if i give the agent some extra money to stay on the same IC I can observe how much a price change affects the relative consumption ratio, without being confounded by the income effect. \n\n\\textbf{\\textcolor{red}{4) Income effect (real income drops).}} Now let the original BC move. Note for homothetic preferences, wealth does not affect the optimal consumption ratio, HENCE the compensated (Hicksian) bundle and the final bundle have the same consumption ratio. Hence, you do not need the subsitution \"experiment\" to know what is the effect of the subsitution effect on proportions, still, you need it to go through the same process as above if you want the exact quantities\n\n\n\n\n",
-                "x": 1738.7922347972735,
-                "y": -1335.5932485489457,
+                "x": 2238.7922347972735,
+                "y": -1275.5932485489457,
                 "width": 330.3167163653038,
                 "height": 224.6996165219718,
                 "flashcard": false,
@@ -251,8 +251,8 @@
                 "title": "Competitive Equilibrium — definition + solve process",
                 "content": "\\textbf{\\textcolor{red}{COMPETITIVE EQUILIBRIUM (CE) --- prices and allocation where markets clear and consumers optimize.}}\n\nNote the CE must be studied given Omega. \n\n\\textbf{\\textcolor{red}{Definition.}} A pair $(\\hat p, \\hat x)$ with $\\hat p \\in \\mathbb{R}^N_+$ and $\\hat x = (\\hat x^1, \\ldots, \\hat x^I)$ such that:\n\n\\textbf{1) Consumer optimization:} for every agent $i$,\n\\[ \\boxed{\\;\\hat x^i \\;\\in\\; \\arg\\max_{x^i \\geq 0} U^i(x^i) \\;\\;\\text{s.t.}\\;\\; \\hat p \\cdot x^i \\leq \\hat p \\cdot \\omega^i.\\;} \\]\n\n\\textbf{2) Market clearing:} for every good $n$,\n\\[ \\boxed{\\;\\sum_{i=1}^I \\hat x_n^i \\;=\\; \\sum_{i=1}^I \\omega_n^i \\;=\\; \\omega_n.\\;} \\]\n\nUnder strictly increasing preferences, the budget constraint binds with equality.\n\n\\textbf{\\textcolor{red}{Solve process (smooth interior case).}}\n\\textbf{1)} Write each agent's optimization problem.\n\\textbf{2)} Take FOCs and \\emph{set them to $0$}: MRS$^i = \\hat p_a / \\hat p_b$ for each $i$.\n\\textbf{3)} Solve for individual demand $x^i(p)$ from FOCs $+$ budget.\n\\textbf{4)} Impose market clearing for one good (Walras' Law gives the other automatically) and solve for $\\hat p$.\n\\textbf{5)} Plug $\\hat p$ back into individual demands to get $\\hat x$.\n\n",
                 "images": [],
-                "x": 757.6179909040638,
-                "y": -1512.301258796736,
+                "x": 1257.6179909040638,
+                "y": -1452.301258796736,
                 "width": 803.3333333333334,
                 "height": 613.3333333333334,
                 "links": [
@@ -349,8 +349,8 @@
                 "images": [
                   "images/advmicro/ch_ps_edgeworth_0_e6877a100e6f.png"
                 ],
-                "x": 3965.052355762943,
-                "y": -1204.3488925652036,
+                "x": 4050.052355762943,
+                "y": -1524.3488925652036,
                 "width": 785,
                 "height": 405,
                 "flashcard": false,
@@ -371,8 +371,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 2853.068157083667,
-                "y": -1175.9545374684994,
+                "x": 3353.068157083667,
+                "y": -1115.9545374684994,
                 "width": 557.3212538989987,
                 "height": 296.791380268947
               },
@@ -402,8 +402,8 @@
                 ],
                 "imageWidths": [],
                 "links": [],
-                "x": 862.3486721644222,
-                "y": -1775.8553789006746,
+                "x": 1362.3486721644222,
+                "y": -1715.8553789006746,
                 "width": 541.6554383394084,
                 "height": 199.94529062222534
               },
@@ -415,8 +415,8 @@
                 "images": [],
                 "imageWidths": [],
                 "links": [],
-                "x": 3048.5193352302667,
-                "y": -287.8334352139618,
+                "x": 3548.5193352302667,
+                "y": -227.83343521396182,
                 "width": 621.8423064076358,
                 "height": 138.15792006614674
               },
@@ -972,8 +972,8 @@
                 "images": [],
                 "imageWidths": [],
                 "links": [],
-                "x": 3144.388613770634,
-                "y": 311.505745351129,
+                "x": 3644.388613770634,
+                "y": 371.505745351129,
                 "width": 522.6034637084745,
                 "height": 300.53076155369206
               },
@@ -1023,6 +1023,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-05T14:48:24.214Z"
+    "lastEditedAt": "2026-08-05T14:48:35.195Z"
   }
 }
