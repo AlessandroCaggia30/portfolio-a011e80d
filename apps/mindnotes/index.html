@@ -14962,6 +14962,63 @@ function extractKeydef(content) {
     return blocks.join('\n\n\\textbf{---}\n\n');
 }
 
+// A per-CARD FSRS state handle. FSRS.* functions only ever touch `.fsrs` (and
+// read `.id` for the review log), so we hand them a lightweight object whose
+// `.fsrs` getter/setter proxy to the right storage slot on the real node:
+//   - cardKey === null → the legacy per-NODE slot (node.fsrs), used for
+//     flashcard-toggled nodes that have no \keydef block.
+//   - cardKey is a string → a per-KEYDEF slot in node.fsrsCards[cardKey], so
+//     each \keydef in a multi-keydef snippet is scheduled independently.
+// In-place mutations (fsrs.difficulty = …) persist because the getter returns
+// the same stored object reference; new-object assignment persists via the
+// setter. node.fsrsCards is serialized with the node, so schedules survive saves.
+function fcCardState(node, cardKey) {
+    if (cardKey === null) {
+        return {
+            id: node.id,
+            title: node.title,
+            get fsrs() { return node.fsrs; },
+            set fsrs(v) { node.fsrs = v; }
+        };
+    }
+    if (!node.fsrsCards) node.fsrsCards = {};
+    return {
+        id: node.id,
+        title: node.title,
+        get fsrs() { return node.fsrsCards[cardKey]; },
+        set fsrs(v) { node.fsrsCards[cardKey] = v; }
+    };
+}
+
+// Expand one flashcard node into one card per \begin{keydef}…\end{keydef} block.
+// Each returned entry carries its own answer (that block's body), its \fcnum
+// marker (for labeling / ordering), and an independent FSRS state handle.
+// A node with NO keydef block (explicitly flashcard-toggled) yields a single
+// legacy card whose answer is the full content and whose state maps to node.fsrs.
+// `meta` supplies the shared {topic, subtopic, topicId, subtopicId} fields.
+function expandNodeToCards(node, meta) {
+    const content = node.content || '';
+    const re = /\\begin\{keydef\}\s*([\s\S]*?)\s*\\end\{keydef\}/g;
+    const cards = [];
+    let m, idx = 0;
+    while ((m = re.exec(content)) !== null) {
+        const body = (m[1] || '').trim();
+        if (!body) continue;
+        const fm = body.match(/\\fcnum\{([^}]*)\}/);
+        const fcnum = fm ? fm[1].trim() : '';
+        // Stable key: prefer the user-authored \fcnum (its identity), else the
+        // block index. This is what node.fsrsCards is keyed by, so renaming a
+        // \fcnum starts a fresh schedule for that card (expected).
+        const cardKey = fcnum ? 'fc:' + fcnum : 'idx:' + idx;
+        cards.push({ ...meta, node, fcnum, answer: body, cardKey, state: fcCardState(node, cardKey) });
+        idx++;
+    }
+    if (cards.length === 0) {
+        cards.push({ ...meta, node, fcnum: '', answer: content, cardKey: null, state: fcCardState(node, null) });
+    }
+    return cards;
+}
+
 // User-chosen review order. Persisted to localStorage so the choice survives reload.
 let _fcOrderMode = localStorage.getItem('mindnotes_fcOrderMode') || 'ordered';
 function setFlashcardOrderMode(mode) {
