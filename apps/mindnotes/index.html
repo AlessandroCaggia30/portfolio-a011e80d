@@ -5726,18 +5726,18 @@ const FSRS = {
         data.topics.forEach(topic => {
             topic.subtopics.forEach(sub => {
                 sub.nodes.forEach(node => {
-                    if (isFlashcardNode(node)) {
-                        this.initCard(node);
-                        if (this.isDue(node)) {
-                            dueCards.push({
-                                node,
-                                topic: topic.name,
-                                subtopic: sub.name,
-                                topicId: topic.id,
-                                subtopicId: sub.id
-                            });
-                        }
-                    }
+                    if (!isFlashcardNode(node)) return;
+                    const meta = {
+                        topic: topic.name,
+                        subtopic: sub.name,
+                        topicId: topic.id,
+                        subtopicId: sub.id
+                    };
+                    // Each \keydef block is scheduled independently → check due per card.
+                    expandNodeToCards(node, meta).forEach(card => {
+                        this.initCard(card.state);
+                        if (this.isDue(card.state)) dueCards.push(card);
+                    });
                 });
             });
         });
