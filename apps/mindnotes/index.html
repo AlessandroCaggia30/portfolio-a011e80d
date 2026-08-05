@@ -15210,10 +15210,9 @@ function showFlashcardAnswer() {
 function rateFlashcard(rating) {
     const session = State.flashcardSession;
     const cardData = session.cards[session.currentIndex];
-    const node = cardData.node;
 
-    // Record the review
-    const reviewLog = FSRS.reviewCard(node, rating);
+    // Record the review against this card's own FSRS state (per \keydef).
+    const reviewLog = FSRS.reviewCard(cardData.state, rating);
 
     // Update session stats
     session.cardsReviewed++;
