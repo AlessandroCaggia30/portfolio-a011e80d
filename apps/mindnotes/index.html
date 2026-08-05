@@ -14837,9 +14837,10 @@ function getAllFlashcards(data) {
         } else if (ob !== null) {
             return 1;
         }
-        // (2) \fcnum extracted from content — primary signal for auto-flagged keydef cards.
-        const fa = extractFcNumSortKey(a.node.content || '');
-        const fb = extractFcNumSortKey(b.node.content || '');
+        // (2) each card's own \fcnum — orders keydefs within a snippet (1a,1b,2a…)
+        //     and, because time-series \fcnums are globally sequential, across snippets too.
+        const fa = a.fcnum ? _tokenizeFcNum(a.fcnum) : (a.node.content ? extractFcNumSortKey(a.node.content) : null);
+        const fb = b.fcnum ? _tokenizeFcNum(b.fcnum) : (b.node.content ? extractFcNumSortKey(b.node.content) : null);
         if (fa && fb) {
             const c = _cmpNumArrays(fa, fb);
             if (c !== 0) return c;
