@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-05T14:44:34.678Z",
+  "exportedAt": "2026-08-05T14:44:38.207Z",
   "data": {
     "topics": [
       {
@@ -279,6 +279,10 @@
                   {
                     "target": "ch_homo_pref",
                     "type": "forward"
+                  },
+                  {
+                    "target": "ch_real_endow",
+                    "type": "both"
                   }
                 ],
                 "flashcard": false
@@ -1015,6 +1019,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-05T14:44:32.522Z"
+    "lastEditedAt": "2026-08-05T14:44:36.089Z"
   }
 }
