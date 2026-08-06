@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-06T09:45:25.109Z",
+  "exportedAt": "2026-08-06T09:45:28.754Z",
   "data": {
     "topics": [
       {
@@ -227,12 +227,7 @@
                 "y": -1827.5630319131587,
                 "width": 482.8748832244558,
                 "height": 348.2039805572599,
-                "links": [
-                  {
-                    "target": "ch_ce_def",
-                    "type": "forward"
-                  }
-                ],
+                "links": [],
                 "flashcard": false
               },
               {
@@ -1120,6 +1115,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-06T09:45:21.867Z"
+    "lastEditedAt": "2026-08-06T09:45:26.025Z"
   }
 }
