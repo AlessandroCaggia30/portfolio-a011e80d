@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-06T09:45:31.025Z",
+  "exportedAt": "2026-08-06T09:45:33.197Z",
   "data": {
     "topics": [
       {
@@ -331,6 +331,10 @@
                   {
                     "target": "ch_real_endow",
                     "type": "both"
+                  },
+                  {
+                    "target": "ch_ce_viz",
+                    "type": "forward"
                   }
                 ],
                 "flashcard": false,
@@ -1110,6 +1114,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-06T09:45:30.800Z"
+    "lastEditedAt": "2026-08-06T09:45:32.584Z"
   }
 }
