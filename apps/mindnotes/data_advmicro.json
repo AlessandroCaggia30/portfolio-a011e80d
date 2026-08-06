@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-06T14:19:16.026Z",
+  "exportedAt": "2026-08-06T14:19:33.365Z",
   "data": {
     "topics": [
       {
@@ -260,7 +260,7 @@
               },
               {
                 "id": "ch_real_endow",
-                "title": "Application: Real Endowments --- the Endowment Slutsky Equation",
+                "title": "Elasticities on the Marshallian demands",
                 "images": [
                   "images/advmicro/ch_real_endow_0_f11898e8a11c.png"
                 ],
@@ -1136,6 +1136,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-06T14:19:13.817Z"
+    "lastEditedAt": "2026-08-06T14:19:31.240Z"
   }
 }
