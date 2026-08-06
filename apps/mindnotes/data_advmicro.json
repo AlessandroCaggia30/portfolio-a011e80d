@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-06T09:45:28.754Z",
+  "exportedAt": "2026-08-06T09:45:31.025Z",
   "data": {
     "topics": [
       {
@@ -116,12 +116,7 @@
                   "images/advmicro/ch1_app_consumer_1_6eda9b0038fb.png",
                   "images/advmicro/ch1_app_consumer_2_3adb570df66b.png"
                 ],
-                "links": [
-                  {
-                    "target": "ch_ce_viz",
-                    "type": "forward"
-                  }
-                ],
+                "links": [],
                 "x": -213.90876578338793,
                 "y": -1906.0811175250938,
                 "width": 750,
@@ -223,8 +218,8 @@
                 "images": [
                   "images/advmicro/ch_ce_viz_0_2a766f81b9bd.png"
                 ],
-                "x": 853.2540373686061,
-                "y": -1827.5630319131587,
+                "x": 1657.6293876952386,
+                "y": -1330.825973465835,
                 "width": 482.8748832244558,
                 "height": 348.2039805572599,
                 "links": [],
@@ -1115,6 +1110,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-06T09:45:26.025Z"
+    "lastEditedAt": "2026-08-06T09:45:30.800Z"
   }
 }
