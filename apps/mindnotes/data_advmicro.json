@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-06T14:40:43.385Z",
+  "exportedAt": "2026-08-06T14:41:07.186Z",
   "data": {
     "topics": [
       {
@@ -223,7 +223,7 @@
               {
                 "id": "ch_ce_viz",
                 "title": "THE MARKET CLEARING DYNAMIC:",
-                "content": "\n\nTHE MARKET CLEARING DYNAMIC:\n\\begin{keydef} \\fcnum{4c.}\n- Prices are taken as given, still, agent preferences build prices: there is an auctioner proposing some prices, agents are giving their optimal quantities for the given prices, the prices that \"work\" are those for which agents maximize and markets clear. The prices are then pinned down by **market clearing** where each x is the marshallian demand of a given agent! \n- Aggregate $\\omega_a/\\omega_b$ does NOT enter Marshallian demand as a function. It enters CE only through the \\textbf{market-clearing equation}, which is what pins down prices. After prices are solved, plugging them back into Marshallian demand gives the actual quantities. Ceteris parisbus agrgeagte scarcity of an endowmnt will bring out the relative price of that good.\n\\end{keydef}\n\n\n\n{{img:0|w=1100}}\n\n\nNote how the given p gives you a specific demand point. \n\n\nhigh endowments ceteris paribus reduce prices because they reflect a decresing marginal utility",
+                "content": "\n\nTHE MARKET CLEARING DYNAMIC:\n\\begin{keydef} \\fcnum{4c.}\n- Agents take prices as given, still agent preferences build prices: there is an auctioner proposing some prices, agents are giving their optimal quantities for the given prices, the prices that \"work\" are those for which agents maximize and markets clear. The prices are then pinned down by **market clearing** where each x is the marshallian demand of a given agent! \n- Aggregate $\\omega_a/\\omega_b$ does NOT enter Marshallian demand as a function. It enters CE only through the \\textbf{market-clearing equation}, which is what pins down prices. After prices are solved, plugging them back into Marshallian demand gives the actual quantities. Ceteris parisbus agrgeagte scarcity of an endowmnt will bring out the relative price of that good.\n\\end{keydef}\n\n\n\n{{img:0|w=1100}}\n\n\nNote how the given p gives you a specific demand point. \n\n\nhigh endowments ceteris paribus reduce prices because they reflect a decresing marginal utility",
                 "images": [
                   "images/advmicro/ch_ce_viz_0_2a766f81b9bd.png"
                 ],
@@ -1136,6 +1136,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-06T14:40:41.254Z"
+    "lastEditedAt": "2026-08-06T14:41:05.065Z"
   }
 }
