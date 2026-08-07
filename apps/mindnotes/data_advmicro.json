@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-07T07:59:26.593Z",
+  "exportedAt": "2026-08-07T07:59:51.533Z",
   "data": {
     "topics": [
       {
@@ -1150,6 +1150,17 @@
                 "links": [],
                 "x": 4351.291813394857,
                 "y": -3473.029123011165
+              },
+              {
+                "id": "1786089589368",
+                "title": "Conditions of existence of CE",
+                "content": "\\begin{keydef} \\fcnum{4d.}\nUnder the following ppts a CE exists at any $\\omega$. Break \\emph{any one} of the three and CE ==may fail for some omega==.\n$\\bullet$ \\textcolor{blue}{Continuity} of preferences.\n$\\bullet$ \\textcolor{blue}{Strict monotonicity} (consumers want more --- LNS).\n$\\bullet$ \\textcolor{blue}{Strict convexity} (consumers prefer averages; concave $U^i$).\nNote that ==the characterization \"CE is where both curves touch on the BC\" does not hold ==if these assumptions are not in place\n\\end{keydef}",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": 1783.7327427932923,
+                "y": -1662.5546559958002
               }
             ]
           }
@@ -1186,6 +1197,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-07T07:59:24.400Z"
+    "lastEditedAt": "2026-08-07T07:59:49.368Z"
   }
 }
