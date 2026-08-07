@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-07T06:48:50.740Z",
+  "exportedAt": "2026-08-07T06:59:00.313Z",
   "data": {
     "topics": [
       {
@@ -141,6 +141,19 @@
                   "state": "new",
                   "lastReview": null,
                   "dueDate": "2026-05-27T10:43:33.280Z"
+                },
+                "fsrsCards": {
+                  "fc:4b.": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-07T06:58:48.724Z"
+                  }
                 }
               },
               {
@@ -232,7 +245,20 @@
                 "width": 482.8748832244558,
                 "height": 348.2039805572599,
                 "links": [],
-                "flashcard": false
+                "flashcard": false,
+                "fsrsCards": {
+                  "fc:4c.": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-07T06:58:48.724Z"
+                  }
+                }
               },
               {
                 "id": "ch_homo_schema",
@@ -274,7 +300,20 @@
                 "color": null,
                 "imageWidths": [
                   402
-                ]
+                ],
+                "fsrsCards": {
+                  "fc:5.": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-07T06:58:48.724Z"
+                  }
+                }
               },
               {
                 "id": "ch_labor_elast",
@@ -517,6 +556,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-06T09:47:34.726Z"
+                  },
+                  "fc:4d.": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-07T06:58:48.724Z"
                   }
                 }
               },
@@ -1136,6 +1186,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-07T06:48:48.013Z"
+    "lastEditedAt": "2026-08-07T06:58:57.312Z"
   }
 }
