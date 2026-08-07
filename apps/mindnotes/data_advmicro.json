@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-07T15:10:55.972Z",
+  "exportedAt": "2026-08-07T15:13:39.380Z",
   "data": {
     "topics": [
       {
@@ -1090,7 +1090,7 @@
               {
                 "id": "1786089589368",
                 "title": "Conditions of existence of CE",
-                "content": "\\begin{keydef} \\fcnum{4d.}\nUnder the following ppts a CE exists at any $\\omega$. Break \\emph{any one} of the three and CE ==may fail for some omega==.\n$\\bullet$ \\textcolor{blue}{Continuity} of preferences.\n$\\bullet$ \\textcolor{blue}{Strict monotonicity} (consumers want more --- LNS).\n$\\bullet$ \\textcolor{blue}{Strict convexity} (consumers prefer averages; concave $U^i$).\n\\end{keydef}\n\nIn the snippet Failure of SWT: non existence of CE (PO not CE) each failure is clearly described",
+                "content": "\\begin{keydef} \\fcnum{4d.}\nUnder the following ppts a CE exists at any $\\omega$. Break \\emph{any one} of the three and CE ==may fail for some omega==.\n$\\bullet$ \\textcolor{blue}{Continuity} of preferences.\n$\\bullet$ \\textcolor{blue}{Strict monotonicity} (consumers want more --- LNS).\n$\\bullet$ \\textcolor{blue}{Strict convexity} (consumers prefer averages; concave $U^i$).\nNote that these three assumptions ensure the existence of a price system st MRS$^1$ = MRS$^2$ = $\\hat p_a/\\hat p_b$ works\n\\end{keydef}\n\nIn the snippet Failure of SWT: non existence of CE (PO not CE) each failure is clearly described",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
@@ -1234,6 +1234,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-07T15:10:54.744Z"
+    "lastEditedAt": "2026-08-07T15:13:37.085Z"
   }
 }
