@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-07T08:01:03.053Z",
+  "exportedAt": "2026-08-07T08:01:16.684Z",
   "data": {
     "topics": [
       {
@@ -1158,7 +1158,7 @@
               {
                 "id": "1786089589368",
                 "title": "Conditions of existence of CE",
-                "content": "\\begin{keydef} \\fcnum{4d.}\nUnder the following ppts a CE exists at any $\\omega$. Break \\emph{any one} of the three and CE ==may fail for some omega==.\n$\\bullet$ \\textcolor{blue}{Continuity} of preferences.\n$\\bullet$ \\textcolor{blue}{Strict monotonicity} (consumers want more --- LNS).\n$\\bullet$ \\textcolor{blue}{Strict convexity} (consumers prefer averages; concave $U^i$).\nNote that ==the characterization \"CE is where both curves touch on the BC\" does not hold ==if these assumptions are not in place\n\\end{keydef}\n\nIn the snippet Failure of SWT: non existence of CE (PO not CE) ",
+                "content": "\\begin{keydef} \\fcnum{4d.}\nUnder the following ppts a CE exists at any $\\omega$. Break \\emph{any one} of the three and CE ==may fail for some omega==.\n$\\bullet$ \\textcolor{blue}{Continuity} of preferences.\n$\\bullet$ \\textcolor{blue}{Strict monotonicity} (consumers want more --- LNS).\n$\\bullet$ \\textcolor{blue}{Strict convexity} (consumers prefer averages; concave $U^i$).\nNote that ==the characterization \"CE is where both curves touch on the BC\" does not hold ==if these assumptions are not in place\n\\end{keydef}\n\nIn the snippet Failure of SWT: non existence of CE (PO not CE) each failure is clearly described",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
@@ -1214,6 +1214,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-07T08:01:00.932Z"
+    "lastEditedAt": "2026-08-07T08:01:14.559Z"
   }
 }
