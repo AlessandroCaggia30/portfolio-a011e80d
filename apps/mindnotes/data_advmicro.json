@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-07T08:07:27.259Z",
+  "exportedAt": "2026-08-07T08:07:33.730Z",
   "data": {
     "topics": [
       {
@@ -1102,7 +1102,12 @@
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
-                "links": [],
+                "links": [
+                  {
+                    "target": "1780131255054",
+                    "type": "forward"
+                  }
+                ],
                 "x": 1484.356515898076,
                 "y": -1748.3369592479212,
                 "width": 805.1615730498955,
@@ -1220,6 +1225,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-07T08:07:25.124Z"
+    "lastEditedAt": "2026-08-07T08:07:31.606Z"
   }
 }
