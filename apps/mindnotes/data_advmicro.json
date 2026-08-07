@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-07T08:02:29.876Z",
+  "exportedAt": "2026-08-07T08:02:37.218Z",
   "data": {
     "topics": [
       {
@@ -352,7 +352,7 @@
                 "content": "\\textbf{\\textcolor{red}{COMPETITIVE EQUILIBRIUM (CE) --- prices and allocation where markets clear and consumers optimize.}}\n\n\n\n\\begin{keydef} \\fcnum{4a.}\n\\textbf{\\textcolor{red}{Definition.}} A pair $(\\hat p, \\hat x)$ with $\\hat p \\in \\mathbb{R}^N_+$ and $\\hat x = (\\hat x^1, \\ldots, \\hat x^I)$ such that:\n\n\\textbf{1) Consumer optimization:} for every agent $i$,\n$$ \\boxed{\\;\\hat x^i \\;\\in\\; \\arg\\max_{x^i \\geq 0} U^i(x^i) \\;\\;\\text{s.t.}\\;\\; \\hat p \\cdot x^i \\leq \\hat p \\cdot \\omega^i.\\;} \n$$\nRecall choice variables vs constraints\n\\textbf{2) Market clearing:} for every good $n$,\n$$ \\boxed{\\;\\sum_{i=1}^I \\hat x_n^i \\;=\\; \\sum_{i=1}^I \\omega_n^i \\;=\\; \\omega_n.\\;} $$\n\n==\\textcolor{orange}{Note the CE must be studied given Omega. }==\n\\end{keydef}\n\n\n\n",
                 "images": [],
                 "x": 1457.6179909040638,
-                "y": -2557.301258796736,
+                "y": -2444.6040386614995,
                 "width": 803.3333333333334,
                 "height": 613.3333333333334,
                 "links": [
@@ -526,8 +526,8 @@
                 ],
                 "imageWidths": [],
                 "links": [],
-                "x": 3295.756446438071,
-                "y": -1701.3291221135805,
+                "x": 3316.246850099023,
+                "y": -1585.2168347015186,
                 "width": 804.4803774750064,
                 "height": 225.40132685241997,
                 "fsrs": {
@@ -1166,7 +1166,7 @@
                   }
                 ],
                 "x": 1459.356515898076,
-                "y": -1909.9929253704522,
+                "y": -1513.8451212587124,
                 "width": 805.1615730498955,
                 "height": 327.7707710970842,
                 "fsrs": {
@@ -1216,6 +1216,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-07T08:02:29.733Z"
+    "lastEditedAt": "2026-08-07T08:02:36.849Z"
   }
 }
