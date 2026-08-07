@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-07T08:03:40.668Z",
+  "exportedAt": "2026-08-07T08:05:37.215Z",
   "data": {
     "topics": [
       {
@@ -365,6 +365,10 @@
                     "type": "forward"
                   },
                   {
+                    "target": "1780131255054",
+                    "type": "both"
+                  },
+                  {
                     "target": "ch_quasi_pref",
                     "type": "forward"
                   },
@@ -379,10 +383,6 @@
                   {
                     "target": "ch1_app_consumer",
                     "type": "both"
-                  },
-                  {
-                    "target": "1786089589368",
-                    "type": "forward"
                   }
                 ],
                 "flashcard": false,
@@ -463,6 +463,10 @@
                   {
                     "target": "1780224336011",
                     "type": "forward"
+                  },
+                  {
+                    "target": "1780131255054",
+                    "type": "both"
                   }
                 ]
               },
@@ -483,7 +487,7 @@
               {
                 "id": "1780130334934",
                 "title": "Edgeworth view of CE",
-                "content": "Edgeworth Box: \n{{img:0|w=900}}\n\n\\emph{Reading the Edgeworth picture.} Endowment $\\omega = (8, 2)$ for agent 1, $(2, 6)$ for agent 2. Budget line through $\\omega$ with slope $-\\hat p_a/\\hat p_b$. The CE allocation is the unique point where \\emph{both} agents' ICs are tangent to the budget line (MRS$^1$ = MRS$^2$ = $\\hat p_a/\\hat p_b$) --- hence on the contract curve.\n\n\n\\textbf{\\textcolor{red}{Four observations on the Edgeworth picture (notes IMG\\_1659).}}\n\n\\textbf{1) Where the indifference curves sit at $\\omega$.}\nAt the endowment $\\omega$, agent 1's IC and agent 2's IC pass through the same point but generally are \\emph{not} tangent there. The CE is where, after the rotation of the BC, both ICs become tangent to the BC line --- that tangency point is on the contract curve.\n\n\\textbf{2) The BC line is just the consumer budget constraint rewritten.}\nSolve the consumer's budget identity for $x^1_\\ell$:\n$$ \\boxed{\\;x^1_\\ell \\;=\\; \\omega^1_\\ell \\;+\\; \\omega^1_h\\,\\frac{p_h}{p_\\ell} \\;-\\; \\frac{p_h}{p_\\ell}\\,x^1_h.\\;} $$\nA change in the price ratio $p_h/p_\\ell$ \\emph{rotates} the BC about $\\omega$: the slope of the BC line changes but it still passes through $\\omega$. Different rotations $=$ different sets of \\emph{feasible} (affordable) bundles for the agent.\n\n\\textbf{3) Edges of the box $\\Leftrightarrow$ corner solutions.}\nAn agent ends up on the edge of the box exactly when he sells his \\emph{full endowment} of one good. At that allocation:\n$$ x^i_n = 0 \\;\\Rightarrow\\; \\text{the marginal utility of good } n \\text{ for agent } i \\text{ is } 0\\; (\\text{at the corner)}. $$\n(With strictly monotone $+$ strictly concave preferences, this won't happen in equilibrium; agents stay in the interior. But it's a real possibility once any of these assumptions break.)\n\n\\textbf{4) Feasibility}\n$\\bullet$ \\emph{Feasibility}: all points in the Edgeworth box are feasible (no resource is wasted; total endowment is conserved). This is because the axes represent total resources at most. \n\n\\textbf{5) CE and PO}\n- You solve the individual maximizaiton and you get the individual optimum where each individual indifference curve touches the budget set\n- Additionally the two ICs touch. Two explanaton: 1) Plus, market clearing is degined as the existence of common price vector,  i market clears, they must touch on the same point (otherwise x and y consumption does not sum to the correct total). 2)  idnividual maximization to same price ratio implies same MRS? \n- Characterization: the PO is where the indifference curves are tangent. SO if we have a ce it is a po. But we may have some PO that are not supportable by any system of prices. Is not that you cannot fit a tangent, is that the agents do not want to stay on the poitn where the liens touch, they want to go to the corner\n\nExamples of PO not CE?? infinite!!in the image above the PO is the long green line. only one point of the lien is supported by the prices! other points would need different endowments!\n",
+                "content": "\n{{img:0|w=900}}\n\n\\emph{Reading the Edgeworth picture.} Endowment $\\omega = (8, 2)$ for agent 1, $(2, 6)$ for agent 2. Budget line through $\\omega$ with slope $-\\hat p_a/\\hat p_b$. The CE allocation is the unique point where \\emph{both} agents' ICs are tangent to the budget line (MRS$^1$ = MRS$^2$ = $\\hat p_a/\\hat p_b$) --- hence on the contract curve.\n\n\n\\textbf{\\textcolor{red}{Four observations on the Edgeworth picture (notes IMG\\_1659).}}\n\n\\textbf{1) Where the indifference curves sit at $\\omega$.}\nAt the endowment $\\omega$, agent 1's IC and agent 2's IC pass through the same point but generally are \\emph{not} tangent there. The CE is where, after the rotation of the BC, both ICs become tangent to the BC line --- that tangency point is on the contract curve.\n\n\\textbf{2) The BC line is just the consumer budget constraint rewritten.}\nSolve the consumer's budget identity for $x^1_\\ell$:\n\\[ \\boxed{\\;x^1_\\ell \\;=\\; \\omega^1_\\ell \\;+\\; \\omega^1_h\\,\\frac{p_h}{p_\\ell} \\;-\\; \\frac{p_h}{p_\\ell}\\,x^1_h.\\;} \\]\nA change in the price ratio $p_h/p_\\ell$ \\emph{rotates} the BC about $\\omega$: the slope of the BC line changes but it still passes through $\\omega$. Different rotations $=$ different sets of \\emph{feasible} (affordable) bundles for the agent.\n\n\\textbf{3) Edges of the box $\\Leftrightarrow$ corner solutions.}\nAn agent ends up on the edge of the box exactly when he sells his \\emph{full endowment} of one good. At that allocation:\n\\[ x^i_n = 0 \\;\\Rightarrow\\; \\text{the marginal utility of good } n \\text{ for agent } i \\text{ is } 0\\; (\\text{at the corner)}. \\]\n(With strictly monotone $+$ strictly concave preferences, this won't happen in equilibrium; agents stay in the interior. But it's a real possibility once any of these assumptions break.)\n\n\\textbf{4) Feasibility}\n$\\bullet$ \\emph{Feasibility}: all points in the Edgeworth box are feasible (no resource is wasted; total endowment is conserved). This is because the axes represent total resources at most. \n\n\\textbf{5) CE and PO}\n- You solve the individual maximizaiton and you get the individual optimum where each individual indifference curve touches the budget set\n- Additionally the two ICs touch. Two explanaton: 1) Plus, market clearing is degined as the existence of common price vector,  i market clears, they must touch on the same point (otherwise x and y consumption does not sum to the correct total). 2)  idnividual maximization to same price ratio implies same MRS? \n- Characterization: the PO is where the indifference curves are tangent. SO if we have a ce it is a po. But we may have some PO that are not supportable by any system of prices. Is not that you cannot fit a tangent, is that the agents do not want to stay on the poitn where the liens touch, they want to go to the corner\n\nExamples of PO not CE?? infinite!!in the image above the PO is the long green line. only one point of the lien is supported by the prices! other points would need different endowments!\n",
                 "flashcard": false,
                 "images": [
                   "images/advmicro/1780130334934_0_89a14b560520.png"
@@ -515,8 +519,8 @@
               },
               {
                 "id": "1780131255054",
-                "title": "Failure of SWT: non existence of CE (PO not CE)",
-                "content": "\\textbf{\\textcolor{red}{CONDITIONS FOR EXISTENCE OF CE.}}\n\n\nRecall:\n- PO: You cannot make an agent BO without making another WO (think about a transfer $\\epsilon$ from one agent to the other)\n- CE: Both agents are at their max and mkts clear\n\n\\begin{tabular}{p{9.5cm}|p{9.5cm}|p{9.5cm}|p{9.5cm}}\n\\textbf{\\textcolor{darkgreen}{FAILURE 1 --- Non-monotonicity (satiation).}}  & \\textbf{\\textcolor{darkgreen}{FAILURE 2 --- Non-convexity (no supporting price).}} & \\textbf{\\textcolor{darkgreen}{FAILURE 3 (concrete) --- Leontief vs. max.}} \\emph{Same broken: continuity.} & \\textbf{\\textcolor{darkgreen}{FAILURE 3 --- Discontinuous demand.}} \\emph{Broken: continuity.} \\\\\n\\emph{Setup.}  Take endowment where agent 2 has all good h:\n\n- ✅ Agent 2  gets utility from good $h$ only -> Agent 2 Utility is maximized\n- ❌ Agent 1 optimization requires him to hold some h but he cannot!\n\nAS diff than AD for h! \n\nThis allocation is PO (think about a transfer $\\epsilon$ from one agent to the other) but is not CE (Agent 1 is not optimizing!) -> no price clears with both agents optimizing.\n\n\n{{img:0|w=460}}\nNote only one CE exists and it is where Agent 2 holds just somehtinl like 50% of the total amount of good h\n\n\n & \\emph{Setup.}  Take endowment where agent 2 has all good h, no good l:\n\n- ✅ Agent 2 wants to keep all of xl (only if he has all of it it starts desiring xh)\n- ❌ Agent 1 optimization requires him to hold some xh\n\nAlloction is PO (think about the transfer), but is not CE!\n\n\n{{img:1|w=460}}\n& \\emph{Setup.} $U^1 = \\min\\{x_\\ell, x_h\\}$ (Leontief - wants equal amounts). $U^2 = \\max\\{x_\\ell, x_h\\}$ ( consumes only one good). $\\omega = (0.5, 0.5)$ for each agent:\n\n- ✅ Agent 1's optimum at $p_\\ell = p_h$: $(0.5, 0.5) = \\omega$ (no trade).\n- ❌ Agent 2's argmax JUMPS between corners $(1, 0)$ and $(0, 1)$ as $p_\\ell/p_h$ crosses $1$. \n\n PS = entire box. Think about the transfer: Even if there is some otuput wasted on agent 1 there is no value in giving it to agent 2. No CE.\n\n{{img:3|w=460}}\n &\n\n\n\\emph{Setup.} \n- ✅❌  for the given endowment, agent A asks a quantity different than agent B at optimum (see where they touch the BC, points A and B).\n\nSo AS different than AD!\n\nPS = red line. No transfer could improve that situation. \n\nNote: agent 2 argmax is non-continuous: as the ratio of prices changes a bit the amounts agent 2 demands changes by a lot (A to A') while the amount demanded by agent 1 changes smoothly (B to B')\n{{img:2|w=460}}\n \\\\\n\\hline\n\\end{tabular}\n\n",
+                "title": "Conditions for existence of CE",
+                "content": "\\textbf{\\textcolor{red}{CONDITIONS FOR EXISTENCE OF CE.}}\n\n\n\\begin{keydef} \\fcnum{4d.}\nUnder the following ppts a CE exists at any $\\omega$. Break \\emph{any one} of the three and CE ==may fail for some omega==.\n$\\bullet$ \\textcolor{blue}{Continuity} of preferences.\n$\\bullet$ \\textcolor{blue}{Strict monotonicity} (consumers want more --- LNS).\n$\\bullet$ \\textcolor{blue}{Strict convexity} (consumers prefer averages; concave $U^i$).\nNote that ==the characterization \"CE is where both curves touch on the BC\" does not hold ==if these assumptions are not in place\n\\end{keydef}\n\n\n\nRecall:\n- PO: You cannot make an agent BO without making another WO (think about a transfer $\\epsilon$ from one agent to the other)\n- CE: Both agents are at their max and mkts clear\n\n\\begin{tabular}{p{9.5cm}|p{9.5cm}|p{9.5cm}|p{9.5cm}}\n\\textbf{\\textcolor{darkgreen}{FAILURE 1 --- Non-monotonicity (satiation).}}  & \\textbf{\\textcolor{darkgreen}{FAILURE 2 --- Non-convexity (no supporting price).}} & \\textbf{\\textcolor{darkgreen}{FAILURE 3 (concrete) --- Leontief vs. max.}} \\emph{Same broken: continuity.} & \\textbf{\\textcolor{darkgreen}{FAILURE 3 --- Discontinuous demand.}} \\emph{Broken: continuity.} \\\\\n\\emph{Setup.}  Take endowment where agent 2 has all good h:\n\n- ✅ Agent 2  gets utility from good $h$ only -> Agent 2 Utility is maximized\n- ❌ Agent 1 optimization requires him to hold some h but he cannot!\n\nAS diff than AD for h! \n\nThis allocation is PO (think about a transfer $\\epsilon$ from one agent to the other) but is not CE (Agent 1 is not optimizing!) -> no price clears with both agents optimizing.\n\n\n{{img:0|w=460}}\nNote only one CE exists and it is where Agent 2 holds just somehtinl like 50% of the total amount of good h\n\n\n & \\emph{Setup.}  Take endowment where agent 2 has all good h, no good l:\n\n- ✅ Agent 2 wants to keep all of xl (only if he has all of it it starts desiring xh)\n- ❌ Agent 1 optimization requires him to hold some xh\n\nAlloction is PO (think about the transfer), but is not CE!\n\n\n{{img:1|w=460}}\n& \\emph{Setup.} $U^1 = \\min\\{x_\\ell, x_h\\}$ (Leontief - wants equal amounts). $U^2 = \\max\\{x_\\ell, x_h\\}$ ( consumes only one good). $\\omega = (0.5, 0.5)$ for each agent:\n\n- ✅ Agent 1's optimum at $p_\\ell = p_h$: $(0.5, 0.5) = \\omega$ (no trade).\n- ❌ Agent 2's argmax JUMPS between corners $(1, 0)$ and $(0, 1)$ as $p_\\ell/p_h$ crosses $1$. \n\n PS = entire box. Think about the transfer: Even if there is some otuput wasted on agent 1 there is no value in giving it to agent 2. No CE.\n\n{{img:3|w=460}}\n &\n\n\n\\emph{Setup.} \n- ✅❌  for the given endowment, agent A asks a quantity different than agent B at optimum (see where they touch the BC, points A and B).\n\nSo AS different than AD!\n\nPS = red line. No transfer could improve that situation. \n\nNote: agent 2 argmax is non-continuous: as the ratio of prices changes a bit the amounts agent 2 demands changes by a lot (A to A') while the amount demanded by agent 1 changes smoothly (B to B')\n{{img:2|w=460}}\n \\\\\n\\hline\n\\end{tabular}\n\n",
                 "flashcard": false,
                 "images": [
                   "images/advmicro/1780131255054_0_f1b771db632c.png",
@@ -526,8 +530,8 @@
                 ],
                 "imageWidths": [],
                 "links": [],
-                "x": 3302.5865809917213,
-                "y": -1202.72929969708,
+                "x": 3328.930050915946,
+                "y": -1119.9355370780868,
                 "width": 804.4803774750064,
                 "height": 225.40132685241997,
                 "fsrs": {
@@ -573,12 +577,7 @@
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
-                "links": [
-                  {
-                    "target": "1780131255054",
-                    "type": "both"
-                  }
-                ],
+                "links": [],
                 "x": 3367.9206993379657,
                 "y": -1475.3519821595373,
                 "width": 621.8423064076358,
@@ -1179,6 +1178,19 @@
                   "state": "new",
                   "lastReview": null,
                   "dueDate": "2026-08-07T08:00:43.802Z"
+                },
+                "fsrsCards": {
+                  "fc:4d.": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-07T08:05:27.533Z"
+                  }
                 }
               }
             ]
@@ -1216,6 +1228,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-07T08:03:38.456Z"
+    "lastEditedAt": "2026-08-07T08:05:35.094Z"
   }
 }
