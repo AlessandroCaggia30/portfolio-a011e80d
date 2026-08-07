@@ -9412,13 +9412,30 @@ function substituteInlineImageTokens(html, imagesArray, widthsArray) {
     if (!Array.isArray(imagesArray) || imagesArray.length === 0) {
         return { html, usedIndices: used };
     }
-    const result = html.replace(/\{\{img:(\d+)(?:\|w=(\d+))?(?:\|h=(\d+))?\}\}/g, (match, idxStr, wStr, hStr) => {
+    // Token: {{img:N|w=NUM|h=NUM|right}} — options in any order after the index.
+    //   w= / h=  → pixel size.
+    //   right | left  (or float=right | float=left) → FLOAT the image into that
+    //   top corner so the following text wraps beside it (capped at ~half width),
+    //   then flows back to full width once it passes below the image.
+    const result = html.replace(/\{\{img:(\d+)((?:\|[^|}]+)*)\}\}/g, (match, idxStr, optStr) => {
         const idx = parseInt(idxStr, 10);
         const src = imagesArray[idx];
         if (!src) return match;
         used.add(idx);
-        const w = parseInt(wStr, 10) || (widthsArray && widthsArray[idx]) || 300;
-        const hAttr = hStr ? `height:${parseInt(hStr, 10)}px;` : 'height:auto;';
+        let w = 0, h = 0, floatSide = '';
+        (optStr || '').split('|').filter(Boolean).forEach(tok => {
+            let m;
+            if ((m = tok.match(/^w=(\d+)$/))) w = parseInt(m[1], 10);
+            else if ((m = tok.match(/^h=(\d+)$/))) h = parseInt(m[1], 10);
+            else if (tok === 'right' || tok === 'float=right') floatSide = 'right';
+            else if (tok === 'left' || tok === 'float=left') floatSide = 'left';
+        });
+        w = w || (widthsArray && widthsArray[idx]) || 300;
+        const hAttr = h ? `height:${h}px;` : 'height:auto;';
+        if (floatSide) {
+            const marg = floatSide === 'right' ? 'margin:2px 0 10px 16px;' : 'margin:2px 16px 10px 0;';
+            return `<img src="${src}" class="inline-image-token img-float-${floatSide}" data-img-index="${idx}" style="width:${w}px;max-width:48%;${hAttr}float:${floatSide};${marg}display:block;">`;
+        }
         return `<img src="${src}" class="inline-image-token" data-img-index="${idx}" style="width:${w}px;${hAttr}max-width:100%;vertical-align:middle;display:inline-block;">`;
     });
     return { html: result, usedIndices: used };
