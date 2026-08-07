@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-07T20:28:02.266Z",
+  "exportedAt": "2026-08-07T20:28:17.114Z",
   "data": {
     "topics": [
       {
@@ -526,7 +526,7 @@
               {
                 "id": "1780146685789",
                 "title": "Using planner characterizations to solve the CE problem",
-                "content": "\\textbf{\\textcolor{red}{REMARKS.}}\n\n\\textbf{1)} 6.b Whenever you solve $P(u_1) = \\max\\ldots$ sub $\\ldots u_2 \\ge \\bar u$ you are not agnostic on $y_1^*, y_2^*, x_1^*, x_2^*$ $\\to$ system will pin down these quantities both in homothetic cases and in cases with linear  goods. \n\n\\textbf{2)} 6.a Instead, the prob.\\ appears agnostic only in this case:\n\n- $\\lambda = 1/2$ and one good is linear. E.g.\\ $x$. System will not determine any allocation for $x^i$. The reason: you are indifferent to the agents, of whomever you give the good to, the effect will be the same.\n\n- $\\lambda > 1/2$ or $\\lambda < 1/2$ $\\to$ you care more of one agent you give all the quasiliniear good to him. \n\n\n\\textbf{\\textcolor{red}{Note how for non-linear goods (e.g.\\ $\\ln y$), this does NOT hold.}}\n\nEven with $\\lambda > 1/2$, the concavity of $\\ln y$ kicks in: comparing marginal utility at $y = 0.5$ vs.\\ $y = 9$, the planner wants to give \\emph{more} $y$ to the favored agent --- but at some point diminishing returns make them stop. So the system DOES pin down a unique interior allocation for $y$.\n\n\nPlot sbefore for a quasilinear case!!! x not pinned down, y yes",
+                "content": "\\textbf{\\textcolor{red}{REMARKS.}}\n\n\\textbf{1)} 6.b Whenever you solve $P(u_1) = \\max\\ldots$ sub $\\ldots u_2 \\ge \\bar u$ you are not agnostic on $y_1^*, y_2^*, x_1^*, x_2^*$ $\\to$ system will pin down these quantities both in homothetic cases and in cases with linear  goods. \n\n\\textbf{2)} 6.a Instead, the prob.\\ appears agnostic only in the case of quasilinear goods:\n\n- $\\lambda = 1/2$ and one good is linear. E.g.\\ $x$. System will not determine any allocation for $x^i$. The reason: you are indifferent to the agents, of whomever you give the good to, the effect will be the same.\n\n- $\\lambda > 1/2$ or $\\lambda < 1/2$ $\\to$ you care more of one agent you give all the quasiliniear good to him. \n\n\n\\textbf{\\textcolor{red}{Note how for non-linear goods (e.g.\\ $\\ln y$), this does NOT hold.}}\n\nEven with $\\lambda > 1/2$, the concavity of $\\ln y$ kicks in: comparing marginal utility at $y = 0.5$ vs.\\ $y = 9$, the planner wants to give \\emph{more} $y$ to the favored agent --- but at some point diminishing returns make them stop. So the system DOES pin down a unique interior allocation for $y$.\n\n\nPlot sbefore for a quasilinear case!!! x not pinned down, y yes",
                 "flashcard": false,
                 "images": [
                   "images/advmicro/1780146685789_0_dcfae51e14c0.png"
@@ -1238,6 +1238,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-07T20:28:00.128Z"
+    "lastEditedAt": "2026-08-07T20:28:14.997Z"
   }
 }
