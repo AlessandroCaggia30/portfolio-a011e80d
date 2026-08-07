@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-07T15:15:52.814Z",
+  "exportedAt": "2026-08-07T15:15:56.254Z",
   "data": {
     "topics": [
       {
@@ -346,7 +346,7 @@
               {
                 "id": "ch_contract_curve",
                 "title": "Contract Curve --- PS restricted to mutually-improving over omega",
-                "content": "\\textbf{\\textcolor{red}{CONTRACT CURVE --- the subset of PS that's mutually-improving over $\\omega$.}}\n\n\\emph{Plain English.} The Contract Curve is the set of allocations that are both \\textbf{Pareto efficient} AND make \\textbf{both agents at least as well off as at their endowment $\\omega$}.  These are the allocations a pair of agents would ``sign a contract'' for: no party walks away worse off than autarky ($\\omega$), and there's no further mutual gain left to extract.\n\n\\textbf{\\textcolor{red}{(1) Definition.}}\n$$ \\boxed{\\;\\mathrm{CC}(\\omega) \\;=\\; \\bigl\\{x \\in \\mathrm{PS} \\;:\\; U^i(x^i) \\,\\geq\\, U^i(\\omega^i) \\;\\;\\forall i\\bigr\\}.\\;} $$\nTwo ingredients:\n$\\bullet$ \\emph{Efficiency}: $x \\in \\mathrm{PS}$ (cannot improve everyone).\n$\\bullet$ \\emph{Individual rationality}: each agent weakly prefers $x$ to $\\omega$ (voluntary participation).\n\n\n{{img:0|w=900|right}}\n",
+                "content": "\\textbf{\\textcolor{red}{CONTRACT CURVE --- the subset of PS that's mutually-improving over $\\omega$.}}\n\n{{img:0|w=900|right}}\n \\emph{Plain English.} The Contract Curve is the set of allocations that are both \\textbf{Pareto efficient} AND make \\textbf{both agents at least as well off as at their endowment $\\omega$}.  These are the allocations a pair of agents would ``sign a contract'' for: no party walks away worse off than autarky ($\\omega$), and there's no further mutual gain left to extract.\n\n\\textbf{\\textcolor{red}{(1) Definition.}}\n$$ \\boxed{\\;\\mathrm{CC}(\\omega) \\;=\\; \\bigl\\{x \\in \\mathrm{PS} \\;:\\; U^i(x^i) \\,\\geq\\, U^i(\\omega^i) \\;\\;\\forall i\\bigr\\}.\\;} $$\nTwo ingredients:\n$\\bullet$ \\emph{Efficiency}: $x \\in \\mathrm{PS}$ (cannot improve everyone).\n$\\bullet$ \\emph{Individual rationality}: each agent weakly prefers $x$ to $\\omega$ (voluntary participation).\n\n\n",
                 "images": [
                   "images/advmicro/ch_contract_curve_0_788188d6108a.png"
                 ],
@@ -1234,6 +1234,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-07T15:15:50.652Z"
+    "lastEditedAt": "2026-08-07T15:15:54.362Z"
   }
 }
