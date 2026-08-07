@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-07T14:48:36.084Z",
+  "exportedAt": "2026-08-07T14:50:09.009Z",
   "data": {
     "topics": [
       {
@@ -456,10 +456,6 @@
                 "flashcard": false,
                 "links": [
                   {
-                    "target": "ch_ps_edgeworth",
-                    "type": "forward"
-                  },
-                  {
                     "target": "ch_contract_curve",
                     "type": "forward"
                   },
@@ -474,20 +470,6 @@
                 ]
               },
               {
-                "id": "ch_ps_edgeworth",
-                "title": "PS in the Edgeworth box --- allocation-space view of UPF points",
-                "content": "\\textbf{\\textcolor{red}{PS in the Edgeworth box --- allocation-space view of the UPF.}}\n\nThis snippet is the \\emph{allocation-space} picture of the very same Pareto-efficient set that appears as the UPF in $(u^1, u^2)$ space. The link is the utility map:\n$$ \\boxed{\\;\\text{PS}\\;\\subset\\;\\mathcal{F}\\;\\;\\xrightarrow{\\;(U^1,\\,U^2)\\;}\\;\\;\\text{UPF}\\;\\subset\\;\\mathcal{U}.\\;} $$\\textbf{\\textcolor{red}{Every gold PO point shown below sits on the UPF}} of the companion snippet --- same set, two coordinate systems.\n\n\\textbf{\\textcolor{darkgreen}{Picture --- Edgeworth box.}} The green curve is the \\textbf{Pareto Set} (PS): the locus of all Pareto-efficient allocations, independent of $\\omega$. \n\n{{img:0|w=900}}\n\n\\textbf{\\textcolor{red}{Reading the link to the UPF.}}\n$\\bullet$ \\emph{Each gold PO point} in this Edgeworth box is sent by $(U^1, U^2)$ \\emph{Each gold PO point} in this Edgeworth box is sent by $\\bullet$ \\emph{The whole green PS curve} maps onto the whole UPF curve --- nothing is missed.\n$\\bullet$ \\emph{The supporting price slope} $-p_1/p_2$ here corresponds to the isowelfare slope $-\\lambda/(1-\\lambda)$ on the UPF.\n\n\\textcolor{orange}{\\emph{Important: Contract Curve vs Pareto Set.} The Contract Curve is \\emph{not} the green curve --- it is the subset of PS that Pareto-dominates a given endowment $\\omega$ (the agents agree to trade because both end up at least as well off as at $\\omega$). PS is endowment-free; the Contract Curve depends on $\\omega$ and is only a piece of PS.}\n\n\\textbf{\\textcolor{blue}{Cross-references.}}\n$\\bullet$ \\emph{Pareto Optimum (PS \\& UPF)} --- definitions, the duality box, two planner characterizations.\n$\\bullet$ \\emph{Contract Curve} --- the endowment-dependent subset of PS.\n$\\bullet$ \\emph{Exchange Economy} --- defines $\\mathcal{F}$.\n",
-                "images": [
-                  "images/advmicro/ch_ps_edgeworth_0_e6877a100e6f.png"
-                ],
-                "x": 3885.052355762944,
-                "y": -2129.3488925652036,
-                "width": 785,
-                "height": 405,
-                "flashcard": false,
-                "links": []
-              },
-              {
                 "id": "1780130334934",
                 "title": "Edgeworth view of CE",
                 "content": "\n{{img:0|w=900}}\n\n==Under standard assumptions: CE allocation is the unique point where \\emph{both} agents' ICs are tangent to the budget line (MRS$^1$ = MRS$^2$ = $\\hat p_a/\\hat p_b$) ==\n\n\n\\textbf{\\textcolor{red}{Four observations on the Edgeworth picture (notes IMG\\_1659).}}\n\n\\textbf{1) Where the indifference curves sit at $\\omega$.}\nAt the endowment $\\omega$, agent 1's IC and agent 2's IC pass through the same point but generally are \\emph{not} tangent there. The CE is where, after the rotation of the BC, both ICs become tangent to the BC line --- that tangency point is on the contract curve.\n\n\\textbf{2) The BC line is just the consumer budget constraint rewritten.}\nSolve the consumer's budget identity for $x^1_\\ell$:\n$$ \\boxed{\\;x^1_\\ell \\;=\\; \\omega^1_\\ell \\;+\\; \\omega^1_h\\,\\frac{p_h}{p_\\ell} \\;-\\; \\frac{p_h}{p_\\ell}\\,x^1_h.\\;} $$\nA change in the price ratio $p_h/p_\\ell$ \\emph{rotates} the BC about $\\omega$: the slope of the BC line changes but it still passes through $\\omega$. Different rotations $=$ different sets of \\emph{feasible} (affordable) bundles for the agent.\n\n\\textbf{3) Edges of the box $\\Leftrightarrow$ corner solutions.}\nAn agent ends up on the edge of the box exactly when he sells his \\emph{full endowment} of one good. At that allocation:\n$$ x^i_n = 0 \\;\\Rightarrow\\; \\text{the marginal utility of good } n \\text{ for agent } i \\text{ is } 0\\; (\\text{at the corner)}. $$\n\n\\textbf{4) Feasibility}\n$\\bullet$ \\emph{Feasibility}: all points in the Edgeworth box are feasible (no resource is wasted; total endowment is conserved). This is because the axes represent total resources at most. \n\n\\textbf{5) CE and PO}\n- You solve the individual maximizaiton and you get the individual optimum where each individual indifference curve touches the budget set\n- Additionally the two ICs touch. Two explanaton: 1) Plus, market clearing is degined as the existence of common price vector,  i market clears, they must touch on the same point (otherwise x and y consumption does not sum to the correct total). 2)  idnividual maximization to same price ratio implies same MRS? \n- Characterization: the PO is where the indifference curves are tangent. SO if we have a ce it is a po. But we may have some PO that are not supportable by any system of prices. Is not that you cannot fit a tangent, is that the agents do not want to stay on the poitn where the liens touch, they want to go to the corner\n\nExamples of PO not CE?? infinite!!in the image above the PO is the long green line. only one point of the lien is supported by the prices! other points would need different endowments!\n",
@@ -496,13 +478,8 @@
                   "images/advmicro/1780130334934_0_89a14b560520.png"
                 ],
                 "imageWidths": [],
-                "links": [
-                  {
-                    "target": "ch_ps_edgeworth",
-                    "type": "forward"
-                  }
-                ],
-                "x": 3068.4348042236907,
+                "links": [],
+                "x": 3466.32468702871,
                 "y": -2129.0434393751502,
                 "width": 700.9506100518607,
                 "height": 408.9506100518608
@@ -1234,8 +1211,25 @@
         "deletedAt": 1785617537972,
         "fromTopic": "1740100000001",
         "fromSubtopic": "1740100000101"
+      },
+      {
+        "id": "ch_ps_edgeworth",
+        "title": "PS in the Edgeworth box --- allocation-space view of UPF points",
+        "content": "\\textbf{\\textcolor{red}{PS in the Edgeworth box --- allocation-space view of the UPF.}}\n\nThis snippet is the \\emph{allocation-space} picture of the very same Pareto-efficient set that appears as the UPF in $(u^1, u^2)$ space. The link is the utility map:\n$$ \\boxed{\\;\\text{PS}\\;\\subset\\;\\mathcal{F}\\;\\;\\xrightarrow{\\;(U^1,\\,U^2)\\;}\\;\\;\\text{UPF}\\;\\subset\\;\\mathcal{U}.\\;} $$\\textbf{\\textcolor{red}{Every gold PO point shown below sits on the UPF}} of the companion snippet --- same set, two coordinate systems.\n\n\\textbf{\\textcolor{darkgreen}{Picture --- Edgeworth box.}} The green curve is the \\textbf{Pareto Set} (PS): the locus of all Pareto-efficient allocations, independent of $\\omega$. \n\n{{img:0|w=900}}\n\n\\textbf{\\textcolor{red}{Reading the link to the UPF.}}\n$\\bullet$ \\emph{Each gold PO point} in this Edgeworth box is sent by $(U^1, U^2)$ \\emph{Each gold PO point} in this Edgeworth box is sent by $\\bullet$ \\emph{The whole green PS curve} maps onto the whole UPF curve --- nothing is missed.\n$\\bullet$ \\emph{The supporting price slope} $-p_1/p_2$ here corresponds to the isowelfare slope $-\\lambda/(1-\\lambda)$ on the UPF.\n\n\\textcolor{orange}{\\emph{Important: Contract Curve vs Pareto Set.} The Contract Curve is \\emph{not} the green curve --- it is the subset of PS that Pareto-dominates a given endowment $\\omega$ (the agents agree to trade because both end up at least as well off as at $\\omega$). PS is endowment-free; the Contract Curve depends on $\\omega$ and is only a piece of PS.}\n\n\\textbf{\\textcolor{blue}{Cross-references.}}\n$\\bullet$ \\emph{Pareto Optimum (PS \\& UPF)} --- definitions, the duality box, two planner characterizations.\n$\\bullet$ \\emph{Contract Curve} --- the endowment-dependent subset of PS.\n$\\bullet$ \\emph{Exchange Economy} --- defines $\\mathcal{F}$.\n",
+        "images": [
+          "images/advmicro/ch_ps_edgeworth_0_e6877a100e6f.png"
+        ],
+        "x": 3885.052355762944,
+        "y": -2129.3488925652036,
+        "width": 785,
+        "height": 405,
+        "flashcard": false,
+        "links": [],
+        "deletedAt": 1786114206854,
+        "fromTopic": "1740100000001",
+        "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-07T14:48:33.917Z"
+    "lastEditedAt": "2026-08-07T14:50:06.854Z"
   }
 }
