@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-07T14:59:53.929Z",
+  "exportedAt": "2026-08-07T15:00:45.743Z",
   "data": {
     "topics": [
       {
@@ -1090,7 +1090,7 @@
               {
                 "id": "1786089589368",
                 "title": "Conditions of existence of CE",
-                "content": "\\begin{keydef} \\fcnum{4d.}\nUnder the following ppts a CE exists at any $\\omega$. Break \\emph{any one} of the three and CE ==may fail for some omega==.\n$\\bullet$ \\textcolor{blue}{Continuity} of preferences.\n$\\bullet$ \\textcolor{blue}{Strict monotonicity} (consumers want more --- LNS).\n$\\bullet$ \\textcolor{blue}{Strict convexity} (consumers prefer averages; concave $U^i$).\nNote that ==the characterization \"CE is where both curves touch on the BC\" does not hold ==if these assumptions are not in place\n\\end{keydef}\n\nIn the snippet Failure of SWT: non existence of CE (PO not CE) each failure is clearly described",
+                "content": "\\begin{keydef} \\fcnum{4d.}\nUnder the following ppts a CE exists at any $\\omega$. Break \\emph{any one} of the three and CE ==may fail for some omega==.\n$\\bullet$ \\textcolor{blue}{Continuity} of preferences.\n$\\bullet$ \\textcolor{blue}{Strict monotonicity} (consumers want more --- LNS).\n$\\bullet$ \\textcolor{blue}{Strict convexity} (consumers prefer averages; concave $U^i$).\nNote that ==the characterization \"CE is where both curves touch on the BC\" does not hold ==if these assumptions are not in place. Indeed: Recall whenever the solution is interior (excluding kinked preferences (non-continuity) and satiation (non-monotonicity) of one agent): MRS$^1$ = MRS$^2$ = $\\hat p_a/\\hat p_b$. \n\\end{keydef}\n\nIn the snippet Failure of SWT: non existence of CE (PO not CE) each failure is clearly described",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
@@ -1234,6 +1234,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-07T14:59:51.808Z"
+    "lastEditedAt": "2026-08-07T15:00:43.593Z"
   }
 }
