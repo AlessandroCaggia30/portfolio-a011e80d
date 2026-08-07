@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-07T20:30:18.758Z",
+  "exportedAt": "2026-08-07T20:30:30.528Z",
   "data": {
     "topics": [
       {
@@ -182,8 +182,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 2337.4403460635567,
-                "y": 69.22081389888172,
+                "x": 3037.4403460635567,
+                "y": 244.22081389888172,
                 "width": 900,
                 "height": 1100,
                 "sectionNumber": 1,
@@ -216,8 +216,8 @@
                     "type": "both"
                   }
                 ],
-                "x": 493.4208932356596,
-                "y": -834.3804061036735,
+                "x": 1193.4208932356596,
+                "y": -659.3804061036735,
                 "width": 900,
                 "height": 1100,
                 "sectionNumber": 1,
@@ -288,8 +288,8 @@
                 "title": "Representative Agent Assumption",
                 "images": [],
                 "content": "\\textbf{\\textcolor{red}{REPRESENTATIVE AGENT ASSUMPTION --- when can a single agent stand in for the whole population?}}\n\n\\textbf{\\textcolor{red}{Definition.}}\nA \\emph{representative agent} is a single hypothetical consumer whose demand reproduces aggregate demand. Formally: there exists a utility function $U^R$ and a wealth $W$ such that\n\\[ \\boxed{\\;\\sum_h x_i^*(p, w^h; U^h) \\;=\\; x_i^*(p, W; U^R) \\quad \\forall\\, i.\\;} \\]\n\\emph{When this works, macro/aggregative analysis collapses to a single optimization problem --- a huge workhorse simplification.}\n\n\\textbf{\\textcolor{red}{When is the assumption valid?}}\nAggregate demand must depend on \\emph{total} wealth only, \\textbf{not on its distribution} across agents:\n\\[ \\sum_h x_i^*(p, w^h) \\;=\\; X_i(p, W), \\quad W = \\textstyle\\sum_h w^h. \\]\n\n\\textbf{Two canonical families that satisfy Gorman aggregation:}\n\n\\bigskip\n\n\\textbf{\\textcolor{red}{1. Homothetic preferences} --- whatever the wealth, agents all consume the same RATIO.}}\n\n\\textbf{\\textcolor{red}{2. Quasilinear preferences} --- whatever the endowment, agents all consume the same NON-NUMERAIRE $y$.}}\n",
-                "x": 1562.866661107304,
-                "y": 142.78359971056125,
+                "x": 2262.866661107304,
+                "y": 317.78359971056125,
                 "width": 454.38607762025504,
                 "height": 381.0832671756041,
                 "flashcard": false,
@@ -542,8 +542,8 @@
                     "type": "both"
                   }
                 ],
-                "x": 3907.339538617599,
-                "y": -692.8129604304304,
+                "x": 4607.339538617599,
+                "y": -517.8129604304304,
                 "width": 1045,
                 "height": 530
               },
@@ -1084,8 +1084,8 @@
                 "images": [],
                 "imageWidths": [],
                 "links": [],
-                "x": 3644.388613770634,
-                "y": 371.505745351129,
+                "x": 4344.388613770634,
+                "y": 546.505745351129,
                 "width": 522.6034637084745,
                 "height": 300.53076155369206
               },
@@ -1247,6 +1247,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-07T20:30:16.961Z"
+    "lastEditedAt": "2026-08-07T20:30:28.398Z"
   }
 }
