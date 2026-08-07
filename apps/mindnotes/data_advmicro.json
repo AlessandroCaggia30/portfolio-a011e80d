@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-07T14:50:18.516Z",
+  "exportedAt": "2026-08-07T14:50:23.013Z",
   "data": {
     "topics": [
       {
@@ -465,6 +465,10 @@
                   },
                   {
                     "target": "1780224336011",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "1780130334934",
                     "type": "forward"
                   }
                 ]
@@ -1230,6 +1234,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-07T14:50:16.400Z"
+    "lastEditedAt": "2026-08-07T14:50:18.568Z"
   }
 }
