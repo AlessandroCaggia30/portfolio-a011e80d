@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-07T15:44:49.120Z",
+  "exportedAt": "2026-08-07T15:48:52.712Z",
   "data": {
     "topics": [
       {
@@ -127,7 +127,7 @@
                   }
                 ],
                 "x": 413.8366497867928,
-                "y": -2439.737420387035,
+                "y": -2393.4722256554915,
                 "width": 750,
                 "height": 467,
                 "sectionNumber": 1,
@@ -241,7 +241,7 @@
                   "images/advmicro/ch_ce_viz_0_2a766f81b9bd.png"
                 ],
                 "x": 551.4167849122405,
-                "y": -1900.4667996968528,
+                "y": -1854.2016049653093,
                 "width": 482.8748832244558,
                 "height": 348.2039805572599,
                 "links": [],
@@ -303,7 +303,7 @@
                 ],
                 "content": "\n\n\n\n\\textbf{\\textcolor{red}{REAL ENDOWMENTS --- when wealth itself depends on prices.}}\n\n\\textbf{\\textcolor{red}{Setup: nominal vs.\\ real wealth.}}\n\n*Usually*: $x_i^*(p, w)$, with $w$ exogenous.\n\n\\emph{Real-endowment problem}: Their wealth is then \\emph{endogenously determined} by the value of what they own: $w(p) \\;=\\; p \\cdot \\omega  $. Hence: $ \\hat x_i^*(p, \\omega) \\;=\\; x_i^*\\bigl(p,\\; p \\cdot \\omega\\bigr). $\n\n\\textbf{\\textcolor{red}{Step 1 --- The chain rule: two channels for a price change.}}\n\nWhen $p_j$ rises, the consumer feels it \\emph{twice}, by the chain rule: $$ \\boxed{\\;\\dfrac{\\partial \\hat x_i^*(p, \\omega)}{\\partial p_j} \\;=\\; \\underbrace{\\dfrac{\\partial x_i^*(p, w)}{\\partial p_j}\\bigg|_{w\\text{ fixed}}}_{\\text{Marshallian price effect}} \\;+\\; \\underbrace{\\dfrac{\\partial x_i^*(p, w)}{\\partial w} \\cdot \\dfrac{\\partial w}{\\partial p_j}}_{\\text{endowment-wealth effect}}.\\;} $$\n\\textbf{\\textcolor{red}{Step 2 --- The first term IS the standard Slutsky decomposition.}}\n\n\\begin{keydef} \\fcnum{5.} The Slutsky equation splits it:\n$$ \\boxed{\\;\\dfrac{\\partial x_i^*(p, w)}{\\partial p_j}\\bigg|_{w} \\;=\\; \\underbrace{\\dfrac{\\partial x_i^h(p, \\bar U)}{\\partial p_j}}_{\\text{substitution } S_{ij}} \\;-\\; \\underbrace{x_j^*(p, w) \\cdot \\dfrac{\\partial x_i^*}{\\partial w}}_{\\text{(Marshallian) income effect}}.\\;} $$\n\\end{keydef}\n\n\n\\textbf{\\textcolor{red}{Preamble.}}\n$\\bullet$ Different points on the same Indifference Curve represent the loci with same utility under different prices, hence, requiring different w to be attained\n$\\bullet$ \"Bad\" price systems (or \"stupid\" utility functions) can be very inefficient — they require a lot of wealth to reach a given indifference curve.\n\n\\textbf{\\textcolor{red}{0) Motivation.}}\nLook at the image, look at what happened to the consumption of xa. It goes down for two reasons: a sub effect to xb and an income effect.\n\n{{img:0|w=402}}\n\n\n\n\n\n\n\n\\textbf{\\textcolor{red}{1) The process}} \nThe agent has choosen the optimal bundle through the FOC condition. If a price goes up, the optimal consumption ratio changes (sub. eff., loses some $x_b$ in favour of $x_a$, mathmetically this is the MRS = prices) and this is a movement on the IC,  PLUS the BC shifts inward (income eff., loses some $x_b$, mathematically this is in the BC ).  \n\n\\textbf{\\textcolor{red}{2) isolate the sub effect with an EXPERIMENT:}}  if i give the agent some extra money to stay on the same IC I can observe how much a price change affects the relative consumption ratio, without being confounded by the income effect. SEE IN THE PLOT how this allow you to isolate the green vs the blue effect. \n\n\\textbf{\\textcolor{red}{3) Income effect (real income drops).}}\nNow let the original BC move. \n\nNote for homothetic preferences, wealth does not affect the optimal consumption ratio, HENCE the compensated (Hicksian) bundle and the final bundle have the same consumption ratio. Hence, you do not need the subsitution \"experiment\" to know what is the effect of the subsitution effect on proportions, still, you need it to go through the same process as above if you want the exact quantities\n\n\n\n\n",
                 "x": -61.50906123578352,
-                "y": -2340.137305415349,
+                "y": -2293.8721106838057,
                 "width": 330.3167163653038,
                 "height": 224.6996165219718,
                 "flashcard": false,
@@ -810,8 +810,8 @@
                 "images": [],
                 "imageWidths": [],
                 "links": [],
-                "x": -1837.163622557884,
-                "y": -1102.8948482970209,
+                "x": -1842.163622557884,
+                "y": -1392.8948482970209,
                 "createdAt": 1780403612908,
                 "updatedAt": 1780419193002,
                 "width": 860.9402371998688,
@@ -840,8 +840,8 @@
                 "images": [],
                 "imageWidths": [],
                 "links": [],
-                "x": -4300,
-                "y": -1033.333333333334,
+                "x": -4315,
+                "y": -1368.333333333334,
                 "createdAt": 1780419438800,
                 "updatedAt": 1780422252299,
                 "width": 850,
@@ -1234,6 +1234,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-07T15:44:46.971Z"
+    "lastEditedAt": "2026-08-07T15:48:50.534Z"
   }
 }
