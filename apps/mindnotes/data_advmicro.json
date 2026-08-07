@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-07T08:05:58.424Z",
+  "exportedAt": "2026-08-07T08:06:09.730Z",
   "data": {
     "topics": [
       {
@@ -510,71 +510,13 @@
                 "height": 211.03256588884287
               },
               {
-                "id": "1780131255054",
-                "title": "Conditions for existence of CE",
-                "content": "\\textbf{\\textcolor{red}{CONDITIONS FOR EXISTENCE OF CE.}}\n\n\n\n\n\n\nRecall:\n- PO: You cannot make an agent BO without making another WO (think about a transfer $\\epsilon$ from one agent to the other)\n- CE: Both agents are at their max and mkts clear\n\n\\begin{tabular}{p{9.5cm}|p{9.5cm}|p{9.5cm}|p{9.5cm}}\n\\textbf{\\textcolor{darkgreen}{FAILURE 1 --- Non-monotonicity (satiation).}}  & \\textbf{\\textcolor{darkgreen}{FAILURE 2 --- Non-convexity (no supporting price).}} & \\textbf{\\textcolor{darkgreen}{FAILURE 3 (concrete) --- Leontief vs. max.}} \\emph{Same broken: continuity.} & \\textbf{\\textcolor{darkgreen}{FAILURE 3 --- Discontinuous demand.}} \\emph{Broken: continuity.} \\\\\n\\emph{Setup.}  Take endowment where agent 2 has all good h:\n\n- ✅ Agent 2  gets utility from good $h$ only -> Agent 2 Utility is maximized\n- ❌ Agent 1 optimization requires him to hold some h but he cannot!\n\nAS diff than AD for h! \n\nThis allocation is PO (think about a transfer $\\epsilon$ from one agent to the other) but is not CE (Agent 1 is not optimizing!) -> no price clears with both agents optimizing.\n\n\n{{img:0|w=460}}\nNote only one CE exists and it is where Agent 2 holds just somehtinl like 50% of the total amount of good h\n\n\n & \\emph{Setup.}  Take endowment where agent 2 has all good h, no good l:\n\n- ✅ Agent 2 wants to keep all of xl (only if he has all of it it starts desiring xh)\n- ❌ Agent 1 optimization requires him to hold some xh\n\nAlloction is PO (think about the transfer), but is not CE!\n\n\n{{img:1|w=460}}\n& \\emph{Setup.} $U^1 = \\min\\{x_\\ell, x_h\\}$ (Leontief - wants equal amounts). $U^2 = \\max\\{x_\\ell, x_h\\}$ ( consumes only one good). $\\omega = (0.5, 0.5)$ for each agent:\n\n- ✅ Agent 1's optimum at $p_\\ell = p_h$: $(0.5, 0.5) = \\omega$ (no trade).\n- ❌ Agent 2's argmax JUMPS between corners $(1, 0)$ and $(0, 1)$ as $p_\\ell/p_h$ crosses $1$. \n\n PS = entire box. Think about the transfer: Even if there is some otuput wasted on agent 1 there is no value in giving it to agent 2. No CE.\n\n{{img:3|w=460}}\n &\n\n\n\\emph{Setup.} \n- ✅❌  for the given endowment, agent A asks a quantity different than agent B at optimum (see where they touch the BC, points A and B).\n\nSo AS different than AD!\n\nPS = red line. No transfer could improve that situation. \n\nNote: agent 2 argmax is non-continuous: as the ratio of prices changes a bit the amounts agent 2 demands changes by a lot (A to A') while the amount demanded by agent 1 changes smoothly (B to B')\n{{img:2|w=460}}\n \\\\\n\\hline\n\\end{tabular}\n\n",
-                "flashcard": false,
-                "images": [
-                  "images/advmicro/1780131255054_0_f1b771db632c.png",
-                  "images/advmicro/1780131255054_1_41330cfde41d.png",
-                  "images/advmicro/1780131255054_2_c0551ac5b117.png",
-                  "images/advmicro/1780131255054_3_b9af323d9837.png"
-                ],
-                "imageWidths": [],
-                "links": [],
-                "x": 3328.930050915946,
-                "y": -1119.9355370780868,
-                "width": 804.4803774750064,
-                "height": 225.40132685241997,
-                "fsrs": {
-                  "stability": 1,
-                  "difficulty": 5,
-                  "elapsedDays": 0,
-                  "scheduledDays": 0,
-                  "reps": 0,
-                  "lapses": 0,
-                  "state": "new",
-                  "lastReview": null,
-                  "dueDate": "2026-08-05T15:32:30.636Z"
-                },
-                "fsrsCards": {
-                  "fc:4b.": {
-                    "stability": 1,
-                    "difficulty": 5,
-                    "elapsedDays": 0,
-                    "scheduledDays": 0,
-                    "reps": 0,
-                    "lapses": 0,
-                    "state": "new",
-                    "lastReview": null,
-                    "dueDate": "2026-08-06T09:47:34.726Z"
-                  },
-                  "fc:4d.": {
-                    "stability": 1,
-                    "difficulty": 5,
-                    "elapsedDays": 0,
-                    "scheduledDays": 0,
-                    "reps": 0,
-                    "lapses": 0,
-                    "state": "new",
-                    "lastReview": null,
-                    "dueDate": "2026-08-07T06:58:48.724Z"
-                  }
-                }
-              },
-              {
                 "id": "1780132024926",
                 "title": "PO and CE: FWT and SWT",
                 "content": "\nIf CE exists (given this omega), is it PO? \n\nYES \\textbf{\\textcolor{red}{FIRST WELFARE THEOREM --- every CE is Pareto Optimal.}}\n\n\n\\textbf{\\textcolor{red}{Statement.}} If $(\\hat p, \\hat x)$ is a Competitive Equilibrium \\emph{and} each $U^i$ is strictly increasing in every good, then $\\hat x$ is Pareto Optimal.\n$$ \\boxed{\\;\\text{CE} \\;\\;\\Longrightarrow\\;\\; \\text{PO}\\quad \\text{(under strict monotonicity)}.\\;} $$\nMoreover $U^i(\\hat x_i) \\ge U^i(\\omega^i)$\n\\textbf{\\textcolor{red}{Proof sketch.}}\n\\textbf{(i)} Suppose for contradiction $\\hat x$ is not PO. Then $\\exists y \\in \\mathcal{F}$ with $U^i(y^i) \\geq U^i(\\hat x^i)$ $\\forall i$ (ahemts) and strict for some $j$.\n\\textbf{(ii)} Strict monotonicity $+$ consumer optimization at prices $\\hat p$:\n$\\bullet$ For agent $j$ (strictly better off): $\\hat p \\cdot y^j > \\hat p \\cdot \\hat x^j$ (otherwise $y^j$ would have been chosen). The point is that he is already at the boudnary and this $y^j$ is not feasible\n$\\bullet$ For other agents: $\\hat p \\cdot y^i \\geq \\hat p \\cdot \\hat x^i$.\n\\textbf{(iii)} Sum: $\\hat p \\cdot \\sum_i y^i \\;>\\; \\hat p \\cdot \\sum_i \\hat x^i = \\omega$. Not feasible!\n\n\\textbf{\\textcolor{red}{Key takeaway.}} CE allocations are always on the \\emph{*Pareto Set*} (and in fact on the \\emph{Contract Curve}, since they're individually rational by construction). The market efficiently rules out wasteful allocations \\emph{without a planner}.\n\n\\textbf{\\textcolor{orange}{What FWT does NOT say.}}\n$\\bullet$ CE allocations need not be \\emph{fair}. The endowment distribution determines who gets what at the CE.\n\n\n\nIf a point is PO, can some $\\omega$ exists where $\\hat x$ is the CE ? failure is not CE non existence for one omega, but for all omega.\n\n \\textbf{\\textcolor{red}{SECOND WELFARE THEOREM --- any PO can be supported as a CE with lump-sum transfers.}}\n\n\\textbf{\\textcolor{red}{Statement (ALL CASES EXCEPT THE ONES UNDER \"CE FAILURE\").}} Under \\emph{convexity of preferences} (concave $U^i$), \\emph{strict monotonicity}, and continuity: \\emph{any} Pareto-optimal allocation $\\bar x$ can be supported as a CE relative to some prices $\\hat p \\in \\mathbb{R}^N_+$ \\emph{after} lump-sum transfers $T = (T^1, \\ldots, T^I)$ with $\\sum_i T^i = 0$.\n\n$$ \\boxed{\\;\\text{Any PO} \\;\\;\\Longrightarrow\\;\\; \\text{CE} \\;\\;\\text{with transfers (under convexity)}.\\;} $$\n\n\n\n\\textbf{\\textcolor{red}{Reading the picture (Edgeworth box).}} At any PO interior point, the two agents' ICs are tangent. The \\emph{slope of the common tangent} = $-\\hat p_a / \\hat p_b$ = supporting prices. Transfers shift the budget line (omega changes eq p, recall the big picture) so it passes through the desired PO bundle instead of through the original endowment.\n\n\\textbf{\\textcolor{red}{Why this matters.}}\n$\\bullet$ \\textcolor{orange}{Equity-efficiency separation.} The planner can pick the most equitable PO and \\emph{implement it via the price mechanism} just by redistributing endowments. Market efficiency and distributional choice are separable.\n$\\bullet$ \\textcolor{orange}{Decentralization.} A planner doesn't need to choose individual allocations --- they just set transfers and let markets clear.\n\n\\textbf{\\textcolor{red}{Super-concise intuition (why SWT works).}}\n\nRecall PO:\n$$ \\frac{\\partial U^i/\\partial x^i_n}{\\partial U^i/\\partial x^i_m} \\;=\\; \\frac{\\mu_n}{\\mu_m} \\qquad \\text{for both } i=1, 2. $$\n\\emph{Each agent's MRS equals the planner's relative shadow prices.} That is, the marginal value of consuming one extra unit of good l and the marginal value of consuming the extra unit of good h. What is this?? exacly the same role of prices in the CE\n\nRecall CE:\n$$ \\frac{\\partial U^i/\\partial x^i_n}{\\partial U^i/\\partial x^i_m} \\;=\\; \\frac{p_n}{p_m}. $$\n\\emph{Same equations, with $p$ replacing $\\mu$.}\n\n\\emph{The link.} Set $\\;\\boxed{\\;p_n \\,=\\, \\mu_n\\;}\\;$ (up to a positive normalization). Then the planner's allocation \\emph{is} a consumer-optimal bundle at those prices --- the FOCs match. \n\n\nHow do you change prices? \nLump-sum transfers $T^i$ are picked so each agent's budget at $p$ exactly affords the planner's bundle: $p \\cdot \\bar x^i = p \\cdot \\omega^i + T^i$, with $\\sum_i T^i = 0$.\n\n\\textbf{Slogan:} \\emph{decentralization is just renaming Lagrange multipliers as prices}. The planner's shadow prices on market clearing $=$ the CE market prices.\n",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
-                "links": [
-                  {
-                    "target": "1780131255054",
-                    "type": "forward"
-                  }
-                ],
+                "links": [],
                 "x": 3367.9206993379657,
                 "y": -1475.3519821595373,
                 "width": 621.8423064076358,
@@ -1155,12 +1097,7 @@
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
-                "links": [
-                  {
-                    "target": "1780131255054",
-                    "type": "forward"
-                  }
-                ],
+                "links": [],
                 "x": 1484.356515898076,
                 "y": -1748.3369592479212,
                 "width": 805.1615730498955,
@@ -1223,8 +1160,64 @@
         "deletedAt": 1785617537972,
         "fromTopic": "1740100000001",
         "fromSubtopic": "1740100000101"
+      },
+      {
+        "id": "1780131255054",
+        "title": "Conditions for existence of CE",
+        "content": "\\textbf{\\textcolor{red}{CONDITIONS FOR EXISTENCE OF CE.}}\n\n\n\n\n\n\nRecall:\n- PO: You cannot make an agent BO without making another WO (think about a transfer $\\epsilon$ from one agent to the other)\n- CE: Both agents are at their max and mkts clear\n\n\\begin{tabular}{p{9.5cm}|p{9.5cm}|p{9.5cm}|p{9.5cm}}\n\\textbf{\\textcolor{darkgreen}{FAILURE 1 --- Non-monotonicity (satiation).}}  & \\textbf{\\textcolor{darkgreen}{FAILURE 2 --- Non-convexity (no supporting price).}} & \\textbf{\\textcolor{darkgreen}{FAILURE 3 (concrete) --- Leontief vs. max.}} \\emph{Same broken: continuity.} & \\textbf{\\textcolor{darkgreen}{FAILURE 3 --- Discontinuous demand.}} \\emph{Broken: continuity.} \\\\\n\\emph{Setup.}  Take endowment where agent 2 has all good h:\n\n- ✅ Agent 2  gets utility from good $h$ only -> Agent 2 Utility is maximized\n- ❌ Agent 1 optimization requires him to hold some h but he cannot!\n\nAS diff than AD for h! \n\nThis allocation is PO (think about a transfer $\\epsilon$ from one agent to the other) but is not CE (Agent 1 is not optimizing!) -> no price clears with both agents optimizing.\n\n\n{{img:0|w=460}}\nNote only one CE exists and it is where Agent 2 holds just somehtinl like 50% of the total amount of good h\n\n\n & \\emph{Setup.}  Take endowment where agent 2 has all good h, no good l:\n\n- ✅ Agent 2 wants to keep all of xl (only if he has all of it it starts desiring xh)\n- ❌ Agent 1 optimization requires him to hold some xh\n\nAlloction is PO (think about the transfer), but is not CE!\n\n\n{{img:1|w=460}}\n& \\emph{Setup.} $U^1 = \\min\\{x_\\ell, x_h\\}$ (Leontief - wants equal amounts). $U^2 = \\max\\{x_\\ell, x_h\\}$ ( consumes only one good). $\\omega = (0.5, 0.5)$ for each agent:\n\n- ✅ Agent 1's optimum at $p_\\ell = p_h$: $(0.5, 0.5) = \\omega$ (no trade).\n- ❌ Agent 2's argmax JUMPS between corners $(1, 0)$ and $(0, 1)$ as $p_\\ell/p_h$ crosses $1$. \n\n PS = entire box. Think about the transfer: Even if there is some otuput wasted on agent 1 there is no value in giving it to agent 2. No CE.\n\n{{img:3|w=460}}\n &\n\n\n\\emph{Setup.} \n- ✅❌  for the given endowment, agent A asks a quantity different than agent B at optimum (see where they touch the BC, points A and B).\n\nSo AS different than AD!\n\nPS = red line. No transfer could improve that situation. \n\nNote: agent 2 argmax is non-continuous: as the ratio of prices changes a bit the amounts agent 2 demands changes by a lot (A to A') while the amount demanded by agent 1 changes smoothly (B to B')\n{{img:2|w=460}}\n \\\\\n\\hline\n\\end{tabular}\n\n",
+        "flashcard": false,
+        "images": [
+          "images/advmicro/1780131255054_0_f1b771db632c.png",
+          "images/advmicro/1780131255054_1_41330cfde41d.png",
+          "images/advmicro/1780131255054_2_c0551ac5b117.png",
+          "images/advmicro/1780131255054_3_b9af323d9837.png"
+        ],
+        "imageWidths": [],
+        "links": [],
+        "x": 3328.930050915946,
+        "y": -1119.9355370780868,
+        "width": 804.4803774750064,
+        "height": 225.40132685241997,
+        "fsrs": {
+          "stability": 1,
+          "difficulty": 5,
+          "elapsedDays": 0,
+          "scheduledDays": 0,
+          "reps": 0,
+          "lapses": 0,
+          "state": "new",
+          "lastReview": null,
+          "dueDate": "2026-08-05T15:32:30.636Z"
+        },
+        "fsrsCards": {
+          "fc:4b.": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-06T09:47:34.726Z"
+          },
+          "fc:4d.": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-07T06:58:48.724Z"
+          }
+        },
+        "deletedAt": 1786089967530,
+        "fromTopic": "1740100000001",
+        "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-07T08:05:57.338Z"
+    "lastEditedAt": "2026-08-07T08:06:07.530Z"
   }
 }
