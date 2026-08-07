@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-07T15:30:16.327Z",
+  "exportedAt": "2026-08-07T15:30:30.493Z",
   "data": {
     "topics": [
       {
@@ -476,7 +476,7 @@
               {
                 "id": "1780130334934",
                 "title": "Edgeworth view of CE and PS",
-                "content": "\n{{img:0|w=900|right}}\n\n\n\n==Under standard assumptions: CE allocation is the unique point where \\emph{both} agents' ICs are tangent to the budget line (mathematically:  MRS$^1$ = MRS$^2$ = $\\hat p_a/\\hat p_b$. )== If the conditions fail, it becomes case by case!\n\n\n\n\n\\textbf{\\textcolor{red}{Four observations on the Edgeworth picture (notes IMG\\_1659).}}\n\n\\textbf{1) Where the indifference curves sit at $\\omega$.}\nLook how the two IC are not tangent there\n\n\\textbf{2) The BC line is just the consumer budget constraint rewritten.}\nSolve the consumer's budget identity for $x^1_\\ell$:$$ \\boxed{\\;x^1_\\ell \\;=\\; \\omega^1_\\ell \\;+\\; \\omega^1_h\\,\\frac{p_h}{p_\\ell} \\;-\\; \\frac{p_h}{p_\\ell}\\,x^1_h.\\;} $$ \n\\textbf{3) Edges of the box $\\Leftrightarrow$ corner solutions.}\nAgent totally dislikes a good\n\n\\textbf{4) Feasibility}\n\\emph{Feasibility}: all points in the Edgeworth box are feasible (no resource is wasted; total endowment is conserved). This is because the axes represent total resources at most. \n\n\\textbf{5) CE and PO}\nSWT: the PO is where the indifference curves are tangent. SO if we have a CE it is a PO. But we may have some PO for which no CE exists (that are not supportable by any system of prices)\n\n",
+                "content": "\n{{img:0|w=900|right}}\n\n\n\n==Under standard assumptions: CE allocation is the point where \\emph{both} agents' ICs are tangent to the budget line (mathematically:  MRS$^1$ = MRS$^2$ = $\\hat p_a/\\hat p_b$. )== If the conditions fail, it becomes case by case!\n\n\n\n\n\\textbf{\\textcolor{red}{Four observations on the Edgeworth picture (notes IMG\\_1659).}}\n\n\\textbf{1) Where the indifference curves sit at $\\omega$.}\nLook how the two IC are not tangent there\n\n\\textbf{2) The BC line is just the consumer budget constraint rewritten.}\nSolve the consumer's budget identity for $x^1_\\ell$:$$ \\boxed{\\;x^1_\\ell \\;=\\; \\omega^1_\\ell \\;+\\; \\omega^1_h\\,\\frac{p_h}{p_\\ell} \\;-\\; \\frac{p_h}{p_\\ell}\\,x^1_h.\\;} $$ \n\\textbf{3) Edges of the box $\\Leftrightarrow$ corner solutions.}\nAgent totally dislikes a good\n\n\\textbf{4) Feasibility}\n\\emph{Feasibility}: all points in the Edgeworth box are feasible (no resource is wasted; total endowment is conserved). This is because the axes represent total resources at most. \n\n\\textbf{5) CE and PO}\nSWT: the PO is where the indifference curves are tangent. SO if we have a CE it is a PO. But we may have some PO for which no CE exists (that are not supportable by any system of prices)\n\n",
                 "flashcard": false,
                 "images": [
                   "images/advmicro/1780130334934_0_89a14b560520.png"
@@ -1234,6 +1234,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-07T15:30:13.601Z"
+    "lastEditedAt": "2026-08-07T15:30:28.525Z"
   }
 }
