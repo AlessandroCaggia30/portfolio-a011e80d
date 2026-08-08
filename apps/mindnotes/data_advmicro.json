@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-08T08:57:00.391Z",
+  "exportedAt": "2026-08-08T17:15:39.764Z",
   "data": {
     "topics": [
       {
@@ -437,8 +437,8 @@
                 "id": "ch_exchange_setting",
                 "title": "Exchange Economy — setting and feasibility",
                 "content": "\\textbf{\\textcolor{red}{EXCHANGE ECONOMY --- the standard setting for PO and CE.}}\n\n\n\\textbf{\\textcolor{red}{Ingredients.}}\n$\\bullet$ \\textbf{$I$ consumers / agents}, indexed by $i = 1, 2, \\ldots, I$.\n$\\bullet$ \\textbf{$N$ goods}, indexed by $n = 1, 2, \\ldots, N$.\n$\\bullet$ \\textbf{Initial endowments} $\\omega^i = (\\omega_1^i, \\ldots, \\omega_N^i) \\in \\mathbb{R}^N_+$: agent $i$'s initial stock of each good \\emph{before} any trade.\n$\\bullet$ \\textbf{Utility functions} $U^i : \\mathbb{R}^N_+ \\to \\mathbb{R}$, one per agent.\n$\\bullet$ **GE setting**: \n- Anonymous agents interacitng, they are small, they take prices as given\n- General equilibrium: all prices are free to adjust vs Partial Equilirbium, some prices are fixed\n$\\bullet$ **No production **--- the only way goods change hands is by exchange between consumers.\n\n\n\n\\textbf{\\textcolor{red}{Feasible set.}}\n$$ \\mathcal{F} \\;=\\; \\bigl\\{\\, x = (x^1, \\ldots, x^I) \\;:\\; x_n^i \\geq 0 \\;\\forall i, n, \\;\\; \\textstyle\\sum_i x_n^i = \\omega_n \\;\\forall n \\,\\bigr\\}. $$\n\nRemark: **price takers** agents mean they do not know they cannot affect prices. But then note that at CE we look for prices such that AS = AD, and this clearly is composed of individual agents demand decisions! ",
-                "x": 3290.3768078069197,
-                "y": -2928.3218914903973,
+                "x": 3275.3768078069197,
+                "y": -3183.3218914903973,
                 "width": 816.0989254243759,
                 "height": 637.1131003468018,
                 "flashcard": false,
@@ -495,7 +495,7 @@
                 "imageWidths": [],
                 "links": [],
                 "x": 3384.2661465663723,
-                "y": -2143.257412313512,
+                "y": -2348.257412313512,
                 "width": 700.9506100518607,
                 "height": 408.9506100518608
               },
@@ -1272,6 +1272,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-08T08:56:58.272Z"
+    "lastEditedAt": "2026-08-08T17:15:37.611Z"
   }
 }
