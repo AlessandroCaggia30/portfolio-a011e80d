@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-08T07:47:54.881Z",
+  "exportedAt": "2026-08-08T07:48:03.565Z",
   "data": {
     "topics": [
       {
@@ -567,10 +567,6 @@
                   1180
                 ],
                 "links": [
-                  {
-                    "target": "1780146685789",
-                    "type": "forward"
-                  },
                   {
                     "target": "1780132024926",
                     "type": "both"
@@ -1259,6 +1255,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-08T07:47:52.761Z"
+    "lastEditedAt": "2026-08-08T07:48:01.432Z"
   }
 }
