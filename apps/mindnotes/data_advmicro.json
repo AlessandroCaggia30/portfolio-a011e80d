@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-08T05:37:48.718Z",
+  "exportedAt": "2026-08-08T05:37:54.965Z",
   "data": {
     "topics": [
       {
@@ -401,10 +401,6 @@
                   {
                     "target": "ch1_app_consumer",
                     "type": "both"
-                  },
-                  {
-                    "target": "1786089589368",
-                    "type": "forward"
                   }
                 ],
                 "flashcard": false,
@@ -1258,6 +1254,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-08T05:37:46.451Z"
+    "lastEditedAt": "2026-08-08T05:37:52.845Z"
   }
 }
