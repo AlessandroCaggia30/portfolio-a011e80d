@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-08T08:03:15.826Z",
+  "exportedAt": "2026-08-08T08:04:52.409Z",
   "data": {
     "topics": [
       {
@@ -542,7 +542,7 @@
               {
                 "id": "1780146685789",
                 "title": "Quasilinear Preferences: CE solution",
-                "content": "\\textbf{\\textcolor{red}{REMARKS.}}\n\n\n\nFor planner:\n6.a) Two cases: \n- $\\lambda = 1/2$ and one good is linear. E.g.\\ $x$. System will not determine any allocation for $x^i$. The reason: you are indifferent to the agents, of whomever you give the good to, the effect will be the same as the MU is affected in the same way. This does not hold for homothetic goods: even with $\\lambda > 1/2$, the concavity of $\\ln y$ kicks in: comparing marginal utility at $y = 0.5$ vs.\\ $y = 9$, the planner wants to give \\emph{more} $y$ to the favored agent --- but at some point diminishing returns make them stop. So the system DOES pin down a unique interior allocation for $y$.\n\n- $\\lambda > 1/2$ or $\\lambda < 1/2$ $\\to$ you care more of one agent you give **ALL** the quasiliniear good to him (the MU is the same).\n \n\n6.b) Whenever you solve $P(u_1) = \\max\\ldots$ sub $\\ldots u_2 \\ge \\bar u$ you are not agnostic on $y_1^*, y_2^*, x_1^*, x_2^*$ $\\to$ system will pin down these quantities both in homothetic cases and in cases with quasi-linear  goods. \n\n\n\n\n\n\n\n\n",
+                "content": "\\textbf{\\textcolor{red}{REMARKS.}}\n\n\n\nFor planner:\n6.a) Two cases: \n- $\\lambda = 1/2$ and one good is linear. E.g.\\ $x$. System will not determine any allocation for $x^i$. The reason: you are indifferent to the agents, of whomever you give the good to, the effect will be the same as the MU is affected in the same way. This does not hold for homothetic goods: even with $\\lambda > 1/2$, the concavity of $\\ln y$ kicks in: comparing marginal utility at $y = 0.5$ vs.\\ $y = 9$, the planner wants to give \\emph{more} $y$ to the favored agent --- but at some point diminishing returns make them stop. So the system DOES pin down a unique interior allocation for $y$.\n\n- $\\lambda > 1/2$ or $\\lambda < 1/2$ $\\to$ you care more of one agent you give **ALL** the quasiliniear good to him (the MU is the same).\n \n\n6.b) Whenever you solve $P(u_1) = \\max\\ldots$ sub $\\ldots u_2 \\ge \\bar u$ you are not agnostic on $y_1^*, y_2^*, x_1^*, x_2^*$ $\\to$ system will pin down these quantities both in homothetic cases and in cases with quasi-linear  goods. \n\n\n\n\n\n\n\n\n\n\n",
                 "flashcard": false,
                 "images": [
                   "images/advmicro/1780146685789_0_dcfae51e14c0.png"
@@ -1272,6 +1272,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-08T08:03:15.598Z"
+    "lastEditedAt": "2026-08-08T08:04:46.894Z"
   }
 }
