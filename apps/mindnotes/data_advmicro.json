@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-09T15:55:49.428Z",
+  "exportedAt": "2026-08-09T15:55:52.911Z",
   "data": {
     "topics": [
       {
@@ -664,28 +664,8 @@
                 "width": 1100,
                 "height": 1100,
                 "flashcard": false,
-                "links": [
-                  {
-                    "target": "ch_extern_three_examples_1780600010",
-                    "type": "forward"
-                  }
-                ],
-                "updatedAt": 1780320382411
-              },
-              {
-                "id": "ch_extern_three_examples_1780600010",
-                "title": "Externalities --- three worked examples (QL sym, QL asym, CD sym)",
-                "content": "",
-                "x": 2907.2254743863123,
-                "y": 3610.1368142535157,
-                "color": "#ffffff",
-                "createdAt": 1780316133596,
-                "updatedAt": 1780316133596,
-                "images": [],
-                "width": 1100,
-                "height": 1100,
                 "links": [],
-                "flashcard": false
+                "updatedAt": 1780320382411
               },
               {
                 "id": "ch_public_goods_1780600020",
@@ -1270,8 +1250,26 @@
         "deletedAt": 1786285031085,
         "fromTopic": "1740100000001",
         "fromSubtopic": "1740100000101"
+      },
+      {
+        "id": "ch_extern_three_examples_1780600010",
+        "title": "Externalities --- three worked examples (QL sym, QL asym, CD sym)",
+        "content": "",
+        "x": 2907.2254743863123,
+        "y": 3610.1368142535157,
+        "color": "#ffffff",
+        "createdAt": 1780316133596,
+        "updatedAt": 1780316133596,
+        "images": [],
+        "width": 1100,
+        "height": 1100,
+        "links": [],
+        "flashcard": false,
+        "deletedAt": 1786290950512,
+        "fromTopic": "1740100000001",
+        "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-09T15:55:47.139Z"
+    "lastEditedAt": "2026-08-09T15:55:50.512Z"
   }
 }
