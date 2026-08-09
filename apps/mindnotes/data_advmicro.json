@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-09T14:16:34.692Z",
+  "exportedAt": "2026-08-09T14:17:13.337Z",
   "data": {
     "topics": [
       {
@@ -666,10 +666,6 @@
                 "flashcard": false,
                 "links": [
                   {
-                    "target": "ch_extern_solutions_1780600007",
-                    "type": "both"
-                  },
-                  {
                     "target": "ch_extern_three_examples_1780600010",
                     "type": "forward"
                   }
@@ -690,19 +686,6 @@
                 "height": 1100,
                 "links": [],
                 "flashcard": false
-              },
-              {
-                "id": "ch_extern_solutions_1780600007",
-                "title": "Externalities --- CE + solutions (quotas, Pigou, missing market)",
-                "content": "\\textbf{\\textcolor{darkgreen}{D. Missing market (Coase).}} \nMissign market framework: if you assign the property right the problem will be solved as agents negotiate. Coase: which side gets the right doesn't change the allocation, only distribution.\n\n\\emph{Setting: right to agent 2 (e.g.\\ the fisher owns the river).} Agent 2 holds the right to a clean environment; he can sell permits to agent 1 at price $r$. y is gasoline. Let $z$ be the tradeable right (one permit $\\leftrightarrow$ one unit of $y^1$). $z^d$ = agent 1's demand, $z^s$ = agent 2's supply. \\emph{Agent 2 controls how much $y^1$ agent 1 can consume by choosing how much $z^s$ to issue.}\n$$\n\\textbf{\\textcolor{red}{Agent 1 (chooses $y^1, z^d, x^1$):}}\\;\\; \\max\\;\\; U^1(y^1) + x^1\\;\\;\\text{sub.}\n$$\n$$ p_1\\, y^1 + r\\, z^d + x^1 = \\underbrace{\\omega_x^1 + p_1\\, \\omega_y^1}_{M_1}, \\qquad y^1 \\le z^d. $$\n\n$$\n\\textbf{\\textcolor{red}{Agent 2 (chooses $y^1, z^s, x^2$):}}\\;\\; \\max\\;\\; U^2(y^2) - \\varphi(y^1) + x^2\\;\\;\\text{sub.}\n$$\n$$ p_2\\, y^2 + x^2 = \\underbrace{\\omega_x^2 + p_1\\, \\omega_y^2}_{M_2} + r\\, z^s $$\n\n\n\\textbf{\\textcolor{red}{Lagrangians.}}\n\n\\textbf{\\textcolor{red}{Agent 1's FOCs.}}\nin fixing y1, agent 1 has to anticipate how much r he will have to pay to agent 2 to buy y1 \n$$\n\\partial \\mathcal{L}^1/\\partial x^1:\\;\\; 1 - \\lambda_1 = 0 \\;\\Rightarrow\\; \\boxed{\\lambda_1 = 1},\n$$\n$$\n\\partial \\mathcal{L}^1/\\partial z^d:\\;\\; -\\lambda_1 r + \\xi_1 = 0 \\;\\Rightarrow\\; \\boxed{\\xi_1 = r},\n$$\n$$\n\\partial \\mathcal{L}^1/\\partial y^1:\\;\\; \\dfrac{\\partial U^1}{\\partial y^1} - \\lambda_1 p_1 - \\xi_1 = 0 \\;\\Rightarrow\\; \\boxed{\\dfrac{\\partial U^1}{\\partial y^1} = p_1 + r}.\n$$\nthe last equation is giving you the optimal $y^1$. \n\n\\textbf{\\textcolor{red}{Agent 2's FOCs.}}\nin fixing r, agent 2 has to anticipate how much y1 agent 1 will ask for. \n$$\n\\partial \\mathcal{L}^2/\\partial x^2:\\;\\; 1 - \\lambda_2 = 0 \\;\\Rightarrow\\; \\boxed{\\lambda_2 = 1},\n$$\n$$\n\\partial \\mathcal{L}^2/\\partial y^2:\\;\\; \\dfrac{\\partial U^2}{\\partial y^2} - \\lambda_2 p_2 = 0 \\;\\Rightarrow\\; \\boxed{\\dfrac{\\partial U^2}{\\partial y^2} = p_2},\n$$\n$$\n\\partial \\mathcal{L}^2/\\partial z^s:\\;\\; \\lambda_2 r - \\xi_2 = 0 \\;\\Rightarrow\\; \\boxed{\\xi_2 = r},\n$$\n$$\n\\partial \\mathcal{L}^2/\\partial y^1:\\;\\; -\\,\\varphi'(y^1) + \\xi_2 = 0 \\;\\Rightarrow\\; \\boxed{ r = \\varphi'(y^1)}.\n$$\nLast equation is saying: that guy consumpion is creating this cost to me\nPenultimate equation is saying: if you give that guy a permit, we sell until the mb of sellign = mc we are receiving. \n\nthe higehr the price (r) the higher the supply and the higher the demand. note that higher price at the margin here implies also higher marginal cost at the marhin. Note that if p up by 20% at the margin and c up by 20% at the margin, we are all happy and we maek more money. also because this is a marhin cnditio (the extra price you are getting on each unit, the extra cost is equal to the extra price just for the last unit). ALE IF YOU HAVE TIME SEARCH MORE ON WHY A PRICE INCREASE EQUAL TO A MARGINAL COST INCREASE IS ALWAYS PROFITALE. \n\n\n\\textbf{\\textcolor{red}{Market-clearing.}} \nstandard consitions plus on top:  $z^d = z^s$\n\n\\textbf{\\textcolor{red}{Why D beats A, B, C.}} The market \\textbf{discovers $r^*$ endogenously} through agent 2's supply decision. \\emph{The planner does NOT need to know $\\varphi'(y^{1*})$ ex ante} --- agent 2 reveals it through his FOC for selling permits. Pigou (B), subsidy (C), and quota (A) all require the planner to compute $\\varphi'$ in advance; D escapes this informational burden.\n\n\\textcolor{purple}{\\emph{Coase caveats:}} (i) property rights must be well-defined and enforceable, (ii) transaction costs must be low, (iii) breaks with many parties / asymmetric info.",
-                "images": [],
-                "x": 2355.125147255421,
-                "y": 2262.241933011791,
-                "width": 1100,
-                "height": 1100,
-                "links": [],
-                "flashcard": false,
-                "updatedAt": 1780327504512
               },
               {
                 "id": "ch_public_goods_1780600020",
@@ -1271,8 +1254,24 @@
         "deletedAt": 1786114206854,
         "fromTopic": "1740100000001",
         "fromSubtopic": "1740100000101"
+      },
+      {
+        "id": "ch_extern_solutions_1780600007",
+        "title": "Externalities --- CE + solutions (quotas, Pigou, missing market)",
+        "content": "\\textbf{\\textcolor{darkgreen}{D. Missing market (Coase).}} \nMissign market framework: if you assign the property right the problem will be solved as agents negotiate. Coase: which side gets the right doesn't change the allocation, only distribution.\n\n\\emph{Setting: right to agent 2 (e.g.\\ the fisher owns the river).} Agent 2 holds the right to a clean environment; he can sell permits to agent 1 at price $r$. y is gasoline. Let $z$ be the tradeable right (one permit $\\leftrightarrow$ one unit of $y^1$). $z^d$ = agent 1's demand, $z^s$ = agent 2's supply. \\emph{Agent 2 controls how much $y^1$ agent 1 can consume by choosing how much $z^s$ to issue.}\n$$\n\\textbf{\\textcolor{red}{Agent 1 (chooses $y^1, z^d, x^1$):}}\\;\\; \\max\\;\\; U^1(y^1) + x^1\\;\\;\\text{sub.}\n$$\n$$ p_1\\, y^1 + r\\, z^d + x^1 = \\underbrace{\\omega_x^1 + p_1\\, \\omega_y^1}_{M_1}, \\qquad y^1 \\le z^d. $$\n\n$$\n\\textbf{\\textcolor{red}{Agent 2 (chooses $y^1, z^s, x^2$):}}\\;\\; \\max\\;\\; U^2(y^2) - \\varphi(y^1) + x^2\\;\\;\\text{sub.}\n$$\n$$ p_2\\, y^2 + x^2 = \\underbrace{\\omega_x^2 + p_1\\, \\omega_y^2}_{M_2} + r\\, z^s $$\n\n\n\\textbf{\\textcolor{red}{Lagrangians.}}\n\n\\textbf{\\textcolor{red}{Agent 1's FOCs.}}\nin fixing y1, agent 1 has to anticipate how much r he will have to pay to agent 2 to buy y1 \n$$\n\\partial \\mathcal{L}^1/\\partial x^1:\\;\\; 1 - \\lambda_1 = 0 \\;\\Rightarrow\\; \\boxed{\\lambda_1 = 1},\n$$\n$$\n\\partial \\mathcal{L}^1/\\partial z^d:\\;\\; -\\lambda_1 r + \\xi_1 = 0 \\;\\Rightarrow\\; \\boxed{\\xi_1 = r},\n$$\n$$\n\\partial \\mathcal{L}^1/\\partial y^1:\\;\\; \\dfrac{\\partial U^1}{\\partial y^1} - \\lambda_1 p_1 - \\xi_1 = 0 \\;\\Rightarrow\\; \\boxed{\\dfrac{\\partial U^1}{\\partial y^1} = p_1 + r}.\n$$\nthe last equation is giving you the optimal $y^1$. \n\n\\textbf{\\textcolor{red}{Agent 2's FOCs.}}\nin fixing r, agent 2 has to anticipate how much y1 agent 1 will ask for. \n$$\n\\partial \\mathcal{L}^2/\\partial x^2:\\;\\; 1 - \\lambda_2 = 0 \\;\\Rightarrow\\; \\boxed{\\lambda_2 = 1},\n$$\n$$\n\\partial \\mathcal{L}^2/\\partial y^2:\\;\\; \\dfrac{\\partial U^2}{\\partial y^2} - \\lambda_2 p_2 = 0 \\;\\Rightarrow\\; \\boxed{\\dfrac{\\partial U^2}{\\partial y^2} = p_2},\n$$\n$$\n\\partial \\mathcal{L}^2/\\partial z^s:\\;\\; \\lambda_2 r - \\xi_2 = 0 \\;\\Rightarrow\\; \\boxed{\\xi_2 = r},\n$$\n$$\n\\partial \\mathcal{L}^2/\\partial y^1:\\;\\; -\\,\\varphi'(y^1) + \\xi_2 = 0 \\;\\Rightarrow\\; \\boxed{ r = \\varphi'(y^1)}.\n$$\nLast equation is saying: that guy consumpion is creating this cost to me\nPenultimate equation is saying: if you give that guy a permit, we sell until the mb of sellign = mc we are receiving. \n\nthe higehr the price (r) the higher the supply and the higher the demand. note that higher price at the margin here implies also higher marginal cost at the marhin. Note that if p up by 20% at the margin and c up by 20% at the margin, we are all happy and we maek more money. also because this is a marhin cnditio (the extra price you are getting on each unit, the extra cost is equal to the extra price just for the last unit). ALE IF YOU HAVE TIME SEARCH MORE ON WHY A PRICE INCREASE EQUAL TO A MARGINAL COST INCREASE IS ALWAYS PROFITALE. \n\n\n\\textbf{\\textcolor{red}{Market-clearing.}} \nstandard consitions plus on top:  $z^d = z^s$\n\n\\textbf{\\textcolor{red}{Why D beats A, B, C.}} The market \\textbf{discovers $r^*$ endogenously} through agent 2's supply decision. \\emph{The planner does NOT need to know $\\varphi'(y^{1*})$ ex ante} --- agent 2 reveals it through his FOC for selling permits. Pigou (B), subsidy (C), and quota (A) all require the planner to compute $\\varphi'$ in advance; D escapes this informational burden.\n\n\\textcolor{purple}{\\emph{Coase caveats:}} (i) property rights must be well-defined and enforceable, (ii) transaction costs must be low, (iii) breaks with many parties / asymmetric info.",
+        "images": [],
+        "x": 2355.125147255421,
+        "y": 2262.241933011791,
+        "width": 1100,
+        "height": 1100,
+        "links": [],
+        "flashcard": false,
+        "updatedAt": 1780327504512,
+        "deletedAt": 1786285031085,
+        "fromTopic": "1740100000001",
+        "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-09T14:16:31.284Z"
+    "lastEditedAt": "2026-08-09T14:17:11.086Z"
   }
 }
