@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-10T13:14:19.155Z",
+  "exportedAt": "2026-08-10T13:14:30.628Z",
   "data": {
     "topics": [
       {
@@ -296,8 +296,8 @@
                 "title": "Representative Agent Assumption",
                 "images": [],
                 "content": "\\textbf{\\textcolor{red}{REPRESENTATIVE AGENT --- when can one agent stand in for the whole population?}}\n\n\\textbf{\\textcolor{red}{1. What is the problem we are trying to solve?}}\n\nSuppose there are $H$ consumers. Consumer $h$ has wealth $w^h$, preferences $U^h$, and therefore demand\n$$ x_i^{h*}(p, w^h; U^h). $$\nIf we want total demand for good $i$, normally we have to solve every consumer's problem and add them:\n$$ X_i = \\sum_h x_i^{h*}(p, w^h; U^h). $$\nA representative agent allows us to avoid doing this. We ask whether there exists \\emph{one} hypothetical consumer, with preferences $U^R$ and total wealth $W=\\sum_h w^h$, whose demand is exactly aggregate demand:\n$$ \\boxed{\\;\\sum_h x_i^{h*}(p, w^h; U^h) = x_i^{R*}(p, W; U^R)\\quad \\forall i.\\;} $$\n\\emph{So instead of solving $H$ optimization problems, we solve one.}\n\n\\textbf{\\textcolor{red}{2. The crucial requirement.}}\n\nFor representative-agent aggregation, we want:\n$$ \\boxed{\\;\\sum_h x_i^{h*}(p, w^h) = X_i(p, W),\\qquad W=\\sum_h w^h.\\;} $$\n\\textcolor{orange}{In words: aggregate demand must depend on \\emph{total} wealth, but \\textbf{not} on how that wealth is distributed across consumers.}\n\n\\bigskip\n\\textbf{Two canonical families that satisfy Gorman aggregation:}\n\n\\textbf{\\textcolor{red}{1. Homothetic preferences}} --- whatever the wealth, agents all consume the same RATIO.\n\n\\textbf{So think about the optimization:} there is a given aggregate $\\omega_a/\\omega_b$ ratio, and in the identical-homothetic case all agents pick the \\emph{same} individual consumption ratio $x_a^h/x_b^h$ (because they share the same homothetic preferences, so ratios are wealth-independent and identical across agents). The aggregate consumption ratio --- being a sum of identical individual ratios --- equals that common individual ratio. Market clearing then forces it to equal $\\omega_a/\\omega_b$.\n\n\\textbf{\\textcolor{red}{2. Quasilinear preferences}} --- whatever the endowment, agents all consume the same NON-NUMERAIRE $y$.",
-                "x": -317.09285979646484,
-                "y": 125.86851711878717,
+                "x": 877.9071402035352,
+                "y": -14.131482881212833,
                 "width": 454.38607762025504,
                 "height": 381.0832671756041,
                 "flashcard": false,
@@ -537,8 +537,8 @@
                 ],
                 "imageWidths": [],
                 "links": [],
-                "x": 1026.2778036244395,
-                "y": 1024.9974829090916,
+                "x": 1646.2778036244395,
+                "y": 69.99748290909156,
                 "width": 970.3588191664427,
                 "height": 488.01433578112403
               },
@@ -962,8 +962,8 @@
                 "images": [],
                 "imageWidths": [],
                 "links": [],
-                "x": -1421.4007203130714,
-                "y": 1006.4013463857996,
+                "x": 2763.599279686928,
+                "y": -833.5986536142,
                 "width": 522.6034637084745,
                 "height": 300.53076155369206
               },
@@ -1085,8 +1085,8 @@
                 "images": [],
                 "imageWidths": [],
                 "links": [],
-                "x": 492.6890093034999,
-                "y": -806.7979034268246,
+                "x": 527.6890093034999,
+                "y": -721.7979034268246,
                 "width": 698.8160241422418,
                 "height": 474.19873627722455
               }
@@ -1256,6 +1256,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-10T13:14:17.042Z"
+    "lastEditedAt": "2026-08-10T13:14:28.557Z"
   }
 }
