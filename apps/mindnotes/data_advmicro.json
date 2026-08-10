@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-10T09:48:11.484Z",
+  "exportedAt": "2026-08-10T09:48:17.293Z",
   "data": {
     "topics": [
       {
@@ -678,10 +678,6 @@
                 "height": 1100,
                 "links": [
                   {
-                    "target": "ch_public_goods_planner_1780600022",
-                    "type": "forward"
-                  },
-                  {
                     "target": "ch_public_goods_ce_1780600023",
                     "type": "forward"
                   }
@@ -689,20 +685,6 @@
                 "flashcard": false,
                 "updatedAt": 1780333576037,
                 "createdAt": 1780332609999
-              },
-              {
-                "id": "ch_public_goods_planner_1780600022",
-                "title": "Public goods --- planner's problem and Samuelson condition",
-                "content": "\\textbf{\\textcolor{red}{Public goods --- planner's problem and Samuelson condition.}}\n\n\\emph{Setup from preamble snippet: $U^i(x^i, y)$, both agents consume the SAME $y$. Input $z = c(y)$ of private good produces $y$.}\n\n\\textbf{\\textcolor{red}{Planner's problem.}}\n$$ \\max_{x^1, x^2, y, z}\\;\\; U^1(x^1, y) + U^2(x^2, y) \\quad \\text{sub.}\\;\\;\\;\\; \\underbrace{x^1 + x^2}_{\\text{private cons.}} + \\underbrace{z}_{\\text{input devoted to }y} \\;\\le\\; \\omega^1 + \\omega^2 \\quad (\\mu), \\quad \\underbrace{c(y)}_{\\text{cost of output}} \\;\\le\\; \\underbrace{z}_{\\text{input devoted}} \\quad (\\varphi). $$\n\nSEE HOW IT IS THE SAME Y!!!!!!!!!!!\n\n\\emph{Both constraints bind at the optimum (idle input is wasted utility).}\n\n\n\\textbf{\\textcolor{red}{Lagrangian.}}\n$$ \\mathcal{L} = U^1(x^1, y) + U^2(x^2, y) - \\mu(x^1 + x^2 + z - \\omega^1 - \\omega^2) - \\varphi(c(y) - z). $$\n\n\\textbf{\\textcolor{red}{FOCs.}}\n$$ \\boxed{\\dfrac{\\partial U^1}{\\partial x^1} = \\mu}, \\;\\;\\; \\boxed{\\dfrac{\\partial U^2}{\\partial x^2} = \\mu}, \\;\\;\\; \\boxed{\\varphi = \\mu}, \\;\\;\\; \\boxed{\\dfrac{\\partial U^1}{\\partial y} + \\dfrac{\\partial U^2}{\\partial y} = \\mu\\, c'(y)}. $$\n\n\\textbf{\\textcolor{red}{Samuelson condition} (the big FOC).} Divide the last FOC by $\\mu = \\partial U^i/\\partial x^i$:\n$$ \\boxed{\\;\\; \\underbrace{\\dfrac{\\partial U^1/\\partial y}{\\partial U^1/\\partial x^1}}_{MRS^1_{y,x}} + \\underbrace{\\dfrac{\\partial U^2/\\partial y}{\\partial U^2/\\partial x^2}}_{MRS^2_{y,x}} \\;=\\; \\underbrace{c'(y)}_{MRT_{y,x}} \\;\\;} $$\nnote in quasilienar case with mu = 1 you would have had as samuelson condition the 4th foc. \nnote this is just 4 with mu on the left hansd side. note that 4 is basicaly saying: at the margin the amrgical cost of transforming one x in y is $c'(y)$  (MRT) times the lpportunity cost of x that had a value of mu  (**you give up 5 x to produce 1 y, and these 5 x are worth 2 so the utility cost is 10!**)! so when I consume y I lose twice: i lose the value of the x i iput and the fact the technology is unfavourable. \n\n\\textcolor{purple}{\\emph{Reading.}} The planner equates the \\textbf{marginal cost of production} $c'(y)$ to the \\textbf{social marginal benefit of production} = sum of agents' marginal benefits (MRS).\n",
-                "images": [],
-                "x": 4759.4787044033765,
-                "y": 3346.0343881860895,
-                "width": 1100,
-                "height": 1100,
-                "links": [],
-                "flashcard": false,
-                "updatedAt": 1780333576037,
-                "createdAt": 1780333576037
               },
               {
                 "id": "ch_public_goods_ce_1780600023",
@@ -1268,8 +1250,25 @@
         "deletedAt": 1786290950512,
         "fromTopic": "1740100000001",
         "fromSubtopic": "1740100000101"
+      },
+      {
+        "id": "ch_public_goods_planner_1780600022",
+        "title": "Public goods --- planner's problem and Samuelson condition",
+        "content": "\\textbf{\\textcolor{red}{Public goods --- planner's problem and Samuelson condition.}}\n\n\\emph{Setup from preamble snippet: $U^i(x^i, y)$, both agents consume the SAME $y$. Input $z = c(y)$ of private good produces $y$.}\n\n\\textbf{\\textcolor{red}{Planner's problem.}}\n$$ \\max_{x^1, x^2, y, z}\\;\\; U^1(x^1, y) + U^2(x^2, y) \\quad \\text{sub.}\\;\\;\\;\\; \\underbrace{x^1 + x^2}_{\\text{private cons.}} + \\underbrace{z}_{\\text{input devoted to }y} \\;\\le\\; \\omega^1 + \\omega^2 \\quad (\\mu), \\quad \\underbrace{c(y)}_{\\text{cost of output}} \\;\\le\\; \\underbrace{z}_{\\text{input devoted}} \\quad (\\varphi). $$\n\nSEE HOW IT IS THE SAME Y!!!!!!!!!!!\n\n\\emph{Both constraints bind at the optimum (idle input is wasted utility).}\n\n\n\\textbf{\\textcolor{red}{Lagrangian.}}\n$$ \\mathcal{L} = U^1(x^1, y) + U^2(x^2, y) - \\mu(x^1 + x^2 + z - \\omega^1 - \\omega^2) - \\varphi(c(y) - z). $$\n\n\\textbf{\\textcolor{red}{FOCs.}}\n$$ \\boxed{\\dfrac{\\partial U^1}{\\partial x^1} = \\mu}, \\;\\;\\; \\boxed{\\dfrac{\\partial U^2}{\\partial x^2} = \\mu}, \\;\\;\\; \\boxed{\\varphi = \\mu}, \\;\\;\\; \\boxed{\\dfrac{\\partial U^1}{\\partial y} + \\dfrac{\\partial U^2}{\\partial y} = \\mu\\, c'(y)}. $$\n\n\\textbf{\\textcolor{red}{Samuelson condition} (the big FOC).} Divide the last FOC by $\\mu = \\partial U^i/\\partial x^i$:\n$$ \\boxed{\\;\\; \\underbrace{\\dfrac{\\partial U^1/\\partial y}{\\partial U^1/\\partial x^1}}_{MRS^1_{y,x}} + \\underbrace{\\dfrac{\\partial U^2/\\partial y}{\\partial U^2/\\partial x^2}}_{MRS^2_{y,x}} \\;=\\; \\underbrace{c'(y)}_{MRT_{y,x}} \\;\\;} $$\nnote in quasilienar case with mu = 1 you would have had as samuelson condition the 4th foc. \nnote this is just 4 with mu on the left hansd side. note that 4 is basicaly saying: at the margin the amrgical cost of transforming one x in y is $c'(y)$  (MRT) times the lpportunity cost of x that had a value of mu  (**you give up 5 x to produce 1 y, and these 5 x are worth 2 so the utility cost is 10!**)! so when I consume y I lose twice: i lose the value of the x i iput and the fact the technology is unfavourable. \n\n\\textcolor{purple}{\\emph{Reading.}} The planner equates the \\textbf{marginal cost of production} $c'(y)$ to the \\textbf{social marginal benefit of production} = sum of agents' marginal benefits (MRS).\n",
+        "images": [],
+        "x": 4759.4787044033765,
+        "y": 3346.0343881860895,
+        "width": 1100,
+        "height": 1100,
+        "links": [],
+        "flashcard": false,
+        "updatedAt": 1780333576037,
+        "createdAt": 1780333576037,
+        "deletedAt": 1786355294618,
+        "fromTopic": "1740100000001",
+        "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-10T09:48:09.344Z"
+    "lastEditedAt": "2026-08-10T09:48:14.618Z"
   }
 }
