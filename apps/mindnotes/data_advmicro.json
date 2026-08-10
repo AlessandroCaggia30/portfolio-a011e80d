@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-10T13:11:00.256Z",
+  "exportedAt": "2026-08-10T13:11:29.357Z",
   "data": {
     "topics": [
       {
@@ -29,8 +29,8 @@
                     "type": "both"
                   }
                 ],
-                "x": 3243.516072198614,
-                "y": -4003.4863428724,
+                "x": -986.483927801386,
+                "y": -4208.486342872398,
                 "width": 893.3333333333334,
                 "height": 600,
                 "sectionNumber": 1,
@@ -369,8 +369,8 @@
                 "images": [
                   "images/advmicro/ch_contract_curve_0_788188d6108a.png"
                 ],
-                "x": 6343.752539251401,
-                "y": -2286.125276148796,
+                "x": 1498.7525392514003,
+                "y": -4146.125276148796,
                 "width": 403.12245999058484,
                 "height": 179.45597400228652,
                 "links": [],
@@ -437,8 +437,8 @@
                 "id": "ch_exchange_setting",
                 "title": "Exchange Economy — setting and feasibility",
                 "content": "\\textbf{\\textcolor{red}{EXCHANGE ECONOMY --- the standard setting for PO and CE.}}\n\n\n\\textbf{\\textcolor{red}{Ingredients.}}\n$\\bullet$ \\textbf{$I$ consumers / agents}, indexed by $i = 1, 2, \\ldots, I$.\n$\\bullet$ \\textbf{$N$ goods}, indexed by $n = 1, 2, \\ldots, N$.\n$\\bullet$ \\textbf{Initial endowments} $\\omega^i = (\\omega_1^i, \\ldots, \\omega_N^i) \\in \\mathbb{R}^N_+$: agent $i$'s initial stock of each good \\emph{before} any trade.\n$\\bullet$ \\textbf{Utility functions} $U^i : \\mathbb{R}^N_+ \\to \\mathbb{R}$, one per agent.\n$\\bullet$ **GE setting**: \n- Anonymous agents interacitng, they are small, they take prices as given\n- General equilibrium: all prices are free to adjust vs Partial Equilirbium, some prices are fixed\n$\\bullet$ **No production **--- the only way goods change hands is by exchange between consumers.\n\n\n\n\\textbf{\\textcolor{red}{Feasible set.}}\n$$ \\mathcal{F} \\;=\\; \\bigl\\{\\, x = (x^1, \\ldots, x^I) \\;:\\; x_n^i \\geq 0 \\;\\forall i, n, \\;\\; \\textstyle\\sum_i x_n^i = \\omega_n \\;\\forall n \\,\\bigr\\}. $$\n\nRemark: **price takers** agents mean they do not know they cannot affect prices. But then note that at CE we look for prices such that AS = AD, and this clearly is composed of individual agents demand decisions! ",
-                "x": 3275.3768078069197,
-                "y": -3183.3218914903973,
+                "x": -954.6231921930803,
+                "y": -3388.3218914903955,
                 "width": 816.0989254243759,
                 "height": 637.1131003468018,
                 "flashcard": false,
@@ -464,7 +464,7 @@
                   "images/advmicro/ch_po_upf_0_0bc4b7f5db4a.png"
                 ],
                 "content": "\\textbf{\\textcolor{red}{PARETO OPTIMUM --- UPF and PS, the two coordinate views.}}\n\n{{img:0|w=580|right}} \\textbf{\\textcolor{blue}{(1) UPF --- where it lives.}}\n$\\mathrm{UPF} \\subset \\mathcal{U}$, where\n$$ \\mathcal{U} \\;=\\; \\bigl\\{(u^1, u^2) \\;:\\; \\exists\\, x \\in \\mathcal{F},\\; U^i(x^i) \\geq u^i \\;\\forall i\\bigr\\} $$\nis the set of \\emph{utility profiles dominated by some feasible allocation}.\n\n\\textbf{\\textcolor{blue}{(2) UPF --- definition (no domination).}}\n$(\\bar u^1, \\bar u^2) \\in \\mathcal{U}$ is on the UPF iff\n$$ \\boxed{\\;\\nexists\\, (\\tilde u^1, \\tilde u^2) \\in \\mathcal{U} : \\tilde u^i \\geq \\bar u^i \\;\\forall i,\\; > \\text{some } j.\\;} $$\nset of utiliteis that are undominated\n\n\n\n\ndo not care about the line rn pls\n\\textbf{\\textcolor{blue}{(3) PS --- definition (no domination).}}\n$\\bar x \\in \\mathcal{F}$ is Pareto Optimal iff\n$$ \\boxed{\\;\\nexists\\, y \\in \\mathcal{F} : U^i(y^i) \\geq U^i(\\bar x^i) \\;\\forall i,\\; > \\text{some } j.\\;} $$\nand $\\mathrm{PS} = \\{x \\in \\mathcal{F} : x \\text{ is PO}\\}$. Basically is an allocaiton taht cannot e dominated.\n\n\\textcolor{orange}{\\emph{The allocation-space picture (Edgeworth box) lives in its own snippet --- ``PS in the Edgeworth box''.}}\n\n\\textbf{\\textcolor{red}{(4) Finding PS $\\equiv$ finding UPF.}}\nThe two problems are equivalent via the utility map: every $x^* \\in \\mathrm{PS}$ pushes forward to a UPF point, and every UPF point is the image of some $x^* \\in \\mathrm{PS}$. Formally:\n$$ \\boxed{\\;\\mathrm{PS} \\;\\subset\\; \\mathcal{F} \\;\\;\\xrightarrow{\\;(U^1,\\, U^2)\\;}\\;\\; \\mathrm{UPF} \\;\\subset\\; \\mathcal{U}.\\;} $$\n\n\\textcolor{orange}{\\emph{Comment: the UPF is the set of all PO allocations viewed in utility coordinates instead of allocation coordinates.}}\n",
-                "x": 1041.7474272447562,
+                "x": 1136.7474272447562,
                 "y": -3913.1549728946047,
                 "width": 833.3333333333333,
                 "height": 476.66666666666663,
@@ -516,8 +516,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 4378.67456380484,
-                "y": -1987.7365144583218,
+                "x": 1519.3318711174306,
+                "y": -3328.9265722660966,
                 "width": 519.079627676156,
                 "height": 211.03256588884287
               },
@@ -534,8 +534,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 2137.9206993379657,
-                "y": -3025.3519821595373,
+                "x": 2389.3938351769234,
+                "y": -2876.33086462534,
                 "width": 621.8423064076358,
                 "height": 138.15792006614674
               },
@@ -576,7 +576,7 @@
                     "type": "both"
                   }
                 ],
-                "x": 2089.9570593431217,
+                "x": 2259.9570593431217,
                 "y": -3923.701890672861,
                 "width": 879.7042608185659,
                 "height": 514.6449261414084
@@ -1014,8 +1014,8 @@
                 "images": [],
                 "imageWidths": [],
                 "links": [],
-                "x": 4353.857603986011,
-                "y": -3734.739763308824
+                "x": 123.85760398601087,
+                "y": -3939.739763308822
               },
               {
                 "id": "1786089589368",
@@ -1076,8 +1076,8 @@
                 ],
                 "imageWidths": [],
                 "links": [],
-                "x": 2978.0193988835254,
-                "y": -1595.746913590975,
+                "x": 3383.0193988835254,
+                "y": -1760.746913590975,
                 "width": 804.4803774750064,
                 "height": 225.40132685241997,
                 "fsrs": {
@@ -1275,6 +1275,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-10T13:10:58.425Z"
+    "lastEditedAt": "2026-08-10T13:11:22.581Z"
   }
 }
