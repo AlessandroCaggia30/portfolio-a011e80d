@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-10T13:06:30.067Z",
+  "exportedAt": "2026-08-10T13:06:35.211Z",
   "data": {
     "topics": [
       {
@@ -689,7 +689,7 @@
               {
                 "id": "ch_public_goods_ce_1780600023",
                 "title": "Public goods --- CE with firms, profits, and the under-provision gap",
-                "content": "\n\\textbf{\\textcolor{red}{Market-clearing CE condition (welfare loss!!).}} Combining firm FOC and contributor's FOC: each contributor has $MRS^i = c'(y) = MRT$. At CE,\n$$ \\boxed{\\;\\; MRS^i_{y,x} \\;=\\; \\dfrac{p_y}{p_x} \\;=\\; c'(y) \\;=\\; MRT \\;\\; \\text{for each contributing agent.}\\;\\;} $$\n\n\\textbf{\\textcolor{red}{The under-provision gap (vs Samuelson).}} Compare with planner:\n$$ \\text{CE (contributors):}\\;\\; MRS^i = MRT \\quad\\text{vs}\\quad \\text{Planner (Samuelson):}\\;\\; \\sum_i MRS^i = MRT. $$\nAt CE each agent equates only his OWN MRS to the marginal cost --- he ignores that one more $y$ benefits all agents (non-rivalrous). $\\sum_i MRS^i$ exceeds $MRT$ at the CE allocation:\n$$ y^{CE} \\;<\\; y^{*\\,\\text{Planner}}. $$\n\n\nYou see to solve this problem there are just two options: \n1) either with taxes and susbidies you redistribute MB\n2) Lindhal theory experiment: you unbundle the public good into many priate goods, each is \"person i enjoyment of the public good\". Each good lives on a separate market, adn it has a separate price. \n",
+                "content": "\n\\textbf{\\textcolor{red}{Market-clearing CE condition (welfare loss!!).}} Combining firm FOC and contributor's FOC: each contributor has $MRS^i = c'(y) = MRT$. At CE,\n$$ \\boxed{\\;\\; MRS^i_{y,x} \\;=\\; \\dfrac{p_y}{p_x} \\;=\\; c'(y) \\;=\\; MRT \\;\\; \\text{for each contributing agent.}\\;\\;} $$\n\n\n\n\nYou see to solve this problem there are just two options: \n1) either with taxes and susbidies you redistribute MB\n2) Lindhal theory experiment: you unbundle the public good into many priate goods, each is \"person i enjoyment of the public good\". Each good lives on a separate market, adn it has a separate price. \n",
                 "images": [],
                 "x": 6964.929472534495,
                 "y": 2269.903042427387,
@@ -1269,6 +1269,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-10T13:06:29.449Z"
+    "lastEditedAt": "2026-08-10T13:06:33.092Z"
   }
 }
