@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-10T13:12:55.890Z",
+  "exportedAt": "2026-08-10T13:13:05.601Z",
   "data": {
     "topics": [
       {
@@ -369,7 +369,7 @@
                 "images": [
                   "images/advmicro/ch_contract_curve_0_788188d6108a.png"
                 ],
-                "x": 5448.7525392514,
+                "x": 5851.790160266225,
                 "y": -2866.125276148796,
                 "width": 403.12245999058484,
                 "height": 179.45597400228652,
@@ -464,8 +464,8 @@
                   "images/advmicro/ch_po_upf_0_0bc4b7f5db4a.png"
                 ],
                 "content": "\\textbf{\\textcolor{red}{PARETO OPTIMUM --- UPF and PS, the two coordinate views.}}\n\n{{img:0|w=580|right}} \\textbf{\\textcolor{blue}{(1) UPF --- where it lives.}}\n$\\mathrm{UPF} \\subset \\mathcal{U}$, where\n$$ \\mathcal{U} \\;=\\; \\bigl\\{(u^1, u^2) \\;:\\; \\exists\\, x \\in \\mathcal{F},\\; U^i(x^i) \\geq u^i \\;\\forall i\\bigr\\} $$\nis the set of \\emph{utility profiles dominated by some feasible allocation}.\n\n\\textbf{\\textcolor{blue}{(2) UPF --- definition (no domination).}}\n$(\\bar u^1, \\bar u^2) \\in \\mathcal{U}$ is on the UPF iff\n$$ \\boxed{\\;\\nexists\\, (\\tilde u^1, \\tilde u^2) \\in \\mathcal{U} : \\tilde u^i \\geq \\bar u^i \\;\\forall i,\\; > \\text{some } j.\\;} $$\nset of utiliteis that are undominated\n\n\n\n\ndo not care about the line rn pls\n\\textbf{\\textcolor{blue}{(3) PS --- definition (no domination).}}\n$\\bar x \\in \\mathcal{F}$ is Pareto Optimal iff\n$$ \\boxed{\\;\\nexists\\, y \\in \\mathcal{F} : U^i(y^i) \\geq U^i(\\bar x^i) \\;\\forall i,\\; > \\text{some } j.\\;} $$\nand $\\mathrm{PS} = \\{x \\in \\mathcal{F} : x \\text{ is PO}\\}$. Basically is an allocaiton taht cannot e dominated.\n\n\\textcolor{orange}{\\emph{The allocation-space picture (Edgeworth box) lives in its own snippet --- ``PS in the Edgeworth box''.}}\n\n\\textbf{\\textcolor{red}{(4) Finding PS $\\equiv$ finding UPF.}}\nThe two problems are equivalent via the utility map: every $x^* \\in \\mathrm{PS}$ pushes forward to a UPF point, and every UPF point is the image of some $x^* \\in \\mathrm{PS}$. Formally:\n$$ \\boxed{\\;\\mathrm{PS} \\;\\subset\\; \\mathcal{F} \\;\\;\\xrightarrow{\\;(U^1,\\, U^2)\\;}\\;\\; \\mathrm{UPF} \\;\\subset\\; \\mathcal{U}.\\;} $$\n\n\\textcolor{orange}{\\emph{Comment: the UPF is the set of all PO allocations viewed in utility coordinates instead of allocation coordinates.}}\n",
-                "x": 4606.747427244756,
-                "y": -3038.1549728946047,
+                "x": 4802.159607130732,
+                "y": -3042.2260599755627,
                 "width": 833.3333333333333,
                 "height": 476.66666666666663,
                 "flashcard": false,
@@ -570,14 +570,9 @@
                 "imageWidths": [
                   1180
                 ],
-                "links": [
-                  {
-                    "target": "1780132024926",
-                    "type": "both"
-                  }
-                ],
-                "x": 4984.957059343122,
-                "y": -2328.701890672861,
+                "links": [],
+                "x": 4781.40270529523,
+                "y": -2528.185157639795,
                 "width": 879.7042608185659,
                 "height": 514.6449261414084
               },
@@ -1275,6 +1270,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-10T13:12:53.760Z"
+    "lastEditedAt": "2026-08-10T13:13:05.164Z"
   }
 }
