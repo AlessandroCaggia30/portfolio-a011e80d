@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-12T07:18:05.794Z",
+  "exportedAt": "2026-08-12T07:18:09.435Z",
   "data": {
     "topics": [
       {
@@ -1105,6 +1105,10 @@
                   {
                     "target": "ch_extern_setup_1780600001",
                     "type": "forward"
+                  },
+                  {
+                    "target": "ch_asset_pricing_framework_1780600030",
+                    "type": "forward"
                   }
                 ],
                 "x": 3327.472516629354,
@@ -1293,6 +1297,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-12T07:18:05.242Z"
+    "lastEditedAt": "2026-08-12T07:18:07.275Z"
   }
 }
