@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-12T07:19:30.958Z",
+  "exportedAt": "2026-08-12T07:19:34.782Z",
   "data": {
     "topics": [
       {
@@ -714,12 +714,12 @@
                 "images": [],
                 "imageWidths": [],
                 "links": [],
-                "x": 6551.281517486554,
-                "y": -2007.565790591154,
+                "x": 6716.281517486554,
+                "y": -2077.565790591154,
                 "createdAt": 1780414102281,
                 "updatedAt": 1780415149293,
-                "width": 425,
-                "height": 395
+                "width": 455,
+                "height": 350
               },
               {
                 "id": "ch_no_arbitrage_examples_1780600050",
@@ -753,8 +753,8 @@
                 "y": -1283.333333333334,
                 "createdAt": 1780424405995,
                 "updatedAt": 1780424405995,
-                "width": 800,
-                "height": 700,
+                "width": 525,
+                "height": 550,
                 "color": "coral"
               },
               {
@@ -1301,6 +1301,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-12T07:19:28.742Z"
+    "lastEditedAt": "2026-08-12T07:19:32.558Z"
   }
 }
