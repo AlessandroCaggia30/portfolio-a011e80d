@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-12T07:13:17.914Z",
+  "exportedAt": "2026-08-12T07:13:25.212Z",
   "data": {
     "topics": [
       {
@@ -628,10 +628,10 @@
                   "images/advmicro/ch_extern_setup_1780600001_0_7baadea4c77d.png",
                   "images/advmicro/ch_extern_setup_1780600001_1_1de3ff408d49.png"
                 ],
-                "x": 2755.4065292479263,
-                "y": -3245.2403384602167,
-                "width": 1100,
-                "height": 1100,
+                "x": 3375.4065292479263,
+                "y": -3160.2403384602167,
+                "width": 725,
+                "height": 645,
                 "flashcard": false,
                 "links": [
                   {
@@ -1269,6 +1269,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-12T07:13:17.881Z"
+    "lastEditedAt": "2026-08-12T07:13:23.081Z"
   }
 }
