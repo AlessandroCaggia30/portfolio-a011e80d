@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-12T13:59:06.884Z",
+  "exportedAt": "2026-08-12T13:59:11.544Z",
   "data": {
     "topics": [
       {
@@ -459,7 +459,7 @@
                 "images": [
                   "images/advmicro/ch_po_upf_0_0bc4b7f5db4a.png"
                 ],
-                "content": "\\textbf{\\textcolor{red}{PARETO OPTIMUM --- UPF and PS, the two coordinate views.}}\n\n\\textbf{\\textcolor{blue}{(1) UPF --- where it lives.}}\n$\\mathrm{UPF} \\subset \\mathcal{U}$, where\n$$ \\mathcal{U} \\;=\\; \\bigl\\{(u^1, u^2) \\;:\\; \\exists\\, x \\in \\mathcal{F},\\; U^i(x^i) \\geq u^i \\;\\forall i\\bigr\\} $$\nis the set of \\emph{utility profiles dominated by some feasible allocation}. Elegant definition!\n\n\\textbf{\\textcolor{blue}{(2) UPF --- definition (no domination).}}\n$(\\bar u^1, \\bar u^2) \\in \\mathcal{U}$ is on the UPF iff\n$$ \\boxed{\\;\\nexists\\, (\\tilde u^1, \\tilde u^2) \\in \\mathcal{U} : \\tilde u^i \\geq \\bar u^i \\;\\forall i,\\; > \\text{some } j.\\;} $$\nset of utiliteis that are undominated.\n\\textcolor{purple}{Note that this DOES NOT MEAN AT ALL that the aggregate utility is maximum! (if utilities are concave, equal split should maximize them). This is just saying that there is no way to make an agent better of without makign another worse off! You see this in the fact that you do not want any element of the couple to be dominated. So say all agents except 1 are better off, then such allocaiton is not PO}\n\n\n\n\n\n\\textbf{\\textcolor{blue}{(3) PS --- definition (no domination).}}\n$\\bar x \\in \\mathcal{F}$ is Pareto Optimal iff\n$$ \\boxed{\\;\\nexists\\, y \\in \\mathcal{F} : U^i(y^i) \\geq U^i(\\bar x^i) \\;\\forall i,\\; > \\text{some } j.\\;} $$\nand $\\mathrm{PS} = \\{x \\in \\mathcal{F} : x \\text{ is PO}\\}$. Basically is the allocaiton associated to the utilities that cannot be dominated!\n\n\n\n\n\n",
+                "content": "\\textbf{\\textcolor{red}{PARETO OPTIMUM --- UPF and PS, the two coordinate views.}}\n\n\\textbf{\\textcolor{blue}{(1) UPF --- where it lives.}}\n$\\mathrm{UPF} \\subset \\mathcal{U}$, where\n$$ \\mathcal{U} \\;=\\; \\bigl\\{(u^1, u^2) \\;:\\; \\exists\\, x \\in \\mathcal{F},\\; U^i(x^i) \\geq u^i \\;\\forall i\\bigr\\} $$\nis the set of \\emph{utility profiles dominated by some feasible allocation}. Elegant definition!\n\n\\begin{keydef} \\fcnum{4d.}\n\\textbf{\\textcolor{blue}{(2) UPF --- definition (no domination).}}\n$(\\bar u^1, \\bar u^2) \\in \\mathcal{U}$ is on the UPF iff\n$$ \\boxed{\\;\\nexists\\, (\\tilde u^1, \\tilde u^2) \\in \\mathcal{U} : \\tilde u^i \\geq \\bar u^i \\;\\forall i,\\; > \\text{some } j.\\;} $$\nset of utiliteis that are undominated.\n\\textcolor{purple}{Note that this DOES NOT MEAN AT ALL that the aggregate utility is maximum! (if utilities are concave, equal split should maximize them). This is just saying that there is no way to make an agent better of without makign another worse off! You see this in the fact that you do not want any element of the couple to be dominated. So say all agents except 1 are better off, then such allocaiton is not PO}\n\n\n\n\n\n\\textbf{\\textcolor{blue}{(3) PS --- definition (no domination).}}\n$\\bar x \\in \\mathcal{F}$ is Pareto Optimal iff\n$$ \\boxed{\\;\\nexists\\, y \\in \\mathcal{F} : U^i(y^i) \\geq U^i(\\bar x^i) \\;\\forall i,\\; > \\text{some } j.\\;} $$\nand $\\mathrm{PS} = \\{x \\in \\mathcal{F} : x \\text{ is PO}\\}$. Basically is the allocaiton associated to the utilities that cannot be dominated!\n\n\n\n\n\n",
                 "x": 846.5693903670981,
                 "y": -3322.2260599755627,
                 "width": 833.3333333333333,
@@ -1331,6 +1331,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-12T13:59:04.736Z"
+    "lastEditedAt": "2026-08-12T13:59:09.399Z"
   }
 }
