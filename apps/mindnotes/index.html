@@ -5538,7 +5538,7 @@ const State = {
 
 const SUBJECTS = [
     { id: 'adv-math', name: 'Advanced Mathematics', icon: '\u2211', dataKey: 'mindnotes_advmath', seedFile: 'data.json', repoPath: 'apps/mindnotes/data.json' },
-    { id: 'adv-micro', name: 'Advanced Microeconometrics', icon: '\uD83D\uDCCA', dataKey: 'mindnotes_advmicro', seedFile: 'data_advmicro.json', seedVersion: 61, repoPath: 'apps/mindnotes/data_advmicro.json' },
+    { id: 'adv-micro', name: 'Advanced Microeconometrics', icon: '\uD83D\uDCCA', dataKey: 'mindnotes_advmicro', seedFile: 'data_advmicro.json', seedVersion: 62, repoPath: 'apps/mindnotes/data_advmicro.json' },
     { id: 'adv-macro', name: 'Advanced Macroeconomics', icon: '\uD83C\uDF10', dataKey: 'mindnotes_advmacro', seedFile: 'data_advmacro.json', seedVersion: 7, repoPath: 'apps/mindnotes/data_advmacro.json' },
     { id: 'time-series', name: 'Time Series Analysis', icon: '\uD83D\uDCC8', dataKey: 'mindnotes_timeseries', seedFile: 'data_timeseries.json', seedVersion: 6, repoPath: 'apps/mindnotes/data_timeseries.json' },
     { id: 'statistics', name: 'Statistics', icon: '\u03C3', dataKey: 'mindnotes_statistics', seedFile: 'data_statistics.json', repoPath: 'apps/mindnotes/data_statistics.json' },
@@ -6088,7 +6088,7 @@ async function loadData() {
             // hydrate it from the live seed if IndexedDB doesn't have it yet.
             if (seedFile && !State.data.examTable) {
                 try {
-                    const resp = await fetch(seedFile);
+                    const resp = await fetch(seedFile, { cache: 'no-store' });
                     if (resp.ok) {
                         const backup = await resp.json();
                         const seedData = backup.data || backup;
@@ -6108,7 +6108,7 @@ async function loadData() {
                 if (data && data.topics && typeof _ghSnapshotLocal === 'function') {
                     try { await _ghSnapshotLocal(dataKey, data); } catch (_) {}
                 }
-                const resp = await fetch(seedFile);
+                const resp = await fetch(seedFile, { cache: 'no-store' });
                 if (resp.ok) {
                     const backup = await resp.json();
                     const seedData = backup.data || backup;
@@ -6201,7 +6201,7 @@ async function loadData() {
             } else if (seedFile) {
                 // Try loading bundled seed file
                 try {
-                    const resp = await fetch(seedFile);
+                    const resp = await fetch(seedFile, { cache: 'no-store' });
                     if (resp.ok) {
                         const backup = await resp.json();
                         State.data = backup.data || backup;
