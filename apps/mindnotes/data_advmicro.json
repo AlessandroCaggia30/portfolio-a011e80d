@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-14T16:39:45.136Z",
+  "exportedAt": "2026-08-14T16:39:57.143Z",
   "data": {
     "topics": [
       {
@@ -325,7 +325,7 @@
                 "height": 236,
                 "flashcard": false,
                 "links": [],
-                "color": "coral"
+                "color": null
               },
               {
                 "id": "ch_real_endow",
@@ -1087,15 +1087,15 @@
                 "imageWidths": [],
                 "links": [
                   {
-                    "target": "ch_homo_pref",
-                    "type": "forward"
-                  },
-                  {
                     "target": "ch_extern_setup_1780600001",
                     "type": "forward"
                   },
                   {
                     "target": "ch_asset_pricing_framework_1780600030",
+                    "type": "forward"
+                  },
+                  {
+                    "target": "ch_rep_agent",
                     "type": "forward"
                   }
                 ],
@@ -1227,8 +1227,8 @@
                 "images": [],
                 "imageWidths": [],
                 "links": [],
-                "x": 2528.1490966303254,
-                "y": -1323.2755873577198,
+                "x": 2753.409863510784,
+                "y": -1552.8682920628025,
                 "width": 304,
                 "height": 249
               }
@@ -1625,6 +1625,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-14T16:39:44.026Z"
+    "lastEditedAt": "2026-08-14T16:39:54.555Z"
   }
 }
