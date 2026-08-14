@@ -6987,8 +6987,7 @@ function convertTabularToTable(body, colSpec) {
         .replace(/\\noalign\{[^}]*\}\s*/g, '')
         .trim();
 
-    // Handle \multicolumn{n}{spec}{content} → just content
-    clean = clean.replace(/\\multicolumn\{[^}]*\}\{[^}]*\}\{((?:[^{}]|\{[^{}]*\})*)\}/g, '$1');
+    // \multicolumn is handled per-cell below (real colspan support).
 
     // Split into rows by \\ (but not inside math placeholders)
     const rows = clean.split(/\s*\\\\\s*/).filter(r => r.trim());
@@ -7037,16 +7036,25 @@ function convertTabularToTable(body, colSpec) {
         const cells = row.split(/\s*&\s*/);
         table += '%%TROWSTART%%';
         cells.forEach((cell, cellIdx) => {
+            let cc = cell.trim();
+            // \multicolumn{n}{spec}{content} wrapping the whole cell → real colspan.
+            const mc = cc.match(/^\\multicolumn\{(\d+)\}\{[^}]*\}\{([\s\S]*)\}$/);
+            if (mc) {
+                table += `%%TCELLSPAN:${mc[1]}%%` + mc[2].trim() + '%%TCELLEND%%';
+                return;
+            }
+            // Fallback: partial \multicolumn inside a cell → keep just its content.
+            cc = cc.replace(/\\multicolumn\{[^}]*\}\{[^}]*\}\{((?:[^{}]|\{[^{}]*\})*)\}/g, '$1');
             // Apply col width to first row cells too — belt-and-braces against browser quirks
             // where <colgroup> widths are sometimes ignored when content has unbreakable items
             if (usePct && rowIdx === 0 && colPcts[cellIdx] != null) {
-                table += `%%TCELLP:${colPcts[cellIdx]}%%` + cell.trim() + '%%TCELLEND%%';
+                table += `%%TCELLP:${colPcts[cellIdx]}%%` + cc + '%%TCELLEND%%';
             } else {
                 const w = (!usePct && hasFixedWidths && rowIdx === 0 && widths[cellIdx]) ? widths[cellIdx] : null;
                 if (w) {
-                    table += `%%TCELLW:${w}%%` + cell.trim() + '%%TCELLEND%%';
+                    table += `%%TCELLW:${w}%%` + cc + '%%TCELLEND%%';
                 } else {
-                    table += '%%TCELLSTART%%' + cell.trim() + '%%TCELLEND%%';
+                    table += '%%TCELLSTART%%' + cc + '%%TCELLEND%%';
                 }
             }
         });
@@ -7069,6 +7077,7 @@ function restoreTableMarkers(text) {
     text = text.replace(/%%COL:([^%]+)%%/g, (m, w) => w === 'auto' ? '<col>' : `<col style="width:${w}">`);
     text = text.replace(/%%TROWSTART%%/g, '<tr>');
     text = text.replace(/%%TROWEND%%/g, '</tr>');
+    text = text.replace(/%%TCELLSPAN:(\d+)%%/g, (m, n) => `<td colspan="${n}">`);
     text = text.replace(/%%TCELLP:([^%]+)%%/g, (m, w) => `<td style="width:${w}%">`);
     text = text.replace(/%%TCELLSTART%%/g, '<td>');
     text = text.replace(/%%TCELLW:([^%]+)%%/g, (m, w) => `<td style="width:${w};min-width:${w};max-width:${w}">`);
