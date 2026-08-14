@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-14T08:48:09.601Z",
+  "exportedAt": "2026-08-14T08:48:15.670Z",
   "data": {
     "topics": [
       {
@@ -302,7 +302,8 @@
                 "width": 501.8727476586318,
                 "height": 253.43695459121278,
                 "links": [],
-                "flashcard": false
+                "flashcard": false,
+                "color": "coral"
               },
               {
                 "id": "ch_rep_agent",
@@ -1579,6 +1580,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-14T08:48:06.144Z"
+    "lastEditedAt": "2026-08-14T08:48:13.552Z"
   }
 }
