@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-14T07:18:31.478Z",
+  "exportedAt": "2026-08-14T07:18:37.092Z",
   "data": {
     "topics": [
       {
@@ -506,7 +506,7 @@
               {
                 "id": "1780131215103",
                 "title": "conditions for PO existence",
-                "content": "\\begin{keydef} \\fcnum{}\nThe BC is compact. By Weiestrass: any $\\lambda \\in (0,1)$, the continuous linear functional $\\lambda U^1 + (1-\\lambda)U^2$ attains its max on $\\mathcal{F}$. The argmax is in PS (forward direction of [A], proven  without convexity). Hence PS $\\neq \\emptyset$.\n\\end{keydef}",
+                "content": "\\begin{keydef} \\fcnum{3d}\nThe BC is compact. By Weiestrass: any $\\lambda \\in (0,1)$, the continuous linear functional $\\lambda U^1 + (1-\\lambda)U^2$ attains its max on $\\mathcal{F}$. The argmax is in PS (forward direction of [A], proven  without convexity). Hence PS $\\neq \\emptyset$.\n\\end{keydef}",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
@@ -1422,6 +1422,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-14T07:18:29.270Z"
+    "lastEditedAt": "2026-08-14T07:18:34.935Z"
   }
 }
