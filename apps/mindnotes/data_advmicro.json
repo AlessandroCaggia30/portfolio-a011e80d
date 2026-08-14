@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-14T07:21:02.112Z",
+  "exportedAt": "2026-08-14T07:21:25.504Z",
   "data": {
     "topics": [
       {
@@ -486,7 +486,18 @@
                     "target": "ps_char_table_v2_1786651000000",
                     "type": "forward"
                   }
-                ]
+                ],
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-08-14T07:21:09.038Z"
+                }
               },
               {
                 "id": "1780130334934",
@@ -1049,7 +1060,18 @@
                 "x": 1803.1649060083637,
                 "y": -3105.3114866961914,
                 "width": 480,
-                "height": 340
+                "height": 340,
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-08-14T07:21:20.136Z"
+                }
               },
               {
                 "id": "1780499399571",
@@ -1433,6 +1455,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-14T07:20:59.847Z"
+    "lastEditedAt": "2026-08-14T07:21:23.358Z"
   }
 }
