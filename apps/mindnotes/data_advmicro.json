@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-14T16:55:26.520Z",
+  "exportedAt": "2026-08-14T16:55:30.921Z",
   "data": {
     "topics": [
       {
@@ -532,10 +532,6 @@
                   },
                   {
                     "target": "ps_char_table_v2_1786651000000",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "ql_ce_po_merged_1786700000000",
                     "type": "forward"
                   }
                 ],
@@ -1650,6 +1646,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-14T16:55:26.150Z"
+    "lastEditedAt": "2026-08-14T16:55:28.184Z"
   }
 }
