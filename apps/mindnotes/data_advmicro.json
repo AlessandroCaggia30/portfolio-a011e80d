@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-14T13:16:36.974Z",
+  "exportedAt": "2026-08-14T13:16:53.325Z",
   "data": {
     "topics": [
       {
@@ -1248,7 +1248,7 @@
               {
                 "id": "1786713367800",
                 "title": "Cobb douglas preferences",
-                "content": "**Cobb douglas preferences**\n$$\nU(x_a,x_b)=\\alpha\\ln x_a+(1-\\alpha)\\ln x_b.\n$$\n\n**Its Marshallian demands are**\n$$\n\\boxed{\nx_a^*=\\frac{\\alpha w}{p_a},\n\\qquad\nx_b^*=\\frac{(1-\\alpha)w}{p_b}.\n}\n$$\n\nNotic ethat\n$$\nx_a^* \\text{ does not depend on } p_b,\n\\qquad\nx_b^* \\text{ does not depend on } p_a.\n$$\n\nThis is \\textbf{not a consequence of homotheticity alone}. It is a special property of Cobb--Douglas demand, that is called the \\textbf{constant expenditure shares property}:\n$$\n\\boxed{\np_a x_a^*=\\alpha w,\n\\qquad\np_b x_b^*=(1-\\alpha)w.\n}\n$$\n\n::When $p_a$ rises (holding $w$ fixed), the share spent on good $B$ remains exactly fixes: indeed CD is special as well because sub and income effect balance exactly. Therefore, expenditure on $B$ does not change, and since $p_b$ also remains unchanged, the quantity $x_b^*$ does not change either.::",
+                "content": "**Cobb douglas preferences**\n$$\nU(x_a,x_b)=\\alpha\\ln x_a+(1-\\alpha)\\ln x_b.\n$$\n\n**Its Marshallian demands are**\n$$\n\\boxed{\nx_a^*=\\frac{\\alpha w}{p_a},\n\\qquad\nx_b^*=\\frac{(1-\\alpha)w}{p_b}.\n}\n$$\n\nNotic ethat\n$$\nx_a^* \\text{ does not depend on } p_b,\n\\qquad\nx_b^* \\text{ does not depend on } p_a.\n$$\n\nThis is \\textbf{not a consequence of homotheticity alone}. It is a special property of Cobb--Douglas demand, that is called the \\textbf{constant expenditure shares property}:\n$$\n\\boxed{\np_a x_a^*=\\alpha w,\n\\qquad\np_b x_b^*=(1-\\alpha)w.\n}\n$$\n\n::When $p_a$ rises (holding $w$ fixed), the share spent on good $B$ remains exactly fixes: indeed CD is special as well because sub and income effect balance exactly. Therefore, expenditure on $B$ does not change, and since $p_b$ also remains unchanged, the quantity $x_b^*$ does not change either.::\n\n\nwhy? I mean.. the math has this nice ppt",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
@@ -1614,6 +1614,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-14T13:16:34.837Z"
+    "lastEditedAt": "2026-08-14T13:16:51.200Z"
   }
 }
