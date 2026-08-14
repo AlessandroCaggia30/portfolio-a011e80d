@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-14T13:10:59.999Z",
+  "exportedAt": "2026-08-14T13:11:03.894Z",
   "data": {
     "topics": [
       {
@@ -681,7 +681,7 @@
                 "y": -1538.7673033153587,
                 "width": 425,
                 "height": 238,
-                "color": "coral"
+                "color": null
               },
               {
                 "id": "ch_lin_tax_setup_1780236904",
@@ -1600,6 +1600,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-14T13:10:56.664Z"
+    "lastEditedAt": "2026-08-14T13:11:01.753Z"
   }
 }
