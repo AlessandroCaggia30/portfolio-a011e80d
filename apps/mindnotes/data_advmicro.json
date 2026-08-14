@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-14T17:25:16.916Z",
+  "exportedAt": "2026-08-14T17:28:18.335Z",
   "data": {
     "topics": [
       {
@@ -1227,6 +1227,17 @@
                 "y": -4074.947342964837,
                 "width": 573.2231404958677,
                 "height": 441.99713134348735
+              },
+              {
+                "id": "1786728495110",
+                "title": "Mechanism",
+                "content": "Mechanism: \n\n\\textbf{Bang-for-buck adjustment.}\n\\textbf{1)} Quasilinear exrernality $\\Rightarrow$ adding a negative externality to agent 1 shifts his (social) curve \\emph{down}: his demand falls and the crossing drops \\emph{below} the numeraire bang for buck line $\\lambda / p_x$ (point $g$).\n\\textbf{2)} MRS imbalance (not optimal) (think at the bang for buck plot) => Price adjusts for markets to clear $\\Rightarrow$ both bang for buck curves shift \\emph{up} (in the bang for buck plot). So notice how as MB goes down P needs to go down for markets to clear! Two cases: \n2A. one sided externality, price goes down, but not to 0, and the other agents infinitely absorbs (excludign satiation) the good, the curves meet at the same level as before ($\\lambda / p_x$) (column 1)\n{{img:2|w=900}}\n\n2B. Two sided externality, two options: i) price goes down and agents consume the same quantities!  (Pigou bites $\\Leftrightarrow$ destruction occurs), applying a tax to everybody = applying a tax to nobody! Think about the planner: consumption for agent A and B was worth +40 for both. now after +40 of dabage we have +10.  Still, MB is positive, price geos down, markets clear, there is full consumption (column 3).But if the external damages differ across agents or depend differently on quantities, relative social MB changes and quantities will generally be reallocated.  ii) if price touches 0 MRS condition plot is no longer of interest, and there is destruction of the good! (column 4) \n\n\\emph{Remark (agent 2 inelastic):} the price falls so much (by the full $d$) that agent 1 buys as much as before --- the price adjustment undoes the Pigou wedge.\n",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": 5528.637317312646,
+                "y": -4505.91157250041
               }
             ]
           }
@@ -1650,6 +1661,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-14T17:25:16.671Z"
+    "lastEditedAt": "2026-08-14T17:28:15.110Z"
   }
 }
