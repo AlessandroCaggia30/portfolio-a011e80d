@@ -7493,12 +7493,20 @@ function _fitMathDisplays(root) {
         const avail = disp.clientWidth;
         if (!avail) return; // inline/hidden contexts (e.g. card preview) → skip
         const natural = k.scrollWidth || k.getBoundingClientRect().width;
+        disp.style.overflowX = '';
         if (natural > avail + 1) {
-            const s = Math.max(0.4, avail / natural);
+            // Readability floor: never shrink below 72% — beyond that the math
+            // becomes unreadable (user feedback). If it still overflows at the
+            // floor, let the display scroll horizontally instead.
+            const s = Math.max(0.72, avail / natural);
             k.style.transformOrigin = 'left top';
             k.style.transform = `scale(${s})`;
             // Reserve only the scaled height so we don't leave a large gap below.
             disp.style.height = k.getBoundingClientRect().height + 'px';
+            if (natural * s > avail + 1) {
+                disp.style.overflowX = 'auto';
+                disp.style.overflowY = 'hidden';
+            }
         }
     });
 }
