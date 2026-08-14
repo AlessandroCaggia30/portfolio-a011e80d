@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-14T13:13:29.785Z",
+  "exportedAt": "2026-08-14T13:16:10.686Z",
   "data": {
     "topics": [
       {
@@ -1240,6 +1240,17 @@
                 "y": -2548.356972044844,
                 "width": 468.0975675381134,
                 "height": 336.74797294842784
+              },
+              {
+                "id": "1786713367800",
+                "title": "Cobb douglas preferences",
+                "content": "**Cobb douglas preferences**\n$$\nU(x_a,x_b)=\\alpha\\ln x_a+(1-\\alpha)\\ln x_b.\n$$\n\n**Its Marshallian demands are**\n$$\n\\boxed{\nx_a^*=\\frac{\\alpha w}{p_a},\n\\qquad\nx_b^*=\\frac{(1-\\alpha)w}{p_b}.\n}\n$$\n\nNotic ethat\n$$\nx_a^* \\text{ does not depend on } p_b,\n\\qquad\nx_b^* \\text{ does not depend on } p_a.\n$$\n\nThis is \\textbf{not a consequence of homotheticity alone}. It is a special property of Cobb--Douglas demand, that is called the \\textbf{constant expenditure shares property}:\n$$\n\\boxed{\np_a x_a^*=\\alpha w,\n\\qquad\np_b x_b^*=(1-\\alpha)w.\n}\n$$\n\nWhen $p_a$ rises (holding $w$ fixed), the share spent on good $B$ remains exactly fixes: indeed CD is special as well because sub and income effect balance exactly. Therefore, expenditure on $B$ does not change, and since $p_b$ also remains unchanged, the quantity $x_b^*$ does not change either.",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": 4403.7876663991565,
+                "y": -1867.9597527098513
               }
             ]
           }
@@ -1599,6 +1610,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-14T13:13:27.381Z"
+    "lastEditedAt": "2026-08-14T13:16:07.800Z"
   }
 }
