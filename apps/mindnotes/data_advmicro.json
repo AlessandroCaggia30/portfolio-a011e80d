@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-14T16:37:53.167Z",
+  "exportedAt": "2026-08-14T16:38:56.821Z",
   "data": {
     "topics": [
       {
@@ -318,7 +318,7 @@
                 "id": "ch_rep_agent",
                 "title": "Representative Agent Assumption",
                 "images": [],
-                "content": "\\textbf{\\textcolor{red}{REPRESENTATIVE AGENT --- when can one agent stand in for the whole population?}}\n\n\\textbf{\\textcolor{blue}{1. What is the problem we are trying to solve?}}\n\nSuppose there are $H$ consumers. Consumer $h$ has wealth $w^h$, preferences $U^h$, and therefore demand\n$$ x_i^{h*}(p, w^h; U^h). $$\nIf we want total demand for good $i$, normally we have to solve every consumer's problem and add them:\n$$ X_i = \\sum_h x_i^{h*}(p, w^h; U^h). $$\nA representative agent allows us to avoid doing this. We ask whether there exists \\emph{one} hypothetical consumer, with preferences $U^R$ and total wealth $W=\\sum_h w^h$, whose demand is exactly aggregate demand:\n$$ \\boxed{\\;\\sum_h x_i^{h*}(p, w^h; U^h) = x_i^{R*}(p, W; U^R)\\quad \\forall i.\\;} $$\n\\emph{So instead of solving $H$ optimization problems, we solve one.}\n\n\n\n\n\n\\bigskip\n\\textbf{Two canonical families that satisfy Gorman aggregation:}\n\n\\textbf{\\textcolor{darkgreen}{1. Homothetic preferences}} --- whatever the wealth, agents all consume the same RATIO.\n\n\\textbf{So think about the optimization:} there is a given aggregate $\\omega_a/\\omega_b$ ratio, and in the identical-homothetic case all agents pick the \\emph{same} individual consumption ratio $x_a^h/x_b^h$ (because they share the same homothetic preferences, so ratios are wealth-independent and identical across agents). The aggregate consumption ratio --- being a sum of identical individual ratios --- equals that common individual ratio. Market clearing then forces it to equal $\\omega_a/\\omega_b$.\n\n\\textbf{\\textcolor{darkgreen}{2. Quasilinear preferences}} --- whatever the endowment, agents all consume the same NON-NUMERAIRE $y$.",
+                "content": "\\textbf{\\textcolor{red}{REPRESENTATIVE AGENT --- when can one agent stand in for the whole population?}}\n\n\\textbf{\\textcolor{blue}{1. What is the problem we are trying to solve?}}\n\nSuppose there are $H$ consumers. Consumer $h$ has wealth $w^h$, preferences $U^h$, and therefore demand\n$$ x_i^{h*}(p, w^h; U^h). $$\nIf we want total demand for good $i$, normally we have to solve every consumer's problem and add them:\n$$ X_i = \\sum_h x_i^{h*}(p, w^h; U^h). $$\nA representative agent allows us to avoid doing this. We ask whether there exists \\emph{one} hypothetical consumer, with preferences $U^R$ and total wealth $W=\\sum_h w^h$, whose demand is exactly aggregate demand:\n$$ \\boxed{\\;\\sum_h x_i^{h*}(p, w^h; U^h) = x_i^{R*}(p, W; U^R)\\quad \\forall i.\\;} $$\n\\emph{So instead of solving $H$ optimization problems, we solve one.} CRUCIALLY, you need Demand not to depend on wealth W or utility shape U!\n\n\n\n\n\n\\bigskip\n\\textbf{Two canonical families that satisfy Gorman aggregation:}\n\n\\textbf{\\textcolor{darkgreen}{1. Homothetic preferences}} --- whatever the wealth, agents all consume the same RATIO.\n\n\\textbf{So think about the optimization:} there is a given aggregate $\\omega_a/\\omega_b$ ratio, and in the identical-homothetic case all agents pick the \\emph{same} individual consumption ratio $x_a^h/x_b^h$ (because they share the same homothetic preferences, so ratios are wealth-independent and identical across agents). The aggregate consumption ratio --- being a sum of identical individual ratios --- equals that common individual ratio. Market clearing then forces it to equal $\\omega_a/\\omega_b$.\n\n\\textbf{\\textcolor{darkgreen}{2. Quasilinear preferences}} --- whatever the endowment, agents all consume the same NON-NUMERAIRE $y$.",
                 "x": 3208.1768605917528,
                 "y": -1240.4895924899383,
                 "width": 254,
@@ -1629,6 +1629,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-14T16:37:51.049Z"
+    "lastEditedAt": "2026-08-14T16:38:53.729Z"
   }
 }
