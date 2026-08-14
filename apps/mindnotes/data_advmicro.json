@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-14T13:11:43.892Z",
+  "exportedAt": "2026-08-14T13:12:05.411Z",
   "data": {
     "topics": [
       {
@@ -175,10 +175,6 @@
                   },
                   {
                     "target": "ch_compl_pref",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "1785165013004",
                     "type": "forward"
                   }
                 ],
@@ -989,20 +985,6 @@
                 "updatedAt": 1780586357866
               },
               {
-                "id": "1785165013004",
-                "title": "Slutsky for homothetic preferences",
-                "content": "\n\nEXCURSUS ON SLUTSKY:\n\nCrucial: note how the marshallian depend on prices: $x_a$ depends on $p_a$ and $w$ (ratios do not depends on wealth... while quantities do!), but not on $p_b$: indeed CD is special as well because sub and income effect balance exacly. This i known as the constant expenditure share ppt $$\np_a x_a^* = \\alpha w,\n\\qquad\np_b x_b^* = (1-\\alpha)w.\n$$\nWhen $p_a$ rises (holding $w$ fixed), the share spent on good $B$ remains exactly $(1-\\alpha)w$. Therefore, expenditure on $B$ does not change, and since $p_b$ also remains unchanged, the quantity $x_b^*$ does not change either.\n\n\n\n\n\nWhy this constant expenditure ppt? I mean... is math.. ",
-                "flashcard": false,
-                "images": [],
-                "imageWidths": [],
-                "links": [],
-                "x": 4342.701279162903,
-                "y": -1965.8348726527538,
-                "width": 522.6034637084745,
-                "height": 300.53076155369206,
-                "color": "coral"
-              },
-              {
                 "id": "1785298838547",
                 "title": "More on constraint qualification",
                 "content": "\n\\textbf{\\textcolor{red}{Appendix --- Constraint Qualifications (CQ).}}\n\n\n\nKKT captures only the \\textbf{linear} component of the Taylor expansion of $g_k$ around $x^*$ (the effect of a small step $d$ through $g_k(x^*+d) \\approx g_k(x^*) + \\nabla g_k(x^*)^\\top d$). The \\textbf{non-linear} (curvature) component is invisible to the KKT conditions. When curvature dominates near $x^*$ --- as in Constraint B, where $g''(0) = -2$ carries all the local information --- the linear picture is uninformative and KKT can fail even at a genuine optimum. A CQ is precisely the condition that rules out this pathology.\n\n\\textbf{\\textcolor{red}{Two constraints, same feasible point $x^* = 0$, opposite verdicts.}}\n\n\\textbf{Constraint A.}\\quad $g(x) = -x$, so the constraint $g(x) \\geq 0$ reads $x \\leq 0$. Gradient at $0$: $g'(0) = -1 \\neq 0$.\n$\\bullet$ Move left ($x < 0$): $g(x) > 0$ --- \\emph{feasible}.\n$\\bullet$ Move right ($x > 0$): $g(x) < 0$ --- \\emph{infeasible}.\nThe gradient tells you \\emph{exactly} which side is allowed. The linear picture matches the truth. \\textbf{\\textcolor{red}{CQ holds.}}\n\n\\textbf{Constraint B.}\\quad $g(x) = -x^2$, so the constraint $g(x) \\geq 0$ reads $x^2 \\leq 0$. Gradient at $0$: $g'(0) = 0$.\n$\\bullet$ Linear picture: $g'(0) \\cdot d = 0 \\geq 0$ for \\emph{any} direction $d$, so KKT thinks every step is allowed.\n$\\bullet$ Truth: $(-0.001)^2 > 0$ and $(0.001)^2 > 0$ --- \\emph{no} step is feasible. The only feasible point is $x = 0$ itself.\nThe linear picture lies. \\textbf{\\textcolor{red}{CQ fails.}}\n\n\\textbf{\\textcolor{red}{Where does the failure come from?}}\n\n",
@@ -1598,8 +1580,25 @@
         "deletedAt": 1786691728731,
         "fromTopic": "1740100000001",
         "fromSubtopic": "1740100000101"
+      },
+      {
+        "id": "1785165013004",
+        "title": "Slutsky for homothetic preferences",
+        "content": "",
+        "flashcard": false,
+        "images": [],
+        "imageWidths": [],
+        "links": [],
+        "x": 4342.701279162903,
+        "y": -1965.8348726527538,
+        "width": 522.6034637084745,
+        "height": 300.53076155369206,
+        "color": "coral",
+        "deletedAt": 1786713121981,
+        "fromTopic": "1740100000001",
+        "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-14T13:11:41.768Z"
+    "lastEditedAt": "2026-08-14T13:12:01.981Z"
   }
 }
