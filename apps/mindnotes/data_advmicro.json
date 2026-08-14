@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-14T17:36:22.796Z",
+  "exportedAt": "2026-08-14T17:36:31.715Z",
   "data": {
     "topics": [
       {
@@ -1257,6 +1257,17 @@
                 "links": [],
                 "x": 5980.216461355667,
                 "y": -4474.8655063474525
+              },
+              {
+                "id": "1786728988783",
+                "title": "PUBLIC GOODS INTRO",
+                "content": "\\textbf{\\textcolor{red}{1. Taxonomy: rivalry $\\times$ excludability.}}\n\n\\begin{tabular}{p{6cm}|p{16cm}|p{16cm}}\n& \\textbf{\\textcolor{red}{Rivalrous}} \\;\\;(my consumption blocks yours) & \\textbf{\\textcolor{red}{Non-rivalrous}} \\;\\;(same unit enjoyed simultaneously) \\\\\n\\hline\n\\textbf{\\textcolor{red}{Excludable}} \\;\\;(can charge a price) & \\textbf{Private}: panino. \\emph{I eat the panino, you don't; price $6$\\,\\euro.} & \\textbf{Club}: private beach. \\emph{Both lie on the sand simultaneously; $30$\\,\\euro\\ entry excludes outsiders.} \\\\\n\\hline\n\\textbf{\\textcolor{red}{Non-excludable}} \\;\\;(cannot prevent access) & \\textbf{Common pool}: fish in the sea. \\emph{I catch a fish, you don't have that one; but cannot prevent you from fishing.} & \\textbf{Public}: defence / fireworks. \\emph{Iron dome blocks a missile $\\Rightarrow$ both houses saved; cannot let only some missiles pass.} \\\\\n\\end{tabular}\n\n\n\n\\textbf{\\textcolor{red}{2. Public good vs externality.}}  TWO THINGS THAT ARE TOTALLY DIFFERENT!\n\n$\\bullet$ \\emph{Externality}: agents choose private $y^1, y^2$; spillover is the side-effect on the other's utility.\n\n$\\bullet$ \\emph{Public good}: a single $y$ is produced and consumed identically by all. \\textbf{Both agents enjoy the SAME $y$} --- the structural difference.\n\\textcolor{red}{Pollution = public bad.} Non-rivalrous (everyone breathes the same air), non-excludable. All consume the same amount.\n\n\n\n\\textbf{\\textcolor{red}{3. Production model.}} Devote $z$ units of the private good as input to produce $y$ units of public good:\n$$ \\underbrace{c(y)}_{\\text{cost of producing y}} \\; \\le \\; \\underbrace{z}_{\\text{units (eg dollars) you dedicate to the production of y}}, \\qquad c(0) = 0, \\quad c'(y) > 0. $$ Comments: \n- the first equation is just saying: we need to take somewhere the money that costs us to produce y! hence, we need to input enough  money.** Obviosuly the first equation will hold with equality.**\n- c(y) is just the raw rate of tranformation, so how many y you can make with given z. So if for example z = 2 and  $c(y) = \\tfrac{1}{2} y^2 \\text{(convex})$. If you have z= 2 you cna produce 2 y, if you jave z = 4.5 you can produce y = 3. \n- $c'(y)=MRT_{y,x}=\\text{additional units of private good }x\\text{ required to produce one additional marginal unit of public good }y.$\n- Cost curvature: \\emph{Convex} ($c'' > 0$): \\textbf{the second unit is more expensive than the first, the third more than the second, etc.} Diminishing marginal returns.\n\n",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": 6585.684130829086,
+                "y": -4782.273467461971
               }
             ]
           }
@@ -1680,6 +1691,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-14T17:36:21.140Z"
+    "lastEditedAt": "2026-08-14T17:36:28.783Z"
   }
 }
