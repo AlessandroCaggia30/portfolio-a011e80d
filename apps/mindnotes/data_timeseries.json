@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-15T16:53:40.608Z",
+  "exportedAt": "2026-08-15T16:53:54.838Z",
   "data": {
     "topics": [
       {
@@ -2270,6 +2270,17 @@
                     "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
+              },
+              {
+                "id": "1786812832688",
+                "title": "MOST TRIVIAL EXAMPLE OF STOCH PROCESS",
+                "content": "\n\\textbf{\\textcolor{red}{MOST TRIVIAL EXAMPLE OF STOCH.\\ PROCESS}}\n\n\\begin{keydef}\n\\textbf{\\fcnum{13b} IID stochastic processes}\nSay $Y_t,\\ t \\in \\{0, 1, \\dots, n\\}$ are independent. If, additionally, $Y_t$ have a common distribution (i.i.d.) with $p$:\n$$ p(y_{0:n}) \\;=\\; p(y_0)\\, p(y_1) \\cdots p(y_n) \\;=\\; \\prod_{t=0}^{n} p(y_t). $$\n\\end{keydef}\n\n\\emph{Example} Independent trials $Y_t \\stackrel{\\text{iid}}{\\sim}$ Bernoulli$(p)$.\n\\emph{If you forced it into a \"transition\" table} (even though iid has no real Markov dependence --- the rows are identical, which is the giveaway that the past is irrelevant):\n$$ \\begin{array}{c|cc} t-1 \\backslash t & 0 & 1 \\\\ \\hline 0 & 1-p & p \\\\ 1 & 1-p & p \\end{array} $$\n\\emph{The two rows being equal} $\\Leftrightarrow$ $P(Y_t = j \\mid Y_{t-1} = i) = P(Y_t = j)$, i.e.\\ no dependence on the past --- which is exactly the iid (memoryless) property.\n\n\\begin{keydef}\n\\textbf{\\fcnum{13c} Independent (not necessarily identically distributed) stochastic processes}\nIf only indep.\\ (not necessarily identically distrib.):\n$$ p(y_{0:n}) \\;=\\; p_0(y_0)\\, p_1(y_1) \\cdots p_n(y_n) \\;=\\; \\prod_{t=0}^{n} p_t(y_t). $$\n\\end{keydef}\n\n\nBoth assume independence: irrealistic for time series\n\n\\begin{keydef}\n\\textbf{\\fcnum{13d} Full dependence (general chain rule).}\n$$ p(y_{0:n}) \\;=\\; p_0(y_0)\\, p_1(y_1 \\mid y_0)\\, p_2(y_2 \\mid y_0, y_1) \\cdots p_n(y_n \\mid y_{0:n-1}) \\;=\\; p_0(y_0) \\prod_{t=1}^{n} p_t(y_t \\mid y_{0:t-1}). $$\n\\end{keydef}\n\n",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": 4749.623634813109,
+                "y": 2169.093096797192
               }
             ]
           }
@@ -4921,6 +4932,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-15T16:53:38.458Z"
+    "lastEditedAt": "2026-08-15T16:53:52.688Z"
   }
 }
