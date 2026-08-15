@@ -932,8 +932,8 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 }
 .app.pop-mode .detail-panel:not(.open) { display: none !important; }
 .app.pop-mode .detail-panel.open { display: flex !important; }
-.app.pop-mode .detail-panel.open.view-mode { width: var(--detail-w, 100vw) !important; }
-.app.pop-mode .detail-panel.open:not(.view-mode) { width: var(--detail-w, 100vw) !important; }
+.app.pop-mode .detail-panel.open.view-mode { width: var(--detail-w, 80vw) !important; }
+.app.pop-mode .detail-panel.open:not(.view-mode) { width: var(--detail-w, 80vw) !important; }
 /* Editor mode: full width, no side preview.
    View mode still shows the rendered preview so **bold**, headings, etc. render. */
 .app.pop-mode .detail-panel:not(.view-mode) .detail-preview-pane { display: none !important; }
@@ -1526,10 +1526,10 @@ body:has(.app.pop-mode) .pop-line-toggle { display: inline-flex; }
 }
 
 /* View mode: large preview panel */
-.detail-panel.open.view-mode { width: var(--detail-w, 100vw); min-width: 380px; }
+.detail-panel.open.view-mode { width: var(--detail-w, 80vw); min-width: 380px; }
 
 /* Edit mode: slightly larger for split view */
-.detail-panel.open:not(.view-mode) { width: var(--detail-w, 100vw); min-width: 380px; }
+.detail-panel.open:not(.view-mode) { width: var(--detail-w, 80vw); min-width: 380px; }
 
 .detail-header {
     padding: 12px 20px;
