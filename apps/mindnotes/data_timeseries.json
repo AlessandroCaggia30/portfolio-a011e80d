@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-15T15:50:34.268Z",
+  "exportedAt": "2026-08-15T15:50:41.644Z",
   "data": {
     "topics": [
       {
@@ -27,8 +27,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 3664.1497212577624,
-                "y": 1286.9786548056936,
+                "x": 3724.1497212577624,
+                "y": -168.02134519430547,
                 "width": 879,
                 "height": 173.5295711975745,
                 "color": "yellow",
@@ -293,8 +293,8 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 3061.585277778682,
-                "y": 836.1586257339895,
+                "x": 3961.585277778682,
+                "y": 806.1586257339895,
                 "width": 415.5793634055648,
                 "height": 179.52995424451095,
                 "color": "yellow",
@@ -330,8 +330,8 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 6131.8909177744845,
-                "y": 630.7955348693422,
+                "x": 7031.8909177744845,
+                "y": 600.7955348693422,
                 "width": 512.128990799122,
                 "height": 209.5248651259691,
                 "color": "coral",
@@ -372,8 +372,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 4854.724780823496,
-                "y": 650.1869128410262,
+                "x": 5754.724780823496,
+                "y": 620.1869128410262,
                 "width": 511.5365915622529,
                 "height": 188.34006665223083,
                 "fsrs": {
@@ -1084,8 +1084,8 @@
                     "type": "backward"
                   }
                 ],
-                "x": 4856.737996800562,
-                "y": 1280.3177759767173,
+                "x": 5756.737996800562,
+                "y": 1250.3177759767173,
                 "width": 405.4722603617373,
                 "height": 207.98981626544384,
                 "color": "yellow",
@@ -1359,8 +1359,8 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 4852.572171034139,
-                "y": 1039.5514664146413,
+                "x": 5752.572171034139,
+                "y": 1009.5514664146413,
                 "width": 383.9597963253089,
                 "height": 212.43714855432427,
                 "color": "yellow",
@@ -1530,8 +1530,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 5515.706875793416,
-                "y": 690.6119609129464,
+                "x": 6415.706875793416,
+                "y": 660.6119609129464,
                 "width": 396.39001110870515,
                 "height": 113.8972865802485,
                 "fsrs": {
@@ -1576,8 +1576,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 3652.5671893337544,
-                "y": 623.5250678760731,
+                "x": 4552.567189333755,
+                "y": 593.5250678760731,
                 "height": 415.70210223868435,
                 "width": 908.949567341076,
                 "color": "coral",
@@ -1629,8 +1629,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 5484.416178528234,
-                "y": 1285.7419123471418,
+                "x": 6384.416178528234,
+                "y": 1255.7419123471418,
                 "width": 240.7955860642766,
                 "height": 191.44796802093776,
                 "color": "yellow",
@@ -1663,8 +1663,8 @@
                 "id": "ts1781346257973",
                 "title": "Example 0: White Noise",
                 "content": "\\textbf{\\textcolor{red}{EXAMPLE 0 --- White noise (the simplest building block).}}\n\n\\begin{keydef}\n\\fcnum{6a} A sequece of independent identiclal distirbuted zero mean normal random variables.\n\\[ Y_t \\;\\underbrace{\\sim}_{iid}\\; \\mathcal{N}(0, \\sigma^2), \\qquad t = 1, 2, \\dots \\]\n\\emph{No temporal dependence at all --- knowing $Y_{t-1}$ tells you nothing about $Y_t$.}\n\\[ E[Y_t] \\;=\\; 0 \\qquad \\forall\\, t. \\]\n\\[ \\mathrm{Var}(Y_t) \\;=\\; \\sigma^2 \\qquad \\forall\\, t. \\]\n\\emph{Variance is constant in $t$ --- nothing grows, nothing decays.}\n\\emph{Autocovariance.} By independence, $\\mathrm{Cov}(Y_t, Y_s) = 0$ whenever $t \\neq s$:\n\\[ \\gamma(h) \\;:=\\; \\mathrm{Cov}(Y_t, Y_{t+h}) \\;=\\; \\begin{cases} \\sigma^2 & h = 0, \\\\ 0 & h \\neq 0. \\end{cases} \\]\nDepends only on the lag $h$ (and only the zero lag is non-zero). \\quad $\\checkmark$\n\n\\emph{Autocorrelation.} $\\rho(0) = 1$, $\\rho(h) = 0$ for $h \\neq 0$. \\emph{The correlogram is a single spike at lag 0.}\n\n\\textbf{Stationarity verdict.} Constant mean $+$ constant variance $+$ autocovariance depending only on lag $\\Rightarrow$ \\textbf{weakly stationary} (and \\emph{strictly} stationary too, by the iid assumption). \\quad $\\checkmark\\checkmark$\n\n\\end{keydef}",
-                "x": 4851.649369151253,
-                "y": 865.6554845823957,
+                "x": 5751.649369151253,
+                "y": 835.6554845823957,
                 "flashcard": true,
                 "links": [],
                 "images": [],
@@ -4343,6 +4343,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-15T15:50:32.103Z"
+    "lastEditedAt": "2026-08-15T15:50:39.515Z"
   }
 }
