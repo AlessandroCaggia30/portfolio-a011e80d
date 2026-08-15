@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-15T16:45:48.000Z",
+  "exportedAt": "2026-08-15T16:50:45.758Z",
   "data": {
     "topics": [
       {
@@ -263,6 +263,50 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.629Z"
+                  },
+                  "fc:13a": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.924Z"
+                  },
+                  "fc:13b": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.924Z"
+                  },
+                  "fc:13c": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.924Z"
+                  },
+                  "fc:13d": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.924Z"
                   }
                 }
               },
@@ -344,6 +388,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.629Z"
+                  },
+                  "fc:6": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.924Z"
                   }
                 }
               },
@@ -381,6 +436,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.629Z"
+                  },
+                  "fc:8": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.924Z"
                   }
                 }
               },
@@ -423,6 +489,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.629Z"
+                  },
+                  "fc:7": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.924Z"
                   }
                 }
               },
@@ -433,8 +510,8 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 5754.4164015285505,
-                "y": 2103.540299123487,
+                "x": 5091.914871655497,
+                "y": 2134.132000358606,
                 "width": 292.70077804294453,
                 "height": 76.03525620005317,
                 "fsrs": {
@@ -460,6 +537,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.629Z"
+                  },
+                  "fc:14": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.924Z"
                   }
                 }
               },
@@ -529,6 +617,50 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.629Z"
+                  },
+                  "fc:17a": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.924Z"
+                  },
+                  "fc:17b": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.924Z"
+                  },
+                  "fc:17c": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.924Z"
+                  },
+                  "fc:17d": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.924Z"
                   }
                 }
               },
@@ -616,6 +748,50 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.629Z"
+                  },
+                  "fc:15a": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
+                  },
+                  "fc:15b": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
+                  },
+                  "fc:15c": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
+                  },
+                  "fc:15d": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
               },
@@ -669,6 +845,28 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-15T15:49:57.711Z"
+                  },
+                  "fc:18a": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
+                  },
+                  "fc:18b": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
               },
@@ -704,6 +902,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.629Z"
+                  },
+                  "fc:19": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
               },
@@ -753,6 +962,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-15T15:49:57.711Z"
+                  },
+                  "fc:26": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
               },
@@ -789,6 +1009,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.629Z"
+                  },
+                  "fc:27": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
               },
@@ -872,6 +1103,28 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.629Z"
+                  },
+                  "fc:21a": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
+                  },
+                  "fc:21b": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
               },
@@ -913,6 +1166,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.629Z"
+                  },
+                  "fc:22": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
               },
@@ -965,6 +1229,28 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.629Z"
+                  },
+                  "fc:23a": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
+                  },
+                  "fc:23b": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
               },
@@ -1052,6 +1338,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.630Z"
+                  },
+                  "fc:20": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
               },
@@ -1094,6 +1391,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.630Z"
+                  },
+                  "fc:11": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
               },
@@ -1131,6 +1439,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.630Z"
+                  },
+                  "fc:31": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
               },
@@ -1295,6 +1614,127 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.630Z"
+                  },
+                  "fc:28a": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
+                  },
+                  "fc:28b": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
+                  },
+                  "fc:28c": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
+                  },
+                  "fc:28d": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
+                  },
+                  "fc:28e": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
+                  },
+                  "fc:28f": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
+                  },
+                  "fc:28g": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
+                  },
+                  "fc:28h": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
+                  },
+                  "fc:28i": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
+                  },
+                  "fc:28j": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
+                  },
+                  "fc:28k": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
               },
@@ -1332,6 +1772,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.630Z"
+                  },
+                  "fc:29": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
               },
@@ -1369,6 +1820,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.630Z"
+                  },
+                  "fc:10": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
               },
@@ -1419,6 +1881,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.630Z"
+                  },
+                  "fc:24": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
               },
@@ -1456,6 +1929,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.630Z"
+                  },
+                  "fc:30": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
               },
@@ -1498,6 +1982,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.630Z"
+                  },
+                  "fc:16": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
               },
@@ -1601,6 +2096,28 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.630Z"
+                  },
+                  "fc:5a": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
+                  },
+                  "fc:5b": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
               },
@@ -1643,6 +2160,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.630Z"
+                  },
+                  "fc:12": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
               },
@@ -1681,6 +2209,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.630Z"
+                  },
+                  "fc:9": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
               },
@@ -1718,6 +2257,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.630Z"
+                  },
+                  "fc:25": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
                   }
                 }
               }
@@ -4371,6 +4921,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-15T16:45:48.000Z"
+    "lastEditedAt": "2026-08-15T16:50:43.607Z"
   }
 }
