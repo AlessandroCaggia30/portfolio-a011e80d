@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-15T12:26:18.314Z",
+  "exportedAt": "2026-08-15T12:26:25.194Z",
   "data": {
     "topics": [
       {
@@ -1400,13 +1400,29 @@
                   620,
                   760
                 ],
-                "links": [],
+                "links": [
+                  {
+                    "target": "1786796782644",
+                    "type": "both"
+                  }
+                ],
                 "x": 8583.296112863178,
                 "y": -4732.191646237414,
                 "createdAt": 1780592219287,
                 "updatedAt": 1780598959537,
                 "width": 850,
                 "height": 850
+              },
+              {
+                "id": "1786796782644",
+                "title": "NON LINEAR WTP",
+                "content": "\n\n\\textbf{\\textcolor{red}{5. Aside: is the rich's WTP really higher at \\emph{every} quality?}}\n\nThe textbook screening logic assumes WTP$_H(q) > $ WTP$_L(q)$ for every $q$ (linear, single-crossing). Real life is messier.\n\n\\emph{Hotel example.} If you're used to 5-star hotels, a 3-star feels \\emph{bad} --- barely an upgrade from staying home, almost a disutility. For someone whose default is staying home, a 3-star vacation is \\emph{great}. Similarly, a poor consumer may think a \\$10k jacket is crazy: they value it at \\$1k, same as the \\$1k jacket; the rest is wasted money.\n\nBoth WTPs are S-shaped (sigmoid); the poor's plateau hits earlier and lower:\n\n{{img:2|w=560}}\n\nThe two curves \\textbf{cross}: at low quality, poor's WTP $>$ rich's WTP; at high quality, rich's WTP $\\gg$ poor's WTP.\n\n\\textbf{\\textcolor{red}{Why this matters.}} In this realistic case the IC problem becomes \\emph{easier}, not harder. The rich is \\textbf{already disincentivised} from the low-quality bundle, because they get \\emph{little utility} from it. Screening works \\textbf{more cleanly}: less degradation needed, less rent paid.\n\n\\textcolor{purple}{\\emph{Reading: the linear-WTP / single-crossing case is the \\textbf{worst} scenario for the firm --- the rich is maximally tempted by every cheaper bundle. Any non-linearity (saturation, taste differences, sigmoidal preferences) makes screening strictly easier. Our analysis is the binding case.}}\n\n\\textbf{\\textcolor{blue}{Key takeaway.}} The screening contract is the firm's \\emph{best response} when perfect PD is impossible. It is \\emph{strictly better} than ``one price for everyone'' (the naive monopoly outcome) and \\emph{strictly worse} than first-best (which would require observable types). This second-best, with its IC + IR constraints, is the workhorse of the adverse-selection chapter --- the rest of the analysis just works out the optimal menu.",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": 9953.019813485815,
+                "y": -4443.453006280619
               }
             ]
           }
@@ -1830,6 +1846,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-15T12:26:16.191Z"
+    "lastEditedAt": "2026-08-15T12:26:24.645Z"
   }
 }
