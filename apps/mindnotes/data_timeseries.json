@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-15T15:57:19.399Z",
+  "exportedAt": "2026-08-15T15:57:42.989Z",
   "data": {
     "topics": [
       {
@@ -258,7 +258,7 @@
               {
                 "id": "ts17786690819137230",
                 "title": "Forecasting algorithms — Cases 0, 1, 2 (SES / Holt / Holt-Winters)",
-                "content": "\\textbf{\\textcolor{red}{FORECASTING ALGORITHMS — CASES 0, 1, 2}}\n\n\n\\textbf{\\textcolor{red}{NEEDS FULL REWRITE TO THE SLIDES}}\n\n\nPredict $y_{t+1}\\mid y_{1:t}$ — often the ultimate goal. At time $t$ define the \\textbf{forecast function}$$ f_t : \\mathbb{N} \\to \\mathbb{R}, \\qquad f_t(h) = \\hat y_{t+h\\mid t}, $$i.e.\\ $f_t(h)$ is the $h$-step-ahead forecast made using information up to $t$.\n\n\nThe formulas belwo actually derive from SSM ! \n\n\\begin{tabular}{|l|l|l|l|}\n\\hline\n & \\textbf{\\textcolor{red}{Case 0 (SES)}} \\textit{(no trend, no seasonality)} & \\textbf{\\textcolor{red}{Case 1 — Holt}} \\textit{(add trend)} & \\textbf{\\textcolor{red}{Case 2 — Holt-Winters}} \\textit{(add seasonality)} \\\\\n\\textbf{Forecast} $\\hat y_{t+h\\mid t}$ & $\\hat y_{t+h\\mid t} = L_t$ \\;\\textit{(flat)} & $\\hat y_{t+h\\mid t} = L_t + h\\, B_t$ \\;\\textit{(level + slope $\\times h$)} & $\\hat y_{t+h\\mid t} = L_t + h\\, B_t + S_{t+h-m}$ \\;\\textit{(level + slope + seasonal at matching period)} \\\\\n\\textbf{State} $L_t$ \\textit{(level)} & $L_t = \\alpha\\, y_t + (1-\\alpha)\\, L_{t-1}$ & $L_t = \\alpha\\, y_t + (1-\\alpha)\\,(L_{t-1} + B_{t-1})$ — \\textit{use best yesterday prediction} & $L_t = \\alpha\\,(y_t - S_{t-m}) + (1-\\alpha)\\,(L_{t-1} + B_{t-1})$ — \\textit{avoid double counting} \\\\\n\\textbf{State} $B_t$ \\textit{(slope)} & — & $B_t = \\beta\\,(L_t - L_{t-1}) + (1-\\beta)\\, B_{t-1}$ — \\textit{B is the average change in the last day and in the past} & $B_t = \\beta\\,(L_t - L_{t-1}) + (1-\\beta)\\, B_{t-1}$ \\\\\n\\textbf{State} $S_t$ \\textit{(seasonal)} & — & — & $S_t = \\gamma\\,(y_t - L_{t-1} - B_{t-1}) + (1-\\gamma)\\, S_{t-m}$ --- \\textit{S is the average of this period's seasonal deviation (today's observation minus the predicted non-seasonal part $L_{t-1} + B_{t-1}$) and the seasonal factor one full cycle ago $S_{t-m}$} \\\\\n\\textbf{Recursive form of} $\\hat y$ & substitute $\\hat y_{t\\mid t-1} = L_{t-1}$ into the state update: $\\hat y_{t+1\\mid t} = \\alpha\\, y_t + (1-\\alpha)\\, \\hat y_{t\\mid t-1}$ & $\\hat y_{t+1\\mid t} = L_t + B_t = \\alpha\\, y_t + (1-\\alpha)\\, \\hat y_{t\\mid t-1} + B_t$ & $\\hat y_{t+1\\mid t} = L_t + B_t + S_{t+1-m} = \\alpha\\, y_t + (1-\\alpha)\\, \\hat y_{t\\mid t-1} + B_t + (S_{t+1-m} - S_{t-m})$ \\\\\n\\textbf{Forecast-error correction} & $\\hat y_{t+1\\mid t} = \\hat y_{t\\mid t-1} + \\alpha\\,(y_t - \\hat y_{t\\mid t-1})$ & — & — \\\\\n\\hline\n\\end{tabular}\n\n\n\\textbf{\\textcolor{red}{$L_t$ and exponential smoothing.}} The simplest forecast is just a \\emph{weighted average of past observations with geometrically decreasing weights} (not a regression --- the weight parameter $\\alpha$ is fixed, not estimated): $$ \\underbrace{\\hat y_{t+1\\mid t}}_{L_t} \\;=\\; \\alpha\\, y_t \\;+\\; \\underbrace{\\alpha(1-\\alpha)\\, y_{t-1} \\;+\\; \\alpha(1-\\alpha)^2\\, y_{t-2} \\;+\\; \\dots \\;+\\; \\alpha(1-\\alpha)^{t-1}\\, y_1}_{(1 - a) \\hat y_{t-1\\mid t-2 = L_{t-1} } } , \\qquad 0 < \\alpha < 1, \\sum_{k=0}^{t-1} \\alpha\\,  (1-\\alpha)^k \\underbrace{=}_{t \\to \\infty}\\; 1.$$\n\nYou can always apply this to compute Lt, but it will be correct only in he Case 0 ",
+                "content": "\\textbf{\\textcolor{red}{FORECASTING ALGORITHMS — CASES 0, 1, 2}}\n\n\n\\textbf{\\textcolor{red}{NEEDS FULL REWRITE TO THE SLIDES}}\n\n\nPredict $y_{t+1}\\mid y_{1:t}$ — often the ultimate goal. At time $t$ define the \\textbf{forecast function}$$ f_t : \\mathbb{N} \\to \\mathbb{R}, \\qquad f_t(h) = \\hat y_{t+h\\mid t}, $$i.e.\\ $f_t(h)$ is the $h$-step-ahead forecast made using information up to $t$.\n\n\nThe formulas belwo actually derive from SSM ! \n\n\n\n\n\n\nYou can always apply this to compute Lt, but it will be correct only in he Case 0 ",
                 "flashcard": false,
                 "images": [
                   "images/timeseries/ts17786690819137230_0_fc477fd5ecab.jpg"
@@ -4347,6 +4347,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-15T15:57:17.267Z"
+    "lastEditedAt": "2026-08-15T15:57:42.759Z"
   }
 }
