@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-15T15:58:00.325Z",
+  "exportedAt": "2026-08-15T15:58:04.786Z",
   "data": {
     "topics": [
       {
@@ -265,10 +265,6 @@
                 ],
                 "links": [
                   {
-                    "target": "1778686338044",
-                    "type": "forward"
-                  },
-                  {
                     "target": "1778690202929",
                     "type": "forward"
                   }
@@ -500,43 +496,6 @@
                     "dueDate": "2026-08-14T21:39:19.629Z"
                   },
                   "fc:11d": {
-                    "stability": 1,
-                    "difficulty": 5,
-                    "elapsedDays": 0,
-                    "scheduledDays": 0,
-                    "reps": 0,
-                    "lapses": 0,
-                    "state": "new",
-                    "lastReview": null,
-                    "dueDate": "2026-08-14T21:39:19.629Z"
-                  }
-                }
-              },
-              {
-                "id": "1778686338044",
-                "title": "tuning alfa in SES",
-                "content": "\n\nIn SES: \n$\\bullet$ if $\\alpha \\approx 1$: $\\hat{y}_{t+1\\mid t} \\approx y_t$ (follows the data)\n\n$\\bullet$ if $\\alpha \\approx 0$: $\\hat{y}_{t+1\\mid t} \\approx$ constant\n\n\\textbf{\\textcolor{red}{Choosing $\\alpha$ — grid search.}} Try a grid $\\alpha \\in \\{0.01, 0.02, \\dots, 0.99\\}$. For each $\\alpha$, compute the one-step-ahead forecasts on held-out data and evaluate one of:\n\n\\begin{keydef}\n\\fcnum{0.b} \\textbf{MAD} (Mean Absolute Deviation) --- the book's name; ML literature calls this \\emph{MAE}:$$ \\mathrm{MAD} = \\frac{1}{n} \\sum_{t=1}^{n} \\left| y_t - \\hat{y}_t \\right| $$\n\n\\textbf{MSE} (Mean Squared Error):$$ \\mathrm{MSE} = \\frac{1}{n} \\sum_{t=1}^{n} \\left( y_t - \\hat{y}_t \\right)^2 $$\n\n\\textbf{MAPE} (Mean Absolute Percentage Error):$$ \\mathrm{MAPE} = \\frac{1}{n} \\sum_{t=1}^{n} \\left| \\frac{y_t - \\hat{y}_t}{y_t} \\right| $$\n\\end{keydef}\n\nPick $\\hat\\alpha = \\arg\\min_\\alpha \\mathrm{(MAD\\, /\\, MSE\\, /\\, MAPE)}$. MAD is robust to outliers, MSE penalises large errors more heavily, MAPE is scale-free but blows up when $y_t \\approx 0$.",
-                "flashcard": false,
-                "images": [],
-                "links": [],
-                "x": 3049.923158984172,
-                "y": 955.3879131374392,
-                "height": 78.33900440960552,
-                "width": 347.8216687898122,
-                "color": "coral",
-                "fsrs": {
-                  "stability": 123.7776,
-                  "difficulty": 3.666972745051818,
-                  "elapsedDays": 0,
-                  "scheduledDays": 1,
-                  "reps": 4,
-                  "lapses": 0,
-                  "state": "review",
-                  "lastReview": "2026-06-14T16:37:06.951Z",
-                  "dueDate": "2026-06-15T16:37:06.951Z"
-                },
-                "fsrsCards": {
-                  "fc:0.a": {
                     "stability": 1,
                     "difficulty": 5,
                     "elapsedDays": 0,
@@ -1743,7 +1702,48 @@
         ]
       }
     ],
-    "trash": [],
+    "trash": [
+      {
+        "id": "1778686338044",
+        "title": "tuning alfa in SES",
+        "content": "\n\nIn SES: \n$\\bullet$ if $\\alpha \\approx 1$: $\\hat{y}_{t+1\\mid t} \\approx y_t$ (follows the data)\n\n$\\bullet$ if $\\alpha \\approx 0$: $\\hat{y}_{t+1\\mid t} \\approx$ constant\n\n\\textbf{\\textcolor{red}{Choosing $\\alpha$ — grid search.}} Try a grid $\\alpha \\in \\{0.01, 0.02, \\dots, 0.99\\}$. For each $\\alpha$, compute the one-step-ahead forecasts on held-out data and evaluate one of:\n\n\\begin{keydef}\n\\fcnum{0.b} \\textbf{MAD} (Mean Absolute Deviation) --- the book's name; ML literature calls this \\emph{MAE}:$$ \\mathrm{MAD} = \\frac{1}{n} \\sum_{t=1}^{n} \\left| y_t - \\hat{y}_t \\right| $$\n\n\\textbf{MSE} (Mean Squared Error):$$ \\mathrm{MSE} = \\frac{1}{n} \\sum_{t=1}^{n} \\left( y_t - \\hat{y}_t \\right)^2 $$\n\n\\textbf{MAPE} (Mean Absolute Percentage Error):$$ \\mathrm{MAPE} = \\frac{1}{n} \\sum_{t=1}^{n} \\left| \\frac{y_t - \\hat{y}_t}{y_t} \\right| $$\n\\end{keydef}\n\nPick $\\hat\\alpha = \\arg\\min_\\alpha \\mathrm{(MAD\\, /\\, MSE\\, /\\, MAPE)}$. MAD is robust to outliers, MSE penalises large errors more heavily, MAPE is scale-free but blows up when $y_t \\approx 0$.",
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "x": 3049.923158984172,
+        "y": 955.3879131374392,
+        "height": 78.33900440960552,
+        "width": 347.8216687898122,
+        "color": "coral",
+        "fsrs": {
+          "stability": 123.7776,
+          "difficulty": 3.666972745051818,
+          "elapsedDays": 0,
+          "scheduledDays": 1,
+          "reps": 4,
+          "lapses": 0,
+          "state": "review",
+          "lastReview": "2026-06-14T16:37:06.951Z",
+          "dueDate": "2026-06-15T16:37:06.951Z"
+        },
+        "fsrsCards": {
+          "fc:0.a": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-14T21:39:19.629Z"
+          }
+        },
+        "deletedAt": 1786809482655,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      }
+    ],
     "examTable": {
       "subject": "time-series",
       "columns": [
@@ -4347,6 +4347,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-15T15:57:58.196Z"
+    "lastEditedAt": "2026-08-15T15:58:02.655Z"
   }
 }
