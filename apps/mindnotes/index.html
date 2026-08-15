@@ -14903,17 +14903,7 @@ function getAllFlashcards(data) {
     //   (3) numeric prefix parsed from the title (e.g. "1.1.2 Definition" → [1,1,2]);
     //   (4) topic / subtopic ordering (preserved by stable sort from the initial walk).
     allCards.sort((a, b) => {
-        // (1) flashcardOrder
-        const oa = (a.node.flashcardOrder ?? null);
-        const ob = (b.node.flashcardOrder ?? null);
-        if (oa !== null && ob !== null) {
-            if (oa !== ob) return oa - ob;
-        } else if (oa !== null) {
-            return -1;
-        } else if (ob !== null) {
-            return 1;
-        }
-        // (2) each card's own \fcnum — orders keydefs within a snippet (1a,1b,2a…)
+        // PRIMARY key: the \fcnum the user writes in each keydef — orders keydefs within a snippet (1a,1b,2a…)
         //     and, because time-series \fcnums are globally sequential, across snippets too.
         const fa = a.fcnum ? _tokenizeFcNum(a.fcnum) : (a.node.content ? extractFcNumSortKey(a.node.content) : null);
         const fb = b.fcnum ? _tokenizeFcNum(b.fcnum) : (b.node.content ? extractFcNumSortKey(b.node.content) : null);
