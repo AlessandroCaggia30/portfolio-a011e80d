@@ -9426,19 +9426,25 @@ function insertInlineImageToken() {
 // Substitute {{img:N|w=NUM}} tokens with <img> tags. Returns { html, usedIndices }.
 function substituteInlineImageTokens(html, imagesArray, widthsArray) {
     const used = new Set();
-    if (!Array.isArray(imagesArray) || imagesArray.length === 0) {
-        return { html, usedIndices: used };
-    }
+    // {{img:path-or-index|...}} — numeric = index into node.images; anything else
+    // is used directly as the image src (e.g. images/advmicro/foo.png), which makes
+    // tokens copy-pastable across snippets.
     // Token: {{img:N|w=NUM|h=NUM|right}} — options in any order after the index.
     //   w= / h=  → pixel size.
     //   right | left  (or float=right | float=left) → FLOAT the image into that
     //   top corner so the following text wraps beside it (capped at ~half width),
     //   then flows back to full width once it passes below the image.
-    const result = html.replace(/\{\{img:(\d+)((?:\|[^|}]+)*)\}\}/g, (match, idxStr, optStr) => {
-        const idx = parseInt(idxStr, 10);
-        const src = imagesArray[idx];
+    const result = html.replace(/\{\{img:([^|}]+?)((?:\|[^|}]+)*)\}\}/g, (match, idxStr, optStr) => {
+        let idx = -1, src = null;
+        if (/^\d+$/.test(idxStr)) {
+            idx = parseInt(idxStr, 10);
+            src = Array.isArray(imagesArray) ? imagesArray[idx] : null;
+        } else {
+            src = idxStr;
+            idx = Array.isArray(imagesArray) ? imagesArray.indexOf(idxStr) : -1;
+        }
         if (!src) return match;
-        used.add(idx);
+        if (idx >= 0) used.add(idx);
         let w = 0, h = 0, floatSide = '';
         (optStr || '').split('|').filter(Boolean).forEach(tok => {
             let m;
@@ -9567,9 +9573,8 @@ function renderInlineImages(html, node) {
             .map((img, i) => ({ img, i }))
             .filter(({ i }) => !sub.usedIndices.has(i));
 
-        if (remaining.length > 0) {
-            result += _imagesGalleryHtml(node, remaining);
-        }
+        // Bottom gallery disabled: images render ONLY at their {{img:...}} token.
+        // (Unreferenced images stay attached but are not displayed.)
     }
 
     return result;
