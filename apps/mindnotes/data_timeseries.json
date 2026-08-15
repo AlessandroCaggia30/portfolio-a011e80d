@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-15T21:44:45.001Z",
+  "exportedAt": "2026-08-15T21:44:53.197Z",
   "data": {
     "topics": [
       {
@@ -1927,7 +1927,7 @@
               {
                 "id": "ts1779149664107",
                 "title": "Bayesian point estimation: loss functions and the posterior mean",
-                "content": "\\textbf{\\textcolor{red}{BAYESIAN POINT ESTIMATION.}}\nAfter obtaining the posterior $f(\\theta\\mid y)$, a Bayes point estimator is chosen to minimize the posterior expected loss:\n$$\n\\boxed{\\hat a^*=\\arg\\min_a E[L(\\theta,a)\\mid y]\n=\\arg\\min_a\\int L(\\theta,a)f(\\theta\\mid y)\\,d\\theta.}\n$$\nThe optimal estimator depends on the loss function: squared loss gives the \\textbf{posterior mean} (), absolute loss the \\textbf{posterior median}. ",
+                "content": "\\textbf{\\textcolor{red}{BAYESIAN POINT ESTIMATION.}}\nAfter obtaining the posterior $f(\\theta\\mid y)$, a Bayes point estimator is chosen to minimize the posterior expected loss:\n$$\n\\boxed{\\hat a^*=\\arg\\min_a E[L(\\theta,a)\\mid y]\n=\\arg\\min_a\\int L(\\theta,a)f(\\theta\\mid y)\\,d\\theta.}\n$$\nThe optimal estimator depends on the loss function: squared loss gives the \\textbf{posterior mean} (to minimize squared loss you take the mean), absolute loss the \\textbf{posterior median}. ",
                 "flashcard": false,
                 "images": [],
                 "links": [],
@@ -5134,6 +5134,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-15T21:44:42.877Z"
+    "lastEditedAt": "2026-08-15T21:44:50.681Z"
   }
 }
