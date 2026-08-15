@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-15T21:10:49.069Z",
+  "exportedAt": "2026-08-15T21:12:07.352Z",
   "data": {
     "topics": [
       {
@@ -2401,7 +2401,75 @@
                 "imageWidths": [],
                 "links": [],
                 "x": 6353.728814520154,
-                "y": 4440.650138358785
+                "y": 4440.650138358785,
+                "fsrsCards": {
+                  "fc:28f": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T21:11:36.697Z"
+                  },
+                  "fc:28g": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T21:11:36.697Z"
+                  },
+                  "fc:28h": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T21:11:36.697Z"
+                  },
+                  "fc:28i": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T21:11:36.697Z"
+                  },
+                  "fc:28j": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T21:11:36.697Z"
+                  },
+                  "fc:28k": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T21:11:36.697Z"
+                  }
+                }
               }
             ]
           }
