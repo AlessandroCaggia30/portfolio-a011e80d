@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-14T21:55:50.636Z",
+  "exportedAt": "2026-08-15T15:50:34.268Z",
   "data": {
     "topics": [
       {
@@ -671,6 +671,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.629Z"
+                  },
+                  "fc:9e": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T15:49:57.711Z"
                   }
                 }
               },
@@ -743,6 +754,19 @@
                   "state": "review",
                   "lastReview": "2026-06-14T21:26:59.382Z",
                   "dueDate": "2026-06-15T21:26:59.382Z"
+                },
+                "fsrsCards": {
+                  "fc:18d": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T15:49:57.711Z"
+                  }
                 }
               },
               {
@@ -1222,6 +1246,72 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.630Z"
+                  },
+                  "fc:19h": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T15:49:57.711Z"
+                  },
+                  "fc:19i": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T15:49:57.711Z"
+                  },
+                  "fc:19j": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T15:49:57.711Z"
+                  },
+                  "fc:19k": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T15:49:57.711Z"
+                  },
+                  "fc:19l": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T15:49:57.711Z"
+                  },
+                  "fc:19m": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T15:49:57.711Z"
                   }
                 }
               },
@@ -1467,10 +1557,6 @@
                 "links": [
                   {
                     "target": "ts17786690819133761",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "ts17786690819137257",
                     "type": "forward"
                   },
                   {
@@ -4257,6 +4343,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-14T21:55:48.482Z"
+    "lastEditedAt": "2026-08-15T15:50:32.103Z"
   }
 }
