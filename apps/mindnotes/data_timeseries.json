@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-15T21:43:01.088Z",
+  "exportedAt": "2026-08-15T21:43:34.057Z",
   "data": {
     "topics": [
       {
@@ -1900,7 +1900,7 @@
                 },
                 "width": 429.1991132109472,
                 "height": 215.23846473855076,
-                "color": "coral",
+                "color": "teal",
                 "fsrsCards": {
                   "fc:37": {
                     "stability": 1,
@@ -5135,6 +5135,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-15T21:42:58.954Z"
+    "lastEditedAt": "2026-08-15T21:43:31.915Z"
   }
 }
