@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-15T15:58:10.925Z",
+  "exportedAt": "2026-08-15T15:59:40.352Z",
   "data": {
     "topics": [
       {
@@ -14,7 +14,7 @@
               {
                 "id": "ts17786690819137257",
                 "title": "Aims of time series analysis",
-                "content": "\\textbf{\\textcolor{red}{AIMS OF TIME SERIES ANALYSIS}}\n\n\\begin{keydef}\n$\\to$ \\textbf{Describe} -- trend, seasonal, cycle (Often, to de-trend, de-seasonalize). If multivariate: find common patterns, clusters, dim. reductions etc... \n\n$\\to$ \\textbf{Explain} \n- modeling and inference write a model and estimate its parameters\n- \\textbf{Forecast} accounting for uncertainty\n\\end{keydef}\n",
+                "content": "\\textbf{\\textcolor{red}{AIMS OF TIME SERIES ANALYSIS}}\n\n\\begin{keydef}\n$\\to$ \\textbf{Describe} -- trend, seasonal, cycle \n\n$\\to$ \\textbf{Explain} \n- **modeling and inference** write a model and estimate its parameters\n- \\textbf{Forecast} accounting for uncertainty\n\\end{keydef}\n",
                 "flashcard": false,
                 "images": [],
                 "links": [
@@ -44,6 +44,17 @@
                     "lastReview": null,
                     "dueDate": "2026-08-14T21:39:19.629Z"
                   }
+                },
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-08-15T15:59:01.049Z"
                 }
               },
               {
@@ -4347,6 +4358,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-15T15:58:08.674Z"
+    "lastEditedAt": "2026-08-15T15:59:38.216Z"
   }
 }
