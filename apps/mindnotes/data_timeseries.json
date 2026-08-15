@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-15T15:57:42.989Z",
+  "exportedAt": "2026-08-15T15:57:47.857Z",
   "data": {
     "topics": [
       {
@@ -258,7 +258,7 @@
               {
                 "id": "ts17786690819137230",
                 "title": "Forecasting algorithms — Cases 0, 1, 2 (SES / Holt / Holt-Winters)",
-                "content": "\\textbf{\\textcolor{red}{FORECASTING ALGORITHMS — CASES 0, 1, 2}}\n\n\n\\textbf{\\textcolor{red}{NEEDS FULL REWRITE TO THE SLIDES}}\n\n\nPredict $y_{t+1}\\mid y_{1:t}$ — often the ultimate goal. At time $t$ define the \\textbf{forecast function}$$ f_t : \\mathbb{N} \\to \\mathbb{R}, \\qquad f_t(h) = \\hat y_{t+h\\mid t}, $$i.e.\\ $f_t(h)$ is the $h$-step-ahead forecast made using information up to $t$.\n\n\nThe formulas belwo actually derive from SSM ! \n\n\n\n\n\n\nYou can always apply this to compute Lt, but it will be correct only in he Case 0 ",
+                "content": "\\textbf{\\textcolor{red}{FORECASTING ALGORITHMS — CASES 0, 1, 2}}\n\n\n\\textbf{\\textcolor{red}{NEEDS FULL REWRITE TO THE SLIDES}}\n\n\nPredict $y_{t+1}\\mid y_{1:t}$ — often the ultimate goal. At time $t$ define the \\textbf{forecast function}$$ f_t : \\mathbb{N} \\to \\mathbb{R}, \\qquad f_t(h) = \\hat y_{t+h\\mid t}, $$i.e.\\ $f_t(h)$ is the $h$-step-ahead forecast made using information up to $t$.\n\n\n\n\n\n\n\n\n\n",
                 "flashcard": false,
                 "images": [
                   "images/timeseries/ts17786690819137230_0_fc477fd5ecab.jpg"
@@ -4347,6 +4347,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-15T15:57:42.759Z"
+    "lastEditedAt": "2026-08-15T15:57:47.452Z"
   }
 }
