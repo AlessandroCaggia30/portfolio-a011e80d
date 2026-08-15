@@ -9573,8 +9573,21 @@ function renderInlineImages(html, node) {
             .map((img, i) => ({ img, i }))
             .filter(({ i }) => !sub.usedIndices.has(i));
 
-        // Bottom gallery disabled: images render ONLY at their {{img:...}} token.
-        // (Unreferenced images stay attached but are not displayed.)
+        // Gallery ONLY for images never referenced by any {{img:...}} token in the
+        // WHOLE note (prevents the old duplicate-display bug, keeps token-less
+        // subjects like Time Series visible).
+        {
+            const _content = node.content || '';
+            const _used = new Set();
+            let _m; const _re = /\{\{img:([^|}]+?)(?:\|[^}]*)?\}\}/g;
+            while ((_m = _re.exec(_content)) !== null) {
+                const _id = _m[1];
+                if (/^\d+$/.test(_id)) _used.add(parseInt(_id, 10));
+                else { const _j = (node.images || []).indexOf(_id); if (_j >= 0) _used.add(_j); }
+            }
+            const _rem = (node.images || []).map((img, i) => ({ img, i })).filter(o => !_used.has(o.i));
+            if (_rem.length > 0) result += _imagesGalleryHtml(node, _rem);
+        }
     }
 
     return result;
