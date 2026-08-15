@@ -15211,6 +15211,18 @@ function showCurrentFlashcard() {
     // same snippet are distinguishable (e.g. "Guide to Constrained Maximization — 1a.").
     $('fcCardTopic').textContent = `${cardData.topic} > ${cardData.subtopic}`;
     $('fcCardTitle').textContent = (node.title || 'Untitled') + (cardData.fcnum ? '  —  ' + cardData.fcnum : '');
+    // Inject a one-time X button: removes this card from the deck by unwrapping its keydef.
+    (function(){
+        var tEl=$('fcCardTitle');
+        if(tEl && !document.getElementById('fcDeleteBtn')){
+            var b=document.createElement('button');
+            b.id='fcDeleteBtn'; b.textContent='\u2715';
+            b.title='Delete this card from the deck (removes the keydef wrapper in the snippet; the text stays)';
+            b.style.cssText='margin-left:10px;background:#c0392b;color:#fff;border:none;border-radius:4px;padding:2px 9px;cursor:pointer;font-size:13px;vertical-align:middle;';
+            b.onclick=function(){ deleteCurrentFlashcard(); };
+            tEl.parentNode.insertBefore(b,tEl.nextSibling);
+        }
+    })();
 
     const format = localStorage.getItem('mindnotes_format') || 'latex';
 
@@ -15300,6 +15312,36 @@ function rateFlashcard(rating) {
 
 // Move to the next card without recording a review / updating FSRS.
 // Useful when the user wants to browse without committing to a rating.
+function deleteCurrentFlashcard() {
+    const session = State.flashcardSession;
+    const cardData = session.cards[session.currentIndex];
+    if (!cardData) return;
+    if (!confirm('Remove this card from the deck? The keydef wrapper is deleted from the snippet (the text itself stays).')) return;
+    const node = cardData.node;
+    const re = /\\begin\{keydef\}\s*([\s\S]*?)\s*\\end\{keydef\}/g;
+    const content = node.content || '';
+    let m, idx = 0, done = false, out = content;
+    while ((m = re.exec(content)) !== null) {
+        const body = (m[1] || '').trim();
+        const fm = body.match(/\\fcnum\{([^}]*)\}/);
+        const fcnum = fm ? fm[1].trim() : '';
+        const key = fcnum ? 'fc:' + fcnum : 'idx:' + idx;
+        if (key === cardData.cardKey) {
+            const inner = body.replace(/\\fcnum\{[^}]*\}\s*/, '');
+            out = content.slice(0, m.index) + inner + content.slice(m.index + m[0].length);
+            done = true;
+            break;
+        }
+        idx++;
+    }
+    if (!done) { alert('Could not locate the keydef block for this card.'); return; }
+    node.content = out;
+    node.userEdited = true;
+    saveData();
+    session.cards.splice(session.currentIndex, 1);
+    showCurrentFlashcard();
+}
+
 function skipFlashcard() {
     const session = State.flashcardSession;
     if (!session.active) return;
