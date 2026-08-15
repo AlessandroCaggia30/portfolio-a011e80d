@@ -932,8 +932,8 @@ mark { background: #ffeaa7; color: #000; padding: 1px 3px; border-radius: 2px; }
 }
 .app.pop-mode .detail-panel:not(.open) { display: none !important; }
 .app.pop-mode .detail-panel.open { display: flex !important; }
-.app.pop-mode .detail-panel.open.view-mode { width: 50vw !important; }
-.app.pop-mode .detail-panel.open:not(.view-mode) { width: 50vw !important; }
+.app.pop-mode .detail-panel.open.view-mode { width: var(--detail-w, 100vw) !important; }
+.app.pop-mode .detail-panel.open:not(.view-mode) { width: var(--detail-w, 100vw) !important; }
 /* Editor mode: full width, no side preview.
    View mode still shows the rendered preview so **bold**, headings, etc. render. */
 .app.pop-mode .detail-panel:not(.view-mode) .detail-preview-pane { display: none !important; }
@@ -1526,10 +1526,10 @@ body:has(.app.pop-mode) .pop-line-toggle { display: inline-flex; }
 }
 
 /* View mode: large preview panel */
-.detail-panel.open.view-mode { width: 75vw; min-width: 800px; }
+.detail-panel.open.view-mode { width: var(--detail-w, 100vw); min-width: 380px; }
 
 /* Edit mode: slightly larger for split view */
-.detail-panel.open:not(.view-mode) { width: 85vw; min-width: 900px; }
+.detail-panel.open:not(.view-mode) { width: var(--detail-w, 100vw); min-width: 380px; }
 
 .detail-header {
     padding: 12px 20px;
@@ -17422,5 +17422,29 @@ document.addEventListener('DOMContentLoaded', initApp);
             <div class="reading-list-body" id="readingListBody"></div>
         </div>
     </div>
+<style>
+.detail-resize-handle{position:absolute;left:0;top:0;bottom:0;width:7px;cursor:ew-resize;z-index:60;}
+.detail-resize-handle:hover{background:rgba(120,120,255,0.25);}
+</style>
+<script>
+(function(){
+  function initDetailResize(){
+    var panel=document.querySelector('.detail-panel');
+    if(!panel||panel.querySelector('.detail-resize-handle'))return;
+    if(getComputedStyle(panel).position==='static')panel.style.position='relative';
+    var h=document.createElement('div');h.className='detail-resize-handle';h.title='Drag to resize';
+    panel.appendChild(h);
+    h.addEventListener('mousedown',function(e){
+      e.preventDefault();
+      var startX=e.clientX,startW=panel.getBoundingClientRect().width;
+      function mv(ev){var w=Math.min(window.innerWidth,Math.max(380,startW+(startX-ev.clientX)));panel.style.setProperty('--detail-w',w+'px');}
+      function up(){document.removeEventListener('mousemove',mv);document.removeEventListener('mouseup',up);}
+      document.addEventListener('mousemove',mv);document.addEventListener('mouseup',up);
+    });
+  }
+  document.addEventListener('DOMContentLoaded',initDetailResize);
+  setTimeout(initDetailResize,1500);
+})();
+</script>
 </body>
 </html>
