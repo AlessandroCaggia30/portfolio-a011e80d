@@ -4345,7 +4345,7 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
 .ep-trend-down { color: #b00;    font-weight: 600; }
 .ep-trend-flat { color: #888;    font-weight: 600; }
 .stats-card.card-color-green {
-    background: #e8f7ed !important; border-color: #0a7d3a !important; color: #064a23 !important;
+    border-left: 5px solid #0a7d3a !important;
 }
 /* Per-block Edit button injected into each master-subpart <summary> */
 .master-subpart-edit-btn {
@@ -4365,7 +4365,7 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
 .master-subpart-edit-actions .save-btn   { background: #0a8845; color: white; }
 .master-subpart-edit-actions .cancel-btn { background: #888;    color: white; }
 .stats-card.card-color-purple {
-    background: #f3e8ff !important; border-color: #7b2cbf !important; color: #3d1361 !important;
+    border-left: 5px solid #7b2cbf !important;
 }
 /* Tiny dots on master cards in the hyper-table for color marking. */
 .stats-card { position: relative; }
@@ -17443,7 +17443,7 @@ document.addEventListener('DOMContentLoaded', initApp);
     });
   }
   document.addEventListener('DOMContentLoaded',initDetailResize);
-  setTimeout(initDetailResize,1500);
+  var _drTries=0,_drIv=setInterval(function(){initDetailResize();if(document.querySelector('.detail-resize-handle')||++_drTries>30)clearInterval(_drIv);},1000);
 })();
 </script>
 </body>
