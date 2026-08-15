@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-15T16:00:31.904Z",
+  "exportedAt": "2026-08-15T16:00:42.009Z",
   "data": {
     "topics": [
       {
@@ -269,7 +269,7 @@
               {
                 "id": "ts17786690819137230",
                 "title": "Forecasting algorithms — Cases 0, 1, 2 (SES / Holt / Holt-Winters)",
-                "content": "\\textbf{\\textcolor{red}{FORECASTING ALGORITHMS — CASES 0, 1, 2}}\n\n\n\\textbf{\\textcolor{red}{NEEDS FULL REWRITE TO THE SLIDES}}\n\n\nPredict $y_{t+1}\\mid y_{1:t}$ — often the ultimate goal. At time $t$ define the \\textbf{forecast function}$$ f_t : \\mathbb{N} \\to \\mathbb{R}, \\qquad f_t(h) = \\hat y_{t+h\\mid t}, $$i.e.\\ $f_t(h)$ is the $h$-step-ahead forecast made using information up to $t$.\n\n\n\n\n\n$\\bullet$ if $\\alpha \\approx 0$: $$ constant\n\n\\textbf{\\textcolor{red}{Choosing $\\alpha$ — grid search.}} Try a grid $\\alpha \\in \\{0.01, 0.02, \\dots, 0.99\\}$. For each $\\alpha$, compute the one-step-ahead forecasts on held-out data and evaluate one of:\n\n\\begin{keydef}\n\\fcnum{0.b} \\textbf{MAD} (Mean Absolute Deviation) --- the book's name; ML literature calls this \\emph{MAE}:$$ \\mathrm{MAD} = \\frac{1}{n} \\sum_{t=1}^{n} \\left| y_t - \\hat{y}_t \\right| $$\n\n\\textbf{MSE} (Mean Squared Error):$$ \\mathrm{MSE} = \\frac{1}{n} \\sum_{t=1}^{n} \\left( y_t - \\hat{y}_t \\right)^2 $$\n\n\\textbf{MAPE} (Mean Absolute Percentage Error):$$ \\mathrm{MAPE} = \\frac{1}{n} \\sum_{t=1}^{n} \\left| \\frac{y_t - \\hat{y}_t}{y_t} \\right| $$\n\\end{keydef}\n\nPick $\\hat\\alpha = \\arg\\min_\\alpha \\mathrm{(MAD\\, /\\, MSE\\, /\\, MAPE)}$. MAD is robust to outliers, MSE penalises large errors more heavily, MAPE is scale-free but blows up when $y_t \\approx 0$.\n\n\n\n\n\n\n\n\n",
+                "content": "\\textbf{\\textcolor{red}{FORECASTING ALGORITHMS — CASES 0, 1, 2}}\n\n\n\\textbf{\\textcolor{red}{NEEDS FULL REWRITE TO THE SLIDES}}\n\n\nPredict $y_{t+1}\\mid y_{1:t}$ — often the ultimate goal. At time $t$ define the \\textbf{forecast function}$$ f_t : \\mathbb{N} \\to \\mathbb{R}, \\qquad f_t(h) = \\hat y_{t+h\\mid t}, $$i.e.\\ $f_t(h)$ is the $h$-step-ahead forecast made using information up to $t$.\n\n\n\n\n\nPrediction accuracy: \n\n\\textbf{\\textcolor{red}{Choosing $\\alpha$ — grid search.}} Try a grid $\\alpha \\in \\{0.01, 0.02, \\dots, 0.99\\}$. For each $\\alpha$, compute the one-step-ahead forecasts on held-out data and evaluate one of:\n\n\\begin{keydef}\n\\fcnum{0.b} \\textbf{MAD} (Mean Absolute Deviation) --- the book's name; ML literature calls this \\emph{MAE}:$$ \\mathrm{MAD} = \\frac{1}{n} \\sum_{t=1}^{n} \\left| y_t - \\hat{y}_t \\right| $$\n\n\\textbf{MSE} (Mean Squared Error):$$ \\mathrm{MSE} = \\frac{1}{n} \\sum_{t=1}^{n} \\left( y_t - \\hat{y}_t \\right)^2 $$\n\n\\textbf{MAPE} (Mean Absolute Percentage Error):$$ \\mathrm{MAPE} = \\frac{1}{n} \\sum_{t=1}^{n} \\left| \\frac{y_t - \\hat{y}_t}{y_t} \\right| $$\n\\end{keydef}\n\nPick $\\hat\\alpha = \\arg\\min_\\alpha \\mathrm{(MAD\\, /\\, MSE\\, /\\, MAPE)}$. MAD is robust to outliers, MSE penalises large errors more heavily, MAPE is scale-free but blows up when $y_t \\approx 0$.\n\n\n\n\n\n\n\n\n",
                 "flashcard": false,
                 "images": [
                   "images/timeseries/ts17786690819137230_0_fc477fd5ecab.jpg"
@@ -4358,6 +4358,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-15T16:00:29.709Z"
+    "lastEditedAt": "2026-08-15T16:00:39.879Z"
   }
 }
