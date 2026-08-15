@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-15T15:56:55.464Z",
+  "exportedAt": "2026-08-15T15:57:19.399Z",
   "data": {
     "topics": [
       {
@@ -139,7 +139,7 @@
               {
                 "id": "ts17786690819134427",
                 "title": "Fitting a seasonal component",
-                "content": "\\textbf{\\textcolor{red}{FITTING A SEASONAL COMPONENT}}\n\n\\begin{keydef}\nFor $Y_t = S_t + E_t$ (purely seasonal, no trend; assume mean zero, $\\bar{y}_t = 0$):\n\n\\fcnum{1} \\textbf{Seasonal factors.} For monthly data introduce $\\alpha_{\\text{Jan}}, \\alpha_{\\text{Feb}}, \\dots, \\alpha_{\\text{Dec}}$ with $\\sum_m \\alpha_m = 0$:\n\\[ y_t = \\alpha_{\\text{month}(t)} + E_t. \\]\n\nNote they can always sum to 0, just change the intercept of the model (the level of the trend)\n\n\\fcnum{2} \\textbf{Moving averages.} For monthly data, $\\mathrm{MA}(12)$:\n\\[ y_t^{\\text{deseason.}} = \\frac{0.5\\, y_{t-6} + y_{t-5} + \\dots + y_{t+5} + 0.5\\, y_{t+6}}{12}. \\]\n\\end{keydef}\n",
+                "content": "\\textbf{\\textcolor{red}{FITTING A SEASONAL COMPONENT}}\n\n\\begin{keydef}\nFor $Y_t = S_t + E_t$ (purely seasonal, no trend; assume mean zero, $\\bar{y}_t = 0$):\n\n\\fcnum{1} \\textbf{Seasonal dummies.} Eg use dummies for the month\n\n\\fcnum{2} \\textbf{Moving averages.} For monthly data, $\\mathrm{MA}(12)$:\n$$ y_t^{\\text{deseason.}} = \\frac{0.5\\, y_{t-6} + y_{t-5} + \\dots + y_{t+5} + 0.5\\, y_{t+6}}{12}. $$\n\\end{keydef}\n",
                 "flashcard": false,
                 "images": [
                   "images/timeseries/ts17786690819134427_0_a3e896b89f93.jpg"
@@ -4347,6 +4347,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-15T15:56:53.333Z"
+    "lastEditedAt": "2026-08-15T15:57:17.267Z"
   }
 }
