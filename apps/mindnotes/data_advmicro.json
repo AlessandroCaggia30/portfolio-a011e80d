@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-14T21:47:24.000Z",
+  "exportedAt": "2026-08-15T07:59:39.351Z",
   "data": {
     "topics": [
       {
@@ -762,7 +762,64 @@
                   900,
                   900,
                   900
-                ]
+                ],
+                "fsrsCards": {
+                  "fc:8a": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T07:59:23.055Z"
+                  },
+                  "fc:8b": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T07:59:23.055Z"
+                  },
+                  "fc:8c": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T07:59:23.055Z"
+                  },
+                  "fc:8d": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T07:59:23.055Z"
+                  },
+                  "fc:8e": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T07:59:23.055Z"
+                  }
+                }
               },
               {
                 "id": "ch_public_goods_1780600020",
@@ -776,7 +833,42 @@
                 "links": [],
                 "flashcard": false,
                 "updatedAt": 1780333576037,
-                "createdAt": 1780332609999
+                "createdAt": 1780332609999,
+                "fsrsCards": {
+                  "fc:9a": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T07:59:23.055Z"
+                  },
+                  "fc:9b": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T07:59:23.055Z"
+                  },
+                  "fc:9c": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T07:59:23.056Z"
+                  }
+                }
               },
               {
                 "id": "ch_asset_pricing_framework_1780600030",
@@ -808,7 +900,31 @@
                 "createdAt": 1780390372835,
                 "updatedAt": 1780424127170,
                 "width": 860.9402371998688,
-                "height": 617.9308797115273
+                "height": 617.9308797115273,
+                "fsrsCards": {
+                  "fc:10": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T07:59:23.056Z"
+                  },
+                  "fc:11": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T07:59:23.056Z"
+                  }
+                }
               },
               {
                 "id": "ch_asset_pricing_2states_3assets_1780600034",
@@ -930,8 +1046,8 @@
                   560
                 ],
                 "links": [],
-                "x": -5291.70388713682,
-                "y": -3472.191646237414,
+                "x": -2871.7038871368213,
+                "y": -3037.1916462374147,
                 "createdAt": 1780592219287,
                 "updatedAt": 1780598959537,
                 "width": 850,
@@ -953,8 +1069,8 @@
                   620
                 ],
                 "links": [],
-                "x": -5429.999999999998,
-                "y": -2565,
+                "x": -3009.999999999999,
+                "y": -2130.000000000001,
                 "createdAt": 1780598959537,
                 "updatedAt": 1780598959537,
                 "width": 1200,
@@ -968,8 +1084,8 @@
                 "images": [],
                 "imageWidths": {},
                 "links": [],
-                "x": -5724.8090662837985,
-                "y": -3233.1907397701143,
+                "x": -3304.8090662837994,
+                "y": -2798.190739770115,
                 "updatedAt": 1780586357866
               },
               {
@@ -1702,6 +1818,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-14T21:47:24.000Z"
+    "lastEditedAt": "2026-08-15T07:59:37.199Z"
   }
 }
