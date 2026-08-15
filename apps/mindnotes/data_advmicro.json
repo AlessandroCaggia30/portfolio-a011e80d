@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-15T12:03:11.000Z",
+  "exportedAt": "2026-08-15T12:17:01.000Z",
   "data": {
     "topics": [
       {
@@ -1390,7 +1390,7 @@
                   "images/advmicro/ch_monopoly_preamble_to_as_1780900001_0_93e8c29ae082.png",
                   "images/advmicro/ch_monopoly_preamble_to_as_1780900001_1_cs_ps_dwl.png",
                   "images/advmicro/ch_monopoly_preamble_to_as_1780900001_2_4c49108bf8eb.png",
-                  "images/advmicro/mono_two_demands.png",
+                  "images/advmicro/mono_two_demands_v2.png",
                   "images/advmicro/mono_flatMB_pd.png"
                 ],
                 "imageWidths": [
@@ -1830,6 +1830,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-15T12:03:11.000Z"
+    "lastEditedAt": "2026-08-15T12:17:01.000Z"
   }
 }
