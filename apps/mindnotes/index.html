@@ -10213,6 +10213,15 @@ function attachBlockEditHandlers(container) {
     // (A drag-select that ends outside its block lands here too — in that
     // case show the formatting toolbar for the selection instead.)
     container.addEventListener('click', (e) => {
+        // An open editor + a click in empty space = CONFIRM the edit (blur commits),
+        // NOT open a new append editor at the end. This was the "jumps to the last
+        // text box and annuls my edit" bug.
+        const _openEd = container.querySelector('.editing');
+        if (_openEd && !e.target.closest('.editing')) {
+            const _ta = _openEd.querySelector('textarea');
+            if (_ta) _ta.blur();
+            return;
+        }
         const captured = _captureRenderedSelection();
         if (captured) {
             _showFmtBarForRendered(e.clientX, e.clientY, captured);
