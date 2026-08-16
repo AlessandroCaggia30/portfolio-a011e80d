@@ -13283,11 +13283,11 @@ async function ghPushAll() {
 }
 
 function schedulePush() {
-    if (!_ghToken || !_ghAutoSync) return;
-    if (!_ghCurrentPath()) return;
+    if (!_ghToken) return;             // push on EVERY edit whenever a token exists,
+    if (!_ghCurrentPath()) return;     // independent of the auto-sync (pull) toggle
     _ghMarkPending(_ghCurrentKey());
     clearTimeout(_ghPushTimer);
-    _ghPushTimer = setTimeout(() => { ghPushNow(); }, 600);
+    _ghPushTimer = setTimeout(() => { ghPushNow(); }, 400);
 }
 
 async function ghPollOnce() {
