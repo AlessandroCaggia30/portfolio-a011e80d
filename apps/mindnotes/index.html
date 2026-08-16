@@ -12056,6 +12056,29 @@ document.addEventListener('DOMContentLoaded', function () {
 // VS Code edits, full commit history viewable + restorable.
 
 let _ghToken = _isMobileDevice() ? '' : (localStorage.getItem('mindnotes_ghToken') || '');
+// ---- Durable token vault: mirror the GitHub token into IndexedDB so it survives a
+// localStorage clear. NEVER deletes; desktop-only restore. This makes the PC unable to
+// "lose" the token (combined with: the phone never authenticates). ----
+function _tokenVaultOpen(){return new Promise(function(res,rej){try{var r=indexedDB.open('mindnotes_tokenvault',1);r.onupgradeneeded=function(){try{r.result.createObjectStore('kv');}catch(e){}};r.onsuccess=function(){res(r.result);};r.onerror=function(){rej(r.error);};}catch(e){rej(e);}});}
+async function _tokenVaultSet(v){try{var db=await _tokenVaultOpen();await new Promise(function(res){var tx=db.transaction('kv','readwrite');tx.objectStore('kv').put(v,'ghToken');tx.oncomplete=res;tx.onerror=res;});}catch(e){}}
+async function _tokenVaultGet(){try{var db=await _tokenVaultOpen();return await new Promise(function(res){var tx=db.transaction('kv','readonly');var g=tx.objectStore('kv').get('ghToken');g.onsuccess=function(){res(g.result||'');};g.onerror=function(){res('');};});}catch(e){return '';}}
+(async function(){
+  try{
+    if(_isMobileDevice()) return;                       // phone: never store/restore token
+    if(localStorage.getItem('mindnotes_ghToken')){       // have it → keep vault in sync
+      _tokenVaultSet(localStorage.getItem('mindnotes_ghToken')); return;
+    }
+    var v = await _tokenVaultGet();                       // lost it → restore from vault
+    if(v){
+      localStorage.setItem('mindnotes_ghToken', v);
+      _ghToken = v;
+      if(typeof _ghUpdateStatusUI==='function') _ghUpdateStatusUI();
+      if(typeof startGhAutoSync==='function') startGhAutoSync();
+      if(typeof _ghCurrentPath==='function' && _ghCurrentPath() && typeof ghPullNow==='function') ghPullNow();
+      if(typeof showToast==='function') showToast('GitHub token restored from backup');
+    }
+  }catch(e){}
+})();
 let _ghAutoSync = !_isMobileDevice() && localStorage.getItem('mindnotes_ghAutoSync') !== 'false'; // default ON (never on mobile)
 let _ghShas = JSON.parse(localStorage.getItem('mindnotes_ghShas') || '{}');         // dataKey -> last known sha (persisted)
 let _ghLastPull = JSON.parse(localStorage.getItem('mindnotes_ghLastPull') || '{}'); // dataKey -> ISO timestamp (persisted)
@@ -12561,6 +12584,7 @@ function saveGhToken() {
     _ghToken = v;
     localStorage.setItem('mindnotes_ghToken', v);
     localStorage.setItem('mindnotes_ghTokenSavedAt', new Date().toISOString());
+    if(typeof _tokenVaultSet==='function') _tokenVaultSet(v);
     input.value = '';
     const hint = document.getElementById('ghTokenSavedHint');
     if (hint) {
