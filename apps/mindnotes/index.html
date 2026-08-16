@@ -15348,12 +15348,9 @@ function deleteCurrentFlashcard() {
 function skipFlashcard() {
     const session = State.flashcardSession;
     if (!session.active) return;
-    session.currentIndex++;
-    if (session.currentIndex >= session.cards.length) {
-        // Wrap to start so the user can keep browsing
-        session.currentIndex = 0;
-    }
-    showCurrentFlashcard();
+    // Skip grades the card as Easy (rating 4) rather than browsing past it,
+    // per user preference: a skipped card is one they knew well enough to pass.
+    rateFlashcard(4);
 }
 
 // Step back one card. Wraps to the end if already at the first card.
