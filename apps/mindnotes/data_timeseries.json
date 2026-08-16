@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-16T09:00:10.864Z",
+  "exportedAt": "2026-08-16T09:05:11.550Z",
   "data": {
     "topics": [
       {
@@ -27,10 +27,10 @@
                     "type": "forward"
                   }
                 ],
-                "x": 3724.1497212577624,
-                "y": -163.02134519430547,
-                "width": 879,
-                "height": 173.5295711975745,
+                "x": 3726.1497212577624,
+                "y": -281.02134519430547,
+                "width": 885,
+                "height": 278,
                 "color": "yellow",
                 "fsrsCards": {
                   "fc:0": {
@@ -800,6 +800,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-15T16:46:00.925Z"
+                  },
+                  "fc:15e": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-16T09:05:05.332Z"
                   }
                 },
                 "userEdited": false
@@ -1790,7 +1801,20 @@
                 "y": 4039.955451257253,
                 "width": 599,
                 "height": 354.00849595617524,
-                "userEdited": false
+                "userEdited": false,
+                "fsrsCards": {
+                  "idx:0": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-16T09:05:05.332Z"
+                  }
+                }
               },
               {
                 "id": "ts1779315723295",
@@ -5162,6 +5186,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-16T09:00:10.864Z"
+    "lastEditedAt": "2026-08-16T09:05:09.171Z"
   }
 }
