@@ -6046,6 +6046,22 @@ async function loadData() {
             request.onerror = () => reject(request.error);
         });
 
+        // EMERGENCY COPY: beforeunload synchronously stashes the live data to localStorage.
+        // If that copy is at least as new as IndexedDB, use it — this guarantees a reload
+        // can never load a stale copy just because the async IDB write hadn't finished.
+        try {
+            const em = localStorage.getItem('emergency::' + dataKey);
+            if (em) {
+                const emData = JSON.parse(em);
+                if (emData && Array.isArray(emData.topics)) {
+                    const emT = emData.lastEditedAt || '';
+                    const idbT = (data && data.lastEditedAt) || '';
+                    if (emT >= idbT) { data = emData; console.log('[emergency] used newer emergency copy for ' + dataKey); }
+                }
+                localStorage.removeItem('emergency::' + dataKey);
+            }
+        } catch (_) {}
+
         // One-time contamination fix: if a non-advmath subject has stuck LA defaults
         // (caused by an earlier createDefaultData() fallback when the seed fetch failed),
         // wipe the entry so the seed file is fetched fresh below.
