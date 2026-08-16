@@ -10167,6 +10167,16 @@ function attachBlockEditHandlers(container) {
             if (!el.closest('td, th')) el.style.cursor = 'pointer';
         });
         blockEl.addEventListener('click', (e) => {
+            // If ANY editor is already open, a click outside it CONFIRMS that edit (its blur
+            // commits) — never open a second editor. The double-editor race used to jump to
+            // the last text box and overwrite/annul the edit you just made.
+            const _openEd = container.querySelector('.editing');
+            if (_openEd && !e.target.closest('.editing')) {
+                const _ta = _openEd.querySelector('textarea');
+                if (_ta) _ta.blur();
+                e.stopPropagation();
+                return;
+            }
             if (blockEl.classList.contains('editing') || e.target.closest('textarea')) return;
             if (e.target.closest('.editing')) return;
             // A real text selection on COMPILED content takes precedence over
