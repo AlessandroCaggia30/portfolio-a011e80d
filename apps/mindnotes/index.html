@@ -6120,7 +6120,9 @@ async function loadData() {
         // Check if seed file has been updated (version-based refresh)
         const seedVersion = State.currentSubject ? State.currentSubject.seedVersion : null;
         const storedSeedVersion = seedVersion ? localStorage.getItem(dataKey + '_seedVersion') : null;
-        const needsSeedRefresh = seedVersion && storedSeedVersion !== String(seedVersion);
+        // Only ever seed when there is NO local data. Never re-seed OVER existing local
+        // data — that path used to overwrite your edits with the git seed on reload.
+        const needsSeedRefresh = !data && seedVersion && storedSeedVersion !== String(seedVersion);
 
         if (data && !needsSeedRefresh) {
             State.data = data;
