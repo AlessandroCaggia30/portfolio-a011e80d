@@ -6729,22 +6729,23 @@ async function _writeAutosaveFile(dataKey, data) {
         await writable.write(json);
         await writable.close();
 
-        // Write hourly snapshot to history folder (max 1 per hour, keep 30)
+        // Write a timestamped snapshot to the history folder every ~15 min; keep the last 24h
+        // (96 files = 24h x 4/hr). Filenames are ISO timestamps so they sort chronologically.
         const now = new Date();
         const histDir = autosaveHistoryHandles[dataKey];
         if (histDir) {
-            const hourKey = now.toISOString().slice(0, 13).replace('T', '_').replace(/-/g, '');
-            const lastHourKey = localStorage.getItem('autosave_hour_' + dataKey);
-            if (lastHourKey !== hourKey) {
+            const slot = Math.floor(now.getTime() / (15 * 60 * 1000)); // one snapshot per 15-min slot
+            const lastSlot = localStorage.getItem('autosave_slot_' + dataKey);
+            if (String(slot) !== lastSlot) {
                 try {
-                    const snapName = 'backup_' + hourKey + '.json';
+                    const snapName = 'backup_' + now.toISOString().replace(/[:.]/g, '-') + '.json';
                     const snapHandle = await histDir.getFileHandle(snapName, { create: true });
                     const snapWritable = await snapHandle.createWritable();
                     await snapWritable.write(json);
                     await snapWritable.close();
-                    localStorage.setItem('autosave_hour_' + dataKey, hourKey);
+                    localStorage.setItem('autosave_slot_' + dataKey, String(slot));
 
-                    // Clean up: keep max 30 snapshots, delete oldest
+                    // Keep only the last 24h worth (96 snapshots); delete the oldest beyond that.
                     const files = [];
                     for await (const entry of histDir.values()) {
                         if (entry.kind === 'file' && entry.name.startsWith('backup_') && entry.name.endsWith('.json')) {
@@ -6752,7 +6753,7 @@ async function _writeAutosaveFile(dataKey, data) {
                         }
                     }
                     files.sort();
-                    while (files.length > 30) {
+                    while (files.length > 96) {
                         await histDir.removeEntry(files.shift());
                     }
                 } catch (snapErr) {
