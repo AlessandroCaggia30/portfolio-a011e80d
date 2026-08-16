@@ -12718,6 +12718,33 @@ function toggleGhAutoSync() {
     _ghUpdateStatusUI();
 }
 
+// LOCAL-FIRST NODE MERGE: a pull may NEVER overwrite or delete an existing local node.
+// It keeps every local node exactly as-is and only ADDS remote nodes whose id does not
+// exist locally. This makes whole-file clobber impossible: your snippets are sacred.
+// (Remote edits to nodes you already have are ignored on pull — do those edits locally.)
+function _ghSafeMerge(local, remote) {
+    try {
+        if (!local || !local.topics) return remote;              // nothing local yet -> take remote
+        if (!remote || !remote.topics) return local;             // nothing remote -> keep local
+        const merged = JSON.parse(JSON.stringify(local));        // START from local: local wins, always
+        const localIds = new Set();
+        merged.topics.forEach(t => (t.subtopics || []).forEach(s => (s.nodes || []).forEach(n => localIds.add(n.id))));
+        const subById = {};
+        merged.topics.forEach(t => (t.subtopics || []).forEach(s => { subById[s.id] = s; }));
+        const firstSub = merged.topics[0] && merged.topics[0].subtopics && merged.topics[0].subtopics[0];
+        let added = 0;
+        (remote.topics || []).forEach(t => (t.subtopics || []).forEach(s => (s.nodes || []).forEach(n => {
+            if (!localIds.has(n.id)) { (subById[s.id] || firstSub).nodes.push(n); localIds.add(n.id); added++; }
+        })));
+        // keep local metadata; refresh timestamp so our merged result is the newest
+        merged.trash = local.trash || remote.trash || [];
+        merged.lastEditedAt = new Date().toISOString();
+        if (added) console.log('[safe-merge] pull added ' + added + ' new remote node(s); ' + localIds.size + ' local nodes preserved untouched');
+        else console.log('[safe-merge] pull added 0 nodes; all ' + localIds.size + ' local nodes preserved untouched');
+        return merged;
+    } catch (e) { console.warn('[safe-merge] failed, keeping local:', e); return local; }
+}
+
 async function ghPullNow() {
     if (_ghPullInFlight) return;
     const path = _ghCurrentPath();
