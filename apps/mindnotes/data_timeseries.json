@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-16T15:06:36.986Z",
+  "exportedAt": "2026-08-16T15:07:00.710Z",
   "data": {
     "topics": [
       {
@@ -2101,7 +2101,7 @@
               {
                 "id": "1778690202929",
                 "title": "Time series as stochastic processes",
-                "content": "\\begin{keydef}\n\\fcnum{5a} \\textbf{A stochastic process} $(Y_t)_{t \\in T}$ is a sequence of random vectors (a multidimensional random variable) indexed by $t \\in T$.\n\\end{keydef} \n\n\\begin{keydef}\n\\fcnum{5b} \\textbf{A time series} is a stochastic process $(Y_t)_{t \\in T}$ with $Y_t \\in \\mathcal{Y}$. The data $(y_1, \\dots, y_t)$ are the initial trait (i.e.\\ a \\emph{finite realization}) of the stochastic process.\n\\end{keydef} \n\n\n\n\nNote:\n- This is not a single random variable, nor a single random vector. It is a \\emph{sequence} of random variables / vectors! E.g.\\ the sequence of outcomes of a repeated game.  \n- is 'a time series is a sequence of observations taken over time' a good definition? No, superficial \n\n\n\n\n\n\n\n",
+                "content": "\\begin{keydef}\n\\fcnum{5a} \\textbf{A stochastic process} $(Y_t)_{t \\in T}$ is a sequence of random vectors (a multidimensional random variable) indexed by $t \\in T$.\n\\end{keydef} \n\n\\begin{keydef}\n\\fcnum{5b} \\textbf{A time series} is a stochastic process $(Y_t)_{t \\in T}$ with $Y_t \\in \\mathcal{Y}$. The data $(y_1, \\dots, y_t)$ are the initial trait (i.e.\\ a \\emph{finite realization}) of the stochastic process.\n\\end{keydef} \n\n\n\n\nNote:\n- This is not a single random variable, nor a single random vector. It is a \\emph{sequence} of random variables / vectors! E.g.\\ the sequence of outcomes of a repeated game.  \n- is 'a time series is a sequence of observations taken over time' a good definition? No, superficial\n\n\n\n\n\n\n\n",
                 "flashcard": true,
                 "images": [
                   "images/timeseries/1778690202929_0_2be0cd6819df.jpg"
@@ -5179,6 +5179,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-16T15:06:34.858Z"
+    "lastEditedAt": "2026-08-16T15:06:58.575Z"
   }
 }
