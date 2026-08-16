@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-16T15:24:37.932Z",
+  "exportedAt": "2026-08-16T15:24:46.765Z",
   "data": {
     "topics": [
       {
@@ -2511,7 +2511,7 @@
               {
                 "id": "1786893817559",
                 "title": "Is this a dlm or an ssm?",
-                "content": "\\textbf{\\textcolor{red}{Exam --- Is it a SSM? Is it a DLM? (nonlinear observation eq.).}} A recurring exam task gives a model and asks whether it is a state-space process and whether it is a DLM. Take the stochastic-volatility model for financial returns\n$Y_t = \\exp(\\theta_t/2)\\, v_t, \\; v_t \\sim N(0,1), \\qquad \\theta_t = \\alpha_1 + \\alpha_2 \\theta_{t-1} + w_t, \\; w_t \\sim N(0,\\sigma^2),$\nwith $\\theta_t$ a non-observable AR(1).\n\n$\\bullet$ \\textbf{Yes, it IS a state-space process.} The latent $(\\theta_t)$ is a Markov process (an AR(1): $\\theta_t$ depends on the past only through $\\theta_{t-1}$), and conditionally on $\\theta_t$ the observation $Y_t$ depends only on $\\theta_t$ (through its own independent noise $v_t$). It is exactly the book's general SSM form $Y_t = h_t(\\theta_t, v_t), \\; \\theta_t = g_t(\\theta_{t-1}, w_t)$ with $h_t(\\theta_t, v_t) = \\exp(\\theta_t/2)\\, v_t$.\n\n$\\bullet$ \\textbf{No, it is NOT a DLM.} A DLM needs the linear-Gaussian observation equation\n$Y_t = F_t \\theta_t + v_t, \\; Y_t \\mid \\theta_t \\sim N(F_t \\theta_t, V_t)$.\nHere the observation equation is nonlinear in the state: the state enters through $\\exp(\\theta_t/2)$ and multiplies the noise, giving\n$Y_t \\mid \\theta_t \\sim N(0,\\, e^{\\theta_t})$\n--- the conditional mean is $0$ (not $F_t \\theta_t$) and the state acts nonlinearly on the variance. The state equation\n$\\theta_t = \\alpha_1 + \\alpha_2 \\theta_{t-1} + w_t$\nIS linear-Gaussian, but a DLM requires BOTH equations linear-Gaussian; the observation equation fails, so the model is a (nonlinear) state-space model but not a DLM.",
+                "content": "\\textbf{\\textcolor{red}{Exam --- Is it a SSM? Is it a DLM? (nonlinear observation eq.).}} A recurring exam task gives a model and asks whether it is a state-space process and whether it is a DLM. Take the stochastic-volatility model for financial returns\n$Y_t = \\exp(\\theta_t/2)\\, v_t, \\; v_t \\sim N(0,1), \\qquad \\theta_t = \\alpha_1 + \\alpha_2 \\theta_{t-1} + w_t, \\; w_t \\sim N(0,\\sigma^2),$\nwith $\\theta_t$ a non-observable AR(1).\n\n$\\bullet$ \\textbf{Yes, it IS a state-space process.} The latent $(\\theta_t)$ is a Markov process (an AR(1): $\\theta_t$ depends on the past only through $\\theta_{t-1}$), and conditionally on $\\theta_t$ the observation $Y_t$ depends only on $\\theta_t$ (through its own independent noise $v_t$). It is exactly the book's general SSM form $Y_t = h_t(\\theta_t, v_t), \\; \\theta_t = g_t(\\theta_{t-1}, w_t)$ with $h_t(\\theta_t, v_t) = \\exp(\\theta_t/2)\\, v_t$.\n\n$\\bullet$ \\textbf{No, it is NOT a DLM.} A DLM needs the linear-Gaussian observation equation $Y_t = F_t \\theta_t + v_t, \\; Y_t \\mid \\theta_t \\sim N(F_t \\theta_t, V_t)$.\nHere the observation equation is nonlinear in the state: the state enters through $\\exp(\\theta_t/2)$ and multiplies the noise, giving $Y_t \\mid \\theta_t \\sim N(0,\\, e^{\\theta_t})$ --- the conditional mean is $0$ (not $F_t \\theta_t$) and the state acts nonlinearly on the variance. The state equation $\\theta_t = \\alpha_1 + \\alpha_2 \\theta_{t-1} + w_t$\nIS linear-Gaussian, but a DLM requires BOTH equations linear-Gaussian; the observation equation fails, so the model is a (nonlinear) state-space model but not a DLM.",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
@@ -5220,6 +5220,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-16T15:24:35.806Z"
+    "lastEditedAt": "2026-08-16T15:24:44.637Z"
   }
 }
