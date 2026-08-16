@@ -10098,9 +10098,14 @@ function renderObsidianPreview() {
         ? blocks.map((b, i) => `<div class="lp-block" data-bi="${i}">${renderBlock(b.src)}</div>`).join('')
         : '<span class="detail-text empty-placeholder" data-seg-idx="0" style="color:var(--text2);cursor:text;">Click here to start writing...</span>';
 
-    // No bottom gallery: images render ONLY where their {{img:N}} token sits.
-    // (Unreferenced images stay in node.images but are not displayed.)
-    container.innerHTML = `<div class="live-preview-content">${inner}</div>`;
+    // detail preview: gallery for token-less images (images with no {{img:...}}
+    // anywhere in the note still need to show; tokened ones already rendered inline).
+    let galleryHtml = '';
+    if (node && Array.isArray(node.images) && node.images.length) {
+        const rem = node.images.map((img, i) => ({ img, i })).filter(o => !usedImgIdx.has(o.i));
+        if (rem.length > 0) galleryHtml = _imagesGalleryHtml(node, rem);
+    }
+    container.innerHTML = `<div class="live-preview-content">${inner}${galleryHtml}</div>`;
 
     const previewContent = container.querySelector('.live-preview-content');
     renderMath(previewContent);
