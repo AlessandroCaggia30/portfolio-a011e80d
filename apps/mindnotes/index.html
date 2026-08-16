@@ -11406,6 +11406,22 @@ function debouncedSaveData() {
     }, 150);
 }
 
+// EMERGENCY FLUSH: localStorage.setItem is SYNCHRONOUS, so it always completes before the
+// page unloads — unlike the async IndexedDB write. On every reload/close we stash the live
+// data here; loadData() prefers it if it's newer. This makes reload-loss impossible even on
+// slow connections or fast reloads. (Current subject only, to stay within quota.)
+function _emergencyFlush() {
+    try {
+        if (State && State.currentSubject && State.data && Array.isArray(State.data.topics) && State.data.topics.length) {
+            if (!State.data.lastEditedAt) State.data.lastEditedAt = new Date().toISOString();
+            localStorage.setItem('emergency::' + State.currentSubject.dataKey, JSON.stringify(State.data));
+        }
+    } catch (_) { /* quota or other — IndexedDB is still the primary store */ }
+}
+window.addEventListener('beforeunload', _emergencyFlush);
+window.addEventListener('pagehide', _emergencyFlush);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') _emergencyFlush(); });
+
 function autoSaveContent() {
     if (!State.selectedNode) return;
 
