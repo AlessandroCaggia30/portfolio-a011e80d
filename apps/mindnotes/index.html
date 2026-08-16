@@ -12852,10 +12852,12 @@ async function ghPullNow() {
         }
         // Keep a rolling snapshot of what we're about to replace.
         await _ghSnapshotLocal(key, State.data);
-        State.data = _ghSafeMerge(State.data, incoming);
+        const _mergeBase = await _ghLoadBase(key);
+        State.data = _ghSafeMerge(State.data, incoming, _mergeBase);
         if (!State.data.trash) State.data.trash = [];
         _ghShas[key] = remote.sha; _ghPersistShas();
         _ghLastSyncHash[key] = _ghContentHash(State.data); _ghPersistSyncHash();
+        await _ghSetBase(key, incoming); // base for next merge = the remote we just reconciled with
         _ghLastPull[key] = new Date().toISOString(); _ghPersistPullStamps();
         _ghLastError = null;
         _dataIsDirty = false;
