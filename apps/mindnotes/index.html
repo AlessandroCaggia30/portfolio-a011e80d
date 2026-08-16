@@ -4682,18 +4682,17 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
 // a PAT regeneration that would invalidate the PC's token. Desktop editing stays gated
 // on the token (PC Firefox). Override on a tokenless desktop editor via
 // localStorage 'mindnotes_editorUnlock'='1'.
+// STRICT: only real phone/tablet user-agents. NO pointer/touch heuristics (they misfire
+// on desktops with touchscreens/trackpads). A Mac/PC can NEVER match this, so the PC is
+// never wrongly locked. We also NEVER delete the token from localStorage.
 function _isMobileDevice(){
   try{
-    if(/iPhone|iPad|iPod|Android|Mobile|Silk|Kindle/i.test(navigator.userAgent||'')) return true;
-    if(window.matchMedia && matchMedia('(pointer:coarse)').matches && matchMedia('(max-width:1024px)').matches) return true;
-    // iPadOS masquerades as Mac; catch touch-capable non-mouse devices too:
-    if((navigator.maxTouchPoints||0)>1 && !matchMedia('(pointer:fine)').matches) return true;
+    var ua = navigator.userAgent || '';
+    if(/iPhone|iPod|Android|IEMobile|BlackBerry|Silk|Kindle|Opera Mini/i.test(ua)) return true;
+    if(/\biPad\b/i.test(ua)) return true;
   }catch(e){}
   return false;
 }
-// Immediately (before the app's sync code reads it) strip any cached token on mobile,
-// so the phone can never push or authenticate.
-(function(){ try{ if(_isMobileDevice()) localStorage.removeItem('mindnotes_ghToken'); }catch(e){} })();
 function _isEditorDevice(){
   try{
     if(_isMobileDevice()) return false;                 // phone/tablet: never an editor
