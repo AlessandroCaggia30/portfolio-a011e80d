@@ -6345,13 +6345,15 @@ function markDirty() {
             btn.textContent = 'Save*';
         }
     }
-    // When GitHub auto-sync is on, save locally with a longer debounce
-    // (1500ms) — the data file is large, so we don't want to push on every keystroke.
-    if (typeof _ghToken !== 'undefined' && _ghToken && _ghAutoSync && _ghCurrentPath()) {
+    // INSTANT BACKUP: whenever a GitHub token exists, EVERY edit saves locally and pushes
+    // to git within ~1s — regardless of the auto-sync (pull) toggle. So git always mirrors
+    // your local and you cannot lose an edit. (Auto-PULL stays gated on the toggle +
+    // protected by the per-snippet safe-merge, so a pull can never overwrite your work.)
+    if (typeof _ghToken !== 'undefined' && _ghToken && _ghCurrentPath()) {
         clearTimeout(_ghEditSaveTimer);
         _ghEditSaveTimer = setTimeout(() => {
             if (_dataIsDirty) _commitSave();
-        }, 1500);
+        }, 800);
     }
 }
 
