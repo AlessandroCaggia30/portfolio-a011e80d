@@ -12824,7 +12824,7 @@ async function ghPullNow() {
         }
         // Keep a rolling snapshot of what we're about to replace.
         await _ghSnapshotLocal(key, State.data);
-        State.data = incoming;
+        State.data = _ghSafeMerge(State.data, incoming);
         if (!State.data.trash) State.data.trash = [];
         _ghShas[key] = remote.sha; _ghPersistShas();
         _ghLastSyncHash[key] = _ghContentHash(State.data); _ghPersistSyncHash();
@@ -13111,7 +13111,7 @@ async function ghPullAll() {
             _ghLastSyncHash[s.dataKey] = _ghContentHash(incoming);
             _ghLastPull[s.dataKey] = new Date().toISOString();
             if (State.currentSubject && State.currentSubject.dataKey === s.dataKey) {
-                State.data = incoming;
+                State.data = _ghSafeMerge(State.data, incoming);
                 _dataIsDirty = false;
                 renderSidebar();
                 updateFlashcardStats();
@@ -13319,7 +13319,7 @@ async function restoreGhCommit(commitSha, msgPreview) {
         _ghShas[key] = newSha;
         _ghLastPush[key] = new Date().toISOString();
         // Apply locally
-        State.data = incoming;
+        State.data = _ghSafeMerge(State.data, incoming);
         if (!State.data.trash) State.data.trash = [];
         _dataIsDirty = false;
         renderSidebar();
