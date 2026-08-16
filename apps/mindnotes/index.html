@@ -12718,31 +12718,59 @@ function toggleGhAutoSync() {
     _ghUpdateStatusUI();
 }
 
-// LOCAL-FIRST NODE MERGE: a pull may NEVER overwrite or delete an existing local node.
-// It keeps every local node exactly as-is and only ADDS remote nodes whose id does not
-// exist locally. This makes whole-file clobber impossible: your snippets are sacred.
-// (Remote edits to nodes you already have are ignored on pull — do those edits locally.)
-function _ghSafeMerge(local, remote) {
+// ===== PER-SNIPPET DECLARED SYNC (base-diff 3-way merge) =====
+// A pull may change ONLY the snippets that (a) changed on the remote AND (b) you did NOT
+// change locally. Every snippet YOU edited is protected — never overwritten or deleted.
+// New remote snippets are added. Both sides "declare" their changes as a diff vs the last
+// synced base. Whole-file clobber is impossible. Every change is logged.
+let _ghBaseData = {}; // dataKey -> last-synced full data (the merge base)
+async function _ghLoadBase(key) {
+    if (_ghBaseData[key] !== undefined) return _ghBaseData[key];
+    try { _ghBaseData[key] = (await _ghReadFromIDB('base::' + key)) || null; }
+    catch (e) { _ghBaseData[key] = null; }
+    return _ghBaseData[key];
+}
+async function _ghSetBase(key, data) {
+    try { const copy = JSON.parse(JSON.stringify(data)); _ghBaseData[key] = copy; await _ghWriteToIDB('base::' + key, copy); }
+    catch (e) { console.warn('[base] set failed (non-fatal):', e); }
+}
+function _ghNodesById(d) {
+    const m = {};
+    if (d && d.topics) d.topics.forEach(t => (t.subtopics || []).forEach(s => (s.nodes || []).forEach(n => { m[n.id] = { node: n, subId: s.id }; })));
+    return m;
+}
+function _ghSafeMerge(local, remote, base) {
     try {
-        if (!local || !local.topics) return remote;              // nothing local yet -> take remote
-        if (!remote || !remote.topics) return local;             // nothing remote -> keep local
-        const merged = JSON.parse(JSON.stringify(local));        // START from local: local wins, always
-        const localIds = new Set();
-        merged.topics.forEach(t => (t.subtopics || []).forEach(s => (s.nodes || []).forEach(n => localIds.add(n.id))));
-        const subById = {};
-        merged.topics.forEach(t => (t.subtopics || []).forEach(s => { subById[s.id] = s; }));
+        if (!local || !local.topics) return remote;
+        if (!remote || !remote.topics) return local;
+        const L = _ghNodesById(local), R = _ghNodesById(remote), B = _ghNodesById(base);
+        const merged = JSON.parse(JSON.stringify(local)); // START from local -> local-first
+        const subById = {}; merged.topics.forEach(t => (t.subtopics || []).forEach(s => subById[s.id] = s));
         const firstSub = merged.topics[0] && merged.topics[0].subtopics && merged.topics[0].subtopics[0];
-        let added = 0;
-        (remote.topics || []).forEach(t => (t.subtopics || []).forEach(s => (s.nodes || []).forEach(n => {
-            if (!localIds.has(n.id)) { (subById[s.id] || firstSub).nodes.push(n); localIds.add(n.id); added++; }
-        })));
-        // keep local metadata; refresh timestamp so our merged result is the newest
-        merged.trash = local.trash || remote.trash || [];
+        const M = _ghNodesById(merged);
+        const updated = [], added = [], protectedLocal = [];
+        Object.keys(R).forEach(id => {
+            const r = R[id].node, b = B[id] && B[id].node, l = L[id] && L[id].node;
+            const rChanged = !b || JSON.stringify(r) !== JSON.stringify(b); // remote declares change
+            if (!l) { // a snippet we don't have locally -> add it
+                (subById[R[id].subId] || firstSub).nodes.push(JSON.parse(JSON.stringify(r))); added.push(id); return;
+            }
+            const lChanged = !b || JSON.stringify(l) !== JSON.stringify(b); // local declares change
+            if (rChanged && !lChanged) { // only remote touched it -> safe to apply remote
+                const tgt = M[id]; if (tgt) { for (const k in tgt.node) delete tgt.node[k]; Object.assign(tgt.node, JSON.parse(JSON.stringify(r))); updated.push(id); }
+            } else if (rChanged && lChanged) { // conflict -> KEEP LOCAL, protect it
+                protectedLocal.push(id);
+            }
+        });
+        merged.trash = local.trash || [];
         merged.lastEditedAt = new Date().toISOString();
-        if (added) console.log('[safe-merge] pull added ' + added + ' new remote node(s); ' + localIds.size + ' local nodes preserved untouched');
-        else console.log('[safe-merge] pull added 0 nodes; all ' + localIds.size + ' local nodes preserved untouched');
+        const ttl = id => ((M[id] || L[id] || R[id]) || {}).node ? (((M[id] || L[id] || R[id]).node.title) || id) : id;
+        console.log('%c[declared pull]', 'font-weight:bold;color:#3987e5',
+            '\n  UPDATE (changed on cloud, untouched by you):', updated.map(ttl),
+            '\n  ADD (new cloud snippets):', added.map(ttl),
+            '\n  PROTECTED (you edited these — kept your local):', protectedLocal.map(ttl));
         return merged;
-    } catch (e) { console.warn('[safe-merge] failed, keeping local:', e); return local; }
+    } catch (e) { console.warn('[safe-merge] failed -> keeping local (no loss):', e); return local; }
 }
 
 async function ghPullNow() {
