@@ -12763,6 +12763,21 @@ async function ghPullNow() {
         // Unwrap { data: {...} } if needed
         const incoming = (parsed.data && !parsed.topics) ? parsed.data : parsed;
         if (!incoming.topics || !Array.isArray(incoming.topics)) throw new Error('Remote has no "topics" array');
+        // HARD GUARD (content-hash): never let an incoming remote overwrite LOCAL content that
+        // has unsynced changes vs the last synced version — regardless of lastEditedAt / clock
+        // skew / a stale timestamp. This closes the "stale pull deletes my newer local edit" hole.
+        try {
+            const _localHash = (typeof _ghContentHash === 'function') ? _ghContentHash(State.data) : null;
+            const _syncedHash = _ghLastSyncHash[key];
+            if (_localHash && _syncedHash && _localHash !== _syncedHash) {
+                await _ghSnapshotLocal(key, State.data); // extra belt-and-braces snapshot
+                _ghSetState('Pull blocked: local has unsynced edits — pushing instead of overwriting');
+                _ghMarkPending(key);
+                schedulePush();
+                _ghPullInFlight = false;
+                return;
+            }
+        } catch (_hashErr) { /* fall through to the timestamp guards below */ }
         // NEVER overwrite newer local content with older remote content —
         // this is the guard that would have prevented the Jul 25/28 data loss.
         const localEdit = (State.data && State.data.lastEditedAt) || '';
