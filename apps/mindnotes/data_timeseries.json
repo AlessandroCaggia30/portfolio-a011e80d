@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-16T18:26:43.085Z",
+  "exportedAt": "2026-08-16T18:27:02.980Z",
   "data": {
     "topics": [
       {
@@ -1441,14 +1441,14 @@
                   },
                   "fc:11": {
                     "stability": 1.1829,
-                    "difficulty": 7.7418000000000005,
+                    "difficulty": 7.72936056,
                     "elapsedDays": 0,
                     "scheduledDays": 1,
-                    "reps": 1,
+                    "reps": 2,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-15T21:33:29.709Z",
-                    "dueDate": "2026-08-16T21:33:29.709Z"
+                    "lastReview": "2026-08-16T18:27:02.346Z",
+                    "dueDate": "2026-08-17T18:27:02.346Z"
                   }
                 }
               },
@@ -1928,11 +1928,11 @@
                     "difficulty": 7.2102,
                     "elapsedDays": 0,
                     "scheduledDays": 1,
-                    "reps": 1,
+                    "reps": 2,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-15T21:32:51.475Z",
-                    "dueDate": "2026-08-16T21:32:51.475Z"
+                    "lastReview": "2026-08-16T18:26:54.062Z",
+                    "dueDate": "2026-08-17T18:26:54.062Z"
                   }
                 }
               },
@@ -2263,14 +2263,14 @@
                   },
                   "fc:9": {
                     "stability": 15.4722,
-                    "difficulty": 6.6786,
+                    "difficulty": 6.691039440000001,
                     "elapsedDays": 0,
                     "scheduledDays": 1,
-                    "reps": 1,
+                    "reps": 2,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-15T21:32:47.609Z",
-                    "dueDate": "2026-08-16T21:32:47.609Z"
+                    "lastReview": "2026-08-16T18:26:46.063Z",
+                    "dueDate": "2026-08-17T18:26:46.063Z"
                   }
                 }
               },
