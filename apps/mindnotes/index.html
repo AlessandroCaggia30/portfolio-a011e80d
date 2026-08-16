@@ -8035,30 +8035,10 @@ function formatNodePreview(text) {
     return processed;
 }
 
-// Attach click handlers to formula spans
-function attachFormulaClickHandlers(el, node) {
-    el.querySelectorAll('.editable-formula').forEach(span => {
-        span.addEventListener('click', (e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            openFormulaEditor(span, node, e);
-        });
-    });
-
-    // Also handle clicks on rendered KaTeX elements
-    el.querySelectorAll('.katex').forEach(katex => {
-        katex.style.cursor = 'pointer';
-        katex.addEventListener('click', (e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            // Find the parent editable-formula span
-            const formulaSpan = katex.closest('.editable-formula');
-            if (formulaSpan) {
-                openFormulaEditor(formulaSpan, node, e);
-            }
-        });
-    });
-}
+// Formula editor disabled on canvas cards: clicking math on a closed snippet must
+// just open the snippet, not pop an inline math editor. (Editing math happens only
+// inside the open detail view.) No-op kept so existing call sites stay valid.
+function attachFormulaClickHandlers(el, node) { /* intentionally does nothing */ }
 
 // Open inline formula editor popup
 function openFormulaEditor(span, node, event) {
@@ -8226,8 +8206,7 @@ function attachNodeEventListeners(el, node) {
     el.addEventListener('mousedown', (e) => {
         // Skip special UI elements and formulas (they have their own click handlers)
         if (e.target.closest('.node-color-btn') || e.target.closest('.color-picker') ||
-            e.target.closest('.resize-handle') || e.target.closest('.editable-formula') ||
-            e.target.closest('.katex')) {
+            e.target.closest('.resize-handle')) {
             return;
         }
         if (e.button !== 0) return;  // left button only
@@ -8305,8 +8284,7 @@ function attachNodeEventListeners(el, node) {
     // Double click to edit (or, in pop mode, show delete pill)
     el.addEventListener('dblclick', (e) => {
         if (e.target.closest('.node-color-btn') || e.target.closest('.color-picker') ||
-            e.target.closest('.resize-handle') || e.target.closest('.editable-formula') ||
-            e.target.closest('.katex')) {
+            e.target.closest('.resize-handle')) {
             return;
         }
         e.preventDefault();
