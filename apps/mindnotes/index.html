@@ -12964,6 +12964,70 @@ window.mindnotesRestoreSnapshot = async function (snapKey) {
     return true;
 };
 
+// ==================== ALWAYS-ON ROLLING LOCAL BACKUP ====================
+// Zero-setup safety net: every 15 min, write a timestamped full-data copy to IndexedDB
+// under 'backup::<dataKey>::<ISO>', independent of git sync AND of the pull-snapshot
+// rotation. Auto-pruned after 12h. This cannot be defeated by clock skew, failed pushes,
+// or a stale pull — it always fires while the tab is open. No folder permission needed.
+const ROLLING_BACKUP_EVERY_MS = 15 * 60 * 1000;
+const ROLLING_BACKUP_TTL_MS   = 12 * 60 * 60 * 1000;
+async function _rollingBackupNow() {
+    try {
+        if (!db) return;
+        if (!State || !State.data || !State.data.topics || !State.data.topics.length) return;
+        const key = (typeof _ghCurrentKey === 'function' && _ghCurrentKey())
+            || (State.currentSubject && State.currentSubject.dataKey);
+        if (!key) return;
+        await _ghWriteToIDB('backup::' + key + '::' + new Date().toISOString(), State.data);
+        // prune backups older than TTL (for this subject)
+        const allKeys = await new Promise((res, rej) => {
+            const tx = db.transaction(STORE_NAME, 'readonly');
+            const rq = tx.objectStore(STORE_NAME).getAllKeys();
+            rq.onsuccess = () => res(rq.result); rq.onerror = () => rej(rq.error);
+        });
+        const cutoff = Date.now() - ROLLING_BACKUP_TTL_MS;
+        for (const k of allKeys) {
+            if (typeof k === 'string' && k.startsWith('backup::' + key + '::')) {
+                const t = Date.parse(k.split('::')[2] || '');
+                if (t && t < cutoff) {
+                    await new Promise((res, rej) => {
+                        const tx = db.transaction(STORE_NAME, 'readwrite');
+                        tx.objectStore(STORE_NAME).delete(k);
+                        tx.oncomplete = res; tx.onerror = () => rej(tx.error);
+                    });
+                }
+            }
+        }
+        console.log('[rollingBackup] saved for', key);
+    } catch (e) { console.warn('[rollingBackup] failed (non-fatal):', e); }
+}
+setInterval(_rollingBackupNow, ROLLING_BACKUP_EVERY_MS);
+setTimeout(_rollingBackupNow, 30 * 1000); // one shortly after load, then every 15 min
+// Console helpers: list & restore rolling backups.
+window.mindnotesListBackups = async function (dataKey) {
+    if (!db) await initDB();
+    dataKey = dataKey || (typeof _ghCurrentKey === 'function' && _ghCurrentKey());
+    const allKeys = await new Promise((res, rej) => {
+        const tx = db.transaction(STORE_NAME, 'readonly');
+        const rq = tx.objectStore(STORE_NAME).getAllKeys();
+        rq.onsuccess = () => res(rq.result); rq.onerror = () => rej(rq.error);
+    });
+    const mine = allKeys.filter(k => typeof k === 'string' && k.startsWith('backup::' + (dataKey || '') + '::')).sort();
+    console.table(mine.map(k => ({ key: k, when: (k.split('::')[2] || '').slice(0, 19) })));
+    return mine;
+};
+window.mindnotesRestoreBackup = async function (backupKey) {
+    const data = await _ghReadFromIDB(backupKey);
+    if (!data || !data.topics) throw new Error('Backup not found or invalid: ' + backupKey);
+    const dataKey = backupKey.split('::')[1];
+    const current = await _ghReadFromIDB(dataKey).catch(() => null);
+    await _ghSnapshotLocal(dataKey, current); // keep what we're replacing
+    await _ghWriteToIDB(dataKey, data);
+    if (typeof _ghMarkPending === 'function') _ghMarkPending(dataKey);
+    console.log('[rollingBackup] Restored ' + backupKey + ' -> reload the subject; it will push on next sync.');
+    return true;
+};
+
 // Cheap SHA-only check (no content download) to decide if a pull is needed.
 async function ghPeekRemoteSha(path) {
     const url = `${GH_API}/repos/${GH_OWNER}/${GH_REPO}/contents/${path}?ref=${GH_BRANCH}&t=${Date.now()}`;
