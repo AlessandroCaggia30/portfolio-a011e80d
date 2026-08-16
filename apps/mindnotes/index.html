@@ -6770,6 +6770,22 @@ async function _writeAutosaveFile(dataKey, data) {
 }
 // ==================== END FILE SYSTEM AUTOSAVE ====================
 
+// Force a disk-folder backup every 15 min even without an edit, and IMMEDIATELY when the
+// network drops (connection loss is exactly when you can't push, so we snapshot to disk).
+// Both are no-ops until you've picked a backup folder once (click the "File backup" chip).
+setInterval(() => {
+    try { if (State && State.currentSubject && autosaveHistoryHandles[State.currentSubject.dataKey]) autoSaveToFileSystem(State.currentSubject.dataKey, State.data); } catch (e) {}
+}, 15 * 60 * 1000);
+window.addEventListener('offline', () => {
+    try {
+        if (State && State.currentSubject) {
+            localStorage.removeItem('autosave_slot_' + State.currentSubject.dataKey); // force a fresh snapshot now
+            autoSaveToFileSystem(State.currentSubject.dataKey, State.data);
+            if (typeof showToast === 'function') showToast('⚠ Connection lost — saved a local disk backup');
+        }
+    } catch (e) {}
+});
+
 // Import data from JSON file
 function importFromJson() {
     const input = document.createElement('input');
