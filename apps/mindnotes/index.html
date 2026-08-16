@@ -15850,18 +15850,11 @@ function _spConfirm(mode) {
         localStorage.removeItem('mindnotes_current_pop');
         localStorage.removeItem('mindnotes_persecon_merge_v1_20260721');
     } catch (_) {}
-    // Only wipe IDB on the first load after this fix ships (flag not set)
-    if (!localStorage.getItem(FLAG)) {
-        try {
-            const delReq = indexedDB.deleteDatabase('mindnotes_db');
-            delReq.onsuccess = () => {
-                console.warn('[recovery-v3] deleted mindnotes_db — will re-seed from git');
-                try { localStorage.setItem(FLAG, '1'); } catch (_) {}
-            };
-            delReq.onerror = () => { try { localStorage.setItem(FLAG, '1'); } catch (_) {} };
-            delReq.onblocked = () => { try { localStorage.setItem(FLAG, '1'); } catch (_) {} };
-        } catch (_) {}
-    }
+    // DISABLED 2026-08: the one-time 2026-07-21 IDB wipe is long finished, and deleting
+    // mindnotes_db destroys ALL local data + every snapshot/backup/base. This must NEVER
+    // run automatically again — it was a data-loss landmine. We only set the flag so any
+    // other code that checks it treats recovery as complete. NO deleteDatabase, ever.
+    try { localStorage.setItem(FLAG, '1'); } catch (_) {}
     // Safety-net banner: if subjectGrid is still empty 3s after load, force show subjects
     setTimeout(() => {
         try {
