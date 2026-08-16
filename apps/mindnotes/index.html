@@ -12917,6 +12917,21 @@ async function ghPushNow() {
     _ghPushInFlight = true;
     _ghSetState('Pushing…');
     try {
+        // RECONCILE FIRST (per-snippet declared merge): pull remote, apply only YOUR changed
+        // snippets on top, keep remote's changes to snippets you didn't touch. So a push can
+        // never clobber a snippet that was changed on the cloud (e.g. by Claude). Local wins on conflict.
+        try {
+            const _pushBase = await _ghLoadBase(key);
+            const _remote = await ghFetchFile(path).catch(() => null);
+            if (_remote && _remote.content && !/^<{7} |^={7}$|^>{7} /m.test(_remote.content)) {
+                let _rp = null; try { _rp = JSON.parse(_remote.content); } catch (_e) { _rp = null; }
+                const _rdata = _rp ? ((_rp.data && !_rp.topics) ? _rp.data : _rp) : null;
+                if (_rdata && _rdata.topics) {
+                    State.data = _ghSafeMerge(State.data, _rdata, _pushBase);
+                    _ghShas[key] = _remote.sha; // commit against the sha we just merged from
+                }
+            }
+        } catch (_mErr) { console.warn('[push-merge] skipped (non-fatal):', _mErr); }
         // Serialize in the seed-file format (wrap in { data: ... } to match seed schema)
         const payload = {
             version: '2.0',
@@ -12927,7 +12942,8 @@ async function ghPushNow() {
         const msg = `mindnotes: update ${State.currentSubject.name} ${new Date().toISOString().slice(0,19).replace('T',' ')}`;
         const newSha = await ghPutFile(path, content, msg, _ghShas[key]);
         _ghShas[key] = newSha; _ghPersistShas();
-        _ghLastSyncHash[key] = curHash; _ghPersistSyncHash();
+        _ghLastSyncHash[key] = _ghContentHash(State.data); _ghPersistSyncHash();
+        await _ghSetBase(key, State.data); // base = what we just pushed (now the shared truth)
         _ghLastPush[key] = new Date().toISOString(); _ghPersistPushStamps();
         _ghLastError = null;
         _ghClearPending(key);
