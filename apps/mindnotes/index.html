@@ -11376,14 +11376,16 @@ function finishEditingBlock(index) {
     renderObsidianPreview();
 }
 
-// Debounced save to prevent too many writes — data files are large, so debounce aggressively.
+// Near-instant save: write to storage within ~150ms of an edit and push right after, so a
+// reload can NEVER lose your work. (Was 900ms + another 800ms downstream = ~1.7s window of loss.)
 let globalSaveTimer = null;
 function debouncedSaveData() {
     clearTimeout(globalSaveTimer);
     globalSaveTimer = setTimeout(() => {
-        saveData();
+        if (typeof markDirty === 'function') markDirty();       // stamp lastEditedAt + dirty UI
+        if (typeof _commitSave === 'function') _commitSave();    // IMMEDIATE write to IndexedDB + push to git
         refreshSnippetsTexIfOpen();
-    }, 900);
+    }, 150);
 }
 
 function autoSaveContent() {
