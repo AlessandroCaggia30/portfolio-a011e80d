@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-16T17:00:21.314Z",
+  "exportedAt": "2026-08-16T17:00:37.347Z",
   "data": {
     "topics": [
       {
@@ -410,7 +410,7 @@
               {
                 "id": "ts17786690819136563",
                 "title": "weak Stationarity",
-                "content": "\\textbf{\\textcolor{red}{STATIONARITY}}\n\n\\begin{keydef}\n\\fcnum{8}  time series $(Y_t)$ is \\textbf{stationary} if $E(Y_t)$ and $E(Y_t Y_{t+h})$ exist, are finite, and do not depend on $t$, for every $h = 0, 1, 2, \\dots$\n\\[ \\mu(t) = \\mu, \\qquad \\sigma^2(t) = \\sigma^2, \\qquad \\gamma(t, t+h) = \\tilde\\gamma(h) \\quad \\text{(autocov.\\ depends only on lag } h\\text{)}. \\]\n\\end{keydef}\n\n\\textcolor{orange}{\\textbf{Example of a stationary series (June 2024 Q1b):} i.i.d.\\ Gaussian white noise} $\\omark{Y_t \\sim \\mathcal{N}(0,\\sigma^2)}$ \\textcolor{orange}{is stationary (constant mean/variance,} $\\omark{\\gamma(h)=0}$ \\textcolor{orange}{for} $\\omark{h \\neq 0}$\\textcolor{orange}{) --- worked out in sibling node ``Example 0: White Noise''.}",
+                "content": "\\textbf{\\textcolor{red}{STATIONARITY}}\n\n\\begin{keydef}\n\\fcnum{8}  time series $(Y_t)$ is \\textbf{stationary} if $E(Y_t)$ and $E(Y_t Y_{t+h})$ exist, are finite, and do not depend on $t$, for every $h = 0, 1, 2, \\dots$\n$$ \\mu(t) = \\mu, \\qquad \\sigma^2(t) = \\sigma^2, \\qquad \\gamma(t, t+h) = \\tilde\\gamma(h) \\quad \\text{(autocov.\\ depends only on lag } h\\text{)}. $$\n\\end{keydef}\n\n",
                 "flashcard": true,
                 "images": [],
                 "links": [],
@@ -5260,6 +5260,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-16T17:00:19.177Z"
+    "lastEditedAt": "2026-08-16T17:00:35.205Z"
   }
 }
