@@ -4677,12 +4677,26 @@ td .inline-image-token, th .inline-image-token { margin: 2px; }
   box-shadow:0 2px 8px rgba(0,0,0,.25);opacity:.92;}
 </style>
 <script>
-// Only the authorized editor device (the one holding the GitHub token) may edit.
-// Every other device (phone Safari, Chrome, etc.) is strictly READ-ONLY: it cannot
-// enter the block editor and cannot persist/push. Override for a tokenless editor
-// browser via localStorage 'mindnotes_editorUnlock'='1'.
+// A PHONE/TABLET must NEVER interfere with the PC: it is strictly read-only, holds
+// NO GitHub token, and never syncs/authenticates — so it can never trigger a 401 or
+// a PAT regeneration that would invalidate the PC's token. Desktop editing stays gated
+// on the token (PC Firefox). Override on a tokenless desktop editor via
+// localStorage 'mindnotes_editorUnlock'='1'.
+function _isMobileDevice(){
+  try{
+    if(/iPhone|iPad|iPod|Android|Mobile|Silk|Kindle/i.test(navigator.userAgent||'')) return true;
+    if(window.matchMedia && matchMedia('(pointer:coarse)').matches && matchMedia('(max-width:1024px)').matches) return true;
+    // iPadOS masquerades as Mac; catch touch-capable non-mouse devices too:
+    if((navigator.maxTouchPoints||0)>1 && !matchMedia('(pointer:fine)').matches) return true;
+  }catch(e){}
+  return false;
+}
+// Immediately (before the app's sync code reads it) strip any cached token on mobile,
+// so the phone can never push or authenticate.
+(function(){ try{ if(_isMobileDevice()) localStorage.removeItem('mindnotes_ghToken'); }catch(e){} })();
 function _isEditorDevice(){
   try{
+    if(_isMobileDevice()) return false;                 // phone/tablet: never an editor
     if(localStorage.getItem('mindnotes_editorUnlock')==='1') return true;
     return !!(localStorage.getItem('mindnotes_ghToken')||'');
   }catch(e){ return false; }
@@ -4690,7 +4704,7 @@ function _isEditorDevice(){
 document.addEventListener('DOMContentLoaded',function(){
   if(!_isEditorDevice()){
     var b=document.createElement('div');b.className='readonly-banner';
-    b.textContent='Read-only \u2014 editing is locked to the main PC';
+    b.textContent=_isMobileDevice() ? 'Read-only \u2014 phone view (never syncs)' : 'Read-only \u2014 editing is locked to the main PC';
     setTimeout(function(){document.body.appendChild(b);},1200);
   }
 });
@@ -12042,8 +12056,8 @@ document.addEventListener('DOMContentLoaded', function () {
 // Pull on subject open, debounced push on every edit, periodic poll for
 // VS Code edits, full commit history viewable + restorable.
 
-let _ghToken = localStorage.getItem('mindnotes_ghToken') || '';
-let _ghAutoSync = localStorage.getItem('mindnotes_ghAutoSync') !== 'false'; // default ON
+let _ghToken = _isMobileDevice() ? '' : (localStorage.getItem('mindnotes_ghToken') || '');
+let _ghAutoSync = !_isMobileDevice() && localStorage.getItem('mindnotes_ghAutoSync') !== 'false'; // default ON (never on mobile)
 let _ghShas = JSON.parse(localStorage.getItem('mindnotes_ghShas') || '{}');         // dataKey -> last known sha (persisted)
 let _ghLastPull = JSON.parse(localStorage.getItem('mindnotes_ghLastPull') || '{}'); // dataKey -> ISO timestamp (persisted)
 let _ghLastPush = JSON.parse(localStorage.getItem('mindnotes_ghLastPush') || '{}'); // dataKey -> ISO timestamp (persisted)
