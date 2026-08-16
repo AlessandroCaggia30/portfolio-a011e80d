@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-16T09:14:40.207Z",
+  "exportedAt": "2026-08-16T09:14:48.764Z",
   "data": {
     "topics": [
       {
@@ -2196,54 +2196,6 @@
                 }
               },
               {
-                "id": "ts_1780923227130",
-                "title": "Autocovariance function and correlogram",
-                "content": "\\textbf{\\textcolor{red}{Autocovariance function and correlogram}}\n\n\\begin{keydef}\n\\fcnum{12} \\textbf{Autocovariance function.} The autocovariance between two observations is\n$$ \\gamma(t,s) \\;=\\; \\operatorname{Cov}(Y_t, Y_s). $$\nThis quantity can be computed for any stochastic process as long as the covariance exists.\n\nHowever, for a \\emph{stationary} process, the covariance depends only on the lag $h = s - t$:\n$$ \\gamma(h) \\;=\\; \\operatorname{Cov}(Y_t, Y_{t+h}). $$\nThis is the usual \"autocovariance function\" that we use in time series courses.\n\n\\textbf{Autocorrelation function (ACF)}\nFor a stationary process you can then define:  $\\rho(h) = \\gamma(h)/\\gamma(0)$ with $\\rho(0)=1$, $|\\rho(h)|\\le 1 $\n\n\n\\textbf{Correlogram.} This is just the ACF esimated on the sample!  \n$$ \\hat\\rho(h) \\;=\\; \\frac{\\hat\\gamma(h)}{\\hat\\gamma(0)}. $$\nThe correlogram plots $\\hat\\rho(h)$ against the lag $h$, usually with $95\\%$ confidence bands $\\pm 1.96/\\sqrt{T}$ around 0 (under the null of white noise). It is a meaningful estimator only under weak stationarity + ergodicity.\n\\end{keydef}\n\n\n\\textcolor{orange}{\\textbf{Exam corner --- May 2025 Q1 (p.11); identical in May 2022 Q2 (p.21) and May 2021 Q2 (p.25).} (a) ``The autocovariance function can be defined only if the series is stationary'' --- NO.} $\\omark{\\gamma(t,t')=\\operatorname{Cov}(Y_t,Y_{t'})}$ \\textcolor{orange}{is defined for any process with finite second moments; stationarity is only what makes it collapse to a function of the lag} $\\omark{h=t'-t}$\\textcolor{orange}{. (b) ``The correlogram can estimate the acf only if the series is stationary'' --- YES: the sample acf averages products over time, so it consistently estimates the acf only under weak stationarity plus ergodicity. Both points are developed in the sibling node ``Autocovariance function and correlogram''.}",
-                "flashcard": false,
-                "images": [],
-                "links": [],
-                "x": 4008.416178528234,
-                "y": 1101.7419123471418,
-                "width": 240.7955860642766,
-                "height": 191.44796802093776,
-                "color": "yellow",
-                "fsrs": {
-                  "stability": 30.9444,
-                  "difficulty": 5.650862780000001,
-                  "elapsedDays": 0,
-                  "scheduledDays": 1,
-                  "reps": 2,
-                  "lapses": 0,
-                  "state": "review",
-                  "lastReview": "2026-06-14T15:09:42.976Z",
-                  "dueDate": "2026-06-15T15:09:42.976Z"
-                },
-                "fsrsCards": {
-                  "fc:13": {
-                    "stability": 1,
-                    "difficulty": 5,
-                    "elapsedDays": 0,
-                    "scheduledDays": 0,
-                    "reps": 0,
-                    "lapses": 0,
-                    "state": "new",
-                    "lastReview": null,
-                    "dueDate": "2026-08-14T21:39:19.630Z"
-                  },
-                  "fc:12": {
-                    "stability": 15.4722,
-                    "difficulty": 6.6786,
-                    "elapsedDays": 0,
-                    "scheduledDays": 1,
-                    "reps": 1,
-                    "lapses": 0,
-                    "state": "review",
-                    "lastReview": "2026-08-15T21:33:48.330Z",
-                    "dueDate": "2026-08-16T21:33:48.330Z"
-                  }
-                }
-              },
-              {
                 "id": "ts1781346257973",
                 "title": "Example 0: White Noise",
                 "content": "\\textbf{\\textcolor{red}{EXAMPLE 0 --- White noise (the simplest building block).}}\n\n\\begin{keydef}\n\\fcnum{9} A sequece of independent identiclal distirbuted zero mean normal random variables.\n\\[ Y_t \\;\\underbrace{\\sim}_{iid}\\; \\mathcal{N}(0, \\sigma^2), \\qquad t = 1, 2, \\dots \\]\n\\emph{No temporal dependence at all --- knowing $Y_{t-1}$ tells you nothing about $Y_t$.}\n\\[ E[Y_t] \\;=\\; 0 \\qquad \\forall\\, t. \\]\n\\[ \\mathrm{Var}(Y_t) \\;=\\; \\sigma^2 \\qquad \\forall\\, t. \\]\n\\emph{Variance is constant in $t$ --- nothing grows, nothing decays.}\n\\emph{Autocovariance.} By independence, $\\mathrm{Cov}(Y_t, Y_s) = 0$ whenever $t \\neq s$:\n\\[ \\gamma(h) \\;:=\\; \\mathrm{Cov}(Y_t, Y_{t+h}) \\;=\\; \\begin{cases} \\sigma^2 & h = 0, \\\\ 0 & h \\neq 0. \\end{cases} \\]\nDepends only on the lag $h$ (and only the zero lag is non-zero). \\quad $\\checkmark$\n\n\\emph{Autocorrelation.} $\\rho(0) = 1$, $\\rho(h) = 0$ for $h \\neq 0$. \\emph{The correlogram is a single spike at lag 0.}\n\n\\textbf{Stationarity verdict.} Constant mean $+$ constant variance $+$ autocovariance depending only on lag $\\Rightarrow$ \\textbf{weakly stationary} (and \\emph{strictly} stationary too, by the iid assumption). \\quad $\\checkmark\\checkmark$\n\\end{keydef}",
@@ -2569,6 +2521,57 @@
           }
         },
         "deletedAt": 1786809482655,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "ts_1780923227130",
+        "title": "Autocovariance function and correlogram",
+        "content": "\\textbf{\\textcolor{red}{Autocovariance function and correlogram}}\n\n\\begin{keydef}\n\\fcnum{12} \\textbf{Autocovariance function.} The autocovariance between two observations is\n$$ \\gamma(t,s) \\;=\\; \\operatorname{Cov}(Y_t, Y_s). $$\nThis quantity can be computed for any stochastic process as long as the covariance exists.\n\nHowever, for a \\emph{stationary} process, the covariance depends only on the lag $h = s - t$:\n$$ \\gamma(h) \\;=\\; \\operatorname{Cov}(Y_t, Y_{t+h}). $$\nThis is the usual \"autocovariance function\" that we use in time series courses.\n\n\\textbf{Autocorrelation function (ACF)}\nFor a stationary process you can then define:  $\\rho(h) = \\gamma(h)/\\gamma(0)$ with $\\rho(0)=1$, $|\\rho(h)|\\le 1 $\n\n\n\\textbf{Correlogram.} This is just the ACF esimated on the sample!  \n$$ \\hat\\rho(h) \\;=\\; \\frac{\\hat\\gamma(h)}{\\hat\\gamma(0)}. $$\nThe correlogram plots $\\hat\\rho(h)$ against the lag $h$, usually with $95\\%$ confidence bands $\\pm 1.96/\\sqrt{T}$ around 0 (under the null of white noise). It is a meaningful estimator only under weak stationarity + ergodicity.\n\\end{keydef}\n\n\n\\textcolor{orange}{\\textbf{Exam corner --- May 2025 Q1 (p.11); identical in May 2022 Q2 (p.21) and May 2021 Q2 (p.25).} (a) ``The autocovariance function can be defined only if the series is stationary'' --- NO.} $\\omark{\\gamma(t,t')=\\operatorname{Cov}(Y_t,Y_{t'})}$ \\textcolor{orange}{is defined for any process with finite second moments; stationarity is only what makes it collapse to a function of the lag} $\\omark{h=t'-t}$\\textcolor{orange}{. (b) ``The correlogram can estimate the acf only if the series is stationary'' --- YES: the sample acf averages products over time, so it consistently estimates the acf only under weak stationarity plus ergodicity. Both points are developed in the sibling node ``Autocovariance function and correlogram''.}",
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "x": 4008.416178528234,
+        "y": 1101.7419123471418,
+        "width": 240.7955860642766,
+        "height": 191.44796802093776,
+        "color": "yellow",
+        "fsrs": {
+          "stability": 30.9444,
+          "difficulty": 5.650862780000001,
+          "elapsedDays": 0,
+          "scheduledDays": 1,
+          "reps": 2,
+          "lapses": 0,
+          "state": "review",
+          "lastReview": "2026-06-14T15:09:42.976Z",
+          "dueDate": "2026-06-15T15:09:42.976Z"
+        },
+        "fsrsCards": {
+          "fc:13": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-14T21:39:19.630Z"
+          },
+          "fc:12": {
+            "stability": 15.4722,
+            "difficulty": 6.6786,
+            "elapsedDays": 0,
+            "scheduledDays": 1,
+            "reps": 1,
+            "lapses": 0,
+            "state": "review",
+            "lastReview": "2026-08-15T21:33:48.330Z",
+            "dueDate": "2026-08-16T21:33:48.330Z"
+          }
+        },
+        "deletedAt": 1786871686573,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
@@ -5176,6 +5179,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-16T09:14:39.600Z"
+    "lastEditedAt": "2026-08-16T09:14:46.573Z"
   }
 }
