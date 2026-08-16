@@ -7879,10 +7879,9 @@ function createNodeElement(node) {
         if (node.popBg)     el.style.setProperty('background', node.popBg, 'important');
         if (node.popBorder) el.style.setProperty('border-color', node.popBorder, 'important');
     } else if (node.color && NODE_COLORS[node.color]) {
+        // Color shows only as the left rail, not a card fill.
         el.style.borderLeftColor = NODE_COLORS[node.color];
         el.style.borderLeftWidth = '4px';
-        // Tint the WHOLE card with the chosen color, not just the left bar.
-        el.style.background = `color-mix(in srgb, ${NODE_COLORS[node.color]} 24%, var(--bg2))`;
     }
 
     // Calculate dynamic title size based on node dimensions
