@@ -13029,6 +13029,15 @@ async function ghPushNow() {
         // to the stale remote value by the next merge" bug (edits silently disappearing).
         const pushedData = JSON.parse(JSON.stringify(State.data));
         const pushedHash = _ghContentHash(pushedData);
+        // CRITICAL (data-loss fix 2026-08-17 #2): persist EXACTLY what we push to IndexedDB
+        // *before* the network round-trip, so the local DB can never lag behind git / the
+        // synced-hash. Without this, a push — especially the manual Push button, which bypasses
+        // the debounced _commitSave — stamps the edit "synced" (_ghLastSyncHash/base = hash(edit))
+        // while IndexedDB still holds the OLD content. A hard reload then loads the stale DB and
+        // the direction-blind pull guard clobbers the good remote with it. Writing here keeps
+        // IndexedDB == pushedData == _ghLastSyncHash == git at all times.
+        try { await _ghWriteToIDB(key, pushedData); }
+        catch (e) { console.warn('[push] local IndexedDB persist failed (non-fatal):', e); }
         const payload = {
             version: '2.0',
             exportedAt: new Date().toISOString(),
