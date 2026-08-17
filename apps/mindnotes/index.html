@@ -6700,6 +6700,13 @@ async function initAutosaveForSubject(dataKey) {
 // backup file if there is one (single permission prompt), otherwise run the
 // full first-time setup (pick/create the backup file + history folder).
 async function onAutosaveBannerClick() {
+    // OBSOLETE: superseded by the LocalFolder ("Connect local folder"). Route clicks there instead
+    // of the old per-subject file-backup flow (which also hit a 32-char picker-id bug).
+    if (typeof connectLocalFolder === 'function') {
+        if (typeof _lfDir !== 'undefined' && _lfDir) { if (typeof showToast === 'function') showToast('Local folder already connected ✓'); }
+        else connectLocalFolder();
+        return;
+    }
     const dataKey = State.currentSubject ? State.currentSubject.dataKey : null;
     if (!dataKey || !AUTOSAVE_SUBJECTS[dataKey]) return;
     try {
