@@ -13938,18 +13938,20 @@ function restoreFromTrash(nodeId) {
 
     const item = State.data.trash[index];
 
-    // Find target subtopic
-    let targetSub = null;
+    // Find target subtopic (and its topic, so we can navigate there after restoring)
+    let targetSub = null, targetTopic = null;
     for (const topic of State.data.topics) {
         const sub = topic.subtopics.find(s => s.id === item.fromSubtopic);
         if (sub) {
             targetSub = sub;
+            targetTopic = topic;
             break;
         }
     }
 
     // If original subtopic doesn't exist, use first available
     if (!targetSub && State.data.topics.length && State.data.topics[0].subtopics.length) {
+        targetTopic = State.data.topics[0];
         targetSub = State.data.topics[0].subtopics[0];
     }
 
