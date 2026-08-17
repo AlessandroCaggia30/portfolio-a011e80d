@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-17T12:43:17.743Z",
+  "exportedAt": "2026-08-17T12:43:26.831Z",
   "data": {
     "topics": [
       {
@@ -4819,6 +4819,63 @@
         "deletedAt": 1786970327257,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "1779445055863",
+        "title": "Parameter Estimation",
+        "content": "\\textbf{\\textcolor{red}{PARAMETER ESTIMATION}}\n\n\\begin{keydef}\n\\fcnum{24} Estimate the \\emph{fixed}, time-invariant constants $\\phi$ of the model from data $y_{1:T}$. Two routes: \\emph{maximum likelihood} (frequentist) or \\emph{Bayesian inference}.\n\n\\textcolor{orange}{\\textbf{The likelihood (prediction-error decomposition).}} \\textcolor{orange}{By the product rule,}\n$$ \\omark{L(\\phi) \\;=\\; f(y_{1:T} \\mid \\phi) \\;=\\; \\prod_{t=1}^{T} f(y_t \\mid y_{1:t-1}, \\phi)}. $$\n\\textcolor{orange}{For a DLM each factor is Gaussian, with the one-step-ahead forecast moments $(f_t, Q_t)$ delivered by the Kalman filter run at $\\phi$ (DLMwR eqs. 4.1--4.2):}\n$$ \\omark{L(\\phi) \\;=\\; \\prod_{t=1}^{T} \\mathcal{N}\\big(y_t;\\, f_t(\\phi),\\, Q_t(\\phi)\\big), \\qquad \\ell(\\phi) \\;=\\; -\\tfrac12 \\sum_{t=1}^{T} \\log\\abs{Q_t} \\;-\\; \\tfrac12 \\sum_{t=1}^{T} (y_t - f_t)' Q_t^{-1} (y_t - f_t)}. $$\n\nTwo approaches\n$\\bullet$ \\emph{Frequentist}: maximise the likelihood over $\\phi$ to get the MLE $\\hat\\phi$. \\textcolor{orange}{Concretely $\\hat\\phi = \\arg\\max_\\phi \\ell(\\phi)$ by numerical optimization (e.g. BFGS).} A note on identifiability: two parameter values $\\phi_1 \\neq \\phi_2$ may give the SAME likelihood for every possible dataset. Then the $\\arg\\max$ is not unique --- the model is \\emph{not identifiable}. Prefer the more parsimonious model.\n\n\\textcolor{orange}{\\emph{The plug-in procedure and its caveat (exam June 2026 Q7a; DLMwR pp. 143, 148).} In the classical framework, after computing the MLE $\\hat\\phi$ one plugs it into the model and applies the Chapter-2 filtering / smoothing / forecasting recursions as if $\\phi$ were a known constant.} \\textcolor{orange}{This common practice suffers from the difficulty of taking properly into account the uncertainty about $\\phi$: every output treats $\\hat\\phi$ as exact, so the resulting predictive intervals understate the total uncertainty --- they are too narrow.}\n\n$\\bullet$ \\emph{Bayesian inference for $\\phi$.} \\textcolor{orange}{Treat $\\phi$ as random with a prior $\\pi(\\phi)$; the model assumptions (Markov states, conditional independence of the $Y_t$ given the states) hold \\emph{conditionally on} $\\phi$.} \\textcolor{orange}{Marginally --- with $\\phi$ integrated out --- the classic properties are lost: the state process is no longer Markov and the observations are no longer conditionally i.i.d., because averaging over $\\pi(\\phi)$ ties all time points together.} \\textcolor{orange}{Every ingredient --- $F_t, G_t, V_t, W_t$ and the prior of $\\theta_0$ --- may depend on $\\phi$.} \\textcolor{orange}{Posterior:}\n$$ \\omark{f(\\phi \\mid y_{1:T}) \\;\\propto\\; f(y_{1:T} \\mid \\phi)\\, f(\\phi)}, $$\n\\textcolor{orange}{generally not analytically manageable outside conjugate special cases $\\Rightarrow$ MCMC: Gibbs sampling on the augmented $(\\theta_{0:T}, \\phi)$, alternating the full conditionals $\\pi(\\theta_{0:T} \\mid \\phi, y_{1:T})$ (drawn by FFBS) and $\\pi(\\phi \\mid \\theta_{0:T}, y_{1:T})$.} \\textcolor{orange}{\\emph{The joint density of the data (exam June 2024 Q7).} Frequentist: $p(y_{1:n}; \\phi) = \\prod_t p(y_t \\mid y_{1:t-1}; \\phi)$ (DLMwR eq. 4.1) \\emph{does} depend on the unknown $\\phi$.} \\textcolor{orange}{Bayesian: $\\phi$ is integrated out against its prior, giving the \\emph{prior predictive} (evidence)}\n$$ \\omark{p(y_{1:n}) \\;=\\; \\int p(y_{1:n} \\mid \\phi)\\, \\pi(\\phi)\\, d\\phi \\;=\\; \\int \\Big[ \\prod_{t=1}^{n} \\mathcal{N}\\big(y_t;\\, f_t(\\phi),\\, Q_t(\\phi)\\big) \\Big] \\pi(\\phi)\\, d\\phi} $$\n\\textcolor{orange}{--- a number free of $\\phi$: the normalizing constant of the posterior $f(\\phi \\mid y_{1:n})$.} \\textcolor{orange}{Predictives marginalise $\\phi$ out:}\n$$ \\omark{f(y_t \\mid y_{1:t-1}) \\;=\\; \\int f(y_t \\mid y_{1:t-1}, \\phi)\\, f(\\phi \\mid y_{1:t-1})\\, d\\phi} $$\n\\textcolor{orange}{--- a mixture of Gaussians.} \\textcolor{orange}{\\emph{Comment (exam June 2025 Q6, May 2025 Q6b).} Both the predictive and the filtering marginals are \\emph{mixtures} of Gaussians, not Gaussian.} \\textcolor{orange}{Mixing over the posterior of $\\phi$ propagates parameter uncertainty into the answer, so these densities are more dispersed than the plug-in Gaussian $\\mathcal{N}(f_t(\\hat\\phi),\\, Q_t(\\hat\\phi))$, which treats $\\hat\\phi$ as exact.}\n\n\\textcolor{orange}{\\emph{MCMC --- the basic idea (exam May 2022 Q8b, Misc 11.3 Q1d).} To approximate an intractable target distribution $\\pi$ (here the joint posterior of states and parameters), construct an \\emph{ergodic} (irreducible, aperiodic, recurrent) Markov chain whose transition kernel is designed to have $\\pi$ as its unique \\emph{invariant (stationary) distribution}.} \\textcolor{orange}{By the ergodic theorem the chain converges to $\\pi$ from any initialization: after a burn-in, the simulated path yields approximate draws from $\\pi$, and ergodic averages approximate expectations under $\\pi$; Gibbs sampling builds such a kernel by cycling through the full conditionals.} \\textcolor{orange}{(Convergence theory: see node \"Ergodic properties of a Markov chain (Theorem 2.1)\"; the invariant-distribution formulation of MCMC is covered in DLMwR Sec. 1.6, pp. 22--24: convergence and ergodic averages, eqs. 1.13--1.14, and the Gibbs sampler, Algorithm 1.1.)}\n\n\\textcolor{orange}{\\textbf{Bayesian filtering and prediction with unknown $\\phi$ --- mixture-of-Gaussians marginalisation.}}\n\n\\textcolor{orange}{\\emph{Derivation (DLMwR eq. 4.7).} The joint posterior factorises; integrating $\\phi$ out leaves the conditional averaged over the posterior of $\\phi$:}\n$$ \\omark{\\pi(\\theta_s, \\phi \\mid y_{1:t}) \\;=\\; \\pi(\\theta_s \\mid \\phi, y_{1:t})\\; \\pi(\\phi \\mid y_{1:t}) \\quad\\Longrightarrow\\quad \\pi(\\theta_s \\mid y_{1:t}) \\;=\\; \\int \\pi(\\theta_s \\mid \\phi, y_{1:t})\\; \\pi(\\phi \\mid y_{1:t})\\, d\\phi} $$\n\\textcolor{orange}{($s = t$ filtering, $s > t$ state prediction, $s < t$ smoothing).}\n\n\\textcolor{orange}{\\emph{Filtering ($s = t$).} The Chapter-2 KF recursions compute the \\emph{conditional} density $\\pi(\\theta_t \\mid \\phi, y_{1:t})$; it is now \\emph{averaged} with respect to the posterior of $\\phi$ given the data:}\n$$ \\omark{\\pi(\\theta_t \\mid y_{1:t}) \\;=\\; \\int \\underbrace{\\mathcal{N}_p\\big(\\theta_t;\\; m_t(\\phi),\\; C_t(\\phi)\\big)}_{\\text{KF at fixed } \\phi}\\; \\pi(\\phi \\mid y_{1:t})\\, d\\phi.} $$\n\n\\textcolor{orange}{\\emph{Predictive, explicitly.} For each fixed $\\phi$ the KF delivers the Gaussian one-step forecast:}\n$$ \\omark{p(y_t \\mid y_{1:t-1}) \\;=\\; \\int \\mathcal{N}\\big(y_t;\\; f_t(\\phi),\\; Q_t(\\phi)\\big)\\; p(\\phi \\mid y_{1:t-1})\\, d\\phi.} $$\n\n\\textcolor{orange}{\\emph{MCMC approximation of the mixture.} Draw $\\phi^{(1)}, \\dots, \\phi^{(S)}$ from the posterior by the Gibbs sampler above, run the KF at each draw, and average the resulting Gaussians:}\n$$ \\omark{p(y_t \\mid y_{1:t-1}) \\;\\approx\\; \\frac{1}{S} \\sum_{s=1}^{S} \\mathcal{N}\\big(y_t;\\; f_t(\\phi^{(s)}),\\; Q_t(\\phi^{(s)})\\big).} $$\n\\textcolor{orange}{\\emph{Limitation --- no on-line updating (DLMwR \"Filtering and on-line forecasting\").} MCMC output is not recursive: when a new observation $y_{t+1}$ arrives, the target becomes $\\pi(\\theta_{0:t+1}, \\phi \\mid y_{1:t+1})$ and the whole MCMC must be rerun.}\n\nThe Bayesian analogue of the MLE is the \\emph{maximum a posteriori}: pick the $\\phi$ that maximises the \\emph{posterior} (not the likelihood):\n$$ \\hat\\phi_{\\mathrm{MAP}} \\;=\\; \\arg\\max_\\phi\\, f(\\phi \\mid y_{1:T}) \\;=\\; \\arg\\max_\\phi\\, \\underbrace{f(y_{1:T} \\mid \\phi)}_{\\text{likelihood}} \\cdot \\underbrace{f(\\phi)}_{\\text{prior}}. $$\n\\emph{MAP as a compromise.} The MAP is the $\\phi$ that scores highest on the \\textbf{product} of (a) how plausible it was a priori $f(\\phi)$ and (b) how well it explains the observed data $f(y_{1:T} \\mid \\phi)$.\n\\end{keydef}\n",
+        "flashcard": true,
+        "images": [],
+        "links": [
+          {
+            "target": "cheatsheet_ssm_001",
+            "type": "forward"
+          }
+        ],
+        "x": 5376.307018926424,
+        "y": 3335.0873748357126,
+        "fsrs": {
+          "stability": 15.4722,
+          "difficulty": 7.731216100000001,
+          "elapsedDays": 0,
+          "scheduledDays": 1,
+          "reps": 2,
+          "lapses": 0,
+          "state": "review",
+          "lastReview": "2026-06-14T16:04:34.957Z",
+          "dueDate": "2026-06-15T16:04:34.957Z"
+        },
+        "width": 429.1991132109472,
+        "height": 215.23846473855076,
+        "color": "teal",
+        "fsrsCards": {
+          "fc:37": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-14T21:39:19.630Z"
+          },
+          "fc:24": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-15T16:46:00.925Z"
+          }
+        },
+        "userEdited": true,
+        "deletedAt": 1786970601565,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
       }
     ],
     "examTable": {
@@ -7424,6 +7481,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-17T12:43:17.689Z"
+    "lastEditedAt": "2026-08-17T12:43:26.814Z"
   }
 }
