@@ -12861,7 +12861,8 @@ function _ghSafeMerge(local, remote, base) {
         console.log('%c[declared pull]', 'font-weight:bold;color:#3987e5',
             '\n  UPDATE (changed on cloud, untouched by you):', updated.map(ttl),
             '\n  ADD (new cloud snippets):', added.map(ttl),
-            '\n  PROTECTED (you edited these — kept your local):', protectedLocal.map(ttl));
+            '\n  PROTECTED (you edited these — kept your local):', protectedLocal.map(ttl),
+            '\n  DELETED (you removed these — not resurrected):', honoredDeletes.map(ttl));
         return merged;
     } catch (e) { console.warn('[safe-merge] failed -> keeping local (no loss):', e); return local; }
 }
