@@ -13295,14 +13295,15 @@ async function ghPushNow() {
         _ghSetState('Up to date');
         _ghUpdateStatusUI();
     } catch (e) {
-        console.error('ghPush error:', e);
-        let m = e.message;
-        if (/\b401\b/.test(m)) {
-            m = 'Token rejected (401). If you regenerated the token in another browser, the one saved HERE is now dead — open 🔄 Sync and paste the current token. Tip: never fix one browser by regenerating; paste the SAME token everywhere.';
+        // Git is a PASSIVE background backup now (source of truth = local file + IndexedDB).
+        // A failed git push (network/GitHub hiccup, "Failed to fetch", 401, 504) is NON-critical
+        // and must NOT alarm the user — their edits are already saved locally. Log quietly only.
+        console.warn('[gh] passive backup push failed (non-critical, edits are saved locally):', e && e.message);
+        if (!GIT_PASSIVE_BACKUP) {
+            let m = e.message;
+            if (/\b401\b/.test(m)) { m = 'Token rejected (401) — open 🔄 Sync and paste the current token.'; }
+            _ghLastError = m; _ghSetState('Push error: ' + m); showToast('Push failed: ' + m);
         }
-        _ghLastError = m;
-        _ghSetState('Push error: ' + m);
-        showToast('Push failed: ' + m);
     } finally {
         _ghPushInFlight = false;
         updateGhStatusDot();
