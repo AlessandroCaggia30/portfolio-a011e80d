@@ -13006,21 +13006,37 @@ async function ghPushNow() {
                 }
             }
         } catch (_mErr) { console.warn('[push-merge] skipped (non-fatal):', _mErr); }
-        // Serialize in the seed-file format (wrap in { data: ... } to match seed schema)
+        // Serialize in the seed-file format (wrap in { data: ... } to match seed schema).
+        // CRITICAL (data-loss fix 2026-08-17): take an IMMUTABLE deep-copy snapshot of exactly
+        // what we serialize, and derive the post-push sync markers (_ghLastSyncHash, base) from
+        // THAT snapshot — never from the live State.data, which the user can mutate during the
+        // ~1-2s network round-trip below. Reading live State.data after the await caused the
+        // "edit made during an in-flight push is marked synced-but-never-pushed, then reverted
+        // to the stale remote value by the next merge" bug (edits silently disappearing).
+        const pushedData = JSON.parse(JSON.stringify(State.data));
+        const pushedHash = _ghContentHash(pushedData);
         const payload = {
             version: '2.0',
             exportedAt: new Date().toISOString(),
-            data: State.data
+            data: pushedData
         };
         const content = JSON.stringify(payload, null, 2);
         const msg = `mindnotes: update ${State.currentSubject.name} ${new Date().toISOString().slice(0,19).replace('T',' ')}`;
         const newSha = await ghPutFile(path, content, msg, _ghShas[key]);
         _ghShas[key] = newSha; _ghPersistShas();
-        _ghLastSyncHash[key] = _ghContentHash(State.data); _ghPersistSyncHash();
-        await _ghSetBase(key, State.data); // base = what we just pushed (now the shared truth)
+        _ghLastSyncHash[key] = pushedHash; _ghPersistSyncHash();
+        await _ghSetBase(key, pushedData); // base = EXACTLY what we just pushed (the shared truth)
         _ghLastPush[key] = new Date().toISOString(); _ghPersistPushStamps();
         _ghLastError = null;
-        _ghClearPending(key);
+        // If the user edited during the network round-trip, State.data is now newer than what
+        // we actually pushed. Those edits are still UNSYNCED — keep the key pending and schedule
+        // another push. Clearing pending here (with the no-op hash guard) would strand them forever.
+        if (_ghContentHash(State.data) !== pushedHash) {
+            _ghMarkPending(key);
+            if (typeof schedulePush === 'function') schedulePush();
+        } else {
+            _ghClearPending(key);
+        }
         console.log('[gh] push success', key, 'new sha:', newSha.slice(0,7));
         _ghSetState('Up to date');
         _ghUpdateStatusUI();
