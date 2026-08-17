@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-17T12:58:49.598Z",
+  "exportedAt": "2026-08-17T13:24:53.125Z",
   "data": {
     "topics": [
       {
@@ -2224,7 +2224,12 @@
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
-                "links": [],
+                "links": [
+                  {
+                    "target": "cheatsheet_ssm_001",
+                    "type": "forward"
+                  }
+                ],
                 "x": 5463.152257985101,
                 "y": 3383.980782814382,
                 "fsrs": {
@@ -7753,6 +7758,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-17T12:58:49.598Z"
+    "lastEditedAt": "2026-08-17T13:24:53.098Z"
   }
 }
