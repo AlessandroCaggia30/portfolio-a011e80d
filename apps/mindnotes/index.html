@@ -6597,7 +6597,7 @@ async function setupAutosaveDirectory() {
         try {
             alert('Now pick a folder for version history (hourly snapshots, last 7 days).');
             const dirHandle = await window.showDirectoryPicker({
-                id: 'autosave-history-' + dataKey,
+                id: ('ah_' + dataKey).slice(0, 32),   // showDirectoryPicker id max 32 chars
                 mode: 'readwrite',
                 startIn: 'desktop'
             });
