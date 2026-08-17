@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-17T15:24:17.914Z",
+  "exportedAt": "2026-08-17T15:24:38.030Z",
   "data": {
     "topics": [
       {
@@ -945,6 +945,28 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-15T07:59:23.056Z"
+                  },
+                  "fc:10a": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-17T15:24:33.759Z"
+                  },
+                  "fc:10b": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-17T15:24:33.759Z"
                   }
                 },
                 "fsrs": {
@@ -1879,6 +1901,6 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-15T16:40:16.000Z"
+    "lastEditedAt": "2026-08-17T15:24:28.705Z"
   }
 }
