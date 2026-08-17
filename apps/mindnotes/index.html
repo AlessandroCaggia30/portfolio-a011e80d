@@ -13440,6 +13440,9 @@ function schedulePush() {
 }
 
 async function ghPollOnce() {
+    // Passive-git guard: no automatic polling/pulling from git anymore (source of truth = local).
+    // (Also stops needless api.github.com calls, incl. during GitHub outages.)
+    if (GIT_PASSIVE_BACKUP) return;
     const path = _ghCurrentPath();
     const key = _ghCurrentKey();
     if (!path || !key) return;
