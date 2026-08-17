@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-17T12:23:53.441Z",
+  "exportedAt": "2026-08-17T12:30:41.294Z",
   "data": {
     "topics": [
       {
@@ -2477,81 +2477,6 @@
                 "color": "teal"
               },
               {
-                "id": "1778764934754",
-                "title": "Proof: the counts ratio is the MLE",
-                "content": "\n\n\\textbf{\\textcolor{red}{INFERENCE FOR MARKOV CHAINS}} \\emph{(panel of i.i.d.\\ chains)}\n\n\\begin{keydef}\n\\fcnum{18a} 0. \\textbf{Setting}: $n$ trajectories (chains) observed T times: $ y_{1:n,0:T}$, $k = 1, 2... n$ individuals. \n\n1. \\textbf{Modelling assumptions:}  M1) each chain is homogeneous Markov, M2) individuals k are independent = chains are independent\\textcolor{orange}{, and identically distributed, with common transition matrix $\\mathbf{P}$}\n\n\n2. \\textbf{Write the likelihood.}\n\n$$ \\underbrace{L(\\mathbf{P} | y_{1:n,0:T}) }_{\\text{For every of the n individuals a chain long T}} \\;\\overset{(1)}{=}\\; \\underbrace{\\prod_{k=1}^{n} P\\bigl(Y_{k,1:T} \\mid \\underbrace{y_{k,0}}_{\\text{init value for indiv k}}, \\mathbf{P}\\bigr)}_{(1)\\ \\ \\text{iid across each indiv }k} \\;\\overset{(2)}{=}\\; \\underbrace{\\prod_{k=1}^{n} \\prod_{t=1}^{T} P\\bigl(Y_{k,t} \\mid y_{k,0:t-1}, \\mathbf{P}\\bigr)}_{(2)\\ \\text{expand $Y_{1:T}$ + chain rule (you've already seen this Product in T)}} \\;\\overset{(3)}{=}\\; \\underbrace{\\prod_{k=1}^{n} \\prod_{t=1}^{T} P\\bigl(Y_{k,t} \\mid y_{k,t-1}, \\mathbf{P}\\bigr)}_{(3)\\ (M1)\\ \\text{Markov drops deep history}} \\;\\overset{(4)}{=}\\; \\underbrace{\\prod_{k=1}^{n} \\prod_{t=1}^{T} p_{y_{k,t-1},\\, y_{k,t}}}_{\\text{notation}}. $$   \n\nNow regroup by transition counts\\textcolor{orange}{. Define the matrix of transition counts $N = [n_{i,j}]$, where} $\\omark{n_{i,j} \\;=\\; \\#\\bigl\\{(k,t) : y_{k,t-1} = i,\\; y_{k,t} = j\\bigr\\}}$ \\textcolor{orange}{= number of observed transitions $i \\to j$, pooled over individuals $k = 1,\\dots,n$ and times $t = 1,\\dots,T$;} \\textcolor{orange}{its row totals $n_{i,+} = \\sum_{j} n_{i,j}$ count the departures from state $i$. Then:} $$ \\prod_{i=1}^{M}\\prod_{j=1}^{M} \\underbrace{p_{i,j}^{\\, n_{i,j}}}_{g(T(x), \\theta)}. $$ So the statistic $T(x) = \\{n_{i,j}\\}$ is \\textbf{jointly sufficient} for $\\mathbf{P}$ . *See note about the exponent. \n\n3.** Find the MLE**\n\\textbf{i) take logs.} Products are painful to differentiate; logs turn them into sums, and since $\\log$ is monotonic the maximizer doesn't change. So:\n$$ \\ell(\\mathbf{P}) \\;=\\; \\sum_{i,j} n_{ij}\\,\\log p_{ij}. $$\n\n\\textbf{ii) --- Lagrangian for one row (each row is independent).} For row $i$ you want to maximize $\\sum_j n_{ij}\\log p_{ij}$ subject to $\\sum_j p_{ij}=1$: \n$$ \\mathcal{L}_i \\;=\\; \\sum_j n_{ij}\\log p_{ij} \\;-\\; \\lambda_i\\Bigl(\\sum_j p_{ij} - 1\\Bigr). $$\nDifferentiate: $$ \\frac{\\partial \\mathcal{L}_i}{\\partial p_{ij}} \\;=\\; \\frac{n_{ij}}{p_{ij}} - \\lambda_i \\;=\\; 0 \\quad\\Longrightarrow\\quad p_{ij} \\;=\\; \\frac{n_{ij}}{\\lambda_i}. $$\n\nFrom the (probability budget) constraint: \n$$ 1 \\;=\\; \\sum_j p_{ij} \\;=\\; \\sum_j \\frac{n_{ij}}{\\lambda_i} \\;=\\; \\frac{1}{\\lambda_i}\\sum_j n_{ij} \\;=\\; \\frac{n_{i,+}}{\\lambda_i} \\quad\\Longrightarrow\\quad \\lambda_i \\;=\\; n_{i,+}. $$\nHence: \n$$ \\boxed{\\;\\hat{p}_{ij} \\;=\\; \\frac{n_{ij}}{n_{i,+}}\\;} $$\n\n\\end{keydef}\n\n\\begin{keydef}\n\\fcnum{18b} \\textcolor{orange}{\\textbf{Conditional independence along the chain (June 2026 Q2b; June 2025 Q1b; Misc 11.1.1 Q3).}} \\textcolor{orange}{Claim: for a Markov chain and any lag $k \\ge 1$,} $\\omark{Y_t \\;\\perp\\!\\!\\!\\perp\\; (Y_1, \\dots, Y_{t-k-1}) \\mid Y_{t-k}}$\\textcolor{orange}{. The exams ask $k = 1$ (given $Y_{t-1}$), $k = 2$ (given $Y_{t-2}$) and $k = 3$ (given $Y_{t-3}$); the answer is YES in every case.}\n\n\\textcolor{orange}{\\emph{d-separation criterion.} In a DAG, two sets of nodes are conditionally independent given a set $C$ if every path between them is blocked by $C$:} \\textcolor{orange}{a path is blocked when it contains a serial (chain) or diverging node inside $C$, or a collider outside $C$ with no descendant in $C$.}\n\n\\textcolor{orange}{\\emph{Graphical proof.} The DAG of a Markov chain is the single directed line} $\\omark{Y_0 \\to Y_1 \\to \\dots \\to Y_{t-k} \\to \\dots \\to Y_t}$\\textcolor{orange}{. The only path from any $Y_s$ with $s \\le t-k-1$ to $Y_t$ runs along this line, hence necessarily crosses $Y_{t-k}$, which sits on it as a serial node --- not a collider --- and belongs to the conditioning set, so the path is blocked.} \\textcolor{orange}{Thus $Y_{t-k}$ d-separates $Y_t$ from $(Y_1, \\dots, Y_{t-k-1})$, and d-separation implies conditional independence for a joint law that factorizes along the DAG.} $\\omark{\\square}$\n\\end{keydef}\n\n\\textcolor{orange}{\\textbf{``Markov chains are stationary'' --- NO (May 2026 Q2b).}} \\textcolor{orange}{Counterexample: the flip chain on $\\{1, 2\\}$ with $p_{1,2} = p_{2,1} = 1$, started at $Y_0 = 1$.} \\textcolor{orange}{Then $P(Y_n = 1) = 1$ for even $n$ and $0$ for odd $n$: the marginal law of $Y_n$ changes with $n$, so the process is not stationary (the marginals are not even identically distributed).} \\textcolor{orange}{A Markov chain is stationary only if started from an invariant distribution $\\pi = \\pi \\mathbf{P}$ (for the flip chain, $\\pi = (1/2, 1/2)$); in general the marginals evolve with $t$ --- see node ``Ergodic properties of a Markov chain (Theorem 2.1)''.}\n\n\\textcolor{orange}{\\textbf{Application (June 2025 Q2e): point estimate of the election probability.}}\n\n\\textcolor{orange}{Data (exam p.\\ 9): a panel is interviewed monthly from January ($t=0$) to June ($t=5$); states $1=$ YES, $2=$ NO, $3=$ Uncertain.} \\textcolor{orange}{Target:} $\\omark{q \\;=\\; \\Prob{\\text{July YES share} > 50\\%}}$\\textcolor{orange}{.}\n\n\\textcolor{orange}{The exam table is a \\emph{pooled} transition-count table: the $n_{ij}$ of this keydef, summed over all transitions $t = 1,\\dots,5$.} \\textcolor{orange}{Its grand total is $500 = 100 \\times 5$ (the model text sets $k = 1,\\dots,100$ chains, although the exam intro says $n = 1000$ individuals --- an internal inconsistency of the exam text).} \\textcolor{orange}{Hence the row totals $(n_{1,+}, n_{2,+}, n_{3,+}) = (150, 250, 100)$ count \\emph{departures} from each state at times $t = 0,\\dots,4$ (Jan--May occupancy pooled over chains); they are \\emph{not} the June ($t=5$) state counts, which sit inside the columns and cannot be recovered from the table.}\n\n\\textcolor{orange}{\\textbf{Step 1 --- counts-ratio MLEs and one-step propagation.}} \\textcolor{orange}{From the boxed MLE: $70/150 = 0.467$, $75/250 = 0.300$, $30/100 = 0.300$.} \\textcolor{orange}{Use the pooled occupancy mix $(150, 250, 100)/500$ as a \\emph{proxy} for the current-state distribution and push it one step through the estimated matrix:}\n$$ \\omark{\\hat p_{\\text{YES}} \\;=\\; \\frac{150\\cdot\\frac{70}{150} \\;+\\; 250\\cdot\\frac{75}{250} \\;+\\; 100\\cdot\\frac{30}{100}}{500} \\;=\\; \\frac{70 + 75 + 30}{500} \\;=\\; \\frac{175}{500} \\;=\\; 0.35.} $$\n\n\\textcolor{orange}{\\textbf{Step 2 --- CLT for the July proportion.}} \\textcolor{orange}{Each of the i.i.d.\\ panellists votes YES in July with estimated probability $0.35$; taking the exam's stated panel size $n = 1000$, the July share is approximately}\n$$ \\omark{\\bar Y_{\\text{July}} \\;\\approx\\; \\mathcal{N}\\!\\Bigl(0.35,\\; \\frac{0.35 \\cdot 0.65}{1000}\\Bigr), \\qquad \\sigma \\;\\approx\\; 0.015.} $$\n\n\\textcolor{orange}{\\textbf{Step 3 --- evaluate the tail.}}\n$$ \\omark{\\hat q \\;=\\; \\Prob{\\bar Y_{\\text{July}} > 0.5} \\;\\approx\\; 1 - \\Phi\\!\\Bigl(\\frac{0.5 - 0.35}{0.015}\\Bigr) \\;=\\; 1 - \\Phi(10) \\;\\approx\\; 0.} $$\n\\textcolor{orange}{Robustness: under any consistent reading of the panel size ($100$, $500$ or $1000$), the estimated July YES share $0.35$ is far below $50\\%$, so $\\hat q \\approx 0$ either way.}\n\n\n\\textit{Caveats one may want to relax:} higher-order Markov (memory $r > 1$); non-homogeneity ($\\mathbf{P}_t$ depends on $t$); individual-specific transition matrices (heterogeneity).\n\n\n*Coin flip, outcome: H, H, T, H. Probability of this exact sequence:$$p \\cdot p \\cdot (1-p) \\cdot p \\;=\\; p^{3} \\cdot (1-p)^{1}.$$ In short: $$\\text{exponent on } p_{i,j} = \\text{how many times you observed the transition } i \\to j.$$",
-                "flashcard": true,
-                "images": [],
-                "links": [
-                  {
-                    "target": "1778774488913",
-                    "type": "forward"
-                  }
-                ],
-                "x": 6001.133193674513,
-                "y": 3745.6249140931013,
-                "width": 364.33956267946735,
-                "height": 84.51579144043022,
-                "fsrs": {
-                  "stability": 0.8144,
-                  "difficulty": 7.208344460000001,
-                  "elapsedDays": 0,
-                  "scheduledDays": 1,
-                  "reps": 3,
-                  "lapses": 0,
-                  "state": "review",
-                  "lastReview": "2026-06-14T15:29:14.414Z",
-                  "dueDate": "2026-06-15T15:29:14.414Z"
-                },
-                "color": "teal",
-                "fsrsCards": {
-                  "fc:28": {
-                    "stability": 1,
-                    "difficulty": 5,
-                    "elapsedDays": 0,
-                    "scheduledDays": 0,
-                    "reps": 0,
-                    "lapses": 0,
-                    "state": "new",
-                    "lastReview": null,
-                    "dueDate": "2026-08-14T21:39:19.629Z"
-                  },
-                  "fc:29": {
-                    "stability": 1,
-                    "difficulty": 5,
-                    "elapsedDays": 0,
-                    "scheduledDays": 0,
-                    "reps": 0,
-                    "lapses": 0,
-                    "state": "new",
-                    "lastReview": null,
-                    "dueDate": "2026-08-15T15:49:57.711Z"
-                  },
-                  "fc:18a": {
-                    "stability": 0.4072,
-                    "difficulty": 8.2734,
-                    "elapsedDays": 0,
-                    "scheduledDays": 1,
-                    "reps": 2,
-                    "lapses": 0,
-                    "state": "learning",
-                    "lastReview": "2026-08-16T18:28:43.802Z",
-                    "dueDate": "2026-08-17T18:28:43.802Z"
-                  },
-                  "fc:18b": {
-                    "stability": 0.4072,
-                    "difficulty": 8.2734,
-                    "elapsedDays": 0,
-                    "scheduledDays": 1,
-                    "reps": 1,
-                    "lapses": 0,
-                    "state": "learning",
-                    "lastReview": "2026-08-16T18:28:46.046Z",
-                    "dueDate": "2026-08-17T18:28:46.046Z"
-                  }
-                }
-              },
-              {
                 "id": "1778774488913",
                 "title": "Asymptotics",
                 "content": "\\textbf{\\textcolor{red}{4.2 Asymptotic distributions.}}\n\n\\begin{keydef}\n\\fcnum{19} Aim: asympthotic distribution of  $p_{i,j}$ and $(\\hat p_{i,1}, \\dots, \\hat p_{i,M})$\n\n\n1) $(n_{i,1}, \\dots, n_{i,M}) \\sim \\mathrm{Multinomial}(n_{i,+};\\, p_{i,1}, \\dots, p_{i,M})$. Notice that $n_{i,+}$ is random, as it depends on the sample. If we knew $n_{i,+}$, by the properties of the MLE of multinomial probabilities, we would have\n\\[\n\\mathbb{E}(\\hat p_{i,j}) = p_{i,j}; \\qquad V(\\hat p_{i,j}) = \\frac{p_{i,j}(1 - p_{i,j})}{n_{i,+}}; \\qquad \\mathrm{Cov}(\\hat p_{i,j},\\, \\hat p_{i,h}) = -\\,\\frac{p_{i,j}\\, p_{i,h}}{n_{i,+}},\n\\]\nand, the multinomial porporiton, conditional on ni+, by CLT would be distirbuted as multivariate gaussians\n\n\\textbf{Why?*}\n2) \\emph{Prerequisite --- pin down the initial mix.} Assume the empirical initial distribution converges to a fixed $\\eta$:\n\\[ \\frac{ \\overbrace{n_h(0)}^{\\text{n of indiv in state h at 0}} }{n} \\;\\longrightarrow\\; \\underbrace{\\eta_h}_{\\text{initial probability of state $h$}}, \\qquad h = 1, \\dots, M. \\]\n(in a finite sample may differ.) Then let\n\\[\n\\underbrace{\\varphi_i}_{\\text{expected \\# of visits to state $i$ of individual $k$ over full $T$}} \\;=\\; \\sum_{h=1}^{M} \\eta_h \\sum_{t=1}^{T} p_{h,i}^{(t-1)}\n\\]\nOne can show that $n\\varphi_i$ is the expected total number of observations in state $i$ for $t = 0, \\dots, T-1$, and that\n\\[\n\\frac{n_{i,+}}{n} \\;\\longrightarrow\\; \\varphi_i,\n\\]\nso that, for large $n$, we have $n_{i,+} \\approx n\\varphi_i$. \n3) It can be proved that the rows of the estimated transition matrix $\\widehat{\\mathbf P}$ are asymptotically independent.\n\n**HENCE, overall:**\n\n\\emph{Full row (joint).}\n\\[\n(\\hat p_{i,1}, \\dots, \\hat p_{i,M})' \\;\\approx\\; \\mathcal{N}_M(\\mathbf{p}_i,\\, \\Sigma),\n\\]\nwith mean vector $\\mathbf{p}_i = (p_{i,1}, \\dots, p_{i,M})'$ and covariance matrix with elements\n\\[\nV(\\hat p_{i,j}) = \\frac{p_{i,j}(1 - p_{i,j})}{n\\varphi_i}; \\qquad \\mathrm{Cov}(\\hat p_{i,j},\\, \\hat p_{i,h}) = -\\,\\frac{p_{i,j}\\, p_{i,h}}{n\\varphi_i}. \\tag{5}\n\\]\n\n\n\\textbf{Asymptotic confidence interval (Wald).}\nThe marginal distribution of any one component is just the marginal of a multivariate Gaussian — and the marginal of a Gaussian is Gaussian, with mean and variance equal to the corresponding entry of the joint.\n\\[\n\\boxed{\\;\\hat p_{i,j} \\;\\pm\\; z_{1-\\alpha/2}\\,\\sqrt{\\frac{\\hat p_{i,j}\\,(1 - \\hat p_{i,j})}{n_{i,+}}}\\;}\n\\]\n\n\\textbf{Tail probability (for forecasting questions).} For any $X \\sim \\mathcal{N}(\\mu, \\sigma^2)$, standardise to $Z = (X - \\mu)/\\sigma \\sim \\mathcal{N}(0,1)$:\n\\[\n\\boxed{\\;\\mathbb{P}(X > c) \\;=\\; \\mathbb{P}\\!\\Bigl(Z > \\frac{c - \\mu}{\\sigma}\\Bigr) \\;=\\; 1 - \\Phi\\!\\Bigl(\\frac{c - \\mu}{\\sigma}\\Bigr).\\;}\n\\]\n\\emph{Used directly to estimate things like $\\mathbb{P}(\\text{July YES share} > 50\\%)$: plug $\\mu = \\hat p_{\\text{YES}}$, $\\sigma = \\sqrt{\\hat p(1-\\hat p)/n}$, $c = 0.5$.}\n\\end{keydef}\n\n\n*Why ?\n\\[ \\hat p_{i,j} \\;=\\; \\frac{n_{i,j}}{n_{i,+}} \\;=\\; \\frac{1}{n_{i,+}} \\sum_{m=1}^{n_{i,+}} X_m \\;=\\; \\overline X, \\]\nwhich is exactly the sample mean of the Bernoulli atoms: $ X_m=\\mathbf{1}\\{\\text{the }m\\text{-th departure from }i\\text{to }j\\}$. RECALLING THAT: \\emph{Mean and variance of a Bernoulli.} For $X \\sim \\mathrm{Bernoulli}(p)$:\n\\[ \\mathbb{E}[X] = p_{i,j}, \\qquad V(X) = p_{i,j} - p_{i,j}^2 = p_{i,j}(1-p_{i,j}). \\]\n\\emph{Distribution of the sample-mean estimator.} i.i.d.\\ CLT then gives\n\\[ \\sqrt{n_{i,+}}\\,(\\hat p_{i,j} - p_{i,j}) \\;\\xrightarrow{d}\\; \\mathcal{N}\\!\\bigl(0,\\; p_{i,j}(1 - p_{i,j})\\bigr) \\quad\\text{i.e.}\\quad \\hat p_{i,j} \\;\\approx\\; \\mathcal{N}\\!\\left(p_{i,j},\\; \\frac{p_{i,j}(1-p_{i,j})}{n_{i,+}}\\right). \\]\n2) The full row is just a multinomial, where the expected value and vdariance of each entry is as in the bernoulli mean estimator, but additionally here we haev the covariance term. \n",
@@ -2596,112 +2521,6 @@
                     "dueDate": "2026-08-17T18:28:49.379Z"
                   }
                 }
-              },
-              {
-                "id": "1779812428872",
-                "title": "Estimation of unknown parameters --- DLM (prediction-error decomposition)",
-                "content": "\\textbf{\\textcolor{red}{WRITING THE LIKELIHOOD OF A DLM WITH UNKNOWN $\\phi$ --- prediction-error decomposition.}}\n\n\\begin{keydef}\n\\fcnum{25} \n\\textbf{\\textcolor{red}{1. Chain rule (pure probability identity, no model assumption).}}\n$$ L(\\phi \\mid y_{1:T}) = p(y_{1:T} \\mid \\phi) \\;\\underbrace{=}_{\\text{chain rule in time}}\\; \\prod_{t=1}^{T} \\underbrace{p(y_t \\mid y_{1:t-1}, \\phi)}_{\\mathcal{N}_q\\bigl(y_t;\\; f_t(\\phi),\\; Q_t(\\phi)\\bigr)^{*1}} $$\n\n*\\emph{Why Gaussian:} $Y_t = F_t\\, \\theta_t + v_t$ is a linear combination of $\\theta_t \\mid y_{1:t-1} \\sim \\mathcal{N}(a_t, R_t)$ and independent $v_t \\sim \\mathcal{N}(0, V_t)$\n\n\\textbf{\\textcolor{red}{4. Log-likelihood (just take logs of the Gaussian densities).}}\nDefine the innovation $e_t = y_t - f_t(\\phi)$ and sum over $t$:\n$$ \\boxed{\\; -2\\log L(\\phi) \\;=\\; \\sum_{t=1}^{T}\\Bigl[\\,q\\log(2\\pi) \\;+\\; \\log|Q_t(\\phi)| \\;+\\; e_t^\\top\\, Q_t(\\phi)^{-1}\\, e_t\\,\\Bigr]. \\;} $$\n\\emph{This is the likelihood the exam wants you to write.} \n\n\\textcolor{orange}{Book form (DLMwR eq.~(4.2), p.~144): the likelihood is defined only \\emph{up to a constant factor}, so the per-term additive constant $q\\log(2\\pi)$ is dropped and one maximizes the constant-free log-likelihood}\n$$ \\omark{\\ell(\\phi) \\;=\\; -\\tfrac12 \\sum_{t=1}^{T} \\log\\abs{Q_t(\\phi)} \\;-\\; \\tfrac12 \\sum_{t=1}^{T} e_t^\\top\\, Q_t(\\phi)^{-1}\\, e_t,} $$\n\\textcolor{orange}{as used in the sibling \\emph{Parameter Estimation} node; dropping this constant does not change the maximizer $\\hat\\phi$.}\n\n\\emph{MLE footnote.} MLE needs numericql maximization: BFGS / Nelder-Mead.\n\n\\textcolor{orange}{\\textbf{Standard errors of the MLE} (asked for a DLM in May 2025 Extra Q3, June 2024 Extra Qc.ii and the May 2024 Q7 no-assignment box). Let $H$ be the Hessian of the negative log-likelihood $-\\ell$ evaluated at $\\hat\\phi$ (DLMwR p.~144); then $H^{-1}$ estimates $\\Var(\\hat\\phi)$, so}\n$$ \\omark{H \\;=\\; -\\, \\frac{\\partial^2 \\ell(\\phi)}{\\partial\\phi\\, \\partial\\phi'}\\bigg|_{\\phi=\\hat\\phi}, \\qquad \\mathrm{SE}(\\hat\\phi_r) \\;=\\; \\sqrt{\\big[H^{-1}\\big]_{rr}}.} $$\n\\textcolor{orange}{In R, get $H$ from the optimizer (\\texttt{optim(..., hessian=TRUE)} or \\texttt{dlmMLE(..., hessian=TRUE)}) and take \\texttt{sqrt(diag(solve(H)))}.}\n\\end{keydef}",
-                "flashcard": true,
-                "images": [],
-                "links": [],
-                "x": 5932.1468622898565,
-                "y": 3061.785740576882,
-                "width": 380.51824504471244,
-                "height": 144.81455612337663,
-                "color": "teal",
-                "fsrs": {
-                  "stability": 2.3658,
-                  "difficulty": 7.692872069052001,
-                  "elapsedDays": 0,
-                  "scheduledDays": 1,
-                  "reps": 3,
-                  "lapses": 0,
-                  "state": "review",
-                  "lastReview": "2026-06-14T21:24:49.358Z",
-                  "dueDate": "2026-06-15T21:24:49.358Z"
-                },
-                "fsrsCards": {
-                  "fc:38": {
-                    "stability": 1,
-                    "difficulty": 5,
-                    "elapsedDays": 0,
-                    "scheduledDays": 0,
-                    "reps": 0,
-                    "lapses": 0,
-                    "state": "new",
-                    "lastReview": null,
-                    "dueDate": "2026-08-14T21:39:19.630Z"
-                  },
-                  "fc:25": {
-                    "stability": 1,
-                    "difficulty": 5,
-                    "elapsedDays": 0,
-                    "scheduledDays": 0,
-                    "reps": 0,
-                    "lapses": 0,
-                    "state": "new",
-                    "lastReview": null,
-                    "dueDate": "2026-08-15T16:46:00.925Z"
-                  }
-                },
-                "userEdited": false
-              },
-              {
-                "id": "1778783599128",
-                "title": "Estimation",
-                "content": "\\textbf{\\textcolor{red}{2. ESTIMATION OF THE UNKNOWN PARAMETERS}}\n\n\\begin{keydef}\n\\fcnum{26} \n\\textcolor{orange}{\\textbf{Parameters.} Stating that the unknown parameters are} $\\omark{\\phi = (\\pi,\\, P,\\, B)}$ \\textcolor{orange}{(initial distribution, transition matrix, emission matrix) is correct only for the generic categorical HMM; two exam caveats:} \\textcolor{orange}{(i) $\\pi$ belongs to $\\phi$ only when the initial law is left unspecified by the model --- May 2023 Q3a fixes $S_0 = 1$ and May 2022 Q6a assumes a uniform initial distribution, so there $\\pi$ is known and must be excluded from the parameter list (likewise June 2025 Q2b: initial values fixed, so the initial probabilities are treated as known);} \\textcolor{orange}{(ii) the emission block is an emission \\emph{matrix} $B$ only for categorical emissions --- with parametric emissions it is the vector of emission parameters, e.g. state-dependent Gaussian variances $\\sigma^2_1, \\dots, \\sigma^2_k$ (May 2023 Q3, May 2022 Q6) or Poisson rates $\\lambda_1, \\lambda_2, \\lambda_3$ (May 2021 Q4b).}\n\n\\textbf{\\textcolor{red}{1. Writing the Likelihood}}\n$$L(\\phi \\mid y_{1:T}) \\;=\\;  p(y_{1:T} \\mid \\phi) \\;\\underbrace{=}_{\\text{marginalization}}\\; \\sum_{s_{0:T} \\,\\in\\, \\{1, \\dots, K\\}^{T+1}} p(y_{1:T},\\, s_{0:T} \\mid \\phi) \\;\\underbrace{=}_{\\text{chain rule}}\\; \\sum_{s_{0:T} \\,\\in\\, \\{1, \\dots, K\\}^{T+1}} \\underbrace{p(y_{1:T} \\mid s_{0:T},\\, \\phi)}_{(\\mathrm{A})\\,\\text{ obs.\\ given path}} \\;\\cdot\\; \\underbrace{p(s_{0:T} \\mid \\phi)}_{(\\mathrm{B})\\,\\text{ path probability}} \\; $$\n\n\\textcolor{orange}{Observation term (emission product) --- the original label \\emph{Decoding} here was wrong; decoding (inferring the latent path) is a separate task, see node \\emph{Smoothing and decoding}.}\n$$ (\\mathrm{A}) \\;=\\; p(y_{1:T} \\mid s_{0:T},\\, \\phi) \\;\\underbrace{=}_{\\text{unpack slice}}\\; p(y_1,\\, y_2,\\, \\dots,\\, y_T \\mid s_{0:T},\\, \\phi) \\;\\underbrace{=}_{\\text{Open}}\\; \\prod_{t=1}^{T} p(y_t \\mid y_{1:t-1},\\, s_{0:T},\\, \\phi) \\;\\underbrace{=}_{\\text{emission CI}}\\; \\prod_{t=1}^{T} p(y_t \\mid s_t,\\, \\phi) \\;=\\; \\prod_{t=1}^{T} b_{s_t, y_t}. $$\nTransition probabilities:\n$$ (\\mathrm{B}) \\;=\\; p(s_{0:T} \\mid \\phi) \\;\\underbrace{=}_{\\text{unpack slice}}\\; p(s_0,\\, s_1,\\, \\dots,\\, s_T \\mid \\phi) \\;\\underbrace{=}_{\\text{Open}}\\; p(s_0 \\mid \\phi) \\prod_{t=1}^{T} p(s_t \\mid s_{0:t-1},\\, \\phi) \\;\\underbrace{=}_{\\text{Markov}}\\; p(s_0 \\mid \\phi) \\prod_{t=1}^{T} p(s_t \\mid s_{t-1},\\, \\phi) \\;=\\; \\pi_{s_0} \\prod_{t=1}^{T} p_{s_{t-1}, s_t}. $$\n\n$$ \\boxed{\\; L(\\phi \\mid y_{1:T}) \\;=\\; \\sum_{s_{0:T} \\,\\in\\, \\{1, \\dots, K\\}^{T+1}} \\underbrace{\\pi_{s_0}}_{\\text{initial}} \\;\\cdot\\; \\underbrace{\\prod_{t=1}^{T} p_{s_{t-1}, s_t}}_{\\text{transitions}} \\;\\cdot\\; \\underbrace{\\prod_{t=1}^{T} b_{s_t, y_t}}_{\\text{emissions}}  \\;=\\; \\sum_{s_{0:T}} \\pi_{s_0}\\, p_{s_0, s_1}\\, b_{s_1, y_1}\\, p_{s_1, s_2}\\, b_{s_2, y_2}\\, \\cdots\\, p_{s_{T-1}, s_T}\\, b_{s_T, y_T}\\;} $$\n\n\\textcolor{orange}{The entry} $b_{s_t, y_t}$ \\textcolor{orange}{is a placeholder for a generic emission density: with parametric emissions the identical derivation (marginalisation, chain rule, Markov, emission CI) gives}\n$$ \\omark{L(\\phi \\mid y_{1:T}) \\;=\\; \\sum_{s_{0:T}} \\pi_{s_0} \\prod_{t=1}^{T} p_{s_{t-1}, s_t} \\prod_{t=1}^{T} f(y_t \\mid \\theta^*_{s_t}), \\qquad \\text{e.g. Poisson: } f(y \\mid \\lambda_j) = \\frac{e^{-\\lambda_j}\\, \\lambda_j^{y}}{y!}} $$\n\\textcolor{orange}{as required by May 2021 Q4c (Poisson, $k = 3$), May 2023 Q3 / May 2022 Q6 (Gaussian $N(0, \\sigma^2_j)$), June 2025 Extra Q2 (Bernoulli); see node \\emph{State space models (SSM)} for state-dependent parametric emissions.}\n\n\\textbf{\\textcolor{red}{2. Maximisation}} The MLE is $\\hat\\phi = \\arg\\max_{\\phi} L(\\phi \\mid y_{1:T})$. Direct numerical maximisation is feasible but expensive; in practice, the EM algorithm (\\emph{Baum-Welch} for HMMs) is the standard iterative procedure.\n\n\\textcolor{orange}{The raw sum has $K^{T+1}$ terms; evaluate $L$ efficiently via the forward algorithm --- see node \\emph{Decoding / filtering}.}\n\n\\textcolor{orange}{\\textbf{Standard errors} (asked in June 2025 Extra Q2b, June 2024 Extra Qa.ii, May 2025 Extra Q1): by asymptotic normality of the MLE,}\n$$ \\omark{\\widehat{\\Var}(\\hat\\phi) \\;=\\; \\mathcal{J}(\\hat\\phi)^{-1}, \\qquad \\mathcal{J}(\\hat\\phi) \\;=\\; -\\, \\frac{\\partial^2 \\log L(\\phi \\mid y_{1:T})}{\\partial \\phi\\, \\partial \\phi'} \\bigg|_{\\phi = \\hat\\phi}, \\qquad \\mathrm{SE}(\\hat\\phi_r) \\;=\\; \\sqrt{\\big[ \\mathcal{J}(\\hat\\phi)^{-1} \\big]_{rr}}} $$\n\\textcolor{orange}{i.e. the inverse observed information (numerical Hessian of the negative log-likelihood at the optimum). Note: EM (Baum-Welch) alone does not produce standard errors; the Hessian step is still needed.}\n\n\\textcolor{orange}{DLM case: for a (Gaussian) DLM the likelihood is instead computed by prediction-error decomposition via the Kalman filter (DLMwR Sec. 4.1) --- see nodes \\emph{Parameter Estimation} and \\emph{Estimation of unknown parameters --- DLM (prediction-error decomposition)}.}\n\\end{keydef}\n",
-                "flashcard": true,
-                "images": [],
-                "links": [
-                  {
-                    "target": "1778764934754",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "1778783697835",
-                    "type": "forward"
-                  }
-                ],
-                "x": 5974.138923452739,
-                "y": 3317.0928952534096,
-                "width": 420.06713911263796,
-                "height": 211.47040457904075,
-                "fsrs": {
-                  "stability": 0.4072,
-                  "difficulty": 8.24852112,
-                  "elapsedDays": 0,
-                  "scheduledDays": 1,
-                  "reps": 3,
-                  "lapses": 0,
-                  "state": "review",
-                  "lastReview": "2026-06-14T21:26:59.382Z",
-                  "dueDate": "2026-06-15T21:26:59.382Z"
-                },
-                "fsrsCards": {
-                  "fc:39": {
-                    "stability": 1,
-                    "difficulty": 5,
-                    "elapsedDays": 0,
-                    "scheduledDays": 0,
-                    "reps": 0,
-                    "lapses": 0,
-                    "state": "new",
-                    "lastReview": null,
-                    "dueDate": "2026-08-15T15:49:57.711Z"
-                  },
-                  "fc:26": {
-                    "stability": 1,
-                    "difficulty": 5,
-                    "elapsedDays": 0,
-                    "scheduledDays": 0,
-                    "reps": 0,
-                    "lapses": 0,
-                    "state": "new",
-                    "lastReview": null,
-                    "dueDate": "2026-08-15T16:46:00.925Z"
-                  }
-                },
-                "color": "teal"
               }
             ]
           }
@@ -4683,6 +4502,196 @@
         },
         "color": "teal",
         "deletedAt": 1786969428482,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "1778783599128",
+        "title": "Estimation",
+        "content": "\\textbf{\\textcolor{red}{2. ESTIMATION OF THE UNKNOWN PARAMETERS}}\n\n\\begin{keydef}\n\\fcnum{26} \n\\textcolor{orange}{\\textbf{Parameters.} Stating that the unknown parameters are} $\\omark{\\phi = (\\pi,\\, P,\\, B)}$ \\textcolor{orange}{(initial distribution, transition matrix, emission matrix) is correct only for the generic categorical HMM; two exam caveats:} \\textcolor{orange}{(i) $\\pi$ belongs to $\\phi$ only when the initial law is left unspecified by the model --- May 2023 Q3a fixes $S_0 = 1$ and May 2022 Q6a assumes a uniform initial distribution, so there $\\pi$ is known and must be excluded from the parameter list (likewise June 2025 Q2b: initial values fixed, so the initial probabilities are treated as known);} \\textcolor{orange}{(ii) the emission block is an emission \\emph{matrix} $B$ only for categorical emissions --- with parametric emissions it is the vector of emission parameters, e.g. state-dependent Gaussian variances $\\sigma^2_1, \\dots, \\sigma^2_k$ (May 2023 Q3, May 2022 Q6) or Poisson rates $\\lambda_1, \\lambda_2, \\lambda_3$ (May 2021 Q4b).}\n\n\\textbf{\\textcolor{red}{1. Writing the Likelihood}}\n$$L(\\phi \\mid y_{1:T}) \\;=\\;  p(y_{1:T} \\mid \\phi) \\;\\underbrace{=}_{\\text{marginalization}}\\; \\sum_{s_{0:T} \\,\\in\\, \\{1, \\dots, K\\}^{T+1}} p(y_{1:T},\\, s_{0:T} \\mid \\phi) \\;\\underbrace{=}_{\\text{chain rule}}\\; \\sum_{s_{0:T} \\,\\in\\, \\{1, \\dots, K\\}^{T+1}} \\underbrace{p(y_{1:T} \\mid s_{0:T},\\, \\phi)}_{(\\mathrm{A})\\,\\text{ obs.\\ given path}} \\;\\cdot\\; \\underbrace{p(s_{0:T} \\mid \\phi)}_{(\\mathrm{B})\\,\\text{ path probability}} \\; $$\n\n\\textcolor{orange}{Observation term (emission product) --- the original label \\emph{Decoding} here was wrong; decoding (inferring the latent path) is a separate task, see node \\emph{Smoothing and decoding}.}\n$$ (\\mathrm{A}) \\;=\\; p(y_{1:T} \\mid s_{0:T},\\, \\phi) \\;\\underbrace{=}_{\\text{unpack slice}}\\; p(y_1,\\, y_2,\\, \\dots,\\, y_T \\mid s_{0:T},\\, \\phi) \\;\\underbrace{=}_{\\text{Open}}\\; \\prod_{t=1}^{T} p(y_t \\mid y_{1:t-1},\\, s_{0:T},\\, \\phi) \\;\\underbrace{=}_{\\text{emission CI}}\\; \\prod_{t=1}^{T} p(y_t \\mid s_t,\\, \\phi) \\;=\\; \\prod_{t=1}^{T} b_{s_t, y_t}. $$\nTransition probabilities:\n$$ (\\mathrm{B}) \\;=\\; p(s_{0:T} \\mid \\phi) \\;\\underbrace{=}_{\\text{unpack slice}}\\; p(s_0,\\, s_1,\\, \\dots,\\, s_T \\mid \\phi) \\;\\underbrace{=}_{\\text{Open}}\\; p(s_0 \\mid \\phi) \\prod_{t=1}^{T} p(s_t \\mid s_{0:t-1},\\, \\phi) \\;\\underbrace{=}_{\\text{Markov}}\\; p(s_0 \\mid \\phi) \\prod_{t=1}^{T} p(s_t \\mid s_{t-1},\\, \\phi) \\;=\\; \\pi_{s_0} \\prod_{t=1}^{T} p_{s_{t-1}, s_t}. $$\n\n$$ \\boxed{\\; L(\\phi \\mid y_{1:T}) \\;=\\; \\sum_{s_{0:T} \\,\\in\\, \\{1, \\dots, K\\}^{T+1}} \\underbrace{\\pi_{s_0}}_{\\text{initial}} \\;\\cdot\\; \\underbrace{\\prod_{t=1}^{T} p_{s_{t-1}, s_t}}_{\\text{transitions}} \\;\\cdot\\; \\underbrace{\\prod_{t=1}^{T} b_{s_t, y_t}}_{\\text{emissions}}  \\;=\\; \\sum_{s_{0:T}} \\pi_{s_0}\\, p_{s_0, s_1}\\, b_{s_1, y_1}\\, p_{s_1, s_2}\\, b_{s_2, y_2}\\, \\cdots\\, p_{s_{T-1}, s_T}\\, b_{s_T, y_T}\\;} $$\n\n\\textcolor{orange}{The entry} $b_{s_t, y_t}$ \\textcolor{orange}{is a placeholder for a generic emission density: with parametric emissions the identical derivation (marginalisation, chain rule, Markov, emission CI) gives}\n$$ \\omark{L(\\phi \\mid y_{1:T}) \\;=\\; \\sum_{s_{0:T}} \\pi_{s_0} \\prod_{t=1}^{T} p_{s_{t-1}, s_t} \\prod_{t=1}^{T} f(y_t \\mid \\theta^*_{s_t}), \\qquad \\text{e.g. Poisson: } f(y \\mid \\lambda_j) = \\frac{e^{-\\lambda_j}\\, \\lambda_j^{y}}{y!}} $$\n\\textcolor{orange}{as required by May 2021 Q4c (Poisson, $k = 3$), May 2023 Q3 / May 2022 Q6 (Gaussian $N(0, \\sigma^2_j)$), June 2025 Extra Q2 (Bernoulli); see node \\emph{State space models (SSM)} for state-dependent parametric emissions.}\n\n\\textbf{\\textcolor{red}{2. Maximisation}} The MLE is $\\hat\\phi = \\arg\\max_{\\phi} L(\\phi \\mid y_{1:T})$. Direct numerical maximisation is feasible but expensive; in practice, the EM algorithm (\\emph{Baum-Welch} for HMMs) is the standard iterative procedure.\n\n\\textcolor{orange}{The raw sum has $K^{T+1}$ terms; evaluate $L$ efficiently via the forward algorithm --- see node \\emph{Decoding / filtering}.}\n\n\\textcolor{orange}{\\textbf{Standard errors} (asked in June 2025 Extra Q2b, June 2024 Extra Qa.ii, May 2025 Extra Q1): by asymptotic normality of the MLE,}\n$$ \\omark{\\widehat{\\Var}(\\hat\\phi) \\;=\\; \\mathcal{J}(\\hat\\phi)^{-1}, \\qquad \\mathcal{J}(\\hat\\phi) \\;=\\; -\\, \\frac{\\partial^2 \\log L(\\phi \\mid y_{1:T})}{\\partial \\phi\\, \\partial \\phi'} \\bigg|_{\\phi = \\hat\\phi}, \\qquad \\mathrm{SE}(\\hat\\phi_r) \\;=\\; \\sqrt{\\big[ \\mathcal{J}(\\hat\\phi)^{-1} \\big]_{rr}}} $$\n\\textcolor{orange}{i.e. the inverse observed information (numerical Hessian of the negative log-likelihood at the optimum). Note: EM (Baum-Welch) alone does not produce standard errors; the Hessian step is still needed.}\n\n\\textcolor{orange}{DLM case: for a (Gaussian) DLM the likelihood is instead computed by prediction-error decomposition via the Kalman filter (DLMwR Sec. 4.1) --- see nodes \\emph{Parameter Estimation} and \\emph{Estimation of unknown parameters --- DLM (prediction-error decomposition)}.}\n\\end{keydef}\n",
+        "flashcard": true,
+        "images": [],
+        "links": [
+          {
+            "target": "1778764934754",
+            "type": "forward"
+          },
+          {
+            "target": "1778783697835",
+            "type": "forward"
+          }
+        ],
+        "x": 5974.138923452739,
+        "y": 3317.0928952534096,
+        "width": 420.06713911263796,
+        "height": 211.47040457904075,
+        "fsrs": {
+          "stability": 0.4072,
+          "difficulty": 8.24852112,
+          "elapsedDays": 0,
+          "scheduledDays": 1,
+          "reps": 3,
+          "lapses": 0,
+          "state": "review",
+          "lastReview": "2026-06-14T21:26:59.382Z",
+          "dueDate": "2026-06-15T21:26:59.382Z"
+        },
+        "fsrsCards": {
+          "fc:39": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-15T15:49:57.711Z"
+          },
+          "fc:26": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-15T16:46:00.925Z"
+          }
+        },
+        "color": "teal",
+        "deletedAt": 1786969836324,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "1779812428872",
+        "title": "Estimation of unknown parameters --- DLM (prediction-error decomposition)",
+        "content": "\\textbf{\\textcolor{red}{WRITING THE LIKELIHOOD OF A DLM WITH UNKNOWN $\\phi$ --- prediction-error decomposition.}}\n\n\\begin{keydef}\n\\fcnum{25} \n\\textbf{\\textcolor{red}{1. Chain rule (pure probability identity, no model assumption).}}\n$$ L(\\phi \\mid y_{1:T}) = p(y_{1:T} \\mid \\phi) \\;\\underbrace{=}_{\\text{chain rule in time}}\\; \\prod_{t=1}^{T} \\underbrace{p(y_t \\mid y_{1:t-1}, \\phi)}_{\\mathcal{N}_q\\bigl(y_t;\\; f_t(\\phi),\\; Q_t(\\phi)\\bigr)^{*1}} $$\n\n*\\emph{Why Gaussian:} $Y_t = F_t\\, \\theta_t + v_t$ is a linear combination of $\\theta_t \\mid y_{1:t-1} \\sim \\mathcal{N}(a_t, R_t)$ and independent $v_t \\sim \\mathcal{N}(0, V_t)$\n\n\\textbf{\\textcolor{red}{4. Log-likelihood (just take logs of the Gaussian densities).}}\nDefine the innovation $e_t = y_t - f_t(\\phi)$ and sum over $t$:\n$$ \\boxed{\\; -2\\log L(\\phi) \\;=\\; \\sum_{t=1}^{T}\\Bigl[\\,q\\log(2\\pi) \\;+\\; \\log|Q_t(\\phi)| \\;+\\; e_t^\\top\\, Q_t(\\phi)^{-1}\\, e_t\\,\\Bigr]. \\;} $$\n\\emph{This is the likelihood the exam wants you to write.} \n\n\\textcolor{orange}{Book form (DLMwR eq.~(4.2), p.~144): the likelihood is defined only \\emph{up to a constant factor}, so the per-term additive constant $q\\log(2\\pi)$ is dropped and one maximizes the constant-free log-likelihood}\n$$ \\omark{\\ell(\\phi) \\;=\\; -\\tfrac12 \\sum_{t=1}^{T} \\log\\abs{Q_t(\\phi)} \\;-\\; \\tfrac12 \\sum_{t=1}^{T} e_t^\\top\\, Q_t(\\phi)^{-1}\\, e_t,} $$\n\\textcolor{orange}{as used in the sibling \\emph{Parameter Estimation} node; dropping this constant does not change the maximizer $\\hat\\phi$.}\n\n\\emph{MLE footnote.} MLE needs numericql maximization: BFGS / Nelder-Mead.\n\n\\textcolor{orange}{\\textbf{Standard errors of the MLE} (asked for a DLM in May 2025 Extra Q3, June 2024 Extra Qc.ii and the May 2024 Q7 no-assignment box). Let $H$ be the Hessian of the negative log-likelihood $-\\ell$ evaluated at $\\hat\\phi$ (DLMwR p.~144); then $H^{-1}$ estimates $\\Var(\\hat\\phi)$, so}\n$$ \\omark{H \\;=\\; -\\, \\frac{\\partial^2 \\ell(\\phi)}{\\partial\\phi\\, \\partial\\phi'}\\bigg|_{\\phi=\\hat\\phi}, \\qquad \\mathrm{SE}(\\hat\\phi_r) \\;=\\; \\sqrt{\\big[H^{-1}\\big]_{rr}}.} $$\n\\textcolor{orange}{In R, get $H$ from the optimizer (\\texttt{optim(..., hessian=TRUE)} or \\texttt{dlmMLE(..., hessian=TRUE)}) and take \\texttt{sqrt(diag(solve(H)))}.}\n\\end{keydef}",
+        "flashcard": true,
+        "images": [],
+        "links": [],
+        "x": 5932.1468622898565,
+        "y": 3061.785740576882,
+        "width": 380.51824504471244,
+        "height": 144.81455612337663,
+        "color": "teal",
+        "fsrs": {
+          "stability": 2.3658,
+          "difficulty": 7.692872069052001,
+          "elapsedDays": 0,
+          "scheduledDays": 1,
+          "reps": 3,
+          "lapses": 0,
+          "state": "review",
+          "lastReview": "2026-06-14T21:24:49.358Z",
+          "dueDate": "2026-06-15T21:24:49.358Z"
+        },
+        "fsrsCards": {
+          "fc:38": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-14T21:39:19.630Z"
+          },
+          "fc:25": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-15T16:46:00.925Z"
+          }
+        },
+        "userEdited": false,
+        "deletedAt": 1786969837744,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "1778764934754",
+        "title": "Proof: the counts ratio is the MLE",
+        "content": "\n\n\\textbf{\\textcolor{red}{INFERENCE FOR MARKOV CHAINS}} \\emph{(panel of i.i.d.\\ chains)}\n\n\\begin{keydef}\n\\fcnum{18a} 0. \\textbf{Setting}: $n$ trajectories (chains) observed T times: $ y_{1:n,0:T}$, $k = 1, 2... n$ individuals. \n\n1. \\textbf{Modelling assumptions:}  M1) each chain is homogeneous Markov, M2) individuals k are independent = chains are independent\\textcolor{orange}{, and identically distributed, with common transition matrix $\\mathbf{P}$}\n\n\n2. \\textbf{Write the likelihood.}\n\n$$ \\underbrace{L(\\mathbf{P} | y_{1:n,0:T}) }_{\\text{For every of the n individuals a chain long T}} \\;\\overset{(1)}{=}\\; \\underbrace{\\prod_{k=1}^{n} P\\bigl(Y_{k,1:T} \\mid \\underbrace{y_{k,0}}_{\\text{init value for indiv k}}, \\mathbf{P}\\bigr)}_{(1)\\ \\ \\text{iid across each indiv }k} \\;\\overset{(2)}{=}\\; \\underbrace{\\prod_{k=1}^{n} \\prod_{t=1}^{T} P\\bigl(Y_{k,t} \\mid y_{k,0:t-1}, \\mathbf{P}\\bigr)}_{(2)\\ \\text{expand $Y_{1:T}$ + chain rule (you've already seen this Product in T)}} \\;\\overset{(3)}{=}\\; \\underbrace{\\prod_{k=1}^{n} \\prod_{t=1}^{T} P\\bigl(Y_{k,t} \\mid y_{k,t-1}, \\mathbf{P}\\bigr)}_{(3)\\ (M1)\\ \\text{Markov drops deep history}} \\;\\overset{(4)}{=}\\; \\underbrace{\\prod_{k=1}^{n} \\prod_{t=1}^{T} p_{y_{k,t-1},\\, y_{k,t}}}_{\\text{notation}}. $$   \n\nNow regroup by transition counts\\textcolor{orange}{. Define the matrix of transition counts $N = [n_{i,j}]$, where} $\\omark{n_{i,j} \\;=\\; \\#\\bigl\\{(k,t) : y_{k,t-1} = i,\\; y_{k,t} = j\\bigr\\}}$ \\textcolor{orange}{= number of observed transitions $i \\to j$, pooled over individuals $k = 1,\\dots,n$ and times $t = 1,\\dots,T$;} \\textcolor{orange}{its row totals $n_{i,+} = \\sum_{j} n_{i,j}$ count the departures from state $i$. Then:} $$ \\prod_{i=1}^{M}\\prod_{j=1}^{M} \\underbrace{p_{i,j}^{\\, n_{i,j}}}_{g(T(x), \\theta)}. $$ So the statistic $T(x) = \\{n_{i,j}\\}$ is \\textbf{jointly sufficient} for $\\mathbf{P}$ . *See note about the exponent. \n\n3.** Find the MLE**\n\\textbf{i) take logs.} Products are painful to differentiate; logs turn them into sums, and since $\\log$ is monotonic the maximizer doesn't change. So:\n$$ \\ell(\\mathbf{P}) \\;=\\; \\sum_{i,j} n_{ij}\\,\\log p_{ij}. $$\n\n\\textbf{ii) --- Lagrangian for one row (each row is independent).} For row $i$ you want to maximize $\\sum_j n_{ij}\\log p_{ij}$ subject to $\\sum_j p_{ij}=1$: \n$$ \\mathcal{L}_i \\;=\\; \\sum_j n_{ij}\\log p_{ij} \\;-\\; \\lambda_i\\Bigl(\\sum_j p_{ij} - 1\\Bigr). $$\nDifferentiate: $$ \\frac{\\partial \\mathcal{L}_i}{\\partial p_{ij}} \\;=\\; \\frac{n_{ij}}{p_{ij}} - \\lambda_i \\;=\\; 0 \\quad\\Longrightarrow\\quad p_{ij} \\;=\\; \\frac{n_{ij}}{\\lambda_i}. $$\n\nFrom the (probability budget) constraint: \n$$ 1 \\;=\\; \\sum_j p_{ij} \\;=\\; \\sum_j \\frac{n_{ij}}{\\lambda_i} \\;=\\; \\frac{1}{\\lambda_i}\\sum_j n_{ij} \\;=\\; \\frac{n_{i,+}}{\\lambda_i} \\quad\\Longrightarrow\\quad \\lambda_i \\;=\\; n_{i,+}. $$\nHence: \n$$ \\boxed{\\;\\hat{p}_{ij} \\;=\\; \\frac{n_{ij}}{n_{i,+}}\\;} $$\n\n\\end{keydef}\n\n\\begin{keydef}\n\\fcnum{18b} \\textcolor{orange}{\\textbf{Conditional independence along the chain (June 2026 Q2b; June 2025 Q1b; Misc 11.1.1 Q3).}} \\textcolor{orange}{Claim: for a Markov chain and any lag $k \\ge 1$,} $\\omark{Y_t \\;\\perp\\!\\!\\!\\perp\\; (Y_1, \\dots, Y_{t-k-1}) \\mid Y_{t-k}}$\\textcolor{orange}{. The exams ask $k = 1$ (given $Y_{t-1}$), $k = 2$ (given $Y_{t-2}$) and $k = 3$ (given $Y_{t-3}$); the answer is YES in every case.}\n\n\\textcolor{orange}{\\emph{d-separation criterion.} In a DAG, two sets of nodes are conditionally independent given a set $C$ if every path between them is blocked by $C$:} \\textcolor{orange}{a path is blocked when it contains a serial (chain) or diverging node inside $C$, or a collider outside $C$ with no descendant in $C$.}\n\n\\textcolor{orange}{\\emph{Graphical proof.} The DAG of a Markov chain is the single directed line} $\\omark{Y_0 \\to Y_1 \\to \\dots \\to Y_{t-k} \\to \\dots \\to Y_t}$\\textcolor{orange}{. The only path from any $Y_s$ with $s \\le t-k-1$ to $Y_t$ runs along this line, hence necessarily crosses $Y_{t-k}$, which sits on it as a serial node --- not a collider --- and belongs to the conditioning set, so the path is blocked.} \\textcolor{orange}{Thus $Y_{t-k}$ d-separates $Y_t$ from $(Y_1, \\dots, Y_{t-k-1})$, and d-separation implies conditional independence for a joint law that factorizes along the DAG.} $\\omark{\\square}$\n\\end{keydef}\n\n\\textcolor{orange}{\\textbf{``Markov chains are stationary'' --- NO (May 2026 Q2b).}} \\textcolor{orange}{Counterexample: the flip chain on $\\{1, 2\\}$ with $p_{1,2} = p_{2,1} = 1$, started at $Y_0 = 1$.} \\textcolor{orange}{Then $P(Y_n = 1) = 1$ for even $n$ and $0$ for odd $n$: the marginal law of $Y_n$ changes with $n$, so the process is not stationary (the marginals are not even identically distributed).} \\textcolor{orange}{A Markov chain is stationary only if started from an invariant distribution $\\pi = \\pi \\mathbf{P}$ (for the flip chain, $\\pi = (1/2, 1/2)$); in general the marginals evolve with $t$ --- see node ``Ergodic properties of a Markov chain (Theorem 2.1)''.}\n\n\\textcolor{orange}{\\textbf{Application (June 2025 Q2e): point estimate of the election probability.}}\n\n\\textcolor{orange}{Data (exam p.\\ 9): a panel is interviewed monthly from January ($t=0$) to June ($t=5$); states $1=$ YES, $2=$ NO, $3=$ Uncertain.} \\textcolor{orange}{Target:} $\\omark{q \\;=\\; \\Prob{\\text{July YES share} > 50\\%}}$\\textcolor{orange}{.}\n\n\\textcolor{orange}{The exam table is a \\emph{pooled} transition-count table: the $n_{ij}$ of this keydef, summed over all transitions $t = 1,\\dots,5$.} \\textcolor{orange}{Its grand total is $500 = 100 \\times 5$ (the model text sets $k = 1,\\dots,100$ chains, although the exam intro says $n = 1000$ individuals --- an internal inconsistency of the exam text).} \\textcolor{orange}{Hence the row totals $(n_{1,+}, n_{2,+}, n_{3,+}) = (150, 250, 100)$ count \\emph{departures} from each state at times $t = 0,\\dots,4$ (Jan--May occupancy pooled over chains); they are \\emph{not} the June ($t=5$) state counts, which sit inside the columns and cannot be recovered from the table.}\n\n\\textcolor{orange}{\\textbf{Step 1 --- counts-ratio MLEs and one-step propagation.}} \\textcolor{orange}{From the boxed MLE: $70/150 = 0.467$, $75/250 = 0.300$, $30/100 = 0.300$.} \\textcolor{orange}{Use the pooled occupancy mix $(150, 250, 100)/500$ as a \\emph{proxy} for the current-state distribution and push it one step through the estimated matrix:}\n$$ \\omark{\\hat p_{\\text{YES}} \\;=\\; \\frac{150\\cdot\\frac{70}{150} \\;+\\; 250\\cdot\\frac{75}{250} \\;+\\; 100\\cdot\\frac{30}{100}}{500} \\;=\\; \\frac{70 + 75 + 30}{500} \\;=\\; \\frac{175}{500} \\;=\\; 0.35.} $$\n\n\\textcolor{orange}{\\textbf{Step 2 --- CLT for the July proportion.}} \\textcolor{orange}{Each of the i.i.d.\\ panellists votes YES in July with estimated probability $0.35$; taking the exam's stated panel size $n = 1000$, the July share is approximately}\n$$ \\omark{\\bar Y_{\\text{July}} \\;\\approx\\; \\mathcal{N}\\!\\Bigl(0.35,\\; \\frac{0.35 \\cdot 0.65}{1000}\\Bigr), \\qquad \\sigma \\;\\approx\\; 0.015.} $$\n\n\\textcolor{orange}{\\textbf{Step 3 --- evaluate the tail.}}\n$$ \\omark{\\hat q \\;=\\; \\Prob{\\bar Y_{\\text{July}} > 0.5} \\;\\approx\\; 1 - \\Phi\\!\\Bigl(\\frac{0.5 - 0.35}{0.015}\\Bigr) \\;=\\; 1 - \\Phi(10) \\;\\approx\\; 0.} $$\n\\textcolor{orange}{Robustness: under any consistent reading of the panel size ($100$, $500$ or $1000$), the estimated July YES share $0.35$ is far below $50\\%$, so $\\hat q \\approx 0$ either way.}\n\n\n\\textit{Caveats one may want to relax:} higher-order Markov (memory $r > 1$); non-homogeneity ($\\mathbf{P}_t$ depends on $t$); individual-specific transition matrices (heterogeneity).\n\n\n*Coin flip, outcome: H, H, T, H. Probability of this exact sequence:$$p \\cdot p \\cdot (1-p) \\cdot p \\;=\\; p^{3} \\cdot (1-p)^{1}.$$ In short: $$\\text{exponent on } p_{i,j} = \\text{how many times you observed the transition } i \\to j.$$",
+        "flashcard": true,
+        "images": [],
+        "links": [
+          {
+            "target": "1778774488913",
+            "type": "forward"
+          }
+        ],
+        "x": 6001.133193674513,
+        "y": 3745.6249140931013,
+        "width": 364.33956267946735,
+        "height": 84.51579144043022,
+        "fsrs": {
+          "stability": 0.8144,
+          "difficulty": 7.208344460000001,
+          "elapsedDays": 0,
+          "scheduledDays": 1,
+          "reps": 3,
+          "lapses": 0,
+          "state": "review",
+          "lastReview": "2026-06-14T15:29:14.414Z",
+          "dueDate": "2026-06-15T15:29:14.414Z"
+        },
+        "color": "teal",
+        "fsrsCards": {
+          "fc:28": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-14T21:39:19.629Z"
+          },
+          "fc:29": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-15T15:49:57.711Z"
+          },
+          "fc:18a": {
+            "stability": 0.4072,
+            "difficulty": 8.2734,
+            "elapsedDays": 0,
+            "scheduledDays": 1,
+            "reps": 2,
+            "lapses": 0,
+            "state": "learning",
+            "lastReview": "2026-08-16T18:28:43.802Z",
+            "dueDate": "2026-08-17T18:28:43.802Z"
+          },
+          "fc:18b": {
+            "stability": 0.4072,
+            "difficulty": 8.2734,
+            "elapsedDays": 0,
+            "scheduledDays": 1,
+            "reps": 1,
+            "lapses": 0,
+            "state": "learning",
+            "lastReview": "2026-08-16T18:28:46.046Z",
+            "dueDate": "2026-08-17T18:28:46.046Z"
+          }
+        },
+        "deletedAt": 1786969839723,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
@@ -7290,6 +7299,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-17T12:23:53.413Z"
+    "lastEditedAt": "2026-08-17T12:30:41.270Z"
   }
 }
