@@ -12539,6 +12539,37 @@ setInterval(function () {
     } catch (_) {}
 }, 60000);
 
+// ==================== UNIVERSAL AUTO-SYNC RECONCILER (2026-08-17 #4) ====================
+// GUARANTEE: "whatever action I do, it has to be pushed." Instead of relying on every
+// individual action to remember to call saveData()/markDirty(), this watchdog continuously
+// compares the live in-app data against the last-synced state. If they differ AT ALL — an
+// edit, a cut, a delete, a move, a reorder, ANYTHING — it persists to IndexedDB and pushes.
+// It only acts when there is a real unsynced difference, so it creates no spurious commits.
+let _reconcileInFlight = false;
+setInterval(async function () {
+    if (_reconcileInFlight) return;
+    try {
+        if (!_ghToken) return;                                  // read-only device / no token
+        if (typeof _isEditorDevice === 'function' && !_isEditorDevice()) return;
+        if (_ghPushInFlight || _ghPullInFlight) return;          // don't fight an in-flight sync
+        if (!State || !State.currentSubject || !State.data || !State.data.topics) return;
+        const key = _ghCurrentKey(); if (!key) return;
+        // Guard: never push an accidentally-emptied subject (matches _commitSave's 0-node guard).
+        const nodeCount = State.data.topics.reduce((a, t) => a + (t.subtopics || []).reduce((b, s) => b + (s.nodes || []).length, 0), 0);
+        if (nodeCount === 0) return;
+        const cur = _ghContentHash(State.data);
+        if (_ghLastSyncHash[key] === cur) return;                // already in sync — nothing to do
+        _reconcileInFlight = true;
+        // Persist locally first (so a reload can never load a stale copy), then push.
+        try { await _ghWriteToIDB(key, JSON.parse(JSON.stringify(State.data))); } catch (_) {}
+        _ghMarkPending(key);
+        await ghPushNow().catch(() => {});
+    } catch (_) {
+    } finally {
+        _reconcileInFlight = false;
+    }
+}, 4000);
+
 // Auto-download JSON backup: every 15 min IF there's dirty state or a pending
 // push (i.e. push isn't succeeding). File goes to your Downloads folder. This
 // is the offline safety net if IndexedDB gets nuked before push succeeds.
