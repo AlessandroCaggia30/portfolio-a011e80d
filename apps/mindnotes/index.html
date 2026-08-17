@@ -13237,21 +13237,27 @@ async function ghPushNow() {
     _ghPushInFlight = true;
     _ghSetState('Pushing…');
     try {
-        // RECONCILE FIRST (per-snippet declared merge): pull remote, apply only YOUR changed
-        // snippets on top, keep remote's changes to snippets you didn't touch. So a push can
-        // never clobber a snippet that was changed on the cloud (e.g. by Claude). Local wins on conflict.
-        try {
-            const _pushBase = await _ghLoadBase(key);
-            const _remote = await ghFetchFile(path).catch(() => null);
-            if (_remote && _remote.content && !/^<{7} |^={7}$|^>{7} /m.test(_remote.content)) {
-                let _rp = null; try { _rp = JSON.parse(_remote.content); } catch (_e) { _rp = null; }
-                const _rdata = _rp ? ((_rp.data && !_rp.topics) ? _rp.data : _rp) : null;
-                if (_rdata && _rdata.topics) {
-                    State.data = _ghSafeMerge(State.data, _rdata, _pushBase);
-                    _ghShas[key] = _remote.sha; // commit against the sha we just merged from
+        if (GIT_PASSIVE_BACKUP) {
+            // PASSIVE BACKUP: never merge git into local. Git is a one-way, best-effort backup and
+            // the local file + IndexedDB are the sole source of truth. Just refresh the remote sha
+            // (so the PUT doesn't 409); if it fails, we push with the stored sha and a 409 is a
+            // harmless non-event (retried on the next edit). State.data is NEVER touched here.
+            try { const _sha = await ghPeekRemoteSha(path); if (_sha) _ghShas[key] = _sha; } catch (_) {}
+        } else {
+            // ACTIVE (legacy) mode only: reconcile-merge remote before pushing.
+            try {
+                const _pushBase = await _ghLoadBase(key);
+                const _remote = await ghFetchFile(path).catch(() => null);
+                if (_remote && _remote.content && !/^<{7} |^={7}$|^>{7} /m.test(_remote.content)) {
+                    let _rp = null; try { _rp = JSON.parse(_remote.content); } catch (_e) { _rp = null; }
+                    const _rdata = _rp ? ((_rp.data && !_rp.topics) ? _rp.data : _rp) : null;
+                    if (_rdata && _rdata.topics) {
+                        State.data = _ghSafeMerge(State.data, _rdata, _pushBase);
+                        _ghShas[key] = _remote.sha;
+                    }
                 }
-            }
-        } catch (_mErr) { console.warn('[push-merge] skipped (non-fatal):', _mErr); }
+            } catch (_mErr) { console.warn('[push-merge] skipped (non-fatal):', _mErr); }
+        }
         // Serialize in the seed-file format (wrap in { data: ... } to match seed schema).
         // CRITICAL (data-loss fix 2026-08-17): take an IMMUTABLE deep-copy snapshot of exactly
         // what we serialize, and derive the post-push sync markers (_ghLastSyncHash, base) from
