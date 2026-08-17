@@ -6892,7 +6892,8 @@ async function connectLocalFolder(){
 async function _lfReadFile(subj){
     if (!_lfDir) return null;
     try {
-        const fh = await _lfDir.getFileHandle(_lfFileName(subj), { create:false });
+        const dir = await _lfSubDir(subj, false);
+        const fh = await dir.getFileHandle('data.json', { create:false });
         const txt = await (await fh.getFile()).text();
         if (/^<{7} |^={7}$|^>{7} /m.test(txt)) return null;             // conflict markers → ignore
         const p = JSON.parse(txt); const d = (p && p.data && !p.topics) ? p.data : p;
