@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-17T12:43:57.927Z",
+  "exportedAt": "2026-08-17T12:44:07.549Z",
   "data": {
     "topics": [
       {
@@ -4929,6 +4929,116 @@
         "deletedAt": 1786970611438,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "1778774488913",
+        "title": "Asymptotics",
+        "content": "\\textbf{\\textcolor{red}{4.2 Asymptotic distributions.}}\n\n\\begin{keydef}\n\\fcnum{19} Aim: asympthotic distribution of  $p_{i,j}$ and $(\\hat p_{i,1}, \\dots, \\hat p_{i,M})$\n\n\n1) $(n_{i,1}, \\dots, n_{i,M}) \\sim \\mathrm{Multinomial}(n_{i,+};\\, p_{i,1}, \\dots, p_{i,M})$. Notice that $n_{i,+}$ is random, as it depends on the sample. If we knew $n_{i,+}$, by the properties of the MLE of multinomial probabilities, we would have\n\\[\n\\mathbb{E}(\\hat p_{i,j}) = p_{i,j}; \\qquad V(\\hat p_{i,j}) = \\frac{p_{i,j}(1 - p_{i,j})}{n_{i,+}}; \\qquad \\mathrm{Cov}(\\hat p_{i,j},\\, \\hat p_{i,h}) = -\\,\\frac{p_{i,j}\\, p_{i,h}}{n_{i,+}},\n\\]\nand, the multinomial porporiton, conditional on ni+, by CLT would be distirbuted as multivariate gaussians\n\n\\textbf{Why?*}\n2) \\emph{Prerequisite --- pin down the initial mix.} Assume the empirical initial distribution converges to a fixed $\\eta$:\n\\[ \\frac{ \\overbrace{n_h(0)}^{\\text{n of indiv in state h at 0}} }{n} \\;\\longrightarrow\\; \\underbrace{\\eta_h}_{\\text{initial probability of state $h$}}, \\qquad h = 1, \\dots, M. \\]\n(in a finite sample may differ.) Then let\n\\[\n\\underbrace{\\varphi_i}_{\\text{expected \\# of visits to state $i$ of individual $k$ over full $T$}} \\;=\\; \\sum_{h=1}^{M} \\eta_h \\sum_{t=1}^{T} p_{h,i}^{(t-1)}\n\\]\nOne can show that $n\\varphi_i$ is the expected total number of observations in state $i$ for $t = 0, \\dots, T-1$, and that\n\\[\n\\frac{n_{i,+}}{n} \\;\\longrightarrow\\; \\varphi_i,\n\\]\nso that, for large $n$, we have $n_{i,+} \\approx n\\varphi_i$. \n3) It can be proved that the rows of the estimated transition matrix $\\widehat{\\mathbf P}$ are asymptotically independent.\n\n**HENCE, overall:**\n\n\\emph{Full row (joint).}\n\\[\n(\\hat p_{i,1}, \\dots, \\hat p_{i,M})' \\;\\approx\\; \\mathcal{N}_M(\\mathbf{p}_i,\\, \\Sigma),\n\\]\nwith mean vector $\\mathbf{p}_i = (p_{i,1}, \\dots, p_{i,M})'$ and covariance matrix with elements\n\\[\nV(\\hat p_{i,j}) = \\frac{p_{i,j}(1 - p_{i,j})}{n\\varphi_i}; \\qquad \\mathrm{Cov}(\\hat p_{i,j},\\, \\hat p_{i,h}) = -\\,\\frac{p_{i,j}\\, p_{i,h}}{n\\varphi_i}. \\tag{5}\n\\]\n\n\n\\textbf{Asymptotic confidence interval (Wald).}\nThe marginal distribution of any one component is just the marginal of a multivariate Gaussian — and the marginal of a Gaussian is Gaussian, with mean and variance equal to the corresponding entry of the joint.\n\\[\n\\boxed{\\;\\hat p_{i,j} \\;\\pm\\; z_{1-\\alpha/2}\\,\\sqrt{\\frac{\\hat p_{i,j}\\,(1 - \\hat p_{i,j})}{n_{i,+}}}\\;}\n\\]\n\n\\textbf{Tail probability (for forecasting questions).} For any $X \\sim \\mathcal{N}(\\mu, \\sigma^2)$, standardise to $Z = (X - \\mu)/\\sigma \\sim \\mathcal{N}(0,1)$:\n\\[\n\\boxed{\\;\\mathbb{P}(X > c) \\;=\\; \\mathbb{P}\\!\\Bigl(Z > \\frac{c - \\mu}{\\sigma}\\Bigr) \\;=\\; 1 - \\Phi\\!\\Bigl(\\frac{c - \\mu}{\\sigma}\\Bigr).\\;}\n\\]\n\\emph{Used directly to estimate things like $\\mathbb{P}(\\text{July YES share} > 50\\%)$: plug $\\mu = \\hat p_{\\text{YES}}$, $\\sigma = \\sqrt{\\hat p(1-\\hat p)/n}$, $c = 0.5$.}\n\\end{keydef}\n\n\n*Why ?\n\\[ \\hat p_{i,j} \\;=\\; \\frac{n_{i,j}}{n_{i,+}} \\;=\\; \\frac{1}{n_{i,+}} \\sum_{m=1}^{n_{i,+}} X_m \\;=\\; \\overline X, \\]\nwhich is exactly the sample mean of the Bernoulli atoms: $ X_m=\\mathbf{1}\\{\\text{the }m\\text{-th departure from }i\\text{to }j\\}$. RECALLING THAT: \\emph{Mean and variance of a Bernoulli.} For $X \\sim \\mathrm{Bernoulli}(p)$:\n\\[ \\mathbb{E}[X] = p_{i,j}, \\qquad V(X) = p_{i,j} - p_{i,j}^2 = p_{i,j}(1-p_{i,j}). \\]\n\\emph{Distribution of the sample-mean estimator.} i.i.d.\\ CLT then gives\n\\[ \\sqrt{n_{i,+}}\\,(\\hat p_{i,j} - p_{i,j}) \\;\\xrightarrow{d}\\; \\mathcal{N}\\!\\bigl(0,\\; p_{i,j}(1 - p_{i,j})\\bigr) \\quad\\text{i.e.}\\quad \\hat p_{i,j} \\;\\approx\\; \\mathcal{N}\\!\\left(p_{i,j},\\; \\frac{p_{i,j}(1-p_{i,j})}{n_{i,+}}\\right). \\]\n2) The full row is just a multinomial, where the expected value and vdariance of each entry is as in the bernoulli mean estimator, but additionally here we haev the covariance term. \n",
+        "flashcard": true,
+        "images": [],
+        "links": [],
+        "x": 6294.662948014508,
+        "y": 3895.597330328239,
+        "fsrs": {
+          "stability": 0.4072,
+          "difficulty": 8.24852112,
+          "elapsedDays": 0,
+          "scheduledDays": 1,
+          "reps": 4,
+          "lapses": 0,
+          "state": "review",
+          "lastReview": "2026-06-14T15:58:27.976Z",
+          "dueDate": "2026-06-15T15:58:27.976Z"
+        },
+        "color": "teal",
+        "fsrsCards": {
+          "fc:30": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-14T21:39:19.629Z"
+          },
+          "fc:19": {
+            "stability": 0.4072,
+            "difficulty": 8.2734,
+            "elapsedDays": 0,
+            "scheduledDays": 1,
+            "reps": 1,
+            "lapses": 0,
+            "state": "learning",
+            "lastReview": "2026-08-16T18:28:49.379Z",
+            "dueDate": "2026-08-17T18:28:49.379Z"
+          }
+        },
+        "deletedAt": 1786970638962,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "1779445055863",
+        "title": "Parameter Estimation",
+        "content": "\\textbf{\\textcolor{red}{PARAMETER ESTIMATION}}\n\n\\begin{keydef}\n\\fcnum{24} Estimate the \\emph{fixed}, time-invariant constants $\\phi$ of the model from data $y_{1:T}$. Two routes: \\emph{maximum likelihood} (frequentist) or \\emph{Bayesian inference}.\n\n\\textcolor{orange}{\\textbf{The likelihood (prediction-error decomposition).}} \\textcolor{orange}{By the product rule,}\n$$ \\omark{L(\\phi) \\;=\\; f(y_{1:T} \\mid \\phi) \\;=\\; \\prod_{t=1}^{T} f(y_t \\mid y_{1:t-1}, \\phi)}. $$\n\\textcolor{orange}{For a DLM each factor is Gaussian, with the one-step-ahead forecast moments $(f_t, Q_t)$ delivered by the Kalman filter run at $\\phi$ (DLMwR eqs. 4.1--4.2):}\n$$ \\omark{L(\\phi) \\;=\\; \\prod_{t=1}^{T} \\mathcal{N}\\big(y_t;\\, f_t(\\phi),\\, Q_t(\\phi)\\big), \\qquad \\ell(\\phi) \\;=\\; -\\tfrac12 \\sum_{t=1}^{T} \\log\\abs{Q_t} \\;-\\; \\tfrac12 \\sum_{t=1}^{T} (y_t - f_t)' Q_t^{-1} (y_t - f_t)}. $$\n\nTwo approaches\n$\\bullet$ \\emph{Frequentist}: maximise the likelihood over $\\phi$ to get the MLE $\\hat\\phi$. \\textcolor{orange}{Concretely $\\hat\\phi = \\arg\\max_\\phi \\ell(\\phi)$ by numerical optimization (e.g. BFGS).} A note on identifiability: two parameter values $\\phi_1 \\neq \\phi_2$ may give the SAME likelihood for every possible dataset. Then the $\\arg\\max$ is not unique --- the model is \\emph{not identifiable}. Prefer the more parsimonious model.\n\n\\textcolor{orange}{\\emph{The plug-in procedure and its caveat (exam June 2026 Q7a; DLMwR pp. 143, 148).} In the classical framework, after computing the MLE $\\hat\\phi$ one plugs it into the model and applies the Chapter-2 filtering / smoothing / forecasting recursions as if $\\phi$ were a known constant.} \\textcolor{orange}{This common practice suffers from the difficulty of taking properly into account the uncertainty about $\\phi$: every output treats $\\hat\\phi$ as exact, so the resulting predictive intervals understate the total uncertainty --- they are too narrow.}\n\n$\\bullet$ \\emph{Bayesian inference for $\\phi$.} \\textcolor{orange}{Treat $\\phi$ as random with a prior $\\pi(\\phi)$; the model assumptions (Markov states, conditional independence of the $Y_t$ given the states) hold \\emph{conditionally on} $\\phi$.} \\textcolor{orange}{Marginally --- with $\\phi$ integrated out --- the classic properties are lost: the state process is no longer Markov and the observations are no longer conditionally i.i.d., because averaging over $\\pi(\\phi)$ ties all time points together.} \\textcolor{orange}{Every ingredient --- $F_t, G_t, V_t, W_t$ and the prior of $\\theta_0$ --- may depend on $\\phi$.} \\textcolor{orange}{Posterior:}\n$$ \\omark{f(\\phi \\mid y_{1:T}) \\;\\propto\\; f(y_{1:T} \\mid \\phi)\\, f(\\phi)}, $$\n\\textcolor{orange}{generally not analytically manageable outside conjugate special cases $\\Rightarrow$ MCMC: Gibbs sampling on the augmented $(\\theta_{0:T}, \\phi)$, alternating the full conditionals $\\pi(\\theta_{0:T} \\mid \\phi, y_{1:T})$ (drawn by FFBS) and $\\pi(\\phi \\mid \\theta_{0:T}, y_{1:T})$.} \\textcolor{orange}{\\emph{The joint density of the data (exam June 2024 Q7).} Frequentist: $p(y_{1:n}; \\phi) = \\prod_t p(y_t \\mid y_{1:t-1}; \\phi)$ (DLMwR eq. 4.1) \\emph{does} depend on the unknown $\\phi$.} \\textcolor{orange}{Bayesian: $\\phi$ is integrated out against its prior, giving the \\emph{prior predictive} (evidence)}\n$$ \\omark{p(y_{1:n}) \\;=\\; \\int p(y_{1:n} \\mid \\phi)\\, \\pi(\\phi)\\, d\\phi \\;=\\; \\int \\Big[ \\prod_{t=1}^{n} \\mathcal{N}\\big(y_t;\\, f_t(\\phi),\\, Q_t(\\phi)\\big) \\Big] \\pi(\\phi)\\, d\\phi} $$\n\\textcolor{orange}{--- a number free of $\\phi$: the normalizing constant of the posterior $f(\\phi \\mid y_{1:n})$.} \\textcolor{orange}{Predictives marginalise $\\phi$ out:}\n$$ \\omark{f(y_t \\mid y_{1:t-1}) \\;=\\; \\int f(y_t \\mid y_{1:t-1}, \\phi)\\, f(\\phi \\mid y_{1:t-1})\\, d\\phi} $$\n\\textcolor{orange}{--- a mixture of Gaussians.} \\textcolor{orange}{\\emph{Comment (exam June 2025 Q6, May 2025 Q6b).} Both the predictive and the filtering marginals are \\emph{mixtures} of Gaussians, not Gaussian.} \\textcolor{orange}{Mixing over the posterior of $\\phi$ propagates parameter uncertainty into the answer, so these densities are more dispersed than the plug-in Gaussian $\\mathcal{N}(f_t(\\hat\\phi),\\, Q_t(\\hat\\phi))$, which treats $\\hat\\phi$ as exact.}\n\n\\textcolor{orange}{\\emph{MCMC --- the basic idea (exam May 2022 Q8b, Misc 11.3 Q1d).} To approximate an intractable target distribution $\\pi$ (here the joint posterior of states and parameters), construct an \\emph{ergodic} (irreducible, aperiodic, recurrent) Markov chain whose transition kernel is designed to have $\\pi$ as its unique \\emph{invariant (stationary) distribution}.} \\textcolor{orange}{By the ergodic theorem the chain converges to $\\pi$ from any initialization: after a burn-in, the simulated path yields approximate draws from $\\pi$, and ergodic averages approximate expectations under $\\pi$; Gibbs sampling builds such a kernel by cycling through the full conditionals.} \\textcolor{orange}{(Convergence theory: see node \"Ergodic properties of a Markov chain (Theorem 2.1)\"; the invariant-distribution formulation of MCMC is covered in DLMwR Sec. 1.6, pp. 22--24: convergence and ergodic averages, eqs. 1.13--1.14, and the Gibbs sampler, Algorithm 1.1.)}\n\n\\textcolor{orange}{\\textbf{Bayesian filtering and prediction with unknown $\\phi$ --- mixture-of-Gaussians marginalisation.}}\n\n\\textcolor{orange}{\\emph{Derivation (DLMwR eq. 4.7).} The joint posterior factorises; integrating $\\phi$ out leaves the conditional averaged over the posterior of $\\phi$:}\n$$ \\omark{\\pi(\\theta_s, \\phi \\mid y_{1:t}) \\;=\\; \\pi(\\theta_s \\mid \\phi, y_{1:t})\\; \\pi(\\phi \\mid y_{1:t}) \\quad\\Longrightarrow\\quad \\pi(\\theta_s \\mid y_{1:t}) \\;=\\; \\int \\pi(\\theta_s \\mid \\phi, y_{1:t})\\; \\pi(\\phi \\mid y_{1:t})\\, d\\phi} $$\n\\textcolor{orange}{($s = t$ filtering, $s > t$ state prediction, $s < t$ smoothing).}\n\n\\textcolor{orange}{\\emph{Filtering ($s = t$).} The Chapter-2 KF recursions compute the \\emph{conditional} density $\\pi(\\theta_t \\mid \\phi, y_{1:t})$; it is now \\emph{averaged} with respect to the posterior of $\\phi$ given the data:}\n$$ \\omark{\\pi(\\theta_t \\mid y_{1:t}) \\;=\\; \\int \\underbrace{\\mathcal{N}_p\\big(\\theta_t;\\; m_t(\\phi),\\; C_t(\\phi)\\big)}_{\\text{KF at fixed } \\phi}\\; \\pi(\\phi \\mid y_{1:t})\\, d\\phi.} $$\n\n\\textcolor{orange}{\\emph{Predictive, explicitly.} For each fixed $\\phi$ the KF delivers the Gaussian one-step forecast:}\n$$ \\omark{p(y_t \\mid y_{1:t-1}) \\;=\\; \\int \\mathcal{N}\\big(y_t;\\; f_t(\\phi),\\; Q_t(\\phi)\\big)\\; p(\\phi \\mid y_{1:t-1})\\, d\\phi.} $$\n\n\\textcolor{orange}{\\emph{MCMC approximation of the mixture.} Draw $\\phi^{(1)}, \\dots, \\phi^{(S)}$ from the posterior by the Gibbs sampler above, run the KF at each draw, and average the resulting Gaussians:}\n$$ \\omark{p(y_t \\mid y_{1:t-1}) \\;\\approx\\; \\frac{1}{S} \\sum_{s=1}^{S} \\mathcal{N}\\big(y_t;\\; f_t(\\phi^{(s)}),\\; Q_t(\\phi^{(s)})\\big).} $$\n\\textcolor{orange}{\\emph{Limitation --- no on-line updating (DLMwR \"Filtering and on-line forecasting\").} MCMC output is not recursive: when a new observation $y_{t+1}$ arrives, the target becomes $\\pi(\\theta_{0:t+1}, \\phi \\mid y_{1:t+1})$ and the whole MCMC must be rerun.}\n\nThe Bayesian analogue of the MLE is the \\emph{maximum a posteriori}: pick the $\\phi$ that maximises the \\emph{posterior} (not the likelihood):\n$$ \\hat\\phi_{\\mathrm{MAP}} \\;=\\; \\arg\\max_\\phi\\, f(\\phi \\mid y_{1:T}) \\;=\\; \\arg\\max_\\phi\\, \\underbrace{f(y_{1:T} \\mid \\phi)}_{\\text{likelihood}} \\cdot \\underbrace{f(\\phi)}_{\\text{prior}}. $$\n\\emph{MAP as a compromise.} The MAP is the $\\phi$ that scores highest on the \\textbf{product} of (a) how plausible it was a priori $f(\\phi)$ and (b) how well it explains the observed data $f(y_{1:T} \\mid \\phi)$.\n\\end{keydef}\n",
+        "flashcard": true,
+        "images": [],
+        "links": [
+          {
+            "target": "cheatsheet_ssm_001",
+            "type": "forward"
+          },
+          {
+            "target": "1778796878375",
+            "type": "both"
+          }
+        ],
+        "x": 5376.307018926424,
+        "y": 3335.0873748357126,
+        "fsrs": {
+          "stability": 15.4722,
+          "difficulty": 7.731216100000001,
+          "elapsedDays": 0,
+          "scheduledDays": 1,
+          "reps": 2,
+          "lapses": 0,
+          "state": "review",
+          "lastReview": "2026-06-14T16:04:34.957Z",
+          "dueDate": "2026-06-15T16:04:34.957Z"
+        },
+        "width": 429.1991132109472,
+        "height": 215.23846473855076,
+        "color": "teal",
+        "fsrsCards": {
+          "fc:37": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-14T21:39:19.630Z"
+          },
+          "fc:24": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-15T16:46:00.925Z"
+          }
+        },
+        "userEdited": true,
+        "deletedAt": 1786970640295,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
       }
     ],
     "examTable": {
@@ -7534,6 +7644,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-17T12:43:57.886Z"
+    "lastEditedAt": "2026-08-17T12:44:07.534Z"
   }
 }
