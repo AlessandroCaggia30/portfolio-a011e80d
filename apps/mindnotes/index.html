@@ -12917,7 +12917,18 @@ function _ghSafeMerge(local, remote, base) {
     } catch (e) { console.warn('[safe-merge] failed -> keeping local (no loss):', e); return local; }
 }
 
+// GIT DEMOTED TO PASSIVE, PUSH-ONLY BACKUP (2026-08-17). The source of truth is the LOCAL
+// store (IndexedDB + the Desktop file). Git is now only a best-effort off-machine backup that
+// is pushed in the background; it is NEVER pulled back over local data. This removes the entire
+// class of edit-loss bugs (stale-pull clobber, merge-revert-on-reload) at the root.
+const GIT_PASSIVE_BACKUP = true;
+
 async function ghPullNow() {
+    // Passive-git guard: never overwrite existing local data with a git pull. (Pull is still
+    // permitted only when the local store is genuinely empty — i.e. a first-ever seed.)
+    if (GIT_PASSIVE_BACKUP && State && State.data && State.data.topics && State.data.topics.length) {
+        return;
+    }
     if (_ghPullInFlight) return;
     const path = _ghCurrentPath();
     const key = _ghCurrentKey();
@@ -13280,6 +13291,8 @@ async function ghPeekRemoteSha(path) {
 }
 
 async function ghPullAll() {
+    // Passive-git guard: git no longer pulls over local (source of truth = local store).
+    if (GIT_PASSIVE_BACKUP) return;
     if (_ghPullInFlight) return;
     _ghPullInFlight = true;
     _ghSetState('Checking subjects…');
