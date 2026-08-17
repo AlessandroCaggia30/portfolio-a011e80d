@@ -6928,6 +6928,9 @@ async function _lfHistory(json, dataKey){
 // the in-memory/IDB copy; otherwise write the current copy to the file. Never loses local.
 async function _lfLoadIntoState(subj){
     if (!_lfDir || !subj) return;
+    // READ path disabled (hotfix): never adopt/merge the file into the app (unsound base handling
+    // could revert edits). Only mirror the current in-app data OUT to the file.
+    if (!LF_READ_ENABLED){ try { if (State.data && _lfNodeCount(State.data)) _lfWrite(subj, State.data); } catch(e){} return; }
     try {
         const file = await _lfReadFile(subj);
         const cur = State.data;
