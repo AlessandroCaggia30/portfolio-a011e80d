@@ -6765,37 +6765,35 @@ async function _writeAutosaveFile(dataKey, data) {
         await writable.write(json);
         await writable.close();
 
-        // Write a timestamped snapshot to the history folder every ~15 min; keep the last 24h
-        // (96 files = 24h x 4/hr). Filenames are ISO timestamps so they sort chronologically.
+        // ── LOCAL VERSION HISTORY — two tiers (2026-08-17) ──
+        // Tier 1 (fine):  a snapshot every 15 min, kept for the last 4 h  → 16 files in history/.
+        // Tier 2 (coarse): a snapshot every 2 h,   kept for the last 24 h → 12 files in history/long/.
+        // Filenames are ISO timestamps so a lexical sort is chronological; oldest are pruned.
         const now = new Date();
         const histDir = autosaveHistoryHandles[dataKey];
+        const _snapName = () => 'snap_' + now.toISOString().replace(/[:.]/g, '-') + '.json';
+        const _writeSnap = async (dir, name) => { const h = await dir.getFileHandle(name, { create: true }); const w = await h.createWritable(); await w.write(json); await w.close(); };
+        const _prune = async (dir, keep) => { const files = []; for await (const e of dir.values()) { if (e.kind === 'file' && e.name.startsWith('snap_') && e.name.endsWith('.json')) files.push(e.name); } files.sort(); while (files.length > keep) { await dir.removeEntry(files.shift()); } };
         if (histDir) {
-            const slot = Math.floor(now.getTime() / (15 * 60 * 1000)); // one snapshot per 15-min slot
-            const lastSlot = localStorage.getItem('autosave_slot_' + dataKey);
-            if (String(slot) !== lastSlot) {
-                try {
-                    const snapName = 'backup_' + now.toISOString().replace(/[:.]/g, '-') + '.json';
-                    const snapHandle = await histDir.getFileHandle(snapName, { create: true });
-                    const snapWritable = await snapHandle.createWritable();
-                    await snapWritable.write(json);
-                    await snapWritable.close();
-                    localStorage.setItem('autosave_slot_' + dataKey, String(slot));
-
-                    // Keep only the last 24h worth (96 snapshots); delete the oldest beyond that.
-                    const files = [];
-                    for await (const entry of histDir.values()) {
-                        if (entry.kind === 'file' && entry.name.startsWith('backup_') && entry.name.endsWith('.json')) {
-                            files.push(entry.name);
-                        }
-                    }
-                    files.sort();
-                    while (files.length > 96) {
-                        await histDir.removeEntry(files.shift());
-                    }
-                } catch (snapErr) {
-                    console.warn('History snapshot failed:', snapErr);
+            // Tier 1 — 15-min slots, keep last 4 h (16)
+            try {
+                const slot15 = Math.floor(now.getTime() / (15 * 60 * 1000));
+                if (String(slot15) !== localStorage.getItem('autosave_slot15_' + dataKey)) {
+                    await _writeSnap(histDir, _snapName());
+                    localStorage.setItem('autosave_slot15_' + dataKey, String(slot15));
+                    await _prune(histDir, 16);
                 }
-            }
+            } catch (e) { console.warn('[history] 15-min snapshot failed:', e); }
+            // Tier 2 — 2-hour slots, keep last 24 h (12), in a separate "long" subfolder
+            try {
+                const slot2h = Math.floor(now.getTime() / (2 * 60 * 60 * 1000));
+                if (String(slot2h) !== localStorage.getItem('autosave_slot2h_' + dataKey)) {
+                    const longDir = await histDir.getDirectoryHandle('long', { create: true });
+                    await _writeSnap(longDir, _snapName());
+                    localStorage.setItem('autosave_slot2h_' + dataKey, String(slot2h));
+                    await _prune(longDir, 12);
+                }
+            } catch (e) { console.warn('[history] 2-hour snapshot failed:', e); }
         }
 
         updateAutosaveUI(dataKey, 'connected', 'Backup: ' + handle.name + ' (saved ' + now.toLocaleTimeString() + ')');
