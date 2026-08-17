@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-17T15:18:29.905Z",
+  "exportedAt": "2026-08-17T15:19:45.557Z",
   "data": {
     "topics": [
       {
@@ -2848,6 +2848,68 @@
       }
     ],
     "trash": [
+      {
+        "id": "a5",
+        "title": "A5. Deferred Compensation / Seniority Pay (Lazear 1979, 1981)",
+        "content": "**Signal**: tenure. Pay < marginal product early, > marginal product late.\n\n**Solves**\n- Bonds worker to firm — being fired for shirking forfeits back-loaded pay.\n- Long horizon dampens the ratchet incentive (F3): giving up short-run output for long-run tenure.\n- Long horizon dampens Goodhart bunching (F6): quarter-end games matter less if 30-year payoff dominates.\n- Solves moral hazard when short-run output isn't measurable but reputation shapes retention.\n\n**Breaks**\n- Requires credible commitment from firm not to fire senior workers arbitrarily.\n- Creates incentives for mandatory retirement (Lazear 1979).\n- Weakens mobility — inefficient if outside options shift.\n\n**Use when**: firm-specific human capital matters, output hard to measure period-by-period, firm has commitment techno",
+        "x": 4600,
+        "y": 5480,
+        "width": 260,
+        "height": 180,
+        "flashcard": false,
+        "images": [],
+        "color": "blue",
+        "popBg": "#dbeafe",
+        "popShape": "rounded",
+        "links": [
+          {
+            "target": "f3",
+            "type": "forward"
+          },
+          {
+            "target": "f6",
+            "type": "forward"
+          }
+        ],
+        "deletedAt": 1784033724896,
+        "fromTopic": "pe-topic-1",
+        "fromSubtopic": "pe-sub-1"
+      },
+      {
+        "id": "a6",
+        "title": "A6. Career Concerns / Implicit Incentives (Fama 1980; Holmström 1982)",
+        "content": "**Signal**: your *future outside wage*, priced by the labor market from observed output.\n\n**Solves**\n- Market averages many noisy signals over time → attacks measurement noise (F1).\n- Naturally captures multidimensional output — market cares about overall ability, not one metric (F2).\n- Removes the ratchet (F3): market has no incentive to raise your standard if you produce more.\n- Continuous market pricing → no threshold to bunch at (F6).\n\n**Breaks**\n- Horizon effect: incentive weakens toward retirement (Gibbons–Murphy 1992).\n- Effort tilts to visible, market-legible activities → private-value tasks under-provided.\n- Requires market observability of individual output.\n\n**Use when**: high-visibility labor markets (CEOs, academics, professional services).",
+        "x": 4600,
+        "y": 5700,
+        "width": 260,
+        "height": 180,
+        "flashcard": false,
+        "images": [],
+        "color": "blue",
+        "popBg": "#dbeafe",
+        "popShape": "rounded",
+        "links": [
+          {
+            "target": "f1",
+            "type": "forward"
+          },
+          {
+            "target": "f2",
+            "type": "forward"
+          },
+          {
+            "target": "f3",
+            "type": "forward"
+          },
+          {
+            "target": "f6",
+            "type": "forward"
+          }
+        ],
+        "deletedAt": 1784033727579,
+        "fromTopic": "pe-topic-1",
+        "fromSubtopic": "pe-sub-1"
+      },
       {
         "id": "causal-empirical",
         "title": "★ Causal Identification — Empirical",
