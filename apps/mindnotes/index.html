@@ -11465,6 +11465,20 @@ function renderDetailView() {
 }
 
 function closeDetail() {
+    // CRITICAL (edit-loss fix 2026-08-17): flush any in-progress edit BEFORE tearing state
+    // down. exitDetailEditMode() flushes on edit→view, but the X button and the backdrop call
+    // closeDetail() directly. Without this, an edit typed within the ~1s autosave debounce is
+    // discarded here (selectedNode/currentContent get nulled just below), and the pending
+    // autoSaveContent then bails on !State.selectedNode — so the edit is lost, not just unpushed.
+    try {
+        const _ed = $('detailContentEditor');
+        if (_ed && State.selectedNode && State.isEditingFullContent) {
+            if (typeof saveDebounceTimer !== 'undefined') clearTimeout(saveDebounceTimer);
+            State.currentContent = normalizeLatexDelimiters(_ed.value);
+            State.contentBlocks = [State.currentContent];
+            autoSaveContent(); // writes State.selectedNode.content + persists (IDB + push)
+        }
+    } catch (e) { console.warn('closeDetail flush failed (non-fatal):', e); }
     State.isEditingFullContent = false;
     const panel = $('detailPanel');
     panel.classList.remove('open');
