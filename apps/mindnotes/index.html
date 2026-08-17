@@ -13091,11 +13091,9 @@ function _ghSafeMerge(local, remote, base) {
 const GIT_PASSIVE_BACKUP = true;
 
 async function ghPullNow() {
-    // Passive-git guard: never overwrite existing local data with a git pull. (Pull is still
-    // permitted only when the local store is genuinely empty — i.e. a first-ever seed.)
-    if (GIT_PASSIVE_BACKUP && State && State.data && State.data.topics && State.data.topics.length) {
-        return;
-    }
+    // GIT PULL IS TOTALLY DISABLED (user decision 2026-08-17): git can NEVER read into local.
+    // The local file + IndexedDB are the only source of truth. This is an unconditional block.
+    if (GIT_PASSIVE_BACKUP) return;
     if (_ghPullInFlight) return;
     const path = _ghCurrentPath();
     const key = _ghCurrentKey();
