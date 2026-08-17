@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-17T14:33:28.071Z",
+  "exportedAt": "2026-08-17T14:35:01.494Z",
   "data": {
     "topics": [
       {
@@ -14,7 +14,7 @@
               {
                 "id": "ts17786690819137257",
                 "title": "Aims of time series analysis",
-                "content": "\\textbf{\\textcolor{red}{AIMS OF TIME SERIES ANALYSIS}}\n\n\\begin{keydef}\n\\fcnum{0} $\\to$ \\textbf{Describe} -- trend, seasonal, cycle \n\n$\\to$ \\textbf{Explain} \n- **modeling and inference** write a model and estimate its parameters\n- \\textbf{Forecast} accounting for uncertainty\n\\end{keydef}\n",
+                "content": "\\textbf{\\textcolor{red}{AIMS OF TIME SERIES ANALYSIS}}\n\n\\begin{keydef}\n\\fcnum{0} $\\to$ \\textbf{Describe} -- trend, seasonal, cycle \n\n$\\to$ \\textbf{Explain} \n- **modeling and inference** write a model and estimate its parameters\n- \\textbf{Forecast} accounting for uncertainty\n\\end{keydef}\n\n\\textbf{\\textcolor{red}{[SYNC-TEST ✓ — if you see this in the app, Claude→file→website works. I will remove it.]}}",
                 "flashcard": false,
                 "images": [],
                 "links": [
@@ -842,8 +842,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 5273.6583196412175,
-                "y": 2572.38637711354,
+                "x": 5307.528495258078,
+                "y": 2575.7733946752264,
                 "width": 634,
                 "height": 324.39602206851157,
                 "fsrs": {
@@ -7801,6 +7801,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-17T14:33:27.995Z"
+    "lastEditedAt": "2026-08-17T14:35:01.441Z"
   }
 }
