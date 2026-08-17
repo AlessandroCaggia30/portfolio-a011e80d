@@ -13335,6 +13335,11 @@ async function ghPushAll() {
             const content = JSON.stringify(payload, null, 2);
             const msg = `mindnotes: bulk push ${subj.name} ${new Date().toISOString().slice(0,19).replace('T',' ')}`;
             const newSha = await ghPutFile(subj.repoPath, content, msg, _ghShas[subj.dataKey]);
+            // data-loss fix 2026-08-17 #2: keep IndexedDB in lock-step with the pushed data
+            // (same reason as ghPushNow). For the OPEN subject `data` is live State.data, which
+            // otherwise would never be written to IDB by a push → stale-on-reload → clobber.
+            try { await _ghWriteToIDB(subj.dataKey, data); }
+            catch (e) { console.warn('[pushAll] local IndexedDB persist failed (non-fatal):', e); }
             _ghShas[subj.dataKey] = newSha;
             _ghLastSyncHash[subj.dataKey] = h;
             _ghLastPush[subj.dataKey] = new Date().toISOString();
