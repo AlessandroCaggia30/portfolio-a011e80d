@@ -12836,11 +12836,16 @@ function _ghSafeMerge(local, remote, base) {
         const subById = {}; merged.topics.forEach(t => (t.subtopics || []).forEach(s => subById[s.id] = s));
         const firstSub = merged.topics[0] && merged.topics[0].subtopics && merged.topics[0].subtopics[0];
         const M = _ghNodesById(merged);
-        const updated = [], added = [], protectedLocal = [];
+        const updated = [], added = [], protectedLocal = [], honoredDeletes = [];
         Object.keys(R).forEach(id => {
             const r = R[id].node, b = B[id] && B[id].node, l = L[id] && L[id].node;
             const rChanged = !b || JSON.stringify(r) !== JSON.stringify(b); // remote declares change
-            if (!l) { // a snippet we don't have locally -> add it
+            if (!l) { // remote has this snippet, local does not
+                // CRITICAL (delete-resurrection fix 2026-08-17 #3): distinguish a genuinely NEW
+                // cloud snippet from one the USER DELETED locally. If it was present at the last
+                // sync (exists in base) but is gone locally now, the user deleted/cut it since —
+                // do NOT resurrect it. Only add snippets that are new on the cloud (not in base).
+                if (b) { honoredDeletes.push(id); return; }   // deleted locally → respect the deletion
                 (subById[R[id].subId] || firstSub).nodes.push(JSON.parse(JSON.stringify(r))); added.push(id); return;
             }
             const lChanged = !b || JSON.stringify(l) !== JSON.stringify(b); // local declares change
