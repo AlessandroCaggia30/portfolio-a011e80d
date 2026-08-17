@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-17T10:38:28.302Z",
+  "exportedAt": "2026-08-17T10:39:25.326Z",
   "data": {
     "topics": [
       {
@@ -1507,7 +1507,7 @@
               {
                 "id": "cheatsheet_ssm_001",
                 "title": "SSM filtering and prediction",
-                "content": "f you can describe when a loss ",
+                "content": "",
                 "flashcard": true,
                 "images": [],
                 "links": [
@@ -5939,6 +5939,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-17T10:38:28.294Z"
+    "lastEditedAt": "2026-08-17T10:39:25.317Z"
   }
 }
