@@ -6841,7 +6841,11 @@ let _lfBase = {};                  // dataKey -> last file state we reconciled w
 let _lfWriteTimers = {};           // dataKey -> debounce timer
 let _lfLastWriteHash = {};         // dataKey -> hash of what WE last wrote (to detect external edits)
 let _lfPollTimer = null;
-const _lfFileName = (subj) => (subj && subj.repoPath ? subj.repoPath.split('/').pop() : ('data_' + (subj && subj.dataKey || 'x') + '.json'));
+// Per-subject SUBFOLDER layout (2026-08-17): MindNotes/<subject>/data.json + <subject>/history/…
+// New subjects need NO setup — their subfolder is auto-created on first write. Connect the ONE
+// MindNotes folder once and every subject (existing + future) organizes itself inside it.
+const _lfSubName = (subj) => String((subj && (subj.id || subj.dataKey)) || 'subject').replace(/[^A-Za-z0-9._ -]/g, '_');
+async function _lfSubDir(subj, create){ if (!_lfDir) return null; return await _lfDir.getDirectoryHandle(_lfSubName(subj), { create: !!create }); }
 const _lfNodeCount = (d) => (d && d.topics ? d.topics.reduce((a,t)=>a+(t.subtopics||[]).reduce((b,s)=>b+(s.nodes||[]).length,0),0) : 0);
 
 async function _lfStoreDir(h){ try { await _ghWriteToIDB('lf::dir', h); } catch(e){ console.warn('[lf] store dir failed', e); } }
