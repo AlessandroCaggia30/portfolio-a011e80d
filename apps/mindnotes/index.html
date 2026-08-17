@@ -6952,7 +6952,7 @@ async function _lfLoadIntoState(subj){
     } catch(e){ console.warn('[lf] load failed', e); }
 }
 
-function _lfStartPoll(){ if (_lfPollTimer) clearInterval(_lfPollTimer); _lfPollTimer = setInterval(() => { if (document.visibilityState==='visible') _lfPollOnce(); }, 3000); }
+function _lfStartPoll(){ if (!LF_READ_ENABLED) return; if (_lfPollTimer) clearInterval(_lfPollTimer); _lfPollTimer = setInterval(() => { if (document.visibilityState==='visible') _lfPollOnce(); }, 3000); }
 async function _lfPollOnce(){
     if (!_lfDir || !State.currentSubject || !State.data) return;
     const subj = State.currentSubject;
