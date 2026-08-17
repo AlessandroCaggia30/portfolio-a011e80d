@@ -16985,6 +16985,9 @@ async function selectSubject(subject) {
     updateFlashcardStats();
     updateTrashCount();
     initAutosaveForSubject(subject.dataKey);
+    // Local folder is the source of truth: adopt the folder file if it's newer than IndexedDB
+    // (picks up chunk edits Claude made while the app was closed), else seed the file. Never loses local.
+    try { if (typeof _lfLoadIntoState === 'function') _lfLoadIntoState(subject); } catch (e) {}
     // Do NOT await the GitHub pull — it blocks the UI on a network request.
     // Fire it in the background; if remote has changes, ghPullNow updates the
     // UI when the response arrives. If remote is unchanged, the cheap sha
