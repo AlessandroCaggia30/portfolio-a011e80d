@@ -6862,13 +6862,17 @@ async function connectLocalFolder(){
         for (const s of SUBJECTS){
             try {
                 const idb = await _ghReadFromIDB(s.dataKey);
-                const file = await _lfReadFile(s);
-                if (file && _lfNodeCount(file) && (!idb || (file.lastEditedAt||'') >= (idb.lastEditedAt||''))){
-                    await _ghWriteToIDB(s.dataKey, file);                 // file is newer → adopt into IDB
-                    if (State.currentSubject && State.currentSubject.dataKey === s.dataKey){ State.data = file; }
-                } else if (idb && _lfNodeCount(idb)){
-                    await _lfWriteNow(s, idb);                            // no/older file → write current data
+                if (LF_READ_ENABLED){
+                    const file = await _lfReadFile(s);
+                    if (file && _lfNodeCount(file) && (!idb || (file.lastEditedAt||'') >= (idb.lastEditedAt||''))){
+                        await _ghSnapshotLocal(s.dataKey, idb);              // recovery snapshot before adopting
+                        await _ghWriteToIDB(s.dataKey, file);               // file is newer → adopt into IDB
+                        if (State.currentSubject && State.currentSubject.dataKey === s.dataKey){ State.data = file; }
+                        continue;
+                    }
                 }
+                // READ disabled (hotfix) OR no newer file → mirror the browser's current data OUT to the file.
+                if (idb && _lfNodeCount(idb)) await _lfWriteNow(s, idb);
             } catch(e){ console.warn('[lf] seed failed for', s.dataKey, e); }
         }
         _lfStartPoll();
