@@ -4895,10 +4895,9 @@ document.addEventListener('DOMContentLoaded',function(){
                     <span class="trash-count" id="trashCount">0</span>
                 </button>
             </div>
-            <button id="sidebarPushBtn" class="add-btn" onclick="ghPushNow()" title="Push your notes to GitHub right now"
+            <button id="localFolderBtn" class="add-btn" onclick="connectLocalFolder()" title="Pick a Desktop folder — becomes your source of truth (one time)"
                     style="background:var(--accent,#3987e5);color:#fff;border:none;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;">
-                <span>⬆️</span><span>Push to GitHub</span>
-                <span id="sidebarPushDot" class="gh-status-dot gh-status-unknown" style="margin-left:2px;"></span>
+                📁 <span>Connect local folder</span>
             </button>
             <div class="autosave-status" id="autosaveStatus" onclick="onAutosaveBannerClick()" title="Local file backup — click to configure">
                 <span class="autosave-dot"></span>
