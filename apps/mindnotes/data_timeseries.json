@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-17T12:07:10.285Z",
+  "exportedAt": "2026-08-17T12:07:43.915Z",
   "data": {
     "topics": [
       {
@@ -4252,6 +4252,58 @@
         "deletedAt": 1786968426081,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "1779812428872",
+        "title": "Estimation of unknown parameters --- DLM (prediction-error decomposition)",
+        "content": "\\textbf{\\textcolor{red}{WRITING THE LIKELIHOOD OF A DLM WITH UNKNOWN $\\phi$ --- prediction-error decomposition.}}\n\n\\begin{keydef}\n\\fcnum{25} \n\\textbf{\\textcolor{red}{1. Chain rule (pure probability identity, no model assumption).}}\n$$ L(\\phi \\mid y_{1:T}) = p(y_{1:T} \\mid \\phi) \\;\\underbrace{=}_{\\text{chain rule in time}}\\; \\prod_{t=1}^{T} \\underbrace{p(y_t \\mid y_{1:t-1}, \\phi)}_{\\mathcal{N}_q\\bigl(y_t;\\; f_t(\\phi),\\; Q_t(\\phi)\\bigr)^{*1}} $$\n\n*\\emph{Why Gaussian:} $Y_t = F_t\\, \\theta_t + v_t$ is a linear combination of $\\theta_t \\mid y_{1:t-1} \\sim \\mathcal{N}(a_t, R_t)$ and independent $v_t \\sim \\mathcal{N}(0, V_t)$\n\n\\textbf{\\textcolor{red}{4. Log-likelihood (just take logs of the Gaussian densities).}}\nDefine the innovation $e_t = y_t - f_t(\\phi)$ and sum over $t$:\n$$ \\boxed{\\; -2\\log L(\\phi) \\;=\\; \\sum_{t=1}^{T}\\Bigl[\\,q\\log(2\\pi) \\;+\\; \\log|Q_t(\\phi)| \\;+\\; e_t^\\top\\, Q_t(\\phi)^{-1}\\, e_t\\,\\Bigr]. \\;} $$\n\\emph{This is the likelihood the exam wants you to write.} \n\n\\textcolor{orange}{Book form (DLMwR eq.~(4.2), p.~144): the likelihood is defined only \\emph{up to a constant factor}, so the per-term additive constant $q\\log(2\\pi)$ is dropped and one maximizes the constant-free log-likelihood}\n$$ \\omark{\\ell(\\phi) \\;=\\; -\\tfrac12 \\sum_{t=1}^{T} \\log\\abs{Q_t(\\phi)} \\;-\\; \\tfrac12 \\sum_{t=1}^{T} e_t^\\top\\, Q_t(\\phi)^{-1}\\, e_t,} $$\n\\textcolor{orange}{as used in the sibling \\emph{Parameter Estimation} node; dropping this constant does not change the maximizer $\\hat\\phi$.}\n\n\\emph{MLE footnote.} MLE needs numericql maximization: BFGS / Nelder-Mead.\n\n\\textcolor{orange}{\\textbf{Standard errors of the MLE} (asked for a DLM in May 2025 Extra Q3, June 2024 Extra Qc.ii and the May 2024 Q7 no-assignment box). Let $H$ be the Hessian of the negative log-likelihood $-\\ell$ evaluated at $\\hat\\phi$ (DLMwR p.~144); then $H^{-1}$ estimates $\\Var(\\hat\\phi)$, so}\n$$ \\omark{H \\;=\\; -\\, \\frac{\\partial^2 \\ell(\\phi)}{\\partial\\phi\\, \\partial\\phi'}\\bigg|_{\\phi=\\hat\\phi}, \\qquad \\mathrm{SE}(\\hat\\phi_r) \\;=\\; \\sqrt{\\big[H^{-1}\\big]_{rr}}.} $$\n\\textcolor{orange}{In R, get $H$ from the optimizer (\\texttt{optim(..., hessian=TRUE)} or \\texttt{dlmMLE(..., hessian=TRUE)}) and take \\texttt{sqrt(diag(solve(H)))}.}\n\\end{keydef}",
+        "flashcard": true,
+        "images": [],
+        "links": [],
+        "x": 5932.1468622898565,
+        "y": 3061.785740576882,
+        "width": 380.51824504471244,
+        "height": 144.81455612337663,
+        "color": "teal",
+        "fsrs": {
+          "stability": 2.3658,
+          "difficulty": 7.692872069052001,
+          "elapsedDays": 0,
+          "scheduledDays": 1,
+          "reps": 3,
+          "lapses": 0,
+          "state": "review",
+          "lastReview": "2026-06-14T21:24:49.358Z",
+          "dueDate": "2026-06-15T21:24:49.358Z"
+        },
+        "fsrsCards": {
+          "fc:38": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-14T21:39:19.630Z"
+          },
+          "fc:25": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-15T16:46:00.925Z"
+          }
+        },
+        "userEdited": false,
+        "deletedAt": 1786968458656,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
       }
     ],
     "examTable": {
@@ -6857,6 +6909,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-17T12:07:10.258Z"
+    "lastEditedAt": "2026-08-17T12:07:43.897Z"
   }
 }
