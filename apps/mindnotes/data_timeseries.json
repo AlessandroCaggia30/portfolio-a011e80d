@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-17T12:31:13.532Z",
+  "exportedAt": "2026-08-17T12:31:20.809Z",
   "data": {
     "topics": [
       {
@@ -4800,6 +4800,57 @@
         "deletedAt": 1786969843031,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "1778783697835",
+        "title": "Decoding / filtering",
+        "content": "\\textbf{\\textcolor{red}{3. DECODING}}\n\n\\begin{keydef}\n\\fcnum{27} \nEstimate the latent state sequence $s_{1:T}$ given observed $y_{1:T}$ (treat $s_0$ as fixed, and $\\phi$ as known or replaced by its MLE).\n\n\n\\textbf{\\textcolor{red}{Local criterion.}} For each $t = 1, \\dots, T$, pick the marginally most likely state:\n$$ s_t^* \\;=\\; \\arg\\max_s \\gamma_t(s), \\qquad \\gamma_t(s) \\;\\equiv\\; P(S_t = s \\mid y_{1:T}, \\phi). $$\n\\emph{Issue.} The resulting sequence $s_{1:T}^*$ may include zero-probability transitions ($p_{i,j} = 0$), making the global path infeasible.\n\n\\textbf{\\textcolor{red}{Global criterion --- Viterbi.}} Find the path that maximises the joint conditional probability:\n$$ \\max_{s_{0:T}} p(s_0, \\dots, s_T \\mid y_{1:T}, \\phi). $$\nGiven the data, and the parameters, what is the most likely hidden state \\textcolor{orange}{\\emph{path}}?\n\\end{keydef}\n\nThis conditional probability can be computed using Bayes theorem. However, we can more easily exploit the computations already carried out for the MLE. Notice that\n$$ \\begin{aligned} & p(s_0, \\dots, s_T,\\, y_1, \\dots, y_T \\mid \\phi) \\\\ & \\underbrace{=}_{\\text{chain rule}} p(s_0, \\dots, s_T \\mid y_1, \\dots, y_T, \\phi)\\, p(y_1, \\dots, y_T \\mid \\phi), \\end{aligned} $$\nwhere the latter factor on the right-hand side does not depend on $s_{0:T}$. Therefore, maximising the conditional joint probability with respect to $s_{0:T}$ is equivalent to maximising the joint probability $p(s_0, \\dots, s_T,\\, y_1, \\dots, y_T \\mid \\phi)$ with respect to $s_{0:T}$ (with $\\phi$ fixed). \\;Same maximiser, easier expression.\n\n\\medskip\n",
+        "flashcard": false,
+        "images": [],
+        "links": [],
+        "x": 6932.892194624321,
+        "y": 3462.700347642698,
+        "width": 410.0113680142006,
+        "height": 218.778412848008,
+        "fsrs": {
+          "stability": 3.1262,
+          "difficulty": 8.226036526156,
+          "elapsedDays": 0,
+          "scheduledDays": 1,
+          "reps": 3,
+          "lapses": 0,
+          "state": "review",
+          "lastReview": "2026-06-14T21:30:51.971Z",
+          "dueDate": "2026-06-15T21:30:51.971Z"
+        },
+        "fsrsCards": {
+          "fc:40": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-14T21:39:19.629Z"
+          },
+          "fc:27": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-15T16:46:00.925Z"
+          }
+        },
+        "color": "teal",
+        "deletedAt": 1786969874081,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
       }
     ],
     "examTable": {
@@ -7405,6 +7456,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-17T12:31:13.514Z"
+    "lastEditedAt": "2026-08-17T12:31:20.773Z"
   }
 }
