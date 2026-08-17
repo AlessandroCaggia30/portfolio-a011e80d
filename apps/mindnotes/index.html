@@ -6905,12 +6905,13 @@ async function _lfReadFile(subj){
 async function _lfWriteNow(subj, data){
     if (!_lfDir || _lfNodeCount(data) === 0) return;                    // never write empty over real data
     try {
-        const json = JSON.stringify({ version:'2.0', exportedAt:new Date().toISOString(), data }, null, 2);
-        const fh = await _lfDir.getFileHandle(_lfFileName(subj), { create:true });
+        const json = JSON.stringify({ version:'2.0', exportedAt:new Date().toISOString(), subject: (subj && subj.name) || subj.dataKey, data }, null, 2);
+        const dir = await _lfSubDir(subj, true);
+        const fh = await dir.getFileHandle('data.json', { create:true });
         const w = await fh.createWritable(); await w.write(json); await w.close();
         _lfLastWriteHash[subj.dataKey] = _ghContentHash(data);
         _lfBase[subj.dataKey] = JSON.parse(JSON.stringify(data));
-        await _lfHistory(json, subj.dataKey);
+        await _lfHistory(json, subj, dir);
         _lfUpdateButton('saved');
     } catch(e){ console.warn('[lf] write failed', e); _lfUpdateButton('error'); }
 }
