@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-17T12:20:21.126Z",
+  "exportedAt": "2026-08-17T12:23:53.441Z",
   "data": {
     "topics": [
       {
@@ -2598,6 +2598,55 @@
                 }
               },
               {
+                "id": "1779812428872",
+                "title": "Estimation of unknown parameters --- DLM (prediction-error decomposition)",
+                "content": "\\textbf{\\textcolor{red}{WRITING THE LIKELIHOOD OF A DLM WITH UNKNOWN $\\phi$ --- prediction-error decomposition.}}\n\n\\begin{keydef}\n\\fcnum{25} \n\\textbf{\\textcolor{red}{1. Chain rule (pure probability identity, no model assumption).}}\n$$ L(\\phi \\mid y_{1:T}) = p(y_{1:T} \\mid \\phi) \\;\\underbrace{=}_{\\text{chain rule in time}}\\; \\prod_{t=1}^{T} \\underbrace{p(y_t \\mid y_{1:t-1}, \\phi)}_{\\mathcal{N}_q\\bigl(y_t;\\; f_t(\\phi),\\; Q_t(\\phi)\\bigr)^{*1}} $$\n\n*\\emph{Why Gaussian:} $Y_t = F_t\\, \\theta_t + v_t$ is a linear combination of $\\theta_t \\mid y_{1:t-1} \\sim \\mathcal{N}(a_t, R_t)$ and independent $v_t \\sim \\mathcal{N}(0, V_t)$\n\n\\textbf{\\textcolor{red}{4. Log-likelihood (just take logs of the Gaussian densities).}}\nDefine the innovation $e_t = y_t - f_t(\\phi)$ and sum over $t$:\n$$ \\boxed{\\; -2\\log L(\\phi) \\;=\\; \\sum_{t=1}^{T}\\Bigl[\\,q\\log(2\\pi) \\;+\\; \\log|Q_t(\\phi)| \\;+\\; e_t^\\top\\, Q_t(\\phi)^{-1}\\, e_t\\,\\Bigr]. \\;} $$\n\\emph{This is the likelihood the exam wants you to write.} \n\n\\textcolor{orange}{Book form (DLMwR eq.~(4.2), p.~144): the likelihood is defined only \\emph{up to a constant factor}, so the per-term additive constant $q\\log(2\\pi)$ is dropped and one maximizes the constant-free log-likelihood}\n$$ \\omark{\\ell(\\phi) \\;=\\; -\\tfrac12 \\sum_{t=1}^{T} \\log\\abs{Q_t(\\phi)} \\;-\\; \\tfrac12 \\sum_{t=1}^{T} e_t^\\top\\, Q_t(\\phi)^{-1}\\, e_t,} $$\n\\textcolor{orange}{as used in the sibling \\emph{Parameter Estimation} node; dropping this constant does not change the maximizer $\\hat\\phi$.}\n\n\\emph{MLE footnote.} MLE needs numericql maximization: BFGS / Nelder-Mead.\n\n\\textcolor{orange}{\\textbf{Standard errors of the MLE} (asked for a DLM in May 2025 Extra Q3, June 2024 Extra Qc.ii and the May 2024 Q7 no-assignment box). Let $H$ be the Hessian of the negative log-likelihood $-\\ell$ evaluated at $\\hat\\phi$ (DLMwR p.~144); then $H^{-1}$ estimates $\\Var(\\hat\\phi)$, so}\n$$ \\omark{H \\;=\\; -\\, \\frac{\\partial^2 \\ell(\\phi)}{\\partial\\phi\\, \\partial\\phi'}\\bigg|_{\\phi=\\hat\\phi}, \\qquad \\mathrm{SE}(\\hat\\phi_r) \\;=\\; \\sqrt{\\big[H^{-1}\\big]_{rr}}.} $$\n\\textcolor{orange}{In R, get $H$ from the optimizer (\\texttt{optim(..., hessian=TRUE)} or \\texttt{dlmMLE(..., hessian=TRUE)}) and take \\texttt{sqrt(diag(solve(H)))}.}\n\\end{keydef}",
+                "flashcard": true,
+                "images": [],
+                "links": [],
+                "x": 5932.1468622898565,
+                "y": 3061.785740576882,
+                "width": 380.51824504471244,
+                "height": 144.81455612337663,
+                "color": "teal",
+                "fsrs": {
+                  "stability": 2.3658,
+                  "difficulty": 7.692872069052001,
+                  "elapsedDays": 0,
+                  "scheduledDays": 1,
+                  "reps": 3,
+                  "lapses": 0,
+                  "state": "review",
+                  "lastReview": "2026-06-14T21:24:49.358Z",
+                  "dueDate": "2026-06-15T21:24:49.358Z"
+                },
+                "fsrsCards": {
+                  "fc:38": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-14T21:39:19.630Z"
+                  },
+                  "fc:25": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-15T16:46:00.925Z"
+                  }
+                },
+                "userEdited": false
+              },
+              {
                 "id": "1778783599128",
                 "title": "Estimation",
                 "content": "\\textbf{\\textcolor{red}{2. ESTIMATION OF THE UNKNOWN PARAMETERS}}\n\n\\begin{keydef}\n\\fcnum{26} \n\\textcolor{orange}{\\textbf{Parameters.} Stating that the unknown parameters are} $\\omark{\\phi = (\\pi,\\, P,\\, B)}$ \\textcolor{orange}{(initial distribution, transition matrix, emission matrix) is correct only for the generic categorical HMM; two exam caveats:} \\textcolor{orange}{(i) $\\pi$ belongs to $\\phi$ only when the initial law is left unspecified by the model --- May 2023 Q3a fixes $S_0 = 1$ and May 2022 Q6a assumes a uniform initial distribution, so there $\\pi$ is known and must be excluded from the parameter list (likewise June 2025 Q2b: initial values fixed, so the initial probabilities are treated as known);} \\textcolor{orange}{(ii) the emission block is an emission \\emph{matrix} $B$ only for categorical emissions --- with parametric emissions it is the vector of emission parameters, e.g. state-dependent Gaussian variances $\\sigma^2_1, \\dots, \\sigma^2_k$ (May 2023 Q3, May 2022 Q6) or Poisson rates $\\lambda_1, \\lambda_2, \\lambda_3$ (May 2021 Q4b).}\n\n\\textbf{\\textcolor{red}{1. Writing the Likelihood}}\n$$L(\\phi \\mid y_{1:T}) \\;=\\;  p(y_{1:T} \\mid \\phi) \\;\\underbrace{=}_{\\text{marginalization}}\\; \\sum_{s_{0:T} \\,\\in\\, \\{1, \\dots, K\\}^{T+1}} p(y_{1:T},\\, s_{0:T} \\mid \\phi) \\;\\underbrace{=}_{\\text{chain rule}}\\; \\sum_{s_{0:T} \\,\\in\\, \\{1, \\dots, K\\}^{T+1}} \\underbrace{p(y_{1:T} \\mid s_{0:T},\\, \\phi)}_{(\\mathrm{A})\\,\\text{ obs.\\ given path}} \\;\\cdot\\; \\underbrace{p(s_{0:T} \\mid \\phi)}_{(\\mathrm{B})\\,\\text{ path probability}} \\; $$\n\n\\textcolor{orange}{Observation term (emission product) --- the original label \\emph{Decoding} here was wrong; decoding (inferring the latent path) is a separate task, see node \\emph{Smoothing and decoding}.}\n$$ (\\mathrm{A}) \\;=\\; p(y_{1:T} \\mid s_{0:T},\\, \\phi) \\;\\underbrace{=}_{\\text{unpack slice}}\\; p(y_1,\\, y_2,\\, \\dots,\\, y_T \\mid s_{0:T},\\, \\phi) \\;\\underbrace{=}_{\\text{Open}}\\; \\prod_{t=1}^{T} p(y_t \\mid y_{1:t-1},\\, s_{0:T},\\, \\phi) \\;\\underbrace{=}_{\\text{emission CI}}\\; \\prod_{t=1}^{T} p(y_t \\mid s_t,\\, \\phi) \\;=\\; \\prod_{t=1}^{T} b_{s_t, y_t}. $$\nTransition probabilities:\n$$ (\\mathrm{B}) \\;=\\; p(s_{0:T} \\mid \\phi) \\;\\underbrace{=}_{\\text{unpack slice}}\\; p(s_0,\\, s_1,\\, \\dots,\\, s_T \\mid \\phi) \\;\\underbrace{=}_{\\text{Open}}\\; p(s_0 \\mid \\phi) \\prod_{t=1}^{T} p(s_t \\mid s_{0:t-1},\\, \\phi) \\;\\underbrace{=}_{\\text{Markov}}\\; p(s_0 \\mid \\phi) \\prod_{t=1}^{T} p(s_t \\mid s_{t-1},\\, \\phi) \\;=\\; \\pi_{s_0} \\prod_{t=1}^{T} p_{s_{t-1}, s_t}. $$\n\n$$ \\boxed{\\; L(\\phi \\mid y_{1:T}) \\;=\\; \\sum_{s_{0:T} \\,\\in\\, \\{1, \\dots, K\\}^{T+1}} \\underbrace{\\pi_{s_0}}_{\\text{initial}} \\;\\cdot\\; \\underbrace{\\prod_{t=1}^{T} p_{s_{t-1}, s_t}}_{\\text{transitions}} \\;\\cdot\\; \\underbrace{\\prod_{t=1}^{T} b_{s_t, y_t}}_{\\text{emissions}}  \\;=\\; \\sum_{s_{0:T}} \\pi_{s_0}\\, p_{s_0, s_1}\\, b_{s_1, y_1}\\, p_{s_1, s_2}\\, b_{s_2, y_2}\\, \\cdots\\, p_{s_{T-1}, s_T}\\, b_{s_T, y_T}\\;} $$\n\n\\textcolor{orange}{The entry} $b_{s_t, y_t}$ \\textcolor{orange}{is a placeholder for a generic emission density: with parametric emissions the identical derivation (marginalisation, chain rule, Markov, emission CI) gives}\n$$ \\omark{L(\\phi \\mid y_{1:T}) \\;=\\; \\sum_{s_{0:T}} \\pi_{s_0} \\prod_{t=1}^{T} p_{s_{t-1}, s_t} \\prod_{t=1}^{T} f(y_t \\mid \\theta^*_{s_t}), \\qquad \\text{e.g. Poisson: } f(y \\mid \\lambda_j) = \\frac{e^{-\\lambda_j}\\, \\lambda_j^{y}}{y!}} $$\n\\textcolor{orange}{as required by May 2021 Q4c (Poisson, $k = 3$), May 2023 Q3 / May 2022 Q6 (Gaussian $N(0, \\sigma^2_j)$), June 2025 Extra Q2 (Bernoulli); see node \\emph{State space models (SSM)} for state-dependent parametric emissions.}\n\n\\textbf{\\textcolor{red}{2. Maximisation}} The MLE is $\\hat\\phi = \\arg\\max_{\\phi} L(\\phi \\mid y_{1:T})$. Direct numerical maximisation is feasible but expensive; in practice, the EM algorithm (\\emph{Baum-Welch} for HMMs) is the standard iterative procedure.\n\n\\textcolor{orange}{The raw sum has $K^{T+1}$ terms; evaluate $L$ efficiently via the forward algorithm --- see node \\emph{Decoding / filtering}.}\n\n\\textcolor{orange}{\\textbf{Standard errors} (asked in June 2025 Extra Q2b, June 2024 Extra Qa.ii, May 2025 Extra Q1): by asymptotic normality of the MLE,}\n$$ \\omark{\\widehat{\\Var}(\\hat\\phi) \\;=\\; \\mathcal{J}(\\hat\\phi)^{-1}, \\qquad \\mathcal{J}(\\hat\\phi) \\;=\\; -\\, \\frac{\\partial^2 \\log L(\\phi \\mid y_{1:T})}{\\partial \\phi\\, \\partial \\phi'} \\bigg|_{\\phi = \\hat\\phi}, \\qquad \\mathrm{SE}(\\hat\\phi_r) \\;=\\; \\sqrt{\\big[ \\mathcal{J}(\\hat\\phi)^{-1} \\big]_{rr}}} $$\n\\textcolor{orange}{i.e. the inverse observed information (numerical Hessian of the negative log-likelihood at the optimum). Note: EM (Baum-Welch) alone does not produce standard errors; the Hessian step is still needed.}\n\n\\textcolor{orange}{DLM case: for a (Gaussian) DLM the likelihood is instead computed by prediction-error decomposition via the Kalman filter (DLMwR Sec. 4.1) --- see nodes \\emph{Parameter Estimation} and \\emph{Estimation of unknown parameters --- DLM (prediction-error decomposition)}.}\n\\end{keydef}\n",
@@ -2653,55 +2702,6 @@
                   }
                 },
                 "color": "teal"
-              },
-              {
-                "id": "1779812428872",
-                "title": "Estimation of unknown parameters --- DLM (prediction-error decomposition)",
-                "content": "\\textbf{\\textcolor{red}{WRITING THE LIKELIHOOD OF A DLM WITH UNKNOWN $\\phi$ --- prediction-error decomposition.}}\n\n\\begin{keydef}\n\\fcnum{25} \n\\textbf{\\textcolor{red}{1. Chain rule (pure probability identity, no model assumption).}}\n$$ L(\\phi \\mid y_{1:T}) = p(y_{1:T} \\mid \\phi) \\;\\underbrace{=}_{\\text{chain rule in time}}\\; \\prod_{t=1}^{T} \\underbrace{p(y_t \\mid y_{1:t-1}, \\phi)}_{\\mathcal{N}_q\\bigl(y_t;\\; f_t(\\phi),\\; Q_t(\\phi)\\bigr)^{*1}} $$\n\n*\\emph{Why Gaussian:} $Y_t = F_t\\, \\theta_t + v_t$ is a linear combination of $\\theta_t \\mid y_{1:t-1} \\sim \\mathcal{N}(a_t, R_t)$ and independent $v_t \\sim \\mathcal{N}(0, V_t)$\n\n\\textbf{\\textcolor{red}{4. Log-likelihood (just take logs of the Gaussian densities).}}\nDefine the innovation $e_t = y_t - f_t(\\phi)$ and sum over $t$:\n$$ \\boxed{\\; -2\\log L(\\phi) \\;=\\; \\sum_{t=1}^{T}\\Bigl[\\,q\\log(2\\pi) \\;+\\; \\log|Q_t(\\phi)| \\;+\\; e_t^\\top\\, Q_t(\\phi)^{-1}\\, e_t\\,\\Bigr]. \\;} $$\n\\emph{This is the likelihood the exam wants you to write.} \n\n\\textcolor{orange}{Book form (DLMwR eq.~(4.2), p.~144): the likelihood is defined only \\emph{up to a constant factor}, so the per-term additive constant $q\\log(2\\pi)$ is dropped and one maximizes the constant-free log-likelihood}\n$$ \\omark{\\ell(\\phi) \\;=\\; -\\tfrac12 \\sum_{t=1}^{T} \\log\\abs{Q_t(\\phi)} \\;-\\; \\tfrac12 \\sum_{t=1}^{T} e_t^\\top\\, Q_t(\\phi)^{-1}\\, e_t,} $$\n\\textcolor{orange}{as used in the sibling \\emph{Parameter Estimation} node; dropping this constant does not change the maximizer $\\hat\\phi$.}\n\n\\emph{MLE footnote.} MLE needs numericql maximization: BFGS / Nelder-Mead.\n\n\\textcolor{orange}{\\textbf{Standard errors of the MLE} (asked for a DLM in May 2025 Extra Q3, June 2024 Extra Qc.ii and the May 2024 Q7 no-assignment box). Let $H$ be the Hessian of the negative log-likelihood $-\\ell$ evaluated at $\\hat\\phi$ (DLMwR p.~144); then $H^{-1}$ estimates $\\Var(\\hat\\phi)$, so}\n$$ \\omark{H \\;=\\; -\\, \\frac{\\partial^2 \\ell(\\phi)}{\\partial\\phi\\, \\partial\\phi'}\\bigg|_{\\phi=\\hat\\phi}, \\qquad \\mathrm{SE}(\\hat\\phi_r) \\;=\\; \\sqrt{\\big[H^{-1}\\big]_{rr}}.} $$\n\\textcolor{orange}{In R, get $H$ from the optimizer (\\texttt{optim(..., hessian=TRUE)} or \\texttt{dlmMLE(..., hessian=TRUE)}) and take \\texttt{sqrt(diag(solve(H)))}.}\n\\end{keydef}",
-                "flashcard": true,
-                "images": [],
-                "links": [],
-                "x": 5932.1468622898565,
-                "y": 3061.785740576882,
-                "width": 380.51824504471244,
-                "height": 144.81455612337663,
-                "color": "teal",
-                "fsrs": {
-                  "stability": 2.3658,
-                  "difficulty": 7.692872069052001,
-                  "elapsedDays": 0,
-                  "scheduledDays": 1,
-                  "reps": 3,
-                  "lapses": 0,
-                  "state": "review",
-                  "lastReview": "2026-06-14T21:24:49.358Z",
-                  "dueDate": "2026-06-15T21:24:49.358Z"
-                },
-                "fsrsCards": {
-                  "fc:38": {
-                    "stability": 1,
-                    "difficulty": 5,
-                    "elapsedDays": 0,
-                    "scheduledDays": 0,
-                    "reps": 0,
-                    "lapses": 0,
-                    "state": "new",
-                    "lastReview": null,
-                    "dueDate": "2026-08-14T21:39:19.630Z"
-                  },
-                  "fc:25": {
-                    "stability": 1,
-                    "difficulty": 5,
-                    "elapsedDays": 0,
-                    "scheduledDays": 0,
-                    "reps": 0,
-                    "lapses": 0,
-                    "state": "new",
-                    "lastReview": null,
-                    "dueDate": "2026-08-15T16:46:00.925Z"
-                  }
-                },
-                "userEdited": false
               }
             ]
           }
@@ -4623,6 +4623,66 @@
           }
         },
         "deletedAt": 1786969220181,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "1778783599128",
+        "title": "Estimation",
+        "content": "\\textbf{\\textcolor{red}{2. ESTIMATION OF THE UNKNOWN PARAMETERS}}\n\n\\begin{keydef}\n\\fcnum{26} \n\\textcolor{orange}{\\textbf{Parameters.} Stating that the unknown parameters are} $\\omark{\\phi = (\\pi,\\, P,\\, B)}$ \\textcolor{orange}{(initial distribution, transition matrix, emission matrix) is correct only for the generic categorical HMM; two exam caveats:} \\textcolor{orange}{(i) $\\pi$ belongs to $\\phi$ only when the initial law is left unspecified by the model --- May 2023 Q3a fixes $S_0 = 1$ and May 2022 Q6a assumes a uniform initial distribution, so there $\\pi$ is known and must be excluded from the parameter list (likewise June 2025 Q2b: initial values fixed, so the initial probabilities are treated as known);} \\textcolor{orange}{(ii) the emission block is an emission \\emph{matrix} $B$ only for categorical emissions --- with parametric emissions it is the vector of emission parameters, e.g. state-dependent Gaussian variances $\\sigma^2_1, \\dots, \\sigma^2_k$ (May 2023 Q3, May 2022 Q6) or Poisson rates $\\lambda_1, \\lambda_2, \\lambda_3$ (May 2021 Q4b).}\n\n\\textbf{\\textcolor{red}{1. Writing the Likelihood}}\n$$L(\\phi \\mid y_{1:T}) \\;=\\;  p(y_{1:T} \\mid \\phi) \\;\\underbrace{=}_{\\text{marginalization}}\\; \\sum_{s_{0:T} \\,\\in\\, \\{1, \\dots, K\\}^{T+1}} p(y_{1:T},\\, s_{0:T} \\mid \\phi) \\;\\underbrace{=}_{\\text{chain rule}}\\; \\sum_{s_{0:T} \\,\\in\\, \\{1, \\dots, K\\}^{T+1}} \\underbrace{p(y_{1:T} \\mid s_{0:T},\\, \\phi)}_{(\\mathrm{A})\\,\\text{ obs.\\ given path}} \\;\\cdot\\; \\underbrace{p(s_{0:T} \\mid \\phi)}_{(\\mathrm{B})\\,\\text{ path probability}} \\; $$\n\n\\textcolor{orange}{Observation term (emission product) --- the original label \\emph{Decoding} here was wrong; decoding (inferring the latent path) is a separate task, see node \\emph{Smoothing and decoding}.}\n$$ (\\mathrm{A}) \\;=\\; p(y_{1:T} \\mid s_{0:T},\\, \\phi) \\;\\underbrace{=}_{\\text{unpack slice}}\\; p(y_1,\\, y_2,\\, \\dots,\\, y_T \\mid s_{0:T},\\, \\phi) \\;\\underbrace{=}_{\\text{Open}}\\; \\prod_{t=1}^{T} p(y_t \\mid y_{1:t-1},\\, s_{0:T},\\, \\phi) \\;\\underbrace{=}_{\\text{emission CI}}\\; \\prod_{t=1}^{T} p(y_t \\mid s_t,\\, \\phi) \\;=\\; \\prod_{t=1}^{T} b_{s_t, y_t}. $$\nTransition probabilities:\n$$ (\\mathrm{B}) \\;=\\; p(s_{0:T} \\mid \\phi) \\;\\underbrace{=}_{\\text{unpack slice}}\\; p(s_0,\\, s_1,\\, \\dots,\\, s_T \\mid \\phi) \\;\\underbrace{=}_{\\text{Open}}\\; p(s_0 \\mid \\phi) \\prod_{t=1}^{T} p(s_t \\mid s_{0:t-1},\\, \\phi) \\;\\underbrace{=}_{\\text{Markov}}\\; p(s_0 \\mid \\phi) \\prod_{t=1}^{T} p(s_t \\mid s_{t-1},\\, \\phi) \\;=\\; \\pi_{s_0} \\prod_{t=1}^{T} p_{s_{t-1}, s_t}. $$\n\n$$ \\boxed{\\; L(\\phi \\mid y_{1:T}) \\;=\\; \\sum_{s_{0:T} \\,\\in\\, \\{1, \\dots, K\\}^{T+1}} \\underbrace{\\pi_{s_0}}_{\\text{initial}} \\;\\cdot\\; \\underbrace{\\prod_{t=1}^{T} p_{s_{t-1}, s_t}}_{\\text{transitions}} \\;\\cdot\\; \\underbrace{\\prod_{t=1}^{T} b_{s_t, y_t}}_{\\text{emissions}}  \\;=\\; \\sum_{s_{0:T}} \\pi_{s_0}\\, p_{s_0, s_1}\\, b_{s_1, y_1}\\, p_{s_1, s_2}\\, b_{s_2, y_2}\\, \\cdots\\, p_{s_{T-1}, s_T}\\, b_{s_T, y_T}\\;} $$\n\n\\textcolor{orange}{The entry} $b_{s_t, y_t}$ \\textcolor{orange}{is a placeholder for a generic emission density: with parametric emissions the identical derivation (marginalisation, chain rule, Markov, emission CI) gives}\n$$ \\omark{L(\\phi \\mid y_{1:T}) \\;=\\; \\sum_{s_{0:T}} \\pi_{s_0} \\prod_{t=1}^{T} p_{s_{t-1}, s_t} \\prod_{t=1}^{T} f(y_t \\mid \\theta^*_{s_t}), \\qquad \\text{e.g. Poisson: } f(y \\mid \\lambda_j) = \\frac{e^{-\\lambda_j}\\, \\lambda_j^{y}}{y!}} $$\n\\textcolor{orange}{as required by May 2021 Q4c (Poisson, $k = 3$), May 2023 Q3 / May 2022 Q6 (Gaussian $N(0, \\sigma^2_j)$), June 2025 Extra Q2 (Bernoulli); see node \\emph{State space models (SSM)} for state-dependent parametric emissions.}\n\n\\textbf{\\textcolor{red}{2. Maximisation}} The MLE is $\\hat\\phi = \\arg\\max_{\\phi} L(\\phi \\mid y_{1:T})$. Direct numerical maximisation is feasible but expensive; in practice, the EM algorithm (\\emph{Baum-Welch} for HMMs) is the standard iterative procedure.\n\n\\textcolor{orange}{The raw sum has $K^{T+1}$ terms; evaluate $L$ efficiently via the forward algorithm --- see node \\emph{Decoding / filtering}.}\n\n\\textcolor{orange}{\\textbf{Standard errors} (asked in June 2025 Extra Q2b, June 2024 Extra Qa.ii, May 2025 Extra Q1): by asymptotic normality of the MLE,}\n$$ \\omark{\\widehat{\\Var}(\\hat\\phi) \\;=\\; \\mathcal{J}(\\hat\\phi)^{-1}, \\qquad \\mathcal{J}(\\hat\\phi) \\;=\\; -\\, \\frac{\\partial^2 \\log L(\\phi \\mid y_{1:T})}{\\partial \\phi\\, \\partial \\phi'} \\bigg|_{\\phi = \\hat\\phi}, \\qquad \\mathrm{SE}(\\hat\\phi_r) \\;=\\; \\sqrt{\\big[ \\mathcal{J}(\\hat\\phi)^{-1} \\big]_{rr}}} $$\n\\textcolor{orange}{i.e. the inverse observed information (numerical Hessian of the negative log-likelihood at the optimum). Note: EM (Baum-Welch) alone does not produce standard errors; the Hessian step is still needed.}\n\n\\textcolor{orange}{DLM case: for a (Gaussian) DLM the likelihood is instead computed by prediction-error decomposition via the Kalman filter (DLMwR Sec. 4.1) --- see nodes \\emph{Parameter Estimation} and \\emph{Estimation of unknown parameters --- DLM (prediction-error decomposition)}.}\n\\end{keydef}\n",
+        "flashcard": true,
+        "images": [],
+        "links": [
+          {
+            "target": "1778764934754",
+            "type": "forward"
+          },
+          {
+            "target": "1778783697835",
+            "type": "forward"
+          }
+        ],
+        "x": 5974.138923452739,
+        "y": 3317.0928952534096,
+        "width": 420.06713911263796,
+        "height": 211.47040457904075,
+        "fsrs": {
+          "stability": 0.4072,
+          "difficulty": 8.24852112,
+          "elapsedDays": 0,
+          "scheduledDays": 1,
+          "reps": 3,
+          "lapses": 0,
+          "state": "review",
+          "lastReview": "2026-06-14T21:26:59.382Z",
+          "dueDate": "2026-06-15T21:26:59.382Z"
+        },
+        "fsrsCards": {
+          "fc:39": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-15T15:49:57.711Z"
+          },
+          "fc:26": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-15T16:46:00.925Z"
+          }
+        },
+        "color": "teal",
+        "deletedAt": 1786969428482,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
       }
@@ -7230,6 +7290,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-17T12:20:21.099Z"
+    "lastEditedAt": "2026-08-17T12:23:53.413Z"
   }
 }
