@@ -12,7 +12,7 @@
  * It intentionally does NOT cache or intercept anything else (CDN assets, seed
  * JSON, the LaTeX API): those pass straight through to the network as before.
  */
-const CACHE = 'mindnotes-shell-v1';
+const CACHE = 'mindnotes-shell-v2';
 
 self.addEventListener('install', () => {
     // Take over as soon as possible instead of waiting for old tabs to close.
