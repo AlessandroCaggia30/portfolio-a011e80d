@@ -6442,6 +6442,8 @@ async function _commitSave(opts) {
 
         // Trigger file system autosave (non-blocking)
         autoSaveToFileSystem(dataKey, State.data);
+        // Write-through to the local folder (source of truth), if connected.
+        try { if (typeof _lfWrite === 'function' && State.currentSubject) _lfWrite(State.currentSubject, State.data); } catch (e) {}
 
         // Schedule GitHub push (non-blocking, debounced).
         // Skip when called from internal hydration paths (seed merges,
