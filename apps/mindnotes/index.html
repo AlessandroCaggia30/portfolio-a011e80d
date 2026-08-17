@@ -10,7 +10,13 @@
     <script>
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
-            navigator.serviceWorker.register('sw.js').then(function (reg) {
+            // updateViaCache:'none' → the browser must fetch sw.js from the network
+            // (not its own 10-min HTTP cache) on every registration/update check, so a
+            // new service worker is picked up immediately instead of up to 10 min later.
+            navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function (reg) {
+                // Check for a newer worker on EVERY page load (not just hourly) — this is
+                // what makes a reload actually pick up a fresh deploy.
+                reg.update().catch(function () {});
                 // If a newer worker takes control while the app is open, reload
                 // once so the running tab also gets the latest code.
                 var reloaded = false;
@@ -19,8 +25,8 @@
                     reloaded = true;
                     location.reload();
                 });
-                // Poll for an updated shell periodically (belt-and-suspenders).
-                setInterval(function () { reg.update().catch(function () {}); }, 60 * 60 * 1000);
+                // Belt-and-suspenders: keep re-checking every 5 min while open.
+                setInterval(function () { reg.update().catch(function () {}); }, 5 * 60 * 1000);
             }).catch(function () { /* SW unsupported / blocked — app still works */ });
         });
     }
