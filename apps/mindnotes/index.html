@@ -6820,6 +6820,158 @@ window.addEventListener('offline', () => {
     } catch (e) {}
 });
 
+// ==================== LOCAL FOLDER SYNC — SOURCE OF TRUTH (2026-08-17) ====================
+// The MindNotes desktop folder is the single source of truth. The website reads it and writes
+// every edit to it; when Claude edits specific node "chunks" in the file, a per-node merge brings
+// them into the website. Git is a passive backup only. IndexedDB remains an always-on floor so a
+// permission lapse can never lose data. One user click (Connect local folder) grants access; the
+// browser cannot access a local folder without that single gesture — after it, everything is auto.
+let _lfDir = null;                 // MindNotes directory handle (persisted in IndexedDB)
+let _lfBase = {};                  // dataKey -> last file state we reconciled with (3-way merge base)
+let _lfWriteTimers = {};           // dataKey -> debounce timer
+let _lfLastWriteHash = {};         // dataKey -> hash of what WE last wrote (to detect external edits)
+let _lfPollTimer = null;
+const _lfFileName = (subj) => (subj && subj.repoPath ? subj.repoPath.split('/').pop() : ('data_' + (subj && subj.dataKey || 'x') + '.json'));
+const _lfNodeCount = (d) => (d && d.topics ? d.topics.reduce((a,t)=>a+(t.subtopics||[]).reduce((b,s)=>b+(s.nodes||[]).length,0),0) : 0);
+
+async function _lfStoreDir(h){ try { await _ghWriteToIDB('lf::dir', h); } catch(e){ console.warn('[lf] store dir failed', e); } }
+async function _lfRestoreDir(){
+    try {
+        const h = await _ghReadFromIDB('lf::dir');
+        if (h && typeof h.queryPermission === 'function' && (await h.queryPermission({ mode:'readwrite' })) === 'granted') { _lfDir = h; return true; }
+    } catch(e){}
+    return false;
+}
+function _lfConnected(){ return !!_lfDir; }
+
+async function connectLocalFolder(){
+    if (!window.showDirectoryPicker){ showToast('This browser has no local-folder access — use Chrome/Edge'); return; }
+    try {
+        const h = await window.showDirectoryPicker({ id:'mindnotes-local', mode:'readwrite' });
+        if ((await h.requestPermission({ mode:'readwrite' })) !== 'granted'){ showToast('Folder permission denied'); return; }
+        _lfDir = h; await _lfStoreDir(h);
+        // Seed the folder with every subject's CURRENT data (migration), without clobbering a
+        // newer file that may already be there.
+        for (const s of SUBJECTS){
+            try {
+                const idb = await _ghReadFromIDB(s.dataKey);
+                const file = await _lfReadFile(s);
+                if (file && _lfNodeCount(file) && (!idb || (file.lastEditedAt||'') >= (idb.lastEditedAt||''))){
+                    await _ghWriteToIDB(s.dataKey, file);                 // file is newer → adopt into IDB
+                    if (State.currentSubject && State.currentSubject.dataKey === s.dataKey){ State.data = file; }
+                } else if (idb && _lfNodeCount(idb)){
+                    await _lfWriteNow(s, idb);                            // no/older file → write current data
+                }
+            } catch(e){ console.warn('[lf] seed failed for', s.dataKey, e); }
+        }
+        _lfStartPoll();
+        _lfUpdateButton();
+        if (State.currentSubject){ try { renderSidebar(); if (typeof renderCanvas==='function') renderCanvas(); } catch(e){} }
+        showToast('✅ Local folder connected — it is now your source of truth');
+    } catch(e){ if (e && e.name !== 'AbortError') { console.warn('[lf] connect failed', e); showToast('Could not connect folder: ' + (e.message||e)); } }
+}
+
+async function _lfReadFile(subj){
+    if (!_lfDir) return null;
+    try {
+        const fh = await _lfDir.getFileHandle(_lfFileName(subj), { create:false });
+        const txt = await (await fh.getFile()).text();
+        if (/^<{7} |^={7}$|^>{7} /m.test(txt)) return null;             // conflict markers → ignore
+        const p = JSON.parse(txt); const d = (p && p.data && !p.topics) ? p.data : p;
+        if (d && Array.isArray(d.topics)) return d;
+    } catch(e){ /* missing / invalid — treat as absent */ }
+    return null;
+}
+
+async function _lfWriteNow(subj, data){
+    if (!_lfDir || _lfNodeCount(data) === 0) return;                    // never write empty over real data
+    try {
+        const json = JSON.stringify({ version:'2.0', exportedAt:new Date().toISOString(), data }, null, 2);
+        const fh = await _lfDir.getFileHandle(_lfFileName(subj), { create:true });
+        const w = await fh.createWritable(); await w.write(json); await w.close();
+        _lfLastWriteHash[subj.dataKey] = _ghContentHash(data);
+        _lfBase[subj.dataKey] = JSON.parse(JSON.stringify(data));
+        await _lfHistory(json, subj.dataKey);
+        _lfUpdateButton('saved');
+    } catch(e){ console.warn('[lf] write failed', e); _lfUpdateButton('error'); }
+}
+function _lfWrite(subj, data){                                          // debounced write-through
+    if (!_lfDir || !subj) return;
+    clearTimeout(_lfWriteTimers[subj.dataKey]);
+    _lfWriteTimers[subj.dataKey] = setTimeout(() => { _lfWriteNow(subj, data).catch(()=>{}); }, 600);
+}
+
+// Two-tier local history inside the folder: 15-min/4h in history/, 2h/24h in history/long/.
+async function _lfHistory(json, dataKey){
+    if (!_lfDir) return;
+    try {
+        const now = new Date();
+        const nm = 'snap_' + dataKey + '_' + now.toISOString().replace(/[:.]/g,'-') + '.json';
+        const wsnap = async (dir) => { const h = await dir.getFileHandle(nm, {create:true}); const w = await h.createWritable(); await w.write(json); await w.close(); };
+        const prune = async (dir, pref, keep) => { const f=[]; for await (const e of dir.values()){ if(e.kind==='file'&&e.name.startsWith('snap_'+dataKey+'_')) f.push(e.name);} f.sort(); while(f.length>keep){ await dir.removeEntry(f.shift()); } };
+        const hist = await _lfDir.getDirectoryHandle('history', { create:true });
+        const s15 = Math.floor(now.getTime()/(15*60*1000));
+        if (String(s15) !== localStorage.getItem('lf_slot15_'+dataKey)){ await wsnap(hist); localStorage.setItem('lf_slot15_'+dataKey, String(s15)); await prune(hist, 'snap_'+dataKey, 16); }
+        const s2 = Math.floor(now.getTime()/(2*60*60*1000));
+        if (String(s2) !== localStorage.getItem('lf_slot2h_'+dataKey)){ const lng = await hist.getDirectoryHandle('long', {create:true}); await wsnap(lng); localStorage.setItem('lf_slot2h_'+dataKey, String(s2)); await prune(lng, 'snap_'+dataKey, 12); }
+    } catch(e){ console.warn('[lf] history failed', e); }
+}
+
+// On opening a subject: the folder file is the source of truth. Adopt it if it's newer than
+// the in-memory/IDB copy; otherwise write the current copy to the file. Never loses local.
+async function _lfLoadIntoState(subj){
+    if (!_lfDir || !subj) return;
+    try {
+        const file = await _lfReadFile(subj);
+        const cur = State.data;
+        if (!file || _lfNodeCount(file) === 0){ if (cur && _lfNodeCount(cur)) _lfWrite(subj, cur); return; }
+        const fT = file.lastEditedAt || '', cT = (cur && cur.lastEditedAt) || '';
+        if (!cur || _lfNodeCount(cur) === 0 || fT > cT){
+            try { await _ghSnapshotLocal(subj.dataKey, cur); } catch(e){}
+            State.data = file;
+            try { await _ghWriteToIDB(subj.dataKey, file); } catch(e){}
+            _lfBase[subj.dataKey] = JSON.parse(JSON.stringify(file));
+            _lfLastWriteHash[subj.dataKey] = _ghContentHash(file);
+            try { renderSidebar(); if (typeof renderCanvas==='function') renderCanvas(); if (typeof updateFlashcardStats==='function') updateFlashcardStats(); } catch(e){}
+        } else if (cT > fT){
+            _lfWrite(subj, cur);                                        // local newer → update file
+        } else {
+            _lfBase[subj.dataKey] = JSON.parse(JSON.stringify(file));
+            _lfLastWriteHash[subj.dataKey] = _ghContentHash(file);
+        }
+    } catch(e){ console.warn('[lf] load failed', e); }
+}
+
+function _lfStartPoll(){ if (_lfPollTimer) clearInterval(_lfPollTimer); _lfPollTimer = setInterval(() => { if (document.visibilityState==='visible') _lfPollOnce(); }, 3000); }
+async function _lfPollOnce(){
+    if (!_lfDir || !State.currentSubject || !State.data) return;
+    const subj = State.currentSubject;
+    try {
+        const file = await _lfReadFile(subj);
+        if (!file || _lfNodeCount(file) === 0) return;
+        const fileHash = _ghContentHash(file);
+        if (fileHash === _lfLastWriteHash[subj.dataKey]) return;        // file == what we last wrote → no external change
+        if (fileHash === _ghContentHash(State.data)) { _lfLastWriteHash[subj.dataKey] = fileHash; return; } // already in sync
+        // External change (Claude edited node chunks in the file) → per-node merge, LOCAL-FIRST.
+        const merged = _ghSafeMerge(State.data, file, _lfBase[subj.dataKey] || null);
+        State.data = merged;
+        _lfBase[subj.dataKey] = JSON.parse(JSON.stringify(file));
+        try { await _ghWriteToIDB(subj.dataKey, merged); } catch(e){}
+        _lfWrite(subj, merged);                                         // converge the file to the merged result
+        try { renderSidebar(); if (typeof renderCanvas==='function') renderCanvas(); } catch(e){}
+        console.log('[lf] pulled external file change via per-node merge');
+    } catch(e){ console.warn('[lf] poll failed', e); }
+}
+
+function _lfUpdateButton(state){
+    const btn = document.getElementById('localFolderBtn');
+    if (!btn) return;
+    if (_lfDir){ btn.innerHTML = '📁 <span>Local folder: ON</span>'; btn.style.background = 'var(--green,#2e9e5b)'; btn.title = state==='error' ? 'Last write failed — click to reconnect' : 'Local folder is your source of truth (click to re-pick)'; }
+    else { btn.innerHTML = '📁 <span>Connect local folder</span>'; btn.style.background = 'var(--accent,#3987e5)'; btn.title = 'Pick a Desktop folder — becomes your source of truth (one time)'; }
+}
+// Silent restore on startup; if restored, start polling.
+(async () => { try { if (await _lfRestoreDir()){ _lfStartPoll(); _lfUpdateButton(); if (State.currentSubject) _lfLoadIntoState(State.currentSubject); } } catch(e){} })();
+
 // Import data from JSON file
 function importFromJson() {
     const input = document.createElement('input');
