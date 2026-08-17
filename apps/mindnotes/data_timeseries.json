@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-17T00:28:16.596Z",
+  "exportedAt": "2026-08-17T09:42:02.102Z",
   "data": {
     "topics": [
       {
@@ -2601,7 +2601,7 @@
               {
                 "id": "mc_stationary_no_001",
                 "title": "Markov chains are (not) stationary",
-                "content": "\\textbf{\\textcolor{red}{Markov chains are (not) stationary.}}\n\n\\textcolor{orange}{\n\\textbf{``Markov chains are stationary'' --- NO.}\n}\n\nA homogeneous Markov chain need not be stationary.\n\nFor example, consider the deterministic flip chain on $\\{1,2\\}$:\n$$\np_{12}=p_{21}=1,\n\\qquad\nY_0=1.\n$$\n\nThen\n$$\nP(Y_t=1)\n=\n\\begin{cases}\n1,&t\\text{ even},\\\\\n0,&t\\text{ odd}.\n\\end{cases}\n$$\n\nThus the marginal distribution changes with $t$, so the process is not\nstationary.\n\nIf the chain is started from an invariant distribution $\\pi$ satisfying\n$$\n\\boxed{\n\\pi=\\pi P,\n}\n$$\nthen its marginal distribution remains $\\pi$ at every time and the\nresulting Markov chain is stationary.\n\nFor the flip chain,\n$$\n\\pi=(1/2,1/2).\n$$\n",
+                "content": "\\textbf{\\textcolor{red}{Markov chains are (not) stationary.}}\n\n\\textcolor{orange}{\n\\textbf{``Markov chains are stationary'' --- NO.}\n}\n\nA homogeneous Markov chain need not be stationary.\n\nFor example, consider the deterministic flip chain on $\\{1,2\\}$:\n$$\np_{12}=p_{21}=1,\n\\qquad\nY_0=1.\n$$\n\nThen\n$$\nP(Y_t=1)\n=\n\\begin{cases}\n1,&t\\text{ even},\\\\\n0,&t\\text{ odd}.\n\\end{cases}\n$$\n\nThus the marginal distribution changes with $t$, so the process is not\nstationary.\n\n\n\nFor the flip chain,\n$$\n\\pi=(1/2,1/2).\n$$\n",
                 "flashcard": false,
                 "images": [],
                 "links": [
@@ -5648,6 +5648,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-17T00:28:16.596Z"
+    "lastEditedAt": "2026-08-17T09:42:02.102Z"
   }
 }
