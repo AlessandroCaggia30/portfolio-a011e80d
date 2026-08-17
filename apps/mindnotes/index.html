@@ -12653,6 +12653,9 @@ const SAFETY_BANNER_GRACE_MS = 20000; // give the normal debounced push time to 
 function _safetyUpdateBanner() {
     const el = _safetyEnsureBanner();
     if (!el) return;
+    // Git is a passive backup; "unsynced with git" is NOT a data-risk (edits are saved locally).
+    // Never show the alarming unsynced banner in this mode.
+    if (typeof GIT_PASSIVE_BACKUP !== 'undefined' && GIT_PASSIVE_BACKUP) { el.style.display = 'none'; return; }
     const pending = (typeof _ghPendingPushSet !== 'undefined') ? _ghPendingPushSet.size : 0;
     const err = (typeof _ghLastError !== 'undefined') ? _ghLastError : null;
     // Grace period: a just-marked pending push is normal (debounce + network).
