@@ -6827,6 +6827,12 @@ window.addEventListener('offline', () => {
 // them into the website. Git is a passive backup only. IndexedDB remains an always-on floor so a
 // permission lapse can never lose data. One user click (Connect local folder) grants access; the
 // browser cannot access a local folder without that single gesture — after it, everything is auto.
+// SAFETY (2026-08-17 hotfix): the live file→browser READ path (poll + load-merge) had unsound
+// merge-base handling that could revert user edits by merging a stale file. Until it's rebuilt
+// with correct 3-way base tracking + tests, READ is DISABLED. The browser still WRITES every
+// edit to the folder (safe mirror/backup). Claude→browser is delivered via reload/console, not
+// the live poll. Flip to true only after the base-management fixes land and are tested.
+const LF_READ_ENABLED = false;
 let _lfDir = null;                 // MindNotes directory handle (persisted in IndexedDB)
 let _lfBase = {};                  // dataKey -> last file state we reconciled with (3-way merge base)
 let _lfWriteTimers = {};           // dataKey -> debounce timer
