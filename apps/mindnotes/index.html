@@ -12434,9 +12434,12 @@ function updateGhStatusDot() {
         level = 'pending';
         title = 'Token set — waiting for first sync';
     }
-    dot.classList.remove('gh-status-ok','gh-status-error','gh-status-pending','gh-status-unknown','gh-status-syncing');
-    dot.classList.add('gh-status-' + level);
-    dot.title = title;
+    const dots = [dot, document.getElementById('sidebarPushDot')].filter(Boolean);
+    dots.forEach(d => {
+        d.classList.remove('gh-status-ok','gh-status-error','gh-status-pending','gh-status-unknown','gh-status-syncing');
+        d.classList.add('gh-status-' + level);
+        d.title = title;
+    });
 }
 
 // ==================== SAFETY LAYER (added 2026-07-18) ====================
