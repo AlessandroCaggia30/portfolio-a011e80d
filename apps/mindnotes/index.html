@@ -6735,6 +6735,9 @@ function updateAutosaveUI(dataKey, status, text) {
 
 let autosaveWriteTimer = null;
 function autoSaveToFileSystem(dataKey, data) {
+    // Superseded by the LocalFolder writer when a folder is connected — avoids a second, stale
+    // file writer throwing NotFoundError ("backup failed") and fighting the folder file.
+    if (typeof _lfDir !== 'undefined' && _lfDir) return;
     if (!autosaveFileHandles[dataKey]) return;
 
     // Never autosave if there are 0 nodes (prevents overwriting real data with empty data)
