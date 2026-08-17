@@ -13969,10 +13969,19 @@ function restoreFromTrash(nodeId) {
     renderTrashList();
     updateTrashCount();
     renderSidebar();
-    if (State.currentSubtopic?.id === targetSub.id) {
-        renderCanvas();
-    }
-    showToast('Note restored');
+    // Refresh-bug fix (2026-08-17): previously the canvas only re-rendered if you were ALREADY
+    // viewing the exact target subtopic — so a restore looked like it did nothing until you left
+    // the page and came back. Navigate to the restored node's subtopic and fully re-render so it
+    // is visible immediately.
+    try {
+        if (targetTopic && targetSub && typeof selectSubtopic === 'function') {
+            selectSubtopic(targetTopic, targetSub);
+        } else {
+            renderCanvas();
+        }
+        if (State.currentView === 'snippets' && typeof switchView === 'function') switchView('snippets');
+    } catch (e) { console.warn('restore re-render failed (non-fatal):', e); renderCanvas(); }
+    showToast('Note restored to “' + (targetSub.name || 'notes') + '”');
 }
 
 function permanentlyDelete(nodeId) {
