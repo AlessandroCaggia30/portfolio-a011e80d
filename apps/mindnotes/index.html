@@ -6921,19 +6921,21 @@ function _lfWrite(subj, data){                                          // debou
     _lfWriteTimers[subj.dataKey] = setTimeout(() => { _lfWriteNow(subj, data).catch(()=>{}); }, 600);
 }
 
-// Two-tier local history inside the folder: 15-min/4h in history/, 2h/24h in history/long/.
-async function _lfHistory(json, dataKey){
-    if (!_lfDir) return;
+// Two-tier version history INSIDE each subject's subfolder: <subject>/history/ (15-min·4h)
+// and <subject>/history/long/ (2h·24h). Snapshots are per-subject so subjects never collide.
+async function _lfHistory(json, subj, dir){
+    if (!dir) return;
     try {
+        const dataKey = subj.dataKey;
         const now = new Date();
-        const nm = 'snap_' + dataKey + '_' + now.toISOString().replace(/[:.]/g,'-') + '.json';
-        const wsnap = async (dir) => { const h = await dir.getFileHandle(nm, {create:true}); const w = await h.createWritable(); await w.write(json); await w.close(); };
-        const prune = async (dir, pref, keep) => { const f=[]; for await (const e of dir.values()){ if(e.kind==='file'&&e.name.startsWith('snap_'+dataKey+'_')) f.push(e.name);} f.sort(); while(f.length>keep){ await dir.removeEntry(f.shift()); } };
-        const hist = await _lfDir.getDirectoryHandle('history', { create:true });
+        const nm = 'snap_' + now.toISOString().replace(/[:.]/g,'-') + '.json';
+        const wsnap = async (d) => { const h = await d.getFileHandle(nm, {create:true}); const w = await h.createWritable(); await w.write(json); await w.close(); };
+        const prune = async (d, keep) => { const f=[]; for await (const e of d.values()){ if(e.kind==='file'&&e.name.startsWith('snap_')&&e.name.endsWith('.json')) f.push(e.name);} f.sort(); while(f.length>keep){ await d.removeEntry(f.shift()); } };
+        const hist = await dir.getDirectoryHandle('history', { create:true });
         const s15 = Math.floor(now.getTime()/(15*60*1000));
-        if (String(s15) !== localStorage.getItem('lf_slot15_'+dataKey)){ await wsnap(hist); localStorage.setItem('lf_slot15_'+dataKey, String(s15)); await prune(hist, 'snap_'+dataKey, 16); }
+        if (String(s15) !== localStorage.getItem('lf_slot15_'+dataKey)){ await wsnap(hist); localStorage.setItem('lf_slot15_'+dataKey, String(s15)); await prune(hist, 16); }
         const s2 = Math.floor(now.getTime()/(2*60*60*1000));
-        if (String(s2) !== localStorage.getItem('lf_slot2h_'+dataKey)){ const lng = await hist.getDirectoryHandle('long', {create:true}); await wsnap(lng); localStorage.setItem('lf_slot2h_'+dataKey, String(s2)); await prune(lng, 'snap_'+dataKey, 12); }
+        if (String(s2) !== localStorage.getItem('lf_slot2h_'+dataKey)){ const lng = await hist.getDirectoryHandle('long', {create:true}); await wsnap(lng); localStorage.setItem('lf_slot2h_'+dataKey, String(s2)); await prune(lng, 12); }
     } catch(e){ console.warn('[lf] history failed', e); }
 }
 
