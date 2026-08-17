@@ -8,6 +8,11 @@
          picked up on the next reload without manual cache-clearing. Shell-only;
          never touches IndexedDB (notes/FSRS live there). See sw.js. -->
     <script>
+    // Build stamp so we can tell instantly which code version a browser is actually running
+    // (cuts through service-worker/cache confusion). Read it in the console or via
+    // `window.__MINDNOTES_BUILD__`.
+    window.__MINDNOTES_BUILD__ = '2026-08-17 build5 — delete-fix + restore-refresh + reconciler + IDB-persist';
+    try { console.log('%c[MindNotes] running ' + window.__MINDNOTES_BUILD__, 'color:#3987e5;font-weight:bold;font-size:13px'); } catch (_) {}
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
             // updateViaCache:'none' → the browser must fetch sw.js from the network
