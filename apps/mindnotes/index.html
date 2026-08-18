@@ -6837,17 +6837,21 @@ window.addEventListener('offline', () => {
 // them into the website. Git is a passive backup only. IndexedDB remains an always-on floor so a
 // permission lapse can never lose data. One user click (Connect local folder) grants access; the
 // browser cannot access a local folder without that single gesture — after it, everything is auto.
-// SAFETY (2026-08-17 hotfix): the live file→browser READ path (poll + load-merge) had unsound
-// merge-base handling that could revert user edits by merging a stale file. Until it's rebuilt
-// with correct 3-way base tracking + tests, READ is DISABLED. The browser still WRITES every
-// edit to the folder (safe mirror/backup). Claude→browser is delivered via reload/console, not
-// the live poll. Flip to true only after the base-management fixes land and are tested.
-const LF_READ_ENABLED = false;
+// LIVE file→browser READ (2026-08-18 build14 — rebuilt with correct merge-base tracking + tests).
+// The folder file is a real bidirectional channel: the browser WRITES every edit out, and a 3s
+// poll READS external edits (Claude editing node chunks in the file) back in via a per-node,
+// LOCAL-FIRST 3-way merge. The single correctness invariant: the merge *base* (last-agreed
+// ancestor) is advanced ONLY by a successful file write in _lfWriteNow — the poll NEVER advances
+// it to the raw external file. That is what makes every merge local-first and unable to revert a
+// user edit. Merge-before-write in _lfWriteNow protects Claude's edits symmetrically. Both the
+// v8→v9 and concurrent-edit scenarios are covered by scratchpad/lf_merge_test.js (all pass).
+const LF_READ_ENABLED = true;
 let _lfDir = null;                 // MindNotes directory handle (persisted in IndexedDB)
-let _lfBase = {};                  // dataKey -> last file state we reconciled with (3-way merge base)
+let _lfBase = {};                  // dataKey -> last-AGREED state (3-way merge base; advanced only on write)
 let _lfWriteTimers = {};           // dataKey -> debounce timer
 let _lfLastWriteHash = {};         // dataKey -> hash of what WE last wrote (to detect external edits)
 let _lfPollTimer = null;
+let _lfPollInFlight = false;       // guard: never run two poll/merge cycles concurrently
 // Per-subject SUBFOLDER layout (2026-08-17): MindNotes/<subject>/data.json + <subject>/history/…
 // New subjects need NO setup — their subfolder is auto-created on first write. Connect the ONE
 // MindNotes folder once and every subject (existing + future) organizes itself inside it.
