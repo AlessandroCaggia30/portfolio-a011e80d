@@ -6916,12 +6916,34 @@ async function _lfReadFile(subj){
 async function _lfWriteNow(subj, data){
     if (!_lfDir || _lfNodeCount(data) === 0) return;                    // never write empty over real data
     try {
-        const json = JSON.stringify({ version:'2.0', exportedAt:new Date().toISOString(), subject: (subj && subj.name) || subj.dataKey, data }, null, 2);
         const dir = await _lfSubDir(subj, true);
+        // MERGE-BEFORE-WRITE: if the file changed externally since our last write (Claude edited
+        // node chunks) and it isn't already equal to what we're about to write, fold those edits in
+        // FIRST (local-first) so a user save can never clobber Claude's file edit. The merge base is
+        // the last AGREED state (_lfBase) — NOT the raw file — which keeps this local-first.
+        let out = data;
+        if (LF_READ_ENABLED){
+            try {
+                const file = await _lfReadFile(subj);
+                if (file && _lfNodeCount(file) > 0){
+                    const fh2 = _ghContentHash(file);
+                    if (fh2 !== _lfLastWriteHash[subj.dataKey] && fh2 !== _ghContentHash(data)){
+                        out = _ghSafeMerge(data, file, _lfBase[subj.dataKey] || null);
+                        if (subj === State.currentSubject){
+                            State.data = out;
+                            try { await _ghWriteToIDB(subj.dataKey, out); } catch(e){}
+                            try { renderSidebar(); if (typeof renderCanvas==='function') renderCanvas(); } catch(e){}
+                        }
+                    }
+                }
+            } catch(e){ /* read failed → just write what we have */ }
+        }
+        const json = JSON.stringify({ version:'2.0', exportedAt:new Date().toISOString(), subject: (subj && subj.name) || subj.dataKey, data: out }, null, 2);
         const fh = await dir.getFileHandle('data.json', { create:true });
         const w = await fh.createWritable(); await w.write(json); await w.close();
-        _lfLastWriteHash[subj.dataKey] = _ghContentHash(data);
-        _lfBase[subj.dataKey] = JSON.parse(JSON.stringify(data));
+        // Base advanced HERE ONLY — to exactly what we wrote (file == out == State ⇒ they now agree).
+        _lfLastWriteHash[subj.dataKey] = _ghContentHash(out);
+        _lfBase[subj.dataKey] = JSON.parse(JSON.stringify(out));
         await _lfHistory(json, subj, dir);
         _lfUpdateButton('saved');
     } catch(e){ console.warn('[lf] write failed', e); _lfUpdateButton('error'); }
