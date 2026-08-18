@@ -6886,6 +6886,8 @@ async function connectLocalFolder(){
                         await _ghSnapshotLocal(s.dataKey, idb);              // recovery snapshot before adopting
                         await _ghWriteToIDB(s.dataKey, file);               // file is newer → adopt into IDB
                         if (State.currentSubject && State.currentSubject.dataKey === s.dataKey){ State.data = file; }
+                        _lfBase[s.dataKey] = JSON.parse(JSON.stringify(file));   // agree on the adopted file
+                        _lfLastWriteHash[s.dataKey] = _ghContentHash(file);
                         continue;
                     }
                 }
