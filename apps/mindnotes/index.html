@@ -6976,27 +6976,33 @@ async function _lfHistory(json, subj, dir){
 // the in-memory/IDB copy; otherwise write the current copy to the file. Never loses local.
 async function _lfLoadIntoState(subj){
     if (!_lfDir || !subj) return;
-    // READ path disabled (hotfix): never adopt/merge the file into the app (unsound base handling
-    // could revert edits). Only mirror the current in-app data OUT to the file.
     if (!LF_READ_ENABLED){ try { if (State.data && _lfNodeCount(State.data)) _lfWrite(subj, State.data); } catch(e){} return; }
     try {
         const file = await _lfReadFile(subj);
         const cur = State.data;
         if (!file || _lfNodeCount(file) === 0){ if (cur && _lfNodeCount(cur)) _lfWrite(subj, cur); return; }
-        const fT = file.lastEditedAt || '', cT = (cur && cur.lastEditedAt) || '';
-        if (!cur || _lfNodeCount(cur) === 0 || fT > cT){
-            try { await _ghSnapshotLocal(subj.dataKey, cur); } catch(e){}
+        if (!cur || _lfNodeCount(cur) === 0){                            // nothing local → adopt file wholesale
             State.data = file;
             try { await _ghWriteToIDB(subj.dataKey, file); } catch(e){}
             _lfBase[subj.dataKey] = JSON.parse(JSON.stringify(file));
             _lfLastWriteHash[subj.dataKey] = _ghContentHash(file);
             try { renderSidebar(); if (typeof renderCanvas==='function') renderCanvas(); if (typeof updateFlashcardStats==='function') updateFlashcardStats(); } catch(e){}
-        } else if (cT > fT){
-            _lfWrite(subj, cur);                                        // local newer → update file
-        } else {
+            return;
+        }
+        if (_ghContentHash(file) === _ghContentHash(cur)){              // already identical → just record agreement
             _lfBase[subj.dataKey] = JSON.parse(JSON.stringify(file));
             _lfLastWriteHash[subj.dataKey] = _ghContentHash(file);
+            return;
         }
+        // Both sides have content and differ → LOCAL-FIRST per-node merge (never wholesale replace,
+        // never revert a local edit). With no prior base this degrades to a safe local-first union:
+        // keeps every local node, adds file-only nodes, and never overwrites a local node's value.
+        try { await _ghSnapshotLocal(subj.dataKey, cur); } catch(e){}
+        const merged = _ghSafeMerge(cur, file, _lfBase[subj.dataKey] || null);
+        State.data = merged;
+        try { await _ghWriteToIDB(subj.dataKey, merged); } catch(e){}
+        await _lfWriteNow(subj, merged);                                // converge file + advance base to merged
+        try { renderSidebar(); if (typeof renderCanvas==='function') renderCanvas(); if (typeof updateFlashcardStats==='function') updateFlashcardStats(); } catch(e){}
     } catch(e){ console.warn('[lf] load failed', e); }
 }
 
