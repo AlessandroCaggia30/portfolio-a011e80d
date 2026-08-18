@@ -7003,22 +7003,30 @@ async function _lfLoadIntoState(subj){
 function _lfStartPoll(){ if (!LF_READ_ENABLED) return; if (_lfPollTimer) clearInterval(_lfPollTimer); _lfPollTimer = setInterval(() => { if (document.visibilityState==='visible') _lfPollOnce(); }, 3000); }
 async function _lfPollOnce(){
     if (!_lfDir || !State.currentSubject || !State.data) return;
+    if (_lfPollInFlight) return;                                        // never overlap two merge cycles
+    _lfPollInFlight = true;
     const subj = State.currentSubject;
     try {
         const file = await _lfReadFile(subj);
         if (!file || _lfNodeCount(file) === 0) return;
         const fileHash = _ghContentHash(file);
         if (fileHash === _lfLastWriteHash[subj.dataKey]) return;        // file == what we last wrote → no external change
-        if (fileHash === _ghContentHash(State.data)) { _lfLastWriteHash[subj.dataKey] = fileHash; return; } // already in sync
+        if (fileHash === _ghContentHash(State.data)) {                  // already identical → they agree
+            _lfLastWriteHash[subj.dataKey] = fileHash;
+            _lfBase[subj.dataKey] = JSON.parse(JSON.stringify(file));
+            return;
+        }
         // External change (Claude edited node chunks in the file) → per-node merge, LOCAL-FIRST.
+        // CRITICAL: base stays the last-AGREED state; we do NOT set it to the raw file here. The
+        // converge write below (_lfWriteNow) is the only place base advances — to the merged result.
         const merged = _ghSafeMerge(State.data, file, _lfBase[subj.dataKey] || null);
         State.data = merged;
-        _lfBase[subj.dataKey] = JSON.parse(JSON.stringify(file));
         try { await _ghWriteToIDB(subj.dataKey, merged); } catch(e){}
-        _lfWrite(subj, merged);                                         // converge the file to the merged result
+        await _lfWriteNow(subj, merged);                               // converge the file + advance base to merged
         try { renderSidebar(); if (typeof renderCanvas==='function') renderCanvas(); } catch(e){}
-        console.log('[lf] pulled external file change via per-node merge');
+        console.log('[lf] applied external file change (per-node merge, local-first)');
     } catch(e){ console.warn('[lf] poll failed', e); }
+    finally { _lfPollInFlight = false; }
 }
 
 function _lfUpdateButton(state){
