@@ -15898,7 +15898,7 @@ function showCurrentFlashcard() {
     // Update card display — append the \fcnum marker so sibling keydefs from the
     // same snippet are distinguishable (e.g. "Guide to Constrained Maximization — 1a.").
     $('fcCardTopic').textContent = `${cardData.topic} > ${cardData.subtopic}`;
-    $('fcCardTitle').textContent = (node.title || 'Untitled') + (cardData.fcnum ? '  —  ' + cardData.fcnum : '');
+    $('fcCardTitle').textContent = (node.title || 'Untitled') + (cardData.fcnum ? '  —  ' + cardData.fcnum : '') + (cardData.rowLabel ? '  ·  ' + cardData.rowLabel : '');
     // Inject a one-time X button: removes this card from the deck by unwrapping its keydef.
     (function(){
         var tEl=$('fcCardTitle');
