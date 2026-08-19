@@ -15709,6 +15709,39 @@ function fcCardState(node, cardKey) {
 // A node with NO keydef block (explicitly flashcard-toggled) yields a single
 // legacy card whose answer is the full content and whose state maps to node.fsrs.
 // `meta` supplies the shared {topic, subtopic, topicId, subtopicId} fields.
+// If a keydef is essentially ONE big \begin{tabular}…\end{tabular} (a header row + >=4
+// \hline-delimited body rows), expand it into ONE flashcard PER body row: each card renders
+// the column spec + header + that single row (a valid mini-table), with the row's first
+// \textbf{…} used as its label. Returns [{label, answer}] or null (→ keep as a single card).
+// Split is on \hline (true row boundaries) — NOT on \\, which also occurs inside pmatrix cells.
+function splitTableKeydefRows(keydefBody) {
+    const s = (keydefBody || '').replace(/^\s*\\fcnum\{[^}]*\}\s*/, '').trim();
+    if (!s.startsWith('\\begin{tabular}') || !s.endsWith('\\end{tabular}')) return null;
+    // Balanced-brace scan for the column spec {…} immediately after \begin{tabular}.
+    let i = '\\begin{tabular}'.length, depth = 0, ss = -1, se = -1;
+    while (i < s.length) {
+        const ch = s[i];
+        if (ch === '{') { if (depth === 0) ss = i; depth++; }
+        else if (ch === '}') { depth--; if (depth === 0) { se = i; break; } }
+        else if (depth === 0 && !/\s/.test(ch)) return null; // stray non-space before the spec
+        i++;
+    }
+    if (ss < 0 || se < 0) return null;
+    const colspec = s.slice(ss, se + 1);
+    const inner = s.slice(se + 1, s.length - '\\end{tabular}'.length);
+    const parts = inner.split(/\\hline/);
+    if (parts.length < 5) return null;                 // need a header + >=4 body rows
+    const header = parts[0];
+    const rows = parts.slice(1).filter(r => r.trim().length > 0);
+    if (rows.length < 4) return null;
+    return rows.map((row, idx) => {
+        const cell0 = row.split('&')[0];
+        const mm = cell0.match(/\\textbf\{([^}]*)\}/);
+        const label = (mm ? mm[1] : ('row ' + (idx + 1))).replace(/\s+/g, ' ').trim();
+        return { label, answer: '\\begin{tabular}' + colspec + header + '\\hline' + row + '\\end{tabular}' };
+    });
+}
+
 function expandNodeToCards(node, meta) {
     const content = node.content || '';
     const re = /\\begin\{keydef\}\s*([\s\S]*?)\s*\\end\{keydef\}/g;
@@ -15723,7 +15756,16 @@ function expandNodeToCards(node, meta) {
         // block index. This is what node.fsrsCards is keyed by, so renaming a
         // \fcnum starts a fresh schedule for that card (expected).
         const cardKey = fcnum ? 'fc:' + fcnum : 'idx:' + idx;
-        cards.push({ ...meta, node, fcnum, answer: body, cardKey, state: fcCardState(node, cardKey) });
+        // A pure-table keydef → one card per model row (each scheduled independently).
+        const tableRows = splitTableKeydefRows(body);
+        if (tableRows) {
+            tableRows.forEach((r, ri) => {
+                const rk = cardKey + '::r' + ri;
+                cards.push({ ...meta, node, fcnum, rowLabel: r.label, answer: r.answer, cardKey: rk, state: fcCardState(node, rk) });
+            });
+        } else {
+            cards.push({ ...meta, node, fcnum, answer: body, cardKey, state: fcCardState(node, cardKey) });
+        }
         idx++;
     }
     if (cards.length === 0) {
