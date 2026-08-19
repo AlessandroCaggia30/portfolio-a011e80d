@@ -15621,6 +15621,30 @@ function _cmpNumArrays(a, b) {
     return 0;
 }
 
+// Canonical flashcard study-order comparator — the SINGLE source of truth for card ordering,
+// used by BOTH getAllFlashcards (all-cards mode) and FSRS.getDueCards (optimal/due mode) so the
+// two never diverge. Keys, each falling through to the next on a tie:
+//   (1) the per-card \fcnum the user writes in each keydef (1a,1b,2a…); because time-series
+//       \fcnums are globally sequential, this also orders correctly ACROSS snippets. Cards that
+//       carry an \fcnum sort before cards that don't.
+//   (2) numeric prefix parsed from the node title (e.g. "1.1.2 Definition" → [1,1,2]).
+//   (3) stable fallthrough preserves the topic/subtopic walk order.
+function _cmpFlashcards(a, b) {
+    const fa = a.fcnum ? _tokenizeFcNum(a.fcnum) : (a.node.content ? extractFcNumSortKey(a.node.content) : null);
+    const fb = b.fcnum ? _tokenizeFcNum(b.fcnum) : (b.node.content ? extractFcNumSortKey(b.node.content) : null);
+    if (fa && fb) {
+        const c = _cmpNumArrays(fa, fb);
+        if (c !== 0) return c;
+    } else if (fa && !fb) {
+        return -1;
+    } else if (!fa && fb) {
+        return 1;
+    }
+    const c2 = _cmpNumArrays(parseSnippetNumber(a.node.title), parseSnippetNumber(b.node.title));
+    if (c2 !== 0) return c2;
+    return 0;
+}
+
 // Fisher-Yates shuffle (in place, returns the same array).
 function shuffleFlashcards(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
