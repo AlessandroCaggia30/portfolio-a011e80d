@@ -12813,6 +12813,13 @@ setInterval(async function () {
 // is the offline safety net if IndexedDB gets nuked before push succeeds.
 let _lastAutoDownload = 0;
 function _safetyAutoDownload() {
+    // DISABLED (2026-08-18 build15): obsolete under the local-first architecture. It used a.click()
+    // on a Blob, which on Mac Chrome ("ask where to save each download") pops a native Save-As
+    // dialog at the user every 15 min whenever a push is pending — disruptive and redundant now
+    // that the safety net is: IndexedDB rolling backups (15 min) + the connected Desktop folder +
+    // passive git push. No silent local safety is lost by removing this noisy download.
+    return;
+    /* eslint-disable no-unreachable */
     try {
         if (!State || !State.currentSubject || !State.data) return;
         const now = Date.now();
