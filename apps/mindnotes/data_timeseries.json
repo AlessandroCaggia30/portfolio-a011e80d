@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-19T15:22:01.642Z",
+  "exportedAt": "2026-08-19T15:22:23.834Z",
   "data": {
     "topics": [
       {
@@ -93,15 +93,15 @@
                 },
                 "fsrsCards": {
                   "fc:1": {
-                    "stability": 123.7776,
-                    "difficulty": 3.666972745051818,
+                    "stability": 247.5552,
+                    "difficulty": 2.7097076028176055,
                     "elapsedDays": 0,
                     "scheduledDays": 1,
-                    "reps": 4,
+                    "reps": 5,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-19T15:05:59.561Z",
-                    "dueDate": "2026-08-20T15:05:59.561Z"
+                    "lastReview": "2026-08-19T15:22:22.851Z",
+                    "dueDate": "2026-08-20T15:22:22.851Z"
                   }
                 }
               },
