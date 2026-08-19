@@ -16004,10 +16004,14 @@ function deleteCurrentFlashcard() {
     const session = State.flashcardSession;
     const cardData = session.cards[session.currentIndex];
     if (!cardData) return;
-    if (!confirm('Remove this card from the deck? The keydef wrapper is deleted from the snippet (the text itself stays).')) return;
+    if (!confirm(cardData.rowLabel
+        ? 'This card is one row of a table. Deleting removes the ENTIRE table card (all its rows). Continue?'
+        : 'Remove this card from the deck? The keydef wrapper is deleted from the snippet (the text itself stays).')) return;
     const node = cardData.node;
     const re = /\\begin\{keydef\}\s*([\s\S]*?)\s*\\end\{keydef\}/g;
     const content = node.content || '';
+    // Row-cards from a split table carry a '…::rN' suffix; match on the base keydef key.
+    const targetKey = (cardData.cardKey || '').replace(/::r\d+$/, '');
     let m, idx = 0, done = false, out = content;
     while ((m = re.exec(content)) !== null) {
         const body = (m[1] || '').trim();
@@ -16015,7 +16019,7 @@ function deleteCurrentFlashcard() {
         const fm = body.match(/\\fcnum\{([^}]*)\}/);
         const fcnum = fm ? fm[1].trim() : '';
         const key = fcnum ? 'fc:' + fcnum : 'idx:' + idx;
-        if (key === cardData.cardKey) {
+        if (key === targetKey) {
             const inner = body.replace(/\\fcnum\{[^}]*\}\s*/, '');
             out = content.slice(0, m.index) + inner + content.slice(m.index + m[0].length);
             done = true;
