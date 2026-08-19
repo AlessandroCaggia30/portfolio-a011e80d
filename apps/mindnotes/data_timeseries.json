@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-19T15:13:14.038Z",
+  "exportedAt": "2026-08-19T15:14:50.315Z",
   "data": {
     "topics": [
       {
@@ -1662,7 +1662,7 @@
               {
                 "id": "ts1779025115813",
                 "title": "Example 1: RW",
-                "content": "\n\\textbf{\\textcolor{red}{EXAMPLE 1 --- Simple random walk.}}\n\n\\begin{keydef}\n\\fcnum{10} \\textbf{Steps} - A player starts with capital $y_0 = 0$, **deterministic**. \n- Assume $Z_t \\underbrace{\\sim}_{iid} \\mathcal{N}(0, \\sigma^2)$ (Gaussian RW; \\emph{the increments $Z_t$ are iid, NOT the $Y_t$ themselves --- $Y_t$ is a cumulative sum so $Y_t$ depends on $Y_{t-1}$}):\\[ Y_t \\;=\\; Y_{t-1} + Z_t \\;=\\; y_0 + \\sum_{k=1}^{t} Z_k. \\]\n$Z_t$ iid and independent of past $Y$'s $\\Rightarrow$ $Y_t$ is Markov\n\n\\[ E[Y_t] \\;=\\; E\\Bigl[\\sum_{k=1}^{t} Z_k\\Bigr] \\;=\\; \\sum_{k=1}^{t} E[Z_k] \\;=\\; \\sum_{k=1}^{t} 0 \\;=\\; 0. \\]\n\n\\[ \\mathrm{Var}(Y_t) \\;=\\; \\mathrm{Var}\\Bigl(\\sum_{s=1}^{t} Z_s\\Bigr) \\;=\\; \\sum_{s=1}^{t} \\mathrm{Var}(Z_s) \\;=\\; \\sum_{s=1}^{t} \\sigma^2 \\;=\\; t\\sigma^2. \\]\n\\emph{Variance grows linearly in $t$} (standard deviation widens as $\\sqrt{t}$),\n\n\n\n so the walk is \\textbf{non-stationary} (note $V(Y_0) = 0$  because $y_0$ is fixed deterministic). The variance of the random walk explodes in time. \n\n\n\\emph{Continuous-time limit} (small steps in rapid succession): \\textbf{Brownian motion}. The recursion works for any iid $Z_t$, not just $\\pm 1$.\n\\end{keydef}\n",
+                "content": "\n\\textbf{\\textcolor{red}{EXAMPLE 1 --- Simple random walk.}}\n\n\\begin{keydef}\n\\fcnum{10} \\textbf{Steps} - A player starts with capital $y_0 = 0$, **deterministic**. \n- Assume $Z_t \\underbrace{\\sim}_{iid} \\mathcal{N}(0, \\sigma^2)$ (Gaussian RW; \\emph{the increments $Z_t$ are iid, NOT the $Y_t$ themselves --- $Y_t$ is a cumulative sum so $Y_t$ depends on $Y_{t-1}$}):\\[ Y_t \\;=\\; Y_{t-1} + Z_t \\;=\\; y_0 + \\sum_{k=1}^{t} Z_k. \\]\n$Z_t$ iid and independent of past $Y$'s $\\Rightarrow$ $Y_t$ is Markov\n\n\\[ E[Y_t] \\;=\\; E\\Bigl[\\sum_{k=1}^{t} Z_k\\Bigr] \\;=\\; \\sum_{k=1}^{t} E[Z_k] \\;=\\; \\sum_{k=1}^{t} 0 \\;=\\; 0. \\]\n\n\\[ \\mathrm{Var}(Y_t) \\;=\\; \\mathrm{Var}\\Bigl(\\sum_{s=1}^{t} Z_s\\Bigr) \\;=\\; \\sum_{s=1}^{t} \\mathrm{Var}(Z_s) \\;=\\; \\sum_{s=1}^{t} \\sigma^2 \\;=\\; t\\sigma^2. \\]\n\n\\[ \\gamma(t,t') \\;=\\; \\operatorname{Cov}(Y_t, Y_{t'}) \\;=\\; \\operatorname{Cov}\\!\\Bigl(\\sum_{i=1}^{t} Z_i,\\ \\sum_{j=1}^{t'} Z_j\\Bigr) \\;=\\; \\sum_{i=1}^{t}\\sum_{j=1}^{t'} \\underbrace{\\operatorname{Cov}(Z_i, Z_j)}_{=\\,\\sigma^2\\,\\mathbf 1\\{i=j\\}} \\;=\\; \\sigma^2\\,\\min(t,t'). \\]\n\\emph{Quick way: for $t\\le t'$, write $Y_{t'}=Y_t+\\sum_{k=t+1}^{t'}Z_k$; the future increments are independent of $Y_t$, so $\\operatorname{Cov}(Y_t,Y_{t'})=\\mathrm{Var}(Y_t)=t\\sigma^2$, i.e.\\ $\\sigma^2\\min(t,t')$.} The autocovariance depends on $t,t'$ \\textbf{separately} (not on the lag $h=t'-t$ alone), which \\textbf{again confirms non-stationarity}; and setting $t'=t$ recovers $\\gamma(t,t)=\\mathrm{Var}(Y_t)=t\\sigma^2$.\n\\emph{Variance grows linearly in $t$} (standard deviation widens as $\\sqrt{t}$),\n\n\n\n so the walk is \\textbf{non-stationary} (note $V(Y_0) = 0$  because $y_0$ is fixed deterministic). The variance of the random walk explodes in time. \n\n\n\\emph{Continuous-time limit} (small steps in rapid succession): \\textbf{Brownian motion}. The recursion works for any iid $Z_t$, not just $\\pm 1$.\n\\end{keydef}\n",
                 "flashcard": true,
                 "images": [],
                 "links": [],
@@ -7789,6 +7789,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-19T14:02:52.462Z"
+    "lastEditedAt": "2026-08-19T15:14:46.709Z"
   }
 }
