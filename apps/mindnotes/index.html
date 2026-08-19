@@ -4707,6 +4707,11 @@ function _isMobileDevice(){
 function _isEditorDevice(){
   try{
     if(_isMobileDevice()) return false;                 // phone/tablet: never an editor
+    // A connected local folder means the user has adopted this desktop as their authoring
+    // device (build14+). This is the primary editor signal now that git is passive and a
+    // GitHub token may no longer be present — without it, saveData() would no-op and UI
+    // edits (e.g. deleting a flashcard) would silently fail to persist.
+    if(typeof _lfDir !== 'undefined' && _lfDir) return true;
     if(localStorage.getItem('mindnotes_editorUnlock')==='1') return true;
     return !!(localStorage.getItem('mindnotes_ghToken')||'');
   }catch(e){ return false; }
