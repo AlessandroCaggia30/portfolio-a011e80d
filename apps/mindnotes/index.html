@@ -15969,6 +15969,7 @@ function deleteCurrentFlashcard() {
     let m, idx = 0, done = false, out = content;
     while ((m = re.exec(content)) !== null) {
         const body = (m[1] || '').trim();
+        if (!body) continue;                       // match expandNodeToCards: empty blocks don't count toward idx
         const fm = body.match(/\\fcnum\{([^}]*)\}/);
         const fcnum = fm ? fm[1].trim() : '';
         const key = fcnum ? 'fc:' + fcnum : 'idx:' + idx;
