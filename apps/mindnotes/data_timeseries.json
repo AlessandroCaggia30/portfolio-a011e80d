@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-19T13:41:34.328Z",
+  "exportedAt": "2026-08-19T13:41:40.758Z",
   "data": {
     "topics": [
       {
@@ -135,15 +135,15 @@
                 },
                 "fsrsCards": {
                   "fc:2": {
-                    "stability": 61.8888,
-                    "difficulty": 4.647174610948001,
-                    "elapsedDays": 1,
+                    "stability": 123.7776,
+                    "difficulty": 3.666972745051818,
+                    "elapsedDays": 2,
                     "scheduledDays": 1,
-                    "reps": 3,
+                    "reps": 4,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-16T18:25:24.682Z",
-                    "dueDate": "2026-08-17T18:25:24.682Z"
+                    "lastReview": "2026-08-19T13:41:34.892Z",
+                    "dueDate": "2026-08-20T13:41:34.892Z"
                   }
                 }
               },
@@ -179,15 +179,15 @@
                 },
                 "fsrsCards": {
                   "fc:3": {
-                    "stability": 30.9444,
-                    "difficulty": 5.650862780000001,
-                    "elapsedDays": 1,
+                    "stability": 61.8888,
+                    "difficulty": 4.647174610948001,
+                    "elapsedDays": 2,
                     "scheduledDays": 1,
-                    "reps": 2,
+                    "reps": 3,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-16T18:25:25.032Z",
-                    "dueDate": "2026-08-17T18:25:25.032Z"
+                    "lastReview": "2026-08-19T13:41:40.388Z",
+                    "dueDate": "2026-08-20T13:41:40.388Z"
                   }
                 }
               },
