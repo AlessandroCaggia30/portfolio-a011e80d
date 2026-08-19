@@ -5821,17 +5821,9 @@ const FSRS = {
             });
         });
 
-        // Sort by snippet number (e.g. "1.1.2 Title" → [1,1,2])
-        dueCards.sort((a, b) => {
-            const numsA = parseSnippetNumber(a.node.title);
-            const numsB = parseSnippetNumber(b.node.title);
-            for (let i = 0; i < Math.max(numsA.length, numsB.length); i++) {
-                const na = numsA[i] ?? -1;
-                const nb = numsB[i] ?? -1;
-                if (na !== nb) return na - nb;
-            }
-            return 0;
-        });
+        // Order by the canonical \fcnum-first comparator (shared with getAllFlashcards) so due
+        // review follows the same \fcnum study order as all-cards mode, not just the title number.
+        dueCards.sort(_cmpFlashcards);
 
         return dueCards;
     },
