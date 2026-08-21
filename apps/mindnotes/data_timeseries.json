@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-21T19:41:57.318Z",
+  "exportedAt": "2026-08-21T19:42:03.186Z",
   "data": {
     "topics": [
       {
@@ -818,6 +818,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-16T09:05:05.332Z"
+                  },
+                  "fc:16": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-21T19:42:00.937Z"
                   }
                 },
                 "userEdited": false
