@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-21T19:36:07.513Z",
+  "exportedAt": "2026-08-21T19:36:15.819Z",
   "data": {
     "topics": [
       {
@@ -1879,7 +1879,7 @@
               {
                 "id": "ts1778707354663",
                 "title": "Ergodic properties of a Markov chain (Theorem 2.1)",
-                "content": "\\textbf{\\textcolor{red}{ERGODIC PROPERTIES OF A MARKOV CHAIN}}\n\nIn general the random variables $Y_t$ are \\emph{not} identically distributed — the distribution of $Y_t$ varies with $t$, hence the process $(Y_t)_{t \\ge 0}$ is not (strictly) stationary. We want to study its \\textbf{asymptotic behaviour} (as $t \\to \\infty$).\n\n\n\\begin{keydef}\n\\fcnum{16} Let $(Y_t)$ be an \\textbf{irreducible} and \\textbf{aperiodic} Markov chain (discrete time) with finite state space $\\mathcal{Y} = \\{1, \\dots, M\\}$. Then:\n\n\\textbf{(1)} $$ \\lim_{t \\to \\infty} P(Y_t = k \\mid Y_0 = j) = \\underbrace{p^*(k)}_{\\text{Limit distribution}} > 0, \\qquad \\forall j, k \\in \\mathcal{Y}, \\qquad \\sum_{k \\in \\mathcal{Y}} p^*(k) = 1. $$\nnow how this means the limit does not depend on the starting condition!\n\\textbf{(2)}$$ \\underbrace{p^*(k)}_{\\text{prob.\\ of being in } k \\text{ (next step)}} \\;=\\; \\sum_{i \\in \\mathcal{Y}} \\underbrace{p^*(i)}_{\\text{prob.\\ of being in } i \\text{ (current step)}} \\cdot \\underbrace{p_{i,k}}_{\\text{transition } i \\to k}, \\qquad \\forall k \\in \\mathcal{Y}. $$\nIn row-vector form: $\\boldsymbol{p}^* = \\boldsymbol{p}^* \\, \\mathbf{P}$ rather than $\\boldsymbol{\\pi_{t+1}}^* = \\boldsymbol{\\pi_t}^* \\, \\mathbf{P}$ it is a fixed point!\n\\end{keydef}\n\n\n\n\\textcolor{orange}{\\textbf{Conditional vs unconditional limit coincide (June 2024 Q3b vs Q3c).} Since the conditional limit is the same for every start, the unconditional marginal converges to that same} $\\omark{p^*}$ \\textcolor{orange}{for any initial law} $\\omark{p_0}$\\textcolor{orange}{:}\n\n\n\n\n\n*remark: we do not use f ( a < y < b) because up to now the state space is finite",
+                "content": "\\textbf{\\textcolor{red}{ERGODIC PROPERTIES OF A MARKOV CHAIN}}\n\nIn general the random variables $Y_t$ are \\emph{not} identically distributed — the distribution of $Y_t$ varies with $t$, hence the process $(Y_t)_{t \\ge 0}$ is not (strictly) stationary. We want to study its \\textbf{asymptotic behaviour} (as $t \\to \\infty$).\n\n\n\\begin{keydef}\n\\fcnum{16} Let $(Y_t)$ be an \\textbf{irreducible} and \\textbf{aperiodic} Markov chain (discrete time) with finite state space $\\mathcal{Y} = \\{1, \\dots, M\\}$. Then:\n\n\\textbf{(1)} $$ \\lim_{t \\to \\infty} P(Y_t = k \\mid Y_0 = j) = \\underbrace{p^*(k)}_{\\text{Limit distribution}} > 0, \\qquad \\forall j, k \\in \\mathcal{Y}, \\qquad \\sum_{k \\in \\mathcal{Y}} p^*(k) = 1. $$\nnow how this means the limit does not depend on the starting condition!\n\\textbf{(2)}$$ \\underbrace{p^*(k)}_{\\text{prob.\\ of being in } k \\text{ (next step)}} \\;=\\; \\sum_{i \\in \\mathcal{Y}} \\underbrace{p^*(i)}_{\\text{prob.\\ of being in } i \\text{ (current step)}} \\cdot \\underbrace{p_{i,k}}_{\\text{transition } i \\to k}, \\qquad \\forall k \\in \\mathcal{Y}. $$\nIn row-vector form: $\\boldsymbol{p}^* = \\boldsymbol{p}^* \\, \\mathbf{P}$ rather than $\\boldsymbol{\\pi_{t+1}}^* = \\boldsymbol{\\pi_t}^* \\, \\mathbf{P}$ it is a fixed point!\n\\end{keydef}\n\n\n\n\n\n\n\n\n\n*remark: we do not use f ( a < y < b) because up to now the state space is finite",
                 "flashcard": true,
                 "images": [],
                 "links": [
@@ -7910,6 +7910,6 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-21T19:36:06.586Z"
+    "lastEditedAt": "2026-08-21T19:36:14.737Z"
   }
 }
