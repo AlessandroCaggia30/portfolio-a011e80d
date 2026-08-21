@@ -13117,17 +13117,19 @@ function _ghSafeMerge(local, remote, base) {
         const subById = {}; merged.topics.forEach(t => (t.subtopics || []).forEach(s => subById[s.id] = s));
         const firstSub = merged.topics[0] && merged.topics[0].subtopics && merged.topics[0].subtopics[0];
         const M = _ghNodesById(merged);
+        // A deletion is honored ONLY when the user explicitly deleted the node (it is in the local
+        // trash). We NEVER infer a deletion from "present in base but missing in local" — that
+        // inference is what let a corrupted / dropped-node local state permanently swallow the
+        // file's real nodes (the 39→3 bug). With union semantics a node that exists on disk is
+        // ALWAYS restored unless it was truly trashed, so node-loss is structurally impossible.
+        const trashIds = new Set((local.trash || []).map(t => t && t.id).filter(Boolean));
         const updated = [], added = [], protectedLocal = [], honoredDeletes = [];
         Object.keys(R).forEach(id => {
             const r = R[id].node, b = B[id] && B[id].node, l = L[id] && L[id].node;
             const rChanged = !b || JSON.stringify(r) !== JSON.stringify(b); // remote declares change
             if (!l) { // remote has this snippet, local does not
-                // CRITICAL (delete-resurrection fix 2026-08-17 #3): distinguish a genuinely NEW
-                // cloud snippet from one the USER DELETED locally. If it was present at the last
-                // sync (exists in base) but is gone locally now, the user deleted/cut it since —
-                // do NOT resurrect it. Only add snippets that are new on the cloud (not in base).
-                if (b) { honoredDeletes.push(id); return; }   // deleted locally → respect the deletion
-                (subById[R[id].subId] || firstSub).nodes.push(JSON.parse(JSON.stringify(r))); added.push(id); return;
+                if (trashIds.has(id)) { honoredDeletes.push(id); return; }   // explicitly trashed → respect it
+                (subById[R[id].subId] || firstSub).nodes.push(JSON.parse(JSON.stringify(r))); added.push(id); return; // else RESTORE/ADD (union)
             }
             const lChanged = !b || JSON.stringify(l) !== JSON.stringify(b); // local declares change
             if (rChanged && !lChanged) { // only remote touched it -> safe to apply remote
