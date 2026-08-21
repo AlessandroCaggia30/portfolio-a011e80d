@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-21T19:52:33.318Z",
+  "exportedAt": "2026-08-21T19:52:48.530Z",
   "data": {
     "topics": [
       {
@@ -1827,15 +1827,15 @@
                     "dueDate": "2026-08-14T21:39:19.630Z"
                   },
                   "fc:10": {
-                    "stability": 3.1262,
-                    "difficulty": 7.2102,
-                    "elapsedDays": 0,
+                    "stability": 6.2524,
+                    "difficulty": 6.17002334,
+                    "elapsedDays": 2,
                     "scheduledDays": 1,
-                    "reps": 4,
+                    "reps": 5,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-19T15:13:12.748Z",
-                    "dueDate": "2026-08-20T15:13:12.748Z"
+                    "lastReview": "2026-08-21T19:52:47.562Z",
+                    "dueDate": "2026-08-22T19:52:47.562Z"
                   }
                 }
               },
