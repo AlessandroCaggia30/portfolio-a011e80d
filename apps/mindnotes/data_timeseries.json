@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-22T20:38:23.239Z",
+  "exportedAt": "2026-08-22T20:38:29.244Z",
   "data": {
     "topics": [
       {
@@ -847,6 +847,10 @@
                   {
                     "target": "1786812866004",
                     "type": "forward"
+                  },
+                  {
+                    "target": "cheatsheet_ssm_001",
+                    "type": "forward"
                   }
                 ],
                 "x": 5307.528495258078,
@@ -1355,6 +1359,10 @@
                   {
                     "target": "1778783697835",
                     "type": "both"
+                  },
+                  {
+                    "target": "1786902141192",
+                    "type": "forward"
                   }
                 ],
                 "x": 5352.687000923528,
@@ -7913,7 +7921,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-22T20:38:21.424Z",
+    "lastEditedAt": "2026-08-22T20:38:26.717Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
