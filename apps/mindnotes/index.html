@@ -6316,6 +6316,11 @@ async function loadData() {
         } catch (_) {}
     }
 
+    // OWNERSHIP STAMP (build20): whatever path produced State.data above (IDB, emergency copy,
+    // seed, migration, empty default), it now belongs to THIS subject key. _commitSave and the
+    // background reconcile refuse to write it under any other key.
+    State.data.__forKey = dataKey;
+
     // Migrate old string links to {target, type} objects
     State.data.topics.forEach(topic => {
         topic.subtopics.forEach(sub => {
