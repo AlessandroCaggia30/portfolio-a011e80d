@@ -13139,7 +13139,9 @@ function _ghSafeMerge(local, remote, base) {
             }
         });
         merged.trash = local.trash || [];
-        merged.lastEditedAt = new Date().toISOString();
+        // Do NOT stamp lastEditedAt = now: forging recency here made a merge result outrank the
+        // user's real edits on the next load (revert-wins bug). Keep the newest genuine stamp.
+        merged.lastEditedAt = ((local.lastEditedAt || '') > (remote.lastEditedAt || '')) ? (local.lastEditedAt || '') : (remote.lastEditedAt || '');
         const ttl = id => ((M[id] || L[id] || R[id]) || {}).node ? (((M[id] || L[id] || R[id]).node.title) || id) : id;
         console.log('%c[declared pull]', 'font-weight:bold;color:#3987e5',
             '\n  UPDATE (changed on cloud, untouched by you):', updated.map(ttl),
