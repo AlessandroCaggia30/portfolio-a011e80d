@@ -12815,6 +12815,9 @@ setInterval(async function () {
         if (_ghPushInFlight || _ghPullInFlight) return;          // don't fight an in-flight sync
         if (!State || !State.currentSubject || !State.data || !State.data.topics) return;
         const key = _ghCurrentKey(); if (!key) return;
+        // KEY-OWNERSHIP GUARD (build20): never write data under a key it doesn't belong to
+        // (subject-switch race — see _commitSave for the full story).
+        if (State.data.__forKey && State.data.__forKey !== key) return;
         // Guard: never push an accidentally-emptied subject (matches _commitSave's 0-node guard).
         const nodeCount = State.data.topics.reduce((a, t) => a + (t.subtopics || []).reduce((b, s) => b + (s.nodes || []).length, 0), 0);
         if (nodeCount === 0) return;
