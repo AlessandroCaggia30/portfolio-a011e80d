@@ -6396,6 +6396,19 @@ async function _commitSave(opts) {
     const skipPush = opts.skipPush === true;
     const dataKey = State.currentSubject ? State.currentSubject.dataKey : 'mindnotes2';
 
+    // KEY-OWNERSHIP GUARD (2026-08-22 build20 — root-cause fix for the 39→3 collapse).
+    // Every loaded dataset is stamped with the subject key it belongs to (__forKey). A save is
+    // allowed ONLY when the stamp matches the key being written. This makes the subject-switch
+    // race harmless: if a debounced save (or the 4s reconcile) fires while currentSubject has
+    // already moved on but State.data still holds the previous subject, the write is BLOCKED
+    // instead of silently storing subject A's data under subject B's key (which is exactly how
+    // a 39-node subject got clobbered down to 3 nodes).
+    if (State.data.__forKey && State.data.__forKey !== dataKey) {
+        console.warn('[guard] BLOCKED cross-subject save: data belongs to ' + State.data.__forKey + ', target is ' + dataKey);
+        return;
+    }
+    if (!State.data.__forKey) State.data.__forKey = dataKey;  // adopt on first save (legacy data)
+
     // Never save if there are 0 nodes (prevents overwriting real data with empty data)
     const totalNodes = (State.data.topics || []).reduce((sum, t) => sum + (t.subtopics || []).reduce((s2, st) => s2 + (st.nodes || []).length, 0), 0);
     if (totalNodes === 0) {
