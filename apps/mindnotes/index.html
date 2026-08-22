@@ -6837,12 +6837,12 @@ window.addEventListener('offline', () => {
 // LIVE file→browser READ (2026-08-18 build14 — rebuilt with correct merge-base tracking + tests).
 // The folder file is a real bidirectional channel: the browser WRITES every edit out, and a 3s
 // poll READS external edits (Claude editing node chunks in the file) back in via a per-node,
-// LOCAL-FIRST 3-way merge. The single correctness invariant: the merge *base* (last-agreed
-// ancestor) is advanced ONLY by a successful file write in _lfWriteNow — the poll NEVER advances
-// it to the raw external file. That is what makes every merge local-first and unable to revert a
-// user edit. Merge-before-write in _lfWriteNow protects Claude's edits symmetrically. Both the
-// v8→v9 and concurrent-edit scenarios are covered by scratchpad/lf_merge_test.js (all pass).
-const LF_READ_ENABLED = true;
+// FILE READ-BACK PERMANENTLY DISABLED (2026-08-22 build19, user decision after repeated edit
+// loss). The browser (IndexedDB) is the SINGLE source of truth. The Desktop folder is a
+// WRITE-ONLY mirror/backup: every edit is written out, but the file is NEVER read back into the
+// app — no poll, no load-merge, no adoption. Claude delivers changes via console snippets the
+// user runs (which update State directly), so nothing external can ever overwrite an edit.
+const LF_READ_ENABLED = false;
 let _lfDir = null;                 // MindNotes directory handle (persisted in IndexedDB)
 let _lfBase = {};                  // dataKey -> last-AGREED state (3-way merge base; advanced only on write)
 let _lfWriteTimers = {};           // dataKey -> debounce timer
