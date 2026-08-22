@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-22T21:31:27.277Z",
+  "exportedAt": "2026-08-22T21:31:38.346Z",
   "data": {
     "topics": [
       {
@@ -1087,7 +1087,8 @@
                     "lastReview": null,
                     "dueDate": "2026-08-16T16:23:01.932Z"
                   }
-                }
+                },
+                "color": "teal"
               },
               {
                 "id": "1778858971030",
@@ -7922,7 +7923,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-22T21:31:25.522Z",
+    "lastEditedAt": "2026-08-22T21:31:34.071Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
