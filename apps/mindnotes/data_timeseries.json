@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-22T21:31:19.409Z",
+  "exportedAt": "2026-08-22T21:31:27.277Z",
   "data": {
     "topics": [
       {
@@ -1744,7 +1744,8 @@
                     "lastReview": "2026-08-21T19:44:23.515Z",
                     "dueDate": "2026-08-22T19:44:23.515Z"
                   }
-                }
+                },
+                "color": "teal"
               },
               {
                 "id": "ts1779315723295",
@@ -1757,7 +1758,7 @@
                 "y": 2965.5457724946145,
                 "width": 483.3333333333333,
                 "height": 316.66666666666663,
-                "color": "yellow",
+                "color": "teal",
                 "fsrs": {
                   "stability": 1.1829,
                   "difficulty": 7.72936056,
@@ -7921,7 +7922,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-22T21:31:11.681Z",
+    "lastEditedAt": "2026-08-22T21:31:25.522Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
