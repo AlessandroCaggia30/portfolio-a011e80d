@@ -17189,6 +17189,8 @@ async function backToSubjects() {
     stopGhAutoSync();
     clearTimeout(_ghPushTimer);
     clearTimeout(_ghEditSaveTimer);
+    clearTimeout(globalSaveTimer);   // build20: kill the 150ms edit debounce too — no stale save may fire into the next subject
+    _dataIsDirty = false;
     // Reset state
     State.data = { topics: [], trash: [] };
     State.currentSubtopic = null;
