@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-22T21:08:02.682Z",
+  "exportedAt": "2026-08-22T21:20:21.524Z",
   "data": {
     "topics": [
       {
@@ -2234,8 +2234,8 @@
                 "images": [],
                 "imageWidths": [],
                 "links": [],
-                "x": 5945.536329212388,
-                "y": 6219.303529294373,
+                "x": 7200.5363292123875,
+                "y": 4664.303529294373,
                 "fsrsCards": {
                   "fc:28f": {
                     "stability": 1,
@@ -7921,7 +7921,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-22T21:08:01.537Z",
+    "lastEditedAt": "2026-08-22T21:20:19.773Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
