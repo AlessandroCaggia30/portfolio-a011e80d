@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-23T21:13:57.817Z",
+  "exportedAt": "2026-08-23T21:26:28.266Z",
   "data": {
     "topics": [
       {
@@ -1746,7 +1746,18 @@
                     "dueDate": "2026-08-22T19:44:23.515Z"
                   }
                 },
-                "color": "teal"
+                "color": "teal",
+                "fsrs": {
+                  "stability": 1,
+                  "difficulty": 5,
+                  "elapsedDays": 0,
+                  "scheduledDays": 0,
+                  "reps": 0,
+                  "lapses": 0,
+                  "state": "new",
+                  "lastReview": null,
+                  "dueDate": "2026-08-23T21:26:24.231Z"
+                }
               },
               {
                 "id": "ts1779315723295",
