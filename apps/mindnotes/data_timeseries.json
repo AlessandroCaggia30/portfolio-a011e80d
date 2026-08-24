@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-24T13:20:14.270Z",
+  "exportedAt": "2026-08-24T13:20:19.738Z",
   "data": {
     "topics": [
       {
@@ -1112,15 +1112,15 @@
                 "userEdited": true,
                 "fsrsCards": {
                   "idx:0": {
-                    "stability": 1,
-                    "difficulty": 5,
+                    "stability": 15.4722,
+                    "difficulty": 6.6786,
                     "elapsedDays": 0,
-                    "scheduledDays": 0,
-                    "reps": 0,
+                    "scheduledDays": 1,
+                    "reps": 1,
                     "lapses": 0,
-                    "state": "new",
-                    "lastReview": null,
-                    "dueDate": "2026-08-16T16:23:01.932Z"
+                    "state": "review",
+                    "lastReview": "2026-08-24T13:20:15.032Z",
+                    "dueDate": "2026-08-25T13:20:15.032Z"
                   }
                 },
                 "color": "teal"
@@ -1825,15 +1825,15 @@
                 "userEdited": true,
                 "fsrsCards": {
                   "idx:0": {
-                    "stability": 15.4722,
-                    "difficulty": 6.6786,
-                    "elapsedDays": 0,
+                    "stability": 30.9444,
+                    "difficulty": 5.650862780000001,
+                    "elapsedDays": 2,
                     "scheduledDays": 1,
-                    "reps": 1,
+                    "reps": 2,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-21T19:44:23.515Z",
-                    "dueDate": "2026-08-22T19:44:23.515Z"
+                    "lastReview": "2026-08-24T13:20:16.181Z",
+                    "dueDate": "2026-08-25T13:20:16.181Z"
                   }
                 },
                 "color": "teal",
