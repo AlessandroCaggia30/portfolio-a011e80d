@@ -15740,30 +15740,79 @@ function fcCardState(node, cardKey) {
 // \textbf{…} used as its label. Returns [{label, answer}] or null (→ keep as a single card).
 // Split is on \hline (true row boundaries) — NOT on \\, which also occurs inside pmatrix cells.
 function splitTableKeydefRows(keydefBody) {
-    const s = (keydefBody || '').replace(/^\s*\\fcnum\{[^}]*\}\s*/, '').trim();
-    if (!s.startsWith('\\begin{tabular}') || !s.endsWith('\\end{tabular}')) return null;
+    let s = (keydefBody || '').replace(/^\s*\\fcnum\{[^}]*\}\s*/, '').trim();
+    // Find the (single, dominant) tabular. A short title/\medskip may precede it (e.g. the 28d card).
+    const tabStart = s.indexOf('\\begin{tabular}');
+    const tabEnd = s.lastIndexOf('\\end{tabular}');
+    if (tabStart < 0 || tabEnd <= tabStart) return null;
+    if (s.indexOf('\\begin{tabular}', tabStart + 1) !== -1) return null;  // more than one table → don't touch
+    const preamble = s.slice(0, tabStart).replace(/\\fcnum\{[^}]*\}/g, '').replace(/\\medskip/g, '').trim();
+    const after = s.slice(tabEnd + '\\end{tabular}'.length).trim();
+    const tabLen = tabEnd - tabStart;
+    if (preamble.length > 400 || after.length > 150 || tabLen < 0.55 * s.length) return null; // table must dominate
     // Balanced-brace scan for the column spec {…} immediately after \begin{tabular}.
-    let i = '\\begin{tabular}'.length, depth = 0, ss = -1, se = -1;
+    let i = tabStart + '\\begin{tabular}'.length, depth = 0, ss = -1, se = -1;
     while (i < s.length) {
         const ch = s[i];
         if (ch === '{') { if (depth === 0) ss = i; depth++; }
         else if (ch === '}') { depth--; if (depth === 0) { se = i; break; } }
-        else if (depth === 0 && !/\s/.test(ch)) return null; // stray non-space before the spec
+        else if (depth === 0 && !/\s/.test(ch)) return null;
         i++;
     }
     if (ss < 0 || se < 0) return null;
     const colspec = s.slice(ss, se + 1);
-    const inner = s.slice(se + 1, s.length - '\\end{tabular}'.length);
-    const parts = inner.split(/\\hline/);
-    if (parts.length < 5) return null;                 // need a header + >=4 body rows
-    const header = parts[0];
-    const rows = parts.slice(1).filter(r => r.trim().length > 0);
-    if (rows.length < 4) return null;
-    return rows.map((row, idx) => {
-        const cell0 = row.split('&')[0];
-        const mm = cell0.match(/\\textbf\{([^}]*)\}/);
+    const inner = s.slice(se + 1, tabEnd);
+    const rowSegsRaw = inner.split(/\\hline/);
+    const rowSegs = rowSegsRaw.map(x => x.trim()).filter(x => x.length);
+    if (rowSegs.length < 2) return null;
+    // Depth-aware cell splitter: split a row on `&` only at brace-depth 0 AND env-depth 0
+    // (so `&` and `\\` inside \begin{aligned}/pmatrix cells are left alone).
+    const splitCells = (str) => {
+        const out = []; let buf = '', bd = 0, ed = 0;
+        for (let k = 0; k < str.length; k++) {
+            if (str.startsWith('\\begin{', k)) ed++;
+            if (str.startsWith('\\end{', k)) ed--;
+            const ch = str[k];
+            if (ch === '{') bd++; else if (ch === '}') bd--;
+            if (bd === 0 && ed === 0 && ch === '&') { out.push(buf); buf = ''; continue; }
+            buf += ch;
+        }
+        out.push(buf); return out;
+    };
+    const grid = rowSegs.map(r => splitCells(r.replace(/\\\\\s*$/, '')).map(c => c.trim()));
+    const ncol = Math.max(...grid.map(g => g.length));
+    const corner = (grid[0] && grid[0][0] || '').trim();
+
+    // CROSS-TAB (empty top-left corner: item names across the header, aspect labels down column 0)
+    // → one card PER COLUMN, stacking that column's cells under their aspect labels. Table untouched.
+    if (corner === '') {
+        if (ncol - 1 < 4) return null;                 // need >=4 item columns
+        const header = grid[0], aspects = grid.slice(1);
+        const cards = [];
+        for (let c = 1; c < ncol; c++) {
+            const name = (header[c] || ('col ' + c)).replace(/\\textbf\{|\}/g, '').replace(/\\textcolor\{[^}]*\}/g, '').replace(/\s+/g, ' ').trim();
+            let ans = preamble ? (preamble + '\n\n') : '';
+            ans += '\\textbf{\\textcolor{red}{' + name + '}}\n\n';
+            for (let r = 0; r < aspects.length; r++) {
+                const lbl = (aspects[r][0] || '').replace(/\\textbf\{([^}]*)\}/, '$1').replace(/\*\*/g, '').replace(/\s+/g, ' ').trim();
+                const cell = (aspects[r][c] || '').trim();
+                if (!cell) continue;
+                ans += (lbl ? '\\textbf{' + lbl + '}\\newline\n' : '') + cell + '\n\n';
+            }
+            cards.push({ label: name, answer: ans });
+        }
+        return cards;
+    }
+
+    // NORMAL header row → one card PER BODY ROW (mini-table: header + that row). build17 behaviour.
+    if (rowSegsRaw.length < 5) return null;            // header + >=4 body rows
+    const headerRaw = rowSegsRaw[0];
+    const bodyRows = rowSegsRaw.slice(1).filter(r => r.trim().length > 0);
+    if (bodyRows.length < 4) return null;
+    return bodyRows.map((row, idx) => {
+        const mm = row.split('&')[0].match(/\\textbf\{([^}]*)\}/);
         const label = (mm ? mm[1] : ('row ' + (idx + 1))).replace(/\s+/g, ' ').trim();
-        return { label, answer: '\\begin{tabular}' + colspec + header + '\\hline' + row + '\\end{tabular}' };
+        return { label, answer: '\\begin{tabular}' + colspec + headerRaw + '\\hline' + row + '\\end{tabular}' };
     });
 }
 
