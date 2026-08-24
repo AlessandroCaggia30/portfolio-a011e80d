@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-17T15:26:20.785Z",
+  "exportedAt": "2026-08-24T15:31:15.325Z",
   "data": {
     "topics": [
       {
@@ -1901,6 +1901,7 @@
         "fromSubtopic": "1740100000101"
       }
     ],
-    "lastEditedAt": "2026-08-17T15:26:18.868Z"
+    "lastEditedAt": "2026-08-17T15:26:18.868Z",
+    "__forKey": "mindnotes_advmicro"
   }
 }
