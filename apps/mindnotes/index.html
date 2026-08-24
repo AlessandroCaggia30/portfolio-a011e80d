@@ -11,7 +11,7 @@
     // Build stamp so we can tell instantly which code version a browser is actually running
     // (cuts through service-worker/cache confusion). Read it in the console or via
     // `window.__MINDNOTES_BUILD__`.
-    window.__MINDNOTES_BUILD__ = '2026-08-22 build20 — ONE PIPELINE: edit→IDB (key-ownership guarded), everything else write-only backup; cross-subject writes blocked';
+    window.__MINDNOTES_BUILD__ = '2026-08-22 build21 — table→flashcards also splits by COLUMN for cross-tab tables (empty corner), data left intact';
     try { console.log('%c[MindNotes] running ' + window.__MINDNOTES_BUILD__, 'color:#3987e5;font-weight:bold;font-size:13px'); } catch (_) {}
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
