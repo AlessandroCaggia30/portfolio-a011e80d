@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-24T09:53:53.110Z",
+  "exportedAt": "2026-08-24T09:54:08.011Z",
   "data": {
     "topics": [
       {
@@ -1711,6 +1711,61 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-15T21:20:18.117Z"
+                  },
+                  "fc:28d.1": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-24T09:54:06.084Z"
+                  },
+                  "fc:28d.2": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-24T09:54:06.084Z"
+                  },
+                  "fc:28d.3": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-24T09:54:06.084Z"
+                  },
+                  "fc:28d.4": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-24T09:54:06.084Z"
+                  },
+                  "fc:28d.5": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-24T09:54:06.084Z"
                   }
                 },
                 "userEdited": true
