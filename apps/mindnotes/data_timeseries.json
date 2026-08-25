@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-25T19:15:03.888Z",
+  "exportedAt": "2026-08-25T19:15:10.491Z",
   "data": {
     "topics": [
       {
@@ -2600,6 +2600,17 @@
                   }
                 },
                 "userEdited": false
+              },
+              {
+                "id": "1787685308181",
+                "title": "General filtering proof DLM",
+                "content": "",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": 6019.584450173684,
+                "y": 3672.6888759437434
               }
             ]
           }
@@ -8167,7 +8178,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-25T19:14:59.086Z",
+    "lastEditedAt": "2026-08-25T19:15:08.181Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
