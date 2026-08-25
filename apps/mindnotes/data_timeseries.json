@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-24T15:30:43.047Z",
+  "exportedAt": "2026-08-25T10:10:09.088Z",
   "data": {
     "topics": [
       {
@@ -1801,6 +1801,61 @@
                     "state": "review",
                     "lastReview": "2026-08-24T13:17:34.381Z",
                     "dueDate": "2026-08-25T13:17:34.381Z"
+                  },
+                  "fc:28d::r0": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-25T10:10:05.487Z"
+                  },
+                  "fc:28d::r1": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-25T10:10:05.487Z"
+                  },
+                  "fc:28d::r2": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-25T10:10:05.487Z"
+                  },
+                  "fc:28d::r3": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-25T10:10:05.487Z"
+                  },
+                  "fc:28d::r4": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-25T10:10:05.487Z"
                   }
                 },
                 "userEdited": true
