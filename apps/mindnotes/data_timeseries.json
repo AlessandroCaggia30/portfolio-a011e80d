@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-25T19:28:10.327Z",
+  "exportedAt": "2026-08-25T19:28:21.162Z",
   "data": {
     "topics": [
       {
@@ -1863,45 +1863,6 @@
                   }
                 },
                 "userEdited": true
-              },
-              {
-                "id": "filter_update_proofA_001",
-                "title": "Filter update: derivation of $m_t$, $C_t$ (Proof A)",
-                "content": "\n\n\\textbf{Step 7 --- Rewrite $m_t$ in Kalman form.}\n\nFrom the identities above, $C_tF_t^\\top V_t^{-1}=R_tF_t^\\top Q_t^{-1}=K_t$, and multiplying $C_t^{-1}=R_t^{-1}+F_t^\\top V_t^{-1}F_t$ by $C_t$ gives $C_tR_t^{-1}=I-K_tF_t$. Hence\n$$\n\\begin{aligned}\nm_t\n&=C_t\\left(R_t^{-1}a_t+F_t^\\top V_t^{-1}y_t\\right)\n=C_tR_t^{-1}a_t+C_tF_t^\\top V_t^{-1}y_t\n\\\\\n&=(I-K_tF_t)a_t+K_ty_t\n=a_t+K_t(y_t-F_ta_t).\n\\end{aligned}\n$$\nWith $f_t=F_ta_t$ and $e_t=y_t-f_t$,\n$$\n\\boxed{\n\\begin{aligned}\nK_t &= R_tF_t^\\top Q_t^{-1},\\\\\nm_t &= a_t+K_t(y_t-f_t)=a_t+K_te_t,\\\\\nC_t &= R_t-R_tF_t^\\top Q_t^{-1}F_tR_t=R_t-K_tQ_tK_t^\\top.\n\\end{aligned}\n}\n$$\n\n\\medskip\n\n\\textbf{Interpretation.}\n\n$$\n\\boxed{\n\\underbrace{\\theta_t\\mid y_{1:t-1}\\sim\\mathcal N_p(a_t,R_t)}_{\\text{prediction before seeing }y_t}\n\\;\\xrightarrow{\\;\\text{observe }y_t\\;}\\;\n\\underbrace{\\theta_t\\mid y_{1:t}\\sim\\mathcal N_p(m_t,C_t)}_{\\text{updated/filter distribution}}\n}\n$$\nvia\n$$\n\\boxed{\n\\text{predicted prior}\\times\\text{likelihood}\n\\xrightarrow{\\text{Bayes}}\n\\text{posterior}.\n}\n$$\nFinally,\n$$\n\\boxed{\n\\underbrace{m_t}_{\\text{updated state}}\n=\\underbrace{a_t}_{\\text{predicted state}}\n+\\underbrace{K_t}_{\\text{strength of correction}}\n\\underbrace{(y_t-f_t)}_{\\text{forecast error}}.\n}\n$$\n\n\\end{keydef}",
-                "flashcard": true,
-                "images": [],
-                "imageWidths": [],
-                "links": [],
-                "x": 6263.69678672855,
-                "y": 3680.1609350376625,
-                "width": 599,
-                "height": 354.00849595617524,
-                "userEdited": true,
-                "fsrsCards": {
-                  "idx:0": {
-                    "stability": 30.9444,
-                    "difficulty": 5.650862780000001,
-                    "elapsedDays": 2,
-                    "scheduledDays": 1,
-                    "reps": 2,
-                    "lapses": 0,
-                    "state": "review",
-                    "lastReview": "2026-08-24T13:20:16.181Z",
-                    "dueDate": "2026-08-25T13:20:16.181Z"
-                  }
-                },
-                "color": "teal",
-                "fsrs": {
-                  "stability": 1,
-                  "difficulty": 5,
-                  "elapsedDays": 0,
-                  "scheduledDays": 0,
-                  "reps": 0,
-                  "lapses": 0,
-                  "state": "new",
-                  "lastReview": null,
-                  "dueDate": "2026-08-23T21:26:24.231Z"
-                }
               },
               {
                 "id": "ts1779025115813",
@@ -5580,6 +5541,48 @@
         "deletedAt": 1787686029369,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "filter_update_proofA_001",
+        "title": "Filter update: derivation of $m_t$, $C_t$ (Proof A)",
+        "content": "",
+        "flashcard": true,
+        "images": [],
+        "imageWidths": [],
+        "links": [],
+        "x": 6263.69678672855,
+        "y": 3680.1609350376625,
+        "width": 599,
+        "height": 354.00849595617524,
+        "userEdited": true,
+        "fsrsCards": {
+          "idx:0": {
+            "stability": 30.9444,
+            "difficulty": 5.650862780000001,
+            "elapsedDays": 2,
+            "scheduledDays": 1,
+            "reps": 2,
+            "lapses": 0,
+            "state": "review",
+            "lastReview": "2026-08-24T13:20:16.181Z",
+            "dueDate": "2026-08-25T13:20:16.181Z"
+          }
+        },
+        "color": "teal",
+        "fsrs": {
+          "stability": 1,
+          "difficulty": 5,
+          "elapsedDays": 0,
+          "scheduledDays": 0,
+          "reps": 0,
+          "lapses": 0,
+          "state": "new",
+          "lastReview": null,
+          "dueDate": "2026-08-23T21:26:24.231Z"
+        },
+        "deletedAt": 1787686100741,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
       }
     ],
     "examTable": {
@@ -8185,7 +8188,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-25T19:28:04.143Z",
+    "lastEditedAt": "2026-08-25T19:28:20.742Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
