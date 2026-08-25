@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-25T21:02:46.012Z",
+  "exportedAt": "2026-08-25T21:02:54.514Z",
   "data": {
     "topics": [
       {
@@ -1915,7 +1915,7 @@
               {
                 "id": "ts1779149664107",
                 "title": "Bayesian point estimation: loss functions and the posterior mean",
-                "content": "\\textbf{\\textcolor{red}{BAYESIAN POINT ESTIMATION.}}\nAfter obtaining the posterior $f(\\theta\\mid y)$, a Bayes point estimator is chosen to minimize the posterior expected loss:\n$$\n\\boxed{\\hat a^*=\\arg\\min_a E[L(\\theta,a)\\mid y]\n=\\arg\\min_a\\int L(\\theta,a)f(\\theta\\mid y)\\,d\\theta.}\n$$\nThe optimal estimator depends on the loss function: squared loss gives the \\textbf{posterior mean} (to minimize squared loss you take the mean), absolute loss the \\textbf{posterior median}. ",
+                "content": "\\textbf{\\textcolor{red}{BAYESIAN POINT ESTIMATION.}}\nAfter obtaining the posterior $f(\\theta\\mid y)$, a Bayes point estimator is chosen to minimize the posterior expected loss:\n$$\n\\boxed{\\hat a^*=\\arg\\min_a E[L(\\theta,a)\\mid y]\n=\\arg\\min_a\\int L(\\theta,a)f(\\theta\\mid y)\\,d\\theta.}\n$$\nThe optimal estimator depends on the loss function: squared loss gives the \\textbf{posterior mean} (to minimize squared loss you take the mean), absolute loss the \\textbf{posterior median}. \n\n\\begin{keydef}\n\\textcolor{orange}{\\fcnum{28g} }\n\\textbf{\\textcolor{orange}{Point forecasts as Bayes estimators (Jun 2022 Q4c).}}\n\n\\textcolor{orange}{A point forecast $\\hat y_t$ of $Y_t$ given $y_{1:t-1}$ is the Bayes estimator under a loss $L$, computed on the \\emph{predictive} distribution:} $\\omark{\\hat y_t \\;=\\; \\arg\\min_{a}\\, \\mathbb{E}\\bigl[L(Y_t, a)\\mid y_{1:t-1}\\bigr]}$ \\textcolor{orange}{(general theory and proofs: node \\emph{Bayesian point estimation}, fc 30).}\n\n\\textcolor{orange}{\\emph{(i) Quadratic loss} $L(y,a) = (y-a)^2$ $\\Rightarrow$ the predictive \\emph{mean}:} $\\omark{\\hat y_t \\;=\\; \\mathbb{E}(Y_t\\mid y_{1:t-1}) \\;=\\; f_t.}$\n\n\\textcolor{orange}{\\emph{(ii) Absolute loss} $L(y,a) = |y - a|$ $\\Rightarrow$ the predictive \\emph{median}. Since $Y_t\\mid y_{1:t-1}\\sim\\mathcal{N}(f_t, Q_t)$ is symmetric around its mean, median $=$ mean:} $\\omark{\\hat y_t \\;=\\; \\mathrm{median}(Y_t\\mid y_{1:t-1}) \\;=\\; f_t.}$\n\n\\textcolor{orange}{\\emph{Same number, different reasons:} both losses return $f_t$ only because the Gaussian predictive is symmetric; under an asymmetric loss the point forecast would be a different quantile of $\\mathcal{N}(f_t, Q_t)$.}\n\\end{keydef}",
                 "flashcard": false,
                 "images": [],
                 "links": [],
@@ -8187,7 +8187,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-25T21:02:44.961Z",
+    "lastEditedAt": "2026-08-25T21:02:53.563Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
