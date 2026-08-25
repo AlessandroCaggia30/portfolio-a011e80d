@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-25T17:08:33.423Z",
+  "exportedAt": "2026-08-25T17:08:49.259Z",
   "data": {
     "topics": [
       {
@@ -2638,6 +2638,17 @@
                 "userEdited": false,
                 "id": "1787677506799",
                 "links": []
+              },
+              {
+                "id": "1787677727520",
+                "title": "Joint density",
+                "content": "Consider for example the constant Mean DLM\n$$\nY_t=\\theta+\\varepsilon_t,\n\\qquad\n\\varepsilon_t\\overset{\\mathrm{iid}}{\\sim}\\mathcal N(0,\\sigma^2),\n\\qquad\n\\theta\\sim\\mathcal N(m_0,C_0),\n$$\nwith $\\theta$ independent of the error sequence.\n\nConditionally on $\\theta$, the observations are i.i.d.,\n$$\nY_t\\mid\\theta\\sim\\mathcal N(\\theta,\\sigma^2),\n$$\nso the joint density is\n$$\\boxed{\np(y_{1:t},\\theta)\n=\n\\pi(\\theta)\\prod_{i=1}^t p(y_i\\mid\\theta).\n}\n$$\n",
+                "flashcard": false,
+                "images": [],
+                "imageWidths": [],
+                "links": [],
+                "x": 5148.3750620416995,
+                "y": 3116.592414810477
               }
             ]
           }
@@ -8153,7 +8164,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-25T17:08:29.156Z",
+    "lastEditedAt": "2026-08-25T17:08:47.520Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
