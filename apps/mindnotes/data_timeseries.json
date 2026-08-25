@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-25T19:14:05.167Z",
+  "exportedAt": "2026-08-25T19:14:36.831Z",
   "data": {
     "topics": [
       {
@@ -1100,8 +1100,8 @@
                 "flashcard": true,
                 "images": [],
                 "links": [],
-                "x": 5802.71628640321,
-                "y": 3559.7391463796093,
+                "x": 6629.162567394946,
+                "y": 3513.1576287237112,
                 "fsrs": {
                   "stability": 3.1262,
                   "difficulty": 7.2102,
@@ -1455,10 +1455,6 @@
                 "links": [
                   {
                     "target": "1779041693560",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "1778855952196",
                     "type": "forward"
                   },
                   {
@@ -8171,7 +8167,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-25T19:14:01.884Z",
+    "lastEditedAt": "2026-08-25T19:14:35.247Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
