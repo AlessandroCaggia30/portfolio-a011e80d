@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-25T19:18:19.762Z",
+  "exportedAt": "2026-08-25T19:19:09.078Z",
   "data": {
     "topics": [
       {
@@ -2612,7 +2612,7 @@
               {
                 "id": "1787685308181",
                 "title": "General filtering proof DLM",
-                "content": "",
+                "content": "\n\n\\textbf{1) do the discussion on the gaussianity of $(\\omega_0,\\omega_1,\\ldots,\\omega_t,Y_1,\\ldots,Y_t)$}\n\n\\textbf{2) recalling $\\theta_t\\mid y_{1:t-1}\\sim\\mathcal N(a_t,R_t)$, $Y_t\\mid y_{1:t-1}\\sim\\mathcal N(f_t,Q_t)$}\n\n\\textbf{3) derive $a_t$, $R_t$, $F_t$, $Q_t$}",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
@@ -8186,7 +8186,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-25T19:18:14.678Z",
+    "lastEditedAt": "2026-08-25T19:19:07.994Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
