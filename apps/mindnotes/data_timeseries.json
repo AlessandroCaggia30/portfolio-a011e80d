@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-25T17:35:04.647Z",
+  "exportedAt": "2026-08-25T17:35:39.393Z",
   "data": {
     "topics": [
       {
@@ -1462,10 +1462,6 @@
                     "type": "forward"
                   },
                   {
-                    "target": "ts1779315723295",
-                    "type": "forward"
-                  },
-                  {
                     "target": "ts1779149664107",
                     "type": "forward"
                   }
@@ -1907,55 +1903,6 @@
                   "lastReview": null,
                   "dueDate": "2026-08-23T21:26:24.231Z"
                 }
-              },
-              {
-                "id": "ts1779315723295",
-                "title": "Model checking: forecast errors / innovations",
-                "content": "\\textbf{\\textcolor{red}{MODEL CHECKING --- forecast errors / innovations.}}\n\n\n\n\\begin{keydef}\n\n\\fcnum{30} \nrecall\n$$\\boxed{\nf_t = \\mathbb{E}\\!\\left(Y_t \\mid y_{1:t-1}\\right)\n}\n\\quad \\Longrightarrow \\quad\n\\boxed{\ne_t = y_t - f_t\n}\n\\quad \\Longrightarrow \\quad\n\\boxed{\n\\text{if the model is correct} \\quad\ne_t \\sim \\mathcal{N}(0,Q_t)\n\\;\\; \\text{indep over t}\n}\n\\quad \\Longrightarrow \\quad\n\\boxed{\n\\tilde e_t\n= \\frac{e_t}{\\sqrt{Q_t}}\n\\sim \\mathcal{N}(0,1)\n\\;\\; \\text{i.i.d.}\n}\n$$\n$$\nQ_t\n=\n\\mathrm{Var}(Y_t \\mid y_{1:t-1})\n=\n\\mathrm{Var}(e_t \\mid y_{1:t-1})\n$$\nSo this is the predicted conditional noise (the nosie the model expected), then $e_t$ is the actual noise. \n\n\\textcolor{red}{Prove $\\tilde e_t$ is a Gaussian white noise: iid $\\mathcal{N}(0,\\, 1)$.}\n\\textbf{(1) Zero mean: $\\mathbb{E}(e_t) = 0$.}\n$$ \\mathbb{E}(e_t) \\;=\\; \\mathbb{E}(Y_t - f_t) \\;\\overset{\\text{tower ppt}}{=}\\; \\mathbb{E}\\!\\bigl[\\, \\mathbb{E}\\bigl(Y_t - f_t \\mid y_{1:t-1}\\bigr)\\,\\bigr] \\;=\\; \\mathbb{E}\\!\\bigl[\\, \\underbrace{\\mathbb{E}(Y_t \\mid y_{1:t-1})}_{=\\, f_t \\text{ by definition}} \\;-\\; \\underbrace{\\mathbb{E}(f_t \\mid y_{1:t-1})}_{= f_t } \\;=\\; \\mathbb{E}[\\, f_t - f_t\\,] \\;=\\; 0. $$\n\n\\textbf{(2) Uncorrelated across time: $\\mathrm{Cov}(e_t, e_s) = 0$ for $s < t$.}\n\ni) \\emph{$e_s$ is past-measurable}: $e_s \\;=\\; g(y_{1:t-1})$\n\nii) \\emph{Apply LIE.}\n$$\n\\mathrm{Cov}(e_t,e_s)\n\\;=\\;\n\\underbrace{\n\\mathbb{E}(e_t e_s)\n-\n\\mathbb{E}(e_t)\\mathbb{E}(e_s)\n}_{\\text{definition of covariance}}\n\\;=\\;\n\\underbrace{\n\\mathbb{E}(e_t e_s)\n}_{\\mathbb{E}(e_t)=\\mathbb{E}(e_s)=0\\text{ by (i)}}\n\\;\\overset{\\text{LIE}}{=}\\;\n\\mathbb{E}\\!\\bigl[\\,\n\\underbrace{\n\\mathbb{E}(e_t e_s \\mid y_{1:t-1})\n}_{e_s \\text{ pulls out, past-meas.}}\n\\,\\bigr]\n\\;=\\;\n\\mathbb{E}\\!\\bigl[\\,\ne_s \\cdot\n\\underbrace{\n\\mathbb{E}(e_t \\mid y_{1:t-1})\n}_{=\\,0\\text{ as in (i)}}\n\\,\\bigr]\n\\;=\\;0.\n$$\n\n\\textbf{(3) Variance --- needs the \\emph{law of total variance} (LTV).}\n\n$$ \\mathrm{Var}(e_t) \\;\\overset{\\text{LTV}}{=}\\; \\mathbb{E}\\!\\bigl[\\, \\underbrace{\\mathrm{Var}(e_t \\mid y_{1:t-1})}_{=\\, Q_t,\\ \\text{see below}}\\,\\bigr] \\;+\\; \\mathrm{Var}\\!\\bigl[\\, \\underbrace{\\mathbb{E}(e_t \\mid y_{1:t-1})}_{=\\, 0 \\text{ as in (i)}}\\,\\bigr] \\;=\\; \\mathbb{E}[Q_t] \\;+\\; \\mathrm{Var}[0] \\;=\\; \\mathbb{E}[Q_t]. $$\n\n\\emph{Why $\\mathrm{Var}(e_t \\mid y_{1:t-1}) = Q_t$?}\n$$ \\mathrm{Var}(e_t \\mid y_{1:t-1}) \\;=\\; \\mathrm{Var}(Y_t - f_t \\mid y_{1:t-1}) \\;\\overset{(\\star)}{=}\\; \\mathrm{Var}(Y_t \\mid y_{1:t-1}) \\;=\\; Q_t. $$\n$(\\star)$: $f_t$ is a constant given that conditioning.\n\n\\textbf{(4) Put it all together --- standardise.}\n\n\\emph{Standardise.}\n\n$$\\boxed{\ne_t \\mid y_{1:t-1} \\sim \\mathcal{N}(0,Q_t)\n}\n$$\n\n$$$$\n\n$$\\Longrightarrow\n\\boxed{\n\\tilde e_t\n=\n\\frac{e_t}{\\sqrt{Q_t}}\n\\;\\Bigm|\\;\ny_{1:t-1}\n\\sim\n\\mathcal{N}(0,1)\n}\n$$\n\n\\emph{Marginalise.} This conditional law does \\emph{not depend on} $y_{1:t-1}$, so the marginal is the same: $\\tilde e_t \\sim \\mathcal{N}(0,1)$. Idea: if $X \\mid Y$ has the same distribution for every $Y$, then $X$ is independent of $Y$, and     marginally $X$ just has that distribution. The conditioning is doing no work.\n\n\n\\emph{Conclusion.} $\\{\\tilde e_t\\}$ is iid $\\mathcal{N}(0,1)$. $\\square$\n\\end{keydef}\n\n\nUseful plots to test errors behave as e_t \\sim \\mathcal{N}(0,Q_t): \n$\\bullet$ \\emph{Normality:} Q--Q plot of $\\{\\tilde e_t\\}$ against $\\mathcal{N}(0,1)$; Shapiro--Wilk.\n$\\bullet$ \\emph{No autocorrelation:} ACF/PACF of $\\{\\tilde e_t\\}$ should look like white noise; Ljung--Box test.\n$\\bullet$ \\emph{Variance stable:} time plot of $\\tilde e_t$ --- no heteroskedasticity / outliers / change-points.\n\nIf any of these fails, the model is mis-specified (wrong $G, F, V, W$, missing component, wrong noise distribution, $\\dots$).\n\n\\emph{Independence.} The whole $\\{e_t\\}$ process is jointly Gaussian, and by (ii) they are pairwise uncorrelated. For jointly Gaussian variables, uncorrelated $\\Leftrightarrow$ independent. Standardising preserves this.\n\n\n\n\n\n\n\n\n\n\n",
-                "flashcard": true,
-                "images": [],
-                "links": [],
-                "x": 6434.976297062473,
-                "y": 2965.5457724946145,
-                "width": 483.3333333333333,
-                "height": 316.66666666666663,
-                "color": "red",
-                "fsrs": {
-                  "stability": 1.1829,
-                  "difficulty": 7.72936056,
-                  "elapsedDays": 0,
-                  "scheduledDays": 1,
-                  "reps": 2,
-                  "lapses": 0,
-                  "state": "review",
-                  "lastReview": "2026-06-14T21:42:44.921Z",
-                  "dueDate": "2026-06-15T21:42:44.921Z"
-                },
-                "fsrsCards": {
-                  "fc:52": {
-                    "stability": 1,
-                    "difficulty": 5,
-                    "elapsedDays": 0,
-                    "scheduledDays": 0,
-                    "reps": 0,
-                    "lapses": 0,
-                    "state": "new",
-                    "lastReview": null,
-                    "dueDate": "2026-08-14T21:39:19.630Z"
-                  },
-                  "fc:29": {
-                    "stability": 0.4072,
-                    "difficulty": 8.2734,
-                    "elapsedDays": 0,
-                    "scheduledDays": 1,
-                    "reps": 1,
-                    "lapses": 0,
-                    "state": "learning",
-                    "lastReview": "2026-08-24T13:17:40.381Z",
-                    "dueDate": "2026-08-25T13:17:40.381Z"
-                  }
-                },
-                "userEdited": false
               },
               {
                 "id": "ts1779025115813",
@@ -2599,8 +2546,8 @@
                 "content": "\\textbf{\\textcolor{red}{MODEL CHECKING --- forecast errors / innovations.}}\n\n\\begin{tabular}{}\n\\hline\n\n\\textbf{(0) Errors are Normally Distributed}\n\\\\\n\n$$\n\\boxed{\nY_t\\mid y_{1:t-1}\\sim\\mathcal N(f_t,Q_t)\n}\n\\quad\\Longrightarrow\\quad\n\\boxed{\ne_t=Y_t-f_t\n\\;\\Bigm|\\;\ny_{1:t-1}\n\\sim\n\\mathcal N(0,Q_t)\n}\n$$\n\n\\\\\n\\hline\n\n\\textbf{(1) Expected value: $\\mathbb{E}(e_t)=0$}\n\\\\\n\n$$\n\\mathbb{E}(e_t)\n=\n\\mathbb{E}(Y_t-f_t)\n\\overset{\\text{tower property}}{=}\n\\mathbb{E}\\!\\left[\n\\mathbb{E}(Y_t-f_t\\mid y_{1:t-1})\n\\right]\n=\n\\mathbb{E}\\!\\left[\n\\underbrace{\\mathbb{E}(Y_t\\mid y_{1:t-1})}_{=\\,f_t\\text{ by definition}}\n-\n\\underbrace{\\mathbb{E}(f_t\\mid y_{1:t-1})}_{=\\,f_t}\n\\right]\n=\n\\mathbb{E}[f_t-f_t]\n=\n0.\n$$\n\n\\\\\n\\hline\n\n\\textbf{(2) Variance: Law of Total Variance}\n\\\\\n\n$$\n\\mathrm{Var}(e_t)\n\\overset{\\mathrm{LTV}}{=}\n\\mathbb{E}\\!\\left[\n\\underbrace{\n\\mathrm{Var}(e_t\\mid y_{1:t-1})\n}_{=\\,Q_t}\n\\right]\n+\n\\mathrm{Var}\\!\\left[\n\\underbrace{\n\\mathbb{E}(e_t\\mid y_{1:t-1})\n}_{=\\,0}\n\\right]\n=\n\\mathbb{E}[Q_t]\n+\n\\mathrm{Var}(0)\n=\n\\mathbb{E}[Q_t].\n$$\n\nWhy is $\\mathrm{Var}(e_t\\mid y_{1:t-1})=Q_t$?\n\n$$\n\\mathrm{Var}(e_t\\mid y_{1:t-1})\n=\n\\mathrm{Var}(Y_t-f_t\\mid y_{1:t-1})\n=\n\\mathrm{Var}(Y_t\\mid y_{1:t-1})\n=\nQ_t.\n$$\n\nHere $f_t=\\mathbb{E}(Y_t\\mid y_{1:t-1})$ has already been determined once $y_{1:t-1}$ is given, so it acts as a constant inside the conditional variance.\n\n\\\\\n\\hline\n\n\\textbf{(3) Standardise}\n\\\\\n\nFrom the Gaussian predictive distribution,\n\n$$\n\\boxed{\nY_t\\mid y_{1:t-1}\n\\sim\n\\mathcal N(f_t,Q_t)\n}\n\\quad\\Longrightarrow\\quad\n\\boxed{\ne_t=Y_t-f_t\n\\;\\Bigm|\\;\ny_{1:t-1}\n\\sim\n\\mathcal N(0,Q_t)\n}.\n$$\n\nSince\n\n$$\n\\mu=0,\n\\qquad\n\\sigma^2=Q_t,\n\\qquad\n\\sigma=\\sqrt{Q_t},\n$$\n\nthe usual Gaussian standardisation gives\n\n$$\n\\boxed{\ne_t\\mid y_{1:t-1}\n\\sim\n\\mathcal N(0,Q_t)\n}\n\\quad\\Longrightarrow\\quad\n\\boxed{\n\\frac{e_t-\\mu}{\\sigma}\n=\n\\frac{e_t}{\\sqrt{Q_t}}\n\\;\\Bigm|\\;\ny_{1:t-1}\n\\sim\n\\mathcal N(0,1)\n}.\n$$\n\nHence,\n\n$$\n\\boxed{\n\\tilde e_t\n=\n\\frac{e_t}{\\sqrt{Q_t}}\n\\;\\Bigm|\\;\ny_{1:t-1}\n\\sim\n\\mathcal N(0,1)\n}.\n$$\n\n\\\\\n\\hline\n\n\\textbf{(4) Marginalise}\n\\\\\n\nThe key observation is that the right-hand side has\n\\textbf{no $y_{1:t-1}$ in it}.\n\nFor example, imagine different possible past histories:\n\n$$\n\\boxed{\ny_{1:t-1}=\\text{history A}\n}\n\\quad\\Longrightarrow\\quad\n\\boxed{\n\\tilde e_t\\sim\\mathcal N(0,1)\n}\n$$\n\n$$\n\\boxed{\ny_{1:t-1}=\\text{history B}\n}\n\\quad\\Longrightarrow\\quad\n\\boxed{\n\\tilde e_t\\sim\\mathcal N(0,1)\n}\n$$\n\n$$\n\\boxed{\ny_{1:t-1}=\\text{history C}\n}\n\\quad\\Longrightarrow\\quad\n\\boxed{\n\\tilde e_t\\sim\\mathcal N(0,1)\n}\n$$\n\nThus,\n\n$$\n\\boxed{\n\\tilde e_t\\mid y_{1:t-1}\n\\sim\n\\mathcal N(0,1)\n\\quad\n\\text{for every possible }y_{1:t-1}.\n}\n$$\n\nMarginalising over the past,\n\n$$\np(\\tilde e_t)\n=\n\\int\np(\\tilde e_t\\mid y_{1:t-1})\np(y_{1:t-1})\n\\,dy_{1:t-1}.\n$$\n\nSince\n\n$$\np(\\tilde e_t\\mid y_{1:t-1})\n=\n\\phi(\\tilde e_t),\n$$\n\nwhere $\\phi$ is the $\\mathcal N(0,1)$ density and does not depend on\n$y_{1:t-1}$,\n\n$$\np(\\tilde e_t)\n=\n\\phi(\\tilde e_t)\n\\underbrace{\n\\int\np(y_{1:t-1})\\,dy_{1:t-1}\n}_{=\\,1}\n=\n\\phi(\\tilde e_t).\n$$\n\nTherefore,\n\n$$\n\\boxed{\n\\tilde e_t\\sim\\mathcal N(0,1).\n}\n$$\n\n\\\\\n\\hline\n\n\\textbf{(5) Uncorrelated across time:\n$\\mathrm{Cov}(e_t,e_s)=0$ for $s<t$}\n\\\\\n\nSince $s<t$, $e_s$ is past-measurable:\n\n$$\ne_s=g(y_{1:t-1}).\n$$\n\nTherefore,\n\n$$\n\\mathrm{Cov}(e_t,e_s)\n=\n\\underbrace{\n\\mathbb{E}(e_t e_s)\n-\n\\mathbb{E}(e_t)\\mathbb{E}(e_s)\n}_{\\text{definition of covariance}}\n=\n\\underbrace{\n\\mathbb{E}(e_t e_s)\n}_{\\mathbb{E}(e_t)=\\mathbb{E}(e_s)=0}\n\\overset{\\text{tower property}}{=}\n\\mathbb{E}\\!\\left[\n\\underbrace{\n\\mathbb{E}(e_t e_s\\mid y_{1:t-1})\n}_{e_s\\text{ pulls out, past-measurable}}\n\\right]\n=\n\\mathbb{E}\\!\\left[\ne_s\n\\underbrace{\n\\mathbb{E}(e_t\\mid y_{1:t-1})\n}_{=\\,0}\n\\right]\n=\n0.\n$$\n\n\\\\\n\\hline\n\n\\textbf{(6) Independence}\n\\\\\n\nSince the conditional distribution does not depend on the past,\n\n$$\np(\\tilde e_t\\mid y_{1:t-1})\n=\np(\\tilde e_t),\n$$\n\nand therefore\n\n$$\n\\boxed{\n\\tilde e_t\\perp y_{1:t-1}.\n}\n$$\n\nHence $\\tilde e_t$ is independent of all previous innovations.\nTherefore the standardized innovations are independent across time.\n\n\\\\\n\\hline\n\n\\textbf{Conclusion}\n\\\\\n\nEach standardized innovation has the same marginal distribution,\n\n$$\n\\tilde e_t\\sim\\mathcal N(0,1),\n$$\n\nand the standardized innovations are independent across time. Hence,\n\n$$\n\\boxed{\n\\tilde e_t\n=\n\\frac{e_t}{\\sqrt{Q_t}}\n\\overset{\\mathrm{i.i.d.}}{\\sim}\n\\mathcal N(0,1)\n}\n$$\n\nTherefore $\\{\\tilde e_t\\}$ is Gaussian white noise. $\\square$\n\n\\\\\n\\hline\n\n\\end{tabular}\n\n\\begin{keydef}\n\n\\fcnum{29} \nrecall\n$$\\boxed{\nf_t = \\mathbb{E}\\!\\left(Y_t \\mid y_{1:t-1}\\right)\n}\n\\quad \\Longrightarrow \\quad\n\\boxed{\ne_t = y_t - f_t\n}\n\\quad \\Longrightarrow \\quad\n\\boxed{\n\\text{if the model is correct} \\quad\ne_t \\sim \\mathcal{N}(0,Q_t)\n\\;\\; \\text{indep over t}\n}\n\\quad \\Longrightarrow \\quad\n\\boxed{\n\\tilde e_t\n= \\frac{e_t}{\\sqrt{Q_t}}\n\\sim \\mathcal{N}(0,1)\n\\;\\; \\text{i.i.d.}\n}\n$$\n$$\nQ_t\n=\n\\mathrm{Var}(Y_t \\mid y_{1:t-1})\n=\n\\mathrm{Var}(e_t \\mid y_{1:t-1})\n$$\nSo this is the predicted conditional noise (the nosie the model expected), then $e_t$ is the actual noise. \n\n\\textcolor{red}{Prove $\\tilde e_t$ is a Gaussian white noise: iid $\\mathcal{N}(0,\\, 1)$.}\n\\textbf{(1) Zero mean: $\\mathbb{E}(e_t) = 0$.}\n$$ \\mathbb{E}(e_t) \\;=\\; \\mathbb{E}(Y_t - f_t) \\;\\overset{\\text{tower ppt}}{=}\\; \\mathbb{E}\\!\\bigl[\\, \\mathbb{E}\\bigl(Y_t - f_t \\mid y_{1:t-1}\\bigr)\\,\\bigr] \\;=\\; \\mathbb{E}\\!\\bigl[\\, \\underbrace{\\mathbb{E}(Y_t \\mid y_{1:t-1})}_{=\\, f_t \\text{ by definition}} \\;-\\; \\underbrace{\\mathbb{E}(f_t \\mid y_{1:t-1})}_{= f_t } \\;=\\; \\mathbb{E}[\\, f_t - f_t\\,] \\;=\\; 0. $$\n\n\\textbf{(2) Uncorrelated across time: $\\mathrm{Cov}(e_t, e_s) = 0$ for $s < t$.}\n\ni) \\emph{$e_s$ is past-measurable}: $e_s \\;=\\; g(y_{1:t-1})$\n\nii) \\emph{Apply LIE.}\n$$\n\\mathrm{Cov}(e_t,e_s)\n\\;=\\;\n\\underbrace{\n\\mathbb{E}(e_t e_s)\n-\n\\mathbb{E}(e_t)\\mathbb{E}(e_s)\n}_{\\text{definition of covariance}}\n\\;=\\;\n\\underbrace{\n\\mathbb{E}(e_t e_s)\n}_{\\mathbb{E}(e_t)=\\mathbb{E}(e_s)=0\\text{ by (i)}}\n\\;\\overset{\\text{LIE}}{=}\\;\n\\mathbb{E}\\!\\bigl[\\,\n\\underbrace{\n\\mathbb{E}(e_t e_s \\mid y_{1:t-1})\n}_{e_s \\text{ pulls out, past-meas.}}\n\\,\\bigr]\n\\;=\\;\n\\mathbb{E}\\!\\bigl[\\,\ne_s \\cdot\n\\underbrace{\n\\mathbb{E}(e_t \\mid y_{1:t-1})\n}_{=\\,0\\text{ as in (i)}}\n\\,\\bigr]\n\\;=\\;0.\n$$\n\n\\textbf{(3) Variance --- needs the \\emph{law of total variance} (LTV).}\n\n$$ \\mathrm{Var}(e_t) \\;\\overset{\\text{LTV}}{=}\\; \\mathbb{E}\\!\\bigl[\\, \\underbrace{\\mathrm{Var}(e_t \\mid y_{1:t-1})}_{=\\, Q_t,\\ \\text{see below}}\\,\\bigr] \\;+\\; \\mathrm{Var}\\!\\bigl[\\, \\underbrace{\\mathbb{E}(e_t \\mid y_{1:t-1})}_{=\\, 0 \\text{ as in (i)}}\\,\\bigr] \\;=\\; \\mathbb{E}[Q_t] \\;+\\; \\mathrm{Var}[0] \\;=\\; \\mathbb{E}[Q_t]. $$\n\n\\emph{Why $\\mathrm{Var}(e_t \\mid y_{1:t-1}) = Q_t$?}\n$$ \\mathrm{Var}(e_t \\mid y_{1:t-1}) \\;=\\; \\mathrm{Var}(Y_t - f_t \\mid y_{1:t-1}) \\;\\overset{(\\star)}{=}\\; \\mathrm{Var}(Y_t \\mid y_{1:t-1}) \\;=\\; Q_t. $$\n$(\\star)$: $f_t$ is a constant given that conditioning.\n\n\\textbf{(4) Put it all together --- standardise.}\n\n\\emph{Standardise.}\n\n$$\\boxed{\ne_t \\mid y_{1:t-1} \\sim \\mathcal{N}(0,Q_t)\n}\n$$\n\n$$$$\n\n$$\n\\Longrightarrow\n\\boxed{\n\\tilde e_t\n=\n\\frac{e_t}{\\sqrt{Q_t}}\n\\;\\Bigm|\\;\ny_{1:t-1}\n\\sim\n\\mathcal{N}(0,1)\n}\n$$\n\n\\emph{Marginalise.} This conditional law does \\emph{not depend on} $y_{1:t-1}$, so the marginal is the same: $\\tilde e_t \\sim \\mathcal{N}(0,1)$. Idea: if $X \\mid Y$ has the same distribution for every $Y$, then $X$ is independent of $Y$, and     marginally $X$ just has that distribution. The conditioning is doing no work.\n\n\\emph{Independence.} The whole $\\{e_t\\}$ process is jointly Gaussian, and by (ii) they are pairwise uncorrelated. For jointly Gaussian variables, uncorrelated $\\Leftrightarrow$ independent. Standardising preserves this.\n\n\\emph{Conclusion.} $\\{\\tilde e_t\\}$ is iid $\\mathcal{N}(0,1)$. $\\square$\n\\end{keydef}\n\n\nUseful plots to test errors behave as e_t \\sim \\mathcal{N}(0,Q_t): \n$\\bullet$ \\emph{Normality:} Q--Q plot of $\\{\\tilde e_t\\}$ against $\\mathcal{N}(0,1)$; Shapiro--Wilk.\n$\\bullet$ \\emph{No autocorrelation:} ACF/PACF of $\\{\\tilde e_t\\}$ should look like white noise; Ljung--Box test.\n$\\bullet$ \\emph{Variance stable:} time plot of $\\tilde e_t$ --- no heteroskedasticity / outliers / change-points.\n\nIf any of these fails, the model is mis-specified (wrong $G, F, V, W$, missing component, wrong noise distribution, $\\dots$).\n\n\n\n\n\n\n\n\n\n",
                 "flashcard": true,
                 "images": [],
-                "x": 6542.631427777628,
-                "y": 3422.6259378470677,
+                "x": 6514.677425006645,
+                "y": 3387.6834343833375,
                 "width": 483.3333333333333,
                 "height": 316.66666666666663,
                 "color": "teal",
@@ -5563,6 +5510,58 @@
         "deletedAt": 1787434300349,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "ts1779315723295",
+        "title": "Model checking: forecast errors / innovations",
+        "content": "\\textbf{\\textcolor{red}{MODEL CHECKING --- forecast errors / innovations.}}\n\n\n\n\\begin{keydef}\n\n\\fcnum{30} \nrecall\n$$\\boxed{\nf_t = \\mathbb{E}\\!\\left(Y_t \\mid y_{1:t-1}\\right)\n}\n\\quad \\Longrightarrow \\quad\n\\boxed{\ne_t = y_t - f_t\n}\n\\quad \\Longrightarrow \\quad\n\\boxed{\n\\text{if the model is correct} \\quad\ne_t \\sim \\mathcal{N}(0,Q_t)\n\\;\\; \\text{indep over t}\n}\n\\quad \\Longrightarrow \\quad\n\\boxed{\n\\tilde e_t\n= \\frac{e_t}{\\sqrt{Q_t}}\n\\sim \\mathcal{N}(0,1)\n\\;\\; \\text{i.i.d.}\n}\n$$\n$$\nQ_t\n=\n\\mathrm{Var}(Y_t \\mid y_{1:t-1})\n=\n\\mathrm{Var}(e_t \\mid y_{1:t-1})\n$$\nSo this is the predicted conditional noise (the nosie the model expected), then $e_t$ is the actual noise. \n\n\\textcolor{red}{Prove $\\tilde e_t$ is a Gaussian white noise: iid $\\mathcal{N}(0,\\, 1)$.}\n\\textbf{(1) Zero mean: $\\mathbb{E}(e_t) = 0$.}\n$$ \\mathbb{E}(e_t) \\;=\\; \\mathbb{E}(Y_t - f_t) \\;\\overset{\\text{tower ppt}}{=}\\; \\mathbb{E}\\!\\bigl[\\, \\mathbb{E}\\bigl(Y_t - f_t \\mid y_{1:t-1}\\bigr)\\,\\bigr] \\;=\\; \\mathbb{E}\\!\\bigl[\\, \\underbrace{\\mathbb{E}(Y_t \\mid y_{1:t-1})}_{=\\, f_t \\text{ by definition}} \\;-\\; \\underbrace{\\mathbb{E}(f_t \\mid y_{1:t-1})}_{= f_t } \\;=\\; \\mathbb{E}[\\, f_t - f_t\\,] \\;=\\; 0. $$\n\n\\textbf{(2) Uncorrelated across time: $\\mathrm{Cov}(e_t, e_s) = 0$ for $s < t$.}\n\ni) \\emph{$e_s$ is past-measurable}: $e_s \\;=\\; g(y_{1:t-1})$\n\nii) \\emph{Apply LIE.}\n$$\n\\mathrm{Cov}(e_t,e_s)\n\\;=\\;\n\\underbrace{\n\\mathbb{E}(e_t e_s)\n-\n\\mathbb{E}(e_t)\\mathbb{E}(e_s)\n}_{\\text{definition of covariance}}\n\\;=\\;\n\\underbrace{\n\\mathbb{E}(e_t e_s)\n}_{\\mathbb{E}(e_t)=\\mathbb{E}(e_s)=0\\text{ by (i)}}\n\\;\\overset{\\text{LIE}}{=}\\;\n\\mathbb{E}\\!\\bigl[\\,\n\\underbrace{\n\\mathbb{E}(e_t e_s \\mid y_{1:t-1})\n}_{e_s \\text{ pulls out, past-meas.}}\n\\,\\bigr]\n\\;=\\;\n\\mathbb{E}\\!\\bigl[\\,\ne_s \\cdot\n\\underbrace{\n\\mathbb{E}(e_t \\mid y_{1:t-1})\n}_{=\\,0\\text{ as in (i)}}\n\\,\\bigr]\n\\;=\\;0.\n$$\n\n\\textbf{(3) Variance --- needs the \\emph{law of total variance} (LTV).}\n\n$$ \\mathrm{Var}(e_t) \\;\\overset{\\text{LTV}}{=}\\; \\mathbb{E}\\!\\bigl[\\, \\underbrace{\\mathrm{Var}(e_t \\mid y_{1:t-1})}_{=\\, Q_t,\\ \\text{see below}}\\,\\bigr] \\;+\\; \\mathrm{Var}\\!\\bigl[\\, \\underbrace{\\mathbb{E}(e_t \\mid y_{1:t-1})}_{=\\, 0 \\text{ as in (i)}}\\,\\bigr] \\;=\\; \\mathbb{E}[Q_t] \\;+\\; \\mathrm{Var}[0] \\;=\\; \\mathbb{E}[Q_t]. $$\n\n\\emph{Why $\\mathrm{Var}(e_t \\mid y_{1:t-1}) = Q_t$?}\n$$ \\mathrm{Var}(e_t \\mid y_{1:t-1}) \\;=\\; \\mathrm{Var}(Y_t - f_t \\mid y_{1:t-1}) \\;\\overset{(\\star)}{=}\\; \\mathrm{Var}(Y_t \\mid y_{1:t-1}) \\;=\\; Q_t. $$\n$(\\star)$: $f_t$ is a constant given that conditioning.\n\n\\textbf{(4) Put it all together --- standardise.}\n\n\\emph{Standardise.}\n\n$$\\boxed{\ne_t \\mid y_{1:t-1} \\sim \\mathcal{N}(0,Q_t)\n}\n$$\n\n$$$$\n\n$$\\Longrightarrow\n\\boxed{\n\\tilde e_t\n=\n\\frac{e_t}{\\sqrt{Q_t}}\n\\;\\Bigm|\\;\ny_{1:t-1}\n\\sim\n\\mathcal{N}(0,1)\n}\n$$\n\n\\emph{Marginalise.} This conditional law does \\emph{not depend on} $y_{1:t-1}$, so the marginal is the same: $\\tilde e_t \\sim \\mathcal{N}(0,1)$. Idea: if $X \\mid Y$ has the same distribution for every $Y$, then $X$ is independent of $Y$, and     marginally $X$ just has that distribution. The conditioning is doing no work.\n\n\n\\emph{Conclusion.} $\\{\\tilde e_t\\}$ is iid $\\mathcal{N}(0,1)$. $\\square$\n\\end{keydef}\n\n\nUseful plots to test errors behave as e_t \\sim \\mathcal{N}(0,Q_t): \n$\\bullet$ \\emph{Normality:} Q--Q plot of $\\{\\tilde e_t\\}$ against $\\mathcal{N}(0,1)$; Shapiro--Wilk.\n$\\bullet$ \\emph{No autocorrelation:} ACF/PACF of $\\{\\tilde e_t\\}$ should look like white noise; Ljung--Box test.\n$\\bullet$ \\emph{Variance stable:} time plot of $\\tilde e_t$ --- no heteroskedasticity / outliers / change-points.\n\nIf any of these fails, the model is mis-specified (wrong $G, F, V, W$, missing component, wrong noise distribution, $\\dots$).\n\n\\emph{Independence.} The whole $\\{e_t\\}$ process is jointly Gaussian, and by (ii) they are pairwise uncorrelated. For jointly Gaussian variables, uncorrelated $\\Leftrightarrow$ independent. Standardising preserves this.\n\n\n\n\n\n\n\n\n\n\n",
+        "flashcard": true,
+        "images": [],
+        "links": [],
+        "x": 6434.976297062473,
+        "y": 2965.5457724946145,
+        "width": 483.3333333333333,
+        "height": 316.66666666666663,
+        "color": "red",
+        "fsrs": {
+          "stability": 1.1829,
+          "difficulty": 7.72936056,
+          "elapsedDays": 0,
+          "scheduledDays": 1,
+          "reps": 2,
+          "lapses": 0,
+          "state": "review",
+          "lastReview": "2026-06-14T21:42:44.921Z",
+          "dueDate": "2026-06-15T21:42:44.921Z"
+        },
+        "fsrsCards": {
+          "fc:52": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-14T21:39:19.630Z"
+          },
+          "fc:29": {
+            "stability": 0.4072,
+            "difficulty": 8.2734,
+            "elapsedDays": 0,
+            "scheduledDays": 1,
+            "reps": 1,
+            "lapses": 0,
+            "state": "learning",
+            "lastReview": "2026-08-24T13:17:40.381Z",
+            "dueDate": "2026-08-25T13:17:40.381Z"
+          }
+        },
+        "userEdited": false,
+        "deletedAt": 1787679337010,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
       }
     ],
     "examTable": {
@@ -8168,7 +8167,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-25T17:35:02.148Z",
+    "lastEditedAt": "2026-08-25T17:35:37.010Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
