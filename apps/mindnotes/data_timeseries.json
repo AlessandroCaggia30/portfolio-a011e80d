@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-25T19:19:09.078Z",
+  "exportedAt": "2026-08-25T19:19:40.970Z",
   "data": {
     "topics": [
       {
@@ -2612,7 +2612,7 @@
               {
                 "id": "1787685308181",
                 "title": "General filtering proof DLM",
-                "content": "\n\n\\textbf{1) do the discussion on the gaussianity of $(\\omega_0,\\omega_1,\\ldots,\\omega_t,Y_1,\\ldots,Y_t)$}\n\n\\textbf{2) recalling $\\theta_t\\mid y_{1:t-1}\\sim\\mathcal N(a_t,R_t)$, $Y_t\\mid y_{1:t-1}\\sim\\mathcal N(f_t,Q_t)$}\n\n\\textbf{3) derive $a_t$, $R_t$, $F_t$, $Q_t$}",
+                "content": "\n\n\\textbf{Proposition 2.2 (Kalman filter).} \\emph{Consider the DLM specified by (2.4)\n(p.41). Let}\n$$\n\\theta_{t-1}\\mid y_{1:t-1}\\sim\\mathcal N(m_{t-1},C_{t-1}).\n$$\n\n\\emph{Then the following statements hold.}\n\n\\medskip\n\n\\emph{(i) The one-step-ahead predictive distribution of $\\theta_t$ given $y_{1:t-1}$ is Gaussian,\nwith parameters}\n$$\na_t=\\mathbb E(\\theta_t\\mid y_{1:t-1})=G_tm_{t-1},\n$$\n$$\nR_t=\\operatorname{Var}(\\theta_t\\mid y_{1:t-1})\n=G_tC_{t-1}G_t'+W_t.\n\\tag{2.8a}\n$$\n\n\\medskip\n\n\\emph{(ii) The one-step-ahead predictive distribution of $Y_t$ given $y_{1:t-1}$ is Gaussian,\nwith parameters}\n$$\nf_t=\\mathbb E(Y_t\\mid y_{1:t-1})=F_ta_t,\n$$\n$$\nQ_t=\\operatorname{Var}(Y_t\\mid y_{1:t-1})\n=F_tR_tF_t'+V_t.\n\\tag{2.8b}\n$$\n\n\\medskip\n\n\\emph{(iii) The filtering distribution of $\\theta_t$ given $y_{1:t}$ is Gaussian, with parameters}\n$$\nm_t=\\mathbb E(\\theta_t\\mid y_{1:t})\n=a_t+R_tF_t'Q_t^{-1}e_t,\n$$\n$$\nC_t=\\operatorname{Var}(\\theta_t\\mid y_{1:t})\n=R_t-R_tF_t'Q_t^{-1}F_tR_t,\n\\tag{2.8c}\n$$\n\n\\emph{where $e_t=Y_t-f_t$ is the forecast error.}\n\n\\textbf{1) do the discussion on the gaussianity of $(\\omega_0,\\omega_1,\\ldots,\\omega_t,Y_1,\\ldots,Y_t)$}\n\n\\textbf{2) recalling $\\theta_t\\mid y_{1:t-1}\\sim\\mathcal N(a_t,R_t)$, $Y_t\\mid y_{1:t-1}\\sim\\mathcal N(f_t,Q_t)$}\n\n\\textbf{3) derive $a_t$, $R_t$, $F_t$, $Q_t$}",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
@@ -8186,7 +8186,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-25T19:19:07.994Z",
+    "lastEditedAt": "2026-08-25T19:19:40.244Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
