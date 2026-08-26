@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-26T10:52:46.545Z",
+  "exportedAt": "2026-08-26T10:52:52.040Z",
   "data": {
     "topics": [
       {
@@ -150,7 +150,7 @@
               {
                 "id": "ts17786690819134427",
                 "title": "Fitting a seasonal component",
-                "content": "\\textbf{\\textcolor{red}{FITTING A SEASONAL COMPONENT}}\n\n\\begin{keydef}\nFor $Y_t = S_t + E_t$ (purely seasonal, no trend; assume mean zero, $\\bar{y}_t = 0$):\n\n\\fcnum{3} \\textbf{Seasonal dummies.} Eg use dummies for the month\n\n\\textbf{Moving averages.} For monthly data, $\\mathrm{MA}(12)$:\n$$ y_t^{\\text{deseason.}} = \\frac{0.5\\, y_{t-6} + y_{t-5} + \\dots + y_{t+5} + 0.5\\, y_{t+6}}{12}. $$\n\\end{keydef}\n",
+                "content": "\\textbf{\\textcolor{red}{FITTING A SEASONAL COMPONENT}}\n\n\nFor $Y_t = S_t + E_t$ (purely seasonal, no trend; assume mean zero, $\\bar{y}_t = 0$):\n\n \\textbf{Seasonal dummies.} Eg use dummies for the month\n\n\\textbf{Moving averages.} For monthly data, $\\mathrm{MA}(12)$:\n$$ y_t^{\\text{deseason.}} = \\frac{0.5\\, y_{t-6} + y_{t-5} + \\dots + y_{t+5} + 0.5\\, y_{t+6}}{12}. $$\n\n",
                 "flashcard": false,
                 "images": [
                   "images/timeseries/ts17786690819134427_0_a3e896b89f93.jpg"
@@ -8187,7 +8187,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-26T10:52:45.069Z",
+    "lastEditedAt": "2026-08-26T10:52:51.154Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
