@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-26T10:52:04.995Z",
+  "exportedAt": "2026-08-26T10:52:14.448Z",
   "data": {
     "topics": [
       {
@@ -14,7 +14,7 @@
               {
                 "id": "ts17786690819137257",
                 "title": "Aims of time series analysis",
-                "content": "\\textbf{\\textcolor{red}{AIMS OF TIME SERIES ANALYSIS}}\n\n$\\to$ \\textbf{Describe} -- trend, seasonal, cycle \n\n$\\to$ \\textbf{Explain} \n- **modeling and inference** write a model and estimate its parameters\n- \\textbf{Forecast} accounting for uncertainty\n\n\n\\textbf{\\textcolor{red}{[SYNC-TEST ✓ — if you see this in the app, Claude→file→website works. I will remove it.]}}",
+                "content": "\\textbf{\\textcolor{red}{AIMS OF TIME SERIES ANALYSIS}}\n\n$\\to$ \\textbf{Describe} -- trend, seasonal, cycle \n\n$\\to$ \\textbf{Explain} \n- **modeling and inference** write a model and estimate its parameters\n- \\textbf{Forecast} accounting for uncertainty\n\n\n",
                 "flashcard": false,
                 "images": [],
                 "links": [
@@ -8187,7 +8187,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-26T10:52:03.856Z",
+    "lastEditedAt": "2026-08-26T10:52:06.305Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
