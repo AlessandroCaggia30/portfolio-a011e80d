@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-26T10:53:07.568Z",
+  "exportedAt": "2026-08-26T10:53:12.956Z",
   "data": {
     "topics": [
       {
@@ -2127,26 +2127,26 @@
                     "dueDate": "2026-08-14T21:39:19.630Z"
                   },
                   "fc:5a": {
-                    "stability": 495.1104,
-                    "difficulty": 1.8080336517814857,
-                    "elapsedDays": 2,
-                    "scheduledDays": 1,
-                    "reps": 7,
-                    "lapses": 0,
-                    "state": "review",
-                    "lastReview": "2026-08-24T09:43:59.393Z",
-                    "dueDate": "2026-08-25T09:43:59.393Z"
-                  },
-                  "fc:5b": {
                     "stability": 990.2208,
                     "difficulty": 1,
                     "elapsedDays": 2,
                     "scheduledDays": 1,
-                    "reps": 7,
+                    "reps": 8,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-24T09:44:19.242Z",
-                    "dueDate": "2026-08-25T09:44:19.242Z"
+                    "lastReview": "2026-08-26T10:53:08.675Z",
+                    "dueDate": "2026-08-27T10:53:08.675Z"
+                  },
+                  "fc:5b": {
+                    "stability": 1980.4416,
+                    "difficulty": 1,
+                    "elapsedDays": 2,
+                    "scheduledDays": 1,
+                    "reps": 8,
+                    "lapses": 0,
+                    "state": "review",
+                    "lastReview": "2026-08-26T10:53:11.646Z",
+                    "dueDate": "2026-08-27T10:53:11.646Z"
                   }
                 }
               },
