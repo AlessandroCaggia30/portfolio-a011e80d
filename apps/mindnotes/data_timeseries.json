@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-26T10:52:52.040Z",
+  "exportedAt": "2026-08-26T10:53:01.203Z",
   "data": {
     "topics": [
       {
@@ -1957,6 +1957,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-15T16:46:00.925Z"
+                  },
+                  "fc:28g": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-26T10:52:56.974Z"
                   }
                 }
               },
@@ -2564,6 +2575,17 @@
                     "state": "learning",
                     "lastReview": "2026-08-24T13:17:40.381Z",
                     "dueDate": "2026-08-25T13:17:40.381Z"
+                  },
+                  "fc:28j": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-26T10:52:56.974Z"
                   }
                 },
                 "userEdited": false
@@ -5518,6 +5540,17 @@
             "state": "learning",
             "lastReview": "2026-08-24T13:17:40.381Z",
             "dueDate": "2026-08-25T13:17:40.381Z"
+          },
+          "fc:28j": {
+            "stability": 1,
+            "difficulty": 5,
+            "elapsedDays": 0,
+            "scheduledDays": 0,
+            "reps": 0,
+            "lapses": 0,
+            "state": "new",
+            "lastReview": null,
+            "dueDate": "2026-08-26T10:52:56.974Z"
           }
         },
         "userEdited": false,
