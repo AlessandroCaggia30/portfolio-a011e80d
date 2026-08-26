@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-26T10:52:14.448Z",
+  "exportedAt": "2026-08-26T10:52:19.930Z",
   "data": {
     "topics": [
       {
@@ -60,7 +60,7 @@
               {
                 "id": "ts17786690819138473",
                 "title": "Time series decomposition",
-                "content": "\\textbf{\\textcolor{red}{TIME SERIES DECOMPOSITION}}\n\n\\begin{keydef}\n\\fcnum{1} View $Y_t$ as composed of: a \\textbf{Trend}, a \\textbf{Seasonal} comp (fixed recurrence), a \\textbf{cycle} (AR style modeling), and an \\textbf{Erratic} comp.\n\n\\textbf{Additive}: $Y_t = T_t + S_t + C_t + E_t$\n\n\\textbf{Multiplicative}: $Y_t = T_t \\cdot S_t \\cdot C_t \\cdot E_t$\n\nnote $\\log$ transforms a multiplicative decomposition into an additive one\n\\end{keydef}\n",
+                "content": "\\textbf{\\textcolor{red}{TIME SERIES DECOMPOSITION}}\n\nView $Y_t$ as composed of: a \\textbf{Trend}, a \\textbf{Seasonal} comp (fixed recurrence), a \\textbf{cycle} (AR style modeling), and an \\textbf{Erratic} comp.\n\n\\textbf{Additive}: $Y_t = T_t + S_t + C_t + E_t$\n\n\\textbf{Multiplicative}: $Y_t = T_t \\cdot S_t \\cdot C_t \\cdot E_t$\n\nnote $\\log$ transforms a multiplicative decomposition into an additive one\n\\end{keydef}\n",
                 "flashcard": true,
                 "images": [
                   "images/timeseries/ts17786690819138473_0_1d79600eba0a.jpg"
@@ -8187,7 +8187,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-26T10:52:06.305Z",
+    "lastEditedAt": "2026-08-26T10:52:19.421Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
