@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-27T14:05:07.756Z",
+  "exportedAt": "2026-08-27T14:05:13.803Z",
   "data": {
     "topics": [
       {
@@ -2642,7 +2642,7 @@
               {
                 "id": "1787677727520",
                 "title": "Joint density",
-                "content": "Consider for example the constant Mean DLM\n$$\nY_t=\\theta+\\varepsilon_t,\n\\qquad\n\\varepsilon_t\\overset{\\mathrm{iid}}{\\sim}\\mathcal N(0,\\sigma^2),\n\\qquad\n\\theta\\sim\\mathcal N(m_0,C_0),\n$$\nwith $\\theta$ independent of the error sequence.\n\nConditionally on $\\theta$, the observations are i.i.d.,\n$$\nY_t\\mid\\theta\\sim\\mathcal N(\\theta,\\sigma^2),\n$$\nso the joint density is (note this extreme simplification is fiven to the fact theta is fixed)\n$$\\boxed{\np(y_{1:t},\\theta)\n=\n\\pi(\\theta)\\prod_{i=1}^t p(y_i\\mid\\theta).\n}\n$$\n",
+                "content": "Consider for example the constant Mean DLM\n$$\nY_t=\\theta+\\varepsilon_t,\n\\qquad\n\\varepsilon_t\\overset{\\mathrm{iid}}{\\sim}\\mathcal N(0,\\sigma^2),\n\\qquad\n\\theta\\sim\\mathcal N(m_0,C_0),\n$$\nwith $\\theta$ independent of the error sequence.\n\nConditionally on $\\theta$, the observations are i.i.d.,\n$$\nY_t\\mid\\theta\\sim\\mathcal N(\\theta,\\sigma^2),\n$$\nso the joint density is (note this extreme simplification is fiven to the fact theta is fixed)\n$$\\boxed{\np(y_{1:t},\\theta)\n=\n\\pi(\\theta)\\prod_{i=1}^t p(y_i\\mid\\theta).\n}\n$$\n\n\\textbf{(c)} Write the expression of the conditional probability function of\n$(Y_1,\\ldots,Y_t)$ given $(\\phi,s_{0:t})$.\n\n\\medskip\n\nBy assumption (A.2), given the state path $s_{0:t}$, the observations\n$Y_1,\\ldots,Y_t$ are conditionally independent, and each $Y_j$ depends\nonly on the concurrent state $S_j=s_j$.\n\nTherefore,\n$$\n\\begin{aligned}\np(y_1,\\ldots,y_t \\mid \\phi,s_{0:t})\n&=\n\\prod_{j=1}^{t}\n\\mathbb{P}(Y_j=y_j\\mid S_j=s_j,\\phi)\n\\\\\n&=\n\\boxed{\n\\prod_{j=1}^{t} b_{\\phi}(s_j,y_j)\n}.\n\\end{aligned}\n$$\n\nwhere\n$$\nb_{\\phi}(i,y)\n=\n\\mathbb{P}(Y_t=y\\mid S_t=i,\\phi)\n$$\nis the emission probability of observing word $y$ when the hidden\nstate (topic) is $i$.",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
@@ -8341,7 +8341,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-27T14:05:06.485Z",
+    "lastEditedAt": "2026-08-27T14:05:10.180Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
