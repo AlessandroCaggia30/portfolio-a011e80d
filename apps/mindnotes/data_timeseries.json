@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-27T19:23:08.119Z",
+  "exportedAt": "2026-08-27T19:23:57.057Z",
   "data": {
     "topics": [
       {
@@ -2032,7 +2032,7 @@
               {
                 "id": "ts1779149664107",
                 "title": "Bayesian point estimation: loss functions and the posterior mean",
-                "content": "\\textbf{\\textcolor{red}{BAYESIAN POINT ESTIMATION.}}\nAfter obtaining the posterior $f(\\theta\\mid y)$, a Bayes point estimator is chosen to minimize the posterior expected loss:\n$$\\boxed{\\hat a^*=\\arg\\min_a E[L(\\theta,a)\\mid y]}\n$$\n- If you want to minimize the squared loss: $(y_t- \\hat{y_t})^2$ the best ofrecast is the posterior mean (minimize squared errors)\n- if you watn to minizmie the median loss: $\\mid (y_t- \\hat{y_t})  \\mid$  you need the posterior median\n\n\n",
+                "content": "\\textbf{\\textcolor{red}{BAYESIAN POINT ESTIMATION.}}\n\nAfter obtaining the posterior $f(\\theta\\mid y)$, a Bayes point estimator is chosen to minimize the posterior expected loss:\n\n$$\n\\boxed{\n\\hat a^*\n=\n\\arg\\min_a\n\\mathbb E[L(\\theta,a)\\mid y]\n}\n$$\n\n- Under squared-error loss, $L(\\theta,a)=(\\theta-a)^2$, the Bayes estimator is the posterior mean:\n\n$$\n\\boxed{\n\\hat a^*\n=\n\\mathbb E(\\theta\\mid y)\n}\n$$\n\n- Under absolute-error loss, $L(\\theta,a)=|\\theta-a|$, the Bayes estimator is the posterior median:\n\n$$\n\\boxed{\n\\hat a^*\n=\n\\operatorname{Med}(\\theta\\mid y)\n}\n$$\n\nFor forecasting a future observation $Y_t$, the same logic applies to the posterior predictive distribution:\n\n- Under squared forecast loss, $L(Y_t,a)=(Y_t-a)^2$, the optimal forecast is the posterior predictive mean:\n$$\n\\boxed{\n\\hat y_t^*\n=\n\\mathbb E(Y_t\\mid y)\n}\n$$\n\n- Under absolute forecast loss, $L(Y_t,a)=|Y_t-a|$, the optimal forecast is the posterior predictive median:\n$$\n\\boxed{\n\\hat y_t^*\n=\n\\operatorname{Med}(Y_t\\mid y)\n}\n$$\n\n\n",
                 "flashcard": false,
                 "images": [],
                 "links": [],
@@ -8340,7 +8340,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-27T19:23:03.853Z",
+    "lastEditedAt": "2026-08-27T19:23:55.673Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
