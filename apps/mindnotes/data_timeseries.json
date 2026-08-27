@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-27T19:26:48.020Z",
+  "exportedAt": "2026-08-27T19:26:54.614Z",
   "data": {
     "topics": [
       {
@@ -2032,8 +2032,8 @@
                 "flashcard": false,
                 "images": [],
                 "links": [],
-                "x": 5385.581941542183,
-                "y": 5410.688108831321,
+                "x": 5450.826165873834,
+                "y": 5275.8500452125745,
                 "width": 400.81113596791045,
                 "height": 101.89577805301195,
                 "color": "teal",
@@ -2472,7 +2472,12 @@
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
-                "links": [],
+                "links": [
+                  {
+                    "target": "ts1779149664107",
+                    "type": "forward"
+                  }
+                ],
                 "x": 5482.317114201766,
                 "y": 4847.302001094976,
                 "fsrs": {
@@ -8336,7 +8341,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-27T19:26:44.529Z",
+    "lastEditedAt": "2026-08-27T19:26:53.704Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
