@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-27T21:29:46.309Z",
+  "exportedAt": "2026-08-27T21:29:54.150Z",
   "data": {
     "topics": [
       {
@@ -2266,8 +2266,8 @@
                     "type": "forward"
                   }
                 ],
-                "x": 5482.317114201766,
-                "y": 4847.302001094976,
+                "x": 5349.328983011101,
+                "y": 4852.483356855651,
                 "fsrs": {
                   "stability": 1,
                   "difficulty": 5,
@@ -2281,8 +2281,8 @@
                 },
                 "userEdited": true,
                 "color": "red",
-                "width": 316.37860082304525,
-                "height": 266.55692729766804
+                "width": 483.5305029285002,
+                "height": 270.4542371737835
               },
               {
                 "id": "mc_stationary_no_001",
@@ -8475,7 +8475,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-27T21:29:46.201Z",
+    "lastEditedAt": "2026-08-27T21:29:53.170Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
