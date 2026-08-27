@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-27T14:03:34.420Z",
+  "exportedAt": "2026-08-27T14:05:07.756Z",
   "data": {
     "topics": [
       {
@@ -8341,7 +8341,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-27T14:03:33.703Z",
+    "lastEditedAt": "2026-08-27T14:05:06.485Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
