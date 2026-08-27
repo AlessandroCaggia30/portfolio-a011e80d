@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-27T19:28:55.374Z",
+  "exportedAt": "2026-08-27T21:08:35.334Z",
   "data": {
     "topics": [
       {
@@ -11,186 +11,6 @@
             "id": "sub17786690819133213",
             "name": "Snippets",
             "nodes": [
-              {
-                "id": "ts17786690819137257",
-                "title": "Aims of time series analysis",
-                "content": "\\textbf{\\textcolor{red}{AIMS OF TIME SERIES ANALYSIS}}\n\n$\\to$ \\textbf{Describe} -- trend, seasonal, cycle \n\n$\\to$ \\textbf{Explain} \n- **modeling and inference** write a model and estimate its parameters\n- \\textbf{Forecast} accounting for uncertainty\n\n\n",
-                "flashcard": false,
-                "images": [],
-                "links": [
-                  {
-                    "target": "ts17786690819138473",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "1778690202929",
-                    "type": "forward"
-                  }
-                ],
-                "x": 4391.26702518668,
-                "y": -270.467412741873,
-                "width": 885,
-                "height": 278,
-                "color": "yellow",
-                "fsrsCards": {
-                  "fc:0": {
-                    "stability": 3960.8832,
-                    "difficulty": 1,
-                    "elapsedDays": 2,
-                    "scheduledDays": 1,
-                    "reps": 9,
-                    "lapses": 0,
-                    "state": "review",
-                    "lastReview": "2026-08-24T09:43:05.364Z",
-                    "dueDate": "2026-08-25T09:43:05.364Z"
-                  }
-                },
-                "fsrs": {
-                  "stability": 1,
-                  "difficulty": 5,
-                  "elapsedDays": 0,
-                  "scheduledDays": 0,
-                  "reps": 0,
-                  "lapses": 0,
-                  "state": "new",
-                  "lastReview": null,
-                  "dueDate": "2026-08-15T15:59:01.049Z"
-                }
-              },
-              {
-                "id": "ts17786690819138473",
-                "title": "Time series decomposition",
-                "content": "\\textbf{\\textcolor{red}{TIME SERIES DECOMPOSITION}}\n\nView $Y_t$ as composed of: a \\textbf{Trend}, a \\textbf{Seasonal} comp (fixed recurrence), a \\textbf{cycle} (AR style modeling), and an \\textbf{Erratic} comp.\n\n\\textbf{Additive}: $Y_t = T_t + S_t + C_t + E_t$\n\n\\textbf{Multiplicative}: $Y_t = T_t \\cdot S_t \\cdot C_t \\cdot E_t$\n\nnote $\\log$ transforms a multiplicative decomposition into an additive one\n\n",
-                "flashcard": true,
-                "images": [
-                  "images/timeseries/ts17786690819138473_0_1d79600eba0a.jpg"
-                ],
-                "links": [
-                  {
-                    "target": "ts17786690819131573",
-                    "type": "forward"
-                  },
-                  {
-                    "target": "ts17786690819134427",
-                    "type": "forward"
-                  }
-                ],
-                "x": 3106.1505951776935,
-                "y": 290.61677917934776,
-                "width": 496.15585333091803,
-                "height": 156.92859666002454,
-                "color": "coral",
-                "fsrs": {
-                  "stability": 61.8888,
-                  "difficulty": 4.707149405051817,
-                  "elapsedDays": 0,
-                  "scheduledDays": 1,
-                  "reps": 4,
-                  "lapses": 0,
-                  "state": "review",
-                  "lastReview": "2026-06-14T16:37:09.297Z",
-                  "dueDate": "2026-06-15T16:37:09.297Z"
-                },
-                "fsrsCards": {
-                  "fc:1": {
-                    "stability": 3960.8832,
-                    "difficulty": 1,
-                    "elapsedDays": 2,
-                    "scheduledDays": 1,
-                    "reps": 9,
-                    "lapses": 0,
-                    "state": "review",
-                    "lastReview": "2026-08-24T09:43:14.114Z",
-                    "dueDate": "2026-08-25T09:43:14.114Z"
-                  }
-                }
-              },
-              {
-                "id": "ts17786690819131573",
-                "title": "Fitting a trend",
-                "content": "\\textbf{\\textcolor{red}{FITTING A TREND}}\n\n\nFor $Y_t = T_t + E_t$ (no seasonal comp.):\n\n\\textbf{OLS.} \n\\textbf{Moving averages.} e.g.\\ MA of order $k=3$:\n$$ \\widehat{T}_t = \\frac{y_{t-1} + y_t + y_{t+1}}{3}, t = 2, 3, \\dots $$\nIf $k$ is even, e.g.\\ $k = 4$:\n$$ \\widehat{T}_t = \\frac{0.5\\, y_{t-2} + y_{t-1} + y_t + y_{t+1} + 0.5\\, y_{t+2}}{4}. $$\n\n\n\\textbf{\\textcolor{red}{DETRENDING}}\n$$ y_t^{\\text{detrended}} = y_t - \\widehat{T}_t. $$\n\nafter you detrend, you remove the seasonal coponent",
-                "flashcard": false,
-                "images": [],
-                "links": [
-                  {
-                    "target": "ts17786690819137230",
-                    "type": "forward"
-                  }
-                ],
-                "x": 2558.110737781959,
-                "y": 604.1635028736573,
-                "width": 361,
-                "height": 110,
-                "color": "red",
-                "fsrs": {
-                  "stability": 6.2524,
-                  "difficulty": 6.241348391819839,
-                  "elapsedDays": 0,
-                  "scheduledDays": 1,
-                  "reps": 5,
-                  "lapses": 0,
-                  "state": "review",
-                  "lastReview": "2026-06-14T16:37:10.988Z",
-                  "dueDate": "2026-06-15T16:37:10.988Z"
-                },
-                "fsrsCards": {
-                  "fc:2": {
-                    "stability": 7921.7664,
-                    "difficulty": 1,
-                    "elapsedDays": 2,
-                    "scheduledDays": 1,
-                    "reps": 10,
-                    "lapses": 0,
-                    "state": "review",
-                    "lastReview": "2026-08-24T09:43:17.895Z",
-                    "dueDate": "2026-08-25T09:43:17.895Z"
-                  }
-                }
-              },
-              {
-                "id": "ts17786690819134427",
-                "title": "Fitting a seasonal component",
-                "content": "\\textbf{\\textcolor{red}{FITTING A SEASONAL COMPONENT}}\n\n\nFor $Y_t = S_t + E_t$ (purely seasonal, no trend; assume mean zero, $\\bar{y}_t = 0$):\n\n \\textbf{Seasonal dummies.} Eg use dummies for the month\n\n\\textbf{Moving averages.} For monthly data, $\\mathrm{MA}(12)$:\n$$ y_t^{\\text{deseason.}} = \\frac{0.5\\, y_{t-6} + y_{t-5} + \\dots + y_{t+5} + 0.5\\, y_{t+6}}{12}. $$\n\n",
-                "flashcard": false,
-                "images": [
-                  "images/timeseries/ts17786690819134427_0_a3e896b89f93.jpg"
-                ],
-                "links": [
-                  {
-                    "target": "ts17786690819137230",
-                    "type": "forward"
-                  }
-                ],
-                "x": 3199.952939671599,
-                "y": 601.21047694556,
-                "width": 436,
-                "height": 106,
-                "color": "coral",
-                "fsrs": {
-                  "stability": 61.8888,
-                  "difficulty": 4.717610080417556,
-                  "elapsedDays": 0,
-                  "scheduledDays": 1,
-                  "reps": 5,
-                  "lapses": 0,
-                  "state": "review",
-                  "lastReview": "2026-06-14T16:37:12.755Z",
-                  "dueDate": "2026-06-15T16:37:12.755Z"
-                },
-                "fsrsCards": {
-                  "fc:3": {
-                    "stability": 7921.7664,
-                    "difficulty": 1,
-                    "elapsedDays": 0,
-                    "scheduledDays": 1,
-                    "reps": 10,
-                    "lapses": 0,
-                    "state": "review",
-                    "lastReview": "2026-08-24T09:43:44.876Z",
-                    "dueDate": "2026-08-25T09:43:44.876Z"
-                  }
-                }
-              },
               {
                 "id": "ts17786690819139203",
                 "title": "How to assign the Probability law of the process",
@@ -314,49 +134,6 @@
                   }
                 },
                 "userEdited": false
-              },
-              {
-                "id": "ts17786690819137230",
-                "title": "Forecasting algorithms — Cases 0, 1, 2 (SES / Holt / Holt-Winters)",
-                "content": "\\textbf{\\textcolor{red}{FORECASTING ALGORITHMS — CASES 0, 1, 2}}\n\n\n\\textbf{\\textcolor{red}{NEEDS FULL REWRITE TO THE SLIDES}}\n\n\nPredict $y_{t+1}\\mid y_{1:t}$ — often the ultimate goal. At time $t$ define the \\textbf{forecast function}$$ f_t : \\mathbb{N} \\to \\mathbb{R}, \\qquad f_t(h) = \\hat y_{t+h\\mid t}, $$i.e.\\ $f_t(h)$ is the $h$-step-ahead forecast made using information up to $t$.\n\n\n\n\n\nPrediction accuracy: \n\n\n\n\\begin{keydef}\n\\fcnum{4} \\textbf{MAD} (Mean Absolute Deviation):$$ \\mathrm{MAD} = \\frac{1}{n} \\sum_{t=1}^{n} \\left| y_t - \\hat{y}_t \\right| $$\n\n\\textbf{MSE} (Mean Squared Error):$$ \\mathrm{MSE} = \\frac{1}{n} \\sum_{t=1}^{n} \\left( y_t - \\hat{y}_t \\right)^2 $$\n\n\\textbf{MAPE} (Mean Absolute Percentage Error):$$ \\mathrm{MAPE} = \\frac{1}{n} \\sum_{t=1}^{n} \\left| \\frac{y_t - \\hat{y}_t}{y_t} \\right| $$\n\\end{keydef}\n\n\n\\textbf{THE ACTUAL ALGORITHMS}\n\n\n\\textbf{Case 0 — Simple exponential smoothing} (SES / EWMA / Holt point predictor). For a non-seasonal series with no systematic trend, predict$y_{t+1}$by a weighted average of the past data with geometrically decaying weights:$$\\hat y_{t+1\\mid t}=\\lambda\\sum_{j=0}^{t-1}(1-\\lambda)^{j}y_{t-j},\\qquad 0\\le\\lambda<1.$$For large$t$the weights sum to$\\approx 1$\n\n\n\\textbf{Case 1 — Holt linear predictor} (local linear trend). Decompose the series into a local level plus a local slope,$y_t=L_t+B_t$, and combine exponentially-smoothed forecasts of level and growth:$$\\hat y_{t+k\\mid t}=\\hat L_{t+1\\mid t}+\\hat B_{t+1\\mid t}\\,k,$$$$\\hat L_{t+1\\mid t}=\\lambda y_t+(1-\\lambda)(\\hat L_{t\\mid t-1}+\\hat B_{t\\mid t-1})=\\hat y_{t\\mid t-1}+\\lambda e_t,$$$$\\hat B_{t+1\\mid t}=\\gamma(\\hat L_{t+1\\mid t}-\\hat L_{t\\mid t-1})+(1-\\gamma)\\hat B_{t\\mid t-1}=\\hat B_{t\\mid t-1}+\\lambda\\gamma\\,e_t.$$The forecast function is now \\textbf{linear} in$k$.\n\n\n\\textbf{Case 2 — Holt-Winters} (seasonal). A further extension adds a seasonal component (additive or multiplicative) with its own smoothing parameter, giving the popular Holt and Winters methods (Hyndman et al., 2008).\n\n\n\\textbf{Uncertainty of SES forecasts (May 2022 Q1) — answer: NO.}\n\nSES returns a point forecast only. The empirical methods of Sec.\\ 3.1.1 are \\textbf{not based on a probabilistic or statistical model} for the observed series, which makes it impossible to assess forecast uncertainty using standard measures like confidence or probability intervals. Hence SES provides no quantification of the uncertainty about its one-step-ahead point forecasts. To attach probability intervals one must embed it in an underlying DLM (e.g.\\ the local level model, whose steady-state one-step forecast coincides with SES).",
-                "flashcard": false,
-                "images": [],
-                "links": [
-                  {
-                    "target": "1778690202929",
-                    "type": "forward"
-                  }
-                ],
-                "x": 3027.8711523347774,
-                "y": 780.4366973983188,
-                "width": 363.9426957373889,
-                "height": 70.32343459088918,
-                "color": "yellow",
-                "fsrs": {
-                  "stability": 1,
-                  "difficulty": 5,
-                  "elapsedDays": 0,
-                  "scheduledDays": 0,
-                  "reps": 0,
-                  "lapses": 0,
-                  "state": "new",
-                  "lastReview": null,
-                  "dueDate": "2026-05-16T12:48:11.525Z"
-                },
-                "fsrsCards": {
-                  "fc:4": {
-                    "stability": 3960.8832,
-                    "difficulty": 1,
-                    "elapsedDays": 0,
-                    "scheduledDays": 1,
-                    "reps": 10,
-                    "lapses": 0,
-                    "state": "review",
-                    "lastReview": "2026-08-27T10:13:15.989Z",
-                    "dueDate": "2026-08-28T10:13:15.989Z"
-                  }
-                },
-                "userEdited": true
               },
               {
                 "id": "ts1778695220085",
@@ -5736,6 +5513,240 @@
         "deletedAt": 1787858011015,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "ts17786690819138473",
+        "title": "Time series decomposition",
+        "content": "\\textbf{\\textcolor{red}{TIME SERIES DECOMPOSITION}}\n\nView $Y_t$ as composed of: a \\textbf{Trend}, a \\textbf{Seasonal} comp (fixed recurrence), a \\textbf{cycle} (AR style modeling), and an \\textbf{Erratic} comp.\n\n\\textbf{Additive}: $Y_t = T_t + S_t + C_t + E_t$\n\n\\textbf{Multiplicative}: $Y_t = T_t \\cdot S_t \\cdot C_t \\cdot E_t$\n\nnote $\\log$ transforms a multiplicative decomposition into an additive one\n\n",
+        "flashcard": true,
+        "images": [
+          "images/timeseries/ts17786690819138473_0_1d79600eba0a.jpg"
+        ],
+        "links": [
+          {
+            "target": "ts17786690819131573",
+            "type": "forward"
+          },
+          {
+            "target": "ts17786690819134427",
+            "type": "forward"
+          }
+        ],
+        "x": 3106.1505951776935,
+        "y": 290.61677917934776,
+        "width": 496.15585333091803,
+        "height": 156.92859666002454,
+        "color": "coral",
+        "fsrs": {
+          "stability": 61.8888,
+          "difficulty": 4.707149405051817,
+          "elapsedDays": 0,
+          "scheduledDays": 1,
+          "reps": 4,
+          "lapses": 0,
+          "state": "review",
+          "lastReview": "2026-06-14T16:37:09.297Z",
+          "dueDate": "2026-06-15T16:37:09.297Z"
+        },
+        "fsrsCards": {
+          "fc:1": {
+            "stability": 3960.8832,
+            "difficulty": 1,
+            "elapsedDays": 2,
+            "scheduledDays": 1,
+            "reps": 9,
+            "lapses": 0,
+            "state": "review",
+            "lastReview": "2026-08-24T09:43:14.114Z",
+            "dueDate": "2026-08-25T09:43:14.114Z"
+          }
+        },
+        "deletedAt": 1787864912791,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "ts17786690819131573",
+        "title": "Fitting a trend",
+        "content": "\\textbf{\\textcolor{red}{FITTING A TREND}}\n\n\nFor $Y_t = T_t + E_t$ (no seasonal comp.):\n\n\\textbf{OLS.} \n\\textbf{Moving averages.} e.g.\\ MA of order $k=3$:\n$$ \\widehat{T}_t = \\frac{y_{t-1} + y_t + y_{t+1}}{3}, t = 2, 3, \\dots $$\nIf $k$ is even, e.g.\\ $k = 4$:\n$$ \\widehat{T}_t = \\frac{0.5\\, y_{t-2} + y_{t-1} + y_t + y_{t+1} + 0.5\\, y_{t+2}}{4}. $$\n\n\n\\textbf{\\textcolor{red}{DETRENDING}}\n$$ y_t^{\\text{detrended}} = y_t - \\widehat{T}_t. $$\n\nafter you detrend, you remove the seasonal coponent",
+        "flashcard": false,
+        "images": [],
+        "links": [
+          {
+            "target": "ts17786690819137230",
+            "type": "forward"
+          }
+        ],
+        "x": 2558.110737781959,
+        "y": 604.1635028736573,
+        "width": 361,
+        "height": 110,
+        "color": "red",
+        "fsrs": {
+          "stability": 6.2524,
+          "difficulty": 6.241348391819839,
+          "elapsedDays": 0,
+          "scheduledDays": 1,
+          "reps": 5,
+          "lapses": 0,
+          "state": "review",
+          "lastReview": "2026-06-14T16:37:10.988Z",
+          "dueDate": "2026-06-15T16:37:10.988Z"
+        },
+        "fsrsCards": {
+          "fc:2": {
+            "stability": 7921.7664,
+            "difficulty": 1,
+            "elapsedDays": 2,
+            "scheduledDays": 1,
+            "reps": 10,
+            "lapses": 0,
+            "state": "review",
+            "lastReview": "2026-08-24T09:43:17.895Z",
+            "dueDate": "2026-08-25T09:43:17.895Z"
+          }
+        },
+        "deletedAt": 1787864912791,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "ts17786690819134427",
+        "title": "Fitting a seasonal component",
+        "content": "\\textbf{\\textcolor{red}{FITTING A SEASONAL COMPONENT}}\n\n\nFor $Y_t = S_t + E_t$ (purely seasonal, no trend; assume mean zero, $\\bar{y}_t = 0$):\n\n \\textbf{Seasonal dummies.} Eg use dummies for the month\n\n\\textbf{Moving averages.} For monthly data, $\\mathrm{MA}(12)$:\n$$ y_t^{\\text{deseason.}} = \\frac{0.5\\, y_{t-6} + y_{t-5} + \\dots + y_{t+5} + 0.5\\, y_{t+6}}{12}. $$\n\n",
+        "flashcard": false,
+        "images": [
+          "images/timeseries/ts17786690819134427_0_a3e896b89f93.jpg"
+        ],
+        "links": [
+          {
+            "target": "ts17786690819137230",
+            "type": "forward"
+          }
+        ],
+        "x": 3199.952939671599,
+        "y": 601.21047694556,
+        "width": 436,
+        "height": 106,
+        "color": "coral",
+        "fsrs": {
+          "stability": 61.8888,
+          "difficulty": 4.717610080417556,
+          "elapsedDays": 0,
+          "scheduledDays": 1,
+          "reps": 5,
+          "lapses": 0,
+          "state": "review",
+          "lastReview": "2026-06-14T16:37:12.755Z",
+          "dueDate": "2026-06-15T16:37:12.755Z"
+        },
+        "fsrsCards": {
+          "fc:3": {
+            "stability": 7921.7664,
+            "difficulty": 1,
+            "elapsedDays": 0,
+            "scheduledDays": 1,
+            "reps": 10,
+            "lapses": 0,
+            "state": "review",
+            "lastReview": "2026-08-24T09:43:44.876Z",
+            "dueDate": "2026-08-25T09:43:44.876Z"
+          }
+        },
+        "deletedAt": 1787864912791,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "ts17786690819137230",
+        "title": "Forecasting algorithms — Cases 0, 1, 2 (SES / Holt / Holt-Winters)",
+        "content": "\\textbf{\\textcolor{red}{FORECASTING ALGORITHMS — CASES 0, 1, 2}}\n\n\n\\textbf{\\textcolor{red}{NEEDS FULL REWRITE TO THE SLIDES}}\n\n\nPredict $y_{t+1}\\mid y_{1:t}$ — often the ultimate goal. At time $t$ define the \\textbf{forecast function}$$ f_t : \\mathbb{N} \\to \\mathbb{R}, \\qquad f_t(h) = \\hat y_{t+h\\mid t}, $$i.e.\\ $f_t(h)$ is the $h$-step-ahead forecast made using information up to $t$.\n\n\n\n\n\nPrediction accuracy: \n\n\n\n\\begin{keydef}\n\\fcnum{4} \\textbf{MAD} (Mean Absolute Deviation):$$ \\mathrm{MAD} = \\frac{1}{n} \\sum_{t=1}^{n} \\left| y_t - \\hat{y}_t \\right| $$\n\n\\textbf{MSE} (Mean Squared Error):$$ \\mathrm{MSE} = \\frac{1}{n} \\sum_{t=1}^{n} \\left( y_t - \\hat{y}_t \\right)^2 $$\n\n\\textbf{MAPE} (Mean Absolute Percentage Error):$$ \\mathrm{MAPE} = \\frac{1}{n} \\sum_{t=1}^{n} \\left| \\frac{y_t - \\hat{y}_t}{y_t} \\right| $$\n\\end{keydef}\n\n\n\\textbf{THE ACTUAL ALGORITHMS}\n\n\n\\textbf{Case 0 — Simple exponential smoothing} (SES / EWMA / Holt point predictor). For a non-seasonal series with no systematic trend, predict$y_{t+1}$by a weighted average of the past data with geometrically decaying weights:$$\\hat y_{t+1\\mid t}=\\lambda\\sum_{j=0}^{t-1}(1-\\lambda)^{j}y_{t-j},\\qquad 0\\le\\lambda<1.$$For large$t$the weights sum to$\\approx 1$\n\n\n\\textbf{Case 1 — Holt linear predictor} (local linear trend). Decompose the series into a local level plus a local slope,$y_t=L_t+B_t$, and combine exponentially-smoothed forecasts of level and growth:$$\\hat y_{t+k\\mid t}=\\hat L_{t+1\\mid t}+\\hat B_{t+1\\mid t}\\,k,$$$$\\hat L_{t+1\\mid t}=\\lambda y_t+(1-\\lambda)(\\hat L_{t\\mid t-1}+\\hat B_{t\\mid t-1})=\\hat y_{t\\mid t-1}+\\lambda e_t,$$$$\\hat B_{t+1\\mid t}=\\gamma(\\hat L_{t+1\\mid t}-\\hat L_{t\\mid t-1})+(1-\\gamma)\\hat B_{t\\mid t-1}=\\hat B_{t\\mid t-1}+\\lambda\\gamma\\,e_t.$$The forecast function is now \\textbf{linear} in$k$.\n\n\n\\textbf{Case 2 — Holt-Winters} (seasonal). A further extension adds a seasonal component (additive or multiplicative) with its own smoothing parameter, giving the popular Holt and Winters methods (Hyndman et al., 2008).\n\n\n\\textbf{Uncertainty of SES forecasts (May 2022 Q1) — answer: NO.}\n\nSES returns a point forecast only. The empirical methods of Sec.\\ 3.1.1 are \\textbf{not based on a probabilistic or statistical model} for the observed series, which makes it impossible to assess forecast uncertainty using standard measures like confidence or probability intervals. Hence SES provides no quantification of the uncertainty about its one-step-ahead point forecasts. To attach probability intervals one must embed it in an underlying DLM (e.g.\\ the local level model, whose steady-state one-step forecast coincides with SES).",
+        "flashcard": false,
+        "images": [],
+        "links": [
+          {
+            "target": "1778690202929",
+            "type": "forward"
+          }
+        ],
+        "x": 3027.8711523347774,
+        "y": 780.4366973983188,
+        "width": 363.9426957373889,
+        "height": 70.32343459088918,
+        "color": "yellow",
+        "fsrs": {
+          "stability": 1,
+          "difficulty": 5,
+          "elapsedDays": 0,
+          "scheduledDays": 0,
+          "reps": 0,
+          "lapses": 0,
+          "state": "new",
+          "lastReview": null,
+          "dueDate": "2026-05-16T12:48:11.525Z"
+        },
+        "fsrsCards": {
+          "fc:4": {
+            "stability": 3960.8832,
+            "difficulty": 1,
+            "elapsedDays": 0,
+            "scheduledDays": 1,
+            "reps": 10,
+            "lapses": 0,
+            "state": "review",
+            "lastReview": "2026-08-27T10:13:15.989Z",
+            "dueDate": "2026-08-28T10:13:15.989Z"
+          }
+        },
+        "userEdited": true,
+        "deletedAt": 1787864912791,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "ts17786690819137257",
+        "title": "Aims of time series analysis",
+        "content": "\\textbf{\\textcolor{red}{AIMS OF TIME SERIES ANALYSIS}}\n\n$\\to$ \\textbf{Describe} -- trend, seasonal, cycle \n\n$\\to$ \\textbf{Explain} \n- **modeling and inference** write a model and estimate its parameters\n- \\textbf{Forecast} accounting for uncertainty\n\n\n",
+        "flashcard": false,
+        "images": [],
+        "links": [
+          {
+            "target": "1778690202929",
+            "type": "forward"
+          }
+        ],
+        "x": 4391.26702518668,
+        "y": -270.467412741873,
+        "width": 885,
+        "height": 278,
+        "color": "yellow",
+        "fsrsCards": {
+          "fc:0": {
+            "stability": 3960.8832,
+            "difficulty": 1,
+            "elapsedDays": 2,
+            "scheduledDays": 1,
+            "reps": 9,
+            "lapses": 0,
+            "state": "review",
+            "lastReview": "2026-08-24T09:43:05.364Z",
+            "dueDate": "2026-08-25T09:43:05.364Z"
+          }
+        },
+        "fsrs": {
+          "stability": 1,
+          "difficulty": 5,
+          "elapsedDays": 0,
+          "scheduledDays": 0,
+          "reps": 0,
+          "lapses": 0,
+          "state": "new",
+          "lastReview": null,
+          "dueDate": "2026-08-15T15:59:01.049Z"
+        },
+        "deletedAt": 1787864914772,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
       }
     ],
     "examTable": {
@@ -8341,7 +8352,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-27T19:28:54.269Z",
+    "lastEditedAt": "2026-08-27T21:08:34.772Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
