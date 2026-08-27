@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-27T21:21:40.009Z",
+  "exportedAt": "2026-08-27T21:21:46.226Z",
   "data": {
     "topics": [
       {
@@ -2392,6 +2392,17 @@
                     "state": "new",
                     "lastReview": null,
                     "dueDate": "2026-08-27T21:10:26.389Z"
+                  },
+                  "fc:32": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-27T21:21:44.839Z"
                   }
                 },
                 "color": "red"
