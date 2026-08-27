@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-27T19:12:58.553Z",
+  "exportedAt": "2026-08-27T19:13:32.934Z",
   "data": {
     "topics": [
       {
@@ -2476,12 +2476,7 @@
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
-                "links": [
-                  {
-                    "target": "1786980566922",
-                    "type": "forward"
-                  }
-                ],
+                "links": [],
                 "x": 5482.317114201766,
                 "y": 4847.302001094976,
                 "fsrs": {
@@ -2600,17 +2595,6 @@
                   }
                 },
                 "color": "red"
-              },
-              {
-                "id": "1786980566922",
-                "title": "Application",
-                "content": "\n\n\\textbf{Application: point estimate of an election probability.}\n\n\n\n}\n\n\n\n\n\n\n\nData: a panel is interviewed monthly from January ($t=0$) to June ($t=5$), with states\n\n\n\n$$\n\n\n\n1=\\text{YES},\n\n\n\n\\qquad\n\n\n\n2=\\text{NO},\n\n\n\n\\qquad\n\n\n\n3=\\text{Uncertain}.\n\n\n\n$$\n\n\n\n\n\n\n\nTarget:\n\n\n\n$$\n\n\n\n\\boxed{\n\n\n\nq\n\n\n\n=\n\n\n\nP(\\text{July YES share}>50\\%).\n\n\n\n}\n\n\n\n$$\n\n\n\n\n\n\n\nThe exam table is a \\emph{pooled transition-count table}: its entries are the $n_{ij}$ above, summed over all observed transitions.\n\n\n\n\n\n\n\nIts grand total is\n\n\n\n$$\n\n\n\n500=100\\times5\n\n\n\n$$\n\n\n\nunder the interpretation of $100$ chains observed across five transitions.\n\n\n\n\n\n\n\nThe row totals\n\n\n\n$$\n\n\n\n(n_{1,+},n_{2,+},n_{3,+})\n\n\n\n=\n\n\n\n(150,250,100)\n\n\n\n$$\n\n\n\ntherefore count pooled \\emph{departures} from the three states.\n\n\n\n\n\n\n\nThey are not the June state counts.\n\n\n\n\n\n\n\n\\textbf{Step 1 --- counts-ratio MLEs.}\n\n\n\n\n\n\n\nFrom\n\n\n\n$$\n\n\n\n\\hat p_{ij}\n\n\n\n=\n\n\n\n\\frac{n_{ij}}{n_{i,+}},\n\n\n\n$$\n\n\n\nthe estimated transition probabilities into YES are\n\n\n\n$$\n\n\n\n\\frac{70}{150}=0.467,\n\n\n\n\\qquad\n\n\n\n\\frac{75}{250}=0.300,\n\n\n\n\\qquad\n\n\n\n\\frac{30}{100}=0.300.\n\n\n\n$$\n\n\n\n\n\n\n\nIf the pooled occupancy proportions are used as a proxy for the current state distribution, one-step propagation gives\n\n\n\n$$\n\n\n\n\\boxed{\n\n\n\n\\hat p_{\\mathrm{YES}}\n\n\n\n=\n\n\n\n\\frac{\n\n\n\n150\\cdot\\frac{70}{150}\n\n\n\n+\n\n\n\n250\\cdot\\frac{75}{250}\n\n\n\n+\n\n\n\n100\\cdot\\frac{30}{100}\n\n\n\n}{500}\n\n\n\n}\n\n\n\n$$\n\n\n\n$$\n\n\n\n=\n\n\n\n\\frac{70+75+30}{500}\n\n\n\n=\n\n\n\n\\boxed{0.35}.\n\n\n\n$$\n\n\n\n\n\n\n\n\\textbf{Step 2 --- CLT for the July proportion.}\n\n\n\n\n\n\n\nTreating panellists as independent with estimated July YES probability $0.35$, for panel size $n=1000$,\n\n\n\n$$\n\n\n\n\\boxed{\n\n\n\n\\bar Y_{\\mathrm{July}}\n\n\n\n\\approx\n\n\n\n\\mathcal N\n\n\n\n\\left(\n\n\n\n0.35,\\,\n\n\n\n\\frac{0.35(0.65)}{1000}\n\n\n\n\\right).\n\n\n\n}\n\n\n\n$$\n\n\n\n\n\n\n\nThus\n\n\n\n$$\n\n\n\n\\sigma\n\n\n\n=\n\n\n\n\\sqrt{\n\n\n\n\\frac{0.35(0.65)}{1000}\n\n\n\n}\n\n\n\n\\approx\n\n\n\n0.015.\n\n\n\n$$\n\n\n\n\n\n\n\n\\textbf{Step 3 --- evaluate the tail probability.}\n\n\n\n\n\n\n\n$$\n\n\n\n\\boxed{\n\n\n\n\\hat q\n\n\n\n=\n\n\n\nP(\\bar Y_{\\mathrm{July}}>0.5)\n\n\n\n\\approx\n\n\n\n1-\\Phi\n\n\n\n\\left(\n\n\n\n\\frac{0.5-0.35}{0.015}\n\n\n\n\\right)\n\n\n\n}\n\n\n\n$$\n\n\n\n$$\n\n\n\n=\n\n\n\n1-\\Phi(10)\n\n\n\n\\approx\n\n\n\n\\boxed{0}.\n\n\n\n$$\n\n\n\n\n\n\n\nThe exam statement appears internally inconsistent about the panel size, but the substantive conclusion is robust: an estimated YES probability of $0.35$ is sufficiently far below $0.50$ that the estimated majority probability is essentially zero under the stated large-panel approximations.\n\n\n\n\n\n\n\n\\textit{Possible extensions of the Markov-chain model:}\n\n\n\nhigher-order dependence ($r>1$), non-homogeneous transition matrices $P_t$, or individual-specific transition matrices allowing heterogeneity.            agrehpihdispoaidgahdisgphdghpidgspisghdpisdg ",
-                "flashcard": false,
-                "images": [],
-                "imageWidths": [],
-                "links": [],
-                "x": 6055.9568409636,
-                "y": 5075.782857911424
               },
               {
                 "id": "1787677326468",
@@ -5737,6 +5721,20 @@
         "deletedAt": 1787686100741,
         "fromTopic": "topic17786690819138696",
         "fromSubtopic": "sub17786690819133213"
+      },
+      {
+        "id": "1786980566922",
+        "title": "Application",
+        "content": "\n\n\\textbf{Application: point estimate of an election probability.}\n\n\n\n}\n\n\n\n\n\n\n\nData: a panel is interviewed monthly from January ($t=0$) to June ($t=5$), with states\n\n\n\n$$\n\n\n\n1=\\text{YES},\n\n\n\n\\qquad\n\n\n\n2=\\text{NO},\n\n\n\n\\qquad\n\n\n\n3=\\text{Uncertain}.\n\n\n\n$$\n\n\n\n\n\n\n\nTarget:\n\n\n\n$$\n\n\n\n\\boxed{\n\n\n\nq\n\n\n\n=\n\n\n\nP(\\text{July YES share}>50\\%).\n\n\n\n}\n\n\n\n$$\n\n\n\n\n\n\n\nThe exam table is a \\emph{pooled transition-count table}: its entries are the $n_{ij}$ above, summed over all observed transitions.\n\n\n\n\n\n\n\nIts grand total is\n\n\n\n$$\n\n\n\n500=100\\times5\n\n\n\n$$\n\n\n\nunder the interpretation of $100$ chains observed across five transitions.\n\n\n\n\n\n\n\nThe row totals\n\n\n\n$$\n\n\n\n(n_{1,+},n_{2,+},n_{3,+})\n\n\n\n=\n\n\n\n(150,250,100)\n\n\n\n$$\n\n\n\ntherefore count pooled \\emph{departures} from the three states.\n\n\n\n\n\n\n\nThey are not the June state counts.\n\n\n\n\n\n\n\n\\textbf{Step 1 --- counts-ratio MLEs.}\n\n\n\n\n\n\n\nFrom\n\n\n\n$$\n\n\n\n\\hat p_{ij}\n\n\n\n=\n\n\n\n\\frac{n_{ij}}{n_{i,+}},\n\n\n\n$$\n\n\n\nthe estimated transition probabilities into YES are\n\n\n\n$$\n\n\n\n\\frac{70}{150}=0.467,\n\n\n\n\\qquad\n\n\n\n\\frac{75}{250}=0.300,\n\n\n\n\\qquad\n\n\n\n\\frac{30}{100}=0.300.\n\n\n\n$$\n\n\n\n\n\n\n\nIf the pooled occupancy proportions are used as a proxy for the current state distribution, one-step propagation gives\n\n\n\n$$\n\n\n\n\\boxed{\n\n\n\n\\hat p_{\\mathrm{YES}}\n\n\n\n=\n\n\n\n\\frac{\n\n\n\n150\\cdot\\frac{70}{150}\n\n\n\n+\n\n\n\n250\\cdot\\frac{75}{250}\n\n\n\n+\n\n\n\n100\\cdot\\frac{30}{100}\n\n\n\n}{500}\n\n\n\n}\n\n\n\n$$\n\n\n\n$$\n\n\n\n=\n\n\n\n\\frac{70+75+30}{500}\n\n\n\n=\n\n\n\n\\boxed{0.35}.\n\n\n\n$$\n\n\n\n\n\n\n\n\\textbf{Step 2 --- CLT for the July proportion.}\n\n\n\n\n\n\n\nTreating panellists as independent with estimated July YES probability $0.35$, for panel size $n=1000$,\n\n\n\n$$\n\n\n\n\\boxed{\n\n\n\n\\bar Y_{\\mathrm{July}}\n\n\n\n\\approx\n\n\n\n\\mathcal N\n\n\n\n\\left(\n\n\n\n0.35,\\,\n\n\n\n\\frac{0.35(0.65)}{1000}\n\n\n\n\\right).\n\n\n\n}\n\n\n\n$$\n\n\n\n\n\n\n\nThus\n\n\n\n$$\n\n\n\n\\sigma\n\n\n\n=\n\n\n\n\\sqrt{\n\n\n\n\\frac{0.35(0.65)}{1000}\n\n\n\n}\n\n\n\n\\approx\n\n\n\n0.015.\n\n\n\n$$\n\n\n\n\n\n\n\n\\textbf{Step 3 --- evaluate the tail probability.}\n\n\n\n\n\n\n\n$$\n\n\n\n\\boxed{\n\n\n\n\\hat q\n\n\n\n=\n\n\n\nP(\\bar Y_{\\mathrm{July}}>0.5)\n\n\n\n\\approx\n\n\n\n1-\\Phi\n\n\n\n\\left(\n\n\n\n\\frac{0.5-0.35}{0.015}\n\n\n\n\\right)\n\n\n\n}\n\n\n\n$$\n\n\n\n$$\n\n\n\n=\n\n\n\n1-\\Phi(10)\n\n\n\n\\approx\n\n\n\n\\boxed{0}.\n\n\n\n$$\n\n\n\n\n\n\n\nThe exam statement appears internally inconsistent about the panel size, but the substantive conclusion is robust: an estimated YES probability of $0.35$ is sufficiently far below $0.50$ that the estimated majority probability is essentially zero under the stated large-panel approximations.\n\n\n\n\n\n\n\n\\textit{Possible extensions of the Markov-chain model:}\n\n\n\nhigher-order dependence ($r>1$), non-homogeneous transition matrices $P_t$, or individual-specific transition matrices allowing heterogeneity.            agrehpihdispoaidgahdisgphdghpidgspisghdpisdg ",
+        "flashcard": false,
+        "images": [],
+        "imageWidths": [],
+        "links": [],
+        "x": 6055.9568409636,
+        "y": 5075.782857911424,
+        "deletedAt": 1787858011015,
+        "fromTopic": "topic17786690819138696",
+        "fromSubtopic": "sub17786690819133213"
       }
     ],
     "examTable": {
@@ -8342,7 +8340,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-27T19:12:56.415Z",
+    "lastEditedAt": "2026-08-27T19:13:31.015Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
