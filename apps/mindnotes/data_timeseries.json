@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-27T10:17:00.396Z",
+  "exportedAt": "2026-08-27T10:17:06.872Z",
   "data": {
     "topics": [
       {
@@ -545,15 +545,15 @@
                     "dueDate": "2026-08-14T21:39:19.629Z"
                   },
                   "fc:14": {
-                    "stability": 247.5552,
-                    "difficulty": 2.7097076028176055,
-                    "elapsedDays": 2,
+                    "stability": 495.1104,
+                    "difficulty": 1.7748424649116736,
+                    "elapsedDays": 0,
                     "scheduledDays": 1,
-                    "reps": 5,
+                    "reps": 6,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-26T10:58:25.465Z",
-                    "dueDate": "2026-08-27T10:58:25.465Z"
+                    "lastReview": "2026-08-27T10:17:04.455Z",
+                    "dueDate": "2026-08-28T10:17:04.455Z"
                   }
                 }
               },
@@ -2324,26 +2324,26 @@
                     "dueDate": "2026-08-28T10:16:59.196Z"
                   },
                   "fc:13c": {
-                    "stability": 495.1104,
-                    "difficulty": 1.7748424649116736,
+                    "stability": 990.2208,
+                    "difficulty": 1,
                     "elapsedDays": 0,
                     "scheduledDays": 1,
-                    "reps": 6,
+                    "reps": 7,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-26T10:58:18.322Z",
-                    "dueDate": "2026-08-27T10:58:18.322Z"
+                    "lastReview": "2026-08-27T10:17:00.687Z",
+                    "dueDate": "2026-08-28T10:17:00.687Z"
                   },
                   "fc:13d": {
-                    "stability": 123.7776,
-                    "difficulty": 3.666972745051818,
-                    "elapsedDays": 2,
+                    "stability": 247.5552,
+                    "difficulty": 2.7097076028176055,
+                    "elapsedDays": 0,
                     "scheduledDays": 1,
-                    "reps": 4,
+                    "reps": 5,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-26T10:58:20.882Z",
-                    "dueDate": "2026-08-27T10:58:20.882Z"
+                    "lastReview": "2026-08-27T10:17:02.289Z",
+                    "dueDate": "2026-08-28T10:17:02.289Z"
                   }
                 },
                 "fsrs": {
