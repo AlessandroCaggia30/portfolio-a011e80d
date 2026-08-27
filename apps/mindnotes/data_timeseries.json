@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-27T19:26:33.536Z",
+  "exportedAt": "2026-08-27T19:26:40.287Z",
   "data": {
     "topics": [
       {
@@ -2036,11 +2036,11 @@
                 "flashcard": false,
                 "images": [],
                 "links": [],
-                "x": 4783.160270213263,
+                "x": 4711.391623448446,
                 "y": 3240.2302460650344,
                 "width": 400.81113596791045,
                 "height": 101.89577805301195,
-                "color": "yellow",
+                "color": "teal",
                 "fsrs": {
                   "stability": 15.4722,
                   "difficulty": 6.6786,
@@ -8340,7 +8340,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-27T19:26:32.289Z",
+    "lastEditedAt": "2026-08-27T19:26:39.930Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
