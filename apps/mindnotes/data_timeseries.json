@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-27T19:07:18.383Z",
+  "exportedAt": "2026-08-27T19:07:52.126Z",
   "data": {
     "topics": [
       {
@@ -1217,7 +1217,7 @@
               {
                 "id": "1778855952196",
                 "title": "Proof for the closed form versions of Ct and mt in the fixed theta case",
-                "content": "\\begin{keydef}\n\n\\textcolor{orange}{Posterior precision} $\\omark{1/C_t = t/\\sigma^2 + 1/C_0}$ \\textcolor{orange}{is the sum of the data precision} $\\omark{t/\\sigma^2}$ \\textcolor{orange}{and prior precision} $\\omark{1/C_0}$\\textcolor{orange}{; the mean} $\\omark{m_t}$ \\textcolor{orange}{is the precision-weighted average of the sample mean} $\\omark{\\bar y}$ \\textcolor{orange}{and the prior guess} $\\omark{m_0}$\\textcolor{orange}{.}\n\n\\medskip\n\n\\textcolor{orange}{\\emph{(Sept 2025 Q8b) Numbers:}} $\\omark{n = 20}$\\textcolor{orange}{,} $\\omark{\\bar y = 4}$\\textcolor{orange}{,} $\\omark{\\sigma^2 = 1}$\\textcolor{orange}{:}\n$$ \\omark{ C_{20} = \\Big(20 + \\tfrac{1}{C_0}\\Big)^{-1}, \\qquad m_{20} = \\frac{C_0}{C_0 + 1/20}\\cdot 4 \\;+\\; \\frac{1/20}{C_0 + 1/20}\\, m_0. } $$\n\\textcolor{orange}{Under a vague prior} $\\omark{C_0 \\to \\infty}$ \\textcolor{orange}{the prior washes out:} $\\omark{m_{20} \\to \\bar y = 4}$ \\textcolor{orange}{and} $\\omark{C_{20} \\to \\sigma^2/n = 1/20 = 0.05}$\\textcolor{orange}{.}\n\n\\medskip\n\n\\medskip\n\n\\textcolor{orange}{\\emph{Fixed-}}$\\omark{\\theta}$ \\textcolor{orange}{limit: iterating the precision recursion gives} $\\omark{1/C_t = t/\\sigma^2 + 1/C_0 \\to \\infty}$\\textcolor{orange}{, hence} $\\omark{C_t \\to 0}$ \\textcolor{orange}{--- with a} \\emph{constant} \\textcolor{orange}{target the posterior concentrates on the true} $\\omark{\\theta}$\\textcolor{orange}{. The general random walk plus noise case} $\\omark{W > 0}$ \\textcolor{orange}{(where instead} $\\omark{C_t \\to C^* > 0}$\\textcolor{orange}{) is exam question May 2026 Q4 / May 2025 Q5c and is derived in the sibling convergence node --- not repeated here.}\n\n\\smallskip\n\n\\textcolor{orange}{\\emph{Cross-ref:} the general matrix version of this update is derived in the sibling node ``Filter update: derivation of} $\\omark{m_t}$\\textcolor{orange}{,} $\\omark{C_t}$ \\textcolor{orange}{(Proof A)''; here} $\\omark{F_t = 1}$\\textcolor{orange}{,} $\\omark{G_t = 1}$\\textcolor{orange}{,} $\\omark{W = 0}$\\textcolor{orange}{,} $\\omark{V = \\sigma^2}$ \\textcolor{orange}{specialise it to the scalar constant-mean case.}\n\n\\end{keydef}",
+                "content": "\\begin{keydef}\n\n\\textcolor{orange}{Posterior precision} $\\omark{1/C_t = t/\\sigma^2 + 1/C_0}$ \\textcolor{orange}{is the sum of the data precision} $\\omark{t/\\sigma^2}$ \\textcolor{orange}{and prior precision} $\\omark{1/C_0}$\\textcolor{orange}{; the mean} $\\omark{m_t}$ \\textcolor{orange}{is the precision-weighted average of the sample mean} $\\omark{\\bar y}$ \\textcolor{orange}{and the prior guess} $\\omark{m_0}$\\textcolor{orange}{.}\n\n\\medskip\n\n\\textcolor{orange}{\\emph{(Sept 2025 Q8b) Numbers:}} $\\omark{n = 20}$\\textcolor{orange}{,} $\\omark{\\bar y = 4}$\\textcolor{orange}{,} $\\omark{\\sigma^2 = 1}$\\textcolor{orange}{:}\n$$ \\omark{ C_{20} = \\Big(20 + \\tfrac{1}{C_0}\\Big)^{-1}, \\qquad m_{20} = \\frac{C_0}{C_0 + 1/20}\\cdot 4 \\;+\\; \\frac{1/20}{C_0 + 1/20}\\, m_0. } $$\n\\textcolor{orange}{Under a vague prior} $\\omark{C_0 \\to \\infty}$ \\textcolor{orange}{the prior washes out:} $\\omark{m_{20} \\to \\bar y = 4}$ \\textcolor{orange}{and} $\\omark{C_{20} \\to \\sigma^2/n = 1/20 = 0.05}$\\textcolor{orange}{.}\n\n\\medskip\n\n\\medskip\n\n\\textcolor{orange}{\\emph{Fixed-}}$\\omark{\\theta}$ \\textcolor{orange}{limit: iterating the precision recursion gives} $\\omark{1/C_t = t/\\sigma^2 + 1/C_0 \\to \\infty}$\\textcolor{orange}{, hence} $\\omark{C_t \\to 0}$ \\textcolor{orange}{--- with a} \\emph{constant} \\textcolor{orange}{target the posterior concentrates on the true} $\\omark{\\theta}$\\textcolor{orange}{. The general random walk plus noise case} $\\omark{W > 0}$ \\textcolor{orange}{(where instead} $\\omark{C_t \\to C^* > 0}$\\textcolor{orange}{) is exam question May 2026 Q4 / May 2025 Q5c and is derived in the sibling convergence node --- not repeated here.}\n\n\n\\end{keydef}",
                 "flashcard": true,
                 "images": [],
                 "links": [],
@@ -8341,7 +8341,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-27T19:07:17.266Z",
+    "lastEditedAt": "2026-08-27T19:07:51.017Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
