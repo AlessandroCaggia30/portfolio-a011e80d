@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-27T19:23:02.027Z",
+  "exportedAt": "2026-08-27T19:23:08.119Z",
   "data": {
     "topics": [
       {
@@ -2032,7 +2032,7 @@
               {
                 "id": "ts1779149664107",
                 "title": "Bayesian point estimation: loss functions and the posterior mean",
-                "content": "\\textbf{\\textcolor{red}{BAYESIAN POINT ESTIMATION.}}\nAfter obtaining the posterior $f(\\theta\\mid y)$, a Bayes point estimator is chosen to minimize the posterior expected loss:\n$$\n\\boxed{\\hat a^*=\\arg\\min_a E[L(\\theta,a)\\mid y]\n$$\n- If you want to minimize the squared loss: $(y_t- \\hat{y_t})^2$ the best ofrecast is the posterior mean (minimize squared errors)\n- if you watn to minizmie the median loss: $\\mid (y_t- \\hat{y_t})  \\mid$  you need the posterior median\n\n\n",
+                "content": "\\textbf{\\textcolor{red}{BAYESIAN POINT ESTIMATION.}}\nAfter obtaining the posterior $f(\\theta\\mid y)$, a Bayes point estimator is chosen to minimize the posterior expected loss:\n$$\\boxed{\\hat a^*=\\arg\\min_a E[L(\\theta,a)\\mid y]}\n$$\n- If you want to minimize the squared loss: $(y_t- \\hat{y_t})^2$ the best ofrecast is the posterior mean (minimize squared errors)\n- if you watn to minizmie the median loss: $\\mid (y_t- \\hat{y_t})  \\mid$  you need the posterior median\n\n\n",
                 "flashcard": false,
                 "images": [],
                 "links": [],
@@ -8340,7 +8340,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-27T19:22:57.955Z",
+    "lastEditedAt": "2026-08-27T19:23:03.853Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
