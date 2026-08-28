@@ -15781,6 +15781,9 @@ function splitTableKeydefRows(keydefBody) {
     };
     const grid = rowSegs.map(r => splitCells(r.replace(/\\\\\s*$/, '')).map(c => c.trim()));
     const ncol = Math.max(...grid.map(g => g.length));
+    // A single-column table is LAYOUT (a boxed vertical list, e.g. a step-by-step proof), not a
+    // data table of items — never split it. Splitting needs >=2 columns either way.
+    if (ncol < 2) return null;
     const corner = (grid[0] && grid[0][0] || '').trim();
 
     // CROSS-TAB (empty top-left corner: item names across the header, aspect labels down column 0)
