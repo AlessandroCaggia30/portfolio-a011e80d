@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-28T19:43:46.397Z",
+  "exportedAt": "2026-08-28T19:43:54.169Z",
   "data": {
     "topics": [
       {
@@ -1761,6 +1761,17 @@
                     "state": "review",
                     "lastReview": "2026-08-28T17:59:09.929Z",
                     "dueDate": "2026-08-29T17:59:09.929Z"
+                  },
+                  "idx:3": {
+                    "stability": 1,
+                    "difficulty": 5,
+                    "elapsedDays": 0,
+                    "scheduledDays": 0,
+                    "reps": 0,
+                    "lapses": 0,
+                    "state": "new",
+                    "lastReview": null,
+                    "dueDate": "2026-08-28T19:43:50.296Z"
                   }
                 },
                 "userEdited": true
