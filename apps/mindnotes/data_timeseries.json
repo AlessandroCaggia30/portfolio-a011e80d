@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-28T20:39:36.045Z",
+  "exportedAt": "2026-08-28T20:40:57.121Z",
   "data": {
     "topics": [
       {
@@ -1835,7 +1835,7 @@
                 "y": 5292.388674333119,
                 "width": 400.81113596791045,
                 "height": 101.89577805301195,
-                "color": "teal",
+                "color": "red",
                 "fsrs": {
                   "stability": 15.4722,
                   "difficulty": 6.6786,
@@ -8500,7 +8500,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-28T20:39:32.769Z",
+    "lastEditedAt": "2026-08-28T20:39:54.942Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
