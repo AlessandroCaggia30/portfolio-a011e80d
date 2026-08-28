@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-28T20:37:26.232Z",
+  "exportedAt": "2026-08-28T20:38:06.920Z",
   "data": {
     "topics": [
       {
@@ -2622,7 +2622,7 @@
               {
                 "id": "1786828241221",
                 "title": "???",
-                "content": "\n\n\n\n\n\\textbf{\\textcolor{orange}{Properties --- Kalman gain \\& signal-to-noise ratio (June 2024 Q5a).}}\n\\emph{Kalman gain.} $K_n = R_n F^\\top Q_n^{-1}\\in(0,1)$ (in local level): tunes reactivity. High signal-to-noise $r=W/V$ $\\Rightarrow$ $K_n\\to 1$, $m_n$ tracks $y_n$ fast; low $r$ $\\Rightarrow$ $K_n$ small, $m_n$ smooths heavily.\n\\\\\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\textbf{\\textcolor{red}{Posterior precision $1/C_n$.}}\n\\textcolor{orange}{\\emph{(Notation: throughout this card $V = \\sigma^2$, the observation-error variance --- the book's introductory example (p.\\ 39) and the Case A column of card 28d use $\\sigma^2$ and $V$ interchangeably for it.)}}\n\n The precision \\emph{adds}:\n$$ \\underbrace{\\frac{1}{C_n}}_{\\text{posterior precision}} \\;=\\; \\underbrace{\\frac{1}{C_0}}_{\\text{prior precision}} \\;+\\; \\underbrace{\\frac{n}{\\sigma^2}}_{\\text{data precision}}. $$\nThe lower the variance of Cn the better! Because both terms are non-negative, $1/C_n \\ge 1/C_0$ always --- the posterior is \\emph{always} at least as precise as the prior. Even poor-quality data (large $\\sigma^2$) adds some information, just less of it. Sharper data ($\\sigma^2$ small) or more data ($n$ large) makes the posterior sharper.\n\n\\textbf{\\textcolor{red}{Posterior mean $m_n$ as a weighted average.}} Rewrite $m_n$:\n$$ m_n \\;=\\; \\underbrace{\\frac{1/C_0}{1/C_0 + n/\\sigma^2}}_{\\text{prior weight}} \\cdot m_0 \\;+\\; \\underbrace{\\frac{n/\\sigma^2}{1/C_0 + n/\\sigma^2}}_{\\text{data weight}} \\cdot \\bar y. $$\n$m_n$ is a convex combination of the \\emph{prior mean} $m_0 = E[\\theta]$ and the \\emph{sample mean} $\\bar y$, with weights proportional to the respective precisions (frequentist would just have used the sample mean).\n\n",
+                "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\textbf{\\textcolor{red}{Posterior precision $1/C_n$.}}\n\\textcolor{orange}{\\emph{(Notation: throughout this card $V = \\sigma^2$, the observation-error variance --- the book's introductory example (p.\\ 39) and the Case A column of card 28d use $\\sigma^2$ and $V$ interchangeably for it.)}}\n\n The precision \\emph{adds}:\n$$ \\underbrace{\\frac{1}{C_n}}_{\\text{posterior precision}} \\;=\\; \\underbrace{\\frac{1}{C_0}}_{\\text{prior precision}} \\;+\\; \\underbrace{\\frac{n}{\\sigma^2}}_{\\text{data precision}}. $$\nThe lower the variance of Cn the better! Because both terms are non-negative, $1/C_n \\ge 1/C_0$ always --- the posterior is \\emph{always} at least as precise as the prior. Even poor-quality data (large $\\sigma^2$) adds some information, just less of it. Sharper data ($\\sigma^2$ small) or more data ($n$ large) makes the posterior sharper.\n\n\\textbf{\\textcolor{red}{Posterior mean $m_n$ as a weighted average.}} Rewrite $m_n$:\n$$ m_n \\;=\\; \\underbrace{\\frac{1/C_0}{1/C_0 + n/\\sigma^2}}_{\\text{prior weight}} \\cdot m_0 \\;+\\; \\underbrace{\\frac{n/\\sigma^2}{1/C_0 + n/\\sigma^2}}_{\\text{data weight}} \\cdot \\bar y. $$\n$m_n$ is a convex combination of the \\emph{prior mean} $m_0 = E[\\theta]$ and the \\emph{sample mean} $\\bar y$, with weights proportional to the respective precisions (frequentist would just have used the sample mean).\n\n",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
@@ -8497,7 +8497,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-28T20:37:25.808Z",
+    "lastEditedAt": "2026-08-28T20:38:05.895Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
