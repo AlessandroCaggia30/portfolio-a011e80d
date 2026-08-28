@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-28T10:38:39.107Z",
+  "exportedAt": "2026-08-28T10:38:43.687Z",
   "data": {
     "topics": [
       {
@@ -322,15 +322,15 @@
                     "dueDate": "2026-08-14T21:39:19.629Z"
                   },
                   "fc:14": {
-                    "stability": 990.2208,
+                    "stability": 1980.4416,
                     "difficulty": 1,
                     "elapsedDays": 0,
                     "scheduledDays": 1,
-                    "reps": 7,
+                    "reps": 8,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-27T21:11:54.548Z",
-                    "dueDate": "2026-08-28T21:11:54.548Z"
+                    "lastReview": "2026-08-28T10:38:40.215Z",
+                    "dueDate": "2026-08-29T10:38:40.215Z"
                   }
                 }
               },
@@ -2115,37 +2115,37 @@
                 "color": "coral",
                 "fsrsCards": {
                   "fc:13b": {
-                    "stability": 200.0768,
-                    "difficulty": 1.3230489163672383,
-                    "elapsedDays": 0,
-                    "scheduledDays": 1,
-                    "reps": 7,
-                    "lapses": 0,
-                    "state": "review",
-                    "lastReview": "2026-08-27T21:11:51.916Z",
-                    "dueDate": "2026-08-28T21:11:51.916Z"
-                  },
-                  "fc:13c": {
-                    "stability": 1980.4416,
+                    "stability": 400.1536,
                     "difficulty": 1,
                     "elapsedDays": 0,
                     "scheduledDays": 1,
                     "reps": 8,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-27T21:11:52.114Z",
-                    "dueDate": "2026-08-28T21:11:52.114Z"
+                    "lastReview": "2026-08-28T10:38:39.698Z",
+                    "dueDate": "2026-08-29T10:38:39.698Z"
                   },
-                  "fc:13d": {
-                    "stability": 495.1104,
-                    "difficulty": 1.7748424649116736,
+                  "fc:13c": {
+                    "stability": 3960.8832,
+                    "difficulty": 1,
                     "elapsedDays": 0,
                     "scheduledDays": 1,
-                    "reps": 6,
+                    "reps": 9,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-27T21:11:52.598Z",
-                    "dueDate": "2026-08-28T21:11:52.598Z"
+                    "lastReview": "2026-08-28T10:38:39.865Z",
+                    "dueDate": "2026-08-29T10:38:39.865Z"
+                  },
+                  "fc:13d": {
+                    "stability": 990.2208,
+                    "difficulty": 1,
+                    "elapsedDays": 0,
+                    "scheduledDays": 1,
+                    "reps": 7,
+                    "lapses": 0,
+                    "state": "review",
+                    "lastReview": "2026-08-28T10:38:40.048Z",
+                    "dueDate": "2026-08-29T10:38:40.048Z"
                   }
                 },
                 "fsrs": {
