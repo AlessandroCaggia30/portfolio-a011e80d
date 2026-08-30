@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-30T16:31:17.643Z",
+  "exportedAt": "2026-08-30T16:31:22.248Z",
   "data": {
     "topics": [
       {
@@ -1028,26 +1028,26 @@
                     "dueDate": "2026-08-19T13:36:12.253Z"
                   },
                   "fc:21c::r0": {
-                    "stability": 100.0384,
-                    "difficulty": 2.247088773671143,
+                    "stability": 200.0768,
+                    "difficulty": 1.3230489163672383,
                     "elapsedDays": 0,
                     "scheduledDays": 1,
-                    "reps": 6,
+                    "reps": 7,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-30T14:38:19.818Z",
-                    "dueDate": "2026-08-31T14:38:19.818Z"
+                    "lastReview": "2026-08-30T16:31:19.694Z",
+                    "dueDate": "2026-08-31T16:31:19.694Z"
                   },
                   "fc:21c::r1": {
-                    "stability": 495.1104,
-                    "difficulty": 1.7748424649116736,
+                    "stability": 990.2208,
+                    "difficulty": 1,
                     "elapsedDays": 0,
                     "scheduledDays": 1,
-                    "reps": 6,
+                    "reps": 7,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-30T14:38:22.500Z",
-                    "dueDate": "2026-08-31T14:38:22.500Z"
+                    "lastReview": "2026-08-30T16:31:20.710Z",
+                    "dueDate": "2026-08-31T16:31:20.710Z"
                   },
                   "fc:21c::r2": {
                     "stability": 495.1104,
@@ -2169,15 +2169,15 @@
                 },
                 "fsrsCards": {
                   "fc:21b": {
-                    "stability": 990.2208,
+                    "stability": 1980.4416,
                     "difficulty": 1,
                     "elapsedDays": 0,
                     "scheduledDays": 1,
-                    "reps": 7,
+                    "reps": 8,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-30T14:36:33.934Z",
-                    "dueDate": "2026-08-31T14:36:33.934Z"
+                    "lastReview": "2026-08-30T16:31:18.276Z",
+                    "dueDate": "2026-08-31T16:31:18.276Z"
                   }
                 },
                 "userEdited": false
