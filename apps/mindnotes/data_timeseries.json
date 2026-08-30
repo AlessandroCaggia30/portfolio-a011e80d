@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-30T17:19:29.989Z",
+  "exportedAt": "2026-08-30T17:19:50.037Z",
   "data": {
     "topics": [
       {
@@ -2138,7 +2138,7 @@
               {
                 "id": "1786812866004",
                 "title": "General DLM",
-                "content": "\\begin{keydef}\n\\fcnum{21b} \\textbf{General DLM (linear Gaussian SSM). <--- is the DLM!!! }\n\n\\emph{State.} $\\theta_t = (\\theta_{1t},\\theta_{2t}...\\theta_{pt} )^\\top \\in \\mathbb{R}^p$ (p processes!). Initial: $\\theta_0 \\sim \\mathcal{N}_p(m_0, C_0)$ with $m_0 \\in \\mathbb{R}^p$, $C_0$ a $p \\times p$\n\n\\emph{Observation.} $Y_t \\in \\mathbb{R}^q$ (if $q = 1$ univariate).\n\n\\emph{State eq.} $\\;\\theta_t = \\underbrace{G_t}_{p \\times p}\\, \\theta_{t-1} + w_t, \\qquad w_t \\sim \\mathcal{N}_p\\bigl(0,\\, \\underbrace{W_t}_{p \\times p}\\bigr).$\n\n\\emph{Obs eq.} $\\;Y_t = \\underbrace{F_t}_{q \\times p}\\, \\theta_t + v_t, \\qquad v_t \\sim \\mathcal{N}_q\\bigl(0,\\, \\underbrace{V_t}_{q \\times q}\\bigr).$\n\n\\emph{Independence.} $\\{w_t\\}, \\{v_s\\}$ are independent sequences of independent gaussian vectors, $\\{w_t\\}, \\{v_s\\}, \\theta_0$ mutually independent\n\n\\end{keydef}",
+                "content": "\\begin{keydef}\n\\fcnum{21b} \\textbf{General DLM (linear Gaussian SSM). <--- is the DLM!!! }\n\n\\emph{State.} $\\theta_t = (\\theta_{1t},\\theta_{2t}...\\theta_{pt} )^\\top \\in \\mathbb{R}^p$ (p processes!). Initial: $\\theta_0 \\sim \\mathcal{N}_p(m_0, C_0)$ with $m_0 \\in \\mathbb{R}^p$, $C_0$ a $p \\times p$\n\n\\emph{Observation.} $Y_t \\in \\mathbb{R}^q$ (if $q = 1$ univariate).\n\n\\emph{State eq.} $\\;\\theta_t = \\underbrace{G_t}_{p \\times p}\\, \\theta_{t-1} + w_t, \\qquad w_t \\sim \\mathcal{N}_p\\bigl(0,\\, \\underbrace{W_t}_{p \\times p}\\bigr).$\n\n\\emph{Obs eq.} $\\;Y_t = \\underbrace{F_t}_{q \\times p}\\, \\theta_t + v_t, \\qquad v_t \\sim \\mathcal{N}_q\\bigl(0,\\, \\underbrace{V_t}_{q \\times q}\\bigr).$\n\n\\emph{Independence.} $\\{w_t\\}, \\{v_s\\}$ are independent sequences of independent gaussian vectors, $\\{w_t\\}, \\{v_s\\}, \\theta_0$ mutually independent\n\n\\end{keydef}\n\nSignal to noise ratio: $r = \\frac{W}{V}$",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
@@ -8498,7 +8498,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-30T17:19:29.006Z",
+    "lastEditedAt": "2026-08-30T17:19:49.138Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
