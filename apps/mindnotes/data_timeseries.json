@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-30T14:40:00.384Z",
+  "exportedAt": "2026-08-30T16:27:50.004Z",
   "data": {
     "topics": [
       {
@@ -171,15 +171,15 @@
                     "dueDate": "2026-08-14T21:39:19.629Z"
                   },
                   "fc:6": {
-                    "stability": 2422.5792,
+                    "stability": 4845.1584,
                     "difficulty": 1,
                     "elapsedDays": 0,
                     "scheduledDays": 1,
-                    "reps": 16,
+                    "reps": 17,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-30T14:26:38.775Z",
-                    "dueDate": "2026-08-31T14:26:38.775Z"
+                    "lastReview": "2026-08-30T16:27:49.741Z",
+                    "dueDate": "2026-08-31T16:27:49.741Z"
                   }
                 },
                 "userEdited": true
@@ -2003,26 +2003,26 @@
                     "dueDate": "2026-08-14T21:39:19.630Z"
                   },
                   "fc:5a": {
-                    "stability": 63374.1312,
-                    "difficulty": 1,
-                    "elapsedDays": 0,
-                    "scheduledDays": 1,
-                    "reps": 14,
-                    "lapses": 0,
-                    "state": "review",
-                    "lastReview": "2026-08-30T14:26:15.242Z",
-                    "dueDate": "2026-08-31T14:26:15.242Z"
-                  },
-                  "fc:5b": {
                     "stability": 126748.2624,
                     "difficulty": 1,
                     "elapsedDays": 0,
                     "scheduledDays": 1,
-                    "reps": 14,
+                    "reps": 15,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-30T14:26:16.426Z",
-                    "dueDate": "2026-08-31T14:26:16.426Z"
+                    "lastReview": "2026-08-30T16:27:48.775Z",
+                    "dueDate": "2026-08-31T16:27:48.775Z"
+                  },
+                  "fc:5b": {
+                    "stability": 253496.5248,
+                    "difficulty": 1,
+                    "elapsedDays": 0,
+                    "scheduledDays": 1,
+                    "reps": 15,
+                    "lapses": 0,
+                    "state": "review",
+                    "lastReview": "2026-08-30T16:27:48.940Z",
+                    "dueDate": "2026-08-31T16:27:48.940Z"
                   }
                 }
               },
