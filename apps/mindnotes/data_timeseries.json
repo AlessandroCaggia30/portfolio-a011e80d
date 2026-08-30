@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-30T17:10:04.725Z",
+  "exportedAt": "2026-08-30T17:10:19.954Z",
   "data": {
     "topics": [
       {
@@ -821,7 +821,7 @@
               },
               {
                 "id": "1778841073308",
-                "title": "Bayesian statistics",
+                "title": "Bayes statists",
                 "content": "\\textbf{\\textcolor{red}{BAYESIAN STATISTICS --- Bayes' rule, derivation and intuition}}\n\nYou want to know given the data (y), what is the parameter ($\\theta$) or the future value ($\\hat y$) ?\n\n$$  P(A \\mid B) \\; \\underbrace{=}_{\\text{conditional probability}}\\; \\frac{P(A \\cap B)}{P(B)} $$\ni.e.\\emph{\"after seeing evidence $B$, how likely is hypothesis $A$?\"}. \n\\emph{The problem.} The joint $P(A \\cap B)$ is usually hard to compute directly.\n\nBayes genious idea: \n$$\\underbrace{P(A \\cap B)}_{\\text{hard to compute directly}} \\;\\;\\longleftrightarrow\\;\\; \\underbrace{P(B \\mid A) \\cdot P(A)}_{\\text{both easy: a model + a prior}}. $$\n\nThen ppl gave an interpretation\n\\begin{keydef}\n$$\\underbrace{P(A \\mid B)}_{\\text{posterior: belief in } A \\text{ \\emph{after} seeing } B}\n\\;=\\;\n\\underbrace{P(B \\mid A)}_{\\text{evidence multiplier}}\n\\;\\cdot\\;\n\\frac{\n\\overbrace{P(A)}^{\\text{prior: belief in } A \\text{ \\emph{before} seeing } B}\n}{\nP(B)\n}$$\n\\end{keydef}\n\n\n\nBayes is a form of learning from experience! \n\n\n\n\nClearly the denominator is a normalization. That is, if the event $B$ happens with 3\\% probability in general and 4\\% when $A$ is active, then the evidence is mildly aligned with $A$ being active. \\emph{Notice:} say you have a prior of 90\\% that somebody is guilty, then you get a nearly irrelevant test that fires \"guilty\" with 5\\% probability in general and 5.1\\% on this guy. Does this mean the probability of him being guilty is now 5.1\\%? \\textbf{No!} You had other proofs that composed that 90\\%, and this extra evidence is a tiny new push in favour of him being guilty (multiplier $\\approx 5.1/5 = 1.02$, so the posterior moves only marginally above 90\\%).\n\n\n\n\n\n",
                 "flashcard": false,
                 "images": [],
@@ -8498,7 +8498,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-30T17:10:02.999Z",
+    "lastEditedAt": "2026-08-30T17:10:19.779Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
