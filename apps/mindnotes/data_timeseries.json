@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-31T08:33:25.899Z",
+  "exportedAt": "2026-08-31T08:33:30.732Z",
   "data": {
     "topics": [
       {
@@ -978,15 +978,15 @@
                     "dueDate": "2026-08-31T14:10:28.961Z"
                   },
                   "fc:32b": {
-                    "stability": 12.5048,
-                    "difficulty": 5.1541868138439995,
+                    "stability": 25.0096,
+                    "difficulty": 4.16212086240005,
                     "elapsedDays": 0,
                     "scheduledDays": 1,
-                    "reps": 3,
+                    "reps": 4,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-30T17:09:40.992Z",
-                    "dueDate": "2026-08-31T17:09:40.992Z"
+                    "lastReview": "2026-08-31T08:33:28.344Z",
+                    "dueDate": "2026-09-01T08:33:28.344Z"
                   }
                 },
                 "userEdited": true
@@ -2369,15 +2369,15 @@
                     "dueDate": "2026-08-27T21:10:26.389Z"
                   },
                   "fc:32": {
-                    "stability": 12.5048,
-                    "difficulty": 5.1541868138439995,
+                    "stability": 25.0096,
+                    "difficulty": 4.16212086240005,
                     "elapsedDays": 0,
                     "scheduledDays": 1,
-                    "reps": 3,
+                    "reps": 4,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-30T17:09:40.041Z",
-                    "dueDate": "2026-08-31T17:09:40.041Z"
+                    "lastReview": "2026-08-31T08:33:27.277Z",
+                    "dueDate": "2026-09-01T08:33:27.277Z"
                   }
                 },
                 "color": "red"
