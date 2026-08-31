@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-31T08:31:19.007Z",
+  "exportedAt": "2026-08-31T08:31:24.077Z",
   "data": {
     "topics": [
       {
@@ -1683,17 +1683,6 @@
                     "dueDate": "2026-09-01T08:31:18.144Z"
                   },
                   "fc:28d::r1": {
-                    "stability": 247.5552,
-                    "difficulty": 2.7097076028176055,
-                    "elapsedDays": 0,
-                    "scheduledDays": 1,
-                    "reps": 5,
-                    "lapses": 0,
-                    "state": "review",
-                    "lastReview": "2026-08-30T16:51:35.901Z",
-                    "dueDate": "2026-08-31T16:51:35.901Z"
-                  },
-                  "fc:28d::r2": {
                     "stability": 495.1104,
                     "difficulty": 1.7748424649116736,
                     "elapsedDays": 0,
@@ -1701,8 +1690,19 @@
                     "reps": 6,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-30T16:51:36.666Z",
-                    "dueDate": "2026-08-31T16:51:36.666Z"
+                    "lastReview": "2026-08-31T08:31:18.993Z",
+                    "dueDate": "2026-09-01T08:31:18.993Z"
+                  },
+                  "fc:28d::r2": {
+                    "stability": 990.2208,
+                    "difficulty": 1,
+                    "elapsedDays": 0,
+                    "scheduledDays": 1,
+                    "reps": 7,
+                    "lapses": 0,
+                    "state": "review",
+                    "lastReview": "2026-08-31T08:31:19.944Z",
+                    "dueDate": "2026-09-01T08:31:19.944Z"
                   },
                   "fc:28d::r3": {
                     "stability": 495.1104,
