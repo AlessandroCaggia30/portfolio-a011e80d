@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-31T10:35:52.075Z",
+  "exportedAt": "2026-08-31T10:36:01.549Z",
   "data": {
     "topics": [
       {
@@ -2138,7 +2138,7 @@
               {
                 "id": "1786812866004",
                 "title": "General DLM",
-                "content": "\\begin{keydef}\n\\fcnum{21b} \\textbf{General DLM (linear Gaussian SSM). <--- is the DLM!!! }\n\n\\emph{State.} $\\theta_t = (\\theta_{1t},\\theta_{2t}...\\theta_{pt} )^\\top \\in \\mathbb{R}^p$ (p processes!). Initial: $\\theta_0 \\sim \\mathcal{N}_p(m_0, C_0)$ with $m_0 \\in \\mathbb{R}^p$, $C_0$ a $p \\times p$\n\n\\emph{Observation.} $Y_t \\in \\mathbb{R}^q$ (if $q = 1$ univariate).\n\n\\emph{State eq.} $\\;\\theta_t = \\underbrace{G_t}_{p \\times p}\\, \\theta_{t-1} + w_t, \\qquad w_t \\sim \\mathcal{N}_p\\bigl(0,\\, \\underbrace{W_t}_{p \\times p}\\bigr).$\n\n\\emph{Obs eq.} $\\;Y_t = \\underbrace{F_t}_{q \\times p}\\, \\theta_t + v_t, \\qquad v_t \\sim \\mathcal{N}_q\\bigl(0,\\, \\underbrace{V_t}_{q \\times q}\\bigr).$\n\n\\emph{Independence.} $\\{w_t\\}, \\{v_s\\}$ are ~~independent sequences of independent gaussian vectors~~, $\\{w_t\\}, \\{v_s\\}, \\theta_0$ mutually independent\n\n\\end{keydef}\n\nSignal to noise ratio: $r = \\frac{W}{V}$\n\n\\textbf{Question 3}\n\nConsider a random walk plus noise with observation equation\n$$\nT_t = \\theta_t + v_t.\n$$\n\n\\begin{enumerate}\n    \\item[(a)] Complete the model with the assumptions needed.\n\n    \\item[(b)] Prove that $v_t$ and $(\\theta_1,\\ldots,\\theta_t)$ are independent.\n\\end{enumerate}\n\n\\textbf{(b) Proof.} Iterating the state equation, for every $s=1,\\ldots,t$,\n$$\n\\theta_s\n=\n\\theta_{s-1}+w_s\n=\n\\cdots\n=\n\\theta_0+\\sum_{j=1}^{s} w_j.\n$$\n\nThus $(\\theta_1,\\ldots,\\theta_t)$ is a measurable function of\n$$\n(\\theta_0,w_1,\\ldots,w_t)\n$$\nonly. By the model assumptions in (a), $v_t$ is independent of the whole\ncollection $(\\theta_0,w_1,\\ldots,w_t)$ (the $v_t$'s are independent of\nthe $w_t$'s and of $\\theta_0$). Since independence is preserved under\nmeasurable transformations—if $v_t$ is independent of a random vector\n$X$, it is independent of $g(X)$ for any measurable $g$—we conclude\n$$\n\\boxed{\nv_t \\perp\\!\\!\\!\\perp (\\theta_1,\\ldots,\\theta_t).\n}\n$$",
+                "content": "\\begin{keydef}\n\\fcnum{21b} \\textbf{General DLM (linear Gaussian SSM). <--- is the DLM!!! }\n\n\\emph{State.} $\\theta_t = (\\theta_{1t},\\theta_{2t}...\\theta_{pt} )^\\top \\in \\mathbb{R}^p$ (p processes!). Initial: $\\theta_0 \\sim \\mathcal{N}_p(m_0, C_0)$ with $m_0 \\in \\mathbb{R}^p$, $C_0$ a $p \\times p$\n\n\\emph{Observation.} $Y_t \\in \\mathbb{R}^q$ (if $q = 1$ univariate).\n\n\\emph{State eq.} $\\;\\theta_t = \\underbrace{G_t}_{p \\times p}\\, \\theta_{t-1} + w_t, \\qquad w_t \\sim \\mathcal{N}_p\\bigl(0,\\, \\underbrace{W_t}_{p \\times p}\\bigr).$\n\n\\emph{Obs eq.} $\\;Y_t = \\underbrace{F_t}_{q \\times p}\\, \\theta_t + v_t, \\qquad v_t \\sim \\mathcal{N}_q\\bigl(0,\\, \\underbrace{V_t}_{q \\times q}\\bigr).$\n\n\\emph{Independence.} $\\{w_t\\}, \\{v_s\\}$ are ~~independent sequences of independent gaussian vectors~~, $\\{w_t\\}, \\{v_s\\}, \\theta_0$ mutually independent\n\n\\end{keydef}\n\nSignal to noise ratio: $r = \\frac{W}{V}$\n\n\\textbf{Question 3}\n\nConsider a random walk plus noise with observation equation\n$$Y_t = \\theta_t + v_t.\n$$\n\n\\begin{enumerate}\n    \\item[(a)] Complete the model with the assumptions needed.\n\n    \\item[(b)] Prove that $v_t$ and $(\\theta_1,\\ldots,\\theta_t)$ are independent.\n\\end{enumerate}\n\n\\textbf{(b) Proof.} Iterating the state equation, for every $s=1,\\ldots,t$,\n$$\n\\theta_s\n=\n\\theta_{s-1}+w_s\n=\n\\cdots\n=\n\\theta_0+\\sum_{j=1}^{s} w_j.\n$$\n\nThus $(\\theta_1,\\ldots,\\theta_t)$ is a measurable function of\n$$\n(\\theta_0,w_1,\\ldots,w_t)\n$$\nonly. By the model assumptions in (a), $v_t$ is independent of the whole\ncollection $(\\theta_0,w_1,\\ldots,w_t)$ (the $v_t$'s are independent of\nthe $w_t$'s and of $\\theta_0$). Since independence is preserved under\nmeasurable transformations—if $v_t$ is independent of a random vector\n$X$, it is independent of $g(X)$ for any measurable $g$—we conclude\n$$\n\\boxed{\nv_t \\perp\\!\\!\\!\\perp (\\theta_1,\\ldots,\\theta_t).\n}\n$$",
                 "flashcard": false,
                 "images": [],
                 "imageWidths": [],
@@ -8498,7 +8498,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-31T10:35:51.115Z",
+    "lastEditedAt": "2026-08-31T10:36:00.696Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
