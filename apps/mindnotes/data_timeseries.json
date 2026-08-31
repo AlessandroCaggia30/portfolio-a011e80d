@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-08-31T08:33:30.732Z",
+  "exportedAt": "2026-08-31T08:48:29.852Z",
   "data": {
     "topics": [
       {
@@ -2309,7 +2309,7 @@
               },
               {
                 "id": "1778783697835",
-                "title": "Decoding / filtering",
+                "title": "Decoding",
                 "content": "\\textbf{\\textcolor{red}{3. DECODING}}\n\n\\begin{keydef}\n\\fcnum{32} \nAIM: Estimate the latent state sequence $s_{1:T}$ (THE FULL PATH!) given observed $y_{1:T}$ (treat $s_0$ as fixed, and $\\phi$ as known or replaced by its MLE).\n\n\n\\textbf{\\textcolor{red}{Local criterion.}} For each $t = 1, \\dots, T$, pick the marginally most likely state:\n$$ s_t^* \\;=\\; \\arg\\max_s \\gamma_t(s), \\qquad \\gamma_t(s) \\;\\equiv\\; P(S_t = s \\mid y_{1:T}, \\phi). $$\n\\emph{Issue.} The resulting sequence $s_{1:T}^*$ may include zero-probability transitions ($p_{i,j} = 0$), making the global path infeasible.\n\n\\textbf{\\textcolor{red}{Global criterion --- Viterbi.}} Find the path that maximises the joint conditional probability:\n$$ \\max_{s_{0:T}} p(s_0, \\dots, s_T \\mid y_{1:T}, \\phi). $$\nGiven the data, and the parameters, what is the most likely hidden state \\textcolor{orange}{\\emph{path}}?\n\\end{keydef}\n\nThis conditional probability can be computed using Bayes theorem. However, we can more easily exploit the computations already carried out for the MLE. Notice that\n$$ \\begin{aligned} & p(s_0, \\dots, s_T,\\, y_1, \\dots, y_T \\mid \\phi) \\\\ & \\underbrace{=}_{\\text{chain rule}} p(s_0, \\dots, s_T \\mid y_1, \\dots, y_T, \\phi)\\, p(y_1, \\dots, y_T \\mid \\phi), \\end{aligned} $$\nwhere the latter factor on the right-hand side does not depend on $s_{0:T}$ (cut it)\n\n\\medskip\n",
                 "flashcard": false,
                 "images": [],
@@ -8498,7 +8498,7 @@
         }
       ]
     },
-    "lastEditedAt": "2026-08-30T18:06:39.113Z",
+    "lastEditedAt": "2026-08-31T08:48:28.964Z",
     "__forKey": "mindnotes_timeseries"
   }
 }
