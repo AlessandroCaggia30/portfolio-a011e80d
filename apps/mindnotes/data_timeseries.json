@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-09-01T08:21:12.967Z",
+  "exportedAt": "2026-09-01T08:21:18.036Z",
   "data": {
     "topics": [
       {
@@ -424,15 +424,15 @@
                     "dueDate": "2026-09-02T08:21:08.963Z"
                   },
                   "fc:17c": {
-                    "stability": 25609.8304,
+                    "stability": 102439.3216,
                     "difficulty": 1,
                     "elapsedDays": 0,
                     "scheduledDays": 1,
-                    "reps": 14,
+                    "reps": 16,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-31T08:23:37.694Z",
-                    "dueDate": "2026-09-01T08:23:37.694Z"
+                    "lastReview": "2026-09-01T08:21:15.613Z",
+                    "dueDate": "2026-09-02T08:21:15.613Z"
                   },
                   "fc:17d": {
                     "stability": 1,
@@ -1191,15 +1191,15 @@
                     "dueDate": "2026-08-14T21:39:19.630Z"
                   },
                   "fc:20": {
-                    "stability": 126748.2624,
+                    "stability": 253496.5248,
                     "difficulty": 1,
                     "elapsedDays": 0,
                     "scheduledDays": 1,
-                    "reps": 14,
+                    "reps": 15,
                     "lapses": 0,
                     "state": "review",
-                    "lastReview": "2026-08-31T08:23:39.174Z",
-                    "dueDate": "2026-09-01T08:23:39.174Z"
+                    "lastReview": "2026-09-01T08:21:17.164Z",
+                    "dueDate": "2026-09-02T08:21:17.164Z"
                   }
                 }
               },
