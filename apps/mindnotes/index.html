@@ -16519,6 +16519,15 @@ function showSubjectScreen() {
             grid.appendChild(card);
         } catch (e) { console.error('subject card render failed for', subject, e); }
     });
+    // "Word-like" documents workspace card (separate writer.html page)
+    try {
+        const wordCard = document.createElement('div');
+        wordCard.className = 'subject-card';
+        wordCard.onclick = () => { window.location.href = 'writer.html'; };
+        wordCard.innerHTML = '<span class="subject-icon">📝</span><span class="subject-name">Word-like</span>';
+        grid.appendChild(wordCard);
+    } catch (e) { console.error('word-like card failed', e); }
+
     // "+ Add Subject" card
     try {
         const addCard = document.createElement('div');
