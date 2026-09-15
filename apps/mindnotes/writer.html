@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word-like — MindNotes Writer (prototype)</title>
+<style>
+  :root{
+    --bg:#f3f4f6; --panel:#ffffff; --ink:#1f2328; --muted:#6b7280;
+    --line:#e5e7eb; --accent:#e08635; --accent-ink:#b3560f;
+    /* 6-shade difficulty gradient, easy -> hard (ColorBrewer RdYlGn, reversed) */
+    --d1:#1a9850; --d2:#91cf60; --d3:#d9ef8b; --d4:#fee08b; --d5:#fc8d59; --d6:#d73027;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+  button{font:inherit;cursor:pointer}
+
+  /* ---------- layout ---------- */
+  #app{display:grid;grid-template-columns:250px 1fr 320px;height:100vh}
+  .col{height:100vh;overflow:auto;background:var(--panel)}
+  #tree{border-right:1px solid var(--line)}
+  #ai{border-left:1px solid var(--line);display:flex;flex-direction:column}
+  #center{background:var(--bg);display:flex;flex-direction:column}
+
+  /* ---------- sidebar / tree ---------- */
+  .side-head{display:flex;align-items:center;gap:6px;padding:12px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel);z-index:2}
+  .side-head b{font-size:14px;flex:1}
+  .mini{border:1px solid var(--line);background:#fff;border-radius:7px;padding:4px 8px;font-size:12px;color:var(--ink)}
+  .mini:hover{background:#f9fafb}
+  #treeList{padding:6px}
+  .node{display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:6px;font-size:13.5px;user-select:none}
+  .node:hover{background:#f3f4f6}
+  .node.sel{background:#fde6d5}
+  .node .tw{width:14px;text-align:center;color:var(--muted);cursor:pointer}
+  .node .ic{width:16px;text-align:center}
+  .node .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer}
+  .node .dot{width:10px;height:10px;border-radius:50%;border:1px solid rgba(0,0,0,.15);flex:none}
+  .children{margin-left:14px;border-left:1px dashed var(--line);padding-left:4px}
+  .hidden{display:none}
+
+  /* ---------- toolbar ---------- */
+  #toolbar{display:flex;flex-wrap:wrap;gap:4px;align-items:center;padding:8px 12px;background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:2}
+  .tb{border:1px solid var(--line);background:#fff;border-radius:6px;min-width:30px;height:30px;padding:0 8px;font-size:13px}
+  .tb:hover{background:#f3f4f6}
+  .tb b{font-weight:700}
+  .sep{width:1px;height:22px;background:var(--line);margin:0 4px}
+  .swatch{width:24px;height:24px;border-radius:6px;border:1px solid rgba(0,0,0,.2);position:relative}
+  .swatch::after{content:attr(data-l);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:rgba(0,0,0,.55)}
+  .dlabel{font-size:11px;color:var(--muted);margin-right:2px}
+
+  /* ---------- editor page ---------- */
+  #pageWrap{flex:1;overflow:auto;padding:28px 0}
+  #page{max-width:760px;margin:0 auto;background:#fff;min-height:900px;padding:64px 72px;border:1px solid var(--line);border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,.06);line-height:1.6;font-size:16px;outline:none}
+  #page:empty::before{content:attr(data-ph);color:#b8bcc4}
+  #page h1{font-size:26px;margin:.4em 0 .3em}
+  #page h2{font-size:21px;margin:.5em 0 .3em}
+  #page h3{font-size:18px;margin:.6em 0 .3em}
+  #page p{margin:.5em 0}
+  #page table{border-collapse:collapse;margin:.6em 0}
+  #page td{border:1px solid #cbd2da;padding:6px 10px;min-width:60px}
+  .diff-mark{border-radius:2px;padding:0 1px}
+
+  /* suggestion inline highlight */
+  .sugg-hl{background:#fff3cd;border-bottom:2px dotted #e0a800;cursor:pointer}
+
+  /* ---------- AI panel ---------- */
+  .ai-head{padding:12px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel)}
+  .ai-head b{font-size:14px}
+  .ai-status{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.4}
+  .ai-body{padding:12px;display:flex;flex-direction:column;gap:10px;flex:1}
+  textarea#rubric{width:100%;min-height:64px;resize:vertical;border:1px solid var(--line);border-radius:8px;padding:8px;font:inherit;font-size:12.5px}
+  .modes{display:flex;gap:6px}
+  .mode{flex:1;border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px;font-size:12.5px;text-align:center}
+  .mode.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .go{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:10px;font-weight:600}
+  .go:hover{background:var(--accent-ink)}
+  .go:disabled{opacity:.5;cursor:default}
+  .cards{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+  .card{border:1px solid var(--line);border-radius:10px;padding:9px 10px;background:#fff;font-size:12.5px}
+  .card .q{color:var(--muted);font-style:italic;border-left:3px solid var(--line);padding-left:7px;margin:4px 0}
+  .card .cta{display:flex;gap:6px;margin-top:7px}
+  .card .cta button{flex:1;border-radius:7px;border:1px solid var(--line);background:#fff;padding:5px;font-size:12px}
+  .card .acc{background:#e6f4ea;border-color:#8bd3a3}
+  .card .rej{background:#fdeaea;border-color:#f0a6a6}
+  .tag{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#fff;background:var(--muted);border-radius:5px;padding:1px 6px}
+  .tag.content{background:#3b82f6}.tag.layout{background:#8b5cf6}
+  .legend{font-size:11px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
+  .legend span{display:flex;align-items:center;gap:4px}
+  .legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- ============ TREE ============ -->
+  <div class="col" id="tree">
+    <div class="side-head">
+      <b>📁 Word-like</b>
+      <button class="mini" id="newFolder">+ Folder</button>
+      <button class="mini" id="newDoc">+ Doc</button>
+    </div>
+    <div id="treeList"></div>
+  </div>
+
+  <!-- ============ EDITOR ============ -->
+  <div class="col" id="center">
+    <div id="toolbar">
+      <button class="tb" data-cmd="formatBlock" data-val="H1" title="Heading 1">H1</button>
+      <button class="tb" data-cmd="formatBlock" data-val="H2" title="Heading 2">H2</button>
+      <button class="tb" data-cmd="formatBlock" data-val="H3" title="Heading 3">H3</button>
+      <button class="tb" data-cmd="formatBlock" data-val="P" title="Body text">¶</button>
+      <span class="sep"></span>
+      <button class="tb" data-cmd="bold" title="Bold"><b>B</b></button>
+      <button class="tb" data-cmd="italic" title="Italic"><i>I</i></button>
+      <button class="tb" data-cmd="underline" title="Underline"><u>U</u></button>
+      <button class="tb" data-cmd="insertUnorderedList" title="Bullets">• List</button>
+      <button class="tb" data-cmd="insertOrderedList" title="Numbered">1. List</button>
+      <button class="tb" id="tblBtn" title="Insert table">⊞ Table</button>
+      <span class="sep"></span>
+      <span class="dlabel">Difficulty</span>
+      <span id="swatches"></span>
+      <button class="tb" id="clearDiff" title="Remove difficulty color">⌫</button>
+    </div>
+    <div id="pageWrap">
+      <div id="page" contenteditable="true" spellcheck="true"
+           data-ph="Select a document, or create one. Start typing…"></div>
+    </div>
+  </div>
+
+  <!-- ============ AI ============ -->
+  <div class="col" id="ai">
+    <div class="ai-head">
+      <b>✦ AI assistant</b>
+      <div class="ai-status" id="aiStatus"></div>
+    </div>
+    <div class="ai-body">
+      <div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:4px">What should I optimise for? (rubric)</div>
+        <textarea id="rubric" placeholder="e.g. Clear section / subsection structure. Main concepts in bold orange. Short sentences. Define every symbol before use."></textarea>
+      </div>
+      <div class="modes">
+        <div class="mode on" data-mode="content">Content<br><span style="font-size:10px;opacity:.8">sentence-by-sentence</span></div>
+        <div class="mode" data-mode="layout">Layout<br><span style="font-size:10px;opacity:.8">structure &amp; color</span></div>
+      </div>
+      <button class="go" id="suggestBtn">Suggest</button>
+      <div class="legend" id="diffLegend"></div>
+      <div class="cards" id="cards"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   MindNotes Writer — standalone prototype
+   - folder/doc tree (localStorage)
+   - contentEditable rich-text editor
+   - 6-level difficulty highlighter (green->red)
+   - AI "Suggest" panel: heuristic engine now, WebLLM pluggable later
+   ============================================================ */
+
+const DIFF_COLORS = ['--d1','--d2','--d3','--d4','--d5','--d6']
+  .map(v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim());
+const DIFF_LABELS = ['1 · easiest','2','3','4','5','6 · hardest'];
+
+const LS_KEY = 'mindnotes_writer_v1';
+let store = load();            // {tree:[...], openId:string|null}
+let openId = store.openId||null;
+let mode = 'content';
+
+/* ---------------- storage ---------------- */
+function load(){
+  try{ return JSON.parse(localStorage.getItem(LS_KEY)) || seed(); }
+  catch(e){ return seed(); }
+}
+function seed(){
+  return { tree:[ {id:id(),type:'folder',name:'My documents',open:true,children:[
+            {id:id(),type:'doc',name:'Untitled',content:''}
+          ]} ], openId:null };
+}
+function save(){ store.openId=openId; localStorage.setItem(LS_KEY, JSON.stringify(store)); }
+function id(){ return 'n'+Math.random().toString(36).slice(2,9); }
+
+/* ---------------- tree helpers ---------------- */
+function walk(nodes, fn, parent=null){ for(const n of nodes){ fn(n,parent,nodes); if(n.children) walk(n.children, fn, n);} }
+function find(id){ let r=null; walk(store.tree,n=>{if(n.id===id)r=n;}); return r; }
+function findParentList(id){ let list=null; walk(store.tree,(n,p,siblings)=>{if(n.id===id)list=siblings;}); return list; }
+
+/* ---------------- render tree ---------------- */
+const treeList = document.getElementById('treeList');
+function renderTree(){
+  treeList.innerHTML='';
+  const build=(nodes,container)=>{
+    for(const n of nodes){
+      const row=document.createElement('div');
+      row.className='node'+(n.id===openId?' sel':'');
+      const isFolder=n.type==='folder';
+      const tw = isFolder ? (n.open?'▾':'▸') : '';
+      row.innerHTML =
+        `<span class="tw">${tw}</span>`+
+        `<span class="ic">${isFolder?'📁':'📄'}</span>`+
+        `<span class="nm">${escapeHtml(n.name)}</span>`+
+        (isFolder?'':`<span class="dot" title="doc difficulty"></span>`);
+      // interactions
+      row.querySelector('.tw').onclick=e=>{e.stopPropagation(); if(isFolder){n.open=!n.open; save(); renderTree();}};
+      row.querySelector('.nm').onclick=()=>{ if(isFolder){n.open=!n.open; save(); renderTree();} else openDoc(n.id); };
+      row.querySelector('.nm').ondblclick=()=>renameNode(n);
+      row.oncontextmenu=e=>{e.preventDefault(); nodeMenu(n);};
+      container.appendChild(row);
+      if(isFolder){
+        const kids=document.createElement('div');
+        kids.className='children'+(n.open?'':' hidden');
+        container.appendChild(kids);
+        build(n.children, kids);
+      }
+    }
+  };
+  build(store.tree, treeList);
+}
+function escapeHtml(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+function nodeMenu(n){
+  const act = prompt(`"${n.name}" — type an action:\n  r = rename\n  d = delete\n  f = new subfolder (folders only)\n  n = new doc inside (folders only)`,'');
+  if(!act) return;
+  if(act==='r') renameNode(n);
+  else if(act==='d') deleteNode(n);
+  else if(act==='f' && n.type==='folder'){ n.open=true; n.children.push({id:id(),type:'folder',name:'New folder',open:true,children:[]}); save(); renderTree(); }
+  else if(act==='n' && n.type==='folder'){ n.open=true; const d={id:id(),type:'doc',name:'Untitled',content:''}; n.children.push(d); save(); renderTree(); openDoc(d.id); }
+}
+function renameNode(n){ const v=prompt('Rename:',n.name); if(v!=null&&v.trim()){ n.name=v.trim(); save(); renderTree(); } }
+function deleteNode(n){
+  if(!confirm(`Delete "${n.name}"${n.children?' and everything inside':''}?`)) return;
+  const list=findParentList(n.id); const i=list.indexOf(n); list.splice(i,1);
+  if(openId===n.id){ openId=null; document.getElementById('page').innerHTML=''; }
+  save(); renderTree();
+}
+
+/* first folder helper for top-level "+ " buttons */
+function firstFolder(){ let f=null; walk(store.tree,n=>{if(!f&&n.type==='folder')f=n;}); if(!f){f={id:id(),type:'folder',name:'My documents',open:true,children:[]}; store.tree.push(f);} return f; }
+document.getElementById('newFolder').onclick=()=>{ store.tree.push({id:id(),type:'folder',name:'New folder',open:true,children:[]}); save(); renderTree(); };
+document.getElementById('newDoc').onclick=()=>{ const f=firstFolder(); f.open=true; const d={id:id(),type:'doc',name:'Untitled',content:''}; f.children.push(d); save(); renderTree(); openDoc(d.id); };
+
+/* ---------------- editor ---------------- */
+const page=document.getElementById('page');
+function openDoc(idv){
+  saveCurrentDoc();
+  openId=idv; const d=find(idv);
+  page.innerHTML = d.content||'';
+  save(); renderTree();
+  page.focus();
+}
+function saveCurrentDoc(){ if(!openId) return; const d=find(openId); if(d) d.content=page.innerHTML; save(); }
+page.addEventListener('input', ()=>{ clearTimeout(page._t); page._t=setTimeout(saveCurrentDoc,400); });
+
+/* toolbar exec */
+document.querySelectorAll('#toolbar .tb[data-cmd]').forEach(b=>{
+  b.onmousedown=e=>e.preventDefault(); // keep selection
+  b.onclick=()=>{ document.execCommand(b.dataset.cmd,false,b.dataset.val||null); page.focus(); saveCurrentDoc(); };
+});
+document.getElementById('tblBtn').onclick=()=>{
+  const rows=+prompt('Rows?','2')||2, cols=+prompt('Columns?','2')||2;
+  let html='<table>'; for(let r=0;r<rows;r++){html+='<tr>';for(let c=0;c<cols;c++)html+='<td>&nbsp;</td>';html+='</tr>';} html+='</table><p><br></p>';
+  document.execCommand('insertHTML',false,html); saveCurrentDoc();
+};
+
+/* difficulty swatches */
+const swWrap=document.getElementById('swatches');
+DIFF_COLORS.forEach((col,i)=>{
+  const s=document.createElement('button');
+  s.className='tb swatch'; s.style.background=col; s.dataset.l=i+1;
+  s.title='Difficulty '+DIFF_LABELS[i];
+  s.onmousedown=e=>e.preventDefault();
+  s.onclick=()=>{ document.execCommand('hiliteColor',false,col); page.focus(); saveCurrentDoc(); };
+  swWrap.appendChild(s);
+});
+document.getElementById('clearDiff').onclick=()=>{ document.execCommand('hiliteColor',false,'transparent'); page.focus(); saveCurrentDoc(); };
+// legend
+document.getElementById('diffLegend').innerHTML =
+  '<span style="width:100%;margin-bottom:2px">Difficulty scale (highlight selected text):</span>'+
+  DIFF_COLORS.map((c,i)=>`<span><i style="background:${c}"></i>${DIFF_LABELS[i]}</span>`).join('');
+
+/* ---------------- AI panel ---------------- */
+document.querySelectorAll('.mode').forEach(m=>{
+  m.onclick=()=>{ document.querySelectorAll('.mode').forEach(x=>x.classList.remove('on')); m.classList.add('on'); mode=m.dataset.mode; };
+});
+
+const aiStatus=document.getElementById('aiStatus');
+let engine=null; // pluggable AI engine; null => heuristic fallback
+function setStatus(html){ aiStatus.innerHTML=html; }
+setStatus('Engine: <b>quick heuristics</b> (instant, offline). '+
+          '<a href="#" id="loadModel">Load local AI model</a> for real suggestions '+
+          '(large one-time download, needs WebGPU).');
+aiStatus.addEventListener('click', e=>{ if(e.target.id==='loadModel'){ e.preventDefault(); loadWebLLM(); }});
+
+document.getElementById('suggestBtn').onclick=runSuggest;
+
+async function runSuggest(){
+  saveCurrentDoc();
+  const text=page.innerText.trim();
+  const cards=document.getElementById('cards'); cards.innerHTML='';
+  if(!text){ cards.innerHTML='<div class="card">The document is empty.</div>'; return; }
+  const rubric=document.getElementById('rubric').value.trim();
+  const btn=document.getElementById('suggestBtn'); btn.disabled=true; btn.textContent='Thinking…';
+  let suggestions;
+  try{
+    suggestions = engine ? await engine(text,mode,rubric) : heuristic(text,mode,rubric);
+  }catch(err){ suggestions=[{type:mode,comment:'AI error: '+err.message}]; }
+  btn.disabled=false; btn.textContent='Suggest';
+  renderCards(suggestions);
+}
+
+function renderCards(list){
+  const cards=document.getElementById('cards'); cards.innerHTML='';
+  if(!list.length){ cards.innerHTML='<div class="card">No suggestions — looks good.</div>'; return; }
+  list.forEach(s=>{
+    const c=document.createElement('div'); c.className='card';
+    c.innerHTML=`<span class="tag ${s.type||mode}">${s.type||mode}</span> ${escapeHtml(s.comment||'')}`+
+      (s.quote?`<div class="q">${escapeHtml(s.quote)}</div>`:'')+
+      (s.replacement?`<div style="font-size:12px"><b>→</b> ${escapeHtml(s.replacement)}</div>`:'')+
+      `<div class="cta">`+
+        (s.replacement?`<button class="acc">Accept</button>`:'')+
+        `<button class="rej">Dismiss</button></div>`;
+    if(s.quote){ c.querySelector('.q').onmouseenter=()=>highlightQuote(s.quote,true); c.querySelector('.q').onmouseleave=()=>highlightQuote(s.quote,false); }
+    const acc=c.querySelector('.acc'); if(acc) acc.onclick=()=>{ applyReplacement(s.quote,s.replacement); c.remove(); };
+    c.querySelector('.rej').onclick=()=>c.remove();
+    cards.appendChild(c);
+  });
+}
+
+/* find/replace first occurrence of quote in editor text nodes */
+function applyReplacement(quote,repl){
+  if(!quote||!repl) return;
+  const walkNodes=document.createTreeWalker(page,NodeFilter.SHOW_TEXT);
+  let node; while((node=walkNodes.nextNode())){
+    const i=node.nodeValue.indexOf(quote);
+    if(i>=0){ node.nodeValue=node.nodeValue.slice(0,i)+repl+node.nodeValue.slice(i+quote.length); saveCurrentDoc(); return true; }
+  }
+  return false;
+}
+function highlightQuote(q,on){ /* light visual echo; kept simple in prototype */ }
+
+/* ---------------- heuristic engine (works instantly, no download) ---------------- */
+function heuristic(text,mode,rubric){
+  const out=[];
+  if(mode==='content'){
+    const sentences=text.split(/(?<=[.!?])\s+/).filter(s=>s.trim().length>0);
+    sentences.forEach(s=>{
+      const words=s.trim().split(/\s+/);
+      if(words.length>32) out.push({type:'content',comment:'Long sentence — consider splitting for readability.',quote:trim(s)});
+      if(/\b(very|really|clearly|obviously|basically|just)\b/i.test(s)) out.push({type:'content',comment:'Filler/hedge word — tighten.',quote:trim(s)});
+      if(/\bit is (important|worth) (to note|noting)\b/i.test(s)) out.push({type:'content',comment:'Wordy opener — state the point directly.',quote:trim(s)});
+    });
+    if(rubric && /symbol|define/i.test(rubric)) out.push({type:'content',comment:'Rubric: check every symbol is defined before first use.'});
+    if(!out.length) out.push({type:'content',comment:'No obvious sentence-level issues (heuristic pass). Load the AI model for deeper suggestions.'});
+  }else{
+    const html=page.innerHTML;
+    if(!/<h[1-3]/i.test(html)) out.push({type:'layout',comment:'No headings found — add clear Section / Subsection headings to structure the document.'});
+    const paras=(page.innerText.match(/\n{2,}/g)||[]).length;
+    if(page.innerText.length>1200 && paras<2) out.push({type:'layout',comment:'Long unbroken text — break into shorter paragraphs.'});
+    if(rubric && /bold.*orange|orange.*bold/i.test(rubric)) out.push({type:'layout',comment:'Rubric: mark main concepts in bold orange. Select each key term and apply bold + an orange color.'});
+    if(rubric && /section|subsection/i.test(rubric)) out.push({type:'layout',comment:'Rubric: use H1 for sections and H2/H3 for subsections consistently.'});
+    if(!out.length) out.push({type:'layout',comment:'Structure looks reasonable (heuristic pass).'});
+  }
+  return out;
+}
+function trim(s){ s=s.trim(); return s.length>90?s.slice(0,90)+'…':s; }
+
+/* ---------------- WebLLM (pluggable, lazy) ---------------- */
+async function loadWebLLM(){
+  if(!('gpu' in navigator)){ setStatus('⚠️ WebGPU not available in this browser — staying on quick heuristics. Try Chrome/Edge, or we can switch the engine to a hosted API later.'); return; }
+  setStatus('Loading local model… (downloading weights, one-time). This can take a while.');
+  try{
+    const webllm=await import('https://esm.run/@mlc-ai/web-llm');
+    const model='Llama-3.2-3B-Instruct-q4f16_1-MLC';
+    const eng=await webllm.CreateMLCEngine(model,{initProgressCallback:p=>setStatus('Loading model… '+(p.text||''))});
+    engine=async(text,mode,rubric)=>{
+      const sys='You are an editor. Return ONLY a JSON array of at most 6 objects '+
+        '{"type":"'+mode+'","comment":"...","quote":"exact snippet from the text or empty","replacement":"improved text or empty"}. '+
+        (rubric?('Follow this rubric: '+rubric):'')+' Mode='+mode+(mode==='content'?' (sentence-level edits).':' (structure/color/heading edits).');
+      const r=await eng.chat.completions.create({messages:[{role:'system',content:sys},{role:'user',content:text.slice(0,6000)}],temperature:0.3});
+      const raw=r.choices[0].message.content;
+      const m=raw.match(/\[[\s\S]*\]/); return m?JSON.parse(m[0]):[{type:mode,comment:raw.slice(0,300)}];
+    };
+    setStatus('Engine: <b>Local model ready</b> (Llama 3.2 3B, in-browser). Private &amp; free.');
+  }catch(err){ setStatus('⚠️ Could not load local model ('+err.message+'). Staying on quick heuristics.'); }
+}
+
+/* ---------------- boot ---------------- */
+renderTree();
+if(openId && find(openId)) openDoc(openId);
+window.addEventListener('beforeunload', saveCurrentDoc);
+</script>
+</body>
+</html>
