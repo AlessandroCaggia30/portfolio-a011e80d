@@ -18313,12 +18313,13 @@ document.addEventListener('DOMContentLoaded', initApp);
   var css=document.createElement('style'); css.textContent=
     '#snpFab{position:fixed;right:18px;bottom:18px;z-index:99998;background:#e08635;color:#fff;border:none;border-radius:24px;padding:11px 16px;font-weight:700;font-size:14px;box-shadow:0 3px 12px rgba(0,0,0,.28);cursor:pointer}'+
     '#snpFab:hover{background:#b3560f}'+
-    '.snp-ai-panel{position:fixed;top:0;right:0;width:360px;max-width:96vw;height:100vh;background:var(--bg2,#fff);color:var(--text,#111);border-left:1px solid var(--bg3,#e5e7eb);z-index:99999;display:flex;flex-direction:column;box-shadow:-6px 0 22px rgba(0,0,0,.22);font-size:13px}'+
+    '.snp-ai-panel{position:fixed;left:0;right:0;bottom:0;height:40vh;min-height:220px;max-height:75vh;background:var(--bg2,#fff);color:var(--text,#111);border-top:2px solid #e08635;z-index:99999;display:flex;flex-direction:column;box-shadow:0 -6px 22px rgba(0,0,0,.22);font-size:13px}'+
     '.snp-ai-panel.hidden{display:none}'+
-    '.snp-h{display:flex;align-items:center;gap:6px;padding:10px 12px;border-bottom:1px solid var(--bg3,#e5e7eb)}.snp-h b{flex:1;font-size:13px}'+
+    '.snp-ai-panel.drop{outline:3px dashed #e08635;outline-offset:-8px}'+
+    '.snp-h{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--bg3,#e5e7eb)}.snp-h b{font-size:13px;font-weight:700}'+
     '.snp-x{border:1px solid var(--bg3,#e5e7eb);background:var(--bg,#fff);color:inherit;border-radius:7px;font-size:13px;cursor:pointer;padding:3px 8px}'+
-    '.snp-tabs{display:flex;gap:6px;padding:8px 12px}'+
-    '.snp-tab{flex:1;border:1px solid var(--bg3,#e5e7eb);background:var(--bg,#fff);color:inherit;border-radius:8px;padding:7px;font-weight:600;font-size:12.5px;cursor:pointer}.snp-tab.on{background:#e08635;color:#fff;border-color:#e08635}'+
+    '.snp-tabs{display:flex;gap:6px}'+
+    '.snp-tab{border:1px solid var(--bg3,#e5e7eb);background:var(--bg,#fff);color:inherit;border-radius:8px;padding:5px 12px;font-weight:600;font-size:12.5px;cursor:pointer}.snp-tab.on{background:#e08635;color:#fff;border-color:#e08635}'+
     '.snp-body{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}'+
     '.snp-pane{flex:1;display:flex;flex-direction:column;min-height:0}.snp-pane.hidden{display:none}'+
     '.snp-actions{display:flex;gap:6px;padding:10px 12px 0}'+
@@ -18337,13 +18338,12 @@ document.addEventListener('DOMContentLoaded', initApp);
   var fab=document.createElement('button'); fab.id='snpFab'; fab.textContent='✦ AI'; fab.title='MindNotes AI (explain · fix layout · image→text)'; document.body.appendChild(fab);
   var panel=document.createElement('div'); panel.className='snp-ai-panel hidden';
   panel.innerHTML=
-    '<div class="snp-h"><b>✦ MindNotes AI</b>'+
+    '<div class="snp-h"><b>✦ AI</b>'+
+      '<div class="snp-tabs"><button class="snp-tab on" data-tab="explain">💬 Explain</button><button class="snp-tab" data-tab="fix">🎨 Fix layout</button></div>'+
+      '<span style="flex:1"></span>'+
       '<button class="snp-x" data-act="tex" title="Toggle preview: LaTeX vs plain text">TeX/Text</button>'+
       '<button class="snp-x" data-act="key" title="Set Gemini API key">⚙</button>'+
       '<button class="snp-x" data-act="close">✕</button></div>'+
-    '<div class="snp-tabs">'+
-      '<button class="snp-tab on" data-tab="explain">💬 Explain</button>'+
-      '<button class="snp-tab" data-tab="fix">🎨 Fix layout</button></div>'+
     '<div class="snp-body">'+
       '<div class="snp-pane" id="snpExplain">'+
         '<div class="snp-thread" id="snpEThread"></div>'+
@@ -18441,6 +18441,26 @@ document.addEventListener('DOMContentLoaded', initApp);
     if(textMode){ savedPv=pv; savedHTML=pv.innerHTML; pv.textContent=src?src.value:pv.innerText; pv.style.whiteSpace='pre-wrap'; }
     else { pv.style.whiteSpace=''; if(src){ src.dispatchEvent(new Event('input',{bubbles:true})); } else if(savedHTML!=null&&savedPv){ savedPv.innerHTML=savedHTML; } }
   }
+
+  /* ---- drag & drop / paste an image anywhere on the banner -> image→text ---- */
+  function handleImageFile(f){
+    if(!f||!/^image\//.test(f.type)) return;
+    panel.classList.remove('hidden');
+    var fixTab=panel.querySelector('[data-tab="fix"]'); if(fixTab) fixTab.click();
+    if(!activeSource()){ alert('Open the snippet for editing first (open a note → "Source", or double-click a block), then drop the image.'); return; }
+    doOCR(f);
+  }
+  ['dragenter','dragover'].forEach(function(ev){
+    panel.addEventListener(ev,function(e){ e.preventDefault(); panel.classList.add('drop'); });
+    fab.addEventListener(ev,function(e){ e.preventDefault(); });
+  });
+  ['dragleave','dragend','drop'].forEach(function(ev){ panel.addEventListener(ev,function(){ panel.classList.remove('drop'); }); });
+  panel.addEventListener('drop',function(e){ e.preventDefault(); var dt=e.dataTransfer; handleImageFile(dt&&dt.files&&dt.files[0]); });
+  fab.addEventListener('drop',function(e){ e.preventDefault(); var dt=e.dataTransfer; handleImageFile(dt&&dt.files&&dt.files[0]); });
+  panel.querySelector('#snpFInput').addEventListener('paste',function(e){
+    var items=e.clipboardData&&e.clipboardData.items; if(!items) return;
+    for(var i=0;i<items.length;i++){ if(items[i].type&&items[i].type.indexOf('image')===0){ var f=items[i].getAsFile(); if(f){ e.preventDefault(); if(!activeSource()){ alert('Open the snippet for editing first, then paste the image.'); return; } doOCR(f); } } }
+  });
 })();
 </script>
 </body>
