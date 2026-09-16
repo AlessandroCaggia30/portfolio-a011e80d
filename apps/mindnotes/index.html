@@ -18307,6 +18307,17 @@ document.addEventListener('DOMContentLoaded', initApp);
     if(r&&r.width>80){ panel.style.left=Math.max(0,Math.round(r.left))+'px'; panel.style.width=Math.round(Math.min(window.innerWidth,r.width))+'px'; panel.style.right='auto'; }
     else { var w=Math.min(860,window.innerWidth-24); panel.style.left=Math.round((window.innerWidth-w)/2)+'px'; panel.style.width=w+'px'; panel.style.right='auto'; }
   }
+  /* reserve space so the banner never hides the note's bottom lines */
+  var PADDED=[];
+  function reserveSpace(on){
+    PADDED.forEach(function(el){ el.style.paddingBottom=el._snpPad||''; }); PADDED=[];
+    if(!on) return;
+    var h=Math.round((panel.getBoundingClientRect().height)||window.innerHeight*0.4);
+    ['#detailPreview','#detailContentEditor','#previewBox','#nodeContent','.detail-preview-pane','.editor-main'].forEach(function(sel){
+      var el=document.querySelector(sel);
+      if(el&&el.offsetParent!==null){ el._snpPad=el.style.paddingBottom; el.style.paddingBottom=(h+24)+'px'; PADDED.push(el); }
+    });
+  }
   function contextText(){
     var s=activeSource(); if(s && s.value.trim()) return s.value.slice(0,8000);
     var p=activePreview(); if(p && p.innerText.trim()) return p.innerText.slice(0,8000);
@@ -18365,8 +18376,8 @@ document.addEventListener('DOMContentLoaded', initApp);
     '</div>';
   document.body.appendChild(panel);
 
-  fab.onclick=function(){ panel.classList.toggle('hidden'); if(!panel.classList.contains('hidden')) positionPanel(); };
-  panel.querySelector('[data-act=close]').onclick=function(){ panel.classList.add('hidden'); };
+  fab.onclick=function(){ panel.classList.toggle('hidden'); var open=!panel.classList.contains('hidden'); if(open){ positionPanel(); reserveSpace(true); } else { reserveSpace(false); } };
+  panel.querySelector('[data-act=close]').onclick=function(){ panel.classList.add('hidden'); reserveSpace(false); };
   panel.querySelector('[data-act=key]').onclick=function(){ getKey(true); };
   panel.querySelector('[data-act=tex]').onclick=toggleTexText;
   panel.querySelectorAll('.snp-tab').forEach(function(t){ t.onclick=function(){
@@ -18473,7 +18484,7 @@ document.addEventListener('DOMContentLoaded', initApp);
 
   /* keep the banner aligned to the note's horizontal width */
   window.addEventListener('resize',function(){ if(!panel.classList.contains('hidden')) positionPanel(); });
-  setInterval(function(){ if(!panel.classList.contains('hidden')) positionPanel(); }, 500);
+  setInterval(function(){ if(!panel.classList.contains('hidden')){ positionPanel(); reserveSpace(true); } }, 500);
 })();
 </script>
 </body>
