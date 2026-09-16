@@ -16519,15 +16519,6 @@ function showSubjectScreen() {
             grid.appendChild(card);
         } catch (e) { console.error('subject card render failed for', subject, e); }
     });
-    // "Word-like" documents workspace card (separate writer.html page)
-    try {
-        const wordCard = document.createElement('div');
-        wordCard.className = 'subject-card';
-        wordCard.onclick = () => { window.location.href = 'writer.html'; };
-        wordCard.innerHTML = '<span class="subject-icon">📝</span><span class="subject-name">Word-like</span>';
-        grid.appendChild(wordCard);
-    } catch (e) { console.error('word-like card failed', e); }
-
     // "+ Add Subject" card
     try {
         const addCard = document.createElement('div');
@@ -18260,6 +18251,204 @@ document.addEventListener('DOMContentLoaded', initApp);
   }
   document.addEventListener('DOMContentLoaded',initDetailResize);
   var _drTries=0,_drIv=setInterval(function(){initDetailResize();if(document.querySelector('.detail-resize-handle')||++_drTries>30)clearInterval(_drIv);},1000);
+})();
+</script>
+<script>
+/* ============================================================
+   MindNotes snippet AI (Gemini free tier)
+   - lives inside the snippet editor (#nodeModal)
+   - Chat (understand this snippet) + Suggest (revise it)
+   - Screenshot -> exact LaTeX (vision), inserted at cursor
+   - TeX <-> Text toggle for the live preview (top-right)
+   Self-contained: hooks existing DOM, no edits to editor code.
+   ============================================================ */
+(function(){
+  'use strict';
+  var LSK='mindnotes_gemini_key', MODEL='gemini-2.0-flash';
+  var textMode=false, chatHist=[];
+
+  function getKey(force){
+    var k=localStorage.getItem(LSK);
+    if(!k||force){ k=prompt('Paste your free Google AI Studio (Gemini) API key\n(get one at aistudio.google.com/apikey — stored only in this browser):', k||''); if(k){k=k.trim(); localStorage.setItem(LSK,k);} }
+    return k;
+  }
+  async function gemini(parts, opts){
+    opts=opts||{};
+    var key=getKey(); if(!key) throw new Error('No Gemini API key');
+    var body={ contents:(opts.history||[]).concat([{role:'user',parts:parts}]) };
+    if(opts.system) body.system_instruction={parts:[{text:opts.system}]};
+    var url='https://generativelanguage.googleapis.com/v1beta/models/'+MODEL+':generateContent?key='+encodeURIComponent(key);
+    var res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!res.ok){ var t=await res.text(); if(res.status===400&&/API key/i.test(t))getKey(true); throw new Error('Gemini '+res.status+': '+t.slice(0,160)); }
+    var d=await res.json(); var c=d.candidates&&d.candidates[0];
+    return ((c&&c.content&&c.content.parts)||[]).map(function(p){return p.text||'';}).join('').trim();
+  }
+
+  function ta(){ return document.getElementById('nodeContent'); }
+  function insertAtCursor(txt){
+    var t=ta(); if(!t)return;
+    var s=t.selectionStart||0, e=t.selectionEnd||0;
+    t.value=t.value.slice(0,s)+txt+t.value.slice(e);
+    t.selectionStart=t.selectionEnd=s+txt.length;
+    t.dispatchEvent(new Event('input',{bubbles:true})); t.focus();
+  }
+  function esc(s){return (s||'').replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
+
+  /* ---------- CSS ---------- */
+  var css=document.createElement('style'); css.textContent=
+    '.snp-ai-panel{position:fixed;top:0;right:0;width:340px;height:100vh;background:var(--bg2,#fff);border-left:1px solid var(--bg3,#e5e7eb);z-index:100000;display:flex;flex-direction:column;box-shadow:-4px 0 18px rgba(0,0,0,.15);font-size:13px}'+
+    '.snp-ai-panel.hidden{display:none}'+
+    '.snp-h{display:flex;align-items:center;gap:6px;padding:10px 12px;border-bottom:1px solid var(--bg3,#e5e7eb)}'+
+    '.snp-h b{flex:1;font-size:13px}'+
+    '.snp-x{border:none;background:transparent;font-size:16px;cursor:pointer;color:var(--text2,#888)}'+
+    '.snp-tabs{display:flex;gap:6px;padding:8px 12px}'+
+    '.snp-tab{flex:1;border:1px solid var(--bg3,#e5e7eb);background:var(--bg,#fff);border-radius:8px;padding:7px;font-weight:600;font-size:12.5px;color:inherit;cursor:pointer}'+
+    '.snp-tab.on{background:#e08635;color:#fff;border-color:#e08635}'+
+    '.snp-body{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}'+
+    '.snp-pane{flex:1;display:flex;flex-direction:column;min-height:0}'+
+    '.snp-pane.hidden{display:none}'+
+    '.snp-thread{flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:8px}'+
+    '.snp-msg{max-width:92%;padding:8px 11px;border-radius:12px;line-height:1.5;white-space:pre-wrap}'+
+    '.snp-msg.u{align-self:flex-end;background:#e08635;color:#fff}'+
+    '.snp-msg.b{align-self:flex-start;background:var(--bg3,#f1f3f5)}'+
+    '.snp-msg.s{align-self:center;color:var(--text2,#888);font-style:italic;font-size:11.5px;text-align:center}'+
+    '.snp-in{display:flex;gap:6px;padding:10px;border-top:1px solid var(--bg3,#e5e7eb)}'+
+    '.snp-in textarea{flex:1;resize:none;height:44px;border:1px solid var(--bg3,#e5e7eb);border-radius:9px;padding:8px;font:inherit;font-size:13px;background:var(--bg,#fff);color:inherit}'+
+    '.snp-btn{background:#e08635;color:#fff;border:none;border-radius:8px;padding:9px 12px;font-weight:600;cursor:pointer}'+
+    '.snp-btn:disabled{opacity:.5}'+
+    '.snp-suggest{overflow:auto;padding:12px;display:flex;flex-direction:column;gap:10px}'+
+    '.snp-modes{display:flex;gap:6px}.snp-mode{flex:1;border:1px solid var(--bg3,#e5e7eb);border-radius:8px;padding:7px;text-align:center;cursor:pointer;background:var(--bg,#fff);color:inherit}.snp-mode.on{background:#e08635;color:#fff;border-color:#e08635}'+
+    '.snp-card{border:1px solid var(--bg3,#e5e7eb);border-radius:10px;padding:9px 10px;background:var(--bg,#fff)}'+
+    '.snp-card .q{color:var(--text2,#888);font-style:italic;border-left:3px solid var(--bg3,#e5e7eb);padding-left:7px;margin:4px 0}'+
+    '.snp-card .cta{display:flex;gap:6px;margin-top:7px}.snp-card .cta button{flex:1;border:1px solid var(--bg3,#e5e7eb);border-radius:7px;padding:5px;cursor:pointer;background:var(--bg,#fff);color:inherit}'+
+    '.snp-tb-toggle.on{background:#e08635 !important;color:#fff !important}';
+  document.head.appendChild(css);
+
+  /* ---------- panel ---------- */
+  var panel=document.createElement('div'); panel.className='snp-ai-panel hidden';
+  panel.innerHTML=
+    '<div class="snp-h"><b>✦ Snippet AI</b><button class="snp-x" title="API key" data-act="key">⚙</button><button class="snp-x" data-act="close">✕</button></div>'+
+    '<div class="snp-tabs"><button class="snp-tab on" data-tab="chat">💬 Chat<div style="font-size:10px;font-weight:400;opacity:.8">understand</div></button>'+
+    '<button class="snp-tab" data-tab="suggest">✍️ Suggest<div style="font-size:10px;font-weight:400;opacity:.8">revise</div></button></div>'+
+    '<div class="snp-body">'+
+      '<div class="snp-pane" id="snpChat"><div class="snp-thread" id="snpThread"></div>'+
+        '<div class="snp-in"><textarea id="snpInput" placeholder="Ask about this snippet…"></textarea><button class="snp-btn" id="snpSend">Send</button></div></div>'+
+      '<div class="snp-pane snp-suggest hidden" id="snpSuggest">'+
+        '<div class="snp-modes"><div class="snp-mode on" data-m="content">Content<div style="font-size:10px;opacity:.8">sentences</div></div><div class="snp-mode" data-m="layout">Layout<div style="font-size:10px;opacity:.8">structure</div></div></div>'+
+        '<button class="snp-btn" id="snpSuggestBtn">Suggest revisions</button>'+
+        '<div id="snpCards" style="display:flex;flex-direction:column;gap:8px"></div></div>'+
+    '</div>';
+  document.body.appendChild(panel);
+  var sMode='content';
+
+  var thread=panel.querySelector('#snpThread');
+  function msg(cls,txt){ var d=document.createElement('div'); d.className='snp-msg '+cls; d.textContent=txt; thread.appendChild(d); thread.scrollTop=thread.scrollHeight; return d; }
+  function bootChat(){ thread.innerHTML=''; msg('s','Ask about this snippet — I can see its current text.'); }
+  function snippet(){ var t=ta(); return t&&t.value.trim()? t.value.slice(0,8000) : '(empty snippet)'; }
+
+  panel.querySelector('[data-act=close]').onclick=function(){ panel.classList.add('hidden'); };
+  panel.querySelector('[data-act=key]').onclick=function(){ getKey(true); };
+  panel.querySelectorAll('.snp-tab').forEach(function(t){ t.onclick=function(){
+    panel.querySelectorAll('.snp-tab').forEach(function(x){x.classList.remove('on');}); t.classList.add('on');
+    var chat=t.dataset.tab==='chat';
+    panel.querySelector('#snpChat').classList.toggle('hidden',!chat);
+    panel.querySelector('#snpSuggest').classList.toggle('hidden',chat);
+  };});
+  panel.querySelectorAll('.snp-mode').forEach(function(m){ m.onclick=function(){ panel.querySelectorAll('.snp-mode').forEach(function(x){x.classList.remove('on');}); m.classList.add('on'); sMode=m.dataset.m; };});
+
+  /* chat */
+  async function sendChat(){
+    var inp=panel.querySelector('#snpInput'), q=inp.value.trim(); if(!q)return;
+    inp.value=''; msg('u',q); var pend=msg('b','…');
+    try{
+      var reply=await gemini([{text:q}], {system:'You are a patient tutor helping the user UNDERSTAND this study-note snippet. Explain clearly, build intuition, keep it concise. Current snippet:\n\n'+snippet(), history:chatHist});
+      pend.textContent=reply; chatHist.push({role:'user',parts:[{text:q}]},{role:'model',parts:[{text:reply}]}); if(chatHist.length>12)chatHist=chatHist.slice(-12);
+    }catch(err){ pend.textContent='Error: '+err.message; }
+  }
+  panel.querySelector('#snpSend').onclick=sendChat;
+  panel.querySelector('#snpInput').addEventListener('keydown',function(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();} });
+
+  /* suggest */
+  async function runSuggest(){
+    var cards=panel.querySelector('#snpCards'); cards.innerHTML='';
+    var text=(ta()&&ta().value.trim())||''; if(!text){cards.innerHTML='<div class="snp-card">Snippet is empty.</div>';return;}
+    var btn=panel.querySelector('#snpSuggestBtn'); btn.disabled=true; btn.textContent='Thinking…';
+    try{
+      var sys='You are an editor of LaTeX/markdown study notes. Return ONLY a JSON array (max 6) of {"comment":"...","quote":"exact snippet substring or empty","replacement":"improved text or empty"}. '+
+        'Mode='+sMode+(sMode==='content'?' — sentence-level clarity/precision edits.':' — structure, headings, and color/emphasis (e.g. \\\\textbf, \\\\textcolor) edits.');
+      var raw=await gemini([{text:text.slice(0,8000)}], {system:sys});
+      var m=raw.match(/\[[\s\S]*\]/); var list=m?JSON.parse(m[0]):[{comment:raw.slice(0,300)}];
+      renderCards(list);
+    }catch(err){ cards.innerHTML='<div class="snp-card">Error: '+esc(err.message)+'</div>'; }
+    btn.disabled=false; btn.textContent='Suggest revisions';
+  }
+  function renderCards(list){
+    var cards=panel.querySelector('#snpCards'); cards.innerHTML='';
+    if(!list.length){cards.innerHTML='<div class="snp-card">No suggestions — looks good.</div>';return;}
+    list.forEach(function(s){
+      var c=document.createElement('div'); c.className='snp-card';
+      c.innerHTML=esc(s.comment||'')+(s.quote?'<div class="q">'+esc(s.quote)+'</div>':'')+(s.replacement?'<div style="font-size:12px"><b>→</b> '+esc(s.replacement)+'</div>':'')+
+        '<div class="cta">'+(s.replacement&&s.quote?'<button class="acc">Accept</button>':'')+'<button class="rej">Dismiss</button></div>';
+      var acc=c.querySelector('.acc'); if(acc)acc.onclick=function(){ var t=ta(); if(t&&s.quote){ var i=t.value.indexOf(s.quote); if(i>=0){ t.value=t.value.slice(0,i)+s.replacement+t.value.slice(i+s.quote.length); t.dispatchEvent(new Event('input',{bubbles:true})); } } c.remove(); };
+      c.querySelector('.rej').onclick=function(){ c.remove(); };
+      cards.appendChild(c);
+    });
+  }
+  panel.querySelector('#snpSuggestBtn').onclick=runSuggest;
+
+  /* ---------- screenshot -> LaTeX ---------- */
+  var ocrInput=document.createElement('input'); ocrInput.type='file'; ocrInput.accept='image/*'; ocrInput.style.display='none'; document.body.appendChild(ocrInput);
+  ocrInput.onchange=function(){ var f=ocrInput.files&&ocrInput.files[0]; if(f) doOCR(f); ocrInput.value=''; };
+  function doOCR(file){
+    var r=new FileReader();
+    r.onload=async function(){
+      var url=String(r.result), base64=url.split(',')[1], mime=(url.match(/^data:([^;]+)/)||[])[1]||'image/png';
+      var btn=document.getElementById('snpOcrBtn'); var old=btn&&btn.textContent; if(btn){btn.textContent='…';btn.disabled=true;}
+      try{
+        var tex=await gemini([
+          {text:'You are a precise OCR-to-LaTeX converter. Transcribe ALL text and math in this image into clean, compilable LaTeX exactly as written. Output ONLY the LaTeX body — no code fences, no commentary, no surrounding $ or $$.'},
+          {inline_data:{mime_type:mime,data:base64}}
+        ]);
+        tex=tex.replace(/^```(latex)?/i,'').replace(/```$/,'').trim();
+        var wrap = /^\$/.test(tex)||/\\begin\{/.test(tex) ? tex : (/\n/.test(tex)? '\n$$\n'+tex+'\n$$\n' : '$'+tex+'$');
+        insertAtCursor(wrap);
+      }catch(err){ alert('Screenshot→TeX failed: '+err.message); }
+      if(btn){btn.textContent=old;btn.disabled=false;}
+    };
+    r.readAsDataURL(file);
+  }
+
+  /* ---------- TeX <-> Text toggle for the preview ---------- */
+  function applyMode(){
+    var pv=document.getElementById('previewBox'); if(!pv)return;
+    if(textMode){ pv.textContent=(ta()&&ta().value)||''; pv.style.whiteSpace='pre-wrap'; }
+    else { pv.style.whiteSpace=''; if(typeof window.updatePreview==='function'){ try{window.updatePreview();}catch(e){} } }
+  }
+  document.addEventListener('input',function(e){ if(e.target&&e.target.id==='nodeContent'&&textMode) applyMode(); });
+
+  /* ---------- inject buttons into the editor toolbar ---------- */
+  function injectToolbar(){
+    var tb=document.querySelector('#nodeModal .editor-toolbar'); if(!tb||tb.querySelector('.snp-injected'))return;
+    var g=document.createElement('div'); g.className='toolbar-group snp-injected';
+    var aiBtn=mkBtn('✦ AI','Snippet AI — chat & suggest',function(){ panel.classList.toggle('hidden'); });
+    var ocrBtn=mkBtn('📷→TeX','Screenshot to LaTeX (Gemini)',function(){ ocrInput.click(); }); ocrBtn.id='snpOcrBtn';
+    g.appendChild(aiBtn); g.appendChild(ocrBtn);
+    tb.appendChild(g);
+    // right-aligned TeX/Text toggle
+    var g2=document.createElement('div'); g2.className='toolbar-group snp-injected'; g2.style.marginLeft='auto';
+    var tgl=mkBtn('TeX ⇄ Text','Compile as LaTeX or show as plain text',function(){ textMode=!textMode; tgl.classList.toggle('on',textMode); tgl.classList.toggle('snp-tb-toggle',true); tgl.textContent=textMode?'Text ⇄ TeX':'TeX ⇄ Text'; applyMode(); });
+    tgl.classList.add('snp-tb-toggle');
+    g2.appendChild(tgl); tb.appendChild(g2);
+  }
+  function mkBtn(label,title,fn){ var b=document.createElement('button'); b.type='button'; b.className='toolbar-btn'; b.title=title; b.textContent=label; b.onclick=fn; return b; }
+
+  document.addEventListener('DOMContentLoaded',injectToolbar);
+  injectToolbar();
+  var tries=0, iv=setInterval(function(){ injectToolbar(); if(document.querySelector('.snp-injected')||++tries>40)clearInterval(iv); },800);
+  bootChat();
+  // reset chat context when a different node opens (best-effort: clear on modal show)
+  var mo=new MutationObserver(function(){ var m=document.getElementById('nodeModal'); if(m&&!m.classList.contains('hidden')&&!m._snpSeen){ m._snpSeen=true; chatHist=[]; bootChat(); } else if(m&&m.classList.contains('hidden')){ m._snpSeen=false; } });
+  try{ var nm=document.getElementById('nodeModal'); if(nm) mo.observe(nm,{attributes:true,attributeFilter:['class']}); }catch(e){}
 })();
 </script>
 </body>
