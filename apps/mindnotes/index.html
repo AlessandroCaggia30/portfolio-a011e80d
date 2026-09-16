@@ -18298,6 +18298,15 @@ document.addEventListener('DOMContentLoaded', initApp);
     var q=document.getElementById('previewBox'); if(visible(q)) return q;
     return null;
   }
+  /* align the banner to the open note editor's horizontal box */
+  function firstVisibleSel(sels){ for(var i=0;i<sels.length;i++){ var e=document.querySelector(sels[i]); if(e&&e.offsetParent!==null) return e; } return null; }
+  function positionPanel(){
+    if(!panel) return;
+    var el=firstVisibleSel(['.detail-panel','#nodeModal .editor-wrapper','#nodeModal .modal-content','#nodeModal .modal','#nodeModal']);
+    var r=el&&el.getBoundingClientRect();
+    if(r&&r.width>80){ panel.style.left=Math.max(0,Math.round(r.left))+'px'; panel.style.width=Math.round(Math.min(window.innerWidth,r.width))+'px'; panel.style.right='auto'; }
+    else { var w=Math.min(860,window.innerWidth-24); panel.style.left=Math.round((window.innerWidth-w)/2)+'px'; panel.style.width=w+'px'; panel.style.right='auto'; }
+  }
   function contextText(){
     var s=activeSource(); if(s && s.value.trim()) return s.value.slice(0,8000);
     var p=activePreview(); if(p && p.innerText.trim()) return p.innerText.slice(0,8000);
@@ -18356,7 +18365,7 @@ document.addEventListener('DOMContentLoaded', initApp);
     '</div>';
   document.body.appendChild(panel);
 
-  fab.onclick=function(){ panel.classList.toggle('hidden'); };
+  fab.onclick=function(){ panel.classList.toggle('hidden'); if(!panel.classList.contains('hidden')) positionPanel(); };
   panel.querySelector('[data-act=close]').onclick=function(){ panel.classList.add('hidden'); };
   panel.querySelector('[data-act=key]').onclick=function(){ getKey(true); };
   panel.querySelector('[data-act=tex]').onclick=toggleTexText;
@@ -18461,6 +18470,10 @@ document.addEventListener('DOMContentLoaded', initApp);
     var items=e.clipboardData&&e.clipboardData.items; if(!items) return;
     for(var i=0;i<items.length;i++){ if(items[i].type&&items[i].type.indexOf('image')===0){ var f=items[i].getAsFile(); if(f){ e.preventDefault(); if(!activeSource()){ alert('Open the snippet for editing first, then paste the image.'); return; } doOCR(f); } } }
   });
+
+  /* keep the banner aligned to the note's horizontal width */
+  window.addEventListener('resize',function(){ if(!panel.classList.contains('hidden')) positionPanel(); });
+  setInterval(function(){ if(!panel.classList.contains('hidden')) positionPanel(); }, 500);
 })();
 </script>
 </body>
