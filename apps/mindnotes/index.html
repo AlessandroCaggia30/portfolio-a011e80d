@@ -18489,142 +18489,157 @@ document.addEventListener('DOMContentLoaded', initApp);
 </script>
 <script>
 /* ============================================================
-   MindNotes Todos grid v1
-   - Replaces the bottom agenda section with a "✔ Todos" button
-   - Opens an Excel-like editable grid: Task · Comments · Expected time
-   - Per-row status colour (orange = currently working on)
-   - Persists to localStorage; CSV export opens in real Excel
-   Self-contained; appended module.
+   MindNotes Todos grid v2
+   - "✔ Todos" button (in place of the agenda section)
+   - FULL-PAGE Excel-like sheet, split into two groups side by side:
+       Fiorin  |  Carlana
+     each with columns Task · Comments · Expected time + status colour
+   - orange = currently working on. Autosaves; CSV export for Excel.
    ============================================================ */
 (function(){
   'use strict';
   var LSK='mindnotes_todos_v1';
   var COLORS=[
-    {k:'',      label:'None',            c:''       },
-    {k:'orange',label:'Working on it',   c:'#f6b26b'},
-    {k:'yellow',label:'Waiting / next',  c:'#ffe599'},
-    {k:'blue',  label:'Planned',         c:'#9fc5e8'},
-    {k:'green',  label:'Done',           c:'#b6d7a8'},
-    {k:'red',   label:'Blocked',         c:'#ea9999'}
+    {k:'',      label:'None',          c:''       },
+    {k:'orange',label:'Working on it', c:'#f6b26b'},
+    {k:'yellow',label:'Waiting / next',c:'#ffe599'},
+    {k:'blue',  label:'Planned',       c:'#9fc5e8'},
+    {k:'green', label:'Done',          c:'#b6d7a8'},
+    {k:'red',   label:'Blocked',       c:'#ea9999'}
   ];
+  var GROUPS=[{key:'fiorin',name:'Fiorin'},{key:'carlana',name:'Carlana'}];
   function colorOf(k){ for(var i=0;i<COLORS.length;i++) if(COLORS[i].k===k) return COLORS[i].c; return ''; }
   function labelOf(k){ for(var i=0;i<COLORS.length;i++) if(COLORS[i].k===k) return COLORS[i].label; return ''; }
+  function blank(){ return {task:'',comments:'',time:'',color:''}; }
 
-  function load(){ try{ var v=JSON.parse(localStorage.getItem(LSK)); return (v&&v.length)?v:seed(); }catch(e){ return seed(); } }
-  function seed(){ return [{task:'',comments:'',time:'',color:''}]; }
-  var rows=load();
-  function save(){ localStorage.setItem(LSK, JSON.stringify(rows)); }
+  function load(){
+    try{ var v=JSON.parse(localStorage.getItem(LSK));
+      if(Array.isArray(v)) return {fiorin:(v.length?v:[blank()]), carlana:[blank()]};   // migrate old flat list
+      if(v&&v.fiorin&&v.carlana) return v;
+    }catch(e){}
+    return {fiorin:[blank()], carlana:[blank()]};
+  }
+  var data=load();
+  function save(){ localStorage.setItem(LSK, JSON.stringify(data)); }
 
   /* ---- styles ---- */
   var css=document.createElement('style'); css.textContent=
     '.agenda-section{display:none !important}'+
     '.todos-launch{display:block;margin:22px auto 8px;padding:12px 24px;border:none;border-radius:12px;background:var(--accent,#e08635);color:#fff;font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.18)}'+
     '.todos-launch:hover{filter:brightness(.95)}'+
-    '.todos-modal{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100000;display:flex;align-items:center;justify-content:center}'+
+    '.todos-modal{position:fixed;inset:0;background:var(--bg2,#fff);z-index:100000;display:flex;flex-direction:column}'+
     '.todos-modal.hidden{display:none}'+
-    '.todos-panel{background:var(--bg2,#fff);color:var(--text,#111);width:min(1000px,95vw);height:min(80vh,780px);border-radius:14px;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.4);overflow:hidden}'+
-    '.todos-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--bg3,#e5e7eb)}'+
-    '.todos-h b{font-size:16px;flex:1}'+
-    '.todos-h button{border:1px solid var(--bg3,#e5e7eb);background:var(--bg,#fff);color:inherit;border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer}'+
-    '.todos-h .prim{background:var(--accent,#e08635);color:#fff;border-color:var(--accent,#e08635);font-weight:600}'+
+    '.todos-h{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--bg3,#e5e7eb);color:var(--text,#111)}'+
+    '.todos-h b{font-size:17px;flex:1}'+
+    '.todos-h button{border:1px solid var(--bg3,#e5e7eb);background:var(--bg,#fff);color:inherit;border-radius:8px;padding:7px 13px;font-size:13px;cursor:pointer}'+
+    '.todos-groups{flex:1;display:flex;min-height:0}'+
+    '.todos-group{flex:1;display:flex;flex-direction:column;min-width:0;border-right:2px solid var(--bg3,#e5e7eb)}'+
+    '.todos-group:last-child{border-right:none}'+
+    '.todos-group-h{display:flex;align-items:center;gap:12px;padding:9px 16px;background:#fbf6ef;border-bottom:1px solid #e5e7eb;color:#7a3d0c}'+
+    '.todos-group-h b{font-size:16px;letter-spacing:.02em;flex:1}'+
+    '.todos-group-h button{border:1px solid var(--accent,#e08635);background:var(--accent,#e08635);color:#fff;border-radius:7px;padding:5px 11px;font-size:12.5px;font-weight:600;cursor:pointer}'+
     '.todos-scroll{flex:1;overflow:auto}'+
-    '.todos-table{border-collapse:collapse;width:100%;font-size:13.5px}'+
+    '.todos-table{border-collapse:collapse;width:100%;font-size:13.5px;color:#111}'+
     '.todos-table th{position:sticky;top:0;background:#f3f4f6;color:#374151;border:1px solid #d1d5db;padding:8px 10px;text-align:left;font-weight:700;z-index:1}'+
-    '.todos-table td{border:1px solid #d9dde2;padding:0;vertical-align:top}'+
-    '.todos-table td.c{padding:7px 10px;min-width:120px;outline:none}'+
-    '.todos-table td.c.task{min-width:260px;font-weight:500}'+
-    '.todos-table td.c.time{min-width:110px;white-space:nowrap}'+
+    '.todos-table td{border:1px solid #d9dde2;padding:0;vertical-align:top;background:#fff}'+
+    '.todos-table td.c{padding:7px 10px;outline:none}'+
+    '.todos-table td.c.task{min-width:180px;font-weight:500}'+
+    '.todos-table td.c.time{min-width:96px;white-space:nowrap}'+
     '.todos-table td.g{width:34px;text-align:center;background:#fafafa}'+
-    '.todos-table td.d{width:30px;text-align:center;background:#fafafa}'+
+    '.todos-table td.d{width:28px;text-align:center;background:#fafafa}'+
     '.todos-rownum{color:#9ca3af;font-size:11px}'+
     '.clrbtn{border:1px solid rgba(0,0,0,.2);width:16px;height:16px;border-radius:50%;cursor:pointer;padding:0;display:inline-block}'+
     '.delrow{border:none;background:transparent;color:#bbb;font-size:16px;cursor:pointer;line-height:1}.delrow:hover{color:#e11}'+
-    '.todos-foot{display:flex;align-items:center;gap:12px;padding:8px 16px;border-top:1px solid var(--bg3,#e5e7eb);font-size:11.5px;color:var(--text2,#666);flex-wrap:wrap}'+
+    '.todos-foot{display:flex;align-items:center;gap:12px;padding:8px 18px;border-top:1px solid var(--bg3,#e5e7eb);font-size:11.5px;color:var(--text2,#666);flex-wrap:wrap}'+
     '.todos-foot .lg{display:flex;align-items:center;gap:5px}.todos-foot .lg i{width:12px;height:12px;border-radius:3px;display:inline-block;border:1px solid rgba(0,0,0,.15)}'+
     '.clr-pop{position:fixed;background:#fff;border:1px solid #d1d5db;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.2);padding:6px;z-index:100001;display:flex;flex-direction:column;gap:2px}'+
-    '.clr-pop button{display:flex;align-items:center;gap:8px;border:none;background:transparent;padding:5px 8px;border-radius:6px;cursor:pointer;font-size:12.5px;white-space:nowrap}'+
+    '.clr-pop button{display:flex;align-items:center;gap:8px;border:none;background:transparent;padding:5px 8px;border-radius:6px;cursor:pointer;font-size:12.5px;white-space:nowrap;color:#111}'+
     '.clr-pop button:hover{background:#f3f4f6}.clr-pop i{width:14px;height:14px;border-radius:4px;border:1px solid rgba(0,0,0,.15);display:inline-block}';
   document.head.appendChild(css);
 
-  /* ---- modal ---- */
+  /* ---- modal (full page) ---- */
   var modal=document.createElement('div'); modal.className='todos-modal hidden';
   modal.innerHTML=
-    '<div class="todos-panel">'+
-      '<div class="todos-h"><b>✔ Todos</b>'+
-        '<button class="prim" data-a="add">+ Add row</button>'+
-        '<button data-a="csv">⬇ Export (Excel/CSV)</button>'+
-        '<button data-a="close">✕</button></div>'+
-      '<div class="todos-scroll"><table class="todos-table">'+
-        '<thead><tr><th style="width:34px"></th><th>Task</th><th>Comments</th><th>Expected time</th><th style="width:30px"></th></tr></thead>'+
-        '<tbody id="todosBody"></tbody></table></div>'+
-      '<div class="todos-foot"><span>Status colours:</span>'+
-        COLORS.filter(function(x){return x.k;}).map(function(x){return '<span class="lg"><i style="background:'+x.c+'"></i>'+x.label+'</span>';}).join('')+
-        '<span style="margin-left:auto">Click the dot on a row to set its status. Edits save automatically.</span></div>'+
-    '</div>';
+    '<div class="todos-h"><b>✔ Todos</b>'+
+      '<button data-a="csv">⬇ Export (Excel/CSV)</button>'+
+      '<button data-a="close">✕ Close</button></div>'+
+    '<div class="todos-groups" id="todosGroups"></div>'+
+    '<div class="todos-foot"><span>Status colours:</span>'+
+      COLORS.filter(function(x){return x.k;}).map(function(x){return '<span class="lg"><i style="background:'+x.c+'"></i>'+x.label+'</span>';}).join('')+
+      '<span style="margin-left:auto">Click the dot on a row to set its status. Edits save automatically.</span></div>';
   document.body.appendChild(modal);
-  modal.addEventListener('click',function(e){ if(e.target===modal) close(); });
   modal.querySelector('[data-a=close]').onclick=close;
-  modal.querySelector('[data-a=add]').onclick=function(){ rows.push({task:'',comments:'',time:'',color:''}); save(); render(); };
   modal.querySelector('[data-a=csv]').onclick=exportCSV;
-
   function open(){ render(); modal.classList.remove('hidden'); }
   function close(){ modal.classList.add('hidden'); }
 
-  var body=modal.querySelector('#todosBody');
+  var groupsWrap=modal.querySelector('#todosGroups');
   function render(){
-    body.innerHTML='';
-    rows.forEach(function(r,idx){
-      var tr=document.createElement('tr');
-      if(colorOf(r.color)) tr.style.background=colorOf(r.color);
-      var g=document.createElement('td'); g.className='g';
-      g.innerHTML='<div class="todos-rownum">'+(idx+1)+'</div><button class="clrbtn" title="'+(labelOf(r.color)||'Set status')+'" style="background:'+(colorOf(r.color)||'#fff')+'"></button>';
-      g.querySelector('.clrbtn').onclick=function(ev){ openPalette(ev.target, idx); };
-      tr.appendChild(g);
-      ['task','comments','time'].forEach(function(f){
-        var td=document.createElement('td'); td.className='c '+f; td.contentEditable='true'; td.textContent=r[f]||'';
-        td.addEventListener('input',function(){ rows[idx][f]=td.textContent; clearTimeout(td._t); td._t=setTimeout(save,300); });
-        td.addEventListener('blur',save);
-        tr.appendChild(td);
+    groupsWrap.innerHTML='';
+    GROUPS.forEach(function(gr){
+      var rows=data[gr.key];
+      var sec=document.createElement('div'); sec.className='todos-group';
+      var h=document.createElement('div'); h.className='todos-group-h';
+      h.innerHTML='<b>'+gr.name+'</b><button>+ Add row</button>';
+      h.querySelector('button').onclick=function(){ data[gr.key].push(blank()); save(); render(); };
+      sec.appendChild(h);
+      var scroll=document.createElement('div'); scroll.className='todos-scroll';
+      var table=document.createElement('table'); table.className='todos-table';
+      table.innerHTML='<thead><tr><th style="width:34px"></th><th>Task</th><th>Comments</th><th>Expected time</th><th style="width:28px"></th></tr></thead>';
+      var tb=document.createElement('tbody');
+      rows.forEach(function(r,idx){
+        var tr=document.createElement('tr');
+        var g=document.createElement('td'); g.className='g';
+        g.innerHTML='<div class="todos-rownum">'+(idx+1)+'</div><button class="clrbtn" title="'+(labelOf(r.color)||'Set status')+'" style="background:'+(colorOf(r.color)||'#fff')+'"></button>';
+        g.querySelector('.clrbtn').onclick=function(ev){ openPalette(ev.target, gr.key, idx); };
+        tr.appendChild(g);
+        ['task','comments','time'].forEach(function(f){
+          var td=document.createElement('td'); td.className='c '+f; td.contentEditable='true'; td.textContent=r[f]||'';
+          if(colorOf(r.color)) td.style.background=colorOf(r.color);
+          td.addEventListener('input',function(){ data[gr.key][idx][f]=td.textContent; clearTimeout(td._t); td._t=setTimeout(save,300); });
+          td.addEventListener('blur',save);
+          tr.appendChild(td);
+        });
+        var d=document.createElement('td'); d.className='d'; d.innerHTML='<button class="delrow" title="Delete row">×</button>';
+        d.querySelector('.delrow').onclick=function(){ if(confirm('Delete this row?')){ data[gr.key].splice(idx,1); if(!data[gr.key].length)data[gr.key]=[blank()]; save(); render(); } };
+        tr.appendChild(d);
+        tb.appendChild(tr);
       });
-      var d=document.createElement('td'); d.className='d';
-      d.innerHTML='<button class="delrow" title="Delete row">×</button>';
-      d.querySelector('.delrow').onclick=function(){ if(rows.length<=1&&!rows[0].task&&!rows[0].comments){return;} if(confirm('Delete this row?')){ rows.splice(idx,1); if(!rows.length)rows=seed(); save(); render(); } };
-      tr.appendChild(d);
-      body.appendChild(tr);
+      table.appendChild(tb); scroll.appendChild(table); sec.appendChild(scroll);
+      groupsWrap.appendChild(sec);
     });
   }
 
   /* colour palette popover */
   var pop=null;
-  function openPalette(anchor, idx){
+  function openPalette(anchor, gkey, idx){
     closePalette();
     pop=document.createElement('div'); pop.className='clr-pop';
     COLORS.forEach(function(x){
-      var b=document.createElement('button');
-      b.innerHTML='<i style="background:'+(x.c||'#fff')+'"></i>'+(x.label);
-      b.onclick=function(){ rows[idx].color=x.k; save(); render(); closePalette(); };
+      var b=document.createElement('button'); b.innerHTML='<i style="background:'+(x.c||'#fff')+'"></i>'+x.label;
+      b.onclick=function(){ data[gkey][idx].color=x.k; save(); render(); closePalette(); };
       pop.appendChild(b);
     });
     document.body.appendChild(pop);
     var r=anchor.getBoundingClientRect();
-    pop.style.left=Math.min(r.left, window.innerWidth-190)+'px';
+    pop.style.left=Math.min(r.left, window.innerWidth-200)+'px';
     pop.style.top=(r.bottom+4)+'px';
     setTimeout(function(){ document.addEventListener('mousedown',outside); },0);
     function outside(e){ if(pop&&!pop.contains(e.target)){ closePalette(); document.removeEventListener('mousedown',outside); } }
   }
   function closePalette(){ if(pop){ pop.remove(); pop=null; } }
 
-  /* CSV export (opens in Excel) */
+  /* CSV export */
   function exportCSV(){
     var q=function(s){ s=(s||'').replace(/"/g,'""'); return '"'+s+'"'; };
-    var lines=[['Task','Comments','Expected time','Status'].map(q).join(',')];
-    rows.forEach(function(r){ lines.push([q(r.task),q(r.comments),q(r.time),q(labelOf(r.color))].join(',')); });
+    var lines=[['Person','Task','Comments','Expected time','Status'].map(q).join(',')];
+    GROUPS.forEach(function(gr){ data[gr.key].forEach(function(r){ lines.push([q(gr.name),q(r.task),q(r.comments),q(r.time),q(labelOf(r.color))].join(',')); }); });
     var blob=new Blob(['﻿'+lines.join('\r\n')],{type:'text/csv;charset=utf-8;'});
     var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='mindnotes-todos.csv'; a.click();
     setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
   }
 
-  /* ---- launcher (in place of the agenda section) ---- */
+  /* ---- launcher ---- */
   function injectLauncher(){
     if(document.getElementById('todosLaunch')) return;
     var ag=document.querySelector('.agenda-section');
