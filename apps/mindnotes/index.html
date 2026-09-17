@@ -18567,33 +18567,31 @@ document.addEventListener('DOMContentLoaded', initApp);
   function schedulePush(){ clearTimeout(pushTimer); pushTimer=setTimeout(function(){ push(false); },1500); }
   async function push(force){
     if(!force && !dirty) return;
-    if(!hasToken() || typeof ghPutFile!=='function'){ setSync('Saved locally (no GitHub token)'); return; }
+    if(typeof ghPutFile!=='function'){ setSync('Saved locally (sync unavailable)'); return; }
     var payload=JSON.stringify({version:1,exportedAt:new Date().toISOString(),lastEditedAt:lastEditedAt,data:data},null,1);
+    var msg='mindnotes: update todos '+new Date().toISOString().slice(0,19).replace('T',' ');
     try{
-      var msg='mindnotes: update todos '+new Date().toISOString().slice(0,19).replace('T',' ');
-      var newSha=await ghPutFile(PATH, payload, msg, sha||undefined);
-      sha=newSha; dirty=false; persistLocal(); setSync('Synced to GitHub');
-    }catch(e){ setSync('Saved locally · sync error'); }
+      var newSha=await ghPutFile(PATH, payload, msg, sha||undefined);   // uses the app's token (localStorage OR vault)
+      sha=newSha; dirty=false; persistLocal(); setSync('Synced to GitHub ✓');
+    }catch(e){
+      var m=(e&&e.message)||'';
+      setSync(/token/i.test(m) ? 'Saved locally — NO GitHub token in this browser (paste it in Sync settings to sync todos)' : ('Saved locally — sync error: '+m.slice(0,90)));
+    }
   }
   async function pull(){
     if(typeof ghFetchFile!=='function') return;
-    if(document.activeElement && document.activeElement.isContentEditable && modal.contains(document.activeElement)) return; // don't clobber a cell you're editing
-    var r; try{ r=await ghFetchFile(PATH); }catch(e){ return; }   // public repo → works without a token
-    if(!r){ if(hasToken()&&dirty) await push(true); return; }
+    if(document.activeElement && document.activeElement.isContentEditable && modal.contains(document.activeElement)) return; // don't clobber a cell being edited
+    var r; try{ r=await ghFetchFile(PATH); }catch(e){ return; }   // public repo → reads without a token
+    if(!r){ await push(true); return; }                          // no file yet → try to create it
     sha=r.sha;
     var env; try{ env=JSON.parse(r.content); }catch(e){ return; }
     var remoteAt=(env&&env.lastEditedAt)||0;
-    if(!hasToken()){                                  // shared / read-only viewer → always show the real list
-      if(env&&env.data){ data=normalize(env.data); lastEditedAt=remoteAt; persistLocal(); render(); setSync('Viewing shared todos (read-only)'); }
-      return;
-    }
     if(!dirty && env&&env.data && remoteAt>lastEditedAt){
-      data=normalize(env.data); lastEditedAt=remoteAt; persistLocal(); render(); setSync('Pulled latest from GitHub');
+      data=normalize(env.data); lastEditedAt=remoteAt; persistLocal(); render(); setSync('Updated from GitHub');
     } else if(dirty){ await push(false); }
-    else { persistLocal(); setSync('Synced to GitHub'); }
   }
-  /* a fresh seed must win over the old remote → mark dirty & push (owner only; viewers stay read-only) */
-  if(_seeded && hasToken()){ lastEditedAt=Date.now(); dirty=true; persistLocal(); }
+  /* fresh seed → mark dirty so the first sync creates the remote file */
+  if(_seeded){ lastEditedAt=Date.now(); dirty=true; persistLocal(); }
 
   /* ---- styles ---- */
   var css=document.createElement('style'); css.textContent=
