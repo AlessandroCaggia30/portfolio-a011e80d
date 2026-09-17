@@ -18489,16 +18489,17 @@ document.addEventListener('DOMContentLoaded', initApp);
 </script>
 <script>
 /* ============================================================
-   MindNotes Todos grid v2
+   MindNotes Todos grid v3 — paper-specific
    - "✔ Todos" button (in place of the agenda section)
-   - FULL-PAGE Excel-like sheet, split into two groups side by side:
-       Fiorin  |  Carlana
-     each with columns Task · Comments · Expected time + status colour
-   - orange = currently working on. Autosaves; CSV export for Excel.
+   - Full-page sheet, two people side by side: Fiorin | Carlana
+   - Each person holds MULTIPLE papers (subsections); each paper
+     has its own Task · Comments · Expected time rows + status colour
+   - orange = currently working on. Insert row anywhere.
+   - Persistence = notes structure: local copy + GitHub push/pull.
    ============================================================ */
 (function(){
   'use strict';
-  var LSK='mindnotes_todos_v1';
+  var LSK='mindnotes_todos_v1', SEEDVER='mindnotes_todos_seedver';
   var COLORS=[
     {k:'',      label:'None',          c:''       },
     {k:'orange',label:'Working on it', c:'#f6b26b'},
@@ -18511,9 +18512,9 @@ document.addEventListener('DOMContentLoaded', initApp);
   function colorOf(k){ for(var i=0;i<COLORS.length;i++) if(COLORS[i].k===k) return COLORS[i].c; return ''; }
   function labelOf(k){ for(var i=0;i<COLORS.length;i++) if(COLORS[i].k===k) return COLORS[i].label; return ''; }
   function blank(){ return {task:'',comments:'',time:'',color:''}; }
+  function defName(k){ return k==='fiorin'?'Kenya Lactation':'Teacher project'; }
 
-  /* one-time seed content (installs once, then user edits persist) */
-  var SEEDVER='mindnotes_todos_seedver';
+  /* project structure: data[person] = [ {name, rows:[...]} , ... ] */
   function makeSeed(){
     var repl={task:'Create replication package',comments:'Folder organization; take most-updated inputs; reorganize code; write documentation; ensure output regenerates.',time:'',color:'green'};
     function gen(){ return [
@@ -18530,21 +18531,36 @@ document.addEventListener('DOMContentLoaded', initApp);
       {task:'Kenya: verify survey-firm cleaning',comments:'Firm provided the ado + raw + polished — verify every cleaning decision they made and confirm no mistakes; then understand what the ado did.',time:'',color:''},
       {task:'Kenya: audit PCR report claim-by-claim (massive)',comments:'Read work/Kenya_Lactation_Rooms_replication/1634 LEAP - EDI Global - PCR - 260730.pdf; split into individual claims; test each claim against the actual data with maximum precision.',time:'',color:''}
     ];
-    return { fiorin:[Object.assign({},repl)].concat(gen()).concat(kenya), carlana:[Object.assign({},repl)].concat(gen()) };
+    return {
+      fiorin:[{name:'Kenya Lactation', rows:[Object.assign({},repl)].concat(gen()).concat(kenya)}],
+      carlana:[{name:'Teacher project', rows:[Object.assign({},repl)].concat(gen())}]
+    };
   }
-  function load(){
-    try{
-      if(localStorage.getItem(SEEDVER)!=='v2fc'){ var sd=makeSeed(); localStorage.setItem(LSK,JSON.stringify(sd)); localStorage.setItem(SEEDVER,'v2fc'); _seeded=true; return sd; }
-      var v=JSON.parse(localStorage.getItem(LSK));
-      if(v&&v.fiorin&&v.carlana) return v;
-      if(Array.isArray(v)) return {fiorin:(v.length?v:[blank()]), carlana:[blank()]};
-    }catch(e){}
-    return makeSeed();
+  /* convert any older shape into the paper structure (idempotent) */
+  function normalize(d){
+    d=d||{};
+    ['fiorin','carlana'].forEach(function(k){
+      var v=d[k];
+      if(!Array.isArray(v)||!v.length){ d[k]=[{name:defName(k),rows:[blank()]}]; return; }
+      if(v[0] && Array.isArray(v[0].rows)) return;          // already papers
+      d[k]=[{name:defName(k), rows:v}];                     // wrap old rows-array into the default paper
+    });
+    return d;
   }
+
   /* ---- persistence: local copy + GitHub push/pull (same structure as notes) ---- */
   var PATH='apps/mindnotes/data_todos.json', META='mindnotes_todos_meta';
   var _seeded=false, sha=null, lastEditedAt=0, dirty=false, pushTimer=null;
   try{ var _m=JSON.parse(localStorage.getItem(META))||{}; sha=_m.sha||null; lastEditedAt=_m.lastEditedAt||0; }catch(e){}
+  function load(){
+    try{
+      if(localStorage.getItem(SEEDVER)!=='v2fc'){ var sd=makeSeed(); localStorage.setItem(LSK,JSON.stringify(sd)); localStorage.setItem(SEEDVER,'v2fc'); _seeded=true; return sd; }
+      var v=JSON.parse(localStorage.getItem(LSK));
+      if(v && (v.fiorin||v.carlana)) return normalize(v);
+      if(Array.isArray(v)) return normalize({fiorin:v});
+    }catch(e){}
+    return makeSeed();
+  }
   var data=load();
   function hasToken(){ try{ return !!localStorage.getItem('mindnotes_ghToken'); }catch(e){ return false; } }
   function persistLocal(){ try{ localStorage.setItem(LSK,JSON.stringify(data)); localStorage.setItem(META,JSON.stringify({sha:sha,lastEditedAt:lastEditedAt})); }catch(e){} }
@@ -18565,11 +18581,11 @@ document.addEventListener('DOMContentLoaded', initApp);
     if(!hasToken() || typeof ghFetchFile!=='function') return;
     try{
       var r=await ghFetchFile(PATH);
-      if(!r){ await push(true); return; }                 // first time → create the file from local
+      if(!r){ await push(true); return; }
       sha=r.sha;
       var env=JSON.parse(r.content); var remoteAt=(env&&env.lastEditedAt)||0;
-      if(!dirty && env&&env.data&&env.data.fiorin&&env.data.carlana && remoteAt>lastEditedAt){
-        data=env.data; lastEditedAt=remoteAt; persistLocal(); render(); setSync('Pulled latest from GitHub');
+      if(!dirty && env&&env.data && remoteAt>lastEditedAt){
+        data=normalize(env.data); lastEditedAt=remoteAt; persistLocal(); render(); setSync('Pulled latest from GitHub');
       } else if(dirty){ await push(false); }
       else { persistLocal(); setSync('Synced to GitHub'); }
     }catch(e){ /* offline / parse issue → keep local */ }
@@ -18588,12 +18604,18 @@ document.addEventListener('DOMContentLoaded', initApp);
     '.todos-groups{flex:1;display:flex;min-height:0}'+
     '.todos-group{flex:1;display:flex;flex-direction:column;min-width:0;border-right:2px solid var(--bg3,#e5e7eb)}'+
     '.todos-group:last-child{border-right:none}'+
-    '.todos-group-h{display:flex;align-items:center;gap:12px;padding:9px 16px;background:#fbf6ef;border-bottom:1px solid #e5e7eb;color:#7a3d0c}'+
+    '.todos-group-h{display:flex;align-items:center;gap:12px;padding:9px 16px;background:#fbf6ef;border-bottom:1px solid #e5e7eb}'+
     '.todos-group-h b{font-size:22px;letter-spacing:.02em;flex:1;color:#1d4ed8;font-weight:800}'+
-    '.todos-group-h button{border:1px solid var(--accent,#e08635);background:var(--accent,#e08635);color:#fff;border-radius:7px;padding:5px 11px;font-size:12.5px;font-weight:600;cursor:pointer}'+
-    '.todos-scroll{flex:1;overflow:auto}'+
+    '.todos-group-h .addproj{border:1px solid #1d4ed8;background:#1d4ed8;color:#fff;border-radius:7px;padding:5px 11px;font-size:12.5px;font-weight:600;cursor:pointer}'+
+    '.todos-scroll{flex:1;overflow:auto;padding-bottom:20px}'+
+    '.todos-proj{border-bottom:2px solid #eef0f2;padding-bottom:8px}'+
+    '.todos-proj-h{display:flex;align-items:center;gap:10px;padding:10px 14px 6px;position:sticky;top:0;background:var(--bg2,#fff);z-index:2}'+
+    '.proj-name{font-weight:700;font-size:14.5px;color:#111;outline:none;border-bottom:1px dashed transparent;min-width:80px;padding:1px 2px}'+
+    '.proj-name:hover{border-bottom-color:#d1d5db}.proj-name:focus{border-bottom-color:#1d4ed8}'+
+    '.todos-proj-h .addrow{border:1px solid var(--accent,#e08635);background:var(--accent,#e08635);color:#fff;border-radius:7px;padding:4px 10px;font-size:12px;font-weight:600;cursor:pointer}'+
+    '.todos-proj-h .delproj{border:none;background:transparent;cursor:pointer;font-size:13px;opacity:.55}.todos-proj-h .delproj:hover{opacity:1}'+
     '.todos-table{border-collapse:collapse;width:100%;font-size:13.5px;color:#111}'+
-    '.todos-table th{position:sticky;top:0;background:#f3f4f6;color:#374151;border:1px solid #d1d5db;padding:8px 10px;text-align:left;font-weight:700;z-index:1}'+
+    '.todos-table th{background:#f3f4f6;color:#374151;border:1px solid #d1d5db;padding:6px 10px;text-align:left;font-weight:700}'+
     '.todos-table td{border:1px solid #d9dde2;padding:0;vertical-align:top;background:#fff}'+
     '.todos-table td.c{padding:7px 10px;outline:none}'+
     '.todos-table td.c.task{min-width:180px;font-weight:500}'+
@@ -18621,7 +18643,7 @@ document.addEventListener('DOMContentLoaded', initApp);
     '<div class="todos-groups" id="todosGroups"></div>'+
     '<div class="todos-foot"><span>Status colours:</span>'+
       COLORS.filter(function(x){return x.k;}).map(function(x){return '<span class="lg"><i style="background:'+x.c+'"></i>'+x.label+'</span>';}).join('')+
-      '<span style="margin-left:auto">Click the dot on a row to set its status. Edits save automatically.</span></div>';
+      '<span style="margin-left:auto">Click the dot to set status · ＋ inserts a row · edits save automatically.</span></div>';
   document.body.appendChild(modal);
   modal.querySelector('[data-a=close]').onclick=close;
   modal.querySelector('[data-a=csv]').onclick=exportCSV;
@@ -18632,54 +18654,68 @@ document.addEventListener('DOMContentLoaded', initApp);
   function render(){
     groupsWrap.innerHTML='';
     GROUPS.forEach(function(gr){
-      var rows=data[gr.key];
       var sec=document.createElement('div'); sec.className='todos-group';
       var h=document.createElement('div'); h.className='todos-group-h';
-      h.innerHTML='<b>'+gr.name+'</b><button>+ Add row</button>';
-      h.querySelector('button').onclick=function(){ data[gr.key].push(blank()); save(); render(); };
+      h.innerHTML='<b>'+gr.name+'</b><button class="addproj">+ Add paper</button>';
+      h.querySelector('.addproj').onclick=function(){ data[gr.key].push({name:'New paper',rows:[blank()]}); save(); render(); };
       sec.appendChild(h);
       var scroll=document.createElement('div'); scroll.className='todos-scroll';
-      var table=document.createElement('table'); table.className='todos-table';
-      table.innerHTML='<thead><tr><th style="width:34px"></th><th>Task</th><th>Comments</th><th>Expected time</th><th style="width:28px"></th></tr></thead>';
-      var tb=document.createElement('tbody');
-      rows.forEach(function(r,idx){
-        var tr=document.createElement('tr');
-        var g=document.createElement('td'); g.className='g';
-        g.innerHTML='<div class="todos-rownum">'+(idx+1)+'</div><button class="clrbtn" title="'+(labelOf(r.color)||'Set status')+'" style="background:'+(colorOf(r.color)||'#fff')+'"></button><button class="insrow" title="Insert a row below this one">＋</button>';
-        g.querySelector('.clrbtn').onclick=function(ev){ openPalette(ev.target, gr.key, idx); };
-        g.querySelector('.insrow').onclick=function(){ data[gr.key].splice(idx+1,0,blank()); save(); render(); };
-        tr.appendChild(g);
-        ['task','comments','time'].forEach(function(f){
-          var td=document.createElement('td'); td.className='c '+f; td.contentEditable='true'; td.textContent=r[f]||'';
-          if(colorOf(r.color)) td.style.background=colorOf(r.color);
-          td.addEventListener('input',function(){ data[gr.key][idx][f]=td.textContent; clearTimeout(td._t); td._t=setTimeout(save,300); });
-          td.addEventListener('blur',save);
-          tr.appendChild(td);
-        });
-        var d=document.createElement('td'); d.className='d'; d.innerHTML='<button class="delrow" title="Delete row">×</button>';
-        d.querySelector('.delrow').onclick=function(){ if(confirm('Delete this row?')){ data[gr.key].splice(idx,1); if(!data[gr.key].length)data[gr.key]=[blank()]; save(); render(); } };
-        tr.appendChild(d);
-        tb.appendChild(tr);
-      });
-      table.appendChild(tb); scroll.appendChild(table); sec.appendChild(scroll);
+      data[gr.key].forEach(function(proj,pi){ scroll.appendChild(renderProject(gr.key,proj,pi)); });
+      sec.appendChild(scroll);
       groupsWrap.appendChild(sec);
     });
   }
+  function renderProject(pkey, proj, pi){
+    var wrap=document.createElement('div'); wrap.className='todos-proj';
+    var ph=document.createElement('div'); ph.className='todos-proj-h';
+    ph.innerHTML='<span class="proj-name" contenteditable="true" spellcheck="false"></span><button class="addrow">+ Add row</button><button class="delproj" title="Delete this paper">🗑</button>';
+    var nameEl=ph.querySelector('.proj-name'); nameEl.textContent=proj.name||'Untitled paper';
+    nameEl.addEventListener('input',function(){ data[pkey][pi].name=nameEl.textContent; clearTimeout(nameEl._t); nameEl._t=setTimeout(save,300); });
+    nameEl.addEventListener('blur',save);
+    ph.querySelector('.addrow').onclick=function(){ data[pkey][pi].rows.push(blank()); save(); render(); };
+    ph.querySelector('.delproj').onclick=function(){ if(confirm('Delete paper "'+(proj.name||'')+'" and all its rows?')){ data[pkey].splice(pi,1); if(!data[pkey].length)data[pkey]=[{name:defName(pkey),rows:[blank()]}]; save(); render(); } };
+    wrap.appendChild(ph);
+    var table=document.createElement('table'); table.className='todos-table';
+    table.innerHTML='<thead><tr><th style="width:34px"></th><th>Task</th><th>Comments</th><th>Expected time</th><th style="width:28px"></th></tr></thead>';
+    var tb=document.createElement('tbody');
+    proj.rows.forEach(function(r,idx){ tb.appendChild(renderRow(pkey,pi,r,idx)); });
+    table.appendChild(tb); wrap.appendChild(table);
+    return wrap;
+  }
+  function renderRow(pkey,pi,r,idx){
+    var tr=document.createElement('tr');
+    var g=document.createElement('td'); g.className='g';
+    g.innerHTML='<div class="todos-rownum">'+(idx+1)+'</div><button class="clrbtn" title="'+(labelOf(r.color)||'Set status')+'" style="background:'+(colorOf(r.color)||'#fff')+'"></button><button class="insrow" title="Insert a row below">＋</button>';
+    g.querySelector('.clrbtn').onclick=function(ev){ openPalette(ev.target,pkey,pi,idx); };
+    g.querySelector('.insrow').onclick=function(){ data[pkey][pi].rows.splice(idx+1,0,blank()); save(); render(); };
+    tr.appendChild(g);
+    ['task','comments','time'].forEach(function(f){
+      var td=document.createElement('td'); td.className='c '+f; td.contentEditable='true'; td.textContent=r[f]||'';
+      if(colorOf(r.color)) td.style.background=colorOf(r.color);
+      td.addEventListener('input',function(){ data[pkey][pi].rows[idx][f]=td.textContent; clearTimeout(td._t); td._t=setTimeout(save,300); });
+      td.addEventListener('blur',save);
+      tr.appendChild(td);
+    });
+    var d=document.createElement('td'); d.className='d'; d.innerHTML='<button class="delrow" title="Delete row">×</button>';
+    d.querySelector('.delrow').onclick=function(){ if(confirm('Delete this row?')){ data[pkey][pi].rows.splice(idx,1); if(!data[pkey][pi].rows.length)data[pkey][pi].rows=[blank()]; save(); render(); } };
+    tr.appendChild(d);
+    return tr;
+  }
 
-  /* colour palette popover */
+  /* colour palette */
   var pop=null;
-  function openPalette(anchor, gkey, idx){
+  function openPalette(anchor, pkey, pi, idx){
     closePalette();
     pop=document.createElement('div'); pop.className='clr-pop';
     COLORS.forEach(function(x){
       var b=document.createElement('button'); b.innerHTML='<i style="background:'+(x.c||'#fff')+'"></i>'+x.label;
-      b.onclick=function(){ data[gkey][idx].color=x.k; save(); render(); closePalette(); };
+      b.onclick=function(){ data[pkey][pi].rows[idx].color=x.k; save(); render(); closePalette(); };
       pop.appendChild(b);
     });
     document.body.appendChild(pop);
-    var r=anchor.getBoundingClientRect();
-    pop.style.left=Math.min(r.left, window.innerWidth-200)+'px';
-    pop.style.top=(r.bottom+4)+'px';
+    var rc=anchor.getBoundingClientRect();
+    pop.style.left=Math.min(rc.left, window.innerWidth-200)+'px';
+    pop.style.top=(rc.bottom+4)+'px';
     setTimeout(function(){ document.addEventListener('mousedown',outside); },0);
     function outside(e){ if(pop&&!pop.contains(e.target)){ closePalette(); document.removeEventListener('mousedown',outside); } }
   }
@@ -18688,8 +18724,10 @@ document.addEventListener('DOMContentLoaded', initApp);
   /* CSV export */
   function exportCSV(){
     var q=function(s){ s=(s||'').replace(/"/g,'""'); return '"'+s+'"'; };
-    var lines=[['Person','Task','Comments','Expected time','Status'].map(q).join(',')];
-    GROUPS.forEach(function(gr){ data[gr.key].forEach(function(r){ lines.push([q(gr.name),q(r.task),q(r.comments),q(r.time),q(labelOf(r.color))].join(',')); }); });
+    var lines=[['Person','Paper','Task','Comments','Expected time','Status'].map(q).join(',')];
+    GROUPS.forEach(function(gr){ (data[gr.key]||[]).forEach(function(proj){ (proj.rows||[]).forEach(function(r){
+      lines.push([q(gr.name),q(proj.name),q(r.task),q(r.comments),q(r.time),q(labelOf(r.color))].join(','));
+    }); }); });
     var blob=new Blob(['﻿'+lines.join('\r\n')],{type:'text/csv;charset=utf-8;'});
     var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='mindnotes-todos.csv'; a.click();
     setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
@@ -18706,7 +18744,7 @@ document.addEventListener('DOMContentLoaded', initApp);
   document.addEventListener('DOMContentLoaded',injectLauncher);
   injectLauncher();
   var tries=0, iv=setInterval(function(){ injectLauncher(); if(document.getElementById('todosLaunch')||++tries>40) clearInterval(iv); },700);
-  setTimeout(pull, 1200);   // sync on load (once the app's GitHub token is hydrated)
+  setTimeout(pull, 1200);
 })();
 </script>
 </body>
