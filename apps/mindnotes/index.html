@@ -18576,20 +18576,23 @@ document.addEventListener('DOMContentLoaded', initApp);
     }catch(e){ setSync('Saved locally · sync error'); }
   }
   async function pull(){
-    if(!hasToken() || typeof ghFetchFile!=='function') return;
-    try{
-      var r=await ghFetchFile(PATH);
-      if(!r){ await push(true); return; }
-      sha=r.sha;
-      var env=JSON.parse(r.content); var remoteAt=(env&&env.lastEditedAt)||0;
-      if(!dirty && env&&env.data && remoteAt>lastEditedAt){
-        data=normalize(env.data); lastEditedAt=remoteAt; persistLocal(); render(); setSync('Pulled latest from GitHub');
-      } else if(dirty){ await push(false); }
-      else { persistLocal(); setSync('Synced to GitHub'); }
-    }catch(e){}
+    if(typeof ghFetchFile!=='function') return;
+    var r; try{ r=await ghFetchFile(PATH); }catch(e){ return; }   // public repo → works without a token
+    if(!r){ if(hasToken()&&dirty) await push(true); return; }
+    sha=r.sha;
+    var env; try{ env=JSON.parse(r.content); }catch(e){ return; }
+    var remoteAt=(env&&env.lastEditedAt)||0;
+    if(!hasToken()){                                  // shared / read-only viewer → always show the real list
+      if(env&&env.data){ data=normalize(env.data); lastEditedAt=remoteAt; persistLocal(); render(); setSync('Viewing shared todos (read-only)'); }
+      return;
+    }
+    if(!dirty && env&&env.data && remoteAt>lastEditedAt){
+      data=normalize(env.data); lastEditedAt=remoteAt; persistLocal(); render(); setSync('Pulled latest from GitHub');
+    } else if(dirty){ await push(false); }
+    else { persistLocal(); setSync('Synced to GitHub'); }
   }
-  /* a fresh seed must win over the old paraphrased remote → mark dirty & push */
-  if(_seeded){ lastEditedAt=Date.now(); dirty=true; persistLocal(); }
+  /* a fresh seed must win over the old remote → mark dirty & push (owner only; viewers stay read-only) */
+  if(_seeded && hasToken()){ lastEditedAt=Date.now(); dirty=true; persistLocal(); }
 
   /* ---- styles ---- */
   var css=document.createElement('style'); css.textContent=
@@ -18638,6 +18641,7 @@ document.addEventListener('DOMContentLoaded', initApp);
   modal.innerHTML=
     '<div class="todos-h"><b>✔ Todos</b>'+
       '<span id="todosSync" style="font-size:11.5px;color:var(--text2,#888);margin-right:6px"></span>'+
+      '<button data-a="share">🔗 Share link</button>'+
       '<button data-a="csv">⬇ Export (Excel/CSV)</button>'+
       '<button data-a="close">✕ Close</button></div>'+
     '<div class="todos-groups" id="todosGroups"></div>'+
@@ -18647,6 +18651,12 @@ document.addEventListener('DOMContentLoaded', initApp);
   document.body.appendChild(modal);
   modal.querySelector('[data-a=close]').onclick=close;
   modal.querySelector('[data-a=csv]').onclick=exportCSV;
+  modal.querySelector('[data-a=share]').onclick=function(){
+    var link=location.origin+location.pathname+'#todos';
+    try{ navigator.clipboard.writeText(link); }catch(e){}
+    setSync('Link copied');
+    alert('Todos link copied:\n\n'+link+'\n\nAnyone you send it to opens straight to the Todos and sees the current list (read-only — only you can edit).');
+  };
   function open(){ render(); modal.classList.remove('hidden'); pull(); }
   function close(){ modal.classList.add('hidden'); }
 
@@ -18742,6 +18752,7 @@ document.addEventListener('DOMContentLoaded', initApp);
   injectLauncher();
   var tries=0, iv=setInterval(function(){ injectLauncher(); if(document.getElementById('todosLaunch')||++tries>40) clearInterval(iv); },700);
   setTimeout(pull, 1200);
+  if((location.hash||'').replace('#','').toLowerCase()==='todos'){ setTimeout(open, 700); }
 })();
 </script>
 </body>
