@@ -18496,7 +18496,7 @@ document.addEventListener('DOMContentLoaded', initApp);
    ============================================================ */
 (function(){
   'use strict';
-  var LSK='mindnotes_todos_v1', SEEDVER='mindnotes_todos_seedver', SEEDVAL='v4fc';
+  var LSK='mindnotes_todos_v1', SEEDVER='mindnotes_todos_seedver', SEEDVAL='v5fc';
   var COLORS=[
     {k:'',      label:'None',          c:''       },
     {k:'orange',label:'Working on it', c:'#f6b26b'},
@@ -18513,9 +18513,11 @@ document.addEventListener('DOMContentLoaded', initApp);
 
   function makeSeed(){
     function r(task,color){ return {task:task, comments:'', time:'', color:color||''}; }
-    function general(){ return [
+    function greens(){ return [
       r('Read the documentation and understand the details of what the projects are about.','green'),
-      r('Create the replication package: organise the folder structure, take the most up-to-date inputs, reorganise the code, write the documentation, and ensure the output is fully regenerated.','green'),
+      r('Create the replication package: organise the folder structure, take the most up-to-date inputs, reorganise the code, write the documentation, and ensure the output is fully regenerated.','green')
+    ]; }
+    function rest(){ return [
       r('Ensure the questions and answers make sense. Did the questions change over time? Aim for maximum consistency. If not already done, rename the Qualtrics variable names for maximum consistency (in many projects this has already been done).'),
       r('Ensure the sample is truly what you expect, especially for the Kenya project (dedicate a large space in the dashboard for Kenya; a small one for the Italian education data if everything is fine). Check the distribution structure of the responses (how many are 20% complete, how many 40%, etc.).'),
       r('Try to connect the endline to the baseline as much as possible: if there is any information that can be filled into the endline from the baseline where it is missing, or any consistency check that can be run, do so.'),
@@ -18529,8 +18531,8 @@ document.addEventListener('DOMContentLoaded', initApp);
       r('Massive task: read the survey firm report work/Kenya_Lactation_Rooms_replication/1634 LEAP - EDI Global - PCR - 260730.pdf. Divide it into claims and test each claim against the actual data. This must be done with the maximum level of precision.')
     ]; }
     return {
-      fiorin:[{name:'Kenya Lactation', rows:general().concat(kenya())}],
-      carlana:[{name:'Teacher project', rows:general()}]
+      fiorin:[{name:'Kenya Lactation', rows:greens().concat(kenya()).concat(rest())}],
+      carlana:[{name:'Teacher project', rows:greens().concat(rest())}]
     };
   }
   function normalize(d){
