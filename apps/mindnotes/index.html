@@ -18572,6 +18572,7 @@ document.addEventListener('DOMContentLoaded', initApp);
     '.todos-rownum{color:#9ca3af;font-size:11px}'+
     '.clrbtn{border:1px solid rgba(0,0,0,.2);width:16px;height:16px;border-radius:50%;cursor:pointer;padding:0;display:inline-block}'+
     '.delrow{border:none;background:transparent;color:#bbb;font-size:16px;cursor:pointer;line-height:1}.delrow:hover{color:#e11}'+
+    '.insrow{border:none;background:transparent;color:#9ca3af;font-size:14px;cursor:pointer;line-height:1;display:block;margin:3px auto 0;font-weight:700}.insrow:hover{color:var(--accent,#e08635)}'+
     '.todos-foot{display:flex;align-items:center;gap:12px;padding:8px 18px;border-top:1px solid var(--bg3,#e5e7eb);font-size:11.5px;color:var(--text2,#666);flex-wrap:wrap}'+
     '.todos-foot .lg{display:flex;align-items:center;gap:5px}.todos-foot .lg i{width:12px;height:12px;border-radius:3px;display:inline-block;border:1px solid rgba(0,0,0,.15)}'+
     '.clr-pop{position:fixed;background:#fff;border:1px solid #d1d5db;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.2);padding:6px;z-index:100001;display:flex;flex-direction:column;gap:2px}'+
@@ -18612,8 +18613,9 @@ document.addEventListener('DOMContentLoaded', initApp);
       rows.forEach(function(r,idx){
         var tr=document.createElement('tr');
         var g=document.createElement('td'); g.className='g';
-        g.innerHTML='<div class="todos-rownum">'+(idx+1)+'</div><button class="clrbtn" title="'+(labelOf(r.color)||'Set status')+'" style="background:'+(colorOf(r.color)||'#fff')+'"></button>';
+        g.innerHTML='<div class="todos-rownum">'+(idx+1)+'</div><button class="clrbtn" title="'+(labelOf(r.color)||'Set status')+'" style="background:'+(colorOf(r.color)||'#fff')+'"></button><button class="insrow" title="Insert a row below this one">＋</button>';
         g.querySelector('.clrbtn').onclick=function(ev){ openPalette(ev.target, gr.key, idx); };
+        g.querySelector('.insrow').onclick=function(){ data[gr.key].splice(idx+1,0,blank()); save(); render(); };
         tr.appendChild(g);
         ['task','comments','time'].forEach(function(f){
           var td=document.createElement('td'); td.className='c '+f; td.contentEditable='true'; td.textContent=r[f]||'';
