@@ -18624,6 +18624,9 @@ document.addEventListener('DOMContentLoaded', initApp);
     '.todos-group-h{display:flex;align-items:center;gap:12px;padding:9px 16px;background:#fbf6ef;border-bottom:1px solid #e5e7eb}'+
     '.todos-group-h b{font-size:22px;letter-spacing:.02em;flex:1;color:#1d4ed8;font-weight:800}'+
     '.todos-group-h .addproj{border:1px solid #1d4ed8;background:#1d4ed8;color:#fff;border-radius:7px;padding:5px 11px;font-size:12.5px;font-weight:600;cursor:pointer}'+
+    '.todos-group-h .solox{border:1.5px solid #e11;background:#fff;color:#e11;border-radius:50%;width:24px;height:24px;font-weight:700;cursor:pointer;line-height:1;padding:0}'+
+    '.todos-group-h .solox:hover{background:#e11;color:#fff}'+
+    '.todos-group-h .bothbtn{border:1px solid #1d4ed8;background:#fff;color:#1d4ed8;border-radius:7px;padding:5px 10px;font-size:12px;font-weight:600;cursor:pointer}'+
     '.todos-scroll{flex:1;overflow:auto;padding-bottom:20px}'+
     '.todos-proj{border-bottom:2px solid #eef0f2;padding-bottom:8px}'+
     '.todos-proj-h{display:flex;align-items:center;gap:10px;padding:10px 14px 6px;position:sticky;top:0;background:var(--bg2,#fff);z-index:2}'+
@@ -18679,12 +18682,18 @@ document.addEventListener('DOMContentLoaded', initApp);
   function close(){ modal.classList.add('hidden'); }
 
   var groupsWrap=modal.querySelector('#todosGroups');
+  var focus=null;   // null = show both; 'fiorin'/'carlana' = show only that person
   function render(){
     groupsWrap.innerHTML='';
     GROUPS.forEach(function(gr){
+      if(focus && focus!==gr.key) return;   // solo mode → skip the other person
       var sec=document.createElement('div'); sec.className='todos-group';
       var h=document.createElement('div'); h.className='todos-group-h';
-      h.innerHTML='<b>'+gr.name+'</b><button class="addproj">+ Add paper</button>';
+      h.innerHTML='<b>'+gr.name+'</b>'+
+        (focus?'<button class="bothbtn" title="Show both people">⊞ Show both</button>':'<button class="solox" title="Show only '+gr.name+'">✕</button>')+
+        '<button class="addproj">+ Add paper</button>';
+      var sx=h.querySelector('.solox'); if(sx) sx.onclick=function(){ focus=gr.key; render(); };
+      var bb=h.querySelector('.bothbtn'); if(bb) bb.onclick=function(){ focus=null; render(); };
       h.querySelector('.addproj').onclick=function(){ data[gr.key].push({name:'New paper',rows:[blank()]}); save(); render(); };
       sec.appendChild(h);
       var scroll=document.createElement('div'); scroll.className='todos-scroll';
