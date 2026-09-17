@@ -18633,7 +18633,10 @@ document.addEventListener('DOMContentLoaded', initApp);
     '.todos-foot .lg{display:flex;align-items:center;gap:5px}.todos-foot .lg i{width:12px;height:12px;border-radius:3px;display:inline-block;border:1px solid rgba(0,0,0,.15)}'+
     '.clr-pop{position:fixed;background:#fff;border:1px solid #d1d5db;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.2);padding:6px;z-index:100001;display:flex;flex-direction:column;gap:2px}'+
     '.clr-pop button{display:flex;align-items:center;gap:8px;border:none;background:transparent;padding:5px 8px;border-radius:6px;cursor:pointer;font-size:12.5px;white-space:nowrap;color:#111}'+
-    '.clr-pop button:hover{background:#f3f4f6}.clr-pop i{width:14px;height:14px;border-radius:4px;border:1px solid rgba(0,0,0,.15);display:inline-block}';
+    '.clr-pop button:hover{background:#f3f4f6}.clr-pop i{width:14px;height:14px;border-radius:4px;border:1px solid rgba(0,0,0,.15);display:inline-block}'+
+    'html.todos-only body>*:not(.todos-modal){display:none !important}'+
+    'html.todos-only .todos-modal{inset:0 !important}'+
+    'html.todos-only .todos-h [data-a=close]{display:none}';
   document.head.appendChild(css);
 
   /* ---- modal ---- */
@@ -18752,7 +18755,11 @@ document.addEventListener('DOMContentLoaded', initApp);
   injectLauncher();
   var tries=0, iv=setInterval(function(){ injectLauncher(); if(document.getElementById('todosLaunch')||++tries>40) clearInterval(iv); },700);
   setTimeout(pull, 1200);
-  if((location.hash||'').replace('#','').toLowerCase()==='todos'){ setTimeout(open, 700); }
+  if((location.hash||'').replace('#','').toLowerCase()==='todos'){
+    document.documentElement.classList.add('todos-only');   // hide the rest of the app
+    render(); modal.classList.remove('hidden'); pull();      // open once (single pull)
+    setInterval(function(){ document.documentElement.classList.add('todos-only'); modal.classList.remove('hidden'); }, 500); // keep it open if the app re-renders
+  }
 })();
 </script>
 </body>
