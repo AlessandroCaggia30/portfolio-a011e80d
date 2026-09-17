@@ -18574,8 +18574,10 @@ document.addEventListener('DOMContentLoaded', initApp);
       var newSha=await ghPutFile(PATH, payload, msg, sha||undefined);   // uses the app's token (localStorage OR vault)
       sha=newSha; dirty=false; persistLocal(); setSync('Synced to GitHub ✓');
     }catch(e){
-      var m=(e&&e.message)||'';
-      setSync(/token/i.test(m) ? 'Saved locally — NO GitHub token in this browser (paste it in Sync settings to sync todos)' : ('Saved locally — sync error: '+m.slice(0,90)));
+      var m=(e&&e.message)||String(e);
+      try{ console.error('[todos sync] push failed:', e); }catch(_){}
+      setSync('Sync error: '+m);
+      if(!window.__todosErrShown){ window.__todosErrShown=true; try{ alert('Todos sync error — please send me this exact text:\n\n'+m); }catch(_){}}
     }
   }
   async function pull(){
