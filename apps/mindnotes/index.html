@@ -18489,17 +18489,14 @@ document.addEventListener('DOMContentLoaded', initApp);
 </script>
 <script>
 /* ============================================================
-   MindNotes Todos grid v3 — paper-specific
-   - "✔ Todos" button (in place of the agenda section)
-   - Full-page sheet, two people side by side: Fiorin | Carlana
-   - Each person holds MULTIPLE papers (subsections); each paper
-     has its own Task · Comments · Expected time rows + status colour
-   - orange = currently working on. Insert row anywhere.
-   - Persistence = notes structure: local copy + GitHub push/pull.
+   MindNotes Todos grid v4 — paper-specific, verbatim task text
+   Fiorin | Carlana, each with papers (subsections); rows =
+   Task · Comments · Expected time + status colour (orange = working).
+   Persistence = notes structure: local copy + GitHub push/pull.
    ============================================================ */
 (function(){
   'use strict';
-  var LSK='mindnotes_todos_v1', SEEDVER='mindnotes_todos_seedver';
+  var LSK='mindnotes_todos_v1', SEEDVER='mindnotes_todos_seedver', SEEDVAL='v4fc';
   var COLORS=[
     {k:'',      label:'None',          c:''       },
     {k:'orange',label:'Working on it', c:'#f6b26b'},
@@ -18514,47 +18511,46 @@ document.addEventListener('DOMContentLoaded', initApp);
   function blank(){ return {task:'',comments:'',time:'',color:''}; }
   function defName(k){ return k==='fiorin'?'Kenya Lactation':'Teacher project'; }
 
-  /* project structure: data[person] = [ {name, rows:[...]} , ... ] */
   function makeSeed(){
-    var repl={task:'Create replication package',comments:'Folder organization; take most-updated inputs; reorganize code; write documentation; ensure output regenerates.',time:'',color:'green'};
-    function gen(){ return [
-      {task:'Read documentation & understand the projects',comments:'Understand in detail what each project is about.',time:'',color:''},
-      {task:'Questions/answers sanity & consistency over time',comments:'Did questions change over time? Rename Qualtrics variable names for max consistency (often already done).',time:'',color:''},
-      {task:'Verify the sample is as expected',comments:'Especially Kenya (large dashboard space); Italian education small if all OK. Check completion structure — how many 20% / 40% / … complete.',time:'',color:''},
-      {task:'Connect endline to baseline',comments:'Backfill any endline fields missing but present in baseline; run consistency checks across the two.',time:'',color:''},
-      {task:'Classify & clean all variables (major)',comments:'Classify by importance; assign clear local names. Within-column distributions, correct labels, missing values, outliers → dashboard. Show before/after cleaning (target: no issues after).',time:'',color:''},
-      {task:'Multi-round benchmarking',comments:'e.g. Italian education fieldwork 2024 vs 2025 — use previous cleaning/results as benchmarks. Deep; orchestrate with multiple agents.',time:'',color:''},
-      {task:'Bonus: gap & best-practice review',comments:'Review all prior cleaning/analysis for gaps; scan literature/materials online for good practices & better options.',time:'',color:''}
+    function r(task,color){ return {task:task, comments:'', time:'', color:color||''}; }
+    function general(){ return [
+      r('Read the documentation and understand the details of what the projects are about.','green'),
+      r('Create the replication package: organise the folder structure, take the most up-to-date inputs, reorganise the code, write the documentation, and ensure the output is fully regenerated.','green'),
+      r('Ensure the questions and answers make sense. Did the questions change over time? Aim for maximum consistency. If not already done, rename the Qualtrics variable names for maximum consistency (in many projects this has already been done).'),
+      r('Ensure the sample is truly what you expect, especially for the Kenya project (dedicate a large space in the dashboard for Kenya; a small one for the Italian education data if everything is fine). Check the distribution structure of the responses (how many are 20% complete, how many 40%, etc.).'),
+      r('Try to connect the endline to the baseline as much as possible: if there is any information that can be filled into the endline from the baseline where it is missing, or any consistency check that can be run, do so.'),
+      r('Major: understand all variables in the surveys and classify them by importance; assign clear names (all local). Then produce within-column distributions (both), correct labels, missing values, outliers, and everything else required in a cleaning task like this (and add the results to the dashboard). I want to see literally distributional tables showing what values these variables take, and I want to see them before and after cleaning; ideally, after cleaning there should be no remaining issues.'),
+      r('If there are multiple rounds (e.g. the Italian education data fieldwork in 2024 and 2025), use the previous cleaning and results as benchmarks. This is an extremely deep and complex task that must be orchestrated with multiple agents.'),
+      r('Bonus agent: review everything done in the previous cleaning and analysis — are we missing anything relevant? Check the literature and materials online — are we missing any good practices or interesting options?')
     ]; }
-    var kenya=[
-      {task:'Kenya: questionnaire structure sane',comments:'Check skip patterns etc. (Fiorin only.)',time:'',color:''},
-      {task:'Kenya: verify survey-firm cleaning',comments:'Firm provided the ado + raw + polished — verify every cleaning decision they made and confirm no mistakes; then understand what the ado did.',time:'',color:''},
-      {task:'Kenya: audit PCR report claim-by-claim (massive)',comments:'Read work/Kenya_Lactation_Rooms_replication/1634 LEAP - EDI Global - PCR - 260730.pdf; split into individual claims; test each claim against the actual data with maximum precision.',time:'',color:''}
-    ];
+    function kenya(){ return [
+      r('Ensure the questionnaire structure is sane, e.g. skip patterns. (Fiorin only.)'),
+      r('The survey firm provided the ado, the raw data, and the polished data; we need to ensure they performed a perfect cleaning and made no mistakes. We therefore need to verify every single cleaning decision they took, and then understand what was in the ado. Ensure that csv → import.do → .dta → clean.do → final.dta reproduces exactly. Check whether the proprietary ado files are necessary.'),
+      r('Massive task: read the survey firm report work/Kenya_Lactation_Rooms_replication/1634 LEAP - EDI Global - PCR - 260730.pdf. Divide it into claims and test each claim against the actual data. This must be done with the maximum level of precision.')
+    ]; }
     return {
-      fiorin:[{name:'Kenya Lactation', rows:[Object.assign({},repl)].concat(gen()).concat(kenya)}],
-      carlana:[{name:'Teacher project', rows:[Object.assign({},repl)].concat(gen())}]
+      fiorin:[{name:'Kenya Lactation', rows:general().concat(kenya())}],
+      carlana:[{name:'Teacher project', rows:general()}]
     };
   }
-  /* convert any older shape into the paper structure (idempotent) */
   function normalize(d){
     d=d||{};
     ['fiorin','carlana'].forEach(function(k){
       var v=d[k];
       if(!Array.isArray(v)||!v.length){ d[k]=[{name:defName(k),rows:[blank()]}]; return; }
-      if(v[0] && Array.isArray(v[0].rows)) return;          // already papers
-      d[k]=[{name:defName(k), rows:v}];                     // wrap old rows-array into the default paper
+      if(v[0] && Array.isArray(v[0].rows)) return;
+      d[k]=[{name:defName(k), rows:v}];
     });
     return d;
   }
 
-  /* ---- persistence: local copy + GitHub push/pull (same structure as notes) ---- */
+  /* ---- persistence: local copy + GitHub push/pull (same as notes) ---- */
   var PATH='apps/mindnotes/data_todos.json', META='mindnotes_todos_meta';
   var _seeded=false, sha=null, lastEditedAt=0, dirty=false, pushTimer=null;
   try{ var _m=JSON.parse(localStorage.getItem(META))||{}; sha=_m.sha||null; lastEditedAt=_m.lastEditedAt||0; }catch(e){}
   function load(){
     try{
-      if(localStorage.getItem(SEEDVER)!=='v2fc'){ var sd=makeSeed(); localStorage.setItem(LSK,JSON.stringify(sd)); localStorage.setItem(SEEDVER,'v2fc'); _seeded=true; return sd; }
+      if(localStorage.getItem(SEEDVER)!==SEEDVAL){ var sd=makeSeed(); localStorage.setItem(LSK,JSON.stringify(sd)); localStorage.setItem(SEEDVER,SEEDVAL); _seeded=true; return sd; }
       var v=JSON.parse(localStorage.getItem(LSK));
       if(v && (v.fiorin||v.carlana)) return normalize(v);
       if(Array.isArray(v)) return normalize({fiorin:v});
@@ -18588,8 +18584,10 @@ document.addEventListener('DOMContentLoaded', initApp);
         data=normalize(env.data); lastEditedAt=remoteAt; persistLocal(); render(); setSync('Pulled latest from GitHub');
       } else if(dirty){ await push(false); }
       else { persistLocal(); setSync('Synced to GitHub'); }
-    }catch(e){ /* offline / parse issue → keep local */ }
+    }catch(e){}
   }
+  /* a fresh seed must win over the old paraphrased remote → mark dirty & push */
+  if(_seeded){ lastEditedAt=Date.now(); dirty=true; persistLocal(); }
 
   /* ---- styles ---- */
   var css=document.createElement('style'); css.textContent=
@@ -18618,7 +18616,7 @@ document.addEventListener('DOMContentLoaded', initApp);
     '.todos-table th{background:#f3f4f6;color:#374151;border:1px solid #d1d5db;padding:6px 10px;text-align:left;font-weight:700}'+
     '.todos-table td{border:1px solid #d9dde2;padding:0;vertical-align:top;background:#fff}'+
     '.todos-table td.c{padding:7px 10px;outline:none}'+
-    '.todos-table td.c.task{min-width:180px;font-weight:500}'+
+    '.todos-table td.c.task{min-width:220px;font-weight:500}'+
     '.todos-table td.c.time{min-width:96px;white-space:nowrap}'+
     '.todos-table td.g{width:34px;text-align:center;background:#fafafa}'+
     '.todos-table td.d{width:28px;text-align:center;background:#fafafa}'+
@@ -18633,7 +18631,7 @@ document.addEventListener('DOMContentLoaded', initApp);
     '.clr-pop button:hover{background:#f3f4f6}.clr-pop i{width:14px;height:14px;border-radius:4px;border:1px solid rgba(0,0,0,.15);display:inline-block}';
   document.head.appendChild(css);
 
-  /* ---- modal (full page) ---- */
+  /* ---- modal ---- */
   var modal=document.createElement('div'); modal.className='todos-modal hidden';
   modal.innerHTML=
     '<div class="todos-h"><b>✔ Todos</b>'+
@@ -18678,20 +18676,20 @@ document.addEventListener('DOMContentLoaded', initApp);
     var table=document.createElement('table'); table.className='todos-table';
     table.innerHTML='<thead><tr><th style="width:34px"></th><th>Task</th><th>Comments</th><th>Expected time</th><th style="width:28px"></th></tr></thead>';
     var tb=document.createElement('tbody');
-    proj.rows.forEach(function(r,idx){ tb.appendChild(renderRow(pkey,pi,r,idx)); });
+    proj.rows.forEach(function(rw,idx){ tb.appendChild(renderRow(pkey,pi,rw,idx)); });
     table.appendChild(tb); wrap.appendChild(table);
     return wrap;
   }
-  function renderRow(pkey,pi,r,idx){
+  function renderRow(pkey,pi,rw,idx){
     var tr=document.createElement('tr');
     var g=document.createElement('td'); g.className='g';
-    g.innerHTML='<div class="todos-rownum">'+(idx+1)+'</div><button class="clrbtn" title="'+(labelOf(r.color)||'Set status')+'" style="background:'+(colorOf(r.color)||'#fff')+'"></button><button class="insrow" title="Insert a row below">＋</button>';
+    g.innerHTML='<div class="todos-rownum">'+(idx+1)+'</div><button class="clrbtn" title="'+(labelOf(rw.color)||'Set status')+'" style="background:'+(colorOf(rw.color)||'#fff')+'"></button><button class="insrow" title="Insert a row below">＋</button>';
     g.querySelector('.clrbtn').onclick=function(ev){ openPalette(ev.target,pkey,pi,idx); };
     g.querySelector('.insrow').onclick=function(){ data[pkey][pi].rows.splice(idx+1,0,blank()); save(); render(); };
     tr.appendChild(g);
     ['task','comments','time'].forEach(function(f){
-      var td=document.createElement('td'); td.className='c '+f; td.contentEditable='true'; td.textContent=r[f]||'';
-      if(colorOf(r.color)) td.style.background=colorOf(r.color);
+      var td=document.createElement('td'); td.className='c '+f; td.contentEditable='true'; td.textContent=rw[f]||'';
+      if(colorOf(rw.color)) td.style.background=colorOf(rw.color);
       td.addEventListener('input',function(){ data[pkey][pi].rows[idx][f]=td.textContent; clearTimeout(td._t); td._t=setTimeout(save,300); });
       td.addEventListener('blur',save);
       tr.appendChild(td);
@@ -18702,7 +18700,6 @@ document.addEventListener('DOMContentLoaded', initApp);
     return tr;
   }
 
-  /* colour palette */
   var pop=null;
   function openPalette(anchor, pkey, pi, idx){
     closePalette();
@@ -18721,19 +18718,17 @@ document.addEventListener('DOMContentLoaded', initApp);
   }
   function closePalette(){ if(pop){ pop.remove(); pop=null; } }
 
-  /* CSV export */
   function exportCSV(){
     var q=function(s){ s=(s||'').replace(/"/g,'""'); return '"'+s+'"'; };
     var lines=[['Person','Paper','Task','Comments','Expected time','Status'].map(q).join(',')];
-    GROUPS.forEach(function(gr){ (data[gr.key]||[]).forEach(function(proj){ (proj.rows||[]).forEach(function(r){
-      lines.push([q(gr.name),q(proj.name),q(r.task),q(r.comments),q(r.time),q(labelOf(r.color))].join(','));
+    GROUPS.forEach(function(gr){ (data[gr.key]||[]).forEach(function(proj){ (proj.rows||[]).forEach(function(rw){
+      lines.push([q(gr.name),q(proj.name),q(rw.task),q(rw.comments),q(rw.time),q(labelOf(rw.color))].join(','));
     }); }); });
     var blob=new Blob(['﻿'+lines.join('\r\n')],{type:'text/csv;charset=utf-8;'});
     var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='mindnotes-todos.csv'; a.click();
     setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
   }
 
-  /* ---- launcher ---- */
   function injectLauncher(){
     if(document.getElementById('todosLaunch')) return;
     var ag=document.querySelector('.agenda-section');
