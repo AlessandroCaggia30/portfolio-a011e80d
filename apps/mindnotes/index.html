@@ -18534,15 +18534,46 @@ document.addEventListener('DOMContentLoaded', initApp);
   }
   function load(){
     try{
-      if(localStorage.getItem(SEEDVER)!=='v2fc'){ var sd=makeSeed(); localStorage.setItem(LSK,JSON.stringify(sd)); localStorage.setItem(SEEDVER,'v2fc'); return sd; }
+      if(localStorage.getItem(SEEDVER)!=='v2fc'){ var sd=makeSeed(); localStorage.setItem(LSK,JSON.stringify(sd)); localStorage.setItem(SEEDVER,'v2fc'); _seeded=true; return sd; }
       var v=JSON.parse(localStorage.getItem(LSK));
       if(v&&v.fiorin&&v.carlana) return v;
       if(Array.isArray(v)) return {fiorin:(v.length?v:[blank()]), carlana:[blank()]};
     }catch(e){}
     return makeSeed();
   }
+  /* ---- persistence: local copy + GitHub push/pull (same structure as notes) ---- */
+  var PATH='apps/mindnotes/data_todos.json', META='mindnotes_todos_meta';
+  var _seeded=false, sha=null, lastEditedAt=0, dirty=false, pushTimer=null;
+  try{ var _m=JSON.parse(localStorage.getItem(META))||{}; sha=_m.sha||null; lastEditedAt=_m.lastEditedAt||0; }catch(e){}
   var data=load();
-  function save(){ localStorage.setItem(LSK, JSON.stringify(data)); }
+  function hasToken(){ try{ return !!localStorage.getItem('mindnotes_ghToken'); }catch(e){ return false; } }
+  function persistLocal(){ try{ localStorage.setItem(LSK,JSON.stringify(data)); localStorage.setItem(META,JSON.stringify({sha:sha,lastEditedAt:lastEditedAt})); }catch(e){} }
+  function setSync(t){ var el=document.getElementById('todosSync'); if(el) el.textContent=t; }
+  function save(){ lastEditedAt=Date.now(); dirty=true; persistLocal(); setSync('Saved locally · syncing…'); schedulePush(); }
+  function schedulePush(){ clearTimeout(pushTimer); pushTimer=setTimeout(function(){ push(false); },1500); }
+  async function push(force){
+    if(!force && !dirty) return;
+    if(!hasToken() || typeof ghPutFile!=='function'){ setSync('Saved locally (no GitHub token)'); return; }
+    var payload=JSON.stringify({version:1,exportedAt:new Date().toISOString(),lastEditedAt:lastEditedAt,data:data},null,1);
+    try{
+      var msg='mindnotes: update todos '+new Date().toISOString().slice(0,19).replace('T',' ');
+      var newSha=await ghPutFile(PATH, payload, msg, sha||undefined);
+      sha=newSha; dirty=false; persistLocal(); setSync('Synced to GitHub');
+    }catch(e){ setSync('Saved locally · sync error'); }
+  }
+  async function pull(){
+    if(!hasToken() || typeof ghFetchFile!=='function') return;
+    try{
+      var r=await ghFetchFile(PATH);
+      if(!r){ await push(true); return; }                 // first time → create the file from local
+      sha=r.sha;
+      var env=JSON.parse(r.content); var remoteAt=(env&&env.lastEditedAt)||0;
+      if(!dirty && env&&env.data&&env.data.fiorin&&env.data.carlana && remoteAt>lastEditedAt){
+        data=env.data; lastEditedAt=remoteAt; persistLocal(); render(); setSync('Pulled latest from GitHub');
+      } else if(dirty){ await push(false); }
+      else { persistLocal(); setSync('Synced to GitHub'); }
+    }catch(e){ /* offline / parse issue → keep local */ }
+  }
 
   /* ---- styles ---- */
   var css=document.createElement('style'); css.textContent=
@@ -18584,6 +18615,7 @@ document.addEventListener('DOMContentLoaded', initApp);
   var modal=document.createElement('div'); modal.className='todos-modal hidden';
   modal.innerHTML=
     '<div class="todos-h"><b>✔ Todos</b>'+
+      '<span id="todosSync" style="font-size:11.5px;color:var(--text2,#888);margin-right:6px"></span>'+
       '<button data-a="csv">⬇ Export (Excel/CSV)</button>'+
       '<button data-a="close">✕ Close</button></div>'+
     '<div class="todos-groups" id="todosGroups"></div>'+
@@ -18593,7 +18625,7 @@ document.addEventListener('DOMContentLoaded', initApp);
   document.body.appendChild(modal);
   modal.querySelector('[data-a=close]').onclick=close;
   modal.querySelector('[data-a=csv]').onclick=exportCSV;
-  function open(){ render(); modal.classList.remove('hidden'); }
+  function open(){ render(); modal.classList.remove('hidden'); pull(); }
   function close(){ modal.classList.add('hidden'); }
 
   var groupsWrap=modal.querySelector('#todosGroups');
@@ -18674,6 +18706,7 @@ document.addEventListener('DOMContentLoaded', initApp);
   document.addEventListener('DOMContentLoaded',injectLauncher);
   injectLauncher();
   var tries=0, iv=setInterval(function(){ injectLauncher(); if(document.getElementById('todosLaunch')||++tries>40) clearInterval(iv); },700);
+  setTimeout(pull, 1200);   // sync on load (once the app's GitHub token is hydrated)
 })();
 </script>
 </body>
