@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-17T15:22:06.574Z",
- "lastEditedAt": 1789658525073,
+ "exportedAt": "2026-09-17T15:22:10.346Z",
+ "lastEditedAt": 1789658528839,
  "data": {
   "fiorin": [
    {
@@ -26,7 +26,7 @@
       "color": "blue"
      },
      {
-      "task": "The survey firm provided the ado, the raw data, and the polished data; S STEP 1) Ensure that csv → import.do → .dta → clean.do → final.dta reproduces exactly. Check whether the proprietary ado files are necessary. CURRENT ISSUE: 5 YES IN OUR OUTPUT AFTER",
+      "task": "The survey firm provided the ado, the raw data, and the polished data; S STEP 1) Ensure that csv → import.do → .dta → clean.do → final.dta reproduces exactly. Check whether the proprietary ado files are necessary. CURRENT ISSUE: 5 YES IN OUR OUTPUT AFTER CLEAN THAT FOR EDI ARE EMPTU.",
       "comments": "",
       "time": "",
       "color": "yellow"
