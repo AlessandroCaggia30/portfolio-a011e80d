@@ -18512,12 +18512,34 @@ document.addEventListener('DOMContentLoaded', initApp);
   function labelOf(k){ for(var i=0;i<COLORS.length;i++) if(COLORS[i].k===k) return COLORS[i].label; return ''; }
   function blank(){ return {task:'',comments:'',time:'',color:''}; }
 
+  /* one-time seed content (installs once, then user edits persist) */
+  var SEEDVER='mindnotes_todos_seedver';
+  function makeSeed(){
+    var repl={task:'Create replication package',comments:'Folder organization; take most-updated inputs; reorganize code; write documentation; ensure output regenerates.',time:'',color:'green'};
+    function gen(){ return [
+      {task:'Read documentation & understand the projects',comments:'Understand in detail what each project is about.',time:'',color:''},
+      {task:'Questions/answers sanity & consistency over time',comments:'Did questions change over time? Rename Qualtrics variable names for max consistency (often already done).',time:'',color:''},
+      {task:'Verify the sample is as expected',comments:'Especially Kenya (large dashboard space); Italian education small if all OK. Check completion structure — how many 20% / 40% / … complete.',time:'',color:''},
+      {task:'Connect endline to baseline',comments:'Backfill any endline fields missing but present in baseline; run consistency checks across the two.',time:'',color:''},
+      {task:'Classify & clean all variables (major)',comments:'Classify by importance; assign clear local names. Within-column distributions, correct labels, missing values, outliers → dashboard. Show before/after cleaning (target: no issues after).',time:'',color:''},
+      {task:'Multi-round benchmarking',comments:'e.g. Italian education fieldwork 2024 vs 2025 — use previous cleaning/results as benchmarks. Deep; orchestrate with multiple agents.',time:'',color:''},
+      {task:'Bonus: gap & best-practice review',comments:'Review all prior cleaning/analysis for gaps; scan literature/materials online for good practices & better options.',time:'',color:''}
+    ]; }
+    var kenya=[
+      {task:'Kenya: questionnaire structure sane',comments:'Check skip patterns etc. (Fiorin only.)',time:'',color:''},
+      {task:'Kenya: verify survey-firm cleaning',comments:'Firm provided the ado + raw + polished — verify every cleaning decision they made and confirm no mistakes; then understand what the ado did.',time:'',color:''},
+      {task:'Kenya: audit PCR report claim-by-claim (massive)',comments:'Read work/Kenya_Lactation_Rooms_replication/1634 LEAP - EDI Global - PCR - 260730.pdf; split into individual claims; test each claim against the actual data with maximum precision.',time:'',color:''}
+    ];
+    return { fiorin:[Object.assign({},repl)].concat(gen()).concat(kenya), carlana:[Object.assign({},repl)].concat(gen()) };
+  }
   function load(){
-    try{ var v=JSON.parse(localStorage.getItem(LSK));
-      if(Array.isArray(v)) return {fiorin:(v.length?v:[blank()]), carlana:[blank()]};   // migrate old flat list
+    try{
+      if(localStorage.getItem(SEEDVER)!=='v2fc'){ var sd=makeSeed(); localStorage.setItem(LSK,JSON.stringify(sd)); localStorage.setItem(SEEDVER,'v2fc'); return sd; }
+      var v=JSON.parse(localStorage.getItem(LSK));
       if(v&&v.fiorin&&v.carlana) return v;
+      if(Array.isArray(v)) return {fiorin:(v.length?v:[blank()]), carlana:[blank()]};
     }catch(e){}
-    return {fiorin:[blank()], carlana:[blank()]};
+    return makeSeed();
   }
   var data=load();
   function save(){ localStorage.setItem(LSK, JSON.stringify(data)); }
