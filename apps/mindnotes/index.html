@@ -18565,26 +18565,39 @@ document.addEventListener('DOMContentLoaded', initApp);
   function setSync(t){ var el=document.getElementById('todosSync'); if(el) el.textContent=t; }
   function save(){ lastEditedAt=Date.now(); dirty=true; persistLocal(); setSync('Saved locally · syncing…'); schedulePush(); }
   function schedulePush(){ clearTimeout(pushTimer); pushTimer=setTimeout(function(){ push(false); },1500); }
+  /* ---- self-contained GitHub I/O (does NOT depend on the app's functions) ---- */
+  var GH_URL='https://api.github.com/repos/AlessandroCaggia30/portfolio-a011e80d/contents/'+PATH;
+  function ghTok(){ try{ return localStorage.getItem('mindnotes_ghToken')||''; }catch(e){ return ''; } }
+  function b64e(s){ return btoa(unescape(encodeURIComponent(s))); }
+  function b64d(b){ try{ return decodeURIComponent(escape(atob((b||'').replace(/\n/g,'')))); }catch(e){ return ''; } }
+  async function ghGet(){
+    var h={'Accept':'application/vnd.github+json'}; var t=ghTok(); if(t) h['Authorization']='Bearer '+t;
+    var res=await fetch(GH_URL+'?ref=main&t='+Date.now(),{headers:h,cache:'no-store'});
+    if(res.status===404) return null;
+    if(!res.ok) throw new Error('GET '+res.status);
+    var j=await res.json(); return {content:b64d(j.content), sha:j.sha};
+  }
+  async function ghPut(str, curSha){
+    var t=ghTok(); if(!t) throw new Error('No GitHub token set');
+    function req(sh){ var body={message:'mindnotes: update todos '+new Date().toISOString().slice(0,19).replace('T',' '), content:b64e(str), branch:'main'}; if(sh) body.sha=sh;
+      return fetch(GH_URL,{method:'PUT',headers:{'Accept':'application/vnd.github+json','Authorization':'Bearer '+t,'Content-Type':'application/json'},body:JSON.stringify(body)}); }
+    var res=await req(curSha||undefined);
+    if(res.status===409||res.status===422){ var cur=null; try{cur=await ghGet();}catch(e){} res=await req(cur?cur.sha:undefined); }
+    if(!res.ok){ var txt=''; try{txt=await res.text();}catch(e){} throw new Error('PUT '+res.status+' '+txt.slice(0,140)); }
+    var jj=await res.json(); return jj.content.sha;
+  }
   async function push(force){
     if(!force && !dirty) return;
-    if(typeof ghPutFile!=='function'){ setSync('Saved locally (sync unavailable)'); return; }
+    if(!ghTok()){ setSync('Saved locally — no GitHub token in this browser'); return; }
     var payload=JSON.stringify({version:1,exportedAt:new Date().toISOString(),lastEditedAt:lastEditedAt,data:data},null,1);
-    var msg='mindnotes: update todos '+new Date().toISOString().slice(0,19).replace('T',' ');
-    try{
-      var newSha=await ghPutFile(PATH, payload, msg, sha||undefined);   // uses the app's token (localStorage OR vault)
-      sha=newSha; dirty=false; persistLocal(); setSync('Synced to GitHub ✓');
-    }catch(e){
-      var m=(e&&e.message)||String(e);
-      try{ console.error('[todos sync] push failed:', e); }catch(_){}
-      setSync('Sync error: '+m);
-      if(!window.__todosErrShown){ window.__todosErrShown=true; try{ alert('Todos sync error — please send me this exact text:\n\n'+m); }catch(_){}}
-    }
+    try{ sha=await ghPut(payload, sha); dirty=false; persistLocal(); setSync('Synced to GitHub ✓'); }
+    catch(e){ var m=(e&&e.message)||String(e); try{console.error('[todos sync]',e);}catch(_){}
+      setSync('Sync error: '+m); if(!window.__todosErrShown){ window.__todosErrShown=true; try{ alert('Todos sync error — send me this:\n\n'+m); }catch(_){}} }
   }
   async function pull(){
-    if(typeof ghFetchFile!=='function') return;
-    if(document.activeElement && document.activeElement.isContentEditable && modal.contains(document.activeElement)) return; // don't clobber a cell being edited
-    var r; try{ r=await ghFetchFile(PATH); }catch(e){ return; }   // public repo → reads without a token
-    if(!r){ await push(true); return; }                          // no file yet → try to create it
+    if(document.activeElement && document.activeElement.isContentEditable && modal.contains(document.activeElement)) return;
+    var r; try{ r=await ghGet(); }catch(e){ setSync('Read error: '+((e&&e.message)||e)); return; }
+    if(!r){ if(ghTok()) await push(true); return; }               // no file yet → create it (owner only)
     sha=r.sha;
     var env; try{ env=JSON.parse(r.content); }catch(e){ return; }
     var remoteAt=(env&&env.lastEditedAt)||0;
