@@ -1,0 +1,151 @@
+{
+ "version": 1,
+ "exportedAt": "2026-09-17T14:08:30.021Z",
+ "lastEditedAt": 1789654033205,
+ "data": {
+  "fiorin": [
+   {
+    "name": "Kenya Lactation",
+    "rows": [
+     {
+      "task": "Read the documentation and understand the details of what the projects are about.",
+      "comments": "",
+      "time": "",
+      "color": "green"
+     },
+     {
+      "task": "Create the replication package: organise the folder structure, take the most up-to-date inputs, reorganise the code, write the documentation, and ensure the output is fully regenerated.",
+      "comments": "",
+      "time": "",
+      "color": "green"
+     },
+     {
+      "task": "Ensure the questionnaire structure is sane, e.g. skip patterns. ",
+      "comments": "",
+      "time": "",
+      "color": "blue"
+     },
+     {
+      "task": "The survey firm provided the ado, the raw data, and the polished data; S STEP 1) Ensure that csv → import.do → .dta → clean.do → final.dta reproduces exactly. Check whether the proprietary ado files are necessary.",
+      "comments": "",
+      "time": "",
+      "color": "yellow"
+     },
+     {
+      "task": "STEP 2) we need to ensure they performed a perfect cleaning and made no mistakes. We therefore need to verify every single cleaning decision they took, and then understand what was in the ado.Work on: - drops- replacements",
+      "comments": "",
+      "time": "",
+      "color": "yellow"
+     },
+     {
+      "task": "Ensure the sample is what you expect (7 ppl per school etc), check distribution strutcure of responses (how many are complete etc) ",
+      "comments": "",
+      "time": "",
+      "color": ""
+     },
+     {
+      "task": "Read survey firm report work/Kenya_Lactation_Rooms_replication/1634 LEAP - EDI Global - PCR- 260730.pdf. Divide it in claims,and test each claim against the actual data. This has to be done with the maximum level of precision.",
+      "comments": "",
+      "time": "",
+      "color": ""
+     },
+     {
+      "task": "Ensure the questions and answers make sense. Did the questions change over time? Aim for maximum consistency. If not already done, rename the Qualtrics variable names for maximum consistency (in many projects this has already been done).",
+      "comments": "",
+      "time": "",
+      "color": ""
+     },
+     {
+      "task": "Major: understand all variables in the surveys and classify them by importance; assign clear names (all local). Then produce within-column distributions (both), correct labels, missing values, outliers, and everything else required in a cleaning task like this (and add the results to the dashboard). I want to see literally distributional tables showing what values these variables take, and I want to see them before and after cleaning; ideally, after cleaning there should be no remaining issues.",
+      "comments": "",
+      "time": "",
+      "color": ""
+     },
+     {
+      "task": "Bonus agent: review everything done in the previous cleaning and analysis — are we missing anything relevant? Check the literature and materials online — are we missing any good practices or interesting options?",
+      "comments": "",
+      "time": "",
+      "color": ""
+     }
+    ]
+   },
+   {
+    "name": "New paper",
+    "rows": [
+     {
+      "task": "",
+      "comments": "",
+      "time": "",
+      "color": ""
+     }
+    ]
+   }
+  ],
+  "carlana": [
+   {
+    "name": "Teacher project",
+    "rows": [
+     {
+      "task": "Read the documentation and understand the details of what the projects are about.",
+      "comments": "",
+      "time": "",
+      "color": "green"
+     },
+     {
+      "task": "Create the replication package: organise the folder structure, take the most up-to-date inputs, reorganise the code, write the documentation, and ensure the output is fully regenerated.",
+      "comments": "",
+      "time": "",
+      "color": "green"
+     },
+     {
+      "task": "Ensure the enline sample is truly what you expect. Check the distribution structure of the responses (how many are 20% complete, how many 40%, etc.). Should be fast check for this project.",
+      "comments": "",
+      "time": "",
+      "color": "blue"
+     },
+     {
+      "task": "Ensure the questions and answers make sense. Did the questions change over time? Aim for maximum consistency. If not already done, rename the Qualtrics variable names for maximum consistency (in many projects this has already been done).",
+      "comments": "",
+      "time": "",
+      "color": "blue"
+     },
+     {
+      "task": "Try to connect the endline to the baseline as much as possible: if there is any information that can be filled into the endline from the baseline where it is missing, or any consistency check that can be run, do so.",
+      "comments": "",
+      "time": "",
+      "color": "blue"
+     },
+     {
+      "task": "Major: understand all variables in the surveys and classify them by importance; assign clear names (all local). Then produce within-column distributions (both), correct labels, missing values, outliers, and everything else required in a cleaning task like this (and add the results to the dashboard). I want to see literally distributional tables showing what values these variables take, and I want to see them before and after cleaning; ideally, after cleaning there should be no remaining issues.",
+      "comments": "",
+      "time": "",
+      "color": "blue"
+     },
+     {
+      "task": "If there are multiple rounds (e.g. the Italian education data fieldwork in 2024 and 2025), use the previous cleaning and results as benchmarks. This is an extremely deep and complex task that must be orchestrated with multiple agents.",
+      "comments": "",
+      "time": "",
+      "color": ""
+     },
+     {
+      "task": "Bonus agent: review everything done in the previous cleaning and analysis — are we missing anything relevant? Check the literature and materials online — are we missing any good practices or interesting options?",
+      "comments": "",
+      "time": "",
+      "color": ""
+     }
+    ]
+   },
+   {
+    "name": "New paper",
+    "rows": [
+     {
+      "task": "",
+      "comments": "",
+      "time": "",
+      "color": ""
+     }
+    ]
+   }
+  ]
+ }
+}
