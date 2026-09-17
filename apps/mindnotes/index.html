@@ -18577,6 +18577,7 @@ document.addEventListener('DOMContentLoaded', initApp);
   }
   async function pull(){
     if(typeof ghFetchFile!=='function') return;
+    if(document.activeElement && document.activeElement.isContentEditable && modal.contains(document.activeElement)) return; // don't clobber a cell you're editing
     var r; try{ r=await ghFetchFile(PATH); }catch(e){ return; }   // public repo → works without a token
     if(!r){ if(hasToken()&&dirty) await push(true); return; }
     sha=r.sha;
@@ -18761,6 +18762,10 @@ document.addEventListener('DOMContentLoaded', initApp);
     render(); modal.classList.remove('hidden'); pull();      // open once (single pull)
     setInterval(function(){ document.documentElement.classList.add('todos-only'); modal.classList.remove('hidden'); }, 500); // keep it open if the app re-renders
   }
+  /* auto-refresh so other devices (e.g. phone) don't show a stale copy */
+  window.addEventListener('focus', function(){ pull(); });
+  document.addEventListener('visibilitychange', function(){ if(!document.hidden) pull(); });
+  setInterval(function(){ if(!modal.classList.contains('hidden')) pull(); }, 60000);
 })();
 </script>
 </body>
