@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-17T15:22:24.592Z",
- "lastEditedAt": 1789658543091,
+ "exportedAt": "2026-09-17T15:22:30.853Z",
+ "lastEditedAt": 1789658549352,
  "data": {
   "fiorin": [
    {
@@ -26,7 +26,7 @@
       "color": "blue"
      },
      {
-      "task": "The survey firm provided the ado, the raw data, and the polished data; S STEP 1) Ensure that csv → import.do → .dta → clean.do → final.dta reproduces exactly. Check whether the proprietary ado files are necessary. CURRENT ISSUE (take back from this): 5 YES IN OUR OUTPUT AFTER CLEAN THAT FOR EDI ARE EMPTY. Open again the csv and excels to ensure this is ",
+      "task": "The survey firm provided the ado, the raw data, and the polished data; S STEP 1) Ensure that csv → import.do → .dta → clean.do → final.dta reproduces exactly. Check whether the proprietary ado files are necessary. CURRENT ISSUE (take back from this): 5 YES IN OUR OUTPUT AFTER CLEAN THAT FOR EDI ARE EMPTY. Open again the csv and excels to ensure this is really a thing!!!!",
       "comments": "",
       "time": "",
       "color": "yellow"
@@ -35,7 +35,7 @@
       "task": "STEP 2) we need to ensure they performed a perfect cleaning and made no mistakes. We therefore need to verify every single cleaning decision they took, and then understand what was in the ado.Work on: - drops- replacements",
       "comments": "",
       "time": "",
-      "color": "yellow"
+      "color": ""
      },
      {
       "task": "Ensure the sample is what you expect (7 ppl per school etc), check distribution strutcure of responses (how many are complete etc) ",
