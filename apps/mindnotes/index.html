@@ -18622,7 +18622,7 @@ document.addEventListener('DOMContentLoaded', initApp);
     '.todos-group{flex:1;display:flex;flex-direction:column;min-width:0;border-right:2px solid var(--bg3,#e5e7eb)}'+
     '.todos-group:last-child{border-right:none}'+
     '.todos-group-h{display:flex;align-items:center;gap:12px;padding:9px 16px;background:#fbf6ef;border-bottom:1px solid #e5e7eb}'+
-    '.todos-group-h b{font-size:22px;letter-spacing:.02em;flex:1;color:#1d4ed8;font-weight:800}'+
+    '.todos-group-h b{font-size:22px;letter-spacing:.02em;color:#1d4ed8;font-weight:800}'+
     '.todos-group-h .addproj{border:1px solid #1d4ed8;background:#1d4ed8;color:#fff;border-radius:7px;padding:5px 11px;font-size:12.5px;font-weight:600;cursor:pointer}'+
     '.todos-group-h .solox{border:1.5px solid #e11;background:#fff;color:#e11;border-radius:50%;width:24px;height:24px;font-weight:700;cursor:pointer;line-height:1;padding:0}'+
     '.todos-group-h .solox:hover{background:#e11;color:#fff}'+
@@ -18699,6 +18699,7 @@ document.addEventListener('DOMContentLoaded', initApp);
       var canHide=GROUPS.filter(function(g){return !collapsed[g.key];}).length>1;
       h.innerHTML='<b>'+gr.name+'</b>'+
         (canHide?'<button class="solox" title="Hide '+gr.name+' — view only, nothing is deleted">✕</button>':'')+
+        '<span style="flex:1"></span>'+
         '<button class="addproj">+ Add paper</button>';
       var sx=h.querySelector('.solox'); if(sx) sx.onclick=function(){ collapsed[gr.key]=true; render(); };
       h.querySelector('.addproj').onclick=function(){ data[gr.key].push({name:'New paper',rows:[blank()]}); save(); render(); };
