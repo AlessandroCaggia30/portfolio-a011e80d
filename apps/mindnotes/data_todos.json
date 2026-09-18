@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-18T09:38:54.527Z",
- "lastEditedAt": 1789724333025,
+ "exportedAt": "2026-09-18T10:14:12.121Z",
+ "lastEditedAt": 1789726450620,
  "data": {
   "fiorin": [
    {
@@ -23,10 +23,10 @@
       "task": "Ensure the questionnaire structure is sane, e.g. skip patterns. ",
       "comments": "",
       "time": "",
-      "color": "blue"
+      "color": "orange"
      },
      {
-      "task": "The survey firm provided the ado, the raw data, and the polished data; S STEP 1) Ensure that csv → import.do → .dta → clean.do → final.dta reproduces exactly. Check whether the proprietary ado files are necessary. CURRENT ISSUE (take back from this): 5 YES IN OUR OUTPUT AFTER CLEAN THAT FOR EDI ARE EMPTY. Open again the csv and excels to ensure this is really a thing!!!!",
+      "task": "The survey firm provided the ado, the raw data, and the polished data; S STEP 1) Ensure that csv → import.do → .dta → clean.do → final.dta reproduces exactly. Check whether the proprietary ado files are necessary. CURRENT ISSUE (take back from this): 5 YES IN OUR OUTPUT AFTER CLEAN THAT FOR EDI ARE EMPTY. Open again the csv and excels to ensure this is really a thing, ",
       "comments": "",
       "time": "",
       "color": "green"
