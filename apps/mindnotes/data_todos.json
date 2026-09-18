@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-18T10:14:12.121Z",
- "lastEditedAt": 1789726450620,
+ "exportedAt": "2026-09-18T10:14:32.703Z",
+ "lastEditedAt": 1789726471199,
  "data": {
   "fiorin": [
    {
@@ -26,7 +26,7 @@
       "color": "orange"
      },
      {
-      "task": "The survey firm provided the ado, the raw data, and the polished data; S STEP 1) Ensure that csv → import.do → .dta → clean.do → final.dta reproduces exactly. Check whether the proprietary ado files are necessary. CURRENT ISSUE (take back from this): 5 YES IN OUR OUTPUT AFTER CLEAN THAT FOR EDI ARE EMPTY. Open again the csv and excels to ensure this is really a thing, ",
+      "task": "The survey firm provided the ado, the raw data, and the polished data; S STEP 1) Ensure that csv → import.do → .dta → clean.do → final.dta reproduces exactly. Check whether the proprietary ado files are necessary.  ",
       "comments": "",
       "time": "",
       "color": "green"
