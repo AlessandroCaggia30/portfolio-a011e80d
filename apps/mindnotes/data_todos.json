@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-18T10:14:52.258Z",
- "lastEditedAt": 1789726490757,
+ "exportedAt": "2026-09-18T10:14:59.486Z",
+ "lastEditedAt": 1789726497985,
  "data": {
   "fiorin": [
    {
@@ -26,7 +26,7 @@
       "color": "orange"
      },
      {
-      "task": "The survey firm provided the ado, the raw data, and the polished data; S STEP 1) Ensure that csv → import.do → .dta → clean.do → final.dta reproduces exactly. Check whether the proprietary ado files are necessary.  readme at /Users/Alessandro/Desktop/INSPIRE/work/Kenya_Lactation_Rooms_replication/replication/data/survey_firm/survey_firm_pipeline_replication/README.md",
+      "task": "The survey firm provided the ado, the raw data, and the polished data; S STEP 1) Ensure that csv → import.do → .dta → clean.do → final.dta reproduces exactly. Check whether the proprietary ado files are necessary.  readme at Kenya_Lactation_Rooms_replication/replication/data/survey_firm/survey_firm_pipeline_replication/README.md",
       "comments": "",
       "time": "",
       "color": "green"
