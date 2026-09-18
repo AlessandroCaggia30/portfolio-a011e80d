@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-18T09:38:10.231Z",
- "lastEditedAt": 1789724287871,
+ "exportedAt": "2026-09-18T09:38:43.560Z",
+ "lastEditedAt": 1789724322059,
  "data": {
   "fiorin": [
    {
@@ -29,7 +29,7 @@
       "task": "The survey firm provided the ado, the raw data, and the polished data; S STEP 1) Ensure that csv → import.do → .dta → clean.do → final.dta reproduces exactly. Check whether the proprietary ado files are necessary. CURRENT ISSUE (take back from this): 5 YES IN OUR OUTPUT AFTER CLEAN THAT FOR EDI ARE EMPTY. Open again the csv and excels to ensure this is really a thing!!!!",
       "comments": "",
       "time": "",
-      "color": "yellow"
+      "color": "green"
      },
      {
       "task": "STEP 2) we need to ensure they performed a perfect cleaning and made no mistakes. We therefore need to verify every single cleaning decision they took, and then understand what was in the ado.Work on: - drops- replacements",
