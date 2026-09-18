@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-18T14:41:21.221Z",
- "lastEditedAt": 1789742479719,
+ "exportedAt": "2026-09-18T14:41:36.520Z",
+ "lastEditedAt": 1789742495019,
  "data": {
   "fiorin": [
    {
@@ -62,7 +62,13 @@
       "color": ""
      },
      {
-      "task": "Bonus agent: review everything done in the previous cleaning and analysis — are we missing anything relevant? Check the literature and materials online — are we missing any good practices or interesting options?",
+      "task": "Bonus agent: review everything done in the previous cleaning — are we missing anything relevant? Check the literature and materials online — are we missing any good practices or interesting options?",
+      "comments": "",
+      "time": "",
+      "color": ""
+     },
+     {
+      "task": "",
       "comments": "",
       "time": "",
       "color": ""
