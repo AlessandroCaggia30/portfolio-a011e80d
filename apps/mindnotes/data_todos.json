@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-20T23:11:54.001Z",
- "lastEditedAt": 1789945912499,
+ "exportedAt": "2026-09-20T23:12:11.701Z",
+ "lastEditedAt": 1789945930199,
  "data": {
   "fiorin": [
    {
@@ -143,13 +143,13 @@
       "task": "CHECK: Bonus agent: review everything done in the previous analysis — are we missing anything relevant? Check the literature and materials online — are we missing any good practices or interesting options?",
       "comments": "",
       "time": "",
-      "color": ""
+      "color": "orange"
      },
      {
       "task": "Endline cleaning ok. Building a dashbaord where I compare the 2024 and the 2025 cleaning (points above) and analysis comparison",
       "comments": "",
       "time": "",
-      "color": ""
+      "color": "blue"
      }
     ]
    },
