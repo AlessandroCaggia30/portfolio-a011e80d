@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-20T23:11:49.184Z",
- "lastEditedAt": 1789945907683,
+ "exportedAt": "2026-09-20T23:11:51.701Z",
+ "lastEditedAt": 1789945910199,
  "data": {
   "fiorin": [
    {
@@ -131,7 +131,7 @@
       "task": "ENSURE IS IN DASHBORD:  If there are multiple rounds (e.g. the Italian education data fieldwork in 2024 and 2025), use the previous cleaning and results as benchmarks. This is an extremely deep and complex task that must be orchestrated with multiple agents.",
       "comments": "",
       "time": "",
-      "color": ""
+      "color": "orange"
      },
      {
       "task": "CHECK: Bonus agent: review everything done in the previous cleaning — are we missing anything relevant? Check the literature and materials online — are we missing any good practices or interesting options?",
