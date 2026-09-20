@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-20T23:11:46.600Z",
- "lastEditedAt": 1789945905099,
+ "exportedAt": "2026-09-20T23:11:49.184Z",
+ "lastEditedAt": 1789945907683,
  "data": {
   "fiorin": [
    {
@@ -125,7 +125,7 @@
       "task": "ENSURE IS IN DASHBORD:  Major: understand all variables in the surveys and classify them by importance; assign clear names (all local). Then produce within-column distributions (both), correct labels, missing values, outliers, and everything else required in a cleaning task like this (and add the results to the dashboard). I want to see literally distributional tables showing what values these variables take, and I want to see them before and after cleaning; ideally, after cleaning there should be no remaining issues.",
       "comments": "",
       "time": "",
-      "color": ""
+      "color": "orange"
      },
      {
       "task": "ENSURE IS IN DASHBORD:  If there are multiple rounds (e.g. the Italian education data fieldwork in 2024 and 2025), use the previous cleaning and results as benchmarks. This is an extremely deep and complex task that must be orchestrated with multiple agents.",
