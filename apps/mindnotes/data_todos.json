@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-20T23:09:49.321Z",
- "lastEditedAt": 1789945787819,
+ "exportedAt": "2026-09-20T23:09:53.341Z",
+ "lastEditedAt": 1789945791839,
  "data": {
   "fiorin": [
    {
@@ -146,7 +146,7 @@
       "color": ""
      },
      {
-      "task": "Endline cleaning ok. Building a ",
+      "task": "Endline cleaning ok. Building a dashbaord where I compare the",
       "comments": "",
       "time": "",
       "color": ""
