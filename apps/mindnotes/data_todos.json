@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-20T23:11:42.919Z",
- "lastEditedAt": 1789945901417,
+ "exportedAt": "2026-09-20T23:11:46.600Z",
+ "lastEditedAt": 1789945905099,
  "data": {
   "fiorin": [
    {
@@ -113,13 +113,13 @@
       "task": "ENSURE IS IN DASHBORD: Ensure the questions and answers make sense. Did the questions change over time? Aim for maximum consistency. If not already done, rename the Qualtrics variable names for maximum consistency (in many projects this has already been done).",
       "comments": "",
       "time": "",
-      "color": "blue"
+      "color": "orange"
      },
      {
       "task": "ENSURE IS IN DASHBORD: Try to connect the endline to the baseline as much as possible: if there is any information that can be filled into the endline from the baseline where it is missing, or any consistency check that can be run, do so.",
       "comments": "",
       "time": "",
-      "color": "blue"
+      "color": "orange"
      },
      {
       "task": "ENSURE IS IN DASHBORD:  Major: understand all variables in the surveys and classify them by importance; assign clear names (all local). Then produce within-column distributions (both), correct labels, missing values, outliers, and everything else required in a cleaning task like this (and add the results to the dashboard). I want to see literally distributional tables showing what values these variables take, and I want to see them before and after cleaning; ideally, after cleaning there should be no remaining issues.",
