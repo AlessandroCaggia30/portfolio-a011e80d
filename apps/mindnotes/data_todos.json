@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-21T21:11:07.797Z",
- "lastEditedAt": 1790025066294,
+ "exportedAt": "2026-09-21T21:11:12.894Z",
+ "lastEditedAt": 1790025071392,
  "data": {
   "fiorin": [
    {
@@ -95,7 +95,7 @@
       "task": "4) nei readme sul contenuto delle survey devi mettere la distirbuzione della variabili",
       "comments": "",
       "time": "",
-      "color": ""
+      "color": "orange"
      }
     ]
    },
