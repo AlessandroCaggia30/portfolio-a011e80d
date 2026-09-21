@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-21T21:11:12.894Z",
- "lastEditedAt": 1790025071392,
+ "exportedAt": "2026-09-21T21:11:35.515Z",
+ "lastEditedAt": 1790025094012,
  "data": {
   "fiorin": [
    {
@@ -32,7 +32,7 @@
       "color": "green"
      },
      {
-      "task": "STEP 2) we need to ensure they performed a perfect cleaning and made no mistakes. We therefore need to verify every single cleaning decision they took, and then understand what was in the ado. TO DO: - ensure the 6 rops cannot be fixed w signatures and FINISH REPLACEMENT COMPOSITION ANALYSIS.",
+      "task": "STEP 2) we need to ensure they performed a perfect cleaning and made no mistakes. We therefore need to verify every single cleaning decision they took, and then understand what was in the ado. TO DO: ask if it is normal we cannot verify cleaning of ",
       "comments": "",
       "time": "",
       "color": "blue"
