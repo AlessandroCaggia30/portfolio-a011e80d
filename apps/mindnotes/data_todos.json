@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-21T08:00:40.381Z",
- "lastEditedAt": 1789977638878,
+ "exportedAt": "2026-09-21T08:00:44.233Z",
+ "lastEditedAt": 1789977642731,
  "data": {
   "fiorin": [
    {
@@ -110,7 +110,7 @@
       "color": "orange"
      },
      {
-      "task": "ENSURE IS IN DASHBORD: Ensure the questions and answers make sense. Did the questions change over time? Aim for maximum consistency. If not already done, rename the Qualtrics variable names for maximum consistency (in many projects this has already been done).\\",
+      "task": "ENSURE IS IN DASHBORD: Ensure the questions and answers make sense. Did the questions change over time? Aim for maximum consistency. If not already done, rename the Qualtrics variable names for maximum consistency (in many projects this has already been done).",
       "comments": "",
       "time": "",
       "color": "orange"
