@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-21T20:46:17.916Z",
- "lastEditedAt": 1790023576414,
+ "exportedAt": "2026-09-21T20:59:57.511Z",
+ "lastEditedAt": 1790024396010,
  "data": {
   "fiorin": [
    {
@@ -23,7 +23,7 @@
       "task": "Ensure the questionnaire structure is sane, e.g. skip patterns. ",
       "comments": "",
       "time": "",
-      "color": "orange"
+      "color": "green"
      },
      {
       "task": "The survey firm provided the ado, the raw data, and the polished data; S STEP 1) Ensure that csv → import.do → .dta → clean.do → final.dta reproduces exactly. Check whether the proprietary ado files are necessary.  readme at Kenya_Lactation_Rooms_replication/replication/data/survey_firm/survey_firm_pipeline_replication/README.md",
