@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-21T20:45:09.667Z",
- "lastEditedAt": 1790023508165,
+ "exportedAt": "2026-09-21T20:45:16.641Z",
+ "lastEditedAt": 1790023515140,
  "data": {
   "fiorin": [
    {
@@ -80,7 +80,13 @@
       "color": ""
      },
      {
-      "task": "2) scarica le survey versions e vedi cosa è cambia",
+      "task": "2) scarica le survey versions e vedi cosa è cambiato (dovrebbe esserci refielding)",
+      "comments": "",
+      "time": "",
+      "color": ""
+     },
+     {
+      "task": "",
       "comments": "",
       "time": "",
       "color": ""
