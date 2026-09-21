@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-21T21:11:01.585Z",
- "lastEditedAt": 1790025060083,
+ "exportedAt": "2026-09-21T21:11:07.797Z",
+ "lastEditedAt": 1790025066294,
  "data": {
   "fiorin": [
    {
@@ -77,7 +77,7 @@
       "task": "1) check file numbering per zoe",
       "comments": "",
       "time": "",
-      "color": ""
+      "color": "orange"
      },
      {
       "task": "2) scarica le survey versions e vedi cosa è cambiato (dovrebbe esserci refielding) ed il paper questionnarire",
@@ -86,7 +86,7 @@
       "color": ""
      },
      {
-      "task": "3) Il paepr questionnarie va organizzato identificando come le domande cambiano tra M and F e va scrittauna appendix il paper questionnarie semplcificato va",
+      "task": "3) Il paepr questionnarie va organizzato identificando come le domande cambiano tra M and F e va scrittauna appendix il paper questionnarie semplcificato va in appendix",
       "comments": "",
       "time": "",
       "color": ""
