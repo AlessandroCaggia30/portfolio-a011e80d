@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-21T20:45:20.047Z",
- "lastEditedAt": 1790023518545,
+ "exportedAt": "2026-09-21T20:45:24.503Z",
+ "lastEditedAt": 1790023523000,
  "data": {
   "fiorin": [
    {
@@ -80,7 +80,7 @@
       "color": ""
      },
      {
-      "task": "2) scarica le survey versions e vedi cosa è cambiato (dovrebbe esserci refielding)",
+      "task": "2) scarica le survey versions e vedi cosa è cambiato (dovrebbe esserci refielding) ed il pape",
       "comments": "",
       "time": "",
       "color": ""
