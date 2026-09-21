@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-21T07:13:01.552Z",
- "lastEditedAt": 1789974780050,
+ "exportedAt": "2026-09-21T07:14:48.209Z",
+ "lastEditedAt": 1789974886707,
  "data": {
   "fiorin": [
    {
@@ -146,7 +146,7 @@
       "color": "orange"
      },
      {
-      "task": "Endline cleaning ok. Building a dashbaord where I compare the 2024 and the 2025 cleaning (points above) and analysis",
+      "task": "Endline cleaning ok. Building a dashbaord where I compare the 2024 and the 2025 cleaning (points above) and analysis.",
       "comments": "",
       "time": "",
       "color": "blue"
