@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-22T18:52:22.503Z",
- "lastEditedAt": 1790103141002,
+ "exportedAt": "2026-09-22T18:52:26.508Z",
+ "lastEditedAt": 1790103145007,
  "data": {
   "fiorin": [
    {
@@ -80,7 +80,7 @@
       "color": "orange"
      },
      {
-      "task": "2) scarica le survey versions e vedi cosa è cambiato (dovrebbe esserci refielding)  + confro",
+      "task": "2) scarica le survey versions e vedi cosa è cambiato (dovrebbe esserci refielding)  + confronto coon confronto con pape questionnaire",
       "comments": "",
       "time": "",
       "color": "orange"
