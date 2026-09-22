@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-22T18:52:54.041Z",
- "lastEditedAt": 1790103172539,
+ "exportedAt": "2026-09-22T18:52:58.920Z",
+ "lastEditedAt": 1790103177418,
  "data": {
   "fiorin": [
    {
@@ -143,13 +143,13 @@
       "task": "ENSURE IS IN DASHBORD: Ensure the enline sample is truly what you expect. Check the distribution structure of the responses (how many are 20% complete, how many 40%, etc.). Should be fast check for this project.",
       "comments": "",
       "time": "",
-      "color": "orange"
+      "color": ""
      },
      {
       "task": "ENSURE IS IN DASHBORD: Ensure the questions and answers make sense. Did the questions change over time? Aim for maximum consistency. If not already done, rename the Qualtrics variable names for maximum consistency (in many projects this has already been done).",
       "comments": "",
       "time": "",
-      "color": "orange"
+      "color": ""
      },
      {
       "task": "ENSURE IS IN DASHBORD: Try to connect the endline to the baseline as much as possible: if there is any information that can be filled into the endline from the baseline where it is missing, or any consistency check that can be run, do so.",
