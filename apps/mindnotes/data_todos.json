@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-22T10:47:37.161Z",
- "lastEditedAt": 1790074054771,
+ "exportedAt": "2026-09-22T10:47:42.470Z",
+ "lastEditedAt": 1790074060913,
  "data": {
   "fiorin": [
    {
@@ -96,6 +96,12 @@
       "comments": "",
       "time": "",
       "color": "green"
+     },
+     {
+      "task": "",
+      "comments": "",
+      "time": "",
+      "color": ""
      }
     ]
    },
