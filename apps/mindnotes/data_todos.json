@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-22T20:26:18.203Z",
- "lastEditedAt": 1790108776702,
+ "exportedAt": "2026-09-22T20:26:25.104Z",
+ "lastEditedAt": 1790108783602,
  "data": {
   "fiorin": [
    {
@@ -80,7 +80,7 @@
       "color": "orange"
      },
      {
-      "task": "2) scarica le survey versions e vedi cosa è cambiato (dovrebbe esserci refielding)  + confronto coon confronto con pape questionnaire",
+      "task": "2) scarica le survey versions e vedi cosa è cambiato (dovrebbe esserci refielding)  + confronto coon confronto con paper questionnaire",
       "comments": "",
       "time": "",
       "color": "orange"
@@ -95,7 +95,7 @@
       "task": "",
       "comments": "",
       "time": "",
-      "color": "orange"
+      "color": ""
      },
      {
       "task": "4) nei readme sul contenuto delle survey devi mettere la distirbuzione della variabili",
