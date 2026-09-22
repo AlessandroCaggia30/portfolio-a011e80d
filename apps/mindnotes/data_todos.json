@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-22T18:52:11.654Z",
- "lastEditedAt": 1790103130152,
+ "exportedAt": "2026-09-22T18:52:15.706Z",
+ "lastEditedAt": 1790103134204,
  "data": {
   "fiorin": [
    {
@@ -92,7 +92,7 @@
       "color": ""
      },
      {
-      "task": "confronto con pape questionnaire",
+      "task": "",
       "comments": "",
       "time": "",
       "color": "orange"
