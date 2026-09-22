@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-22T15:54:23.100Z",
- "lastEditedAt": 1790092461599,
+ "exportedAt": "2026-09-22T15:56:19.305Z",
+ "lastEditedAt": 1790092577804,
  "data": {
   "fiorin": [
    {
@@ -74,7 +74,7 @@
       "color": ""
      },
      {
-      "task": "1) check file numbering per zoe",
+      "task": "1) check file numbering per zoe (waiting ex)",
       "comments": "",
       "time": "",
       "color": "orange"
