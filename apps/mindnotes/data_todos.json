@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-22T15:54:20.353Z",
- "lastEditedAt": 1790092458851,
+ "exportedAt": "2026-09-22T15:54:23.100Z",
+ "lastEditedAt": 1790092461599,
  "data": {
   "fiorin": [
    {
@@ -95,7 +95,7 @@
       "task": "confronto con pape questionnaire",
       "comments": "",
       "time": "",
-      "color": ""
+      "color": "orange"
      },
      {
       "task": "4) nei readme sul contenuto delle survey devi mettere la distirbuzione della variabili",
