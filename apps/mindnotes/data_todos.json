@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-22T10:47:50.619Z",
- "lastEditedAt": 1790074069117,
+ "exportedAt": "2026-09-22T10:47:55.706Z",
+ "lastEditedAt": 1790074074204,
  "data": {
   "fiorin": [
    {
@@ -98,7 +98,7 @@
       "color": "green"
      },
      {
-      "task": "5) fai la dashboard open source w possibility ",
+      "task": "5) fai la dashboard open source w possibility of external ppl to comment",
       "comments": "",
       "time": "",
       "color": ""
