@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-22T18:52:35.306Z",
- "lastEditedAt": 1790103153805,
+ "exportedAt": "2026-09-22T18:52:43.011Z",
+ "lastEditedAt": 1790103161510,
  "data": {
   "fiorin": [
    {
@@ -86,7 +86,7 @@
       "color": "orange"
      },
      {
-      "task": "3) Il paepr questionnarie va mandato in appendix (be smart i)",
+      "task": "3) Il paepr questionnarie va mandato in appendix (be smart in showign how questions for M and F differ)",
       "comments": "",
       "time": "",
       "color": ""
