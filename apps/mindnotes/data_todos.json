@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-24T09:01:18.395Z",
- "lastEditedAt": 1790240476893,
+ "exportedAt": "2026-09-24T09:01:26.242Z",
+ "lastEditedAt": 1790240484739,
  "data": {
   "fiorin": [
    {
@@ -92,10 +92,10 @@
       "color": ""
      },
      {
-      "task": "Audit the qe",
+      "task": "Audit the questionnaire Ensure the questions and answers make sense. ",
       "comments": "",
       "time": "",
-      "color": ""
+      "color": "green"
      },
      {
       "task": "4) nei readme sul contenuto delle survey devi mettere la distirbuzione della variabili",
