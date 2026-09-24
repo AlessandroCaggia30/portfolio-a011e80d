@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-24T09:01:47.258Z",
- "lastEditedAt": 1790240505757,
+ "exportedAt": "2026-09-24T09:01:55.407Z",
+ "lastEditedAt": 1790240513906,
  "data": {
   "fiorin": [
    {
@@ -80,7 +80,7 @@
       "color": "orange"
      },
      {
-      "task": "2) scarica le survey versions e vedi cosa è cambiato (dovrebbe esserci refielding)  + confronto coon confronto con paper questionnaire",
+      "task": "2) scarica le survey versions e vedi cosa è cambiato (dovrebbe esserci refielding)  + confronto coon confronto con paper questionnaire.  Did the questions change over time?",
       "comments": "",
       "time": "",
       "color": "orange"
