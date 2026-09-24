@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-24T09:01:36.306Z",
- "lastEditedAt": 1790240494804,
+ "exportedAt": "2026-09-24T09:01:44.118Z",
+ "lastEditedAt": 1790240502616,
  "data": {
   "fiorin": [
    {
@@ -50,7 +50,7 @@
       "color": ""
      },
      {
-      "task": " Did the questions change over time? Aim for maximum consistency. If not already done, rename the Qualtrics variable names for maximum consistency (in many projects this has already been done).",
+      "task": " Aim for maximum consistency. If not already done, rename the Qualtrics variable names for maximum consistency (in many projects this has already been done).",
       "comments": "",
       "time": "",
       "color": ""
