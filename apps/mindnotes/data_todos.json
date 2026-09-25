@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-25T13:26:10.284Z",
- "lastEditedAt": 1790342768782,
+ "exportedAt": "2026-09-25T13:26:20.667Z",
+ "lastEditedAt": 1790342779165,
  "data": {
   "fiorin": [
    {
@@ -41,7 +41,7 @@
       "task": "Ensure the sample is what you expect (7 ppl per school etc), check distribution strutcure of responses (how many are complete etc) ",
       "comments": "",
       "time": "",
-      "color": "blue"
+      "color": ""
      },
      {
       "task": "Read survey firm report work/Kenya_Lactation_Rooms_replication/1634 LEAP - EDI Global - PCR- 260730.pdf. Divide it in claims,and test each claim against the actual data. This has to be done with the maximum level of precision.",
