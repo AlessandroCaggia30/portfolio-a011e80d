@@ -1,7 +1,7 @@
 {
  "version": 1,
- "exportedAt": "2026-09-26T16:26:06.648Z",
- "lastEditedAt": 1790439965143,
+ "exportedAt": "2026-09-26T16:26:12.603Z",
+ "lastEditedAt": 1790439971100,
  "data": {
   "fiorin": [
    {
@@ -35,7 +35,7 @@
       "task": "STEP 2) we need to ensure they performed a perfect cleaning and made no mistakes. We therefore need to verify every single cleaning decision they took, and then understand what was in the ado. TO DO: ask if it is normal we cannot verify cleaning of cells",
       "comments": "",
       "time": "",
-      "color": "blue"
+      "color": "orange"
      },
      {
       "task": "Ensure the sample is what you expect (7 ppl per school etc), check distribution strutcure of responses (how many are complete etc) ",
@@ -83,7 +83,7 @@
       "task": "2) scarica le survey versions e vedi cosa è cambiato (dovrebbe esserci refielding)  + confronto coon confronto con paper questionnaire.  Did the questions change over time?",
       "comments": "",
       "time": "",
-      "color": "orange"
+      "color": "green"
      },
      {
       "task": "3) Il paepr questionnarie va mandato in appendix (be smart in showign how questions for M and F differ)",
