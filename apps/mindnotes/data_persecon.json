@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-10-05T10:19:31.276Z",
+  "exportedAt": "2026-10-05T10:25:11.848Z",
   "data": {
     "topics": [
       {
@@ -2848,7 +2848,7 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-10-05T10:19:29.031Z",
+    "lastEditedAt": "2026-10-05T10:25:10.484Z",
     "__forKey": "mindnotes_persecon"
   }
 }
