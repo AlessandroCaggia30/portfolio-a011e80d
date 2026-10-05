@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportedAt": "2026-10-05T10:18:52.442Z",
+  "exportedAt": "2026-10-05T10:19:31.276Z",
   "data": {
     "topics": [
       {
@@ -2053,8 +2053,8 @@
                 "id": "reorg-value-head",
                 "title": "▼ REORGANIZATION VALUE · empirical estimates",
                 "content": "# REORGANIZATION VALUE · empirical estimates\n\n**How much productivity does reorganizing work actually generate?**\n\nThis is the empirical core of Paper 2. Estimates come from three domains, each with different identification strategies and different magnitudes:\n\n\n\n**HRM bundle studies** (Ichniowski-Shaw-Prennushi 1997) — clean plant-level identification of coordinated changes in task assignment + teams + incentives. **~7% productivity gain** from complete HRM bundles. Small but very cleanly identified.\n\n\n\n**Management-practice RCTs and macro upper bounds** (Bloom-Eifert-Mahajan-McKenzie-Roberts 2013 → Hsieh-Klenow 2009) — RCT of consulting-driven management-practice reorganization in Indian textile plants shows **~17% productivity gain in year 1**. Hsieh-Klenow's cross-country misallocation study provides the **theoretical upper bound**: eliminating within-industry misallocation would raise TFP by **30–60% in developing countries** vs the US frontier.\n\n## What these estimates tell us about Paper 2's magnitude\n\n- **Lower bound (HRM alone, ISP 1997)**: ~7%\n- **Middle range (IT-enabled reorganization, BBH 2002 / BIS 2007)**: 15–20%\n- **Consulting-driven reorganization (BEMMR 2013)**: 17%\n- **Upper bound from macro misallocation (HK 2009)**: 30–60%\n- **Gen-AI single-domain (BLR 2023)**: 14% in customer service\n\nPaper 2's likely magnitude range: **10–30%** for a general firm-level intervention.\n\n## What the literature is missing (Paper 2's opening)\n\n**No published paper cleanly isolates task reassignment as a lever independent of the technology that triggered it.** Reorganization is always observed alongside IT adoption (BBH, BIS), consulting intervention (BEMMR), or AI rollout (BLR). The counterfactual \"same technology + no reassignment\" is rarely constructed.\n\nPaper 2's contribution: a design that isolates the reassignment margin. The ABM lets you toggle it on/off with fixed AI capability.\n\n→ Anchor: **Reorganization Theory — Core**\n",
-                "x": -5985,
-                "y": 510,
+                "x": -5972.277071448825,
+                "y": 507.87951190813783,
                 "width": 480,
                 "height": 360,
                 "flashcard": false,
@@ -2848,7 +2848,7 @@
         "fromSubtopic": "pe-sub-1"
       }
     ],
-    "lastEditedAt": "2026-10-05T10:18:51.949Z",
+    "lastEditedAt": "2026-10-05T10:19:29.031Z",
     "__forKey": "mindnotes_persecon"
   }
 }
